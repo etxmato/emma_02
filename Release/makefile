@@ -44,7 +44,7 @@ all: emma_02
 emma_02: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: GCC C++ Linker'
-	g++ -o "emma_02" $(OBJS) $(USER_OBJS) $(LIBS) `wx-config --libs`
+	g++ $(OBJS) $(USER_OBJS) $(LIBS) `wx-config --libs` -o "emma_02"
 	@echo 'Finished building target: $@'
 	@echo ' '
 
