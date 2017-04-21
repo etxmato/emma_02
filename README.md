@@ -27,7 +27,7 @@ Telmac 2000<br>
 Pecom 32 and 64<br>
 ETI 660<br>
 
-For detailed information, documentation and software about the COMX-35 please see our COMX Club pages.
+For detailed information, documentation and software about the COMX-35 please see our <a href="http://www.comxclub.hobby-site.com/COMX-Club.htm">COMX Club</a> pages.
 
-Go to the download page (Windows, Mac OS X and Linux) to download the latest emulator release.
+Go to the <a href="http://www.emma02.hobby-site.com/download.html">download page</a> (Windows, Mac OS X and Linux) to download the latest emulator release.
 
