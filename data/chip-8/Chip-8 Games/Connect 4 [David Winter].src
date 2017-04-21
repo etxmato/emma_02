@@ -1,0 +1,133 @@
+OPTION BINARY
+ALIGN OFF
+
+        JP  START
+        DA  'CONNECT4 by David WINTER'
+
+START:
+        LD  I,  COORDS2 ; Restore default coordinates
+        LD  V6, [I]     ; if a new game was reset.
+        LD  I,  COORDS  ;
+        LD  [I], V6     ;
+
+        LD  V9, 0     ; Current player (black/white)
+        LD  V8, 1     ; Constant value to XOR with V9
+        LD  VB, 0     ; Initial column
+
+        LD  VD, 15    ; Set VD, VE and I
+        LD  VE, 31    ; to draw the game borders and pad
+
+        LD  I,  BORDER
+        LD  V0, 13	; X position of left border
+        LD  V1, 50	; X position of right border
+        LD  V2, 0	; Y position of borders
+
+DRAW_BORDER:
+        DRW V0, V2, 15	; Draw left border (15 pixels high)
+        DRW V1, V2, 15	; Draw right border (15 pixels high)
+
+        ADD V2, 15	; Draw another time for a total of 30 pixels
+        SE  V2, 30	;
+        JP  DRAW_BORDER	;
+
+        DRW V0, V2, 1	; Draw last portion of borders (1 pixel high)
+        DRW V1, V2, 1	;
+        ADD V2, 1	;
+
+        LD  V0, 10	;
+        LD  I, PAD	;
+        DRW V0, V2, 1	; Draw bottom borders (left part)
+        DRW V1, V2, 1	; Draw bottom borders (right part)
+
+        LD  I, PAD    ;
+        DRW VD, VE, 1 ;	Draw cursor
+
+PLAY:   LD  VC, K	; Check for keypress
+
+        DRW VD, VE, 1	; Erase cursor
+
+        SNE VC, 5 	; Drop game token if key 5 pressed
+        JP  PUT_COIN	;
+
+        SE  VC, 4 	; Move cursor left if key 4 pressed
+        JP  NOT_LEFT	;
+
+
+        ADD VB, #FF	; Update offset from COORDS
+        ADD VD, #FB	; Update X location of token to draw (remove 5)
+
+        SE  VD, 10	; If X corresponded to leftmost position,
+        JP  MOVE_OK	; then set to rightmost position (45) and
+        LD  VB, 6	; set offset from COORDS to 6 (7th byte)
+        LD  VD, 45	;
+        JP  MOVE_OK	;
+
+NOT_LEFT:
+        SE  VC, 6 	; Move cursor right if key 6 pressed
+        JP  PLAY_OK	;
+
+        ADD VB, 1	; Update offset from COORDS
+        ADD VD, 5	; Update X location of token to draw
+
+        SE  VD, 50	; If X corresponded to righttmost position,
+        JP  MOVE_OK	; then set to leftmost position (15) and
+        LD  VB, 0	; set offset from COORDS to 0 (1st byte)
+        LD  VD, 15	;
+
+MOVE_OK:
+        DRW VD, VE, 1	; Draw cursor to new location
+        JP PLAY		;
+
+PUT_COIN:
+        LD  I, COORDS	; Point to byte corresponding
+        ADD I, VB	; to selected column
+
+        LD  V0, [I]	; Check Y position of previously
+        SNE V0, #FC	; inserted token and ignore if
+        JP  PLAY_OK	; it correponds to upmost position
+
+        LD  VA, V0	; Update Y location of token
+        ADD V0, #FB	; and save it for next insertion
+        LD  I, COORDS
+        ADD I, VB
+        LD  [I], V0	;
+
+        XOR V9, V8	; Alternate current player
+
+        LD  I, PLAYER1	; Load bitmap of player 1 by detault
+
+        SE  V9, 0	; Eventually load player 2 bitmap if it's player 2 turn
+        LD  I, PLAYER2	;
+
+        DRW VD, VA, 4	; Draw player's token
+
+PLAY_OK: LD  I, PAD	;
+        DRW VD, VE, 1	;
+        JP PLAY		; Draw cursor again (was previously erased)
+
+PLAYER1: DB $.11.....
+PAD:     DB $1111....
+         DB $1111....
+PLAYER2: DB $.11.....
+         DB $1..1....
+         DB $1..1....
+         DB $.11.....
+
+BORDER:  DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+         DB $1.......
+
+COORDS:  DB 26, 26, 26, 26, 26, 26, 26
+COORDS2: DB 26, 26, 26, 26, 26, 26, 26

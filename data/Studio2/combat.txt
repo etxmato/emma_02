@@ -1,0 +1,138 @@
+                                ======
+                                Combat
+                                ======
+
+11th Oct 2000
+
+This is a version of the Atari 2600 game "Combat" for 2 players.
+It is a 1k cartridge. There is a slight amount of space (about 100
+bytes) for tinkering with.
+
+This game has 256 different game types (well probably about 80 or
+so, some of them are duplicates). Still, not bad for a 1k game eh,
+that's about 13 bytes for each variation. :)
+
+Options include a tank or plane game, slow or fast missiles, short
+and long range missiles and various playing areas. And some wierd
+mixes.
+
+Keys (for both players):
+        4,6     Turn Left and Right
+        2,8     Forward/Backward (speed control on plane variation)
+        0       Fire
+
+Starting:
+        The game will display G? in the middle of the screen. Enter
+        the code of the game you want to play on the left keypad,
+        then press '0' on the right keypad to start the game.
+
+        The winner is the first person to score 9 hits. Collision with
+        everything is fatal.
+
+A complete list of levels is shown below. Here is how to work out your
+level. Start with zero. Then.....
+
+        - add 128 for the plane game (otherwise tank game)
+        - add 64 for long range missiles (otherwise short range)
+        - add 32 for slow missiles (otherwise fast missiles)
+        - add 16 for a border around the screen
+        - add 8 for the tank defences
+        - add 4 for both the defences and the in game barriers
+        - add 2 for balloons
+        - add 1 for mines
+
+Note, for the last four only the first named option will work ; you cannot
+have balloons *and* mines (at the moment)
+This game is freeware.
+
+The source is included. This is written in 1802 Assembler code, and
+will assemble using TASM301.ZIP, and TASM18.TAB (see my website),
+and the cart can be build using MCART.EXE.
+
+http://www.classicgaming.com/studio2
+
+Paul Robson (autismuk@classicgaming.com)
+
+Here are the levels the game supports :-
+
+Game   0 : Tank   :Short range Fast missiles.
+Game   1 : Tank   :Short range Fast missiles.Minefield.
+Game   2 : Tank   :Short range Fast missiles.Balloons.
+Game   4 : Tank   :Short range Fast missiles.Full Terrain.
+Game   8 : Tank   :Short range Fast missiles.Tank Bases.
+Game  16 : Tank   :Short range Fast missiles. Enclosed area. 
+Game  17 : Tank   :Short range Fast missiles. Enclosed area. Minefield.
+Game  18 : Tank   :Short range Fast missiles. Enclosed area. Balloons.
+Game  20 : Tank   :Short range Fast missiles. Enclosed area. Full Terrain.
+Game  24 : Tank   :Short range Fast missiles. Enclosed area. Tank Bases.
+Game  32 : Tank   :Short range Slow missiles.
+Game  33 : Tank   :Short range Slow missiles.Minefield.
+Game  34 : Tank   :Short range Slow missiles.Balloons.
+Game  36 : Tank   :Short range Slow missiles.Full Terrain.
+Game  40 : Tank   :Short range Slow missiles.Tank Bases.
+Game  48 : Tank   :Short range Slow missiles. Enclosed area. 
+Game  49 : Tank   :Short range Slow missiles. Enclosed area. Minefield.
+Game  50 : Tank   :Short range Slow missiles. Enclosed area. Balloons.
+Game  52 : Tank   :Short range Slow missiles. Enclosed area. Full Terrain.
+Game  56 : Tank   :Short range Slow missiles. Enclosed area. Tank Bases.
+Game  64 : Tank   :Long range Fast missiles.
+Game  65 : Tank   :Long range Fast missiles.Minefield.
+Game  66 : Tank   :Long range Fast missiles.Balloons.
+Game  68 : Tank   :Long range Fast missiles.Full Terrain.
+Game  72 : Tank   :Long range Fast missiles.Tank Bases.
+Game  80 : Tank   :Long range Fast missiles. Enclosed area. 
+Game  81 : Tank   :Long range Fast missiles. Enclosed area. Minefield.
+Game  82 : Tank   :Long range Fast missiles. Enclosed area. Balloons.
+Game  84 : Tank   :Long range Fast missiles. Enclosed area. Full Terrain.
+Game  88 : Tank   :Long range Fast missiles. Enclosed area. Tank Bases.
+Game  96 : Tank   :Long range Slow missiles.
+Game  97 : Tank   :Long range Slow missiles.Minefield.
+Game  98 : Tank   :Long range Slow missiles.Balloons.
+Game 100 : Tank   :Long range Slow missiles.Full Terrain.
+Game 104 : Tank   :Long range Slow missiles.Tank Bases.
+Game 112 : Tank   :Long range Slow missiles. Enclosed area. 
+Game 113 : Tank   :Long range Slow missiles. Enclosed area. Minefield.
+Game 114 : Tank   :Long range Slow missiles. Enclosed area. Balloons.
+Game 116 : Tank   :Long range Slow missiles. Enclosed area. Full Terrain.
+Game 120 : Tank   :Long range Slow missiles. Enclosed area. Tank Bases.
+Game 128 : Plane  :Short range Fast missiles.
+Game 129 : Plane  :Short range Fast missiles.Minefield.
+Game 130 : Plane  :Short range Fast missiles.Balloons.
+Game 132 : Plane  :Short range Fast missiles.Full Terrain.
+Game 136 : Plane  :Short range Fast missiles.Tank Bases.
+Game 144 : Plane  :Short range Fast missiles. Enclosed area. 
+Game 145 : Plane  :Short range Fast missiles. Enclosed area. Minefield.
+Game 146 : Plane  :Short range Fast missiles. Enclosed area. Balloons.
+Game 148 : Plane  :Short range Fast missiles. Enclosed area. Full Terrain.
+Game 152 : Plane  :Short range Fast missiles. Enclosed area. Tank Bases.
+Game 160 : Plane  :Short range Slow missiles.
+Game 161 : Plane  :Short range Slow missiles.Minefield.
+Game 162 : Plane  :Short range Slow missiles.Balloons.
+Game 164 : Plane  :Short range Slow missiles.Full Terrain.
+Game 168 : Plane  :Short range Slow missiles.Tank Bases.
+Game 176 : Plane  :Short range Slow missiles. Enclosed area. 
+Game 177 : Plane  :Short range Slow missiles. Enclosed area. Minefield.
+Game 178 : Plane  :Short range Slow missiles. Enclosed area. Balloons.
+Game 180 : Plane  :Short range Slow missiles. Enclosed area. Full Terrain.
+Game 184 : Plane  :Short range Slow missiles. Enclosed area. Tank Bases.
+Game 192 : Plane  :Long range Fast missiles.
+Game 193 : Plane  :Long range Fast missiles.Minefield.
+Game 194 : Plane  :Long range Fast missiles.Balloons.
+Game 196 : Plane  :Long range Fast missiles.Full Terrain.
+Game 200 : Plane  :Long range Fast missiles.Tank Bases.
+Game 208 : Plane  :Long range Fast missiles. Enclosed area. 
+Game 209 : Plane  :Long range Fast missiles. Enclosed area. Minefield.
+Game 210 : Plane  :Long range Fast missiles. Enclosed area. Balloons.
+Game 212 : Plane  :Long range Fast missiles. Enclosed area. Full Terrain.
+Game 216 : Plane  :Long range Fast missiles. Enclosed area. Tank Bases.
+Game 224 : Plane  :Long range Slow missiles.
+Game 225 : Plane  :Long range Slow missiles.Minefield.
+Game 226 : Plane  :Long range Slow missiles.Balloons.
+Game 228 : Plane  :Long range Slow missiles.Full Terrain.
+Game 232 : Plane  :Long range Slow missiles.Tank Bases.
+Game 240 : Plane  :Long range Slow missiles. Enclosed area. 
+Game 241 : Plane  :Long range Slow missiles. Enclosed area. Minefield.
+Game 242 : Plane  :Long range Slow missiles. Enclosed area. Balloons.
+Game 244 : Plane  :Long range Slow missiles. Enclosed area. Full Terrain.
+Game 248 : Plane  :Long range Slow missiles. Enclosed area. Tank Bases.
+

@@ -1,0 +1,3943 @@
+000001 0000                  ;
+000002 0000                  ; FFFF  I   GGG        FFFF   OO   RRRR   TTTTT  H   H
+000003 0000                  ; F     I  G           F     O  O  R  R     T    H   H
+000004 0000                  ; FFF   I  G GGG   XX  FFF   O  O  RRR      T    HHHHH
+000005 0000                  ; F     I  G   G       F     O  O  R  R     T    H   H
+000006 0000                  ; F     I   GGG        F      OO   R   R    T    H   H
+000007 0000                  ;
+000008 0000                  ;               1   8888    00   2222
+000009 0000                  ;               1   8  8   0  0     2
+000010 0000                  ;               1   8888   0  0   22
+000011 0000                  ;               1   8  8   0  0  2
+000012 0000                  ;               1   8888    00   2222
+000013 0000                  ;
+000014 0000                  ;
+000015 0000                  ;       ALL PUBLICATIONS OF THE FORTH INTREST GROUP
+000016 0000                  ;       ARE PUBLIC DOMAIN.  THEY MAY BE FURTHER
+000017 0000                  ;       DISTRIBUTED BY INCLUSION OF THIS CREDIT
+000018 0000                  ;       NOTICE:
+000019 0000                  ;
+000020 0000                  ;       THIS PUBLICATION HAS BEEN MADE AVAILABLE BY THE
+000021 0000                  ;                       FORTH INTREST GROUP
+000022 0000                  ;                       P. O. BOX 1105
+000023 0000                  ;                       SAN CARLOS, CA 94070
+000024 0000                  ;
+000025 0000                  ;       IMPLEMENTAION BY:
+000026 0000                  ;               GARY R. BRADSHAW
+000027 0000                  ;               RFD 1 BOX 80
+000028 0000                  ;               GIDLEY ROAD
+000029 0000                  ;               ESPERANCE, NY  12066
+000030 0000                  ;
+000031 0000                  ;       MODIFIED BY:
+000032 0000                  ;               GORDEN FLEMMING
+000033 0000                  ;               13490 SIMSHAW ST.
+000034 0000                  ;               SYLMAR, CA  91342
+000035 0000                  ;
+000036 0000                  ;               JIM MCDANIEL
+000037 0000                  ;               1109 POINCIANA DR.
+000038 0000                  ;               SUNNYVALE, CA 94086
+000039 0000                  ;
+000040 0000                  ;   ADDRESS COMMENTS & CORRECTIONS TO  JIM MCDANIEL.
+000041 0000                  ;
+000042 0000                  ;       ACKNOWLEDGEMENTS:
+000043 0000                  ;
+000044 0000                  ;               KEN MANTEI
+000045 0000                  ;
+000046 0000                  ;               FIG INSTALLATION MANUAL
+000047 0000                  ;
+000048 0000                  ;               FIG 8080 ASSEMBLY SOURCE LISTING..;
+000049 0000                  ;
+000050 0000                  ;
+000051 0000                  ;               THIS LISTING TYPED     PRINTED 3/18/81
+000052 0000                  ;
+000053 0000                  ;
+000054 0000                  ;       THE I/O VECTORS FOR DISC  ARE POINTING TO
+000055 0000                  ;       ROUTINES FOR THE RCA CDP18S007, CDP18S008
+000056 0000                  ;       OR THE CDP 18SOO5..
+000057 0000                  ;       FOR OTHER SYSTEMS YOU WILL NEED TO
+000058 0000                  ;       CHANGE THE POINTERS AND WRITE YOUR
+000059 0000                  ;       OWN ROUTINES.;
+000060 0000                  ;
+000061 0000                  ; THE USER VARIABLE  DV IS 3 BYTES LONG
+000062 0000                  ; (USER AREA OFFSET 32H 33H 34H) AND IS USED
+000063 0000                  ; TO PASS VARIABLES TO THE RCA ROM UTILITY
+000064 0000                  ; WHEN CALLING FOR DISK I/O.  THE RESIDENT ROM
+000065 0000                  ; UTILITIES PRODUCE THEIR OWN ERROR MESSAGES.
+000066 0000                  ;
+000067 0000                  ; THIS VERSION ASSEMBLES WITH START UP CONSTANTS THAT
+000068 0000                  ; ASSUME 28K OF RAM. DISC BUFFERS ARE
+000069 0000                  ; SET FOR 1K (THIS CAN BE EASILY CHANGED
+000070 0000                  ; BY CHANGING FIRST, LIMIT, B/BUF AND B/SCR).
+000071 0000                  ; BLOCK 0 BEGINS AT TRACK 0 SECTOR 1.
+000072 0000                  ;
+000073 0000                  ;
+000074 0000                  ; DR1 (SET DRIVE TO 1) IS IMPLEMENTED AS:
+000075 0000                  ;  : DR1 B/SCR 250 * OFFSET ! ;
+000076 0000                  ; THERFORE B/SCR AND B/BUF CAN BE CHANGED WITHOUT
+000077 0000                  ; HAVING TO REWRITE
+000078 0000                  ; DR1.
+000079 0000                  ; THE TERMINAL I/O ASSUMES THE USE OF AN
+000080 0000                  ; RCA CDP1854 UART CONFIGURED IN ONE OF THE
+000081 0000                  ; ABOVE MENTIONED SYSTEMS.  THE UART IS DRIVEN
+000082 0000                  ; DIRECTLY WITHOUT CALLING RCA ROM UTILITY
+000083 0000                  ; ROUTINES.
+000084 0000                  ;
+000085 0000                  ;
+000086 0000                  ; THE FORTH WORD   MON   EXITS FORTH AND RETURNS
+000087 0000                  ; TO THE RESIDENT ROM UTILITY.
+000088 0000                  ;
+000089 0000                  ; THE FORTH WORD  BYE  IS DEFINED AS:
+000090 0000                  ; : BYE  FLUSH  MON ;;
+000091 0000                  ;
+000092 0000                  ;
+000093 0000                  ;       REGISTER ALLOCATIONS FOR THIS VERSION
+000094 0000                  ;
+000095 0000                  ;               R2   RETURNS STACK POINTER  R0
+000096 0000                  ;                    GROWS DOWN LEFT POINTING TO
+000097 0000                  ;                    FREE LOCATION
+000098 0000                  ;
+000099 0000                  ;               R3   PC FOR I/O AND PRIMITIVES
+000100 0000                  ;
+000101 0000                  ;               R7, R8  TEMPORARY ACCUMULATORS
+000102 0000                  ;
+000103 0000                  ;               R9   COMPUTATION STACK POINTER   S0
+000104 0000                  ;                    GROWS UPWARD
+000105 0000                  ;                    LEFT POINTING AT HIGH BYTE
+000106 0000                  ;
+000107 0000                  ;               RA   FORTH "I" REGISTER   IP
+000108 0000                  ;
+000109 0000                  ;               RB   FORTH "W" REGISTER   WP
+000110 0000                  ;
+000111 0000                  ;               RC   PC FOR INNER INTERPRETER
+000112 0000                  ;
+000113 0000                  ;               RD   USER POINTER         UP
+000114 0000                  ;
+000115 0000                  ;               RF   DISC I/O
+000116 0000                  ;
+000117 0000                  ;               OTHER REGISTERS ARE LEFT AVAILABLE
+000118 0000                  ;               EXCEPT THAT RF.0 IS ZERO AFTER COLD
+000119 0000                  ;               OR WARM STARTS
+000120 0000                  ;
+000121 0000                  ;
+000122 0000                  ;             MEMORY MAP
+000123 0000                  ;
+000124 0000                  ;       ---------------------- LIMIT
+000125 0000                  ;
+000126 0000                  ;            RAM BUFFERS
+000127 0000                  ;
+000128 0000                  ;       ---------------------- FIRST
+000129 0000                  ;
+000130 0000                  ;             USER AREA
+000131 0000                  ;
+000132 0000                  ;       ---------------------- UP
+000133 0000                  ;
+000134 0000                  ;            RETURN STACK      R0
+000135 0000                  ;
+000136 0000                  ;       ---------------------- 
+000137 0000                  ;
+000138 0000                  ;          TERMINAL BUFFER
+000139 0000                  ;
+000140 0000                  ;       ---------------------- TIB
+000141 0000                  ;
+000142 0000                  ;         COMPUTATION STACK
+000143 0000                  ;
+000144 0000                  ;       ---------------------- S0
+000145 0000                  ;
+000146 0000                  ;             FREE SPACE
+000147 0000                  ;
+000148 0000                  ;       ----------------------
+000149 0000                  ;
+000150 0000                  ;            TEXT BUFFER
+000151 0000                  ;
+000152 0000                  ;       ---------------------- PAD
+000153 0000                  ;
+000154 0000                  ;             WORD BUFFER
+000155 0000                  ;
+000156 0000                  ;       ---------------------- DP
+000157 0000                  ;
+000158 0000                  ;             DICTIONARY
+000159 0000                  ;
+000160 0000                  ;       ----------------------
+000161 0000                  ;
+000162 0000                  ;         BOOT UP PARAMETERS
+000163 0000                  ;
+000164 0000                  ;       ---------------------- ORGIN 005E
+000165 0000                  ;
+000166 0000                  ;          ANY REQUIRED I/O
+000167 0000                  ;           INITIALIZATION
+000168 0000                  ;
+000169 0000                  ;       ---------------------- 0000
+000170 0000                  ;
+000171 0000                  ;
+000172 4000                          .EQU FIRSTB, H'4000 ; ADDRESS OF FIRST DISK BUFFER
+000173 6C2C                          .EQU LIMITB, H'6C2C ; END OF DISK BUFFER AREA
+000174 0009                          .EQU CSTACK, 9
+000175 0002                          .EQU RSTACK, 2
+000176 0000                  	;
+000177 0000                          .ORG H'0000
+000178 0000                          ;
+000179 0000                          ; SET-UP ROUTINES
+000180 0000                          ;
+000181 0000 71                       DIS
+000182 0001 00                       .DB H'00
+000183 0002 61                       OUT 1               ; SET LEVEL 1 I/O
+000184 0003 01                       .DB H'01
+000185 0004 63                       OUT 3               ; SET UP UART
+000186 0005 1D                       .DB H'1D
+000187 0006 F800                     LDI H'00
+000188 0008 B3                       PHI 3
+000189 0009 F85E                     LDI H'5E
+000190 000B A3                       PLO 3
+000191 000C F82F                     LDI H'2F
+000192 000E B2                       PHI 2
+000193 000F F8FF                     LDI H'FF
+000194 0011 A2                       PLO 2
+000195 0012 D3                       SEP 3
+000196 0013                  	;
+000197 0013                  	;
+000198 0013                          ;
+000199 005E                          .ORG H'005E
+000200 005E                  	;
+000201 005E C4               START:  NOP
+000202 005F C01900                   LBR COLD            ; COLD START
+000203 0062 C4                       NOP
+000204 0063 C01915                   LBR WARM            ; WARM START
+000205 0066 070A                     .DW H'070A          ; CPU NUMBER
+000206 0068 0001                     .DW H'0001          ; REVISION NUMBER
+000207 006A 18BF                     .DW TASK - 7        ; TOPMOST PRGM IN FORTH VOCABULARY
+000208 006C 0008                     .DW H'0008          ; BACKSPACE
+000209 006E 2000                     .DW H'2000          ; INITIAL USER AREA         UP
+000210 0070 1F00                     .DW H'1F00          ; INITAL STACK              S0
+000211 0072 1FFF                     .DW H'1FFF          ; INITAL RETURN STACK       R0
+000212 0074 1F80                     .DW H'1F80          ; TERMINAL BUFFER           TIB
+000213 0076 001F                     .DW H'001F          ; NAME FIELD WIDTH          WIDTH
+000214 0078                                              ;   (31 DECIMAL)
+000215 0078 0000                     .DW H'0000          ; WARNING                   WARNING
+000216 007A 193D                     .DW LEND            ; FENCE                     FENCE
+000217 007C 193D                     .DW LEND            ; INIT DICTIONARY POINTER   DP
+000218 007E 0F6A                     .DW FRTH + 16       ; INIT VOCAB                VOC-LINK
+000219 0080                  	;
+000220 0080                  	;
+000221 0080 834C49D4                 .DB H'83,"LI",H'D4 ; LIT
+000222 0084 0000                     .DW H'0000
+000223 0086 0088             LIT:    .DW * + 2
+000224 0088 19                       INC R9
+000225 0089 19                       INC R9
+000226 008A 4A                       LDA RA
+000227 008B 59                       STR R9
+000228 008C 19                       INC R9
+000229 008D 4A                       LDA RA
+000230 008E 59                       STR R9
+000231 008F 29                       DEC R9
+000232 0090 DC                       SEP RC
+000233 0091                  	;
+000234 0091                          ;
+000235 0091                          ; NEXT INNER INTERPRETER
+000236 0091 D3                       SEP R3              ; LEAVE RC AT NEXT
+000237 0092 4A               NEXT:   LDA RA
+000238 0093 BB                       PHI RB
+000239 0094 4A                       LDA RA
+000240 0095 AB                       PLO RB
+000241 0096 4B               WBR:    LDA RB
+000242 0097 B3                       PHI R3
+000243 0098 4B                       LDA RB
+000244 0099 A3                       PLO R3
+000245 009A 3091                     BR NEXT - 1
+000246 009C                          ; EXECUTE
+000247 009C 87455845435554C5         .DB H'87,"EXECUT",H'C5 ; EXECUTE
+000248 00A4 0080             	.DW LIT - 6
+000249 00A6 00A8             EXE:    .DW * + 2
+000250 00A8 49                       LDA R9
+000251 00A9 BB                       PHI RB
+000252 00AA 09                       LDN R9              ; LOAD W FROM STACK              
+000253 00AB AB                       PLO RB
+000254 00AC 29                       DEC R9
+000255 00AD 29                       DEC R9
+000256 00AE 29                       DEC R9
+000257 00AF 1C                       INC RC
+000258 00B0 1C                       INC RC
+000259 00B1 1C                       INC RC              ; POINT TO WBR
+000260 00B2 1C                       INC RC
+000261 00B3 DC                       SEP RC
+000262 00B4                  	;
+000263 00B4                  	;
+000264 00B4 864252414E43C8           .DB H'86,"BRANC",H'C8 ; BRANCH
+000265 00BB 009C                     .DW EXE - 10
+000266 00BD 00BF             BRCH:   .DW * + 2
+000267 00BF 4A               BRANCH: LDA RA
+000268 00C0 52                       STR R2
+000269 00C1 4A                       LDA RA
+000270 00C2 AA                       PLO RA
+000271 00C3 02                       LDN R2
+000272 00C4 BA                       PHI RA
+000273 00C5 DC                       SEP RC
+000274 00C6                  	;
+000275 00C6                  	;
+000276 00C6 87304252414E43C8         .DB H'87,"0BRANC",H'C8 ; 0BRANCH
+000277 00CE 00B4             	.DW BRCH - 9
+000278 00D0 00D2             ZBRCH:  .DW * + 2
+000279 00D2 49                       LDA R9
+000280 00D3 3ADD                     BNZ NO
+000281 00D5 09                       LDN R9
+000282 00D6 3ADD                     BNZ NO
+000283 00D8 29                       DEC R9
+000284 00D9 29                       DEC R9
+000285 00DA 29                       DEC R9
+000286 00DB 30BF                     BR BRANCH
+000287 00DD 1A               NO:     INC RA
+000288 00DE 1A                       INC RA
+000289 00DF 29                       DEC R9
+000290 00E0 29                       DEC R9
+000291 00E1 29                       DEC R9
+000292 00E2 DC                       SEP RC
+000293 00E3                  	;
+000294 00E3 86284C4F4F50A9           .DB H'86,"(LOOP",H'A9 ; (LOOP)
+000295 00EA 00C6                     .DW ZBRCH - 10
+000296 00EC 00EE             LUPE:   .DW * + 2
+000297 00EE 12                       INC R2
+000298 00EF 92                       GHI R2
+000299 00F0 B8                       PHI R8
+000300 00F1 B7                       PHI R7
+000301 00F2 82                       GLO R2
+000302 00F3 A8                       PLO R8
+000303 00F4 A7                       PLO R7
+000304 00F5 22                       DEC R2
+000305 00F6 08                       LDN R8
+000306 00F7 FC01                     ADI H'01
+000307 00F9 58                       STR R8
+000308 00FA 18                       INC R8
+000309 00FB 08                       LDN R8
+000310 00FC 7C00                     ADCI H'00
+000311 00FE C4                       NOP                 ; TO NEW PAGE
+000312 00FF C4                       NOP
+000313 0100 58               COMP:   STR R8
+000314 0101 18                       INC R8
+000315 0102 E7                       SEX R7
+000316 0103 48                       LDA R8
+000317 0104 F5                       SD
+000318 0105 17                       INC R7
+000319 0106 08                       LDN R8
+000320 0107 75                       SDB
+000321 0108 FA80                     ANI H'80
+000322 010A 3213                     BZ CEND
+000323 010C 4A                       LDA RA
+000324 010D 52                       STR R2
+000325 010E 0A                       LDN RA
+000326 010F AA                       PLO RA
+000327 0110 02                       LDN R2
+000328 0111 BA                       PHI RA
+000329 0112 DC                       SEP RC
+000330 0113 1A               CEND:   INC RA
+000331 0114 1A                       INC RA
+000332 0115 12                       INC R2
+000333 0116 12                       INC R2
+000334 0117 12                       INC R2
+000335 0118 12                       INC R2
+000336 0119 DC                       SEP RC
+000337 011A                  	;
+000338 011A 87282B4C4F4F50A9         .DB H'87,"(+LOOP",H'A9 ; (+LOOP)
+000339 0122 00E3             	.DW LUPE - 9
+000340 0124 0126             PLUPE:  .DW * + 2
+000341 0126 12                       INC R2
+000342 0127 92                       GHI R2
+000343 0128 B8                       PHI R8
+000344 0129 B7                       PHI R7
+000345 012A 82                       GLO R2
+000346 012B A8                       PLO R8
+000347 012C A7                       PLO R7
+000348 012D 22                       DEC R2
+000349 012E E9                       SEX R9
+000350 012F 19                       INC R9
+000351 0130 08                       LDN R8
+000352 0131 F4                       ADD
+000353 0132 58                       STR R8
+000354 0133 18                       INC R8
+000355 0134 29                       DEC R9
+000356 0135 08                       LDN R8
+000357 0136 74                       ADC
+000358 0137 58                       STR R8
+000359 0138 09                       LDN R9
+000360 0139 FE                       SHL
+000361 013A 29                       DEC R9
+000362 013B 29                       DEC R9
+000363 013C 3340                     BDF LUPE1
+000364 013E 3001                     BR COMP +1
+000365 0140 18               LUPE1:  INC R8
+000366 0141 E7                       SEX R7
+000367 0142 48                       LDA R8
+000368 0143 F7                       SM
+000369 0144 17                       INC R7
+000370 0145 08                       LDN R8
+000371 0146 77                       SMB
+000372 0147 3008                     BR COMP + 8
+000373 0149                  	;
+000374 0149                  	;
+000375 0149 8428444FA9               .DB H'84,"(DO",H'A9 ; (DO)
+000376 014E 011A                     .DW PLUPE - 10
+000377 0150 0152             PDO:    .DW * + 2
+000378 0152 29                       DEC R9
+000379 0153 29                       DEC R9
+000380 0154 E2                       SEX R2
+000381 0155 49                       LDA R9
+000382 0156 73                       STXD
+000383 0157 49                       LDA R9
+000384 0158 73                       STXD
+000385 0159 49                       LDA R9
+000386 015A 73                       STXD
+000387 015B 09                       LDN R9
+000388 015C 73                       STXD
+000389 015D 29                       DEC R9
+000390 015E 29                       DEC R9
+000391 015F 29                       DEC R9
+000392 0160 29                       DEC R9
+000393 0161 29                       DEC R9
+000394 0162 DC                       SEP RC
+000395 0163                  	;
+000396 0163                  	;
+000397 0163 8544494749D4             .DB H'85,"DIGI",H'D4 ; DIGIT
+000398 0169 0149                     .DW PDO - 7
+000399 016B 016D             DGT:    .DW * + 2
+000400 016D E9                       SEX R9
+000401 016E 29                       DEC R9
+000402 016F 09                       LDN R9
+000403 0170 FF30                     SMI H'30
+000404 0172 3B88                     BNF BAD
+000405 0174 FF11                     SMI H'11
+000406 0176 337C                     BDF DOK
+000407 0178 FFF9                     SMI H'F9
+000408 017A 3388                     BDF BAD
+000409 017C FC0A             DOK:    ADI H'0A
+000410 017E 59                       STR R9
+000411 017F 19                       INC R9
+000412 0180 19                       INC R9
+000413 0181 F7                       SM
+000414 0182 3386                     BDF BAD2
+000415 0184 29                       DEC R9
+000416 0185 DC                       SEP RC
+000417 0186 29               BAD2:   DEC R9
+000418 0187 29                       DEC R9
+000419 0188 F800             BAD:    LDI H'00
+000420 018A 73                       STXD
+000421 018B 59                       STR R9
+000422 018C DC                       SEP RC
+000423 018D                  	;
+000424 018D 862846494E44A9           .DB H'86,"(FIND",H'A9 ; (FIND)
+000425 0194 0163                     .DW DGT - 8
+000426 0196 0198             FIND:   .DW * + 2
+000427 0198 29                       DEC R9
+000428 0199 29                       DEC R9
+000429 019A 49                       LDA R9
+000430 019B B8                       PHI R8
+000431 019C 49                       LDA R9
+000432 019D A8                       PLO R8
+000433 019E 49                       LDA R9
+000434 019F B7                       PHI R7
+000435 01A0 09                       LDN R9
+000436 01A1 A7                       PLO R7
+000437 01A2 29                       DEC R9
+000438 01A3 29                       DEC R9
+000439 01A4 E7               LOOP1:  SEX R7              ; SAVE LENGTH BYTE
+000440 01A5 07                       LDN R7
+000441 01A6 52                       STR R2
+000442 01A7 48                       LDA R8              ; COMPARE LENGTH BYTES
+000443 01A8 F3                       XOR
+000444 01A9 FA3F                     ANI H'3F
+000445 01AB 3AD3                     BNZ BADLEN
+000446 01AD 17               NEXCHR: INC R7
+000447 01AE 48                       LDA R8              ; COMPARE NEXT CHARACTER
+000448 01AF F3                       XOR
+000449 01B0 FE                       SHL
+000450 01B1 3AD4                     BNZ BADCHR          ; NO MATCH ON 7 BITS
+000451 01B3 7E                       SHLC
+000452 01B4 32AD                     BZ NEXCHR           ; IF NOT LAST CHARACTER
+000453 01B6 47               LOOP2:  LDA R7              ;   ELSE END OF STRING
+000454 01B7 FA80                     ANI H'80
+000455 01B9 32B6                     BZ LOOP2
+000456 01BB E9                       SEX R9              ; END OF DICT NAME
+000457 01BC 87                       GLO R7
+000458 01BD FC04                     ADI H'04
+000459 01BF 73                       STXD
+000460 01C0 97                       GHI R7
+000461 01C1 7C00                     ADCI H'00
+000462 01C3 59                       STR R9              ; LEAVE PFA
+000463 01C4 19                       INC R9
+000464 01C5 19                       INC R9
+000465 01C6 F800                     LDI H'00
+000466 01C8 59                       STR R9
+000467 01C9 19                       INC R9
+000468 01CA 02                       LDN R2              ; GET LENGTH BYTE
+000469 01CB 59                       STR R9
+000470 01CC 19                       INC R9
+000471 01CD F8FF                     LDI H'FF
+000472 01CF 59                       STR R9
+000473 01D0 19                       INC R9
+000474 01D1 73                       STXD                ; AND TRUE FLAG
+000475 01D2 DC                       SEP RC
+000476 01D3 17               BADLEN: INC R7
+000477 01D4 47               BADCHR: LDA R7
+000478 01D5 FA80                     ANI H'80
+000479 01D7 32D4                     BZ BADCHR
+000480 01D9 07                       LDN R7
+000481 01DA 3AE7                     BNZ BOK
+000482 01DC 17                       INC R7
+000483 01DD 07                       LDN R7
+000484 01DE 27                       DEC R7
+000485 01DF 3AE7                     BNZ BOK
+000486 01E1 F800                     LDI H'00            ; LINK=0 RETURN FALSE
+000487 01E3 59                       STR R9
+000488 01E4 29                       DEC R9
+000489 01E5 59                       STR R9
+000490 01E6 DC                       SEP RC
+000491 01E7 47               BOK:    LDA R7
+000492 01E8 52                       STR R2
+000493 01E9 07                       LDN R7
+000494 01EA A7                       PLO R7
+000495 01EB 02                       LDN R2
+000496 01EC B7                       PHI R7
+000497 01ED 09                       LDN R9
+000498 01EE A8                       PLO R8
+000499 01EF 29                       DEC R9
+000500 01F0 49                       LDA R9
+000501 01F1 B8                       PHI R8
+000502 01F2 30A4                     BR LOOP1
+000503 01F4                  	;
+000504 01F4                  	;
+000505 01F4 87454E434C4F53C5         .DB H'87,"ENCLOS",H'C5 ; ENCLOSURE
+000506 01FC 018D             	.DW FIND -9
+000507 01FE 0200             ENCL:   .DW * + 2
+000508 0200 29                       DEC R9
+000509 0201 29                       DEC R9
+000510 0202 49                       LDA R9
+000511 0203 B8                       PHI R8
+000512 0204 49                       LDA R9
+000513 0205 A8                       PLO R8
+000514 0206 19                       INC R9
+000515 0207 F800                     LDI H'00            ; R7.0 IS OFFSET
+000516 0209 A7                       PLO R7
+000517 020A 09                       LDN R9              ; SAVE DELIM
+000518 020B 52                       STR R2
+000519 020C E2                       SEX R2
+000520 020D 08               LOP1:   LDN R8
+000521 020E F7                       SM
+000522 020F 3A15                     BNZ FRST            ; FIND FIRST NON-
+000523 0211 18                       INC R8              ;   DELIM CHAR
+000524 0212 17                       INC R7
+000525 0213 300D                     BR LOP1
+000526 0215 87               FRST:   GLO R7              ; SAVE OFFSET TO
+000527 0216 59                       STR R9
+000528 0217 B7                       PHI R7
+000529 0218 19                       INC R9              ;   FIRST CHARACTER
+000530 0219 F800                     LDI H'00
+000531 021B 59                       STR R9
+000532 021C 19                       INC R9
+000533 021D 19                       INC R9
+000534 021E 59                       STR R9
+000535 021F 19                       INC R9
+000536 0220 08               LOP2:   LDN R8
+000537 0221 322A                     BZ NULL             ; EQUAL NULL ?
+000538 0223 F7                       SM                  ; SUBTRACT DELIMIN
+000539 0224 3238                     BZ DELIM
+000540 0226 18                       INC R8
+000541 0227 17                       INC R7
+000542 0228 3020                     BR LOP2
+000543 022A 87               NULL:   GLO R7              ; LEAVE OFFSET
+000544 022B E9                       SEX R9
+000545 022C 59                       STR R9
+000546 022D 97                       GHI R7              ; TO NEXT CHARACTER
+000547 022E F7                       SM
+000548 022F 3A32                     BNZ SKIP
+000549 0231 17                       INC R7
+000550 0232 87               SKIP:   GLO R7              ; LAST CHARACTER IN
+000551 0233 29                       DEC R9
+000552 0234 29                       DEC R9
+000553 0235 59                       STR R9              ; WORD
+000554 0236 19                       INC R9
+000555 0237 DC                       SEP RC
+000556 0238 17               DELIM:  INC R7
+000557 0239 87                       GLO R7
+000558 023A 59                       STR R9
+000559 023B 27                       DEC R7
+000560 023C 3032                     BR SKIP
+000561 023E                  	;
+000562 023E 85434D4F56C5             .DB H'85,"CMOV",H'C5 ; CMOVE
+000563 0244 01F4                     .DW ENCL - 10
+000564 0246 0248             CMOVE:  .DW * + 2
+000565 0248 49                       LDA R9
+000566 0249 FC01                     ADI H'01
+000567 024B B7                       PHI R7
+000568 024C 09                       LDN R9
+000569 024D A7                       PLO R7
+000570 024E 27                       DEC R7
+000571 024F 29                       DEC R9
+000572 0250 29                       DEC R9
+000573 0251 29                       DEC R9
+000574 0252 9A                       GHI RA              ; PUSH RA
+000575 0253 52                       STR R2
+000576 0254 22                       DEC R2
+000577 0255 8A                       GLO RA
+000578 0256 52                       STR R2
+000579 0257 49                       LDA R9              ; RA IS "TO"
+000580 0258 BA                       PHI RA
+000581 0259 09                       LDN R9
+000582 025A AA                       PLO RA
+000583 025B 29                       DEC R9
+000584 025C 29                       DEC R9
+000585 025D 29                       DEC R9
+000586 025E 49                       LDA R9              ; R8 IS "FROM"
+000587 025F B8                       PHI R8
+000588 0260 09                       LDN R9
+000589 0261 A8                       PLO R8
+000590 0262 29                       DEC R9
+000591 0263 29                       DEC R9
+000592 0264 29                       DEC R9
+000593 0265 97               LUUP:   GHI R7
+000594 0266 326E                     BZ END2
+000595 0268 48                       LDA R8
+000596 0269 5A                       STR RA
+000597 026A 1A                       INC RA
+000598 026B 27                       DEC R7
+000599 026C 3065                     BR LUUP
+000600 026E 42               END2:   LDA R2              ; POP RA
+000601 026F AA                       PLO RA
+000602 0270 02                       LDN R2
+000603 0271 BA                       PHI RA
+000604 0272 DC                       SEP RC
+000605 0273                  	;
+000606 0273 8255AA                   .DB H'82,H'55,H'AA  ; U*
+000607 0276                                              ; UNSIGNED 16 X 16 BIT MULTIPLY
+000608 0276 023E                     .DW CMOVE - 8
+000609 0278 027A             USTAR:  .DW * + 2
+000610 027A E9                       SEX R9
+000611 027B F800                     LDI R0
+000612 027D A7                       PLO R7              ; R7 IS LOW 2 BYTES
+000613 027E B7                       PHI R7
+000614 027F F810                     LDI H'10            ; OF PRODUCT
+000615 0281 52               LP7B:   STR R2              ; MEM(2) IS LOOP COUNT
+000616 0282 87                       GLO R7
+000617 0283 FE                       SHL
+000618 0284 A7                       PLO R7
+000619 0285 97                       GHI R7
+000620 0286 7E                       SHLC
+000621 0287 B7                       PHI R7
+000622 0288 19                       INC R9              ; DOUBLE THE PRODUCT AND
+000623 0289 09                       LDN R9              ;   TEST HIGH BIT
+000624 028A 7E                       SHLC
+000625 028B 73                       STXD
+000626 028C 09                       LDN R9              ;   OF OP2
+000627 028D 7E                       SHLC
+000628 028E 59                       STR R9
+000629 028F 3BA0                     BNF SKP9A
+000630 0291 29                       DEC R9
+000631 0292 87                       GLO R7
+000632 0293 F4                       ADD
+000633 0294 A7                       PLO R7
+000634 0295 29                       DEC R9              ;   ADD OP1
+000635 0296 97                       GHI R7
+000636 0297 74                       ADC
+000637 0298 B7                       PHI R7
+000638 0299 19                       INC R9              ; TO 24 BIT PRODUCT
+000639 029A 19                       INC R9
+000640 029B 19                       INC R9
+000641 029C F800                     LDI H'00
+000642 029E 74                       ADC
+000643 029F 73                       STXD
+000644 02A 0 02               SKP9A:  LDN R2
+000645 02A1 FF01                     SMI H'01
+000646 02A3 3A81                     BNZ LP7B
+000647 02A5 29               UOUT:   DEC R9              ; MOVE REST OF
+000648 02A6 87                       GLO R7
+000649 02A7 73                       STXD
+000650 02A8 97                       GHI R7              ; PRODUCT TO STACK
+000651 02A9 59                       STR R9
+000652 02AA 19                       INC R9
+000653 02AB 19                       INC R9
+000654 02AC DC                       SEP RC
+000655 02AD                  	;
+000656 02AD 8255AF                   .DB H'82,H'55,H'AF  ; U/ UNSIGNED DIVIDE
+000657 02B0 0273                     .DW USTAR - 5
+000658 02B2 02B4             USLSH:  .DW * + 2
+000659 02B4 E9                       SEX R9
+000660 02B5 29                       DEC R9
+000661 02B6 29                       DEC R9
+000662 02B7 49                       LDA R9
+000663 02B8 B7                       PHI R7
+000664 02B9 09                       LDN R9
+000665 02BA A7                       PLO R7
+000666 02BB 29                       DEC R9
+000667 02BC 29                       DEC R9
+000668 02BD 49                       LDA R9
+000669 02BE FE                       SHL
+000670 02BF 19                       INC R9
+000671 02C0 73                       STXD
+000672 02C1 29                       DEC R9
+000673 02C2 29                       DEC R9
+000674 02C3 49                       LDA R9
+000675 02C4 7E                       SHLC
+000676 02C5 19                       INC R9
+000677 02C6 59                       STR R9
+000678 02C7 19                       INC R9
+000679 02C8 F810                     LDI H'10
+000680 02CA A8                       PLO R8
+000681 02CB 87               LPC5:   GLO R7
+000682 02CC 7E                       SHLC
+000683 02CD A7                       PLO R7
+000684 02CE 97                       GHI R7
+000685 02CF 7E                       SHLC
+000686 02D0 B7                       PHI R7
+000687 02D1 19                       INC R9
+000688 02D2 19                       INC R9
+000689 02D3 87                       GLO R7
+000690 02D4 F7                       SM
+000691 02D5 B8                       PHI R8
+000692 02D6 29                       DEC R9
+000693 02D7 97                       GHI R7
+000694 02D8 77                       SMB
+000695 02D9 3BDE                     BNF SKPD8
+000696 02DB B7                       PHI R7
+000697 02DC 98                       GHI R8
+000698 02DD A7                       PLO R7
+000699 02DE 29               SKPD8:  DEC R9
+000700 02DF 09                       LDN R9
+000701 02E0 7E                       SHLC
+000702 02E1 73                       STXD
+000703 02E2 09                       LDN R9
+000704 02E3 7E                       SHLC
+000705 02E4 59                       STR R9
+000706 02E5 19                       INC R9
+000707 02E6 28                       DEC R8
+000708 02E7 88                       GLO R8
+000709 02E8 3ACB                     BNZ LPC5
+000710 02EA 29                       DEC R9
+000711 02EB 30A5                     BR UOUT
+000712 02ED                  	;
+000713 02ED 83414EC4                 .DB H'83,"AN",H'C4  ; AND
+000714 02F1 02AD                     .DW USLSH - 5
+000715 02F3 02F5             FAND:   .DW * + 2
+000716 02F5 89                       GLO R9
+000717 02F6 A8                       PLO R8
+000718 02F7 99                       GHI R9
+000719 02F8 B8                       PHI R8
+000720 02F9 28                       DEC R8
+000721 02FA E8                       SEX R8
+000722 02FB 19                       INC R9
+000723 02FC 09                       LDN R9
+000724 02FD F2                       AND
+000725 02FE 73                       STXD
+000726 02FF 29                       DEC R9
+000727 0300 09                       LDN R9
+000728 0301 F2                       AND
+000729 0302 58                       STR R8
+000730 0303 29                       DEC R9
+000731 0304 29                       DEC R9
+000732 0305 DC                       SEP RC
+000733 0306                  	;
+000734 0306 824FD2                   .DB H'82,H'4F,H'D2  ; OR
+000735 0309 02ED                     .DW FAND - 6
+000736 030B 030D             FFOR:   .DW * + 2
+000737 030D 89                       GLO R9
+000738 030E A8                       PLO R8
+000739 030F 99                       GHI R9
+000740 0310 B8                       PHI R8
+000741 0311 28                       DEC R8
+000742 0312 E8                       SEX R8
+000743 0313 19                       INC R9
+000744 0314 09                       LDN R9
+000745 0315 F1                       OR
+000746 0316 73                       STXD
+000747 0317 29                       DEC R9
+000748 0318 09                       LDN R9
+000749 0319 F1                       OR
+000750 031A 58                       STR R8
+000751 031B 29                       DEC R9
+000752 031C 29                       DEC R9
+000753 031D DC                       SEP RC
+000754 031E                  	;
+000755 031E 83584FD2                 .DB H'83,"XO",H'D2   ; XOR
+000756 0322 0306                     .DW FFOR - 5
+000757 0324 0326             FXOR:   .DW * + 2
+000758 0326 89                       GLO R9
+000759 0327 A8                       PLO R8
+000760 0328 99                       GHI R9
+000761 0329 B8                       PHI R8
+000762 032A 28                       DEC R8
+000763 032B E8                       SEX R8
+000764 032C 19                       INC R9
+000765 032D 09                       LDN R9
+000766 032E F3                       XOR
+000767 032F 73                       STXD
+000768 0330 29                       DEC R9
+000769 0331 09                       LDN R9
+000770 0332 F3                       XOR
+000771 0333 58                       STR R8
+000772 0334 29                       DEC R9
+000773 0335 29                       DEC R9
+000774 0336 DC                       SEP RC
+000775 0337                  	;
+000776 0337 835350C0                 .DB H'83,"SP",H'C0  ; SP@
+000777 033B 031E                     .DW FXOR - 6
+000778 033D 033F             FSPAT:  .DW * + 2
+000779 033F 99                       GHI R9
+000780 0340 52                       STR R2
+000781 0341 89                       GLO R9
+000782 0342 19                       INC R9
+000783 0343 19                       INC R9
+000784 0344 19                       INC R9
+000785 0345 59                       STR R9
+000786 0346 29                       DEC R9
+000787 0347 02                       LDN R2
+000788 0348 59                       STR R9
+000789 0349 DC                       SEP RC
+000790 034A                  	;
+000791 034A 835350A1                 .DB H'83,"SP",H'A1  ; SP!
+000792 034E                                              ;   stack pointer store
+000793 034E 0337                     .DW FSPAT - 6
+000794 0350 0352             SP1:    .DW * + 2
+000795 0352 8D                       GLO RD
+000796 0353 FC06                     ADI H'06
+000797 0355 A8                       PLO R8
+000798 0356 9D                       GHI RD
+000799 0357 7C00                     ADCI H'00
+000800 0359 B8                       PHI R8
+000801 035A 48                       LDA R8
+000802 035B B9                       PHI R9
+000803 035C 08                       LDN R8
+000804 035D A9                       PLO R9
+000805 035E DC                       SEP RC
+000806 035F                  	;
+000807 035F 835250A1                 .DB H'83,"RP",H'A1  ; RP!
+000808 0363                                              ; RETURN STACK POINTER STORE
+000809 0363 034A                     .DW SP1 - 6
+000810 0365 0367             RP1:    .DW * + 2
+000811 0367 8D                       GLO RD
+000812 0368 FC08                     ADI R8
+000813 036A A8                       PLO R8
+000814 036B 9D                       GHI RD
+000815 036C 7C00                     ADCI H'00
+000816 036E B8                       PHI R8
+000817 036F 48                       LDA R8
+000818 0370 B2                       PHI R2
+000819 0371 08                       LDN R8
+000820 0372 A2                       PLO R2
+000821 0373 DC                       SEP RC
+000822 0374                  	;
+000823 0374 823BD3                   .DB H'82,H'3B,H'D3  ; S (UNEST)
+000824 0377 035F                     .DW RP1 - 6
+000825 0379 037B             SEMIS:  .DW * + 2
+000826 037B 12                       INC R2
+000827 037C 42                       LDA R2
+000828 037D AA                       PLO RA
+000829 037E 02                       LDN R2
+000830 037F BA                       PHI RA
+000831 0380 DC                       SEP RC
+000832 0381                  
+000833 0381 854C454156C5             .DB H'85,"LEAV",H'C5 ; LEAVE
+000834 0387 0374                     .DW SEMIS - 5
+000835 0389 038B             LVE:    .DW * + 2
+000836 038B 92                       GHI R2
+000837 038C B8                       PHI R8
+000838 038D 82                       GLO R2
+000839 038E A8                       PLO R8
+000840 038F 18                       INC R8
+000841 0390 48                       LDA R8
+000842 0391 18                       INC R8
+000843 0392 58                       STR R8
+000844 0393 28                       DEC R8
+000845 0394 48                       LDA R8
+000846 0395 18                       INC R8
+000847 0396 58                       STR R8
+000848 0397 DC                       SEP RC
+000849 0398                  	;
+000850 0398 823ED2                   .DB H'82,H'3E,H'D2  ; >R   TO R
+000851 039B 0381                     .DW LVE - 8
+000852 039D 039F             GR:     .DW * + 2
+000853 039F E2                       SEX R2
+000854 03A0 49                       LDA R9
+000855 03A1 73                       STXD
+000856 03A2 09                       LDN R9
+000857 03A3 73                       STXD
+000858 03A4 29                       DEC R9
+000859 03A5 29                       DEC R9
+000860 03A6 29                       DEC R9
+000861 03A7 DC                       SEP RC
+000862 03A8                  	;
+000863 03A8 8252BE                   .DB H'82,H'52,H'BE  ; R>   FROM R
+000864 03AB 0398                     .DW GR - 5
+000865 03AD 03AF             RG:     .DW * + 2
+000866 03AF 19                       INC R9
+000867 03B0 19                       INC R9
+000868 03B1 19                       INC R9
+000869 03B2 12                       INC R2
+000870 03B3 42                       LDA R2
+000871 03B4 59                       STR R9
+000872 03B5 29                       DEC R9
+000873 03B6 02                       LDN R2
+000874 03B7 59                       STR R9
+000875 03B8 DC                       SEP RC
+000876 03B9                  	;
+000877 03B9 81D2                     .DW H'81D2          ; R   COPY TOP OF RETN
+000878 03BB 03A8                     .DW RG - 5          ; STACK TO TOP OF
+000879 03BD 03BF             R:      .DW * + 2           ; COMPUTATION STACK
+000880 03BF 82                       GLO R2
+000881 03C0 A8                       PLO R8
+000882 03C1 92                       GHI R2
+000883 03C2 B8                       PHI R8
+000884 03C3 18                       INC R8
+000885 03C4 19                       INC R9
+000886 03C5 19                       INC R9
+000887 03C6 19                       INC R9
+000888 03C7 48                       LDA R8
+000889 03C8 59                       STR R9
+000890 03C9 29                       DEC R9
+000891 03CA 08                       LDN R8
+000892 03CB 59                       STR R9
+000893 03CC DC                       SEP RC
+000894 03CD                  	;
+000895 03CD 8230BD                   .DB H'82,H'30,H'BD  ; 0=
+000896 03D0 03B9                     .DW R - 4
+000897 03D2 03D4             ZEQAL:  .DW * + 2
+000898 03D4 49                       LDA R9
+000899 03D5 3ADE                     BNZ NONE
+000900 03D7 09                       LDN R9
+000901 03D8 3ADE                     BNZ NONE
+000902 03DA F801             ZONE:   LDI H'01
+000903 03DC 30E0                     BR STOR
+000904 03DE F800             NONE:   LDI H'00
+000905 03E0 59               STOR:   STR R9
+000906 03E1 29                       DEC R9
+000907 03E2 F800                     LDI H'00
+000908 03E4 59                       STR R9
+000909 03E5 DC                       SEP RC
+000910 03E6                  	;
+000911 03E6 8230BC                   .DB H'82,H'30,H'BC  ; 0<
+000912 03E9 03CD                     .DW ZEQAL - 5
+000913 03EB 03ED             ZLESS:  .DW * + 2
+000914 03ED 49                       LDA R9
+000915 03EE FE                       SHL
+000916 03EF 33DA                     BDF ZONE
+000917 03F1 30DE                     BR NONE
+000918 03F3                  	;
+000919 03F3 81AB                     .DW H'81AB          ; +
+000920 03F5 03E6                     .DW ZLESS - 5
+000921 03F7 03F9             PLUS:   .DW * + 2
+000922 03F9 89                       GLO R9
+000923 03FA A8                       PLO R8
+000924 03FB 99                       GHI R9
+000925 03FC B8                       PHI R8
+000926 03FD 28                       DEC R8
+000927 03FE E8                       SEX R8
+000928 03FF 19                       INC R9
+000929 0400 09                       LDN R9
+000930 0401 F4                       ADD
+000931 0402 73                       STXD
+000932 0403 29                       DEC R9
+000933 0404 09                       LDN R9
+000934 0405 74                       ADC
+000935 0406 58                       STR R8
+000936 0407 29                       DEC R9
+000937 0408 29                       DEC R9
+000938 0409 DC                       SEP RC
+000939 040A                  	;
+000940 040A 854D494E55D3             .DB H'85,"MINU",H'D3 ; MINUS
+000941 0410 03F3                     .DW PLUS - 4
+000942 0412 0414             MINUS:  .DW * + 2
+000943 0414 FF00                     SMI H'00            ; SET CARRY
+000944 0416 19               MINOS:  INC R9
+000945 0417 09                       LDN R9
+000946 0418 FBFF                     XRI H'FF
+000947 041A 7C00                     ADCI H'00
+000948 041C 59                       STR R9
+000949 041D 29                       DEC R9
+000950 041E 09                       LDN R9
+000951 041F FBFF                     XRI H'FF
+000952 0421 7C00                     ADCI H'00
+000953 0423 59                       STR R9
+000954 0424 DC                       SEP RC
+000955 0425                  	;
+000956 0425 8244AB                   .DB H'82,H'44,H'AB  ; D+ DBL PRCN INTEGERS
+000957 0428 040A                     .DW MINUS - 8       ; ARE STORED HIGH 16 BITS TOP
+000958 042A 042C             DPLUS:  .DW * + 2           ; LOW 16 BITS BENEATH
+000959 042C 89                       GLO R9
+000960 042D FF05                     SMI H'05
+000961 042F A8                       PLO R8
+000962 0430 99                       GHI R9
+000963 0431 7F00                     SMBI H'00
+000964 0433 B8                       PHI R8
+000965 0434 29                       DEC R9
+000966 0435 E8                       SEX R8
+000967 0436 09                       LDN R9
+000968 0437 F4                       ADD
+000969 0438 73                       STXD
+000970 0439 29                       DEC R9
+000971 043A 09                       LDN R9
+000972 043B 74                       ADC
+000973 043C 58                       STR R8
+000974 043D 18                       INC R8
+000975 043E 18                       INC R8
+000976 043F 18                       INC R8
+000977 0440 19                       INC R9
+000978 0441 19                       INC R9
+000979 0442 19                       INC R9
+000980 0443 09                       LDN R9
+000981 0444 74                       ADC
+000982 0445 73                       STXD
+000983 0446 29                       DEC R9
+000984 0447 09                       LDN R9
+000985 0448 74                       ADC
+000986 0449 58                       STR R8
+000987 044A 29                       DEC R9
+000988 044B 29                       DEC R9
+000989 044C 29                       DEC R9
+000990 044D 29                       DEC R9
+000991 044E DC                       SEP RC
+000992 044F                  	;
+000993 044F 86444D494E55D3           .DB H'86,"DMINU",H'D3 ; DMINUS
+000994 0456 0425                     .DW DPLUS - 5
+000995 0458 045A             DMIN:   .DW * + 2
+000996 045A E9                       SEX R9
+000997 045B 29                       DEC R9
+000998 045C 09                       LDN R9
+000999 045D FBFF                     XRI H'FF
+001000 045F FC01                     ADI H'01
+001001 0461 73                       STXD
+001002 0462 09                       LDN R9
+001003 0463 FBFF                     XRI H'FF
+001004 0465 7C00                     ADCI H'00
+001005 0467 59                       STR R9
+001006 0468 19                       INC R9
+001007 0469 19                       INC R9
+001008 046A 3016                     BR MINOS
+001009 046C                  	;
+001010 046C 844F5645D2               .DB H'84,"OVE",H'D2 ; OVER
+001011 0471 044F                     .DW DMIN - 9
+001012 0473 0475             OVER:   .DW * + 2
+001013 0475 29                       DEC R9
+001014 0476 29                       DEC R9
+001015 0477 49                       LDA R9
+001016 0478 19                       INC R9
+001017 0479 19                       INC R9
+001018 047A 19                       INC R9
+001019 047B 59                       STR R9
+001020 047C 29                       DEC R9
+001021 047D 29                       DEC R9
+001022 047E 29                       DEC R9
+001023 047F 49                       LDA R9
+001024 0480 19                       INC R9
+001025 0481 19                       INC R9
+001026 0482 19                       INC R9
+001027 0483 59                       STR R9
+001028 0484 29                       DEC R9
+001029 0485 DC                       SEP RC
+001030 0486                  	;
+001031 0486 8444524FD0               .DB H'84,"DRO",H'D0 ; DROP
+001032 048B 046C                     .DW OVER - 7
+001033 048D 048F             DROP:   .DW * + 2
+001034 048F 29                       DEC R9
+001035 0490 29                       DEC R9
+001036 0491 DC                       SEP RC
+001037 0492                  	;
+001038 0492 84535741D0               .DB H'84,"SWA",H'D0 ; SWAP
+001039 0497 0486                     .DW DROP - 7
+001040 0499 049B             SWAP:   .DW * + 2
+001041 049B 89                       GLO R9
+001042 049C A8                       PLO R8
+001043 049D 99                       GHI R9
+001044 049E B8                       PHI R8
+001045 049F 28                       DEC R8
+001046 04A0 08                       LDN R8
+001047 04A1 52                       STR R2
+001048 04A2 19                       INC R9
+001049 04A3 09                       LDN R9
+001050 04A4 58                       STR R8
+001051 04A5 02                       LDN R2
+001052 04A6 59                       STR R9
+001053 04A7 29                       DEC R9
+001054 04A8 28                       DEC R8
+001055 04A9 08                       LDN R8
+001056 04AA 52                       STR R2
+001057 04AB 09                       LDN R9
+001058 04AC 58                       STR R8
+001059 04AD 02                       LDN R2
+001060 04AE 59                       STR R9
+001061 04AF DC                       SEP RC
+001062 04B0                  	;
+001063 04B0 834455D0                 .DB H'83,"DU",H'D0  ; DUP
+001064 04B4 0492                     .DW SWAP - 7
+001065 04B6 04B8             DUP:    .DW * + 2
+001066 04B8 49                       LDA R9
+001067 04B9 19                       INC R9
+001068 04BA 59                       STR R9
+001069 04BB 29                       DEC R9
+001070 04BC 49                       LDA R9
+001071 04BD 19                       INC R9
+001072 04BE 59                       STR R9
+001073 04BF 29                       DEC R9
+001074 04C0 DC                       SEP RC
+001075 04C1                  	;
+001076 04C1 822BA1                   .DB H'82,H'2B,H'A1  ; +!
+001077 04C4 04B0                     .DW DUP - 6
+001078 04C6 04C8             PLUSS:  .DW * + 2
+001079 04C8 49                       LDA R9
+001080 04C9 B8                       PHI R8
+001081 04CA 09                       LDN R9
+001082 04CB A8                       PLO R8
+001083 04CC 29                       DEC R9
+001084 04CD 29                       DEC R9
+001085 04CE 18                       INC R8
+001086 04CF E8                       SEX R8
+001087 04D0 09                       LDN R9
+001088 04D1 F4                       ADD
+001089 04D2 73                       STXD
+001090 04D3 29                       DEC R9
+001091 04D4 09                       LDN R9
+001092 04D5 74                       ADC
+001093 04D6 58                       STR R8
+001094 04D7 29               POP:    DEC R9
+001095 04D8 29                       DEC R9
+001096 04D9 DC                       SEP RC
+001097 04DA                  	;
+001098 04DA 86544F47474CC5           .DB H'86,"TOGGL",H'C5 ; TOGGLE
+001099 04E1 04C1                     .DW PLUSS - 5
+001100 04E3 04E5             TGLE:   .DW * + 2
+001101 04E5 19                       INC R9
+001102 04E6 09                       LDN R9
+001103 04E7 A7                       PLO R7
+001104 04E8 29                       DEC R9
+001105 04E9 29                       DEC R9
+001106 04EA 29                       DEC R9
+001107 04EB 49                       LDA R9
+001108 04EC B8                       PHI R8
+001109 04ED 09                       LDN R9
+001110 04EE A8                       PLO R8
+001111 04EF E8                       SEX R8
+001112 04F0 87                       GLO R7
+001113 04F1 F3                       XOR
+001114 04F2 58                       STR R8
+001115 04F3 29                       DEC R9
+001116 04F4 30D7                     BR POP
+001117 04F6                          ;        
+001118 04F6 81C0                     .DW H'81C0          ; @
+001119 04F8 04DA                     .DW TGLE - 9
+001120 04FA 04FC             AT:     .DW * + 2
+001121 04FC 49                       LDA R9
+001122 04FD B8                       PHI R8
+001123 04FE 09                       LDN R9
+001124 04FF A8                       PLO R8
+001125 0500 29                       DEC R9
+001126 0501 48                       LDA R8
+001127 0502 59                       STR R9
+001128 0503 19                       INC R9
+001129 0504 08                       LDN R8
+001130 0505 59                       STR R9
+001131 0506 29                       DEC R9
+001132 0507 DC                       SEP RC
+001133 0508                  	;
+001134 0508 8243C0                   .DB H'82,H'43,H'C0  ; C@
+001135 050B 04F6                     .DW AT - 4
+001136 050D 050F             CAT:    .DW * + 2
+001137 050F 49                       LDA R9
+001138 0510 B8                       PHI R8
+001139 0511 09                       LDN R9
+001140 0512 A8                       PLO R8
+001141 0513 08                       LDN R8
+001142 0514 59                       STR R9
+001143 0515 29                       DEC R9
+001144 0516 F800                     LDI H'00
+001145 0518 59                       STR R9
+001146 0519 DC                       SEP RC
+001147 051A                  	;
+001148 051A 81A1                     .DW H'81A1          ; !   STORE
+001149 051C 0508                     .DW CAT - 5
+001150 051E 0520             EX:     .DW * + 2
+001151 0520 49                       LDA R9
+001152 0521 B8                       PHI R8
+001153 0522 09                       LDN R9
+001154 0523 A8                       PLO R8
+001155 0524 29                       DEC R9
+001156 0525 29                       DEC R9
+001157 0526 29                       DEC R9
+001158 0527 49                       LDA R9
+001159 0528 58                       STR R8
+001160 0529 18                       INC R8
+001161 052A 09                       LDN R9
+001162 052B 58                       STR R8
+001163 052C 29                       DEC R9
+001164 052D 29                       DEC R9
+001165 052E 29                       DEC R9
+001166 052F DC                       SEP RC
+001167 0530                  	;
+001168 0530 8243A1                   .DB H'82,H'43,H'A1  ; C!   C STORE
+001169 0533 051A                     .DW EX - 4
+001170 0535 0537             CEX:    .DW * + 2
+001171 0537 49                       LDA R9
+001172 0538 B8                       PHI R8
+001173 0539 09                       LDN R9
+001174 053A A8                       PLO R8
+001175 053B 29                       DEC R9
+001176 053C 29                       DEC R9
+001177 053D 09                       LDN R9
+001178 053E 58                       STR R8
+001179 053F 29                       DEC R9
+001180 0540 29                       DEC R9
+001181 0541 29                       DEC R9
+001182 0542 DC                       SEP RC
+001183 0543                  ;
+001184 0543                  ;
+001185 0543                  ; THE FOLLOWING FOUR ROUTINES ARE USER DEFINED
+001186 0543                  ; FOR THE CONSULE INPUT AND OUTPUT       
+001187 0543                          ;
+001188 0543                          ; SEND ASCII TO TERMINAL
+001189 0543                          ;
+001190 0543 84454D49D4               .DB H'84,"EMI",H'D4 ; EMIT
+001191 0548 0530                     .DW CEX - 5
+001192 054A 05C2             EMIT:   .DW NEST            ; OUTPUT CHAR TO
+001193 054C                                              ; TERMINAL AND INCREMENT
+001194 054C                                              ; "OUT"
+001195 054C 06DB                     .DW FOUT            ; GET ADDRESS OF OUT
+001196 054E 0552                     .DW CSEND
+001197 0550 0379                     .DW SEMIS
+001198 0552 0554             CSEND:  .DW * + 2
+001199 0554                  ; INCREMENT USER VARIABLE "OUT"
+001200 0554                  ; WHOSE ADDRESS IN ON THE COMPUTATION
+001201 0554                  ; STACK
+001202 0554 49                       LDA R9
+001203 0555 B8                       PHI R8
+001204 0556 09                       LDN R9
+001205 0557 A8                       PLO R8
+001206 0558 29                       DEC R9
+001207 0559 29                       DEC R9
+001208 055A 29                       DEC R9
+001209 055B 18                       INC R8
+001210 055C 08                       LDN R8
+001211 055D FC01                     ADI H'01
+001212 055F 58                       STR R8
+001213 0560 28                       DEC R8
+001214 0561 08                       LDN R8
+001215 0562 7C00                     ADCI H'00
+001216 0564 58                       STR R8
+001217 0565                  ; WAIT UNTIL UART FREE AND
+001218 0565                  ; SEND OUT CHARACTER WHICH IS ON
+001219 0565                  ; THE COMP.STACK
+001220 0565 E2               CSEND1: SEX R2
+001221 0566 6B                       INP R3              ; GET UART STATUS
+001222 0567 FE                       SHL                 ; GET THRE FLAG
+001223 0568 3B65                     BNF CSEND1
+001224 056A E9                       SEX R9
+001225 056B 19                       INC R9
+001226 056C 62                       OUT 2
+001227 056D 29                       DEC R9
+001228 056E 29                       DEC R9
+001229 056F 29                       DEC R9
+001230 0570 29                       DEC R9
+001231 0571 DC                       SEP RC
+001232 0572                  	;
+001233 0572                          ;
+001234 0572 834B45D9                 .DB H'83,"KE",H'D9  ; KEY   READ KEYBOARD
+001235 0576 0543                     .DW EMIT - 7
+001236 0578 057A             KEY:    .DW * + 2
+001237 057A E9                       SEX CSTACK
+001238 057B 60                       IRX
+001239 057C 60                       IRX
+001240 057D 60                       IRX
+001241 057E 6B               KEY1:   INP R3              ; GET DA BIT FROM
+001242 057F F6                       SHR					; UART STATUS BYTE
+001243 0580 3B7E                     BNF KEY1            ; WAIT 'TILL DATA AVAIL.
+001244 0582 6A                       INP 2               ; GET DATA
+001245 0583 FA7F                     ANI H'7F            ; STRIP PARITY BIT
+001246 0585 59                       STR CSTACK
+001247 0586 29                       DEC CSTACK
+001248 0587 F800                     LDI H'00
+001249 0589 59                       STR CSTACK
+001250 058A DC                       SEP RC
+001251 058B                          ;
+001252 058B                          ; TEST FOR BREAK
+001253 058B                          ;
+001254 058B 893F5445524D494E         .DB H'89,"?TERMINA",H'CC ; ?TERMINAL
+       0593 41CC            
+001255 0595 0572             	.DW KEY - 6
+001256 0597                  ; ASSUME THAT A FRAMING ERROR INDICATES
+001257 0597                  ; THAT THE BREAK KEY IS OR WAS PRESSED.
+001258 0597 0599             QTERM:  .DW * +2
+001259 0599 E9                       SEX CSTACK
+001260 059A 60                       IRX
+001261 059B 60                       IRX
+001262 059C 60                       IRX
+001263 059D 6B                       INP 3               ; GET NEW STATUS BYTE
+001264 059E FA08                     ANI H'08            ; FET FRAMING ERROR BIT
+001265 05A0 73                       STXD
+001266 05A1 6A                       INP 2               ; DO A DUMMY READ TO
+001267 05A2                  ; CLEAR THE DATA AVAILABLE SIGNAL
+001268 05A2 F800                     LDI H'00
+001269 05A4 59                       STR CSTACK
+001270 05A5 DC                       SEP RC
+001271 05A6                          ;
+001272 05A6                          ; SEND CR/LF TO TERMINAL
+001273 05A6                          ;
+001274 05A6 8243D2                   .DB H'82,H'43,H'D2  ; CR
+001275 05A9 058B                     .DW QTERM - 12
+001276 05AB 05AD             CR:     .DW * + 2
+001277 05AD E2                       SEX RSTACK
+001278 05AE 6B               CR1:    INP 3               ; GET THRE BIT
+001279 05AF FE                       SHL
+001280 05B0 3BAE                     BNF CR1
+001281 05B2 F80D                     LDI H'0D
+001282 05B4 52                       STR RSTACK
+001283 05B5 62                       OUT 2
+001284 05B6 22                       DEC RSTACK
+001285 05B7 6B               CR2:    INP 3
+001286 05B8 FE                       SHL
+001287 05B9 3BB7                     BNF CR2
+001288 05BB F80A                     LDI H'0A
+001289 05BD 52                       STR RSTACK
+001290 05BE 62                       OUT 2
+001291 05BF 22                       DEC RSTACK
+001292 05C0 E9                       SEX R9
+001293 05C1 DC                       SEP RC
+001294 05C2                          ;
+001295 05C2                          ;
+001296 05C2 9A               NEST:   GHI RA
+001297 05C3 52                       STR R2
+001298 05C4 22                       DEC R2
+001299 05C5 8A                       GLO RA
+001300 05C6 52                       STR R2
+001301 05C7 22                       DEC R2
+001302 05C8 9B                       GHI RB
+001303 05C9 BA                       PHI RA
+001304 05CA 8B                       GLO RB
+001305 05CB AA                       PLO RA
+001306 05CC DC                       SEP RC
+001307 05CD                          ;
+001308 05CD 19               VAR:    INC R9
+001309 05CE 19                       INC R9
+001310 05CF 9B                       GHI RB
+001311 05D0 59                       STR R9
+001312 05D1 19                       INC R9
+001313 05D2 8B                       GLO RB
+001314 05D3 59                       STR R9
+001315 05D4 29                       DEC R9
+001316 05D5 DC                       SEP RC
+001317 05D6                          ;
+001318 05D6 19               CONST:  INC R9
+001319 05D7 19                       INC R9
+001320 05D8 4B                       LDA RB
+001321 05D9 59                       STR R9
+001322 05DA 19                       INC R9
+001323 05DB 4B                       LDA RB
+001324 05DC 59                       STR R9
+001325 05DD 29                       DEC R9
+001326 05DE DC                       SEP RC
+001327 05DF                          ;
+001328 05DF 19               USER:   INC R9
+001329 05E0 19                       INC R9
+001330 05E1 E9                       SEX R9
+001331 05E2 4B                       LDA RB
+001332 05E3 59                       STR R9
+001333 05E4 19                       INC R9
+001334 05E5 4B                       LDA RB
+001335 05E6 59                       STR R9
+001336 05E7 8D                        GLO RD
+001337 05E8 F4                       ADD
+001338 05E9 73                       STXD
+001339 05EA 9D                       GHI RD
+001340 05EB 74                       ADC
+001341 05EC 59                       STR R9
+001342 05ED DC                       SEP RC
+001343 05EE                  ;
+001344 05EE                  ; FROM HERE ON THE SOURCE IS GENERALLY
+001345 05EE                  ; DEFINED WITH FORTH WORD ADDRESSES
+001346 05EE                  ;
+001347 05EE 81B0                     .DW H'81B0          ; 0
+001348 05F0 05A6                     .DW CR - 5
+001349 05F2 05D6             ZERO:   .DW CONST
+001350 05F4 0000                     .DW H'0000
+001351 05F6                          ;
+001352 05F6 81B1                     .DW H'81B1          ; 1
+001353 05F8 05EE                     .DW ZERO - 4
+001354 05FA 05D6             ONE:    .DW CONST
+001355 05FC 0001                     .DW H'0001
+001356 05FE                          ;
+001357 05FE 81B2                     .DW H'81B2          ; 2
+001358 0600 05F6                     .DW ONE - 4
+001359 0602 05D6             TWO:    .DW CONST
+001360 0604 0002                     .DW H'0002
+001361 0606                          ;
+001362 0606 8242CC                   .DB H'82,H'42,H'CC  ; BL
+001363 0609 05FE                     .DW TWO - 4         ; CONSTANT ASCII BLANK
+001364 060B 05D6             BL:     .DW CONST
+001365 060D 0020                     .DW H'0020
+001366 060F                          ;
+001367 060F 83432FCC                 .DB H'83,H'43,H'2F,H'CC ; C/L
+001368 0613                                                  ; CHARACTERS PER LINE
+001369 0613 0606                     .DW BL - 5
+001370 0615 05D6             CL:     .DW CONST
+001371 0617 0040                     .DW H'0040          ; 64 (DECIMAL)
+001372 0619                          ;
+001373 0619 8546495253D4             .DB H'85,"FIRS",H'D4 ; FIRST
+001374 061F 060F                     .DW CL - 6
+001375 0621 05D6             FIRST:  .DW CONST
+001376 0623 4000                     .DW FIRSTB
+001377 0625                          ;
+001378 0625 854C494D49D4             .DB H'85,"LIMI",H'D4 ; LIMIT
+001379 062B 0619                     .DW FIRST - 8
+001380 062D 05D6             LIMIT:  .DW CONST
+001381 062F 6C2C                     .DW LIMITB
+001382 0631                          ;
+001383 0631 85422F4255C6             .DB H'85,"B/BU",H'C6 ; B/BUF
+001384 0637                  	                       ; BYTES PER BUFFER
+001385 0637 0625                     .DW LIMIT - 8
+001386 0639 05D6             BBUF:   .DW CONST
+001387 063B 0400                     .DW H'0400          ; 1024 BYTES/BUFFER
+001388 063D                          ;
+001389 063D 85422F5343D2             .DB H'85,"B/SC",H'D2 ; B/SCR
+001390 0643                  	                       ; BUFFERS/SCREEN
+001391 0643 0631                     .DW BBUF - 8
+001392 0645 05D6             BSCR:   .DW CONST
+001393 0647 0001                     .DW H'0001
+001394 0649                          ;
+001395 0649 864F52494749CE           .DB H'86,"ORIGI",H'CE ; ORIGIN
+001396 0650 063D                     .DW BSCR - 8
+001397 0652 05D6             ORGN:   .DW CONST
+001398 0654 005E                     .DW H'005E
+001399 0656                          ;
+001400 0656 872B4F52494749CE         .DB H'87,"+ORIGI",H'CE ; +ORIGIN
+001401 065E                  
+001402 065E 0649                     .DW ORGN - 9
+001403 0660 05C2             PORGN:  .DW NEST
+001404 0662 0652                     .DW ORGN
+001405 0664 03F7                     .DW PLUS
+001406 0666 0379                     .DW SEMIS
+001407 0668                          ;
+001408 0668                          ; USER VARIABLES
+001409 0668                          ;
+001410 0668 8253B0                   .DB H'82,H'53,H'B0  ; S0
+001411 066B 0656                     .DW PORGN - 10
+001412 066D 05DF             SO:     .DW USER
+001413 066F 0006                     .DW H'0006
+001414 0671                          ;
+001415 0671 8252B0                   .DB H'82,H'52,H'B0  ; R0
+001416 0674 0668                     .DW SO - 5
+001417 0676 05DF             RO:     .DW USER
+001418 0678 0008                     .DW H'0008
+001419 067A                          ;
+001420 067A 835449C2                 .DB H'83,"TI",H'C2  ; TIB
+001421 067E 0671                     .DW RO - 5
+001422 0680 05DF             TIB:    .DW USER
+001423 0682 000A                     .DW H'000A
+001424 0684                          ;
+001425 0684 8557494454C8             .DB H'85,"WIDT",H'C8 ; WIDTH
+001426 068A 067A                     .DW TIB - 6
+001427 068C 05DF             WIDTH:  .DW USER
+001428 068E 000C                     .DW H'000C
+001429 0690                          ;
+001430 0690 875741524E494EC7         .DB H'87,"WARNIN",H'C7 ; WARNING
+001431 0698 0684             	.DW WIDTH - 8
+001432 069A 05DF             WRNG:   .DW USER
+001433 069C 000E                     .DW H'000E
+001434 069E                          ;
+001435 069E 8546454E43C5             .DB H'85,"FENC",H'C5 ; FENCE   FORGET BOUNDRY
+001436 06A4 0690                     .DW WRNG - 10
+001437 06A6 05DF             FNCE:   .DW USER
+001438 06A8 0010                     .DW H'0010
+001439 06AA                          ;
+001440 06AA 8244D0                   .DB H'82,H'44,H'D0  ; DP
+001441 06AD 069E                     .DW FNCE - 8
+001442 06AF 05DF             DP:     .DW USER
+001443 06B1 0012                     .DW H'0012
+001444 06B3                          ;
+001445 06B3 88564F432D4C494E         .DB H'88,"VOC-LIN",H'CB ; VOC-LINK
+       06BB CB              
+001446 06BC 06AA             	.DW DP - 5
+001447 06BE 05DF             VL:     .DW USER
+001448 06C0 0014                     .DW H'0014
+001449 06C2                          ;
+001450 06C2 83424CCB                 .DB H'83,H'42,H'4C,H'CB ; BLK
+001451 06C6 06B3                     .DW VL - 11
+001452 06C8 05DF             BLK:    .DW USER
+001453 06CA 0016                     .DW H'0016
+001454 06CC                          ;
+001455 06CC 8249CE                   .DB H'82,H'49,H'CE  ; IN
+001456 06CF 06C2                     .DW BLK - 6
+001457 06D1 05DF             FIN:    .DW USER
+001458 06D3 0018                     .DW H'0018
+001459 06D5                          ;
+001460 06D5 834F55D4                 .DB H'83,"OU",H'D4  ; OUT
+001461 06D9 06CC                     .DW FIN - 5
+001462 06DB 05DF             FOUT:   .DW USER
+001463 06DD 001A                     .DW H'001A
+001464 06DF                          ;
+001465 06DF 835343D2                 .DB H'83,"SC",H'D2  ; SCR
+001466 06E3 06D5                     .DW FOUT - 6
+001467 06E5 05DF             FSCR:   .DW USER
+001468 06E7 001C                     .DW H'001C
+001469 06E9                          ;
+001470 06E9 864F46465345D4           .DB H'86,"OFFSE",H'D4 ; OFFSET
+001471 06F0 06DF                     .DW FSCR - 6
+001472 06F2 05DF             OFST:   .DW USER
+001473 06F4 001E                     .DW H'001E
+001474 06F6                          ;
+001475 06F6 87434F4E544558D4         .DB H'87,"CONTEX",H'D4 ; CONTEXT
+001476 06FE 06E9             	.DW OFST - 9
+001477 0700 05DF             CNTX:   .DW USER
+001478 0702 0020                     .DW H'0020
+001479 0704                          ;
+001480 0704 8743555252454ED4         .DB H'87,"CURREN",H'D4 ; CURRENT
+001481 070C 06F6             	.DW CNTX - 10
+001482 070E 05DF             CRNT:   .DW USER
+001483 0710 0022                     .DW H'0022
+001484 0712                          ;
+001485 0712 8553544154C5             .DB H'85,"STAT",H'C5 ; STATE
+001486 0718 0704                     .DW CRNT - 10
+001487 071A 05DF             STT:    .DW USER
+001488 071C 0024                     .DW H'0024
+001489 071E                          ;
+001490 071E 84424153C5               .DB H'84,"BAS",H'C5 ; BASE
+001491 0723 0712                     .DW STT - 8
+001492 0725 05DF             BASE:   .DW USER
+001493 0727 0026                     .DW H'0026
+001494 0729                          ;
+001495 0729 834450CC                 .DB H'83,H'44,H'50,H'CC ; DPL
+001496 072D 071E                     .DW BASE - 7
+001497 072F 05DF             DPL:    .DW USER
+001498 0731 0028                     .DW H'0028
+001499 0733                          ;
+001500 0733 83464CC4                 .DB H'83,H'46,H'4C,H'C4 ; FLD
+001501 0737 0729                     .DW DPL - 6
+001502 0739 05DF             FLD:    .DW USER
+001503 073B 002A                     .DW H'002A
+001504 073D                          ;
+001505 073D 834353D0                 .DB H'83,H'43,H'53,H'D0 ; CSP
+001506 0741 0733                     .DW FLD - 6
+001507 0743 05DF             CSP:    .DW USER
+001508 0745 002C                     .DW H'002C
+001509 0747                          ;
+001510 0747 8252A3                   .DB H'82,H'52,H'A3  ; R#
+001511 074A 073D                     .DW CSP - 6
+001512 074C 05DF             RNU:    .DW USER
+001513 074E 002E                     .DW H'002E
+001514 0750                          ;
+001515 0750 83484CC4                 .DB H'83,H'48,H'4C,H'C4 ; HLD
+001516 0754 0747                     .DW RNU - 5
+001517 0756 05DF             HLD:    .DW USER
+001518 0758 0030                     .DW H'0030
+001519 075A 8244D6                   .DB H'82,H'44,H'D6  ; DV
+001520 075D 0750                     .DW HLD - 6         ; 3 BYTE VECTOR AREA
+001521 075F                  ; USED DURING DISK OPERATIONS
+001522 075F 05DF             DV:     .DW USER
+001523 0761 0032                     .DW H'0032
+001524 0763                          ;
+001525 0763                          ; END OF USER VARIABLES
+001526 0763                          ;
+001527 0763 8231AB                   .DB H'82,H'31,H'AB  ; 1+
+001528 0766 075A                     .DW DV - 5
+001529 0768 05C2             PLUS1:  .DW NEST
+001530 076A 05FA                     .DW ONE
+001531 076C 03F7                     .DW PLUS
+001532 076E 0379                     .DW SEMIS
+001533 0770                          ;
+001534 0770 8232AB                   .DB H'82,H'32,H'AB  ; 2+
+001535 0773 0763                     .DW PLUS1 - 5
+001536 0775 05C2             PLUS2:  .DW NEST
+001537 0777 0602                     .DW TWO
+001538 0779 03F7                     .DW PLUS
+001539 077B 0379                     .DW SEMIS
+001540 077D                          ;
+001541 077D 84484552C5               .DB H'84,"HER",H'C5 ; HERE
+001542 0782 0770                     .DW PLUS2 - 5
+001543 0784 05C2             HERE:   .DW NEST
+001544 0786 06AF                     .DW DP
+001545 0788 04FA                     .DW AT
+001546 078A 0379                     .DW SEMIS
+001547 078C                          ;
+001548 078C 85414C4C4FD4             .DB H'85,"ALLO",H'D4 ; ALLOT
+001549 0792 077D                     .DW HERE - 7
+001550 0794 05C2             ALLOT:  .DW NEST
+001551 0796 06AF                     .DW DP
+001552 0798 04C6                     .DW PLUSS
+001553 079A 0379                     .DW SEMIS
+001554 079C                          ;
+001555 079C 81AC                     .DW H'81AC          ; , (COMMA)
+001556 079E 078C                     .DW ALLOT - 8
+001557 07A0 05C2             COMMA:  .DW NEST
+001558 07A2 0784                     .DW HERE
+001559 07A4 051E                     .DW EX
+001560 07A6 0602                     .DW TWO
+001561 07A8 0794                     .DW ALLOT
+001562 07AA 0379                     .DW SEMIS
+001563 07AC                          ;
+001564 07AC 8243AC                   .DB H'82,H'43,H'AC  ; C,
+001565 07AF 079C                     .DW COMMA - 4
+001566 07B1 05C2             CCMA:   .DW NEST
+001567 07B3 0784                     .DW HERE
+001568 07B5 0535                     .DW CEX
+001569 07B7 05FA                     .DW ONE
+001570 07B9 0794                     .DW ALLOT
+001571 07BB 0379                     .DW SEMIS
+001572 07BD                          ;
+001573 07BD 81AD                     .DW H'81AD          ; - (MINUS SIGN)
+001574 07BF 07AC                     .DW CCMA - 5
+001575 07C1 05C2             MINS:   .DW NEST
+001576 07C3 0412                     .DW MINUS
+001577 07C5 03F7                     .DW PLUS
+001578 07C7 0379                     .DW SEMIS
+001579 07C9                          ;
+001580 07C9 81BD                     .DW H'81BD          ; = (EQUAL SIGN)
+001581 07CB 07BD                     .DW MINS - 4
+001582 07CD 05C2             EQL:    .DW NEST
+001583 07CF 07C1                     .DW MINS
+001584 07D1 03D2                     .DW ZEQAL
+001585 07D3 0379                     .DW SEMIS
+001586 07D5                          ;
+001587 07D5 81BC                     .DW H'81BC          ; < (LESS THAN SIGN)
+001588 07D7 07C9                     .DW EQL - 4
+001589 07D9 05C2             LESS:   .DW NEST
+001590 07DB 07C1                     .DW MINS
+001591 07DD 03EB                     .DW ZLESS
+001592 07DF 0379                     .DW SEMIS
+001593 07E1                          ;
+001594 07E1 81BE                     .DW H'81BE          ; > (GTR THAN SIGN)
+001595 07E3 07D5                     .DW LESS - 4
+001596 07E5 05C2             GTR:    .DW NEST
+001597 07E7 0499                     .DW SWAP
+001598 07E9 07D9                     .DW LESS
+001599 07EB 0379                     .DW SEMIS
+001600 07ED                          ;
+001601 07ED 83524FD4                 .DB H'83,H'52,H'4F,H'D4 ; ROT
+001602 07F1 07E1                     .DW GTR - 4
+001603 07F3 05C2             ROT:    .DW NEST
+001604 07F5 039D                     .DW GR
+001605 07F7 0499                     .DW SWAP
+001606 07F9 03AD                     .DW RG
+001607 07FB 0499                     .DW SWAP
+001608 07FD 0379                     .DW SEMIS
+001609 07FF                          ;
+001610 07FF 8553504143C5             .DB H'85,"SPAC",H'C5 ; SPACE
+001611 0805 07ED                     .DW ROT - 6
+001612 0807 05C2             SPC:    .DW NEST
+001613 0809 060B                     .DW BL
+001614 080B 054A                     .DW EMIT
+001615 080D 0379                     .DW SEMIS
+001616 080F                          ;
+001617 080F 842D4455D0               .DB H'84,"-DU",H'D0 ; -DUP
+001618 0814 07FF                     .DW SPC - 8
+001619 0816 05C2             MDUP:   .DW NEST
+001620 0818 04B6                     .DW DUP
+001621 081A 00D0                     .DW ZBRCH
+001622 081C 0820                     .DW * + 4
+001623 081E 04B6                     .DW DUP
+001624 0820 0379                     .DW SEMIS
+001625 0822                          ;
+001626 0822 8854524156455253         .DB H'88,"TRAVERS",H'C5 ; TRAVERSE
+       082A C5              
+001627 082B 080F             	.DW MDUP - 7
+001628 082D 05C2             TRVS:   .DW NEST
+001629 082F 0499                     .DW SWAP
+001630 0831 0473             TR1:    .DW OVER
+001631 0833 03F7                     .DW PLUS
+001632 0835 0086                     .DW LIT
+001633 0837 007F                     .DW H'007F
+001634 0839 0473                     .DW OVER
+001635 083B 050D                     .DW CAT
+001636 083D 07D9                     .DW LESS
+001637 083F 00D0                     .DW ZBRCH
+001638 0841 0831                     .DW TR1
+001639 0843 0499                     .DW SWAP
+001640 0845 048D                     .DW DROP
+001641 0847 0379                     .DW SEMIS
+001642 0849                          ;
+001643 0849                          ;
+001644 0849 864C41544553D4           .DB H'86,"LATES",H'D4 ; LATEST
+001645 0850 0822                     .DW TRVS - 11
+001646 0852 05C2             LTST:   .DW NEST
+001647 0854 070E                     .DW CRNT
+001648 0856 04FA                     .DW AT
+001649 0858 04FA                     .DW AT
+001650 085A 0379                     .DW SEMIS
+001651 085C                          ;
+001652 085C                          ;
+001653 085C 834C46C1                 .DB H'83,H'4C,H'46,H'C1 ; LFA
+001654 0860 0849                     .DW LTST - 9        ; LINK FIELD ADDRESS
+001655 0862 05C2             LFA:    .DW NEST
+001656 0864 0086                     .DW LIT
+001657 0866 0004                     .DW H'0004
+001658 0868 07C1                     .DW MINS
+001659 086A 0379                     .DW SEMIS
+001660 086C                          ;
+001661 086C 834346C1                 .DB H'83,H'43,H'46,H'C1 ; CFA
+001662 0870 085C                     .DW LFA - 6         ; CODE FIELD ADDRESS
+001663 0872 05C2             CFA:    .DW NEST
+001664 0874 0602                     .DW TWO
+001665 0876 07C1                     .DW MINS
+001666 0878 0379                     .DW SEMIS
+001667 087A                          ;
+001668 087A                          ;
+001669 087A 834E46C1                 .DB H'83,H'4E,H'46,H'C1 ; NFA
+001670 087E 086C                     .DW CFA - 6         ; NAME FIELD ADDRESS
+001671 0880 05C2             NFA:    .DW NEST
+001672 0882 0086                     .DW LIT
+001673 0884 0005                     .DW H'0005
+001674 0886 07C1                     .DW MINS
+001675 0888 0086                     .DW LIT
+001676 088A FFFF                     .DW H'FFFF
+001677 088C 082D                     .DW TRVS
+001678 088E 0379                     .DW SEMIS
+001679 0890                          ;
+001680 0890                          ;
+001681 0890 835046C1                 .DB H'83,H'50,H'46,H'C1 ; PFA
+001682 0894 087A                     .DW NFA - 6         ; PARAMETER FIELD ADDRESS
+001683 0896 05C2             PFA:    .DW NEST
+001684 0898 05FA                     .DW ONE
+001685 089A 082D                     .DW TRVS
+001686 089C 0086                     .DW LIT
+001687 089E 0005                     .DW H'0005
+001688 08A0 03F7                     .DW PLUS
+001689 08A2 0379                     .DW SEMIS
+001690 08A4                          ;
+001691 08A4                          ;
+001692 08A4 84214353D0               .DB H'84,H'21,H'43,H'53,H'D0 ; !CSP
+001693 08A9 0890                     .DW PFA - 6
+001694 08AB 05C2             DCSP:   .DW NEST
+001695 08AD 033D                     .DW FSPAT
+001696 08AF 0743                     .DW CSP
+001697 08B1 051E                     .DW EX
+001698 08B3 0379                     .DW SEMIS
+001699 08B5                          ;
+001700 08B5                          ;
+001701 08B5 863F4552524FD2           .DB H'86,"?ERRO",H'D2 ; ?ERROR
+001702 08BC 08A4                     .DW DCSP - 7
+001703 08BE 05C2             QERR:   .DW NEST
+001704 08C0 0499                     .DW SWAP
+001705 08C2 00D0                     .DW ZBRCH
+001706 08C4 08CC                     .DW * + 8
+001707 08C6 0CE5                     .DW ERROR
+001708 08C8 00BD                     .DW BRCH
+001709 08CA 08CE                     .DW * + 4
+001710 08CC 048D                     .DW DROP
+001711 08CE 0379                     .DW SEMIS
+001712 08D0                          ;
+001713 08D0                          ;
+001714 08D0 853F434F4DD0             .DB H'85,"?COM",H'D0 ; ?COMP
+001715 08D6 08B5                     .DW QERR - 9
+001716 08D8 05C2             QCMP:   .DW NEST
+001717 08DA 071A                     .DW STT
+001718 08DC 04FA                     .DW AT
+001719 08DE 03D2                     .DW ZEQAL
+001720 08E0 0086                     .DW LIT
+001721 08E2 0011                     .DW H'0011
+001722 08E4 08BE                     .DW QERR
+001723 08E6 0379                     .DW SEMIS
+001724 08E8                          ;
+001725 08E8                          ;
+001726 08E8 853F455845C3             .DB H'85,"?EXE",H'C3 ; ?EXEC
+001727 08EE 08D0                     .DW QCMP - 8
+001728 08F0 05C2             EXC:    .DW NEST
+001729 08F2 071A                     .DW STT
+001730 08F4 04FA                     .DW AT
+001731 08F6 0086                     .DW LIT
+001732 08F8 0012                     .DW H'0012
+001733 08FA 08BE                     .DW QERR
+001734 08FC 0379                     .DW SEMIS
+001735 08FE                          ;
+001736 08FE                          ;
+001737 08FE 863F50414952D3           .DB H'86,"?PAIR",H'D3 ; ?PAIRS
+001738 0905 08E8                     .DW EXC - 8
+001739 0907 05C2             QPR:    .DW NEST
+001740 0909 07C1                     .DW MINS
+001741 090B 0086                     .DW LIT
+001742 090D 0013                     .DW H'0013
+001743 090F 08BE                     .DW QERR
+001744 0911 0379                     .DW SEMIS
+001745 0913                          ;
+001746 0913                          ;
+001747 0913 843F4353D0               .DB H'84,H'3F,H'43,H'53,H'D0 ; ?CSP
+001748 0918 08FE                     .DW QPR - 9
+001749 091A 05C2             QCSP:   .DW NEST
+001750 091C 033D                     .DW FSPAT
+001751 091E 0743                     .DW CSP
+001752 0920 04FA                     .DW AT
+001753 0922 07C1                     .DW MINS
+001754 0924 0086                     .DW LIT
+001755 0926 0014                     .DW H'0014
+001756 0928 08BE                     .DW QERR
+001757 092A 0379                     .DW SEMIS
+001758 092C                          ;
+001759 092C                          ;
+001760 092C 883F4C4F4144494E         .DB H'88,"?LOADIN",H'C7 ; ?LOADING
+       0934 C7              
+001761 0935                  
+001762 0935 0913                     .DW QCSP - 7
+001763 0937 05C2             QLDG:   .DW NEST
+001764 0939 06C8                     .DW BLK
+001765 093B 04FA                     .DW AT
+001766 093D 03D2                     .DW ZEQAL
+001767 093F 0086                     .DW LIT
+001768 0941 0016                     .DW H'0016
+001769 0943 08BE                     .DW QERR
+001770 0945 0379                     .DW SEMIS
+001771 0947                          ;
+001772 0947                          ;
+001773 0947 87434F4D50494CC5         .DB H'87,"COMPIL",H'C5 ; COMPILE
+001774 094F 092C             	.DW QLDG - 11
+001775 0951 05C2             CMPL:   .DW NEST
+001776 0953 08D8                     .DW QCMP
+001777 0955 03AD                     .DW RG
+001778 0957 04B6                     .DW DUP
+001779 0959 0775                     .DW PLUS2
+001780 095B 039D                     .DW GR
+001781 095D 04FA                     .DW AT
+001782 095F 07A0                     .DW COMMA
+001783 0961 0379                     .DW SEMIS
+001784 0963                          ;
+001785 0963                  	;
+001786 0963 C1DB                     .DW H'C1DB          ; [   LEFT BRACKET
+001787 0965 0947                     .DW CMPL - 10
+001788 0967 05C2             LB:     .DW NEST
+001789 0969 05F2                     .DW ZERO
+001790 096B 071A                     .DW STT
+001791 096D 051E                     .DW EX
+001792 096F 0379                     .DW SEMIS
+001793 0971                          ;
+001794 0971                          ;
+001795 0971 81DD                     .DW H'81DD          ; ]   RIGHT BRACKET
+001796 0973 0963                     .DW LB - 4
+001797 0975 05C2             RBK:    .DW NEST
+001798 0977 0086                     .DW LIT
+001799 0979 00C0                     .DW H'00C0
+001800 097B 071A                     .DW STT
+001801 097D 051E                     .DW EX
+001802 097F 0379                     .DW SEMIS
+001803 0981                          ;
+001804 0981                          ;
+001805 0981 86534D554447C5           .DB H'86,"SMUDG",H'C5 ; SMUDGE
+001806 0988 0971                     .DW RBK - 4
+001807 098A 05C2             SMDG:   .DW NEST
+001808 098C 0852                     .DW LTST
+001809 098E 0086                     .DW LIT
+001810 0990 0020                     .DW H'0020
+001811 0992 04E3                     .DW TGLE
+001812 0994 0379                     .DW SEMIS
+001813 0996                          ;
+001814 0996                          ;
+001815 0996 834845D8                 .DB H'83,H'48,H'45,H'D8 ; HEX
+001816 099A 0981                     .DW SMDG - 9
+001817 099C 05C2             MHEX:   .DW NEST
+001818 099E 0086                     .DW LIT
+001819 09A0 0010                     .DW H'0010
+001820 09A2 0725                     .DW BASE
+001821 09A4 051E                     .DW EX
+001822 09A6 0379                     .DW SEMIS
+001823 09A8                          ;
+001824 09A8                          ;
+001825 09A8 87444543494D41CC         .DB H'87,"DECIMA",H'CC ; DECIMAL
+001826 09B0 0996                     .DW MHEX - 6
+001827 09B2 05C2             MDCML:  .DW NEST
+001828 09B4 0086                     .DW LIT
+001829 09B6 000A                     .DW H'000A
+001830 09B8 0725                     .DW BASE
+001831 09BA 051E                     .DW EX
+001832 09BC 0379                     .DW SEMIS
+001833 09BE                          ;
+001834 09BE                          ;
+001835 09BE 87283B434F4445A9         .DB H'87,"(;CODE",H'A9 ; (;CODE)
+001836 09C6 09A8                     .DW MDCML - 10
+001837 09C8 05C2             PCODE:  .DW NEST
+001838 09CA 03AD                     .DW RG
+001839 09CC 0852                     .DW LTST
+001840 09CE 0896                     .DW PFA
+001841 09D0 0872                     .DW CFA
+001842 09D2 051E                     .DW EX
+001843 09D4 0379                     .DW SEMIS
+001844 09D6                          ;
+001845 09D6                          ;
+001846 09D6 C53B434F44C5             .DB H'C5,";COD",H'C5 ; ;CODE (IMMEDIATE)
+001847 09DC 09BE                     .DW PCODE - 10
+001848 09DE 05C2             CODE:   .DW NEST
+001849 09E0 091A                     .DW QCSP
+001850 09E2 0951                     .DW CMPL
+001851 09E4 09C8                     .DW PCODE
+001852 09E6 0967                     .DW LB
+001853 09E8 098A                     .DW SMDG
+001854 09EA 0379                     .DW SEMIS
+001855 09EC                          ;
+001856 09EC                          ;
+001857 09EC 85434F554ED4             .DB H'85,"COUN",H'D4 ; COUNT
+001858 09F2 09D6                     .DW CODE - 8
+001859 09F4 05C2             CNT:    .DW NEST
+001860 09F6 04B6                     .DW DUP
+001861 09F8 0768                     .DW PLUS1
+001862 09FA 0499                     .DW SWAP
+001863 09FC 050D                     .DW CAT
+001864 09FE 0379                     .DW SEMIS
+001865 0A00                          ;
+001866 0A00                          ;
+001867 0A00 84545950C5               .DB H'84,"TYP",H'C5 ; TYPE
+001868 0A05 09EC                     .DW CNT - 8
+001869 0A07 05C2             TYPE:   .DW NEST
+001870 0A09 0816                     .DW MDUP
+001871 0A0B 00D0                     .DW ZBRCH
+001872 0A0D 0A25                     .DW * + 24
+001873 0A0F 0473                     .DW OVER
+001874 0A11 03F7                     .DW PLUS
+001875 0A13 0499                     .DW SWAP
+001876 0A15 0150                     .DW PDO
+001877 0A17 03BD             TYP1:   .DW R
+001878 0A19 050D                     .DW CAT
+001879 0A1B 054A                     .DW EMIT
+001880 0A1D 00EC                     .DW LUPE
+001881 0A1F 0A17                     .DW TYP1
+001882 0A21 00BD                     .DW BRCH
+001883 0A23 0A27                     .DW * + 4
+001884 0A25 048D                     .DW DROP
+001885 0A27 0379                     .DW SEMIS
+001886 0A29                          ;
+001887 0A29                          ;
+001888 0A29 892D545241494C49         .DB H'89,"-TRAILIN",H'C7 ; -TRAILING
+       0A31 4EC7            
+001889 0A33 0A00                     .DW TYPE - 7
+001890 0A35 05C2             TRLG:   .DW NEST
+001891 0A37 04B6                     .DW DUP
+001892 0A39 05F2                     .DW ZERO
+001893 0A3B 0150                     .DW PDO
+001894 0A3D 0473             TRL1:   .DW OVER
+001895 0A3F 0473                     .DW OVER
+001896 0A41 03F7                     .DW PLUS
+001897 0A43 05FA                     .DW ONE
+001898 0A45 07C1                     .DW MINS
+001899 0A47 050D                     .DW CAT
+001900 0A49 060B                     .DW BL
+001901 0A4B 07C1                     .DW MINS
+001902 0A4D 00D0                     .DW ZBRCH
+001903 0A4F 0A57                     .DW * + 8
+001904 0A51 0389                     .DW LVE
+001905 0A53 00BD                     .DW BRCH
+001906 0A55 0A5B                     .DW * + 6
+001907 0A57 05FA                     .DW ONE        
+001908 0A59 07C1                     .DW MINS
+001909 0A5B 00EC                     .DW LUPE
+001910 0A5D 0A3D                     .DW TRL1
+001911 0A5F 0379                     .DW SEMIS
+001912 0A61                          ;
+001913 0A61                          ;
+001914 0A61 84282E22A9               .DB H'84,H'28,H'2E,H'22,H'A9 ; (.")
+001915 0A66 0A29                     .DW TRLG - 12
+001916 0A68 05C2             PDQ:    .DW NEST
+001917 0A6A 03BD                     .DW R
+001918 0A6C 09F4                     .DW CNT
+001919 0A6E 04B6                     .DW DUP
+001920 0A70 0768                     .DW PLUS1
+001921 0A72 03AD                     .DW RG
+001922 0A74 03F7                     .DW PLUS
+001923 0A76 039D                     .DW GR
+001924 0A78 0A07                     .DW TYPE
+001925 0A7A 0379                     .DW SEMIS
+001926 0A7C                          ;
+001927 0A7C                          ;
+001928 0A7C 864558504543D4           .DB H'86,"EXPEC",H'D4 ; EXPECT
+001929 0A83 0A61                     .DW PDQ - 7
+001930 0A85 05C2             EXPT:   .DW NEST
+001931 0A87 0473                     .DW OVER
+001932 0A89 03F7                     .DW PLUS
+001933 0A8B 0473                     .DW OVER
+001934 0A8D 0150                     .DW PDO
+001935 0A8F 0578             EXPT4:  .DW KEY
+001936 0A91 04B6                     .DW DUP
+001937 0A93 0086                     .DW LIT
+001938 0A95 000E                     .DW H'000E
+001939 0A97 0660                     .DW PORGN
+001940 0A99 04FA                     .DW AT
+001941 0A9B 07CD                     .DW EQL
+001942 0A9D 00D0                     .DW ZBRCH
+001943 0A9F 0ABF                     .DW EXPT1
+001944 0AA1 048D                     .DW DROP
+001945 0AA3 0086                     .DW LIT
+001946 0AA5 0008                     .DW H'0008
+001947 0AA7 0473                     .DW OVER
+001948 0AA9 03BD                     .DW R
+001949 0AAB 07CD                     .DW EQL
+001950 0AAD 04B6                     .DW DUP
+001951 0AAF 03AD                     .DW RG
+001952 0AB1 0602                     .DW TWO
+001953 0AB3 07C1                     .DW MINS
+001954 0AB5 03F7                     .DW PLUS
+001955 0AB7 039D                     .DW GR
+001956 0AB9 07C1                     .DW MINS
+001957 0ABB 00BD                     .DW BRCH
+001958 0ABD 0AE5                     .DW EXPT2
+001959 0ABF 04B6             EXPT1:  .DW DUP
+001960 0AC1 0086                     .DW LIT
+001961 0AC3 000D                     .DW H'000D
+001962 0AC5 07CD                     .DW EQL
+001963 0AC7 00D0                     .DW ZBRCH
+001964 0AC9 0AD7                     .DW EXPT3
+001965 0ACB 0389                     .DW LVE
+001966 0ACD 048D                     .DW DROP
+001967 0ACF 060B                     .DW BL
+001968 0AD1 05F2                     .DW ZERO
+001969 0AD3 00BD                     .DW BRCH
+001970 0AD5 0AD9                     .DW EXPT5
+001971 0AD7 04B6             EXPT3:  .DW DUP
+001972 0AD9 03BD             EXPT5:  .DW R
+001973 0ADB 0535                     .DW CEX
+001974 0ADD 05F2                     .DW ZERO
+001975 0ADF 03BD                     .DW R
+001976 0AE1 0768                     .DW PLUS1
+001977 0AE3 051E                     .DW EX
+001978 0AE5 054A             EXPT2:  .DW EMIT
+001979 0AE7 00EC                     .DW LUPE
+001980 0AE9 0A8F                     .DW EXPT4
+001981 0AEB 048D                     .DW DROP
+001982 0AED 0379                     .DW SEMIS
+001983 0AEF                          ;
+001984 0AEF                          ;
+001985 0AEF 8551554552D9             .DB H'85,"QUER",H'D9 ; QUERY
+001986 0AF5 0A7C                     .DW EXPT - 9         ; INPUT LINE OF TEXT
+001987 0AF7 05C2             QUER:   .DW NEST
+001988 0AF9 0680                     .DW TIB
+001989 0AFB 04FA                     .DW AT
+001990 0AFD 0086                     .DW LIT
+001991 0AFF 0050                     .DW H'0050
+001992 0B01 0A85                     .DW EXPT
+001993 0B03 05F2                     .DW ZERO
+001994 0B05 06D1                     .DW FIN
+001995 0B07 051E                     .DW EX
+001996 0B09 0379                     .DW SEMIS
+001997 0B0B                          ;
+001998 0B0B                           ;
+001999 0B0B C180                     .DW H'C180           ; X   (IMMEDIATE)
+002000 0B0D 0AEF                     .DW QUER - 8
+002001 0B0F 05C2             X:      .DW NEST
+002002 0B11 06C8                     .DW BLK
+002003 0B13 04FA                     .DW AT
+002004 0B15 00D0                     .DW ZBRCH
+002005 0B17 0B3F                     .DW X2
+002006 0B19 05FA                     .DW ONE
+002007 0B1B 06C8                     .DW BLK
+002008 0B1D 04C6                     .DW PLUSS
+002009 0B1F 05F2                     .DW ZERO
+002010 0B21 06D1                     .DW FIN
+002011 0B23 051E                     .DW EX
+002012 0B25 06C8                     .DW BLK
+002013 0B27 04FA                     .DW AT
+002014 0B29 0086                     .DW LIT
+002015 0B2B 0007                     .DW H'0007
+002016 0B2D 02F3                     .DW FAND
+002017 0B2F 03D2                     .DW ZEQAL
+002018 0B31 00D0                     .DW ZBRCH
+002019 0B33 0B3B                     .DW X1
+002020 0B35 08F0                     .DW EXC
+002021 0B37 03AD                     .DW RG
+002022 0B39 048D                     .DW DROP
+002023 0B3B 00BD             X1:     .DW BRCH
+002024 0B3D 0B43                     .DW XEND
+002025 0B3F 03AD             X2:     .DW RG
+002026 0B41 048D                     .DW DROP
+002027 0B43 0379             XEND:   .DW SEMIS
+002028 0B45                          ;
+002029 0B45                          ;
+002030 0B45 8446494CCC               .DB H'84,"FIL",H'CC ; FILL   FILL MEMORY
+002031 0B4A 0B0B                     .DW X - 4
+002032 0B4C 05C2             FILL:   .DW NEST
+002033 0B4E 0499                     .DW SWAP
+002034 0B50 039D                     .DW GR
+002035 0B52 0473                     .DW OVER
+002036 0B54 0535                     .DW CEX
+002037 0B56 04B6                     .DW DUP
+002038 0B58 0768                     .DW PLUS1
+002039 0B5A 03AD                     .DW RG
+002040 0B5C 05FA                     .DW ONE
+002041 0B5E 07C1                     .DW MINS
+002042 0B60 0246                     .DW CMOVE
+002043 0B62 0379                     .DW SEMIS
+002044 0B64                          ;
+002045 0B64                          ;
+002046 0B64 8545524153C5             .DB H'85,"ERAS",H'C5 ; ERASE   ZERO MEMORY
+002047 0B6A 0B45                     .DW FILL - 7
+002048 0B6C 05C2             ERS:    .DW NEST
+002049 0B6E 05F2                     .DW ZERO
+002050 0B70 0B4C                     .DW FILL
+002051 0B72 0379                     .DW SEMIS
+002052 0B74                          ;
+002053 0B74                          ;
+002054 0B74 86424C414E4BD3           .DB H'86,"BLANK",H'D3 ; BLANKS
+002055 0B7B 0B64                     .DW ERS - 8           ; FILL MEMORY WITH
+002056 0B7D 05C2             BLNK:   .DW NEST              ; ASCII BLANKS
+002057 0B7F 060B                     .DW BL
+002058 0B81 0B4C                     .DW FILL
+002059 0B83 0379                     .DW SEMIS
+002060 0B85                          ;
+002061 0B85                          ;
+002062 0B85 84484F4CC4               .DB H'84,"HOL",H'C4 ; HOLD
+002063 0B8A 0B74                     .DW BLNK - 9
+002064 0B8C 05C2             HOLD:   .DW NEST
+002065 0B8E 0086                     .DW LIT
+002066 0B90 FFFF                     .DW H'FFFF          ; -1
+002067 0B92 0756                     .DW HLD
+002068 0B94 04C6                     .DW PLUSS
+002069 0B96 0756                     .DW HLD
+002070 0B98 04FA                     .DW AT
+002071 0B9A 0535                     .DW CEX
+002072 0B9C 0379                     .DW SEMIS
+002073 0B9E                          ;
+002074 0B9E                          ;
+002075 0B9E 835041C4                 .DB H'83,"PA",H'C4  ; PAD
+002076 0BA2 0B85                     .DW HOLD - 7
+002077 0BA4 05C2             PAD:    .DW NEST
+002078 0BA6 0784                     .DW HERE
+002079 0BA8 0086                     .DW LIT
+002080 0BAA 0044                     .DW H'0044
+002081 0BAC 03F7                     .DW PLUS
+002082 0BAE 0379                     .DW SEMIS
+002083 0BB0                          ;
+002084 0BB0                          ;
+002085 0BB0 84574F52C4               .DB H'84,"WOR",H'C4 ; WORD
+002086 0BB5 0B9E                     .DW PAD - 6
+002087 0BB7 05C2             WORD:   .DW NEST
+002088 0BB9 06C8                     .DW BLK
+002089 0BBB 04FA                     .DW AT
+002090 0BBD 00D0                     .DW ZBRCH
+002091 0BBF 0BCB                     .DW WD1
+002092 0BC1 06C8                     .DW BLK
+002093 0BC3 04FA                     .DW AT
+002094 0BC5 160A                     .DW BLOCK
+002095 0BC7 00BD                     .DW BRCH
+002096 0BC9 0BCF                     .DW WD2
+002097 0BCB 0680             WD1:    .DW TIB
+002098 0BCD 04FA                     .DW AT
+002099 0BCF 06D1             WD2:    .DW FIN
+002100 0BD1 04FA                     .DW AT
+002101 0BD3 03F7                     .DW PLUS
+002102 0BD5 0499                     .DW SWAP
+002103 0BD7 01FE                     .DW ENCL
+002104 0BD9 0784                     .DW HERE
+002105 0BDB 0086                     .DW LIT
+002106 0BDD 0022                     .DW H'0022
+002107 0BDF 0B7D                     .DW BLNK
+002108 0BE1 06D1                     .DW FIN
+002109 0BE3 04C6                     .DW PLUSS
+002110 0BE5 0473                     .DW OVER
+002111 0BE7 07C1                     .DW MINS
+002112 0BE9 039D                     .DW GR
+002113 0BEB 03BD                     .DW R
+002114 0BED 0784                     .DW HERE
+002115 0BEF 0535                     .DW CEX
+002116 0BF1 03F7                     .DW PLUS
+002117 0BF3 0784                     .DW HERE
+002118 0BF5 0768                     .DW PLUS1
+002119 0BF7 03AD                     .DW RG
+002120 0BF9 0246                     .DW CMOVE
+002121 0BFB 0379                     .DW SEMIS
+002122 0BFD                          ;
+002123 0BFD                          ;
+002124 0BFD 88284E554D424552         .DB H'88,"(NUMBER",H'A9 ; (NUMBER)
+       0C05 A9              
+002125 0C06 0BB0                     .DW WORD - 7
+002126 0C08 05C2             PNMBR:  .DW NEST
+002127 0C0A 0768                     .DW PLUS1
+002128 0C0C 04B6                     .DW DUP
+002129 0C0E 039D                     .DW GR
+002130 0C10 050D                     .DW CAT
+002131 0C12 0725                     .DW BASE
+002132 0C14 04FA                     .DW AT
+002133 0C16 016B                     .DW DGT
+002134 0C18 00D0                     .DW ZBRCH
+002135 0C1A 0C46                     .DW PNM2
+002136 0C1C 0499                     .DW SWAP
+002137 0C1E 0725                     .DW BASE
+002138 0C20 04FA                     .DW AT
+002139 0C22 0278                     .DW USTAR
+002140 0C24 048D                     .DW DROP
+002141 0C26 07F3                     .DW ROT
+002142 0C28 0725                     .DW BASE
+002143 0C2A 04FA                     .DW AT
+002144 0C2C 0278                     .DW USTAR
+002145 0C2E 042A                     .DW DPLUS
+002146 0C30 072F                     .DW DPL
+002147 0C32 04FA                     .DW AT
+002148 0C34 0768                     .DW PLUS1
+002149 0C36 00D0                     .DW ZBRCH
+002150 0C38 0C40                     .DW PNM1
+002151 0C3A 05FA                     .DW ONE
+002152 0C3C 072F                     .DW DPL
+002153 0C3E 04C6                     .DW PLUSS
+002154 0C40 03AD             PNM1:   .DW RG
+002155 0C42 00BD                     .DW BRCH
+002156 0C44 0C0A                     .DW PNMBR + 2
+002157 0C46 03AD             PNM2:   .DW RG
+002158 0C48 0379                     .DW SEMIS
+002159 0C4A                          ;
+002160 0C4A                          ;
+002161 0C4A                          ;
+002162 0C4A 864E554D4245D2           .DB H'86,"NUMBE",H'D2 ; NUMBER
+002163 0C51 0BFD                     .DW PNMBR - 11
+002164 0C53 05C2             NMBR:   .DW NEST
+002165 0C55 05F2                     .DW ZERO
+002166 0C57 05F2                     .DW ZERO
+002167 0C59 07F3                     .DW ROT
+002168 0C5B 04B6                     .DW DUP
+002169 0C5D 0768                     .DW PLUS1
+002170 0C5F 050D                     .DW CAT
+002171 0C61 0086                     .DW LIT
+002172 0C63 002D                     .DW H'002D
+002173 0C65 07CD                     .DW EQL
+002174 0C67 04B6                     .DW DUP
+002175 0C69 039D                     .DW GR
+002176 0C6B 03F7                     .DW PLUS
+002177 0C6D 0086                     .DW LIT
+002178 0C6F FFFF                     .DW H'FFFF          ; -1
+002179 0C71 072F             NMB1:   .DW DPL
+002180 0C73 051E                     .DW EX
+002181 0C75 0C08                     .DW PNMBR
+002182 0C77 04B6                     .DW DUP
+002183 0C79 050D                     .DW CAT
+002184 0C7B 060B                     .DW BL
+002185 0C7D 07C1                     .DW MINS
+002186 0C7F 00D0                     .DW ZBRCH
+002187 0C81 0C97                     .DW NMB2
+002188 0C83 04B6                     .DW DUP
+002189 0C85 050D                     .DW CAT
+002190 0C87 0086                     .DW LIT
+002191 0C89 002E                     .DW H'002E
+002192 0C8B 07C1                     .DW MINS
+002193 0C8D 05F2                     .DW ZERO
+002194 0C8F 08BE                     .DW QERR
+002195 0C91 05F2                     .DW ZERO
+002196 0C93 00BD                     .DW BRCH
+002197 0C95 0C71                     .DW NMB1
+002198 0C97 048D             NMB2:   .DW DROP
+002199 0C99 03AD                     .DW RG
+002200 0C9B 00D0                     .DW ZBRCH
+002201 0C9D 0CA1                     .DW NMB3
+002202 0C9F 0458                     .DW DMIN
+002203 0CA1 0379             NMB3:   .DW SEMIS
+002204 0CA3                          ;
+002205 0CA3                          ;
+002206 0CA3 852D46494EC4             .DB H'85,"-FIN",H'C4 ; -FIND
+002207 0CA9 0C4A                     .DW NMBR - 9
+002208 0CAB 05C2             MFIND:  .DW NEST
+002209 0CAD 060B                     .DW BL
+002210 0CAF 0BB7                     .DW WORD
+002211 0CB1 0784                     .DW HERE
+002212 0CB3 0700                     .DW CNTX
+002213 0CB5 04FA                     .DW AT
+002214 0CB7 04FA                     .DW AT
+002215 0CB9 0196                     .DW FIND
+002216 0CBB 04B6                     .DW DUP
+002217 0CBD 03D2                     .DW ZEQAL
+002218 0CBF 00D0                     .DW ZBRCH
+002219 0CC1 0CCB                     .DW MF1
+002220 0CC3 048D                     .DW DROP
+002221 0CC5 0784                     .DW HERE
+002222 0CC7 0852                     .DW LTST
+002223 0CC9 0196                     .DW FIND
+002224 0CCB 0379             MF1:    .DW SEMIS
+002225 0CCD                          ;
+002226 0CCD                          ;
+002227 0CCD 872841424F5254A9         .DB H'87,"(ABORT",H'A9 ; (ABORT)
+002228 0CD5 0CA3                     .DW MFIND - 8
+002229 0CD7 05C2             PABRT:  .DW NEST
+002230 0CD9 0FBE                     .DW ABORT
+002231 0CDB 0379                     .DW SEMIS
+002232 0CDD                          ;
+002233 0CDD 854552524FD2             .DB H'85,"ERRO",H'D2 ; ERROR
+002234 0CE3 0CCD                     .DW PABRT - 10
+002235 0CE5 05C2             ERROR:  .DW NEST
+002236 0CE7 069A                     .DW WRNG
+002237 0CE9 04FA                     .DW AT
+002238 0CEB 03EB                     .DW ZLESS
+002239 0CED 00D0                     .DW ZBRCH
+002240 0CEF 0CF3                     .DW ERR1
+002241 0CF1 0CD7                     .DW PABRT
+002242 0CF3 0784             ERR1:   .DW HERE
+002243 0CF5 09F4                     .DW CNT
+002244 0CF7 0A07                     .DW TYPE
+002245 0CF9 0A68                     .DW PDQ
+002246 0CFB 0320203F                 .DB H'03,"  ?"
+002247 0CFF 148C                     .DW MSG
+002248 0D01 0350                     .DW SP1
+002249 0D03 06D1                     .DW FIN
+002250 0D05 04FA                     .DW AT
+002251 0D07 06C8                     .DW BLK
+002252 0D09 04FA                     .DW AT
+002253 0D0B 0F8D                     .DW QUIT
+002254 0D0D 0379                     .DW SEMIS
+002255 0D0F                          ;
+002256 0D0F 834D49CE                 .DB H'83,"MI",H'CE  ; MIN
+002257 0D13 0CDD                     .DW ERROR - 8
+002258 0D15 05C2             MIN:    .DW NEST
+002259 0D17 0473                     .DW OVER
+002260 0D19 0473                     .DW OVER
+002261 0D1B 07E5                     .DW GTR
+002262 0D1D 00D0                     .DW ZBRCH
+002263 0D1F 0D23                     .DW MN1
+002264 0D21 0499                     .DW SWAP
+002265 0D23 048D             MN1:    .DW DROP
+002266 0D25 0379                     .DW SEMIS
+002267 0D27                          ;
+002268 0D27 834944AE                 .DB H'83,"ID",H'AE  ; ID.
+002269 0D2B 0D0F                     .DW MIN - 6
+002270 0D2D 05C2             ID:     .DW NEST
+002271 0D2F 0BA4                     .DW PAD
+002272 0D31 0086                     .DW LIT
+002273 0D33 0020                     .DW H'0020
+002274 0D35 0086                     .DW LIT
+002275 0D37 005F                     .DW H'005F
+002276 0D39 0B4C                     .DW FILL
+002277 0D3B 04B6                     .DW DUP
+002278 0D3D 0896                     .DW PFA
+002279 0D3F 0862                     .DW LFA
+002280 0D41 0473                     .DW OVER
+002281 0D43 07C1                     .DW MINS
+002282 0D45 0BA4                     .DW PAD
+002283 0D47 0499                     .DW SWAP
+002284 0D49 0246                     .DW CMOVE
+002285 0D4B 0BA4                     .DW PAD
+002286 0D4D 09F4                     .DW CNT
+002287 0D4F 0086                     .DW LIT
+002288 0D51 001F                     .DW H'001F
+002289 0D53 02F3                     .DW FAND
+002290 0D55 0A07                     .DW TYPE
+002291 0D57 0807                     .DW SPC
+002292 0D59 0379                     .DW SEMIS
+002293 0D5B                          ;
+002294 0D5B                          ;
+002295 0D5B 864352454154C5           .DB H'86,"CREAT",H'C5 ; CREATE
+002296 0D62 0D27                     .DW ID - 6
+002297 0D64 05C2             CRTE:   .DW NEST
+002298 0D66 033D                     .DW FSPAT
+002299 0D68 0784                     .DW HERE
+002300 0D6A 0086                     .DW LIT
+002301 0D6C 00A0                     .DW H'00A0
+002302 0D6E 03F7                     .DW PLUS
+002303 0D70 07D9                     .DW LESS
+002304 0D72 0602                     .DW TWO
+002305 0D74 08BE                     .DW QERR
+002306 0D76 0CAB                     .DW MFIND
+002307 0D78 00D0                     .DW ZBRCH
+002308 0D7A 0D8A                     .DW CRT1
+002309 0D7C 048D                     .DW DROP
+002310 0D7E 0880                     .DW NFA
+002311 0D80 0D2D                     .DW ID
+002312 0D82 0086                     .DW LIT
+002313 0D84 0004                     .DW H'0004
+002314 0D86 148C                     .DW MSG
+002315 0D88 0807                     .DW SPC
+002316 0D8A 0784             CRT1:   .DW HERE
+002317 0D8C 04B6                     .DW DUP
+002318 0D8E 050D                     .DW CAT
+002319 0D90 068C                     .DW WIDTH
+002320 0D92 04FA                     .DW AT
+002321 0D94 0D15                     .DW MIN
+002322 0D96 0768                     .DW PLUS1
+002323 0D98 0794                     .DW ALLOT
+002324 0D9A 04B6                     .DW DUP
+002325 0D9C 0086                     .DW LIT
+002326 0D9E 00A0                     .DW H'00A0
+002327 0DA0 04E3                     .DW TGLE
+002328 0DA2 0784                     .DW HERE
+002329 0DA4 05FA                     .DW ONE
+002330 0DA6 07C1                     .DW MINS
+002331 0DA8 0086                     .DW LIT
+002332 0DAA 0080                     .DW H'0080
+002333 0DAC 04E3                     .DW TGLE
+002334 0DAE 0852                     .DW LTST
+002335 0DB0 07A0                     .DW COMMA
+002336 0DB2 070E                     .DW CRNT
+002337 0DB4 04FA                     .DW AT
+002338 0DB6 051E                     .DW EX
+002339 0DB8 0784                     .DW HERE
+002340 0DBA 0775                     .DW PLUS2
+002341 0DBC 07A0                     .DW COMMA
+002342 0DBE 0379                     .DW SEMIS
+002343 0DC0                          ;
+002344 0DC0                          ;
+002345 0DC0 C1BA                     .DW H'C1BA          ; :   (IMMEDIATE)
+002346 0DC2 0D5B                     .DW CRTE - 9
+002347 0DC4 05C2             COLON:  .DW NEST
+002348 0DC6 08F0                     .DW EXC
+002349 0DC8 08AB                     .DW DCSP
+002350 0DCA 070E                     .DW CRNT
+002351 0DCC 04FA                     .DW AT
+002352 0DCE 0700                     .DW CNTX
+002353 0DD0 051E                     .DW EX
+002354 0DD2 0D64                     .DW CRTE
+002355 0DD4 0975                     .DW RBK
+002356 0DD6 0086                     .DW LIT
+002357 0DD8 FFFE                     .DW H'FFFE          ; -2
+002358 0DDA 06AF                     .DW DP
+002359 0DDC 04C6                     .DW PLUSS
+002360 0DDE 0951                     .DW CMPL
+002361 0DE0 05C2                     .DW NEST
+002362 0DE2 0379                     .DW SEMIS
+002363 0DE4                          ;
+002364 0DE4                          ;
+002365 0DE4 8521434F44C5             .DB H'85,"!COD",H'C5 ; !CODE
+002366 0DEA 0DC0                     .DW COLON - 4
+002367 0DEC 05C2             DCODE:  .DW NEST
+002368 0DEE 0D64                     .DW CRTE
+002369 0DF0 098A                     .DW SMDG
+002370 0DF2 0852                     .DW LTST
+002371 0DF4 0896                     .DW PFA
+002372 0DF6 0872                     .DW CFA
+002373 0DF8 051E                     .DW EX
+002374 0DFA 07A0                     .DW COMMA
+002375 0DFC 0379                     .DW SEMIS
+002376 0DFE                          ;
+002377 0DFE                          ;
+002378 0DFE 88434F4E5354414E         .DB H'88,"CONSTAN",H'D4 ; CONSTANT
+       0E06 D4              
+002379 0E07 0DE4                     .DW DCODE - 8
+002380 0E09 05C2             CNST:   .DW NEST
+002381 0E0B 0086                     .DW LIT
+002382 0E0D 05D6                     .DW CONST
+002383 0E0F 0DEC                     .DW DCODE
+002384 0E11 0379                     .DW SEMIS
+002385 0E13                          ;
+002386 0E13                          ;
+002387 0E13 885641524941424C         .DB H'88,"VARIABL",H'C5 ; VARIABLE
+       0E1B C5              
+002388 0E1C 0DFE                     .DW CNST - 11
+002389 0E1E 05C2             VARB:   .DW NEST
+002390 0E20 0086                     .DW LIT
+002391 0E22 05CD                     .DW VAR
+002392 0E24 0DEC                     .DW DCODE
+002393 0E26 0379                     .DW SEMIS
+002394 0E28                          ;
+002395 0E28                          ;
+002396 0E28 84555345D2               .DB H'84,"USE",H'D2 ; USER
+002397 0E2D 0E13                     .DW VARB - 11
+002398 0E2F 05C2             USR:    .DW NEST
+002399 0E31 0086                     .DW LIT
+002400 0E33 05DF                     .DW USER
+002401 0E35 0DEC                     .DW DCODE
+002402 0E37 0379                     .DW SEMIS
+002403 0E39                          ;
+002404 0E39                          ;
+002405 0E39 873C4255494C44D3         .DB H'87,"<BUILD",H'D3 ; <BUILDS
+002406 0E41 0E28                     .DW USR - 7
+002407 0E43 05C2             LBLD:   .DW NEST
+002408 0E45 05F2                     .DW ZERO
+002409 0E47 0E09                     .DW CNST
+002410 0E49 0379                     .DW SEMIS
+002411 0E4B                          ;
+002412 0E4B                          ;
+002413 0E4B 85444F4553BE             .DB H'85,"DOES",H'BE ; DOES>
+002414 0E51 0E39                     .DW LBLD - 10
+002415 0E53 05C2             DOSEG:  .DW NEST
+002416 0E55 03AD                     .DW RG
+002417 0E57 0852                     .DW LTST
+002418 0E59 0896                     .DW PFA
+002419 0E5B 051E                     .DW EX
+002420 0E5D 09C8                     .DW PCODE
+002421 0E5F E2               DUZ1:   SEX R2
+002422 0E60 9A                       GHI RA
+002423 0E61 73                       STXD
+002424 0E62 8A                       GLO RA
+002425 0E63 73                       STXD
+002426 0E64 4B                       LDA RB
+002427 0E65 BA                       PHI RA
+002428 0E66 4B                       LDA RB
+002429 0E67 AA                       PLO RA
+002430 0E68 19                       INC R9
+002431 0E69 19                       INC R9
+002432 0E6A 9B                       GHI RB
+002433 0E6B 59                       STR R9
+002434 0E6C 19                       INC R9
+002435 0E6D 8B                       GLO RB
+002436 0E6E 59                       STR R9
+002437 0E6F 29                       DEC R9
+002438 0E70 DC                       SEP RC
+002439 0E71                          ;
+002440 0E71                          ;
+002441 0E71 C74C4954455241CC         .DB H'C7,"LITERA",H'CC ; LITERAL (IMMEDIATE)
+002442 0E79 0E4B                     .DW DOSEG - 8
+002443 0E7B 05C2             LTL:    .DW NEST
+002444 0E7D 071A                     .DW STT
+002445 0E7F 04FA                     .DW AT
+002446 0E81 00D0                     .DW ZBRCH
+002447 0E83 0E8B                     .DW LT1
+002448 0E85 0951                     .DW CMPL
+002449 0E87 0086                     .DW LIT
+002450 0E89 07A0                     .DW COMMA
+002451 0E8B 0379             LT1:    .DW SEMIS
+002452 0E8D                          ;
+002453 0E8D                          ;
+002454 0E8D C8444C4954455241         .DB H'C8,"DLITERA",H'CC ; DLITERAL (IMMEDIATE)
+       0E95 CC              
+002455 0E96 0E71                     .DW LTL - 10
+002456 0E98 05C2             DLTL:   .DW NEST
+002457 0E9A 071A                     .DW STT
+002458 0E9C 04FA                     .DW AT
+002459 0E9E 00D0                     .DW ZBRCH
+002460 0EA0 0EA8                     .DW DLTL1
+002461 0EA2 0499                     .DW SWAP
+002462 0EA4 0E7B                     .DW LTL
+002463 0EA6 0E7B                     .DW LTL
+002464 0EA8 0379             DLTL1:  .DW SEMIS
+002465 0EAA                          ;
+002466 0EAA                          ;
+002467 0EAA 863F53544143CB           .DB H'86,"?STAC",H'CB ; ?STACK
+002468 0EB1 0E8D                     .DW DLTL - 11
+002469 0EB3 05C2             QSTK:   .DW NEST
+002470 0EB5 066D                     .DW SO
+002471 0EB7 04FA                     .DW AT
+002472 0EB9 04B6                     .DW DUP
+002473 0EBB 033D                     .DW FSPAT
+002474 0EBD 07E5                     .DW GTR
+002475 0EBF 05FA                     .DW ONE
+002476 0EC1 08BE                     .DW QERR
+002477 0EC3 0086                     .DW LIT
+002478 0EC5 0100                     .DW H'0100
+002479 0EC7 03F7                     .DW PLUS
+002480 0EC9 033D                     .DW FSPAT
+002481 0ECB 07D9                     .DW LESS
+002482 0ECD 0086                     .DW LIT
+002483 0ECF 0007                     .DW H'0007
+002484 0ED1 08BE                     .DW QERR
+002485 0ED3 0379                     .DW SEMIS
+002486 0ED5                          ;
+002487 0ED5                          ;
+002488 0ED5 89494E5445525052         .DB H'89,"INTERPRE",H'D4 ; INTERPRET
+       0EDD 45D4            
+002489 0EDF 0EAA                     .DW QSTK - 9
+002490 0EE1 05C2             INPT:   .DW NEST
+002491 0EE3 0CAB                     .DW MFIND
+002492 0EE5 00D0                     .DW ZBRCH
+002493 0EE7 0F05                     .DW PT1
+002494 0EE9 071A                     .DW STT
+002495 0EEB 04FA                     .DW AT
+002496 0EED 07D9                     .DW LESS
+002497 0EEF 00D0                     .DW ZBRCH
+002498 0EF1 0EFB                     .DW PT2
+002499 0EF3 0872                     .DW CFA
+002500 0EF5 07A0                     .DW COMMA
+002501 0EF7 00BD                     .DW BRCH
+002502 0EF9 0EFF                     .DW PT3
+002503 0EFB 0872             PT2:    .DW CFA
+002504 0EFD 00A6                     .DW EXE
+002505 0EFF 0EB3             PT3:    .DW QSTK
+002506 0F01 00BD                     .DW BRCH
+002507 0F03 0F1F                     .DW PT4
+002508 0F05 0784             PT1:    .DW HERE
+002509 0F07 0C53                     .DW NMBR
+002510 0F09 072F                     .DW DPL
+002511 0F0B 04FA                     .DW AT
+002512 0F0D 0768                     .DW PLUS1
+002513 0F0F 00D0                     .DW ZBRCH
+002514 0F11 0F19                     .DW PT5
+002515 0F13 0E98                     .DW DLTL
+002516 0F15 00BD                     .DW BRCH
+002517 0F17 0F1D                     .DW PT6
+002518 0F19 048D             PT5:    .DW DROP
+002519 0F1B 0E7B                     .DW LTL
+002520 0F1D 0EB3             PT6:    .DW QSTK
+002521 0F1F 00BD             PT4:    .DW BRCH
+002522 0F21 0EE3                     .DW INPT + 2
+002523 0F23 0379                     .DW SEMIS
+002524 0F25                          ;
+002525 0F25                          ;
+002526 0F25 8A564F434142554C         .DB H'8A,"VOCABULAR",H'D9 ; VOCABULARY
+       0F2D 4152D9          
+002527 0F30 0ED5                     .DW INPT - 12
+002528 0F32 05C2             VBLY:   .DW NEST
+002529 0F34 0E43                     .DW LBLD
+002530 0F36 0086                     .DW LIT
+002531 0F38 81A0                     .DW H'81A0
+002532 0F3A 07A0                     .DW COMMA
+002533 0F3C 070E                     .DW CRNT
+002534 0F3E 04FA                     .DW AT
+002535 0F40 0872                     .DW CFA
+002536 0F42 07A0                     .DW COMMA
+002537 0F44 0784                     .DW HERE
+002538 0F46 06BE                     .DW VL
+002539 0F48 04FA                     .DW AT
+002540 0F4A 07A0                     .DW COMMA
+002541 0F4C 06BE                     .DW VL
+002542 0F4E 051E                     .DW EX
+002543 0F50 0E53                     .DW DOSEG
+002544 0F52 0775             VB1:    .DW PLUS2
+002545 0F54 0700                     .DW CNTX
+002546 0F56 051E                     .DW EX
+002547 0F58 0379                     .DW SEMIS
+002548 0F5A                          ;
+002549 0F5A                          ;
+002550 0F5A C5464F5254C8     FRTH:   .DB H'C5,"FORT",H'C8 ; FORTH (IMMEDIATE)
+002551 0F60 0F25                     .DW VBLY - 13
+002552 0F62 0E5F                     .DW DUZ1
+002553 0F64 0F52                     .DW VB1
+002554 0F66 81A0                     .DW H'81A0
+002555 0F68 18BF                     .DW TASK - 7        ; DICTION LINK
+002556 0F6A 0000                     .DW H'0000          ; NOTE THIS MUST BE CHANGED
+002557 0F6C                                              ; TO REFLECT THE LINK TO THE
+002558 0F6C                                              ; LAST DICT WORD IN THE
+002559 0F6C                                              ; FORTH VOCAB
+002560 0F6C                          ;
+002561 0F6C                          ;
+002562 0F6C 8B444546494E4954         .DB H'8B,"DEFINITION",H'D3 ; DEFINITIONS
+       0F74 494F4ED3        
+002563 0F78 0F5A                     .DW FRTH
+002564 0F7A 05C2             DFN:    .DW NEST
+002565 0F7C 0700                     .DW CNTX
+002566 0F7E 04FA                     .DW AT
+002567 0F80 070E                     .DW CRNT
+002568 0F82 051E                     .DW EX
+002569 0F84 0379                     .DW SEMIS
+002570 0F86                          ;
+002571 0F86 84515549D4               .DB H'84,"QUI",H'D4 ; QUIT
+002572 0F8B 0F6C                     .DW DFN - 14
+002573 0F8D 05C2             QUIT:   .DW NEST
+002574 0F8F 05F2                     .DW ZERO
+002575 0F91 06C8                     .DW BLK
+002576 0F93 051E                     .DW EX
+002577 0F95 0967                     .DW LB
+002578 0F97 0365             Q2:     .DW RP1
+002579 0F99 05AB                     .DW CR
+002580 0F9B 0AF7                     .DW QUER
+002581 0F9D 0EE1                     .DW INPT
+002582 0F9F 071A                     .DW STT
+002583 0FA1 04FA                     .DW AT
+002584 0FA3 03D2                     .DW ZEQAL
+002585 0FA5 00D0                     .DW ZBRCH
+002586 0FA7 0FB0                     .DW Q1
+002587 0FA9 0A68                     .DW PDQ
+002588 0FAB 0420204F4B               .DB H'04,"  OK"
+002589 0FB0 00BD             Q1:     .DW BRCH
+002590 0FB2 0F97                     .DW Q2
+002591 0FB4 0379                     .DW SEMIS
+002592 0FB6                          ;
+002593 0FB6                          ;
+002594 0FB6 8541424F52D4             .DB H'85,"ABOR",H'D4 ; ABORT
+002595 0FBC 0F86                     .DW QUIT - 7
+002596 0FBE 05C2             ABORT:  .DW NEST
+002597 0FC0 0350                     .DW SP1
+002598 0FC2 09B2                     .DW MDCML
+002599 0FC4 05AB                     .DW CR
+002600 0FC6 0A68                     .DW PDQ
+002601 0FC8 1C31383032204649         .DB H'1C,"1802 FIG-FORTH R0.4  3/16/81"
+       0FD0 472D464F52544820
+       0FD8 52302E342020332F
+       0FE0 31362F3831      
+002602 0FE5 17B5             	.DW DRZER
+002603 0FE7 15AB                     .DW MTBUF
+002604 0FE9 0621                     .DW FIRST
+002605 0FEB 04B6                     .DW DUP
+002606 0FED 154D                     .DW PREV
+002607 0FEF 051E                     .DW EX
+002608 0FF1 1542                     .DW USE
+002609 0FF3 051E                     .DW EX
+002610 0FF5 0F62                     .DW FRTH + 8
+002611 0FF7 0F7A                     .DW DFN
+002612 0FF9 0F8D                     .DW QUIT
+002613 0FFB 0379                     .DW SEMIS
+002614 0FFD                          ;
+002615 0FFD                          ;
+002616 0FFD C1BB                     .DW H'C1BB          ; ;   (IMMEDIATE)
+002617 0FFF 0FB6                     .DW ABORT - 8
+002618 1001 05C2             SEMIC:  .DW NEST
+002619 1003 091A                     .DW QCSP
+002620 1005 0951                     .DW CMPL
+002621 1007 0379                     .DW SEMIS
+002622 1009 098A                     .DW SMDG
+002623 100B 0967                     .DW LB
+002624 100D 0379                     .DW SEMIS
+002625 100F                          ;
+002626 100F                          ;
+002627 100F                          ;
+002628 100F C22EA2                   .DB H'C2,H'2E,H'A2  ; ."   (IMMEDIATE)
+002629 1012 0FFD                     .DW SEMIC - 4
+002630 1014 05C2             DOTQ:   .DW NEST
+002631 1016 0086                     .DW LIT
+002632 1018 0022                     .DW H'0022
+002633 101A 071A                     .DW STT
+002634 101C 04FA                     .DW AT
+002635 101E 00D0                     .DW ZBRCH
+002636 1020 1034                     .DW DOTQ1
+002637 1022 0951                     .DW CMPL
+002638 1024 0A68                     .DW PDQ
+002639 1026 0BB7                     .DW WORD
+002640 1028 0784                     .DW HERE
+002641 102A 050D                     .DW CAT
+002642 102C 0768                     .DW PLUS1
+002643 102E 0794                     .DW ALLOT
+002644 1030 00BD                     .DW BRCH
+002645 1032 103C                     .DW DOTQ2
+002646 1034 0BB7             DOTQ1:  .DW WORD
+002647 1036 0784                     .DW HERE
+002648 1038 09F4                     .DW CNT
+002649 103A 0A07                     .DW TYPE
+002650 103C 0379             DOTQ2:  .DW SEMIS
+002651 103E                          ;
+002652 103E                          ;
+002653 103E C95B434F4D50494C         .DB H'C9,"[COMPILE",H'DD ; [COMPILE]
+       1046 45DD            
+002654 1048 100F                     .DW DOTQ - 5             ; (IMMEDIATE)
+002655 104A 05C2             BCOMP:  .DW NEST
+002656 104C 0CAB                     .DW MFIND
+002657 104E 03D2                     .DW ZEQAL
+002658 1050 05F2                     .DW ZERO
+002659 1052 08BE                     .DW QERR
+002660 1054 048D                     .DW DROP
+002661 1056 0872                     .DW CFA
+002662 1058 07A0                     .DW COMMA
+002663 105A 0379                     .DW SEMIS
+002664 105C                          ;
+002665 105C                          ;
+002666 105C 89494D4D45444941         .DB H'89,"IMMEDIAT",H'C5 ; IMMEDIATE
+       1064 54C5            
+002667 1066 103E                     .DW BCOMP - 12
+002668 1068 05C2             IMMED:  .DW NEST
+002669 106A 0852                     .DW LTST
+002670 106C 0086                     .DW LIT
+002671 106E 0040                     .DW H'0040
+002672  1070 04E3                     .DW TGLE
+002673 1072 0379                     .DW SEMIS
+002674 1074                          ;
+002675 1074                          ;
+002676 1074 C1A8                     .DW H'C1A8          ; (   (IMMEDIATE)
+002677 1076 105C                     .DW IMMED - 12
+002678 1078 05C2             PAREN:  .DW NEST
+002679 107A 0086                     .DW LIT
+002680 107C 0029                     .DW H'0029
+002681 107E 0BB7                     .DW WORD
+002682 1080 0379                     .DW SEMIS
+002683 1082                          ;
+002684 1082                          ;
+002685 1082 81B3                     .DW H'81B3          ; 3
+002686 1084 1074                     .DW PAREN - 4
+002687 1086 05D6             THREE:  .DW CONST
+002688 1088 0003                     .DW H'0003
+002689 108A                          ;
+002690 108A                          ;
+002691 108A C1A7                     .DW H'C1A7          ; '   (TICK)   (IMMEDIATE)
+002692 108C 1082                     .DW THREE - 4
+002693 108E 05C2             TICK:   .DW NEST
+002694 1090 0CAB                     .DW MFIND
+002695 1092 03D2                     .DW ZEQAL
+002696 1094 05F2                     .DW ZERO
+002697 1096 08BE                     .DW QERR
+002698 1098 048D                     .DW DROP
+002699 109A 0E7B                     .DW LTL
+002700 109C 0379                     .DW SEMIS
+002701 109E                          ;
+002702 109E                          ;
+002703 109E 86464F524745D4           .DB H'86,"FORGE",H'D4 ; FORGET
+002704 10A5 108A                     .DW TICK - 4
+002705 10A7 05C2             FORG:   .DW NEST
+002706 10A9 070E                     .DW CRNT
+002707 10AB 04FA                     .DW AT
+002708 10AD 0700                     .DW CNTX
+002709 10AF 04FA                     .DW AT
+002710 10B1 07C1                     .DW MINS
+002711 10B3 0086                     .DW LIT
+002712 10B5 0018                     .DW H'0018
+002713 10B7 08BE                     .DW QERR
+002714 10B9 108E                     .DW TICK
+002715 10BB 04B6                     .DW DUP
+002716 10BD 06A6                     .DW FNCE
+002717 10BF 04FA                     .DW AT
+002718 10C1 07D9                     .DW LESS
+002719 10C3 0086                     .DW LIT
+002720 10C5 0015                     .DW H'0015
+002721 10C7 08BE                     .DW QERR
+002722 10C9 04B6                     .DW DUP
+002723 10CB 0880                     .DW NFA
+002724 10CD 06AF                     .DW DP
+002725 10CF 051E                     .DW EX
+002726 10D1 0862                     .DW LFA
+002727 10D3 04FA                     .DW AT
+002728 10D5 0700                     .DW CNTX
+002729 10D7 04FA                     .DW AT
+002730 10D9 051E                     .DW EX
+002731 10DB 0379                     .DW SEMIS
+002732 10DD                          ;
+002733 10DD                          ;
+002734 10DD 822BAD                   .DB H'82,H'2B,H'AD  ; +-
+002735 10E0 109E                     .DW FORG - 9
+002736 10E2 05C2             PM:     .DW NEST
+002737 10E4 03EB                     .DW ZLESS
+002738 10E6 00D0                     .DW ZBRCH
+002739 10E8 10EC                     .DW PM1
+002740 10EA 0412                     .DW MINUS
+002741 10EC 0379             PM1:    .DW SEMIS
+002742 10EE                          ;
+002743 10EE 83442BAD                 .DB H'83,H'44,H'2B,H'AD ; D+-
+002744 10F2 10DD                     .DW PM - 5
+002745 10F4 05C2             DPM:    .DW NEST
+002746 10F6 03EB                     .DW ZLESS
+002747 10F8 00D0                     .DW ZBRCH
+002748 10FA 10FE                     .DW DPM1
+002749 10FC 0458                     .DW DMIN
+002750 10FE 0379             DPM1:   .DW SEMIS
+002751 1100                          ;
+002752 1100 834142D3                 .DB H'83,H'41,H'42,H'D3 ; ABS
+002753 1104 10EE                     .DW DPM - 6
+002754 1106 05C2             ABS:    .DW NEST
+002755 1108 04B6                     .DW DUP
+002756 110A 10E2                     .DW PM
+002757 110C 0379                     .DW SEMIS
+002758 110E                          ;
+002759 110E 84444142D3               .DB H'84,"DAB",H'D3 ; DABS
+002760 1113 1100                     .DW ABS - 6
+002761 1115 05C2             DABS:   .DW NEST
+002762 1117 04B6                     .DW DUP
+002763 1119 10F4                     .DW DPM
+002764 111B 0379                     .DW SEMIS
+002765 111D                          ;
+002766 111D 834D41D8                 .DB H'83,H'4D,H'41,H'D8 ; MAX
+002767 1121 110E                     .DW DABS - 7
+002768 1123 05C2             MAX:    .DW NEST
+002769 1125 0473                     .DW OVER
+002770 1127 0473                     .DW OVER
+002771 1129 07D9                     .DW LESS
+002772 112B 00D0                     .DW ZBRCH
+002773 112D 1131                     .DW MAX1
+002774 112F 0499                     .DW SWAP
+002775 1131 048D             MAX1:   .DW DROP
+002776 1133 0379                     .DW SEMIS
+002777 1135                          ;
+002778 1135 824DAA                   .DB H'82,H'4D,H'AA  ; M*
+002779 1138 111D                     .DW MAX - 6
+002780 113A 05C2             MSTAR:  .DW NEST
+002781 113C 0473                     .DW OVER
+002782 113E 0473                     .DW OVER
+002783 1140 0324                     .DW FXOR
+002784 1142 039D                     .DW GR
+002785 1144 1106                     .DW ABS
+002786 1146 0499                     .DW SWAP
+002787 1148 1106                     .DW ABS
+002788 114A 0278                     .DW USTAR
+002789 114C 03AD                     .DW RG
+002790 114E 10F4                     .DW DPM
+002791 1150 0379                     .DW SEMIS
+002792 1152                          ;
+002793 1152 824DAF                   .DB H'82,H'4D,H'AF  ; M/
+002794 1155 1135                     .DW MSTAR - 5
+002795 1157 05C2             MSLAS:  .DW NEST
+002796 1159 0473                     .DW OVER
+002797 115B 039D                     .DW GR
+002798 115D 039D                     .DW GR
+002799 115F 1115                     .DW DABS
+002800 1161 03BD                     .DW R
+002801 1163 1106                     .DW ABS
+002802 1165 02B2                     .DW USLSH
+002803 1167 03AD                     .DW RG
+002804 1169 03BD                     .DW R
+002805 116B 0324                     .DW FXOR
+002806 116D 10E2                     .DW PM
+002807 116F 0499                     .DW SWAP
+002808 1171 03AD                     .DW RG
+002809 1173 10E2                     .DW PM
+002810 1175 0499                     .DW SWAP
+002811 1177 0379                     .DW SEMIS
+002812 1179                          ;
+002813 1179 81AA                     .DW H'81AA          ; *
+002814 117B 1152                     .DW MSLAS - 5
+002815 117D 05C2             STAR:   .DW NEST
+002816 117F 113A                     .DW MSTAR
+002817 1181 048D                     .DW DROP
+002818 1183 0379                     .DW SEMIS
+002819 1185                          ;
+002820 1185 842F4D4FC4               .DB H'84,H'2F,H'4D,H'4F,H'C4 ; /MOD
+002821 118A 1179                     .DW STAR - 4
+002822 118C 05C2             SLMOD:  .DW NEST
+002823 118E 039D                     .DW GR
+002824 1190 14F1                     .DW STOD
+002825 1192 03AD                     .DW RG
+002826 1194 1157                     .DW MSLAS
+002827 1196 0379                     .DW SEMIS
+002828 1198                          ;
+002829 1198 81AF                     .DW H'81AF          ; /
+002830 119A 1185                     .DW SLMOD - 7
+002831 119C 05C2             SLASH:  .DW NEST
+002832 119E 118C                     .DW SLMOD
+002833 11A0 0499                     .DW SWAP
+002834 11A2 048D                     .DW DROP
+002835 11A4 0379                     .DW SEMIS
+002836 11A6                          ;
+002837 11A6 834D4FC4                 .DB H'83,H'4D,H'4F,H'C4 ; MOD
+002838 11AA 1198                     .DW SLASH - 4
+002839 11AC 05C2             MODD:   .DW NEST
+002840 11AE 118C                     .DW SLMOD
+002841 11B0 048D                     .DW DROP
+002842 11B2 0379                     .DW SEMIS
+002843 11B4                          ;
+002844 11B4 852A2F4D4FC4             .DB H'85,"*/MO",H'C4 ; */MOD
+002845 11BA 11A6                     .DW MODD - 6
+002846 11BC 05C2             SSMOD:  .DW NEST
+002847 11BE 039D                     .DW GR
+002848 11C0 113A                     .DW MSTAR
+002849 11C2 03AD                     .DW RG
+002850 11C4 1157                     .DW MSLAS
+002851 11C6 0379                     .DW SEMIS
+002852 11C8                          ;
+002853 11C8 822AAF                   .DB H'82,H'2A,H'AF ; */
+002854 11CB 11B4                     .DW SSMOD - 8
+002855 11CD 05C2             SSLA:   .DW NEST
+002856 11CF 11BC                     .DW SSMOD
+002857 11D1 0499                     .DW SWAP
+002858 11D3 048D                     .DW DROP
+002859 11D5 0379                     .DW SEMIS
+002860 11D7                          ;
+002861 11D7 854D2F4D4FC4             .DB H'85,"M/MO",H'C4 ; M/MOD
+002862 11DD 11C8                     .DW SSLA - 5
+002863 11DF 05C2             MSMOD:  .DW NEST
+002864 11E1 039D                     .DW GR
+002865 11E3 05F2                     .DW ZERO
+002866 11E5 03BD                     .DW R
+002867 11E7 02B2                     .DW USLSH
+002868 11E9 03AD                     .DW RG
+002869 11EB 0499                     .DW SWAP
+002870 11ED 039D                     .DW GR
+002871 11EF 02B2                     .DW USLSH
+002872 11F1 03AD                     .DW RG
+002873 11F3 0379                     .DW SEMIS
+002874 11F5                          ;
+002875 11F5                          ;
+002876 11F5 834D4FCE                 .DB H'83,"MO",H'CE  ; MON
+002877 11F9 11D7                     .DW MSMOD - 8       ; RETURN TO MONITOR
+002878 11FB 11FD             MON:    .DW * + 2           ; AT 8000 HEX
+002879 11FD F880                     LDI H'80
+002880 11FF B0                       PHI R0
+002881 1200 F800                     LDI H'00
+002882 1202 A0                       PLO R0
+002883 1203 E0                       SEX R0
+002884 1204 D0                       SEP R0
+002885 1205                          ;
+002886 1205                          ;
+002887 1205 834259C5                 .DB H'83,"BY",H'C5  ; BYE
+002888 1209 11F5                     .DW MON - 6
+002889 120B 05C2             BYE:    .DW NEST
+002890 120D 189B                     .DW FLUSH
+002891 120F 11FB                     .DW MON
+002892 1211                          ;
+002893 1211                          ;
+002894 1211 84424143CB               .DB H'84,"BAC",H'CB ; BACK
+002895 1216 1205                     .DW BYE - 6
+002896 1218 05C2             BACK:   .DW NEST
+002897 121A 07A0                     .DW COMMA
+002898 121C 0379                     .DW SEMIS
+002899 121E                          ;
+002900 121E C542454749CE             .DB H'C5,"BEGI",H'CE ; BEGIN
+002901 1224 1211                     .DW BACK - 7
+002902 1226 05C2             BEGIN:  .DW NEST
+002903 1228 08D8                     .DW QCMP
+002904 122A 0784                     .DW HERE
+002905 122C 05FA                     .DW ONE
+002906 122E 0379                     .DW SEMIS
+002907 1230                          ;
+002908 1230 C5454E4449C6             .DB H'C5,"ENDI",H'C6 ; ENDIF
+002909 1236 121E                     .DW BEGIN - 8
+002910 1238 05C2             ENDIFF: .DW NEST
+002911 123A 08D8                     .DW QCMP
+002912 123C 0602                     .DW TWO
+002913 123E 0907                     .DW QPR
+002914 1240 0784                     .DW HERE
+002915 1242 0499                     .DW SWAP
+002916 1244 051E                     .DW EX
+002917 1246 0379                     .DW SEMIS
+002918 1248                          ;
+002919 1248 C4544845CE               .DB H'C4,"THE",H'CE ; THEN
+002920 124D 1230                     .DW ENDIFF - 8
+002921 124F 05C2             THEN:   .DW NEST
+002922 1251 1238                     .DW ENDIFF
+002923 1253 0379                     .DW SEMIS
+002924 1255                          ;
+002925 1255 C244CF                   .DB H'C2,H'44,H'CF  ; DO
+002926 1258 1248                     .DW THEN - 7
+002927 125A 05C2             DO:     .DW NEST
+002928 125C 0951                     .DW CMPL
+002929 125E 0150                     .DW PDO
+002930 1260 0784                     .DW HERE
+002931 1262 1086                     .DW THREE
+002932 1264 0379                     .DW SEMIS
+002933 1266                          ;
+002934 1266 C44C4F4FD0               .DB H'C4,H'4C,H'4F,H'4F,H'D0 ; LOOP
+002935 126B 1255                     .DW DO - 5
+002936 126D 05C2             LOOP:   .DW NEST
+002937 126F 1086                     .DW THREE
+002938 1271 0907                     .DW QPR
+002939 1273 0951                     .DW CMPL
+002940 1275 00EC                     .DW LUPE
+002941 1277 1218                     .DW BACK
+002942 1279 0379                     .DW SEMIS
+002943 127B                          ;
+002944 127B C52B4C4F4FD0             .DB H'C5,"+LOO",H'D0 ; +LOOP
+002945 1281 1266                     .DW LOOP - 7
+002946 1283 05C2             PLOOP:  .DW NEST
+002947 1285 1086                     .DW THREE
+002948 1287 0907                     .DW QPR
+002949 1289 0951                     .DW CMPL
+002950 128B 0124                     .DW PLUPE
+002951 128D 1218                     .DW BACK
+002952 128F 0379                     .DW SEMIS
+002953 1291                          ;
+002954 1291 C5554E5449CC             .DB H'C5,"UNTI",H'CC ; UNTIL
+002955 1297 127B                     .DW PLOOP - 8
+002956 1299 05C2             UNTIL:  .DW NEST
+002957 129B 05FA                     .DW ONE
+002958 129D 0907                     .DW QPR
+002959 129F 0951                     .DW CMPL
+002960 12A1 00D0                     .DW ZBRCH
+002961 12A3 1218                     .DW BACK
+002962 12A5 0379                     .DW SEMIS
+002963 12A7                          ;
+002964 12A7 C3454EC4                 .DB H'C3,H'45,H'4E,H'C4 ; END
+002965 12AB 1291                     .DW UNTIL - 8
+002966 12AD 05C2             ENDD:   .DW NEST
+002967 12AF 1299                     .DW UNTIL
+002968 12B1 0379                     .DW SEMIS
+002969 12B3                          ;
+002970 12B3 C541474149CE             .DB H'C5,"AGAI",H'CE ; AGAIN
+002971 12B9 12A7                     .DW ENDD - 6
+002972 12BB 05C2             AGAIN:  .DW NEST
+002973 12BD 05FA                     .DW ONE
+002974 12BF 0907                     .DW QPR
+002975 12C1 0951                     .DW CMPL
+002976 12C3 00BD                     .DW BRCH
+002977 12C5 1218                     .DW BACK
+002978 12C7 0379                     .DW SEMIS
+002979 12C9                          ;
+002980 12C9 C65245504541D4           .DB H'C6,"REPEA",H'D4 ; REPEAT
+002981 12D0 12B3                     .DW AGAIN - 8
+002982 12D2 05C2             REPEA:  .DW NEST
+002983 12D4 039D                     .DW GR
+002984 12D6 039D                     .DW GR
+002985 12D8 12BB                     .DW AGAIN
+002986 12DA 03AD                     .DW RG
+002987 12DC 03AD                     .DW RG
+002988 12DE 0602                     .DW TWO
+002989 12E0 07C1                     .DW MINS
+002990 12E2 1238                     .DW ENDIFF
+002991 12E4 0379                     .DW SEMIS
+002992 12E6                          ;
+002993 12E6 C249C6                   .DB H'C2,H'49,H'C6 ; IF
+002994 12E9 12C9                     .DW REPEA - 9
+002995 12EB 05C2             IFF:    .DW NEST
+002996 12ED 0951                     .DW CMPL
+002997 12EF 00D0                     .DW ZBRCH
+002998 12F1 0784                     .DW HERE
+002999 12F3 05F2                     .DW ZERO
+003000 12F5 07A0                     .DW COMMA
+003001 12F7 0602                     .DW TWO
+003002 12F9 0379                     .DW SEMIS
+003003 12FB                          ;
+003004 12FB C4454C53C5               .DB H'C4,"ELS",H'C5 ; ELSE
+003005 1300 12E6                     .DW IFF - 5
+003006 1302 05C2             ELSEE:  .DW NEST
+003007 1304 0602                     .DW TWO
+003008 1306 0907                     .DW QPR
+003009 1308 0951                     .DW CMPL
+003010 130A 00BD                     .DW BRCH
+003011 130C 0784                     .DW HERE
+003012 130E 05F2                     .DW ZERO
+003013 1310 07A0                     .DW COMMA
+003014 1312 0499                     .DW SWAP
+003015 1314 0602                     .DW TWO
+003016 1316 1238                     .DW ENDIFF
+003017 1318 0602                     .DW TWO
+003018 131A 0379                     .DW SEMIS
+003019 131C                          ;
+003020 131C C55748494CC5             .DB H'C5,"WHIL",H'C5 ; WHILE
+003021 1322 12FB                     .DW ELSEE - 7
+003022 1324 05C2             WHILE:  .DW NEST
+003023 1326 12EB                     .DW IFF
+003024 1328 0775                     .DW PLUS2
+003025 132A 0379                     .DW SEMIS
+003026 132C                          ;
+003027 132C 865350414345D3           .DB H'86,"SPACE",H'D3 ; SPACES
+003028 1333 131C                     .DW WHILE - 8
+003029 1335 05C2             SPACS:  .DW NEST
+003030 1337 05F2                     .DW ZERO
+003031 1339 1123                     .DW MAX
+003032 133B 0816                     .DW MDUP
+003033 133D 00D0                     .DW ZBRCH
+003034 133F 134B                     .DW SPAX1
+003035 1341 05F2                     .DW ZERO
+003036 1343 0150                     .DW PDO
+003037 1345 0807             SPAX2:  .DW SPC
+003038 1347 00EC                     .DW LUPE
+003039 1349 1345                     .DW SPAX2
+003040 134B 0379             SPAX1:  .DW SEMIS
+003041 134D                          ;
+003042 134D 823CA3                   .DB H'82,H'3C,H'A3  ; <#
+003043 1350 132C                     .DW SPACS - 9
+003044 1352 05C2             BDIGS:  .DW NEST
+003045 1354 0BA4                     .DW PAD
+003046 1356 0756                     .DW HLD
+003047 1358 051E                     .DW EX
+003048 135A 0379                     .DW SEMIS
+003049 135C                          ;
+003050 135C 8223BE                   .DB H'82,H'23,H'BE  ; #>
+003051 135F 134D                     .DW BDIGS - 5
+003052 1361 05C2             EDIGS:  .DW NEST
+003053 1363 048D                     .DW DROP
+003054 1365 048D                     .DW DROP
+003055 1367 0756                     .DW HLD
+003056 1369 04FA                     .DW AT
+003057 136B 0BA4                     .DW PAD
+003058 136D 0473                     .DW OVER
+003059 136F 07C1                     .DW MINS
+003060 1371 0379                     .DW SEMIS
+003061 1373                          ;
+003062 1373 84534947CE               .DB H'84,"SIG",H'CE ; SIGN
+003063 1378 135C                     .DW EDIGS - 5
+003064 137A 05C2             SIGN:   .DW NEST
+003065 137C 07F3                     .DW ROT
+003066 137E 03EB                     .DW ZLESS
+003067 1380 00D0                     .DW ZBRCH
+003068 1382 138A                     .DW SIGN1
+003069 1384 0086                     .DW LIT
+003070 1386 002D                     .DW H'002D
+003071 1388 0B8C                     .DW HOLD
+003072 138A 0379             SIGN1:  .DW SEMIS
+003073 138C                          ;
+003074 138C 81A3                     .DW H'81A3          ; #
+003075 138E 1373                     .DW SIGN - 7
+003076 1390 05C2             DIG:    .DW NEST
+003077 1392 0725                     .DW BASE
+003078 1394 04FA                     .DW AT
+003079 1396 11DF                     .DW MSMOD
+003080 1398 07F3                     .DW ROT
+003081 139A 0086                     .DW LIT
+003082 139C 0009                     .DW H'0009
+003083 139E 0473                     .DW OVER
+003084 13A0 07D9                     .DW LESS
+003085 13A2 00D0                     .DW ZBRCH
+003086 13A4 13AC                     .DW DIG1
+003087 13A6 0086                     .DW LIT
+003088 13A8 0007                     .DW H'0007
+003089 13AA 03F7                     .DW PLUS
+003090 13AC 0086             DIG1:   .DW LIT
+003091 13AE 0030                     .DW H'0030
+003092 13B0 03F7                     .DW PLUS
+003093 13B2 0B8C                     .DW HOLD
+003094 13B4 0379                     .DW SEMIS
+003095 13B6                          ;
+003096 13B6 8223D3                   .DB H'82,H'23,H'D3  ; #S
+003097 13B9 138C                     .DW DIG - 4
+003098 13BB 05C2             DIGS:   .DW NEST
+003099 13BD 1390             DIGS1:  .DW DIG
+003100 13BF 0473                     .DW OVER
+003101 13C1 0473                     .DW OVER
+003102 13C3 030B                     .DW FFOR
+003103 13C5 03D2                     .DW ZEQAL
+003104 13C7 00D0                     .DW ZBRCH
+003105 13C9 13BD                     .DW DIGS1
+003106 13CB 0379                     .DW SEMIS
+003107 13CD                          ;
+003108 13CD 83442ED2                 .DB H'83,H'44,H'2E,H'D2 ; D.R
+003109 13D1 13B6                     .DW DIGS - 5
+003110 13D3 05C2             DDOTR:  .DW NEST
+003111 13D5 039D                     .DW GR
+003112 13D7 0499                     .DW SWAP
+003113 13D9 0473                     .DW OVER
+003114 13DB 1115                     .DW DABS
+003115 13DD 1352                     .DW BDIGS
+003116 13DF 13BB                     .DW DIGS
+003117 13E1 137A                     .DW SIGN
+003118 13E3 1361                     .DW EDIGS
+003119 13E5 03AD                     .DW RG
+003120 13E7 0473                     .DW OVER
+003121 13E9 07C1                     .DW MINS
+003122 13EB 1335                     .DW SPACS
+003123 13ED 0A07                     .DW TYPE
+003124 13EF 0379                     .DW SEMIS
+003125 13F1                          ;
+003126 13F1 822ED2                   .DB H'82,H'2E,H'D2  ; .R
+003127 13F4 13CD                     .DW DDOTR - 6
+003128 13F6 05C2             DOTR:   .DW NEST
+003129 13F8 039D                     .DW GR
+003130 13FA 14F1                     .DW STOD
+003131 13FC 03AD                     .DW RG
+003132 13FE 13D3                     .DW DDOTR
+003133 1400 0379                     .DW SEMIS
+003134 1402                          ;
+003135 1402 8244AE                   .DB H'82,H'44,H'AE  ; D.
+003136 1405 13F1                     .DW DOTR - 5
+003137 1407 05C2             DDOT:   .DW NEST
+003138 1409 05F2                     .DW ZERO
+003139 140B 13D3                     .DW DDOTR
+003140 140D 0807                     .DW SPC
+003141 140F 0379                     .DW SEMIS
+003142 1411                          ;
+003143 1411 81AE                     .DW H'81AE          ; .   (DOT)
+003144 1413 1402                     .DW DDOT - 5
+003145 1415 05C2             DOT:    .DW NEST
+003146 1417 14F1                     .DW STOD
+003147 1419 1407                     .DW DDOT
+003148 141B 0379                     .DW SEMIS
+003149 141D                          ;
+003150 141D 81BF                     .DW H'81BF          ; ?
+003151 141F 1411                     .DW DOT - 4
+003152 1421 05C2             QUES:   .DW NEST
+003153 1423 04FA                     .DW AT
+003154 1425 1415                     .DW DOT
+003155 1427 0379                     .DW SEMIS
+003156 1429                          ;
+003157 1429 8255AE                   .DB H'82,H'55,H'AE  ; U.
+003158 142C 141D                     .DW QUES - 4
+003159 142E 05C2             UDOT:   .DW NEST
+003160 1430 05F2                     .DW ZERO
+003161 1432 1407                     .DW DDOT
+003162 1434 0379                     .DW SEMIS
+003163 1436                          ;
+003164 1436 85564C4953D4             .DB H'85,"VLIS",H'D4 ; VLIST
+003165 143C 1429                     .DW UDOT - 5
+003166 143E 05C2             VLIST:  .DW NEST
+003167 1440 05AB                     .DW CR
+003168 1442 0086                     .DW LIT
+003169 1444 0080                     .DW H'0080
+003170 1446 06DB                     .DW FOUT
+003171 1448 051E                     .DW EX
+003172 144A 0700                     .DW CNTX
+003173 144C 04FA                     .DW AT
+003174 144E 04FA                     .DW AT
+003175 1450 06DB             VLIS1:  .DW FOUT
+003176 1452 04FA                     .DW AT
+003177 1454 0615                     .DW CL
+003178 1456 07E5                     .DW GTR
+003179 1458 00D0                     .DW ZBRCH
+003180 145A 1464                     .DW VLIS2
+003181 145C 05AB                     .DW CR
+003182 145E 05F2                     .DW ZERO
+003183 1460 06DB                     .DW FOUT
+003184 1462 051E                     .DW EX
+003185 1464 04B6             VLIS2:  .DW DUP
+003186 1466 0D2D                     .DW ID
+003187 1468 0807                     .DW SPC
+003188 146A 0807                     .DW SPC
+003189 146C 0896                     .DW PFA
+003190 146E 0862                     .DW LFA
+003191 1470 04FA                     .DW AT
+003192 1472 04B6                     .DW DUP
+003193 1474 03D2                     .DW ZEQAL
+003194 1476 0597                     .DW QTERM
+003195 1478 030B                     .DW FFOR
+003196 147A 00D0                     .DW ZBRCH
+003197 147C 1450                     .DW VLIS1
+003198 147E 048D                     .DW DROP
+003199 1480 0379                     .DW SEMIS
+003200 1482                          ;
+003201 1482                          ;
+003202 1482 874D4553534147C5         .DB H'87,"MESSAG",H'C5 ; MESSAGE
+003203 148A 1436                     .DW VLIST - 8
+003204 148C 05C2             MSG:    .DW NEST
+003205 148E 069A                     .DW WRNG
+003206 1490 04FA                     .DW AT
+003207 1492 00D0                     .DW ZBRCH
+003208 1494 14B2                     .DW MESS1
+003209 1496 0816                     .DW MDUP
+003210 1498 00D0                     .DW ZBRCH
+003211 149A 14AE                     .DW MESS2
+003212 149C 0086                     .DW LIT
+003213 149E 0004                     .DW H'0004
+003214 14A0 06F2                     .DW OFST
+003215 14A2 04FA                     .DW AT
+003216 14A4 0645                     .DW BSCR
+003217 14A6 119C                     .DW SLASH
+003218 14A8 07C1                     .DW MINS
+003219 14AA 1532                     .DW DLINE
+003220 14AC 0807                     .DW SPC
+003221 14AE 00BD             MESS2:  .DW BRCH
+003222 14B0 14BE                     .DW MESS3
+003223 14B2 0A68             MESS1:  .DW PDQ
+003224 14B4 07204D5347202320         .DB H'07," MSG # "
+003225 14BC 1415                     .DW DOT
+003226 14BE 0379             MESS3:  .DW SEMIS
+003227 14C0                          ;
+003228 14C0                          ;
+003229 14C0 81C9                     .DW H'81C9          ; I
+003230 14C2 1482                     .DW MSG - 10
+003231 14C4 14C6             I:      .DW * + 2
+003232 14C6 12                       INC R2
+003233 14C7 19                       INC R9
+003234 14C8 19                       INC R9
+003235 14C9 19                       INC R9
+003236 14CA 42                       LDA R2
+003237 14CB 59                       STR R9
+003238 14CC 29                       DEC R9
+003239 14CD 02                       LDN R2
+003240 14CE 59                       STR R9
+003241 14CF 22                       DEC R2
+003242 14D0 22                       DEC R2
+003243 14D1 DC                       SEP RC
+003244 14D2                          ;
+003245 14D2 84574152CD               .DB H'84,"WAR",H'CD ; WARM
+003246 14D7 14C0                     .DW I - 4
+003247 14D9 14DB             WRM:    .DW * + 2
+003248 14DB C01915                   LBR WARM
+003249 14DE                          ;
+003250 14DE                          ;
+003251 14DE 84434F4CC4               .DB H'84,"COL",H'C4 ; COLD
+003252 14E3 14D2                     .DW WRM - 7
+003253 14E5 14E7             CLD:    .DW * + 2
+003254 14E7 C01900                   LBR COLD
+003255 14EA                          ;
+003256 14EA                          ;
+003257 14EA 84532D3EC4               .DB H'84,"S->",H'C4 ; S->D
+003258 14EF 14DE                     .DW CLD - 7
+003259 14F1 14F3             STOD:   .DW * + 2
+003260 14F3 49                       LDA R9
+003261 14F4 FE                       SHL
+003262 14F5 33FB                     BDF SNEG
+003263 14F7 F800                     LDI H'00
+003264 14F9 30FD                     BR SSKP
+003265 14FB F8FF             SNEG:   LDI H'FF
+003266 14FD 19               SSKP:   INC R9
+003267 14FE 59                       STR R9
+003268 14FF 19                       INC R9
+003269 1500 59                       STR R9
+003270 1501 29                       DEC R9
+003271 1502 DC                       SEP RC
+003272 1503                          ;
+003273 1503 86284C494E45A9           .DB H'86,"(LINE",H'A9 ; (LINE)
+003274 150A 14EA                     .DW STOD - 7
+003275 150C 05C2             PLINE:  .DW NEST
+003276 150E 039D                     .DW GR
+003277 1510 0086                     .DW LIT
+003278 1512 0040                     .DW H'0040
+003279 1514 0639                     .DW BBUF
+003280 1516 11BC                     .DW SSMOD
+003281 1518 03AD                     .DW RG
+003282 151A 0645                     .DW BSCR
+003283 151C 117D                     .DW STAR
+003284 151E 03F7                     .DW PLUS
+003285 1520 160A                     .DW BLOCK
+003286 1522 03F7                     .DW PLUS
+003287 1524 0086                     .DW LIT
+003288 1526 0040                     .DW H'0040
+003289 1528 0379                     .DW SEMIS
+003290 152A                          ;
+003291 152A 852E4C494EC5             .DB H'85,".LIN",H'C5 ; .LINE
+003292 1530 1503                     .DW PLINE - 9
+003293 1532 05C2             DLINE:  .DW NEST
+003294 1534 150C                     .DW PLINE
+003295 1536 0A35                     .DW TRLG
+003296 1538 0A07                     .DW TYPE
+003297 153A 0379                     .DW SEMIS
+003298 153C                          ;
+003299 153C 835553C5                 .DB H'83,"US",H'C5  ; USE (ADDR OF
+003300 1540 152A                     .DW DLINE - 8       ; NEXT BUFFER TO USE)
+003301 1542 05CD             USE:    .DW VAR
+003302 1544 4000                     .DW FIRSTB
+003303 1546                          ;
+003304 1546 84505245D6               .DB H'84,"PRE",H'D6 ; PREV   (ADDR OF
+003305 154B 153C                     .DW USE - 6         ; PREVIOUSLY USED BUFFER)
+003306 154D 05CD             PREV:   .DW VAR
+003307 154F 4000                     .DW FIRSTB
+003308 1551                          ;
+003309 1551 842B4255C6               .DB H'84,"+BU",H'C6 ; +BUF
+003310 1556 1546                     .DW PREV - 7        ; ADVANCE
+003311 1558 05C2             PBUF:   .DW NEST            ;    BUFFER
+003312 155A 0639                     .DW BBUF
+003313 155C 0086                     .DW LIT
+003314 155E 0004                     .DW H'0004
+003315 1560 03F7                     .DW PLUS
+003316 1562 03F7                     .DW PLUS
+003317 1564 04B6                     .DW DUP
+003318 1566 062D                     .DW LIMIT
+003319 1568 07CD                     .DW EQL
+003320 156A 00D0                     .DW ZBRCH
+003321 156C 1572                     .DW PBUF1
+003322 156E 048D                     .DW DROP
+003323 1570 0621                     .DW FIRST
+003324 1572 04B6             PBUF1:  .DW DUP
+003325 1574 154D                     .DW PREV
+003326 1576 04FA                     .DW AT
+003327 1578 07C1                     .DW MINS
+003328 157A 0379                     .DW SEMIS
+003329 157C                          ;
+003330 157C 865550444154C5           .DB H'86,"UPDAT",H'C5 ; UPDATE
+003331 1583 1551                     .DW PBUF - 7
+003332 1585 05C2             UPDAT:  .DW NEST
+003333 1587 154D                     .DW PREV
+003334 1589 04FA                     .DW AT
+003335 158B 04FA                     .DW AT
+003336 158D 0086                     .DW LIT
+003337 158F 8000                     .DW H'8000
+003338 1591 030B                     .DW FFOR
+003339 1593 154D                     .DW PREV
+003340 1595 04FA                     .DW AT
+003341 1597 051E                     .DW EX
+003342 1599 0379                     .DW SEMIS
+003343 159B                          ;
+003344 159B 8D454D5054592D42         .DB H'8D,"EMPTY-BUFFER",H'D3 ; EMPTY-BUFFER
+       15A3 5546464552D3    
+003345 15A9 157C                     .DW UPDAT - 9
+003346 15AB 05C2             MTBUF:  .DW NEST
+003347 15AD 0 621                     .DW FIRST
+003348 15AF 062D                     .DW LIMIT
+003349 15B1 0473                     .DW OVER
+003350 15B3 07C1                     .DW MINS
+003351 15B5 0B6C                     .DW ERS
+003352 15B7 0379                     .DW SEMIS
+003353 15B9                          ;
+003354 15B9                          ;
+003355 15B9 864255464645D2           .DB H'86,"BUFFE",H'D2 ; BUFFER
+003356 15C0 159B                     .DW MTBUF - 16
+003357 15C2 05C2             BUFFE:  .DW NEST
+003358 15C4 1542                     .DW USE
+003359 15C6 04FA                     .DW AT
+003360 15C8 04B6                     .DW DUP
+003361 15CA 039D                     .DW GR
+003362 15CC 1558             BUFF1:  .DW PBUF
+003363 15CE 00D0                     .DW ZBRCH
+003364 15D0 15CC                     .DW BUFF1
+003365 15D2 1542                     .DW USE
+003366 15D4 051E                     .DW EX
+003367 15D6 03BD                     .DW R
+003368 15D8 04FA                     .DW AT
+003369 15DA 03EB                     .DW ZLESS
+003370 15DC 00D0                     .DW ZBRCH
+003371 15DE 15F2                     .DW BUFF2
+003372 15E0 03BD                     .DW R
+003373 15E2 0775                     .DW PLUS2
+003374 15E4 03BD                     .DW R
+003375 15E6 04FA                     .DW AT
+003376 15E8 0086                     .DW LIT
+003377 15EA 7FFF                     .DW H'7FFF
+003378 15EC 02F3                     .DW FAND
+003379 15EE 05F2                     .DW ZERO
+003380 15F0 1668                     .DW RSLW
+003381 15F2 03BD             BUFF2:  .DW R
+003382 15F4 051E                     .DW EX
+003383 15F6 03BD                     .DW R
+003384 15F8 154D                     .DW PREV
+003385 15FA 051E                     .DW EX
+003386 15FC 03AD                     .DW RG
+003387 15FE 0775                     .DW PLUS2
+003388 1600 0379                     .DW SEMIS
+003389 1602                          ;
+003390 1602 85424C4F43CB             .DB H'85,"BLOC",H'CB ; BLOCK
+003391 1608 15B9                     .DW BUFFE - 9
+003392 160A 05C2             BLOCK:  .DW NEST
+003393 160C 06F2                     .DW OFST
+003394 160E 04FA                     .DW AT
+003395 1610 03F7                     .DW PLUS
+003396 1612 039D                     .DW GR
+003397 1614 154D                     .DW PREV
+003398 1616 04FA                     .DW AT
+003399 1618 04B6                     .DW DUP
+003400 161A 04FA                     .DW AT
+003401 161C 03BD                     .DW R
+003402 161E 07C1                     .DW MINS
+003403 1620 04B6                     .DW DUP
+003404 1622 03F7                     .DW PLUS
+003405 1624 00D0                     .DW ZBRCH
+003406 1626 165A                     .DW BLOC1
+003407 1628 1558             BLOC2:  .DW PBUF
+003408 162A 03D2                     .DW ZEQAL
+003409 162C 00D0                     .DW ZBRCH
+003410 162E 1642                     .DW BLOC3
+003411 1630 048D                     .DW DROP
+003412 1632 03BD                     .DW R
+003413 1634 15C2                     .DW BUFFE
+003414 1636 04B6                     .DW DUP
+003415 1638 03BD                     .DW R
+003416 163A 05FA                     .DW ONE
+003417 163C 1668                     .DW RSLW
+003418 163E 0602                     .DW TWO
+003419 1640 07C1                     .DW MINS
+003420 1642 04B6             BLOC3:  .DW DUP
+003421 1644 04FA                     .DW AT
+003422 1646 03BD                     .DW R
+003423 1648 07C1                     .DW MINS
+003424 164A 04B6                     .DW DUP
+003425 164C 03F7                     .DW PLUS
+003426 164E 03D2                     .DW ZEQAL
+003427 1650 00D0                     .DW ZBRCH
+003428 1652 1628                     .DW BLOC2
+003429 1654 04B6                     .DW DUP
+003430 1656 154D                     .DW PREV
+003431 1658 051E                     .DW EX
+003432 165A 03AD             BLOC1:  .DW RG
+003433 165C 048D                     .DW DROP
+003434 165E 0775                     .DW PLUS2
+003435 1660 0379                     .DW SEMIS
+003436 1662                          ;
+003437 1662 83522FD7                 .DB H'83,H'52,H'2F,H'D7 ; R/W
+003438 1666 1602                     .DW BLOCK - 8
+003439 1668 05C2             RSLW:   .DW NEST
+003440 166A 0499                     .DW SWAP
+003441 166C 0086                     .DW LIT
+003442 166E 00FA                     .DW H'00FA
+003443 1670 118C                     .DW SLMOD
+003444 1672 04B6                     .DW DUP
+003445 1674 0086                     .DW LIT
+003446 1676 0003                     .DW H'0003
+003447 1678 07E5                     .DW GTR
+003448 167A 0086                     .DW LIT
+003449 167C 0005                     .DW H'0005
+003450 167E 08BE                     .DW QERR
+003451 1680 0499                     .DW SWAP
+003452 1682 0086                     .DW LIT
+003453 1684 0008                     .DW H'0008
+003454 1686 117D                     .DW STAR
+003455 1688 0086                     .DW LIT
+003456 168A 0001                     .DW H'0001
+003457 168C 03F7                     .DW PLUS
+003458 168E 0086                     .DW LIT
+003459 1690 001A                     .DW H'001A
+003460 1692 118C                     .DW SLMOD
+003461 1694 075F                     .DW DV
+003462 1696 0535                     .DW CEX
+003463 1698 05FA                     .DW ONE
+003464 169A 07C1                     .DW MINS
+003465 169C 0499                     .DW SWAP
+003466 169E 0086                     .DW LIT
+003467 16A0 0040                     .DW H'0040
+003468 16A2 117D                     .DW STAR
+003469 16A4 03F7                     .DW PLUS
+003470 16A6 075F                     .DW DV
+003471 16A8 0768                     .DW PLUS1
+003472 16AA 0535                     .DW CEX
+003473 16AC 05F2                     .DW ZERO
+003474 16AE 075F                     .DW DV
+003475 16B0 0775                     .DW PLUS2
+003476 16B2 0535                     .DW CEX
+003477 16B4 075F                     .DW DV
+003478 16B6 0639                     .DW BBUF
+003479 16B8 07F3                     .DW ROT
+003480 16BA 00D0                     .DW ZBRCH
+003481 16BC 16C4                     .DW RWELSE
+003482 16BE 16D5                     .DW BLKRD
+003483 16C0 00BD                     .DW BRCH
+003484 16C2 16C6                     .DW RWEND
+003485 16C4 171F             RWELSE: .DW BLKWT
+003486 16C6 0379             RWEND:  .DW SEMIS
+003487 16C8 0A424C4F434B2D52         .DB H'0A,"BLOCK-REA",H'C4 ; BLOCKREAD
+       16D0 4541C4          
+003488 16D3 1662                     .DW RSLW - 6
+003489 16D5 16D7             BLKRD:  .DW * + 2
+003490 16D7 F883                     LDI H'83
+003491 16D9 B4                       PHI R4
+003492 16DA B5                       PHI R5
+003493 16DB F864                     LDI H'64
+003494 16DD A4                       PLO R4
+003495 16DE F874                     LDI H'74
+003496 16E0 A5                       PLO R5
+003497 16E1                          ;
+003498 16E1 E2                       SEX R2
+003499 16E2 9C                       GHI RC
+003500 16E3 73                       STXD
+003501 16E4 8C                       GLO RC
+003502 16E5 73                       STXD
+003503 16E6 49                       LDA R9
+003504 16E7 B7                       PHI R7
+003505 16E8 09                       LDN R9
+003506 16E9 A7                       PLO R7
+003507 16EA 29                       DEC R9
+003508 16EB 29                       DEC R9
+003509 16EC 09                       LDN R9
+003510 16ED AC                       PLO RC
+003511 16EE 29                       DEC R9
+003512 16EF 09                       LDN R9
+003513 16F0 BC                       PHI RC
+003514 16F1 1C                       INC RC
+003515 16F2 1C                       INC RC
+003516 16F3 29                       DEC R9
+003517 16F4 09                       LDN R9
+003518 16F5 A8                       PLO R8
+003519 16F6 29                       DEC R9
+003520 16F7 09                       LDN R9
+003521 16F8 B8                       PHI R8
+003522 16F9 29                       DEC R9
+003523 16FA 29                       DEC R9
+003524 16FB D4               BLKRD2: SEP R4
+003525 16FC 8502                     .DW H'8502
+003526 16FE 9F                       GHI RF
+003527 16FF 58                       STR R8
+003528 1700 18                       INC R8
+003529 1701 27                       DEC R7
+003530 1702 97                       GHI R7
+003531 1703 CA16FB                   LBNZ BLKRD2
+003532 1706 87                       GLO R7
+003533 1707 CA16FB                   LBNZ BLKRD2
+003534 170A                          ;
+003535 170A E2                       SEX R2
+003536 170B 60                       IRX
+003537 170C 72                       LDXA
+003538 170D AC                       PLO RC
+003539 170E F0                       LDX
+003540 170F BC                       PHI RC
+003541 1710 DC                       SEP RC
+003542 1711                          ;
+003543 1711 0B424C4F434B2D57         .DB H'0B,"BLOCK-WRIT",H'C5 ; BLOCK-WRITE
+       1719 524954C5        
+003544 171D 16C8                     .DW BLKRD - 13
+003545 171F 1721             BLKWT:  .DW * + 2
+003546 1721 F883                     LDI H'83
+003547 1723 B4                       PHI R4
+003548 1724 B5                       PHI R5
+003549 1725 F864                     LDI H'64
+003550 1727 A4                       PLO R4
+003551 1728 F874                     LDI H'74
+003552 172A A5                       PLO R5
+003553 172B                          ;
+003554 172B E2                       SEX R2
+003555 172C 9C                       GHI RC
+003556 172D 73                       STXD
+003557 172E 8C                       GLO RC
+003558 172F 73                       STXD
+003559 1730 49                       LDA R9
+003560 1731 B7                       PHI R7
+003561 1732 09                       LDN R9
+003562 1733 A7                       PLO R7
+003563 1734 29                       DEC R9
+003564 1735 29                       DEC R9
+003565 1736 09                       LDN R9
+003566 1737 AC                       PLO RC
+003567 1738 29                       DEC R9
+003568 1739 09                       LDN R9
+003569 173A BC                       PHI RC
+003570 173B 1C                       INC RC
+003571 173C 1C                       INC RC
+003572 173D 29                       DEC R9
+003573 173E 09                       LDN R9
+003574 173F A8                       PLO R8
+003575 1740 29                       DEC R9
+003576 1741 09                       LDN R9
+003577 1742 B8                       PHI R8
+003578 1743 29                       DEC R9
+003579 1744 29                       DEC R9
+003580 1745 48               BLKWT2: LDA R8
+003581 1746 BF                       PHI RF
+003582 1747 D4                       SEP R4
+003583 1748 8500                     .DW H'8500
+003584 174A 27                       DEC R7
+003585 174B 97                       GHI R7
+003586 174C CA1745                   LBNZ BLKWT2
+003587 174F 87                       GLO R7
+003588 1750 CA1745                   LBNZ BLKWT2
+003589 1753                          ;
+003590 1753 E2                       SEX R2
+003591 1754 60                       IRX
+003592 1755 72                       LDXA
+003593 1756 AC                       PLO RC
+003594 1757 F0                       LDX
+003595 1758 BC                       PHI RC
+003596 1759 DC                       SEP RC
+003597 175A                          ;
+003598 175A 844C4F41C4               .DB H'84,"LOA",H'C4 ; LOAD
+003599 175F 1711                     .DW BLKWT - 14
+003600 1761 05C2             LOAD:   .DW NEST
+003601 1763 06C8                     .DW BLK
+003602 1765 04FA                     .DW AT
+003603 1767 039D                     .DW GR
+003604 1769 06D1                     .DW FIN
+003605 176B 04FA                     .DW AT
+003606 176D 039D                     .DW GR
+003607 176F 05F2                     .DW ZERO
+003608 1771 06D1                     .DW FIN
+003609 1773 051E                     .DW EX
+003610 1775 0645                     .DW BSCR
+003611 1777 117D                     .DW STAR
+003612 1779 06C8                     .DW BLK
+003613 177B 051E                     .DW EX
+003614 177D 0EE1                     .DW INPT
+003615 177F 03AD                     .DW RG
+003616 1781 06D1                     .DW FIN
+003617 1783 051E                     .DW EX
+003618 1785 03AD                     .DW RG
+003619 1787 06C8                     .DW BLK
+003620 1789 051E                     .DW EX
+003621 178B 0379                     .DW SEMIS
+003622 178D                          ;
+003623 178D C32D2DBE                 .DB H'C3,"--",H'BE ; -->
+003624 1791 175A                     .DW LOAD - 7
+003625 1793 05C2             ARROW:  .DW NEST      
+003626 1795 0937                     .DW QLDG
+003627 1797 05F2                     .DW ZERO
+003628 1799 06D1                     .DW FIN
+003629 179B 051E                     .DW EX
+003630 179D 0645                     .DW BSCR
+003631 179F 06C8                     .DW BLK
+003632 17A1 04FA                     .DW AT
+003633 17A3 0473                     .DW OVER
+003634 17A5 11AC                     .DW MODD
+003635 17A7 07C1                     .DW MINS
+003636 17A9 06C8                     .DW BLK
+003637 17AB 04C6                     .DW PLUSS
+003638 17AD 0379                     .DW SEMIS
+003639 17AF                          ;
+003640 17AF                          ;
+003641 17AF 834452B0                 .DB H'83,H'44,H'52,H'B0 ; DR0
+003642 17B3 178D                     .DW ARROW - 6
+003643 17B5 05C2             DRZER:  .DW NEST
+003644 17B7 05F2                     .DW ZERO
+003645 17B9 06F2                     .DW OFST
+003646 17BB 051E                     .DW EX
+003647 17BD 0379                     .DW SEMIS
+003648 17BF                          ;
+003649 17BF                          ;
+003650 17BF 834452B1                 .DB H'83,H'44,H'52,H'B1 ; DR1
+003651 17C3 17AF                     .DW DRZER - 6
+003652 17C5 05C2             DRONE:  .DW NEST
+003653 17C7 0645                     .DW BSCR
+003654 17C9 0086                     .DW LIT             ; 250 SCREENS/DISK
+003655 17CB 00FA                     .DW H'00FA
+003656 17CD 117D                     .DW STAR
+003657 17CF 06F2                     .DW OFST
+003658 17D1 051E                     .DW EX
+003659 17D3 0379                     .DW SEMIS
+003660 17D5                          ;
+003661 17D5                          ;
+003662 17D5 844C4953D4               .DB H'84,"LIS",H'D4 ; LIST
+003663 17DA 17BF                     .DW DRONE - 6
+003664 17DC 05C2             LIST:   .DW NEST
+003665 17DE 09B2                     .DW MDCML
+003666 17E0 05AB                     .DW CR
+003667 17E2 04B6                     .DW DUP
+003668 17E4 06E5                     .DW FSCR
+003669 17E6 051E                     .DW EX
+003670 17E8 0A68                     .DW PDQ
+003671 17EA 06534352202320           .DB H'06,"SCR # "
+003672 17F1 1415                     .DW DOT
+003673 17F3 0086                     .DW LIT
+003674 17F5 0010                     .DW H'0010
+003675 17F7 05F2                     .DW ZERO
+003676 17F9 0150                     .DW PDO
+003677 17FB 05AB             LIST1:  .DW CR
+003678 17FD 14C4                     .DW I
+003679 17FF 0086                     .DW LIT
+003680 1801 0003                     .DW H'0003
+003681 1803 13F6                     .DW DOTR
+003682 1805 0807                     .DW SPC
+003683 1807 14C4                     .DW I
+003684 1809 06E5                     .DW FSCR
+003685 180B 04FA                     .DW AT
+003686 180D 1532                     .DW DLINE
+003687 180F 0597                     .DW QTERM
+003688 1811 00D0                     .DW ZBRCH
+003689 1813 1817                     .DW LIST2
+003690 1815 0389                     .DW LVE
+003691 1817 00EC             LIST2:  .DW LUPE
+003692 1819 17FB                     .DW LIST1
+003693 181B 05AB                     .DW CR
+003694 181D 0379                     .DW SEMIS
+003695 181F                          ;
+003696 181F                          ;
+003697 181F 85494E4445D8             .DB H'85,"INDE",H'D8 ; INDEX
+003698 1825 17D5                     .DW LIST - 7
+003699 1827 05C2             INDEX:  .DW NEST
+003700 1829 05AB                     .DW CR
+003701 182B 0768                     .DW PLUS1
+003702 182D 0499                     .DW SWAP
+003703 182F 0150                     .DW PDO
+003704 1831 05AB             INDE1:  .DW CR      
+003705 1833 14C4                     .DW I
+003706 1835 0086                     .DW LIT
+003707 1837 0003                     .DW H'0003
+003708 1839 13F6                     .DW DOTR
+003709 183B 0807                     .DW SPC
+003710 183D 05F2                     .DW ZERO
+003711 183F 14C4                     .DW I
+003712 1841 1532                     .DW DLINE
+003713 1843 0597                     .DW QTERM
+003714 1845 00D0                     .DW ZBRCH
+003715 1847 184B                     .DW INDE2
+003716 1849 0389                     .DW LVE
+003717 184B 00EC             INDE2:  .DW LUPE
+003718 184D 1831                     .DW INDE1
+003719 184F 0379                     .DW SEMIS
+003720 1851                          ;
+003721 1851 8554524941C4             .DB H'85,"TRIA",H'C4 ; TRIAD
+003722 1857 181F                     .DW INDEX - 8
+003723 1859 05C2             TRIAD:  .DW NEST
+003724 185B 05AB                     .DW CR
+003725 185D 0086                     .DW LIT
+003726 185F 0003                     .DW H'0003
+003727 1861 119C                     .DW SLASH
+003728 1863 0086                     .DW LIT
+003729 1865 0003                     .DW H'0003
+003730 1867 117D                     .DW STAR
+003731 1869 0086                     .DW LIT
+003732 186B 0003                     .DW H'0003
+003733 186D 0473                     .DW OVER
+003734 186F 03F7                     .DW PLUS
+003735 1871 0499                     .DW SWAP
+003736 1873 0150                     .DW PDO
+003737 1875 05AB             TRIA1:  .DW CR
+003738 1877 14C4                     .DW I
+003739 1879 17DC                     .DW LIST
+003740 187B 0597                     .DW QTERM
+003741 187D 00D0                     .DW ZBRCH
+003742 187F 1883                     .DW TRIA2
+003743 1881 0389                     .DW LVE
+003744 1883 00EC             TRIA2:  .DW LUPE
+003745 1885 1875                     .DW TRIA1
+003746 1887 05AB                     .DW CR
+003747 1889 0086                     .DW LIT
+003748 188B 000F                     .DW H'000F
+003749 188D 148C                     .DW MSG
+003750 188F 05AB                     .DW CR
+003751 1891 0379                     .DW SEMIS
+003752 1893                          ;
+003753 1893                          ;
+003754 1893 85464C5553C8             .DB H'85,"FLUS",H'C8 ; FLUSH
+003755 1899 1851                     .DW TRIAD - 8
+003756 189B 05C2             FLUSH:  .DW NEST
+003757 189D 062D                     .DW LIMIT
+003758 189F 0621                     .DW FIRST
+003759 18A1 07C1                     .DW MINS
+003760 18A3 0639                     .DW BBUF
+003761 18A5 0086                     .DW LIT
+003762 18A7 0004                     .DW H'0004
+003763 18A9 03F7                     .DW PLUS
+003764 18AB 119C                     .DW SLASH
+003765 18AD 05F2                     .DW ZERO
+003766 18AF 0150                     .DW PDO
+003767 18B1 0086             FL1:    .DW LIT
+003768 18B3 7FFF                     .DW H'7FFF
+003769 18B5 15C2                     .DW BUFFE
+003770 18B7 048D                     .DW DROP
+003771 18B9 00EC                     .DW LUPE
+003772 18BB 18B1                     .DW FL1
+003773 18BD 0379                     .DW SEMIS
+003774 18BF                          ;
+003775 18BF                          ;
+003776 18BF 84544153CB               .DB H'84,"TAS",H'CB ; TASK
+003777 18C4 1893                     .DW FLUSH - 8
+003778 18C6 05C2             TASK:   .DW NEST              
+003779 18C8 0379                     .DW SEMIS
+003780 18CA                          ;
+003781 18CA                          ;
+003782 1900                          .PAGE
+003783 1900                          ;
+003784 1900                          ;        
+003785 1900 F800             COLD:   LDI (START + 12) >> 8
+003786 1902 B7                       PHI R7
+003787 1903 F86A                     LDI (START + 12)
+003788 1905 A7                       PLO R7
+003789 1906 F80F                     LDI (FRTH + 14) >> 8
+003790 1908 B8                       PHI R8
+003791 1909 F868                     LDI ((FRTH + 14) & H'00FF)
+003792 190B A8                       PLO R8
+003793 190C 47                       LDA R7
+003794 190D 58                       STR R8
+003795 190E 18                       INC R8
+003796 190F 47                       LDA R7
+003797 1910 58                       STR R8
+003798 1911 F816                     LDI H'16
+003799 1913 3017                     BR PUTF
+003800 1915 F810             WARM:   LDI H'10
+003801 1917 AF               PUTF:   PLO RF
+003802 1918 F800                     LDI (START + H'10) >> 8
+003803 191A B7                       PHI R7
+003804 191B F86E                     LDI (START + H'10)
+003805 191D A7                       PLO R7
+003806 191E 47                       LDA R7
+003807 191F BD                       PHI RD
+003808 1920 B8                       PHI R8
+003809 1921 07                       LDN R7
+003810 1922 AD                       PLO RD
+003811 1923 A8                       PLO R8
+003812 1924 F86A                     LDI (START + 12)
+003813 1926 A7                       PLO R7
+003814 1927 47               WRMLP:  LDA R7
+003815 1928 58                       STR R8
+003816 1929 18                       INC R8
+003817 192A 2F                       DEC RF
+003818 192B 8F                       GLO RF
+003819 192C 3A27                     BNZ WRMLP
+003820 192E F800                     LDI NEXT >> 8
+003821 1930 BC                       PHI RC
+003822 1931 F892                     LDI NEXT
+003823 1933 AC                       PLO RC
+003824 1934 F8C0                     LDI ((ABORT + 2) & H'00FF)
+003825 1936 AA                       PLO RA
+003826 1937 F80F                     LDI (ABORT + 2) >> 8
+003827 1939 BA                       PHI RA
+003828 193A C00367                   LBR (RP1 + 2)
+003829 193D                          ;
+003830 193D C4               LEND:   NOP                 ; INITIAL FENCE IS HERE
+003831 193E                          ;
+003832 193E                          ; TO EXTEND THIS PORTION TO INCLUDE
+003833 193E                          ; NEW WORDS, FIRST USE
+003834 193E                          ;    HERE.  TO FIND END OF YOUR NEW VERSION
+003835 193E                          ; THEN USE THE FOLLOWING:
+003836 193E                          ;
+003837 193E                          ;    LATEST 12 +ORIGIN !
+003838 193E                          ;    HERE  28 +ORIGIN !
+003839 193E                          ;    HERE  30 +ORIGIN !
+003840 193E                          ;    HERE FENCE !
+003841 193E                          ;
+003842 193E                          ; THEN USE   BYE TO GET BACK TO YOUR MONITOR
+003843 193E                          ; THEN USE YOUR MONITOR ROUTINES TO SAVE MEMORY
+003844 193E                          ; FROM 0000 TO END ADDRESS
+003845 193E                          ;
+003846 193E                          ; THIS PROCEDURE WILL ALLOW YOU TO CONTINUE
+003847 193E                          ; BUILDING ON YOUR FORTH VOCABULARY WITHOUT THE
+003848 193E                          ; DISC INTERFACE
+003849 193E                          ;
+003850 193E                          ;
+003851 193E                          ;
+003852 193E                          ;
+003853 193E                          ;
+003854 193E                          .END
+ABORT   =0FBE  DCSP    =08AB  FOUT    =06DB  MSLAS   =1157  R2      =0002  TYP1    =0A17  
+ABS     =1106  DDOT    =1407  FRST    =0215  MSMOD   =11DF  R3      =0003  TYPE    =0A07  
+AGAIN   =12BB  DDOTR   =13D3  FRTH    =0F5A  MSTAR   =113A  R4      =0004  UDOT    =142E  
+ALLOT   =0794  DELIM   =0238  FSCR    =06E5  MTBUF   =15AB  R5      =0005  UNTIL   =1299  
+ARROW   =1793  DFN     =0F7A  FSPAT   =033D  NEST    =05C2  R6      =0006  UOUT    =02A5  
+AT      =04FA  DGT     =016B  FXOR    =0324  NEXCHR  =01AD  R7      =0007  UPDAT   =1585  
+BACK    =1218  DIG     =1390  GR      =039D  NEXT    =0092  R8      =0008  USE     =1542  
+BAD     =0188  DIG1    =13AC  GTR     =07E5  NFA     =0880  R9      =0009  USER    =05DF  
+BAD2    =0186  DIGS    =13BB  HERE    =0784  NMB1    =0C71  RA      =000A  USLSH   =02B2  
+BADCHR  =01D4  DIGS1   =13BD  HLD     =0756  NMB2    =0C97  RB      =000B  USR     =0E2F  
+BADLEN  =01D3  DLINE   =1532  HOLD    =0B8C  NMB3    =0CA1  RBK     =0975  USTAR   =0278  
+BASE    =0725  DLTL    =0E98  I       =14C4  NMBR    =0C53  RC      =000C  VAR     =05CD  
+BBUF    =0639  DLTL1   =0EA8  ID      =0D2D  NO      =00DD  RD      =000D  VARB    =0E1E  
+BCOMP   =104A  DMIN    =0458  IFF     =12EB  NONE    =03DE  RE      =000E  VB1     =0F52  
+BDIGS   =1352  DO      =125A  IMMED   =1068  NULL    =022A  REPEA   =12D2  VBLY    =0F32  
+BEGIN   =1226  DOK     =017C  INDE1   =1831  OFST    =06F2  RF      =000F  VL      =06BE  
+BL      =060B  DOSEG   =0E53  INDE2   =184B  ONE     =05FA  RG      =03AD  VLIS1   =1450  
+BLK     =06C8  DOT     =1415  INDEX   =1827  ORGN    =0652  RNU     =074C  VLIS2   =1464  
+BLKRD   =16D5  DOTQ    =1014  INPT    =0EE1  OVER    =0473  RO      =0676  VLIST   =143E  
+BLKRD2  =16FB  DOTQ1   =1034  KEY     =0578  PABRT   =0CD7  ROT     =07F3  WARM    =1915  
+BLKWT   =171F  DOTQ2   =103C  KEY1    =057E  PAD     =0BA4  RP1     =0365  WBR     =0096  
+BLKWT2  =1745  DOTR    =13F6  LB      =0967  PAREN   =1078  RSLW    =1668  WD1     =0BCB  
+BLNK    =0B7D  DP      =06AF  LBLD    =0E43  PBUF    =1558  RSTACK  =0002  WD2     =0BCF  
+BLOC1   =165A  DPL     =072F  LEND    =193D  PBUF1   =1572  RWELSE  =16C4  WHILE   =1324  
+BLOC2   =1628  DPLUS   =042A  LESS    =07D9  PCODE   =09C8  RWEND   =16C6  WIDTH   =068C  
+BLOC3   =1642  DPM     =10F4  LFA     =0862  PDO     =0150  SEMIC   =1001  WORD    =0BB7  
+BLOCK   =160A  DPM1    =10FE  LIMIT   =062D  PDQ     =0A68  SEMIS   =0379  WRM     =14D9  
+BOK     =01E7  DRONE   =17C5  LIMITB  =6C2C  PFA     =0896  SIGN    =137A  WRMLP   =1927  
+BRANCH  =00BF  DROP    =048D  LIST    =17DC  PLINE   =150C  SIGN1   =138A  WRNG    =069A  
+BRCH    =00BD  DRZER   =17B5  LIST1   =17FB  PLOOP   =1283  SKIP    =0232  X       =0B0F  
+BSCR    =0645  DUP     =04B6  LIST2   =1817  PLUPE   =0124  SKP9A   =02A0  X1      =0B3B  
+BUFF1   =15CC  DUZ1    =0E5F  LIT     =0086  PLUS    =03F7  SKPD8   =02DE  X2      =0B3F  
+BUFF2   =15F2  DV      =075F  LOAD    =1761  PLUS1   =0768  SLASH   =119C  XEND    =0B43  
+BUFFE   =15C2  EDIGS   =1361  LOOP    =126D  PLUS2   =0775  SLMOD   =118C  ZBRCH   =00D0  
+BYE     =120B  ELSEE   =1302  LOOP1   =01A4  PLUSS   =04C6  SMDG    =098A  ZEQAL   =03D2  
+CAT     =050D  EMIT    =054A  LOOP2   =01B6  PM      =10E2  SNEG    =14FB  ZERO    =05F2  
+CCMA    =07B1  ENCL    =01FE  LOP1    =020D  PM1     =10EC  SO      =066D  ZLESS   =03EB  
+CEND    =0113  END2    =026E  LOP2    =0220  PNM1    =0C40  SP1     =0350  ZONE    =03DA  
+CEX     =0535  ENDD    =12AD  LP7B    =0281  PNM2    =0C46  SPACS   =1335  
+CFA     =0872  ENDIFF  =1238  LPC5    =02CB  PNMBR   =0C08  SPAX1   =134B  
+CL      =0615  EQL     =07CD  LT1     =0E8B  POP     =04D7  SPAX2   =1345  
+CLD     =14E5  ERR1    =0CF3  LTL     =0E7B  PORGN   =0660  SPC     =0807  
+CMOVE   =0246  ERROR   =0CE5  LTST    =0852  PREV    =154D  SSKP    =14FD  
+CMPL    =0951  ERS     =0B6C  LUPE    =00EC  PT1     =0F05  SSLA    =11CD  
+CNST    =0E09  EX      =051E  LUPE1   =0140  PT2     =0EFB  SSMOD   =11BC  
+CNT     =09F4  EXC     =08F0  LUUP    =0265  PT3     =0EFF  STAR    =117D  
+CNTX    =0700  EXE     =00A6  LVE     =0389  PT4     =0F1F  START   =005E  
+CODE    =09DE  EXPT    =0A85  MAX     =1123  PT5     =0F19  STOD    =14F1  
+COLD    =1900  EXPT1   =0ABF  MAX1    =1131  PT6     =0F1D  STOR    =03E0  
+COLON   =0DC4  EXPT2   =0AE5  MDCML   =09B2  PUTF    =1917  STT     =071A  
+COMMA   =07A0  EXPT3   =0AD7  MDUP    =0816  Q1      =0FB0  SWAP    =0499  
+COMP    =0100  EXPT4   =0A8F  MESS1   =14B2  Q2      =0F97  TASK    =18C6  
+CONST   =05D6  EXPT5   =0AD9  MESS2   =14AE  QCMP    =08D8  TGLE    =04E3  
+CR      =05AB  FAND    =02F3  MESS3   =14BE  QCSP    =091A  THEN    =124F  
+CR1     =05AE  FFOR    =030B  MF1     =0CCB  QERR    =08BE  THREE   =1086  
+CR2     =05B7  FILL    =0B4C  MFIND   =0CAB  QLDG    =0937  TIB     =0680  
+CRNT    =070E  FIN     =06D1  MHEX    =099C  QPR     =0907  TICK    =108E  
+CRT1    =0D8A  FIND    =0196  MIN     =0D15  QSTK    =0EB3  TR1     =0831  
+CRTE    =0D64  FIRST   =0621  MINOS   =0416  QTERM   =0597  TRIA1   =1875  
+CSEND   =0552  FIRSTB  =4000  MINS    =07C1  QUER    =0AF7  TRIA2   =1883  
+CSEND1  =0565  FL1     =18B1  MINUS   =0412  QUES    =1421  TRIAD   =1859  
+CSP     =0743  FLD     =0739  MN1     =0D23  QUIT    =0F8D  TRL1    =0A3D  
+CSTACK  =0009  FLUSH   =189B  MODD    =11AC  R       =03BD  TRLG    =0A35  
+DABS    =1115  FNCE    =06A6  MON     =11FB  R0      =0000  TRVS    =082D  
+DCODE   =0DEC  FORG    =10A7  MSG     =148C  R1      =0001  TWO     =0602  
+                                                                                                                         .DW PLINE - 9
+003293 1532 05C2             DLINE:  .DW NEST
+003294 1534 150C                     .DW PLINE
+003295 1536 0A35 

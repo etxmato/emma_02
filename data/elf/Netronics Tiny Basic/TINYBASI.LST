@@ -1,0 +1,2459 @@
+0000        ; Netronic TinyBasic For The ELF II Recreation
+0000        ; By Richard Peters, Richard11092000@cox.net
+0000        ; Special THANKS to TOM PITTMAN for Writing Program,
+0000        ; To LEE A. HART for Posting Necessary Parts
+0000        ; And To Dave Ruske for creating COMACELF group
+0000        ; Which Made This Recreation Possible
+0000        ; Assembled With QELFEXE V2.0 Multiformat Assembler
+0000        ; Current Code Running In Tinybasi.zip Emulator
+0000        ; Requires Giant Board And ROM Monitor
+0000        ; To Use LOAD And SAVE to Tape
+0000        ; Designed to run In RAM Starting at 0000
+0000        ; I Have Done What I Could To Make This Source
+0000        ; Moveable And To Follow Itself, But I Still Could
+0000        ; Could Have Missed Something. I Also Tried To Figure
+0000        ; Out Some Of The IL Code and Add Comments To It.
+0000        ; If There Is Something To Add Or Change, Let Me Know.
+0000        ; Code Has Only Been Verified With What I Have
+0000        ; Hope The Above Changes Soon.
+0000        ; Last Update 01/29/2004 09:40PM
+0000        ;
+0000        ; INTERNAL MACRO DEFINITIONS
+0000        ;
+0000        ; CALL   = SEP R4 + DW   SUB LOCATION
+0000        ; RETURN = SEP R5
+0000        ; SEP R7 = SEP R7 + DB   LOW LOCATION OF BYTE
+0000        ;
+0000   0000 R0         EQU     0         REGISTER DEFINITION
+0000   0001 R1         EQU     1         REGISTER DEFINITION
+0000   0002 R2         EQU     2         REGISTER DEFINITION
+0000   0003 R3         EQU     3         REGISTER DEFINITION
+0000   0004 R4         EQU     4         REGISTER DEFINITION
+0000   0005 R5         EQU     5         REGISTER DEFINITION
+0000   0006 R6         EQU     6         REGISTER DEFINITION
+0000   0007 R7         EQU     7         REGISTER DEFINITION
+0000   0008 R8         EQU     8         REGISTER DEFINITION
+0000   0009 R9         EQU     9         REGISTER DEFINITION
+0000   000A RA         EQU     10        REGISTER DEFINITION
+0000   000B RB         EQU     11        REGISTER DEFINITION
+0000   000C RC         EQU     12        REGISTER DEFINITION
+0000   000D RD         EQU     13        REGISTER DEFINITION
+0000   000E RE         EQU     14        REGISTER DEFINITION
+0000   000F RF         EQU     15        REGISTER DEFINITION
+0000        ;
+0000        ; The Following Register And EQU Assignments Are Not Used
+0000        ; In Every Part Of Program
+0000        ;
+0000        ; REGISTER ASSIGNMENTS:
+0000        ;
+0000        ;      0 ; PC (VIA RESET) AT ENTRY
+0000        ;      1 ; INTERRUPT PROGRAM COUNTER
+0000        ;      2 ; STACK POINTER
+0000        ;      3 ; NORMAL PROGRAM COUNTER
+0000        ;      4 ; BASIC: SCRT "CALL" PC
+0000        ;      5 ; BASIC: SCRT "RETURN" PC
+0000        ;      6 ; BASIC: SCRT RETURN ADDR.
+0000        ;      7 ; BASIC: PC FOR "FECH"
+0000   0008 XX         EQU     8         BASIC: WORK REGISTER
+0000   0009 PC         EQU     9         IL PROGRAM COUNTER
+0000   000A AC         EQU     10        BASIC: 16-BIT ACCUMULATOR
+0000   000B BP         EQU     11        BASIC POINTER
+0000        ;     12                     SERIAL AND TAPE ROUTINES
+0000   000D PZ         EQU     13        BASE: PAGE 0 POINTER
+0000        ;     14 ;      RE.0=BAUD RATE CONSTANT
+0000        ;            IF RE.0=0 USES 1861 AND KEYBOARD P7,EF3
+0000        ;               RE.1=  USED FOR INPUT,OUTPUT
+0000   000F X          EQU     15        BASIC: SCRATCH REGISTER
+0000        ;
+0000        ;LDI0  ASSUMES THAT BASE PAGE IS ZERO
+0000   009D LDI0       EQU     9DH       GHI RD - CLEAR ACCUM. MACRO
+0000   00D7 FECH       EQU     0D7H      SEP R7 - PAGE 0 MACRO
+0000        ;
+0000        ; DISPLAY BUFFER EQU
+0000        ;
+0000   0DB0 BUFF       EQU     0xDB0      ONLY CHANGE PAGE, UNLESS YOU
+0000   0F08 BUFE       EQU     BUFF+344   WONT TO CHANGE INTERUPT ROUTINE
+0000   0F40 BUFX       EQU     BUFE+56    ALSO LIMITED TO 1DB0 BY PLOT
+0000        ;
+0000   F000 MONITOR    EQU     0xF000     Monitor address
+0000        ;Putting C8 in first byte allows Monitor To Run instead of Tiny
+0000 C00100 PAGE       LBR     COLDV
+0003 C0F000            LBR     MONITOR
+0006 D0                SEP     R0
+0007 00                IDL
+0008        ;
+0008        ;  DATA AREA, COULD BE EQUATES
+0008        ;
+0008 0F     TVXY       DB      0x0F       DISPLAY CURSOR LOCATION
+0009 00                DB      0x00
+000A 00                DB      0x00       BIT LOCATION OF CURSOR
+000B 00                DB      0x00
+000C E0     MASK       DB      0xE0
+000D 9A     TIME       DB      0x9A
+000E 27                DB      0x27
+000F 3A                DB      0x3A
+0010 00                DB      0x00
+0011 00                DB      0x00
+0012 00                DB      0x00
+0013 08     BS         DB      0x08
+0014 1B     CAN        DB      0x1B
+0015 00     PAD        DB      0x00
+0016 00     TAPEMODE   DB      0x00
+0017 19     SPARE      DB      0x19
+0018 19     XEQ        DB      0x19
+0019 34     LEND       DB      0x34
+001A 80     AEPTR      DB      0x80
+001B 00     TTYCC      DB      0x00
+001C 0773   NXA        DW      0x0773
+001E 0766   AIL        DW      0x0766
+0020 0F40   BASIC      DW      0x0F40     LOWEST ADD. FOR PROGRAM
+0022 3FF7   STACK      DW      0x3FF7     HIGHEST ADD. FOR PROGRAM
+0024 109B   MEND       DW      0x109B     PROGRAM END + STACK RESERVE
+0026 3FF7   TOPS       DW      0x3FF7     TOP OF GOSUB STACK
+0028 00AA   LINO       DW      0x00AA     CURRENT BASIC LINE NUMBER
+002A 1083   WORK       DW      0x1083
+002C 0034              DW      0x0034
+002E 0033   SP         DW      0x0033
+0030 0000   LINE       DW      0x0000     INPUT LINE BUFFER
+0032        ;
+0032                   ORG     PAGE+#80   #00
+0080 0000   AESTK      DW      0x0000     RANDOM NUMBER GEN.
+0082 0000              DW      0x0000     VAR. A
+0084 0000              DW      0x0000     VAR. B
+0086 0000              DW      0x0000     VAR. C
+0088 0000              DW      0x0000     VAR. D
+008A 0000              DW      0x0000     VAR. E
+008C 0000              DW      0x0000     VAR. F
+008E 0000              DW      0x0000     VAR. G
+0090 0000              DW      0x0000     VAR. H
+0092 0000              DW      0x0000     VAR. I
+0094 0000              DW      0x0000     VAR. J
+0096 0000              DW      0x0000     VAR. K
+0098 0000              DW      0x0000     VAR. L
+009A 0000              DW      0x0000     VAR. M
+009C 0000              DW      0x0000     VAR. N
+009E 0000              DW      0x0000     VAR. O
+00A0 0000              DW      0x0000     VAR. P
+00A2 0000              DW      0x0000     VAR. Q
+00A4 0000              DW      0x0000     VAR. R
+00A6 0000              DW      0x0000     VAR. S
+00A8 0000              DW      0x0000     VAR. T
+00AA 0000              DW      0x0000     VAR. U
+00AC 0000              DW      0x0000     VAR. V
+00AE 0000              DW      0x0000     VAR. W
+00B0 0000              DW      0x0000     VAR. X
+00B2 0000              DW      0x0000     VAR. Y
+00B4 0000              DW      0x0000     VAR. Z
+00B6 A7     Z165       PLO     R7         I/O ROUTINES
+00B7 C3021A            LBDF    PEND       GOTO WARM START
+00BA 9D                GHI     RD
+00BB 36E1   Z149       B3      Z148       CHECK FOR KEYBOARD OR SERIAL
+00BD 37BB              B4      Z149          INPUT
+00BF 36E1   Z150       B3      Z148
+00C1 3FBF              BN4     Z150       FINED TIMING OF SERIAL INPUT
+00C3 7B                SEQ
+00C4 AE     Z153       PLO     RE
+00C5 F808              LDI     8
+00C7 FF01   Z151       SMI     1
+00C9 3AC7              BNZ     Z151
+00CB 8E                GLO     RE
+00CC FC02              ADI     2
+00CE 39D3              BNQ     Z152
+00D0 37C4              B4      Z153
+00D2 7A                REQ
+00D3 3FC4   Z152       BN4     Z153       MUST GOTO #C4
+00D5 C4                NOP                      |
+00D6 C4                NOP                      |
+00D7 FF01              SMI     1                |
+00D9 3FDE              BN4     Z154             |
+00DB 3AD4              BNZ     Z152+1     BECAUSE OF THIS
+00DD 1E                INC     RE
+00DE 8E     Z154       GLO     RE
+00DF FF06              SMI     6
+00E1 BE     Z148       PHI     RE
+00E2 F80C              LDI     0x0C
+00E4 D40A83            CALL    OUTPUTR    OUTPUT 0C  CLEARSCREEN
+00E7 C00204            LBR     CLEAR
+00EA FC00   BRKTST     ADI     0          BREAK TEST
+00EC 9E                GHI     RE
+00ED 3AF2              BNZ     Z156
+00EF 3EFF              BN3     Z157
+00F1 C8                LSKP
+00F2 37FF   Z156       B4      Z157
+00F4 FF00              SMI     0
+00F6 9E     Z296       GHI     RE
+00F7 FAFE              ANI     0xFE
+00F9 AE     Z158       PLO     RE
+00FA CE                LSZ
+00FB 2E                DEC     RE
+00FC 8E                GLO     RE
+00FD 3AF9              BNZ     Z158
+00FF D5     Z157       RETURN
+0100 C4     COLDV      NOP                COLD START
+0101 30B0              BR      COLD
+0103 C001ED            LBR     WARM       WARM START ENTRY
+0106 C00A5A KEYV       LBR     INPUTR     BRANCH TO CHARATER INPUT
+0109 C00A83 TYPEV      LBR     OUTPUTR    BRANCH TO CHARATER OUPUT
+010C C000EA BREAKV     LBR     BRKTST     BRANCH TO BREAK TEST
+010F        ; DEFAULTS LOADED TO DIRECT PAGE
+010F 08                DB      0x08       BACKSPACE CODE
+0110 1B                DB      0x1B       LINE CANCEL CODE
+0111 00                DB      0x00       PAD CHARATER
+0112 00                DB      0x00       TAPE MODE ENABLE FLAG 80=ENABLED
+0113 19                DB      0x19       SPARE STACK SIZE
+0114 3022   ILPEEK     BR      PEEK       BRANCH TO PEEK
+0116 00                DB      0x00
+0117 00                DB      0x00
+0118 58     ILPOKE     DB      0x58       POKE
+0119 D5                DB      0xD5
+011A 0766              DW      :STRT      ADDRESS OF IL PROGRAM START
+011C 0F40   CONST      DW      0x0F40     DEFAULT START OF PROGRAM SPACE
+011E 7F                DB      0x7F        END MEM STOP
+011F 00                DB      0x00
+0120        ; END DEFAULTS
+0120 48                LDA     R8         DOUBLE PEEK ENTRY
+0121 38                SKP
+0122 9D     PEEK       GHI     RD         PEEK ENTRY
+0123 BA                PHI     RA
+0124 48                LDA     R8
+0125 D5                RETURN
+0126 C00751 ILINPOUT   LBR     IO
+0129 D3                SEP     R3
+012A BF     CALL       PHI     RF         CALL ROUTINE
+012B E2                SEX     R2
+012C 86                GLO     R6
+012D 73                STXD
+012E 96                GHI     R6
+012F 73                STXD
+0130 83                GLO     R3
+0131 A6                PLO     R6
+0132 93                GHI     R3
+0133 B6                PHI     R6
+0134 46                LDA     R6
+0135 B3                PHI     R3
+0136 46                LDA     R6
+0137 A3                PLO     R3
+0138 9F                GHI     RF
+0139 3029              BR      CALL-1
+013B D3                SEP     R3
+013C BF     RETURN     PHI     RF         RETURN ROUTINE
+013D E2                SEX     R2
+013E 96                GHI     R6
+013F B3                PHI     R3
+0140 86                GLO     R6
+0141 A3                PLO     R3
+0142 12                INC     R2
+0143 42                LDA     R2
+0144 B6                PHI     R6
+0145 02                LDN     R2
+0146 A6                PLO     R6
+0147 9F                GHI     RF
+0148 303B              BR      RETURN-1
+014A D3                SEP     R3
+014B 43     FETCH      LDA     R3         LOAD TEMP IMMEDIATE ROUTINE
+014C AD                PLO     RD
+014D F800              LDI     HIGH PAGE    MEMORY BASE PAGE
+014F BD                PHI     RD
+0150 4D                LDA     RD
+0151 ED                SEX     RD         AND SET X TO D AND +
+0152 304A              BR      FETCH-1
+0154 0298   TABLE      DW      BACK
+0156 02A0              DW      HOP
+0158 031F              DW      MATCH
+015A 02DD              DW      TSTV
+015C 02F0              DW      TSTN
+015E 02D4              DW      TEND
+0160 0581              DW      RTN
+0162 0349              DW      HOOK
+0164 01ED              DW      WARM
+0166 054E              DW      XINIT
+0168 0204              DW      CLEAR
+016A 06A2              DW      INSRT
+016C 02D3              DW      RETN
+016E 02D3              DW      RETN
+0170 05AA              DW      GETLN
+0172 02D3              DW      RETN
+0174 02D3              DW      RETN
+0176 03C5              DW      STRNG
+0178 03D5              DW      CRLF
+017A 0403              DW      TAB
+017C 0379              DW      PRS
+017E 0418              DW      PRN
+0180 063C              DW      LIST
+0182 02D3              DW      RETN
+0184 0529              DW      NXT
+0186 046C              DW      CMPR
+0188 04CB              DW      IDIV
+018A 04A7              DW      IMUL
+018C 0498              DW      ISUB
+018E 049B              DW      IADD
+0190 050E              DW      INEG
+0192 0560              DW      XFER
+0194 056D              DW      RSTR
+0196 0681              DW      SAV
+0198 02B6              DW      STORE
+019A 0367              DW      IND
+019C 0448              DW      RSBP
+019E 044B              DW      SVBP
+01A0 02D3              DW      RETN
+01A2 02D3              DW      RETN
+01A4 02C9              DW      BPOP
+01A6 02C5              DW      APOP
+01A8 034E              DW      DUPS
+01AA 0344              DW      LITN
+01AC 0341              DW      LIT1
+01AE 02D3              DW      RETN
+01B0   01B0 TBEND      EQU     $         OPCODES BACKWARDS FROM HERE
+01B0        ; COLD & WARM START INITIALIZATION ;
+01B0        ;
+01B0        ; COLD START;
+01B0        ;
+01B0 F8B3   COLD       LDI     LOW $+3   CHANGE PROGRAM COUNTER
+01B2 A3                PLO     R3        FROM R0 TO R3
+01B3 F801              LDI     HIGH $
+01B5 B3                PHI     R3
+01B6 D3                SEP     R3
+01B7        ; DETERMINE SIZE OF USER RAM
+01B7 BA                PHI     AC        GET LOW END ADDR.
+01B8 F81C              LDI     LOW CONST OF USER PROGRAM
+01BA AA                PLO     AC        RAM (AT "CONST")
+01BB 4A                LDA     AC
+01BC B2                PHI     R2        ..AND PUT IN R2
+01BD 4A                LDA     AC
+01BE A2                PLO     R2
+01BF 4A                LDA     AC        SET PZ TO WRAP POINT
+01C0 BD                PHI     PZ        (END OF SEARCH)
+01C1 F8FF              LDI     0xFF
+01C3 AD                PLO     PZ
+01C4 0D                LDN     PZ        ..AND SAVE BYTE
+01C5 BF                PHI     X         NOW AT ADDR. PZ
+01C6 E2     SCAN       SEX     R2        REPEAT TO SEARCH RAM..
+01C7 12                INC     R2        - GET NEXT BYTE
+01C8 F0                LDX
+01C9 AF                PLO     X         - SAVE A COPY
+01CA FBFF              XRI     0xFF      - COMPLEMENT IT
+01CC 52                STR     R2        - STORE IT
+01CD F3                XOR               - SEE IF IT WORKED
+01CE ED                SEX     PZ
+01CF C6                LSNZ              - IF MATCHES, IS RAM
+01D0 9F                GHI     X         SET CARRY IF AT
+01D1 F3                XOR               WRAP POINT..
+01D2 FCFF              ADI     0xFF      - ELSE IS NOT RAM
+01D4 8F                GLO     X         RESTORE ORIGINAL BYTE
+01D5 52                STR     R2
+01D6 3BC6              BNF     SCAN      - ..UNTIL END OR WRAP POINT
+01D8 22                DEC     R2
+01D9 0A                LDN     AC        RAM SIZED: SET
+01DA BD                PHI     PZ        POINTER PZ TO
+01DB F823              LDI     STACK+1   WORK AREA
+01DD AD                PLO     PZ
+01DE 82                GLO     R2        STORE RAM END ADDRESS
+01DF 73                STXD
+01E0 92                GHI     R2
+01E1 73                STXD              GET & STORE RAM BEGINNIG
+01E2 2A                DEC     AC        REPEAT TO COPY PARAMETERS..
+01E3 2A                DEC     AC        - POINT TO NEXT
+01E4 0A                LDN     AC        - GET PARAMETER
+01E5 73                STXD              - STORE IN WORK AREA
+01E6 8D                GLO     PZ
+01E7 FB12              XRI     BS-1      - TEST FOR LAST PARAMETER
+01E9 3AE3              BNZ     $-6       - ..UNTIL LAST COPIED
+01EB F6                SHR               SET DF=0 FOR "CLEAR"
+01EC C8                LSKP
+01ED        ;
+01ED        ; WARM START:
+01ED        ;
+01ED FF00   WARM       SMI     0         SET DF=1 FOR "DON'T CLEAR"
+01EF F8F2              LDI     $+3
+01F1 A3                PLO     R3        BE SURE PROGRAM COUNTER IS R3
+01F2 F801              LDI     HIGH $
+01F4 B3                PHI     R3
+01F5 D3                SEP     R3
+01F6 B4                PHI     R4        INITIALIZE R4, R5, R7
+01F7 B5                PHI     R5        ASSUMES CALL,RETURN,FETCH
+01F8 B7                PHI     R7        IS IN SAME PAGE AS WARM
+01F9 F82A              LDI     CALL
+01FB A4                PLO     R4
+01FC F83C              LDI     RETURN
+01FE A5                PLO     R5
+01FF F84B              LDI     FETCH
+0201 C000B6            LBR     Z165       GOTO #00B6
+0204 D720   CLEAR      DB      FECH,BASIC - MARK PROGRAM EMPTY
+0206 BB                PHI     BP
+0207 4D                LDA     PZ
+0208 AB                PLO     BP
+0209 9D                DB      LDI0      WITH LINE# = 0
+020A 5B                STR     BP
+020B 1B                INC     BP
+020C 5B                STR     BP
+020D D716              DB      FECH,SPARE-1 SET MEND = START + SPARE
+020F 8B                GLO     BP        GET START
+0210 F4                ADD               ADD LOW BYTE OF SPARE
+0211 BF                PHI     X         SAVE TEMPORARILY
+0212 D724              DB      FECH,MEND GET MEND
+0214 9F                GHI     X
+0215 73                STXD              STORE LOW BYTE OF MEND
+0216 9B                GHI     BP
+0217 7C00              ADCI    0         ADD CARRY
+0219 73                STXD              STORE HIGH BYTE OF MEND
+021A D722   PEND       DB      FECH,STACK SET STACK TO END OF MEMORY
+021C B2                PHI     R2
+021D 4D                LDA     PZ
+021E A2                PLO     R2
+021F D726              DB      FECH,TOPS
+0221 82                GLO     R2        SET TOPS TO EMPTY
+0222 73                STXD              (I.E. STACK END)
+0223 92                GHI     R2
+0224 73                STXD
+0225 D403CC            CALL    FORCE     SET TAPE MODE "OFF"
+0228 D71E   IIL        DB      FECH,AIL  SET IL PC
+022A B9                PHI     PC
+022B 4D                LDA     PZ
+022C A9                PLO     PC        CONTINUE INTO "NEXT"
+022D        ;
+022D        ; EXECUTE NEXT INTERMEDIATE LANGUAGE (IL) INSTRUCTION
+022D        ;
+022D E2     NEXT       SEX     R2        GET OPCODE
+022E 49                LDA     PC
+022F FF30              SMI     0x30      IF JUMP OR BRANCH,
+0231 334B              BDF     TBR       GO HANDLE IT
+0233 FDD7              SDI     0xD7      IF STACK BYTE EXCHANGE,
+0235 3385              BDF     XCHG      GO HANDLE IT
+0237 FE                SHL               ELSE MULTIPLY BY 2
+0238 FCB0              ADI     TBEND     TO POINT INTO TABLE
+023A A6                PLO     R6
+023B F82D              LDI     LOW NEXT  & SET RETURN TO HERE
+023D 22                DEC     R2        (DUMMY STACK ENTRY)
+023E 22                DEC     R2
+023F 73                STXD
+0240 93                GHI     R3
+0241 73                STXD
+0242 97     DOIT       GHI     R7        TABLE PAGE
+0243 B6                PHI     R6
+0244 46                LDA     R6        FETCH SERVICE ADDRESS
+0245 52                STR     R2
+0246 46                LDA     R6
+0247 A6                PLO     R6
+0248 F0                LDX
+0249 B6                PHI     R6
+024A D5                SEP     R5        GO DO IT
+024B        ;
+024B FF10   TBR        SMI     0x10      IF JUMP OR CALL,
+024D 3B6A              BNF     TJMP      GO DO IT
+024F A6                PLO     R6        ELSE BRANCH; SAVE OPCODE
+0250 FA1F              ANI     0x1F      COMPUTE DESTINATION
+0252 325C              BZ      TBERR     IF BRANCH ADDR = 0, GOTO ERROR
+0254 52                STR     R2        PUSH ADDRESS ONTO STACK
+0255 89                GLO     PC        ADD RELATIVE OFFSET
+0256 F4                ADD               LOW BYTE
+0257 73                STXD
+0258 99                GHI     PC        HIGH BYTE W. CARRY
+0259 7C00              ADCI    0
+025B 38                SKP
+025C 73     TBERR      STXD              STORE 0 FOR ERROR
+025D 73                STXD
+025E 86                GLO     R6        NOW COMPUTE SERVICE ADDRESS
+025F F6                SHR               WHICH IS HIGH 3 BITS
+0260 F6                SHR
+0261 F6                SHR
+0262 F6                SHR
+0263 FAFE              ANI     0xFE
+0265 FC54              ADI     LOW TABLE INDEX INTO TABLE
+0267 A6                PLO     R6
+0268 3042              BR      DOIT
+026A        ;
+026A FC08   TJMP       ADI     8         NOTE IF JUMP IN CARRY
+026C FA07              ANI     7         GET ADDRESS
+026E B6                PHI     R6
+026F 49                LDA     PC
+0270 A6                PLO     R6
+0271 337A              BDF     JMP       JUMP
+0273 89                GLO     PC        PUSH PC
+0274 73                STXD
+0275 99                GHI     PC
+0276 73                STXD
+0277 D40337            CALL    STEST     CHECK STACK DEPTH
+027A        ;
+027A D71E   JMP        DB      FECH,AIL  ADD JUMP ADDRESS TO IL BASE
+027C 86                GLO     R6
+027D F4                ADD
+027E A9                PLO     PC
+027F 96                GHI     R6
+0280 2D                DEC     PZ
+0281 74                ADC
+0282 B9                PHI     PC
+0283 302D              BR      NEXT
+0285        ;
+0285 FD07   XCHG       SDI     7         SAVE OFFSET
+0287 52                STR     R2
+0288 D71A              DB      FECH,AEPTR
+028A AD                PLO     PZ
+028B E2                SEX     R2
+028C F4                ADD
+028D A6                PLO     R6        R6 IS OTHER POINTER
+028E 9D                GHI     PZ
+028F B6                PHI     R6
+0290 0D                LDN     PZ        NOW SWAP THEM:
+0291 52                STR     R2        SAVE OLD TOP
+0292 06                LDN     R6        GET INNER BYTE
+0293 5D                STR     PZ        PUT ON TOP
+0294 02                LDN     R2        GET OLD TOP
+0295 56                STR     R6        PUT IN
+0296 302D              BR      NEXT
+0298        ;
+0298 86     BACK       GLO     R6        REMOVE OFFSET
+0299 FF20              SMI     0x20      FOR BACKWARDS HOP
+029B A6                PLO     R6
+029C 96                GHI     R6
+029D 7F00              SMBI    0
+029F 38                SKP
+02A0        ;
+02A0 96     HOP        GHI     R6        FORWARD HOP
+02A1 C2037F            LBZ     ERR       IF ZERO, GOTO ERROR
+02A4 B9                PHI     PC        ELSE PUT INTO PC
+02A5 86                GLO     R6
+02A6 A9                PLO     PC
+02A7 302D              BR      NEXT
+02A9        ;
+02A9 1B                INC     BP        ADVANCE TO NEXT NON-BLANK CHAR.
+02AA 0B     NONBL      LDN     BP        GET CHARACTER
+02AB FF20              SMI     0x20      IF BLANK,
+02AD 32A9              BZ      NONBL-1   INCREMENT POINTER AND TRY AGAIN
+02AF FF10              SMI     0x10      IF NUMERIC (0-9),
+02B1 C7                LSNF
+02B2 FD09              SDI     9         SET DF=1
+02B4 0B     NONBX      LDN     BP        GET CHARACTER
+02B5 D5                RETURN              AND RETURN
+02B6        ;
+02B6 D402C5 STORE      CALL    APOP      GET VARIABLE
+02B9 4D                LDA     PZ        GET POINTER
+02BA AD                PLO     PZ
+02BB 9A                GHI     AC        STORE THE NUMBER
+02BC 5D                STR     PZ
+02BD 1D                INC     PZ
+02BE 8A                GLO     AC
+02BF 5D                STR     PZ
+02C0 30C9              BR      BPOP      GO POP POINTER
+02C2        ;
+02C2 D402C5            CALL    APOP      POP 4 BYTES
+02C5 D402C9 APOP       CALL    BPOP      POP 2 BYTES
+02C8 BA                PHI     AC        FIRST BYTE TO AC.1
+02C9 D71A   BPOP       DB      FECH,AEPTR POP 1 BYTE
+02CB 2D                DEC     PZ
+02CC FC01              ADI     1         INCREMENT
+02CE 5D                STR     PZ
+02CF AD                PLO     PZ
+02D0 2D                DEC     PZ
+02D1 4D                LDA     PZ        LEAVE IT IN D
+02D2 AA                PLO     AC        AND AC.0
+02D3 D5     RETN       RETURN
+02D4        ;
+02D4 D402AA TEND       CALL    NONBL     GET NEXT CHARACTER
+02D7 FB0D              XRI     0x0D      IF CARRIAGE RETURN,
+02D9 322D              BZ      NEXT      THEN FALL THRU IN IL
+02DB 30A0              BR      HOP       ELSE TAKE BRANCH
+02DD        ;
+02DD D402AA TSTV       CALL    NONBL     GET NEXT CHARACTER
+02E0 FF41              SMI     0x41      IF LESS THAN 'A',
+02E2 3BA0              BNF     HOP       THEN HOP
+02E4 FF1A              SMI     0x1A      IF GREATER THAN 'Z'
+02E6 33A0              BDF     HOP       THEN HOP
+02E8 1B                INC     BP        ELSE IS LETTER A-Z
+02E9 9F                GHI     X         GET SAVED COPY
+02EA FE                SHL               CONVERT TO VARIABLE'S ADDRESS
+02EB D40359            CALL    BPUSH     AND PUSH ONTO STACK
+02EE 302D              BR      NEXT
+02F0        ;
+02F0 D402AA TSTN       CALL    NONBL     GET NEXT CHARACTER
+02F3 3BA0              BNF     HOP       IF NOT A DIGIT, HOP
+02F5 9D                DB      LDI0      ELSE COMPUTE NUMBER
+02F6 BA                PHI     AC        INITIALLY 0
+02F7 AA                PLO     AC
+02F8 D40354            CALL    APUSH     PUSH ONTO STACK
+02FB 4B     NUMB       LDA     BP        GET CHARACTER
+02FC FA0F              ANI     0x0F      CONVERT FROM ASCII TO NUMBER
+02FE AA                PLO     AC
+02FF 9D                DB      LDI0
+0300 BA                PHI     AC
+0301 F80A              LDI     10        ADD 10 TIMES THE..
+0303 AF                PLO     X
+0304 ED                SEX     PZ
+0305 1D     NM10       INC     PZ
+0306 8A                GLO     AC        ..PREVIOUS VALUE..
+0307 F4                ADD
+0308 AA                PLO     AC
+0309 9A                GHI     AC
+030A 2D                DEC     PZ        ..WHICH IS ON STACK.
+030B 74                ADC
+030C BA                PHI     AC
+030D 2F                DEC     X         COUNT THE ITERATIONS
+030E 8F                GLO     X
+030F 3A05              BNZ     NM10
+0311 9A                GHI     AC        SAVE NEW VALUE
+0312 5D                STR     PZ
+0313 1D                INC     PZ
+0314 8A                GLO     AC
+0315 73                STXD
+0316 D402AA            CALL    NONBL     IF ANY MORE DIGITS,
+0319 C302FB            LBDF    NUMB      THEN DO IT AGAIN
+031C C0022D NHOP       LBR     NEXT      UNTIL DONE
+031F        ;
+031F 9B     MATCH      GHI     BP        SAVE PB IN CASE NO MATCH
+0320 BA                PHI     AC
+0321 8B                GLO     BP
+0322 AA                PLO     AC
+0323 D402AA MAL        CALL    NONBL     GET A BYTE (IN CAPS)
+0326        ;
+0326 1B                INC     BP        COMPARE THEM
+0327 52                STR     R2
+0328 49                LDA     PC
+0329 F3                XOR
+032A 3223              BZ      MAL       STILL EQUAL
+032C FB80              XRI     80H       END?
+032E 321C              BZ      NHOP      YES
+0330 9A                GHI     AC        NO GOOD
+0331 BB                PHI     BP        PUT POINTER BACK
+0332 8A                GLO     AC
+0333 AB                PLO     BP
+0334 C002A0 JHOP       LBR     HOP       THEN TAKE BRANCH
+0337        ;
+0337 D724   STEST      DB      FECH,MEND POINT TO PROGRAM END
+0339 82                GLO     R2        COMPARE TO STACK TOP
+033A F5                SD
+033B 2D                DEC     PZ
+033C 92                GHI     R2
+033D 75                SDB
+033E 337F              BDF     ERR       AHA; OVERFLOW
+0340 D5                RETURN              ELSE EXIT
+0341        ;
+0341 49     LIT1       LDA     PC        ONE BYTE
+0342 3059              BR      BPUSH
+0344 49     LITN       LDA     PC        TWO BYTES
+0345 BA                PHI     AC        FIRST IS HIGH BYTE,
+0346 49                LDA     PC        THEN LOW BYTE
+0347 3055              BR      APUSH+1   PUSH RESULT ONTO STACK
+0349        ;
+0349 D40625 HOOK       CALL    HOOP      GO DO IT, LEAVE EXIT HERE
+034C 3055              BR      APUSH+1   PUSH RESULT ONTO STACK
+034E        ;
+034E D402C5 DUPS       CALL    APOP      POP 2 BYTES INTO AC
+0351 D40354            CALL    APUSH     THEN PUSH TWICE
+0354 8A     APUSH      GLO     AC        PUSH 2 BYTES
+0355 D40359            CALL    BPUSH
+0358 9A                GHI     AC
+0359 52     BPUSH      STR     R2        PUSH ONE BYTE (IN D)
+035A D719              DB      FECH,LEND CHECK FOR OVERFLOW
+035C F7                SM                COMPARE AEPTR TO LEND
+035D 337F              BDF     ERR       OOPS!
+035F F801              LDI     1
+0361 F5                SD
+0362 5D                STR     PZ
+0363 AD                PLO     PZ
+0364 02                LDN     R2        GET SAVED BYTE
+0365 5D                STR     PZ        STORE INTO STACK
+0366 D5     SEP5       RETURN              & RETURN
+0367        ;
+0367 D402C9 IND        CALL    BPOP      GET POINTER
+036A AD                PLO     PZ
+036B 4D                LDA     PZ        GET VARIABLE
+036C BA                PHI     AC
+036D 4D                LDA     PZ
+036E 3055              BR      APUSH+1   GO PUSH IT
+0370        ;
+0370 FB2F   QUOTE      XRI     0x2F      TEST FOR QUOTE
+0372 3266              BZ      SEP5      IF QUOTE, GO EXIT
+0374 FB22              XRI     0x22      ELSE RESTORE CHARACTER
+0376 D403F4            CALL    TYPER
+0379 4B     PRS        LDA     BP        GET NEXT BYTE
+037A FB0D              XRI     0x0D      IF NOT CARRIAGE RETURN,
+037C 3A70              BNZ     QUOTE     THEN CONTINUE
+037E 29                DEC     PC        ELSE CONTINUE INTO ERROR
+037F        ;
+037F D718   ERR        DB      FECH,XEQ  ERROR:
+0381 B8                PHI     XX        SAVE XEQ FLAG
+0382 D403CC            CALL    FORCE     TURN TAPE MODE OFF
+0385 F821              LDI     "!"       PRINT "!" ON NEW LINE
+0387 D403F4            CALL    TYPER
+038A D71E              DB      FECH,AIL
+038C 89                GLO     PC        CONVERT IL PC TO ERROR#
+038D F7                SM                BY SUBTRACTING
+038E AA                PLO     AC        IL START FROM PC
+038F 99                GHI     PC
+0390 2D                DEC     PZ        X MUST POINT TO
+0391 77                SMB               PAGE0 REGISTER PZ=RD
+0392 BA                PHI     AC
+0393 D40415            CALL    PRNA      PRINT ERROR#
+0396 98                GHI     XX        GET XEQ FLAG
+0397 32A9              BZ      BELL      IF XEQ SET,
+0399 F8BD              LDI     LOW ATMSG - THEN TYPE "AT"
+039B A9                PLO     PC
+039C 93                GHI     R3
+039D B9                PHI     PC
+039E D403C5            CALL    STRNG
+03A1 D728              DB      FECH,LINO - GET LINE NUMBER
+03A3 BA                PHI     AC        - AND PRINT IT, TOO
+03A4 4D                LDA     PZ
+03A5 AA                PLO     AC
+03A6 D40415            CALL    PRNA
+03A9 F807   BELL       LDI     7         RING THE BELL
+03AB D40109            CALL    TYPEV
+03AE D403D5            CALL    CRLF      PRINT <CR><LF>
+03B1 D71A   FIN        DB      FECH,TTYCC-1
+03B3 9D                DB      LDI0      TURN TAPE MODE OFF
+03B4 5D                STR     PZ
+03B5 D726   EXIT       DB      FECH,TOPS RESET STACK POINTER
+03B7 B2                PHI     R2
+03B8 4D                LDA     PZ
+03B9 A2                PLO     R2
+03BA C00228            LBR     IIL       RESTART IL FROM BEGINNING
+03BD        ;
+03BD 204154 ATMSG      DB      ' ','A','T' ERROR MESSAGE TEMPLATE
+03C0 20A3              DB      ' ',0A3H
+03C2        ;
+03C2 D403F2 TSTR       CALL    TYPER-2   PRINT CHARACTER STRING
+03C5 49     STRNG      LDA     PC        GET NEXT CHARACTER OF STRING
+03C6 FC80              ADI     0x80      IF HI BIT=0,
+03C8 3BC2              BNF     TSTR      THEN GO PRINT & CONTINUE
+03CA 30F2              BR      TYPER-2   PRINT LAST CHAR AND EXIT
+03CC        ;
+03CC D719   FORCE      DB      FECH,AEPTR-1
+03CE F880              LDI     AESTK     CLEAR A.E.STACK
+03D0 73                STXD
+03D1 9D                DB      LDI0      SET "NOT EXECUTING"
+03D2 73                STXD              LEND=0 ZERO LINE LENGTH
+03D3 73                STXD              XEQ=0 NOT EXECUTING
+03D4 C8                LSKP              CONTINUE TO CRLF
+03D5        ;
+03D5 D71B   CRLF       DB      FECH,TTYCC GET COLUMN COUNT
+03D7 FE                SHL               IF IN TAPE MODE (MSB=1),
+03D8 3366              BDF     SEP5      THEN JUST EXIT
+03DA D715              DB      FECH,PAD  GET # OF PAD CHARS
+03DC AA                PLO     AC        & SAVE IT
+03DD F80D              LDI     0x0D      TYPE <CR>
+03DF D40109 PADS       CALL    TYPEV
+03E2 D71A              DB      FECH,TTYCC-1 POINT PZ TO COLUMN COUNTER
+03E4 8A                GLO     AC        GET # OF PADS TO GO
+03E5 FE                SHL               MSB SELECTS NULL OR DELETE
+03E6 32EF              BZ      PLF       UNTIL NO MORE PADS..
+03E8 2A                DEC     AC        DECREMENT # OF PADS TO GO
+03E9 9D                DB      LDI0      PAD=NULL=0 IF MSB=0
+03EA C7                LSNF
+03EB F8FF              LDI     0xFF      PAD=DELETE=FFH IF MSB=1
+03ED 30DF              BR      PADS      ..REPEAT
+03EF        ;
+03EF 73     PLF        STXD              SET COLUMN COUNTER TTYCC=0
+03F0 F88A              LDI     0x8A      TYPE <LF>
+03F2        ;
+03F2 FF80              SMI     0x80      FIX HI BIT
+03F4 BF     TYPER      PHI     X         SAVE CHAR
+03F5 D71B              DB      FECH,TTYCC CHECK OUTPUT MODE
+03F7 2D                DEC     PZ
+03F8 FC81              ADI     0x81      INCREMENT COLUMN COUNTER TTYCC
+03FA FC80              ADI     0x80      WITHOUT DISTURBING MSB
+03FC 3B66              BNF     SEP5      IF MSB=1, IN TAPE MODE, NOT PRINTIN
+03FE 5D                STR     PZ        ELSE UPDATE COLUMN COUNTER
+03FF 9F                GHI     X         GET CHAR
+0400 C00109            LBR     TYPEV     AND GO TYPE IT
+0403        ;
+0403 F820   TAB        LDI     0x20
+0405 D403F4            CALL    TYPER
+0408 D71B              DB      FECH,TTYCC GET COLUMN COUNT
+040A FA07   TABS       ANI     7         LOW 3 BITS
+040C 3A03              BNZ     TAB
+040E D5                RETURN
+040F D403F4            CALL    TYPER
+0412 2A                DEC     AC        DECREMENT SPACES TO GO
+0413 300A              BR      TABS      ...REPEAT
+0415        ;
+0415 D40354 PRNA       CALL    APUSH     NUMBER IN AC
+0418 D71A   PRN        DB      FECH,AEPTR CHECK SIGN
+041A AD                PLO     PZ
+041B D40513            CALL    DNEG      IF NEGATIVE,
+041E 3B25              BNF     PRP
+0420 F82D              LDI     '-'       PRINT '-'
+0422 D403F4            CALL    TYPER
+0425 9D     PRP        DB      LDI0      PUSH ZERO FLAG
+0426 73                STXD              WHICH MARKS NUMBER END
+0427 BA                PHI     AC        PUSH 10 (=DIVISOR)
+0428 F80A              LDI     10
+042A D40355            CALL    APUSH+1
+042D 1D                INC     PZ
+042E D404E3 PDVL       CALL    PDIV      DIVIDE BY 10
+0431 8A                GLO     AC        REMAINDER IS NEXT DIGIT
+0432 F6                SHR               BUT DOUBLED; HALVE IT
+0433 F930              ORI     0x30      CONVERT TO ASCII
+0435 73                STXD              PUSH IT
+0436 1D                INC     PZ        IS QUOTIENT=0?
+0437 4D                LDA     PZ
+0438 ED                SEX     PZ
+0439 F1                OR
+043A 2D                DEC     PZ        RESTORE POINTER
+043B 2D                DEC     PZ
+043C 3A2E              BNZ     PDVL      ..REPEAT
+043E 12     PRNL       INC     R2        NOW, TO PRINT IT
+043F 02                LDN     R2        GET CHAR
+0440 C202C2            LBZ     APOP-3    UNTIL ZERO (END FLAG)..
+0443 D403F4            CALL    TYPER     PRINT IT
+0446 303E              BR      PRNL      ..REPEAT
+0448        ;
+0448 D72E   RSBP       DB      FECH,SP   GET SP
+044A 38                SKP
+044B 9B     SVBP       GHI     BP        GET BP
+044C FB00              XRI     HIGH LINE IN THE LINE?
+044E 3A5E              BNZ     SWAP      NO, NOT IN SAME PAGE
+0450 8B                GLO     BP
+0451 52                STR     R2
+0452 F0                LDX
+0453 FF80              SMI     LOW AESTK
+0455 335E              BDF     SWAP      NO, BEYOND ITS END
+0457 D72E              DB      FECH,SP
+0459 8B                GLO     BP        YES, JUST COPY BP TO SP
+045A 73                STXD
+045B 9B                GHI     BP
+045C 5D                STR     PZ
+045D D5     TYX        RETURN
+045E        ;
+045E D72E   SWAP       DB      FECH,SP   EXCHANGE BP AND SP
+0460 B8                PHI     XX        PUT SP IN TEMP
+0461 0D                LDN     PZ
+0462 A8                PLO     XX
+0463 8B                GLO     BP        STORE BP IN SP
+0464 73                STXD
+0465 9B                GHI     BP
+0466 5D                STR     PZ
+0467 98                GHI     XX        STORE TEMP IN BP
+0468 BB                PHI     BP
+0469 88                GLO     XX
+046A AB                PLO     BP
+046B D5                RETURN
+046C        ;
+046C D402C5 CMPR       CALL    APOP      GET FIRST NUMBER
+046F 9A                GHI     AC        PUSH ONTO STACK WITH BIAS
+0470 FB80              XRI     0x80      (FOR 2'S COMPLEMENT)
+0472 73                STXD              (BACKWARDS)
+0473 8A                GLO     AC
+0474 73                STXD
+0475 D402C9            CALL    BPOP      GET AND SAVE
+0478 AF                PLO     X         COMPARE BITS
+0479 D402C5            CALL    APOP      GET SECOND NUMBER
+047C 12                INC     R2
+047D 8A                GLO     AC        COMARE THEM
+047E F7                SM                LOW BYTE
+047F AA                PLO     AC
+0480 12                INC     R2
+0481 9A                GHI     AC        HIGH BYTE
+0482 FB80              XRI     0x80      BIAS: 0 TO 65535 INSTEAD
+0484 77                SMB               OF -32768 TO +32767
+0485 52                STR     R2
+0486 3B92              BNF     CLT       LESS IF NO CARRY OUT
+0488 8A                GLO     AC
+0489 F1                OR
+048A 328F              BZ      CEQ       EQUAL IF BOTH BYTES 0
+048C 8F                GLO     X         ELSE GREATER
+048D F6                SHR               MOVE PROPER BIT
+048E 38                SKP
+048F 8F     CEQ        GLO     X         (BIT 1)
+0490 F6                SHR
+0491 38                SKP
+0492 8F     CLT        GLO     X         (BIT 0)
+0493 F6                SHR               TO CARRY
+0494 C7                LSNF
+0495 C4                NOP
+0496 19     SKIP       INC     PC        SKIP ONE BYTE IF TRUE
+0497 D5                RETURN
+0498        ;
+0498 D4050E ISUB       CALL    INEG      SUBTRACT IS ADD NEGATIVE
+049B D402C5 IADD       CALL    APOP      PUT ADDEND IN AC
+049E ED                SEX     PZ
+049F 1D                INC     PZ        ADD TO AUGEND
+04A0 8A                GLO     AC
+04A1 F4                ADD
+04A2 73                STXD
+04A3 9A                GHI     AC        CARRY INTO HIGH BYTE
+04A4 74                ADC
+04A5 5D                STR     PZ
+04A6 D5                RETURN
+04A7        ;
+04A7 D402C5 IMUL       CALL    APOP      MULTIPLIER IN AC
+04AA F810              LDI     0x10      BIT COUNTER IN X
+04AC AF                PLO     X
+04AD 4D                LDA     PZ        MULTIPLICAND IN XX
+04AE B8                PHI     XX
+04AF 0D                LDN     PZ
+04B0 A8                PLO     XX
+04B1 0D     MULL       LDN     PZ        SHIFT PRODUCT LEFT
+04B2 FE                SHL               (ON STACK)
+04B3 5D                STR     PZ
+04B4 2D                DEC     PZ
+04B5 0D                LDN     PZ
+04B6 7E                SHLC              DISCARD HIGH 16 BITS
+04B7 5D                STR     PZ
+04B8 D40522            CALL    SHAL      GET A BIT
+04BB 3BC5              BNF     MULC      NOT THIS TIME
+04BD ED                SEX     PZ        IF MULTIPLIER BIT=1,
+04BE 1D                INC     PZ
+04BF 88                GLO     XX        ADD MULTIPLICAND
+04C0 F4                ADD
+04C1 73                STXD
+04C2 98                GHI     XX
+04C3 74                ADC
+04C4 5D                STR     PZ
+04C5 2F     MULC       DEC     X         REPEAT 16 TIMES
+04C6 8F                GLO     X
+04C7 1D                INC     PZ
+04C8 3AB1              BNZ     MULL
+04CA D5                RETURN
+04CB        ;
+04CB D402C5 IDIV       CALL    APOP      GET DIVISOR
+04CE 9A                GHI     AC
+04CF 52                STR     R2        CHECK FOR DIVIDE BY ZERO
+04D0 8A                GLO     AC
+04D1 F1                OR
+04D2 C2037F            LBZ     ERR       IF YES, FORGET IT
+04D5 0D                LDN     PZ        COMPARE SIGN OF DIVISOR
+04D6 F3                XOR
+04D7 73                STXD              SAVE FOR LATER
+04D8 D40513            CALL    DNEG      MAKE DIVEDEND POSITIVE
+04DB 2D                DEC     PZ        SAME FOR DIVISOR
+04DC 2D                DEC     PZ
+04DD D40513            CALL    DNEG
+04E0 1D                INC     PZ
+04E1 9D                DB      LDI0
+04E2 C8                LSKP
+04E3 9D     PDIV       DB      LDI0      MARK "NO SIGN CHANGE"
+04E4 73                STXD              FOR PRN ENTRY
+04E5 AA                PLO     AC        CLEAR HIGH END
+04E6 BA                PHI     AC        OF DIVIDEND IN AC
+04E7 F811              LDI     17        COUNTER TO X
+04E9 AF                PLO     X
+04EA ED     DIVL       SEX     PZ        DO TRIAL SUBTRACT
+04EB 8A                GLO     AC
+04EC F7                SM
+04ED 52                STR     R2        HOLD LOW BYTE FOR NOW
+04EE 2D                DEC     PZ
+04EF 9A                GHI     AC
+04F0 77                SMB
+04F1 3BF6              BNF     $+5       IF NEGATIVE, CANCEL  IT
+04F3 BA                PHI     AC        IF POSITIVE, MAKE IT REAL
+04F4 02                LDN     R2
+04F5 AA                PLO     AC
+04F6 1D                INC     PZ        SHIFT EVERYTHING LEFT
+04F7 1D                INC     PZ
+04F8 1D                INC     PZ
+04F9 F0                LDX
+04FA 7E                SHLC
+04FB 73                STXD
+04FC F0                LDX
+04FD 7E                SHLC
+04FE 73                STXD
+04FF 8A                GLO     AC        HIGH 16
+0500 7E                SHLC
+0501 D40524            CALL    SHCL
+0504 2F                DEC     X         DO IT 16 TIMES MORE
+0505 8F                GLO     X
+0506 CA04EA            LBNZ    DIVL
+0509 12                INC     R2        CHECK SIGN OF QUOTIENT
+050A 02                LDN     R2
+050B FE                SHL
+050C 3B21              BNF     NEGX      POSITIVE IS DONE
+050E D71A   INEG       DB      FECH,AEPTR POINT TO STACK
+0510 AD                PLO     PZ
+0511 3018              BR      NEG
+0513 ED     DNEG       SEX     PZ
+0514 F0                LDX               FOR DIVIDE,
+0515 FE                SHL               TEST SIGN
+0516 3B21              BNF     NEGX      IF POSITIVE, LEAVE IT ALONE
+0518 1D     NEG        INC     PZ        IF NEGATIVE,
+0519 9D                DB      LDI0      SUBTRACT IT FROM 0
+051A F7                SM
+051B 73                STXD
+051C 9D                DB      LDI0
+051D 77                SMB
+051E 5D                STR     PZ
+051F FF00              SMI     0         AND SET CARRY=1
+0521 D5     NEGX       RETURN
+0522        ;
+0522 8A     SHAL       GLO     AC        USED BY MULTIPLY
+0523 FE                SHL
+0524 AA     SHCL       PLO     AC        AND DIVIDE
+0525 9A                GHI     AC
+0526 7E                SHLC
+0527 BA                PHI     AC
+0528 D5                RETURN
+0529        ;
+0529 D718   NXT        DB      FECH,XEQ  IF DIRECT EXECUTION
+052B C203B1            LBZ     FIN       QUIT WITH DF=0
+052E 4B                LDA     BP        ELSE SCAN TO NEXT <CR>
+052F FB0D              XRI     0x0D
+0531 3A2E              BNZ     $-3
+0533 D40698            CALL    GLINO     GET LINE NUMBER
+0536 324B              BZ      BERR      ZERO IS ERROR
+0538 D4010C CONT       CALL    BREAKV    TEST FOR BREAK
+053B 3346              BDF     BREAK     IF BREAK,
+053D D71C              DB      FECH,NXA  RECOVER RESTART POINT
+053F B9                PHI     PC        WHICH WAS SAVED BY INIT
+0540 4D                LDA     PZ
+0541 A9                PLO     PC
+0542 D717   RUN        DB      FECH,XEQ-1 TURN OFF RUN MODE
+0544 5D                STR     PZ        (NON-ZERO)
+0545 D5                RETURN
+0546        ;
+0546 D71E   BREAK      DB      FECH,AIL  SET BREAK ADDR=0
+0548 B9                PHI     PC        I.E. PC=IL START
+0549 4D                LDA     PZ
+054A A9                PLO     PC
+054B C0037F BERR       LBR     ERR
+054E        ;
+054E D720   XINIT      DB      FECH,BASIC POINT TO START OF BASIC PROGRAM
+0550 BB                PHI     BP
+0551 4D                LDA     PZ
+0552 AB                PLO     BP
+0553 D40698            CALL    GLINO     GET LINE NUMBER
+0556 324B              BZ      BERR      IF 0, IS ERROR (NO PROGRAM)
+0558 D71C              DB      FECH,NXA  SAVE STATEMENT
+055A 89                GLO     PC        ANALYZER ADDRESS
+055B 73                STXD
+055C 99                GHI     PC
+055D 5D                STR     PZ
+055E 3042              BR      RUN       GO START UP
+0560        ;
+0560 D405FE XFER       CALL    FIND      GET THE LINE
+0563 3238              BZ      CONT      IF WE GOT IT, GO CONTINUE
+0565 D728   GOAL       DB      FECH,LINO ELSE FAILED
+0567 8A                GLO     AC        MARK DESTINATION
+0568 73                STXD
+0569 9A                GHI     AC
+056A 5D                STR     PZ
+056B 304B              BR      BERR      GO HANDLE ERROR
+056D        ;
+056D D4058B RSTR       CALL    TTOP      CHECK FOR UNDERFLOW
+0570 42                LDA     R2        GET THE NUMBER
+0571 BA                PHI     AC        FROM STACK INTO AC
+0572 02                LDN     R2
+0573 AA                PLO     AC
+0574 D726              DB      FECH,TOPS
+0576 82                GLO     R2        RESET TOPS FROM R2
+0577 73                STXD
+0578 92                GHI     R2
+0579 73                STXD
+057A D40601            CALL    FIND+3    POINT TO THIS LINE
+057D 3A65              BNZ     GOAL      NOT THERE ANY MORE
+057F 3088              BR      BNEXT     OK
+0581        ;
+0581 D4058B RTN        CALL    TTOP      CHECK FOR UNDERFLOW
+0584 42                LDA     R2        (2 ALREADY INCLUDED)
+0585 B9                PHI     PC        PIP ADDRESS TO PC
+0586 02                LDN     R2
+0587 A9                PLO     PC
+0588 C0022D BNEXT      LBR     NEXT
+058B        ;
+058B D722   TTOP       DB      FECH,STACK GET TOP OF STACK
+058D 12                INC     R2
+058E 12                INC     R2
+058F 82                GLO     R2        MATCH TO STACK POINTER
+0590 FC02              ADI     2         (ADJUSTED FOR RETURN)
+0592 F3                XOR
+0593 2D                DEC     PZ
+0594 3A9C              BNZ     TTOK      NOT EQUAL
+0596 92                GHI     R2
+0597 7C00              ADCI    0
+0599 F3                XOR
+059A 324B              BZ      BERR      MATCH IS EMPTY STACK
+059C        ;
+059C 12     TTOK       INC     R2        (ONCE HERE SAVES TWICE)
+059D D5                RETURN
+059E        ;
+059E D716   TAPE       DB      FECH,PAD+1 TURN OFF TYPEOUT
+05A0 38                SKP
+05A1 9D     NTAPE      DB      LDI0      TURN ON TYPEOUT
+05A2 FE                SHL               (FLAG TO CARRY)
+05A3 D71A              DB      FECH,TTYCC-1
+05A5 9D                DB      LDI0
+05A6 76                SHRC              00 OR 80H
+05A7 5D                STR     PZ
+05A8 30B2              BR      KLOOP
+05AA F830   GETLN      LDI     LOW LINE  POINT TO LINE
+05AC AB                PLO     BP
+05AD D40354            CALL    APUSH     MARK STACK LIMIT
+05B0 9D                GHI     PZ
+05B1 BB                PHI     BP
+05B2 D40106 KLOOP      CALL    KEYV      GET AN ECHOED BYTE
+05B5 FA7F              ANI     7FH       SET HIGH BIT TO 0
+05B7 32B2              BZ      KLOOP     IGNORE NULL
+05B9 52                STR     R2
+05BA FB7F              XRI     0x7F
+05BC 32B2              BZ      KLOOP     IGNORE DELETE
+05BE FB75              XRI     0x75      IF <LF>,
+05C0 329E              BZ      TAPE      THEN TURN TAPE MODE ON
+05C2 FB19              XRI     0x19      IF <XOFF> (DC3=13H),
+05C4 32A1              BZ      NTAPE     THEN TURN TAPE MODE OFF
+05C6 D713              DB      FECH,CAN-1
+05C8 02                LDN     R2
+05C9 F3                XOR               IF CANCEL,
+05CA 32D7              BZ      CANCL     THEN GO TO CANCEL
+05CC 2D                DEC     PZ
+05CD 02                LDN     R2
+05CE F3                XOR
+05CF 3ADD              BNZ     STOK      NO
+05D1 2B                DEC     BP        YES
+05D2 8B                GLO     BP
+05D3 FF30              SMI     LOW LINE  ANYTHING LEFT?
+05D5 33B2              BDF     KLOOP     YES
+05D7 F830   CANCL      LDI     LOW LINE  IF NO, CANCEL THIS LINE
+05D9 AB                PLO     BP
+05DA F80D              LDI     0x0D      BY FORCING A <CR>
+05DC 38                SKP
+05DD 02     STOK       LDN     R2        STORE CHARACTER IN LINE
+05DE 5B                STR     BP
+05DF D719              DB      FECH,AEPTR-1
+05E1 8B                GLO     BP        CHECK FOR OVERFLOW
+05E2 F7                SM
+05E3 3BEC              BNF     CHIN      OK
+05E5 F807              LDI     7         IF NOT, RING BELL
+05E7 D403F4            CALL    TYPER
+05EA 0B                LDN     BP        NOW LOOK AT CHAR
+05EB 38                SKP
+05EC 4B     CHIN       LDA     BP        INCREMENT POINTER
+05ED FB0D              XRI     0x0D      IF NOT <CR>,
+05EF 3AB2              BNZ     KLOOP     THEN GET ANOTHER
+05F1 D403D5            CALL    CRLF      ELSE ECHO <LF>
+05F4 D718              DB      FECH,LEND-1 AND MARK END
+05F6 8B                GLO     BP
+05F7 5D                STR     PZ
+05F8 F830              LDI     LOW LINE  RESET BP TO FRONT
+05FA AB                PLO     BP
+05FB C002C5            LBR     APOP      AND GO POP DUMMY
+05FE        ;
+05FE D402C5 FIND       CALL    APOP      GET LINE NUMBER
+0601 8A                GLO     AC
+0602 52                STR     R2        CHECK FOR ZERO
+0603 9A                GHI     AC
+0604 F1                OR
+0605 C2037F            LBZ     ERR       IF 0, GO TO ERROR
+0608 D720   FINDX      DB      FECH,BASIC START AT FRONT
+060A BB                PHI     BP
+060B 4D                LDA     PZ
+060C AB                PLO     BP
+060D D40698 FLINE      CALL    GLINO     GET LINE NUMBER
+0610 C6                LSNZ              NOT THER IF 0
+0611 8D                GLO     PZ        SET NON-ZERO,
+0612 D5     FEND       RETURN              AND RETURN
+0613 ED                SEX     PZ
+0614 8A                GLO     AC        COMPARE THEM
+0615 F5                SD
+0616 52                STR     R2        (SAVE LOW BYTE OF DIFFERENCE)
+0617 9A                GHI     AC
+0618 2D                DEC     PZ
+0619 75                SDB
+061A E2                SEX     R2
+061B F1                OR                (D=0 IF EQUAL)
+061C 3312              BDF     FEND      LESS OR EQUAL IS END
+061E 4B                LDA     BP        NOT THERE YET
+061F FB0D              XRI     0x0D      SCAN TO NEXT <CR>
+0621 3A1E              BNZ     $-3
+0623 300D              BR      FLINE
+0625        ;
+0625 D40628 HOOP       CALL    HOOP+3    ADJUST STACK
+0628 D402C5            CALL    APOP      SET UP PARAMETERS:
+062B 4D                LDA     PZ        AC
+062C B8                PHI     XX        MIDDLE ARGUMENT TO XX
+062D 4D                LDA     PZ
+062E A8                PLO     XX
+062F 4D                LDA     PZ        SUBROUTINE ADDRESS BECOMES
+0630 B6                PHI     R6        "RETURN ADDRESS"
+0631 4D                LDA     PZ
+0632 A6                PLO     R6
+0633 8D                GLO     PZ        FIX STACK POINTER
+0634 52                STR     R2
+0635 D719              DB      FECH,AEPTR-1
+0637 02                LDN     R2        BY PUTTING CURRENT VALUE
+0638 5D                STR     PZ        VALUE BACK INTO IT
+0639 AD                PLO     PZ        LEAVE PZ AT STACK TOP
+063A 8A                GLO     AC        LEAVE AC.0 IN D
+063B D5                RETURN              GO DO IT
+063C        ;
+063C D72C   LIST       DB      FECH,WORK+2
+063E 8B                GLO     BP        SAVE POINTERS
+063F 73                STXD
+0640 9B                GHI     BP
+0641 5D                STR     PZ
+0642 D405FE            CALL    FIND      GET LIST LIMITS
+0645 D72A              DB      FECH,WORK SAVE UPPER
+0647 8B                GLO     BP
+0648 73                STXD
+0649 9B                GHI     BP
+064A 73                STXD
+064B D405FE            CALL    FIND      TWO ITEMS MARK BOUNDS
+064E 2B                DEC     BP        BACK UP OVER LINE#
+064F 2B                DEC     BP
+0650 D72A   LLINE      DB      FECH,WORK END?
+0652 8B                GLO     BP
+0653 F7                SM
+0654 2D                DEC     PZ
+0655 9B                GHI     BP
+0656 77                SMB
+0657 337B              BDF     LIX       SO IF BP>BOUNDS,
+0659 4B                LDA     BP        GET LINE#
+065A BA                PHI     AC
+065B 4B                LDA     BP
+065C AA                PLO     AC
+065D 3A62              BNZ     $+5
+065F 9A                GHI     AC
+0660 327B              BZ      LIX       QUIT IF ZERO (PROGRAM END)
+0662 D40415            CALL    PRNA      ELSE PRINT LINE#
+0665 F82D              LDI     0x2D      THEN A SPACE
+0667 FB0D   LLOOP      XRI     0x0D      (RESTORE BITS FROM <CR> TEST)
+0669 D403F4            CALL    TYPER
+066C D4010C            CALL    BREAKV    TEST FOR BREAK
+066F 337B              BDF     LIX       IF YES, THEN QUIT
+0671 4B                LDA     BP        NOW PRINT TEXT
+0672 FB0D              XRI     0x0D      UNTIL <CR>
+0674 3A67              BNZ     LLOOP
+0676 D403D5            CALL    CRLF      END LINE WITH <CR><LF>
+0679 3050              BR      LLINE     ..REPEAT UNTIL DONE
+067B        ;
+067B D72C   LIX        DB      FECH,WORK+2 RESTORE BP
+067D BB                PHI     BP
+067E 4D                LDA     PZ
+067F AB                PLO     BP
+0680 D5                RETURN
+0681        ;
+0681 D726   SAV        DB      FECH,TOPS ADJUST STACK TOP
+0683 82                GLO     R2
+0684 73                STXD
+0685 92                GHI     R2
+0686 5D                STR     PZ
+0687 D718              DB      FECH,XEQ  IF NOT EXECUTING
+0689 2D                DEC     PZ
+068A CE                LSZ               USE ZERO INSTEAD
+068B D728              DB      FECH,LINO
+068D AA                PLO     AC        HOLD HIGH BYTE
+068E 4D                LDA     PZ        GET LOW BYTE
+068F 12                INC     R2
+0690 12                INC     R2
+0691 E2                SEX     R2
+0692 73                STXD              PUSH ONTO STACK
+0693 8A                GLO     AC        NOW THE HIGH BYTE
+0694 73                STXD
+0695 C0022D            LBR     NEXT
+0698        ;
+0698 D727   GLINO      DB      FECH,LINO-1 SETUP POINTER
+069A 4B                LDA     BP        GET 1ST BYTE
+069B 5D                STR     PZ        STORE IN RAM
+069C 1D                INC     PZ
+069D 4B                LDA     BP        2ND BYTE
+069E 73                STXD
+069F F1                OR                D=0 IF LINE#=0
+06A0 1D                INC     PZ
+06A1 D5                RETURN
+06A2        ;
+06A2 D4045E INSRT      CALL    SWAP      SAVE POINTER IN NEW LINE
+06A5 D405FE            CALL    FIND      FIND INSERT POINT
+06A8 FCFF              ADI     0xFF      IF DONE, SET DF
+06AA 9D                DB      LDI0
+06AB AF                PLO     X         X IS SIZE DIFFERENCE
+06AC 33BA              BDF     NEW
+06AE 9B                GHI     BP        SAVE INSERT POINT
+06AF BD                PHI     PZ
+06B0 8B                GLO     BP
+06B1 AD                PLO     PZ
+06B2 2F                DEC     X         MEASURE OLD LINE LENGTH
+06B3 2F                DEC     X         -3 FOR LINE# AND <CR>
+06B4 2F                DEC     X         REPEAT..
+06B5 4D                LDA     PZ        -1 FOR EACH BYTE OF TEXT
+06B6 FB0D              XRI     0x0D      ..UNTIL <CR>
+06B8 3AB4              BNZ     $-4
+06BA 2B     NEW        DEC     BP        BACK OVER LINE#
+06BB 2B                DEC     BP
+06BC D4045E            CALL    SWAP      TRADE LINE POINTERS
+06BF D728              DB      FECH,LINO
+06C1 0B                LDN     BP
+06C2 FB0D              XRI     0x0D      IF NEW LINE IS NULL,
+06C4 73                STXD
+06C5 5D                STR     PZ
+06C6 32D9              BZ      HMUCH     THEN GO MARK IT
+06C8 9A                GHI     AC        ELSE SAVE LINE NUMBER
+06C9 5D                STR     PZ
+06CA 1D                INC     PZ
+06CB 8A                GLO     AC
+06CC 5D                STR     PZ
+06CD 9B                GHI     BP        MEASURE ITS LENGTH
+06CE BA                PHI     AC
+06CF 8B                GLO     BP
+06D0 AA                PLO     AC
+06D1 1F                INC     X         LINE#
+06D2 1F                INC     X         ENDING <CR>
+06D3 1F                INC     X
+06D4 4A                LDA     AC
+06D5 FB0D              XRI     0x0D      AND ALL CHARS UNTIL FINAL <CR>
+06D7 3AD3              BNZ     $-4
+06D9 D72E   HMUCH      DB      FECH,SP   FIGURE AMOUNT OF MOVE
+06DB BA                PHI     AC
+06DC 4D                LDA     PZ
+06DD AA                PLO     AC
+06DE D724              DB      FECH,MEND =DISTANCE FROM INSERT
+06E0 8A                GLO     AC        TO END OF PROGRAM
+06E1 F7                SM
+06E2 AA                PLO     AC        LEAVE IT IN AC, NEGATIVE
+06E3 2D                DEC     PZ
+06E4 9A                GHI     AC
+06E5 77                SMB
+06E6 BA                PHI     AC
+06E7 1D                INC     PZ
+06E8 8F                GLO     X         NOW COMPUTE NEW MEND,
+06E9 F4                ADD               WHICH IS SUM OF OFFSET,
+06EA BF                PHI     X
+06EB 8F                GLO     X
+06EC FA80              ANI     0x80      WITH SIGN EXTEND,
+06EE CE                LSZ
+06EF F8FF              LDI     0xFF
+06F1 2D                DEC     PZ
+06F2 74                ADC               PLUS OLD MEND
+06F3 E2                SEX     R2
+06F4 73                STXD              PUSH ONTO STACK
+06F5 B8                PHI     XX
+06F6 9F                GHI     X
+06F7 73                STXD              (BACKWARDS)
+06F8 52                STR     R2        CHECK FOR OVERFLOW
+06F9 82                GLO     R2
+06FA F5                SD
+06FB 98                GHI     XX
+06FC 52                STR     R2
+06FD 92                GHI     R2
+06FE 75                SDB
+06FF C3037E            LBDF    ERR-1     IF YES, THEN QUIT
+0702 8F                GLO     X         ELSE NO, PREPARE TO MOVE
+0703 3230              BZ      STUFF     NO MOVE NEEDED
+0705 52                STR     R2
+0706 FE                SHL
+0707 3B1E              BNF     MORE      ADD SOME SPACE
+0709 D72E              DB      FECH,SP   DELETE SOME
+070B BF                PHI     X         X IS DESTINATION
+070C 4D                LDA     PZ
+070D AF                PLO     X
+070E E2                SEX     R2
+070F F7                SM
+0710 A8                PLO     XX        XX IS SOURCE
+0711 9F                GHI     X
+0712 7C00              ADCI    0
+0714 B8                PHI     XX
+0715 48                LDA     XX        NOW MOVE IT
+0716 5F                STR     X
+0717 1F                INC     X
+0718 1A                INC     AC
+0719 9A                GHI     AC
+071A 3A15              BNZ     $-5
+071C 3030              BR      STUFF
+071E 9F     MORE       GHI     X         SET UP POINTERS
+071F AF                PLO     X         X IS DESTINATION
+0720 98                GHI     XX
+0721 BF                PHI     X
+0722 D724              DB      FECH,MEND
+0724 B8                PHI     XX
+0725 4D                LDA     PZ
+0726 A8                PLO     XX        XX IS SOURCE
+0727 2A                DEC     AC
+0728 EF                SEX     X         NOW MOVE IT
+0729 08                LDN     XX
+072A 28                DEC     XX
+072B 73                STXD
+072C 1A                INC     AC
+072D 9A                GHI     AC
+072E 3A29              BNZ     $-5
+0730 D724   STUFF      DB      FECH,MEND UPDATE MEND
+0732 12                INC     R2
+0733 42                LDA     R2
+0734 73                STXD
+0735 02                LDN     R2
+0736 5D                STR     PZ
+0737 D72E              DB      FECH,SP   POINT INTO PROGRAM
+0739 BA                PHI     AC
+073A 4D                LDA     PZ
+073B AA                PLO     AC
+073C D728              DB      FECH,LINO INSERT NEW LINE
+073E AF                PLO     X
+073F F1                OR                IF THERE IS ONE
+0740 324E              BZ      INSX      NO, EXIT
+0742 8F                GLO     X         ELSE INSERT LINE NUMBER
+0743 5A                STR     AC
+0744 1A                INC     AC
+0745 4D                LDA     PZ
+0746 5A                STR     AC
+0747 1A                INC     AC
+0748 4B                LDA     BP        NOW REST OF LINE
+0749 5A                STR     AC
+074A FB0D              XRI     0x0D      TO <CR>
+074C 3A47              BNZ     $-5
+074E C003B5 INSX       LBR     EXIT
+0751 73     IO         STXD              PUSH OUT BYTE
+0752 52                STR     R2
+0753 9D                DB      LDI0      CLEAR AC
+0754 BA                PHI     AC
+0755 2D                DEC     PZ
+0756 43                LDA     R3        STORE RETURN IN RAM
+0757 D5                SEP     R5        (THIS IS NOT EXECUTED)
+0758 5D                STR     PZ
+0759 2D                DEC     PZ
+075A 88                GLO     XX        MAKE IO INSTRUCTION
+075B FA0F              ANI     0x0F
+075D F960              ORI     0x60
+075F 5D                STR     PZ
+0760 FA08              ANI     8
+0762 CE                LSZ
+0763 C4                NOP               INPUT, SO
+0764 12                INC     R2        DO INCREMENT NOW
+0765 DD                SEP     PZ        GO EXECUTE, RESULT IN D
+0766        ;
+0766        ;
+0766 243A91 :STRT      PC                ':Q^'  Start Of IL Program
+0769 27                GL
+076A 10                SB
+076B E1                BE      :LO
+076C 59                BR      :STRT
+076D C5     :LO        BN      :STMT
+076E 2A                IL
+076F 56                BR      :STRT
+0770 10     :XEC       SB
+0771 11                RB
+0772 2C                XQ
+0773 8B4C45 :STMT      BC      :GOTO     'LET'
+     D4                --
+0777        ; !18 In Following Is Not Required It Was Generated By My
+0777        ; Dissassembler And Indicates The Error Code Produced
+0777        ; At This Point, The Assembler Assumes This Is A Remark
+0777 A0                BV      * !18
+0778 80BD              BC      * !20     '='
+077A 318F   :LET       JS      :EXPR
+077C E0                BE      * !23
+077D 13                SV
+077E 1D                NX
+077F 9447CF :GOTO      BC      :PRNT     'GO'
+0782 8854CF            BC      :GOSB     'TO'
+0785 318F              JS      :EXPR
+0787 E0                BE      * !34
+0788 10                SB
+0789 11                RB
+078A 16                GO
+078B 805355 :GOSB      BC      * !39     'SUB'
+     C2                --
+078F 318F              JS      :EXPR
+0791 E0                BE      * !44
+0792 14                GS
+0793 16                GO
+0794 9050D2 :PRNT      BC      :SKIP     'PR'
+0797 83494E            BC      :P0       'INT'
+     D4                --
+079B E5     :P0        BE      :P3
+079C 71                BR      Z233
+079D 88BB   :P1        BC      Z234      ';'
+079F E1     :P2        BE      :P3
+07A0 1D                NX
+07A1 8FA2   :P3        BC      Z235      '"'
+07A3 21                PQ
+07A4 58                BR      :P1
+07A5 6F     :SKIP      BR      :IF
+07A6 83AC   Z234       BC      Z236      ','
+07A8 22                PT
+07A9 55                BR      :P2
+07AA 83BA   Z236       BC      Z233      ':'
+07AC 2493              PC                'S^'
+07AE E0     Z233       BE      * !73
+07AF 23                NL
+07B0 1D                NX
+07B1 318F   Z235       JS      :EXPR
+07B3 20                PN
+07B4 48                BR      :P1
+07B5 9149C6 :IF        BC      :INPT     'IF'
+07B8 318F              JS      :EXPR
+07BA 3237              JS      Z237
+07BC 318F              JS      :EXPR
+07BE 845448            BC      :I1       'THEN'
+     45CE              --
+07C3 1C     :I1        CP
+07C4 1D                NX
+07C5 380D              J       :STMT
+07C7 9A494E :INPT      BC      :RETN     'INPUT'
+     5055D4            --
+07CD A0     Z242       BV      * !104
+07CE 10                SB
+07CF E7                BE      Z238
+07D0 243F20 Z239       PC                '? Q^'
+     91                --
+07D4 27                GL
+07D5 E1                BE      Z238
+07D6 59                BR      Z239
+07D7 81AC   Z238       BC      Z240      ','
+07D9 318F   Z240       JS      :EXPR
+07DB 13                SV
+07DC 11                RB
+07DD 82AC              BC      Z241      ','
+07DF 4D                BR      Z242
+07E0 E0     Z241       BE      * !123
+07E1 1D                NX
+07E2 895245 :RETN      BC      :END      'RETURN'
+     545552            --
+     CE                --
+07E9 E0                BE      * !132
+07EA 15                RS
+07EB 1D                NX
+07EC 85454E :END       BC      :LIST     'END'
+     C4                --
+07F0 E0                BE      * !139
+07F1 2D                WS
+07F2 9A4C49 :LIST      BC      :RUN      'LIST'
+     53D4              --
+07F7 E7                BE      Z243
+07F8 0A0001            LN      #0001
+07FB 0A7FFF            LN      #7FFF
+07FE 65                BR      Z244
+07FF 318F   Z243       JS      :EXPR
+0801 3231              JS      Z245
+0803 E0                BE      * !158
+0804 240000 Z244       PC                '@^@^@^@^J^@^'
+     00000A            --
+     80                --
+080B 1F                LS
+080C 1D                NX
+080D 855255 :RUN       BC      :CLER     'RUN'
+     CE                --
+0811 380A              J       :XEC
+0813 86434C :CLER      BC      :PLOT     'CLEAR'
+     4541D2            --
+0819 2B                MT
+081A 9A504C :PLOT      BC      Z246      'PLOT'
+     4FD4              --
+081F 318F              JS      :EXPR
+0821 95AC              BC      Z247      ','
+0823 0B                DS
+0824 0B                DS
+0825 0A002A            LN      42
+0828 3262              JS      Z248      COMPARE >0 AND <42
+082A 0A0040            LN      64        MULTIPLY BY 64
+082D 1A                MP
+082E 0A0040            LN      64
+0831 325A              JS      Z249      GET NEXT EXPR AND COMP >0 AND <64
+0833 18                AD                ADD TOGETHER (X*64+Y)
+0834 64                BR      Z250      SKIP JUMPS
+0835 3902   Z246       J       :POKE
+0837 38F4   Z247       J       Z251
+0839 0A6D80 Z250       LN      BUFF<<3         BUFF*8
+083C 18                AD                ADD (BUFF*8)+(X*64+Y)
+083D 0B                DS
+083E 0A0008            LN      8
+0841 1B                DV                ((BUFF*8)+(X*64+Y))/8
+0842 0B                DS
+0843 04                SX 4
+0844 02                SX 2
+0845 05                SX 5
+0846 03                SX 3
+0847 05                SX 5
+0848 0A0008            LN      8
+084B 1A                MP                 MULTIPLY BY 8
+084C 19                SU                 GET REMANDER
+084D 090A              LB      TVXY+2
+084F 02                SX 2
+0850 13                SV                 STORE NEW BIT POINTER
+0851 0908              LB      TVXY
+0853 02                SX 2
+0854 01                SX 1
+0855 13                SV                 STORE NEW CURSOR
+0856 8FAC              BC      Z252      ','
+0858 318F              JS      :EXPR
+085A E0     Z251       BE      * !245
+085B 0A0109            LN      TYPEV
+085E 02                SX 2
+085F 01                SX 1
+0860 03                SX 3
+0861 01                SX 1
+0862 0B                DS
+0863 2E                US                CALL TYPEV AND OUTPUT BYTE
+0864 0C                SP                POP RETURNED VALUE
+0865 1D                NX                NEXT STATEMENT
+0866 E0     Z252       BE      * !257
+0867 1D                NX
+0868 8A504F :POKE      BC      :OUT      'POKE'
+     4BC5              --
+086D 0A0118            LN      ILPOKE
+0870 318F              JS      :EXPR
+0872 6C                BR      Z253
+0873 914F55 :OUT       BC      :SAVE     'OUT'
+     D4                --
+0877 0A0126            LN      ILINPOUT
+087A 0A0008            LN      8
+087D 325A              JS      Z249      GET EXPR AND COMP >0 AND <8
+087F 3231   Z253       JS      Z245      CHECK FOR ,AND GET EXPR
+0881 E0                BE      * !284
+0882 2E                US                CALL ILINPOUT OR ILPOKE
+0883 0C                SP                POP RETURNED VALUE
+0884 1D                NX                NEXT STATEMENT
+0885 9E5341 :SAVE      BC      Z254      'SAVE'
+     56C5              --
+088A E0                BE      * !293
+088B 245455            PC                'TURN ON RECORD'
+     524E20            --
+     4F4E20            --
+     524543            --
+     4F52C4            --
+089A 23                NL
+089B 244849            PC                'HIT KEY'
+     54204B            --
+     45D9              --
+08A3 62                BR      Z255
+08A4 395C   Z254       J       :LOAD
+08A6 0A0106 Z255       LN      KEYV
+08A9 0B                DS
+08AA 0B                DS
+08AB 2E                US                CALL KEY INPUT
+08AC 0C                SP                POP RETURNED VALUE
+08AD 23                NL                NEW LINE
+08AE 0A09FD            LN      ILSAVE
+08B1 0924              LB      MEND
+08B3 12                FV
+08B4 0920              LB      BASIC
+08B6 12                FV
+08B7 19                SU                END PROGRAM-BEGIN PROGRAM
+08B8 0A0100            LN      256
+08BB 18                AD                ADD 256 ????
+08BC 0920              LB      BASIC
+08BE 12                FV
+08BF 2E                US                CALL ILSAVE
+08C0 0C                SP                POP RETURNED VALUE
+08C1 1D                NX                NEXT STATEMENT
+08C2 864C4F :LOAD      BC      Z256      'LOAD'
+     41C4              --
+08C7 E0                BE      * !354
+08C8 62                BR      Z257
+08C9 3985   Z256       J       Z258
+08CB 0924   Z257       LB      MEND
+08CD 0A09FA            LN      ILLOAD
+08D0 0A0001            LN      1
+08D3 0920              LB      BASIC
+08D5 12                FV
+08D6 2E                US                CALL ILLOAD
+08D7 66                BR      Z259      ILLOAD SKIPS THIS IF NO ERROR
+08D8 0A0018            LN      0x18      SPARE STACK SIZE-1,DOES NOT GET IT?
+08DB 18                AD                ADD TO RETURN VALUE
+08DC 13                SV                SAVE MEM END
+08DD 2D                WS                WARM START
+08DE 23     Z259       NL
+08DF 245441            PC                'TAPE ERROR'
+     504520            --
+     455252            --
+     4FD2              --
+08EA 2B                MT
+08EB 845245 Z258       BC      :DFLT     'REM'
+     CD                --
+08EF 1D                NX
+08F0 A0     :DFLT      BV      * !395
+08F1 80BD              BC      * !397    '='
+08F3 3814              J       :LET
+08F5 85AD   :EXPR      BC      Z260      '-'
+08F7 31A6              JS      :TERM
+08F9 17                NE
+08FA 64                BR      Z261
+08FB 81AB   Z260       BC      Z262      '+'
+08FD 31A6   Z262       JS      :TERM
+08FF 85AB   Z261       BC      Z263      '+'
+0901 31A6              JS      :TERM
+0903 18                AD
+0904 5A                BR      Z261
+0905 85AD   Z263       BC      Z264      '-'
+0907 31A6              JS      :TERM
+0909 19                SU
+090A 54                BR      Z261
+090B 2F     Z264       RT
+090C 31B5   :TERM      JS      :RND
+090E 85AA   Z266       BC      Z265      '*'
+0910 31B5              JS      :RND
+0912 1A                MP
+0913 5A                BR      Z266
+0914 85AF   Z265       BC      Z267      '/'
+0916 31B5              JS      :RND
+0918 1B                DV
+0919 54                BR      Z266
+091A 2F     Z267       RT
+091B 99524E :RND       BC      Z268      'RND('
+     44A8              --
+0920 0A8080            LN      0x8080
+0923 12                FV
+0924 0A0929            LN      0x0929
+0927 1A                MP
+0928 0A1A85            LN      0x1A85
+092B 18                AD
+092C 13                SV
+092D 0980              LB      0x80
+092F 12                FV
+0930 01                SX 1
+0931 0B                DS
+0932 322C              JS      Z269
+0934 61                BR      Z270
+0935 72     Z268       BR      :USR
+0936 0B     Z270       DS
+0937 04                SX 4
+0938 02                SX 2
+0939 03                SX 3
+093A 05                SX 5
+093B 03                SX 3
+093C 1B                DV
+093D 1A                MP
+093E 19                SU
+093F 0B                DS
+0940 0906              LB      6
+0942 0A0000            LN      0
+0945 1C                CP
+0946 17                NE
+0947 2F                RT
+0948 8E5553 :USR       BC      :INP      'USR('
+     52A8              --
+094D 318F              JS      :EXPR
+094F 3231              JS      Z245
+0951 3231              JS      Z245
+0953 80A9              BC      * !495    ')'
+0955 2E                US
+0956 2F                RT
+0957 91494E :INP       BC      :FLG      'INP('
+     50A8              --
+095C 0A0126            LN      ILINPOUT
+095F 0A0008            LN      8
+0962 325A              JS      Z249      GET EXPR AND COMP >0 AND <8
+0964 0A0008            LN      8         ADD 8 TO OP FOR INPUT
+0967 18                AD
+0968 7D                BR      Z271
+0969 91464C :FLG       BC      :PEEK     'FLG('
+     47A8              --
+096E 0A09F8            LN      ILFLG     FLG WAS NEVER DOCUMENTED
+0971 0A0005            LN      5
+0974 325A              JS      Z249      GET EXPR AND COMP >0 AND <5
+0976 0A0001            LN      1
+0979 19                SU                SUB 1
+097A 6B                BR      Z271
+097B 8F5045 :PEEK      BC      Z272      'PEEK('
+     454BA8            --
+0981 0A0114            LN      ILPEEK
+0984 318F              JS      :EXPR
+0986 80A9   Z271       BC      * !546    ')'
+0988 0B                DS
+0989 2E                US
+098A 2F                RT
+098B A2     Z272       BV      Z273
+098C 12                FV
+098D 2F                RT
+098E C1     Z273       BN      Z274
+098F 2F                RT
+0990 80A8   Z274       BC      * !556    '('
+0992 318F   Z269       JS      :EXPR
+0994 80A9              BC      * !560    ')'
+0996 2F                RT
+0997 83AC   Z245       BC      Z275      ','
+0999 398F              J       :EXPR
+099B 0B     Z275       DS
+099C 2F                RT
+099D 84BD   Z237       BC      Z276      '='
+099F 0902              LB      2
+09A1 2F                RT
+09A2 8EBC   Z276       BC      Z277      '<'
+09A4 84BD              BC      Z278      '='
+09A6 0903              LB      3
+09A8 2F                RT
+09A9 84BE   Z278       BC      Z279      '>'
+09AB 0905              LB      5
+09AD 2F                RT
+09AE 0901   Z279       LB      1
+09B0 2F                RT
+09B1 80BE   Z277       BC      * !589    '>'
+09B3 84BD              BC      Z280      '='
+09B5 0906              LB      6
+09B7 2F                RT
+09B8 84BC   Z280       BC      Z281      '<'
+09BA 0905              LB      5
+09BC 2F                RT
+09BD 0904   Z281       LB      4
+09BF 2F                RT
+09C0 318F   Z249       JS      :EXPR
+09C2 0B                DS
+09C3 0B                DS
+09C4 06                SX 6
+09C5 01                SX 1
+09C6 07                SX 7
+09C7 01                SX 1
+09C8 0901   Z248       LB      1
+09CA 02                SX 2
+09CB 01                SX 1
+09CC 1C                CP
+09CD 60                BR      * !616
+09CE 0906              LB      6
+09D0 0A0000            LN      0
+09D3 1C                CP
+09D4 60                BR      * !623
+09D5 2F     :ENDIL     RT                 End Of IL Program
+09D6 00                IDL
+09D7 00                IDL
+09D8 F882   TVON       LDI     INTERUPT  SETUP INTERRUPT ROUTINE
+09DA A1                PLO     R1
+09DB F80C              LDI     HIGH INTERUPT
+09DD B1                PHI     R1
+09DE 34DE              B1      *         LOOP UNTIL EF1 GOES FALSE
+09E0        ;                  (EF1 brackets the 1861 interrupt request)
+09E0 69                INP     1         TURN ON 1861
+09E1 E3                SEX     R3
+09E2 70                RET               ENABLE INTERRUPTS
+09E3 D5                RETURN
+09E4 F934   Z283       ORI     0x34      MAKE FLG BRANCH
+09E6 BF                PHI     RF        SAVE HIGH F
+09E7 2D                DEC     RD
+09E8 ED                SEX     RD        X=D
+09E9 8D                GLO     RD        GLO D TO BRANCH TOO
+09EA AF                PLO     RF        SAVE IN LOW F
+09EB F8D5              LDI     0xD5       STORE RETURN
+09ED 73                STXD
+09EE F89D              LDI     0x9D       LDI0      STORE CLEAR
+09F0 73                STXD
+09F1 8F                GLO     RF        STORE BRANCH TOO ADDRESS
+09F2 73                STXD
+09F3 9F                GHI     RF        STORE BRANCH INSTUCTION
+09F4 5D                STR     RD
+09F5 F801              LDI     1         LOAD 1
+09F7 DD                SEP     RD        EXAMPLE  34XX  9D D5 BRANCH SKIPS C
+09F8 30E4   ILFLG      BR      Z283
+09FA C00A29 ILLOAD     LBR     Z284
+09FD F8F0   ILSAVE     LDI     0xF0        SAVE TO TAPE
+09FF BC                PHI     RC
+0A00 F865              LDI     0x65
+0A02 AC                PLO     RC
+0A03 F880              LDI     0x80
+0A05 BD                PHI     RD
+0A06 FF00   Z285       SMI     0
+0A08 DC                SEP     RC         GOSUB #F065 ROM CALLS
+0A09 9D                GHI     RD
+0A0A 3A06              BNZ     Z285
+0A0C 7B     Z287       SEQ
+0A0D 4A                LDA     RA
+0A0E BF                PHI     RF
+0A0F F809              LDI     9
+0A11 AF                PLO     RF
+0A12 AD                PLO     RD
+0A13 FE                SHL
+0A14 DC     Z286       SEP     RC
+0A15 2F                DEC     RF
+0A16 9F                GHI     RF
+0A17 FE                SHL
+0A18 BF                PHI     RF
+0A19 8F                GLO     RF
+0A1A 3A14              BNZ     Z286
+0A1C 8D                GLO     RD
+0A1D F6                SHR
+0A1E DC                SEP     RC
+0A1F 28                DEC     R8
+0A20 98                GHI     R8
+0A21 3A0C              BNZ     Z287
+0A23 DC                SEP     RC
+0A24 DC                SEP     RC
+0A25 DC                SEP     RC
+0A26 DC                SEP     RC
+0A27 7A                REQ
+0A28 D5                RETURN
+0A29 F8F0   Z284       LDI     0xF0        LOAD FROM TAPE
+0A2B BC                PHI     RC
+0A2C F8BA              LDI     0xBA
+0A2E AC                PLO     RC
+0A2F F8F9   Z288       LDI     0xF9
+0A31 BD                PHI     RD
+0A32 DC     Z289       SEP     RC         GOSUB #F0BA ROM CALLS
+0A33 3B2F              BNF     Z288
+0A35 9D                GHI     RD
+0A36 3A32              BNZ     Z289
+0A38 DC     Z290       SEP     RC
+0A39 3338              BDF     Z290
+0A3B F801              LDI     1
+0A3D BD                PHI     RD
+0A3E AD                PLO     RD
+0A3F DC     Z291       SEP     RC
+0A40 9D                GHI     RD
+0A41 7E                SHLC
+0A42 BD                PHI     RD
+0A43 3B3F              BNF     Z291
+0A45 DC                SEP     RC
+0A46 8D                GLO     RD
+0A47 F6                SHR
+0A48 3359              BDF     Z292
+0A4A 9D                GHI     RD
+0A4B 5A                STR     RA
+0A4C EA                SEX     RA
+0A4D 64                OUT     4
+0A4E FCFF              ADI     0xFF
+0A50 88                GLO     R8
+0A51 7E                SHLC
+0A52 A8                PLO     R8
+0A53 FA03              ANI     0x03
+0A55 3A38              BNZ     Z290
+0A57 19                INC     R9
+0A58 8A                GLO     RA
+0A59 D5     Z292       RETURN
+0A5A 9E     INPUTR     GHI     RE         INPUT FROM KEYBOARD ROUTINE
+0A5B 32B0              BZ      KEYIN
+0A5D 375D   Z293       B4      Z293       SERIAL INPUT ROUTINE
+0A5F F6                SHR
+0A60 D400F9            CALL    Z158
+0A63 375A              B4      INPUTR
+0A65 F87F              LDI     0x7F
+0A67 AF     Z298       PLO     RF
+0A68 9E                GHI     RE
+0A69 F6                SHR
+0A6A 3770              B4      Z294
+0A6C 3B71              BNF     Z295
+0A6E 7B                SEQ
+0A6F 38                SKP
+0A70 7A     Z294       REQ
+0A71 D400F6 Z295       CALL    Z296
+0A74 8F                GLO     RF
+0A75 F6                SHR
+0A76 AF                PLO     RF
+0A77 3F7B              BN4     Z297
+0A79 F980              ORI     0x80
+0A7B 3367   Z297       BDF     Z298
+0A7D 7A                REQ
+0A7E D400F6            CALL    Z296
+0A81 8F                GLO     RF
+0A82 D5                RETURN
+0A83 AC     OUTPUTR    PLO     RC         OUTPUT TO SCREEN ROUTINE
+0A84 BC                PHI     RC
+0A85 9E                GHI     RE
+0A86 3A8B              BNZ     Z299
+0A88 8C                GLO     RC
+0A89 30BA              BR      DISP
+0A8B F80A   Z299       LDI     0x0A        SERIAL OUTPUT ROUTINE
+0A8D AF                PLO     RF
+0A8E D400F6            CALL    Z296
+0A91 FC00              ADI     0
+0A93 D400F6 Z300       CALL    Z296
+0A96 C7                LSNF
+0A97 7A                REQ
+0A98 38                SKP
+0A99 7B                SEQ
+0A9A 9C                GHI     RC
+0A9B FF00              SMI     0
+0A9D 76                SHRC
+0A9E BC                PHI     RC
+0A9F 2F                DEC     RF
+0AA0 8F                GLO     RF
+0AA1 3A93              BNZ     Z300
+0AA3 8C                GLO     RC
+0AA4 D5                RETURN
+0AA5 D70F   BLINK      SEP R7  TIME+2    LOOK AT TIMER
+0AA7 FE                SHL
+0AA8 FE                SHL
+0AA9 FE                SHL
+0AAA 3AB3              BNZ     Z301
+0AAC 7E                SHLC               EVERY HALF SECOND
+0AAD D40AD8            CALL    TVD        TOGGLE CURSOR
+0AB0 D409D8 KEYIN      CALL    TVON       TURN DISPLAY ON
+0AB3 3EA5   Z301       BN3     BLINK      WAIT FOR KEYIN
+0AB5 9D                GHI     RD
+0AB6 D40AD8            CALL    TVD        TURN CURSOR OFF
+0AB9 6F                INP     7          GET KEYIN
+0ABA D40AD8 DISP       CALL    TVD        DISPLAY CHAR
+0ABD AE                PLO     RE
+0ABE FB0A              XRI     0x0A        IF <LF>
+0AC0 32C6              BZ      HOLD       YES
+0AC2 37C6              B4      HOLD       ALSO HOLD ON EF4
+0AC4 8E                GLO     RE
+0AC5 D5                RETURN
+0AC6 D409D8 HOLD       CALL    TVON       TURN DISPLAY ON
+0AC9 F80C   TVOFF      LDI     0x0C        TV OFF AND DELAY
+0ACB BF                PHI     RF
+0ACC 2F                DEC     RF
+0ACD 9F                GHI     RF
+0ACE 3ACC              BNZ     *-2
+0AD0 37D0              B4      *          THEN WAIT FOR /4
+0AD2 E3                SEX     R3
+0AD3 61                OUT     1          TURN DISPLAY OFF
+0AD4 00                IDL
+0AD5 8E                GLO     RE
+0AD6 71                DIS
+0AD7 D5                RETURN
+0AD8        ;
+0AD8        ;       (ORG in last 40 bytes of page)
+0AD8        ;
+0AD8        ; Character Formatter - ASCII character in ACC.
+0AD8        ;
+0AD8 FA7F   TVD        ANI     0x7F       SET HIGH BIT TO 0
+0ADA AE                PLO     RE         SAVE FOR EXIT
+0ADB FF60              SMI     0x60       CHECK FOR UPPER CASE
+0ADD 8E                GLO     RE
+0ADE 3BE3              BNF     Z304       IF NOT JUMP
+0AE0 FF20              SMI     0x20       CONVERT TO UPPERCASE
+0AE2 AE                PLO     RE
+0AE3 E2     Z304       SEX     R2
+0AE4 8A                GLO     RA         SAVE RA ON STACK
+0AE5 73                STXD
+0AE6 9A                GHI     RA
+0AE7 73                STXD
+0AE8 89                GLO     R9         SAVE R9 ON STACK
+0AE9 73                STXD
+0AEA 99                GHI     R9
+0AEB 73                STXD
+0AEC 88                GLO     R8         SAVE R8 ON STACK
+0AED 73                STXD
+0AEE 98                GHI     R8
+0AEF 73                STXD
+0AF0 F81E              LDI     SHFT       SET UP SHIFT PC
+0AF2 AA                PLO     RA
+0AF3 F80C              LDI     HIGH SHFT
+0AF5 BA                PHI     RA
+0AF6 D708              SEP R7  TVXY       GET POINTER R8 = *0008-9
+0AF8 B8                PHI     R8         WHICH IS CURSOR
+0AF9 4D                LDA     RD
+0AFA A8                PLO     R8
+0AFB 4D                LDA     RD         D = *000A AND BIT POINTER
+0AFC FA07              ANI     7          ONLY WONT LOW 3 BITS
+0AFE B9                PHI     R9
+0AFF D713              SEP R7  BS         IS THIS CANCEL
+0B01 8E                GLO     RE
+0B02 F3                XOR                AT BS+1=CANCEL
+0B03 324E              BZ      DOTON
+0B05 8E                GLO     RE
+0B06 FF7F              SMI     0x7F        IGNORE <DEL>=7F
+0B08 3220              BZ      EXIT2
+0B0A FC5F              ADI     0x5F
+0B0C 33A8              BDF     CHAR       IS IT PRINTABLE
+0B0E FC13              ADI     0x13
+0B10 3271              BZ      ODBYTE     IS IT <CR>
+0B12 FC01              ADI     1
+0B14 325F              BZ      OCBYTE     IS IT CLEARSCREEN
+0B16 FC02              ADI     2
+0B18 3255              BZ      OABYTE     IS IF <LF>
+0B1A FC09              ADI     9
+0B1C 324E              BZ      DOTON      1 = TURN DOT ON
+0B1E 3B46              BNF     DOTOFF     0 = TURN DOT OFF
+0B20 D71A   EXIT2      SEP R7  0x1A        RD = #001B
+0B22 99                GHI     R9
+0B23 FA07              ANI     7
+0B25 B9                PHI     R9
+0B26 FCFE              ADI     0xFE
+0B28 88                GLO     R8
+0B29 7E                SHLC
+0B2A F3                XOR
+0B2B FA07              ANI     7
+0B2D F3                XOR
+0B2E 5D                STR     RD
+0B2F D709              SEP R7  TVXY+1     RD = #000A
+0B31 99                GHI     R9
+0B32 73                STXD               STORE BIT POINTER
+0B33 88                GLO     R8
+0B34 73                STXD               STORE DISPLAY LOCATION
+0B35 98                GHI     R8
+0B36 73                STXD
+0B37 12                INC     R2         RESTORE R8
+0B38 42                LDA     R2
+0B39 B8                PHI     R8
+0B3A 42                LDA     R2
+0B3B A8                PLO     R8
+0B3C 42                LDA     R2         RESTORE R9
+0B3D B9                PHI     R9
+0B3E 42                LDA     R2
+0B3F A9                PLO     R9
+0B40 42                LDA     R2         RESTORE RA
+0B41 BA                PHI     RA
+0B42 02                LDN     R2
+0B43 AA                PLO     RA
+0B44 8E                GLO     RE         GET SAVED CHARACTER
+0B45 D5                RETURN
+0B46 F880   DOTOFF     LDI     0x80        POINT TO BIT
+0B48 DA                SEP     RA
+0B49 FBFF              XRI     0xFF        MAKE AND MASK
+0B4B F2                AND
+0B4C 3052              BR      DOTON+4
+0B4E F880   DOTON      LDI     0x80
+0B50 DA                SEP     RA
+0B51 F1                OR
+0B52 58                STR     R8
+0B53 3020              BR      EXIT2
+0B55 88     OABYTE     GLO     R8         0A ROUTINE   DOWN LINE
+0B56 FC30              ADI     0x30
+0B58 A8                PLO     R8
+0B59 98                GHI     R8
+0B5A 7C00              ADCI    0
+0B5C B8                PHI     R8
+0B5D 3077              BR      Z306
+0B5F F83F   OCBYTE     LDI     BUFX-1     0C ROUTINE   CLEAR SCREEN
+0B61 A8                PLO     R8
+0B62 F80F              LDI     HIGH BUFX-1
+0B64 B8                PHI     R8
+0B65 E8                SEX     R8         REPEAT...
+0B66 9D     CLRS       GHI     RD         CLEAR BYTE
+0B67 73                STXD               DECREMENT POINTER
+0B68 88                GLO     R8
+0B69 FFB0              SMI     BUFF       HAS POINTER REACHED
+0B6B 98                GHI     R8         START OF BUFFER
+0B6C 7F0D              SMBI    HIGH BUFF
+0B6E 3366              BDF     CLRS       ...UNTIL DONE
+0B70 60                IRX                CONTINUE TO <CR>
+0B71 9D     ODBYTE     GHI     RD         0D ROUTINE   CARRAGE RETURN
+0B72 B9                PHI     R9         LEFT END OF LINE
+0B73 88                GLO     R8
+0B74 FAF8              ANI     0xF8       OF BYTE * 8
+0B76 A8                PLO     R8
+0B77 88     Z306       GLO     R8         CHEAK FOR BOTTOM OF SCREEN
+0B78 FF08              SMI     BUFE
+0B7A 98                GHI     R8
+0B7B 7F0F              SMBI    HIGH BUFE
+0B7D 3B20              BNF     EXIT2
+0B7F F8B0              LDI     BUFF
+0B81 AF                PLO     RF
+0B82 88                GLO     R8
+0B83 FCB0              ADI     BUFF
+0B85 FAF8              ANI     0xF8
+0B87 AA                PLO     RA
+0B88 F80D              LDI     HIGH BUFF
+0B8A BF                PHI     RF
+0B8B 7C00              ADCI    0
+0B8D BA                PHI     RA
+0B8E 4A     Z308       LDA     RA         SCROLL SCREEN
+0B8F 5F     Z309       STR     RF
+0B90 1F                INC     RF
+0B91 8F                GLO     RF
+0B92 FF08              SMI     BUFE
+0B94 9F                GHI     RF
+0B95 7F0F              SMBI    HIGH BUFE
+0B97 3B8E              BNF     Z308
+0B99 8F                GLO     RF
+0B9A FF40              SMI     BUFX
+0B9C 9D                GHI     RD
+0B9D 3B8F              BNF     Z309
+0B9F 88                GLO     R8
+0BA0 FA07              ANI     7
+0BA2 A8                PLO     R8
+0BA3 F80F              LDI     HIGH BUFE-8
+0BA5 B8                PHI     R8
+0BA6 3020              BR      EXIT2
+0BA8 8E     CHAR       GLO     RE         20 BYTE - 5A BYTE ROUTINE
+0BA9 FE                SHL                INDEX INTO CHARACTER TABLE
+0BAA FC6F              ADI     CTBL-64
+0BAC AF                PLO     RF
+0BAD 9D                GHI     RD
+0BAE 7C0C              ADCI    HIGH CTBL-64
+0BB0 BF                PHI     RF
+0BB1 D70B              SEP R7  MASK-1
+0BB3 4F                LDA     RF         GET BIT MASK
+0BB4 5D                STR     RD         SAVE IT
+0BB5 4F                LDA     RF
+0BB6 FC2F              ADI     DOTS
+0BB8 AF                PLO     RF         POINT TO DOT MATRIX
+0BB9 9D                GHI     RD
+0BBA 7C0D              ADCI    HIGH DOTS
+0BBC BF                PHI     RF
+0BBD 99                GHI     R9         SAVE CURSOR POSITION
+0BBE 52                STR     R2
+0BBF 22                DEC     R2
+0BC0 0D                LDN     RD         POSITION BIT MASK
+0BC1 FA07              ANI     7
+0BC3 B9                PHI     R9
+0BC4 0D                LDN     RD
+0BC5 FAF8              ANI     0xF8       IT IS LEFT 5 BITS
+0BC7 DA                SEP     RA
+0BC8 1A                INC     RA         CANCEL 2ND CO-CALL
+0BC9 1A                INC     RA
+0BCA A9                PLO     R9         SAVE MASK
+0BCB 12                INC     R2
+0BCC E2                SEX     R2         PREPARE TO FIND RELATIVE SHIFT
+0BCD 0D                LDN     RD
+0BCE FA07              ANI     7
+0BD0 F5                SD                 (X=2)
+0BD1 B9                PHI     R9
+0BD2 89                GLO     R9         SAVE NEW MASK
+0BD3 5D                STR     RD
+0BD4 4F     CHRL       LDA     RF         GET SOME DOTS
+0BD5 ED                SEX     RD
+0BD6 F2                AND                MASK INTO THIS CHARACTER
+0BD7 DA                SEP     RA         SHIFT IT
+0BD8 F1                OR                 INSERT INTO BUFFER
+0BD9 58                STR     R8
+0BDA DA                SEP     RA         UP TO NEXT LINE
+0BDB 33D4              BDF     CHRL
+0BDD 0D                LDN     RD         CHECK FOR SPLIT WORD
+0BDE DA                SEP     RA
+0BDF 1A                INC     RA         DON'T WANT COUNTER
+0BE0 1A                INC     RA
+0BE1 3BFC              BNF     Z310       NOT SPLIT
+0BE3 8F                GLO     RF         BACK UP DOT POINTER
+0BE4 FF06              SMI     6
+0BE6 AF                PLO     RF
+0BE7 18                INC     R8         POINT TO NEXT WORD
+0BE8 88                GLO     R8
+0BE9 FA07              ANI     7
+0BEB 3AF6              BNZ     Z311
+0BED 99                GHI     R9         OOPS,NEXT LINE
+0BEE FA87              ANI     0x87
+0BF0 F950              ORI     0x50
+0BF2 B9                PHI     R9
+0BF3 2A                DEC     RA
+0BF4 2A                DEC     RA
+0BF5 DA                SEP     RA
+0BF6 99     Z311       GHI     R9         CONVERT TO LEFT SHIFT
+0BF7 F9F8              ORI     0xF8
+0BF9 B9                PHI     R9
+0BFA 30D4              BR      CHRL       GO DO IT AGAIN
+0BFC E2     Z310       SEX     R2
+0BFD F980              ORI     0x80
+0BFF 38                SKP                FIND RIGHT EDGE
+0C00 19     Z312       INC     R9
+0C01 F6                SHR
+0C02 3B00              BNF     Z312       OF MASK
+0C04 89                GLO     R9
+0C05 FD09              SDI     9          ANY LEFT?
+0C07 B9                PHI     R9
+0C08 FF08              SMI     8
+0C0A 3B19              BNF     CSTK       YES
+0C0C B9                PHI     R9         NO, ADVANCE WORD
+0C0D 18                INC     R8
+0C0E 88                GLO     R8
+0C0F FA07              ANI     7
+0C11 3A19              BNZ     CSTK
+0C13 F850              LDI     0x50
+0C15 B9                PHI     R9
+0C16 2A                DEC     RA
+0C17 2A                DEC     RA
+0C18 DA                SEP     RA
+0C19 C4     CSTK       NOP
+0C1A C00B77            LBR     Z306
+0C1D D3     Z324       SEP     R3         < EXIT
+0C1E 52     SHFT       STR     R2         >ENTER SAVE BITS TO SHIFT
+0C1F 88                GLO     R8         NOTE IF ADDRESS IS OUTSIDE DISPLAY
+0C20 FFB0              SMI     BUFF
+0C22 98                GHI     R8         ONLY WORRY ABOUT TOO LOW
+0C23 7F0D              SMBI    HIGH BUFF
+0C25 9D                GHI     RD         IF SO, RETURN 0
+0C26 3B47              BNF     Z314       SO PROGRAM ISN'T DESTROYED
+0C28 99                GHI     R9         LOOK AT COUNTER
+0C29 FA87              ANI     0x87       MASK OUT WORD COUNTER
+0C2B A9                PLO     R9
+0C2C 3245              BZ      Z315       NO SHIFT
+0C2E FE                SHL
+0C2F 333A              BDF     Z316       LEFT
+0C31 02     Z317       LDN     R2         SHIFT RIGHT ONCE
+0C32 F6                SHR
+0C33 52                STR     R2
+0C34 29                DEC     R9
+0C35 89                GLO     R9
+0C36 3A31              BNZ     Z317       REPEAT N TIMES
+0C38 3046              BR      Z318       DONE
+0C3A F6     Z316       SHR                LEFT SHIFT
+0C3B FD08              SDI     0x08       SET UP COUNTER
+0C3D A9                PLO     R9
+0C3E 02     Z319       LDN     R2         DO IT
+0C3F FE                SHL
+0C40 52                STR     R2
+0C41 29                DEC     R9
+0C42 89                GLO     R9
+0C43 3A3E              BNZ     Z319       REPEAT
+0C45 FE     Z315       SHL                CLEAR CARRY
+0C46 02     Z318       LDN     R2         GET BITS
+0C47 E8     Z314       SEX     R8
+0C48 D3                SEP     R3         EXIT, C=SHIFT OFF RIGHT
+0C49 304D              BR      Z320       SECOND ENTRY POINT
+0C4B 301E              BR      SHFT       OPTIONAL RERUNS
+0C4D        ;
+0C4D        ; Count words, moving pointer up
+0C4D        ;
+0C4D 99     Z320       GHI     R9
+0C4E FC18              ADI     0x18       CONVERT IF NEGATIVE, ADD 1
+0C50 3B54              BNF     Z321
+0C52 F980              ORI     0x80       (RESTORE SIGN)
+0C54 FAF7   Z321       ANI     0xF7
+0C56 B9                PHI     R9
+0C57 FE                SHL                SIGN IN C
+0C58 FAE0              ANI     0xE0       IS THIS END?
+0C5A FBC0              XRI     0xC0
+0C5C 3A70              BNZ     Z322       NO
+0C5E 99                GHI     R9         YES, RESTORE ORIGINAL
+0C5F FA07              ANI     7
+0C61 3B65              BNF     Z323
+0C63 F9F8              ORI     0xF8       (NEGATIVE)
+0C65 B9     Z323       PHI     R9
+0C66 88                GLO     R8         BUMP R8 BACK TO BOTTOM
+0C67 FC28              ADI     0x28
+0C69 A8                PLO     R8
+0C6A 98                GHI     R8
+0C6B 7C00              ADCI    0
+0C6D B8                PHI     R8
+0C6E 301D              BR      Z324       C=0
+0C70 88     Z322       GLO     R8         GO TO NEXT LINE UP
+0C71 FF08              SMI     8
+0C73 A8                PLO     R8
+0C74 98                GHI     R8
+0C75 7F00              SMBI    0
+0C77 B8                PHI     R8
+0C78 301D              BR      Z324       C=1
+0C7A        ;
+0C7A        ; Interrupt service routine for 1861
+0C7A        ;
+0C7A F803   Z327       LDI     3
+0C7C A0                PLO     R0
+0C7D E2                SEX     R2
+0C7E 42                LDA     R2
+0C7F FE                SHL
+0C80 42                LDA     R2         RECOVER D
+0C81 70                RET                < EXIT
+0C82 C4     INTERUPT   NOP                > ENTRY DISPLAY INT. ROUTINE
+0C83 22                DEC     R2
+0C84 78                SAV                SAVE T
+0C85 22                DEC     R2
+0C86 73                STXD               SAVE D
+0C87 F80D              LDI     HIGH BUFF
+0C89 B0                PHI     R0         SET UP R0 FOR DMA
+0C8A F8B0              LDI     BUFF
+0C8C A0                PLO     R0
+0C8D 348D              B1      *          SYNCHRONIZE
+0C8F 80     Z326       GLO     R0
+0C90 20                DEC     R0
+0C91 A0                PLO     R0
+0C92 E0                SEX     R0         NOT A NOP
+0C93 20                DEC     R0
+0C94 A0                PLO     R0         THREE LINES PER PIXEL
+0C95 90                GHI     R0         LAST LINE
+0C96 FB0F              XRI     HIGH BUFE  IS NEW PAGE
+0C98 3A8F              BNZ     Z326
+0C9A B0                PHI     R0
+0C9B F80F              LDI     TIME+2     NOW UPDATE CLOCK
+0C9D A0                PLO     R0
+0C9E 76                SHRC               SAVE CARRY
+0C9F 52                STR     R2
+0CA0 F0                LDX
+0CA1 FC01              ADI     1          INCREMENT FRAME COUNT
+0CA3 50                STR     R0
+0CA4 FF3D              SMI     0x3D       ONE SECOND
+0CA6 3B7A              BNF     Z327       NOT YET
+0CA8 73                STXD               IF YES,
+0CA9 F0                LDX                    BUMP SECONDS
+0CAA FC01              ADI     1
+0CAC 50                STR     R0
+0CAD 307A              BR      Z327
+0CAF 8608   CTBL       DW      0x8608     SP MASK BYTE AND DATA POINTER
+0CB1 820A              DW      0x820A     ! MASK BYTE AND DATA POINTER
+0CB3 E508              DW      0xE508     " MASK BYTE AND DATA POINTER
+0CB5 F823              DW      0xF823     # MASK BYTE AND DATA POINTER
+0CB7 E435              DW      0xE435     $ MASK BYTE AND DATA POINTER
+0CB9 E55A              DW      0xE55A     % MASK BYTE AND DATA POINTER
+0CBB F423              DW      0xF423     & MASK BYTE AND DATA POINTER
+0CBD C200              DW      0xC200     ' MASK BYTE AND DATA POINTER
+0CBF C111              DW      0xC111     ( MASK BYTE AND DATA POINTER
+0CC1 C211              DW      0xC211     ) MASK BYTE AND DATA POINTER
+0CC3 E03C              DW      0xE03C     * MASK BYTE AND DATA POINTER
+0CC5 E547              DW      0xE547     + MASK BYTE AND DATA POINTER
+0CC7 C307              DW      0xC307     , MASK BYTE AND DATA POINTER
+0CC9 C441              DW      0xC441     - MASK BYTE AND DATA POINTER
+0CCB 8407              DW      0x8407     . MASK BYTE AND DATA POINTER
+0CCD E529              DW      0xE529     / MASK BYTE AND DATA POINTER
+0CCF E111              DW      0xE111     0 MASK BYTE AND DATA POINTER
+0CD1 E243              DW      0xE243     1 MASK BYTE AND DATA POINTER
+0CD3 E44F              DW      0xE44F     2 MASK BYTE AND DATA POINTER
+0CD5 E103              DW      0xE103     3 MASK BYTE AND DATA POINTER
+0CD7 E01D              DW      0xE01D     4 MASK BYTE AND DATA POINTER
+0CD9 E042              DW      0xE042     5 MASK BYTE AND DATA POINTER
+0CDB E249              DW      0xE249     6 MASK BYTE AND DATA POINTER
+0CDD E073              DW      0xE073     7 MASK BYTE AND DATA POINTER
+0CDF E303              DW      0xE303     8 MASK BYTE AND DATA POINTER
+0CE1 E049              DW      0xE049     9 MASK BYTE AND DATA POINTER
+0CE3 8304              DW      0x8304     : MASK BYTE AND DATA POINTER
+0CE5 C335              DW      0xC335     ; MASK BYTE AND DATA POINTER
+0CE7 E541              DW      0xE541     < MASK BYTE AND DATA POINTER
+0CE9 E503              DW      0xE503     = MASK BYTE AND DATA POINTER
+0CEB E517              DW      0xE517     > MASK BYTE AND DATA POINTER
+0CED E05A              DW      0xE05A     ? MASK BYTE AND DATA POINTER
+0CEF E079              DW      0xE079     @ MASK BYTE AND DATA POINTER
+0CF1 E12F              DW      0xE12F     A MASK BYTE AND DATA POINTER
+0CF3 E56D              DW      0xE56D     B MASK BYTE AND DATA POINTER
+0CF5 E417              DW      0xE417     C MASK BYTE AND DATA POINTER
+0CF7 E217              DW      0xE217     D MASK BYTE AND DATA POINTER
+0CF9 E560              DW      0xE560     E MASK BYTE AND DATA POINTER
+0CFB E534              DW      0xE534     F MASK BYTE AND DATA POINTER
+0CFD E24F              DW      0xE24F     G MASK BYTE AND DATA POINTER
+0CFF E33B              DW      0xE33B     H MASK BYTE AND DATA POINTER
+0D01 8217              DW      0x8217     I MASK BYTE AND DATA POINTER
+0D03 E155              DW      0xE155     J MASK BYTE AND DATA POINTER
+0D05 E060              DW      0xE060     K MASK BYTE AND DATA POINTER
+0D07 E343              DW      0xE343     L MASK BYTE AND DATA POINTER
+0D09 F96D              DW      0xF96D     M MASK BYTE AND DATA POINTER
+0D0B F41D              DW      0xF41D     N MASK BYTE AND DATA POINTER
+0D0D E017              DW      0xE017     O MASK BYTE AND DATA POINTER
+0D0F E573              DW      0xE573     P MASK BYTE AND DATA POINTER
+0D11 E00B              DW      0xE00B     Q MASK BYTE AND DATA POINTER
+0D13 E53B              DW      0xE53B     R MASK BYTE AND DATA POINTER
+0D15 E029              DW      0xE029     S MASK BYTE AND DATA POINTER
+0D17 E066              DW      0xE066     T MASK BYTE AND DATA POINTER
+0D19 E21D              DW      0xE21D     U MASK BYTE AND DATA POINTER
+0D1B E379              DW      0xE379     V MASK BYTE AND DATA POINTER
+0D1D FB2E              DW      0xFB2E     W MASK BYTE AND DATA POINTER
+0D1F E260              DW      0xE260     X MASK BYTE AND DATA POINTER
+0D21 E273              DW      0xE273     Y MASK BYTE AND DATA POINTER
+0D23 E035              DW      0xE035     Z MASK BYTE AND DATA POINTER
+0D25 C017              DW      0xC017     [ MASK BYTE AND DATA POINTER
+0D27 E329              DW      0xE329     \ MASK BYTE AND DATA POINTER
+0D29 C117              DW      0xC117     ] MASK BYTE AND DATA POINTER
+0D2B E200              DW      0xE200     ^ MASK BYTE AND DATA POINTER
+0D2D E507              DW      0xE507     _ MASK BYTE AND DATA POINTER
+0D2F 0000   DOTS       DW      0x0000     START OF DOT TABLE
+0D31 8080              DW      0x8080
+0D33 E897              DW      0xE897
+0D35 A897              DW      0xA897
+0D37 6840              DW      0x6840
+0D39 4020              DW      0x4020
+0D3B 40AD              DW      0x40AD
+0D3D B6AD              DW      0xB6AD
+0D3F 4404              DW      0x4404
+0D41 2056              DW      0x2056
+0D43 DD57              DW      0xDD57
+0D45 2000              DW      0x2000
+0D47 F4AA              DW      0xF4AA
+0D49 A9AA              DW      0xA9AA
+0D4B F400              DW      0xF400
+0D4D 39E9              DW      0x39E9
+0D4F ABAD              DW      0xABAD
+0D51 2900              DW      0x2900
+0D53 55FA              DW      0x55FA
+0D55 54F8              DW      0x54F8
+0D57 5400              DW      0x5400
+0D59 C024              DW      0xC024
+0D5B 4A91              DW      0x4A91
+0D5D 600A              DW      0x600A
+0D5F 5575              DW      0x5575
+0D61 5151              DW      0x5151
+0D63 2014              DW      0x2014
+0D65 EC86              DW      0xEC86
+0D67 4C27              DW      0x4C27
+0D69 E400              DW      0xE400
+0D6B 1515              DW      0x1515
+0D6D BE55              DW      0xBE55
+0D6F B600              DW      0xB600
+0D71 01C2              DW      0x01C2
+0D73 3CD2              DW      0x3CD2
+0D75 91F0              DW      0x91F0
+0D77 1002              DW      0x1002
+0D79 572A              DW      0x572A
+0D7B 70A0              DW      0x70A0
+0D7D 5800              DW      0x5800
+0D7F DE68              DW      0xDE68
+0D81 A462              DW      0xA462
+0D83 1C06              DW      0x1C06
+0D85 2355              DW      0x2355
+0D87 1518              DW      0x1518
+0D89 1051              DW      0x1051
+0D8B 0422              DW      0x0422
+0D8D A144              DW      0xA144
+0D8F 00AF              DW      0x00AF
+0D91 ACD6              DW      0xACD6
+0D93 ACAF              DW      0xACAF
+0D95 0042              DW      0x0042
+0D97 425F              DW      0x425F
+0D99 52F9              DW      0x52F9
+0D9B 1000              DW      0x1000
+0D9D 4645              DW      0x4645
+0D9F 566D              DW      0x566D
+0DA1 4600              DW      0x4600
+0DA3 9494              DW      0x9494
+0DA5 562D              DW      0x562D
+0DA7 EE00              DW      0xEE00
+0DA9 6894              DW      0x6894
+0DAB B4B4              DW      0xB4B4
+0DAD 5400              DW      0x5400
+0DAF DF                SEP     RF

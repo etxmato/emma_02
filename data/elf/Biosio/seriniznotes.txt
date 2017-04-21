@@ -1,0 +1,59 @@
+SERINIZ by Richard E. Peters, richard11092000@cox.net
+12/06/2004 version 1
+
+SERINIZ has been designed to start the Serial Mode
+Mode of BIOSIOV7
+
+Also SERINIZ has a second entry point, which is setup to take
+advantage of Mike Rileys new ELF/OS (0.2.5) software, and run
+at bootup. To allow programs writen for Biosio to run without
+another baud check. 
+
+SERINIZ can be use 2 different ways just by starting it at different
+address.
+
+7000  Just start BIOSIO in Serial mode
+7035  Change ELF/OS INPUT/OUTPUT Vectors to BIOS and the above.
+      Currently BIOSIO uses The Bios For Serial INPUT/OUTPUT anyway.
+      
+SERINIZ.ROM can then be saved to IDE, with:
+SAVE
+START address:7000
+END address:708F
+EXEC address:7000
+FILE NAME:SERINIZ
+
+SAVE
+START address:7000
+END address:708F
+EXEC address:7035
+FILE NAME:SERINIZOS
+
+useage: 
+SERINIZ will start up display for use with programs, that use BIOSIO    
+SERINIZOS will start up display and set up BIOSIO for programs
+
+SERINIZOS can be renamed to INIT and ELF/OS (0.2.5) would start
+with biosio already started. 
+
+SERINIZOS also indicates 14 on the hex display, to note it is whating
+on input. It will also display EE if the serial port is not connected
+right (wrong flag etc..) also a feature of biosio has been move in.
+
+Baud Rate Default feature witch allows by-passing detection, This feature is activated
+by setting default byte at 7080 and setting Flag 3 to stay Low, If avalible
+(Connecting Flag 2 and Flag 3 to serial port will do samething)
+
+To fined your default baud byte. Run SERINIZOS without connecting Flag 3
+After it finishes, your default byte will be displayed in the hex displays
+
+
+One more note: AS of 12/06/2004 there are no posted programs for BIOSIO
+that will work with xxxINIZ programs. This will change soon.
+
+Any question or comments just email me 
+
+Richard
+
+
+

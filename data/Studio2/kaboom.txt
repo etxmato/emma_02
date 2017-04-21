@@ -1,0 +1,22 @@
+                                ========
+                                Kaboom !
+                                ========
+
+20-22 March 2013
+
+This is my "Kaboom" game for the RCA Studio II, based on the Atari 2600 
+classic.
+
+Keys :
+        Left    [4, Left  Pad]
+        Right   [6, Left  Pad]
+        Start 	[0, Left  Pad]
+
+This game is freeware.
+
+The source is included. This is written in 1802 Assembler code, and
+will assemble using the cross assembler "asmx" v2.05, and ST2 format
+files can be built using the included python program.
+
+Paul Robson (paul@robsons.org.uk)
+

@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
+    <object class="wxDialog" name="FunctionKeyDialog">
+        <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
+        <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+        <size>400,300</size>
+        <title>Function and Hot Key Mapping</title>
+        <centered>1</centered>
+        <font>
+            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+            <size>-1</size>
+        </font>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>0</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>3</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxCheckBox" name="EnableEscape">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Exit Key</label>
+                                            <checked>0</checked>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey0" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey0">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC ">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Help</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey1" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey1">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Activate Main</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey2" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey2">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Full Screen</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey3" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey3">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Printer Window</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey4" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey4">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>3</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Video Dump</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey5" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey5">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Debug Mode</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey6" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey6">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Menu</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey7" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey7">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Video Terminal Setup</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey8" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKey8">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Start / Reset / Run</label>
+                                        </object>
+                                    </object>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>5</border>
+                                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKeyC" subclass="IntEdit">
+                                            <size>30,-1</size>
+                                            <hidden>1</hidden>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxButton" name="FunctionKeyC">
+                                            <size>75,25</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxWANTS_CHARS</style>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxGROW|wxLEFT|wxRIGHT</flag>
+                <border>5</border>
+                <object class="wxStaticLine" name="wxID_STATIC">
+                    <style>wxLI_HORIZONTAL</style>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>3</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                        <border>3</border>
+                        <object class="wxButton" name="Default">
+                            <size>75,25</size>
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Default</label>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>5</border>
+                        <object platform="mac" class="wxTextCtrl" name="Focus">
+                            <size>1,1</size>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                        <border>3</border>
+                        <object class="wxButton" name="Save">
+                            <size>75,25</size>
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+</resource>

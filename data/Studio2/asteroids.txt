@@ -1,0 +1,26 @@
+                                =========
+                                Asteroids
+                                =========
+
+27-29 March 2013
+
+This is my "Asteroids" game for the RCA Studio II - it is 1.5k
+long. It also uses the area $C00-$DFF for the extra ROM space.
+
+Keys : (either pad can be used)
+
+		Move	[2]
+        Left    [4]
+        Right   [6]
+        Fire 	[0]
+
+Press 5 on Pad 1 to start each level.
+
+This game is freeware.
+
+The source is included. This is written in 1802 Assembler code, and
+will assemble using the cross assembler "asmx" v2.05, and ST2 format
+files can be built using the included python program.
+
+Paul Robson (paul@robsons.org.uk)
+

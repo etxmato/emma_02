@@ -1,0 +1,2824 @@
+0001   0000             ; V-ELF Bios, version 3.1 - Aug 28, 2012
+0002   0000             ;
+0003   0000             ;Revsions:
+0004   0000             ; 1.0 - Original draft - Aug 2003
+0005   0000             ; 2.0 - Released version - Aug 2003
+0006   0000             ; 3.0 - Added operation notes as comments to the file - Aug 25, 2010
+0007   0000             ; 3.1 - Added this Revision listing and dates - Aug 28, 2012
+0008   0000             ; 3.1 - Added Tape IN/OUT circuit to hardware - Aug 28, 2012
+0009   0000             ; 3.1 - Created write up, schematic and board layout files - Aug 28, 2012
+0010   0000             ;
+0011   0000             ;Decription:	The BIOS/ROM chip that runs the V-ELF.
+0012   0000             ;
+0013   0000             ; The V-ELF is a combination of the COSMAC VIP and COSMAC ELF systems (many thanks to Joseph Weisbecker).
+0014   0000             ;
+0015   0000             ; With the flip of a switch, the V-ELF behaves like either the COSMAC ELF or VIP.
+0016   0000             ;
+0017   0000             ; In ELF mode:
+0018   0000             ;  32K of RAM is mapped to 0x0000 to 0x7FFF
+0019   0000             ;  32K of ROM is mapped to 0x8000 to 0xFFFF
+0020   0000             ;
+0021   0000             ; The system doesn't do much on it's own and requires you to enter a
+0022   0000             ; program via the input switches or execute what ever program has
+0023   0000             ; been put/left in RAM from the VIP Monitor or VELF Bios ROM.
+0024   0000             ;
+0025   0000             ; In VIP mode:
+0026   0000             ;  32K of RAM is mapped out until A15 goes high (a Long Branch to 0x8200 does this)
+0027   0000             ;  32K of ROM is mapped to both 0x0000 to 0x7FFF AND 0x8000 to 0xFFFF
+0028   0000             ;
+0029   0000             ; Here, execution starts in the ROM which upon reset (ie RUN=0) get's mapped to 0x0000.
+0030   0000             ; The first instruction is a Long Branch to the ROM using the upper 32K address.
+0031   0000             ; With A15 high during a Memory Read cycle, the RS flipflop clears the remapping of ROM
+0032   0000             ; and allows the RAM to be accessed in the lower 32K region.  This clever technique was used by
+0033   0000             ; the COSMAC VIP and it fits the demand here to allow the COSMAC ELF and it's programs to
+0034   0000             ; use the RAM in the lower 32K region.
+0035   0000             ;
+0036   0000             ; Execution goes directly to the VElf Bios at 0x8200 where the VElf starts the talking through
+0037   0000             ; RS232 (Q for TXD, EF2 for RXD) by sending it's Menu at 9600,N,8,1
+0038   0000             ;
+0039   0000             ;  VELF MENU:	"COSMAC ELF says Hello (v3.1)"
+0040   0000             ;   		" [D] Dump, [E] Enter, [R] Run ? "
+0041   0000             ;
+0042   0000             ; Here, you may talk to your ELF via your terminal program.
+0043   0000             ; D-Dumps Memory 1 page at a time, Enter an address, <Enter> dumps next page, <Esc> to quit.
+0044   0000             ; E-Enters Data into the RAM, Enter an address, Enter Data, <Enter> to next byte, <Esc> to quit.
+0045   0000             ; R-Runs at what ever address you select, Enter an address.
+0046   0000             ; Or pressing the "IN" button will cause the VElf to execute the VIP monitor or Load a program into RAM from ROM.
+0047   0000             ;
+0048   0000             ; What's not shown on this menu is the ability to upload a .hex file!  Just go ahead and do a text
+0049   0000             ; upload of your .hex file.  The ":" character will trigger the interpretation of the .hex line.
+0050   0000             ;
+0051   0000             ;  Here's a typical hex file line:
+0052   0000             ;   :1000000090B1B2B3B4F82DA3F83FA2F811A1D37206
+0053   0000             ;   iCCAddrRT----------DATA------------------CS
+0054   0000             ;
+0055   0000             ; The : triggers the interpretation of the line.
+0056   0000             ; The next two digits (10=16 bytes) give the count of bytes in that line
+0057   0000             ; The next four digits (0000) sets the start address of the data bytes to come
+0058   0000             ; The next two digits is the record type, 00 for data, 01 for end of file (no other types are interpreted)
+0059   0000             ; The next 32 digits are the 16 data bytes in hex format
+0060   0000             ; The last two digits are the checksum, which is tested for errors.  Any errors are counted.
+0061   0000             ;
+0062   0000             ; After every line, the page counter is displayed on the HEX Display
+0063   0000             ; Upon the 01 record type, the ERRORS counter is displayed and the monitor returns to the menu.
+0064   0000             ;
+0065   0000             ; Pressing the IN button at any time (checked during the RS232 RXCHAR routine) will cause
+0066   0000             ; execution to go to the VIP monitor or preload a program from ROM into RAM.
+0067   0000             ; If the dipswitches are all off, then the VIP monitor program is loaded.
+0068   0000             ; Otherwise, the program number selected by the dipswitches is loaded into RAM from the BIOS ROM.
+0069   0000             ; See "pgmtable" for a list of loadable programs contained within this ROM.
+0070   0000             ;
+0071   0000             ; pgmtable
+0072   0000             ; 0x01 = Starship (as listed in part 4 of the COSMAC ELF - Popular Electronics Jully 1977 issue)
+0073   0000             ; 0x02 = SumFun (as listed in the VIP Games Manual)
+0074   0000             ; 0x03 = PinBall (as listed in the VIP Games Manual)
+0075   0000             ; 0x04 to 0xFF are not defined in this version.
+0076   0000             ;
+0077   0000             ; If the IN button is pressed with dipswitches all off, then VIP Monitor is started.
+0078   0000             ; The VIP Monitor requires you to hold down the "C" key to enter the Monitor program. Hold "C" while pressing IN button.
+0079   0000             ; If you do not hold down the C key, execution of code at 0000 will occur.
+0080   0000             ; Once the monitor program is entered, it tests to see how many pages of RAM are available, starting at 4K
+0081   0000             ; it then clears the last 80 bytes of ram in the last page of ram (0x0F00 in the VElf) for a Video Display.
+0082   0000             ; After you release the "C" button, you must enter a 4 digit starting address:  XXXX
+0083   0000             ; Then select what to do as follows:
+0084   0000             ; "0" to begin entering data into RAM, keep entering 2 digit hex values for consecutive RAM addresses
+0085   0000             ; "A" to view memory, any key displays the next byte
+0086   0000             ; "B" to read data from TAPE Drive (via EF2 line), enter the number of pages to READ
+0087   0000             ; "F" to write data to TAPE Drive (via Q line), enter the number of pages to WRITE
+0088   0000             ;
+0089   0000             ; My version of VElf does not use TAPE, you'll have to add the hardware required to interface your tape deck.
+0090   0000             ; New for version 3.1.  Tape IN/OUT circuit has been added so I can try loading/saving to TAPE now!
+0091   0000             ;
+0092   0000             ;
+0093   0000             ; Version 1, Beta version, never released.
+0094   0000             ; Version 2, Got everything running, so I think.
+0095   0000             ; Version 3, added the above notes to understand the system.
+0096   0000             ;
+0097   0000             ;
+0098   0000             
+0099   0000             ; RCA COSMAC VIP CDP18S711 Monitor ROM Listing
+0100   0000             ; disassembled by Lee A. Hart <leeahart@earthlink.net>
+0101   0000             ; Modified comments & added RS232 Routines 9600,N,8,1
+0102   0000             ; by Josh Bensadon
+0103   0000             ;
+0104   0000             ; Push input (EF4) at any time to enter original VIP ROM
+0105   0000             ;
+0106   0000             ;       The ROM is partially decoded to occupy all memory
+0107   0000             ;       from 8000-FFFFh. Execution normally begins after
+0108   0000             ;       Reset with P=0, X=0, R(0)=0000, and the address
+0109   0000             ;       inhibit latch set so the monitor ROM is also at
+0110   0000             ;       0000-7FFFh instead of RAM. Thus the 1802 begins
+0111   0000             ;       executing the monitor ROM code.
+0112   0000             ;
+0113   0000             ; register usage
+0114   0000             ;
+0115   0000             ;       R0 = 1861 video DMA pointer
+0116   0000             ;       R1 = 1861 interrupt handler PC
+0117   0000             ;       R2 = stack pointer
+0118   0000             ;       R3 = main PC
+0119   0000             ;       R4 = dismem subroutine PC
+0120   0000             ;       R5 = display subroutine PC
+0121   0000             ;       R6 = address pointer to read/write memory
+0122   0000             ;       R7 = getbyte subroutine PC
+0123   0000             ;       R8 = beeper timer (decremented by interrupt handler)
+0124   0000             ;       RA = bitmap table pointer
+0125   0000             ;       RC = key subroutine PC
+0126   0000             
+0127   0000             	.MSFIRST	;when using .dw, save Most significant byte first (Big Endian)
+0128   0000             
+0129   8000                     .org  8000h
+0130   8000             
+0131   8000 C0 82 00    	LBR ELFSTART
+0132   8003             
+0133   8003             ;	The following original code done in "rxchar" routine exit, if "IN" (EF4) is pressed, by call to "RomLoad"
+0134   8003             ;
+0135   8003             ;        ldi here1/256  ;set R2=8008     ;this code is found at XVipRom
+0136   8003             ;        phi r2
+0137   8003             ;        ldi here1%256
+0138   8003             ;        plo r2
+0139   8003             ;        sex r2
+0140   8003             ;        sep r2          ;make R2 the program counter
+0141   8003             
+0142   8003                     .org  8003h	;VIP MONITOR PROGRAM
+0143   8003             here1:
+0144   8003 E2                  sex r2
+0145   8004 F8 00       	ldi 0		;new code added to clear R0
+0146   8006 B0          	phi r0
+0147   8007 A0          	plo r0
+0148   8008 64                  out 4           ;reset address inhibit latch (map RAM to 0000 area)
+0149   8009 00                  .db  0
+0150   800A 62                  out 2           ;set keyboard latch to monitor "C" Key
+0151   800B 0C                  .db  0Ch
+0152   800C F8 FF               ldi 0FFh        ;test for high end of RAM
+0153   800E A1                  plo r1
+0154   800F F8 0F               ldi 0Fh
+0155   8011 B1                  phi r1          ;set R1=0FFF (4k; max RAM on VIP)
+0156   8012             notram:
+0157   8012 F8 AA               ldi 0AAh        ;store AA
+0158   8014 51                  str r1
+0159   8015 01                  ldn r1          ;load it
+0160   8016 FB AA               xri 0AAh        ;if it worked,
+0161   8018 32 22               bz  isram       ;  then R1 points to top of RAM
+0162   801A 91                  ghi r1
+0163   801B FF 04               smi 4           ;else R1=R1-0400 (try 1k lower)
+0164   801D 3B 22               bnf isram       ;if underflow, no RAM, continue anyway
+0165   801F B1                  phi r1
+0166   8020 30 12               br  notram      ;if not 4k of RAM, then try 1k lower
+0167   8022             isram:
+0168   8022 36 28               b3  monitor
+0169   8024             			;if "C" key is not pressed,
+0170   8024 90                  ghi r0          ;  set R0=0000
+0171   8025 A0                  plo r0
+0172   8026 E0                  sex r0          ;  set X=0, P=0,
+0173   8027 D0                  sep r0          ;  and go execute program at 0
+0174   8028                     		;  R1=Last byte of RAM available (0FFF,0CFF,08FF or 04FF) (0FFF on VElf)
+0175   8028             monitor:
+0176   8028 E1                  sex r1
+0177   8029             clear10:                ;clear RAM from top=0xFF to 0xB0 of last page of ram (0FFF to 0FB0 on VElf)
+0178   8029 F8 00               ldi 0           ;  clear a byte
+0179   802B 73                  stxd            ;  decrement pointer
+0180   802C 81                  glo r1
+0181   802D FB AF               xri 0AFh        ;  until address=0xAF
+0182   802F 3A 29               bnz clear10
+0183   8031             
+0184   8031                                     ;create RAM program to save registers
+0185   8031 F8 D2               ldi 0D2h        ;  push SEP R2 @rrAF
+0186   8033 73                  stxd
+0187   8034 F8 9F               ldi 9Fh         ;  push GHI RF @rrAE
+0188   8036 51                  str r1
+0189   8037 81                  glo r1          ;point R0 to RAM program
+0190   8038 A0                  plo r0
+0191   8039 91                  ghi r1
+0192   803A B0                  phi r0
+0193   803B F8 CF               ldi 0CFh	;R1=rrCF
+0194   803D A1                  plo r1
+0195   803E             
+0196   803E                     		;M(rrCF) = RF.1
+0197   803E                     		;M(rrCE) = RE.1
+0198   803E                     		;M(rrCD) = RD.1
+0199   803E                     		;M(rrCC) = RC.1
+0200   803E                     		;M(rrCB) = RB.1
+0201   803E                     		;M(rrCA) = RA.1
+0202   803E                     		;M(rrC9) = R9.1
+0203   803E                     		;M(rrC8) = R8.1
+0204   803E                     		;M(rrC7) = R7.1
+0205   803E                     		;M(rrC6) = R6.1
+0206   803E                     		;M(rrC5) = R5.1
+0207   803E                     		;M(rrC4) = R4.1
+0208   803E                     		;M(rrC3) = R3.1
+0209   803E             
+0210   803E             savereg:
+0211   803E D0                  sep r0          ;call the RAM program
+0212   803F 73                  stxd            ;push register contents it returns and dec X
+0213   8040 20                  dec r0
+0214   8041 20                  dec r0          ;point R0 to RAM program again
+0215   8042 40                  lda r0          ;decrement GHI Rx instruction
+0216   8043 FF 01               smi 1
+0217   8045 20                  dec r0          ;point R0 to RAM program again
+0218   8046 50                  str r0
+0219   8047 FB 82               xri 82h         ;if not down to GHI R2,
+0220   8049 3A 3E               bnz savereg     ;  then repeat
+0221   804B             
+0222   804B 92                  ghi r2          ;change PC to R3 (R2 was PC)
+0223   804C B3                  phi r3
+0224   804D F8 51               ldi here2%256
+0225   804F A3                  plo r3
+0226   8050 D3                  sep r3
+0227   8051             here2:
+0228   8051 90                  ghi r0
+0229   8052 B2                  phi r2		;R2.1 = rr (top page of ram) (0F on VElf)
+0230   8053 BB                  phi rb		;RB.1 = rr (top page of ram) Page to load R0 with in video refresh
+0231   8054 BD                  phi rd		;RD.1 = rr (top page of ram)
+0232   8055 F8 81               ldi 81h		;Set page of subroutines
+0233   8057 B1                  phi r1		;R1=81xx
+0234   8058 B4                  phi r4		;R4=81xx
+0235   8059 B5                  phi r5		;R5=81xx
+0236   805A B7                  phi r7		;R7=81xx
+0237   805B BA                  phi ra          ;RA=81xx
+0238   805C BC                  phi rc		;RC=81xx
+0239   805D F8 46               ldi int%256
+0240   805F A1                  plo r1          ;R1=8146 (1861 interrupt handler)
+0241   8060 F8 AF               ldi 0AFh
+0242   8062 A2                  plo r2          ;R2=rrAF
+0243   8063 F8 DD               ldi dismem%256
+0244   8065 A4                  plo r4          ;R4=81DD (display memory subroutine)
+0245   8066 F8 C6               ldi display%256
+0246   8068 A5                  plo r5          ;R5=81C6 (display hex char subroutine)
+0247   8069 F8 BA               ldi getbyte%256
+0248   806B A7                  plo r7          ;R7=81BA (get hex byte subroutine)
+0249   806C F8 A1               ldi keyfound%256
+0250   806E AC                  plo rc          ;RC=81A1 (get key subroutine, Start at "KeyFound" since
+0251   806F                     		;the C key was pressed to get to this point)
+0252   806F             
+0253   806F             getaddr:
+0254   806F E2                  sex r2
+0255   8070 69                  inp 1           ;turn on 1861 TV display
+0256   8071 DC                  sep rc          ;wait until C key released
+0257   8072 D7                  sep r7          ;  get 1st key
+0258   8073 D7                  sep r7          ;  go back to get byte to shift and get 2nd key
+0259   8074 D7                  sep r7          ;  go back to get byte to OR the hex digits
+0260   8075 B6                  phi r6          ;save in R6.1
+0261   8076 D7                  sep r7          ;  get 1st key
+0262   8077 D7                  sep r7          ;  go back to get byte to shift and get 2nd key
+0263   8078 D7                  sep r7          ;  go back to get byte to OR the hex digits
+0264   8079 A6                  plo r6          ;save in R6.0
+0265   807A D4                  sep r4          ;display address R6, and M(R6)
+0266   807B DC                  sep rc          ;get a key
+0267   807C BE                  phi re          ;  save it
+0268   807D 32 F4               bz  mwrite      ;if "0", go to Memory Write command
+0269   807F FB 0A               xri 10
+0270   8081 32 EF               bz  mread       ;if "A", go to Memory Read command
+0271   8083 DC                  sep rc          ;get a key (count of pages to write/read to tape)
+0272   8084 AE                  plo re          ;  save it
+0273   8085 22                  dec r2
+0274   8086 61                  out 1           ;turn off TV
+0275   8087 9E                  ghi re          ;get saved key
+0276   8088 FB 0B               xri 0Bh
+0277   808A 32 C2               bz  tread       ;if "B", go to Tape Read command
+0278   808C 9E                  ghi re          ;get saved key
+0279   808D FB 0F               xri 0Fh         ;if anything but "F",
+0280   808F 3A 8F               bnz $           ;  loop forever
+0281   8091             ;
+0282   8091             ; twrite -- tape write command
+0283   8091             ;
+0284   8091 F8 6F               ldi beep%256    ;change RC to point to Beep subroutine
+0285   8093 AC                  plo rc
+0286   8094 F8 40               ldi 40h		;write lead in 0x40xx bits (~16,000 bits)
+0287   8096 B9                  phi r9
+0288   8097             
+0289   8097             twrite:			;write lead in loop
+0290   8097 93                  ghi r3		;r3 = PC = 0x8098
+0291   8098 F6                  shr		;aka Clear DF flag
+0292   8099 DC                  sep rc          ;call Beep to write 0 bit
+0293   809A 29                  dec r9
+0294   809B 99                  ghi r9
+0295   809C 3A 97               bnz twrite	;Loop ~16,000 times
+0296   809E             twrite1:
+0297   809E F8 10               ldi 10h		;Reset Parity Counter (Counts 1's sent)
+0298   80A0 A7                  plo r7
+0299   80A1 F8 08               ldi 8
+0300   80A3 A9                  plo r9
+0301   80A4 46                  lda r6		;Get byte to write to Tape
+0302   80A5 B7                  phi r7		;Hold Byte in R7.1
+0303   80A6 93                  ghi r3
+0304   80A7 FE                  shl
+0305   80A8 DC                  sep rc          ;call Beep to write a 1 bit             -SEND START BIT (1)
+0306   80A9 86                  glo r6		;Check for page boundary
+0307   80AA 3A AD               bnz twrite2
+0308   80AC 2E                  dec re		;count down pages writen on every page boundary
+0309   80AD             twrite2:
+0310   80AD 97                  ghi r7		;Fetch Byte to write
+0311   80AE F6                  shr		;Shift out bit
+0312   80AF B7                  phi r7
+0313   80B0 DC                  sep rc          ;call Beep to write a data bit          -SEND 8 DATA BITS
+0314   80B1 29                  dec r9		;decrement bit counter
+0315   80B2 89                  glo r9
+0316   80B3 3A AD               bnz twrite2	;loop back to write 8 bits
+0317   80B5 17                  inc r7		;Calculate EVEN Parity
+0318   80B6 87                  glo r7
+0319   80B7 F6                  shr
+0320   80B8 DC                  sep rc          ;call Beep to write parity bit          -SEND PARITY BIT          
+0321   80B9 8E                  glo re
+0322   80BA 3A 9E               bnz twrite1	;loop back to write next byte until all pages are written
+0323   80BC DC                  sep rc          ;call Beep to write FINAL bit
+0324   80BD             tread6:
+0325   80BD 69                  inp 1           ;turn on TV display
+0326   80BE 26                  dec r6
+0327   80BF D4                  sep r4          ;display last byte written
+0328   80C0 30 C0               br  $           ;end; loop forever
+0329   80C2             ;
+0330   80C2             ; tread -- tape read command
+0331   80C2             ;
+0332   80C2             tread:
+0333   80C2 F8 83               ldi tapein%256  ;change RC to point to tapein
+0334   80C4 AC                  plo rc          ;  subroutine to read 1 bit
+0335   80C5             tread1:			;Lead In Loop
+0336   80C5 F8 0A               ldi 10
+0337   80C7 B9                  phi r9
+0338   80C8             tread2:
+0339   80C8 DC                  sep rc          ;call TapeIn to read 1 bit
+0340   80C9             
+0341   80C9 33 C5               bdf tread1	;Loop back while 1 (Lead IN)
+0342   80CB 29                  dec r9
+0343   80CC 99                  ghi r9
+0344   80CD 3A C8               bnz tread2
+0345   80CF             tread5:
+0346   80CF DC                  sep rc          ;call TapeIn to read 1 bit
+0347   80D0 3B CF               bnf tread5	;Loop back until we get START BIT (1)
+0348   80D2 F8 09               ldi 9
+0349   80D4 A9                  plo 9		;Set Bit Counter
+0350   80D5 A7                  plo 7		;Set Parity Counter
+0351   80D6             tread3:
+0352   80D6 97                  ghi r7		;Get Byte to assemble
+0353   80D7 76                  shrc		;Shift in READ bit
+0354   80D8 B7                  phi r7		;Save Byte
+0355   80D9 29                  dec r9		;Count bits
+0356   80DA DC                  sep rc          ;call TapeIn to read Data & Parity bits
+0357   80DB 89                  glo r9
+0358   80DC 3A D6               bnz tread3	;Loop back to read 9 bits (Shifts start bit out)
+0359   80DE 87                  glo r7
+0360   80DF F6                  shr
+0361   80E0 33 E3               bdf tread4	;Jump if NO parity error
+0362   80E2 7B                  seq		;else, SET Q to indicate ERROR
+0363   80E3             tread4:
+0364   80E3 97                  ghi r7		;Save BYTE
+0365   80E4 56                  str r6
+0366   80E5 16                  inc r6
+0367   80E6 86                  glo r6
+0368   80E7 3A CF               bnz tread5	;Test for Page boundary
+0369   80E9 2E                  dec re		;Count down pages to read
+0370   80EA 8E                  glo re
+0371   80EB 3A CF               bnz tread5	;Jump back until all pages are read.
+0372   80ED 30 BD               br  tread6      ;end; loop forever
+0373   80EF             ;
+0374   80EF             ; mread -- memory read command
+0375   80EF             ;
+0376   80EF             mread:
+0377   80EF DC                  sep rc          ;get a key
+0378   80F0 16                  inc r6          ;increment address in R6
+0379   80F1 D4                  sep r4          ;display address R6 and M(R6)
+0380   80F2 30 EF               br  mread       ;repeat forever
+0381   80F4             ;
+0382   80F4             ; mwrite -- memory write command
+0383   80F4             ;
+0384   80F4             mwrite:
+0385   80F4 D7                  sep r7          ;get keys, assemble into byte
+0386   80F5 D7                  sep r7
+0387   80F6 D7                  sep r7
+0388   80F7 56                  str r6
+0389   80F8 D4                  sep r4          ;display address R6 and M(R6)
+0390   80F9                                     ;  (i.e. new contents of memory)
+0391   80F9 16                  inc r6          ;increment memory pointer
+0392   80FA             
+0393   80FA 30 F4               br  mwrite      ;repeat forever
+0394   80FC             
+0395   80FC 00 00 00 00         .db  0,0,0,0     ;unused?
+0396   8100             ;
+0397   8100             ; index table -- converts hex digit into address in bitmap
+0398   8100             ;       table where that digit's bitmap begins.
+0399   8100             
+0400   8100                     .org 8100h
+0401   8100             index:
+0402   8100 30                  .db  30h         ;"0" digit bitmap starting addr
+0403   8101 39                  .db  39h         ;"1"
+0404   8102 22                  .db  22h         ;"2"
+0405   8103 2A                  .db  2Ah         ;"3"
+0406   8104 3E                  .db  3Eh         ;"4"
+0407   8105 20                  .db  20h         ;"5"
+0408   8106 24                  .db  24h         ;"6"
+0409   8107 34                  .db  34h         ;"7"
+0410   8108 26                  .db  26h         ;"8"
+0411   8109 28                  .db  28h         ;"9"
+0412   810A 2E                  .db  2Eh         ;"A"
+0413   810B 18                  .db  18h         ;"B"
+0414   810C 14                  .db  14h         ;"C"
+0415   810D 1C                  .db  1Ch         ;"D"
+0416   810E 10                  .db  10h         ;"E"
+0417   810F 12                  .db  12h         ;"F"
+0418   8110             ;
+0419   8110             ; bitmap table -- bit patterns to put on the screen to
+0420   8110             ;       display hex characters 0-F in a 5-high by 8-wide
+0421   8110             ;       format. Each pattern uses 5 consecutive bytes.
+0422   8110             ;       1's are bright, 0's are dark pixels. The patterns
+0423   8110             ;       overlap to save memory.
+0424   8110             bitmap:
+0425   8110 F0                  .db  11110000b   ;top of "E"
+0426   8111 80                  .db  10000000b
+0427   8112 F0                  .db  11110000b   ;top of "F"
+0428   8113 80                  .db  10000000b
+0429   8114 F0                  .db  11110000b   ;top of "C"
+0430   8115 80                  .db  10000000b
+0431   8116 80                  .db  10000000b
+0432   8117 80                  .db  10000000b
+0433   8118 F0                  .db  11110000b   ;top of "B"
+0434   8119 50                  .db  01010000b
+0435   811A 70                  .db  01110000b
+0436   811B 50                  .db  01010000b
+0437   811C F0                  .db  11110000b   ;top of "D"
+0438   811D 50                  .db  01010000b
+0439   811E 50                  .db  01010000b
+0440   811F 50                  .db  01010000b
+0441   8120 F0                  .db  11110000b   ;top of "5"
+0442   8121 80                  .db  10000000b
+0443   8122 F0                  .db  11110000b   ;top of "2"
+0444   8123 10                  .db  00010000b
+0445   8124 F0                  .db  11110000b   ;top of "6"
+0446   8125 80                  .db  10000000b
+0447   8126 F0                  .db  11110000b   ;top of "8"
+0448   8127 90                  .db  10010000b
+0449   8128 F0                  .db  11110000b   ;top of "9"
+0450   8129 90                  .db  10010000b
+0451   812A F0                  .db  11110000b   ;top of "3"
+0452   812B 10                  .db  00010000b
+0453   812C F0                  .db  11110000b
+0454   812D 10                  .db  00010000b
+0455   812E F0                  .db  11110000b   ;top of "A"
+0456   812F 90                  .db  10010000b
+0457   8130 F0                  .db  11110000b   ;top of "0"
+0458   8131 90                  .db  10010000b
+0459   8132 90                  .db  10010000b
+0460   8133 90                  .db  10010000b
+0461   8134 F0                  .db  11110000b   ;top of "7"
+0462   8135 10                  .db  00010000b
+0463   8136 10                  .db  00010000b
+0464   8137 10                  .db  00010000b
+0465   8138 10                  .db  00010000b
+0466   8139 60                  .db  01100000b   ;top of "1"
+0467   813A 20                  .db  00100000b
+0468   813B 20                  .db  00100000b
+0469   813C 20                  .db  00100000b
+0470   813D 70                  .db  01110000b
+0471   813E A0                  .db  10100000b   ;top of "4"
+0472   813F A0                  .db  10100000b
+0473   8140 F0                  .db  11110000b
+0474   8141 20                  .db  00100000b
+0475   8142 20                  .db  00100000b
+0476   8143             ;
+0477   8143             ; interrupt routine for 64x32 format (1 page display memory)
+0478   8143             ;
+0479   8143             intret0:
+0480   8143 7A                  req             ;return with Q off
+0481   8144             intret1:
+0482   8144 42                  lda r2
+0483   8145 70                  ret             ;<-return with interrupts enabled
+0484   8146             int:                    ;->entry with P=R1
+0485   8146 22                  dec r2          ;point to free location on stack
+0486   8147 78                  sav             ;  push T
+0487   8148 22                  dec r2
+0488   8149 52                  str r2          ;  save D
+0489   814A C4                  nop             ;3 cycles of NOP for sync
+0490   814B 19                  inc r9
+0491   814C F8 00               ldi 0           ;reset DMA pointer to start of
+0492   814E A0                  plo r0          ;  display RAM
+0493   814F 9B                  ghi rb
+0494   8150 B0                  phi r0
+0495   8151 E2                  sex r2          ;NOPs for timing
+0496   8152 E2                  sex r2          ;set D=line start address (6 cycles)
+0497   8153             disp:
+0498   8153 80                  glo r0
+0499   8154                                     ;1861 displays a line (8 cycles)
+0500   8154 E2                  sex r2
+0501   8155 E2                  sex r2          ;reset line start address (6 cycles)
+0502   8156 20                  dec r0
+0503   8157                                     ;1861 displays line a 2nd time (8 cycles)
+0504   8157 A0                  plo r0
+0505   8158 E2                  sex r2          ;reset line start address (6 cycles)
+0506   8159 20                  dec r0
+0507   815A                                     ;1861 displays line a 3rd time (8 cycles)
+0508   815A A0                  plo r0
+0509   815B E2                  sex r2          ;reset line start address (6 cycles)
+0510   815C 20                  dec r0
+0511   815D                                     ;1861 displays line a 4th time (8 cycles)
+0512   815D A0                  plo r0          ;set R0.0=line start address
+0513   815E 3C 53               bn1 disp        ;loop 32 times
+0514   8160             
+0515   8160 98                  ghi r8		;r8.1 is TIMER,  Counts down when set>0
+0516   8161 32 67               bz  disp1       ;if Zero, skip decrementing
+0517   8163 AB                  plo rb		;(Using rb.0, to avoid altering DF)
+0518   8164 2B                  dec rb          ;  else decrement beeper time remaining
+0519   8165 8B                  glo rb          ;    ...high byte
+0520   8166 B8                  phi r8
+0521   8167             disp1:
+0522   8167 88                  glo r8          ;    ...low byte
+0523   8168 32 43               bz  intret0     ;if beep time is zero, then return with Q off
+0524   816A 7B                  seq             ;  else return with Q on
+0525   816B 28                  dec r8
+0526   816C 30 44               br  intret1
+0527   816E             
+0528   816E             ; beep -- output a 1-cycle square wave on Q
+0529   816E             ;       at 2 KHz if DF=0, or 0.8 KHz if DF=1.
+0530   816E             ;       Also increments R7.
+0531   816E             ;
+0532   816E             beepx:
+0533   816E D3                  sep r3          ;<-return
+0534   816F             beep:
+0535   816F F8 0A               ldi 10          ;2 KHz if DF=0
+0536   8171 3B 76               bnf setq
+0537   8173 F8 20               ldi 32          ;0.8 KHz if DF=1
+0538   8175 17                  inc r7		;Parity Bit count the 1's
+0539   8176             setq:
+0540   8176 7B                  seq             ;set Q    16 cycles
+0541   8177 BF                  phi rf          ;save delay length 16 cycles
+0542   8178             beepl:
+0543   8178 FF 01               smi 1           ;delay 16 clock cycles  @3.579/2 = 1.79Mhz = 0.558uSec
+0544   817A 3A 78               bnz beepl	;      16 clock cycles, =(32*10+48)*0.558uSec=205uSec=(1/2 cycle of 2.44Khz) 
+0545   817C                     		;                       =(32*32+48)*0.558uSec=598uSec=(1/2 cycle of 836hz)
+0546   817C                     		;			@3.52/2 = 1.76Mhz = 0.568uSec
+0547   817C                     		;      16 clock cycles, =(32*10+48)*0.568uSec=209uSec=(1/2 cycle of 2.39Khz) 
+0548   817C                     		;                       =(32*32+48)*0.568uSec=609uSec=(1/2 cycle of 821hz)
+0549   817C                     		
+0550   817C 39 6E               bnq beepx       ;exit after low half cycle 16 cycles
+0551   817E 7A                  req             ;reset Q
+0552   817F 9F                  ghi rf		;fetch delay length
+0553   8180 30 78               br  beepl       ;delay again
+0554   8182             ;
+0555   8182             ; tapein -- cassette tape audio input; read one cycle.
+0556   8182             ;       If low frequency, returns DF=1 and increments R7.
+0557   8182             ;       If high frequency, returns DF=0.
+0558   8182             
+0559   8182             tapeinx:
+0560   8182 D3                  sep r3          ;<-return
+0561   8183             tapein:
+0562   8183 F8 10               ldi 16          ;set timer
+0563   8185 3D 85               bn2 $           ;wait for EF2=1 (EF2 pin low)
+0564   8187                                     ;  (i.e. wait for rising edge)
+0565   8187             tapein1:
+0566   8187 3D 8F               bn2 tapein2     ;wait 4 x 16 cycles and test EF2
+0567   8189 FF 01               smi 1
+0568   818B 3A 87               bnz tapein1     ;if it times out, is low frequency
+0569   818D 17                  inc r7          ;  increment R7 Parity Counter
+0570   818E 9C                  ghi rc          ;  and set D=81h (to set DF)
+0571   818F             tapein2:
+0572   818F FE                  shl             ;shift high bit of D into DF
+0573   8190                                     ;  if DF=1, is low freq
+0574   8190                                     ;  if DF=0, is high freq
+0575   8190 35 90               b2  $           ;wait for EF2=0 (EF2 pin high)
+0576   8192                                     ;  (i.e. low half of this cycle)
+0577   8192 30 82               br  tapeinx     ;  and exit
+0578   8194             ;
+0579   8194             ; get a key -- scans keypad, and returns when a key is found.
+0580   8194             ;       'Beeps' while key is down. Returns key (0-F) in D and
+0581   8194             ;       on the stack. Uses RC as its dedicated program counter.
+0582   8194             key:
+0583   8194 D3                  sep r3          ;<-return
+0584   8195             GETKEY:
+0585   8195 E2                  sex r2          ;->entry: scan keypad, return when found
+0586   8196 9C                  ghi rc
+0587   8197 AF                  plo rf          ;for n = 10h to 0:
+0588   8198             keyn:
+0589   8198 2F                  dec rf          ;  decrement n
+0590   8199 22                  dec r2
+0591   819A 8F                  glo rf          ;  set keypad latch to n
+0592   819B 52                  str r2
+0593   819C 62                  out 2           ;  is key = n?
+0594   819D E2                  sex r2
+0595   819E E2                  sex r2
+0596   819F 3E 98               bn3 keyn        ;  until key found
+0597   81A1             keyfound:
+0598   81A1 F8 04               ldi 4           ;->enter with P=RC
+0599   81A3 A8                  plo r8          ;set beep duration to 4/60 sec
+0600   81A4 88                  glo r8
+0601   81A5 3A A4               bnz $-1         ;wait for it to end
+0602   81A7 F8 04               ldi 4
+0603   81A9 A8                  plo r8          ;keep beeping until key released
+0604   81AA 36 A7               b3  $-3         ;  (i.e. EF3 pin returns high)
+0605   81AC 88                  glo r8
+0606   81AD 31 AA               bq  $-3
+0607   81AF 8F                  glo rf
+0608   81B0 FA 0F               ani 0Fh         ;mask key to 0-F
+0609   81B2 52                  str r2          ;  and return it on the stack
+0610   81B3 30 94               br  key
+0611   81B5             
+0612   81B5 00 00 00 00         .db  0,0,0,0     ;(unused)
+0613   81B9             
+0614   81B9             ; getbyte -- get 2 keys from the keypad, and assemble them
+0615   81B9             ;       into a byte. Return the byte in D. Uses R7 as its
+0616   81B9             ;       dedicated program counter.
+0617   81B9             
+0618   81B9 D3                  sep r3          ;<-return
+0619   81BA             getbyte:
+0620   81BA DC                  sep rc          ;->enter; get 1st key
+0621   81BB FE                  shl
+0622   81BC FE                  shl             ;shift it into high nibble
+0623   81BD FE                  shl
+0624   81BE FE                  shl
+0625   81BF AE                  plo re          ;save it
+0626   81C0 DC                  sep rc          ;get 2nd key
+0627   81C1 8E                  glo re
+0628   81C2 F1                  or              ;combine them and return in D
+0629   81C3 30 B9               br  getbyte-1
+0630   81C5             ;
+0631   81C5             ; display -- display hex digit & advance pointer. On entry:
+0632   81C5             ;       D = display table base addr + hex digit.
+0633   81C5             ;       RD pointer to video RAM addr of top line of char.
+0634   81C5             ;       Uses R5 as its dedicated program counter.
+0635   81C5             
+0636   81C5 D4                  sep r4          ;<-return
+0637   81C6             display:                ;->entry
+0638   81C6 AA                  plo ra          ;point RA to display table + digit
+0639   81C7 0A                  ldn ra          ;get starting addr of char gen.
+0640   81C8 AA                  plo ra          ;point RA to top line bit pattern
+0641   81C9 F8 05               ldi 5           ;characters are 5 lines high
+0642   81CB AF                  plo rf          ;  RF.0=line counter
+0643   81CC             display1:
+0644   81CC 4A                  lda ra          ;  get display pattern
+0645   81CD 5D                  str rd          ;  put in video RAM
+0646   81CE 8D                  glo rd          ;  add 8 to video RAM address
+0647   81CF FC 08               adi 8           ;    to point to next line of char
+0648   81D1 AD                  plo rd
+0649   81D2 2F                  dec rf          ;  decrement line counter
+0650   81D3 8F                  glo rf          ;  get line counter
+0651   81D4 3A CC               bnz display1    ;  loop unti last line done
+0652   81D6 8D                  glo rd
+0653   81D7 FC D9               adi 0D9h        ;set RD back to original video RAM
+0654   81D9 AD                  plo rd          ;  address +1 (points to next char)
+0655   81DA 30 C5               br  display-1   ;and return
+0656   81DC             ;
+0657   81DC             ; dismem -- display memory address and data in hex. On entry,
+0658   81DC             ;       R2 (stack pointer) points to an occupied byte
+0659   81DC             ;       R6 = address, and is pointing to data byte to display
+0660   81DC             ;       Uses R4 as its dedicated program counter.
+0661   81DC             
+0662   81DC             dismemx:
+0663   81DC D3                  sep r3          ;<-return
+0664   81DD             dismem:
+0665   81DD 22                  dec r2          ;->entry
+0666   81DE 06                  ldn r6          ;push data byte to display onto stack
+0667   81DF 73                  stxd
+0668   81E0 86                  glo r6          ;push low byte of address onto stack
+0669   81E1 73                  stxd
+0670   81E2 96                  ghi r6          ;store high byte of address on stack
+0671   81E3 52                  str r2
+0672   81E4 F8 06               ldi 6           ;display 6 hex digits
+0673   81E6 AE                  plo re
+0674   81E7 F8 D8               ldi 0D8h        ;RD=position in video RAM
+0675   81E9 AD                  plo rd
+0676   81EA             dismem1:
+0677   81EA 02                  ldn r2          ;get hex byte from stack
+0678   81EB F6                  shr
+0679   81EC F6                  shr             ;shift out low nibble
+0680   81ED F6                  shr
+0681   81EE F6                  shr
+0682   81EF D5                  sep r5          ;display high nibble
+0683   81F0 42                  lda r2          ;pop hex byte from stack
+0684   81F1 FA 0F               ani 0Fh         ;mask out high nibble
+0685   81F3 D5                  sep r5          ;display low nibble
+0686   81F4 8E                  glo re
+0687   81F5 F6                  shr
+0688   81F6 AE                  plo re
+0689   81F7 32 DC               bz  dismemx     ;if RE.0=0, exit
+0690   81F9 3B EA               bnf dismem1     ;if DF=0, repeat for another byte
+0691   81FB                                     ;(i.e. is address, which takes 2 bytes)
+0692   81FB 1D                  inc rd          ;else move right 2 positions in video RAM
+0693   81FC 1D                  inc rd          ;  to put space between address and data
+0694   81FD 30 EA               br  dismem1     ;  and go display 2 more digits (data byte)
+0695   81FF 01                  .db  1           ;checksum?
+0696   8200             
+0697   8200             ;**********************************************************************
+0698   8200             ;**********************************************************************
+0699   8200             ;**********************************************************************
+0700   8200             ;**********************************************************************
+0701   8200             ;**********************************************************************
+0702   8200             ;**********************************************************************
+0703   8200             ;**********************************************************************
+0704   8200             ;**********************************************************************
+0705   8200             ;**********************************************************************
+0706   8200             ;**********************************************************************
+0707   8200             ;**********************************************************************
+0708   8200             ;**********************************************************************
+0709   8200             ;**********************************************************************
+0710   8200             ;**********************************************************************
+0711   8200             ;**********************************************************************
+0712   8200             ;**********************************************************************
+0713   8200             ;**********************************************************************
+0714   8200             ;**********************************************************************
+0715   8200             
+0716   8200             ; register usage
+0717   8200             ;
+0718   8200             ;       R1 = scratch used by TXMsg
+0719   8200             ;       R2 = stack pointer @7FFF
+0720   8200             ;       R3 = main PC
+0721   8200             ;       R4 = call subroutine PC
+0722   8200             ;       R5 = return subroutine PC
+0723   8200             ;       R6 = return address
+0724   8200             ;       R7 = Transmit Byte PC routine
+0725   8200             ;       R8 = Receive Byte PC routine
+0726   8200             ;       R9 = Receive Ascii Byte (2 ascii chars)
+0727   8200             ;	RC = Input control allowed
+0728   8200             ;	RD = Entered address
+0729   8200             ;       RE = scratch
+0730   8200             ;       RF = scratch
+0731   8200             
+0732   8200             	.define call	sep r4	\	.dw
+0733   8200             	.define retn	sep r5
+0734   8200             	.define	tx_char	sep r7
+0735   8200             	.define	rx_char	sep r8
+0736   8200             	.define	rx_byte	sep r9
+0737   8200             	.define	print	sep r4	\	.dw txmsg
+0738   8200             
+0739   8200             	.org  8200h
+0740   8200             ELFSTART:
+0741   8200 7B          	seq		;tx line high
+0742   8201             
+0743   8201 E2          	sex r2		;Set Stack Pointer
+0744   8202 F8 7F       	ldi 7fh		;to 7f7f
+0745   8204 B2          	phi r2
+0746   8205 A2          	plo r2
+0747   8206             
+0748   8206 F8 82               ldi callr/256
+0749   8208 B4                  phi r4
+0750   8209 B5                  phi r5
+0751   820A B7                  phi r7
+0752   820B B8                  phi r8
+0753   820C B9                  phi r9
+0754   820D             
+0755   820D F8 24               ldi callr%256
+0756   820F A4                  plo r4
+0757   8210             
+0758   8210 F8 36               ldi retnr%256
+0759   8212 A5                  plo r5
+0760   8213             
+0761   8213 F8 45               ldi txchar%256
+0762   8215 A7                  plo r7
+0763   8216             
+0764   8216 F8 6C               ldi rxchar%256
+0765   8218 A8                  plo r8
+0766   8219             
+0767   8219 F8 97       	ldi rxqbyte%256
+0768   821B A9          	plo r9
+0769   821C             
+0770   821C F8 83       	ldi mainloop/256
+0771   821E B3          	phi r3
+0772   821F F8 03       	ldi mainloop%256
+0773   8221 A3          	plo r3
+0774   8222 D3          	sep r3
+0775   8223             
+0776   8223             
+0777   8223             ;**********************************************************************
+0778   8223             ;Call Subroutine
+0779   8223             ;call with R2 pointing to free stack byte
+0780   8223             ;Pushes R6 to Stack
+0781   8223             ;Sets R6 to Return Address (2 bytes after Sep R4 call)
+0782   8223             ;Returns execution to R3
+0783   8223             ;----------------------------------------------------------------------
+0784   8223 D3          	sep r3	;go to called program
+0785   8224 BF          callr:	phi rf	;Save D
+0786   8225 E2          	sex r2	;X=Stack
+0787   8226 86          	glo r6	;Push r6 to Stack, big endian
+0788   8227 73          	stxd
+0789   8228 96          	ghi r6
+0790   8229 73          	stxd
+0791   822A 83          	glo r3	;Fetch Unmodified Return Address
+0792   822B A6          	plo r6
+0793   822C 93          	ghi r3
+0794   822D B6          	phi r6
+0795   822E 46          	lda r6	;get subroutine address AND modify return address
+0796   822F B3          	phi r3	;to skip inline data
+0797   8230 46          	lda r6	;save call to address to R3
+0798   8231 A3          	plo r3
+0799   8232 9F          	ghi rf	;restore D
+0800   8233 30 23       	br callr-1	;jump for SEP R4 re-entery
+0801   8235             
+0802   8235             
+0803   8235             ;**********************************************************************
+0804   8235             ;Return Subroutine
+0805   8235             ;Call with R2 pointing to free stack byte below return address
+0806   8235             ;Restores Return Address in R6 to R3
+0807   8235             ;Pops R6 from stack
+0808   8235             ;Returns execution to R3
+0809   8235             ;----------------------------------------------------------------------
+0810   8235 D3          	sep r3	;go to calling program
+0811   8236 BF          retnr:	phi rf	;Save D
+0812   8237 96          	ghi r6	;Fetch Return Address
+0813   8238 B3          	phi r3	;back to R3
+0814   8239 86          	glo r6
+0815   823A A3          	plo r3
+0816   823B 12          	inc r2	;Pop previous r6 from stack
+0817   823C 42          	lda r2
+0818   823D B6          	phi r6	;
+0819   823E E2          	sex r2	;X=Stack
+0820   823F F0          	ldx
+0821   8240 A6          	plo r6	;
+0822   8241 9F          	ghi rf	;restore D
+0823   8242 30 35       	br retnr-1
+0824   8244             
+0825   8244             ;**********************************************************************
+0826   8244             ;Transmit Byte via Q connected to RS232 driver
+0827   8244             ;call with R3 being the previous PC
+0828   8244             ;Byte to send in D
+0829   8244             ;Returns with D unaffected
+0830   8244             ;re.1 = D
+0831   8244             ;Destroys re.0
+0832   8244             ;----------------------------------------------------------------------
+0833   8244 D3                  sep r3		;10.5
+0834   8245 BE          txchar:	phi re
+0835   8246 F8 09       	ldi 9		;9 bits to transmit (1 start + 8 data)
+0836   8248 AE          	plo re
+0837   8249 9E          	ghi re
+0838   824A FE          	shl		;set start bit
+0839   824B 76          	rshr		;DF=0
+0840   824C             
+0841   824C             txcloop:
+0842   824C 33 51       	bdf $+5		;10.5   jump to seq to send a 1 bit
+0843   824E 7A          	req		;11.5   send a 0 bit
+0844   824F 30 54       	br $+5		;1      jump +5 to next shift
+0845   8251 7B          	seq		;11.5   send a 1 bit
+0846   8252 30 54       	br $+2		;1      jump +2 to next shift (NOP for timing)
+0847   8254 76          	rshr		;2      shift next bit to DF flag
+0848   8255 BE          	phi re		;3      save D in re.1
+0849   8256 2E          	DEC re		;4      dec bit count
+0850   8257 8E          	glo re		;5      get bit count
+0851   8258 32 5E       	bz txcret	;6      if 0 then all 9 bits (start and data) sent
+0852   825A 9E          	ghi re		;7      restore D
+0853   825B C4          	NOP		;8.5    pause 1/2 time
+0854   825C 30 4C       	br txcloop	;9.5    loop back to send next bit
+0855   825E 9E          txcret:	ghi re		;7
+0856   825F 9E          	ghi re		;8
+0857   8260 9E          	ghi re		;9
+0858   8261 C4          	NOP		;10.5
+0859   8262 7B          	seq		;11.5 stop bit
+0860   8263 C4          	NOP		;1
+0861   8264 C4          	NOP		;2.5
+0862   8265 C4          	NOP		;4
+0863   8266 C4          	NOP		;5.5
+0864   8267 C4          	NOP		;7
+0865   8268 C4          	NOP		;8.5
+0866   8269 30 44       	br txchar-1	;9.5
+0867   826B             
+0868   826B             ;**********************************************************************
+0869   826B             ;rx_char
+0870   826B             ;Receive Byte via EF2 connected to RS232 receiver
+0871   826B             ;Recieves 8 bits
+0872   826B             ;call with R3 being the previous PC
+0873   826B             ;Returns with Byte received in D and re.1
+0874   826B             ;Destroys re.0
+0875   826B             ;Starts original VIP ROM if EF4 input switch pressed
+0876   826B             ;----------------------------------------------------------------------
+0877   826B D3          	sep r3
+0878   826C F8 08       rxchar:	ldi 8		;start bit +7 bits from loop, last bit on returning
+0879   826E AE          	plo re
+0880   826F F8 00       	ldi 0
+0881   8271             rxcw:			;wait for start bit
+0882   8271 3F 75       	bn4 $+4		;loop while high
+0883   8273 30 D0       	br  RomLoad
+0884   8275 3D 71       	bn2 rxcw	;each instr takes 9us, we need 104us = 11.5
+0885   8277             			;delay 1/2 bit time to center samples
+0886   8277 C4          	NOP		;     Don't test for correct start bit
+0887   8278 C4          	NOP		;     it will work, if there's too much
+0888   8279 C4          	NOP		;     noise on the line, shorten the cable!
+0889   827A             rxcloop:
+0890   827A C4          	NOP		;10.5
+0891   827B 35 81       	b2 $+6		;11.5 sample rx input bit
+0892   827D F9 80       	ori 80h		;1
+0893   827F 30 83       	br $+4		;2
+0894   8281 BE          	phi re		;1
+0895   8282 BE          	phi re		;2
+0896   8283 F6          	shr		;3
+0897   8284 BE          	phi re		;4
+0898   8285 2E          	DEC re		;5
+0899   8286 8E          	glo re		;6
+0900   8287 32 8C       	bz rxcret	;7
+0901   8289 9E          	ghi re		;8
+0902   828A 30 7A       	br  rxcloop	;9
+0903   828C 9E          rxcret:	ghi re		;8
+0904   828D 9E          	ghi re		;9
+0905   828E C4          	NOP		;10.5
+0906   828F 35 93       	b2 $+4		;11.5 sample last rx input bit
+0907   8291 F9 80       	ori 80h		;1
+0908   8293 BE          	phi re
+0909   8294 30 6B       	br rxchar-1
+0910   8296             
+0911   8296             
+0912   8296             
+0913   8296             ;**********************************************************************
+0914   8296             ;rx_byte
+0915   8296             ;Get Quick Byte  (call 3 times, because this routine sub-calls rxchar twice)
+0916   8296             ;call with R3 being the previous PC
+0917   8296             ;Recieves 2 characters and converts from ascii to hex
+0918   8296             ;----------------------------------------------------------------------
+0919   8296 D3          	sep r3	;return
+0920   8297 D8          rxqbyte: rx_char	;get 1st char
+0921   8298 FA 4F       	ani 04Fh	;mask low nibble and alpha flag (40h)
+0922   829A FE          	shl
+0923   829B FE          	shl
+0924   829C 3B A0       	bnf rxq2
+0925   829E FC 24               adi 36		;9 shifted left twice
+0926   82A0             
+0927   82A0 FE          rxq2	shl
+0928   82A1 FE          	shl
+0929   82A2 52          	str r2		;save to temp X location m(R(x))
+0930   82A3 D8          	rx_char		;get 2nd char
+0931   82A4 FA 4F       	ani 04Fh	;mask low nibble and alpha flag (40h)
+0932   82A6 FE          	shl
+0933   82A7 FE          	shl
+0934   82A8 3B AC       	bnf alphan
+0935   82AA FC 24       	adi 36		;9 shifted left twice
+0936   82AC F6          alphan	shr
+0937   82AD F6          	shr
+0938   82AE F1          	or		;or in 1st digit
+0939   82AF 52          	str r2		;save byte on stack to add
+0940   82B0 9B          	ghi rb		;add into check sum
+0941   82B1 F4          	add
+0942   82B2 BB          	phi rb
+0943   82B3 02          	ldn r2		;restore byte
+0944   82B4 30 96       	br rxqbyte-1
+0945   82B6             
+0946   82B6             
+0947   82B6             ;**********************************************************************
+0948   82B6             ;Transmit Hex Byte in D
+0949   82B6             ;----------------------------------------------------------------------
+0950   82B6 73          txbyte:	stxd
+0951   82B7 F6          	shr
+0952   82B8 F6          	shr
+0953   82B9 F6          	shr
+0954   82BA F6          	shr
+0955   82BB D4          	call txhex
+0955   82BC 82 C2       
+0956   82BE 60          	irx
+0957   82BF F0          	LDX
+0958   82C0 FA 0F       	ani 0fh
+0959   82C2             ;	call txhex
+0960   82C2             ;	retn
+0961   82C2             
+0962   82C2             ;**********************************************************************
+0963   82C2             ;Transmit Hex nibble in D
+0964   82C2             ;----------------------------------------------------------------------
+0965   82C2 FF 0A       txhex:	smi 10		;d=n-10
+0966   82C4 3B CA       	bm  txnumb
+0967   82C6 FC 41       	adi 41h		;else if alpha
+0968   82C8 D7          	tx_char
+0969   82C9 D5          	retn
+0970   82CA             
+0971   82CA FC 0A       txnumb:	adi 10
+0972   82CC F9 30       	ori 30h
+0973   82CE D7          	tx_char
+0974   82CF D5          	retn
+0975   82D0             
+0976   82D0 6C          RomLoad	inp 4
+0977   82D1 32 EF       	bz  XVipRom	;execute VIP ROM
+0978   82D3 FE          	shl		;x2 for address words
+0979   82D4 FE          	shl		;x2 for 2 address words
+0980   82D5 AD          	plo rd		;Table must start at xx04
+0981   82D6 F8 85       	ldi pgmtable/256 ;rD points to table
+0982   82D8 BD          	phi rd
+0983   82D9             
+0984   82D9 F8 FA       	ldi RLoop%256	;set up subroutine call
+0985   82DB A7          	plo r7		;in r7, routine copies 1 page
+0986   82DC             
+0987   82DC                             ;set starting write address
+0988   82DC F8 00       	ldi 0	;Write to 0000
+0989   82DE AE          	plo rE
+0990   82DF BE          	phi rE	;rE points to destination
+0991   82E0             
+0992   82E0 4D          	lda rd	;get address of first 2 pages
+0993   82E1 BC          	phi rc
+0994   82E2 4D          	lda rd
+0995   82E3 AC          	plo rc	;rC points to source
+0996   82E4             
+0997   82E4                             ;call routine that writes 1 page twice
+0998   82E4 D7          	sep r7	;Write 2 pages from first address
+0999   82E5 D7          	sep r7
+1000   82E6             
+1001   82E6 4D          	lda rd	;get address of remaining memory
+1002   82E7 BC          	phi rc
+1003   82E8 4D          	lda rd
+1004   82E9 AC          	plo rc	;rC points to source
+1005   82EA D7          RLoop1	sep r7
+1006   82EB 9E          	ghi rE	;Test for end of RAM
+1007   82EC FE          	shl
+1008   82ED 3B EA       	bnf RLoop1
+1009   82EF             	;Quiting TIME!
+1010   82EF             
+1011   82EF             
+1012   82EF 7A          XVipRom: req 		;clear tx line
+1013   82F0 37 EF       	b4 XVipRom	;loop while in button down,
+1014   82F2             			;so program starts with button up
+1015   82F2 F8 80       	ldi here1/256  ;set R2=8003 as per Original VIP ROM
+1016   82F4 B2                  phi r2
+1017   82F5 F8 03               ldi here1%256
+1018   82F7 A2                  plo r2
+1019   82F8 D2                  sep r2          ;make R2 the program counter
+1020   82F9             
+1021   82F9                             ;Write 1 page
+1022   82F9 D8          	sep r8	;Return control to previous PC
+1023   82FA 4C          RLoop	lda rc	;read a source byte (and advance)
+1024   82FB 5E          	str rE	;write a destination byte
+1025   82FC 1E          	INC rE	;(and advance)
+1026   82FD 8E          	glo rE	;check if page written yet
+1027   82FE 3A FA       	bnz RLoop
+1028   8300 C0 82 F9    	lbr RLoop-1 ;exit, leaving r7 ready for next call
+1029   8303             
+1030   8303             
+1031   8303             ;**********************************************************************
+1032   8303             ;**********************************************************************
+1033   8303             ;**********************************************************************
+1034   8303             ;**********************************************************************
+1035   8303             ;**********************************************************************
+1036   8303             	.org 8303h
+1037   8303             mainloop:
+1038   8303             
+1039   8303 D4          	print
+1039   8304 84 D3       
+1040   8306 0D0A56454C46	.text "\r\nVELF says \042Hello\042 (v3.1)\r\n"
+1040   830C 2073617973202248656C6C6F22202876332E31290D0A
+1041   8322 205B445D2044	.text " [D] Dump, [E] Enter, [R] Run ? \000"
+1041   8328 756D702C205B455D20456E7465722C205B525D2052756E203F2000
+1042   8343             
+1043   8343 F8 00       	ldi 0		;do not return control chars
+1044   8345 AC          	plo rc		;from inputbyte routine
+1045   8346             
+1046   8346 D8          	rx_char
+1047   8347 FB 3A               xri ':'
+1048   8349 32 FD               bz  gethexfile
+1049   834B 9E          	ghi re
+1050   834C F9 20       	ori 20h		;to lower case
+1051   834E BE          	phi re
+1052   834F FB 65       	xri 'e'
+1053   8351 32 B2       	bz  enter
+1054   8353 9E          	ghi re
+1055   8354 FB 72       	xri 'r'
+1056   8356 32 5F       	bz  lbr_execute
+1057   8358 9E          	ghi re
+1058   8359 FB 64       	xri 'd'
+1059   835B 32 62       	bz  Dump
+1060   835D 30 03       	br  mainloop
+1061   835F             
+1062   835F C0 84 B8    lbr_execute	lbr execute
+1063   8362             
+1064   8362             ;--------------------------------------- Dump
+1065   8362             Dump
+1066   8362 D4          	print
+1066   8363 84 D3       
+1067   8365 44756D7000  	.text "Dump\000"
+1068   836A             
+1069   836A D4          	call	inputaddress
+1069   836B 84 4A       
+1070   836D             
+1071   836D             dnextpage:
+1072   836D D4          	call newline
+1072   836E 84 DC       
+1073   8370 F8 10       	ldi 16		;16 rows
+1074   8372 AC          	plo rc
+1075   8373             dnextline:
+1076   8373 F8 10       	ldi 16		;16 columns
+1077   8375 AB          	plo rb
+1078   8376             
+1079   8376 9D          	ghi rd		;display address     xxxx:
+1080   8377 D4          	call txbyte
+1080   8378 82 B6       
+1081   837A 8D          	glo rd
+1082   837B D4          	call txbyte
+1082   837C 82 B6       
+1083   837E F8 3A       	ldi ':'
+1084   8380 D7          	tx_char
+1085   8381             
+1086   8381             dnextchar:
+1087   8381 F8 20       	ldi ' '		;put space then byte
+1088   8383 D7          	tx_char
+1089   8384 4D          	lda rd
+1090   8385 D4          	call txbyte
+1090   8386 82 B6       
+1091   8388 2B          	DEC rb
+1092   8389 8B          	glo rb
+1093   838A 3A 81       	bnz dnextchar
+1094   838C             
+1095   838C D4          	call newline
+1095   838D 84 DC       
+1096   838F             
+1097   838F 2C          	DEC rc
+1098   8390 8C          	glo rc
+1099   8391 3A 73       	bnz dnextline
+1100   8393             
+1101   8393 D4          	print
+1101   8394 84 D3       
+1102   8396 456E74657220	.db "Enter or Esc\000"
+1102   839C 6F722045736300
+1103   83A3             
+1104   83A3 D8          redon:	rx_char
+1105   83A4 FB 0D       	xri 13
+1106   83A6 32 6D       	bz  dnextpage
+1107   83A8 9E          	ghi re
+1108   83A9 FB 1B       	xri 27
+1109   83AB 32 03       	bz mainloop
+1110   83AD F8 07       	ldi 7
+1111   83AF D7          	tx_char
+1112   83B0 30 A3       	br redon
+1113   83B2             
+1114   83B2             ;--------------------------------------- Enter
+1115   83B2             
+1116   83B2 D4          enter	print
+1116   83B3 84 D3       
+1117   83B5 456E74657200	.text "Enter\000"
+1118   83BB             
+1119   83BB D4          	call inputaddress
+1119   83BC 84 4A       
+1120   83BE             
+1121   83BE             enterloop1
+1122   83BE D4          	call newline
+1122   83BF 84 DC       
+1123   83C1 9D          	ghi rd
+1124   83C2 D4          	call txbyte
+1124   83C3 82 B6       
+1125   83C5 8D          	glo rd
+1126   83C6 D4          	call txbyte
+1126   83C7 82 B6       
+1127   83C9 F8 03       	ldi 3
+1128   83CB D4          	call spaces
+1128   83CC 84 A5       
+1129   83CE             
+1130   83CE             enterloop2
+1131   83CE 0D          	ldn rd		;get byte and display
+1132   83CF D4          	call txbyte
+1132   83D0 82 B6       
+1133   83D2             
+1134   83D2 F8 3A       	ldi ':'
+1135   83D4 D7          	tx_char
+1136   83D5             
+1137   83D5             
+1138   83D5 F8 02       	ldi 2
+1139   83D7 AC          	plo rc		;allow control chars from inputbyte routine
+1140   83D8 D4          	call uscore
+1140   83D9 84 8E       
+1141   83DB             
+1142   83DB D4          	call inputbyte
+1142   83DC 84 6C       
+1143   83DE 33 EE       	bdf  e_ctrl	;jump if control or bad char entered
+1144   83E0             
+1145   83E0 5D          	str rd
+1146   83E1 1D          	INC rd
+1147   83E2 8D          	glo rd
+1148   83E3 FA 07       	ani 7
+1149   83E5 32 BE       	bz enterloop1
+1150   83E7             
+1151   83E7 F8 04       	ldi 4
+1152   83E9 D4          	call spaces
+1152   83EA 84 A5       
+1153   83EC 30 CE       	br enterloop2
+1154   83EE             
+1155   83EE FB 1B       e_ctrl	xri 27
+1156   83F0 32 03       	bz mainloop
+1157   83F2 D4          	call newline
+1157   83F3 84 DC       
+1158   83F5 30 BE       	br enterloop1
+1159   83F7             
+1160   83F7             ;**********************************************************************
+1161   83F7             ;**********************************************************************
+1162   83F7             ;**********************************************************************
+1163   83FD             	.org 8400H-3
+1164   83FD             gethexfile
+1165   83FD F8 00       	ldi 0
+1166   83FF AB          	plo rb		;zero errors counter
+1167   8400 30 07       	br ghdoline	;we already got the colon
+1168   8402             
+1169   8402             			;wait for colon
+1170   8402 D8          ghwait:	rx_char
+1171   8403 FB 3A       	xri ':'
+1172   8405 3A 02       	bnz ghwait
+1173   8407             
+1174   8407             ghdoline:
+1175   8407 F8 00       	ldi 0
+1176   8409 BB          	phi rb		;zero check sum
+1177   840A D9          	rx_byte		;call rx_byte 3 times, 1 to get 1st rx_char
+1178   840B D9          	rx_byte		;2 to get 2nd rx_char
+1179   840C D9          	rx_byte		;3 to compose them into 1 byte
+1180   840D AC          	plo rc		;rc is byte counter
+1181   840E             
+1182   840E             ;	call txbyte
+1183   840E             
+1184   840E D9          	rx_byte		;get high digits of address
+1185   840F D9          	rx_byte
+1186   8410 D9          	rx_byte
+1187   8411 BD          	phi rd
+1188   8412             
+1189   8412             ;	call txbyte
+1190   8412             			;get low digits of address
+1191   8412 D9          	rx_byte		;get high digits of address
+1192   8413 D9          	rx_byte
+1193   8414 D9          	rx_byte
+1194   8415 AD          	plo rd
+1195   8416             
+1196   8416             ;	call txbyte
+1197   8416             
+1198   8416 D9          	rx_byte		;get record type
+1199   8417 D9          	rx_byte
+1200   8418 D9          	rx_byte
+1201   8419 FB 01       	xri 1
+1202   841B 32 37       	bz ghend	;if record type is 01 then end
+1203   841D             
+1204   841D             ;	xri 1
+1205   841D             ;	call txbyte
+1206   841D             
+1207   841D             
+1208   841D             ghloop:			;get data
+1209   841D D9                  rx_byte
+1210   841E D9          	rx_byte
+1211   841F D9          	rx_byte
+1212   8420 5D          	str rd		;save data
+1213   8421             
+1214   8421             ;	call txbyte
+1215   8421             
+1216   8421 1D          	INC rd		;advance
+1217   8422 2C          	DEC rc		;count down bytes in this line
+1218   8423 8C          	glo rc
+1219   8424 3A 1D       	bnz ghloop
+1220   8426             
+1221   8426 9D          	ghi rd		;Display current page on HEX Display
+1222   8427 52          	str r2
+1223   8428 64          	out 4
+1224   8429 22          	DEC r2
+1225   842A             
+1226   842A D9                  rx_byte		;get check sum
+1227   842B D9          	rx_byte
+1228   842C D9          	rx_byte
+1229   842D 9B          	ghi rb
+1230   842E 32 02       	bz ghwait
+1231   8430 1B          	INC rb
+1232   8431 8B          	glo rb
+1233   8432 3A 02       	bnz ghwait	;freeze errors at 255
+1234   8434 2B          	DEC rb
+1235   8435 30 02       	br ghwait	;wait for next colon
+1236   8437             
+1237   8437             ghend
+1238   8437 D4          	print
+1238   8438 84 D3       
+1239   843A 204572726F72	.text " Errors=\000"
+1239   8440 733D00
+1240   8443 8B          	glo rb
+1241   8444 D4          	call txbyte
+1241   8445 82 B6       
+1242   8447             
+1243   8447 C0 83 03    	lbr mainloop
+1244   844A             
+1245   844A             ;**********************************************************************
+1246   844A             ;**********************************************************************
+1247   844A             ;**********************************************************************
+1248   844A             ;**********************************************************************
+1249   844A             ;**********************************************************************
+1250   844A             
+1251   844A             
+1252   844A             
+1253   844A             ;**********************************************************************
+1254   844A             ;----------------------------------------------------------------------
+1255   844A             inputaddress
+1256   844A D4          	print
+1256   844B 84 D3       
+1257   844D 0D0A41646472	.text "\r\nAddress:\000"
+1257   8453 6573733A00
+1258   8458             
+1259   8458 F8 04       	ldi 4		;do 4 underscores
+1260   845A D4          	call uscore
+1260   845B 84 8E       
+1261   845D             
+1262   845D D4          	call inputbyte
+1262   845E 84 6C       
+1263   8460 BD          	phi rd
+1264   8461 D4          	call inputbyte
+1264   8462 84 6C       
+1265   8464 AD          	plo rd
+1266   8465 D4          	print
+1266   8466 84 D3       
+1267   8468 0D 0A 00    	.text "\r\n\000"
+1268   846B D5          	retn
+1269   846C             
+1270   846C             ;**********************************************************************
+1271   846C             ;----------------------------------------------------------------------
+1272   846C             inputbyte
+1273   846C D4          	call inputhex
+1273   846D 84 7E       
+1274   846F 33 7D       	bdf  inputbret	;jump if control char entered
+1275   8471 FE          	shl
+1276   8472 FE          	shl
+1277   8473 FE          	shl
+1278   8474 FE          	shl
+1279   8475 73          	stxd		;save to temp X location m(R(x))
+1280   8476 D4          	call inputhex
+1280   8477 84 7E       
+1281   8479 60          	irx
+1282   847A 33 7D       	bdf  inputbret	;jump if control char entered
+1283   847C F1          	or		;or in 1st digit
+1284   847D             inputbret
+1285   847D D5          	retn
+1286   847E             
+1287   847E             ;**********************************************************************
+1288   847E             ;----------------------------------------------------------------------
+1289   847E             inputhex:			;get hex digit
+1290   847E D8                  rx_char		;get rs232 byte
+1291   847F BC                  phi rc
+1292   8480 D4          	call ishex
+1292   8481 84 E3       
+1293   8483 D7          	tx_char
+1294   8484 8F          	glo rf
+1295   8485 F6          	shr		;Move valid hex to DF
+1296   8486 33 89       	bdf  ih_ctrl_char
+1297   8488 D5          	retn
+1298   8489             
+1299   8489             ih_ctrl_char
+1300   8489 8C          	glo rc
+1301   848A 32 7E       	bz  inputhex	;get another char if control not allowed
+1302   848C 9C          	ghi rc		;else, return control char
+1303   848D D5          	retn
+1304   848E             
+1305   848E             ;**********************************************************************
+1306   848E             ;----------------------------------------------------------------------
+1307   848E AF          uscore	plo rf
+1308   848F D4          usloop1	print
+1308   8490 84 D3       
+1309   8492 5F 00       	.text "_\000"
+1310   8494 FF 01       	smi 1
+1311   8496 3A 8F       	bnz usloop1
+1312   8498 8F          	glo rf
+1313   8499 D4          usloop2	print
+1313   849A 84 D3       
+1314   849C 1B 5B 44 00 	.text "\033[D\000"
+1315   84A0 FF 01       	smi 1
+1316   84A2 3A 99       	bnz usloop2
+1317   84A4 D5          	retn
+1318   84A5             
+1319   84A5             ;**********************************************************************
+1320   84A5             ;----------------------------------------------------------------------
+1321   84A5 D4          spaces	print
+1321   84A6 84 D3       
+1322   84A8 20 00       	.text " \000"
+1323   84AA FF 01       	smi 1
+1324   84AC 3A A5       	bnz spaces
+1325   84AE D5          	retn
+1326   84AF             
+1327   84AF             ;**********************************************************************
+1328   84AF             ;----------------------------------------------------------------------
+1329   84AF 52          hexout	str r2		;save to temp X location m(R(x))
+1330   84B0 64          	out 4
+1331   84B1 22          	DEC r2
+1332   84B2 D5          	retn
+1333   84B3             
+1334   84B3             ;**********************************************************************
+1335   84B3             ;----------------------------------------------------------------------
+1336   84B3 6C          hexinp	inp 4
+1337   84B4 D4          	call hexout
+1337   84B5 84 AF       
+1338   84B7 D5          	retn
+1339   84B8             
+1340   84B8             
+1341   84B8             ;**********************************************************************
+1342   84B8             ;Execute RD
+1343   84B8             ;----------------------------------------------------------------------
+1344   84B8 D4          execute	print
+1344   84B9 84 D3       
+1345   84BB 2052756E00  	.text " Run\000"
+1346   84C0 D4          	call	inputaddress
+1346   84C1 84 4A       
+1347   84C3 9D          	ghi rd
+1348   84C4 B0          	phi r0
+1349   84C5 8D          	glo rd
+1350   84C6 A0          	plo r0
+1351   84C7 7A          	req
+1352   84C8 F8 FF               ldi 0FFh        ;test for high end of RAM
+1353   84CA A1                  plo r1
+1354   84CB F8 0F               ldi 0Fh
+1355   84CD B1                  phi r1          ;set R1=0FFF (4k; max RAM on VIP)
+1356   84CE F8 00       	ldi 0
+1357   84D0 A8          	plo r8		;disable tone
+1358   84D1 E0          	sex r0
+1359   84D2 D0          	sep r0
+1360   84D3             
+1361   84D3             ;**********************************************************************
+1362   84D3             ;Transmit inline text message
+1363   84D3             ;returns to instruction after last End-Of-String byte \000
+1364   84D3             ;----------------------------------------------------------------------
+1365   84D3 BF          txmsg:	phi rf	;Save D
+1366   84D4 46          txmlp	lda r6
+1367   84D5 32 DA       	bz txmsgret
+1368   84D7 D7          	tx_char
+1369   84D8 30 D4       	br txmlp
+1370   84DA             txmsgret:
+1371   84DA 9F          	ghi rf	;Restore D
+1372   84DB D5          	retn
+1373   84DC             
+1374   84DC             ;**********************************************************************
+1375   84DC             ;New Line
+1376   84DC             ;----------------------------------------------------------------------
+1377   84DC D4          newline	print		;newline
+1377   84DD 84 D3       
+1378   84DF 0D 0A 00    	.db "\r\n\000"
+1379   84E2 D5          	retn
+1380   84E3             
+1381   84E3             
+1382   84E3             ;**********************************************************************
+1383   84E3             ;Is Hex?
+1384   84E3             ;Call using DoSub
+1385   84E3             ;D is byte to evaluate (n)
+1386   84E3             ;re.1 is same byte (from rx_char), not affected for displaying ascii char
+1387   84E3             ;Returns with D as orignal ascii char (or bell if bad hex char)
+1388   84E3             ;rf.1 = Hex code shifted left 1 place.  if lsb is set means bad char
+1389   84E3             ;----------------------------------------------------------------------
+1390   84E3 FF 30       ishex:	smi 30h		;d=n-48
+1391   84E5 3B FD               bm  badhex	;jump if < 30h
+1392   84E7 FF 0A               smi 10		;d=n-58
+1393   84E9 3B F7               bm  goodnumb	;jump if n is between 30h and 39h
+1394   84EB FF 07               smi 7		;d=n-65
+1395   84ED 3B FD               bm  badhex	;jump if n is between 3Ah and 40h
+1396   84EF FF 06               smi 6		;d=n-71
+1397   84F1             ;	bm  goodalpha	;jump if n is between 41h and 46h
+1398   84F1             ;	br  badhex
+1399   84F1 33 FD               bpz badhex	;jump if n is >46h
+1400   84F3             
+1401   84F3             goodalpha
+1402   84F3 FC 10       	adi 16
+1403   84F5 30 F9       	br  good
+1404   84F7             goodnumb
+1405   84F7 FC 0A       	adi 10
+1406   84F9 FE          good:	shl		;lsb=0
+1407   84FA AF          	plo rf		;save hex digit
+1408   84FB 9E          	ghi re		;return orignal char
+1409   84FC D5          	retn
+1410   84FD             
+1411   84FD F8 07       badhex	ldi 7		;return sound bell
+1412   84FF AF          	plo rf		;flag bad hex char (lsb=1)
+1413   8500 D5          	retn
+1414   8501             
+1415   8504             	.org	$8504
+1416   8504             pgmtable
+1417   8504 85 10       	.dw	Starship	;starship not a chip 8 program,
+1418   8506 85 10       	.dw	Starship	;just load it twice, does not matter
+1419   8508 86 10       	.dw	Chip8
+1420   850A 88 10       	.dw	SumFun
+1421   850C 86 10       	.dw	Chip8
+1422   850E 88 C0       	.dw	PinBall
+1423   8510             
+1424   8510             Starship
+1425   8510 90 B1       	.dw	$90B1
+1426   8512 B2 B3       	.dw	$B2B3
+1427   8514 B4 F8       	.dw	$B4F8
+1428   8516 2D A3       	.dw	$2DA3
+1429   8518 F8 3F       	.dw	$F83F
+1430   851A A2 F8       	.dw	$A2F8
+1431   851C 11 A1       	.dw	$11A1
+1432   851E D3 72       	.dw	$D372
+1433   8520 70 22       	.dw	$7022
+1434   8522 78 22       	.dw	$7822
+1435   8524 52 C4       	.dw	$52C4
+1436   8526 C4 C4       	.dw	$C4C4
+1437   8528 F8 00       	.dw	$F800
+1438   852A B0 F8       	.dw	$B0F8
+1439   852C 00 A0       	.dw	$00A0
+1440   852E 80 E2       	.dw	$80E2
+1441   8530 E2 20       	.dw	$E220
+1442   8532 A0 E2       	.dw	$A0E2
+1443   8534 20 A0       	.dw	$20A0
+1444   8536 E2 20       	.dw	$E220
+1445   8538 A0 3C       	.dw	$A03C
+1446   853A 1E 30       	.dw	$1E30
+1447   853C 0F E2       	.dw	$0FE2
+1448   853E 69 3F       	.dw	$693F
+1449   8540 2F 6C       	.dw	$2F6C
+1450   8542 A4 37       	.dw	$A437
+1451   8544 33 3F       	.dw	$333F
+1452   8546 35 6C       	.dw	$356C
+1453   8548 54 14       	.dw	$5414
+1454   854A 30 33       	.dw	$3033
+1455   854C 00 00       	.dw	$0000
+1456   854E 00 00       	.dw	$0000
+1457   8550 00 00       	.dw	$0000
+1458   8552 00 00       	.dw	$0000
+1459   8554 00 00       	.dw	$0000
+1460   8556 00 00       	.dw	$0000
+1461   8558 00 00       	.dw	$0000
+1462   855A 00 00       	.dw	$0000
+1463   855C 00 00       	.dw	$0000
+1464   855E 00 00       	.dw	$0000
+1465   8560 7B DE       	.dw	$7BDE
+1466   8562 DB DE       	.dw	$DBDE
+1467   8564 00 00       	.dw	$0000
+1468   8566 00 00       	.dw	$0000
+1469   8568 4A 50       	.dw	$4A50
+1470   856A DA 52       	.dw	$DA52
+1471   856C 00 00       	.dw	$0000
+1472   856E 00 00       	.dw	$0000
+1473   8570 42 5E       	.dw	$425E
+1474   8572 AB D0       	.dw	$ABD0
+1475   8574 00 00       	.dw	$0000
+1476   8576 00 00       	.dw	$0000
+1477   8578 4A 42       	.dw	$4A42
+1478   857A 8A 52       	.dw	$8A52
+1479   857C 00 00       	.dw	$0000
+1480   857E 00 00       	.dw	$0000
+1481   8580 7B DE       	.dw	$7BDE
+1482   8582 8A 5E       	.dw	$8A5E
+1483   8584 00 00       	.dw	$0000
+1484   8586 00 00       	.dw	$0000
+1485   8588 00 00       	.dw	$0000
+1486   858A 00 00       	.dw	$0000
+1487   858C 00 00       	.dw	$0000
+1488   858E 00 00       	.dw	$0000
+1489   8590 00 00       	.dw	$0000
+1490   8592 00 00       	.dw	$0000
+1491   8594 00 00       	.dw	$0000
+1492   8596 07 E0       	.dw	$07E0
+1493   8598 00 00       	.dw	$0000
+1494   859A 00 00       	.dw	$0000
+1495   859C FF FF       	.dw	$FFFF
+1496   859E FF FF       	.dw	$FFFF
+1497   85A0 00 06       	.dw	$0006
+1498   85A2 00 01       	.dw	$0001
+1499   85A4 00 00       	.dw	$0000
+1500   85A6 00 01       	.dw	$0001
+1501   85A8 00 7F       	.dw	$007F
+1502   85AA E0 01       	.dw	$E001
+1503   85AC 00 00       	.dw	$0000
+1504   85AE 00 02       	.dw	$0002
+1505   85B0 7F C0       	.dw	$7FC0
+1506   85B2 3F E0       	.dw	$3FE0
+1507   85B4 FC FF       	.dw	$FCFF
+1508   85B6 FF FE       	.dw	$FFFE
+1509   85B8 40 0F       	.dw	$400F
+1510   85BA 00 10       	.dw	$0010
+1511   85BC 04 80       	.dw	$0480
+1512   85BE 00 00       	.dw	$0000
+1513   85C0 7F C0       	.dw	$7FC0
+1514   85C2 3F E0       	.dw	$3FE0
+1515   85C4 04 80       	.dw	$0480
+1516   85C6 00 00       	.dw	$0000
+1517   85C8 00 3F       	.dw	$003F
+1518   85CA D0 40       	.dw	$D040
+1519   85CC 04 80       	.dw	$0480
+1520   85CE 00 00       	.dw	$0000
+1521   85D0 00 0F       	.dw	$000F
+1522   85D2 08 20       	.dw	$0820
+1523   85D4 04 80       	.dw	$0480
+1524   85D6 7A 1E       	.dw	$7A1E
+1525   85D8 00 00       	.dw	$0000
+1526   85DA 07 90       	.dw	$0790
+1527   85DC 04 80       	.dw	$0480
+1528   85DE 42 10       	.dw	$4210
+1529   85E0 00 00       	.dw	$0000
+1530   85E2 18 7F       	.dw	$187F
+1531   85E4 FC F0       	.dw	$FCF0
+1532   85E6 72 1C       	.dw	$721C
+1533   85E8 00 00       	.dw	$0000
+1534   85EA 30 00       	.dw	$3000
+1535   85EC 00 10       	.dw	$0010
+1536   85EE 42 10       	.dw	$4210
+1537   85F0 00 00       	.dw	$0000
+1538   85F2 73 FC       	.dw	$73FC
+1539   85F4 00 10       	.dw	$0010
+1540   85F6 7B D0       	.dw	$7BD0
+1541   85F8 00 00       	.dw	$0000
+1542   85FA 30 00       	.dw	$3000
+1543   85FC 3F F0       	.dw	$3FF0
+1544   85FE 00 00       	.dw	$0000
+1545   8600 00 00       	.dw	$0000
+1546   8602 18 0F       	.dw	$180F
+1547   8604 C0 00       	.dw	$C000
+1548   8606 00 00       	.dw	$0000
+1549   8608 00 00       	.dw	$0000
+1550   860A 07 F0       	.dw	$07F0
+1551   860C 00 00       	.dw	$0000
+1552   860E 00 00       	.dw	$0000
+1553   8610             
+1554   8610             Chip8
+1555   8610 91 BB       	.dw	$91BB	;
+1556   8612 FF 01       	.dw	$FF01	;
+1557   8614 B2 B6       	.dw	$B2B6	;
+1558   8616 F8 CF       	.dw	$F8CF	;
+1559   8618 A2 F8       	.dw	$A2F8	;
+1560   861A 81 B1       	.dw	$81B1	;
+1561   861C F8 46       	.dw	$F846	;
+1562   861E A1 90       	.dw	$A190	;
+1563   8620 B4 F8       	.dw	$B4F8	;
+1564   8622 1B A4       	.dw	$1BA4	;
+1565   8624 F8 01       	.dw	$F801	;
+1566   8626 B5 F8       	.dw	$B5F8	;
+1567   8628 FC A5       	.dw	$FCA5	;
+1568   862A D4 96       	.dw	$D496	;
+1569   862C B7 E2       	.dw	$B7E2	;
+1570   862E 94 BC       	.dw	$94BC	;
+1571   8630 45 AF       	.dw	$45AF	;
+1572   8632 F6 F6       	.dw	$F6F6	;
+1573   8634 F6 F6       	.dw	$F6F6	;
+1574   8636 32 44       	.dw	$3244	;
+1575   8638 F9 50       	.dw	$F950	;
+1576   863A AC 8F       	.dw	$AC8F	;
+1577   863C FA 0F       	.dw	$FA0F	;
+1578   863E F9 F0       	.dw	$F9F0	;
+1579   8640 A6 05       	.dw	$A605	;
+1580   8642 F6 F6       	.dw	$F6F6	;
+1581   8644 F6 F6       	.dw	$F6F6	;
+1582   8646 F9 F0       	.dw	$F9F0	;
+1583   8648 A7 4C       	.dw	$A74C	;
+1584   864A B3 8C       	.dw	$B38C	;
+1585   864C FC 0F       	.dw	$FC0F	;
+1586   864E AC 0C       	.dw	$AC0C	;
+1587   8650 A3 D3       	.dw	$A3D3	;
+1588   8652 30 1B       	.dw	$301B	;
+1589   8654 8F FA       	.dw	$8FFA	;
+1590   8656 0F B3       	.dw	$0FB3	;
+1591   8658 45 30       	.dw	$4530	;
+1592   865A 40 22       	.dw	$4022	;
+1593   865C 69 12       	.dw	$6912	;
+1594   865E D4 00       	.dw	$D400	;
+1595   8660 00 01       	.dw	$0001	;
+1596   8662 01 01       	.dw	$0101	;
+1597   8664 01 01       	.dw	$0101	;
+1598   8666 01 01       	.dw	$0101	;
+1599   8668 01 01       	.dw	$0101	;
+1600   866A 01 01       	.dw	$0101	;
+1601   866C 01 00       	.dw	$0100	;
+1602   866E 01 01       	.dw	$0101	;
+1603   8670 00 7C       	.dw	$007C	;
+1604   8672 75 83       	.dw	$7583	;
+1605   8674 8B 95       	.dw	$8B95	;
+1606   8676 B4 B7       	.dw	$B4B7	;
+1607   8678 BC 91       	.dw	$BC91	;
+1608   867A EB A4       	.dw	$EBA4	;
+1609   867C D9 70       	.dw	$D970	;
+1610   867E 99 05       	.dw	$9905	;
+1611   8680 06 FA       	.dw	$06FA	;
+1612   8682 07 BE       	.dw	$07BE	;
+1613   8684 06 FA       	.dw	$06FA	;
+1614   8686 3F F6       	.dw	$3FF6	;
+1615   8688 F6 F6       	.dw	$F6F6	;
+1616   868A 22 52       	.dw	$2252	;
+1617   868C 07 FA       	.dw	$07FA	;
+1618   868E 1F FE       	.dw	$1FFE	;
+1619   8690 FE FE       	.dw	$FEFE	;
+1620   8692 F1 AC       	.dw	$F1AC	;
+1621   8694 9B BC       	.dw	$9BBC	;
+1622   8696 45 FA       	.dw	$45FA	;
+1623   8698 0F AD       	.dw	$0FAD	;
+1624   869A A7 F8       	.dw	$A7F8	;
+1625   869C D0 A6       	.dw	$D0A6	;
+1626   869E 93 AF       	.dw	$93AF	;
+1627   86A0 87 32       	.dw	$8732	;
+1628   86A2 F3 27       	.dw	$F327	;
+1629   86A4 4A BD       	.dw	$4ABD	;
+1630   86A6 9E AE       	.dw	$9EAE	;
+1631   86A8 8E 32       	.dw	$8E32	;
+1632   86AA A4 9D       	.dw	$A49D	;
+1633   86AC F6 BD       	.dw	$F6BD	;
+1634   86AE 8F 76       	.dw	$8F76	;
+1635   86B0 AF 2E       	.dw	$AF2E	;
+1636   86B2 30 98       	.dw	$3098	;
+1637   86B4 9D 56       	.dw	$9D56	;
+1638   86B6 16 8F       	.dw	$168F	;
+1639   86B8 56 16       	.dw	$5616	;
+1640   86BA 30 8E       	.dw	$308E	;
+1641   86BC 00 EC       	.dw	$00EC	;
+1642   86BE F8 D0       	.dw	$F8D0	;
+1643   86C0 A6 93       	.dw	$A693	;
+1644   86C2 A7 8D       	.dw	$A78D	;
+1645   86C4 32 D9       	.dw	$32D9	;
+1646   86C6 06 F2       	.dw	$06F2	;
+1647   86C8 2D 32       	.dw	$2D32	;
+1648   86CA BE F8       	.dw	$BEF8	;
+1649   86CC 01 A7       	.dw	$01A7	;
+1650   86CE 46 F3       	.dw	$46F3	;
+1651   86D0 5C 02       	.dw	$5C02	;
+1652   86D2 FB 07       	.dw	$FB07	;
+1653   86D4 32 D2       	.dw	$32D2	;
+1654   86D6 1C 06       	.dw	$1C06	;
+1655   86D8 F2 32       	.dw	$F232	;
+1656   86DA CE F8       	.dw	$CEF8	;
+1657   86DC 01 A7       	.dw	$01A7	;
+1658   86DE 06 F3       	.dw	$06F3	;
+1659   86E0 5C 2C       	.dw	$5C2C	;
+1660   86E2 16 8C       	.dw	$168C	;
+1661   86E4 FC 08       	.dw	$FC08	;
+1662   86E6 AC 3B       	.dw	$AC3B	;
+1663   86E8 B3 F8       	.dw	$B3F8	;
+1664   86EA FF A6       	.dw	$FFA6	;
+1665   86EC 87 56       	.dw	$8756	;
+1666   86EE 12 D4       	.dw	$12D4	;
+1667   86F0 9B BF       	.dw	$9BBF	;
+1668   86F2 F8 FF       	.dw	$F8FF	;
+1669   86F4 AF 93       	.dw	$AF93	;
+1670   86F6 5F 8F       	.dw	$5F8F	;
+1671   86F8 32 DF       	.dw	$32DF	;
+1672   86FA 2F 30       	.dw	$2F30	;
+1673   86FC E5 00       	.dw	$E500	;
+1674   86FE 42 B5       	.dw	$42B5	;
+1675   8700 42 A5       	.dw	$42A5	;
+1676   8702 D4 8D       	.dw	$D48D	;
+1677   8704 A7 87       	.dw	$A787	;
+1678   8706 32 AC       	.dw	$32AC	;
+1679   8708 2A 27       	.dw	$2A27	;
+1680   870A 30 F5       	.dw	$30F5	;
+1681   870C 00 00       	.dw	$0000	;
+1682   870E 00 00       	.dw	$0000	;
+1683   8710 00 00       	.dw	$0000	;
+1684   8712 00 00       	.dw	$0000	;
+1685   8714 00 45       	.dw	$0045	;
+1686   8716 A3 98       	.dw	$A398	;
+1687   8718 56 D4       	.dw	$56D4	;
+1688   871A F8 81       	.dw	$F881	;
+1689   871C BC F8       	.dw	$BCF8	;
+1690   871E 95 AC       	.dw	$95AC	;
+1691   8720 22 DC       	.dw	$22DC	;
+1692   8722 12 56       	.dw	$1256	;
+1693   8724 D4 06       	.dw	$D406	;
+1694   8726 B8 D4       	.dw	$B8D4	;
+1695   8728 06 A8       	.dw	$06A8	;
+1696   872A D4 64       	.dw	$D464	;
+1697   872C 0A 01       	.dw	$0A01	;
+1698   872E E6 8A       	.dw	$E68A	;
+1699   8730 F4 AA       	.dw	$F4AA	;
+1700   8732 3B 28       	.dw	$3B28	;
+1701   8734 9A FC       	.dw	$9AFC	;
+1702   8736 01 BA       	.dw	$01BA	;
+1703   8738 D4 F8       	.dw	$D4F8	;
+1704   873A 81 BA       	.dw	$81BA	;
+1705   873C 06 FA       	.dw	$06FA	;
+1706   873E 0F AA       	.dw	$0FAA	;
+1707   8740 0A AA       	.dw	$0AAA	;
+1708   8742 D4 E6       	.dw	$D4E6	;
+1709   8744 06 BF       	.dw	$06BF	;
+1710   8746 93 BE       	.dw	$93BE	;
+1711   8748 F8 1B       	.dw	$F81B	;
+1712   874A AE 2A       	.dw	$AE2A	;
+1713   874C 1A F8       	.dw	$1AF8	;
+1714   874E 00 5A       	.dw	$005A	;
+1715   8750 0E F5       	.dw	$0EF5	;
+1716   8752 3B 4B       	.dw	$3B4B	;
+1717   8754 56 0A       	.dw	$560A	;
+1718   8756 FC 01       	.dw	$FC01	;
+1719   8758 5A 30       	.dw	$5A30	;
+1720   875A 40 4E       	.dw	$404E	;
+1721   875C F6 3B       	.dw	$F63B	;
+1722   875E 3C 9F       	.dw	$3C9F	;
+1723   8760 56 2A       	.dw	$562A	;
+1724   8762 2A D4       	.dw	$2AD4	;
+1725   8764 00 22       	.dw	$0022	;
+1726   8766 86 52       	.dw	$8652	;
+1727   8768 F8 F0       	.dw	$F8F0	;
+1728   876A A7 07       	.dw	$A707	;
+1729   876C 5A 87       	.dw	$5A87	;
+1730   876E F3 17       	.dw	$F317	;
+1731   8770 1A 3A       	.dw	$1A3A	;
+1732   8772 5B 12       	.dw	$5B12	;
+1733   8774 D4 22       	.dw	$D422	;
+1734   8776 86 52       	.dw	$8652	;
+1735   8778 F8 F0       	.dw	$F8F0	;
+1736   877A A7 0A       	.dw	$A70A	;
+1737   877C 57 87       	.dw	$5787	;
+1738   877E F3 17       	.dw	$F317	;
+1739   8780 1A 3A       	.dw	$1A3A	;
+1740   8782 6B 12       	.dw	$6B12	;
+1741   8784 D4 15       	.dw	$D415	;
+1742   8786 85 22       	.dw	$8522	;
+1743   8788 73 95       	.dw	$7395	;
+1744   878A 52 25       	.dw	$5225	;
+1745   878C 45 A5       	.dw	$45A5	;
+1746   878E 86 FA       	.dw	$86FA	;
+1747   8790 0F B5       	.dw	$0FB5	;
+1748   8792 D4 45       	.dw	$D445	;
+1749   8794 E6 F3       	.dw	$E6F3	;
+1750   8796 3A 82       	.dw	$3A82	;
+1751   8798 15 15       	.dw	$1515	;
+1752   879A D4 45       	.dw	$D445	;
+1753   879C E6 F3       	.dw	$E6F3	;
+1754   879E 3A 88       	.dw	$3A88	;
+1755   87A0 D4 45       	.dw	$D445	;
+1756   87A2 07 30       	.dw	$0730	;
+1757   87A4 8C 45       	.dw	$8C45	;
+1758   87A6 07 30       	.dw	$0730	;
+1759   87A8 84 E6       	.dw	$84E6	;
+1760   87AA 62 26       	.dw	$6226	;
+1761   87AC 45 A3       	.dw	$45A3	;
+1762   87AE 36 88       	.dw	$3688	;
+1763   87B0 D4 3E       	.dw	$D43E	;
+1764   87B2 88 D4       	.dw	$88D4	;
+1765   87B4 F8 F0       	.dw	$F8F0	;
+1766   87B6 A7 E7       	.dw	$A7E7	;
+1767   87B8 45 F4       	.dw	$45F4	;
+1768   87BA A5 86       	.dw	$A586	;
+1769   87BC FA 0F       	.dw	$FA0F	;
+1770   87BE 3B B2       	.dw	$3BB2	;
+1771   87C0 FC 01       	.dw	$FC01	;
+1772   87C2 B5 D4       	.dw	$B5D4	;
+1773   87C4 45 56       	.dw	$4556	;
+1774   87C6 D4 45       	.dw	$D445	;
+1775   87C8 E6 F4       	.dw	$E6F4	;
+1776   87CA 56 D4       	.dw	$56D4	;
+1777   87CC 45 FA       	.dw	$45FA	;
+1778   87CE 0F 3A       	.dw	$0F3A	;
+1779   87D0 C4 07       	.dw	$C407	;
+1780   87D2 56 D4       	.dw	$56D4	;
+1781   87D4 AF 22       	.dw	$AF22	;
+1782   87D6 F8 D3       	.dw	$F8D3	;
+1783   87D8 73 8F       	.dw	$738F	;
+1784   87DA F9 F0       	.dw	$F9F0	;
+1785   87DC 52 E6       	.dw	$52E6	;
+1786   87DE 07 D2       	.dw	$07D2	;
+1787   87E0 56 F8       	.dw	$56F8	;
+1788   87E2 FF A6       	.dw	$FFA6	;
+1789   87E4 F8 00       	.dw	$F800	;
+1790   87E6 7E 56       	.dw	$7E56	;
+1791   87E8 D4 19       	.dw	$D419	;
+1792   87EA 89 AE       	.dw	$89AE	;
+1793   87EC 93 BE       	.dw	$93BE	;
+1794   87EE 99 EE       	.dw	$99EE	;
+1795   87F0 F4 56       	.dw	$F456	;
+1796   87F2 76 E6       	.dw	$76E6	;
+1797   87F4 F4 B9       	.dw	$F4B9	;
+1798   87F6 56 45       	.dw	$5645	;
+1799   87F8 F2 56       	.dw	$F256	;
+1800   87FA D4 45       	.dw	$D445	;
+1801   87FC AA 86       	.dw	$AA86	;
+1802   87FE FA 0F       	.dw	$FA0F	;
+1803   8800 BA D4       	.dw	$BAD4	;
+1804   8802 00 00       	.dw	$0000	;
+1805   8804 00 00       	.dw	$0000	;
+1806   8806 00 00       	.dw	$0000	;
+1807   8808 00 00       	.dw	$0000	;
+1808   880A 00 00       	.dw	$0000	;
+1809   880C 00 E0       	.dw	$00E0	;
+1810   880E 00 4B       	.dw	$004B	;
+1811   8810             
+1812   8810             SumFun
+1813   8810 00 E0       	.dw	$00E0	;
+1814   8812 6A 00       	.dw	$6A00	;
+1815   8814 22 62       	.dw	$2262	;
+1816   8816 63 80       	.dw	$6380	;
+1817   8818 22 8A       	.dw	$228A	;
+1818   881A 65 14       	.dw	$6514	;
+1819   881C C0 03       	.dw	$C003	;
+1820   881E C1 03       	.dw	$C103	;
+1821   8820 C2 03       	.dw	$C203	;
+1822   8822 64 00       	.dw	$6400	;
+1823   8824 84 04       	.dw	$8404	;
+1824   8826 84 14       	.dw	$8414	;
+1825   8828 84 24       	.dw	$8424	;
+1826   882A 22 5A       	.dw	$225A	;
+1827   882C 12 A4       	.dw	$12A4	;
+1828   882E 63 90       	.dw	$6390	;
+1829   8830 22 82       	.dw	$2282	;
+1830   8832 E4 A1       	.dw	$E4A1	;
+1831   8834 12 2C       	.dw	$122C	;
+1832   8836 36 00       	.dw	$3600	;
+1833   8838 76 FF       	.dw	$76FF	;
+1834   883A 12 1E       	.dw	$121E	;
+1835   883C 22 94       	.dw	$2294	;
+1836   883E 63 10       	.dw	$6310	;
+1837   8840 22 82       	.dw	$2282	;
+1838   8842 22 9A       	.dw	$229A	;
+1839   8844 63 80       	.dw	$6380	;
+1840   8846 22 8A       	.dw	$228A	;
+1841   8848 00 E0       	.dw	$00E0	;
+1842   884A 8A 64       	.dw	$8A64	;
+1843   884C 22 62       	.dw	$2262	;
+1844   884E 75 FF       	.dw	$75FF	;
+1845   8850 45 00       	.dw	$4500	;
+1846   8852 12 4A       	.dw	$124A	;
+1847   8854 63 60       	.dw	$6360	;
+1848   8856 22 8A       	.dw	$228A	;
+1849   8858 12 0C       	.dw	$120C	;
+1850   885A 64 12       	.dw	$6412	;
+1851   885C F4 18       	.dw	$F418	;
+1852   885E 63 1A       	.dw	$631A	;
+1853   8860 22 8A       	.dw	$228A	;
+1854   8862 74 FE       	.dw	$74FE	;
+1855   8864 34 00       	.dw	$3400	;
+1856   8866 12 4C       	.dw	$124C	;
+1857   8868 12 58       	.dw	$1258	;
+1858   886A 68 10       	.dw	$6810	;
+1859   886C 69 13       	.dw	$6913	;
+1860   886E 22 70       	.dw	$2270	;
+1861   8870 00 EE       	.dw	$00EE	;
+1862   8872 68 30       	.dw	$6830	;
+1863   8874 69 00       	.dw	$6900	;
+1864   8876 A2 B0       	.dw	$A2B0	;
+1865   8878 FA 33       	.dw	$FA33	;
+1866   887A F2 65       	.dw	$F265	;
+1867   887C 22 70       	.dw	$2270	;
+1868   887E 00 EE       	.dw	$00EE	;
+1869   8880 F0 29       	.dw	$F029	;
+1870   8882 D8 95       	.dw	$D895	;
+1871   8884 78 06       	.dw	$7806	;
+1872   8886 F1 29       	.dw	$F129	;
+1873   8888 D8 95       	.dw	$D895	;
+1874   888A 78 06       	.dw	$7806	;
+1875   888C F2 29       	.dw	$F229	;
+1876   888E D8 95       	.dw	$D895	;
+1877   8890 00 EE       	.dw	$00EE	;
+1878   8892 73 FF       	.dw	$73FF	;
+1879   8894 33 00       	.dw	$3300	;
+1880   8896 12 82       	.dw	$1282	;
+1881   8898 00 EE       	.dw	$00EE	;
+1882   889A F3 15       	.dw	$F315	;
+1883   889C F3 07       	.dw	$F307	;
+1884   889E 33 00       	.dw	$3300	;
+1885   88A0 12 8C       	.dw	$128C	;
+1886   88A2 00 EE       	.dw	$00EE	;
+1887   88A4 63 02       	.dw	$6302	;
+1888   88A6 F3 18       	.dw	$F318	;
+1889   88A8 00 EE       	.dw	$00EE	;
+1890   88AA 68 16       	.dw	$6816	;
+1891   88AC 69 0A       	.dw	$690A	;
+1892   88AE F4 29       	.dw	$F429	;
+1893   88B0 D8 95       	.dw	$D895	;
+1894   88B2 00 EE       	.dw	$00EE	;
+1895   88B4 66 0A       	.dw	$660A	;
+1896   88B6 63 80       	.dw	$6380	;
+1897   88B8 22 82       	.dw	$2282	;
+1898   88BA E4 A1       	.dw	$E4A1	;
+1899   88BC 12 2C       	.dw	$122C	;
+1900   88BE 12 1E       	.dw	$121E	;
+1901   88C0             
+1902   88C0             PinBall
+1903   88C0 6E 01       	.dw	$6E01	; vE=01
+1904   88C2 EE A1       	.dw	$EEA1	; SKIP;vE NE KEY
+1905   88C4 12 0E       	.dw	$120E	; GO m20E
+1906   88C6 6E 02       	.dw	$6E02	; vE=02
+1907   88C8 EE A1       	.dw	$EEA1	; SKIP;vE NE KEY
+1908   88CA 12 12       	.dw	$1212	; GO m212
+1909   88CC 12 00       	.dw	$1200	; GO m200
+1910   88CE 68 00       	.dw	$6800	; v8=00
+1911   88D0 12 14       	.dw	$1214	; GO m214
+1912   88D2 68 01       	.dw	$6801	; v8=01
+1913   88D4 65 01       	.dw	$6501	; v5=01
+1914   88D6 66 E8       	.dw	$66E8	; v6=E8
+1915   88D8 A6 7F       	.dw	$A67F	; I=067F
+1916   88DA 06 34       	.dw	$0634	; MLS@0634
+1917   88DC FC 01       	.dw	$FC01	;
+1918   88DE 4C 00       	.dw	$4C00	; SKIP;vC NE 00
+1919   88E0 12 34       	.dw	$1234	; GO m234
+1920   88E2 06 34       	.dw	$0634	; MLS@0634
+1921   88E4 F0 01       	.dw	$F001	;
+1922   88E6 06 03       	.dw	$0603	; MLS@0603
+1923   88E8 12 2A       	.dw	$122A	; GO m22A
+1924   88EA 05 E3       	.dw	$05E3	; MLS@05E3
+1925   88EC 70 FF       	.dw	$70FF	; v0+FF
+1926   88EE 30 00       	.dw	$3000	; SKIP;v0 EQ 00
+1927   88F0 12 26       	.dw	$1226	; GO m226
+1928   88F2 12 1A       	.dw	$121A	; GO m21A
+1929   88F4 A6 8A       	.dw	$A68A	; I=068A
+1930   88F6 06 42       	.dw	$0642	; MLS@0642
+1931   88F8 A6 9A       	.dw	$A69A	; I=069A
+1932   88FA 06 28       	.dw	$0628	; MLS@0628
+1933   88FC 05 01       	.dw	$0501	; MLS@0501
+1934   88FE 48 00       	.dw	$4800	; SKIP;v8 NE 00
+1935   8900 12 46       	.dw	$1246	; GO m246
+1936   8902 06 28       	.dw	$0628	; MLS@0628
+1937   8904 05 01       	.dw	$0501	; MLS@0501
+1938   8906 A6 90       	.dw	$A690	; I=0690
+1939   8908 06 3A       	.dw	$063A	; MLS@063A
+1940   890A F8 01       	.dw	$F801	;
+1941   890C C1 07       	.dw	$C107	; v1=RND
+1942   890E 71 03       	.dw	$7103	; v1+03
+1943   8910 06 3A       	.dw	$063A	; MLS@063A
+1944   8912 F1 01       	.dw	$F101	;
+1945   8914 06 3A       	.dw	$063A	; MLS@063A
+1946   8916 F1 01       	.dw	$F101	;
+1947   8918 48 00       	.dw	$4800	; SKIP;v8 NE 00
+1948   891A 12 62       	.dw	$1262	; GO m262
+1949   891C 6A 01       	.dw	$6A01	; vA=01
+1950   891E 25 2E       	.dw	$252E	; DO m52E
+1951   8920 25 50       	.dw	$2550	; DO m550
+1952   8922 6A 00       	.dw	$6A00	; vA=00
+1953   8924 25 2E       	.dw	$252E	; DO m52E
+1954   8926 25 50       	.dw	$2550	; DO m550
+1955   8928 61 16       	.dw	$6116	; v1=16
+1956   892A 60 0A       	.dw	$600A	; v0=0A
+1957   892C A6 7C       	.dw	$A67C	; I=067C
+1958   892E D0 13       	.dw	$D013	; SHOW 3MI@v0v1
+1959   8930 60 19       	.dw	$6019	; v0=19
+1960   8932 D0 13       	.dw	$D013	; SHOW 3MI@v0v1
+1961   8934 60 24       	.dw	$6024	; v0=24
+1962   8936 D0 13       	.dw	$D013	; SHOW 3MI@v0v1
+1963   8938 60 33       	.dw	$6033	; v0=33
+1964   893A D0 13       	.dw	$D013	; SHOW 3MI@v0v1
+1965   893C 61 04       	.dw	$6104	; v1=04
+1966   893E 24 7C       	.dw	$247C	; DO m47C
+1967   8940 71 FF       	.dw	$71FF	; v1+FF
+1968   8942 31 00       	.dw	$3100	; SKIP;v1 EQ 00
+1969   8944 12 7E       	.dw	$127E	; GO m27E
+1970   8946 25 78       	.dw	$2578	; DO m578
+1971   8948 25 92       	.dw	$2592	; DO m592
+1972   894A 6A 00       	.dw	$6A00	; vA=00
+1973   894C 64 00       	.dw	$6400	; v4=00
+1974   894E 6E 01       	.dw	$6E01	; vE=01
+1975   8950 EE A1       	.dw	$EEA1	; SKIP;vE NE KEY
+1976   8952 12 A8       	.dw	$12A8	; GO m2A8
+1977   8954 24 B4       	.dw	$24B4	; DO m4B4
+1978   8956 FF 07       	.dw	$FF07	; vF=TIME
+1979   8958 3F 00       	.dw	$3F00	; SKIP;vF EQ 00
+1980   895A 12 8E       	.dw	$128E	; GO m28E
+1981   895C 25 50       	.dw	$2550	; DO m550
+1982   895E 6F 04       	.dw	$6F04	; vF=04
+1983   8960 FF 15       	.dw	$FF15	; TIME=vF
+1984   8962 61 01       	.dw	$6101	; v1=01
+1985   8964 84 13       	.dw	$8413	;
+1986   8966 12 8E       	.dw	$128E	; GO m28E
+1987   8968 44 00       	.dw	$4400	; SKIP;v4 NE 00
+1988   896A 25 50       	.dw	$2550	; DO m550
+1989   896C A6 9A       	.dw	$A69A	; I=069A
+1990   896E FA 1E       	.dw	$FA1E	; I=I+vA
+1991   8970 F0 65       	.dw	$F065	; v0:v0=MI
+1992   8972 70 FF       	.dw	$70FF	; v0+FF
+1993   8974 06 40       	.dw	$0640	; MLS@0640
+1994   8976 F0 55       	.dw	$F055	; MI=V0:v0
+1995   8978 25 50       	.dw	$2550	; DO m550
+1996   897A A6 93       	.dw	$A693	; I=0693
+1997   897C 06 28       	.dw	$0628	; MLS@0628
+1998   897E 03 01       	.dw	$0301	; MLS@0301
+1999   8980 65 02       	.dw	$6502	; v5=02
+2000   8982 66 3F       	.dw	$663F	; v6=3F
+2001   8984 06 03       	.dw	$0603	; MLS@0603
+2002   8986 12 C8       	.dw	$12C8	; GO m2C8
+2003   8988 64 04       	.dw	$6404	; v4=04
+2004   898A C7 07       	.dw	$C707	; v7=RND
+2005   898C 25 72       	.dw	$2572	; DO m572
+2006   898E A6 93       	.dw	$A693	; I=0693
+2007   8990 F0 65       	.dw	$F065	; v0:v0=MI
+2008   8992 F0 15       	.dw	$F015	; TIME=v0
+2009   8994 24 B4       	.dw	$24B4	; DO m4B4
+2010   8996 FF 07       	.dw	$FF07	; vF=TIME
+2011   8998 3F 00       	.dw	$3F00	; SKIP;vF EQ 00
+2012   899A 12 D6       	.dw	$12D6	; GO m2D6
+2013   899C 06 03       	.dw	$0603	; MLS@0603
+2014   899E 12 EA       	.dw	$12EA	; GO m2EA
+2015   89A0 12 DC       	.dw	$12DC	; GO m2DC
+2016   89A2 A6 4D       	.dw	$A64D	; I=064D
+2017   89A4 F4 1E       	.dw	$F41E	; I=I+v4
+2018   89A6 F0 65       	.dw	$F065	; v0:v0=MI
+2019   89A8 84 00       	.dw	$8400	; v4=v0
+2020   89AA 8C 40       	.dw	$8C40	; vC=v4
+2021   89AC 05 E3       	.dw	$05E3	; MLS@05E3
+2022   89AE 61 EF       	.dw	$61EF	; v1=EF
+2023   89B0 81 65       	.dw	$8165	; v1=v1-v6
+2024   89B2 4F 00       	.dw	$4F00	; SKIP;vF NE 00
+2025   89B4 13 34       	.dw	$1334	; GO m334
+2026   89B6 06 08       	.dw	$0608	; MLS@0608
+2027   89B8 13 AA       	.dw	$13AA	; GO m3AA
+2028   89BA A6 93       	.dw	$A693	; I=0693
+2029   89BC 06 34       	.dw	$0634	; MLS@0634
+2030   89BE F1 00       	.dw	$F100	;
+2031   89C0 31 03       	.dw	$3103	; SKIP;v1 EQ 03
+2032   89C2 13 0A       	.dw	$130A	; GO m30A
+2033   89C4 6E 00       	.dw	$6E00	; vE=00
+2034   89C6 EE A1       	.dw	$EEA1	; SKIP;vE NE KEY
+2035   89C8 13 5A       	.dw	$135A	; GO m35A
+2036   89CA 78 FF       	.dw	$78FF	; v8+FF
+2037   89CC 38 00       	.dw	$3800	; SKIP;v8 EQ 00
+2038   89CE 13 2E       	.dw	$132E	; GO m32E
+2039   89D0 A6 9D       	.dw	$A69D	; I=069D
+2040   89D2 06 34       	.dw	$0634	; MLS@0634
+2041   89D4 FE 00       	.dw	$FE00	;
+2042   89D6 4E 00       	.dw	$4E00	; SKIP;vE NE 00
+2043   89D8 13 26       	.dw	$1326	; GO m326
+2044   89DA 7E FF       	.dw	$7EFF	; vE+FF
+2045   89DC 06 3A       	.dw	$063A	; MLS@063A
+2046   89DE FE 00       	.dw	$FE00	;
+2047   89E0 88 70       	.dw	$8870	; v8=v7
+2048   89E2 6C 08       	.dw	$6C08	; vC=08
+2049   89E4 12 EC       	.dw	$12EC	; GO m2EC
+2050   89E6 A6 93       	.dw	$A693	; I=0693
+2051   89E8 06 28       	.dw	$0628	; MLS@0628
+2052   89EA 03 01       	.dw	$0301	; MLS@0301
+2053   89EC 13 20       	.dw	$1320	; GO m320
+2054   89EE 06 03       	.dw	$0603	; MLS@0603
+2055   89F0 13 2E       	.dw	$132E	; GO m32E
+2056   89F2 12 CE       	.dw	$12CE	; GO m2CE
+2057   89F4 6F 2D       	.dw	$6F2D	; vF=2D
+2058   89F6 FF 18       	.dw	$FF18	; TONE=vF
+2059   89F8 FF 15       	.dw	$FF15	; TIME=vF
+2060   89FA 24 B4       	.dw	$24B4	; DO m4B4
+2061   89FC FF 07       	.dw	$FF07	; vF=TIME
+2062   89FE 3F 00       	.dw	$3F00	; SKIP;vF EQ 00
+2063   8A00 13 3A       	.dw	$133A	; GO m33A
+2064   8A02 A6 90       	.dw	$A690	; I=0690
+2065   8A04 06 34       	.dw	$0634	; MLS@0634
+2066   8A06 F8 00       	.dw	$F800	;
+2067   8A08 8A 83       	.dw	$8A83	;
+2068   8A0A A6 9A       	.dw	$A69A	; I=069A
+2069   8A0C FA 1E       	.dw	$FA1E	; I=I+vA
+2070   8A0E F0 65       	.dw	$F065	; v0:v0=MI
+2071   8A10 40 00       	.dw	$4000	; SKIP;v0 NE 00
+2072   8A12 13 58       	.dw	$1358	; GO m358
+2073   8A14 12 8C       	.dw	$128C	; GO m28C
+2074   8A16 24 86       	.dw	$2486	; DO m486
+2075   8A18 13 58       	.dw	$1358	; GO m358
+2076   8A1A A6 91       	.dw	$A691	; I=0691
+2077   8A1C FA 1E       	.dw	$FA1E	; I=I+vA
+2078   8A1E F0 65       	.dw	$F065	; v0:v0=MI
+2079   8A20 40 00       	.dw	$4000	; SKIP;v0 NE 00
+2080   8A22 13 7C       	.dw	$137C	; GO m37C
+2081   8A24 06 40       	.dw	$0640	; MLS@0640
+2082   8A26 70 FF       	.dw	$70FF	; v0+FF
+2083   8A28 F0 55       	.dw	$F055	; MI=V0:v0
+2084   8A2A A6 9D       	.dw	$A69D	; I=069D
+2085   8A2C 06 28       	.dw	$0628	; MLS@0628
+2086   8A2E 18 00       	.dw	$1800	;
+2087   8A30 A6 93       	.dw	$A693	; I=0693
+2088   8A32 06 28       	.dw	$0628	; MLS@0628
+2089   8A34 01 01       	.dw	$0101	;
+2090   8A36 25 68       	.dw	$2568	; DO m568
+2091   8A38 25 70       	.dw	$2570	; DO m570
+2092   8A3A 12 EA       	.dw	$12EA	; GO m2EA
+2093   8A3C 24 6E       	.dw	$246E	; DO m46E
+2094   8A3E 24 A4       	.dw	$24A4	; DO m4A4
+2095   8A40 A6 90       	.dw	$A690	; I=0690
+2096   8A42 06 34       	.dw	$0634	; MLS@0634
+2097   8A44 F8 00       	.dw	$F800	;
+2098   8A46 A6 9A       	.dw	$A69A	; I=069A
+2099   8A48 FA 1E       	.dw	$FA1E	; I=I+vA
+2100   8A4A 60 00       	.dw	$6000	; v0=00
+2101   8A4C F0 55       	.dw	$F055	; MI=V0:v0
+2102   8A4E 8A 83       	.dw	$8A83	;
+2103   8A50 78 FF       	.dw	$78FF	; v8+FF
+2104   8A52 A6 90       	.dw	$A690	; I=0690
+2105   8A54 06 3A       	.dw	$063A	; MLS@063A
+2106   8A56 F8 00       	.dw	$F800	;
+2107   8A58 38 00       	.dw	$3800	; SKIP;v8 EQ 00
+2108   8A5A 13 58       	.dw	$1358	; GO m358
+2109   8A5C 6E 01       	.dw	$6E01	; vE=01
+2110   8A5E EE A1       	.dw	$EEA1	; SKIP;vE NE KEY
+2111   8A60 13 A4       	.dw	$13A4	; GO m3A4
+2112   8A62 13 9C       	.dw	$139C	; GO m39C
+2113   8A64 24 A4       	.dw	$24A4	; DO m4A4
+2114   8A66 24 6E       	.dw	$246E	; DO m46E
+2115   8A68 13 42       	.dw	$1342	; GO m342
+2116   8A6A 6D 02       	.dw	$6D02	; vD=02
+2117   8A6C FD 18       	.dw	$FD18	; TONE=vD
+2118   8A6E 25 70       	.dw	$2570	; DO m570
+2119   8A70 A6 7A       	.dw	$A67A	; I=067A
+2120   8A72 81 60       	.dw	$8160	; v1=v6
+2121   8A74 06 34       	.dw	$0634	; MLS@0634
+2122   8A76 F2 01       	.dw	$F201	;
+2123   8A78 81 25       	.dw	$8125	; v1=v1-v2
+2124   8A7A 4F 00       	.dw	$4F00	; SKIP;vF NE 00
+2125   8A7C 14 1E       	.dw	$141E	; GO m41E
+2126   8A7E 81 60       	.dw	$8160	; v1=v6
+2127   8A80 06 34       	.dw	$0634	; MLS@0634
+2128   8A82 F2 01       	.dw	$F201	;
+2129   8A84 82 15       	.dw	$8215	; v2=v2-v1
+2130   8A86 4F 00       	.dw	$4F00	; SKIP;vF NE 00
+2131   8A88 14 1E       	.dw	$141E	; GO m41E
+2132   8A8A 61 07       	.dw	$6107	; v1=07
+2133   8A8C 81 62       	.dw	$8162	; v1=v1&v6
+2134   8A8E A6 5F       	.dw	$A65F	; I=065F
+2135   8A90 F1 1E       	.dw	$F11E	; I=I+v1
+2136   8A92 F0 65       	.dw	$F065	; v0:v0=MI
+2137   8A94 81 00       	.dw	$8100	; v1=v0
+2138   8A96 41 00       	.dw	$4100	; SKIP;v1 NE 00
+2139   8A98 14 1E       	.dw	$141E	; GO m41E
+2140   8A9A 24 86       	.dw	$2486	; DO m486
+2141   8A9C 25 2E       	.dw	$252E	; DO m52E
+2142   8A9E 24 B4       	.dw	$24B4	; DO m4B4
+2143   8AA0 A6 89       	.dw	$A689	; I=0689
+2144   8AA2 F1 1E       	.dw	$F11E	; I=I+v1
+2145   8AA4 F0 65       	.dw	$F065	; v0:v0=MI
+2146   8AA6 8F 00       	.dw	$8F00	; vF=v0
+2147   8AA8 A6 97       	.dw	$A697	; I=0697
+2148   8AAA 4A 01       	.dw	$4A01	; SKIP;vA NE 01
+2149   8AAC A6 9A       	.dw	$A69A	; I=069A
+2150   8AAE 69 03       	.dw	$6903	; v9=03
+2151   8AB0 06 40       	.dw	$0640	; MLS@0640
+2152   8AB2 F0 65       	.dw	$F065	; v0:v0=MI
+2153   8AB4 06 40       	.dw	$0640	; MLS@0640
+2154   8AB6 80 F4       	.dw	$80F4	; v0=v0+vF
+2155   8AB8 6C 0A       	.dw	$6C0A	; vC=0A
+2156   8ABA 80 C5       	.dw	$80C5	; v0=v0-vC
+2157   8ABC 3F 00       	.dw	$3F00	; SKIP;vF EQ 00
+2158   8ABE 14 02       	.dw	$1402	; GO m402
+2159   8AC0 70 0A       	.dw	$700A	; v0+0A
+2160   8AC2 F0 55       	.dw	$F055	; MI=V0:v0
+2161   8AC4 06 40       	.dw	$0640	; MLS@0640
+2162   8AC6 79 FF       	.dw	$79FF	; v9+FF
+2163   8AC8 39 00       	.dw	$3900	; SKIP;v9 EQ 00
+2164   8ACA 13 F0       	.dw	$13F0	; GO m3F0
+2165   8ACC 3F 00       	.dw	$3F00	; SKIP;vF EQ 00
+2166   8ACE 13 56       	.dw	$1356	; GO m356
+2167   8AD0 C2 01       	.dw	$C201	; v2=RND
+2168   8AD2 32 00       	.dw	$3200	; SKIP;v2 EQ 00
+2169   8AD4 14 1A       	.dw	$141A	; GO m41A
+2170   8AD6 24 7C       	.dw	$247C	; DO m47C
+2171   8AD8 14 1C       	.dw	$141C	; GO m41C
+2172   8ADA 24 86       	.dw	$2486	; DO m486
+2173   8ADC 25 2E       	.dw	$252E	; DO m52E
+2174   8ADE 24 B4       	.dw	$24B4	; DO m4B4
+2175   8AE0 46 E8       	.dw	$46E8	; SKIP;v6 NE E8
+2176   8AE2 14 66       	.dw	$1466	; GO m466
+2177   8AE4 46 EF       	.dw	$46EF	; SKIP;v6 NE EF
+2178   8AE6 14 66       	.dw	$1466	; GO m466
+2179   8AE8 61 00       	.dw	$6100	; v1=00
+2180   8AEA 6C 02       	.dw	$6C02	; vC=02
+2181   8AEC 05 E3       	.dw	$05E3	; MLS@05E3
+2182   8AEE 06 08       	.dw	$0608	; MLS@0608
+2183   8AF0 71 01       	.dw	$7101	; v1+01
+2184   8AF2 6C 07       	.dw	$6C07	; vC=07
+2185   8AF4 05 E3       	.dw	$05E3	; MLS@05E3
+2186   8AF6 06 08       	.dw	$0608	; MLS@0608
+2187   8AF8 71 02       	.dw	$7102	; v1+02
+2188   8AFA 6C 09       	.dw	$6C09	; vC=09
+2189   8AFC 05 E3       	.dw	$05E3	; MLS@05E3
+2190   8AFE 06 08       	.dw	$0608	; MLS@0608
+2191   8B00 71 04       	.dw	$7104	; v1+04
+2192   8B02 6C 03       	.dw	$6C03	; vC=03
+2193   8B04 05 E3       	.dw	$05E3	; MLS@05E3
+2194   8B06 06 08       	.dw	$0608	; MLS@0608
+2195   8B08 71 08       	.dw	$7108	; v1+08
+2196   8B0A 6C 04       	.dw	$6C04	; vC=04
+2197   8B0C 05 E3       	.dw	$05E3	; MLS@05E3
+2198   8B0E 41 05       	.dw	$4105	; SKIP;v1 NE 05
+2199   8B10 12 E2       	.dw	$12E2	; GO m2E2
+2200   8B12 41 07       	.dw	$4107	; SKIP;v1 NE 07
+2201   8B14 12 E2       	.dw	$12E2	; GO m2E2
+2202   8B16 41 0D       	.dw	$410D	; SKIP;v1 NE 0D
+2203   8B18 12 E2       	.dw	$12E2	; GO m2E2
+2204   8B1A 41 01       	.dw	$4101	; SKIP;v1 NE 01
+2205   8B1C 12 E2       	.dw	$12E2	; GO m2E2
+2206   8B1E 41 0A       	.dw	$410A	; SKIP;v1 NE 0A
+2207   8B20 14 6A       	.dw	$146A	; GO m46A
+2208   8B22 41 0B       	.dw	$410B	; SKIP;v1 NE 0B
+2209   8B24 14 6A       	.dw	$146A	; GO m46A
+2210   8B26 25 68       	.dw	$2568	; DO m568
+2211   8B28 12 EA       	.dw	$12EA	; GO m2EA
+2212   8B2A A6 55       	.dw	$A655	; I=0655
+2213   8B2C 12 E4       	.dw	$12E4	; GO m2E4
+2214   8B2E 88 A0       	.dw	$88A0	; v8=vA
+2215   8B30 6A 01       	.dw	$6A01	; vA=01
+2216   8B32 25 50       	.dw	$2550	; DO m550
+2217   8B34 6A 00       	.dw	$6A00	; vA=00
+2218   8B36 25 50       	.dw	$2550	; DO m550
+2219   8B38 8A 80       	.dw	$8A80	; vA=v8
+2220   8B3A 00 EE       	.dw	$00EE	; RET
+2221   8B3C A6 89       	.dw	$A689	; I=0689
+2222   8B3E C0 07       	.dw	$C007	; v0=RND
+2223   8B40 70 02       	.dw	$7002	; v0+02
+2224   8B42 F1 1E       	.dw	$F11E	; I=I+v1
+2225   8B44 F0 55       	.dw	$F055	; MI=V0:v0
+2226   8B46 69 0B       	.dw	$690B	; v9=0B
+2227   8B48 A6 75       	.dw	$A675	; I=0675
+2228   8B4A F1 1E       	.dw	$F11E	; I=I+v1
+2229   8B4C F0 65       	.dw	$F065	; v0:v0=MI
+2230   8B4E 82 00       	.dw	$8200	; v2=v0
+2231   8B50 A6 67       	.dw	$A667	; I=0667
+2232   8B52 D2 97       	.dw	$D297	; SHOW 7MI@v2v9
+2233   8B54 79 01       	.dw	$7901	; v9+01
+2234   8B56 72 01       	.dw	$7201	; v2+01
+2235   8B58 A6 89       	.dw	$A689	; I=0689
+2236   8B5A F1 1E       	.dw	$F11E	; I=I+v1
+2237   8B5C F0 65       	.dw	$F065	; v0:v0=MI
+2238   8B5E F0 29       	.dw	$F029	; I=v0(LSDP)
+2239   8B60 D2 95       	.dw	$D295	; SHOW 5MI@v2v9
+2240   8B62 00 EE       	.dw	$00EE	; RET
+2241   8B64 A6 6E       	.dw	$A66E	; I=066E
+2242   8B66 60 18       	.dw	$6018	; v0=18
+2243   8B68 61 00       	.dw	$6100	; v1=00
+2244   8B6A D0 14       	.dw	$D014	; SHOW 4MI@v0v1
+2245   8B6C 60 20       	.dw	$6020	; v0=20
+2246   8B6E A6 72       	.dw	$A672	; I=0672
+2247   8B70 D0 14       	.dw	$D014	; SHOW 4MI@v0v1
+2248   8B72 00 EE       	.dw	$00EE	; RET
+2249   8B74 A6 8E       	.dw	$A68E	; I=068E
+2250   8B76 F0 65       	.dw	$F065	; v0:v0=MI
+2251   8B78 06 40       	.dw	$0640	; MLS@0640
+2252   8B7A 30 00       	.dw	$3000	; SKIP;v0 EQ 00
+2253   8B7C 14 D6       	.dw	$14D6	; GO m4D6
+2254   8B7E 6E 04       	.dw	$6E04	; vE=04
+2255   8B80 EE A1       	.dw	$EEA1	; SKIP;vE NE KEY
+2256   8B82 14 EE       	.dw	$14EE	; GO m4EE
+2257   8B84 A6 9C       	.dw	$A69C	; I=069C
+2258   8B86 F0 65       	.dw	$F065	; v0:v0=MI
+2259   8B88 06 40       	.dw	$0640	; MLS@0640
+2260   8B8A 30 00       	.dw	$3000	; SKIP;v0 EQ 00
+2261   8B8C 14 E2       	.dw	$14E2	; GO m4E2
+2262   8B8E 6E 06       	.dw	$6E06	; vE=06
+2263   8B90 EE A1       	.dw	$EEA1	; SKIP;vE NE KEY
+2264   8B92 14 F8       	.dw	$14F8	; GO m4F8
+2265   8B94 00 EE       	.dw	$00EE	; RET
+2266   8B96 70 FF       	.dw	$70FF	; v0+FF
+2267   8B98 A6 8E       	.dw	$A68E	; I=068E
+2268   8B9A F0 55       	.dw	$F055	; MI=V0:v0
+2269   8B9C 40 04       	.dw	$4004	; SKIP;v0 NE 04
+2270   8B9E 25 78       	.dw	$2578	; DO m578
+2271   8BA0 14 C4       	.dw	$14C4	; GO m4C4
+2272   8BA2 70 FF       	.dw	$70FF	; v0+FF
+2273   8BA4 A6 9C       	.dw	$A69C	; I=069C
+2274   8BA6 F0 55       	.dw	$F055	; MI=V0:v0
+2275   8BA8 40 04       	.dw	$4004	; SKIP;v0 NE 04
+2276   8BAA 25 92       	.dw	$2592	; DO m592
+2277   8BAC 00 EE       	.dw	$00EE	; RET
+2278   8BAE 25 02       	.dw	$2502	; DO m502
+2279   8BB0 60 09       	.dw	$6009	; v0=09
+2280   8BB2 6D 02       	.dw	$6D02	; vD=02
+2281   8BB4 FD 18       	.dw	$FD18	; TONE=vD
+2282   8BB6 14 D8       	.dw	$14D8	; GO m4D8
+2283   8BB8 25 14       	.dw	$2514	; DO m514
+2284   8BBA 60 09       	.dw	$6009	; v0=09
+2285   8BBC 6D 02       	.dw	$6D02	; vD=02
+2286   8BBE FD 18       	.dw	$FD18	; TONE=vD
+2287   8BC0 14 E4       	.dw	$14E4	; GO m4E4
+2288   8BC2 A0 E9       	.dw	$A0E9	; I=00E9
+2289   8BC4 06 25       	.dw	$0625	; MLS@0625
+2290   8BC6 06 28       	.dw	$0628	; MLS@0628
+2291   8BC8 0F 01       	.dw	$0F01	;
+2292   8BCA 06 28       	.dw	$0628	; MLS@0628
+2293   8BCC FF 01       	.dw	$FF01	;
+2294   8BCE 06 28       	.dw	$0628	; MLS@0628
+2295   8BD0 F8 06       	.dw	$F806	;
+2296   8BD2 15 24       	.dw	$1524	; GO m524
+2297   8BD4 A0 EC       	.dw	$A0EC	; I=00EC
+2298   8BD6 06 25       	.dw	$0625	; MLS@0625
+2299   8BD8 06 28       	.dw	$0628	; MLS@0628
+2300   8BDA 1F 01       	.dw	$1F01	;
+2301   8BDC 06 28       	.dw	$0628	; MLS@0628
+2302   8BDE FF 01       	.dw	$FF01	;
+2303   8BE0 06 28       	.dw	$0628	; MLS@0628
+2304   8BE2 F0 08       	.dw	$F008	;
+2305   8BE4 06 28       	.dw	$0628	; MLS@0628
+2306   8BE6 00 08       	.dw	$0008	;
+2307   8BE8 06 28       	.dw	$0628	; MLS@0628
+2308   8BEA 00 00       	.dw	$0000	;
+2309   8BEC 00 EE       	.dw	$00EE	; RET
+2310   8BEE 62 00       	.dw	$6200	; v2=00
+2311   8BF0 6B 30       	.dw	$6B30	; vB=30
+2312   8BF2 4A 01       	.dw	$4A01	; SKIP;vA NE 01
+2313   8BF4 6B 00       	.dw	$6B00	; vB=00
+2314   8BF6 69 00       	.dw	$6900	; v9=00
+2315   8BF8 A6 94       	.dw	$A694	; I=0694
+2316   8BFA 4A 01       	.dw	$4A01	; SKIP;vA NE 01
+2317   8BFC A6 97       	.dw	$A697	; I=0697
+2318   8BFE F9 1E       	.dw	$F91E	; I=I+v9
+2319   8C00 F0 65       	.dw	$F065	; v0:v0=MI
+2320   8C02 F0 29       	.dw	$F029	; I=v0(LSDP)
+2321   8C04 DB 25       	.dw	$DB25	; SHOW 5MI@vBv2
+2322   8C06 7B 06       	.dw	$7B06	; vB+06
+2323   8C08 79 01       	.dw	$7901	; v9+01
+2324   8C0A 39 03       	.dw	$3903	; SKIP;v9 EQ 03
+2325   8C0C 15 38       	.dw	$1538	; GO m538
+2326   8C0E 00 EE       	.dw	$00EE	; RET
+2327   8C10 A6 9A       	.dw	$A69A	; I=069A
+2328   8C12 FA 1E       	.dw	$FA1E	; I=I+vA
+2329   8C14 F0 65       	.dw	$F065	; v0:v0=MI
+2330   8C16 40 00       	.dw	$4000	; SKIP;v0 NE 00
+2331   8C18 15 6E       	.dw	$156E	; GO m56E
+2332   8C1A F0 29       	.dw	$F029	; I=v0(LSDP)
+2333   8C1C 62 00       	.dw	$6200	; v2=00
+2334   8C1E 61 26       	.dw	$6126	; v1=26
+2335   8C20 4A 01       	.dw	$4A01	; SKIP;vA NE 01
+2336   8C22 61 16       	.dw	$6116	; v1=16
+2337   8C24 D1 25       	.dw	$D125	; SHOW 5MI@v1v2
+2338   8C26 00 EE       	.dw	$00EE	; RET
+2339   8C28 61 0A       	.dw	$610A	; v1=0A
+2340   8C2A 81 45       	.dw	$8145	; v1=v1-v4
+2341   8C2C 84 10       	.dw	$8410	; v4=v1
+2342   8C2E 00 EE       	.dw	$00EE	; RET
+2343   8C30 C7 03       	.dw	$C703	; v7=RND
+2344   8C32 77 03       	.dw	$7703	; v7+03
+2345   8C34 88 70       	.dw	$8870	; v8=v7
+2346   8C36 00 EE       	.dw	$00EE	; RET
+2347   8C38 A0 E9       	.dw	$A0E9	; I=00E9
+2348   8C3A 06 25       	.dw	$0625	; MLS@0625
+2349   8C3C 06 28       	.dw	$0628	; MLS@0628
+2350   8C3E 08 01       	.dw	$0801	;
+2351   8C40 06 28       	.dw	$0628	; MLS@0628
+2352   8C42 00 01       	.dw	$0001	;
+2353   8C44 06 28       	.dw	$0628	; MLS@0628
+2354   8C46 00 06       	.dw	$0006	;
+2355   8C48 06 28       	.dw	$0628	; MLS@0628
+2356   8C4A 08 08       	.dw	$0808	;
+2357   8C4C 06 28       	.dw	$0628	; MLS@0628
+2358   8C4E 08 00       	.dw	$0800	;
+2359   8C50 00 EE       	.dw	$00EE	; RET
+2360   8C52 A0 EC       	.dw	$A0EC	; I=00EC
+2361   8C54 06 25       	.dw	$0625	; MLS@0625
+2362   8C56 06 28       	.dw	$0628	; MLS@0628
+2363   8C58 00 01       	.dw	$0001	;
+2364   8C5A 06 28       	.dw	$0628	; MLS@0628
+2365   8C5C 00 01       	.dw	$0001	;
+2366   8C5E 06 28       	.dw	$0628	; MLS@0628
+2367   8C60 10 08       	.dw	$1008	;
+2368   8C62 06 28       	.dw	$0628	; MLS@0628
+2369   8C64 10 08       	.dw	$1008	;
+2370   8C66 06 28       	.dw	$0628	; MLS@0628
+2371   8C68 10 00       	.dw	$1000	;
+2372   8C6A 00 EE       	.dw	$00EE	; RET
+2373   8C6C 01 D6       	.dw	$01D6	;
+2374   8C6E D6 C6       	.dw	$D6C6	; SHOW 6MI@v6vC
+2375   8C70 D7 C6       	.dw	$D7C6	; SHOW 6MI@v7vC
+2376   8C72 D6 C6       	.dw	$D6C6	; SHOW 6MI@v6vC
+2377   8C74 CB D7       	.dw	$CBD7	; vB=RND
+2378   8C76 D6 D6       	.dw	$D6D6	; SHOW 6MI@v6vD
+2379   8C78 D6 CB       	.dw	$D6CB	; SHOW BMI@v6vC
+2380   8C7A D6 C1       	.dw	$D6C1	; SHOW 1MI@v6vC
+2381   8C7C D7 C1       	.dw	$D7C1	; SHOW 1MI@v7vC
+2382   8C7E D6 C1       	.dw	$D6C1	; SHOW 1MI@v6vC
+2383   8C80 CB F8       	.dw	$CBF8	; vB=RND
+2384   8C82 08 F4       	.dw	$08F4	;
+2385   8C84 56 D3       	.dw	$56D3	;
+2386   8C86 F8 08       	.dw	$F808	;
+2387   8C88 F5 56       	.dw	$F556	;
+2388   8C8A D3 8E       	.dw	$D38E	; SHOW EMI@v3v8
+2389   8C8C F6 3B       	.dw	$F63B	;
+2390   8C8E D5 F8       	.dw	$D5F8	; SHOW 8MI@v5vF
+2391   8C90 01 F4       	.dw	$01F4	;
+2392   8C92 56 F8       	.dw	$56F8	;
+2393   8C94 80 AE       	.dw	$80AE	;
+2394   8C96 D3 8E       	.dw	$D38E	; SHOW EMI@v3v8
+2395   8C98 FE 3B       	.dw	$FE3B	;
+2396   8C9A D5 F8       	.dw	$D5F8	; SHOW 8MI@v5vF
+2397   8C9C 01 F5       	.dw	$01F5	;
+2398   8C9E 56 F8       	.dw	$56F8	;
+2399   8CA0 01 30       	.dw	$0130	;
+2400   8CA2 D5 F8       	.dw	$D5F8	; SHOW 8MI@v5vF
+2401   8CA4 FC A7       	.dw	$FCA7	;
+2402   8CA6 96 B7       	.dw	$96B7	;
+2403   8CA8 E7 F8       	.dw	$E7F8	;
+2404   8CAA 05 BD       	.dw	$05BD	; MLS@05BD
+2405   8CAC F8 AD       	.dw	$F8AD	;
+2406   8CAE F4 F4       	.dw	$F4F4	;
+2407   8CB0 AD F8       	.dw	$ADF8	; I=0DF8
+2408   8CB2 F5 A6       	.dw	$F5A6	;
+2409   8CB4 E6 72       	.dw	$E672	;
+2410   8CB6 AE 93       	.dw	$AE93	; I=0E93
+2411   8CB8 BC 4D       	.dw	$BC4D	; SET v4 COLOR @vCXD       ????????
+2412   8CBA AC DC       	.dw	$ACDC	; I=0CDC
+2413   8CBC 4D AC       	.dw	$4DAC	; SKIP;vD NE AC
+2414   8CBE DC 8E       	.dw	$DC8E	; SHOW EMI@vCv8
+2415   8CC0 26 56       	.dw	$2656	; DO m656
+2416   8CC2 D4 F8       	.dw	$D4F8	; SHOW 8MI@v4vF
+2417   8CC4 00 BC       	.dw	$00BC	;
+2418   8CC6 30 0B       	.dw	$300B	; SKIP;v0 EQ 0B
+2419   8CC8 F8 01       	.dw	$F801	;
+2420   8CCA BC F8       	.dw	$BCF8	; SET vF COLOR @vCX8       ????????
+2421   8CCC F5 A6       	.dw	$F5A6	;
+2422   8CCE E6 72       	.dw	$E672	;
+2423   8CD0 AE 9B       	.dw	$AE9B	; I=0E9B
+2424   8CD2 BF F0       	.dw	$BFF0	; SET vF COLOR @vF       ????????
+2425   8CD4 AF EF       	.dw	$AFEF	; I=0FEF
+2426   8CD6 8E F3       	.dw	$8EF3	;
+2427   8CD8 BE 8E       	.dw	$BE8E	; SET v8 COLOR @vEXE       ????????
+2428   8CDA F2 3A       	.dw	$F23A	;
+2429   8CDC 1F 15       	.dw	$1F15	;
+2430   8CDE 15 9C       	.dw	$159C	; GO m59C
+2431   8CE0 3A 24       	.dw	$3A24	; SKIP;vA EQ 24
+2432   8CE2 9E 5F       	.dw	$9E5F	;
+2433   8CE4 D4 9B       	.dw	$D49B	; SHOW BMI@v4v9
+2434   8CE6 BA D4       	.dw	$BAD4	; SET vD COLOR @vAX4       ????????
+2435   8CE8 45 5A       	.dw	$455A	; SKIP;v5 NE 5A
+2436   8CEA E5 8A       	.dw	$E58A	;
+2437   8CEC F4 AA       	.dw	$F4AA	;
+2438   8CEE 15 9A       	.dw	$159A	; GO m59A
+2439   8CF0 7C 00       	.dw	$7C00	; vC+00
+2440   8CF2 BA D4       	.dw	$BAD4	; SET vD COLOR @vAX4       ????????
+2441   8CF4 45 A6       	.dw	$45A6	; SKIP;v5 NE A6
+2442   8CF6 0A 56       	.dw	$0A56	;
+2443   8CF8 30 2A       	.dw	$302A	; SKIP;v0 EQ 2A
+2444   8CFA 45 A6       	.dw	$45A6	; SKIP;v5 NE A6
+2445   8CFC 06 5A       	.dw	$065A	; MLS@065A
+2446   8CFE 30 2A       	.dw	$302A	; SKIP;v0 EQ 2A
+2447   8D00 2A D4       	.dw	$2AD4	;
+2448   8D02 F8 14       	.dw	$F814	;
+2449   8D04 AF F8       	.dw	$AFF8	; I=0FF8
+2450   8D06 00 5A       	.dw	$005A	;
+2451   8D08 1A 2F       	.dw	$1A2F	;
+2452   8D0A 8F 3A       	.dw	$8F3A	;
+2453   8D0C 45 D4       	.dw	$45D4	; SKIP;v5 NE D4
+2454   8D0E 03 09       	.dw	$0309	; MLS@0309
+2455   8D10 01 03       	.dw	$0103	;
+2456   8D12 00 01       	.dw	$0001	;
+2457   8D14 09 02       	.dw	$0902	;
+2458   8D16 07 08       	.dw	$0708	; MLS@0708
+2459   8D18 09 01       	.dw	$0901	;
+2460   8D1A 00 03       	.dw	$0003	;
+2461   8D1C 01 02       	.dw	$0102	;
+2462   8D1E 03 00       	.dw	$0300	;
+2463   8D20 01 02       	.dw	$0102	;
+2464   8D22 02 03       	.dw	$0203	; MLS@0203
+2465   8D24 03 04       	.dw	$0304	; MLS@0304
+2466   8D26 00 FC       	.dw	$00FC	;
+2467   8D28 FC FC       	.dw	$FCFC	;
+2468   8D2A FC FC       	.dw	$FCFC	;
+2469   8D2C FC FC       	.dw	$FCFC	;
+2470   8D2E 72 22       	.dw	$7222	; v2+22
+2471   8D30 22 22       	.dw	$2222	; DO m222
+2472   8D32 47 42       	.dw	$4742	; SKIP;v7 NE 42
+2473   8D34 42 72       	.dw	$4272	; SKIP;v2 NE 72
+2474   8D36 08 15       	.dw	$0815	;
+2475   8D38 25 32       	.dw	$2532	; DO m532
+2476   8D3A 59 8E       	.dw	$598E	;
+2477   8D3C E0 A0       	.dw	$E0A0	;
+2478   8D3E E0 04       	.dw	$E004	;
+2479   8D40 07 02       	.dw	$0702	; MLS@0702
+2480   8D42 17 06       	.dw	$1706	; GO m706
+2481   8D44 3F 08       	.dw	$3F08	; SKIP;vF EQ 08
+2482   8D46 17 04       	.dw	$1704	; GO m704
+2483   8D48 08 00       	.dw	$0800	;
+2484   8D4A             
+2485   8D4A                     .END
+2486   8D4A             
+2487   8D4A             ;00	IDL		IDLE
+2488   8D4A             ;0n	LDN	Rn	LOAD VIA N	D = M(R1)
+2489   8D4A             ;1n	INC	Rn	INCREMENT REG N	Rn = Rn + 1
+2490   8D4A             ;2n	DEC	Rn	DECREMENT REG N	R0 = R0 - 1
+2491   8D4A             ;30	BR	XX	SHORT BRANCH	RP.0 = M(RP)
+2492   8D4A             ;31	BQ	XX	SHORT BRANCH IF Q = 1
+2493   8D4A             ;32	BZ	XX	SHORT BRANCH IF D = 0
+2494   8D4A             ;33	BDF	XX	SHORT BRANCH IF DF = 1
+2495   8D4A             ;	BPZ	XX	SHORT BRANCH IF POSITIVE OR ZERO
+2496   8D4A             ;	BGE	XX	SHORT BRANCH IF EQUAL OR GREATER
+2497   8D4A             ;34	B1	XX	SHORT BRANCH IF EF1 = 1
+2498   8D4A             ;35	B2	XX	SHORT BRANCH IF EF2 = 1
+2499   8D4A             ;36	B3	XX	SHORT BRANCH IF EF3 = 1
+2500   8D4A             ;37	B4	XX	SHORT BRANCH IF EF4 = 1
+2501   8D4A             ;38	NBR		NO SHORT BRANCH RP = RP + 1
+2502   8D4A             ;	SKP		SHORT SKIP
+2503   8D4A             ;39	BNQ	XX	SHORT BRANCH IF Q = 0
+2504   8D4A             ;3A	BNZ	XX	SHORT BRANCH IF D NOT 0
+2505   8D4A             ;3B	BNF	XX	SHORT BRANCH IF DF = 0
+2506   8D4A             ;	BM		SHORT BRANCH IF MINUS
+2507   8D4A             ;	BL		SHORT BRANCH IF LESS
+2508   8D4A             ;3C	BN1	XX	SHORT BRANCH IF EF1 = 0
+2509   8D4A             ;3D	BN2	XX	SHORT BRANCH IF EF2 = 0
+2510   8D4A             ;3E	BN3	XX	SHORT BRANCH IF EF3 = 0
+2511   8D4A             ;3F	BN4	XX	SHORT BRANCH IF EF4 = 0
+2512   8D4A             ;4n	LDA	Rn	LOAD ADVANCE	D = M(Rn); Rn = Rn + 1
+2513   8D4A             ;5n	STR	Rn	STORE VIA N	M(Rn) = D
+2514   8D4A             ;60	IRX		INCREMENT REG X	RX = RX + 1
+2515   8D4A             ;6n	OUT	n	OUTPUT n	BUS = M(RX); RX = RX + 1
+2516   8D4A             ;68
+2517   8D4A             ;69	INP	n	INPUT n		M(RX) = BUS; D = BUS
+2518   8D4A             ;70	RET		RETURN		(X,P) = M(RX); RX = RX + 1; IE = 1
+2519   8D4A             ;71	DIS		DISABLE		(X,P) = M(RX); RX = RX + 1; IE = 0
+2520   8D4A             ;72	LDXA		LOAD VIA X AND ADVANCE		D = M(RX); RX = RX + 1
+2521   8D4A             ;73	STXD		STORE VIA X AND DECREMENT	M(RX) = D; RX = RX - 1
+2522   8D4A             ;74	ADC		ADD WITH CARRY		DF, D = M(RX) + D + DF
+2523   8D4A             ;75	SDB		SUBTRACT D WITH BORROW	DF, D = M(RX) - D - /DF
+2524   8D4A             ;76	SHRC		SHIFT RIGHT WITH CARRY
+2525   8D4A             ;	RSHR		RING SHIFT RIGHT
+2526   8D4A             ;77	SMB		SUBTRACT MEMORY WITH BORROW	DF,D = D - M(RX) - /DF
+2527   8D4A             ;78	SAV		SAVE M(RX) = T
+2528   8D4A             ;79	MARK		PUSH X, P TO STACK	T = X,P; M(R2) = T; X = P; R2 = R2 - 1
+2529   8D4A             ;7A	REQ		RESET Q		Q = 0
+2530   8D4A             ;7B	SEQ		SET Q		Q = 1
+2531   8D4A             ;7C	ADCI	XX	ADD WITH CARRY, IMMEDIATE	DF, D = M(RP) + D + DF; RP = RP + 1
+2532   8D4A             ;7D	SDBI	XX	SUBTRACT D WITH BORROW, IMMEDIATE DF, D = M(RP) - D - /DF; RP = RP + 1
+2533   8D4A             ;7E	SHLC		SHIFT LEFT WITH CARRY
+2534   8D4A             ;	RSHL		RING SHIFT LEFT
+2535   8D4A             ;7F	SMBI	XX	SUBTRACT MEMORY WITH BORROW, IMMEDIATE DF, D = D - M(RP) - /DF; RP = RP + 1
+2536   8D4A             ;8n	GLO	Rn	GET LOW REG N	D = Rn.0
+2537   8D4A             ;9n	GHI	Rn	GET HIGH REG N	D = Rn.1
+2538   8D4A             ;An	PLO	Rn	PUT LOW REG N	Rn.0 = D
+2539   8D4A             ;Bn	PHI	Rn	PUT HIGH REG N	Rn.1 = D
+2540   8D4A             ;C0	LBR	XX XX	LONG BRANCH	RP.1 = M(RP); RP.0 = M(RP + 1)
+2541   8D4A             ;C1	LBQ	XX XX	IF Q = 1 THEN RP.1 = M(RP); RP.0 = M(RP + 1)
+2542   8D4A             ;C2	LBZ	XX XX	IF D = 0 THEN RP.1 = M(RP); RP.0 = M(RP + 1)
+2543   8D4A             ;C3	LDF	XX XX	IF DF = 1 THEN RP.1 = M(RP); RP.0 = M(RP + 1)
+2544   8D4A             ;C4	NOP		No Operation
+2545   8D4A             ;C5	LSNQ		IF Q = 0 THEN RP = RP+2
+2546   8D4A             ;C6	LSNZ		IF D <> 0 THEN RP = RP+2
+2547   8D4A             ;C7	LSNF		IF DF = 0 THEN RP = RP+2
+2548   8D4A             ;C8	NLBR		RP = RP+2
+2549   8D4A             ;C8	LSKP		RP = RP+2
+2550   8D4A             ;C9	LBNQ	XX XX	IF Q = 0 THEN RP.1 = M(RP); RP.0 = M(RP + 1)
+2551   8D4A             ;CA	LBNZ	XX XX	IF D <> 0 THEN RP.1 = M(RP); RP.0 = M(RP + 1)
+2552   8D4A             ;CB	LDNF	XX XX	IF DF = 0 THEN RP.1 = M(RP); RP.0 = M(RP + 1)
+2553   8D4A             ;CC	LSIE		IF IE = 1 THEN RP = RP+2
+2554   8D4A             ;CD	LSQ		IF Q = 1 THEN RP = RP+2
+2555   8D4A             ;CE	LSZ		IF D = 0 THEN RP = RP+2
+2556   8D4A             ;CF	LSDF		IF DF = 1 THEN RP = RP+2
+2557   8D4A             ;Dn	SEP	n	SET P	P=n
+2558   8D4A             ;En	SEX	n	SET X	X=n
+2559   8D4A             ;F0	LDX		LOAD VIA X	D = M(RX)
+2560   8D4A             ;F1	OR		OR		D = M(RX) OR D
+2561   8D4A             ;F2	AND		AND		D = M(RX) AND D
+2562   8D4A             ;F3	XOR		EXCLUSIVE OR	D = M(RX) XOR D
+2563   8D4A             ;F4	ADD		ADD		DF, D = M(RX) + D
+2564   8D4A             ;F5	SD		SUBTRACT D	DF, D = M(RX) - D
+2565   8D4A             ;F6	SHR		SHIFT D RIGHT	DF = LSB(D); MSB(D) = 0
+2566   8D4A             ;F7	SM		SUBTRACT MEMORY	DF,D = D - M(RX)
+2567   8D4A             ;F8	LDI	XX	LOAD IMMEDIATE	D = M(RP); RP = RP + 1
+2568   8D4A             ;F9	ORI	XX	OR IMMEDIATE	D = M(RP) OR D; RP = RP + 1
+2569   8D4A             ;FA	ANI	XX	AND IMMEDIATE	D = M(RP) AND D; RP = RP + 1
+2570   8D4A             ;FB	XRI	XX	EXCLUSIVE OR IMMEDIATE	D = M(RP) XOR D; RP = RP + 1
+2571   8D4A             ;FC	ADI	XX	ADD IMMEDIATE		DF, D = M(RP) + D; RP = RP + 1
+2572   8D4A             ;FD	SDI	XX	SUBTRACT D IMMEDIATE	DF, D = M(RP) - D; RP = RP + 1
+2573   8D4A             ;FE	SHL		SHIFT D LEFT		DF = MSB(D); LSB(D) = 0
+2574   8D4A             ;FF	SMI	XX	SUBTRACT MEMORY IMMEDIATE	DF, D = D - M(RP); RP = RP + 1
+2575   8D4A             ;			DMA IN	M(R0) = BUS; R0 = R0 + 1
+2576   8D4A             ;			DMA OUT BUS = M(R0); R0 = R0 + 1
+2577   8D4A             ;			INTERRUPT T = X,P; IE = 0; P = 1; X = 2
+2578   8D4A             ;
+2579   8D4A             ;
+2580   8D4A             ;'Mnem. 'Op'F'Description                 'Notes                '
+2581   8D4A             ;'------+--+-+----------------------------+---------------------'
+2582   8D4A             ;'ADC   '74'*'Add with Carry              '{DF,D}=mx+D+DF       '
+2583   8D4A             ;'ADCI i'7C'*'Add with Carry Immediate    '{DF,D}=mp+D+DF,p=p+1 '
+2584   8D4A             ;'ADD   'F4'*'Add                         '{DF,D}=mx+D          '
+2585   8D4A             ;'ADI  i'FC'*'Add Immediate               '{DF,D}=mp+D,p=p+1    '
+2586   8D4A             ;'AND   'F2'*'Logical AND                 'D={mx}&D             '
+2587   8D4A             ;'ANI  i'FA'*'Logical AND Immediate       'D={mp}&D,p=p+1       '
+2588   8D4A             ;'B1   a'34'-'Branch if EF1               'If EF1=1 BR else NBR '
+2589   8D4A             ;'B2   a'35'-'Branch if EF2               'If EF2=1 BR else NBR '
+2590   8D4A             ;'B3   a'36'-'Branch if EF3               'If EF3=1 BR else NBR '
+2591   8D4A             ;'B4   a'37'-'Branch if EF4               'If EF4=1 BR else NBR '
+2592   8D4A             ;'BDF  a'33'-'Branch if DF                'If DF=1 BR else NBR  '
+2593   8D4A             ;'BGE  a'33'-'Branch if Greater or Equal  'See BDF              '
+2594   8D4A             ;'BL   a'38'-'Branch if Less              'See BNF BR else NBR  '
+2595   8D4A             ;'BM   a'38'-'Branch if Minus             'See BNF              '
+2596   8D4A             ;'BN1  a'3C'-'Branch if Not EF1           'If EF1=0 BR else NBR '
+2597   8D4A             ;'BN2  a'3D'-'Branch if Not EF2           'If EF2=0 BR else NBR '
+2598   8D4A             ;'BN3  a'3E'-'Branch if Not EF3           'If EF3=0 BR else NBR '
+2599   8D4A             ;'BN4  a'3F'-'Branch if Not EF4           'If EF4=0 BR else NBR '
+2600   8D4A             ;'BNF  a'38'-'Branch if Not DF            'If DF=0 BR else NBR  '
+2601   8D4A             ;'BNQ  a'39'-'Branch if Not Q             'If Q=0 BR else NBR   '
+2602   8D4A             ;'BNZ  a'3A'-'Branch if D Not Zero        'If D=1 BR else NBR   '
+2603   8D4A             ;'BPZ  a'33'-'Branch if Positive or Zero  'See BDF              '
+2604   8D4A             ;'BQ   a'31'-'Branch if Q                 'If Q=1 BR else NBR   '
+2605   8D4A             ;'BR   a'30'-'Branch                      'pl=mp                '
+2606   8D4A             ;'BZ   a'32'-'Branch if D Zero            'If D=0 BR else NBR   '
+2607   8D4A             ;'DEC  r'2N'-'Decrement register N        'n=n-1                '
+2608   8D4A             ;'DIS   '71'-'Disable                     '{X,P}=mx,x=x+1,IE=0  '
+2609   8D4A             ;'GHI  r'9N'-'Get High register N         'D=nh                 '
+2610   8D4A             ;'GLO  r'8N'-'Get Low register N          'D=nl                 '
+2611   8D4A             ;'IDL   '00'-'Idle (wait for DMA or int.) 'Bus=m0               '
+2612   8D4A             ;'INC  r'1N'-'Increment register N        'n=n+1                '
+2613   8D4A             ;'INP  d'6N'-'Input (N=d+8=9-F)           'mx=Bus,D=Bus,Nlines=d'
+2614   8D4A             ;'IRX   '60'-'Increment register X        'x=x+1                '
+2615   8D4A             ;'LBDF a'C3'-'Long Branch if DF           'If DF=1 LBR else LNBR'
+2616   8D4A             ;'LBNF a'C8'-'Long Branch if Not DF       'If DF=0 LBR else LNBR'
+2617   8D4A             ;'LBNQ a'C9'-'Long Branch if Not Q        'If Q=0 LBR else LNBR '
+2618   8D4A             ;'LBNZ a'CA'-'Long Branch if D Not Zero   'If D=1 LBR else LNBR '
+2619   8D4A             ;'LBQ  a'C1'-'Long Branch if Q            'If Q=1 LBR else LNBR '
+2620   8D4A             ;'LBR  a'C0'-'Long Branch                 'p=mp                 '
+2621   8D4A             ;'LBZ  a'C2'-'Long Branch if D Zero       'If D=0 LBR else LNBR '
+2622   8D4A             ;'LDA  r'4N'-'Load advance                'D=mn,n=n+1           '
+2623   8D4A             ;'LDI  i'F8'-'Load Immediate              'D=mp,p=p+1           '
+2624   8D4A             ;'LDN  r'0N'-'Load via N (except N=0)     'D=mn                 '
+2625   8D4A             ;'LDX   'F0'-'Load via X                  'D=mx                 '
+2626   8D4A             ;'LDXA  '72'-'Load via X and Advance      'D=mx,x=x+1           '
+2627   8D4A             ;'LSDF  'CF'-'Long Skip if DF             'If DF=1 LSKP else NOP'
+2628   8D4A             ;'LSIE  'CC'-'Long Skip if IE             'If IE=1 LSKP else NOP'
+2629   8D4A             ;'LSKP  'C8'-'Long Skip                   'See NLBR             '
+2630   8D4A             ;'LSNF  'C7'-'Long Skip if Not DF         'If DF=0 LSKP else NOP'
+2631   8D4A             ;'LSNQ  'C5'-'Long Skip if Not Q          'If Q=0 LSKP else NOP '
+2632   8D4A             ;'LSNZ  'C6'-'Long Skip if D Not Zero     'If D=1 LSKP else NOP '
+2633   8D4A             ;'LSQ   'CD'-'Long Skip if Q              'If Q=1 LSKP else NOP '
+2634   8D4A             ;'LSZ   'CE'-'Long Skip if D Zero         'If D=0 LSKP else NOP '
+2635   8D4A             ;'MARK  '79'-'Push X,P to stack  (T={X,P})'m2={X,P},X=P,r2=r2-1 '
+2636   8D4A             ;'NBR   '38'-'No short Branch (see SKP)   'p=p+1                '
+2637   8D4A             ;'NLBR a'C8'-'No Long Branch (see LSKP)   'p=p+2                '
+2638   8D4A             ;'NOP   'C4'-'No Operation                'Continue             '
+2639   8D4A             ;'OR    'F1'*'Logical OR                  'D={mx}vD             '
+2640   8D4A             ;'ORI  i'F9'*'Logical OR Immediate        'D={mp}vD,p=p+1       '
+2641   8D4A             ;'OUT  d'6N'-'Output (N=d=1-7)            'Bus=mx,x=x+1,Nlines=d'
+2642   8D4A             ;'PLO  r'AN'-'Put Low register N          'nl=D                 '
+2643   8D4A             ;'PHI  r'BN'-'Put High register N         'nh=D                 '
+2644   8D4A             ;'REQ   '7A'-'Reset Q                     'Q=0                  '
+2645   8D4A             ;'RET   '70'-'Return                      '{X,P}=mx,x=x+1,IE=1  '
+2646   8D4A             ;'RSHL  '7E'*'Ring Shift Left             'See SHLC             '
+2647   8D4A             ;'RSHR  '76'*'Ring Shift Right            'See SHRC             '
+2648   8D4A             ;'SAV   '78'-'Save                        'mx=T                 '
+2649   8D4A             ;'SDB   '75'*'Subtract D with Borrow      '{DF,D}=mx-D-DF       '
+2650   8D4A             ;'SDBI i'7D'*'Subtract D with Borrow Imm. '{DF,D}=mp-D-DF,p=p+1 '
+2651   8D4A             ;'SD    'F5'*'Subtract D                  '{DF,D}=mx-D          '
+2652   8D4A             ;'SDI  i'FD'*'Subtract D Immediate        '{DF,D}=mp-D,p=p+1    '
+2653   8D4A             ;'SEP  r'DN'-'Set P                       'P=N                  '
+2654   8D4A             ;'SEQ   '7B'-'Set Q                       'Q=1                  '
+2655   8D4A             ;'SEX  r'EN'-'Set X                       'X=N                  '
+2656   8D4A             ;'SHL   'FE'*'Shift Left                  '{DF,D}={DF,D,0}<-    '
+2657   8D4A             ;'SHLC  '7E'*'Shift Left with Carry       '{DF,D}={DF,D}<-      '
+2658   8D4A             ;----------------------------------------------------------------
+2659   8D4A             ;----------------------------------------------------------------
+2660   8D4A             ;'Mnem. 'Op'F'Description                 'Notes                '
+2661   8D4A             ;'------+--+-+----------------------------+---------------------'
+2662   8D4A             ;'SHR   'F6'*'Shift Right                 '{D,DF}=->{0,D,DF}    '
+2663   8D4A             ;'SHRC  '76'*'Shift Right with Carry      '{D,DF}=->{D,DF}      '
+2664   8D4A             ;'SKP   '38'-'Short Skip                  'See NBR              '
+2665   8D4A             ;'SMB   '77'*'Subtract Memory with Borrow '{DF,D}=D-mx-{~DF}    '
+2666   8D4A             ;'SMBI i'7F'*'Subtract Mem with Borrow Imm'{DF,D}=D-mp-~DF,p=p+1'
+2667   8D4A             ;'SM    'F7'*'Subtract Memory             '{DF,D}=D-mx          '
+2668   8D4A             ;'SMI  i'FF'*'Subtract Memory Immediate   '{DF,D}=D-mp,p=p+1    '
+2669   8D4A             ;'STR  r'5N'-'Store via N                 'mn=D                 '
+2670   8D4A             ;'STXD  '73'-'Store via X and Decrement   'mx=D,x=x-1           '
+2671   8D4A             ;'XOR   'F3'*'Logical Exclusive OR        'D={mx}.D             '
+2672   8D4A             ;'XRI  i'FB'*'Logical Exclusive OR Imm.   'D={mp}.D,p=p+1       '
+2673   8D4A             ;'      '  '-'Interrupt action            'T={X,P},P=1,X=2,IE=0 '
+2674   8D4A             ;'------+--+-+--------------------------------------------------'
+2675   8D4A             ;'      '??' '8-bit hexadecimal opcode                          '
+2676   8D4A             ;'      '?N' 'Opcode with register/device in low 4/3 bits       '
+2677   8D4A             ;'      '  '-'DF flag unaffected                                '
+2678   8D4A             ;'      '  '*'DF flag affected                                  '
+2679   8D4A             ;'-----------+--------------------------------------------------'
+2680   8D4A             ;' mn        'Register addressing                               '
+2681   8D4A             ;' mx        'Register-indirect addressing                      '
+2682   8D4A             ;' mp        'Immediate addressing                              '
+2683   8D4A             ;' R( )      'Stack addressing (implied addressing)             '
+2684   8D4A             ;'-----------+--------------------------------------------------'
+2685   8D4A             ;'DFB n(,n)  'Define Byte                                       '
+2686   8D4A             ;'DFS n      'Define Storage block                              '
+2687   8D4A             ;'DFW n(,n)  'Define Word                                       '
+2688   8D4A             ;'-----------+--------------------------------------------------'
+2689   8D4A             ;' D         'Data register (accumulator, 8-bit)                '
+2690   8D4A             ;' DF        'Data Flag (ALU carry, 1-bit)                      '
+2691   8D4A             ;' I         'High-order instruction digit (4-bit)              '
+2692   8D4A             ;' IE        'Interrupt Enable (1-bit)                          '
+2693   8D4A             ;' N         'Low-order instruction digit (4-bit)               '
+2694   8D4A             ;' P         'Designates Program Counter register (4-bit)       '
+2695   8D4A             ;' Q         'Output flip-flop (1-bit)                          '
+2696   8D4A             ;' R         '1 of 16 scratchpad Registers(16-bit)              '
+2697   8D4A             ;' T         'Holds old {X,P} after interrupt (X high, 8-bit)   '
+2698   8D4A             ;' X         'Designates Data Pointer register (4-bit)          '
+2699   8D4A             ;'-----------+--------------------------------------------------'
+2700   8D4A             ;' mn        'Memory byte addressed by R(N)                     '
+2701   8D4A             ;' mp        'Memory byte addressed by R(P)                     '
+2702   8D4A             ;' mx        'Memory byte addressed by R(X)                     '
+2703   8D4A             ;' m?        'Memory byte addressed by R(?)                     '
+2704   8D4A             ;' n         'Short form for R(N)                               '
+2705   8D4A             ;' nh        'High-order byte of R(N)                           '
+2706   8D4A             ;' nl        'Low-order byte of R(N)                            '
+2707   8D4A             ;' p         'Short form for R(P)                               '
+2708   8D4A             ;' pl        'Low-order byte of R(P)                            '
+2709   8D4A             ;' r?        'Short form for R(?)                               '
+2710   8D4A             ;' x         'Short form for R(X)                               '
+2711   8D4A             ;'-----------+--------------------------------------------------'
+2712   8D4A             ;' R(N)      'Register specified by N                           '
+2713   8D4A             ;' R(P)      'Current program counter                           '
+2714   8D4A             ;' R(X)      'Current data pointer                              '
+2715   8D4A             ;' R(?)      'Specific register                                 '
+2716   8D4A             ;'-----------+--------------------------------------------------'
+2717   8D4A             ;' a         'Address expression                                '
+2718   8D4A             ;' d         'Device number (1-7)                               '
+2719   8D4A             ;' i         'Immediate expression                              '
+2720   8D4A             ;' n         'Expression                                        '
+2721   8D4A             ;' r         'Register (hex digit or an R followed by hex digit)'
+2722   8D4A             ;'-----------+--------------------------------------------------'
+2723   8D4A             ;' +         'Arithmetic addition                               '
+2724   8D4A             ;' -         'Arithmetic subtraction                            '
+2725   8D4A             ;' *         'Arithmetic multiplication                         '
+2726   8D4A             ;' /         'Arithmetic division                               '
+2727   8D4A             ;' &         'Logical AND                                       '
+2728   8D4A             ;' ~         'Logical NOT                                       '
+2729   8D4A             ;' v         'Logical inclusive OR                              '
+2730   8D4A             ;' .         'Logical exclusive OR                              '
+2731   8D4A             ;' <-        'Rotate left                                       '
+2732   8D4A             ;' ->        'Rotate right                                      '
+2733   8D4A             ;' { }       'Combination of operands                           '
+2734   8D4A             ;' ?         'Hexadecimal digit (0-F)                           '
+2735   8D4A             ;' -->       'Input pin                                         '
+2736   8D4A             ;' <--       'Output pin                                        '
+2737   8D4A             ;' <-->      'Input/output pin                                  '
+2738   8D4A             ;----------------------------------------------------------------
+
+
+
+Label        Value      Label        Value      Label        Value
+------------------      ------------------      ------------------
+ALPHAN        82AC      BITMAP        8110      BEEPX         816E      
+BEEP          816F      BEEPL         8178      BADHEX        84FD      
+CLEAR10       8029      CALLR         8224      CHIP8         8610      
+DISP          8153      DISP1         8167      DISPLAY       81C6      
+DISPLAY1      81CC      DISMEMX       81DC      DISMEM        81DD      
+DISMEM1       81EA      DUMP          8362      DNEXTPAGE     836D      
+DNEXTLINE     8373      DNEXTCHAR     8381      ELFSTART      8200      
+ENTER         83B2      ENTERLOOP1    83BE      ENTERLOOP2    83CE      
+E_CTRL        83EE      EXECUTE       84B8      GETADDR       806F      
+GETKEY        8195      GETBYTE       81BA      GETHEXFILE    83FD      
+GHWAIT        8402      GHDOLINE      8407      GHLOOP        841D      
+GHEND         8437      GOODALPHA     84F3      GOODNUMB      84F7      
+GOOD          84F9      HERE1         8003      HERE2         8051      
+HEXOUT        84AF      HEXINP        84B3      ISRAM         8022      
+INDEX         8100      INTRET0       8143      INTRET1       8144      
+INT           8146      INPUTADDRESS  844A      INPUTBYTE     846C      
+INPUTBRET     847D      INPUTHEX      847E      IH_CTRL_CHAR  8489      
+ISHEX         84E3      KEY           8194      KEYN          8198      
+KEYFOUND      81A1      LBR_EXECUTE   835F      MONITOR       8028      
+MREAD         80EF      MWRITE        80F4      MAINLOOP      8303      
+NOTRAM        8012      NEWLINE       84DC      PGMTABLE      8504      
+PINBALL       88C0      RETNR         8236      RXCHAR        826C      
+RXCW          8271      RXCLOOP       827A      RXCRET        828C      
+RXQBYTE       8297      RXQ2          82A0      ROMLOAD       82D0      
+RLOOP1        82EA      RLOOP         82FA      REDON         83A3      
+SAVEREG       803E      SETQ          8176      SPACES        84A5      
+STARSHIP      8510      SUMFUN        8810      TWRITE        8097      
+TWRITE1       809E      TWRITE2       80AD      TREAD6        80BD      
+TREAD         80C2      TREAD1        80C5      TREAD2        80C8      
+TREAD5        80CF      TREAD3        80D6      TREAD4        80E3      
+TAPEINX       8182      TAPEIN        8183      TAPEIN1       8187      
+TAPEIN2       818F      TXCHAR        8245      TXCLOOP       824C      
+TXCRET        825E      TXBYTE        82B6      TXHEX         82C2      
+TXNUMB        82CA      TXMSG         84D3      TXMLP         84D4      
+TXMSGRET      84DA      USCORE        848E      USLOOP1       848F      
+USLOOP2       8499      XVIPROM       82EF      
+
+tasm: Number of errors = 0
