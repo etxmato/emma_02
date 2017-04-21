@@ -7,25 +7,25 @@ The Emma 02 emulator runs on Windows 2000, XP, Vista, Windows 7, Mac OS X, Linux
 
 The Emma 02 emulator is currently emulating the following computers:
 
-COMX-35
-Cosmac Elf 2000
-Cosmac VIP
-Cosmac VIP II
-Cosmicos
-Cosmac Elf
-Netronics Elf II
-Quest Super Elf
-Membership Card
-VELF
-RCA Studio II
-Visicom COM-100
-Victoy MPT-02
-Cidelsa
-Telmac TMC-600
-Telmac 1800
-Telmac 2000
-Pecom 32 and 64
-ETI 660
+COMX-35<br>
+Cosmac Elf 2000<br>
+Cosmac VIP<br>
+Cosmac VIP II<br>
+Cosmicos<br>
+Cosmac Elf<br>
+Netronics Elf II<br>
+Quest Super Elf<br>
+Membership Card<br>
+VELF<br>
+RCA Studio II<br>
+Visicom COM-100<br>
+Victoy MPT-02<br>
+Cidelsa<br>
+Telmac TMC-600<br>
+Telmac 1800<br>
+Telmac 2000<br>
+Pecom 32 and 64<br>
+ETI 660<br>
 
 For detailed information, documentation and software about the COMX-35 please see our COMX Club pages.
 
