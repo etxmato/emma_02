@@ -342,7 +342,7 @@ C_DEPS += \
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D__WXGTK__ -D_REENTRANT -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -I/usr/include/SDL -O0 -g3 -Wall -c -fmessage-length=0 `wx-config --cxxflags` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -D__WXGTK__ -D_REENTRANT -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -I/usr/include/SDL -I../images -O0 -g3 -Wall -c -fmessage-length=0 `wx-config --cxxflags` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
