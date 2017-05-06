@@ -11,11 +11,8 @@
 		991199441E92ECC30074ADAA /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
-		994ADAF81EBE5DB900E8820B /* wxdebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 994ADAF71EBE5DB900E8820B /* wxdebug.xcconfig */; };
-		994ADAFA1EBE5DC900E8820B /* wxrelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 994ADAF91EBE5DC900E8820B /* wxrelease.xcconfig */; };
 		994ADAFE1EBE61CE00E8820B /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 994ADAFD1EBE61CE00E8820B /* libcurl.dylib */; };
 		9958AC121A6BBC2B00F13925 /* libwxcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9958AC111A6BBC2B00F13925 /* libwxcurl.a */; };
-		996B973A1B24116B009827BF /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896D1C3B16D10061426E /* menuVelf.xrc */; };
 		997189701C3B19BC0061426E /* menuVip.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896F1C3B19BC0061426E /* menuVip.xrc */; };
@@ -381,7 +378,7 @@
 		99792DFD1B88FF580044FDBB /* ports.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ports.xrc; sourceTree = "<group>"; };
 		99792DFE1B88FF580044FDBB /* sb.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sb.xrc; sourceTree = "<group>"; };
 		99792DFF1B88FF580044FDBB /* vt.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt.xrc; sourceTree = "<group>"; };
-		9999EAC41CBA8B8800A50336 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		9999EAC41CBA8B8800A50336 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
 		999CFEDB1DCD33070094BEC8 /* guims2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guims2000.cpp; path = src/guims2000.cpp; sourceTree = "<group>"; };
 		999CFEDC1DCD33070094BEC8 /* guims2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guims2000.h; path = src/guims2000.h; sourceTree = "<group>"; };
 		99A502CA1E959040004218C8 /* splash.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash.xrc; sourceTree = "<group>"; };
@@ -775,11 +772,9 @@
 				99792DF11B88FF340044FDBB /* functionkey.xrc in Resources */,
 				99792E0B1B88FF590044FDBB /* vt.xrc in Resources */,
 				99792E001B88FF580044FDBB /* menu_Cas_Mem.xrc in Resources */,
-				994ADAFA1EBE5DC900E8820B /* wxrelease.xcconfig in Resources */,
 				99792DE51B88A4100044FDBB /* cassette.xrc in Resources */,
 				99F3746B1CADBB93000DA615 /* copyright.rtf in Resources */,
 				99792DF21B88FF340044FDBB /* keymap_tmc.xrc in Resources */,
-				996B973A1B24116B009827BF /* data in Resources */,
 				99792E031B88FF580044FDBB /* menuElf.xrc in Resources */,
 				99792DF31B88FF340044FDBB /* keymap.xrc in Resources */,
 				99792E071B88FF590044FDBB /* menuTmc600.xrc in Resources */,
@@ -789,7 +784,6 @@
 				99792DE11B88A3B10044FDBB /* about.xrc in Resources */,
 				99792DEB1B88FEFD0044FDBB /* datadir.xrc in Resources */,
 				99792E021B88FF580044FDBB /* menuCosmicos.xrc in Resources */,
-				994ADAF81EBE5DB900E8820B /* wxdebug.xcconfig in Resources */,
 				99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */,
 				99F374741CADBBC2000DA615 /* README-SDL.txt in Resources */,
 				99792DED1B88FF1E0044FDBB /* eprom.xrc in Resources */,
