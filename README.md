@@ -1,5 +1,5 @@
 # emma_02
-EMMA 02 - COSMAC multi-system emulator
+Emma 02 - RCA CDP 1802 Multi-system Emulator
 
 This repo houses the development code for Marcel van Tongeren's most excellent 'Emma 02 Emulator'. He has worked on this emulator since 2007. The emulation core was based on the RCS Elf Emulator copyright (C) 2006 by Michael H Riley.
 
