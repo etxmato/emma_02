@@ -1541,7 +1541,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
 	eventNumber_ = 0;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__) || defined(__WXMAC__)
 	wxString helpFile = applicationDirectory_ + "emma_02.htb";
 #else
 	wxString helpFile = applicationDirectory_ + "Emma 02.htb";
