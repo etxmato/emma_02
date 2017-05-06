@@ -934,7 +934,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
         workingDir_ = wxStandardPaths::Get().GetDataDir();
     wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
     wxString pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
-    dataDir_ = regPointer->Read("/DataDir", wxStandardPaths::Get().GetDocumentsDir() + pathSeparator_ + "emma_02" + pathSeparator_);
+    dataDir_ = regPointer->Read("/DataDir", wxStandardPaths::Get().GetDocumentsDir() + pathSeparator_ + "emma_02" + pathSeparator_ + "data" + pathSeparator_);
     if (!wxDir::Exists(dataDir_))
         wxDir::Make(dataDir_);
     wxString applicationDirectory_;
