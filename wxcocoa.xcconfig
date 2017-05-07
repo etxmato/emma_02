@@ -1,7 +1,7 @@
 WXTOOLKIT = cocoa
 WXTOOLKITUPPER = COCOA
 
-#include "/Users/etxmato/Documents/wxWidgets-3.0.2/build/osx/wx.xcconfig"
+#include "../wxWidgets/build/osx/wx.xcconfig"
 
 MACOSX_DEPLOYMENT_TARGET = 10.5
 
