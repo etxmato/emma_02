@@ -8,7 +8,7 @@
  *******************************************************************
 */ 
 
-//Linux commit test
+//OS X commit test
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__
