@@ -339,13 +339,13 @@ void i8275::cRegWrite(Byte value)
 		dmaCycleValue8275_ = -1;
 		status_ &= 0xfb;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
 		setColour(backGround_);
 		drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -418,13 +418,13 @@ void i8275::cycle8275()
 			}
 			reBlit_ = true;
 			reDraw_ = false;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
 			setColour(backGround_);
 			drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -664,13 +664,13 @@ void i8275::copyScreen()
 void i8275::drawScreen()
 {
 	int addr = 0;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
 	setColour(backGround_);
 	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -712,11 +712,11 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 {
 	int line_byte, line, drawLine;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
-#if defined(__WXMAC__) || defined(__linux__)
+#if defined(__WXMAC__)// || defined(__linux__)
 	reBlit_ = true;
 #else
 	if (zoomFraction_)
@@ -753,7 +753,7 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 			setColour(FOREGROUND8275);
 			drawRectangle(x+offsetX_, y+offsetY_+(underLinePlacement_-2), I8275CHARW, videoM_);
 		}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		if (!wxIsMainThread())
 			wxMutexGuiLeave();
 #endif
@@ -791,7 +791,7 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 
 	if (blinkScr_[addr] && blinkOn_)
 	{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		if (!wxIsMainThread())
 			wxMutexGuiLeave();
 #endif
@@ -833,7 +833,7 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 			line = 0;
 	}
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif

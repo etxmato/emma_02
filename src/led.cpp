@@ -123,10 +123,10 @@ Led::~Led()
 
 void Led::onPaint(wxDC& dc)
 {
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
+//#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
+//#endif
 	if (ledType_ == MEMBERLEDGREEN)
 	{
 		switch (status_)
@@ -152,10 +152,10 @@ void Led::onPaint(wxDC& dc)
 		else
 			dc.DrawBitmap(*ledOffBitmapPointer, x_, y_, true);
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
+//#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
+//#endif
 }
 
 void Led::setStatus(wxDC& dc, int status)
