@@ -521,13 +521,21 @@ int main(int argc, char *argv[])
     if (!XInitThreads())
         return false;
 
+    wxDISABLE_DEBUG_SUPPORT();                                            \
+                                                                          \
+    return wxEntry(argc, argv);                                           \
     //wxApp::SetInstance( new MyWxApp() );
-    wxEntryStart( argc, argv );
-    wxTheApp->OnInit();
+   //if (wxEntryStart( argc, argv ))
+   // {
+/*    	wxEntryStart( argc, argv );
+    	wxTheApp->OnInit();
     wxTheApp->OnRun();
     wxTheApp->OnExit();
     wxEntryCleanup();
-    return 0;
+    return 0;*/
+  //  }
+   // else
+    //	return false;
 }
 #else
 IMPLEMENT_APP(Emu1802)
