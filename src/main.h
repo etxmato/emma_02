@@ -187,6 +187,7 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
 #define OS_LINUX_OPENSUSE_KDE 20
 #define OS_LINUX_OPENSUSE_GNOME 21
 #define OS_MAC 30
+#define OS_LINUX_FEDORA 40
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -789,6 +790,7 @@ class Emu1802: public wxApp
     virtual void OnInitCmdLine(wxCmdLineParser& parser);
     virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
 	void getSoftware(wxString computer, wxString type, wxString software);
+	void checkXrc(wxString xrcFile);
 
 private:
 	wxConfigBase *regPointer;

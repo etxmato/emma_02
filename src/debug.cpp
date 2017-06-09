@@ -7961,6 +7961,7 @@ void DebugWindow::directAss()
         case OS_LINUX_OPENSUSE_KDE:
         case OS_LINUX_UBUNTU_11_04:
         case OS_LINUX_UBUNTU_11_10:
+        case OS_LINUX_FEDORA:
             dcAss.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
@@ -12673,6 +12674,7 @@ void DebugWindow::paintDebugBackground()
         case OS_LINUX_OPENSUSE_KDE:
         case OS_LINUX_UBUNTU_11_04:
         case OS_LINUX_UBUNTU_11_10:
+        case OS_LINUX_FEDORA:
             dcLine.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
@@ -12705,6 +12707,7 @@ void DebugWindow::paintDebugBackground()
         case OS_LINUX_OPENSUSE_KDE:
         case OS_LINUX_UBUNTU_11_04:
         case OS_LINUX_UBUNTU_11_10:
+        case OS_LINUX_FEDORA:
 //            dcDebugBackground.SetPen(wxPen(wxColour(211, 211, 211)));
 //            dcDebugBackground.SetBrush(wxBrush(wxColour(211, 211, 211)));
             dcDebugBackground.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));

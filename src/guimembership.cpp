@@ -346,18 +346,21 @@ void GuiMembership::setBaudChoiceMembership()
         baudChoiceR[MEMBER]->Destroy();
     }
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	int offSetX = 13;
-	int offSetY = 48;
-	int choiseOffSetY = 45;
+	int offSetY = 68;
+	int choiseOffSetY = 65;
+	int height = -1;
 #elif defined(__WXMAC__)
 	int offSetX = 20;
 	int offSetY = 52;
 	int choiseOffSetY = 50;
+	int height = 23;
 #else
 	int offSetX = 9;
 	int offSetY = 47;
 	int choiseOffSetY = 47;
+	int height = 23;
 #endif
 
     choices[0] = "9600";
@@ -370,10 +373,10 @@ void GuiMembership::setBaudChoiceMembership()
     choices[7] = "600";
     choices[8] = "300";
     baudTextT[MEMBER] = new wxStaticText(XRCCTRL(*this, "PanelMembership", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+4+offSetY));
-    baudChoiceT[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 9, choices);
+    baudChoiceT[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,height), 9, choices);
     baudTextR[MEMBER] = new wxStaticText(XRCCTRL(*this, "PanelMembership", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+4+offSetY));
     baudTextR[MEMBER]->Hide();
-    baudChoiceR[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDR, wxPoint(position_.x+152+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 9, choices);
+    baudChoiceR[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDR, wxPoint(position_.x+152+offSetX,position_.y+choiseOffSetY), wxSize(60,height), 9, choices);
     baudChoiceR[MEMBER]->Hide();
 
     this->Connect(GUI_MEMBER_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMembership::onMembershipBaudT) );

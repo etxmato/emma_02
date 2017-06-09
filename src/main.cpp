@@ -521,21 +521,16 @@ int main(int argc, char *argv[])
     if (!XInitThreads())
         return false;
 
-    wxDISABLE_DEBUG_SUPPORT();                                            \
-                                                                          \
-    return wxEntry(argc, argv);                                           \
-    //wxApp::SetInstance( new MyWxApp() );
-   //if (wxEntryStart( argc, argv ))
-   // {
-/*    	wxEntryStart( argc, argv );
-    	wxTheApp->OnInit();
-    wxTheApp->OnRun();
-    wxTheApp->OnExit();
-    wxEntryCleanup();
-    return 0;*/
-  //  }
-   // else
-    //	return false;
+    wxDISABLE_DEBUG_SUPPORT();
+    return wxEntry(argc, argv);
+
+//  code as suggested initially by Mark but replaced by two lines above as on Elf2K exit with assert
+//  wxEntryStart( argc, argv );
+//  wxTheApp->OnInit();
+//  wxTheApp->OnRun();
+//  wxTheApp->OnExit();
+//  wxEntryCleanup();
+//  return 0;
 }
 #else
 IMPLEMENT_APP(Emu1802)
@@ -571,13 +566,12 @@ WindowInfo getWinSizeInfo()
 
 	wxGetOsVersion(&major, &minor);
 
-#if wxCHECK_VERSION(2, 9, 0)
 	wxLinuxDistributionInfo distInfo;
 
 	distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
+
 	if (distInfo.Id == "Ubuntu")
 	{
-#endif
 		if (major > 2)
 		{	// Ubuntu 11.10
 			returnValue.mainwY = 460;
@@ -614,17 +608,33 @@ WindowInfo getWinSizeInfo()
 			returnValue.ChoiceClockX = 334;
 			returnValue.operatingSystem = OS_LINUX_UBUNTU_11_04;
 		}
-#if wxCHECK_VERSION(2, 9, 0)
 	}
 	else
 	{
+		returnValue.xBorder = 2;
+		returnValue.yBorder = 30;
+		returnValue.xBorder2 = 1;
+		returnValue.yBorder2 = 60;
+		returnValue.mainwX = 572;
+		returnValue.mainwY = 640;
+		returnValue.xPrint = 2;
+		returnValue.RegularClockY = 455;
+		returnValue.RegularClockX = 333;
+		returnValue.ChoiceClockY = 414;
+		returnValue.ChoiceClockX = 334;
+		returnValue.operatingSystem = OS_LINUX_FEDORA;
+
+		// GUI changes:
+		// <size>172,-1</size> to <size>172,25</size>
+		// <size>146,-1</size> to <size>146,25</size>
+		// <size>73,-1</size> to <size>73,25</size>
 		wxString desktop = wxPlatformInfo::Get().GetDesktopEnvironment();
 		if (desktop == "KDE")
 		{ // openSUSE KDE
-			returnValue.xBorder = 6;	
-			returnValue.yBorder = 27;	
-			returnValue.xBorder2 = 6;	
-			returnValue.yBorder2 = 54;	
+			returnValue.xBorder = 6;
+			returnValue.yBorder = 27;
+			returnValue.xBorder2 = 6;
+			returnValue.yBorder2 = 54;
 			returnValue.mainwY = 470;
 			returnValue.mainwX = 551;
 			returnValue.xPrint = 21;
@@ -634,10 +644,10 @@ WindowInfo getWinSizeInfo()
 			returnValue.ChoiceClockX = 334;
 			returnValue.operatingSystem = OS_LINUX_OPENSUSE_KDE;
 		}
-		else
+		if (desktop == "GNOME")
 		{ // openSUSE GNOME
 			returnValue.xBorder = 0;
-			returnValue.yBorder = 0;	
+			returnValue.yBorder = 0;
 			returnValue.xBorder2 = 2;
 			returnValue.yBorder2 = 36;
 			returnValue.mainwY = 510;
@@ -650,7 +660,6 @@ WindowInfo getWinSizeInfo()
 			returnValue.operatingSystem = OS_LINUX_OPENSUSE_GNOME;
 		}
 	}
-#endif
 #endif
 
 #if defined (__WXMAC__)
@@ -827,6 +836,7 @@ bool Emu1802::OnInit()
 #endif
 
 	xrcFile = applicationDirectory_ + "main.xrc";
+//	checkXrc(xrcFile);
 #if wxCHECK_VERSION(2, 9, 0)
 	if (!wxXmlResource::Get()->LoadFile(xrcFile))
 #else
@@ -1511,6 +1521,42 @@ void Emu1802::getSoftware(wxString computer, wxString type, wxString software)
 	}
 }
 
+/* started some conversion routine but first want to check GUI layout when using GTK3
+void checkXrc(wxString xrcFile)
+{
+	wxTextFile xrc;
+
+#if defined(__linux__)
+	wxString os = "<!-- Linux -->";
+	wxString replaceString = "8";
+#else
+	wxString os = "<!-- Windows -->";
+	wxString replaceString = "-1";
+#endif
+
+	wxString line;
+
+	if (xrc.Open(xrcFile))
+	{
+		line = xrc.GetFirstLine();
+
+		if (line != os)
+		{
+			xrc.InsertLine(os, 0);
+
+			for (line = xrc.GetFirstLine(); !xrc.Eof(); line = xrc.GetNextLine())
+			{
+				if (line.Find("<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>"))
+				{
+
+				}
+			}
+			xrc.Write();
+		}
+		xrc.Close();
+	}
+}*/
+
 Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxConfigBase *regP)
 : DebugWindow(title, pos, size, mode, dataDir)
 {
@@ -2164,11 +2210,18 @@ void Main::initConfig()
 				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 35, windowInfo.RegularClockY), wxSize(45, 21));
 				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.RegularClockX + 81, windowInfo.RegularClockY + 3));
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 109, windowInfo.RegularClockY - 6), wxSize(80, 25));
-#else
+#endif
+#if defined(__WXMSW__)
 				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.RegularClockX, windowInfo.RegularClockY + 3));
 				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 32, windowInfo.RegularClockY), wxSize(45, 23));
 				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.RegularClockX + 81, windowInfo.RegularClockY + 3));
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 109, windowInfo.RegularClockY - 1), wxSize(80, 25));
+#endif
+#if defined(__linux__)
+				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.RegularClockX - 10, windowInfo.RegularClockY + 8));
+				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 32, windowInfo.RegularClockY), wxSize(45, -1));
+				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.RegularClockX + 81, windowInfo.RegularClockY + 8));
+				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 114, windowInfo.RegularClockY - 1), wxSize(80, -1));
 #endif
 				break;
 
@@ -2178,11 +2231,18 @@ void Main::initConfig()
 				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 35, windowInfo.ChoiceClockY), wxSize(45, 21));
 				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.ChoiceClockX + 81, windowInfo.ChoiceClockY + 3));
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 109, windowInfo.ChoiceClockY - 6), wxSize(80, 25));
-#else
+#endif
+#if defined(__WXMSW__)
 				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.ChoiceClockX, windowInfo.ChoiceClockY + 3));
 				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 32, windowInfo.ChoiceClockY), wxSize(45, 23));
 				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.ChoiceClockX + 81, windowInfo.ChoiceClockY + 3));
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 109, windowInfo.ChoiceClockY - 1), wxSize(80, 25));
+#endif
+#if defined(__linux__)
+				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.ChoiceClockX - 11, windowInfo.ChoiceClockY + 8));
+				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 31, windowInfo.ChoiceClockY), wxSize(45, -1));
+				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.ChoiceClockX + 80, windowInfo.ChoiceClockY + 8));
+				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 113, windowInfo.ChoiceClockY - 1), wxSize(80, -1));
 #endif
 				break;
 			}
@@ -2423,7 +2483,7 @@ void Main::readConfig()
 		eventChangeNoteBook();
 		
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-		if (windowInfo.operatingSystem == OS_LINUX_OPENSUSE_GNOME || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04)
+		if (windowInfo.operatingSystem == OS_LINUX_OPENSUSE_GNOME || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_FEDORA)
 		{
 			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 6, windowInfo.mainwY - windowInfo.yBorder);
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 6, windowInfo.mainwY - windowInfo.yBorder);
