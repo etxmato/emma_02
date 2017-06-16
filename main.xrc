@@ -1128,11 +1128,24 @@
                                                                 </content>
                                                             </object>
                                                         </object>
-                                                        <object class="sizeritem">
+                                                        <object platform="win" class="sizeritem">
                                                             <flag>wxALIGN_BOTTOM</flag>
                                                             <border>2</border>
-                                                            <object class="wxButton" name="ColoursComx">
+                                                            <object platform="win" class="wxButton" name="ColoursComx">
                                                                 <size>80,25</size>
+                                                                <tooltip>Open video setup window</tooltip>
+                                                                <font>
+                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                    <size>-1</size>
+                                                                </font>
+                                                                <label>VideoSetup</label>
+                                                            </object>
+                                                        </object>
+                                                        <object platform="mac|unix" class="sizeritem">
+                                                            <flag>wxALIGN_BOTTOM</flag>
+                                                            <border>2</border>
+                                                            <object platform="mac|unix" class="wxButton" name="ColoursComx">
+                                                                <size>80,-1</size>
                                                                 <tooltip>Open video setup window</tooltip>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1145,7 +1158,6 @@
                                                             <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                             <border>4</border>
                                                             <object class="wxCheckBox" name="LogComx">
-                                                                <size>-1,24</size>
                                                                 <tooltip>Enable video output log</tooltip>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1217,6 +1229,22 @@
                                                                     <size>-1</size>
                                                                 </font>
                                                                 <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                <value>0</value>
+                                                                <min>0</min>
+                                                                <max>100</max>
+                                                            </object>
+                                                        </object>
+                                                        <object platform="unix" class="sizeritem">
+                                                            <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                            <border>5</border>
+                                                            <object platform="unix" class="wxSpinButton" name="ZoomSpinComx">
+                                                                <size>-1,23</size>
+                                                                <tooltip>Select COMX-35 screen size</tooltip>
+                                                                <font>
+                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                    <size>-1</size>
+                                                                </font>
+                                                                <style>wxSP_HORIZONTAL|wxSP_WRAP</style>
                                                                 <value>0</value>
                                                                 <min>0</min>
                                                                 <max>100</max>
@@ -1355,11 +1383,24 @@
                                                                 <label>F&amp;&amp;M EPROM:</label>
                                                             </object>
                                                         </object>
-                                                        <object class="sizeritem">
+                                                        <object platform="win" class="sizeritem">
                                                             <flag>wxALIGN_BOTTOM</flag>
                                                             <border>2</border>
-                                                            <object class="wxButton" name="EpromComx">
+                                                            <object platform="win" class="wxButton" name="EpromComx">
                                                                 <size>50,25</size>
+                                                                <tooltip>Define file names for F&amp;M EPROM switchboard</tooltip>
+                                                                <font>
+                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                    <size>-1</size>
+                                                                </font>
+                                                                <label>Setup</label>
+                                                            </object>
+                                                        </object>
+                                                        <object platform="mac|unix" class="sizeritem">
+                                                            <flag>wxALIGN_BOTTOM</flag>
+                                                            <border>2</border>
+                                                            <object platform="mac|unix" class="wxButton" name="EpromComx">
+                                                                <size>50,-1</size>
                                                                 <tooltip>Define file names for F&amp;M EPROM switchboard</tooltip>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1380,11 +1421,24 @@
                                                                 <checked>0</checked>
                                                             </object>
                                                         </object>
-                                                        <object class="sizeritem">
+                                                        <object platform="win" class="sizeritem">
                                                             <flag>wxALIGN_BOTTOM</flag>
                                                             <border>2</border>
-                                                            <object class="wxButton" name="SbSetupComx">
+                                                            <object platform="win" class="wxButton" name="SbSetupComx">
                                                                 <size>50,25</size>
+                                                                <tooltip>Define settings for Super Board</tooltip>
+                                                                <font>
+                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                    <size>-1</size>
+                                                                </font>
+                                                                <label>Setup</label>
+                                                            </object>
+                                                        </object>
+                                                        <object platform="mac|unix" class="sizeritem">
+                                                            <flag>wxALIGN_BOTTOM</flag>
+                                                            <border>2</border>
+                                                            <object platform="mac|unix" class="wxButton" name="SbSetupComx">
+                                                                <size>50,-1</size>
                                                                 <tooltip>Define settings for Super Board</tooltip>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1470,10 +1524,10 @@
                                                                             <border>0</border>
                                                                             <object class="wxBoxSizer">
                                                                                 <orient>wxHORIZONTAL</orient>
-                                                                                <object class="sizeritem">
+                                                                                <object platform="win" class="sizeritem">
                                                                                     <flag>wxALIGN_TOP|wxTOP</flag>
                                                                                     <border>1</border>
-                                                                                    <object class="wxButton" name="LoadButtonComx">
+                                                                                    <object platform="win" class="wxButton" name="LoadButtonComx">
                                                                                         <size>74,23</size>
                                                                                         <tooltip>Load .comx file into COMX emulator memory</tooltip>
                                                                                         <font>
@@ -1484,11 +1538,39 @@
                                                                                         <label>LOAD</label>
                                                                                     </object>
                                                                                 </object>
-                                                                                <object class="sizeritem">
+                                                                                <object platform="mac|unix" class="sizeritem">
                                                                                     <flag>wxALIGN_TOP|wxTOP</flag>
                                                                                     <border>1</border>
-                                                                                    <object class="wxButton" name="RunButtonComx">
+                                                                                    <object platform="mac|unix" class="wxButton" name="LoadButtonComx">
+                                                                                        <size>74,-1</size>
+                                                                                        <tooltip>Load .comx file into COMX emulator memory</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                        </font>
+                                                                                        <enabled>0</enabled>
+                                                                                        <label>LOAD</label>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object platform="win" class="sizeritem">
+                                                                                    <flag>wxALIGN_TOP|wxTOP</flag>
+                                                                                    <border>1</border>
+                                                                                    <object platform="win" class="wxButton" name="RunButtonComx">
                                                                                         <size>74,23</size>
+                                                                                        <tooltip>Load .comx file into COMX emulator memory and RUN software</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                        </font>
+                                                                                        <enabled>0</enabled>
+                                                                                        <label>RUN</label>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object platform="mac|unix" class="sizeritem">
+                                                                                    <flag>wxALIGN_TOP|wxTOP</flag>
+                                                                                    <border>1</border>
+                                                                                    <object platform="mac|unix" class="wxButton" name="RunButtonComx">
+                                                                                        <size>74,-1</size>
                                                                                         <tooltip>Load .comx file into COMX emulator memory and RUN software</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1505,10 +1587,10 @@
                                                                             <border>0</border>
                                                                             <object class="wxBoxSizer">
                                                                                 <orient>wxHORIZONTAL</orient>
-                                                                                <object class="sizeritem">
+                                                                                <object platform="win" class="sizeritem">
                                                                                     <flag>wxALIGN_TOP|wxTOP</flag>
                                                                                     <border>1</border>
-                                                                                    <object class="wxButton" name="SaveButtonComx">
+                                                                                    <object platform="win" class="wxButton" name="SaveButtonComx">
                                                                                         <size>74,23</size>
                                                                                         <tooltip>Save COMX emulator memory to .comx file</tooltip>
                                                                                         <font>
@@ -1519,11 +1601,39 @@
                                                                                         <label>SAVE</label>
                                                                                     </object>
                                                                                 </object>
-                                                                                <object class="sizeritem">
+                                                                                <object platform="mac|unix" class="sizeritem">
                                                                                     <flag>wxALIGN_TOP|wxTOP</flag>
                                                                                     <border>1</border>
-                                                                                    <object class="wxButton" name="DsaveButtonComx">
+                                                                                    <object platform="mac|unix" class="wxButton" name="SaveButtonComx">
+                                                                                        <size>74,-1</size>
+                                                                                        <tooltip>Save COMX emulator memory to .comx file</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                        </font>
+                                                                                        <enabled>0</enabled>
+                                                                                        <label>SAVE</label>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object platform="win" class="sizeritem">
+                                                                                    <flag>wxALIGN_TOP|wxTOP</flag>
+                                                                                    <border>1</border>
+                                                                                    <object platform="win" class="wxButton" name="DsaveButtonComx">
                                                                                         <size>74,23</size>
+                                                                                        <tooltip>Save COMX emulator data memory to .comx file</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                        </font>
+                                                                                        <enabled>0</enabled>
+                                                                                        <label>Data SAVE</label>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object platform="mac|unix" class="sizeritem">
+                                                                                    <flag>wxALIGN_TOP|wxTOP</flag>
+                                                                                    <border>1</border>
+                                                                                    <object platform="mac|unix" class="wxButton" name="DsaveButtonComx">
+                                                                                        <size>74,-1</size>
                                                                                         <tooltip>Save COMX emulator data memory to .comx file</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1560,11 +1670,25 @@
                                                                                         <label>Start</label>
                                                                                     </object>
                                                                                 </object>
-                                                                                <object class="sizeritem">
+                                                                                <object platform="win" class="sizeritem">
                                                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
                                                                                     <border>1</border>
-                                                                                    <object class="wxTextCtrl" name="SaveStartComx" subclass="HexEdit">
+                                                                                    <object platform="win" class="wxTextCtrl" name="SaveStartComx" subclass="HexEdit">
                                                                                         <size>40,21</size>
+                                                                                        <tooltip>Specify machine code start address in hexadecimal</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                        </font>
+                                                                                        <enabled>0</enabled>
+                                                                                        <maxlength>4</maxlength>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object platform="mac|unix" class="sizeritem">
+                                                                                    <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
+                                                                                    <border>1</border>
+                                                                                    <object platform="mac|unix" class="wxTextCtrl" name="SaveStartComx" subclass="HexEdit">
+                                                                                        <size>40,-1</size>
                                                                                         <tooltip>Specify machine code start address in hexadecimal</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1594,11 +1718,25 @@
                                                                                         <label>End</label>
                                                                                     </object>
                                                                                 </object>
-                                                                                <object class="sizeritem">
+                                                                                <object platform="win" class="sizeritem">
                                                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
                                                                                     <border>1</border>
-                                                                                    <object class="wxTextCtrl" name="SaveEndComx" subclass="HexEdit">
+                                                                                    <object platform="win" class="wxTextCtrl" name="SaveEndComx" subclass="HexEdit">
                                                                                         <size>40,21</size>
+                                                                                        <tooltip>Specify machine code end address in hexadecimal</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                        </font>
+                                                                                        <enabled>0</enabled>
+                                                                                        <maxlength>4</maxlength>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object platform="mac|unix" class="sizeritem">
+                                                                                    <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                                                                    <border>1</border>
+                                                                                    <object platform="mac|unix" class="wxTextCtrl" name="SaveEndComx" subclass="HexEdit">
+                                                                                        <size>40,-1</size>
                                                                                         <tooltip>Specify machine code end address in hexadecimal</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1628,11 +1766,25 @@
                                                                                         <label>Exec</label>
                                                                                     </object>
                                                                                 </object>
-                                                                                <object class="sizeritem">
+                                                                                <object platform="win" class="sizeritem">
                                                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
                                                                                     <border>1</border>
-                                                                                    <object class="wxTextCtrl" name="SaveExecComx" subclass="HexEdit">
+                                                                                    <object platform="win" class="wxTextCtrl" name="SaveExecComx" subclass="HexEdit">
                                                                                         <size>40,21</size>
+                                                                                        <tooltip>Specify machine code execution address in hexadecimal</tooltip>
+                                                                                        <font>
+                                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                            <size>-1</size>
+                                                                                        </font>
+                                                                                        <enabled>0</enabled>
+                                                                                        <maxlength>4</maxlength>
+                                                                                    </object>
+                                                                                </object>
+                                                                                <object platform="mac|unix" class="sizeritem">
+                                                                                    <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
+                                                                                    <border>1</border>
+                                                                                    <object platform="mac|unix" class="wxTextCtrl" name="SaveExecComx" subclass="HexEdit">
+                                                                                        <size>40,-1</size>
                                                                                         <tooltip>Specify machine code execution address in hexadecimal</tooltip>
                                                                                         <font>
                                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
