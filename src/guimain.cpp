@@ -780,10 +780,10 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
 		case VTNONE:
 			if (mode_.gui)
 			{
-				baudChoiceR[elfType]->Enable(false);
-				baudChoiceT[elfType]->Enable(false);
-                baudTextR[elfType]->Enable(false);
-                baudTextT[elfType]->Enable(false);
+				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(false);
+				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(false);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
+                XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(false);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
 				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(false);
@@ -810,10 +810,10 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
 			conf[elfType].vtCharRom_ = "vt52.a.bin";
 			if (mode_.gui)
 			{
-				baudChoiceR[elfType]->Enable(elfConfiguration[elfType].useUart);
-				baudChoiceT[elfType]->Enable(true);
-                baudTextR[elfType]->Enable(elfConfiguration[elfType].useUart);
-                baudTextT[elfType]->Enable(true);
+				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+                XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
 				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(true);
@@ -849,10 +849,10 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
 			conf[elfType].vtCharRom_ = "vt100.bin";
 			if (mode_.gui)
 			{
-				baudChoiceR[elfType]->Enable(elfConfiguration[elfType].useUart);
-				baudChoiceT[elfType]->Enable(true);
-                baudTextR[elfType]->Enable(elfConfiguration[elfType].useUart);
-                baudTextT[elfType]->Enable(true);
+				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+                XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
 				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(true);
@@ -1828,7 +1828,7 @@ void GuiMain::onBaudT(wxCommandEvent&event)
 	if (!elfConfiguration[selectedComputer_].useUart)
 	{
 		elfConfiguration[selectedComputer_].baudR = event.GetSelection();
-		baudChoiceR[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudR);
+		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
 	}
 }
 
@@ -3329,75 +3329,42 @@ ScreenInfo GuiMain::getScreenInfo(int id)
 
 void GuiMain::setBaudChoice(int computerType)
 {
-	wxString choices[16];
-
-    if (position_[computerType].x == 0)
-        position_[computerType] = XRCCTRL(*this, "DP_Button"+computerInfo[computerType].gui, wxButton)->GetPosition();
-
-    if (baudTextT[computerType] != NULL)
-    {
-        baudTextT[computerType]->Destroy();
-        baudChoiceT[computerType]->Destroy();
-        baudTextR[computerType]->Destroy();
-        baudChoiceR[computerType]->Destroy();
-    }
-
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 13;
-	int offSetY = 50;
-	int choiseOffSetY = 47;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 54;
-	int choiseOffSetY = 52;
-#else
-	int offSetX = 9;
-	int offSetY = 49;
-	int choiseOffSetY = 49;
-#endif
-
+ 	wxArrayString choices;
 	if (elfConfiguration[computerType].useUart)
 	{
-		choices[0] = "19200";
-		choices[1] = "9600";
-		choices[2] = "4800";
-		choices[3] = "3600";
-		choices[4] = "2400";
-		choices[5] = "2000";
-		choices[6] = "1800";
-		choices[7] = "1200";
-		choices[8] = "600";
-		choices[9] = "300";
-		choices[10] = "200";
-		choices[11] = "150";
-		choices[12] = "134";
-		choices[13] = "110";
-		choices[14] = "75";
-		choices[15] = "50";
-		baudTextT[computerType] = new wxStaticText(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), wxID_ANY, "T:", wxPoint(position_[computerType].x+64+offSetX,position_[computerType].y+4+offSetY));
-		baudChoiceT[computerType] = new wxChoice(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), GUI_ELF_BAUDT + computerType*2, wxPoint(position_[computerType].x+74+offSetX,position_[computerType].y+choiseOffSetY), wxSize(60,23), 16, choices);
-		baudTextR[computerType] = new wxStaticText(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), wxID_ANY, "R:", wxPoint(position_[computerType].x+136+offSetX,position_[computerType].y+4+offSetY));
-		baudChoiceR[computerType] = new wxChoice(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), GUI_ELF_BAUDR + computerType*2, wxPoint(position_[computerType].x+148+offSetX,position_[computerType].y+choiseOffSetY), wxSize(60,23), 16, choices);
+		choices.Add("19200");
+		choices.Add("9600");
+		choices.Add("4800");
+		choices.Add("3600");
+		choices.Add("2400");
+		choices.Add("2000");
+		choices.Add("1800");
+		choices.Add("1200");
+		choices.Add("600");
+		choices.Add("300");
+		choices.Add("200");
+		choices.Add("150");
+		choices.Add("134");
+		choices.Add("110");
+		choices.Add("75");
+		choices.Add("50");
+		XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(true);
+		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(true);
 	}
 	else
 	{
-		choices[0] = "3600";
-		choices[1] = "2400";
-		choices[2] = "2000";
-		choices[3] = "1800";
-		choices[4] = "1200";
-		choices[5] = "600";
-		choices[6] = "300";
-		baudTextT[computerType] = new wxStaticText(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), wxID_ANY, "T/R:", wxPoint(position_[computerType].x+62+offSetX,position_[computerType].y+4+offSetY));
-		baudChoiceT[computerType] = new wxChoice(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), GUI_ELF_BAUDT + computerType*2, wxPoint(position_[computerType].x+84+offSetX,position_[computerType].y+choiseOffSetY), wxSize(60,23), 7, choices);
-		baudTextR[computerType] = new wxStaticText(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), wxID_ANY, "R:", wxPoint(position_[computerType].x+142+offSetX,position_[computerType].y+4+offSetY));
-        baudTextR[computerType]->Hide();
-		baudChoiceR[computerType] = new wxChoice(XRCCTRL(*this, "Panel"+computerInfo[computerType].gui, wxPanel), GUI_ELF_BAUDR + computerType*2, wxPoint(position_[computerType].x+152+offSetX,position_[computerType].y+choiseOffSetY), wxSize(60,23), 7, choices);
-		baudChoiceR[computerType]->Hide();
+		choices.Add("3600");
+		choices.Add("2400");
+		choices.Add("2000");
+		choices.Add("1800");
+		choices.Add("1200");
+		choices.Add("600");
+		choices.Add("300");
+		XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(false);
+		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(false);
 	}
-
-	this->Connect(GUI_ELF_BAUDR + computerType*2, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMain::onBaudR) );
-	this->Connect(GUI_ELF_BAUDT + computerType*2, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMain::onBaudT) );
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[computerType].gui, wxChoice)->Set(choices);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Set(choices);
 }
 
 void GuiMain::setBaud(int baudR, int baudT)
@@ -3409,8 +3376,8 @@ void GuiMain::setBaud(int baudR, int baudT)
 		if (baudT > 6)  baudT = 6;
 		baudR = baudT;
 	}
-	baudChoiceR[runningComputer_]->SetSelection(baudR);
-	baudChoiceT[runningComputer_]->SetSelection(baudT);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudR);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
 	elfConfiguration[runningComputer_].baudR = baudR;
 	elfConfiguration[runningComputer_].baudT = baudT;
 }
@@ -3477,17 +3444,6 @@ long GuiMain::getBootAddress(wxString computerTypeStr, int computerType)
 void GuiMain::onChoiceRam(wxCommandEvent&event)
 {
 	conf[selectedComputer_].ramType_ = event.GetSelection();
-}
-
-void GuiMain::deleteBaudChoice(int elfType)
-{
-    if (mode_.gui)
-    {
-        delete baudChoiceR[elfType];
-        delete baudChoiceT[elfType];
-        delete baudTextT[elfType];
-        delete baudTextR[elfType];
-    }
 }
                               
 bool GuiMain::checkWavFile(wxString fileName)

@@ -416,7 +416,6 @@ public:
     int getCpuStartupVideoRam() {return cpuStartupVideoRam_;};
 	bool isComputerRunning() {return computerRunning_;};
     bool useNumPad() {return useNumPad_;};
-    void deleteBaudChoice(int elfType);
     bool checkWavFile(wxString fileName);
 
 	bool showSoundError();
@@ -509,11 +508,6 @@ protected:
 
 	bool computerRunning_;
 
-	wxChoice *baudChoiceR[LAST_ELF_TYPE+1];
-	wxChoice *baudChoiceT[LAST_ELF_TYPE+1];
-	wxStaticText *baudTextR[LAST_ELF_TYPE+1];
-    wxStaticText *baudTextT[LAST_ELF_TYPE+1];
- 
 	wxStaticText *clockText[NO_COMPUTER];
 	FloatEdit *clockTextCtrl[NO_COMPUTER];
 	wxStaticText *mhzText[NO_COMPUTER];

@@ -84,6 +84,9 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_TEXT(XRCID("WavFileMembership"), GuiMain::onCassetteText)
 	EVT_CHECKBOX(XRCID("AutoCasLoadMembership"), GuiMain::onAutoLoad)
 
+    EVT_CHOICE(XRCID("VTBaudTChoiceMembership"), GuiMembership::onMembershipBaudT)
+    EVT_CHOICE(XRCID("VTBaudRChoiceMembership"), GuiMembership::onMembershipBaudR)
+
 END_EVENT_TABLE()
 
 GuiMembership::GuiMembership(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
@@ -188,14 +191,14 @@ void GuiMembership::readMembershipConfig()
 
 		XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].vtType);
 
-		baudChoiceR[MEMBER]->SetSelection(elfConfiguration[MEMBER].baudR);
-		baudChoiceT[MEMBER]->SetSelection(elfConfiguration[MEMBER].baudT);
-		baudTextR[MEMBER]->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-        baudTextT[MEMBER]->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudT);
+		XRCCTRL(*this, "VTBaudRTextMembership", wxStaticText)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
+        XRCCTRL(*this, "VTBaudTTextMembership", wxStaticText)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
         XRCCTRL(*this,"AddressText1Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
-        baudChoiceR[MEMBER]->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-		baudChoiceT[MEMBER]->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+        XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
+		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
 
 		XRCCTRL(*this, "ForceUCMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].forceUpperCase);
 		XRCCTRL(*this, "VtCharRomButtonMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
@@ -308,7 +311,7 @@ void GuiMembership::onMembershipBaudT(wxCommandEvent&event)
 	if (!elfConfiguration[MEMBER].useUart)
 	{
 		elfConfiguration[MEMBER].baudR = event.GetSelection();
-		baudChoiceR[MEMBER]->SetSelection(elfConfiguration[MEMBER].baudR);
+		XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudR);
 	}
 }
 
@@ -333,53 +336,21 @@ void GuiMembership::onMembershipControlWindows(wxCommandEvent&event)
 
 void GuiMembership::setBaudChoiceMembership()
 {
-	wxString choices[16];
-
-    if (position_.x == 0)
-        position_ = XRCCTRL(*this, "ScreenDumpFileButtonMembership", wxButton)->GetPosition();
+	wxArrayString choices;
+    choices.Add("9600");
+    choices.Add("4800");
+    choices.Add("3600");
+    choices.Add("2400");
+    choices.Add("2000");
+    choices.Add("1800");
+    choices.Add("1200");
+    choices.Add("600");
+    choices.Add("300");
     
-    if (baudTextT[MEMBER] != NULL)
-    {
-        baudTextT[MEMBER]->Destroy();
-        baudChoiceT[MEMBER]->Destroy();
-        baudTextR[MEMBER]->Destroy();
-        baudChoiceR[MEMBER]->Destroy();
-    }
-
-#if defined(__linux__)
-	int offSetX = 13;
-	int offSetY = 68;
-	int choiseOffSetY = 65;
-	int height = -1;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 52;
-	int choiseOffSetY = 50;
-	int height = 23;
-#else
-	int offSetX = 9;
-	int offSetY = 47;
-	int choiseOffSetY = 47;
-	int height = 23;
-#endif
-
-    choices[0] = "9600";
-    choices[1] = "4800";
-    choices[2] = "3600";
-    choices[3] = "2400";
-    choices[4] = "2000";
-    choices[5] = "1800";
-    choices[6] = "1200";
-    choices[7] = "600";
-    choices[8] = "300";
-    baudTextT[MEMBER] = new wxStaticText(XRCCTRL(*this, "PanelMembership", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+4+offSetY));
-    baudChoiceT[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,height), 9, choices);
-    baudTextR[MEMBER] = new wxStaticText(XRCCTRL(*this, "PanelMembership", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+4+offSetY));
-    baudTextR[MEMBER]->Hide();
-    baudChoiceR[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDR, wxPoint(position_.x+152+offSetX,position_.y+choiseOffSetY), wxSize(60,height), 9, choices);
-    baudChoiceR[MEMBER]->Hide();
-
-    this->Connect(GUI_MEMBER_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMembership::onMembershipBaudT) );
+    XRCCTRL(*this, "VTBaudRTextMembership", wxStaticText)->Enable(false);
+    XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Enable(false);
+    XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Set(choices);
+    XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Set(choices);
 }
 
 void GuiMembership::onRam(wxCommandEvent&event)

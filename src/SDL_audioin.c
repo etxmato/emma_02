@@ -13,7 +13,11 @@
 /* Used privately;  index of initialized driver, or -1. */
 static int      audioin_init=-1;
 /* Used by other drivers - status of audio input */
+#if defined (__WXMSW__)
+volatile SDL_AudioStatus audioin_status = SDL_AUDIO_STOPPED;
+#else
 volatile SDL_audiostatus audioin_status=SDL_AUDIO_STOPPED;
+#endif
 /* Array of input drivers */
 extern const Sound_InputFunctions *drivers[];
 
@@ -96,11 +100,17 @@ void SDL_QuitAudioIn(void)
   }
   return;
 }
-
+#if defined (__WXMSW__)
+SDL_AudioStatus SDL_GetAudioInStatus(void)
+{
+	return(audioin_status);
+}
+#else
 SDL_audiostatus SDL_GetAudioInStatus(void)
 {
   return(audioin_status);
 }
+#endif
 
 const Sound_InputFunctions *drivers[]=
 {

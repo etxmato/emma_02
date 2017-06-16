@@ -90,6 +90,8 @@ BEGIN_EVENT_TABLE(GuiCosmicos, GuiMicrotutor)
 	EVT_TEXT(XRCID("SaveStartCosmicos"), GuiMain::onSaveStart)
 	EVT_TEXT(XRCID("SaveEndCosmicos"), GuiMain::onSaveEnd)
 
+	EVT_CHOICE(XRCID("VTBaudTChoiceCosmicos"), GuiCosmicos::onCosmicosBaudT)
+
 END_EVENT_TABLE()
 
 GuiCosmicos::GuiCosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
@@ -184,13 +186,12 @@ void GuiCosmicos::readCosmicosConfig()
 
 		XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].vtType);
 
-		baudChoiceT[COSMICOS]->SetSelection(elfConfiguration[COSMICOS].baudT);
-		baudTextR[COSMICOS]->Hide();
-		baudChoiceR[COSMICOS]->Hide();
-		baudTextT[COSMICOS]->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].baudT);
+		XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].baudR);
+		XRCCTRL(*this, "VTBaudTTextCosmicos", wxStaticText)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
         XRCCTRL(*this, "AddressText1Cosmicos",wxStaticText)->Enable(elfConfiguration[COSMICOS].useElfControlWindows);
         XRCCTRL(*this, "AddressText2Cosmicos",wxStaticText)->Enable(elfConfiguration[COSMICOS].useElfControlWindows);
-        baudChoiceT[COSMICOS]->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
+        XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
 
 		XRCCTRL(*this, "ForceUCCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].forceUpperCase);
 		XRCCTRL(*this, "VtCharRomButtonCosmicos", wxButton)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
@@ -320,7 +321,7 @@ void GuiCosmicos::onCosmicosBaudT(wxCommandEvent&event)
 {
 	elfConfiguration[COSMICOS].baudT = event.GetSelection();
 	elfConfiguration[COSMICOS].baudR = event.GetSelection();
-	baudChoiceR[COSMICOS]->SetSelection(elfConfiguration[COSMICOS].baudR);
+	XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].baudR);
 }
 
 void GuiCosmicos::onCosmicosForceUpperCase(wxCommandEvent&event)
@@ -382,11 +383,11 @@ void GuiCosmicos::setCosmicosVideoType(int Selection)
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->Enable(true);
-                baudTextT[COSMICOS]->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
+                XRCCTRL(*this, "VTBaudTTextCosmicos", wxStaticText)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
                 XRCCTRL(*this, "ZoomTextCosmicos", wxStaticText)->Enable(false);
-				baudTextR[COSMICOS]->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
-				baudChoiceR[COSMICOS]->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
-				baudChoiceT[COSMICOS]->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
+				XRCCTRL(*this, "VTBaudRTextCosmicos", wxStaticText)->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
+				XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
+				XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
 				XRCCTRL(*this, "VtSetupCosmicos", wxButton)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
 				XRCCTRL(*this, "ZoomValueCosmicos", wxTextCtrl)->Enable(false);
 				XRCCTRL(*this, "ZoomSpinCosmicos", wxSpinButton)->Enable(false);
@@ -404,10 +405,10 @@ void GuiCosmicos::setCosmicosVideoType(int Selection)
 			{
 				XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->Enable(true);
                 XRCCTRL(*this, "ZoomTextCosmicos", wxStaticText)->Enable(true);
-                baudTextT[COSMICOS]->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
-                baudTextR[COSMICOS]->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
-				baudChoiceR[COSMICOS]->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
-				baudChoiceT[COSMICOS]->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
+                XRCCTRL(*this, "VTBaudTTextCosmicos", wxStaticText)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
+                XRCCTRL(*this, "VTBaudRTextCosmicos", wxStaticText)->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
+				XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Enable((elfConfiguration[COSMICOS].vtType != VTNONE) && elfConfiguration[COSMICOS].useUart);
+				XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
 				XRCCTRL(*this, "VtSetupCosmicos", wxButton)->Enable(elfConfiguration[COSMICOS].vtType != VTNONE);
 				XRCCTRL(*this, "ZoomValueCosmicos", wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "ZoomSpinCosmicos", wxSpinButton)->Enable(true);
@@ -425,47 +426,18 @@ void GuiCosmicos::onCosmicosHex(wxCommandEvent&event)
 
 void GuiCosmicos::setBaudChoiceCosmicos()
 {
-	wxString choices[16];
+	wxArrayString choices;
+	choices.Add("2400");
+	choices.Add("2000");
+	choices.Add("1800");
+	choices.Add("1200");
+	choices.Add("600");
+	choices.Add("300");
 
-    if (position_.x == 0)
-        position_ = XRCCTRL(*this, "CasButtonCosmicos", wxButton)->GetPosition();
-
-    if (baudTextT[COSMICOS] != NULL)
-    {
-        baudTextT[COSMICOS]->Destroy();
-        baudChoiceT[COSMICOS]->Destroy();
-        baudTextR[COSMICOS]->Destroy();
-        baudChoiceR[COSMICOS]->Destroy();
-    }
-
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 18;
-	int offSetY = 48;
-	int choiseOffSetY = 45;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 52;
-	int choiseOffSetY = 50;
-#else
-	int offSetX = 14;
-	int offSetY = 47;
-	int choiseOffSetY = 47;
-#endif
-	
-	choices[0] = "2400";
-	choices[1] = "2000";
-	choices[2] = "1800";
-	choices[3] = "1200";
-	choices[4] = "600";
-	choices[5] = "300";
-    baudTextT[COSMICOS] = new wxStaticText(XRCCTRL(*this, "PanelCosmicos", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+4+offSetY));
-    baudChoiceT[COSMICOS] = new wxChoice(XRCCTRL(*this, "PanelCosmicos", wxPanel), GUI_COSMICOS_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 6, choices);
-	baudTextR[COSMICOS] = new wxStaticText(XRCCTRL(*this, "PanelCosmicos", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+4+offSetY));
-    baudTextR[COSMICOS]->Hide();
-	baudChoiceR[COSMICOS] = new wxChoice(XRCCTRL(*this, "PanelCosmicos", wxPanel), GUI_COSMICOS_BAUDR, wxPoint(position_.x+152+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 6, choices);
-	baudChoiceR[COSMICOS]->Hide();
-
-	this->Connect(GUI_COSMICOS_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiCosmicos::onCosmicosBaudT) );
+	XRCCTRL(*this, "VTBaudRTextCosmicos", wxStaticText)->Enable(false);
+	XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Enable(false);
+	XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Set(choices);
+	XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Set(choices);
 }
 
 void GuiCosmicos::onRam(wxSpinEvent&event)

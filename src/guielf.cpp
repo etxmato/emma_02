@@ -239,6 +239,14 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_BUTTON(XRCID("PrintFileButtonElf"), GuiMain::onPrintFile)
 	EVT_BUTTON(XRCID("PrintFileButtonElfII"), GuiMain::onPrintFile)
 	EVT_BUTTON(XRCID("PrintFileButtonSuperElf"), GuiMain::onPrintFile)
+		
+	EVT_CHOICE(XRCID("VTBaudTChoiceElf"), GuiMain::onBaudT)
+	EVT_CHOICE(XRCID("VTBaudTChoiceElfII"), GuiMain::onBaudT)
+	EVT_CHOICE(XRCID("VTBaudTChoiceSuperElf"), GuiMain::onBaudT)
+
+	EVT_CHOICE(XRCID("VTBaudRChoiceElf"), GuiMain::onBaudR)
+	EVT_CHOICE(XRCID("VTBaudRChoiceElfII"), GuiMain::onBaudR)
+	EVT_CHOICE(XRCID("VTBaudRChoiceSuperElf"), GuiMain::onBaudR)
 
 	EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
 
@@ -503,16 +511,16 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].vtType);
         XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
 
-		baudChoiceR[elfType]->SetSelection(elfConfiguration[elfType].baudR);
-		baudChoiceT[elfType]->SetSelection(elfConfiguration[elfType].baudT);
-		baudChoiceR[elfType]->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
+		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudR);
+		XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudT);
+		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
         XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
         XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-        baudTextR[elfType]->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
-        baudTextT[elfType]->Enable(elfConfiguration[elfType].vtType != VTNONE);
+        XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
+        XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].vtType != VTNONE);
         XRCCTRL(*this,"AddressText1"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
         XRCCTRL(*this,"AddressText2"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
-        baudChoiceT[elfType]->Enable(elfConfiguration[elfType].vtType != VTNONE);
+        XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 
 		XRCCTRL(*this, "VideoType"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].videoMode_);
 		XRCCTRL(*this, "AutoBoot"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].autoBoot);
@@ -1300,8 +1308,8 @@ void GuiElf::setSuperBasicSerial(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1457,8 +1465,8 @@ void GuiElf::setRcaBasicSerial(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1510,8 +1518,8 @@ void GuiElf::setRcaBasicElfOsInstall(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1651,8 +1659,8 @@ void GuiElf::setRomMapperSerial(wxCommandEvent&WXUNUSED(event))
         switchUart();
     }
     configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    baudChoiceR[selectedComputer_]->SetSelection(0);
-    baudChoiceT[selectedComputer_]->SetSelection(0);
+    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+    XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
     elfConfiguration[selectedComputer_].baudR = 0;
     elfConfiguration[selectedComputer_].baudT = 0;
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1708,8 +1716,8 @@ void GuiElf::setTinyBasicSerial(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(6);
-	baudChoiceT[selectedComputer_]->SetSelection(6);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(6);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(6);
 	elfConfiguration[selectedComputer_].baudR = 6;
 	elfConfiguration[selectedComputer_].baudT = 6;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1809,8 +1817,8 @@ void GuiElf::setSuperGoldMonitor(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(1);
-	baudChoiceT[selectedComputer_]->SetSelection(1);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(1);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(1);
 	elfConfiguration[selectedComputer_].baudR = 1;
 	elfConfiguration[selectedComputer_].baudT = 1;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1858,8 +1866,8 @@ void GuiElf::setMonitorBasic(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(1);
-	baudChoiceT[selectedComputer_]->SetSelection(1);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(1);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(1);
 	elfConfiguration[selectedComputer_].baudR = 1;
 	elfConfiguration[selectedComputer_].baudT = 1;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1912,8 +1920,8 @@ void GuiElf::setFigForth(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -1998,8 +2006,8 @@ void GuiElf::setElfOsInstallConfig(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -2038,8 +2046,8 @@ void GuiElf::setElfOsConfig(wxCommandEvent&WXUNUSED(event))
 		switchUart();
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
+	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -2147,8 +2155,8 @@ void GuiElf::setElfOsIoConfig(wxCommandEvent&WXUNUSED(event))
         switchUart();
     }
     configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    baudChoiceR[selectedComputer_]->SetSelection(0);
-    baudChoiceT[selectedComputer_]->SetSelection(0);
+    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
+    XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(0);
     elfConfiguration[selectedComputer_].baudR = 0;
     elfConfiguration[selectedComputer_].baudT = 0;
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
@@ -2723,28 +2731,14 @@ void GuiElf::onUart(wxCommandEvent&WXUNUSED(event))
 
 void GuiElf::switchUart()
 {
-/*	wxStaticText *TextR;
-	TextR = baudTextR[selectedComputer_];
-	wxChoice *baudR;
-	baudR = baudChoiceR[selectedComputer_];
-	wxStaticText *TextT;
-	TextT = baudTextT[selectedComputer_];
-	wxChoice *baudT;
-	baudT = baudChoiceT[selectedComputer_];*/
-	
 	setBaudChoice(selectedComputer_);
-
-/*	delete TextR;
-	delete baudR;
-	delete TextT;
-	delete baudT;*/
 
 	if (elfConfiguration[selectedComputer_].useUart)
 	{
 		elfConfiguration[selectedComputer_].baudR += 3;
 		elfConfiguration[selectedComputer_].baudT += 3;
-		baudChoiceR[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudR);
-		baudChoiceT[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudT);
+		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
+		XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudT);
 	}
 	else
 	{
@@ -2752,9 +2746,8 @@ void GuiElf::switchUart()
 		if (elfConfiguration[selectedComputer_].baudT > 9)  elfConfiguration[selectedComputer_].baudT = 9;
 		elfConfiguration[selectedComputer_].baudT -= 3;
 		elfConfiguration[selectedComputer_].baudR = elfConfiguration[selectedComputer_].baudT;
-		baudChoiceR[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudR);
-		baudChoiceT[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudT);
-//		baudTextR[selectedComputer_]->Enable(false);
+		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
+		XRCCTRL(*this, "VTBaudTChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudT);
 	}
 }
 

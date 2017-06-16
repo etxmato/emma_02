@@ -101,6 +101,8 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_BUTTON(XRCID("CasStopMcds"), GuiMain::onCassetteStop)
     EVT_BUTTON(XRCID("RealCasLoadMcds"), GuiMain::onRealCas)
 
+	EVT_CHOICE(XRCID("VTBaudTChoiceMcds"), GuiMcds::onMcdsBaudT)
+
 END_EVENT_TABLE()
 
 GuiMcds::GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir)
@@ -231,12 +233,10 @@ void GuiMcds::readMcdsConfig()
         XRCCTRL(*this, "VTTypeMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].vtType);
         XRCCTRL(*this, "McdsForceUC", wxCheckBox)->SetValue(elfConfiguration[MCDS].forceUpperCase);
         
-		baudChoiceR[MCDS]->SetSelection(elfConfiguration[MCDS].baudR);
-		baudChoiceT[MCDS]->SetSelection(elfConfiguration[MCDS].baudT);
-		baudChoiceR[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-        baudTextR[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		baudTextT[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		baudChoiceT[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
+		XRCCTRL(*this, "VTBaudTTextMcds", wxStaticText)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
 
 		XRCCTRL(*this, "VtCharRomButtonMcds", wxButton)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
 		XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
@@ -346,7 +346,7 @@ void GuiMcds::onMcdsBaudT(wxCommandEvent&event)
 {
 	elfConfiguration[MCDS].baudT = event.GetSelection();
     elfConfiguration[MCDS].baudR = event.GetSelection();
-    baudChoiceR[MCDS]->SetSelection(elfConfiguration[MCDS].baudR);
+    XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
 }
 
 void GuiMcds::onMcdsForceUpperCase(wxCommandEvent&event)
@@ -369,46 +369,19 @@ void GuiMcds::onBootRam(wxCommandEvent&event)
 
 void GuiMcds::setBaudChoiceMcds()
 {
-	wxString choices[9];
-    if (position_.x == 0)
-        position_ = XRCCTRL(*this, "CasButtonMcds", wxButton)->GetPosition();
+	wxArrayString choices;
+	choices.Add("1200");
+	choices.Add("600");
+	choices.Add("300");
+	choices.Add("200");
+	choices.Add("150");
+	choices.Add("134");
+	choices.Add("110");
+	choices.Add("75");
+	choices.Add("50");
 
-    if (baudTextT[MCDS] != NULL)
-    {
-        baudTextT[MCDS]->Destroy();
-        baudChoiceT[MCDS]->Destroy();
-        baudTextR[MCDS]->Destroy();
-        baudChoiceR[MCDS]->Destroy();
-    }
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 15;
-	int offSetY = 48;
-	int choiseOffSetY = 45;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 51;
-	int choiseOffSetY = 49;
-#else
-	int offSetX = 10;
-	int offSetY = 47;
-	int choiseOffSetY = 47;
-#endif
-
-    choices[0] = "1200";
-    choices[1] = "600";
-    choices[2] = "300";
-    choices[3] = "200";
-    choices[4] = "150";
-    choices[5] = "134";
-    choices[6] = "110";
-    choices[7] = "75";
-    choices[8] = "50";
-    baudTextT[MCDS] = new wxStaticText(XRCCTRL(*this, "PanelMcds", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+3+offSetY));
-    baudChoiceT[MCDS] = new wxChoice(XRCCTRL(*this, "PanelMcds", wxPanel), GUI_MCDS_BAUDT, wxPoint(position_.x+84+offSetX,position_.y-1+choiseOffSetY), wxSize(60,23), 9, choices);
-    baudTextR[MCDS] = new wxStaticText(XRCCTRL(*this, "PanelMcds", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+3+offSetY));
-	baudTextR[MCDS]->Hide();
-	baudChoiceR[MCDS] = new wxChoice(XRCCTRL(*this, "PanelMcds", wxPanel), GUI_MCDS_BAUDR, wxPoint(position_.x+152+offSetX,position_.y-1+choiseOffSetY), wxSize(60,23), 9, choices);
-	baudChoiceR[MCDS]->Hide();
-
-	this->Connect(GUI_MCDS_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMcds::onMcdsBaudT) );
+	XRCCTRL(*this, "VTBaudRTextMcds", wxStaticText)->Enable(false);
+	XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->Enable(false);
+	XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Set(choices);
+	XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->Set(choices);
 }

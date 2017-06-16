@@ -1677,17 +1677,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		trapWindowPointer = XRCCTRL(*this,"TrapWindow", wxListCtrl);
 	}
 
-	baudTextT[ELF] = NULL;
-	baudTextT[ELFII] = NULL;
-	baudTextT[SUPERELF] = NULL;
-    baudTextT[ELF2K] = NULL;
-	baudTextT[MS2000] = NULL;
-	baudTextT[MCDS] = NULL;
-	baudTextT[COSMICOS] = NULL;
-	baudTextT[MEMBER] = NULL;
-	baudTextT[VIP] = NULL;
-	baudTextT[VELF] = NULL;
-
 	initConfig();
 	readConfig();
 
@@ -1757,17 +1746,6 @@ Main::~Main()
 
 	this->GetPosition(&mainWindowX_, &mainWindowY_);
 	writeConfig();
-    
-    deleteBaudChoice(ELF);
-    deleteBaudChoice(ELFII);
-    deleteBaudChoice(SUPERELF);
-    deleteBaudChoice(ELF2K);
-	deleteBaudChoice(MS2000);
-	deleteBaudChoice(MCDS);
-	deleteBaudChoice(COSMICOS);
-    deleteBaudChoice(MEMBER);
-    deleteBaudChoice(VIP);
-    deleteBaudChoice(VELF);
 }
 
 void Main::pageSetup()
@@ -5228,11 +5206,11 @@ void Main::enableGui(bool status)
 		{
 			if (elfConfiguration[VIP].useUart)
 			{
-				baudTextR[VIP]->Enable(status);
-                baudChoiceR[VIP]->Enable(status);
+				XRCCTRL(*this, "VTBaudRTextVip", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->Enable(status);
 			}
-			baudChoiceT[VIP]->Enable(status);
-            baudTextT[VIP]->Enable(status);
+			XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextVip", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupVip", wxButton)->Enable(status);
 		}
 
@@ -5328,11 +5306,11 @@ void Main::enableGui(bool status)
         {
             if (elfConfiguration[VELF].useUart)
             {
-                baudTextR[VELF]->Enable(status);
-                baudChoiceR[VELF]->Enable(status);
+                XRCCTRL(*this, "VTBaudRTextVelf", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->Enable(status);
             }
-            baudChoiceT[VELF]->Enable(status);
-            baudTextT[VELF]->Enable(status);
+            XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextVelf", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupVelf", wxButton)->Enable(status);
         }
         
@@ -5685,13 +5663,13 @@ void Main::enableGui(bool status)
 		{
 			if (elfConfiguration[runningComputer_].useUart)
 			{
-				baudTextR[runningComputer_]->Enable(status);
-                baudChoiceR[runningComputer_]->Enable(status);
+				XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable(status);
+				XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable(status);
 			}
-			baudChoiceT[runningComputer_]->Enable(status);
+			XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(status);
+			XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(status);
 			XRCCTRL(*this,"VtSetup"+elfTypeStr, wxButton)->Enable(status);
-            baudTextT[runningComputer_]->Enable(status);
-        }
+		}
 		XRCCTRL(*this,"VideoType"+elfTypeStr,wxChoice)->Enable(status);
 		XRCCTRL(*this,"VideoTypeText"+elfTypeStr,wxStaticText)->Enable(status);
 		XRCCTRL(*this,"DiskType"+elfTypeStr,wxChoice)->Enable(status);
@@ -5745,11 +5723,11 @@ void Main::enableGui(bool status)
 			{
 				if (elfConfiguration[ELF2K].useUart)
 				{
-					baudTextR[ELF2K]->Enable(status);
-                    baudChoiceR[ELF2K]->Enable(status);
+					XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(status);
+                    XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable(status);
 				}
-				baudChoiceT[ELF2K]->Enable(status);
-                baudTextT[ELF2K]->Enable(status);
+				XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(status);
+                XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable(status);
                 XRCCTRL(*this,"VtSetupElf2K", wxButton)->Enable(status);
 			}
 		}
@@ -5798,10 +5776,13 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"FullScreenF3MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
         XRCCTRL(*this,"ScreenDumpF5MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
         XRCCTRL(*this, "VTTypeMS2000", wxChoice)->Enable(status);
-        baudTextR[MS2000]->Enable(status);
-        baudChoiceR[MS2000]->Enable(status);
-        baudChoiceT[MS2000]->Enable(status);
-        baudTextT[MS2000]->Enable(status);
+		if (elfConfiguration[MS2000].useUart)
+		{
+			XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(status);
+			XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->Enable(status);
+		}
+		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->Enable(status);
+		XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(status);
         XRCCTRL(*this,"VtSetupMS2000", wxButton)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
@@ -5843,10 +5824,13 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "FullScreenF3Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
 		XRCCTRL(*this, "ScreenDumpF5Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
 		XRCCTRL(*this, "VTTypeMcds", wxChoice)->Enable(status);
-		baudTextR[MCDS]->Enable(status);
-		baudChoiceR[MCDS]->Enable(status);
-		baudChoiceT[MCDS]->Enable(status);
-		baudTextT[MCDS]->Enable(status);
+		if (elfConfiguration[MCDS].useUart)
+		{
+			XRCCTRL(*this, "VTBaudRTextMcds", wxStaticText)->Enable(status);
+			XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->Enable(status);
+		}
+		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Enable(status);
+		XRCCTRL(*this, "VTBaudTTextMcds", wxStaticText)->Enable(status);
 		XRCCTRL(*this, "VtSetupMcds", wxButton)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
@@ -5891,11 +5875,11 @@ void Main::enableGui(bool status)
 		{
 			if (elfConfiguration[COSMICOS].useUart)
 			{
-				baudTextR[COSMICOS]->Enable(status);
-                baudChoiceR[COSMICOS]->Enable(status);
+				XRCCTRL(*this, "VTBaudRTextCosmicos", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Enable(status);
 			}
-			baudChoiceT[COSMICOS]->Enable(status);
-            baudTextT[COSMICOS]->Enable(status);
+			XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Enable(status);
+			XRCCTRL(*this, "VTBaudTTextCosmicos", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupCosmicos", wxButton)->Enable(status);
 		}
 
@@ -5950,8 +5934,8 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "VTTypeMembership", wxChoice)->Enable(status);
 		if (XRCCTRL(*this,"VTTypeMembership",wxChoice)->GetSelection() != VTNONE)
 		{
-			baudChoiceT[MEMBER]->Enable(status);
-            baudTextT[MEMBER]->Enable(status);
+			XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextMembership", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupMembership", wxButton)->Enable(status);
 		}
 

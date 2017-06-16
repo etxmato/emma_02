@@ -136,7 +136,7 @@ int DEVDSP_OpenAudioIn(SDL_AudioSpec *requested, SDL_AudioSpec *result)
         return(-1);
       }
       audioin_status=SDL_AUDIO_PAUSED;
-      ainthread=SDL_CreateThread(ainthread_func,NULL);
+      ainthread=SDL_CreateThread(ainthread_func, "", NULL);
       return(0);
     }
 

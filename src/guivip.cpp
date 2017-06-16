@@ -112,6 +112,9 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 	EVT_BUTTON(XRCID("VtSetupVip"), GuiMain::onVtSetup)
 	EVT_CHECKBOX(XRCID("StretchDotVip"), GuiMain::onStretchDot)
 
+	EVT_CHOICE(XRCID("VTBaudTChoiceVip"), GuiVip::onVipBaudT)
+	EVT_CHOICE(XRCID("VTBaudRChoiceVip"), GuiVip::onVipBaudR)
+
 END_EVENT_TABLE()
 
 GuiVip::GuiVip(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
@@ -226,11 +229,10 @@ void GuiVip::readVipConfig()
 
 		XRCCTRL(*this, "VTTypeVip", wxChoice)->SetSelection(elfConfiguration[VIP].vtType);
 
-		baudChoiceT[VIP]->SetSelection(elfConfiguration[VIP].baudT);
-		baudTextR[VIP]->Hide();
-		baudChoiceR[VIP]->Hide();
-        baudTextT[VIP]->Enable(elfConfiguration[VIP].vtType != VTNONE);
-		baudChoiceT[VIP]->Enable(elfConfiguration[VIP].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
+		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
+		XRCCTRL(*this, "VTBaudTTextVip", wxStaticText)->Enable(elfConfiguration[VIP].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 
 		XRCCTRL(*this, "VtCharRomButtonVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 		XRCCTRL(*this, "VtCharRomVip", wxComboBox)->Enable(elfConfiguration[VIP].vtType != VTNONE);
@@ -429,49 +431,18 @@ void GuiVip::onLatch(wxCommandEvent&event)
 
 void GuiVip::setBaudChoiceVip()
 {
-	wxString choices[16];
+	wxArrayString choices;
+	choices.Add("2400");
+	choices.Add("2000");
+	choices.Add("1800");
+	choices.Add("1200");
+	choices.Add("600");
+	choices.Add("300");
 
-    if (position_.x == 0)
-    {
-        position_ = XRCCTRL(*this, "CasButtonVip", wxButton)->GetPosition();
-        position_.y += 100;
-    }
-    
-    if (baudTextT[VIP] != NULL)
-    {
-        baudTextT[VIP]->Destroy();
-        baudChoiceT[VIP]->Destroy();
-        baudTextR[VIP]->Destroy();
-        baudChoiceR[VIP]->Destroy();
-    }
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 28;
-	int offSetY = 54;
-	int choiseOffSetY = 51;
-#elif defined(__WXMAC__)
-	int offSetX = 38;
-	int offSetY = 51;
-	int choiseOffSetY = 49;
-#else
-	int offSetX = 14;
-	int offSetY = 48;
-	int choiseOffSetY = 48;
-#endif
-	
-	choices[0] = "2400";
-	choices[1] = "2000";
-	choices[2] = "1800";
-	choices[3] = "1200";
-	choices[4] = "600";
-	choices[5] = "300";
-	baudTextT[VIP] = new wxStaticText(XRCCTRL(*this, "PanelVip", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+4+offSetY));
-	baudChoiceT[VIP] = new wxChoice(XRCCTRL(*this, "PanelVip", wxPanel), GUI_VIP_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 6, choices);
-	baudTextR[VIP] = new wxStaticText(XRCCTRL(*this, "PanelVip", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+4+offSetY));
-    baudTextR[VIP]->Hide();
-	baudChoiceR[VIP] = new wxChoice(XRCCTRL(*this, "PanelVip", wxPanel), GUI_VIP_BAUDR, wxPoint(position_.x+152+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 6, choices);
-	baudChoiceR[VIP]->Hide();
-
-	this->Connect(GUI_VIP_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiVip::onVipBaudT) );
+	XRCCTRL(*this, "VTBaudRTextVip", wxStaticText)->Enable(false);
+	XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->Enable(false);
+	XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Set(choices);
+	XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->Set(choices);
 }
 
 void GuiVip::onVipBaudR(wxCommandEvent&event)
@@ -485,7 +456,7 @@ void GuiVip::onVipBaudT(wxCommandEvent&event)
 	if (!elfConfiguration[VIP].useUart)
 	{
 		elfConfiguration[VIP].baudR = event.GetSelection();
-		baudChoiceR[VIP]->SetSelection(elfConfiguration[VIP].baudR);
+		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudR);
 	}
 }
 
