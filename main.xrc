@@ -2,7 +2,7 @@
 <resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
     <object class="wxMenuBar" name="Main_Menu">
         <object class="wxMenu">
-            <label>File</label>
+            <label>Files</label>
             <object class="wxMenu" name="Config_Menu">
                 <label>Configuration</label>
                 <object class="wxMenuItem" name="MI_SaveComputerConfig">
