@@ -862,6 +862,7 @@ bool Emu1802::OnInit()
 	WindowInfo windowInfo = getWinSizeInfo();
 
 	p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(windowInfo.mainwX, windowInfo.mainwY), mode_, dataDir_, regPointer);
+//	p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(-1, -1), mode_, dataDir_, regPointer);
 
 	configPointer->Write("/Main/Version", EMMA_VERSION);
 
@@ -2459,7 +2460,7 @@ void Main::readConfig()
 
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(configPointer->Read("/Main/Selected_Tab", 0l));
 		eventChangeNoteBook();
-		
+/*
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
 		if (windowInfo.operatingSystem == OS_LINUX_OPENSUSE_GNOME || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_FEDORA)
 		{
@@ -2477,8 +2478,9 @@ void Main::readConfig()
 			XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 			XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 		}
-#endif
-#if defined (__WXMSW__) || (__WXMAC__)
+#endif*/
+//#if defined (__WXMSW__) || (__WXMAC__)
+#if defined (__WXMAC__)
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
 		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
