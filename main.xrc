@@ -1933,25 +1933,17 @@
                                                         <object class="wxBoxSizer">
                                                             <orient>wxVERTICAL</orient>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                                                <flag>wxALIGN_LEFT</flag>
                                                                 <border>5</border>
                                                                 <object class="wxGridSizer">
                                                                     <cols>2</cols>
                                                                     <rows>7</rows>
                                                                     <vgap>4</vgap>
                                                                     <hgap>0</hgap>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                    <object platform="mac|unix" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
                                                                         <border>3</border>
-                                                                        <object platform="win" class="wxButton" name="RomButtonElf2K">
-                                                                            <size>90,25</size>
+                                                                        <object platform="mac|unix" class="wxButton" name="RomButtonElf2K">
                                                                             <tooltip>Browse for Elf 2000 firmware ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1960,11 +1952,11 @@
                                                                             <label>ROM</label>
                                                                         </object>
                                                                     </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_TOP</flag>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object platform="mac|unix" class="wxButton" name="RomButtonElf2K">
-                                                                            <size>90,-1</size>
+                                                                        <object platform="win" class="wxButton" name="RomButtonElf2K">
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Browse for Elf 2000 firmware ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1974,7 +1966,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object class="wxComboBox" name="MainRomElf2K">
                                                                             <size>172,-1</size>
@@ -1992,20 +1984,8 @@
                                                                             <selection>2</selection>
                                                                         </object>
                                                                     </object>
-                                                                </object>
-                                                            </object>
-                                                            <object platform="mac|unix" class="spacer">
-                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                <border>5</border>
-                                                                <size>5,1</size>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="win" class="wxButton" name="IDE_ButtonElf2K">
                                                                             <size>90,25</size>
@@ -2018,7 +1998,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="mac|unix" class="wxButton" name="IDE_ButtonElf2K">
                                                                             <size>90,-1</size>
@@ -2031,33 +2011,40 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxTextCtrl" name="IdeFileElf2K">
-                                                                            <size>146,-1</size>
-                                                                            <tooltip>Specify Elf 2000 IDE image file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <value>disk1.ide</value>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="Eject_IDEElf2K">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Eject Elf 2000 IDE image file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="Eject_IDEElf2K">
-                                                                            <tooltip>Eject Elf 2000 IDE image file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxTextCtrl" name="IdeFileElf2K">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify Elf 2000 IDE image file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <value>disk1.ide</value>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="Eject_IDEElf2K">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Eject Elf 2000 IDE image file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="Eject_IDEElf2K">
+                                                                                    <tooltip>Eject Elf 2000 IDE image file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                 </object>
