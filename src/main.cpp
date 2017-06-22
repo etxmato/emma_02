@@ -774,7 +774,7 @@ WindowInfo getWinSizeInfo()
 	returnValue.ChoiceClockY = 343;
 	returnValue.ChoiceClockX = 333;
 	returnValue.xPrint = 21;
-	returnValue.mainwX = 560;
+	returnValue.mainwX = 570;
 #endif
 
 	return returnValue;
