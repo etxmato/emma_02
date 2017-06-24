@@ -1029,10 +1029,10 @@
                                                                 </content>
                                                             </object>
                                                         </object>
-                                                        <object platform="win|mac" class="sizeritem">
+                                                        <object platform="win" class="sizeritem">
                                                             <flag>wxALIGN_BOTTOM</flag>
                                                             <border>2</border>
-                                                            <object platform="win|mac" class="wxButton" name="ColoursComx">
+                                                            <object platform="win" class="wxButton" name="ColoursComx">
                                                                 <size>-1,25</size>
                                                                 <tooltip>Open video setup window</tooltip>
                                                                 <font>
@@ -1042,11 +1042,10 @@
                                                                 <label>VideoSetup</label>
                                                             </object>
                                                         </object>
-                                                        <object platform="unix" class="sizeritem">
+                                                        <object platform="unix|mac" class="sizeritem">
                                                             <flag>wxALIGN_BOTTOM</flag>
                                                             <border>2</border>
-                                                            <object platform="unix" class="wxButton" name="ColoursComx">
-                                                                <size>90,-1</size>
+                                                            <object platform="unix|mac" class="wxButton" name="ColoursComx">
                                                                 <tooltip>Open video setup window</tooltip>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1432,7 +1431,6 @@
                                                                     <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                     <border>4</border>
                                                                     <object class="wxCheckBox" name="UseLocationComx">
-                                                                        <size>120,-1</size>
                                                                         <tooltip>Select to SAVE specific machine code address</tooltip>
                                                                         <font>
                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
