@@ -1110,7 +1110,7 @@
                                                             <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                             <border>1</border>
                                                             <object platform="win|mac" class="wxTextCtrl" name="ZoomValueComx" subclass="FloatEdit">
-                                                                <size>50,23</size>
+                                                                <size>50,-1</size>
                                                                 <tooltip>Select COMX-35 screen size</tooltip>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1731,7 +1731,7 @@
                                                             <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                             <border>4</border>
                                                             <object platform="win|mac" class="wxTextCtrl" name="TurboClockComx" subclass="IntEdit">
-                                                                <size>25,23</size>
+                                                                <size>35,-1</size>
                                                                 <tooltip>Specify turbo clock speed in MHz</tooltip>
                                                                 <font>
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3482,15 +3482,17 @@
                                                         <object class="wxBoxSizer">
                                                             <orient>wxVERTICAL</orient>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>3</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
+                                                                <flag>wxALIGN_LEFT</flag>
+                                                                <border>2</border>
+                                                                <object class="wxFlexGridSizer">
+                                                                    <cols>3</cols>
+                                                                    <rows>2</rows>
+                                                                    <vgap>4</vgap>
+                                                                    <hgap>4</hgap>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object class="wxStaticText" name="VideoType_TextCosmicos">
-                                                                            <size>59,-1</size>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -3499,7 +3501,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object class="wxChoice" name="VideoTypeCosmicos">
                                                                             <size>100,-1</size>
@@ -3515,10 +3517,10 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
                                                                         <object platform="win" class="wxButton" name="ColoursCosmicos">
-                                                                            <size>90,25</size>
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Open video setup window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3528,10 +3530,9 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
                                                                         <object platform="mac|unix" class="wxButton" name="ColoursCosmicos">
-                                                                            <size>90,-1</size>
                                                                             <tooltip>Open video setup window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3540,15 +3541,8 @@
                                                                             <label>VideoSetup</label>
                                                                         </object>
                                                                     </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object class="wxStaticText" name="Keyboard_TextCosmicos">
                                                                             <size>59,-1</size>
@@ -3560,7 +3554,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object class="wxChoice" name="KeyboardCosmicos">
                                                                             <size>100,-1</size>
@@ -3575,11 +3569,23 @@
                                                                             </content>
                                                                         </object>
                                                                     </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_BOTTOM|wxLEFT</flag>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxButton" name="KeyMapCosmicos">
-                                                                            <size>90,25</size>
+                                                                        <object platform="win" class="wxButton" name="KeyMapCosmicos">
+                                                                            <size>-1,25</size>
+                                                                            <tooltip>Open key map window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Key Map</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="unix|mac" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_BOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object platform="unix|mac" class="wxButton" name="KeyMapCosmicos">
                                                                             <tooltip>Open key map window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3611,7 +3617,7 @@
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>1</border>
                                                                         <object class="wxTextCtrl" name="ZoomValueCosmicos" subclass="FloatEdit">
-                                                                            <size>45,23</size>
+                                                                            <size>50,23</size>
                                                                             <tooltip>Select screen size</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3623,7 +3629,6 @@
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>5</border>
                                                                         <object class="wxSpinButton" name="ZoomSpinCosmicos">
-                                                                            <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
                                                                             <style>wxSP_VERTICAL|wxSP_WRAP</style>
                                                                             <value>0</value>
@@ -3670,7 +3675,7 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>3</border>
                                                                                 <object class="wxTextCtrl" name="ShowAddressCosmicos" subclass="IntEdit">
-                                                                                    <size>40,23</size>
+                                                                                    <size>50,-1</size>
                                                                                     <tooltip>Led updates in run mode every X ms</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3747,7 +3752,6 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>0</border>
                                                                                 <object class="wxCheckBox" name="ForceUCCosmicos">
-                                                                                    <size>-1,23</size>
                                                                                     <tooltip>Force keyboard in uppercase</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3782,7 +3786,7 @@
                                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxSpinCtrl" name="RamCosmicos">
-                                                                                            <size>50,23</size>
+                                                                                            <size>70,-1</size>
                                                                                             <tooltip>Cosmicos RAM card size 0 to 48 Kb</tooltip>
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3818,7 +3822,6 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>0</border>
                                                                                 <object class="wxCheckBox" name="AutoBootCosmicos">
-                                                                                    <size>-1,23</size>
                                                                                     <tooltip>Enable auto boot at address C0C0</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3833,7 +3836,7 @@
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+                                                                <flag>wxGROW|wxLEFT|wxRIGHT</flag>
                                                                 <border>5</border>
                                                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                                                     <orient>wxVERTICAL</orient>
@@ -3843,15 +3846,17 @@
                                                                         <size>-1</size>
                                                                     </font>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxBoxSizer">
-                                                                            <orient>wxHORIZONTAL</orient>
+                                                                        <flag>wxALIGN_LEFT|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxFlexGridSizer">
+                                                                            <cols>3</cols>
+                                                                            <rows>2</rows>
+                                                                            <vgap>0</vgap>
+                                                                            <hgap>0</hgap>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
-                                                                                <border>4</border>
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
                                                                                 <object class="wxButton" name="LoadButtonCosmicos">
-                                                                                    <size>75,25</size>
                                                                                     <tooltip>Load .hex file into Cosmicos emulator memory</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3862,10 +3867,9 @@
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                                <border>5</border>
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
                                                                                 <object class="wxStaticText" name="TextStartCosmicos">
-                                                                                    <size>30,-1</size>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -3876,10 +3880,10 @@
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                                <border>4</border>
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
                                                                                 <object class="wxTextCtrl" name="SaveStartCosmicos" subclass="HexEdit">
-                                                                                    <size>40,23</size>
+                                                                                    <size>50,-1</size>
                                                                                     <tooltip>Specify start address in hexadecimal</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3889,18 +3893,10 @@
                                                                                     <maxlength>4</maxlength>
                                                                                 </object>
                                                                             </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxBoxSizer">
-                                                                            <orient>wxHORIZONTAL</orient>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
-                                                                                <border>4</border>
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
                                                                                 <object class="wxButton" name="SaveButtonCosmicos">
-                                                                                    <size>75,25</size>
                                                                                     <tooltip>Save Cosmicos emulator memory to .hex file</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3911,10 +3907,9 @@
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                                <border>5</border>
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
                                                                                 <object class="wxStaticText" name="TextEndCosmicos">
-                                                                                    <size>30,-1</size>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -3925,10 +3920,10 @@
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                                <border>4</border>
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
                                                                                 <object class="wxTextCtrl" name="SaveEndCosmicos" subclass="HexEdit">
-                                                                                    <size>40,23</size>
+                                                                                    <size>50,-1</size>
                                                                                     <tooltip>Specify end address in hexadecimal</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -3964,7 +3959,7 @@
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
                                                                         <object class="wxTextCtrl" name="TurboClockCosmicos" subclass="IntEdit">
-                                                                            <size>25,23</size>
+                                                                            <size>35,-1</size>
                                                                             <tooltip>Specify turbo clock speed in MHz</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
