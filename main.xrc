@@ -718,7 +718,7 @@
                                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                     <border>4</border>
                                                                     <object class="wxTextCtrl" name="PrintFileComx">
-                                                                        <size>73,-1</size>
+                                                                        <size>78,-1</size>
                                                                         <tooltip>Specify printer output file</tooltip>
                                                                         <font>
                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -730,7 +730,6 @@
                                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                     <border>1</border>
                                                                     <object class="wxChoice" name="PrintModeComx">
-                                                                        <size>73,-1</size>
                                                                         <tooltip>Select print mode</tooltip>
                                                                         <font>
                                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1964,6 +1963,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
+                                                                        <option>20</option>
                                                                         <object class="wxComboBox" name="MainRomElf2K">
                                                                             <size>172,-1</size>
                                                                             <tooltip>Specify Elf 2000 firmware ROM file</tooltip>
@@ -2070,6 +2070,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
+                                                                        <option>20</option>
                                                                         <object class="wxComboBox" name="CharRomElf2K">
                                                                             <size>172,-1</size>
                                                                             <tooltip>Specify intel 8275 video font file</tooltip>
@@ -4123,15 +4124,18 @@
                                                         <object class="wxBoxSizer">
                                                             <orient>wxVERTICAL</orient>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <flag>wxALIGN_LEFT|wxBOTTOM</flag>
                                                                 <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
+                                                                <object class="wxFlexGridSizer">
+                                                                    <cols>2</cols>
+                                                                    <rows>10</rows>
+                                                                    <vgap>4</vgap>
+                                                                    <hgap>0</hgap>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object platform="win" class="wxButton" name="RomButtonElf">
-                                                                            <size>90,25</size>
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Browse for Elf ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4141,10 +4145,9 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object platform="mac|unix" class="wxButton" name="RomButtonElf">
-                                                                            <size>90,-1</size>
                                                                             <tooltip>Browse for Elf ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4153,57 +4156,58 @@
                                                                             <label>ROM 1</label>
                                                                         </object>
                                                                     </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="Rom1Elf">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Toggle ROM/RAM</tooltip>
-                                                                            <bitmap>images/switch.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="Rom1Elf">
-                                                                            <tooltip>Toggle ROM/RAM</tooltip>
-                                                                            <bitmap>images/switch.png</bitmap>
-                                                                        </object>
-                                                                    </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxComboBox" name="MainRomElf">
-                                                                            <size>146,-1</size>
-                                                                            <tooltip>Specify Elf ROM/RAM file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item></item>
-                                                                                <item>bios.1.0.4.rom</item>
-                                                                                <item>bios+biosiov93.rom</item>
-                                                                                <item>bios+biosiov93_32.column.rom</item>
-                                                                                <item></item>
-                                                                                <item>biosio.elfos.0.2.5.rom</item>
-                                                                                <item>biosio.elfos.0.2.5_32.column.rom</item>
-                                                                            </content>
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="Rom1Elf">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Toggle ROM/RAM</tooltip>
+                                                                                    <bitmap>images/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="Rom1Elf">
+                                                                                    <tooltip>Toggle ROM/RAM</tooltip>
+                                                                                    <bitmap>images/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxComboBox" name="MainRomElf">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify Elf ROM/RAM file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxCB_DROPDOWN</style>
+                                                                                    <content>
+                                                                                        <item></item>
+                                                                                        <item>bios.1.0.4.rom</item>
+                                                                                        <item>bios+biosiov93.rom</item>
+                                                                                        <item>bios+biosiov93_32.column.rom</item>
+                                                                                        <item></item>
+                                                                                        <item>biosio.elfos.0.2.5.rom</item>
+                                                                                        <item>biosio.elfos.0.2.5_32.column.rom</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object platform="win" class="wxButton" name="RomButton2Elf">
-                                                                            <size>90,25</size>
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Browse for Elf ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4213,10 +4217,9 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object platform="mac|unix" class="wxButton" name="RomButton2Elf">
-                                                                            <size>90,-1</size>
                                                                             <tooltip>Browse for Elf ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4225,154 +4228,147 @@
                                                                             <label>ROM 2</label>
                                                                         </object>
                                                                     </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="Rom2Elf">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Toggle ROM/RAM</tooltip>
-                                                                            <bitmap>images/switch.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="Rom2Elf">
-                                                                            <tooltip>Toggle ROM/RAM</tooltip>
-                                                                            <bitmap>images/switch.png</bitmap>
-                                                                        </object>
-                                                                    </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxComboBox" name="MainRom2Elf">
-                                                                            <size>146,-1</size>
-                                                                            <tooltip>Specify Elf ROM/RAM file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item></item>
-                                                                                <item>elfos.0.2.8.hex</item>
-                                                                            </content>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>1</border>
-                                                                        <object platform="win" class="wxChoice" name="DiskTypeElf">
-                                                                            <size>89,-1</size>
-                                                                            <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <content>
-                                                                                <item>None</item>
-                                                                                <item>FDC</item>
-                                                                                <item>IDE</item>
-                                                                            </content>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>1</border>
-                                                                        <object platform="mac|unix" class="wxChoice" name="DiskTypeElf">
-                                                                            <size>89,-1</size>
-                                                                            <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <content>
-                                                                                <item>None</item>
-                                                                                <item>FDC</item>
-                                                                                <item>IDE</item>
-                                                                            </content>
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="Rom2Elf">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Toggle ROM/RAM</tooltip>
+                                                                                    <bitmap>images/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="Rom2Elf">
+                                                                                    <tooltip>Toggle ROM/RAM</tooltip>
+                                                                                    <bitmap>images/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxComboBox" name="MainRom2Elf">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify Elf ROM/RAM file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxCB_DROPDOWN</style>
+                                                                                    <content>
+                                                                                        <item></item>
+                                                                                        <item>elfos.0.2.8.hex</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="win" class="wxButton" name="IDE_ButtonElf">
-                                                                            <size>35,25</size>
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Browse for IDE image file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>File</label>
+                                                                            <label>Disk</label>
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="mac|unix" class="wxButton" name="IDE_ButtonElf">
-                                                                            <size>35,-1</size>
                                                                             <tooltip>Browse for IDE image file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>File</label>
+                                                                            <label>Disk</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxTextCtrl" name="IdeFileElf">
-                                                                            <size>110,-1</size>
-                                                                            <tooltip>Specify IDE image file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <value>disk1.ide</value>
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxTextCtrl" name="IdeFileElf">
+                                                                                    <size>70,-1</size>
+                                                                                    <tooltip>Specify IDE image file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <value>disk1.ide</value>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>1</border>
+                                                                                <object platform="win" class="wxChoice" name="DiskTypeElf">
+                                                                                    <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>None</item>
+                                                                                        <item>FDC</item>
+                                                                                        <item>IDE</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>1</border>
+                                                                                <object platform="mac|unix" class="wxChoice" name="DiskTypeElf">
+                                                                                    <tooltip>Select FDC 1793 or IDE disk controller</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>None</item>
+                                                                                        <item>FDC</item>
+                                                                                        <item>IDE</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="Eject_IDEElf">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Eject IDE image file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="Eject_IDEElf">
+                                                                                    <tooltip>Eject IDE image file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="Eject_IDEElf">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Eject IDE image file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="Eject_IDEElf">
-                                                                            <tooltip>Eject IDE image file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object platform="mac|unix" class="spacer">
-                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                <border>5</border>
-                                                                <size>5,3</size>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="win" class="wxButton" name="CharRomButtonElf">
-                                                                            <size>90,25</size>
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Browse for video font file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4382,10 +4378,9 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
                                                                         <border>3</border>
                                                                         <object platform="mac|unix" class="wxButton" name="CharRomButtonElf">
-                                                                            <size>90,-1</size>
                                                                             <tooltip>Browse for video font file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4395,7 +4390,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object class="wxComboBox" name="CharRomElf">
                                                                             <size>172,-1</size>
@@ -4419,23 +4414,11 @@
                                                                             <selection>1</selection>
                                                                         </object>
                                                                     </object>
-                                                                </object>
-                                                            </object>
-                                                            <object platform="mac|unix" class="spacer">
-                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                <border>5</border>
-                                                                <size>5,4</size>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="win" class="wxButton" name="VtCharRomButtonElf">
-                                                                            <size>90,25</size>
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Browse for video terminal font file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4445,10 +4428,9 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
                                                                         <border>3</border>
                                                                         <object platform="mac|unix" class="wxButton" name="VtCharRomButtonElf">
-                                                                            <size>90,-1</size>
                                                                             <tooltip>Browse for video terminal font file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4458,7 +4440,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object class="wxComboBox" name="VtCharRomElf">
                                                                             <size>172,-1</size>
@@ -4476,23 +4458,11 @@
                                                                             <selection>2</selection>
                                                                         </object>
                                                                     </object>
-                                                                </object>
-                                                            </object>
-                                                            <object platform="mac|unix" class="spacer">
-                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                <border>5</border>
-                                                                <size>5,1</size>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="win" class="wxButton" name="KeyFileButtonElf">
-                                                                            <size>90,25</size>
+                                                                            <size>-1,25</size>
                                                                             <tooltip>Browse for key input file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4502,10 +4472,9 @@
                                                                         </object>
                                                                     </object>
                                                                     <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object platform="mac|unix" class="wxButton" name="KeyFileButtonElf">
-                                                                            <size>90,-1</size>
                                                                             <tooltip>Browse for key input file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4515,350 +4484,348 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxTextCtrl" name="KeyFileElf">
-                                                                            <size>146,-1</size>
-                                                                            <tooltip>Specify key input file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="EjectKeyFileElf">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Eject key input file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="EjectKeyFileElf">
-                                                                            <tooltip>Eject key input file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="win" class="wxButton" name="PrintFileButtonElf">
-                                                                            <size>90,25</size>
-                                                                            <tooltip>Browse for printer output file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Printer</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="mac|unix" class="wxButton" name="PrintFileButtonElf">
-                                                                            <size>90,-1</size>
-                                                                            <tooltip>Browse for printer output file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Printer</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxTextCtrl" name="PrintFileElf">
-                                                                            <size>73,-1</size>
-                                                                            <tooltip>Specify printer output file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxChoice" name="PrintModeElf">
-                                                                            <size>73,-1</size>
-                                                                            <tooltip>Select print mode</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <content>
-                                                                                <item>File</item>
-                                                                                <item>Window</item>
-                                                                            </content>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="PrintButtonElf">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Open printer window (F4)</tooltip>
-                                                                            <bitmap>images/print.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="PrintButtonElf">
-                                                                            <size>26,27</size>
-                                                                            <tooltip>Open printer window (F4)</tooltip>
-                                                                            <bitmap>images/print.png</bitmap>
-                                                                            <selected>images/print.png</selected>
-                                                                            <focus>images/print.png</focus>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="win" class="wxButton" name="ScreenDumpFileButtonElf">
-                                                                            <size>90,25</size>
-                                                                            <tooltip>Browse for video dump file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VideoDump</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_TOP</flag>
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
-                                                                        <object platform="mac|unix" class="wxButton" name="ScreenDumpFileButtonElf">
-                                                                            <size>90,-1</size>
-                                                                            <tooltip>Browse for video dump file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VideoDump</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxComboBox" name="ScreenDumpFileElf">
-                                                                            <size>146,-1</size>
-                                                                            <tooltip>Specify video dump file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item></item>
-                                                                                <item>screendump.png</item>
-                                                                                <item>screendump.jpeg</item>
-                                                                                <item>screendump.bmp</item>
-                                                                                <item>screendump.pcx</item>
-                                                                            </content>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="ScreenDumpF5Elf">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Save video dump to file (F5)</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/filesave.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="ScreenDumpF5Elf">
-                                                                            <tooltip>Save video dump to file (F5)</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/filesave.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="win" class="wxButton" name="CasButtonElf">
-                                                                            <size>90,25</size>
-                                                                            <tooltip>Browse for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Cassette</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="mac|unix" class="wxButton" name="CasButtonElf">
-                                                                            <size>90,-1</size>
-                                                                            <tooltip>Browse for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Cassette</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="TapeElf">
-                                                                            <size>26,25</size>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="TapeElf">
-                                                                            <size>26,27</size>
-                                                                            <style>wxBU_AUTODRAW</style>
-                                                                            <bitmap>images/tick.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxTextCtrl" name="WavFileElf">
-                                                                            <size>120,-1</size>
-                                                                            <tooltip>Specify cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="EjectCasElf">
-                                                                            <size>26,25</size>
-                                                                            <tooltip>Eject cassette file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="mac|unix" class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="mac|unix" class="wxBitmapButton" name="EjectCasElf">
-                                                                            <tooltip>Eject cassette file</tooltip>
-                                                                            <bitmap>images/eject.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object platform="mac|unix" class="spacer">
-                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                <border>5</border>
-                                                                <size>5,1</size>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxVERTICAL</orient>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                                                        <border>0</border>
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxHORIZONTAL</orient>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                                <border>4</border>
-                                                                                <object class="wxButton" name="DP_ButtonElf">
-                                                                                    <size>90,25</size>
-                                                                                    <tooltip>Open device ports definition window</tooltip>
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxTextCtrl" name="KeyFileElf">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify key input file</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
                                                                                     </font>
-                                                                                    <label>DevicePorts</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="EjectKeyFileElf">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Eject key input file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="EjectKeyFileElf">
+                                                                                    <tooltip>Eject key input file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object platform="win" class="wxButton" name="PrintFileButtonElf">
+                                                                            <size>-1,25</size>
+                                                                            <tooltip>Browse for printer output file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Printer</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="mac|unix" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object platform="mac|unix" class="wxButton" name="PrintFileButtonElf">
+                                                                            <tooltip>Browse for printer output file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Printer</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <option>20</option>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxTextCtrl" name="PrintFileElf">
+                                                                                    <size>57,-1</size>
+                                                                                    <tooltip>Specify printer output file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_TOP</flag>
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxChoice" name="PrintModeElf">
+                                                                                    <tooltip>Select print mode</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>File</item>
+                                                                                        <item>Window</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="PrintButtonElf">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Open printer window (F4)</tooltip>
+                                                                                    <bitmap>images/print.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="PrintButtonElf">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Open printer window (F4)</tooltip>
+                                                                                    <bitmap>images/print.png</bitmap>
+                                                                                    <selected>images/print.png</selected>
+                                                                                    <focus>images/print.png</focus>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object platform="win" class="wxButton" name="ScreenDumpFileButtonElf">
+                                                                            <size>-1,25</size>
+                                                                            <tooltip>Browse for video dump file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>VideoDump</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="mac|unix" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object platform="mac|unix" class="wxButton" name="ScreenDumpFileButtonElf">
+                                                                            <tooltip>Browse for video dump file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>VideoDump</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxComboBox" name="ScreenDumpFileElf">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify video dump file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxCB_DROPDOWN</style>
+                                                                                    <content>
+                                                                                        <item></item>
+                                                                                        <item>screendump.png</item>
+                                                                                        <item>screendump.jpeg</item>
+                                                                                        <item>screendump.bmp</item>
+                                                                                        <item>screendump.pcx</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="ScreenDumpF5Elf">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Save video dump to file (F5)</tooltip>
+                                                                                    <enabled>0</enabled>
+                                                                                    <bitmap>images/filesave.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="ScreenDumpF5Elf">
+                                                                                    <tooltip>Save video dump to file (F5)</tooltip>
+                                                                                    <enabled>0</enabled>
+                                                                                    <bitmap>images/filesave.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object platform="win" class="wxButton" name="CasButtonElf">
+                                                                            <size>-1,25</size>
+                                                                            <tooltip>Browse for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Cassette</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="mac|unix" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object platform="mac|unix" class="wxButton" name="CasButtonElf">
+                                                                            <tooltip>Browse for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Cassette</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxBoxSizer">
-                                                                                    <orient>wxHORIZONTAL</orient>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                                        <border>3</border>
-                                                                                        <object class="wxStaticText" name="StartRamTextElf">
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <style>wxST_NO_AUTORESIZE</style>
-                                                                                            <label>RAM:</label>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxTextCtrl" name="StartRamElf" subclass="HexEdit">
-                                                                                            <size>40,23</size>
-                                                                                            <tooltip>Specify RAM bank start address in hexadecimal</tooltip>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <maxlength>4</maxlength>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxStaticText" name="EndRamTextElf">
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <style>wxALIGN_RIGHT</style>
-                                                                                            <label>to</label>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxTextCtrl" name="EndRamElf" subclass="HexEdit">
-                                                                                            <size>40,23</size>
-                                                                                            <tooltip>Specify RAM bank end address in hexadecimal</tooltip>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <maxlength>4</maxlength>
-                                                                                        </object>
-                                                                                    </object>
+                                                                                <object platform="win" class="wxBitmapButton" name="TapeElf">
+                                                                                    <size>26,25</size>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="TapeElf">
+                                                                                    <size>26,27</size>
+                                                                                    <style>wxBU_AUTODRAW</style>
+                                                                                    <bitmap>images/tick.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="WavFileElf">
+                                                                                    <size>120,-1</size>
+                                                                                    <tooltip>Specify cassette file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="win" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="win" class="wxBitmapButton" name="EjectCasElf">
+                                                                                    <size>26,25</size>
+                                                                                    <tooltip>Eject cassette file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object platform="mac|unix" class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object platform="mac|unix" class="wxBitmapButton" name="EjectCasElf">
+                                                                                    <tooltip>Eject cassette file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="unix|mac" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>4</border>
+                                                                        <object platform="unix|mac" class="wxButton" name="DP_ButtonElf">
+                                                                            <tooltip>Open device ports definition window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>DevicePorts</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>4</border>
+                                                                        <object platform="win" class="wxButton" name="DP_ButtonElf">
+                                                                            <size>-1,25</size>
+                                                                            <tooltip>Open device ports definition window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>DevicePorts</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="StartRamTextElf">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxST_NO_AUTORESIZE</style>
+                                                                                    <label>RAM:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxTextCtrl" name="StartRamElf" subclass="HexEdit">
+                                                                                    <size>40,23</size>
+                                                                                    <tooltip>Specify RAM bank start address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <maxlength>4</maxlength>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxStaticText" name="EndRamTextElf">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <label>to</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxTextCtrl" name="EndRamElf" subclass="HexEdit">
+                                                                                    <size>40,23</size>
+                                                                                    <tooltip>Specify RAM bank end address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <maxlength>4</maxlength>
                                                                                 </object>
                                                                             </object>
                                                                         </object>
@@ -4866,7 +4833,7 @@
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
                                                                 <border>2</border>
                                                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                                                     <orient>wxVERTICAL</orient>
@@ -4880,7 +4847,6 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                                                                 <border>0</border>
                                                                                 <object class="wxChoice" name="VTTypeElf">
-                                                                                    <size>64,23</size>
                                                                                     <tooltip>Select video terminal type</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -4895,25 +4861,46 @@
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="VtSetupElf">
+                                                                                    <tooltip>Open video terminal setup window</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Setup</label>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxTOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>3</border>
                                                                                 <object class="wxStaticText" name="VTBaudTTextElf">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
                                                                                     </font>
-                                                                                    <label>T:</label>
+                                                                                    <label>Baud T:</label>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                                                                 <border>0</border>
                                                                                 <object class="wxChoice" name="VTBaudTChoiceElf">
-                                                                                    <size>60,-1</size>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
                                                                                     </font>
+                                                                                    <content>
+                                                                                        <item>00000</item>
+                                                                                    </content>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -4931,11 +4918,13 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                                                                 <border>0</border>
                                                                                 <object class="wxChoice" name="VTBaudRChoiceElf">
-                                                                                    <size>60,-1</size>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
                                                                                     </font>
+                                                                                    <content>
+                                                                                        <item>00000</item>
+                                                                                    </content>
                                                                                 </object>
                                                                             </object>
                                                                         </object>
@@ -4991,19 +4980,6 @@
                                                                                     </font>
                                                                                     <label>Stretch</label>
                                                                                     <checked>0</checked>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxALIGN_BOTTOM|wxRIGHT</flag>
-                                                                                <border>2</border>
-                                                                                <object class="wxButton" name="VtSetupElf">
-                                                                                    <size>50,23</size>
-                                                                                    <tooltip>Open video terminal setup window</tooltip>
-                                                                                    <font>
-                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                        <size>-1</size>
-                                                                                    </font>
-                                                                                    <label>Setup</label>
                                                                                 </object>
                                                                             </object>
                                                                         </object>
@@ -9445,6 +9421,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxGROW</flag>
                                                                                 <border>3</border>
+                                                                                <option>20</option>
                                                                                 <object class="wxComboBox" name="MainRomMembership">
                                                                                     <size>146,-1</size>
                                                                                     <tooltip>Specify Membership Card ROM file</tooltip>
