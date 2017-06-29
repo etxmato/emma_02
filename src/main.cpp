@@ -618,9 +618,9 @@ WindowInfo getWinSizeInfo()
 		returnValue.mainwX = 590;
 		returnValue.mainwY = 640;
 		returnValue.xPrint = 2;
-		returnValue.RegularClockY = 455;
+		returnValue.RegularClockY = 515;
 		returnValue.RegularClockX = 333;
-		returnValue.ChoiceClockY = 414;
+		returnValue.ChoiceClockY = 474;
 		returnValue.ChoiceClockX = 334;
 		returnValue.operatingSystem = OS_LINUX_FEDORA;
 
