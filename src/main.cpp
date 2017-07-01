@@ -615,8 +615,8 @@ WindowInfo getWinSizeInfo()
 		returnValue.yBorder = 30;
 		returnValue.xBorder2 = 1;
 		returnValue.yBorder2 = 60;
-		returnValue.mainwX = 590;
-		returnValue.mainwY = 640;
+		returnValue.mainwX = 610;
+		returnValue.mainwY = 670;
 		returnValue.xPrint = 2;
 		returnValue.RegularClockY = 515;
 		returnValue.RegularClockX = 333;
