@@ -5003,21 +5003,19 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"EpromComx", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
-		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
-		XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
-		XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
-		XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status);
-		XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(status);
-		if (expansionRomLoaded_ || conf[COMX].sbActive_ || conf[COMX].diagActive_)
+		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
+		XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
+		XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
+        XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status&!conf[COMX].diagActive_);
+        XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(status&!conf[COMX].diagActive_);
+        if (expansionRomLoaded_ || conf[COMX].sbActive_)
 		{
 			XRCCTRL(*this,"Cart2RomComx", wxComboBox)->Enable(status);
 			XRCCTRL(*this,"Cart2RomButtonComx", wxButton)->Enable(status);
 			XRCCTRL(*this,"Cart3RomComx", wxComboBox)->Enable(status);
 			XRCCTRL(*this,"Cart3RomButtonComx", wxButton)->Enable(status);
-			XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status&!conf[COMX].diagActive_);
-			XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(status&!conf[COMX].diagActive_);
-			XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
-			XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
+			XRCCTRL(*this,"Cart4RomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
+			XRCCTRL(*this,"Cart4RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
 		}
 		XRCCTRL(*this,"VidModeComx", wxChoice)->Enable(status);
 		XRCCTRL(*this,"VidModeTextComx", wxStaticText)->Enable(status);

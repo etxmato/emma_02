@@ -41,6 +41,7 @@ protected:
 	int serialSlot_;
 	int printerSlot_;
 	int columnSlot_;
+	int diagSlot_;
 	int networkSlot_;
 	bool useExpansionRam_;
 	int expansionRamSlot_;

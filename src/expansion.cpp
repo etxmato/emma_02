@@ -50,6 +50,7 @@ void Expansion::configureExpansion()
 	serialSlot_ = 0xff;
 	thermalSlot_ = 0xff;
 	columnSlot_ = 0xff;
+	diagSlot_ = 0xff;
 	epromSlot_ = 0xff;
 	superSlot_ = 0xff;
 	networkSlot_ = 0xff;
@@ -298,6 +299,19 @@ void Expansion::configureCard(int slot)
 					readEpromFile(p_Main->getSbRomDirectory(4), p_Main->getSbRom(4), 0xC000);
 					epromBank_ = 0;
 					readEpromFile(p_Main->getSbRomDirectory(3), p_Main->getSbRom(3), 0xC000);
+				}
+			break;
+
+			case COMXDIAG:
+				if (diagSlot_ == 0xff)
+				{
+					diagSlot_ = slot;
+					print_buffer = "Configuring Diagnose Card" + slotString;
+					p_Main->message(print_buffer);
+					p_Main->message("	...");
+					p_Main->message("	@D800-@DFFF: RAM");
+					defineExpansionMemoryType(slot, 0, 0x17ff, ROM);
+					defineExpansionMemoryType(slot, 0x1800, 0x1fff, RAM);
 				}
 			break;
 

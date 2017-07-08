@@ -52,11 +52,19 @@
 
 #define CHIP8_I 10
 #define CHIP8_PC 5
+#if defined (__linux__)
+#define EDIT_ROW 16
+#define NUMBER_OF_DEBUG_LINES 33
+#define LINE_SPACE 13
+#define ASS_WIDTH 268
+#define CHAR_WIDTH 9
+#else
 #define EDIT_ROW 16
 #define NUMBER_OF_DEBUG_LINES 33
 #define LINE_SPACE 11
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 8
+#endif
 
 enum
 {
@@ -920,7 +928,9 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	shownRange_ = -1;
 	lastAssError_ = "";
 
-    assBmp = new wxBitmap(ASS_WIDTH, NUMBER_OF_DEBUG_LINES*LINE_SPACE+4, 24);
+	numberOfDebugLines_ = (int)configPointer->Read("/Main/NumberOfDebugLines", NUMBER_OF_DEBUG_LINES);
+
+    assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
 }
 
 DebugWindow::~DebugWindow()
@@ -939,6 +949,8 @@ void DebugWindow::readDebugConfig()
 
 	dirAssConfigFileDir_ = readConfigDir("/Dir/Main/DebugConfig", dataDir_);
 	debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
+
+	numberOfDebugLines_ = (int)configPointer->Read("/Main/NumberOfDebugLines", NUMBER_OF_DEBUG_LINES);
 
 	if (!mode_.gui)
 		return;
@@ -961,6 +973,8 @@ void DebugWindow::writeDebugConfig()
 
 	writeConfigDir("/Dir/Main/DebugConfig", dirAssConfigFileDir_);
 	writeConfigDir("/Dir/Main/Debug", debugDir_);
+
+	configPointer->Write("/Main/NumberOfDebugLines", numberOfDebugLines_);
 }
 
 void DebugWindow::enableDebugGuiMemory ()
@@ -7973,7 +7987,7 @@ void DebugWindow::directAss()
             dcAss.SetTextBackground(wxColour(255,255,255));
         break;
     }
-	dcAss.DrawRectangle(0, 0, ASS_WIDTH, NUMBER_OF_DEBUG_LINES*LINE_SPACE+4);
+	dcAss.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
 
 	if (dirAssStart_ == dirAssEnd_)
 	{
@@ -7988,7 +8002,7 @@ void DebugWindow::directAss()
 	wxString line2;
 	wxString printBufferAddress, printBufferOpcode;
 
-	for (int line=0; line <NUMBER_OF_DEBUG_LINES; line ++)
+	for (int line=0; line <numberOfDebugLines_; line ++)
 	{
 		wxColourDatabase colour;
 		if (line == EDIT_ROW)
@@ -8227,7 +8241,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < NUMBER_OF_DEBUG_LINES)
+				if (line < numberOfDebugLines_)
 				{
                     line2.Printf("%02X", p_Computer->readMem(address-3));
                     dcAss.DrawText(line2, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
@@ -8260,7 +8274,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < NUMBER_OF_DEBUG_LINES)
+				if (line < numberOfDebugLines_)
 				{
 					dcAss.SetTextForeground(colour.Find("BLACK"));
                     line2.Printf("%02X", p_Computer->readMem(address-3));
@@ -8294,7 +8308,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < NUMBER_OF_DEBUG_LINES)
+				if (line < numberOfDebugLines_)
 				{
 					dcAss.SetTextForeground(colour.Find("BLACK"));
                     line2.Printf("%02X", p_Computer->readMem(address-3));
@@ -9132,7 +9146,7 @@ void DebugWindow::onAssSpinPageUp(wxSpinEvent&WXUNUSED(event))
 	if (!computerRunning_)
 		return;
 
-	for (int i=0; i<NUMBER_OF_DEBUG_LINES; i++)
+	for (int i=0; i<numberOfDebugLines_; i++)
 		assSpinUp();
 
 	directAss();
@@ -9141,7 +9155,7 @@ void DebugWindow::onAssSpinPageUp(wxSpinEvent&WXUNUSED(event))
 
 void DebugWindow::onAssSpinPageUp()
 {
-	for (int i=0; i<NUMBER_OF_DEBUG_LINES; i++)
+	for (int i=0; i<numberOfDebugLines_; i++)
 		assSpinUp();
 
 	directAss();
@@ -12720,7 +12734,7 @@ void DebugWindow::paintDebugBackground()
         break;
     }
     
-    dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, NUMBER_OF_DEBUG_LINES*LINE_SPACE+4);
+    dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
     
     dcDebugBackground.SelectObject(wxNullBitmap);
     XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetBitmap(*assBmp);

@@ -401,6 +401,7 @@ public:
 #define COMXRS232 17
 #define COMXSUPERBOARD 0x21
 #define COMXEPROMBOARD 0x73
+#define COMXDIAG 0xC2
 #define COMXEMPTY 255
 #define PRINTFILE 0
 #define PRINTWINDOW 1

@@ -519,6 +519,9 @@ private:
     bool disassembleAgain_;
     
     LabelInfo labelInfo_[65536];
+
+	int numberOfDebugLines_;
+
     
 	DECLARE_EVENT_TABLE()
 };

@@ -319,6 +319,14 @@ void ComxStatusBar::updateStatusBarText()
 					SetStatusText(buf, slot+1);
 				break;
 
+				case COMXDIAG:
+					if (rect.GetWidth() < 70)
+						buf.Printf("%d:", slot + 1);
+					else
+						buf.Printf(leader + "Diag", slot + 1);
+					SetStatusText(buf, slot + 1);
+				break;
+
 				case COMXPRINTER:
 					if (rect.GetWidth() < 70)
 						buf.Printf("%d:", slot+1);
