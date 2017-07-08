@@ -862,7 +862,6 @@ bool Emu1802::OnInit()
 	WindowInfo windowInfo = getWinSizeInfo();
 
 	p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(windowInfo.mainwX, windowInfo.mainwY), mode_, dataDir_, regPointer);
-//	p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(-1, -1), mode_, dataDir_, regPointer);
 
 	configPointer->Write("/Main/Version", EMMA_VERSION);
 
@@ -2197,8 +2196,8 @@ void Main::initConfig()
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 109, windowInfo.RegularClockY - 1), wxSize(80, 25));
 #endif
 #if defined(__linux__)
-				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.RegularClockX - 20, windowInfo.RegularClockY + 8));
-				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 22, windowInfo.RegularClockY), wxSize(55, -1));
+				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.RegularClockX - 10, windowInfo.RegularClockY + 8));
+				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 32, windowInfo.RegularClockY), wxSize(45, -1));
 				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.RegularClockX + 81, windowInfo.RegularClockY + 8));
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 114, windowInfo.RegularClockY - 1), wxSize(80, -1));
 #endif
@@ -2218,8 +2217,8 @@ void Main::initConfig()
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 109, windowInfo.ChoiceClockY - 1), wxSize(80, 25));
 #endif
 #if defined(__linux__)
-				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.ChoiceClockX - 21, windowInfo.ChoiceClockY + 8));
-				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 21, windowInfo.ChoiceClockY), wxSize(55, -1));
+				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.ChoiceClockX - 11, windowInfo.ChoiceClockY + 8));
+				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 31, windowInfo.ChoiceClockY), wxSize(45, -1));
 				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.ChoiceClockX + 80, windowInfo.ChoiceClockY + 8));
 				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 113, windowInfo.ChoiceClockY - 1), wxSize(80, -1));
 #endif
@@ -2460,7 +2459,7 @@ void Main::readConfig()
 
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(configPointer->Read("/Main/Selected_Tab", 0l));
 		eventChangeNoteBook();
-/*
+		
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
 		if (windowInfo.operatingSystem == OS_LINUX_OPENSUSE_GNOME || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_FEDORA)
 		{
@@ -2478,9 +2477,8 @@ void Main::readConfig()
 			XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 			XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 		}
-#endif*/
-//#if defined (__WXMSW__) || (__WXMAC__)
-#if defined (__WXMAC__)
+#endif
+#if defined (__WXMSW__) || (__WXMAC__)
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
 		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
@@ -5004,20 +5002,22 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"EpromComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
+		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
 		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
 		XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
 		XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
 		XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status);
 		XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(status);
-		if (expansionRomLoaded_ || conf[COMX].sbActive_)
+		if (expansionRomLoaded_ || conf[COMX].sbActive_ || conf[COMX].diagActive_)
 		{
 			XRCCTRL(*this,"Cart2RomComx", wxComboBox)->Enable(status);
 			XRCCTRL(*this,"Cart2RomButtonComx", wxButton)->Enable(status);
 			XRCCTRL(*this,"Cart3RomComx", wxComboBox)->Enable(status);
 			XRCCTRL(*this,"Cart3RomButtonComx", wxButton)->Enable(status);
-			XRCCTRL(*this,"Cart4RomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
-			XRCCTRL(*this,"Cart4RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
+			XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status&!conf[COMX].diagActive_);
+			XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(status&!conf[COMX].diagActive_);
+			XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
+			XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
 		}
 		XRCCTRL(*this,"VidModeComx", wxChoice)->Enable(status);
 		XRCCTRL(*this,"VidModeTextComx", wxStaticText)->Enable(status);
@@ -5025,7 +5025,8 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ScreenDumpF5Comx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3Comx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ExpRamComx", wxCheckBox)->Enable(status);
-		XRCCTRL(*this,"SbActiveComx", wxCheckBox)->Enable(status);
+		XRCCTRL(*this, "SbActiveComx", wxCheckBox)->Enable(status);
+		XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 		enableDiskRomGui(diskRomLoaded_);

@@ -53,6 +53,8 @@ public:
 	void onEpromDialog(wxCommandEvent& event);
 	void onSBDialog(wxCommandEvent& event);
 	void onSbActive(wxCommandEvent& event);
+	void diagSbChange();
+	void onDiagActive(wxCommandEvent& event);
 
 	void statusLedOn(wxCommandEvent &event);
 	void statusLedOff(wxCommandEvent &event);
@@ -159,8 +161,10 @@ private:
 	wxString sbUrlHome_;
 	wxString sbUrlBookMark_[10];
 	wxString sbRootDirectory_;
-    wxString SBRomDir_[12];
-    wxString SBRom_[12];
+	wxString DiagRomDir_[2];
+	wxString DiagRom_[2];
+	wxString SBRomDir_[12];
+	wxString SBRom_[12];
     wxString EpromRomDir_[5];
     wxString EpromRom_[5];
 

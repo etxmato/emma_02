@@ -117,8 +117,9 @@ public:
 	bool autoCassetteLoad_;
 	bool turbo_;
 	bool interlace_;
-    bool sbActive_;
-    bool videoLog_;
+	bool sbActive_;
+	bool diagActive_;
+	bool videoLog_;
 	bool stretchDot_;
 	bool realCassetteLoad_;
 	wxString turboClock_;
