@@ -533,6 +533,7 @@ public:
 #define NVRAM 24
 #define ROMMAPPER 25
 #define MULTICART 26
+#define DIAGROM 27
 #define NOCHANGE 30
 
 #define SHOWNAME true

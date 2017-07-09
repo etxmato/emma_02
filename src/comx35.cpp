@@ -334,7 +334,15 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 			ret = usbIn6();
 		break;
 
-		default:
+        case COMXDIAGIN1:
+            diagRomActive_ = false;
+            if (keyboardEf3_ == 0)
+                ret = 0xfb;
+            else
+                ret = 0xff;
+        break;
+            
+        default:
 			ret = 255;
 	}
 	inValues_[port] = ret;
@@ -551,11 +559,15 @@ void Comx::startComputer()
 	p_Main->updateTitle();
 
 	fAndMBasicRunning_ = false;
+    diagRomActive_ = true;
 
 	allocComxExpansionMemory();
 	readProgram(p_Main->getRomDir(COMX, MAINROM1), p_Main->getRomFile(COMX, MAINROM1), ROM, 0, NONAME);
 
-	readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), COMXEXPROM, 0xE000, NONAME);
+    if (p_Main->isDiagActive(COMX))
+        readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), DIAGROM, 0, NONAME);
+    else
+        readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), COMXEXPROM, 0xE000, NONAME);
 
 	expansionRomLoaded_ = false;
 	if (mainMemory_[0xE000] != 0x0)
@@ -696,8 +708,9 @@ void Comx::writeMemDataType(Word address, Byte type)
 		break;
 
 		case COMXEXPROM:
-		case ROM:
-		case RAM:
+        case ROM:
+        case DIAGROM:
+        case RAM:
 		case NVRAM:
 			if (mainMemoryDataType_[address] != type)
 			{
@@ -780,6 +793,7 @@ Byte Comx::readMemDataType(Word address)
 		break;
 
 		case ROM:
+        case DIAGROM:
 		case NVRAM:
 		case RAM:
 		case COMXEXPROM:
@@ -833,7 +847,14 @@ Byte Comx::readMem(Word address)
 			return readCram(address);
 		break;
 
-		case COMXEXPBOX:
+        case DIAGROM:
+            if (diagRomActive_)
+                return diagRomReplacement_[address];
+            else
+                return mainMemory_[address];
+        break;
+            
+        case COMXEXPBOX:
 			switch (expansionMemoryType_[expansionSlot_*32 + (address & 0x1fff)/256])
 			{
 				case RAMBANK:
@@ -999,6 +1020,16 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 				mainMemory_[address]=value;
 		break;
 
+        case DIAGROM:
+            if (writeRom)
+            {
+                if (diagRomActive_)
+                    diagRomReplacement_[address]=value;
+                else
+                    mainMemory_[address]=value;
+            }
+        break;
+            
 		case COMXEXPBOX:
 			switch (expansionMemoryType_[expansionSlot_*32 + (address & 0x1fff)/256])
 			{

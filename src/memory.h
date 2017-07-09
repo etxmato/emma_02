@@ -67,6 +67,7 @@ protected:
 	int colorMemory1864_[1024];
 	Byte mc6845ram_[2048];
 	Byte mc6845CharRom_[2048];
+    Byte diagRomReplacement_[4096];
 
 	Byte* expansionRom_;
 	Byte* expansionRomDataType_;

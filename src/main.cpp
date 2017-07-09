@@ -5002,8 +5002,8 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"EpromComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
-		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
+		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
+		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
 		XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
 		XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(status&!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
         XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(status&!conf[COMX].diagActive_);

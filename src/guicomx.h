@@ -100,8 +100,9 @@ public:
 	int getSbBackupSys() {return sbBackupSys_;}; 
 	int getSbCaseFile() {return sbCaseFile_;}; 
 	int getSbCaseDir() {return sbCaseDir_;}; 
-	int getSbFwVersion() {return sbFwVersion_;}; 
-
+    int getSbFwVersion() {return sbFwVersion_;};
+    int isDiagActive(int computer) {return conf[computer].diagActive_;};
+    
 	void setSbEmail(wxString sbEmail) { sbEmail_ = sbEmail; };
 	void setSbPlayer(wxString sbPlayer) { sbPlayer_ = sbPlayer; };
 	void setSbLocation(wxString sbLocation) { sbLocation_ = sbLocation; };

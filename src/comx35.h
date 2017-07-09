@@ -68,6 +68,8 @@ private:
 	bool fAndMBasicRunning_;
 	bool nvramWriteProtected_;
 
+    bool diagRomActive_;
+    
 	wxDateTime systemTime_;
 	wxDateTime comxTime_;
 	int day_, month_, year_;
