@@ -2,6 +2,7 @@
 #define V1870_H
 
 #include "comxstatusbar.h"
+#include "diagstatusbar.h"
 #include "cidelsastatusbar.h"
 #include "cdp1802.h"
 #include "video.h"
@@ -102,7 +103,8 @@ private:
 
 	CidelsaStatusBar *cidelsaStatusBarPointer;
 	ComxStatusBar *comxStatusBarPointer;
-	wxBitmap *screenScrollCopyPointer;
+    DiagStatusBar *diagStatusBarPointer;
+    wxBitmap *screenScrollCopyPointer;
 	CharacterList *characterListPointer;
 	CharacterList *characterListPointer6845;
 

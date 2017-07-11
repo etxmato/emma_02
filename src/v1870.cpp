@@ -112,8 +112,16 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 				videoWidth_ = 240;
 				videoHeight_ = 192;
 			}
-			comxStatusBarPointer = new ComxStatusBar(this);
-			SetStatusBar(comxStatusBarPointer);
+            if (p_Main->isDiagActive(COMX))
+            {
+                diagStatusBarPointer = new DiagStatusBar(this);
+                SetStatusBar(diagStatusBarPointer);
+            }
+            else
+            {
+                comxStatusBarPointer = new ComxStatusBar(this);
+                SetStatusBar(comxStatusBarPointer);
+            }
 
 			cursorAddress_ = 0;
 			startAddress_ = 0;
@@ -176,7 +184,10 @@ V1870::~V1870()
 	switch (computerType_)
 	{
 		case COMX:
-			delete comxStatusBarPointer;
+            if (p_Main->isDiagActive(COMX))
+                delete diagStatusBarPointer;
+            else
+                delete comxStatusBarPointer;
 		break;
 
 		case CIDELSA:
@@ -222,7 +233,10 @@ void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
 {
 	pcbMask_ = 0x7f;
 
-	comxStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
+    if (p_Main->isDiagActive(COMX))
+        diagStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
+    else
+        comxStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
 
 	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
 	screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
@@ -346,7 +360,10 @@ void V1870::v1870BarSize()
 {
 	if (computerType_ == COMX)
 	{
-		comxStatusBarPointer->reDrawBar();
+        if (p_Main->isDiagActive(COMX))
+            diagStatusBarPointer->reDrawBar();
+        else
+            comxStatusBarPointer->reDrawBar();
 		updateExpansionLed(true);
 	}
 	if (computerType_ == CIDELSA && cidelsaGame_ != DRACO)
@@ -1208,7 +1225,10 @@ void V1870::reDrawBar()
 {
 	if (computerType_ == COMX)
 	{
-		comxStatusBarPointer->reDrawBar();
+        if (p_Main->isDiagActive(COMX))
+            diagStatusBarPointer->reDrawBar();
+        else
+            comxStatusBarPointer->reDrawBar();
 		updateExpansionLed(true);
 	}
 	else if (computerType_ == CIDELSA)
@@ -1228,7 +1248,10 @@ void V1870::updateStatusLed(bool status)
 
 void V1870::updateLedStatus(int card, int i, bool status)
 {
-	comxStatusBarPointer->updateLedStatus(card, i, status);
+    if (p_Main->isDiagActive(COMX))
+        diagStatusBarPointer->updateLedStatus(card, i, status);
+    else
+        comxStatusBarPointer->updateLedStatus(card, i, status);
 }
 
 void V1870::updateCidelsaLedStatus(int number, bool status)
@@ -1855,7 +1878,12 @@ void V1870::setFullScreen(bool fullScreenSet)
     else
     {
         if (computerType_ == COMX)
-            SetStatusBar(comxStatusBarPointer);
+        {
+            if (p_Main->isDiagActive(COMX))
+                SetStatusBar(diagStatusBarPointer);
+            else
+                SetStatusBar(comxStatusBarPointer);
+        }
         if (computerType_ == CIDELSA)
             SetStatusBar(cidelsaStatusBarPointer);
     }

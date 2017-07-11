@@ -15,7 +15,6 @@
                 <flag>wxALIGN_LEFT|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -60,7 +59,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object platform="mac" class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -75,7 +73,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_LEFT|wxALL</flag>
                 <border>5</border>
                 <object platform="__WXMSW__ || __WXGTK__" class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -121,7 +118,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -165,7 +161,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -209,7 +204,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -254,7 +248,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -299,7 +292,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -344,7 +336,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -388,7 +379,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -433,7 +423,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>
@@ -480,7 +469,6 @@ While keeping 'C' pressed, press 'F12' twice"
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
                 <object class="wxStaticText" name="wxID_STATIC">
-                    <size>280,-1</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>

@@ -307,11 +307,13 @@ void Expansion::configureCard(int slot)
 				{
 					diagSlot_ = slot;
                     inType_[1] = COMXDIAGIN1;
-
+                    inType_[2] = COMXDIAGIN2;
+                    
                     print_buffer = "Configuring Diagnose Card" + slotString;
 					p_Main->message(print_buffer);
-					p_Main->message("	Input 1");
-					p_Main->message("	@D800-@DFFF: RAM");
+                    p_Main->message("	Input 1");
+                    p_Main->message("	Input 2");
+                    p_Main->message("	@D800-@DFFF: RAM");
 					defineExpansionMemoryType(slot, 0, 0x17ff, ROM);
 					defineExpansionMemoryType(slot, 0x1800, 0x1fff, RAM);
 				}

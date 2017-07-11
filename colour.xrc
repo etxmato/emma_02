@@ -67,7 +67,7 @@
                                                 <size>-1</size>
                                             </font>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -75,7 +75,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour56">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -97,7 +96,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -105,7 +104,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour57">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -127,7 +125,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -135,7 +133,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour58">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -157,7 +154,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -165,7 +162,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour59">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -187,7 +183,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -195,7 +191,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour60">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -217,7 +212,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -225,7 +220,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour61">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -247,7 +241,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -255,7 +249,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour62">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -277,7 +270,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -285,7 +278,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour63">
-                                                            <size>65,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -1385,7 +1377,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="ColourText">
-                                            <size>70,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -1415,7 +1406,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="wxID_STATIC">
-                                            <size>70,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -1591,7 +1581,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>70,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1614,7 +1603,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>70,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1644,7 +1632,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>110,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1941,7 +1928,7 @@
                                                 <size>-1</size>
                                             </font>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -1949,7 +1936,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour0">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -1971,7 +1957,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -1979,7 +1965,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour1">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2001,7 +1986,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2009,7 +1994,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour2">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2031,7 +2015,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2039,7 +2023,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour3">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2061,7 +2044,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2069,7 +2052,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour4">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2091,7 +2073,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2099,7 +2081,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour5">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2121,7 +2102,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2129,7 +2110,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour6">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2151,7 +2131,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2159,7 +2139,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour7">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2189,7 +2168,7 @@
                                             <orient>wxVERTICAL</orient>
                                             <label>Background</label>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2197,7 +2176,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour8">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2219,7 +2197,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2227,7 +2205,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour9">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2249,7 +2226,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2257,7 +2234,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour10">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2279,7 +2255,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -2287,7 +2263,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>5</border>
                                                         <object class="wxStaticText" name="Colour11">
-                                                            <size>54,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -2471,7 +2446,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>70,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2494,7 +2468,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>70,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>

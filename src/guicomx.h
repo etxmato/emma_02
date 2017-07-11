@@ -52,9 +52,11 @@ public:
 	void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
 	void onEpromDialog(wxCommandEvent& event);
 	void onSBDialog(wxCommandEvent& event);
+	void onDiagDialog(wxCommandEvent& event);
 	void onSbActive(wxCommandEvent& event);
 	void diagSbChange();
 	void onDiagActive(wxCommandEvent& event);
+	void onDiagOn(wxCommandEvent& event);
 
 	void statusLedOn(wxCommandEvent &event);
 	void statusLedOff(wxCommandEvent &event);
@@ -95,14 +97,24 @@ public:
     wxString getEpromRomDirectory(int number) {return EpromRomDir_[number];};
     wxString getEpromRom(int number) {return EpromRom_[number];};
 
+	wxString getDiagRomDirectory(int number) { return DiagRomDir_[number]; };
+	wxString getDiagRom(int number) { return DiagRom_[number]; };
+	void setDiagRomDirectory(int number, wxString directory);
+	void setDiagRom(int number, wxString filename);
+
 	int getSbCdRoot() {return sbCdRoot_;}; 
 	int getSbBackup() {return sbBackup_;}; 
 	int getSbBackupSys() {return sbBackupSys_;}; 
 	int getSbCaseFile() {return sbCaseFile_;}; 
 	int getSbCaseDir() {return sbCaseDir_;}; 
     int getSbFwVersion() {return sbFwVersion_;};
-    int isDiagActive(int computer) {return conf[computer].diagActive_;};
-    
+	bool isDiagActive(int computer) { return conf[computer].diagActive_; };
+	int isDiagOn(int computer) { return conf[computer].diagOn_; };
+    int getDiagRomChecksum() {return diagRomChecksum_;};
+    void setDiagRomChecksum(int diagRomChecksum) { diagRomChecksum_ = diagRomChecksum;};
+    int getDiagCassetteCables() {return diagCassetteCables_;};
+    void setDiagCassetteCables(int diagCassetteCables) { diagCassetteCables_ = diagCassetteCables;};
+  
 	void setSbEmail(wxString sbEmail) { sbEmail_ = sbEmail; };
 	void setSbPlayer(wxString sbPlayer) { sbPlayer_ = sbPlayer; };
 	void setSbLocation(wxString sbLocation) { sbLocation_ = sbLocation; };
@@ -175,7 +187,9 @@ private:
 	int sbCaseFile_;
 	int sbCaseDir_;
 	int sbFwVersion_;
-
+    int diagRomChecksum_;
+    int diagCassetteCables_;
+    
 	int comxPrintMode_;
 	bool isComxStatusLedOn_;
 	bool isComxExpLedOn_;

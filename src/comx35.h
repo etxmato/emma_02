@@ -44,6 +44,7 @@ public:
 	void setDosFileName(int addr);
 	void saveRam();
 	void loadRam();
+    void switchQ(int value);
 
 private:
 	Byte keyboardEf2_;

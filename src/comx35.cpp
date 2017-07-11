@@ -225,6 +225,15 @@ Byte Comx::ef4()
 	return cassetteEf_;
 }
 
+void Comx::switchQ(int value)
+{
+    if (p_Main->isDiagActive(COMX))
+    {
+        if (p_Main->getDiagCassetteCables() == 1)
+            cassetteEf_ = value;
+    }
+}
+
 Byte Comx::in()
 {
 	Byte ret;
@@ -251,6 +260,17 @@ Byte Comx::in()
 		}
 	}*/
 
+	if (p_Main->isDiagOn(COMX) == 0)
+	{
+		switch (keyboardCode_)
+		{
+			case 'a':
+			case 'r':
+			case 's':
+				return 0;
+			break;
+		}
+	}
 	keyboardEf3_ = 1;
 	ret = keyboardCode_;
 
@@ -336,12 +356,31 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 
         case COMXDIAGIN1:
             diagRomActive_ = false;
+            ret = 0xff;
             if (keyboardEf3_ == 0)
-                ret = 0xfb;
-            else
-                ret = 0xff;
+            {
+                switch(keyboardCode_)
+                {
+                    case 's':
+                        ret = 0xfb;
+                    break;
+                    case 'a':
+                        ret = 0xbf;
+                    break;
+                    case 'r':
+                        ret = 0x7f;
+                    break;
+                }
+            }
         break;
             
+        case COMXDIAGIN2:
+            ret = (p_Main->getDiagRomChecksum()^1) << 1;
+            // bit 1 ROM checksum
+            // bit 2 IDEN?
+            // bit 3 keyboard debounce, repeat and IDEN
+        break;
+ 
         default:
 			ret = 255;
 	}
@@ -559,15 +598,22 @@ void Comx::startComputer()
 	p_Main->updateTitle();
 
 	fAndMBasicRunning_ = false;
-    diagRomActive_ = true;
 
 	allocComxExpansionMemory();
 	readProgram(p_Main->getRomDir(COMX, MAINROM1), p_Main->getRomFile(COMX, MAINROM1), ROM, 0, NONAME);
 
-    if (p_Main->isDiagActive(COMX))
-        readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), DIAGROM, 0, NONAME);
+	if (p_Main->isDiagActive(COMX))
+	{
+		diagRomActive_ = true;
+		readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), DIAGROM, 0, NONAME);
+	}
     else
         readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), COMXEXPROM, 0xE000, NONAME);
+
+	if (p_Main->isDiagOn(COMX) == 1)
+		diagRomActive_ = true;
+	else
+		diagRomActive_ = false;
 
 	expansionRomLoaded_ = false;
 	if (mainMemory_[0xE000] != 0x0)
@@ -1315,6 +1361,10 @@ void Comx::cpuInstruction()
         p_Main->eventUpdateTitle();
 		comxRunCommand_ = 0;
 		resetPressed_ = false;
+		if (p_Main->isDiagOn(COMX) == 1)
+			diagRomActive_ = true;
+		else
+			diagRomActive_ = false;
 	}
 	if (debugMode_)
 		p_Main->cycleDebug();

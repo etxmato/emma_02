@@ -119,6 +119,7 @@ public:
 	bool interlace_;
 	bool sbActive_;
 	bool diagActive_;
+	int diagOn_;
 	bool videoLog_;
 	bool stretchDot_;
 	bool realCassetteLoad_;
