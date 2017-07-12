@@ -355,7 +355,11 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 		break;
 
         case COMXDIAGIN1:
-            diagRomActive_ = false;
+            if (diagRomActive_)
+            {
+                diagRomActive_ = false;
+                updateDiagLedStatus(1, diagRomActive_);
+            }
             ret = 0xff;
             if (keyboardEf3_ == 0)
             {
@@ -614,7 +618,7 @@ void Comx::startComputer()
 		diagRomActive_ = true;
 	else
 		diagRomActive_ = false;
-
+    
 	expansionRomLoaded_ = false;
 	if (mainMemory_[0xE000] != 0x0)
 	{
@@ -677,6 +681,7 @@ void Comx::startComputer()
 	month_ = comxTime_.GetMonth();
 	year_ = comxTime_.GetYear();
 
+    updateDiagLedStatus(1, diagRomActive_);
 	if (threadPointer->Run() != wxTHREAD_NO_ERROR )
 	{
 		p_Main->message("Can't start thread!");
@@ -1365,6 +1370,7 @@ void Comx::cpuInstruction()
 			diagRomActive_ = true;
 		else
 			diagRomActive_ = false;
+        updateDiagLedStatus(1, diagRomActive_);
 	}
 	if (debugMode_)
 		p_Main->cycleDebug();

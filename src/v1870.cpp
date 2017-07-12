@@ -1249,9 +1249,15 @@ void V1870::updateStatusLed(bool status)
 void V1870::updateLedStatus(int card, int i, bool status)
 {
     if (p_Main->isDiagActive(COMX))
-        diagStatusBarPointer->updateLedStatus(card, i, status);
+        diagStatusBarPointer->updateLedStatus(0, status);
     else
         comxStatusBarPointer->updateLedStatus(card, i, status);
+}
+
+void V1870::updateDiagLedStatus(int led, bool status)
+{
+    if (p_Main->isDiagActive(COMX))
+        diagStatusBarPointer->updateLedStatus(led, status);
 }
 
 void V1870::updateCidelsaLedStatus(int number, bool status)
