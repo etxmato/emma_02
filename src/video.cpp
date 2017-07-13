@@ -752,3 +752,8 @@ void Video::splashScreen()
     if (p_Main->showSplashScreen())
         splashScreen_ = new SplashScreen(this);
 }
+
+void Video::updateDiagLedStatus(int WXUNUSED(led), bool WXUNUSED(status))
+{
+	
+}

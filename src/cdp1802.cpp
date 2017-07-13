@@ -6,7 +6,7 @@
  *** This software may not be used in commercial applications    ***
  *** without express written permission from the author.         ***
  ***                                                             ***
- *** 1802 Code based on elf emulator by Michael H Riley with     ***
+ *** 1802 Code based on elf emulator by Michael H Riley with     **
  *** copyright as below                                          ***
  *******************************************************************
 */
@@ -329,6 +329,19 @@ void Cdp1802::setEf(int flag,int value)
 
 void Cdp1802::interrupt()
 {
+	if (p_Main->isDiagActive(COMX) && computerType_ == COMX)
+	{
+		if (interruptEnable_ && (clear_ == 1))
+		{
+			p_Video->updateDiagLedStatus(3, false); //INT
+			p_Video->updateDiagLedStatus(4, true); //INTACK
+		}
+		else
+		{
+			p_Video->updateDiagLedStatus(3, true); //INT
+			p_Video->updateDiagLedStatus(4, false); //INTACK
+		}
+	}
 	if (interruptEnable_ && (clear_ == 1))
 	{
 		if (traceInt_)

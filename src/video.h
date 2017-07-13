@@ -104,7 +104,8 @@ public:
 	void drawRectangleMutex(wxCoord x, wxCoord y, wxCoord width, wxCoord height);
     void drawPointMutex(wxCoord x, wxCoord y);
     void splashScreen();
-   
+	virtual void updateDiagLedStatus(int led, bool status);
+
 protected:
 	wxColour colour_[66];
 	wxPen penColour_[66];

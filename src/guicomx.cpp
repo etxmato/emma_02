@@ -174,7 +174,7 @@ void GuiComx::readComxConfig()
 
 	configPointer->Read("/Comx/Enable_SB", &conf[COMX].sbActive_, true);
 	configPointer->Read("/Comx/Enable_DIAG", &conf[COMX].diagActive_, false);
-	conf[COMX].diagOn_ = (int)configPointer->Read("/Comx/Enable_DIAG_ON", 0l);
+	conf[COMX].diagOn_ = (int)configPointer->Read("/Comx/Enable_DIAG_ON", 1l);
 
     conf[COMX].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Comx" + pathSeparator_;
 
@@ -261,13 +261,14 @@ void GuiComx::readComxConfig()
     diagRomChecksum_ = (int)configPointer->Read("/Comx/DiagRomChecksum", 1l);
     diagCassetteCables_ = (int)configPointer->Read("/Comx/DiagCassetteCables", 1l);
 
-    if (conf[COMX].diagActive_)
+/*    if (conf[COMX].diagActive_)
 	{
 		conf[COMX].romDir_[EXPROM] = DiagRomDir_[0];
 		conf[COMX].rom_[EXPROM] = DiagRom_[0];
         conf[COMX].romDir_[CARTROM1] = DiagRomDir_[1];
 		conf[COMX].rom_[CARTROM1] = DiagRom_[1];
-	}
+	}*/
+	diagSbChange();
 
 	if (mode_.gui)
 	{
@@ -375,7 +376,7 @@ void GuiComx::readSbConfig()
     sbCaseFile_ = (int)configPointer->Read("/Comx/CaseFile", 0l);
     sbCaseDir_ = (int)configPointer->Read("/Comx/CaseDir", 2l);
     
-    if (conf[COMX].sbActive_)
+/*    if (conf[COMX].sbActive_)
     {
         conf[COMX].romDir_[MAINROM1] = SBRomDir_[0];
         conf[COMX].rom_[MAINROM1] = SBRom_[0];
@@ -383,7 +384,7 @@ void GuiComx::readSbConfig()
         conf[COMX].rom_[EXPROM] = SBRom_[1];
         conf[COMX].romDir_[CARTROM4] = SBRomDir_[2];
         conf[COMX].rom_[CARTROM4] = SBRom_[2];
-    }
+    }*/
 }
 
 void GuiComx::readInitialComxConfig()
@@ -1332,6 +1333,8 @@ void GuiComx::diagSbChange()
 		XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(!conf[COMX].diagActive_);
 		XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
 		XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
+		XRCCTRL(*this, "DiagOnComx", wxChoice)->Enable(conf[COMX].diagActive_);
+		XRCCTRL(*this, "ExpRamComx", wxCheckBox)->Enable(!conf[COMX].diagActive_);
 	}
 
 	conf[COMX].romDir_[MAINROM1] = readConfigDir("/Dir/Comx/Main_Rom_File", dataDir_ + "Comx" + pathSeparator_);
@@ -1355,12 +1358,16 @@ void GuiComx::diagSbChange()
 		{
 			expansionRamSlot_ = 3;
 			useExpansionRam_ = false;
-			XRCCTRL(*this, "ExpRamComx", wxCheckBox)->SetValue(useExpansionRam_);
+			if (mode_.gui)
+				XRCCTRL(*this, "ExpRamComx", wxCheckBox)->SetValue(useExpansionRam_);
 		}
-        XRCCTRL(*this, "Cart2RomComx", wxComboBox)->Enable(true);
-        XRCCTRL(*this, "Cart2RomButtonComx", wxButton)->Enable(true);
-        XRCCTRL(*this, "Cart3RomComx", wxComboBox)->Enable(true);
-        XRCCTRL(*this, "Cart3RomButtonComx", wxButton)->Enable(true);
+		if (mode_.gui)
+		{
+			XRCCTRL(*this, "Cart2RomComx", wxComboBox)->Enable(true);
+			XRCCTRL(*this, "Cart2RomButtonComx", wxButton)->Enable(true);
+			XRCCTRL(*this, "Cart3RomComx", wxComboBox)->Enable(true);
+			XRCCTRL(*this, "Cart3RomButtonComx", wxButton)->Enable(true);
+		}
     }
 
 	if (conf[COMX].diagActive_)
@@ -1370,12 +1377,15 @@ void GuiComx::diagSbChange()
         conf[COMX].romDir_[CARTROM1] = DiagRomDir_[1];
 		conf[COMX].rom_[CARTROM1] = DiagRom_[1];
 
-        XRCCTRL(*this, "Cart2RomComx", wxComboBox)->Enable(false);
-        XRCCTRL(*this, "Cart2RomButtonComx", wxButton)->Enable(false);
-        XRCCTRL(*this, "Cart3RomComx", wxComboBox)->Enable(false);
-        XRCCTRL(*this, "Cart3RomButtonComx", wxButton)->Enable(false);
-        XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(false);
-        XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(false);
+		if (mode_.gui)
+		{
+			XRCCTRL(*this, "Cart2RomComx", wxComboBox)->Enable(false);
+			XRCCTRL(*this, "Cart2RomButtonComx", wxButton)->Enable(false);
+			XRCCTRL(*this, "Cart3RomComx", wxComboBox)->Enable(false);
+			XRCCTRL(*this, "Cart3RomButtonComx", wxButton)->Enable(false);
+			XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(false);
+			XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(false);
+		}
 	}
 
 	if (mode_.gui)

@@ -70,6 +70,7 @@ private:
 	bool nvramWriteProtected_;
 
     bool diagRomActive_;
+	bool diagDmaLedOn_;
     
 	wxDateTime systemTime_;
 	wxDateTime comxTime_;

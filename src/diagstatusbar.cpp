@@ -58,7 +58,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     delete ledOffBitmap;
     delete ledOnBitmap;
 
-    for (int i=0; i<5; i++)
+    for (int i=0; i<NUMBER_OF_DIAG_LEDS; i++)
         ledStatus_[i] = false;
 }
 
@@ -69,15 +69,21 @@ DiagStatusBar::~DiagStatusBar()
     deleteBitmaps();
 }
 
-void DiagStatusBar::initComxBar(bool expansionRomLoaded, int expansionTypeCard0)
+void DiagStatusBar::initDiagBar()
 {
-	SetFieldsCount(5);
+	SetFieldsCount(NUMBER_OF_DIAG_LEDS);
 	displayLeds();
 	displayText();
 }
 
 void DiagStatusBar::updateLedStatus(int led, bool status)
 {
+    if (!ledsDefined_)
+        return;
+    
+    if (status == ledStatus_[led])
+        return;
+    
 	ledStatus_[led] = status;
 
 	if (status)
@@ -108,12 +114,46 @@ void DiagStatusBar::displayText()
     wxFont defaultFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     SetFont(defaultFont);
 #endif
+
+    wxRect rect;
+    this->GetFieldRect (1, rect);
     
-    SetStatusText("    V++", 0);
-    SetStatusText("    EXT ROM", 1);
-    SetStatusText("    DMA ACK", 2);
-    SetStatusText("    INT", 3);
-    SetStatusText("    INT ACK", 4);
+    if (rect.GetWidth() < 70)
+    {
+#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+        SetStatusText("    V++", 0);
+        SetStatusText("    EXT", 1);
+        SetStatusText("    DM", 2);
+        SetStatusText("    INT", 3);
+        SetStatusText("    I-A", 4);
+        SetStatusText("    CLR", 5);
+#else
+        SetStatusText("     V++", 0);
+        SetStatusText("     EXT", 1);
+        SetStatusText("     DM", 2);
+        SetStatusText("     INT", 3);
+        SetStatusText("     I-A", 4);
+        SetStatusText("     CLR", 5);
+#endif
+    }
+    else
+    {
+#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+        SetStatusText("    V++", 0);
+        SetStatusText("    EXT ROM", 1);
+        SetStatusText("    DMA ACK", 2);
+        SetStatusText("    INTERRUPT", 3);
+        SetStatusText("    INT ACK", 4);
+        SetStatusText("    CLEAR", 5);
+#else
+        SetStatusText("     V++", 0);
+        SetStatusText("     EXT ROM", 1);
+        SetStatusText("     DMA ACK", 2);
+        SetStatusText("     INTERRUPT", 3);
+        SetStatusText("     INT ACK", 4);
+        SetStatusText("     CLEAR", 5);
+#endif
+    }
 }
 
 void DiagStatusBar::displayLeds()
@@ -123,12 +163,12 @@ void DiagStatusBar::displayLeds()
 	wxRect rect;
 	this->GetFieldRect (1, rect);
 
-    for (int led = 0; led < 5; led++)
+    for (int led = 0; led < NUMBER_OF_DIAG_LEDS; led++)
     {
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
         ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #else
-        ledPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+        ledPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, 4), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
 #endif
         if (ledStatus_[led])
 #if wxCHECK_VERSION(2, 9, 0)
@@ -149,7 +189,7 @@ void DiagStatusBar::displayLeds()
 void DiagStatusBar::deleteBitmaps()
 {
 	if (!ledsDefined_)  return;
-  	for (int led = 0; led < 5; led++)
+  	for (int led = 0; led < NUMBER_OF_DIAG_LEDS; led++)
 	{
         delete ledPointer [led];
 	}
@@ -158,6 +198,6 @@ void DiagStatusBar::deleteBitmaps()
 
 void DiagStatusBar::reDrawBar()
 {
-	displayLeds();
     displayText();
+    displayLeds();
 }

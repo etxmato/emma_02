@@ -114,9 +114,9 @@ void Comx::initComputer()
 {
 	init1870();
 	qMode_ = 0;
-	setClear(1);
-	setWait(1);
-
+    setClear(1);
+    setWait(1);
+    
 	thermalPrinting_ = false;
 	thermalEF_ = 0;
 
@@ -260,7 +260,7 @@ Byte Comx::in()
 		}
 	}*/
 
-	if (p_Main->isDiagOn(COMX) == 0)
+	if (p_Main->isDiagOn(COMX) == 1)
 	{
 		switch (keyboardCode_)
 		{
@@ -485,6 +485,11 @@ void Comx::cycleComx()
 		{
 			dmaOut();
 			dmaCounter_ = DMACYCLE;
+			if (!diagDmaLedOn_)
+			{
+				diagDmaLedOn_ = true;
+				updateDiagLedStatus(2, diagDmaLedOn_);
+			}
 		}
 	}
 
@@ -619,6 +624,7 @@ void Comx::startComputer()
 	else
 		diagRomActive_ = false;
     
+	diagDmaLedOn_ = false;
 	expansionRomLoaded_ = false;
 	if (mainMemory_[0xE000] != 0x0)
 	{
@@ -682,7 +688,8 @@ void Comx::startComputer()
 	year_ = comxTime_.GetYear();
 
     updateDiagLedStatus(1, diagRomActive_);
-	if (threadPointer->Run() != wxTHREAD_NO_ERROR )
+    updateDiagLedStatus(2, diagDmaLedOn_);
+    if (threadPointer->Run() != wxTHREAD_NO_ERROR )
 	{
 		p_Main->message("Can't start thread!");
 	}
@@ -1358,8 +1365,9 @@ void Comx::cpuInstruction()
 			out(1, 0, 0x10);
 		resetCpu();
 		init1870();
-		initComputer();
-		p_Main->v1870BarSizeEvent();
+        initComputer();
+        
+        p_Main->v1870BarSizeEvent();
 		writeMem(0xbf42, 0, false);
 		writeMem(0xbf44, 0, false);
 		p_Main->setSwName("");
@@ -1371,6 +1379,9 @@ void Comx::cpuInstruction()
 		else
 			diagRomActive_ = false;
         updateDiagLedStatus(1, diagRomActive_);
+		diagDmaLedOn_ = false;
+		updateDiagLedStatus(2, diagDmaLedOn_);
+        updateDiagLedStatus(5, false);
 	}
 	if (debugMode_)
 		p_Main->cycleDebug();
@@ -1822,6 +1833,7 @@ void Comx::closeComxKeyFile()
 
 void Comx::onReset()
 {
+    updateDiagLedStatus(5, true);
 	resetPressed_ = true;
 }
 

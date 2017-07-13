@@ -5022,7 +5022,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"PrintButtonComx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Comx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3Comx", wxButton)->Enable(!status);
-		XRCCTRL(*this,"ExpRamComx", wxCheckBox)->Enable(status);
+		XRCCTRL(*this,"ExpRamComx", wxCheckBox)->Enable(status&!conf[COMX].diagActive_);
 		XRCCTRL(*this, "SbActiveComx", wxCheckBox)->Enable(status);
 		XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->Enable(status);
 		enableLoadGui(!status);

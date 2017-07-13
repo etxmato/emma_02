@@ -234,7 +234,7 @@ void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
 	pcbMask_ = 0x7f;
 
     if (p_Main->isDiagActive(COMX))
-        diagStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
+        diagStatusBarPointer->initDiagBar();
     else
         comxStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
 
@@ -363,8 +363,10 @@ void V1870::v1870BarSize()
         if (p_Main->isDiagActive(COMX))
             diagStatusBarPointer->reDrawBar();
         else
+        {
             comxStatusBarPointer->reDrawBar();
-		updateExpansionLed(true);
+            updateExpansionLed(true);
+        }
 	}
 	if (computerType_ == CIDELSA && cidelsaGame_ != DRACO)
 	{
