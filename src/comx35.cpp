@@ -270,7 +270,9 @@ Byte Comx::in()
 				return 0;
 			break;
 		}
-	}
+        if ((outValues_[1]&0xf0) == 0x10)
+            keyboardEf2_ = 0;
+    }
 	keyboardEf3_ = 1;
 	ret = keyboardCode_;
 
@@ -380,6 +382,8 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
             
         case COMXDIAGIN2:
             ret = (p_Main->getDiagRomChecksum()^1) << 1;
+     //       ret = ret ^ 4;
+     //       ret = ret ^ 8;
             // bit 1 ROM checksum
             // bit 2 IDEN?
             // bit 3 keyboard debounce, repeat and IDEN
@@ -432,6 +436,149 @@ void Comx::out(Byte port, Word address, Byte value)
 			outValues_[port] = address;
 			out7_1870(address);
 		break;
+            
+        case COMXDIAGOUT1:
+            switch (value)
+            {
+                case 0:
+                    keyboardEf2_ = 1;
+                    keyboardEf3_ = 1;
+                    keyboardCode_ = 0;
+                    previousKeyCode_ = (wxKeyCode) 0;
+                    break;
+                    
+                case 0x11: //set breakpoint onn ce8f
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '1';
+                        keyboardEf3_ = 0;
+                    }
+                    break;
+                    
+                case 0x12:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '2';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x13:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '3';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x14:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '4';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x15:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '5';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                   
+                case 0x16:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '6';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x17:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '7';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x09:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '8';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x10:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '0';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x0A:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '?';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x0B:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 'H';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x0C:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 'P';
+                        keyboardEf3_ = 0;
+                    }
+                    break;
+
+                case 0x0D:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 'X';
+                        keyboardEf3_ = 0;
+                    }
+                    break;
+
+                case 0x0E:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 13;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x2D:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 'x';
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x4D:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 24;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                default:
+                break;
+            }
+        break;
 	}
 }
 

@@ -342,7 +342,7 @@ void Cdp1802::interrupt()
 			p_Video->updateDiagLedStatus(4, false); //INTACK
 		}
 	}
-	if (interruptEnable_ && (clear_ == 1))
+	if (interruptEnable_ && (clear_ == 1) && (getDmaCounter() != -100))
 	{
 		if (traceInt_)
 		{

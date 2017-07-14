@@ -46,6 +46,8 @@ public:
 	void loadRam();
     void switchQ(int value);
 
+    int getDmaCounter() {return dmaCounter_;};
+    
 private:
 	Byte keyboardEf2_;
 	Byte keyboardEf3_;
