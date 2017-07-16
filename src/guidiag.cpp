@@ -43,6 +43,7 @@ DiagDialog::DiagDialog(wxWindow* parent)
 	XRCCTRL(*this, "DIAG_ROM_1", wxComboBox)->SetValue(p_Main->getDiagRom(1));
 
     XRCCTRL(*this, "DIAG_CHECKSUM", wxChoice)->SetSelection(p_Main->getDiagRomChecksum());
+    XRCCTRL(*this, "DIAG_FACTORY", wxChoice)->SetSelection(p_Main->getDiagFactory());
     XRCCTRL(*this, "DIAG_CASSETTE", wxChoice)->SetSelection(p_Main->getDiagCassetteCables());
 }
 
@@ -51,6 +52,7 @@ void DiagDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	wxString number;
 
     p_Main->setDiagRomChecksum(XRCCTRL(*this, "DIAG_CHECKSUM", wxChoice)->GetSelection());
+    p_Main->setDiagFactory(XRCCTRL(*this, "DIAG_FACTORY", wxChoice)->GetSelection());
     p_Main->setDiagCassetteCables(XRCCTRL(*this, "DIAG_CASSETTE", wxChoice)->GetSelection());
     for (int i=0; i<2; i++)
 	{

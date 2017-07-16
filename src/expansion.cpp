@@ -76,8 +76,8 @@ void Expansion::configureExpansion()
 		configureCard(2);
 		configureCard(3);
 		expansionSlot_ = 3;
-	}
-	setOutValue(1, 0x10);
+        setOutValue(1, 0x10);
+    }
 	p_Main->setComxExpLedOn (true);
 }
 
@@ -313,8 +313,8 @@ void Expansion::configureCard(int slot)
                     print_buffer = "Configuring Diagnose Card" + slotString;
 					p_Main->message(print_buffer);
                     p_Main->message("	Input 1, bit 2: Step, bit 6: Abort, bit 7 Repeat");
-                    p_Main->message("	Input 2, bit 1: ROM Checksum");
-                    p_Main->message("	Output 1, ..");
+                    p_Main->message("	Input 2, bit 1: ROM Checksum, bit 2: IDEN, bit 3: Factory unit");
+                    p_Main->message("	Output 1, automated keyboard test");
                     p_Main->message("	@D800-@DFFF: RAM");
 					defineExpansionMemoryType(slot, 0, 0x17ff, ROM);
 					defineExpansionMemoryType(slot, 0x1800, 0x1fff, RAM);

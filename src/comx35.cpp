@@ -270,7 +270,7 @@ Byte Comx::in()
 				return 0;
 			break;
 		}
-        if ((outValues_[1]&0xf0) == 0x10)
+        if ((outValues_[1]) != 0)
             keyboardEf2_ = 0;
     }
 	keyboardEf3_ = 1;
@@ -381,11 +381,15 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
         break;
             
         case COMXDIAGIN2:
-            ret = (p_Main->getDiagRomChecksum()^1) << 1;
-     //       ret = ret ^ 4;
-     //       ret = ret ^ 8;
+            ret = 0;
+            if (p_Main->getDiagRomChecksum() == 0)
+                ret = 2;
+            if (dmaCounter_ == -100)
+                ret = ret ^ 4;
+            if (p_Main->getDiagFactory() == 1)
+                ret = ret ^ 8;
             // bit 1 ROM checksum
-            // bit 2 IDEN?
+            // bit 2 IDEN itself
             // bit 3 keyboard debounce, repeat and IDEN
         break;
  
@@ -451,6 +455,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '1';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                     break;
@@ -459,6 +464,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '2';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -467,6 +473,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '3';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -475,6 +482,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '4';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -483,6 +491,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '5';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -491,6 +500,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '6';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -499,6 +509,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '7';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -507,6 +518,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '8';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -515,6 +527,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '0';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -523,6 +536,7 @@ void Comx::out(Byte port, Word address, Byte value)
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '?';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -530,7 +544,8 @@ void Comx::out(Byte port, Word address, Byte value)
                 case 0x0B:
                     if (keyboardEf3_ == 1)
                     {
-                        keyboardCode_ = 'H';
+                        keyboardCode_ = 'h';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -538,7 +553,8 @@ void Comx::out(Byte port, Word address, Byte value)
                 case 0x0C:
                     if (keyboardEf3_ == 1)
                     {
-                        keyboardCode_ = 'P';
+                        keyboardCode_ = 'p';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                     break;
@@ -546,7 +562,8 @@ void Comx::out(Byte port, Word address, Byte value)
                 case 0x0D:
                     if (keyboardEf3_ == 1)
                     {
-                        keyboardCode_ = 'X';
+                        keyboardCode_ = 'x';
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                     break;
@@ -554,7 +571,8 @@ void Comx::out(Byte port, Word address, Byte value)
                 case 0x0E:
                     if (keyboardEf3_ == 1)
                     {
-                        keyboardCode_ = 13;
+                        keyboardCode_ = 0x80;
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -562,7 +580,8 @@ void Comx::out(Byte port, Word address, Byte value)
                 case 0x2D:
                     if (keyboardEf3_ == 1)
                     {
-                        keyboardCode_ = 'x';
+                        keyboardCode_ = 0x58;
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -570,7 +589,8 @@ void Comx::out(Byte port, Word address, Byte value)
                 case 0x4D:
                     if (keyboardEf3_ == 1)
                     {
-                        keyboardCode_ = 24;
+                        keyboardCode_ = 0x18;
+                        keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
                 break;
@@ -1287,6 +1307,8 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 
 				case RAM:
 					expansionRom_[(expansionSlot_*0x2000) + (address & 0x1fff)] = value;
+//                    if (address == 0xD8b4)
+//                        p_Main->messageHex(scratchpadRegister_[programCounter_]);
 				break;
 
 				case MC6845RAM:
@@ -1626,6 +1648,11 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 
 void Comx::keyUp(int WXUNUSED(keycode))
 {
+    if (p_Main->isDiagOn(COMX) == 1)
+    {
+        if ((outValues_[1]) != 0)
+            return;
+    }
 	keyboardEf2_ = 1;
 	keyboardEf3_ = 1;
 	keyboardCode_ = 0;
@@ -1915,8 +1942,8 @@ void Comx::checkComxFunction()
 			if (expansionSlot_ == columnSlot_)
 				configure6845();
 		break;
-
-/*		case 0x429f: 
+            
+/*		case 0x429f:
 		case 0x42a3: 
 				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
 				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);

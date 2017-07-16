@@ -111,7 +111,9 @@ public:
 	bool isDiagActive(int computer) { return conf[computer].diagActive_; };
 	int isDiagOn(int computer) { return conf[computer].diagOn_; };
     int getDiagRomChecksum() {return diagRomChecksum_;};
+    int getDiagFactory() {return diagFactory_;};
     void setDiagRomChecksum(int diagRomChecksum) { diagRomChecksum_ = diagRomChecksum;};
+    void setDiagFactory(int diagFactory) { diagFactory_ = diagFactory;};
     int getDiagCassetteCables() {return diagCassetteCables_;};
     void setDiagCassetteCables(int diagCassetteCables) { diagCassetteCables_ = diagCassetteCables;};
   
@@ -188,6 +190,7 @@ private:
 	int sbCaseDir_;
 	int sbFwVersion_;
     int diagRomChecksum_;
+    int diagFactory_;
     int diagCassetteCables_;
     
 	int comxPrintMode_;

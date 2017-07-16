@@ -783,7 +783,6 @@ public:
 #define VIDEO 0
 #define PIXIE 1
 
-
 class Emu1802: public wxApp
 {
 	virtual bool OnInit();

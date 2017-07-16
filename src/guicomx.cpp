@@ -259,6 +259,7 @@ void GuiComx::readComxConfig()
 	DiagRomDir_[0] = readConfigDir("/Dir/Comx/DIAG_ROM_0", dataDir_ + "Comx" + pathSeparator_);
 	DiagRomDir_[1] = readConfigDir("/Dir/Comx/DIAG_ROM_1", dataDir_ + "Comx" + pathSeparator_);
     diagRomChecksum_ = (int)configPointer->Read("/Comx/DiagRomChecksum", 1l);
+    diagFactory_ = (int)configPointer->Read("/Comx/DiagFactoryUnit", 1l);
     diagCassetteCables_ = (int)configPointer->Read("/Comx/DiagCassetteCables", 1l);
 
 /*    if (conf[COMX].diagActive_)
@@ -534,6 +535,7 @@ void GuiComx::writeComxConfig()
 	setConfigItem("/Comx/DIAG_ROM_0", DiagRom_[0]);
 	setConfigItem("/Comx/DIAG_ROM_1", DiagRom_[1]);
     configPointer->Write("/Comx/DiagRomChecksum", diagRomChecksum_);
+    configPointer->Write("/Comx/DiagFactoryUnit", diagFactory_);
     configPointer->Write("/Comx/DiagCassetteCables", diagCassetteCables_);
 
 	writeSbConfig();
