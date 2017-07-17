@@ -475,6 +475,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_TIMER(904, Main::ledTimeout)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
+    EVT_TIMER(907, Main::keyDebounceTimeout)
 
 	EVT_KEY_DOWN(Main::onKeyDown)
 	EVT_KEY_UP(Main::onKeyUp)
@@ -1686,6 +1687,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 	ledTimePointer = new wxTimer(this, 904);
     updateCheckPointer = new wxTimer(this, 905);
     traceTimeoutPointer = new wxTimer(this, 906);
+    keyDebounceTimeoutPointer = new wxTimer(this, 907);
     
     if (mode_.gui)
         buildConfigMenu();
@@ -1740,7 +1742,8 @@ Main::~Main()
 	delete updateCheckPointer;
     delete ledTimePointer;
     delete traceTimeoutPointer;
-	delete help_;
+    delete keyDebounceTimeoutPointer;
+    delete help_;
 	if (configPointer == NULL || !saveOnExit_)
 		return;
 
@@ -6157,6 +6160,16 @@ void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
             chip8TraceWindowPointer->WriteText(buffer);
         }
     }
+}
+
+void Main::keyDebounceTimeout(wxTimerEvent&WXUNUSED(event))
+{
+    p_Computer->keyClear();
+}
+
+void Main::keyDebounceTimer()
+{
+    traceTimeoutPointer->Start(80, wxTIMER_ONE_SHOT);
 }
 
 void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))

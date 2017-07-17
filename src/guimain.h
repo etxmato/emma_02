@@ -516,7 +516,8 @@ protected:
 	wxButton *startButton[NO_COMPUTER];
 
     wxTimer *traceTimeoutPointer;
-	wxTimer *vuPointer;
+    wxTimer *keyDebounceTimeoutPointer;
+    wxTimer *vuPointer;
 	wxTimer *ledTimePointer;
 
 	bool slotLedUpdate_;

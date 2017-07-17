@@ -915,7 +915,9 @@ public:
 	bool getUseExitKey() {return useExitKey_;};
 	void setUseExitKey(bool status) {useExitKey_ = status;};
     void traceTimeout(wxTimerEvent& event);
-	void vuTimeout(wxTimerEvent& event);
+    void keyDebounceTimeout(wxTimerEvent& event);
+    void keyDebounceTimer();
+    void vuTimeout(wxTimerEvent& event);
 	void updateMemoryTab();
 	void updateAssTab();
 	void updateSlotInfo();

@@ -445,20 +445,17 @@ void Comx::out(Byte port, Word address, Byte value)
             switch (value)
             {
                 case 0:
-                    keyboardEf2_ = 1;
-                    keyboardEf3_ = 1;
-                    keyboardCode_ = 0;
-                    previousKeyCode_ = (wxKeyCode) 0;
-                    break;
+                    p_Main->keyDebounceTimer();
+                break;
                     
-                case 0x11: //set breakpoint onn ce8f
+                case 0x11: //set breakpoint onn ce8f / CEE8
                     if (keyboardEf3_ == 1)
                     {
                         keyboardCode_ = '1';
                         keyboardEf2_ = 1;
                         keyboardEf3_ = 0;
                     }
-                    break;
+                break;
                     
                 case 0x12:
                     if (keyboardEf3_ == 1)
@@ -1307,7 +1304,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 
 				case RAM:
 					expansionRom_[(expansionSlot_*0x2000) + (address & 0x1fff)] = value;
-//                    if (address == 0xD8b4)
+//                    if (address == 0xdff8)
 //                        p_Main->messageHex(scratchpadRegister_[programCounter_]);
 				break;
 

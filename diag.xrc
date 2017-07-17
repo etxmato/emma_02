@@ -126,20 +126,21 @@
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
                             </font>
-                            <label>Optional, debounce, repeat and IDEN test</label>
+                            <label>Factory Unit </label>
                         </object>
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxChoice" name="DIAG_FACTORY">
+                            <tooltip>Turn on debounce, repeat and IDEN test</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
                             </font>
                             <content>
-                                <item>Off</item>
-                                <item>On</item>
+                                <item>No</item>
+                                <item>Yes</item>
                             </content>
                         </object>
                     </object>
@@ -170,8 +171,8 @@
                                 <size>-1</size>
                             </font>
                             <content>
-                                <item>Off</item>
-                                <item>On</item>
+                                <item>No</item>
+                                <item>Yes</item>
                             </content>
                         </object>
                     </object>
