@@ -475,7 +475,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_TIMER(904, Main::ledTimeout)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
-    EVT_TIMER(907, Main::keyDebounceTimeout)
+    EVT_TIMER(907, Main::debounceTimeout)
 
 	EVT_KEY_DOWN(Main::onKeyDown)
 	EVT_KEY_UP(Main::onKeyUp)
@@ -510,6 +510,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_GUI_MSG(UPDATE_TITLE, Main::setUpdateTitle)
     EVT_GUI_MSG(SHOW_MESSAGE, Main::showMessageEvent)
 	EVT_GUI_MSG(SHOW_TEXT_MESSAGE, Main::showTextMessageEvent)
+	EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
 
 	EVT_COMMAND(wxID_ANY, KILL_COMPUTER, Main::killComputer)
 
@@ -6162,16 +6163,6 @@ void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
     }
 }
 
-void Main::keyDebounceTimeout(wxTimerEvent&WXUNUSED(event))
-{
-    p_Computer->keyClear();
-}
-
-void Main::keyDebounceTimer()
-{
-    traceTimeoutPointer->Start(80, wxTIMER_ONE_SHOT);
-}
-
 void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	switch (runningComputer_)
@@ -7193,6 +7184,24 @@ void Main::eventUpdateTitle()
 {
     guiEvent event(GUI_MSG, UPDATE_TITLE);
     event.SetEventObject( p_Main );
+
+	GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::debounceTimeout(wxTimerEvent&WXUNUSED(event))
+{
+	p_Computer->keyClear();
+}
+
+void Main::setDebounceTimer(guiEvent&WXUNUSED(event))
+{
+	traceTimeoutPointer->Start(80, wxTIMER_ONE_SHOT);
+}
+
+void Main::eventDebounceTimer()
+{
+	guiEvent event(GUI_MSG, DEBOUNCE_TIMER);
+	event.SetEventObject(p_Main);
 
 	GetEventHandler()->AddPendingEvent(event);
 }

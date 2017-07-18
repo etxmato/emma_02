@@ -175,6 +175,7 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
 #define SHOW_MESSAGE 28
 #define SHOW_ADDRESS_POPUP 29
 #define SHOW_TEXT_MESSAGE 30
+#define DEBOUNCE_TIMER 31
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -915,8 +916,6 @@ public:
 	bool getUseExitKey() {return useExitKey_;};
 	void setUseExitKey(bool status) {useExitKey_ = status;};
     void traceTimeout(wxTimerEvent& event);
-    void keyDebounceTimeout(wxTimerEvent& event);
-    void keyDebounceTimer();
     void vuTimeout(wxTimerEvent& event);
 	void updateMemoryTab();
 	void updateAssTab();
@@ -1017,9 +1016,13 @@ public:
 	void setDisableControlsEvent(guiEvent& event);
 	void eventDisableControls();
 
-    void setUpdateTitle(guiEvent& event);
-    void eventUpdateTitle();
-    
+	void setUpdateTitle(guiEvent& event);
+	void eventUpdateTitle();
+
+	void debounceTimeout(wxTimerEvent& event);
+	void setDebounceTimer(guiEvent& event);
+	void eventDebounceTimer();
+
 	wxString getMultiCartGame(Byte msb, Byte lsb);
     bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
     int getDefaultInKey1(wxString computerStr);

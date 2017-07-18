@@ -59,6 +59,7 @@ private:
 	wxKeyCode previousKeyCode_;
 
 	int dmaCounter_;
+	int debounceCounter_;
 	wxFile comxKeyFile_;
 	bool comxKeyFileOpened_;
 	size_t comxRunCommand_;
