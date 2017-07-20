@@ -22,7 +22,6 @@
                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>3</border>
                                 <object class="wxButton" name="EpromButton0">
-                                    <size>75,23</size>
                                     <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 0</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -36,7 +35,7 @@
                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                 <border>3</border>
                                 <object class="wxComboBox" name="Eprom0">
-                                    <size>177,23</size>
+                                    <size>177,-1</size>
                                     <tooltip>Specify F&amp;M EPROM switchboard file for EPROM 0</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -64,7 +63,6 @@
                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>3</border>
                                 <object class="wxButton" name="EpromButton1">
-                                    <size>75,23</size>
                                     <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 1</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -77,7 +75,7 @@
                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                 <border>3</border>
                                 <object class="wxComboBox" name="Eprom1">
-                                    <size>177,23</size>
+                                    <size>177,-1</size>
                                     <tooltip>Specify F&amp;M EPROM switchboard file for EPROM 1</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -105,7 +103,6 @@
                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>3</border>
                                 <object class="wxButton" name="EpromButton2">
-                                    <size>75,23</size>
                                     <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 2</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -118,7 +115,7 @@
                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                 <border>3</border>
                                 <object class="wxComboBox" name="Eprom2">
-                                    <size>177,23</size>
+                                    <size>177,-1</size>
                                     <tooltip>Specify F&amp;M EPROM switchboard file for EPROM 2</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -146,7 +143,6 @@
                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>3</border>
                                 <object class="wxButton" name="EpromButton3">
-                                    <size>75,23</size>
                                     <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 3</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -159,7 +155,7 @@
                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                 <border>3</border>
                                 <object class="wxComboBox" name="Eprom3">
-                                    <size>177,23</size>
+                                    <size>177,-1</size>
                                     <tooltip>Specify F&amp;M EPROM switchboard file for EPROM 3</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -187,7 +183,6 @@
                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>3</border>
                                 <object class="wxButton" name="EpromButton4">
-                                    <size>75,23</size>
                                     <tooltip>Browse for F&amp;M EPROM switchboard file for EPROM 4</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -200,7 +195,7 @@
                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                 <border>3</border>
                                 <object class="wxComboBox" name="Eprom4">
-                                    <size>177,23</size>
+                                    <size>177,-1</size>
                                     <tooltip>Specify F&amp;M EPROM switchboard file for EPROM 4</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -225,7 +220,6 @@
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>8</border>
                 <object class="wxButton" name="EpromSave">
-                    <size>-1,23</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>

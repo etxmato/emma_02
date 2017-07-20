@@ -3,7 +3,6 @@
     <object class="wxDialog" name="KeyMapDialog1">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-        <size>400,300</size>
         <title>Key Mapping</title>
         <centered>1</centered>
         <font>
@@ -55,7 +54,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxButton" name="InButton">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -102,7 +100,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey1">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -126,7 +124,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey2">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -151,7 +149,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey3">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -176,7 +174,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyC">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -208,7 +206,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey4">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -232,7 +230,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey5">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -257,7 +255,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey6">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -282,7 +280,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyD">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -314,7 +312,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey7">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -338,7 +336,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey8">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -363,7 +361,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey9">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -388,7 +386,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyE">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -420,7 +418,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyA">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -444,7 +442,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey0">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -469,7 +467,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyB">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -494,7 +492,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyF">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -516,7 +514,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="HexChar">
-                                            <size>-1,25</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -528,7 +525,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="HexLocation">
-                                            <size>-1,25</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -814,7 +810,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>3</border>
                                                 <object class="wxButton" name="HexSwitchPlayer">
-                                                    <size>90,25</size>
+                                                    <size>90,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -846,7 +842,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>3</border>
                         <object class="wxButton" name="HexSwitchSet2">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -858,7 +853,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>3</border>
                         <object class="wxButton" name="HexSwitchPad">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -877,7 +871,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>3</border>
                         <object class="wxButton" name="HexSave">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -892,7 +885,6 @@
     <object class="wxDialog" name="KeyMapDialog2">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-        <size>400,300</size>
         <title>Key Mapping</title>
         <centered>1</centered>
         <font>
@@ -944,7 +936,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxButton" name="InButton">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -991,7 +982,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyC">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1016,7 +1007,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyD">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1041,7 +1032,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyE">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1066,7 +1057,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyF">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1098,7 +1089,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey8">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1123,7 +1114,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey9">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1148,7 +1139,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyA">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1173,7 +1164,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKeyB">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1205,7 +1196,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey4">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1230,7 +1221,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey5">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1255,7 +1246,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey6">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1280,7 +1271,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey7">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1312,7 +1303,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey0">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1337,7 +1328,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey1">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1362,7 +1353,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey2">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1387,7 +1378,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey3">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1409,7 +1400,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="HexChar">
-                                            <size>-1,25</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -1421,7 +1411,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="HexLocation">
-                                            <size>-1,25</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -1702,19 +1691,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>3</border>
                                                 <object class="wxButton" name="HexSwitchPlayer">
-                                                    <size>90,25</size>
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>SwitchPlayer</label>
-                                                </object>
-                                            </object>
-                                            <object platform="win|unix" class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <object platform="win|unix" class="wxButton" name="HexSwitchPlayer">
-                                                    <size>83,25</size>
+                                                    <size>90,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1746,7 +1723,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>3</border>
                         <object class="wxButton" name="HexSwitchSet1">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -1765,7 +1741,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxButton" name="HexSave">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -1780,7 +1755,6 @@
     <object class="wxDialog" name="KeyMapDialog3">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-        <size>400,300</size>
         <title>Key Mapping</title>
         <centered>1</centered>
         <font>
@@ -1848,7 +1822,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey1">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1873,7 +1847,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey2">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1898,7 +1872,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey3">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1930,7 +1904,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey4">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1955,7 +1929,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey5">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1980,7 +1954,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey6">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2012,7 +1986,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey7">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2037,7 +2011,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey8">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2062,7 +2036,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey9">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2094,7 +2068,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxButton" name="HexKey0">
-                                                    <size>80,25</size>
+                                                    <size>80,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2129,7 +2103,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="StudioChar">
-                                            <size>-1,25</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -2141,7 +2114,6 @@
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="StudioLocation">
-                                            <size>-1,25</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -2429,7 +2401,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>3</border>
                         <object class="wxButton" name="StudioSwitchSet">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -2441,7 +2412,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>3</border>
                         <object class="wxButton" name="StudioSwitchPad">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
@@ -2460,7 +2430,6 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>3</border>
                         <object class="wxButton" name="HexSave">
-                            <size>80,25</size>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>

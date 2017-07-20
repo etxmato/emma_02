@@ -41,11 +41,48 @@
                                 <border>0</border>
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                <border>5</border>
+                                <object class="wxFlexGridSizer">
+                                    <cols>2</cols>
+                                    <rows>4</rows>
+                                    <vgap>1</vgap>
+                                    <hgap>0</hgap>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="ChannelText">
-                                            <size>116,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -54,10 +91,9 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                         <border>4</border>
                                         <object class="wxChoice" name="Channel">
-                                            <size>80,23</size>
                                             <tooltip>Specify real tape input channel</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -69,18 +105,10 @@
                                             </content>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="ConversionText2">
-                                            <size>116,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -89,10 +117,9 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                         <border>4</border>
                                         <object class="wxChoice" name="ConversionTypeWav">
-                                            <size>80,23</size>
                                             <tooltip>Specify wav file conversion type</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -104,18 +131,10 @@
                                             </content>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="ConversionText">
-                                            <size>116,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -124,10 +143,9 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                         <border>4</border>
                                         <object class="wxChoice" name="ConversionTypeCassette">
-                                            <size>80,23</size>
                                             <tooltip>Specify real cassette conversion type</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -139,35 +157,8 @@
                                             </content>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxCheckBox" name="Playback">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <hidden>1</hidden>
-                                            <label>Tape input playback</label>
-                                            <checked>0</checked>
-                                        </object>
-                                    </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                         <border>5</border>
                                         <object class="wxCheckBox" name="ReversedPolarity">
                                             <font>
@@ -180,15 +171,18 @@
                                     </object>
                                 </object>
                             </object>
-                            <object class="spacer">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</flag>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
                                 <border>5</border>
-                                <size>5,6</size>
-                            </object>
-                            <object platform="mac" class="spacer">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT</flag>
-                                <border>5</border>
-                                <size>5,6</size>
+                                <object class="wxCheckBox" name="Playback">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <label>Tape input playback</label>
+                                    <checked>0</checked>
+                                </object>
                             </object>
                         </object>
                     </object>
@@ -207,11 +201,34 @@
                                 <border>0</border>
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                <border>5</border>
+                                <object class="wxFlexGridSizer">
+                                    <cols>2</cols>
+                                    <rows>3</rows>
+                                    <vgap>1</vgap>
+                                    <hgap>0</hgap>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="PsaveVolumeText">
-                                            <size>107,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -220,10 +237,10 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                         <border>4</border>
                                         <object class="wxSpinCtrl" name="PsaveVolume">
-                                            <size>45,23</size>
+                                            <size>60,-1</size>
                                             <tooltip>Specify wave file volume</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -234,18 +251,10 @@
                                             <max>15</max>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="PsaveBitRateText">
-                                            <size>72,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -254,10 +263,9 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
                                         <border>4</border>
                                         <object class="wxChoice" name="PsaveBitRate">
-                                            <size>80,23</size>
                                             <tooltip>Specify wave file bitrate</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -271,18 +279,10 @@
                                             </content>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                         <border>5</border>
                                         <object class="wxStaticText" name="PsaveBitsPerSampleText">
-                                            <size>102,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -291,10 +291,9 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
                                         <border>4</border>
                                         <object class="wxChoice" name="PsaveBitsPerSample">
-                                            <size>50,23</size>
                                             <tooltip>Specify wave file bits per sample</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -312,7 +311,6 @@
                                 <flag>wxGROW|wxALL</flag>
                                 <border>5</border>
                                 <object class="wxStaticLine" name="wxID_STATIC">
-                                    <size>180,-1</size>
                                     <style>wxLI_HORIZONTAL</style>
                                 </object>
                             </object>
@@ -325,7 +323,6 @@
                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                         <border>0</border>
                                         <object class="wxStaticText" name="ID_TEXT">
-                                            <size>206,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -338,7 +335,6 @@
                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                         <border>0</border>
                                         <object class="wxStaticText" name="ID_TEXT">
-                                            <size>206,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>

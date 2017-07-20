@@ -46,8 +46,8 @@
                                         <object class="wxBoxSizer">
                                             <orient>wxVERTICAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT|wxALL</flag>
-                                                <border>0</border>
+                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                <border>1</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
                                                     <object class="sizeritem">
@@ -65,7 +65,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6845StartRam">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -105,7 +104,6 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                         <border>5</border>
                                                         <object class="wxChoice" name="MC6845SizeRam">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -122,7 +120,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT</flag>
+                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
                                                 <border>3</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
@@ -143,7 +141,7 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxTextCtrl" name="MC6845Address" subclass="HexEdit">
-                                                            <size>40,-1</size>
+                                                            <size>50,-1</size>
                                                             <tooltip>Specify MC6845 address register value in HEX</tooltip>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -169,7 +167,7 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxTextCtrl" name="MC6845Data" subclass="HexEdit">
-                                                            <size>40,-1</size>
+                                                            <size>50,-1</size>
                                                             <tooltip>Specify MC6845 data register value in HEX</tooltip>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -181,8 +179,8 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_LEFT|wxALL</flag>
-                                                <border>0</border>
+                                                <flag>wxALIGN_LEFT|wxTOP</flag>
+                                                <border>1</border>
                                                 <object class="wxBoxSizer">
                                                     <orient>wxHORIZONTAL</orient>
                                                     <object class="sizeritem">
@@ -201,7 +199,7 @@
                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                         <border>0</border>
                                                         <object class="wxSpinCtrl" name="MC6845EF">
-                                                            <size>37,23</size>
+                                                            <size>40,-1</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -255,7 +253,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="MC6847Output">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -280,7 +278,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="MC6847StartRam">
-                                                    <size>-1,23</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -312,7 +309,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="MC6847SizeRam">
-                                                    <size>-1,23</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -329,7 +325,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP</flag>
+                                        <flag>wxALIGN_LEFT|wxTOP</flag>
                                         <border>5</border>
                                         <object class="wxBoxSizer">
                                             <orient>wxHORIZONTAL</orient>
@@ -353,7 +349,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B7">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -393,7 +388,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B6">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -433,7 +427,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B5">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -473,7 +466,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B4">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -520,7 +512,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B3">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -560,7 +551,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B2">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -600,7 +590,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B1">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -640,7 +629,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-B0">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -687,7 +675,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-DD7">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -727,7 +714,6 @@
                                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                         <border>0</border>
                                                         <object class="wxChoice" name="MC6847-DD6">
-                                                            <size>-1,23</size>
                                                             <font>
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
@@ -766,7 +752,7 @@
                         <object class="wxBoxSizer">
                             <orient>wxVERTICAL</orient>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="PixieGraphics">
                                     <orient>wxVERTICAL</orient>
@@ -776,15 +762,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PixieInputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -793,10 +781,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PixieInput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -806,18 +794,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PixieOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -826,10 +806,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PixieOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -839,18 +819,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PixieEfText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -859,10 +831,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PixieEF">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -877,7 +849,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -887,15 +859,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>2</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="TmsModeHighOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -904,10 +878,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="TmsModeHighOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -917,18 +891,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="TmsModeLowOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -937,10 +903,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="TmsModeLowOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -955,7 +921,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -965,15 +931,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>5</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="I8275WriteCommandText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -982,10 +950,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="I8275WriteCommand">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -995,18 +963,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="I8275ReadStatusText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1015,10 +975,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="I8275ReadStatus">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1028,18 +988,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                <border>11</border>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
                                                 <object class="wxStaticText" name="I8275WriteParameterText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1048,10 +1000,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="I8275WriteParameter">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1061,18 +1013,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                <border>11</border>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
                                                 <object class="wxStaticText" name="I8275ReadParameterText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1081,10 +1025,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="I8275ReadParameter">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1094,18 +1038,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="I8275VerticalRetraceText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1114,10 +1050,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="I8275VerticalRetrace">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1132,7 +1068,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1142,15 +1078,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>2</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="TapeEfText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1159,10 +1097,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                <border>0</border>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                <border>1</border>
                                                 <object class="wxSpinCtrl" name="TapeEf">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1172,18 +1110,10 @@
                                                     <max>4</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                                <border>4</border>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
                                                 <object class="wxStaticText" name="TapeQText">
-                                                    <size>153,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1192,10 +1122,9 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                <border>0</border>
+                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                <border>3</border>
                                                 <object class="wxStaticText" name="TapeQ">
-                                                    <size>30,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1215,7 +1144,7 @@
                         <object class="wxBoxSizer">
                             <orient>wxVERTICAL</orient>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1225,15 +1154,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="Ps2KeyboardInputText">
-                                                    <size>148,-1</size>
                                                     <tooltip>Bit 0: PS2 serial out,  Bit 1: clock signal</tooltip>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1243,10 +1174,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="Ps2KeyboardInput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1256,18 +1187,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="Ps2KeyboardOutputText">
-                                                    <size>148,-1</size>
                                                     <tooltip>Bit 0: PS2 serial in, Bit 1: clock signal (low disables keyboard)</tooltip>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1277,10 +1200,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="Ps2KeyboardOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1290,18 +1213,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="Ps2KeyboardEfText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1310,10 +1225,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="Ps2KeyboardEf">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1328,7 +1243,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1338,15 +1253,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>2</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="KeyboardInputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1355,10 +1272,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="KeyboardInput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1368,18 +1285,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="KeyboardEfText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1388,10 +1297,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="KeyboardEf">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1406,7 +1315,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1416,15 +1325,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="HexOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1433,10 +1344,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="HexOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1446,18 +1357,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="HexInputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1466,10 +1369,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="HexInput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1479,18 +1382,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="HexEfText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1499,10 +1394,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="HexEf">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1517,7 +1412,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1527,15 +1422,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>4</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="FdcSelectOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1544,10 +1441,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="FdcSelectOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1557,18 +1454,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="FdcWriteOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1577,10 +1466,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="FdcWriteOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1590,18 +1479,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="FdcInputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1610,10 +1491,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="FdcInput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1623,18 +1504,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
                                                 <border>6</border>
                                                 <object class="wxStaticText" name="FdcEfText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1643,10 +1516,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_TOP</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
                                                 <border>6</border>
                                                 <object class="wxSpinCtrl" name="FdcEf">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1668,7 +1541,7 @@
                         <object class="wxBoxSizer">
                             <orient>wxVERTICAL</orient>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1678,15 +1551,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="Vt100OutputText">
-                                                    <size>148,-1</size>
                                                     <tooltip>vtEnable 80, vtDisable 40</tooltip>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1696,10 +1571,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="Vt100Output">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1709,43 +1584,41 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <object class="wxStaticText" name="Vt100EfText">
-                                                    <size>74,-1</size>
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>EF, Serial in</label>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxHORIZONTAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                        <border>5</border>
+                                                        <object class="wxStaticText" name="Vt100EfText">
+                                                            <font>
+                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                <size>-1</size>
+                                                            </font>
+                                                            <label>EF, Serial in</label>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                        <border>3</border>
+                                                        <object class="wxCheckBox" name="Vt100ReverseEf">
+                                                            <font>
+                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                <size>-1</size>
+                                                            </font>
+                                                            <label>Reverse</label>
+                                                            <checked>0</checked>
+                                                        </object>
+                                                    </object>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <object class="wxCheckBox" name="Vt100ReverseEf">
-                                                    <size>74,-1</size>
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>Reverse</label>
-                                                    <checked>0</checked>
-                                                </object>
-                                            </object>
-                                            <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
-                                                <border>3</border>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                <border>1</border>
                                                 <object class="wxSpinCtrl" name="Vt100Ef">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1755,43 +1628,40 @@
                                                     <max>4</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <object class="wxStaticText" name="Vt100Q">
-                                                    <size>74,-1</size>
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>Serial out</label>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxHORIZONTAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                        <border>5</border>
+                                                        <object class="wxStaticText" name="Vt100Q">
+                                                            <font>
+                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                <size>-1</size>
+                                                            </font>
+                                                            <label>Serial out</label>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                        <border>3</border>
+                                                        <object class="wxCheckBox" name="Vt100ReverseQ">
+                                                            <font>
+                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                <size>-1</size>
+                                                            </font>
+                                                            <label>Reverse</label>
+                                                            <checked>0</checked>
+                                                        </object>
+                                                    </object>
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <object class="wxCheckBox" name="Vt100ReverseQ">
-                                                    <size>66,-1</size>
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>Reverse</label>
-                                                    <checked>0</checked>
-                                                </object>
-                                            </object>
-                                            <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                                 <border>3</border>
                                                 <object class="wxStaticText" name="Vt100ReverseQText">
-                                                    <size>37,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1804,7 +1674,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1814,15 +1684,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>4</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="UartOutText">
-                                                    <size>148,-1</size>
                                                     <help>Load transmitter holding register from transmitter bus</help>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1832,10 +1704,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="UartOut">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1845,18 +1717,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
                                                 <border>11</border>
                                                 <object class="wxStaticText" name="UartInText">
-                                                    <size>148,-1</size>
                                                     <help>Read receiver holding register from receiver bus</help>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1866,10 +1730,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="UartIn">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1879,18 +1743,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="UartControlText">
-                                                    <size>148,-1</size>
                                                     <help>Load control register from transmitter bus</help>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1900,10 +1756,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="UartControl">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1913,18 +1769,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
                                                 <border>11</border>
                                                 <object class="wxStaticText" name="UartStatusText">
-                                                    <size>148,-1</size>
                                                     <help>Read status register from receiver bus</help>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1934,10 +1782,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="UartStatus">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1952,7 +1800,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -1962,15 +1810,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PortExtenderSelectOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1979,10 +1829,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PortExtenderSelectOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1992,18 +1842,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PortExtenderWriteOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2012,10 +1854,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PortExtenderWriteOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2025,18 +1867,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PortExtenderInputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2045,10 +1879,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PortExtenderInput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2063,7 +1897,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -2073,15 +1907,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT</flag>
-                                        <border>3</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>2</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PrinterOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2090,10 +1926,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PrinterOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2103,18 +1939,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="PrinterEfText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2123,10 +1951,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="PrinterEf">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2148,7 +1976,7 @@
                         <object class="wxBoxSizer">
                             <orient>wxVERTICAL</orient>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -2158,15 +1986,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>4</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="IdeSelectOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2175,10 +2005,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="IdeSelectOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2188,18 +2018,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="IdeWriteOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2208,10 +2030,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="IdeWriteOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2221,18 +2043,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="IdeStatusText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2241,10 +2055,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="IdeStatus">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2254,18 +2068,10 @@
                                                     <max>7</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="IdeInputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2274,10 +2080,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="IdeInput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2297,15 +2103,17 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="text_tr">
-                                                    <size>135,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2314,10 +2122,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="IdeTracks">
-                                                    <size>50,23</size>
+                                                    <size>60,-1</size>
                                                     <tooltip>Specify number of tracks for virtual IDE drives</tooltip>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -2328,18 +2136,10 @@
                                                     <max>2048</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="text_hd">
-                                                    <size>135,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2348,10 +2148,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="IdeHeads">
-                                                    <size>50,23</size>
+                                                    <size>60,-1</size>
                                                     <tooltip>Specify number of geads for virtual IDE drives</tooltip>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -2362,18 +2162,10 @@
                                                     <max>16</max>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="text_sc">
-                                                    <size>135,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2382,10 +2174,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="IdeSectors">
-                                                    <size>50,23</size>
+                                                    <size>60,-1</size>
                                                     <tooltip>Specify number of sectors for virtual IDE drives</tooltip>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -2401,7 +2193,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -2411,15 +2203,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT</flag>
-                                        <border>3</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="EmsOutputText">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2428,10 +2222,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="EmsOutput">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2446,7 +2240,7 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <flag>wxGROW|wxALL</flag>
                                 <border>0</border>
                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                     <orient>wxVERTICAL</orient>
@@ -2456,15 +2250,17 @@
                                         <size>-1</size>
                                     </font>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <flag>wxALIGN_RIGHT|wxALL</flag>
                                         <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>3</rows>
+                                            <vgap>0</vgap>
+                                            <hgap>2</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="Led_Module_Output_Text">
-                                                    <size>148,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2473,10 +2269,10 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="Led_Module_Output">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2516,7 +2312,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                 <border>1</border>
                                                 <object class="wxSpinCtrl" name="UnusedEf1">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2548,7 +2344,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                 <border>1</border>
                                                 <object class="wxSpinCtrl" name="UnusedEf2">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2580,7 +2376,7 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxSpinCtrl" name="UnusedEf3">
-                                                    <size>37,23</size>
+                                                    <size>40,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>

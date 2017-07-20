@@ -15,20 +15,22 @@
                         <object class="wxBoxSizer">
                             <orient>wxHORIZONTAL</orient>
                             <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                <border>10</border>
                                 <object class="wxBoxSizer">
                                     <orient>wxVERTICAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>9</rows>
+                                            <vgap>4</vgap>
+                                            <hgap>4</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -37,7 +39,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit0">
                                                     <font>
@@ -50,18 +52,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -70,7 +64,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit1">
                                                     <font>
@@ -83,18 +77,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -103,7 +89,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit2">
                                                     <font>
@@ -116,18 +102,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -136,7 +114,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit3">
                                                     <font>
@@ -149,18 +127,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -169,7 +139,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit4">
                                                     <font>
@@ -182,18 +152,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="VtSetupBit5Text">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -202,7 +164,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit5">
                                                     <font>
@@ -215,18 +177,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -235,7 +189,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit6">
                                                     <font>
@@ -248,18 +202,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -268,7 +214,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit7">
                                                     <font>
@@ -281,18 +227,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -301,7 +239,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit16">
                                                     <font>
@@ -319,20 +257,22 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_TOP|wxALL</flag>
-                                <border>5</border>
+                                <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                <border>10</border>
                                 <object class="wxBoxSizer">
                                     <orient>wxVERTICAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxFlexGridSizer">
+                                            <cols>2</cols>
+                                            <rows>8</rows>
+                                            <vgap>4</vgap>
+                                            <hgap>4</hgap>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -341,7 +281,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit8">
                                                     <font>
@@ -354,18 +294,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="VtSetupBit9Text">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -374,7 +306,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit9">
                                                     <font>
@@ -387,18 +319,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -407,7 +331,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit10">
                                                     <font>
@@ -420,18 +344,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -440,7 +356,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit11">
                                                     <font>
@@ -453,18 +369,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -473,7 +381,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit12">
                                                     <font>
@@ -486,18 +394,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -506,7 +406,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit13">
                                                     <font>
@@ -519,18 +419,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -539,7 +431,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit14">
                                                     <font>
@@ -552,18 +444,10 @@
                                                     </content>
                                                 </object>
                                             </object>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                        <border>5</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxHORIZONTAL</orient>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="wxID_STATIC">
-                                                    <size>100,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -572,7 +456,7 @@
                                                 </object>
                                             </object>
                                             <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxChoice" name="VtSetupBit15">
                                                     <font>
@@ -625,7 +509,7 @@
                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                 <border>5</border>
                                 <object class="wxTextCtrl" name="VtBell" subclass="IntEdit">
-                                    <size>40,23</size>
+                                    <size>50,-1</size>
                                     <tooltip>Specify bell frequency in Hz</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -772,7 +656,6 @@
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>8</border>
                 <object class="wxButton" name="VtSetupSave">
-                    <size>-1,23</size>
                     <font>
                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                         <size>-1</size>

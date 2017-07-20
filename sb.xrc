@@ -196,7 +196,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>5</border>
                                                     <object class="wxChoice" name="OnlineBMChoice">
-                                                        <size>100,-1</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -232,7 +231,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                     <border>5</border>
                                                     <object class="wxButton" name="OnlineBMStore">
-                                                        <size>60,25</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -270,7 +268,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                     <border>5</border>
                                                     <object class="wxChoice" name="OnlineAliasChoice">
-                                                        <size>100,-1</size>
+                                                        <size>120,-1</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -289,7 +287,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>5</border>
                                                     <object class="wxButton" name="OnlineAliasDel">
-                                                        <size>60,25</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -306,7 +303,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>5</border>
                                                     <object class="wxButton" name="OnlineAliasStore">
-                                                        <size>60,25</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -421,7 +417,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>4</border>
                                                     <object class="wxTextCtrl" name="SettingsRootTxt">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify COMX USB root directory</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -569,7 +565,7 @@
                                                                             <size>-1</size>
                                                                         </font>
                                                                         <label>BSAVE, DSAVE, PSAVE and DISKTOIMG:</label>
-                                                                        <wrap>120</wrap>
+                                                                        <wrap>160</wrap>
                                                                     </object>
                                                                 </object>
                                                                 <object class="sizeritem">
@@ -602,7 +598,7 @@
                                                                             <size>-1</size>
                                                                         </font>
                                                                         <label>SYSSAVE and NVSAVE:</label>
-                                                                        <wrap>120</wrap>
+                                                                        <wrap>160</wrap>
                                                                     </object>
                                                                 </object>
                                                                 <object class="sizeritem">
@@ -680,7 +676,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_00_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for the Main ROM replacement at address 0000-3FFF</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -716,7 +711,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_01_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for the Expansion ROM at address E000-EFFF</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -752,7 +746,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_02_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for the Expansion ROM at address F800-FFFF</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -788,7 +781,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_03_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 0</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -824,7 +816,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_04_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 1</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -860,7 +851,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_05_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 2</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -896,7 +886,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_06_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 3</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -932,7 +921,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_07_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 4</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -968,7 +956,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_08_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 5</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1004,7 +991,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_09_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 6</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1040,7 +1026,6 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                     <border>3</border>
                                                     <object class="wxButton" name="SB_ROM_10_Button">
-                                                        <size>75,23</size>
                                                         <tooltip>Browse for SB file for BANK 7</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1071,7 +1056,6 @@
                                             <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                             <border>8</border>
                                             <object class="wxButton" name="SBSave">
-                                                <size>-1,23</size>
                                                 <font>
                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                     <size>-1</size>
@@ -1127,7 +1111,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>4</border>
                                                     <object class="wxTextCtrl" name="BackupRootTxt">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Selected folder</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

@@ -82,6 +82,7 @@
                                     <style>wxCB_DROPDOWN</style>
                                     <content>
                                         <item>diag_pal2.bin</item>
+                                        <item>diag_pal2_v1.1.bin</item>
                                     </content>
                                 </object>
                             </object>

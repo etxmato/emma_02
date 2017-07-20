@@ -120,7 +120,6 @@
                                 <flag>wxALIGN_TOP|wxALL</flag>
                                 <border>5</border>
                                 <object class="wxButton" name="ConfigurationSave">
-                                    <size>-1,23</size>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
