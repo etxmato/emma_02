@@ -445,6 +445,8 @@ void Comx::out(Byte port, Word address, Byte value)
 		break;
             
         case COMXDIAGOUT1:
+			if (p_Main->getDiagFactory() == 0)
+				return;
             switch (value)
             {
                 case 0:

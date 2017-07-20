@@ -97,19 +97,24 @@ public:
     wxString getEpromRomDirectory(int number) {return EpromRomDir_[number];};
     wxString getEpromRom(int number) {return EpromRom_[number];};
 
-	wxString getDiagRomDirectory(int number) { return DiagRomDir_[number]; };
-	wxString getDiagRom(int number) { return DiagRom_[number]; };
-	void setDiagRomDirectory(int number, wxString directory);
-	void setDiagRom(int number, wxString filename);
+	wxString getDiagPalRomDirectory(int number) { return DiagPalRomDir_[number]; };
+	wxString getDiagPalRom(int number) { return DiagPalRom_[number]; };
+	void setDiagPalRomDirectory(int number, wxString directory);
+	void setDiagPalRom(int number, wxString filename);
 
-	int getSbCdRoot() {return sbCdRoot_;}; 
+	wxString getDiagNtscRomDirectory(int number) { return DiagNtscRomDir_[number]; };
+	wxString getDiagNtscRom(int number) { return DiagNtscRom_[number]; };
+	void setDiagNtscRomDirectory(int number, wxString directory);
+	void setDiagNtscRom(int number, wxString filename);
+
+	int getSbCdRoot() {return sbCdRoot_;};
 	int getSbBackup() {return sbBackup_;}; 
 	int getSbBackupSys() {return sbBackupSys_;}; 
 	int getSbCaseFile() {return sbCaseFile_;}; 
 	int getSbCaseDir() {return sbCaseDir_;}; 
     int getSbFwVersion() {return sbFwVersion_;};
 	bool isDiagActive(int computer) { return conf[computer].diagActive_; };
-	int isDiagOn(int computer) { return conf[computer].diagOn_; };
+	int isDiagOn(int computer);
     int getDiagRomChecksum() {return diagRomChecksum_;};
     int getDiagFactory() {return diagFactory_;};
     void setDiagRomChecksum(int diagRomChecksum) { diagRomChecksum_ = diagRomChecksum;};
@@ -176,8 +181,10 @@ private:
 	wxString sbUrlHome_;
 	wxString sbUrlBookMark_[10];
 	wxString sbRootDirectory_;
-	wxString DiagRomDir_[2];
-	wxString DiagRom_[2];
+	wxString DiagPalRomDir_[2];
+	wxString DiagPalRom_[2];
+	wxString DiagNtscRomDir_[2];
+	wxString DiagNtscRom_[2];
 	wxString SBRomDir_[12];
 	wxString SBRom_[12];
     wxString EpromRomDir_[5];

@@ -12,89 +12,175 @@
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
             <object class="sizeritem">
-                <flag>wxALIGN_RIGHT|wxALL</flag>
-                <border>3</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>0</border>
+                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                    <orient>wxVERTICAL</orient>
+                    <label>PAL Version</label>
                     <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
                         <border>3</border>
-                        <object class="wxButton" name="DIAG_ROM_0_Button">
-                            <tooltip>Browse for Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>0000-0FFF</label>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="DIAG_ROM_0_Button">
+                                    <tooltip>Browse for PAL Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>0000-0FFF</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxComboBox" name="DIAG_ROM_0">
+                                    <size>320,-1</size>
+                                    <tooltip>Specify PAL Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item>diag_pal1.bin</item>
+                                    </content>
+                                </object>
+                            </object>
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
                         <border>3</border>
-                        <object class="wxComboBox" name="DIAG_ROM_0">
-                            <size>320,-1</size>
-                            <tooltip>Specify Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <style>wxCB_DROPDOWN</style>
-                            <content>
-                                <item>sb.0000.bin</item>
-                            </content>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="DIAG_ROM_1_Button">
+                                    <tooltip>Browse for PAL Diag file for address C000-D7FF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>C000-D7FF</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxComboBox" name="DIAG_ROM_1">
+                                    <size>320,-1</size>
+                                    <tooltip>Specify PAL Diag file for address C000-D7FF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item>diag_pal2.bin</item>
+                                    </content>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxALIGN_RIGHT|wxALL</flag>
-                <border>3</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>0</border>
+                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                    <orient>wxVERTICAL</orient>
+                    <label>NTSC Version</label>
                     <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
                         <border>3</border>
-                        <object class="wxButton" name="DIAG_ROM_1_Button">
-                            <tooltip>Browse for Diag file for address C000-D7FF</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>C000-D7FF</label>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="DIAG_NTSC_ROM_0_Button">
+                                    <tooltip>Browse for NTSC Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>0000-0FFF</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxComboBox" name="DIAG_NTSC_ROM_0">
+                                    <size>320,-1</size>
+                                    <tooltip>Specify NTSC Diag file for the Main ROM replacement at address 0000-0FFF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item>diag_ntsc1.bin</item>
+                                    </content>
+                                </object>
+                            </object>
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
                         <border>3</border>
-                        <object class="wxComboBox" name="DIAG_ROM_1">
-                            <size>320,-1</size>
-                            <tooltip>Browse for Diag file for address C000-D7FF</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <style>wxCB_DROPDOWN</style>
-                            <content>
-                                <item>sb.c000-0.bin</item>
-                            </content>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="DIAG_NTSC_ROM_1_Button">
+                                    <tooltip>Browse for NTSC Diag file for address C000-D7FF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>C000-D7FF</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                <border>3</border>
+                                <object class="wxComboBox" name="DIAG_NTSC_ROM_1">
+                                    <size>320,-1</size>
+                                    <tooltip>Specify NTSC Diag file for address C000-D7FF</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item>diag_ntsc2.bin</item>
+                                    </content>
+                                </object>
+                            </object>
                         </object>
                     </object>
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
                 <border>3</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
                             </font>
-                            <label>ROM Checksum</label>
+                            <label>ROM Checksum:</label>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -111,13 +197,6 @@
                             </content>
                         </object>
                     </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                <border>3</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
@@ -147,7 +226,7 @@
                 </object>
             </object>
             <object class="sizeritem">
-                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
                 <border>3</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
@@ -159,7 +238,7 @@
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
                             </font>
-                            <label>Connect casstte cables</label>
+                            <label>Cassette cables</label>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -171,11 +250,18 @@
                                 <size>-1</size>
                             </font>
                             <content>
-                                <item>No</item>
-                                <item>Yes</item>
+                                <item>Disconnected</item>
+                                <item>Connected</item>
                             </content>
                         </object>
                     </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxGROW|wxALL</flag>
+                <border>5</border>
+                <object class="wxStaticLine" name="wxID_STATIC">
+                    <style>wxLI_HORIZONTAL</style>
                 </object>
             </object>
             <object class="sizeritem">

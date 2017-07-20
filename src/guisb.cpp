@@ -189,6 +189,8 @@ void SBDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	}
 	p_Main->setConfigItem("/Comx/AliasNumberOf", (int)p_Main->getNumberOfAlias());
 
+	p_Main->diagSbChange();
+
 	EndModal( wxID_OK );
 }
 

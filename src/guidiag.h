@@ -9,11 +9,15 @@ public:
 
 private:
     void onSaveButton( wxCommandEvent &event);
-	void onDiag0Button(wxCommandEvent &event);
-	void onDiag1Button(wxCommandEvent &event);
-	void DiagButton(int number, wxString textMessage);
+	void onDiagPal0Button(wxCommandEvent &event);
+	void onDiagPal1Button(wxCommandEvent &event);
+	void DiagPalButton(int number, wxString textMessage);
+	void onDiagNtsc0Button(wxCommandEvent &event);
+	void onDiagNtsc1Button(wxCommandEvent &event);
+	void DiagNtscButton(int number, wxString textMessage);
 
-	wxString DiagRomDir_[2];
+	wxString DiagPalRomDir_[2];
+	wxString DiagNtscRomDir_[2];
 
     DECLARE_EVENT_TABLE()
 

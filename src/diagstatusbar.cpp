@@ -158,7 +158,8 @@ void DiagStatusBar::displayText()
 
 void DiagStatusBar::displayLeds()
 {
-	deleteBitmaps();
+    ledsDefined_ = false;
+    deleteBitmaps();
 
 	wxRect rect;
 	this->GetFieldRect (1, rect);
