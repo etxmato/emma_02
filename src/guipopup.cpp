@@ -90,8 +90,8 @@ PopupDialog::PopupDialog(wxWindow* parent)
 	computerStr_ = p_Main->getRunningComputerStr();
 	computer_ = p_Main->getRunningComputerId();
 
-	tapeOnBitmap = wxBitmap(p_Main->getApplicationDir() + "images/tick.png", wxBITMAP_TYPE_PNG);
-	tapeOffBitmap = wxBitmap(p_Main->getApplicationDir() + "images/minus.png", wxBITMAP_TYPE_PNG);
+	tapeOnBitmap = wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/tick.png", wxBITMAP_TYPE_PNG);
+	tapeOffBitmap = wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
 
 	loadingGui_ = true;
     switch (computer_)

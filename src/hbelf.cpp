@@ -87,7 +87,7 @@ void ElfScreen::init()
 
 	wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/elf.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf.png", wxBITMAP_TYPE_PNG);
 
 	runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 190, 312, "");
 	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 150, 312, "");

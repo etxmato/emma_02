@@ -46,22 +46,22 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
     switch (buttonType_)
     {
         case ELF2K_RESET_BUTTON:
-            upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/resetButtonUp.png", wxBITMAP_TYPE_PNG);
-            downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/resetButtonDown.png", wxBITMAP_TYPE_PNG);
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/resetButtonUp.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/resetButtonDown.png", wxBITMAP_TYPE_PNG);
             buttonSize.x = 30;
             buttonSize.y = 30;
         break;
             
         case COSMICOS_HEX_BUTTON:
-            upBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/hex_button_small.png", wxBITMAP_TYPE_PNG);
-            downBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/hex_button_small_pushed.png", wxBITMAP_TYPE_PNG);
+            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_small.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_small_pushed.png", wxBITMAP_TYPE_PNG);
             buttonSize.x = 26;
             buttonSize.y = 26;
         break;
             
         case PANEL_WIDE_HEX_BUTTON:
-            upBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/hex_button_wide.png", wxBITMAP_TYPE_PNG);
-            downBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/hex_button_wide_pushed.png", wxBITMAP_TYPE_PNG);
+            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_wide.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_wide_pushed.png", wxBITMAP_TYPE_PNG);
             buttonSize.x = 34;
             buttonSize.y = 30;
         break;
@@ -69,8 +69,8 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
         case ELF_HEX_BUTTON:
         case PANEL_HEX_BUTTON:
         default:
-            upBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/hex_button.png", wxBITMAP_TYPE_PNG);
-            downBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/hex_button_pushed.png", wxBITMAP_TYPE_PNG);
+            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_pushed.png", wxBITMAP_TYPE_PNG);
             buttonSize.x = 30;
             buttonSize.y = 30;
         break;
@@ -169,58 +169,58 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 	switch (type)
 	{
         case VERTICAL_BUTTON:
-            upBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/swup.png", wxBITMAP_TYPE_PNG);
-            downBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/swdown.png", wxBITMAP_TYPE_PNG);
+            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swup.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swdown.png", wxBITMAP_TYPE_PNG);
         break;
 
 		case VERTICAL_BUTTON_RED:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/swupred.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/swdownred.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swupred.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swdownred.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case HORIZONTAL_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/swright.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/swleft.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swright.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swleft.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case PUSH_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/pushup.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/pushdown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushup.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushdown.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case PUSH_BUTTON_BLACK:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/pushupblack.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/pushdownblack.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushupblack.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushdownblack.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case ELF2K_POWER_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Kon.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Koff.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kon.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Koff.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case ELF2K_LOAD_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/loadButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/loadButtonDown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonUp.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonDown.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case ELF2K_MP_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/mpButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/mpButtonDown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonUp.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonDown.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case ELF2K_RUN_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/runButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/runButtonDown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonUp.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonDown.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case ELF2K_IN_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/inButtonUp.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + "images/inButtonDown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonUp.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		default:
-			upBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/swup.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap (p_Main->getApplicationDir() + "images/swdown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swup.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swdown.png", wxBITMAP_TYPE_PNG);
 		break;
 	}
     

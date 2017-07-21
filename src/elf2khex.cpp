@@ -84,16 +84,16 @@ void Elf2KHexScreen::init()
 	dc.DrawRectangle(0, 0, 186, 126);
 
 #ifndef __WXMAC__
-	resetUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/resetButtonUp.png", wxBITMAP_TYPE_PNG);
-	resetDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/resetButtonDown.png", wxBITMAP_TYPE_PNG);
-	loadUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/loadButtonUp.png", wxBITMAP_TYPE_PNG);
-	loadDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/loadButtonDown.png", wxBITMAP_TYPE_PNG);
-	mpUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/mpButtonUp.png", wxBITMAP_TYPE_PNG);
-	mpDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/mpButtonDown.png", wxBITMAP_TYPE_PNG);
-	runUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/runButtonUp.png", wxBITMAP_TYPE_PNG);
-	runDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/runButtonDown.png", wxBITMAP_TYPE_PNG);
-	inUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/inButtonUp.png", wxBITMAP_TYPE_PNG);
-	inDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/inButtonDown.png", wxBITMAP_TYPE_PNG);
+	resetUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/resetButtonUp.png", wxBITMAP_TYPE_PNG);
+	resetDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/resetButtonDown.png", wxBITMAP_TYPE_PNG);
+	loadUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonUp.png", wxBITMAP_TYPE_PNG);
+	loadDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/loadButtonDown.png", wxBITMAP_TYPE_PNG);
+	mpUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonUp.png", wxBITMAP_TYPE_PNG);
+	mpDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/mpButtonDown.png", wxBITMAP_TYPE_PNG);
+	runUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonUp.png", wxBITMAP_TYPE_PNG);
+	runDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/runButtonDown.png", wxBITMAP_TYPE_PNG);
+	inUpBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonUp.png", wxBITMAP_TYPE_PNG);
+	inDownBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
 #endif
 
 	wxSize buttonSize;

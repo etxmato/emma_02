@@ -26,8 +26,8 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
 	wxColour white(255, 255, 255);
-	ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + "images/ledoff.png", wxBITMAP_TYPE_PNG);
-	ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + "images/ledon.png", wxBITMAP_TYPE_PNG);
+	ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/ledoff.png", wxBITMAP_TYPE_PNG);
+	ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/ledon.png", wxBITMAP_TYPE_PNG);
 	maskOn = new wxMask(*ledOnPointer, white);
 	maskOff = new wxMask(*ledOnPointer, white);
 	ledOnPointer->SetMask(maskOn);

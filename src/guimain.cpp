@@ -70,19 +70,19 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 
-	playBlackBitmap = wxBitmap(applicationDirectory_ + "images/play_black.png", wxBITMAP_TYPE_PNG);
-	playGreenBitmap = wxBitmap(applicationDirectory_ + "images/play_green.png", wxBITMAP_TYPE_PNG);
+	playBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_black.png", wxBITMAP_TYPE_PNG);
+	playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
 
-	recOffBitmap = wxBitmap(applicationDirectory_ + "images/rec_off.png", wxBITMAP_TYPE_PNG);
-	recOnBitmap = wxBitmap(applicationDirectory_ + "images/rec_on.png", wxBITMAP_TYPE_PNG);
+	recOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_off.png", wxBITMAP_TYPE_PNG);
+	recOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_on.png", wxBITMAP_TYPE_PNG);
 
-	realCasOnBitmap = wxBitmap(applicationDirectory_ + "images/real_cas_on.png", wxBITMAP_TYPE_PNG);
-	realCasOffBitmap = wxBitmap(applicationDirectory_ + "images/real_cas_off.png", wxBITMAP_TYPE_PNG);
+	realCasOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_on.png", wxBITMAP_TYPE_PNG);
+	realCasOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_off.png", wxBITMAP_TYPE_PNG);
 
-	printerOnBitmap = wxBitmap(applicationDirectory_ + "images/print_on.png", wxBITMAP_TYPE_PNG);
-	printerOffBitmap = wxBitmap(applicationDirectory_ + "images/print_off.png", wxBITMAP_TYPE_PNG);
+	printerOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/print_on.png", wxBITMAP_TYPE_PNG);
+	printerOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/print_off.png", wxBITMAP_TYPE_PNG);
 
-    ejectBitmap = wxBitmap(applicationDirectory_ + "images/eject.png", wxBITMAP_TYPE_PNG);
+    ejectBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/eject.png", wxBITMAP_TYPE_PNG);
 
     tapeState_ = TAPE_STOP;
 	turboOn_ = false;

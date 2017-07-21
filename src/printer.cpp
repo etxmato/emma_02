@@ -1972,9 +1972,9 @@ void Printer::onF4()
 #ifndef __WXMAC__
 		printerFramePointer->GetToolBar()->AddSeparator();
 #endif
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+"images/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+"images/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+"images/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
 
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
 		wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -2015,9 +2015,9 @@ void Printer::onF4Thermal()
 #endif
 		printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+"images/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+"images/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+"images/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
 
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
 		wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -2150,9 +2150,9 @@ void Printer::onComxF4()
 #ifndef __WXMAC__
 	printerFramePointer->GetToolBar()->AddSeparator();
 #endif
-	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+"images/print.png", wxBITMAP_TYPE_PNG), "Send output to Printer", wxITEM_NORMAL);
-	printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+"images/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
-	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+"images/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
+	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), "Send output to Printer", wxITEM_NORMAL);
+	printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
+	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
 	printerFramePointer->GetToolBar()->AddControl(printerPlotterButtonPointer);
 #ifndef __WXMAC__
 	printerFramePointer->GetToolBar()->AddSeparator();

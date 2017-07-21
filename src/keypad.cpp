@@ -81,7 +81,7 @@ void KeypadScreen::init(int computerType)
 	wxString buttonText;
 	int x, y;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/hexpad.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/hexpad.png", wxBITMAP_TYPE_PNG);
 
 	for (int i=0;i<2;i++) 
 	{

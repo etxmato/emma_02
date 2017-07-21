@@ -102,7 +102,7 @@ void SuperScreen::init()
 	wxString Number, buttonText;
 	int x, y;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/superelf.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/superelf.png", wxBITMAP_TYPE_PNG);
 
 	wxSize buttonSize;
 

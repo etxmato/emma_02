@@ -91,7 +91,7 @@ void Elf2Screen::init()
 	wxString buttonText;
 	int x, y;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/elf2.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf2.png", wxBITMAP_TYPE_PNG);
     
 #if defined (__WXMAC__)
     osx_push_inButtonPointer = new HexButton(dc, ELF_HEX_BUTTON, 435, 327, "IN");

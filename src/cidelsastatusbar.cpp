@@ -38,9 +38,10 @@ END_EVENT_TABLE()
 CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
-	ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + "images/comxledoff.png", wxBITMAP_TYPE_PNG);
-	ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + "images/comxledon.png", wxBITMAP_TYPE_PNG);
-	ledsDefined_ = false;
+	ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledoff.png", wxBITMAP_TYPE_PNG);
+	ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
+
+    ledsDefined_ = false;
 	for (int i=0; i<5; i++)
 		status_[i] = false;
 }

@@ -30,7 +30,7 @@ Til313::Til313()
 	x_ = 0;
 	y_ = 0;
 
-	til313BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/til313.png", wxBITMAP_TYPE_PNG);
+	til313BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313.png", wxBITMAP_TYPE_PNG);
 	dcMemory.SelectObject(*til313BitmapPointer);
 }
 

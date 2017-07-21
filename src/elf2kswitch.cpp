@@ -63,7 +63,7 @@ void Elf2KswitchScreen::init()
 	wxClientDC dc(this);
 	wxString switchNumber;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/elf2kswitches.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf2kswitches.png", wxBITMAP_TYPE_PNG);
 
 	runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 380, 31, "");
 	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 332, 31, "");

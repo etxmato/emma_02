@@ -69,7 +69,7 @@ void LedModuleScreen::init(int computerType)
 
 	wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/hexpad.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/hexpad.png", wxBITMAP_TYPE_PNG);
 
 	for (int i=0;i<8;i++)
 	{

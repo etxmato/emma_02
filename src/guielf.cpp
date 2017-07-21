@@ -377,8 +377,8 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 GuiElf::GuiElf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
 : GuiElf2K(title, pos, size, mode, dataDir)
 {
-	tapeOnBitmap = wxBitmap(applicationDirectory_ + "images/tick.png", wxBITMAP_TYPE_PNG);
-	tapeOffBitmap = wxBitmap(applicationDirectory_ + "images/minus.png", wxBITMAP_TYPE_PNG);
+	tapeOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/tick.png", wxBITMAP_TYPE_PNG);
+	tapeOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
 }
 
 void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)

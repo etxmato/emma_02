@@ -908,12 +908,12 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	selectedTreg_ = -1;
 	selectedTrap_ = -1;
 
-	pauseOnBitmap = wxBitmap(applicationDirectory_ + "images/pause_on.png", wxBITMAP_TYPE_PNG);
-	pauseOffBitmap = wxBitmap(applicationDirectory_ + "images/pause_off.png", wxBITMAP_TYPE_PNG);
-
-#if defined(__WXMSW__) 
-	uncheckBitmap_ = wxBitmap(applicationDirectory_ + "images/unchecked.png", wxBITMAP_TYPE_PNG);
-	checkedBitmap_ = wxBitmap(applicationDirectory_ + "images/checked.png", wxBITMAP_TYPE_PNG);
+    pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
+    pauseOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_off.png", wxBITMAP_TYPE_PNG);
+    
+#if defined(__WXMSW__)
+	uncheckBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/unchecked.png", wxBITMAP_TYPE_PNG);
+	checkedBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/checked.png", wxBITMAP_TYPE_PNG);
 	imageList_ = new wxImageList(13, 13, true, 2);
 	checkedButton_ = imageList_->Add(checkedBitmap_, wxColour (255, 255, 255));
 	uncheckButton_ = imageList_->Add(uncheckBitmap_, wxColour (255, 255, 255));

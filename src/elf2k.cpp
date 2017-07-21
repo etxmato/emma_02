@@ -72,7 +72,7 @@ void Elf2KScreen::init()
 	wxClientDC dc(this);
 	wxString switchNumber;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2K.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2K.png", wxBITMAP_TYPE_PNG);
 	powerSwitchButton = new SwitchButton(dc, ELF2K_POWER_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 480, 71, "");
 
 	for (int i=0; i<4; i++)

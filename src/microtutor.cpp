@@ -86,7 +86,7 @@ void MicrotutorScreen::init()
 		dataPointer[i]->init(dc, 145+i*24, 30);
 	}
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/microtutor.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/microtutor.png", wxBITMAP_TYPE_PNG);
 
 	this->connectKeyEvent(this);
 }

@@ -166,7 +166,7 @@ void CosmicosScreen::init()
 	}
 	qLedPointer = new Led(dc, offsetX+100, offsetY+20, COSMICOSLED);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/cosmicos.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/cosmicos.png", wxBITMAP_TYPE_PNG);
 
 	this->connectKeyEvent(this);
 }

@@ -43,22 +43,22 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
 	switch(ledType)
 	{
 		case ELF2KLED1:
-			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Kredledon.png", wxBITMAP_TYPE_PNG);
-			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Kredledoff.png", wxBITMAP_TYPE_PNG);
+			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kredledon.png", wxBITMAP_TYPE_PNG);
+			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kredledoff.png", wxBITMAP_TYPE_PNG);
 			maskOn = new wxMask(*ledOnBitmapPointer, pink);
 			maskOff = new wxMask(*ledOnBitmapPointer, pink);
 		break;
 
 		case ELF2KLED2:
-			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Kgreenledon.png", wxBITMAP_TYPE_PNG);
-			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Kgreenledoff.png", wxBITMAP_TYPE_PNG);
+			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kgreenledon.png", wxBITMAP_TYPE_PNG);
+			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Kgreenledoff.png", wxBITMAP_TYPE_PNG);
 			maskOn = new wxMask(*ledOnBitmapPointer, pink);
 			maskOff = new wxMask(*ledOnBitmapPointer, pink);
 		break;
 
 		case ELF2KLED3:
-			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Korangeledon.png", wxBITMAP_TYPE_PNG);
-			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2Korangeledoff.png", wxBITMAP_TYPE_PNG);
+			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Korangeledon.png", wxBITMAP_TYPE_PNG);
+			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2Korangeledoff.png", wxBITMAP_TYPE_PNG);
 			maskOn = new wxMask(*ledOnBitmapPointer, pink);
 			maskOff = new wxMask(*ledOnBitmapPointer, pink);
 		break;
@@ -67,24 +67,24 @@ Led::Led(wxDC& dc, int x, int y, int ledType)
 		case ELFIILED:
 		case SUPERELFLED:
 		case COSMICOSLED:
-			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/ledon.png", wxBITMAP_TYPE_PNG);
-			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/ledoff.png", wxBITMAP_TYPE_PNG);
+			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/ledon.png", wxBITMAP_TYPE_PNG);
+			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/ledoff.png", wxBITMAP_TYPE_PNG);
 			maskOn = new wxMask(*ledOnBitmapPointer, white);
 			maskOff = new wxMask(*ledOnBitmapPointer, white);
 		break;
 
 		case MEMBERLED:
-			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/largeledon.png", wxBITMAP_TYPE_PNG);
-			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/largeledoff.png", wxBITMAP_TYPE_PNG);
+			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/largeledon.png", wxBITMAP_TYPE_PNG);
+			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/largeledoff.png", wxBITMAP_TYPE_PNG);
 			maskOn = new wxMask(*ledOnBitmapPointer, white);
 			maskOff = new wxMask(*ledOnBitmapPointer, white);
 		break;
 
 		case MEMBERLEDGREEN:
-			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/largeledredon.png", wxBITMAP_TYPE_PNG);
-            ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/largeledgreenon.png", wxBITMAP_TYPE_PNG);
-            ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/largeledorangeon.png", wxBITMAP_TYPE_PNG);
-			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/largeledgreenoff.png", wxBITMAP_TYPE_PNG);
+			ledOnBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/largeledredon.png", wxBITMAP_TYPE_PNG);
+            ledOnGreenBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/largeledgreenon.png", wxBITMAP_TYPE_PNG);
+            ledOnOrangeBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/largeledorangeon.png", wxBITMAP_TYPE_PNG);
+			ledOffBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/largeledgreenoff.png", wxBITMAP_TYPE_PNG);
 			maskOn = new wxMask(*ledOnBitmapPointer, white);
 			maskOff = new wxMask(*ledOnBitmapPointer, white);
 		break;

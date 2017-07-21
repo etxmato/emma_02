@@ -78,7 +78,7 @@ void MemberScreen::init()
 
 	wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/membership.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership.png", wxBITMAP_TYPE_PNG);
 
 	runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
 	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
