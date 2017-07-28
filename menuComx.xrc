@@ -77,14 +77,25 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="EjectDisk1">
+                        <object platform="unix" class="wxBitmapButton" name="EjectDisk1">
                             <tooltip>Eject floppy disk 1 file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="EjectDisk1">
+                            <size>26,27</size>
+                            <tooltip>Eject floppy disk 1 file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images_osx/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>
@@ -142,14 +153,25 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="EjectDisk2">
+                        <object platform="unix" class="wxBitmapButton" name="EjectDisk2">
                             <tooltip>Eject floppy disk 2 file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="EjectDisk2">
+                            <size>26,27</size>
+                            <tooltip>Eject floppy disk 2 file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images_osx/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>
@@ -207,14 +229,24 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="EjectCas">
+                        <object platform="unix" class="wxBitmapButton" name="EjectCas">
                             <tooltip>Eject cassette file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="EjectCas">
+                            <tooltip>Eject cassette file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images_osx/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>

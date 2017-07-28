@@ -552,15 +552,36 @@
                                     </font>
                                 </object>
                             </object>
-                            <object class="sizeritem">
+                            <object platform="win" class="sizeritem">
                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                 <border>0</border>
-                                <object class="wxBitmapButton" name="VtSetupWavEject">
-                                    <size>26,27</size>
+                                <object platform="win" class="wxBitmapButton" name="VtSetupWavEject">
+                                    <size>26,25</size>
                                     <tooltip>Eject wav file</tooltip>
                                     <bitmap>images/eject.png</bitmap>
                                     <selected>images/eject.png</selected>
                                     <focus>images/eject.png</focus>
+                                </object>
+                            </object>
+                            <object platform="unix" class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object platform="unix" class="wxBitmapButton" name="VtSetupWavEject">
+                                    <tooltip>Eject wav file</tooltip>
+                                    <bitmap>images/eject.png</bitmap>
+                                    <selected>images/eject.png</selected>
+                                    <focus>images/eject.png</focus>
+                                </object>
+                            </object>
+                            <object platform="mac" class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object platform="mac" class="wxBitmapButton" name="VtSetupWavEject">
+                                    <size>26,27</size>
+                                    <tooltip>Eject wav file</tooltip>
+                                    <bitmap>images_osx/eject.png</bitmap>
+                                    <selected>images_osx/eject.png</selected>
+                                    <focus>images_osx/eject.png</focus>
                                 </object>
                             </object>
                         </object>

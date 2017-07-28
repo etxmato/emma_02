@@ -66,14 +66,6 @@
                             </font>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="FDC0_SwitchMS2000">
-                            <help>Toggle FDC/HD</help>
-                            <bitmap>images/switch.png</bitmap>
-                        </object>
-                    </object>
                     <object platform="win" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>5</border>
@@ -81,6 +73,23 @@
                             <size>26,25</size>
                             <help>Toggle FDC/HD</help>
                             <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="unix" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="unix" class="wxBitmapButton" name="FDC0_SwitchMS2000">
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="mac" class="wxBitmapButton" name="FDC0_SwitchMS2000">
+                            <size>26,27</size>
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images_osx/switch.png</bitmap>
                         </object>
                     </object>
                     <object platform="win" class="sizeritem">
@@ -94,14 +103,25 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="Eject_FDC0MS2000">
+                        <object platform="unix" class="wxBitmapButton" name="Eject_FDC0MS2000">
                             <tooltip>Eject MS2000 FDC 0 image file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="Eject_FDC0MS2000">
+                            <size>26,27</size>
+                            <tooltip>Eject MS2000 FDC 0 image file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images_osx/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>
@@ -148,14 +168,6 @@
                             </font>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="FDC1_SwitchMS2000">
-                            <help>Toggle FDC/HD</help>
-                            <bitmap>images/switch.png</bitmap>
-                        </object>
-                    </object>
                     <object platform="win" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>5</border>
@@ -163,6 +175,23 @@
                             <size>26,25</size>
                             <help>Toggle FDC/HD</help>
                             <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="unix" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="unix" class="wxBitmapButton" name="FDC1_SwitchMS2000">
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="mac" class="wxBitmapButton" name="FDC1_SwitchMS2000">
+                            <size>26,27</size>
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images_osx/switch.png</bitmap>
                         </object>
                     </object>
                     <object platform="win" class="sizeritem">
@@ -176,14 +205,25 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="Eject_FDC1MS2000">
+                        <object platform="unix" class="wxBitmapButton" name="Eject_FDC1MS2000">
                             <tooltip>Eject MS2000 FDC 1 image file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="Eject_FDC1MS2000">
+                            <size>26,27</size>
+                            <tooltip>Eject MS2000 FDC 1 image file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images_osx/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>
@@ -230,14 +270,6 @@
                             </font>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="FDC2_SwitchMS2000">
-                            <help>Toggle FDC/HD</help>
-                            <bitmap>images/switch.png</bitmap>
-                        </object>
-                    </object>
                     <object platform="win" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>5</border>
@@ -245,6 +277,23 @@
                             <size>26,25</size>
                             <help>Toggle FDC/HD</help>
                             <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="unix" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="unix" class="wxBitmapButton" name="FDC2_SwitchMS2000">
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="mac" class="wxBitmapButton" name="FDC2_SwitchMS2000">
+                            <size>26,27</size>
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images_osx/switch.png</bitmap>
                         </object>
                     </object>
                     <object platform="win" class="sizeritem">
@@ -258,14 +307,25 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="Eject_FDC2MS2000">
+                        <object platform="unix" class="wxBitmapButton" name="Eject_FDC2MS2000">
                             <tooltip>Eject MS2000 FDC 2 image file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="Eject_FDC2MS2000">
+                            <size>26,27</size>
+                            <tooltip>Eject MS2000 FDC 2 image file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images_osx/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>
@@ -312,14 +372,6 @@
                             </font>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="FDC3_SwitchMS2000">
-                            <help>Toggle FDC/HD</help>
-                            <bitmap>images/switch.png</bitmap>
-                        </object>
-                    </object>
                     <object platform="win" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>5</border>
@@ -327,6 +379,23 @@
                             <size>26,25</size>
                             <help>Toggle FDC/HD</help>
                             <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="unix" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="unix" class="wxBitmapButton" name="FDC3_SwitchMS2000">
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images/switch.png</bitmap>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>5</border>
+                        <object platform="mac" class="wxBitmapButton" name="FDC3_SwitchMS2000">
+                            <size>26,27</size>
+                            <help>Toggle FDC/HD</help>
+                            <bitmap>images_osx/switch.png</bitmap>
                         </object>
                     </object>
                     <object platform="win" class="sizeritem">
@@ -340,14 +409,25 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="Eject_FDC3MS2000">
+                        <object platform="unix" class="wxBitmapButton" name="Eject_FDC3MS2000">
                             <tooltip>Eject MS2000 FDC 3 image file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="Eject_FDC3MS2000">
+                            <size>26,27</size>
+                            <tooltip>Eject MS2000 FDC 3 image file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images_osx/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>
@@ -405,14 +485,25 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="EjectCas">
+                        <object platform="unix" class="wxBitmapButton" name="EjectCas">
                             <tooltip>Eject cassette file</tooltip>
                             <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object platform="mac" class="wxBitmapButton" name="EjectCas">
+                            <size>26,27</size>
+                            <tooltip>Eject cassette file</tooltip>
+                            <bitmap>images_osx/eject.png</bitmap>
+                            <selected>image_osxs/eject.png</selected>
+                            <focus>images_osx/eject.png</focus>
                         </object>
                     </object>
                 </object>
