@@ -243,6 +243,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
                         <object platform="mac" class="wxBitmapButton" name="EjectCas">
+                            <size>26,27</size>
                             <tooltip>Eject cassette file</tooltip>
                             <bitmap>images_osx/eject.png</bitmap>
                             <selected>images_osx/eject.png</selected>

@@ -1693,7 +1693,7 @@
                 <string name="proxy-Font">""</string>
                 <string name="proxy-Foreground colour">""</string>
                 <string name="proxy-Header filename">""</string>
-                <long name="proxy-Height">-1</long>
+                <long name="proxy-Height">27</long>
                 <string name="proxy-Help text">""</string>
                 <bool name="proxy-Hidden">0</bool>
                 <string name="proxy-Id name">"EjectCas"</string>
@@ -1705,7 +1705,7 @@
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
                 <string name="proxy-Tooltip text">"Eject cassette file"</string>
-                <long name="proxy-Width">-1</long>
+                <long name="proxy-Width">26</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">0</bool>
                 <bool name="proxy-wxBU_AUTODRAW">0</bool>
