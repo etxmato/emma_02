@@ -785,9 +785,9 @@ public:
 #define PIXIE 1
 
 #if defined(__WXMAC__)
-#define IMAGES_FOLDER "images"
-#else
 #define IMAGES_FOLDER "images_osx"
+#else
+#define IMAGES_FOLDER "images"
 #endif
 
 class Emu1802: public wxApp
