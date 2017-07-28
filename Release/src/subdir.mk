@@ -21,6 +21,7 @@ CPP_SRCS += \
 ../src/cosmicoshex.cpp \
 ../src/datadir.cpp \
 ../src/debug.cpp \
+../src/diagstatusbar.cpp \
 ../src/elf.cpp \
 ../src/elf2.cpp \
 ../src/elf2k.cpp \
@@ -35,6 +36,7 @@ CPP_SRCS += \
 ../src/guicidelsa.cpp \
 ../src/guicomx.cpp \
 ../src/guicosmicos.cpp \
+../src/guidiag.cpp \
 ../src/guielf.cpp \
 ../src/guielf2k.cpp \
 ../src/guieprom.cpp \
@@ -135,6 +137,7 @@ OBJS += \
 ./src/cosmicoshex.o \
 ./src/datadir.o \
 ./src/debug.o \
+./src/diagstatusbar.o \
 ./src/elf.o \
 ./src/elf2.o \
 ./src/elf2k.o \
@@ -149,6 +152,7 @@ OBJS += \
 ./src/guicidelsa.o \
 ./src/guicomx.o \
 ./src/guicosmicos.o \
+./src/guidiag.o \
 ./src/guielf.o \
 ./src/guielf2k.o \
 ./src/guieprom.o \
@@ -243,6 +247,7 @@ CPP_DEPS += \
 ./src/cosmicoshex.d \
 ./src/datadir.d \
 ./src/debug.d \
+./src/diagstatusbar.d \
 ./src/elf.d \
 ./src/elf2.d \
 ./src/elf2k.d \
@@ -257,6 +262,7 @@ CPP_DEPS += \
 ./src/guicidelsa.d \
 ./src/guicomx.d \
 ./src/guicosmicos.d \
+./src/guidiag.d \
 ./src/guielf.d \
 ./src/guielf2k.d \
 ./src/guieprom.d \
