@@ -729,13 +729,6 @@
                 <string name="proxy-Implementation filename">""</string>
                 <string name="proxy-Member variable name">""</string>
                 <string name="proxy-Name">""</string>
-<<<<<<< HEAD
-                <string name="proxy-Platform">"__WXMAC__,__UNIX__"</string>
-                <bool name="proxy-Separate files">0</bool>
-                <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Tooltip text">"Eject cassette file"</string>
-                <long name="proxy-Width">-1</long>
-=======
                 <string name="proxy-Platform">"__UNIX__"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
@@ -811,7 +804,6 @@
                 <long name="proxy-Stretch factor">0</long>
                 <string name="proxy-Tooltip text">"Eject cassette file"</string>
                 <long name="proxy-Width">26</long>
->>>>>>> branch 'linux_v.1.24.34' of https://github.com/etxmato/emma_02
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>
                 <bool name="proxy-wxBOTTOM">1</bool>
                 <bool name="proxy-wxBU_AUTODRAW">0</bool>

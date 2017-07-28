@@ -87,10 +87,11 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="mac" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="EjectDisk1">
+                        <object platform="mac" class="wxBitmapButton" name="EjectDisk1">
+                            <size>26,27</size>
                             <tooltip>Eject floppy disk 1 file</tooltip>
                             <bitmap>images_osx/eject.png</bitmap>
                             <selected>images_osx/eject.png</selected>
@@ -162,10 +163,11 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="mac" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-                        <object platform="mac|unix" class="wxBitmapButton" name="EjectDisk2">
+                        <object platform="mac" class="wxBitmapButton" name="EjectDisk2">
+                            <size>26,27</size>
                             <tooltip>Eject floppy disk 2 file</tooltip>
                             <bitmap>images_osx/eject.png</bitmap>
                             <selected>images_osx/eject.png</selected>
@@ -237,14 +239,10 @@
                             <focus>images/eject.png</focus>
                         </object>
                     </object>
-                    <object platform="mac|unix" class="sizeritem">
+                    <object platform="mac" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>3</border>
-<<<<<<< HEAD
-                        <object platform="mac|unix" class="wxBitmapButton" name="EjectCas">
-=======
                         <object platform="mac" class="wxBitmapButton" name="EjectCas">
->>>>>>> branch 'linux_v.1.24.34' of https://github.com/etxmato/emma_02
                             <tooltip>Eject cassette file</tooltip>
                             <bitmap>images_osx/eject.png</bitmap>
                             <selected>images_osx/eject.png</selected>
