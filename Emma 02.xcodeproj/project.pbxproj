@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		990416781DCDFE9000487FD7 /* ms2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 990416761DCDFE9000487FD7 /* ms2000.cpp */; };
+		9909A2141F21444B00B17E58 /* menuMcds.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9909A2131F21444B00B17E58 /* menuMcds.xrc */; };
 		991199441E92ECC30074ADAA /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
+		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
 		994ADAFE1EBE61CE00E8820B /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 994ADAFD1EBE61CE00E8820B /* libcurl.dylib */; };
 		9958AC121A6BBC2B00F13925 /* libwxcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9958AC111A6BBC2B00F13925 /* libwxcurl.a */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
@@ -157,12 +159,41 @@
 /* Begin PBXFileReference section */
 		990416761DCDFE9000487FD7 /* ms2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ms2000.cpp; path = src/ms2000.cpp; sourceTree = "<group>"; };
 		990416771DCDFE9000487FD7 /* ms2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ms2000.h; path = src/ms2000.h; sourceTree = "<group>"; };
+		9909A2131F21444B00B17E58 /* menuMcds.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMcds.xrc; sourceTree = "<group>"; };
+		9909A2151F2144B200B17E58 /* Emma 02.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.pjd"; sourceTree = "<group>"; };
+		9909A2161F2144B200B17E58 /* Colours.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Colours.pjd; sourceTree = "<group>"; };
+		9909A2171F2144B200B17E58 /* Ports.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Ports.pjd; sourceTree = "<group>"; };
+		9909A2181F2144D200B17E58 /* KeyMap.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = KeyMap.pjd; sourceTree = "<group>"; };
+		9909A2191F2144D200B17E58 /* KeyMap_TMC.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = KeyMap_TMC.pjd; sourceTree = "<group>"; };
+		9909A21A1F2144D200B17E58 /* MenuComx.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuComx.pjd; sourceTree = "<group>"; };
+		9909A21B1F2144D200B17E58 /* SB.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SB.pjd; sourceTree = "<group>"; };
+		9909A21C1F2144D200B17E58 /* FunctionKey.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = FunctionKey.pjd; sourceTree = "<group>"; };
+		9909A21D1F2144D200B17E58 /* About.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = About.pjd; sourceTree = "<group>"; };
+		9909A21E1F2144D200B17E58 /* Vt.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Vt.pjd; sourceTree = "<group>"; };
+		9909A21F1F2144D200B17E58 /* Splash.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Splash.pjd; sourceTree = "<group>"; };
+		9909A2201F2144D200B17E58 /* MenuMS2000.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuMS2000.pjd; sourceTree = "<group>"; };
+		9909A2211F2144D200B17E58 /* MenuElf.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuElf.pjd; sourceTree = "<group>"; };
+		9909A2221F2144D200B17E58 /* MenuTmc600.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuTmc600.pjd; sourceTree = "<group>"; };
+		9909A2231F2144D200B17E58 /* Cassette.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Cassette.pjd; sourceTree = "<group>"; };
+		9909A2241F2144D200B17E58 /* MenuVip.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuVip.pjd; sourceTree = "<group>"; };
+		9909A2251F2144D200B17E58 /* MenuPecom.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuPecom.pjd; sourceTree = "<group>"; };
+		9909A2261F2144D200B17E58 /* MenuMcds.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuMcds.pjd; sourceTree = "<group>"; };
+		9909A2271F2144D200B17E58 /* Diag.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Diag.pjd; sourceTree = "<group>"; };
+		9909A2281F2144D200B17E58 /* MenuCosmicos.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuCosmicos.pjd; sourceTree = "<group>"; };
+		9909A2291F2144D200B17E58 /* MenuVelf.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuVelf.pjd; sourceTree = "<group>"; };
+		9909A22A1F2144D200B17E58 /* Menus_Cas_Mem.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Menus_Cas_Mem.pjd; sourceTree = "<group>"; };
+		9909A22B1F2144D200B17E58 /* MenuElf2K.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuElf2K.pjd; sourceTree = "<group>"; };
+		9909A22C1F2144D200B17E58 /* Eprom.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Eprom.pjd; sourceTree = "<group>"; };
+		9909A22D1F2144D200B17E58 /* MenuMember.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = MenuMember.pjd; sourceTree = "<group>"; };
+		9909A22E1F2144D200B17E58 /* Configuration.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Configuration.pjd; sourceTree = "<group>"; };
+		9909A22F1F2144D200B17E58 /* Datadir.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Datadir.pjd; sourceTree = "<group>"; };
 		991199421E92ECC30074ADAA /* splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = splash.cpp; path = src/splash.cpp; sourceTree = "<group>"; };
 		991199431E92ECC30074ADAA /* splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splash.h; path = src/splash.h; sourceTree = "<group>"; };
 		991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guimicrotutor.cpp; path = src/guimicrotutor.cpp; sourceTree = "<group>"; };
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
 		991C84F61E37E66A0084DAFB /* microtutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor.h; path = src/microtutor.h; sourceTree = "<group>"; };
+		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
 		994ADAF71EBE5DB900E8820B /* wxdebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = wxdebug.xcconfig; sourceTree = "<group>"; };
 		994ADAF91EBE5DC900E8820B /* wxrelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = wxrelease.xcconfig; sourceTree = "<group>"; };
 		994ADAFD1EBE61CE00E8820B /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = /usr/local/lib/libcurl.dylib; sourceTree = "<absolute>"; };
@@ -436,6 +467,33 @@
 			children = (
 				9999EAC41CBA8B8800A50336 /* SDL2.framework */,
 				99792DDB1B88A0ED0044FDBB /* emma_02.htb */,
+				9909A2151F2144B200B17E58 /* Emma 02.pjd */,
+				9909A2161F2144B200B17E58 /* Colours.pjd */,
+				9909A2171F2144B200B17E58 /* Ports.pjd */,
+				9909A2181F2144D200B17E58 /* KeyMap.pjd */,
+				9909A2191F2144D200B17E58 /* KeyMap_TMC.pjd */,
+				9909A21A1F2144D200B17E58 /* MenuComx.pjd */,
+				9909A21B1F2144D200B17E58 /* SB.pjd */,
+				9909A21C1F2144D200B17E58 /* FunctionKey.pjd */,
+				9909A21D1F2144D200B17E58 /* About.pjd */,
+				9909A21E1F2144D200B17E58 /* Vt.pjd */,
+				9909A21F1F2144D200B17E58 /* Splash.pjd */,
+				9909A2201F2144D200B17E58 /* MenuMS2000.pjd */,
+				9909A2211F2144D200B17E58 /* MenuElf.pjd */,
+				9909A2221F2144D200B17E58 /* MenuTmc600.pjd */,
+				9909A2231F2144D200B17E58 /* Cassette.pjd */,
+				9909A2241F2144D200B17E58 /* MenuVip.pjd */,
+				9909A2251F2144D200B17E58 /* MenuPecom.pjd */,
+				9909A2261F2144D200B17E58 /* MenuMcds.pjd */,
+				9909A2271F2144D200B17E58 /* Diag.pjd */,
+				9909A2281F2144D200B17E58 /* MenuCosmicos.pjd */,
+				9909A2291F2144D200B17E58 /* MenuVelf.pjd */,
+				9909A22A1F2144D200B17E58 /* Menus_Cas_Mem.pjd */,
+				9909A22B1F2144D200B17E58 /* MenuElf2K.pjd */,
+				9909A22C1F2144D200B17E58 /* Eprom.pjd */,
+				9909A22D1F2144D200B17E58 /* MenuMember.pjd */,
+				9909A22E1F2144D200B17E58 /* Configuration.pjd */,
+				9909A22F1F2144D200B17E58 /* Datadir.pjd */,
 				99792DE01B88A3B10044FDBB /* about.xrc */,
 				99792DE41B88A4100044FDBB /* cassette.xrc */,
 				99792DE81B88FEE70044FDBB /* colour.xrc */,
@@ -452,6 +510,7 @@
 				99792DF61B88FF580044FDBB /* menuCosmicos.xrc */,
 				99792DF71B88FF580044FDBB /* menuElf.xrc */,
 				99792DF81B88FF580044FDBB /* menuElf2K.xrc */,
+				9909A2131F21444B00B17E58 /* menuMcds.xrc */,
 				99792DF91B88FF580044FDBB /* menuMembership.xrc */,
 				99ABC2981E56538800850E94 /* menuMS2000.xrc */,
 				99792DFA1B88FF580044FDBB /* menuPecom.xrc */,
@@ -470,6 +529,7 @@
 				99F374701CADBBC2000DA615 /* LGPL.txt */,
 				996B97391B24116B009827BF /* data */,
 				9973DDFC1A69B7B300B57557 /* images */,
+				99431DEA1F22213400F5A2D4 /* images_osx */,
 				9958AC111A6BBC2B00F13925 /* libwxcurl.a */,
 				997646F21A61D31600FB9B33 /* libwx_osx_cocoa_static.a */,
 				997646F01A61D31100FB9B33 /* libwx_osx_cocoa_static.a */,
@@ -773,6 +833,7 @@
 				997189701C3B19BC0061426E /* menuVip.xrc in Resources */,
 				99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */,
 				99792DDC1B88A1EA0044FDBB /* emma_02.htb in Resources */,
+				99431DEB1F22213400F5A2D4 /* images_osx in Resources */,
 				99792DE91B88FEE70044FDBB /* colour.xrc in Resources */,
 				99792E011B88FF580044FDBB /* menuComx.xrc in Resources */,
 				9973DDFD1A69B7B300B57557 /* images in Resources */,
@@ -781,6 +842,7 @@
 				99F374731CADBBC2000DA615 /* COPYING - curl in Resources */,
 				99792E051B88FF580044FDBB /* menuMembership.xrc in Resources */,
 				99792DE31B88A3F50044FDBB /* main.xrc in Resources */,
+				9909A2141F21444B00B17E58 /* menuMcds.xrc in Resources */,
 				99792E091B88FF590044FDBB /* ports.xrc in Resources */,
 				99792DF11B88FF340044FDBB /* functionkey.xrc in Resources */,
 				99792E0B1B88FF590044FDBB /* vt.xrc in Resources */,
@@ -1059,6 +1121,7 @@
 					/usr/local/lib,
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcurl-gjkdmtwhgjqefahbcvzhtqwkkoyw/Build/Products/Release",
 					"$(PROJECT_DIR)/images",
+					"$(PROJECT_DIR)/images_osx",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = (
@@ -1138,6 +1201,7 @@
 					/usr/local/lib,
 					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcurl-gjkdmtwhgjqefahbcvzhtqwkkoyw/Build/Products/Release",
 					"$(PROJECT_DIR)/images",
+					"$(PROJECT_DIR)/images_osx",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
