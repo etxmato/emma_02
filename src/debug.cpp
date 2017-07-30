@@ -58,9 +58,17 @@
 #define LINE_SPACE 13
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 9
-#else
+#endif
+#if defined (__WXMSW__)
 #define EDIT_ROW 16
 #define NUMBER_OF_DEBUG_LINES 33
+#define LINE_SPACE 11
+#define ASS_WIDTH 268
+#define CHAR_WIDTH 8
+#endif
+#if defined (__WXMAC__)
+#define EDIT_ROW 16
+#define NUMBER_OF_DEBUG_LINES 35
 #define LINE_SPACE 11
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 8
@@ -1736,18 +1744,18 @@ void DebugWindow::chip8DebugTrace(wxString buffer)
 #endif
 #endif
 }
-
+/*
 void DebugWindow::assemblerDisplay(wxString buffer)
 {
 	assemblerWindowPointer->AppendText(buffer);
 	assemblerWindowPointer->AppendText("\n");
-}
-
+}*/
+/*
 void DebugWindow::disassemblerDisplay(wxString buffer)
 {
 	disassemblerWindowPointer->AppendText(buffer);
 	disassemblerWindowPointer->AppendText("\n");
-}
+}*/
 
 void DebugWindow::deleteBreakPoint(wxListEvent&event)
 {
@@ -2792,7 +2800,7 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
 	*buffer = buffer->Mid(end + 1, buffer->Len()- end);
 	return ret;
 }
-
+/*
 void DebugWindow::disassemble(Word start, Word end)
 {
 	wxString printBuffer;
@@ -2802,7 +2810,7 @@ void DebugWindow::disassemble(Word start, Word end)
 		printBuffer = cdp1802disassemble(&start, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
 		disassemblerDisplay(printBuffer);
 	}
-}
+}*/
 
 wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool showOpcode, bool textAssembler, Word start, Word end)
 {
@@ -3878,15 +3886,15 @@ wxString DebugWindow::getHexByte(Word address, bool textAssembler)
     
     return branchAddressString;
 }
-
+/*
 void DebugWindow::disassembleChip8(Word start, Word end)
 {
 	wxString printBuffer;
 
 	while(start <= end)
 		disassemblerDisplay(disassembleChip8(&start));
-}
-
+}*/
+/*
 wxString DebugWindow::disassembleChip8(Word* address)
 {
 	wxString printBuffer;
@@ -3915,7 +3923,7 @@ wxString DebugWindow::disassembleChip8(Word* address)
 		*address = *address + 2;
 	}
 	return printBuffer;
-}
+}*/
 
 AssInput DebugWindow::getAssInput(wxString buffer)
 {
@@ -6773,7 +6781,7 @@ int DebugWindow::getRegister(wxString buffer)
 	if (buffer == "RF")  return TREG_RF;
 	return TREG_FAULT;
 }
-
+/*
 void DebugWindow::onEnter(wxCommandEvent&WXUNUSED(event))
 {
 	wxString debugIn, address, error;
@@ -6823,8 +6831,8 @@ void DebugWindow::onEnter(wxCommandEvent&WXUNUSED(event))
 	{
 		assemblerDisplay(DirAssErrorCodes[count-ERROR_START-1]);
 	}
-}
-
+}*/
+/*
 void DebugWindow::onDebugDis(wxCommandEvent&WXUNUSED(event))
 {
 	long start = get16BitValue("DebugDisStart");
@@ -6837,7 +6845,7 @@ void DebugWindow::onDebugDis(wxCommandEvent&WXUNUSED(event))
 		disassembleChip8(start, end);
 	else
 		disassemble(start, end);
-}
+}*/
 
 void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 {
@@ -7089,7 +7097,7 @@ void DebugWindow::onLog(wxCommandEvent& WXUNUSED(event))
 	}
 	traceWindowPointer->SaveFile(fileName);
 }
-
+/*
 void DebugWindow::onDebugDisLog(wxCommandEvent& WXUNUSED(event))
 {
 //	wxSetWorkingDirectory (workingDir_);
@@ -7124,7 +7132,7 @@ void DebugWindow::onDebugDisLog(wxCommandEvent& WXUNUSED(event))
 		fileName = path + pathSeparator_ + name + "." + number + "." + ext;
 	}
 	disassemblerWindowPointer->SaveFile(fileName);
-}
+}*/
 
 void DebugWindow::onDebugDisChip8(wxCommandEvent& WXUNUSED(event))
 {
@@ -14643,24 +14651,24 @@ void DebugWindow::onDebugCopyTo(wxCommandEvent&WXUNUSED(event))
 {
 	get16BitValue("DebugCopyTo");
 }
-
+/*
 void DebugWindow::onDebugAssemblerAddress(wxCommandEvent&WXUNUSED(event))
 {
 	long address = get16BitValue("DebugAssemblerAddress");
 	if (address == -1)  return;
 
 	debugAddress_ =	address;
-}
-
+}*/
+/*
 void DebugWindow::onDebugDisStart(wxCommandEvent&WXUNUSED(event))
 {
 	get16BitValue("DebugDisStart");
-}
-
+}*/
+/*
 void DebugWindow::onDebugDisEnd(wxCommandEvent&WXUNUSED(event))
 {
 	get16BitValue("DebugDisEnd");
-}
+}*/
 
 
 Byte DebugWindow::debugReadMem(Word address)

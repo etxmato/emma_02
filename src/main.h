@@ -818,7 +818,8 @@ public:
 
 	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxConfigBase *regPointer);
 	~Main();
-
+    
+    void windowSizeChanged(wxSizeEvent& event);
 	void pageSetup();
 	void onClose(wxCloseEvent&event );
 

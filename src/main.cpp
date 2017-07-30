@@ -418,6 +418,9 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 
 	EVT_CLOSE(Main::onClose)
 
+#if defined(__linux__)
+    EVT_SIZE(Main::windowSizeChanged)
+#endif
 	EVT_MENU(wxID_EXIT, Main::onQuit)
 	EVT_MENU(wxID_ABOUT, Main::onAbout)
 	EVT_MENU(XRCID("MI_DataDir"), Main::onDataDir)
@@ -576,22 +579,22 @@ WindowInfo getWinSizeInfo()
 	{
 		if (major > 2)
 		{	// Ubuntu 11.10
-			returnValue.mainwY = 460;
+			returnValue.mainwY = 670;
 			var = "UBUNTU_MENUPROXY";
 			if (wxGetEnv(var , &value))
 			{
 				if (value == "libappmenu.so")
-					returnValue.mainwY = 454;
+					returnValue.mainwY = 664;
 			}
 			returnValue.xBorder = 2;
 			returnValue.yBorder = 30;
 			returnValue.xBorder2 = 1;
 			returnValue.yBorder2 = 60;
-			returnValue.mainwX = 541;
+			returnValue.mainwX = 610;
 			returnValue.xPrint = 2;
-			returnValue.RegularClockY = 375;
+			returnValue.RegularClockY = 515;
 			returnValue.RegularClockX = 333;
-			returnValue.ChoiceClockY = 344;
+			returnValue.ChoiceClockY = 474;
 			returnValue.ChoiceClockX = 334;
 			returnValue.operatingSystem = OS_LINUX_UBUNTU_11_10;
 		}
@@ -601,12 +604,12 @@ WindowInfo getWinSizeInfo()
 			returnValue.yBorder = 0;	
 			returnValue.xBorder2 = 0;	
 			returnValue.yBorder2 = 30;
-			returnValue.mainwY = 500;
-			returnValue.mainwX = 545;
-			returnValue.xPrint = 2;
-			returnValue.RegularClockY = 375;
+			returnValue.mainwX = 610;
+            returnValue.mainwY = 670;
+            returnValue.xPrint = 2;
+			returnValue.RegularClockY = 515;
 			returnValue.RegularClockX = 333;
-			returnValue.ChoiceClockY = 344;
+			returnValue.ChoiceClockY = 474;
 			returnValue.ChoiceClockX = 334;
 			returnValue.operatingSystem = OS_LINUX_UBUNTU_11_04;
 		}
@@ -626,10 +629,6 @@ WindowInfo getWinSizeInfo()
 		returnValue.ChoiceClockX = 334;
 		returnValue.operatingSystem = OS_LINUX_FEDORA;
 
-		// GUI changes:
-		// <size>172,-1</size> to <size>172,25</size>
-		// <size>146,-1</size> to <size>146,25</size>
-		// <size>73,-1</size> to <size>73,25</size>
 		wxString desktop = wxPlatformInfo::Get().GetDesktopEnvironment();
 		if (desktop == "KDE")
 		{ // openSUSE KDE
@@ -1523,42 +1522,6 @@ void Emu1802::getSoftware(wxString computer, wxString type, wxString software)
 	}
 }
 
-/* started some conversion routine but first want to check GUI layout when using GTK3
-void checkXrc(wxString xrcFile)
-{
-	wxTextFile xrc;
-
-#if defined(__linux__)
-	wxString os = "<!-- Linux -->";
-	wxString replaceString = "8";
-#else
-	wxString os = "<!-- Windows -->";
-	wxString replaceString = "-1";
-#endif
-
-	wxString line;
-
-	if (xrc.Open(xrcFile))
-	{
-		line = xrc.GetFirstLine();
-
-		if (line != os)
-		{
-			xrc.InsertLine(os, 0);
-
-			for (line = xrc.GetFirstLine(); !xrc.Eof(); line = xrc.GetNextLine())
-			{
-				if (line.Find("<sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>"))
-				{
-
-				}
-			}
-			xrc.Write();
-		}
-		xrc.Close();
-	}
-}*/
-
 Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxConfigBase *regP)
 : DebugWindow(title, pos, size, mode, dataDir)
 {
@@ -1618,19 +1581,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(smallFont);
 #if defined(__WXMAC__)
 		wxFont defaultFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-/*		XRCCTRL(*this, "VuComx", wxStaticBitmap)->Hide();
-        XRCCTRL(*this, "VuVip", wxStaticBitmap)->Hide();
-        XRCCTRL(*this, "VuVipII", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuCosmicos", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuElf", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuElfII", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuSuperElf", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuTmc600", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuTMC2000", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuTMC1800", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuNano", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuPecom", wxStaticBitmap)->Hide();
-		XRCCTRL(*this, "VuEti", wxStaticBitmap)->Hide();*/
 #else
         wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
@@ -2435,9 +2385,6 @@ void Main::readConfig()
 
 	if (mode_.gui)
 	{
-//		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COMXTAB);
-//		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(DEBUGGERTAB);
-
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Studio_Tab", 0l));
         
         long elfChoiceBookTab = configPointer->Read("/Main/Selected_Cosmac_Tab", 0l);
@@ -2447,24 +2394,11 @@ void Main::readConfig()
 		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Rca_Tab", 0l));
 		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Telmac_Tab", 0l));
 		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Debugger_Tab", 0l));
-        /*
-#if defined(__WXMAC__)
-		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetFont(defaultFont);
-		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetFont(defaultFont);
-//		eventDisableControls();
-#endif*/
 
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(configPointer->Read("/Main/Selected_Tab", 0l));
 		eventChangeNoteBook();
 		
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		if (windowInfo.operatingSystem == OS_LINUX_OPENSUSE_GNOME || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_FEDORA)
 		{
 			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 6, windowInfo.mainwY - windowInfo.yBorder);
@@ -2482,15 +2416,14 @@ void Main::readConfig()
 			XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 		}
 #endif
-#if defined (__WXMSW__) || (__WXMAC__)
+#if defined (__WXMSW__)
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
-		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
+		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder -24, windowInfo.mainwY - windowInfo.yBorder);
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
 		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
 		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
-#endif
-#if defined (__WXMSW__)
-		if (windowInfo.operatingSystem != OS_WINDOWS_2000 )
+
+        if (windowInfo.operatingSystem != OS_WINDOWS_2000 )
 		{
 			XRCCTRL(*this, "PanelElf2K", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -2527,6 +2460,16 @@ void Main::readConfig()
 	psaveData_[5] = (int)configPointer->Read("/Main/Cassette_Playback_Input", 0l);
 	psaveData_[6] = (int)configPointer->Read("/Main/Cassette_Reversed_Polarity", 0l);
 	psaveData_[7] = (int)configPointer->Read("/Main/Cassette_Conversion_Type", 1l);
+}
+
+void Main::windowSizeChanged(wxSizeEvent& event)
+{
+    wxSize mainWindowSize = this->GetClientSize();
+    XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
+    XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
+    XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
+    XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
+    XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
 }
 
 void Main::onHelp(wxCommandEvent& WXUNUSED(event))

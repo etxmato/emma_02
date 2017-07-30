@@ -18,7 +18,6 @@
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896D1C3B16D10061426E /* menuVelf.xrc */; };
 		997189701C3B19BC0061426E /* menuVip.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896F1C3B19BC0061426E /* menuVip.xrc */; };
-		9973DDFD1A69B7B300B57557 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
 		997646F11A61D31100FB9B33 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997646F01A61D31100FB9B33 /* libwx_osx_cocoa_static.a */; };
 		997646F31A61D31600FB9B33 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997646F21A61D31600FB9B33 /* libwx_osx_cocoa_static.a */; };
 		997646F51A61D5D400FB9B33 /* usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F41A61D5D400FB9B33 /* usb.cpp */; };
@@ -137,6 +136,7 @@
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
 		99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99ABC2981E56538800850E94 /* menuMS2000.xrc */; };
+		99AD77891F2BDDA900487F8F /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
 		99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
 		99BCC77B1A6471B500F5226F /* encrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BCC77A1A6471B500F5226F /* encrypt.cpp */; };
 		99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */; };
@@ -828,6 +828,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99AD77891F2BDDA900487F8F /* images in Resources */,
 				99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */,
 				99792E0A1B88FF590044FDBB /* sb.xrc in Resources */,
 				997189701C3B19BC0061426E /* menuVip.xrc in Resources */,
@@ -836,7 +837,6 @@
 				99431DEB1F22213400F5A2D4 /* images_osx in Resources */,
 				99792DE91B88FEE70044FDBB /* colour.xrc in Resources */,
 				99792E011B88FF580044FDBB /* menuComx.xrc in Resources */,
-				9973DDFD1A69B7B300B57557 /* images in Resources */,
 				99792E041B88FF580044FDBB /* menuElf2K.xrc in Resources */,
 				9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */,
 				99F374731CADBBC2000DA615 /* COPYING - curl in Resources */,
