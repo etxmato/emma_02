@@ -590,7 +590,7 @@ WindowInfo getWinSizeInfo()
 			returnValue.yBorder = 30;
 			returnValue.xBorder2 = 1;
 			returnValue.yBorder2 = 60;
-			returnValue.mainwX = 610;
+			returnValue.mainwX = 630;
 			returnValue.xPrint = 2;
 			returnValue.RegularClockY = 515;
 			returnValue.RegularClockX = 333;
@@ -604,7 +604,7 @@ WindowInfo getWinSizeInfo()
 			returnValue.yBorder = 0;	
 			returnValue.xBorder2 = 0;	
 			returnValue.yBorder2 = 30;
-			returnValue.mainwX = 610;
+			returnValue.mainwX = 630;
             returnValue.mainwY = 670;
             returnValue.xPrint = 2;
 			returnValue.RegularClockY = 515;
@@ -620,7 +620,7 @@ WindowInfo getWinSizeInfo()
 		returnValue.yBorder = 30;
 		returnValue.xBorder2 = 1;
 		returnValue.yBorder2 = 60;
-		returnValue.mainwX = 610;
+		returnValue.mainwX = 630;
 		returnValue.mainwY = 670;
 		returnValue.xPrint = 2;
 		returnValue.RegularClockY = 515;
@@ -2397,7 +2397,7 @@ void Main::readConfig()
 
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(configPointer->Read("/Main/Selected_Tab", 0l));
 		eventChangeNoteBook();
-		
+/*
 #if defined(__linux__)
 		if (windowInfo.operatingSystem == OS_LINUX_OPENSUSE_GNOME || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_FEDORA)
 		{
@@ -2415,7 +2415,7 @@ void Main::readConfig()
 			XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 			XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 		}
-#endif
+#endif*/
 #if defined (__WXMSW__)
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
 		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder -24, windowInfo.mainwY - windowInfo.yBorder);
@@ -2465,11 +2465,11 @@ void Main::readConfig()
 void Main::windowSizeChanged(wxSizeEvent& event)
 {
     wxSize mainWindowSize = this->GetClientSize();
-    XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
-    XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
-    XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
-    XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
-    XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-24, mainWindowSize.y-24);
+    XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
+    XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
+    XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
+    XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
+    XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
 }
 
 void Main::onHelp(wxCommandEvent& WXUNUSED(event))
