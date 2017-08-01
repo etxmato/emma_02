@@ -590,7 +590,7 @@ WindowInfo getWinSizeInfo()
 			returnValue.yBorder = 30;
 			returnValue.xBorder2 = 1;
 			returnValue.yBorder2 = 60;
-			returnValue.mainwX = 630;
+			returnValue.mainwX = 640;
 			returnValue.xPrint = 2;
 			returnValue.RegularClockY = 515;
 			returnValue.RegularClockX = 333;
@@ -604,7 +604,7 @@ WindowInfo getWinSizeInfo()
 			returnValue.yBorder = 0;	
 			returnValue.xBorder2 = 0;	
 			returnValue.yBorder2 = 30;
-			returnValue.mainwX = 630;
+			returnValue.mainwX = 640;
             returnValue.mainwY = 670;
             returnValue.xPrint = 2;
 			returnValue.RegularClockY = 515;
@@ -620,7 +620,7 @@ WindowInfo getWinSizeInfo()
 		returnValue.yBorder = 30;
 		returnValue.xBorder2 = 1;
 		returnValue.yBorder2 = 60;
-		returnValue.mainwX = 630;
+		returnValue.mainwX = 640;
 		returnValue.mainwY = 670;
 		returnValue.xPrint = 2;
 		returnValue.RegularClockY = 515;
@@ -2397,25 +2397,7 @@ void Main::readConfig()
 
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(configPointer->Read("/Main/Selected_Tab", 0l));
 		eventChangeNoteBook();
-/*
-#if defined(__linux__)
-		if (windowInfo.operatingSystem == OS_LINUX_OPENSUSE_GNOME || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_FEDORA)
-		{
-			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 6, windowInfo.mainwY - windowInfo.yBorder);
-			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 6, windowInfo.mainwY - windowInfo.yBorder);
-			XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder -6, windowInfo.mainwY-windowInfo.yBorder);
-			XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder -6, windowInfo.mainwY-windowInfo.yBorder);
-			XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder -6, windowInfo.mainwY-windowInfo.yBorder);
-		}
-		else
-		{
-			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder, windowInfo.mainwY - windowInfo.yBorder); // 537 406
-			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder, windowInfo.mainwY - windowInfo.yBorder); // 537 406
-			XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
-			XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
-			XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
-		}
-#endif*/
+
         int offset = 24;
 		wxSize mainWindowSize = this->GetClientSize();
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
@@ -2467,11 +2449,16 @@ void Main::readConfig()
 void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
 {
     wxSize mainWindowSize = this->GetClientSize();
+    if (mainWindowSize.x > 1000)
+    	mainWindowSize.x = 1000;
+    if (mainWindowSize.y > 1000)
+    	mainWindowSize.y = 1000;
     XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
     XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
     XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
     XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
     XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
+    XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-8, mainWindowSize.y-156);
 }
 
 void Main::onHelp(wxCommandEvent& WXUNUSED(event))

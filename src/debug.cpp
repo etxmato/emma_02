@@ -12876,6 +12876,7 @@ void DebugWindow::ShowCharacters(Word address, int y)
 	char bits [9];
 
 	dcLine.SelectObject(*lineBmp[y]);
+	dcLine.SetBackground(wxColour(200,200,200));
 	dcLine.DrawRectangle(0, 0, 128, 16);
 #if defined(__WXMAC__)
 	wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
