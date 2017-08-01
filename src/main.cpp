@@ -2416,14 +2416,16 @@ void Main::readConfig()
 			XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder, windowInfo.mainwY-windowInfo.yBorder);
 		}
 #endif*/
-#if defined (__WXMSW__)
-		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder - 24, windowInfo.mainwY - windowInfo.yBorder);
-		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX - windowInfo.xBorder -24, windowInfo.mainwY - windowInfo.yBorder);
-		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
-		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
-		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(windowInfo.mainwX-windowInfo.xBorder-24, windowInfo.mainwY-windowInfo.yBorder);
+        int offset = 24;
+		wxSize mainWindowSize = this->GetClientSize();
+		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
+		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
+		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
+		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
+		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 
-        if (windowInfo.operatingSystem != OS_WINDOWS_2000 )
+#if defined (__WXMSW__)
+		if (windowInfo.operatingSystem != OS_WINDOWS_2000 )
 		{
 			XRCCTRL(*this, "PanelElf2K", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -2462,7 +2464,7 @@ void Main::readConfig()
 	psaveData_[7] = (int)configPointer->Read("/Main/Cassette_Conversion_Type", 1l);
 }
 
-void Main::windowSizeChanged(wxSizeEvent& event)
+void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
 {
     wxSize mainWindowSize = this->GetClientSize();
     XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
