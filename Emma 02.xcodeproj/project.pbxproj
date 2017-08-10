@@ -12,14 +12,12 @@
 		991199441E92ECC30074ADAA /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
+		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
+		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
-		994ADAFE1EBE61CE00E8820B /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 994ADAFD1EBE61CE00E8820B /* libcurl.dylib */; };
-		9958AC121A6BBC2B00F13925 /* libwxcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9958AC111A6BBC2B00F13925 /* libwxcurl.a */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896D1C3B16D10061426E /* menuVelf.xrc */; };
 		997189701C3B19BC0061426E /* menuVip.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896F1C3B19BC0061426E /* menuVip.xrc */; };
-		997646F11A61D31100FB9B33 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997646F01A61D31100FB9B33 /* libwx_osx_cocoa_static.a */; };
-		997646F31A61D31600FB9B33 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 997646F21A61D31600FB9B33 /* libwx_osx_cocoa_static.a */; };
 		997646F51A61D5D400FB9B33 /* usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F41A61D5D400FB9B33 /* usb.cpp */; };
 		997647B41A61D5EE00FB9B33 /* mac.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F61A61D5EE00FB9B33 /* mac.cpp */; };
 		997647B51A61D5EE00FB9B33 /* guisb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F81A61D5EE00FB9B33 /* guisb.cpp */; };
@@ -137,6 +135,7 @@
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
 		99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99ABC2981E56538800850E94 /* menuMS2000.xrc */; };
 		99AD77891F2BDDA900487F8F /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
+		99AEEE631F3CF7EC00E4D4D0 /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99AEEE621F3CF6A800E4D4D0 /* libcurl.4.dylib */; };
 		99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
 		99BCC77B1A6471B500F5226F /* encrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BCC77A1A6471B500F5226F /* encrypt.cpp */; };
 		99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */; };
@@ -193,11 +192,16 @@
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
 		991C84F61E37E66A0084DAFB /* microtutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor.h; path = src/microtutor.h; sourceTree = "<group>"; };
+		9942DD6B1F3B4D3E00569242 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = src/base.cpp; sourceTree = "<group>"; };
+		9942DD6C1F3B4D3E00569242 /* base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base.h; path = src/base.h; sourceTree = "<group>"; };
+		9942DD6E1F3B4D6B00569242 /* http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = http.cpp; path = src/http.cpp; sourceTree = "<group>"; };
+		9942DD6F1F3B4D6B00569242 /* http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = http.h; path = src/http.h; sourceTree = "<group>"; };
+		9942DD711F3B4DA200569242 /* audio_detect.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = audio_detect.h; path = src/audio_detect.h; sourceTree = "<group>"; };
+		9942DD721F3B4DA200569242 /* audioin_devdsp.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = audioin_devdsp.c; path = src/audioin_devdsp.c; sourceTree = "<group>"; };
+		9942DD731F3B4DBE00569242 /* SDL_audioin_internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin_internal.h; path = src/SDL_audioin_internal.h; sourceTree = "<group>"; };
+		9942DD741F3B4DBE00569242 /* SDL_audioin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = SDL_audioin.c; path = src/SDL_audioin.c; sourceTree = "<group>"; };
+		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
-		994ADAF71EBE5DB900E8820B /* wxdebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = wxdebug.xcconfig; sourceTree = "<group>"; };
-		994ADAF91EBE5DC900E8820B /* wxrelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = wxrelease.xcconfig; sourceTree = "<group>"; };
-		994ADAFD1EBE61CE00E8820B /* libcurl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.dylib; path = /usr/local/lib/libcurl.dylib; sourceTree = "<absolute>"; };
-		9958AC111A6BBC2B00F13925 /* libwxcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwxcurl.a; path = /usr/local/lib/libwxcurl.a; sourceTree = "<absolute>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
@@ -205,10 +209,7 @@
 		9971896F1C3B19BC0061426E /* menuVip.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuVip.xrc; sourceTree = "<group>"; };
 		9973DDFC1A69B7B300B57557 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
 		997646BE1A61D16300FB9B33 /* Emma 02.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emma 02.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		997646E41A61D24C00FB9B33 /* wxcocoa.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = wxcocoa.xcconfig; sourceTree = "<group>"; };
 		997646EA1A61D27700FB9B33 /* Info_cocoa.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info_cocoa.plist; sourceTree = "<group>"; };
-		997646F01A61D31100FB9B33 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../Library/Developer/Xcode/DerivedData/wxcocoa-ghgqhfokxtyrzddlstgmkdtkxbsw/Build/Products/Release/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
-		997646F21A61D31600FB9B33 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "/Users/etxmato/Documents/emma_02/../../Library/Developer/Xcode/DerivedData/wxcocoa-ghgqhfokxtyrzddlstgmkdtkxbsw/Build/Products/Debug/libwx_osx_cocoa_static.a"; sourceTree = "<absolute>"; };
 		997646F41A61D5D400FB9B33 /* usb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = usb.cpp; path = src/usb.cpp; sourceTree = "<group>"; };
 		997646F61A61D5EE00FB9B33 /* mac.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mac.cpp; path = src/mac.cpp; sourceTree = "<group>"; };
 		997646F71A61D5EE00FB9B33 /* mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mac.h; path = src/mac.h; sourceTree = "<group>"; };
@@ -417,6 +418,7 @@
 		999CFEDC1DCD33070094BEC8 /* guims2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guims2000.h; path = src/guims2000.h; sourceTree = "<group>"; };
 		99A502CA1E959040004218C8 /* splash.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash.xrc; sourceTree = "<group>"; };
 		99ABC2981E56538800850E94 /* menuMS2000.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMS2000.xrc; sourceTree = "<group>"; };
+		99AEEE621F3CF6A800E4D4D0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = /usr/lib/libcurl.4.dylib; sourceTree = "<absolute>"; };
 		99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = upd765.cpp; path = src/upd765.cpp; sourceTree = "<group>"; };
 		99BC74FB1DCFDB5C0000D8A9 /* upd765.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upd765.h; path = src/upd765.h; sourceTree = "<group>"; };
 		99BCC7791A64719900F5226F /* encrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = encrypt.h; path = src/encrypt.h; sourceTree = "<group>"; };
@@ -451,11 +453,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99AEEE631F3CF7EC00E4D4D0 /* libcurl.4.dylib in Frameworks */,
 				9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */,
-				997646F11A61D31100FB9B33 /* libwx_osx_cocoa_static.a in Frameworks */,
-				994ADAFE1EBE61CE00E8820B /* libcurl.dylib in Frameworks */,
-				997646F31A61D31600FB9B33 /* libwx_osx_cocoa_static.a in Frameworks */,
-				9958AC121A6BBC2B00F13925 /* libwxcurl.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -530,14 +529,8 @@
 				996B97391B24116B009827BF /* data */,
 				9973DDFC1A69B7B300B57557 /* images */,
 				99431DEA1F22213400F5A2D4 /* images_osx */,
-				9958AC111A6BBC2B00F13925 /* libwxcurl.a */,
-				997646F21A61D31600FB9B33 /* libwx_osx_cocoa_static.a */,
-				997646F01A61D31100FB9B33 /* libwx_osx_cocoa_static.a */,
-				994ADAFD1EBE61CE00E8820B /* libcurl.dylib */,
-				997646E41A61D24C00FB9B33 /* wxcocoa.xcconfig */,
-				994ADAF71EBE5DB900E8820B /* wxdebug.xcconfig */,
-				994ADAF91EBE5DC900E8820B /* wxrelease.xcconfig */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
+				99AEEE621F3CF6A800E4D4D0 /* libcurl.4.dylib */,
 				997646E11A61D1FA00FB9B33 /* src */,
 				997646BF1A61D16300FB9B33 /* Products */,
 			);
@@ -556,6 +549,10 @@
 			children = (
 				997647851A61D5EE00FB9B33 /* about.cpp */,
 				9976478D1A61D5EE00FB9B33 /* about.h */,
+				9942DD711F3B4DA200569242 /* audio_detect.h */,
+				9942DD721F3B4DA200569242 /* audioin_devdsp.c */,
+				9942DD6B1F3B4D3E00569242 /* base.cpp */,
+				9942DD6C1F3B4D3E00569242 /* base.h */,
 				997647931A61D5EE00FB9B33 /* Blip_Buffer.cpp */,
 				997647941A61D5EE00FB9B33 /* Blip_Buffer.h */,
 				9976479C1A61D5EE00FB9B33 /* breakpoints.cpp */,
@@ -655,6 +652,8 @@
 				997647491A61D5EE00FB9B33 /* guivip.h */,
 				997647181A61D5EE00FB9B33 /* guivip2.cpp */,
 				9976475D1A61D5EE00FB9B33 /* guivip2.h */,
+				9942DD6E1F3B4D6B00569242 /* http.cpp */,
+				9942DD6F1F3B4D6B00569242 /* http.h */,
 				9976473A1A61D5EE00FB9B33 /* hbelf.cpp */,
 				9976475E1A61D5EE00FB9B33 /* hbelf.h */,
 				9976474A1A61D5EE00FB9B33 /* i8275.cpp */,
@@ -715,6 +714,9 @@
 				997647AF1A61D5EE00FB9B33 /* psave.h */,
 				997647991A61D5EE00FB9B33 /* pushbutton.cpp */,
 				997647981A61D5EE00FB9B33 /* pushbutton.h */,
+				9942DD731F3B4DBE00569242 /* SDL_audioin_internal.h */,
+				9942DD741F3B4DBE00569242 /* SDL_audioin.c */,
+				9942DD751F3B4DBE00569242 /* SDL_audioin.h */,
 				997647401A61D5EE00FB9B33 /* sound.cpp */,
 				997647911A61D5EE00FB9B33 /* sound.h */,
 				991199421E92ECC30074ADAA /* splash.cpp */,
@@ -882,6 +884,7 @@
 				997647D11A61D5EF00FB9B33 /* cosmicos.cpp in Sources */,
 				997647C01A61D5EE00FB9B33 /* printer.cpp in Sources */,
 				997647C51A61D5EF00FB9B33 /* guimembership.cpp in Sources */,
+				9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */,
 				997647EE1A61D5EF00FB9B33 /* sound.cpp in Sources */,
 				997647EC1A61D5EF00FB9B33 /* pecom.cpp in Sources */,
 				997647C31A61D5EE00FB9B33 /* victory.cpp in Sources */,
@@ -902,6 +905,7 @@
 				997647D61A61D5EF00FB9B33 /* Sync_Audio.cpp in Sources */,
 				999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */,
 				99BE531F1F1556F5006BD353 /* guidiag.cpp in Sources */,
+				9942DD701F3B4D6B00569242 /* http.cpp in Sources */,
 				997647FD1A61D5EF00FB9B33 /* waveReader.cpp in Sources */,
 				997647FE1A61D5EF00FB9B33 /* waveWriter.cpp in Sources */,
 				997647F51A61D5EF00FB9B33 /* nano.cpp in Sources */,
@@ -988,7 +992,6 @@
 /* Begin XCBuildConfiguration section */
 		997646D91A61D16300FB9B33 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 994ADAF71EBE5DB900E8820B /* wxdebug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
@@ -1027,14 +1030,13 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = "x86_64 i386";
+				VALID_ARCHS = "i386 x86_64";
 				"VALID_ARCHS[sdk=*]" = "i386 x86_64";
 			};
 			name = Debug;
 		};
 		997646DA1A61D16300FB9B33 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 994ADAF91EBE5DC900E8820B /* wxrelease.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD)";
@@ -1067,14 +1069,13 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
-				"VALID_ARCHS[sdk=*]" = x86_64;
+				VALID_ARCHS = "i386 x86_64";
+				"VALID_ARCHS[sdk=*]" = "i386 x86_64";
 			};
 			name = Release;
 		};
 		997646DC1A61D16300FB9B33 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 997646E41A61D24C00FB9B33 /* wxcocoa.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
@@ -1097,7 +1098,6 @@
 					"_FILE_OFFSET_BITS=64",
 					_LARGE_FILES,
 					MACOS_CLASSIC,
-					"__WXMAC_XCODE__=1",
 					SCI_LEXER,
 					"WX_PRECOMP=1",
 					"wxUSE_UNICODE_UTF8=0",
@@ -1106,7 +1106,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(WXROOT)/build/osx/setup/cocoa/include",
 					"$(WXROOT)/include",
 					"\"/Library/Frameworks/SDL2.framework/Headers\"",
 					/usr/local/include,
@@ -1115,15 +1114,21 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /usr/local/lib";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcocoa-ghgqhfokxtyrzddlstgmkdtkxbsw/Build/Products/Release",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcocoa-ghgqhfokxtyrzddlstgmkdtkxbsw/Build/Products/Debug",
 					"$(PROJECT_DIR)",
 					/usr/local/lib,
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcurl-gjkdmtwhgjqefahbcvzhtqwkkoyw/Build/Products/Release",
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					WebKit,
@@ -1141,20 +1146,54 @@
 					QTKit,
 					"$(OTHER_LDFLAGS)",
 					"-lz",
+					"-L/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_xrc-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_webview-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_qa-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_baseu_net-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_html-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_adv-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_core-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_baseu_xml-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_baseu-3.0.a",
+					"-framework",
+					WebKit,
+					"-lexpat",
+					"-lwxregexu-3.0",
+					"-lwxtiff-3.0",
+					"-lwxjpeg-3.0",
+					"-lwxpng-3.0",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"-llzma",
 				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Emma 02";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
-				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/build/osx/setup/$(WXTOOLKIT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
 				VALID_ARCHS = "i386 x86_64";
-				WXROOT = ../wxWidgets;
+				WARNING_LDFLAGS = "";
+				WXROOT = "../wxWidgets-3.0.3";
 			};
 			name = Debug;
 		};
 		997646DD1A61D16300FB9B33 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 997646E41A61D24C00FB9B33 /* wxcocoa.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
@@ -1177,7 +1216,6 @@
 					"_FILE_OFFSET_BITS=64",
 					_LARGE_FILES,
 					MACOS_CLASSIC,
-					"__WXMAC_XCODE__=1",
 					SCI_LEXER,
 					"WX_PRECOMP=1",
 					"wxUSE_UNICODE_UTF8=0",
@@ -1186,7 +1224,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(WXROOT)/build/osx/setup/cocoa/include",
 					"$(WXROOT)/include",
 					"\"/Library/Frameworks/SDL2.framework/Headers\"",
 					/usr/local/include,
@@ -1195,16 +1232,22 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks /usr/local/lib";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcocoa-ghgqhfokxtyrzddlstgmkdtkxbsw/Build/Products/Release",
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcocoa-ghgqhfokxtyrzddlstgmkdtkxbsw/Build/Products/Debug",
 					"$(PROJECT_DIR)",
 					/usr/local/lib,
-					"$(USER_LIBRARY_DIR)/Developer/Xcode/DerivedData/wxcurl-gjkdmtwhgjqefahbcvzhtqwkkoyw/Build/Products/Release",
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
+				OTHER_CPLUSPLUSFLAGS = (
+					"$(OTHER_CFLAGS)",
+					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					WebKit,
@@ -1222,14 +1265,49 @@
 					QTKit,
 					"$(OTHER_LDFLAGS)",
 					"-lz",
+					"-L/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_xrc-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_webview-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_qa-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_baseu_net-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_html-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_adv-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_core-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_baseu_xml-3.0.a",
+					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_baseu-3.0.a",
+					"-framework",
+					WebKit,
+					"-lexpat",
+					"-lwxregexu-3.0",
+					"-lwxtiff-3.0",
+					"-lwxjpeg-3.0",
+					"-lwxpng-3.0",
+					"-lz",
+					"-lpthread",
+					"-liconv",
+					"-llzma",
 				);
+				OTHER_LIBTOOLFLAGS = "";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "Emma 02";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
-				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/build/osx/setup/$(WXTOOLKIT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
+				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
 				VALID_ARCHS = "i386 x86_64";
-				WXROOT = ../wxWidgets;
+				WARNING_LDFLAGS = "";
+				WXROOT = "../wxWidgets-3.0.3";
 			};
 			name = Release;
 		};

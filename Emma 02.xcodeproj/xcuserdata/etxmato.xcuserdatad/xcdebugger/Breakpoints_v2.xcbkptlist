@@ -528,7 +528,7 @@
             startingLineNumber = "2485"
             endingLineNumber = "2485"
             landmarkName = "Main::downloadString(wxString url)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -544,7 +544,7 @@
             startingLineNumber = "2486"
             endingLineNumber = "2486"
             landmarkName = "Main::downloadString(wxString url)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

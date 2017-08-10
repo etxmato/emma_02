@@ -241,7 +241,7 @@ void VideoScreen::blit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord heig
 	wxClientDC dcWindow(this);
 	dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
 #if defined(__WXMAC__)
-    dcWindow.SetInterpolationQuality(wxINTERPOLATION_NONE);
+//    dcWindow.SetInterpolationQuality(wxINTERPOLATION_NONE);
 #endif
 	dcWindow.Blit(xdest, ydest, width, height, source, xsrc, ysrc);
 #if defined(__linux__)

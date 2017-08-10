@@ -33,7 +33,7 @@
 //#include "serial.h"
 #include "wx/sstream.h"
 #include "wx/uri.h"
-#include "wx/curl/http.h"
+#include "http.h"
 
 int dummyHeader_ = 0;
 
