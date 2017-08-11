@@ -202,6 +202,13 @@
 		9942DD741F3B4DBE00569242 /* SDL_audioin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = SDL_audioin.c; path = src/SDL_audioin.c; sourceTree = "<group>"; };
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
+		9943A6661F3E42D8001F0222 /* Emma 02 xp.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 xp.sln"; sourceTree = "<group>"; };
+		9943A6671F3E42D8001F0222 /* Emma 02 xp.suo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Emma 02 xp.suo"; sourceTree = "<group>"; };
+		9943A6681F3E42D8001F0222 /* Emma 02 xp.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 xp.vcproj"; sourceTree = "<group>"; };
+		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
+		9943A66A1F3E42F2001F0222 /* Emma 02.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.sln"; sourceTree = "<group>"; };
+		9943A66B1F3E42F2001F0222 /* Emma 02.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.vcxproj"; sourceTree = "<group>"; };
+		9943A66C1F3E42F2001F0222 /* Emma 02.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.vcxproj.filters"; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
@@ -520,6 +527,13 @@
 				99792DFE1B88FF580044FDBB /* sb.xrc */,
 				99A502CA1E959040004218C8 /* splash.xrc */,
 				99792DFF1B88FF580044FDBB /* vt.xrc */,
+				9943A6661F3E42D8001F0222 /* Emma 02 xp.sln */,
+				9943A6671F3E42D8001F0222 /* Emma 02 xp.suo */,
+				9943A6681F3E42D8001F0222 /* Emma 02 xp.vcproj */,
+				9943A6691F3E42F2001F0222 /* Emma 02.rc */,
+				9943A66A1F3E42F2001F0222 /* Emma 02.sln */,
+				9943A66B1F3E42F2001F0222 /* Emma 02.vcxproj */,
+				9943A66C1F3E42F2001F0222 /* Emma 02.vcxproj.filters */,
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,
 				99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */,
 				99F3746D1CADBBC2000DA615 /* Quest_license.txt */,
@@ -994,7 +1008,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1039,7 +1053,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD)";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
