@@ -438,9 +438,9 @@
 		99DA24F21B7D3625003B8560 /* configuration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = configuration.h; path = src/configuration.h; sourceTree = "<group>"; };
 		99E6EA921F40931D0030F125 /* OpenSSL - LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OpenSSL - LICENSE"; sourceTree = "<group>"; };
 		99E6EA931F4093330030F125 /* vccrt.msi */ = {isa = PBXFileReference; lastKnownFileType = file; path = vccrt.msi; sourceTree = "<group>"; };
-		99E6EA941F4093BA0030F125 /* IsTool */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IsTool; sourceTree = "<group>"; };
 		99E6EA951F40E0AA0030F125 /* Emma 02 vc9.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc9.sln"; sourceTree = "<group>"; };
 		99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc9.vcproj"; sourceTree = "<group>"; };
+		99E6EA971F40EC300030F125 /* IsTool */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IsTool; sourceTree = "<group>"; };
 		99F3746A1CADBB93000DA615 /* copyright.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = copyright.rtf; sourceTree = "<group>"; };
 		99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Quest_CC_Lic.jpg; sourceTree = "<group>"; };
 		99F3746D1CADBBC2000DA615 /* Quest_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Quest_license.txt; sourceTree = "<group>"; };
@@ -544,8 +544,8 @@
 				996B97391B24116B009827BF /* data */,
 				9973DDFC1A69B7B300B57557 /* images */,
 				99431DEA1F22213400F5A2D4 /* images_osx */,
-				99E6EA941F4093BA0030F125 /* IsTool */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
+				99E6EA971F40EC300030F125 /* IsTool */,
 				99AEEE621F3CF6A800E4D4D0 /* libcurl.4.dylib */,
 				997646E11A61D1FA00FB9B33 /* src */,
 				997646BF1A61D16300FB9B33 /* Products */,
