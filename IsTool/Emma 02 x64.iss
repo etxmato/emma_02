@@ -3,24 +3,24 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.24.38
+AppVerName=Emma 02 - V1.24.39
 AppVersion=1.24
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
-OutputDir=..\..\..\Documents\Public\Emma 02\
-OutputBaseFilename=Emma_02_x64_setup_v1.24.38
+OutputDir=x64
+OutputBaseFilename=Emma_02_x64_setup_v1.24.39
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
 UninstallDisplayIcon={app}\images\app.ico
 DisableDirPage=false
 FlatComponentsList=false
-InfoBeforeFile=copyright.rtf
+InfoBeforeFile=..\copyright.rtf
 WizardImageBackColor=clWhite
 WizardImageStretch=true
-WizardImageFile=..\IsTool\emma 02 large.bmp
-WizardSmallImageFile=..\IsTool\emma 02.bmp
+WizardImageFile=emma 02 large.bmp
+WizardSmallImageFile=emma 02.bmp
 ShowLanguageDialog=no
 AppPublisherURL=http://www.emma02.hobby-site.com/
 AppSupportURL=http://www.comxclub.hobby-site.com/forum/forumdisplay.php?fid=4
@@ -35,9 +35,9 @@ Name: english; MessagesFile: compiler:Default.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\redist\1033\vcredist_x64.exe; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
-Source: ..\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
-Source: ..\Helpfiles\Emma 02.htb; DestDir: {app}; Components: MAIN
+Source: vcredist_x64.exe; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
+Source: ..\x64\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
+Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
 Source: ..\about.xrc; DestDir: {app}; Components: MAIN
 Source: ..\cassette.xrc; DestDir: {app}; Components: MAIN
 Source: ..\colour.xrc; DestDir: {app}; Components: MAIN
@@ -64,269 +64,267 @@ Source: ..\ports.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt.xrc; DestDir: {app}; Components: MAIN
-Source: ..\SDL2-2.0.3\lib\x64\SDL2.dll; DestDir: {app}; Components: MAIN
-Source: OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
-Source: Quest_license.txt; DestDir: {app}; Components: MAIN
-Source: Quest_CC_Lic.jpg; DestDir: {app}; Components: MAIN
-Source: README-SDL.txt; DestDir: {app}; Components: MAIN
-Source: LGPL.txt; DestDir: {app}; Components: MAIN
-Source: COPYING - curl; DestDir: {app}; Components: MAIN
-Source: data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
-Source: Configurations\Cidelsa\*.*; DestDir: {userappdata}\Emma 02\Configurations\Cidelsa; Components: CONF
-Source: Configurations\Comx\*.*; DestDir: {userappdata}\Emma 02\Configurations\Comx; Components: CONF
-Source: Configurations\Cosmicos\*.*; DestDir: {userappdata}\Emma 02\Configurations\Cosmicos; Components: CONF
-Source: Configurations\Elf\*.*; DestDir: {userappdata}\Emma 02\Configurations\Elf; Components: CONF
-Source: Configurations\Elf2K\*.*; DestDir: {userappdata}\Emma 02\Configurations\Elf2K; Components: CONF
-Source: Configurations\Eti\*.*; DestDir: {userappdata}\Emma 02\Configurations\Eti; Components: CONF
-Source: Configurations\Membership\*.*; DestDir: {userappdata}\Emma 02\Configurations\Membership; Components: CONF
-Source: Configurations\Microtutor\*.*; DestDir: {userappdata}\Emma 02\Configurations\Microtutor; Components: CONF
-Source: Configurations\MS2000\*.*; DestDir: {userappdata}\Emma 02\Configurations\MS2000; Components: CONF
-Source: Configurations\Nano\*.*; DestDir: {userappdata}\Emma 02\Configurations\Nano; Components: CONF
-Source: Configurations\Pecom\*.*; DestDir: {userappdata}\Emma 02\Configurations\Pecom; Components: CONF
-Source: Configurations\Studio2\*.*; DestDir: {userappdata}\Emma 02\Configurations\Studio2; Components: CONF
-Source: Configurations\TMC600\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC600; Components: CONF
-Source: Configurations\TMC1800\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC1800; Components: CONF
-Source: Configurations\TMC2000\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC2000; Components: CONF
-Source: Configurations\Victory\*.*; DestDir: {userappdata}\Emma 02\Configurations\Victory; Components: CONF
-Source: Configurations\Vip\*.*; DestDir: {userappdata}\Emma 02\Configurations\Vip; Components: CONF
-Source: Configurations\VipII\*.*; DestDir: {userappdata}\Emma 02\Configurations\VipII; Components: CONF
-Source: Configurations\Velf\*.*; DestDir: {userappdata}\Emma 02\Configurations\Velf; Components: CONF
-Source: Configurations\Visicom\*.*; DestDir: {userappdata}\Emma 02\Configurations\Visicom; Components: CONF
-Source: keydefinition.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: keydefinition_studio.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: multi-cart.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: us.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: swedish.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: german.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: dutch.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: french.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
-Source: Comx\comx35.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\comx35.1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\f&m.expansion.3.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\f&m.expansion.3.2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\f&m.eprom.board.1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\f&m.eprom.board.1.2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\fdc.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\diag_pal1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\diag_pal2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\diag_pal2_v1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\diag_ntsc1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\diag_ntsc2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\diag_ntsc2_v1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\rs232.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\f&m.joycard.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\f&m.printer.1.2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\printer.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\thermal.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\expansion.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\80column.1.0.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\80column.1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\pl80.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\pl80.it.em.ou.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\pl80.tiny.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\usb_super.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\eprom_super.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\Comx Key File Example.txt; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\Recall Basic.txt; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: Comx\Trainspotting.txt; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
-Source: ..\..\..\AppData\Roaming\Emma 02\Comx\Usb FW Development\sb*.bin; DestDir: {userappdata}\Emma 02\Comx\Usb FW; Components: MAIN
-Source: ..\..\..\AppData\Roaming\Emma 02\Comx\Usb FW Development\*.debug; DestDir: {userappdata}\Emma 02\Comx\Usb FW; Components: MAIN
-Source: ..\..\..\AppData\Roaming\Emma 02\Comx\Usb FW\sb.config; DestDir: {userappdata}\Emma 02\Comx\Usb FW; Components: MAIN
-Source: Comx\Demo\*.comx; DestDir: {userappdata}\Emma 02\Comx\Demo; Components: SW/COMX
-Source: Comx\Spellen\*.comx; DestDir: {userappdata}\Emma 02\Comx\Spellen; Components: SW/COMX
-Source: Comx\Programmas\*.comx; DestDir: {userappdata}\Emma 02\Comx\Programmas; Components: SW/COMX
-Source: Comx\Educatief\*.comx; DestDir: {userappdata}\Emma 02\Comx\Educatief; Components: SW/COMX
-Source: Comx\Games\*.comx; DestDir: {userappdata}\Emma 02\Comx\Games; Components: SW/COMX
-Source: Comx\Programs\*.comx; DestDir: {userappdata}\Emma 02\Comx\Programs; Components: SW/COMX
-Source: Comx\Educational\*.comx; DestDir: {userappdata}\Emma 02\Comx\Educational; Components: SW/COMX
-Source: Comx\Talen - Languages\*.comx; DestDir: {userappdata}\Emma 02\Comx\Talen - Languages; Components: SW/COMX
-Source: Comx\Hulpmiddelen - Utilities\*.comx; DestDir: {userappdata}\Emma 02\Comx\Hulpmiddelen - Utilities; Components: SW/COMX
-Source: Comx\F&M Basic\*.comx; DestDir: {userappdata}\Emma 02\Comx\F&M Basic; Components: SW/COMX
-Source: Comx\Plotter\*.comx; DestDir: {userappdata}\Emma 02\Comx\Plotter; Components: SW/COMX
-Source: Comx\Disks\dos.1.4+f&m.disk.tools.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\Disks\f&m-heijmans.sw.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\Disks\games.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\Disks\hit.it.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\Disks\comxstar.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\Disks\assembler.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\Disks\plotter.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\Disks\plotter-2.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
-Source: Comx\F&M EPROM Switchboard\*.*; DestDir: {userappdata}\Emma 02\Comx\F&M EPROM Switchboard; Components: MAIN
-Source: Studio2\studio2.rom; DestDir: {userappdata}\Emma 02\Studio2; Components: MAIN
-Source: Studio2\*.bin; DestDir: {userappdata}\Emma 02\Studio2; Components: MAIN
-Source: Studio2\*.rom; DestDir: {userappdata}\Emma 02\Studio2; Components: MAIN
-Source: Studio2\*.ch8; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
-Source: Studio2\*.st2; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
-Source: Studio2\*.txt; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
-Source: Studio2\*.pdf; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
-Source: Studio2\*.zip; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
-Source: Visicom\visicom.rom; DestDir: {userappdata}\Emma 02\Visicom; Components: MAIN
-Source: Visicom\*.st2; DestDir: {userappdata}\Emma 02\Visicom; Components: SW/VISICOM
-Source: Victory\victory.rom; DestDir: {userappdata}\Emma 02\Victory; Components: MAIN
-Source: Victory\*.bin; DestDir: {userappdata}\Emma 02\Victory; Components: MAIN
-Source: Victory\*.st2; DestDir: {userappdata}\Emma 02\Victory; Components: SW/VICTORY
-Source: Victory\*.txt; DestDir: {userappdata}\Emma 02\Victory; Components: SW/VICTORY
-Source: Victory\*.pdf; DestDir: {userappdata}\Emma 02\Victory; Components: SW/VICTORY
-Source: Cidelsa\altair.rom; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
-Source: Cidelsa\destroyer set 1.bin; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
-Source: Cidelsa\destroyer set 2.bin; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
-Source: Cidelsa\draco.bin; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
-Source: Chip-8\Chip-8 Demos\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Demos; Components: SW/TMC2000 SW/NANO SW/VIP
-Source: Chip-8\Chip-8 Games\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Games; Components: SW/TMC2000 SW/NANO SW/VIP
-Source: Chip-8\Chip-8 Programs\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Programs; Components: SW/TMC2000 SW/NANO SW/VIP
-Source: Chip-8\Chip-8 ETI660 Hybrids\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 ETI660 Hybrids; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
-Source: Chip-8\Chip-8 Hires\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Hires; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
-Source: Chip-8\Chip-8 Hybrids\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Hybrids; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
-Source: Chip-8\Chip-8X\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8X; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
-Source: Chip-8\Chip-10\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-10; Components: SW/VIP
-Source: Vip\vip.rom; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
-Source: Vip\vip.32.rom; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
-Source: Vip\fpb.bin; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
-Source: Vip\fpb_color.bin; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
-Source: Vip\*.ram; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
-Source: Vip\*.bin; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
-Source: Vip\chip8.stepper.hex; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
-Source: Vip\chip10.hex; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
-Source: VipII\vip.rom; DestDir: {userappdata}\Emma 02\VipII; Components: MAIN
-Source: VipII\vip.32.rom; DestDir: {userappdata}\Emma 02\VipII; Components: MAIN
-Source: VipII\fpb.rom; DestDir: {userappdata}\Emma 02\VipII; Components: MAIN
-Source: VipII\*.ram; DestDir: {userappdata}\Emma 02\VipII; Components: SW/VIP
-Source: MCDS\*.bin; DestDir: {userappdata}\Emma 02\MCDS; Components: MAIN
-Source: MS2000\*.bin; DestDir: {userappdata}\Emma 02\MS2000; Components: MAIN
-Source: MS2000\MICRODOS\*.*; DestDir: {userappdata}\Emma 02\MS2000\MICRODOS; Components: MAIN
-Source: MS2000\microdos.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: MAIN
-Source: MS2000\basic1.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: SW/MS2000
-Source: MS2000\PLM 1800.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: SW/MS2000
-Source: MS2000\RP.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: SW/MS2000
-Source: MS2000\BASIC\*.*; DestDir: {userappdata}\Emma 02\MS2000\BASIC; Components: SW/MS2000
-Source: MS2000\Software\*.*; DestDir: {userappdata}\Emma 02\MS2000\Software; Components: SW/MS2000
-Source: MS2000\PLM\*.*; DestDir: {userappdata}\Emma 02\MS2000\PLM; Components: SW/MS2000
-Source: MS2000\RP\*.*; DestDir: {userappdata}\Emma 02\MS2000\RP; Components: SW/MS2000
-Source: Velf\*.bin; DestDir: {userappdata}\Emma 02\Velf; Components: SW/VIP
-Source: Velf\VELFbios-v3.1.HEX; DestDir: {userappdata}\Emma 02\Velf; Components: MAIN
-Source: Velf\VELFbios-v3.1.LST; DestDir: {userappdata}\Emma 02\Velf; Components: MAIN
-Source: Velf\*.ram; DestDir: {userappdata}\Emma 02\Velf; Components: SW/VELF
-Source: TMC600\*.bin; DestDir: {userappdata}\Emma 02\TMC600; Components: MAIN
-Source: TMC600\demo.txt; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
-Source: TMC600\demo2.txt; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
-Source: TMC600\snoopy.txt; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
-Source: TMC600\demo.tmc600; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
-Source: TMC600\demo2.tmc600; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
-Source: TMC600\snoopy.tmc600; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
-Source: TMC1800\telmac1800.rom; DestDir: {userappdata}\Emma 02\TMC1800; Components: MAIN
-Source: TMC1800\*.ram; DestDir: {userappdata}\Emma 02\TMC1800; Components: SW/TMC1800
-Source: TMC2000\telmac2000.rom; DestDir: {userappdata}\Emma 02\TMC2000; Components: MAIN
-Source: TMC2000\*.ram; DestDir: {userappdata}\Emma 02\TMC2000; Components: SW/TMC2000
-Source: Nano\nano.rom; DestDir: {userappdata}\Emma 02\Nano; Components: MAIN
-Source: Nano\*.ram; DestDir: {userappdata}\Emma 02\Nano; Components: SW/NANO
-Source: Pecom\*.bin; DestDir: {userappdata}\Emma 02\Pecom; Components: MAIN
-Source: Pecom\*.pecom; DestDir: {userappdata}\Emma 02\Pecom; Components: SW/PECOM
-Source: Eti\eti-660.bin; DestDir: {userappdata}\Emma 02\Eti; Components: MAIN
-Source: Cosmicos\*.bin; DestDir: {userappdata}\Emma 02\Cosmicos; Components: MAIN
-Source: Membership\*.bin; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
-Source: Membership\*.rom; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
-Source: Membership\*.hex; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
-Source: Membership\*.txt; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
-Source: Microtutor\*.bin; DestDir: {userappdata}\Emma 02\Microtutor; Components: MAIN
-Source: Elf2K\v87a.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
-Source: Elf2K\v88.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
-Source: Elf2K\intel8275.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
-Source: Elf2K\vt52.a.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
-Source: Elf2K\vt52.b.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
-Source: Elf2K\vt100.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
-Source: Elf2K\elfos2k_0_2_8.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
-Source: Elf2K\LOAD-8275.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
-Source: Elf2K\elf2k-installation.ide; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
-Source: Elf2K\clock2.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
-Source: Elf2K\Clock\*.*; DestDir: {userappdata}\Emma 02\Elf2K\Clock\; Components: SW/ELF
-Source: Elf2K\1802 Disassembler.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
-Source: Elf2K\1802 Disassembler\*.*; DestDir: {userappdata}\Emma 02\Elf2K\1802 Disassembler\; Components: SW/ELF
-Source: Elf2K\Tinyos2k\*.*; DestDir: {userappdata}\Emma 02\Elf2K\Tinyos2k; Components: SW/ELF
-Source: Elf\bios.1.0.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\bios.1.0.4.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\elfos.0.2.6.hex; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\elfos.0.2.8.hex; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\biosio.elfos.0.2.5.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\bios+biosiov92.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\bios+biosiov93.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\biosio.elfos.0.2.5_32.column.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\bios+biosiov92_32.column.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\bios+biosiov93_32.column.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\mc6847.ntsc.round.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\mc6847.ntsc.square.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\mc6847.pal.round.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\mc6847.pal.square.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\mc6845.comx.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\super.video.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\intel8275.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\vt52.a.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\vt52.b.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\vt100.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\pixie-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\tms-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\gra-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\mc6845-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\mc6847-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\vt100-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\serial-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\rommapper.bin; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\chip8.hex; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
-Source: Elf\rcabug.hex; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
-Source: Elf\Games\*.*; DestDir: {userappdata}\Emma 02\Elf\Games; Components: SW/ELF
-Source: Elf\Music\*.*; DestDir: {userappdata}\Emma 02\Elf\Music; Components: SW/ELF
-Source: Elf\QuestData\*.*; DestDir: {userappdata}\Emma 02\Elf\QuestData; Components: SW/ELF
-Source: Elf\elf-emulation.com\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com; Components: SW/ELF
-Source: Elf\elf-emulation.com\EdtAsm\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\EdtAsm; Components: SW/ELF
-Source: Elf\elf-emulation.com\RcForth Rom Version\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\RcForth Rom Version; Components: SW/ELF
-Source: Elf\elf-emulation.com\RcForth v1.0\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\RcForth v1.0; Components: SW/ELF
-Source: Elf\elf-emulation.com\RcLisp Rom Version\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\RcLisp Rom Version; Components: SW/ELF
-Source: Elf\elf-emulation.com\Tiny Basic Compiler Rom Version\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\Tiny Basic Compiler Rom Version; Components: SW/ELF
-Source: Elf\Netronics Tiny Basic\*.*; DestDir: {userappdata}\Emma 02\Elf\Netronics Tiny Basic; Components: SW/ELF
-Source: Elf\netronic.tinyBasic.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\Fig Forth 1802\*.*; DestDir: {userappdata}\Emma 02\Elf\Fig Forth 1802; Components: SW/ELF
-Source: Elf\fig.forth.1802.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\tiny.basic.interpreter.v2.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\quest.tape.loader.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\superbasic.1.4.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\superbasic.1.45.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\superbasic.1.46.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\superbasic.1.47.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\superbasic.3.0.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\superbasic.5.0.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\superbasic.6.0.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\rca.basic3.v1.1.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\rca.basic4.v1.1.install.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\supermon.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\super.gold.monitor.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\mini.monitor.and.super.basic.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\giantboard.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\giantboard.v2.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\tapeloader.txt; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\emma 02.cos; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
-Source: Elf\TinyosTS\*.*; DestDir: {userappdata}\Emma 02\Elf\TinyosTS; Components: SW/ELF
-Source: Elf\Biosio\BIOSIO93.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\BIOSIOV9.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\BIOSiov9REQ.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\GRAINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\GRAINIZnotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\PIXINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\pixiniznotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\SERINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\seriniznotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\TMSINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\TMSINIZnotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\VIDINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\Biosio\VIDINIZnotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
-Source: Elf\biosioPS2\BIOSPSV1.ROM; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
-Source: Elf\biosioPS2\BIOSPSV1REQ.txt; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
-Source: Elf\biosioPS2\PSiniz.rom; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
-Source: Elf\biosioPS2\PSiniznotes.txt; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
+Source: ..\SDL2-2.0.5\lib\x64\SDL2.dll; DestDir: {app}; Components: MAIN
+Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
+Source: ..\Quest_license.txt; DestDir: {app}; Components: MAIN
+Source: ..\Quest_CC_Lic.jpg; DestDir: {app}; Components: MAIN
+Source: ..\README-SDL.txt; DestDir: {app}; Components: MAIN
+Source: ..\LGPL.txt; DestDir: {app}; Components: MAIN
+Source: ..\COPYING - curl; DestDir: {app}; Components: MAIN
+Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
+Source: ..\data\Configurations\Cidelsa\*.*; DestDir: {userappdata}\Emma 02\Configurations\Cidelsa; Components: CONF
+Source: ..\data\Configurations\Comx\*.*; DestDir: {userappdata}\Emma 02\Configurations\Comx; Components: CONF
+Source: ..\data\Configurations\Cosmicos\*.*; DestDir: {userappdata}\Emma 02\Configurations\Cosmicos; Components: CONF
+Source: ..\data\Configurations\Elf\*.*; DestDir: {userappdata}\Emma 02\Configurations\Elf; Components: CONF
+Source: ..\data\Configurations\Elf2K\*.*; DestDir: {userappdata}\Emma 02\Configurations\Elf2K; Components: CONF
+Source: ..\data\Configurations\Eti\*.*; DestDir: {userappdata}\Emma 02\Configurations\Eti; Components: CONF
+Source: ..\data\Configurations\Membership\*.*; DestDir: {userappdata}\Emma 02\Configurations\Membership; Components: CONF
+Source: ..\data\Configurations\Microtutor\*.*; DestDir: {userappdata}\Emma 02\Configurations\Microtutor; Components: CONF
+Source: ..\data\Configurations\MS2000\*.*; DestDir: {userappdata}\Emma 02\Configurations\MS2000; Components: CONF
+Source: ..\data\Configurations\Nano\*.*; DestDir: {userappdata}\Emma 02\Configurations\Nano; Components: CONF
+Source: ..\data\Configurations\Pecom\*.*; DestDir: {userappdata}\Emma 02\Configurations\Pecom; Components: CONF
+Source: ..\data\Configurations\Studio2\*.*; DestDir: {userappdata}\Emma 02\Configurations\Studio2; Components: CONF
+Source: ..\data\Configurations\TMC600\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC600; Components: CONF
+Source: ..\data\Configurations\TMC1800\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC1800; Components: CONF
+Source: ..\data\Configurations\TMC2000\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC2000; Components: CONF
+Source: ..\data\Configurations\Victory\*.*; DestDir: {userappdata}\Emma 02\Configurations\Victory; Components: CONF
+Source: ..\data\Configurations\Vip\*.*; DestDir: {userappdata}\Emma 02\Configurations\Vip; Components: CONF
+Source: ..\data\Configurations\VipII\*.*; DestDir: {userappdata}\Emma 02\Configurations\VipII; Components: CONF
+Source: ..\data\Configurations\Velf\*.*; DestDir: {userappdata}\Emma 02\Configurations\Velf; Components: CONF
+Source: ..\data\Configurations\Visicom\*.*; DestDir: {userappdata}\Emma 02\Configurations\Visicom; Components: CONF
+Source: ..\data\keydefinition.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\keydefinition_studio.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\multi-cart.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\us.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\swedish.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\german.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\dutch.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\french.ini; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\Comx\comx35.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\comx35.1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\f&m.expansion.3.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\f&m.expansion.3.2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\f&m.eprom.board.1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\f&m.eprom.board.1.2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\fdc.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\diag_pal1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\diag_pal2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\diag_pal2_v1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\diag_ntsc1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\diag_ntsc2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\diag_ntsc2_v1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\rs232.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\f&m.joycard.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\f&m.printer.1.2.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\printer.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\thermal.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\expansion.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\80column.1.0.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\80column.1.1.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\pl80.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\pl80.it.em.ou.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\pl80.tiny.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\usb_super.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\eprom_super.bin; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\Comx Key File Example.txt; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\Recall Basic.txt; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\Trainspotting.txt; DestDir: {userappdata}\Emma 02\Comx; Components: MAIN
+Source: ..\data\Comx\Usb FW Development\sb*.bin; DestDir: {userappdata}\Emma 02\Comx\Usb FW; Components: MAIN
+Source: ..\data\Comx\Usb FW Development\*.debug; DestDir: {userappdata}\Emma 02\Comx\Usb FW; Components: MAIN
+Source: ..\data\Comx\Usb FW\sb.config; DestDir: {userappdata}\Emma 02\Comx\Usb FW; Components: MAIN
+Source: ..\data\Comx\Demo\*.comx; DestDir: {userappdata}\Emma 02\Comx\Demo; Components: SW/COMX
+Source: ..\data\Comx\Spellen\*.comx; DestDir: {userappdata}\Emma 02\Comx\Spellen; Components: SW/COMX
+Source: ..\data\Comx\Programmas\*.comx; DestDir: {userappdata}\Emma 02\Comx\Programmas; Components: SW/COMX
+Source: ..\data\Comx\Educatief\*.comx; DestDir: {userappdata}\Emma 02\Comx\Educatief; Components: SW/COMX
+Source: ..\data\Comx\Games\*.comx; DestDir: {userappdata}\Emma 02\Comx\Games; Components: SW/COMX
+Source: ..\data\Comx\Programs\*.comx; DestDir: {userappdata}\Emma 02\Comx\Programs; Components: SW/COMX
+Source: ..\data\Comx\Educational\*.comx; DestDir: {userappdata}\Emma 02\Comx\Educational; Components: SW/COMX
+Source: ..\data\Comx\Talen - Languages\*.comx; DestDir: {userappdata}\Emma 02\Comx\Talen - Languages; Components: SW/COMX
+Source: ..\data\Comx\Hulpmiddelen - Utilities\*.comx; DestDir: {userappdata}\Emma 02\Comx\Hulpmiddelen - Utilities; Components: SW/COMX
+Source: ..\data\Comx\F&M Basic\*.comx; DestDir: {userappdata}\Emma 02\Comx\F&M Basic; Components: SW/COMX
+Source: ..\data\Comx\Plotter\*.comx; DestDir: {userappdata}\Emma 02\Comx\Plotter; Components: SW/COMX
+Source: ..\data\Comx\Disks\dos.1.4+f&m.disk.tools.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\Disks\f&m-heijmans.sw.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\Disks\games.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\Disks\hit.it.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\Disks\comxstar.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\Disks\assembler.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\Disks\plotter.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\Disks\plotter-2.img; DestDir: {userappdata}\Emma 02\Comx\Disks; Components: SW/COMX
+Source: ..\data\Comx\F&M EPROM Switchboard\*.*; DestDir: {userappdata}\Emma 02\Comx\F&M EPROM Switchboard; Components: MAIN
+Source: ..\data\Studio2\studio2.rom; DestDir: {userappdata}\Emma 02\Studio2; Components: MAIN
+Source: ..\data\Studio2\*.bin; DestDir: {userappdata}\Emma 02\Studio2; Components: MAIN
+Source: ..\data\Studio2\*.rom; DestDir: {userappdata}\Emma 02\Studio2; Components: MAIN
+Source: ..\data\Studio2\*.st2; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
+Source: ..\data\Studio2\*.txt; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
+Source: ..\data\Studio2\*.pdf; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
+Source: ..\data\Studio2\*.zip; DestDir: {userappdata}\Emma 02\Studio2; Components: SW/STUDIO
+Source: ..\data\Visicom\visicom.rom; DestDir: {userappdata}\Emma 02\Visicom; Components: MAIN
+Source: ..\data\Visicom\*.st2; DestDir: {userappdata}\Emma 02\Visicom; Components: SW/VISICOM
+Source: ..\data\Victory\victory.rom; DestDir: {userappdata}\Emma 02\Victory; Components: MAIN
+Source: ..\data\Victory\*.bin; DestDir: {userappdata}\Emma 02\Victory; Components: MAIN
+Source: ..\data\Victory\*.st2; DestDir: {userappdata}\Emma 02\Victory; Components: SW/VICTORY
+Source: ..\data\Victory\*.txt; DestDir: {userappdata}\Emma 02\Victory; Components: SW/VICTORY
+Source: ..\data\Victory\*.pdf; DestDir: {userappdata}\Emma 02\Victory; Components: SW/VICTORY
+Source: ..\data\Cidelsa\altair.rom; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
+Source: ..\data\Cidelsa\destroyer set 1.bin; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
+Source: ..\data\Cidelsa\destroyer set 2.bin; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
+Source: ..\data\Cidelsa\draco.bin; DestDir: {userappdata}\Emma 02\Cidelsa; Components: SW/CIDELSA
+Source: ..\data\Chip-8\Chip-8 Demos\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Demos; Components: SW/TMC2000 SW/NANO SW/VIP
+Source: ..\data\Chip-8\Chip-8 Games\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Games; Components: SW/TMC2000 SW/NANO SW/VIP
+Source: ..\data\Chip-8\Chip-8 Programs\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Programs; Components: SW/TMC2000 SW/NANO SW/VIP
+Source: ..\data\Chip-8\Chip-8 ETI660 Hybrids\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 ETI660 Hybrids; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
+Source: ..\data\Chip-8\Chip-8 Hires\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Hires; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
+Source: ..\data\Chip-8\Chip-8 Hybrids\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8 Hybrids; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
+Source: ..\data\Chip-8\Chip-8X\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-8X; Components: SW/TMC2000 SW/NANO SW/VIP SW/ETI
+Source: ..\data\Chip-8\Chip-10\*.*; DestDir: {userappdata}\Emma 02\Chip-8\Chip-10; Components: SW/VIP
+Source: ..\data\Vip\vip.rom; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
+Source: ..\data\Vip\vip.32.rom; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
+Source: ..\data\Vip\fpb.bin; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
+Source: ..\data\Vip\fpb_color.bin; DestDir: {userappdata}\Emma 02\Vip; Components: MAIN
+Source: ..\data\Vip\*.ram; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
+Source: ..\data\Vip\*.bin; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
+Source: ..\data\Vip\chip8.stepper.hex; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
+Source: ..\data\Vip\chip10.hex; DestDir: {userappdata}\Emma 02\Vip; Components: SW/VIP
+Source: ..\data\VipII\vip.rom; DestDir: {userappdata}\Emma 02\VipII; Components: MAIN
+Source: ..\data\VipII\vip.32.rom; DestDir: {userappdata}\Emma 02\VipII; Components: MAIN
+Source: ..\data\VipII\fpb.rom; DestDir: {userappdata}\Emma 02\VipII; Components: MAIN
+Source: ..\data\VipII\*.ram; DestDir: {userappdata}\Emma 02\VipII; Components: SW/VIP
+Source: ..\data\MCDS\*.bin; DestDir: {userappdata}\Emma 02\MCDS; Components: MAIN
+Source: ..\data\MS2000\*.bin; DestDir: {userappdata}\Emma 02\MS2000; Components: MAIN
+Source: ..\data\MS2000\MICRODOS\*.*; DestDir: {userappdata}\Emma 02\MS2000\MICRODOS; Components: MAIN
+Source: ..\data\MS2000\microdos.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: MAIN
+Source: ..\data\MS2000\basic1.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: SW/MS2000
+Source: ..\data\MS2000\PLM 1800.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: SW/MS2000
+Source: ..\data\MS2000\RP.img; DestDir: {userappdata}\Emma 02\MS2000\; Components: SW/MS2000
+Source: ..\data\MS2000\BASIC\*.*; DestDir: {userappdata}\Emma 02\MS2000\BASIC; Components: SW/MS2000
+Source: ..\data\MS2000\Software\*.*; DestDir: {userappdata}\Emma 02\MS2000\Software; Components: SW/MS2000
+Source: ..\data\MS2000\PLM\*.*; DestDir: {userappdata}\Emma 02\MS2000\PLM; Components: SW/MS2000
+Source: ..\data\MS2000\RP\*.*; DestDir: {userappdata}\Emma 02\MS2000\RP; Components: SW/MS2000
+Source: ..\data\Velf\*.bin; DestDir: {userappdata}\Emma 02\Velf; Components: SW/VIP
+Source: ..\data\Velf\VELFbios-v3.1.HEX; DestDir: {userappdata}\Emma 02\Velf; Components: MAIN
+Source: ..\data\Velf\VELFbios-v3.1.LST; DestDir: {userappdata}\Emma 02\Velf; Components: MAIN
+Source: ..\data\Velf\*.ram; DestDir: {userappdata}\Emma 02\Velf; Components: SW/VELF
+Source: ..\data\TMC600\*.bin; DestDir: {userappdata}\Emma 02\TMC600; Components: MAIN
+Source: ..\data\TMC600\demo.txt; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
+Source: ..\data\TMC600\demo2.txt; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
+Source: ..\data\TMC600\snoopy.txt; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
+Source: ..\data\TMC600\demo.tmc600; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
+Source: ..\data\TMC600\demo2.tmc600; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
+Source: ..\data\TMC600\snoopy.tmc600; DestDir: {userappdata}\Emma 02\TMC600; Components: SW/TMC600
+Source: ..\data\TMC1800\telmac1800.rom; DestDir: {userappdata}\Emma 02\TMC1800; Components: MAIN
+Source: ..\data\TMC1800\*.ram; DestDir: {userappdata}\Emma 02\TMC1800; Components: SW/TMC1800
+Source: ..\data\TMC2000\telmac2000.rom; DestDir: {userappdata}\Emma 02\TMC2000; Components: MAIN
+Source: ..\data\TMC2000\*.ram; DestDir: {userappdata}\Emma 02\TMC2000; Components: SW/TMC2000
+Source: ..\data\Nano\nano.rom; DestDir: {userappdata}\Emma 02\Nano; Components: MAIN
+Source: ..\data\Nano\*.ram; DestDir: {userappdata}\Emma 02\Nano; Components: SW/NANO
+Source: ..\data\Pecom\*.bin; DestDir: {userappdata}\Emma 02\Pecom; Components: MAIN
+Source: ..\data\Pecom\*.pecom; DestDir: {userappdata}\Emma 02\Pecom; Components: SW/PECOM
+Source: ..\data\Eti\eti-660.bin; DestDir: {userappdata}\Emma 02\Eti; Components: MAIN
+Source: ..\data\Cosmicos\*.bin; DestDir: {userappdata}\Emma 02\Cosmicos; Components: MAIN
+Source: ..\data\Membership\*.bin; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
+Source: ..\data\Membership\*.rom; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
+Source: ..\data\Membership\*.hex; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
+Source: ..\data\Membership\*.txt; DestDir: {userappdata}\Emma 02\Membership; Components: MAIN
+Source: ..\data\Microtutor\*.bin; DestDir: {userappdata}\Emma 02\Microtutor; Components: MAIN
+Source: ..\data\Elf2K\v87a.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\v88.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\intel8275.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\vt52.a.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\vt52.b.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\vt100.bin; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\elfos2k_0_2_8.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\LOAD-8275.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
+Source: ..\data\Elf2K\elf2k-installation.ide; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
+Source: ..\data\Elf2K\clock2.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
+Source: ..\data\Elf2K\Clock\*.*; DestDir: {userappdata}\Emma 02\Elf2K\Clock\; Components: SW/ELF
+Source: ..\data\Elf2K\1802 Disassembler.hex; DestDir: {userappdata}\Emma 02\Elf2K; Components: SW/ELF
+Source: ..\data\Elf2K\1802 Disassembler\*.*; DestDir: {userappdata}\Emma 02\Elf2K\1802 Disassembler\; Components: SW/ELF
+Source: ..\data\Elf2K\Tinyos2k\*.*; DestDir: {userappdata}\Emma 02\Elf2K\Tinyos2k; Components: SW/ELF
+Source: ..\data\Elf\bios.1.0.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\bios.1.0.4.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\elfos.0.2.6.hex; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\elfos.0.2.8.hex; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\biosio.elfos.0.2.5.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\bios+biosiov92.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\bios+biosiov93.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\biosio.elfos.0.2.5_32.column.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\bios+biosiov92_32.column.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\bios+biosiov93_32.column.rom; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\mc6847.ntsc.round.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\mc6847.ntsc.square.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\mc6847.pal.round.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\mc6847.pal.square.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\mc6845.comx.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\super.video.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\intel8275.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\vt52.a.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\vt52.b.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\vt100.bin; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\pixie-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\tms-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\gra-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\mc6845-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\mc6847-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\vt100-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\serial-installation.ide; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\rommapper.bin; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\chip8.hex; DestDir: {userappdata}\Emma 02\Elf; Components: MAIN
+Source: ..\data\Elf\rcabug.hex; DestDir: {userappdata}\Emma 02\Elf; Components: SW/ELF
+Source: ..\data\Elf\Games\*.*; DestDir: {userappdata}\Emma 02\Elf\Games; Components: SW/ELF
+Source: ..\data\Elf\Music\*.*; DestDir: {userappdata}\Emma 02\Elf\Music; Components: SW/ELF
+Source: ..\data\Elf\QuestData\*.*; DestDir: {userappdata}\Emma 02\Elf\QuestData; Components: SW/ELF
+Source: ..\data\Elf\elf-emulation.com\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com; Components: SW/ELF
+Source: ..\data\Elf\elf-emulation.com\EdtAsm\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\EdtAsm; Components: SW/ELF
+Source: ..\data\Elf\elf-emulation.com\RcForth Rom Version\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\RcForth Rom Version; Components: SW/ELF
+Source: ..\data\Elf\elf-emulation.com\RcForth v1.0\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\RcForth v1.0; Components: SW/ELF
+Source: ..\data\Elf\elf-emulation.com\RcLisp Rom Version\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\RcLisp Rom Version; Components: SW/ELF
+Source: ..\data\Elf\elf-emulation.com\Tiny Basic Compiler Rom Version\*.*; DestDir: {userappdata}\Emma 02\Elf\elf-emulation.com\Tiny Basic Compiler Rom Version; Components: SW/ELF
+Source: ..\data\Elf\Netronics Tiny Basic\*.*; DestDir: {userappdata}\Emma 02\Elf\Netronics Tiny Basic; Components: SW/ELF
+Source: ..\data\Elf\netronic.tinyBasic.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\Fig Forth 1802\*.*; DestDir: {userappdata}\Emma 02\Elf\Fig Forth 1802; Components: SW/ELF
+Source: ..\data\Elf\fig.forth.1802.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\tiny.basic.interpreter.v2.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\quest.tape.loader.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\superbasic.1.4.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\superbasic.1.45.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\superbasic.1.46.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\superbasic.1.47.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\superbasic.3.0.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\superbasic.5.0.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\superbasic.6.0.bin; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\rca.basic3.v1.1.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\rca.basic4.v1.1.install.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\supermon.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\super.gold.monitor.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\mini.monitor.and.super.basic.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\giantboard.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\giantboard.v2.hex; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\tapeloader.txt; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\emma 02.cos; DestDir: {userappdata}\Emma 02\Elf\; Components: SW/ELF
+Source: ..\data\Elf\TinyosTS\*.*; DestDir: {userappdata}\Emma 02\Elf\TinyosTS; Components: SW/ELF
+Source: ..\data\Elf\Biosio\BIOSIO93.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\BIOSIOV9.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\BIOSiov9REQ.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\GRAINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\GRAINIZnotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\PIXINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\pixiniznotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\SERINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\seriniznotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\TMSINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\TMSINIZnotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\VIDINIZ.ROM; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\Biosio\VIDINIZnotes.txt; DestDir: {userappdata}\Emma 02\Elf\Biosio; Components: SW/ELF
+Source: ..\data\Elf\biosioPS2\BIOSPSV1.ROM; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
+Source: ..\data\Elf\biosioPS2\BIOSPSV1REQ.txt; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
+Source: ..\data\Elf\biosioPS2\PSiniz.rom; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
+Source: ..\data\Elf\biosioPS2\PSiniznotes.txt; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
-Source: ..\Emma 02.sln; DestDir: {app}; Components: SOURCEFILES
-Source: ..\Emma 02.vcxproj; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc9.sln; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc9.vcproj; DestDir: {app}; Components: SOURCEFILES
 Source: ..\Emma 02.rc; DestDir: {app}; Components: SOURCEFILES
-Source: ..\wxcurl\build\wxcurl_vc2015_wxcurl.vcxproj; DestDir: {app}; Components: SOURCEFILES
 
 [Icons]
 Name: {group}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; Components: MAIN

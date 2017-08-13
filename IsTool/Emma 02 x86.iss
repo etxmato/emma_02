@@ -9,7 +9,7 @@ AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_xp_setup_v1.24.39
+OutputBaseFilename=Emma_02_x86_setup_v1.24.39
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -33,7 +33,7 @@ Name: english; MessagesFile: compiler:Default.isl
 Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: ..\vccrt.msi; DestDir: {tmp}; Flags: deleteafterinstall; Components: VC
+Source: vcredist_x86.exe; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
 Source: ..\Win32\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
 Source: ..\about.xrc; DestDir: {app}; Components: MAIN
@@ -320,8 +320,8 @@ Source: ..\data\Elf\biosioPS2\PSiniz.rom; DestDir: {userappdata}\Emma 02\Elf\Bio
 Source: ..\data\Elf\biosioPS2\PSiniznotes.txt; DestDir: {userappdata}\Emma 02\Elf\BiosioPS2; Components: SW/ELF
 Source: ..\images\*.*; DestDir: {app}\images; Components: MAIN
 Source: ..\src\*.*; DestDir: {app}\src; Components: SOURCEFILES
-Source: ..\Emma 02.sln; DestDir: {app}; Components: SOURCEFILES
-Source: ..\Emma 02 xp.vcproj; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc9.sln; DestDir: {app}; Components: SOURCEFILES
+Source: ..\Emma 02 vc9.vcproj; DestDir: {app}; Components: SOURCEFILES
 Source: ..\Emma 02.rc; DestDir: {app}; Components: SOURCEFILES
 
 [Icons]
@@ -331,13 +331,12 @@ Name: {commondesktop}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; T
 
 
 [Run]
-Filename: msiexec.exe; Parameters: "/i ""{tmp}\vccrt.msi"""; Components: VC
+Filename: {tmp}\vcredist_x86.exe; Parameters: /quiet; Components: MAIN
 Filename: {app}\Emma 02.exe; Description: {cm:LaunchProgram,Emma 02}; WorkingDir: {app}; Flags: nowait postinstall skipifsilent; OnlyBelowVersion: 0,6
 
 [Components]
 Name: MAIN; Description: Main Files; Types: full compact custom minimum; Flags: disablenouninstallwarning fixed
 Name: CONF; Description: Computer Configuration Files; Types: full compact custom; Flags: disablenouninstallwarning
-Name: VC; Description: Install VC Express runtime (required if VC++ is not installed); Types: full compact custom; Flags: disablenouninstallwarning
 Name: SW; Description: Software for Emulated Machines; Types: full compact; Flags: disablenouninstallwarning
 Name: SW/COMX; Description: COMX; Types: full compact; Flags: disablenouninstallwarning
 Name: SW/ELF; Description: Elf; Types: full compact; Flags: disablenouninstallwarning
