@@ -147,8 +147,6 @@
 		99F3746B1CADBB93000DA615 /* copyright.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746A1CADBB93000DA615 /* copyright.rtf */; };
 		99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */; };
 		99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746D1CADBBC2000DA615 /* Quest_license.txt */; };
-		99F374731CADBBC2000DA615 /* COPYING - curl in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746E1CADBBC2000DA615 /* COPYING - curl */; };
-		99F374741CADBBC2000DA615 /* README-SDL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746F1CADBBC2000DA615 /* README-SDL.txt */; };
 		99F374751CADBBC2000DA615 /* LGPL.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F374701CADBBC2000DA615 /* LGPL.txt */; };
 		99F4817B1C0E4A0C002BC0AE /* velf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F481791C0E4A0C002BC0AE /* velf.cpp */; };
 		99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FEF1E7096C800959A15 /* guimcds.cpp */; };
@@ -202,9 +200,6 @@
 		9942DD741F3B4DBE00569242 /* SDL_audioin.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; name = SDL_audioin.c; path = src/SDL_audioin.c; sourceTree = "<group>"; };
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
-		9943A6661F3E42D8001F0222 /* Emma 02 xp.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 xp.sln"; sourceTree = "<group>"; };
-		9943A6671F3E42D8001F0222 /* Emma 02 xp.suo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Emma 02 xp.suo"; sourceTree = "<group>"; };
-		9943A6681F3E42D8001F0222 /* Emma 02 xp.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 xp.vcproj"; sourceTree = "<group>"; };
 		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
 		9943A66A1F3E42F2001F0222 /* Emma 02.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.sln"; sourceTree = "<group>"; };
 		9943A66B1F3E42F2001F0222 /* Emma 02.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.vcxproj"; sourceTree = "<group>"; };
@@ -441,6 +436,11 @@
 		99C3BFE71C0CF400006E3D82 /* guivelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivelf.h; path = src/guivelf.h; sourceTree = "<group>"; };
 		99DA24F01B7D3618003B8560 /* configuration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configuration.cpp; path = src/configuration.cpp; sourceTree = "<group>"; };
 		99DA24F21B7D3625003B8560 /* configuration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = configuration.h; path = src/configuration.h; sourceTree = "<group>"; };
+		99E6EA921F40931D0030F125 /* OpenSSL - LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = "OpenSSL - LICENSE"; sourceTree = "<group>"; };
+		99E6EA931F4093330030F125 /* vccrt.msi */ = {isa = PBXFileReference; lastKnownFileType = file; path = vccrt.msi; sourceTree = "<group>"; };
+		99E6EA941F4093BA0030F125 /* IsTool */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IsTool; sourceTree = "<group>"; };
+		99E6EA951F40E0AA0030F125 /* Emma 02 vc9.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc9.sln"; sourceTree = "<group>"; };
+		99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc9.vcproj"; sourceTree = "<group>"; };
 		99F3746A1CADBB93000DA615 /* copyright.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = copyright.rtf; sourceTree = "<group>"; };
 		99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Quest_CC_Lic.jpg; sourceTree = "<group>"; };
 		99F3746D1CADBBC2000DA615 /* Quest_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Quest_license.txt; sourceTree = "<group>"; };
@@ -527,22 +527,24 @@
 				99792DFE1B88FF580044FDBB /* sb.xrc */,
 				99A502CA1E959040004218C8 /* splash.xrc */,
 				99792DFF1B88FF580044FDBB /* vt.xrc */,
-				9943A6661F3E42D8001F0222 /* Emma 02 xp.sln */,
-				9943A6671F3E42D8001F0222 /* Emma 02 xp.suo */,
-				9943A6681F3E42D8001F0222 /* Emma 02 xp.vcproj */,
 				9943A6691F3E42F2001F0222 /* Emma 02.rc */,
+				99E6EA951F40E0AA0030F125 /* Emma 02 vc9.sln */,
+				99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */,
 				9943A66A1F3E42F2001F0222 /* Emma 02.sln */,
 				9943A66B1F3E42F2001F0222 /* Emma 02.vcxproj */,
 				9943A66C1F3E42F2001F0222 /* Emma 02.vcxproj.filters */,
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,
+				99F3746E1CADBBC2000DA615 /* COPYING - curl */,
+				99E6EA921F40931D0030F125 /* OpenSSL - LICENSE */,
 				99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */,
 				99F3746D1CADBBC2000DA615 /* Quest_license.txt */,
-				99F3746E1CADBBC2000DA615 /* COPYING - curl */,
 				99F3746F1CADBBC2000DA615 /* README-SDL.txt */,
 				99F374701CADBBC2000DA615 /* LGPL.txt */,
+				99E6EA931F4093330030F125 /* vccrt.msi */,
 				996B97391B24116B009827BF /* data */,
 				9973DDFC1A69B7B300B57557 /* images */,
 				99431DEA1F22213400F5A2D4 /* images_osx */,
+				99E6EA941F4093BA0030F125 /* IsTool */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
 				99AEEE621F3CF6A800E4D4D0 /* libcurl.4.dylib */,
 				997646E11A61D1FA00FB9B33 /* src */,
@@ -855,7 +857,6 @@
 				99792E011B88FF580044FDBB /* menuComx.xrc in Resources */,
 				99792E041B88FF580044FDBB /* menuElf2K.xrc in Resources */,
 				9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */,
-				99F374731CADBBC2000DA615 /* COPYING - curl in Resources */,
 				99792E051B88FF580044FDBB /* menuMembership.xrc in Resources */,
 				99792DE31B88A3F50044FDBB /* main.xrc in Resources */,
 				9909A2141F21444B00B17E58 /* menuMcds.xrc in Resources */,
@@ -877,7 +878,6 @@
 				99792DEB1B88FEFD0044FDBB /* datadir.xrc in Resources */,
 				99792E021B88FF580044FDBB /* menuCosmicos.xrc in Resources */,
 				99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */,
-				99F374741CADBBC2000DA615 /* README-SDL.txt in Resources */,
 				99792DED1B88FF1E0044FDBB /* eprom.xrc in Resources */,
 				99792E061B88FF590044FDBB /* menuPecom.xrc in Resources */,
 			);
