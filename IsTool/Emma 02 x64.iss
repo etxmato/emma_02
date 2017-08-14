@@ -64,7 +64,7 @@ Source: ..\ports.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt.xrc; DestDir: {app}; Components: MAIN
-Source: ..\SDL2-2.0.5\lib\x64\SDL2.dll; DestDir: {app}; Components: MAIN
+Source: ..\..\SDL2-2.0.5\lib\x64\SDL2.dll; DestDir: {app}; Components: MAIN
 Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
 Source: ..\Quest_license.txt; DestDir: {app}; Components: MAIN
 Source: ..\Quest_CC_Lic.jpg; DestDir: {app}; Components: MAIN

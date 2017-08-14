@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Emma 02", "Emma 02.vcxproj", "{0EB8F4E8-7651-4F9C-8ECD-4C540EF3A27D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Emma 02 vc14", "Emma 02 vc14.vcxproj", "{0EB8F4E8-7651-4F9C-8ECD-4C540EF3A27D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

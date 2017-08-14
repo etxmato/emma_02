@@ -201,9 +201,6 @@
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
 		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
-		9943A66A1F3E42F2001F0222 /* Emma 02.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.sln"; sourceTree = "<group>"; };
-		9943A66B1F3E42F2001F0222 /* Emma 02.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.vcxproj"; sourceTree = "<group>"; };
-		9943A66C1F3E42F2001F0222 /* Emma 02.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.vcxproj.filters"; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
@@ -420,6 +417,9 @@
 		999CFEDC1DCD33070094BEC8 /* guims2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guims2000.h; path = src/guims2000.h; sourceTree = "<group>"; };
 		99A502CA1E959040004218C8 /* splash.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash.xrc; sourceTree = "<group>"; };
 		99ABC2981E56538800850E94 /* menuMS2000.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMS2000.xrc; sourceTree = "<group>"; };
+		99ACA8591F42330C00788104 /* Emma 02 vc14.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc14.sln"; sourceTree = "<group>"; };
+		99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj"; sourceTree = "<group>"; };
+		99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj.filters"; sourceTree = "<group>"; };
 		99AEEE621F3CF6A800E4D4D0 /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = /usr/lib/libcurl.4.dylib; sourceTree = "<absolute>"; };
 		99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = upd765.cpp; path = src/upd765.cpp; sourceTree = "<group>"; };
 		99BC74FB1DCFDB5C0000D8A9 /* upd765.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upd765.h; path = src/upd765.h; sourceTree = "<group>"; };
@@ -529,9 +529,9 @@
 				9943A6691F3E42F2001F0222 /* Emma 02.rc */,
 				99E6EA951F40E0AA0030F125 /* Emma 02 vc9.sln */,
 				99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */,
-				9943A66A1F3E42F2001F0222 /* Emma 02.sln */,
-				9943A66B1F3E42F2001F0222 /* Emma 02.vcxproj */,
-				9943A66C1F3E42F2001F0222 /* Emma 02.vcxproj.filters */,
+				99ACA8591F42330C00788104 /* Emma 02 vc14.sln */,
+				99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */,
+				99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */,
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,
 				99F3746E1CADBBC2000DA615 /* COPYING - curl */,
 				99E6EA921F40931D0030F125 /* OpenSSL - LICENSE */,
