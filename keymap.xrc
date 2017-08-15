@@ -588,10 +588,18 @@
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                 <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
+                                <object class="wxGridSizer">
+                                    <cols>3</cols>
+                                    <rows>3</rows>
+                                    <vgap>0</vgap>
+                                    <hgap>0</hgap>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -616,7 +624,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText0">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -626,15 +634,13 @@
                                             </object>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -659,7 +665,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText1">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -670,7 +676,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -695,7 +701,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText4">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -706,7 +712,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -731,7 +737,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText2">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -741,27 +747,13 @@
                                             </object>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_BOTTOM|wxTOP|wxBOTTOM</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxVERTICAL</orient>
-                                            <object class="spacer">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <size>90,5</size>
-                                            </object>
-                                        </object>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -786,7 +778,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText3">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -797,27 +789,14 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_BOTTOM|wxTOP|wxBOTTOM</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxVERTICAL</orient>
-                                            <object class="spacer">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <size>90,5</size>
-                                            </object>
-                                            <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
-                                                <border>3</border>
-                                                <object class="wxButton" name="HexSwitchPlayer">
-                                                    <size>90,-1</size>
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>SwitchPlayer</label>
-                                                </object>
-                                            </object>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
+                                        <border>3</border>
+                                        <object class="wxButton" name="HexSwitchPlayer">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>SwitchPlayer</label>
                                         </object>
                                     </object>
                                 </object>
@@ -1474,10 +1453,18 @@
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                 <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
+                                <object class="wxGridSizer">
+                                    <cols>3</cols>
+                                    <rows>3</rows>
+                                    <vgap>0</vgap>
+                                    <hgap>0</hgap>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -1502,7 +1489,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText0">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1512,15 +1499,13 @@
                                             </object>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -1545,7 +1530,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText1">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1556,7 +1541,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -1581,7 +1566,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText4">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1592,7 +1577,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -1617,7 +1602,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText2">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1627,27 +1612,13 @@
                                             </object>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_BOTTOM|wxTOP|wxBOTTOM</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxVERTICAL</orient>
-                                            <object class="spacer">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxTOP|wxBOTTOM</flag>
-                                                <border>3</border>
-                                                <size>90,5</size>
-                                            </object>
-                                        </object>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -1672,7 +1643,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText3">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -1683,22 +1654,14 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_BOTTOM|wxTOP|wxBOTTOM</flag>
-                                        <border>0</border>
-                                        <object class="wxBoxSizer">
-                                            <orient>wxVERTICAL</orient>
-                                            <object class="sizeritem">
-                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
-                                                <border>3</border>
-                                                <object class="wxButton" name="HexSwitchPlayer">
-                                                    <size>90,-1</size>
-                                                    <font>
-                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                        <size>-1</size>
-                                                    </font>
-                                                    <label>SwitchPlayer</label>
-                                                </object>
-                                            </object>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_BOTTOM</flag>
+                                        <border>3</border>
+                                        <object class="wxButton" name="HexSwitchPlayer">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>SwitchPlayer</label>
                                         </object>
                                     </object>
                                 </object>
@@ -2183,10 +2146,18 @@
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                 <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
+                                <object class="wxGridSizer">
+                                    <cols>3</cols>
+                                    <rows>3</rows>
+                                    <vgap>0</vgap>
+                                    <hgap>0</hgap>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -2211,7 +2182,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText0">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2221,15 +2192,13 @@
                                             </object>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -2254,7 +2223,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText1">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2265,7 +2234,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -2290,7 +2259,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText4">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2301,7 +2270,7 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -2326,7 +2295,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText2">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -2336,15 +2305,13 @@
                                             </object>
                                         </object>
                                     </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                         <border>0</border>
                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
                                             <orient>wxVERTICAL</orient>
@@ -2369,7 +2336,7 @@
                                                 <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
                                                 <border>5</border>
                                                 <object class="wxStaticText" name="GameText3">
-                                                    <size>80,14</size>
+                                                    <size>80,20</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>

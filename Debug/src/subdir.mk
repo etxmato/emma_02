@@ -115,7 +115,8 @@ CPP_SRCS += \
 
 C_SRCS += \
 ../src/SDL_audioin.c \
-../src/audioin_devdsp.c 
+../src/audioin_devdsp.c \
+../src/audioin_windib.c 
 
 OBJS += \
 ./src/Blip_Buffer.o \
@@ -123,6 +124,7 @@ OBJS += \
 ./src/Sync_Audio.o \
 ./src/about.o \
 ./src/audioin_devdsp.o \
+./src/audioin_windib.o \
 ./src/base.o \
 ./src/breakpoints.o \
 ./src/cdp1802.o \
@@ -341,14 +343,15 @@ CPP_DEPS += \
 
 C_DEPS += \
 ./src/SDL_audioin.d \
-./src/audioin_devdsp.d 
+./src/audioin_devdsp.d \
+./src/audioin_windib.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D__WXGTK__ -D_REENTRANT -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -I/usr/include/SDL -I../images -O0 -g3 -Wall -c -fmessage-length=0 `wx-config --cxxflags` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -D__WXGTK__ -D_REENTRANT -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -I/usr/include/SDL -I../images -O0 -g3 -Wall -c -fmessage-length=0 `wx-config --cxxflags --debug=yes` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

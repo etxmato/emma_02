@@ -59,7 +59,7 @@
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxTextCtrl" name="WavFile">
-                            <size>153,23</size>
+                            <size>153,-1</size>
                             <tooltip>Specify cassette file</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -256,7 +256,6 @@
                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                 <border>2</border>
                                 <object class="wxStaticText" name="TextExec">
-                                    <size>30,-1</size>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>

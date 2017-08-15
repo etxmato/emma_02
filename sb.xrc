@@ -45,10 +45,13 @@
                                         <object class="sizeritem">
                                             <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
                                             <border>2</border>
-                                            <object class="wxBoxSizer">
-                                                <orient>wxHORIZONTAL</orient>
+                                            <object class="wxFlexGridSizer">
+                                                <cols>2</cols>
+                                                <rows>3</rows>
+                                                <vgap>0</vgap>
+                                                <hgap>0</hgap>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                     <border>5</border>
                                                     <object class="wxStaticText" name="wxID_STATIC">
                                                         <font>
@@ -59,7 +62,7 @@
                                                     </object>
                                                 </object>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                                     <border>5</border>
                                                     <object class="wxTextCtrl" name="OnlinePlayer">
                                                         <size>320,-1</size>
@@ -70,15 +73,8 @@
                                                         <maxlength>25</maxlength>
                                                     </object>
                                                 </object>
-                                            </object>
-                                        </object>
-                                        <object class="sizeritem">
-                                            <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
-                                            <border>2</border>
-                                            <object class="wxBoxSizer">
-                                                <orient>wxHORIZONTAL</orient>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                     <border>5</border>
                                                     <object class="wxStaticText" name="wxID_STATIC">
                                                         <font>
@@ -89,10 +85,10 @@
                                                     </object>
                                                 </object>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                                     <border>5</border>
                                                     <object class="wxTextCtrl" name="OnlineLocation">
-                                                        <size>308,-1</size>
+                                                        <size>320,-1</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -100,15 +96,8 @@
                                                         <maxlength>25</maxlength>
                                                     </object>
                                                 </object>
-                                            </object>
-                                        </object>
-                                        <object class="sizeritem">
-                                            <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
-                                            <border>2</border>
-                                            <object class="wxBoxSizer">
-                                                <orient>wxHORIZONTAL</orient>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                     <border>5</border>
                                                     <object class="wxStaticText" name="wxID_STATIC">
                                                         <font>
@@ -119,10 +108,10 @@
                                                     </object>
                                                 </object>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                                     <border>5</border>
                                                     <object class="wxTextCtrl" name="OnlineEmailAddress">
-                                                        <size>313,-1</size>
+                                                        <size>320,-1</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -158,12 +147,15 @@
                                             </object>
                                         </object>
                                         <object class="sizeritem">
-                                            <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                            <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
                                             <border>2</border>
-                                            <object class="wxBoxSizer">
-                                                <orient>wxHORIZONTAL</orient>
+                                            <object class="wxFlexGridSizer">
+                                                <cols>2</cols>
+                                                <rows>2</rows>
+                                                <vgap>0</vgap>
+                                                <hgap>0</hgap>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
                                                     <border>5</border>
                                                     <object class="wxStaticText" name="wxID_STATIC">
                                                         <font>
@@ -174,10 +166,10 @@
                                                     </object>
                                                 </object>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                    <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
                                                     <border>5</border>
                                                     <object class="wxTextCtrl" name="OnlineHome">
-                                                        <size>325,-1</size>
+                                                        <size>320,-1</size>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                             <size>-1</size>
@@ -185,15 +177,8 @@
                                                         <maxlength>126</maxlength>
                                                     </object>
                                                 </object>
-                                            </object>
-                                        </object>
-                                        <object class="sizeritem">
-                                            <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
-                                            <border>2</border>
-                                            <object class="wxBoxSizer">
-                                                <orient>wxHORIZONTAL</orient>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                    <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>5</border>
                                                     <object class="wxChoice" name="OnlineBMChoice">
                                                         <font>
@@ -216,29 +201,51 @@
                                                     </object>
                                                 </object>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                    <border>5</border>
-                                                    <object class="wxTextCtrl" name="OnlineBM">
-                                                        <size>246,-1</size>
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <maxlength>126</maxlength>
+                                                    <flag>wxGROW|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                    <border>2</border>
+                                                    <object class="wxBoxSizer">
+                                                        <orient>wxHORIZONTAL</orient>
+                                                        <object class="sizeritem">
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                            <border>0</border>
+                                                            <object class="wxBoxSizer">
+                                                                <orient>wxVERTICAL</orient>
+                                                                <object class="sizeritem">
+                                                                    <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                    <border>5</border>
+                                                                    <option>30</option>
+                                                                    <object class="wxTextCtrl" name="OnlineBM">
+                                                                        <size>246,-1</size>
+                                                                        <font>
+                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                            <size>-1</size>
+                                                                        </font>
+                                                                        <maxlength>126</maxlength>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                        </object>
+                                                        <object class="sizeritem">
+                                                            <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                            <border>5</border>
+                                                            <object class="wxButton" name="OnlineBMStore">
+                                                                <font>
+                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                    <size>-1</size>
+                                                                </font>
+                                                                <enabled>0</enabled>
+                                                                <label>Store</label>
+                                                            </object>
+                                                        </object>
                                                     </object>
                                                 </object>
-                                                <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                    <border>5</border>
-                                                    <object class="wxButton" name="OnlineBMStore">
-                                                        <font>
-                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                            <size>-1</size>
-                                                        </font>
-                                                        <enabled>0</enabled>
-                                                        <label>Store</label>
-                                                    </object>
-                                                </object>
+                                            </object>
+                                        </object>
+                                        <object class="sizeritem">
+                                            <flag>wxALIGN_RIGHT|wxTOP|wxBOTTOM</flag>
+                                            <border>2</border>
+                                            <object class="wxBoxSizer">
+                                                <orient>wxHORIZONTAL</orient>
                                             </object>
                                         </object>
                                         <object class="sizeritem">
@@ -688,7 +695,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_00">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for the Main ROM replacement at address 0000-3FFF</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -723,7 +730,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_01">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for the Expansion ROM at address E000-EFFF</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -758,7 +765,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_02">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for the Expansion ROM at address F800-FFFF</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -793,7 +800,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_03">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 0</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -828,7 +835,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_04">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 1</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -863,7 +870,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_05">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 2</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -898,7 +905,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_06">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 3</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -933,7 +940,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_07">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 4</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -968,7 +975,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_08">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 5</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1003,7 +1010,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_09">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 6</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1038,7 +1045,7 @@
                                                     <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                     <border>3</border>
                                                     <object class="wxComboBox" name="SB_ROM_10">
-                                                        <size>320,23</size>
+                                                        <size>320,-1</size>
                                                         <tooltip>Specify SB file for BANK 7</tooltip>
                                                         <font>
                                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

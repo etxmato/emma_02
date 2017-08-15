@@ -58,10 +58,7 @@
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmac VIP, Cosmicos, 
-Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, RCA 
-Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, 
-Telmac 1800, Telmac 2000, Oscam Nano, Pecom 64 and ETI 660 </label>
+                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmac VIP, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
@@ -228,8 +225,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom
-Copyright (C) 2004 by Michael H Riley</label>
+                                            <label>ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom Copyright (C) 2004 by Michael H Riley</label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
@@ -355,19 +351,16 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
                                 <border>0</border>
                                 <object class="wxBoxSizer">
                                     <orient>wxVERTICAL</orient>
-                                    <object class="sizeritem">
+                                    <object platform="mac" class="sizeritem">
                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                         <border>1</border>
-                                        <object class="wxStaticText" name="wxID_STATIC">
+                                        <object platform="mac" class="wxStaticText" name="wxID_STATIC">
                                             <size>400,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>The following libraries are licensed under the GNU Lesser General Public 
-License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, SDL 
-(Simple DirectMedia Library) and SDL Audioin. 
-Curl and libcurl are licensed under a MIT/X derivate license</label>
+                                            <label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license</label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
@@ -380,8 +373,7 @@ Curl and libcurl are licensed under a MIT/X derivate license</label>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, SDL (Simple DirectMedia Library) and SDL Audioin. 
-Curl and libcurl are licensed under a MIT/X derivate license</label>
+                                            <label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license</label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>

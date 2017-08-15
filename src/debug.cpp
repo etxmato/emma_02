@@ -7981,13 +7981,18 @@ void DebugWindow::directAss()
             
         case OS_LINUX_OPENSUSE_GNOME:
         case OS_LINUX_OPENSUSE_KDE:
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
             dcAss.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
         break;
             
+        case OS_LINUX_UBUNTU_11_04:
+        case OS_LINUX_UBUNTU_11_10:
+            dcAss.SetPen(wxPen(wxColour(242, 241, 240)));
+            dcAss.SetBrush(wxBrush(wxColour(242, 241, 240)));
+            dcAss.SetTextBackground(wxColour(242, 241, 240));
+        break;
+
         case OS_LINUX_FEDORA:
             dcAss.SetPen(wxPen(wxColour(232, 232, 231)));
             dcAss.SetBrush(wxBrush(wxColour(232, 232, 231)));
@@ -12699,13 +12704,18 @@ void DebugWindow::paintDebugBackground()
             
         case OS_LINUX_OPENSUSE_GNOME:
         case OS_LINUX_OPENSUSE_KDE:
+            dcLine.SetPen(wxPen(wxColour(242, 241, 240)));
+            dcLine.SetBrush(wxBrush(wxColour(242, 241, 240)));
+            dcLine.SetTextBackground(wxColour(242, 241, 240));
+        break;
+
         case OS_LINUX_UBUNTU_11_04:
         case OS_LINUX_UBUNTU_11_10:
             dcLine.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
         break;
-            
+
         case OS_LINUX_FEDORA:
         	dcLine.SetPen(wxPen(wxColour(232, 232, 231)));
         	dcLine.SetBrush(wxBrush(wxColour(232, 232, 231)));
@@ -12736,14 +12746,16 @@ void DebugWindow::paintDebugBackground()
             
         case OS_LINUX_OPENSUSE_GNOME:
         case OS_LINUX_OPENSUSE_KDE:
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
-//            dcDebugBackground.SetPen(wxPen(wxColour(211, 211, 211)));
-//            dcDebugBackground.SetBrush(wxBrush(wxColour(211, 211, 211)));
             dcDebugBackground.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcDebugBackground.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
         break;
-            
+
+        case OS_LINUX_UBUNTU_11_04:
+        case OS_LINUX_UBUNTU_11_10:
+            dcDebugBackground.SetPen(wxPen(wxColour(242, 241, 240)));
+            dcDebugBackground.SetBrush(wxBrush(wxColour(242, 241, 240)));
+        break;
+
         case OS_LINUX_FEDORA:
         	dcDebugBackground.SetPen(wxPen(wxColour(232, 232, 231)));
         	dcDebugBackground.SetBrush(wxBrush(wxColour(232, 232, 231)));
