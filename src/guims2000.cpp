@@ -115,8 +115,8 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
 
 END_EVENT_TABLE()
 
-GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir)
-: GuiMcds(title, pos, size, mode_, dataDir)
+GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
+: GuiMcds(title, pos, size, mode_, dataDir, iniDir)
 {
 	conf[MS2000].saveStartString_ = "";
 	conf[MS2000].saveEndString_ = "";
@@ -127,7 +127,7 @@ void GuiMS2000::readMS2000Config()
 {
 	selectedComputer_ = MS2000;
 
-	conf[MS2000].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
+	conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
 
     conf[MS2000].mainDir_ = readConfigDir("/Dir/MS2000/Main", dataDir_ + "MS2000" + pathSeparator_);
 	conf[MS2000].romDir_[MAINROM1] = readConfigDir("/Dir/MS2000/Main_Rom_File", dataDir_ + "MS2000" + pathSeparator_);

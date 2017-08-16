@@ -127,8 +127,8 @@ BEGIN_EVENT_TABLE(GuiTMC2000, GuiEti)
 
 END_EVENT_TABLE()
 
-GuiTMC2000::GuiTMC2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiEti(title, pos, size, mode, dataDir)
+GuiTMC2000::GuiTMC2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiEti(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[TMC2000].saveStartString_ = "";
 	conf[TMC2000].saveEndString_ = "";
@@ -140,7 +140,7 @@ void GuiTMC2000::readTMC2000Config()
 {
 	selectedComputer_ = TMC2000;
 
-    conf[TMC2000].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "TMC2000" + pathSeparator_;
+    conf[TMC2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "TMC2000" + pathSeparator_;
     conf[TMC2000].mainDir_ = readConfigDir("/Dir/TMC2000/Main", dataDir_ + "TMC2000" + pathSeparator_);
     
     conf[TMC2000].romDir_[MAINROM1] = readConfigDir("/Dir/TMC2000/Main_Rom_File", dataDir_ + "TMC2000"  + pathSeparator_);
@@ -248,7 +248,7 @@ void GuiTMC2000::readTMC1800Config()
 {
 	selectedComputer_ = TMC1800;
 
-    conf[TMC1800].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "TMC1800" + pathSeparator_;
+    conf[TMC1800].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "TMC1800" + pathSeparator_;
     conf[TMC1800].mainDir_ = readConfigDir("/Dir/TMC1800/Main", dataDir_ + "TMC1800" + pathSeparator_);
     
     conf[TMC1800].romDir_[MAINROM1] = readConfigDir("/Dir/TMC1800/Main_Rom_File", dataDir_ + "TMC1800"  + pathSeparator_);

@@ -10,7 +10,7 @@ class GuiElf: public GuiElf2K
 {
 public:
 
-	GuiElf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiElf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiElf() {};
 
     void readElfConfig(int elfType, wxString elfTypeStr);

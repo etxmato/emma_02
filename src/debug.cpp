@@ -882,8 +882,8 @@ vector<Word> dirAssProgramEndVector(0);
 vector<Word> dirAssDataEndVector(0);
 vector<Byte> dirAssSlotVector(0);
 
-DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiComx(title, pos, size, mode, dataDir)
+DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiComx(title, pos, size, mode, dataDir, iniDir)
 {
 	traceString_ = "";
 	updatingTraceString_ = false;

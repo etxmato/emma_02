@@ -77,8 +77,8 @@ BEGIN_EVENT_TABLE(GuiEti, GuiNano)
 
 END_EVENT_TABLE()
 
-GuiEti::GuiEti(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiNano(title, pos, size, mode, dataDir)
+GuiEti::GuiEti(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiNano(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[ETI].saveStartString_ = "";
 	conf[ETI].saveEndString_ = "";
@@ -88,7 +88,7 @@ void GuiEti::readEtiConfig()
 {
 	selectedComputer_ = ETI;
 
-    conf[ETI].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Eti" + pathSeparator_;
+    conf[ETI].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Eti" + pathSeparator_;
     conf[ETI].mainDir_ = readConfigDir("/Dir/Eti/Main", dataDir_ + "Eti" + pathSeparator_);
     
     conf[ETI].romDir_[MAINROM1] = readConfigDir("/Dir/Eti/Main_Rom_File", dataDir_ + "Eti"  + pathSeparator_);

@@ -89,8 +89,8 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 
 END_EVENT_TABLE()
 
-GuiMembership::GuiMembership(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiStudio2(title, pos, size, mode, dataDir)
+GuiMembership::GuiMembership(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiStudio2(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[MEMBER].saveStartString_ = "";
 	conf[MEMBER].saveEndString_ = "";
@@ -109,7 +109,7 @@ void GuiMembership::readMembershipConfig()
 	elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
 	elfConfiguration[MEMBER].useUart = false;
 
-    conf[MEMBER].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Membership" + pathSeparator_;
+    conf[MEMBER].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Membership" + pathSeparator_;
 
     conf[MEMBER].mainDir_ = readConfigDir("/Dir/Membership/Main", dataDir_ + "Membership" + pathSeparator_);
 	conf[MEMBER].romDir_[MAINROM1] = readConfigDir("/Dir/Membership/Main_Rom_File", dataDir_ + "Membership" + pathSeparator_);

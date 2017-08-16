@@ -8,7 +8,7 @@ class GuiElf2K: public GuiMS2000
 {
 public:
 
-	GuiElf2K(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiElf2K(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiElf2K() {};
 
 	void readElf2KConfig();

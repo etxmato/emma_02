@@ -168,7 +168,7 @@ class GuiMain : public wxFrame
 {
 public:
 
-	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMain() {};
 
     void readElfPortConfig(int elfType, wxString elfTypeStr);
@@ -499,6 +499,7 @@ protected:
 	WindowInfo windowInfo;
 	wxString workingDir_;
 	wxString dataDir_;
+	wxString iniDir_;
 	int psaveData_[LAST_ELF_TYPE+1];
 
 	bool debugMode_;

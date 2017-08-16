@@ -8,7 +8,7 @@ class GuiMS2000: public GuiMcds
 {
 public:
 
-	GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMS2000() {};
 
 	void readMS2000Config();

@@ -94,8 +94,8 @@ BEGIN_EVENT_TABLE(GuiCosmicos, GuiMicrotutor)
 
 END_EVENT_TABLE()
 
-GuiCosmicos::GuiCosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiMicrotutor(title, pos, size, mode, dataDir)
+GuiCosmicos::GuiCosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiMicrotutor(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[COSMICOS].saveStartString_ = "";
 	conf[COSMICOS].saveEndString_ = "";
@@ -107,7 +107,7 @@ void GuiCosmicos::readCosmicosConfig()
 {
 	selectedComputer_ = COSMICOS;
 
-    conf[COSMICOS].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Cosmicos" + pathSeparator_;
+    conf[COSMICOS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Cosmicos" + pathSeparator_;
 
     conf[COSMICOS].mainDir_ = readConfigDir("/Dir/Cosmicos/Main", dataDir_ + "Cosmicos" + pathSeparator_);
 	conf[COSMICOS].romDir_[MAINROM1] = readConfigDir("/Dir/Cosmicos/Main_Rom_File", dataDir_ + "Cosmicos" + pathSeparator_);

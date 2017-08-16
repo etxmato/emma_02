@@ -85,7 +85,7 @@ public:
 class DebugWindow : public GuiComx 
 {
 public:
-	DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~DebugWindow();
 
 	void readDebugConfig();

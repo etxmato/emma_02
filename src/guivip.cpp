@@ -117,8 +117,8 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 
 END_EVENT_TABLE()
 
-GuiVip::GuiVip(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiVipII(title, pos, size, mode, dataDir)
+GuiVip::GuiVip(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiVipII(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[VIP].loadFileNameFull_ = "";
 	conf[VIP].loadFileName_ = "";
@@ -139,7 +139,7 @@ void GuiVip::readVipConfig()
 {
 	selectedComputer_ = VIP;
 
-    conf[VIP].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Vip" + pathSeparator_;
+    conf[VIP].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Vip" + pathSeparator_;
     conf[VIP].mainDir_ = readConfigDir("/Dir/Vip/Main", dataDir_ + "Vip" + pathSeparator_);
     
     conf[VIP].romDir_[MAINROM1] = readConfigDir("/Dir/Vip/Main_Rom_File", dataDir_ + "Vip"  + pathSeparator_);

@@ -65,8 +65,8 @@ BEGIN_EVENT_TABLE(GuiCidelsa, GuiTelmac)
 
 END_EVENT_TABLE()
 
-GuiCidelsa::GuiCidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiTelmac(title, pos, size, mode, dataDir)
+GuiCidelsa::GuiCidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiTelmac(title, pos, size, mode, dataDir, iniDir)
 {
 }
 
@@ -74,7 +74,7 @@ void GuiCidelsa::readCidelsaConfig()
 {
 	selectedComputer_ = CIDELSA;
 
-    conf[CIDELSA].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Cidelsa" + pathSeparator_;
+    conf[CIDELSA].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Cidelsa" + pathSeparator_;
     
 	conf[CIDELSA].romDir_[MAINROM1] = readConfigDir("/Dir/Cidelsa/Main_Rom_File", dataDir_ + "Cidelsa" + pathSeparator_);
 	conf[CIDELSA].screenDumpFileDir_ = readConfigDir("/Dir/Cidelsa/Video_Dump_File", dataDir_ + "Cidelsa" + pathSeparator_);

@@ -7,7 +7,7 @@ class GuiNano: public GuiCidelsa
 {
 public:
 
-	GuiNano(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiNano(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiNano() {};
 
 	void readNanoConfig();

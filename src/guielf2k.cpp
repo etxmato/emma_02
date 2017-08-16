@@ -104,8 +104,8 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
 
 END_EVENT_TABLE()
 
-GuiElf2K::GuiElf2K(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir)
-: GuiMS2000(title, pos, size, mode_, dataDir)
+GuiElf2K::GuiElf2K(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
+: GuiMS2000(title, pos, size, mode_, dataDir, iniDir)
 {
 	conf[ELF2K].saveStartString_ = "";
 	conf[ELF2K].saveEndString_ = "";
@@ -118,7 +118,7 @@ void GuiElf2K::readElf2KConfig()
 
 	readElfPortConfig(ELF2K, "Elf2K");
 	
-	conf[ELF2K].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Elf2K" + pathSeparator_;
+	conf[ELF2K].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Elf2K" + pathSeparator_;
 
     conf[ELF2K].mainDir_ = readConfigDir("/Dir/Elf2K/Main", dataDir_ + "Elf2K" + pathSeparator_);
 	conf[ELF2K].romDir_[MAINROM1] = readConfigDir("/Dir/Elf2K/Main_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);

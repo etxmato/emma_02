@@ -7,7 +7,7 @@ class GuiVip: public GuiVipII
 {
 public:
 
-	GuiVip(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir);
+	GuiVip(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir);
 	~GuiVip() {};
 
 	void readVipConfig();

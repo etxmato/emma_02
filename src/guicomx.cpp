@@ -141,8 +141,8 @@ BEGIN_EVENT_TABLE(GuiComx, GuiElf)
 
 	END_EVENT_TABLE()
 
-GuiComx::GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiElf(title, pos, size, mode, dataDir)
+GuiComx::GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiElf(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[COMX].loadFileNameFull_ = "";
 	conf[COMX].loadFileName_ = "";
@@ -176,7 +176,7 @@ void GuiComx::readComxConfig()
 	configPointer->Read("/Comx/Enable_DIAG", &conf[COMX].diagActive_, false);
 	conf[COMX].diagOn_ = (int)configPointer->Read("/Comx/Enable_DIAG_ON", 1l);
 
-    conf[COMX].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Comx" + pathSeparator_;
+    conf[COMX].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Comx" + pathSeparator_;
 
     conf[COMX].mainDir_ = readConfigDir("/Dir/Comx/Main", dataDir_ + "Comx" + pathSeparator_);
 

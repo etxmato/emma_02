@@ -105,8 +105,8 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
 
 END_EVENT_TABLE()
 
-GuiMcds::GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir)
-: GuiCosmicos(title, pos, size, mode_, dataDir)
+GuiMcds::GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
+: GuiCosmicos(title, pos, size, mode_, dataDir, iniDir)
 {
     conf[MCDS].loadFileNameFull_ = "";
     conf[MCDS].loadFileName_ = "";
@@ -134,7 +134,7 @@ void GuiMcds::readMcdsConfig()
 {
 	selectedComputer_ = MCDS;
 
-	conf[MCDS].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
+	conf[MCDS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
 
     conf[MCDS].mainDir_ = readConfigDir("/Dir/Mcds/Main", dataDir_ + "MCDS" + pathSeparator_);
 	conf[MCDS].romDir_[MAINROM1] = readConfigDir("/Dir/Mcds/Main_Rom_File1", dataDir_ + "MCDS" + pathSeparator_);

@@ -7,7 +7,7 @@ class GuiEti: public GuiNano
 {
 public:
 
-	GuiEti(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiEti(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiEti() {};
 
 	void readEtiConfig();

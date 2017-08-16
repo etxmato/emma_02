@@ -8,7 +8,7 @@ class GuiMicrotutor: public GuiMembership
 {
 public:
 
-	GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMicrotutor() {};
 
 	void readMicrotutorConfig();

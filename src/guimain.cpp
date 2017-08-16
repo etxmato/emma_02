@@ -45,11 +45,12 @@ BEGIN_EVENT_TABLE(GuiMain, wxFrame)
 
 END_EVENT_TABLE()
 
-GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
+GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size) 
 {
 	configPointer = wxConfigBase::Get();
 	dataDir_ = dataDir;
+	iniDir_ = iniDir;
 	mode_ = mode;
 
 #if defined(__WXMAC__)

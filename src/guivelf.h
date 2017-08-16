@@ -7,7 +7,7 @@ class GuiVelf: public GuiTMC2000
 {
 public:
 
-	GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir);
+	GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir);
 	~GuiVelf() {};
 
 	void readVelfConfig();

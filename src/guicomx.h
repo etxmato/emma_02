@@ -15,7 +15,7 @@ class GuiComx: public GuiElf
 {
 public:
 
-	GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiComx();
 
 	void readComxConfig();

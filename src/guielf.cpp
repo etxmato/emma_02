@@ -374,8 +374,8 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 
 	END_EVENT_TABLE()
 
-GuiElf::GuiElf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiElf2K(title, pos, size, mode, dataDir)
+GuiElf::GuiElf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiElf2K(title, pos, size, mode, dataDir, iniDir)
 {
 	tapeOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/tick.png", wxBITMAP_TYPE_PNG);
 	tapeOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
@@ -390,7 +390,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     
 	conf[elfType].volume_ = 0;
 
-    conf[elfType].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Elf" + pathSeparator_;
+    conf[elfType].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Elf" + pathSeparator_;
     conf[elfType].mainDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Main", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].romDir_[MAINROM1] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_1_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].romDir_[MAINROM2] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_2_File", dataDir_ + "Elf" + pathSeparator_);

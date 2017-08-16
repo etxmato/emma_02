@@ -801,7 +801,6 @@ class Emu1802: public wxApp
 	void checkXrc(wxString xrcFile);
 
 private:
-	wxConfigBase *regPointer;
 	wxConfigBase *configPointer;
 
 	Mode mode_;
@@ -816,7 +815,7 @@ class Main: public DebugWindow
 {
 public:
 
-	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxConfigBase *regPointer);
+	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~Main();
     
     void windowSizeChanged(wxSizeEvent& event);

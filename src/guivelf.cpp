@@ -106,8 +106,8 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
 
 END_EVENT_TABLE()
 
-GuiVelf::GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiTMC2000(title, pos, size, mode, dataDir)
+GuiVelf::GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiTMC2000(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[VELF].loadFileNameFull_ = "";
 	conf[VELF].loadFileName_ = "";
@@ -128,7 +128,7 @@ void GuiVelf::readVelfConfig()
 {
 	selectedComputer_ = VELF;
 
-    conf[VELF].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Velf" + pathSeparator_;
+    conf[VELF].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Velf" + pathSeparator_;
     conf[VELF].mainDir_ = readConfigDir("/Dir/Velf/Main", dataDir_ + "Velf" + pathSeparator_);
     
     conf[VELF].romDir_[MAINROM1] = readConfigDir("/Dir/Velf/Main_Rom_File", dataDir_ + "Velf"  + pathSeparator_);
