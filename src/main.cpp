@@ -803,7 +803,7 @@ bool Emu1802::OnInit()
 	wxInitAllImageHandlers();
     wxFileSystem::AddHandler(new wxZipFSHandler);
 	wxXmlResource::Get()->InitAllHandlers();
-
+/*
 #if defined(__linux__)
     wxString appName = "emma_02";
 #else
@@ -836,9 +836,11 @@ bool Emu1802::OnInit()
     iniDirectory_ = iniDirectory_ + pathSeparator_ + ".emma_02" + pathSeparator_;
 #endif
     
-    if (!wxDir::Exists(iniDirectory_))
-        wxDir::Make(iniDirectory_);
-    
+    if (mode_.portable)
+    {
+        if (!wxDir::Exists(iniDirectory_))
+            wxDir::Make(iniDirectory_);
+    }
     wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", iniDirectory_ + "emma_02.ini");
     wxConfigBase::Set(pConfig);
     configPointer = wxConfigBase::Get();
@@ -858,11 +860,10 @@ bool Emu1802::OnInit()
 #else
 	wxString applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 	ubuntuOffsetX = 0;
-    wxString iniDirectory_ = wxStandardPaths::Get().GetUserConfigDir()+ pathSeparator_;
-#endif
+#endif*/
 
-	xrcFile = applicationDirectory_ + "main.xrc";
-//	checkXrc(xrcFile);
+	wxString xrcFile = applicationDirectory_ + "main.xrc";
+
 #if wxCHECK_VERSION(2, 9, 0)
 	if (!wxXmlResource::Get()->LoadFile(xrcFile))
 #else
@@ -955,64 +956,65 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 #endif
 	SetAppName(appName);
 
-#if defined(__linux__)
-    wxString workingDir_ = wxGetCwd();
-    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
-#elif (__WXMAC__)
-    wxString workingDir_;
+    wxString configDirectory = wxStandardPaths::Get().GetUserConfigDir();
+
+#if defined(__linux__) || defined (__WXMSW__)
+    workingDir_ = wxGetCwd();
+#endif
+#if defined (__WXMAC__)
     if (mode_.portable)
         workingDir_ = wxGetCwd();
     else
         workingDir_ = wxStandardPaths::Get().GetDataDir();
-    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
-#else
-    wxString workingDir_ = wxGetCwd();
-    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
 #endif
 
-    wxString pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
-
-	wxString iniDirectory_ = wxStandardPaths::Get().GetUserConfigDir();
-#if defined(__linux__)
-    iniDirectory_ = iniDirectory_ + pathSeparator_ + ".emma_02" + pathSeparator_;
-#elif (__WXMAC__)
-    iniDirectory_ = iniDirectory_ + pathSeparator_ + "Emma 02" + pathSeparator_;
-#else
-    iniDirectory_ = iniDirectory_ + pathSeparator_ + ".emma_02" + pathSeparator_;
-#endif
+    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
+    pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
     
-    if (!wxDir::Exists(iniDirectory_))
-        wxDir::Make(iniDirectory_);
+#if defined(__linux__)
+    iniDirectory_ = configDirectory + pathSeparator_ + ".emma_02" + pathSeparator_;
+#endif
+#if defined (__WXMAC__)
+    iniDirectory_ = configDirectory + pathSeparator_ + "Emma 02" + pathSeparator_;
+#endif
+#if defined (__WXMSW__)
+    iniDirectory_ = configDirectory + pathSeparator_ + "Emma 02 Config" + pathSeparator_;
+#endif
+
+	if (!mode_.portable)
+	{
+		if (!wxDir::Exists(iniDirectory_))
+			wxDir::Make(iniDirectory_);
+	}
     
     wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", iniDirectory_ + "emma_02.ini");
     wxConfigBase::Set(pConfig);
     configPointer = wxConfigBase::Get();
     
 #if defined(__linux__)
-	dataDir_ = configPointer->Read("/DataDir", "data" + pathSeparator_);
-	if (!wxFileName::IsDirWritable(workingDir_ + pathSeparator_ + dataDir_))
-		dataDir_ = configPointer->Read("/DataDir", wxStandardPaths::Get().GetDocumentsDir() + pathSeparator_ + "Documents" + pathSeparator_ + "emma_02" + pathSeparator_);
-    if (!wxDir::Exists(dataDir_))
-        wxDir::Make(dataDir_);
-    wxString applicationDirectory_;
+	dataDir_ = configPointer->Read("/DataDir", configDirectory + "emma_02_data" + pathSeparator_);
     applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-#elif (__WXMAC__)
-    dataDir_ = configPointer->Read("/DataDir", wxStandardPaths::Get().GetDocumentsDir() + pathSeparator_ + "emma_02" + pathSeparator_);
-    if (!wxDir::Exists(dataDir_))
-        wxDir::Make(dataDir_);
-    wxString applicationDirectory_;
+#endif
+#if defined (__WXMAC__)
+    dataDir_ = wxStandardPaths::Get().GetDocumentsDir();
+    if (dataDir_.Right(9) == "Documents")
+        dataDir_ = dataDir_.Left(dataDir_.Len()-9) + "Emma 02" + pathSeparator_;
+    dataDir_ = configPointer->Read("/DataDir", dataDir_);
+ 
     if (mode_.portable)
         applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
     else
         applicationDirectory_ = wxStandardPaths::Get().GetResourcesDir() + pathSeparator_;
-#else
-	dataDir_ = configPointer->Read("/DataDir", wxStandardPaths::Get().GetUserDataDir() + pathSeparator_);
-	wxString applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
-    if (!wxDir::Exists(iniDirectory_))
-        wxDir::Make(iniDirectory_);
-    
-	configPointer->Read("/DataDirRelative", &dataDirRelative_, false);
+#if defined (__WXMSW__)
+	dataDir_ = configPointer->Read("/DataDir", wxStandardPaths::Get().GetUserDataDir() + pathSeparator_);
+    applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+#endif
+
+    if (!wxDir::Exists(dataDir_))
+        wxDir::Make(dataDir_);
+
+    configPointer->Read("/DataDirRelative", &dataDirRelative_, false);
 
 	if (dataDirRelative_)
 	{
@@ -1039,15 +1041,14 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 	if (mode_.portable)
 	{
 		dataDir_ = applicationDirectory_ + "data" + pathSeparator_;
+		iniDirectory_ = applicationDirectory_;
+
 #if wxCHECK_VERSION(2, 9, 0)
 		if (!wxDir::Exists(dataDir_))
 			wxDir::Make(dataDir_);
 #endif
-	}
 
-	if (mode_.portable)
-	{
-        if (configPointer->Read("/Dir/Main/Debug", dataDir_) != dataDir_)
+		if (configPointer->Read("/Dir/Main/Debug", dataDir_) != dataDir_)
 			configPointer->DeleteGroup("Dir");
 	}
 

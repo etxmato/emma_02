@@ -805,8 +805,13 @@ private:
 
 	Mode mode_;
     int startComputer_;
-	wxString dataDir_;
 	bool dataDirRelative_;
+    
+    wxString dataDir_;
+    wxString workingDir_;
+    wxString iniDirectory_;
+    wxString pathSeparator_;
+    wxString applicationDirectory_;
 };
 
 WindowInfo getWinSizeInfo();
