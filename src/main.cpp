@@ -862,6 +862,14 @@ bool Emu1802::OnInit()
 	ubuntuOffsetX = 0;
 #endif*/
 
+#if defined(__linux__)
+	ubuntuOffsetX = 36;
+#elif (__WXMAC__)
+	ubuntuOffsetX = 30;
+#else
+	ubuntuOffsetX = 0;
+#endif
+
 	wxString xrcFile = applicationDirectory_ + "main.xrc";
 
 #if wxCHECK_VERSION(2, 9, 0)
@@ -972,7 +980,10 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
     
 #if defined(__linux__)
-    iniDirectory_ = configDirectory + pathSeparator_ + ".emma_02" + pathSeparator_;
+    iniDirectory_ = configDirectory + pathSeparator_ + ".emma_02";
+	if (wxFile::Exists(iniDirectory_))
+		wxRemoveFile(iniDirectory_);
+	iniDirectory_ = iniDirectory_ + pathSeparator_;
 #endif
 #if defined (__WXMAC__)
     iniDirectory_ = configDirectory + pathSeparator_ + "Emma 02" + pathSeparator_;
@@ -986,13 +997,15 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 		if (!wxDir::Exists(iniDirectory_))
 			wxDir::Make(iniDirectory_);
 	}
-    
+	else
+		iniDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+
     wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", iniDirectory_ + "emma_02.ini");
     wxConfigBase::Set(pConfig);
     configPointer = wxConfigBase::Get();
     
 #if defined(__linux__)
-	dataDir_ = configPointer->Read("/DataDir", configDirectory + "emma_02_data" + pathSeparator_);
+	dataDir_ = configPointer->Read("/DataDir", configDirectory + pathSeparator_ + "emma_02_data" + pathSeparator_);
     applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 #if defined (__WXMAC__)
@@ -1011,9 +1024,11 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 
-    if (!wxDir::Exists(dataDir_))
-        wxDir::Make(dataDir_);
-
+	if (!mode_.portable)
+	{
+		if (!wxDir::Exists(dataDir_))
+			wxDir::Make(dataDir_);
+	}
     configPointer->Read("/DataDirRelative", &dataDirRelative_, false);
 
 	if (dataDirRelative_)
@@ -1041,7 +1056,6 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 	if (mode_.portable)
 	{
 		dataDir_ = applicationDirectory_ + "data" + pathSeparator_;
-		iniDirectory_ = applicationDirectory_;
 
 #if wxCHECK_VERSION(2, 9, 0)
 		if (!wxDir::Exists(dataDir_))

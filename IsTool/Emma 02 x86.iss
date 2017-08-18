@@ -70,25 +70,48 @@ Source: ..\README-SDL.txt; DestDir: {app}; Components: MAIN
 Source: ..\LGPL.txt; DestDir: {app}; Components: MAIN
 Source: ..\COPYING - curl; DestDir: {app}; Components: MAIN
 Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
-Source: ..\data\Configurations\Cidelsa\*.*; DestDir: {userappdata}\Emma 02\Configurations\Cidelsa; Components: CONF
-Source: ..\data\Configurations\Comx\*.*; DestDir: {userappdata}\Emma 02\Configurations\Comx; Components: CONF
-Source: ..\data\Configurations\Cosmicos\*.*; DestDir: {userappdata}\Emma 02\Configurations\Cosmicos; Components: CONF
-Source: ..\data\Configurations\Elf\*.*; DestDir: {userappdata}\Emma 02\Configurations\Elf; Components: CONF
-Source: ..\data\Configurations\Elf2K\*.*; DestDir: {userappdata}\Emma 02\Configurations\Elf2K; Components: CONF
-Source: ..\data\Configurations\Eti\*.*; DestDir: {userappdata}\Emma 02\Configurations\Eti; Components: CONF
-Source: ..\data\Configurations\Membership\*.*; DestDir: {userappdata}\Emma 02\Configurations\Membership; Components: CONF
-Source: ..\data\Configurations\Microtutor\*.*; DestDir: {userappdata}\Emma 02\Configurations\Microtutor; Components: CONF
-Source: ..\data\Configurations\MS2000\*.*; DestDir: {userappdata}\Emma 02\Configurations\MS2000; Components: CONF
-Source: ..\data\Configurations\Nano\*.*; DestDir: {userappdata}\Emma 02\Configurations\Nano; Components: CONF
-Source: ..\data\Configurations\Pecom\*.*; DestDir: {userappdata}\Emma 02\Configurations\Pecom; Components: CONF
-Source: ..\data\Configurations\Studio2\*.*; DestDir: {userappdata}\Emma 02\Configurations\Studio2; Components: CONF
-Source: ..\data\Configurations\TMC600\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC600; Components: CONF
-Source: ..\data\Configurations\TMC1800\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC1800; Components: CONF
-Source: ..\data\Configurations\TMC2000\*.*; DestDir: {userappdata}\Emma 02\Configurations\TMC2000; Components: CONF
-Source: ..\data\Configurations\Victory\*.*; DestDir: {userappdata}\Emma 02\Configurations\Victory; Components: CONF
-Source: ..\data\Configurations\Vip\*.*; DestDir: {userappdata}\Emma 02\Configurations\Vip; Components: CONF
-Source: ..\data\Configurations\VipII\*.*; DestDir: {userappdata}\Emma 02\Configurations\VipII; Components: CONF
-Source: ..\data\Configurations\Visicom\*.*; DestDir: {userappdata}\Emma 02\Configurations\Visicom; Components: CONF
+Source: ..\Configurations Windows\Cidelsa\*.*; DestDir: {app}\Configurations\Cidelsa; Components: MAIN
+Source: ..\Configurations Windows\Comx\*.*; DestDir: {app}\Configurations\Comx; Components: MAIN
+Source: ..\Configurations Windows\Cosmicos\*.*; DestDir: {app}\Configurations\Cosmicos; Components: MAIN
+Source: ..\Configurations Windows\Elf\*.*; DestDir: {app}\Configurations\Elf; Components: MAIN
+Source: ..\Configurations Windows\Elf2K\*.*; DestDir: {app}\Configurations\Elf2K; Components: MAIN
+Source: ..\Configurations Windows\Eti\*.*; DestDir: {app}\Configurations\Eti; Components: MAIN
+Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
+Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
+Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
+Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
+Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
+Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
+Source: ..\Configurations Windows\Studio2\*.*; DestDir: {app}\Configurations\Studio2; Components: MAIN
+Source: ..\Configurations Windows\TMC600\*.*; DestDir: {app}\Configurations\TMC600; Components: MAIN
+Source: ..\Configurations Windows\TMC1800\*.*; DestDir: {app}\Configurations\TMC1800; Components: MAIN
+Source: ..\Configurations Windows\TMC2000\*.*; DestDir: {app}\Configurations\TMC2000; Components: MAIN
+Source: ..\Configurations Windows\Velf\*.*; DestDir: {app}\Configurations\Velf; Components: MAIN
+Source: ..\Configurations Windows\Victory\*.*; DestDir: {app}\Configurations\Victory; Components: MAIN
+Source: ..\Configurations Windows\Vip\*.*; DestDir: {app}\Configurations\Vip; Components: MAIN
+Source: ..\Configurations Windows\VipII\*.*; DestDir: {app}\Configurations\VipII; Components: MAIN
+Source: ..\Configurations Windows\Visicom\*.*; DestDir: {app}\Configurations\Visicom; Components: MAIN
+Source: ..\Configurations Windows\Cidelsa\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Cidelsa; Components: CONF
+Source: ..\Configurations Windows\Comx\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Comx; Components: CONF
+Source: ..\Configurations Windows\Cosmicos\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Cosmicos; Components: CONF
+Source: ..\Configurations Windows\Elf\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Elf; Components: CONF
+Source: ..\Configurations Windows\Elf2K\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Elf2K; Components: CONF
+Source: ..\Configurations Windows\Eti\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Eti; Components: CONF
+Source: ..\Configurations Windows\MCDS\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\MCDS; Components: CONF
+Source: ..\Configurations Windows\Membership\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Membership; Components: CONF
+Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Microtutor; Components: CONF
+Source: ..\Configurations Windows\MS2000\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\MS2000; Components: CONF
+Source: ..\Configurations Windows\Nano\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Nano; Components: CONF
+Source: ..\Configurations Windows\Pecom\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Pecom; Components: CONF
+Source: ..\Configurations Windows\Studio2\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Studio2; Components: CONF
+Source: ..\Configurations Windows\TMC600\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\TMC600; Components: CONF
+Source: ..\Configurations Windows\TMC1800\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\TMC1800; Components: CONF
+Source: ..\Configurations Windows\TMC2000\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\TMC2000; Components: CONF
+Source: ..\Configurations Windows\Velf\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Velf; Components: CONF
+Source: ..\Configurations Windows\Victory\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Victory; Components: CONF
+Source: ..\Configurations Windows\Vip\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Vip; Components: CONF
+Source: ..\Configurations Windows\VipII\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\VipII; Components: CONF
+Source: ..\Configurations Windows\Visicom\*.*; DestDir: {userappdata}\Emma 02 Config\Configurations\Visicom; Components: CONF
 Source: ..\data\keydefinition.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
 Source: ..\data\keydefinition_studio.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
 Source: ..\data\multi-cart.txt; DestDir: {userappdata}\Emma 02; Components: MAIN

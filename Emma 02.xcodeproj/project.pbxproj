@@ -186,6 +186,8 @@
 		9909A22F1F2144D200B17E58 /* Datadir.pjd */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Datadir.pjd; sourceTree = "<group>"; };
 		991199421E92ECC30074ADAA /* splash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = splash.cpp; path = src/splash.cpp; sourceTree = "<group>"; };
 		991199431E92ECC30074ADAA /* splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splash.h; path = src/splash.h; sourceTree = "<group>"; };
+		9911BF341F477D5000B795BB /* Configurations Windows */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Configurations Windows"; sourceTree = "<group>"; };
+		9911BF351F477D6200B795BB /* Configurations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Configurations; sourceTree = "<group>"; };
 		991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guimicrotutor.cpp; path = src/guimicrotutor.cpp; sourceTree = "<group>"; };
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
@@ -539,6 +541,8 @@
 				99F3746D1CADBBC2000DA615 /* Quest_license.txt */,
 				99F3746F1CADBBC2000DA615 /* README-SDL.txt */,
 				99F374701CADBBC2000DA615 /* LGPL.txt */,
+				9911BF351F477D6200B795BB /* Configurations */,
+				9911BF341F477D5000B795BB /* Configurations Windows */,
 				996B97391B24116B009827BF /* data */,
 				9973DDFC1A69B7B300B57557 /* images */,
 				99431DEA1F22213400F5A2D4 /* images_osx */,

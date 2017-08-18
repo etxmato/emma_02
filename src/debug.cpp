@@ -943,6 +943,9 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 
 DebugWindow::~DebugWindow()
 {
+    if (!mode_.gui)
+    	return;
+
 	for (int i=0; i<16; i++)
 		delete lineBmp[i];
 #if defined(__WXMSW__) 
