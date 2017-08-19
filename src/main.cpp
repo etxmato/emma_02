@@ -30,7 +30,6 @@
 #endif
 
 #include "wx/xrc/xmlres.h"
-#include "wx/fs_inet.h"
 #include "wx/filesys.h"
 #include "wx/url.h"
 #include "wx/dir.h"
@@ -1583,8 +1582,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 	computerRunning_ = false;
 	runningComputer_ = NO_COMPUTER;
 
-	wxFileSystem::AddHandler(new wxInternetFSHandler);
-
 	popupDialog_ = NULL;
 	emmaClosing_ = false;
 	windowInfo = getWinSizeInfo();
@@ -2537,22 +2534,21 @@ void Main::onHelp(wxCommandEvent& WXUNUSED(event))
 	help_->DisplayContents();
 }
 
-wxString Main::downloadString(wxString url)
+wxString Main::downloadString(wxString urlString)
 {
-	wxFileSystem fs; 
-	wxFSFile *file= fs.OpenFile(url); 
-	wxString returnString = "";
+    wxURL url(urlString);
+    wxString returnString = "";
  
-	if (file)   
-	{ 
-		wxInputStream *in_stream = file->GetStream(); 
+    if(url.GetError()==wxURL_NOERR)
+    {
+        wxInputStream *in = url.GetInputStream();
 
-		if (in_stream)
+		if (in && in->IsOk())
 		{
 			wxStringOutputStream html_stream(&returnString);
-			in_stream->Read(html_stream);
+			in->Read(html_stream);
 		}
-		delete file;
+		delete in;
 	}
 	return returnString;
 }
