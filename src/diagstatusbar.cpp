@@ -28,8 +28,13 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     wxBitmap *ledOffBitmap;
     wxBitmap *ledOnBitmap;
     
-    ledOffBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/diagledoff.png", wxBITMAP_TYPE_PNG);
-    ledOnBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/diagledon.png", wxBITMAP_TYPE_PNG);
+    wxString linuxExtension = "";
+#if defined (__linux__)
+    linuxExtension = "_linux"
+#endif
+
+    ledOffBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledoff.png", wxBITMAP_TYPE_PNG);
+    ledOnBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledon.png", wxBITMAP_TYPE_PNG);
 	ledsDefined_ = false;
 
     wxColour maskColour(255, 0, 255);

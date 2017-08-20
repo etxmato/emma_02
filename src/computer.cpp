@@ -166,16 +166,21 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 	wxBitmap *upBitmap;
 	wxBitmap *downBitmap;
 
+    wxString linuxExtension = "";
+#if defined (__linux__)
+    linuxExtension = "_linux"
+#endif
+        
 	switch (type)
 	{
         case VERTICAL_BUTTON:
-            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swup.png", wxBITMAP_TYPE_PNG);
-            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swdown.png", wxBITMAP_TYPE_PNG);
+            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
         break;
 
 		case VERTICAL_BUTTON_RED:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swupred.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/swdownred.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swupred.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdownred.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case HORIZONTAL_BUTTON:
@@ -184,13 +189,13 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 		break;
 
 		case PUSH_BUTTON:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushup.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushdown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushup.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdown.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case PUSH_BUTTON_BLACK:
-			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushupblack.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/pushdownblack.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushupblack.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/pushdownblack.png", wxBITMAP_TYPE_PNG);
 		break;
 
 		case ELF2K_POWER_BUTTON:
@@ -219,8 +224,8 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 		break;
 
 		default:
-			upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swup.png", wxBITMAP_TYPE_PNG);
-			downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/swdown.png", wxBITMAP_TYPE_PNG);
+			upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
+			downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
 		break;
 	}
     
