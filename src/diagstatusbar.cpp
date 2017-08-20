@@ -30,7 +30,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     
     wxString linuxExtension = "";
 #if defined (__linux__)
-    linuxExtension = "_linux"
+    linuxExtension = "_linux";
 #endif
 
     ledOffBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledoff.png", wxBITMAP_TYPE_PNG);
@@ -47,19 +47,19 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledOffPointer = new wxBitmap(ledOffBitmap->GetWidth(), ledOffBitmap->GetHeight());
     ledOnPointer = new wxBitmap(ledOnBitmap->GetWidth(), ledOnBitmap->GetHeight());
     
-    wxMemoryDC memDC(*ledOffPointer);
+    wxMemoryDC memDC(*ledOnPointer);
     
-    memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(wxColour(236, 236, 236)));
-    memDC.Clear();
-    memDC.DrawBitmap(*ledOffBitmap, 0, 0, true);
-    memDC.SelectObject(wxNullBitmap);
-    
-    memDC.SelectObject(*ledOnPointer);
     memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(wxColour(236, 236, 236)));
     memDC.Clear();
     memDC.DrawBitmap(*ledOnBitmap, 0, 0, true);
     memDC.SelectObject(wxNullBitmap);
-    
+
+    memDC.SelectObject(*ledOffPointer);
+	memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(wxColour(236, 236, 236)));
+    memDC.Clear();
+    memDC.DrawBitmap(*ledOffBitmap, 0, 0, true);
+    memDC.SelectObject(wxNullBitmap);
+        
     delete ledOffBitmap;
     delete ledOnBitmap;
 
@@ -178,15 +178,15 @@ void DiagStatusBar::displayLeds()
 #endif
         if (ledStatus_[led])
 #if wxCHECK_VERSION(2, 9, 0)
-        ledPointer [led]->SetBitmap(*ledOnPointer);
+			ledPointer [led]->SetBitmap(*ledOnPointer);
 #else
-        ledPointer [led]->SetBitmapLabel(*ledOnPointer);
+			ledPointer [led]->SetBitmapLabel(*ledOnPointer);
 #endif
         else
 #if wxCHECK_VERSION(2, 9, 0)
-        ledPointer [led]->SetBitmap(*ledOffPointer);
+			ledPointer [led]->SetBitmap(*ledOffPointer);
 #else
-        ledPointer [led]->SetBitmapLabel(*ledOffPointer);
+			ledPointer [led]->SetBitmapLabel(*ledOffPointer);
 #endif
     }
     ledsDefined_ = true;

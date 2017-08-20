@@ -168,7 +168,7 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 
     wxString linuxExtension = "";
 #if defined (__linux__)
-    linuxExtension = "_linux"
+    linuxExtension = "_linux";
 #endif
         
 	switch (type)

@@ -36,18 +36,10 @@ END_EVENT_TABLE()
 ComxStatusBar::ComxStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
-    if (p_Main->isDiagActive(COMX))
-    {
-        ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/ledoff.png", wxBITMAP_TYPE_PNG);
-        ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/ledon.png", wxBITMAP_TYPE_PNG);
-        ledDisabledPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/ledoff.png", wxBITMAP_TYPE_PNG);
-    }
-    else
-    {
-        ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledoff.png", wxBITMAP_TYPE_PNG);
-        ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
-        ledDisabledPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxleddisabled.png", wxBITMAP_TYPE_PNG);
-    }
+    ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledoff.png", wxBITMAP_TYPE_PNG);
+    ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
+    ledDisabledPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxleddisabled.png", wxBITMAP_TYPE_PNG);
+
 	ledsDefined_ = false;
 	statusLedUpdate_ = true;
 	slotLedUpdate_ = true;
