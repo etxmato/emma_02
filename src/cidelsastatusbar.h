@@ -40,6 +40,8 @@ private:
 	bool status_[5];
 
 	bool ledsDefined_;
+    
+    int linux_led_pos_y_;
 
     DECLARE_EVENT_TABLE()
 };

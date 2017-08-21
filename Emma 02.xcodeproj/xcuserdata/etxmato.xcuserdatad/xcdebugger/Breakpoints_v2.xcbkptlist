@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/diagstatusbar.cpp"
-            timestampString = "524952540.22129"
+            timestampString = "525040757.815357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "97"
-            endingLineNumber = "97"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
             landmarkName = "DiagStatusBar::updateLedStatus(int led, bool status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/diagstatusbar.cpp"
-            timestampString = "524952540.22129"
+            timestampString = "525040757.815357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
             landmarkName = "DiagStatusBar::updateLedStatus(int led, bool status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,28 +442,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/diagstatusbar.cpp"
-            timestampString = "524952540.22129"
+            timestampString = "525041115.774441"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "192"
-            endingLineNumber = "192"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
             landmarkName = "DiagStatusBar::displayLeds()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/diagstatusbar.cpp"
-            timestampString = "524952540.22129"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
-            landmarkName = "DiagStatusBar::DiagStatusBar(wxWindow *parent)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -490,11 +474,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/diagstatusbar.cpp"
-            timestampString = "524952540.22129"
+            timestampString = "525040757.815357"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
             landmarkName = "DiagStatusBar::updateLedStatus(int led, bool status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -672,6 +656,22 @@
             startingLineNumber = "2562"
             endingLineNumber = "2562"
             landmarkName = "Main::checkUpdateEmma()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/comxstatusbar.cpp"
+            timestampString = "525041538.612706"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "ComxStatusBar::displayText()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

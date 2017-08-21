@@ -32,6 +32,8 @@ private:
 	wxMask *maskOn;
 	wxMask *maskOff;
 
+    int linux_led_pos_y_;
+    
 	bool ledsDefined_;
 };
 

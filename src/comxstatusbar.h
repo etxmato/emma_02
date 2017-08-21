@@ -38,6 +38,8 @@ private:
 	bool statusLedUpdate_;
 	bool slotLedUpdate_;
 	bool ledStatus_[4];
+    
+    int linux_led_pos_y_;
 
     DECLARE_EVENT_TABLE()
 };

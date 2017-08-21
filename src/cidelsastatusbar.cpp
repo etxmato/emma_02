@@ -42,7 +42,14 @@ CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
 	ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
 
     ledsDefined_ = false;
-	for (int i=0; i<5; i++)
+
+    WindowInfo windowInfo = getWinSizeInfo();
+    linux_led_pos_y_ = 2;
+    
+    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
+        linux_led_pos_y_ = 4;
+
+    for (int i=0; i<5; i++)
 		status_[i] = false;
 }
 
@@ -145,18 +152,18 @@ void CidelsaStatusBar::updateLedStatus(int number, bool status)
 
 void CidelsaStatusBar::displayText()
 {
+#if defined(__linux__)
+    wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    SetFont(defaultFont);
+#endif
 	wxRect rect;
 	this->GetFieldRect (1, rect);
 
 	wxString leader;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	SetFont(defaultFont);
+#if defined(__linux__)
 	leader = "     ";
 #else
 #if defined(__WXMAC__)
-	wxFont defaultFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-	SetFont(defaultFont);
 	leader = "     ";
 #else
 	leader = "     ";
@@ -189,11 +196,17 @@ void CidelsaStatusBar::displayLeds()
 
 	for (int number = 0; number < 5; number++)
 	{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
-			ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
-							         wxPoint(number*(rect.GetWidth()+1)+3+number*3, 4), wxSize(-1, -1),
+#if defined(__linux__)
+        ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
+							         wxPoint(number*(rect.GetWidth()+1)+3+number*3, linux_led_pos_y_), wxSize(-1, -1),
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
-#else
+#endif
+#if defined(__WXMAC__)
+        ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
+                                                          wxPoint(number*(rect.GetWidth()+1)+3+number*3, 4), wxSize(-1, -1),
+                                                          wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+#endif
+#if defined(__WXMSW__)
 		ledBitmapPointers [number] = new PushButton(this, number, wxEmptyString, 
 							         wxPoint(number*(rect.GetWidth()+1)+3, 9), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
 							         wxBORDER_NONE);

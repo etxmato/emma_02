@@ -30,8 +30,10 @@ private:
 	wxBitmap *ledOffPointer;
 	wxBitmap *ledOnPointer;
 
-    wxMask *maskLedOff;
-    wxMask *maskLedOn;
+    wxMask *maskOff;
+    wxMask *maskOn;
+    
+    int linux_led_pos_y_;
     
 	bool ledsDefined_;
 	bool ledStatus_[NUMBER_OF_DIAG_LEDS];

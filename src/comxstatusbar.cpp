@@ -43,6 +43,12 @@ ComxStatusBar::ComxStatusBar(wxWindow *parent)
 	ledsDefined_ = false;
 	statusLedUpdate_ = true;
 	slotLedUpdate_ = true;
+    
+    WindowInfo windowInfo = getWinSizeInfo();
+    linux_led_pos_y_ = 2;
+    
+    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
+        linux_led_pos_y_ = 4;
 }
 
 ComxStatusBar::~ComxStatusBar()
@@ -93,7 +99,11 @@ void ComxStatusBar::updateLedStatus(int card, int i, bool status)
 
 void ComxStatusBar::displayText()
 {
-	wxRect rect;
+#if defined(__linux__)
+    wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    SetFont(defaultFont);
+#endif
+    wxRect rect;
 	this->GetFieldRect (1, rect);
 	if (expansionRomLoaded_)
 	{
@@ -126,21 +136,21 @@ void ComxStatusBar::displayLeds()
 	{
 		for (int i = 0; i < 2; i++)
 		{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 			ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
-							         wxPoint((card+1)*((int)rect.GetWidth()+1)+i*14+16+(card*3), 4), wxSize(-1, -1), // check 2 on ubuntu
+							         wxPoint((card+1)*((int)rect.GetWidth()+1)+i*14+16+(card*3), linux_led_pos_y_), wxSize(-1, -1),
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
-#else
+#endif
 #if defined(__WXMAC__)
 			ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
 							         wxPoint((card+1)*((int)rect.GetWidth()+1)+i*14+19+(card*3), 4), wxSize(-1, -1), 
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
-#else
+#endif
+#if defined(__WXMSW__)
 			ledBitmapPointers [card][i] = new PushButton(this, number, wxEmptyString,
 							         wxPoint((card+1)*(rect.GetWidth()+1)+i*14+16, 9), wxSize(LED_SIZE_X, LED_SIZE_Y),
 							         wxBORDER_NONE);
 			ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
-#endif
 #endif
 			if (i == 1)
 			{

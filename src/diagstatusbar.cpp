@@ -25,46 +25,25 @@
 DiagStatusBar::DiagStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
-    wxBitmap *ledOffBitmap;
-    wxBitmap *ledOnBitmap;
-    
     wxString linuxExtension = "";
 #if defined (__linux__)
     linuxExtension = "_linux";
 #endif
-
-    ledOffBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledoff.png", wxBITMAP_TYPE_PNG);
-    ledOnBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledon.png", wxBITMAP_TYPE_PNG);
-	ledsDefined_ = false;
-
-    wxColour maskColour(255, 0, 255);
     
-    maskLedOff = new wxMask (*ledOffBitmap, maskColour);
-    ledOffBitmap->SetMask(maskLedOff);
-    maskLedOn = new wxMask (*ledOnBitmap, maskColour);
-    ledOnBitmap->SetMask(maskLedOn);
+    wxColour white(255, 0, 255);
+    ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledoff.png", wxBITMAP_TYPE_PNG);
+    ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/diagledon.png", wxBITMAP_TYPE_PNG);
+    maskOn = new wxMask(*ledOnPointer, white);
+    maskOff = new wxMask(*ledOnPointer, white);
+    ledOnPointer->SetMask(maskOn);
+    ledOffPointer->SetMask(maskOff);
+    ledsDefined_ = false;
     
-    ledOffPointer = new wxBitmap(ledOffBitmap->GetWidth(), ledOffBitmap->GetHeight());
-    ledOnPointer = new wxBitmap(ledOnBitmap->GetWidth(), ledOnBitmap->GetHeight());
+    WindowInfo windowInfo = getWinSizeInfo();
+    linux_led_pos_y_ = -2;
     
-    wxMemoryDC memDC(*ledOnPointer);
-    
-    memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(wxColour(236, 236, 236)));
-    memDC.Clear();
-    memDC.DrawBitmap(*ledOnBitmap, 0, 0, true);
-    memDC.SelectObject(wxNullBitmap);
-
-    memDC.SelectObject(*ledOffPointer);
-	memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(wxColour(236, 236, 236)));
-    memDC.Clear();
-    memDC.DrawBitmap(*ledOffBitmap, 0, 0, true);
-    memDC.SelectObject(wxNullBitmap);
-        
-    delete ledOffBitmap;
-    delete ledOnBitmap;
-
-    for (int i=0; i<NUMBER_OF_DIAG_LEDS; i++)
-        ledStatus_[i] = false;
+    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
+        linux_led_pos_y_ = 3;
 }
 
 DiagStatusBar::~DiagStatusBar()
@@ -77,6 +56,8 @@ DiagStatusBar::~DiagStatusBar()
 void DiagStatusBar::initDiagBar()
 {
 	SetFieldsCount(NUMBER_OF_DIAG_LEDS);
+    for (int i=0; i<NUMBER_OF_DIAG_LEDS; i++)
+        ledStatus_[i] = false;
 	displayLeds();
 	displayText();
 }
@@ -111,21 +92,16 @@ void DiagStatusBar::updateLedStatus(int led, bool status)
 
 void DiagStatusBar::displayText()
 {
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
     wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     SetFont(defaultFont);
 #endif
-#if defined(__WXMAC__)
-    wxFont defaultFont(10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
-    SetFont(defaultFont);
-#endif
-
     wxRect rect;
     this->GetFieldRect (1, rect);
     
     if (rect.GetWidth() < 70)
     {
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
         SetStatusText("    V++", 0);
         SetStatusText("    EXT", 1);
         SetStatusText("    DM", 2);
@@ -143,11 +119,11 @@ void DiagStatusBar::displayText()
     }
     else
     {
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
         SetStatusText("    V++", 0);
         SetStatusText("    EXT ROM", 1);
         SetStatusText("    DMA ACK", 2);
-        SetStatusText("    INTERRUPT", 3);
+        SetStatusText("    INT", 3);
         SetStatusText("    INT ACK", 4);
         SetStatusText("    CLEAR", 5);
 #else
@@ -163,7 +139,6 @@ void DiagStatusBar::displayText()
 
 void DiagStatusBar::displayLeds()
 {
-    ledsDefined_ = false;
     deleteBitmaps();
 
 	wxRect rect;
@@ -171,22 +146,25 @@ void DiagStatusBar::displayLeds()
 
     for (int led = 0; led < NUMBER_OF_DIAG_LEDS; led++)
     {
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
-        ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
-#else
-        ledPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, 4), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
-#endif
-        if (ledStatus_[led])
-#if wxCHECK_VERSION(2, 9, 0)
-			ledPointer [led]->SetBitmap(*ledOnPointer);
-#else
-			ledPointer [led]->SetBitmapLabel(*ledOnPointer);
-#endif
+#if defined(__linux__)
+       if (ledStatus_[led])
+           ledPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, linux_led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
         else
-#if wxCHECK_VERSION(2, 9, 0)
+            ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, linux_led_pos_y_), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+#endif
+#if defined(__WXMAC__)
+        if (ledStatus_[led])
+            ledPointer [led] = new PushBitmapButton(this, led, *ledOnPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+        else
+            ledPointer [led] = new PushBitmapButton(this, led, *ledOffPointer, wxPoint(led*((int)rect.GetWidth()+1)+(led*3)+2, 2), wxSize(-1, -1), wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
+#endif
+#if defined(__WXMSW__)
+        ledPointer [led] = new PushButton(this, led, wxEmptyString, wxPoint(led*((int)rect.GetWidth()+1)+led+2, 4), wxSize(DIAG_LED_SIZE_X, DIAG_LED_SIZE_Y), wxBORDER_NONE);
+
+        if (ledStatus_[led])
+			ledPointer [led]->SetBitmap(*ledOnPointer);
+        else
 			ledPointer [led]->SetBitmap(*ledOffPointer);
-#else
-			ledPointer [led]->SetBitmapLabel(*ledOffPointer);
 #endif
     }
     ledsDefined_ = true;
