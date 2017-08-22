@@ -895,6 +895,9 @@ bool Emu1802::OnInit()
 
 	WindowInfo windowInfo = getWinSizeInfo();
 
+    windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X", windowInfo.mainwX);
+    windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y", windowInfo.mainwY);
+    
 	p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(windowInfo.mainwX, windowInfo.mainwY), mode_, dataDir_, iniDirectory_);
 
 	configPointer->Write("/Main/Version", EMMA_VERSION);
@@ -1585,7 +1588,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 	popupDialog_ = NULL;
 	emmaClosing_ = false;
 	windowInfo = getWinSizeInfo();
-	xmlLoaded_ = false;
+
+    windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X", windowInfo.mainwX);
+    windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y", windowInfo.mainwY);
+    
+    xmlLoaded_ = false;
     configurationMenuOn_ = false;
     
 #ifndef __WXMAC__
@@ -1768,6 +1775,10 @@ void Main::writeConfig()
 	if (mainWindowY_ > 0)
 		configPointer->Write("/Main/Window_Position_Y", mainWindowY_);
 
+    this->GetSize(&windowInfo.mainwX, &windowInfo.mainwY);
+    configPointer->Write("/Main/Window_Size_X", windowInfo.mainwX);
+    configPointer->Write("/Main/Window_Size_Y", windowInfo.mainwY);
+    
 	if (mode_.gui)
 	{
 		configPointer->Write("/Main/Selected_Tab", XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->GetSelection());
@@ -3290,6 +3301,9 @@ void Main::setDefaultSettings()
 		delete baudChoiceR[i];
 	}*/
     
+    windowInfo = getWinSizeInfo();
+    this->SetSize(windowInfo.mainwX, windowInfo.mainwY);
+
 	configPointer->DeleteAll();
     
 	configPointer->Write("/Comx/PlayerName", sbPlayer_);
