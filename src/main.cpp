@@ -31,7 +31,8 @@
 
 #include "wx/xrc/xmlres.h"
 #include "wx/filesys.h"
-#include "wx/url.h"
+//#include "wx/url.h"
+#include "http.h"
 #include "wx/dir.h"
 #include "wx/fs_zip.h"
 #include "wx/sysopt.h" 
@@ -1708,11 +1709,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
 	if (mode_.update_check) 
 	{
-		if (lastYearWeek < yearWeek)
-		{
+	//	if (lastYearWeek < yearWeek)
+	//	{
 			updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
 			configPointer->Write("/Main/YearWeek", yearWeek);
-		}
+	//	}
 	}
 }
 
@@ -2544,7 +2545,7 @@ void Main::onHelp(wxCommandEvent& WXUNUSED(event))
 	wxSetWorkingDirectory(p_Main->getApplicationDir());
 	help_->DisplayContents();
 }
-
+/*
 wxString Main::downloadString(wxString urlString)
 {
     wxURL url(urlString);
@@ -2559,16 +2560,29 @@ wxString Main::downloadString(wxString urlString)
 			wxStringOutputStream html_stream(&returnString);
 			in->Read(html_stream);
 		}
-		delete in;
+		if (in)
+            delete in;
 	}
 	return returnString;
+}*/
+
+wxString Main::downloadString(wxString urlString)
+{
+    wxTextFile outputTextFile;
+    wxString returnString = "";
+    wxStringOutputStream html_stream(&returnString);
+
+    wxCurlHTTP http(urlString);
+
+    http.Get(html_stream);
+    return returnString;
 }
 
 bool Main::checkUpdateEmma()
 {
 	wxString version = configPointer->Read("/Main/Version", EMMA_VERSION);
 
-	latestVersion_ = downloadString("http://www.emma02.hobby-site.com/Emma_02_version.txt");
+	latestVersion_ = downloadString("http://www.emma02test.hobby-site.com/Emma_02_version.txt");
 	
 	if (latestVersion_ == "")
 		return false;
@@ -6325,13 +6339,17 @@ void Main::updateCheckTimeout(wxTimerEvent&WXUNUSED(event))
 	bool checkForUpdate;
 	configPointer->Read("/Main/Check_For_Update", &checkForUpdate, true);
 
-	if (checkForUpdate)
+
+    if (checkForUpdate)
 	{
-		if (p_Main->checkUpdateEmma())
+        m_pThread = new MyThread(this);
+        m_pThread->Run();
+        
+/*		if (p_Main->checkUpdateEmma())
 		{
 			if (p_Main->updateEmma())
 				Destroy();
-		}
+		}*/
 	}
 }
 
@@ -7913,4 +7931,22 @@ void Main::storeDefaultTmc600Keys(int keysNormal[], int keysShift[])
     configPointer->Write("/TMC600/KeyShift2C", keysShift[18]);
     configPointer->Write("/TMC600/KeyShift2D", keysShift[19]);
     configPointer->Write("/TMC600/KeyShift2E", keysShift[20]);
+}
+
+wxThread::ExitCode MyThread::Entry()
+{
+    if (p_Main->checkUpdateEmma())
+    {
+        if (p_Main->updateEmma())
+            p_Main->Destroy();
+    }
+
+    return (wxThread::ExitCode)0;     // success
+}
+
+MyThread::~MyThread()
+{
+    wxCriticalSectionLocker enter(m_pHandler->m_pThreadCS);
+    // the thread is being destroyed; make sure not to leave dangling pointers around
+    m_pHandler->m_pThread = NULL;
 }

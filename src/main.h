@@ -146,6 +146,20 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
     (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) (wxEventFunction) \
     wxStaticCastEvent( guiEventFunction, & fn ), (wxObject *) NULL ),*/
 
+class Main;
+
+class MyThread : public wxThread
+{
+public:
+    MyThread(Main *handler)
+    : wxThread(wxTHREAD_DETACHED)
+    { m_pHandler = handler; }
+    ~MyThread();
+protected:
+    virtual ExitCode Entry();
+    Main *m_pHandler;
+};
+
 #define SET_LOCATION 1
 #define SET_SW_NAME 2
 #define SET_TAPE_STATE 3
@@ -1046,7 +1060,10 @@ public:
 	bool getThermalEf() {return thermalEf_;};
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
 	void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
-    
+
+    MyThread *m_pThread;
+    wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
+
 private:
 	wxHtmlHelpController *help_;
 	wxString latestVersion_;
