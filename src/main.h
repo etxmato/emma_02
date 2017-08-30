@@ -698,6 +698,7 @@ public:
 #define GUISAVECONFIG "MI_SaveConfig"
 #define GUISAVECOMPUTERCONFIG "MI_SaveComputerConfig"
 #define GUIDEFAULTWINDOWPOS "MI_DefaultWindowPosition"
+#define GUIDEFAULTGUISIZE "MI_DefaultGuiSize"
 #define GUIDEFAULT "MI_DefaultSettings"
 #define GUIPROTECTEDMODE "ProtectedMode"
 
@@ -837,6 +838,8 @@ public:
 	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~Main();
     
+    wxSize getPosition(wxString control, wxSize size);
+    wxSize getDefaultGuiSize();
     void windowSizeChanged(wxSizeEvent& event);
 	void pageSetup();
 	void onClose(wxCloseEvent&event );
@@ -863,7 +866,8 @@ public:
     ConfigurationInfo getMenuInfo(wxString fileName);
     void loadComputerConfig(wxString fileName);
 	void onSaveOnExit(wxCommandEvent& event);
-	void onDefaultWindowPosition(wxCommandEvent& event);
+    void onDefaultWindowPosition(wxCommandEvent& event);
+    void onDefaultGuiSize(wxCommandEvent& event);
 	void onFixedWindowPosition(wxCommandEvent& event);
 	void nonFixedWindowPosition();
 	void fixedWindowPosition();

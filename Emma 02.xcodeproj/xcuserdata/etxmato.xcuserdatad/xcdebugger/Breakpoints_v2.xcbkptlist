@@ -400,7 +400,7 @@
             startingLineNumber = "263"
             endingLineNumber = "263"
             landmarkName = "GuiComx::readComxConfig()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -416,7 +416,7 @@
             startingLineNumber = "262"
             endingLineNumber = "262"
             landmarkName = "GuiComx::readComxConfig()"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -506,11 +506,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525817980.423965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2495"
-            endingLineNumber = "2495"
+            startingLineNumber = "2606"
+            endingLineNumber = "2606"
             landmarkName = "Main::readConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -522,11 +522,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525817980.423965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2496"
-            endingLineNumber = "2496"
+            startingLineNumber = "2607"
+            endingLineNumber = "2607"
             landmarkName = "Main::readConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -538,11 +538,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525731998.923152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "839"
-            endingLineNumber = "839"
+            startingLineNumber = "850"
+            endingLineNumber = "850"
             landmarkName = "Emu1802::OnInit()"
             landmarkType = "7">
          </BreakpointContent>
@@ -554,11 +554,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525731998.923152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "987"
-            endingLineNumber = "987"
+            startingLineNumber = "998"
+            endingLineNumber = "998"
             landmarkName = "Emu1802::OnCmdLineParsed(wxCmdLineParser&amp; parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -570,11 +570,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525731998.923152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "840"
-            endingLineNumber = "840"
+            startingLineNumber = "851"
+            endingLineNumber = "851"
             landmarkName = "Emu1802::OnInit()"
             landmarkType = "7">
          </BreakpointContent>
@@ -586,11 +586,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525731998.923152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1044"
-            endingLineNumber = "1044"
+            startingLineNumber = "1055"
+            endingLineNumber = "1055"
             landmarkName = "Emu1802::OnCmdLineParsed(wxCmdLineParser&amp; parser)"
             landmarkType = "7">
          </BreakpointContent>
@@ -602,11 +602,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525731998.923152"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "830"
-            endingLineNumber = "830"
+            startingLineNumber = "841"
+            endingLineNumber = "841"
             landmarkName = "Emu1802::OnInit()"
             landmarkType = "7">
          </BreakpointContent>
@@ -618,11 +618,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525470861.521879"
+            timestampString = "525817980.423965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2567"
-            endingLineNumber = "2567">
+            startingLineNumber = "2678"
+            endingLineNumber = "2678">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -632,11 +632,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525629862.745943"
+            timestampString = "525817980.423965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2580"
-            endingLineNumber = "2580">
+            startingLineNumber = "2691"
+            endingLineNumber = "2691"
+            landmarkName = "Main::checkUpdateEmma()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -646,11 +648,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525629862.745943"
+            timestampString = "525817980.423965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2582"
-            endingLineNumber = "2582"
+            startingLineNumber = "2693"
+            endingLineNumber = "2693"
             landmarkName = "Main::checkUpdateEmma()"
             landmarkType = "7">
          </BreakpointContent>
@@ -726,12 +728,44 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525637537.520366"
+            timestampString = "525817980.423965"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7938"
-            endingLineNumber = "7938"
+            startingLineNumber = "8051"
+            endingLineNumber = "8051"
             landmarkName = "MyThread::Entry()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            timestampString = "525817980.423965"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2301"
+            endingLineNumber = "2301"
+            landmarkName = "Main::initConfig()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            timestampString = "525817213.224101"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1824"
+            endingLineNumber = "1824"
+            landmarkName = "Main::writeConfig()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

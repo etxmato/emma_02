@@ -501,6 +501,7 @@ protected:
 	wxString dataDir_;
 	wxString iniDir_;
 	int psaveData_[LAST_ELF_TYPE+1];
+    wxSize defaultGuiSize_;
 
 	bool debugMode_;
 	bool chip8DebugMode_;
