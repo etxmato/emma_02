@@ -1769,6 +1769,26 @@ Main::~Main()
 
 	this->GetPosition(&mainWindowX_, &mainWindowY_);
 	writeConfig();
+    
+    {
+        wxCriticalSectionLocker enter(m_pThreadCS);
+        if (m_pThread)         // does the thread still exist?
+        {
+            m_pThread->Delete();
+        }
+    }
+    // exit from the critical section to give the thread
+    // the possibility to enter its destructor
+    // (which is guarded with m_pThreadCS critical section!)
+    while (1)
+    {
+        { // was the ~MyThread() function executed?
+            wxCriticalSectionLocker enter(m_pThreadCS);
+            if (!m_pThread) break;
+        }
+        // wait for thread completion
+        wxThread::This()->Sleep(1);
+    }
 }
 
 wxSize Main::getPosition(wxString control, wxSize size)
@@ -1795,10 +1815,14 @@ wxSize Main::getDefaultGuiSize()
     }
     
     size.x += 40;
-    size.y += 100;
 #if defined (__linux__)
-    size.y += 28;
+    size.y += 140;
+#else
+    size.y += 100;
 #endif
+//#if defined (__linux__)
+//    size.y += 28;
+//#endif
     return size;
 }
 
@@ -1823,9 +1847,9 @@ void Main::writeConfig()
 		configPointer->Write("/Main/Window_Position_Y", mainWindowY_);
 
     this->GetSize(&windowInfo.mainwX, &windowInfo.mainwY);
-#if defined (__linux__)
-    windowInfo.mainwY -= 28;
-#endif
+//#if defined (__linux__)
+//    windowInfo.mainwY -= 28;
+//#endif
     configPointer->Write("/Main/Window_Size_X", windowInfo.mainwX);
     configPointer->Write("/Main/Window_Size_Y", windowInfo.mainwY);
     
@@ -2278,24 +2302,24 @@ void Main::initConfig()
     int startCorrectionY = 136;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxX = 260;
+    int clockTextCorrectionComxX = 300;
     int clockTextCorrectionComxY = 96;
-    int clockFloatCorrectionComxX = 217;
+    int clockFloatCorrectionComxX = 257;
     int clockFloatCorrectionComxY = 101;
-    int mhzTextCorrectionComxX = 170;
+    int mhzTextCorrectionComxX = 210;
     int mhzTextCorrectionComxY = 96;
-    int startCorrectionComxX = 138;
+    int startCorrectionComxX = 178;
     int startCorrectionComxY = 102;
     int floatHeight = -1;
     int startHeight = -1;
     
-    int clockTextCorrectionX = 260;
+    int clockTextCorrectionX = 300;
     int clockTextCorrectionY = 132;
-    int clockFloatCorrectionX = 217;
+    int clockFloatCorrectionX = 257;
     int clockFloatCorrectionY = 137;
-    int mhzTextCorrectionX = 170;
+    int mhzTextCorrectionX = 210;
     int mhzTextCorrectionY = 132;
-    int startCorrectionX = 138;
+    int startCorrectionX = 178;
     int startCorrectionY = 138;
 #endif
   
@@ -2739,10 +2763,10 @@ bool Main::checkUpdateEmma()
 
 bool Main::updateEmma()
 {
-	int answer = wxMessageBox( "Emma 02 V" + latestVersion_ + " is available, download now?\n",
+    p_Main->eventShowMessageBox( "Emma 02 V" + latestVersion_ + " is available, download now?\n",
 							   "Emma 02", wxICON_QUESTION  | wxYES_DEFAULT | wxYES_NO);
 
-	if (answer == wxYES)
+	if (messageBoxAnswer_ == wxYES)
 	{
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
 		wxLinuxDistributionInfo linuxDistro;
@@ -6973,9 +6997,9 @@ void Main::ShowMessageBoxEvent(guiEvent&event)
 
 int Main::eventShowMessageBox(wxString message, wxString caption, int style)
 {
-#if defined (__WXMAC__)
-    messageBoxAnswer_ = wxMessageBox(message, caption, style);
-#else
+//#if defined (__WXMAC__)
+//    messageBoxAnswer_ = wxMessageBox(message, caption, style);
+//#else
     if (wxIsMainThread())
     {
         messageBoxAnswer_ = wxMessageBox(message, caption, style);
@@ -6994,9 +7018,14 @@ int Main::eventShowMessageBox(wxString message, wxString caption, int style)
         GetEventHandler()->AddPendingEvent(event);
         
         while (messageBoxAnswer_ == -1)
-            p_Computer->sleepComputer(1);
+        {
+            if (isComputerRunning())
+                p_Computer->sleepComputer(1);
+            else
+                wxYield();
+        }
     }
-#endif
+//#endif
     return messageBoxAnswer_;
 }
 

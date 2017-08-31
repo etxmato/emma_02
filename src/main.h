@@ -923,7 +923,8 @@ public:
 	void onStart(int computer);
 
 	void stopComputer();
-	void killComputer(wxCommandEvent&WXUNUSED(event));
+    void killComputer(wxCommandEvent&WXUNUSED(event));
+    void UpdateCheckFinsihed(wxCommandEvent&WXUNUSED(event));
 	void enableGui(bool status);
 	void message(wxString buffer);
 	void messageNoReturn(wxString buffer);
