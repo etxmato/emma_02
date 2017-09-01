@@ -148,13 +148,13 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
 
 class Main;
 
-class MyThread : public wxThread
+class UpdateCheckThread : public wxThread
 {
 public:
-    MyThread(Main *handler)
+    UpdateCheckThread(Main *handler)
     : wxThread(wxTHREAD_DETACHED)
     { m_pHandler = handler; }
-    ~MyThread();
+    ~UpdateCheckThread();
 protected:
     virtual ExitCode Entry();
     Main *m_pHandler;
@@ -1066,8 +1066,8 @@ public:
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
 	void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
 
-    MyThread *m_pThread;
-    wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
+    UpdateCheckThread *m_pUpdateCheckThread;
+    wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
 private:
 	wxHtmlHelpController *help_;

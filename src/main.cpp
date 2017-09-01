@@ -1771,20 +1771,20 @@ Main::~Main()
 	writeConfig();
     
     {
-        wxCriticalSectionLocker enter(m_pThreadCS);
-        if (m_pThread)         // does the thread still exist?
+        wxCriticalSectionLocker enter(m_pUpdateCheckThreadCS);
+        if (m_pUpdateCheckThread)         // does the thread still exist?
         {
-            m_pThread->Delete();
+            m_pUpdateCheckThread->Delete();
         }
     }
     // exit from the critical section to give the thread
     // the possibility to enter its destructor
-    // (which is guarded with m_pThreadCS critical section!)
+    // (which is guarded with m_pUpdateCheckThreadCS critical section!)
     while (1)
     {
-        { // was the ~MyThread() function executed?
-            wxCriticalSectionLocker enter(m_pThreadCS);
-            if (!m_pThread) break;
+        { // was the ~UpdateCheckThread() function executed?
+            wxCriticalSectionLocker enter(m_pUpdateCheckThreadCS);
+            if (!m_pUpdateCheckThread) break;
         }
         // wait for thread completion
         wxThread::This()->Sleep(1);
@@ -1818,7 +1818,7 @@ wxSize Main::getDefaultGuiSize()
 #if defined (__linux__)
     size.y += 140;
 #else
-    size.y += 100;
+    size.y += 110;
 #endif
 //#if defined (__linux__)
 //    size.y += 28;
@@ -2281,46 +2281,46 @@ void Main::initConfig()
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
-    int clockTextCorrectionComxX = 256;
-    int clockTextCorrectionComxY = 107;
-    int clockFloatCorrectionComxX = 220;
-    int clockFloatCorrectionComxY = 110;
-    int mhzTextCorrectionComxX = 171;
-    int mhzTextCorrectionComxY = 107;
-    int startCorrectionComxX = 143;
-    int startCorrectionComxY = 111;
-    int floatHeight = 21;
-    int startHeight = 25;
-    
-    int clockTextCorrectionX = 255;
-    int clockTextCorrectionY = 132;
-    int clockFloatCorrectionX = 217;
-    int clockFloatCorrectionY = 135;
-    int mhzTextCorrectionX = 170;
-    int mhzTextCorrectionY = 132;
-    int startCorrectionX = 142;
-    int startCorrectionY = 136;
+	int clockTextCorrectionComxX = 256;
+	int clockTextCorrectionComxY = 117;
+	int clockFloatCorrectionComxX = 220;
+	int clockFloatCorrectionComxY = 120;
+	int mhzTextCorrectionComxX = 171;
+	int mhzTextCorrectionComxY = 117;
+	int startCorrectionComxX = 143;
+	int startCorrectionComxY = 121;
+	int floatHeight = 21;
+	int startHeight = 25;
+
+	int clockTextCorrectionX = 255;
+	int clockTextCorrectionY = 146;
+	int clockFloatCorrectionX = 217;
+	int clockFloatCorrectionY = 149;
+	int mhzTextCorrectionX = 170;
+	int mhzTextCorrectionY = 146;
+	int startCorrectionX = 142;
+	int startCorrectionY = 150;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxX = 300;
-    int clockTextCorrectionComxY = 96;
-    int clockFloatCorrectionComxX = 257;
-    int clockFloatCorrectionComxY = 101;
-    int mhzTextCorrectionComxX = 210;
-    int mhzTextCorrectionComxY = 96;
-    int startCorrectionComxX = 178;
-    int startCorrectionComxY = 102;
+    int clockTextCorrectionComxX = 260;
+    int clockTextCorrectionComxY = 136;
+    int clockFloatCorrectionComxX = 217;
+    int clockFloatCorrectionComxY = 141;
+    int mhzTextCorrectionComxX = 170;
+    int mhzTextCorrectionComxY = 136;
+    int startCorrectionComxX = 138;
+    int startCorrectionComxY = 142;
     int floatHeight = -1;
     int startHeight = -1;
     
-    int clockTextCorrectionX = 300;
-    int clockTextCorrectionY = 132;
-    int clockFloatCorrectionX = 257;
-    int clockFloatCorrectionY = 137;
-    int mhzTextCorrectionX = 210;
-    int mhzTextCorrectionY = 132;
-    int startCorrectionX = 178;
-    int startCorrectionY = 138;
+    int clockTextCorrectionX = 260;
+    int clockTextCorrectionY = 172;
+    int clockFloatCorrectionX = 217;
+    int clockFloatCorrectionY = 177;
+    int mhzTextCorrectionX = 170;
+    int mhzTextCorrectionY = 172;
+    int startCorrectionX = 138;
+    int startCorrectionY = 178;
 #endif
   
 	if (mode_.gui)
@@ -2721,7 +2721,7 @@ bool Main::checkUpdateEmma()
 {
 	wxString version = configPointer->Read("/Main/Version", EMMA_VERSION);
 
-	latestVersion_ = downloadString("http://www.emma02test.hobby-site.com/Emma_02_version.txt");
+	latestVersion_ = downloadString("http://www.emma02.hobby-site.com/Emma_02_version.txt");
 	
 	if (latestVersion_ == "")
 		return false;
@@ -4168,7 +4168,7 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 	}
 }
 
-void Main::onDefaultGuiSize(wxCommandEvent& event)
+void Main::onDefaultGuiSize(wxCommandEvent& WXUNUSED(event))
 {
     this->SetSize(defaultGuiSize_.x, defaultGuiSize_.y);
 }
@@ -6483,8 +6483,8 @@ void Main::updateCheckTimeout(wxTimerEvent&WXUNUSED(event))
 
     if (checkForUpdate)
 	{
-        m_pThread = new MyThread(this);
-        m_pThread->Run();
+        m_pUpdateCheckThread = new UpdateCheckThread(this);
+        m_pUpdateCheckThread->Run();
         
 /*		if (p_Main->checkUpdateEmma())
 		{
@@ -8079,7 +8079,7 @@ void Main::storeDefaultTmc600Keys(int keysNormal[], int keysShift[])
     configPointer->Write("/TMC600/KeyShift2E", keysShift[20]);
 }
 
-wxThread::ExitCode MyThread::Entry()
+wxThread::ExitCode UpdateCheckThread::Entry()
 {
     if (p_Main->checkUpdateEmma())
     {
@@ -8090,9 +8090,9 @@ wxThread::ExitCode MyThread::Entry()
     return (wxThread::ExitCode)0;     // success
 }
 
-MyThread::~MyThread()
+UpdateCheckThread::~UpdateCheckThread()
 {
-    wxCriticalSectionLocker enter(m_pHandler->m_pThreadCS);
+    wxCriticalSectionLocker enter(m_pHandler->m_pUpdateCheckThreadCS);
     // the thread is being destroyed; make sure not to leave dangling pointers around
-    m_pHandler->m_pThread = NULL;
+    m_pHandler->m_pUpdateCheckThread = NULL;
 }
