@@ -65,6 +65,7 @@ Sound::Sound()
 	vipSound_ = VIP_BEEP;
 	followQ_ = false;
     studioBeep_ = false;
+	audioIn_ = false;
 }
 
 Sound::~Sound()
@@ -81,6 +82,9 @@ Sound::~Sound()
 		delete psaveSynthPointer[i];
 	}
 	delete tapeSynthPointer;
+
+	if (audioIn_)
+		SDL_CloseAudioIn();
 }
 
 void Sound::initSound(double clock, double percentageClock, int computerType, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency)

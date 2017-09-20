@@ -148,13 +148,13 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
 
 class Main;
 
-class MyThread : public wxThread
+class UpdateCheckThread : public wxThread
 {
 public:
-    MyThread(Main *handler)
+    UpdateCheckThread(Main *handler)
     : wxThread(wxTHREAD_DETACHED)
     { m_pHandler = handler; }
-    ~MyThread();
+    ~UpdateCheckThread();
 protected:
     virtual ExitCode Entry();
     Main *m_pHandler;
@@ -376,7 +376,8 @@ public:
 #include "debug.h"
 #include "video.h"
 
-#define EMMA_VERSION "1.24.33"
+#define EMMA_VERSION 1.24
+#define EMMA_SUB_VERSION 33
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -924,7 +925,6 @@ public:
 
 	void stopComputer();
     void killComputer(wxCommandEvent&WXUNUSED(event));
-    void UpdateCheckFinsihed(wxCommandEvent&WXUNUSED(event));
 	void enableGui(bool status);
 	void message(wxString buffer);
 	void messageNoReturn(wxString buffer);
@@ -1066,8 +1066,8 @@ public:
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
 	void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
 
-    MyThread *m_pThread;
-    wxCriticalSection m_pThreadCS;    // protects the m_pThread pointer
+    UpdateCheckThread *m_pUpdateCheckThread;
+    wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
 private:
 	wxHtmlHelpController *help_;
@@ -1086,6 +1086,7 @@ private:
 	int treble_;
 	wxTimer *cpuPointer;
 	wxTimer *updateCheckPointer;
+	bool updateCheckStarted_;
 	int oldGauge_;
 
 	wxString message_;

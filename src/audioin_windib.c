@@ -166,6 +166,7 @@ int WINDIB_OpenAudioIn(SDL_AudioSpec *requested, SDL_AudioSpec *result)
 		SDL_DestroySemaphore(writesem); writesem=NULL;
 		return(-1);
 	}
+	free(nSpec);
 
 	if(result)
 	{

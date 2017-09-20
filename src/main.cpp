@@ -58,8 +58,9 @@
 #include "about.h"
 #include "guipopup.h"
 
-//For memory leak debugging, uncomment next line
-//#include <vld.h>
+#if defined(__WXMSW__) && (_DEBUG) && (WIN32)
+#include <vld.h>
+#endif
 
 #define VU_RED 60
 #define VU_MAX 100
@@ -912,7 +913,7 @@ bool Emu1802::OnInit()
     
 	p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(-1, -1), mode_, dataDir_, iniDirectory_);
 
-	configPointer->Write("/Main/Version", EMMA_VERSION);
+//	configPointer->Write("/Main/Version", EMMA_VERSION);
 
 	p_Main->Show(mode_.gui);
 
@@ -1716,20 +1717,9 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
 	wxSystemOptions::SetOption("msw.window.no-clip-children", 0);
     
-	int lastYearWeek;
-	configPointer->Read("/Main/YearWeek", &lastYearWeek ,0);
-
-	wxDateTime now = wxDateTime::Now();
-	int yearWeek = now.GetYear()*100 + now.GetWeekOfYear();
-
+	updateCheckStarted_ = false;
 	if (mode_.update_check) 
-	{
-	//	if (lastYearWeek < yearWeek)
-	//	{
-			updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
-			configPointer->Write("/Main/YearWeek", yearWeek);
-	//	}
-	}
+		updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
 }
 
 Main::~Main()
@@ -1738,14 +1728,17 @@ Main::~Main()
 	{
 		if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
 		{
-			configurationMenu->Remove(GUI_CONFIG_MENU);
-			configurationDeleteMenu->Remove(GUI_CONFIG_DELETE_MENU);
+			configurationMenu->Destroy(GUI_CONFIG_MENU);
+			configurationDeleteMenu->Destroy(GUI_CONFIG_DELETE_MENU);
 		}
 
 		for (int computer = 2; computer<NO_COMPUTER; computer++)
 		{
-			delete conf[computer].configurationMenu;
-			delete conf[computer].configurationDeleteMenu;
+			if (selectedComputer_ != computer)
+			{
+				delete conf[computer].configurationMenu;
+				delete conf[computer].configurationDeleteMenu;
+			}
 		}
 
 		for (int computer=0; computer<NO_COMPUTER; computer++)
@@ -1770,25 +1763,28 @@ Main::~Main()
 	this->GetPosition(&mainWindowX_, &mainWindowY_);
 	writeConfig();
     
-    {
-        wxCriticalSectionLocker enter(m_pThreadCS);
-        if (m_pThread)         // does the thread still exist?
-        {
-            m_pThread->Delete();
-        }
-    }
-    // exit from the critical section to give the thread
-    // the possibility to enter its destructor
-    // (which is guarded with m_pThreadCS critical section!)
-    while (1)
-    {
-        { // was the ~MyThread() function executed?
-            wxCriticalSectionLocker enter(m_pThreadCS);
-            if (!m_pThread) break;
-        }
-        // wait for thread completion
-        wxThread::This()->Sleep(1);
-    }
+	if (updateCheckStarted_)
+	{
+		{
+			wxCriticalSectionLocker enter(m_pUpdateCheckThreadCS);
+			if (m_pUpdateCheckThread)         // does the thread still exist?
+			{
+				m_pUpdateCheckThread->Delete();
+			}
+		}
+		// exit from the critical section to give the thread
+		// the possibility to enter its destructor
+		// (which is guarded with m_pUpdateCheckThreadCS critical section!)
+		while (1)
+		{
+			{ // was the ~UpdateCheckThread() function executed?
+				wxCriticalSectionLocker enter(m_pUpdateCheckThreadCS);
+				if (!m_pUpdateCheckThread) break;
+			}
+			// wait for thread completion
+			wxThread::This()->Sleep(1);
+		}
+	}
 }
 
 wxSize Main::getPosition(wxString control, wxSize size)
@@ -1818,7 +1814,7 @@ wxSize Main::getDefaultGuiSize()
 #if defined (__linux__)
     size.y += 140;
 #else
-    size.y += 100;
+    size.y += 110;
 #endif
 //#if defined (__linux__)
 //    size.y += 28;
@@ -2281,46 +2277,46 @@ void Main::initConfig()
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
-    int clockTextCorrectionComxX = 256;
-    int clockTextCorrectionComxY = 107;
-    int clockFloatCorrectionComxX = 220;
-    int clockFloatCorrectionComxY = 110;
-    int mhzTextCorrectionComxX = 171;
-    int mhzTextCorrectionComxY = 107;
-    int startCorrectionComxX = 143;
-    int startCorrectionComxY = 111;
-    int floatHeight = 21;
-    int startHeight = 25;
-    
-    int clockTextCorrectionX = 255;
-    int clockTextCorrectionY = 132;
-    int clockFloatCorrectionX = 217;
-    int clockFloatCorrectionY = 135;
-    int mhzTextCorrectionX = 170;
-    int mhzTextCorrectionY = 132;
-    int startCorrectionX = 142;
-    int startCorrectionY = 136;
+	int clockTextCorrectionComxX = 256;
+	int clockTextCorrectionComxY = 117;
+	int clockFloatCorrectionComxX = 220;
+	int clockFloatCorrectionComxY = 120;
+	int mhzTextCorrectionComxX = 171;
+	int mhzTextCorrectionComxY = 117;
+	int startCorrectionComxX = 143;
+	int startCorrectionComxY = 121;
+	int floatHeight = 21;
+	int startHeight = 25;
+
+	int clockTextCorrectionX = 255;
+	int clockTextCorrectionY = 146;
+	int clockFloatCorrectionX = 217;
+	int clockFloatCorrectionY = 149;
+	int mhzTextCorrectionX = 170;
+	int mhzTextCorrectionY = 146;
+	int startCorrectionX = 142;
+	int startCorrectionY = 150;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxX = 300;
-    int clockTextCorrectionComxY = 96;
-    int clockFloatCorrectionComxX = 257;
-    int clockFloatCorrectionComxY = 101;
-    int mhzTextCorrectionComxX = 210;
-    int mhzTextCorrectionComxY = 96;
-    int startCorrectionComxX = 178;
-    int startCorrectionComxY = 102;
+    int clockTextCorrectionComxX = 260;
+    int clockTextCorrectionComxY = 136;
+    int clockFloatCorrectionComxX = 217;
+    int clockFloatCorrectionComxY = 141;
+    int mhzTextCorrectionComxX = 170;
+    int mhzTextCorrectionComxY = 136;
+    int startCorrectionComxX = 138;
+    int startCorrectionComxY = 142;
     int floatHeight = -1;
     int startHeight = -1;
     
-    int clockTextCorrectionX = 300;
-    int clockTextCorrectionY = 132;
-    int clockFloatCorrectionX = 257;
-    int clockFloatCorrectionY = 137;
-    int mhzTextCorrectionX = 210;
-    int mhzTextCorrectionY = 132;
-    int startCorrectionX = 178;
-    int startCorrectionY = 138;
+    int clockTextCorrectionX = 260;
+    int clockTextCorrectionY = 172;
+    int clockFloatCorrectionX = 217;
+    int clockFloatCorrectionY = 177;
+    int mhzTextCorrectionX = 170;
+    int mhzTextCorrectionY = 172;
+    int startCorrectionX = 138;
+    int startCorrectionY = 178;
 #endif
   
 	if (mode_.gui)
@@ -2719,9 +2715,10 @@ wxString Main::downloadString(wxString urlString)
 
 bool Main::checkUpdateEmma()
 {
-	wxString version = configPointer->Read("/Main/Version", EMMA_VERSION);
+	wxString version;
+	version.Printf("%1.2f", EMMA_VERSION);
 
-	latestVersion_ = downloadString("http://www.emma02test.hobby-site.com/Emma_02_version.txt");
+	latestVersion_ = downloadString("http://www.emma02.hobby-site.com/Emma_02_version.txt");
 	
 	if (latestVersion_ == "")
 		return false;
@@ -2915,14 +2912,14 @@ void Main::buildConfigMenu()
     if (selectedComputer_ <= 2)
     {
         configurationMenu->Insert(0, GUI_CONFIG_MENU, "Load", conf[2].configurationMenu);
-        configurationMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[2].configurationDeleteMenu);
+		configurationDeleteMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[2].configurationDeleteMenu);
     }
     else
     {
         if (selectedComputer_ < NO_COMPUTER)
         {
             configurationMenu->Insert(0, GUI_CONFIG_MENU, "Load", conf[selectedComputer_].configurationMenu);
-            configurationMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[selectedComputer_].configurationDeleteMenu);
+			configurationDeleteMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[selectedComputer_].configurationDeleteMenu);
         }
     }
 }
@@ -3139,7 +3136,7 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
     if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
     {
         configurationMenu->Remove(GUI_CONFIG_MENU);
-        configurationMenu->Remove(GUI_CONFIG_DELETE_MENU);
+		configurationDeleteMenu->Remove(GUI_CONFIG_DELETE_MENU);
     }
 
     for (int comp=2; comp<NO_COMPUTER; comp++)
@@ -3369,25 +3366,25 @@ void Main::onDeleteConfiguration(wxCommandEvent& event)
                 menuNameString = configurationMenuInfo_[id].subMenuName + "/" + configurationMenuInfo_[id].menuName;
             }
 
-        int answer = wxMessageBox("Delete " + menuTextString + menuNameString + "'?", "Confirm Delete", wxICON_EXCLAMATION | wxYES_NO);
-        if (answer == wxYES)
-        {
-            wxRemoveFile(conf[computer].configurationDir_ + configurationMenuInfo_[id].fileName);
+			int answer = wxMessageBox("Delete " + menuTextString + menuNameString + "'?", "Confirm Delete", wxICON_EXCLAMATION | wxYES_NO);
+		    if (answer == wxYES)
+			{
+				wxRemoveFile(conf[computer].configurationDir_ + configurationMenuInfo_[id].fileName);
 
-            if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
-            {
-                configurationMenu->Remove(GUI_CONFIG_MENU);
-                configurationMenu->Remove(GUI_CONFIG_DELETE_MENU);
-            }
+				if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
+				{
+					configurationMenu->Remove(GUI_CONFIG_MENU);
+					configurationDeleteMenu->Remove(GUI_CONFIG_DELETE_MENU);
+				}
             
-            for (int comp=2; comp<NO_COMPUTER; comp++)
-            {
-                delete conf[comp].configurationMenu;
-                delete conf[comp].configurationDeleteMenu;
-            }
+				for (int comp=2; comp<NO_COMPUTER; comp++)
+				{
+					delete conf[comp].configurationMenu;
+					delete conf[comp].configurationDeleteMenu;
+				}
 
-            buildConfigMenu();
-        }
+				buildConfigMenu();
+			}
         }
 	}
 }
@@ -4168,7 +4165,7 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 	}
 }
 
-void Main::onDefaultGuiSize(wxCommandEvent& event)
+void Main::onDefaultGuiSize(wxCommandEvent& WXUNUSED(event))
 {
     this->SetSize(defaultGuiSize_.x, defaultGuiSize_.y);
 }
@@ -4651,8 +4648,8 @@ void Main::onComputer(wxNotebookEvent&event)
 
     if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
     {
-        configurationMenu->Remove(GUI_CONFIG_MENU);
-        configurationMenu->Remove(GUI_CONFIG_DELETE_MENU);
+        configurationMenu->Delete(GUI_CONFIG_MENU);
+		configurationDeleteMenu->Delete(GUI_CONFIG_DELETE_MENU);
     }
     
     switch(event.GetSelection())
@@ -4819,8 +4816,8 @@ void Main::onStudioChoiceBook(wxChoicebookEvent&event)
 {
     if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
     {
-        configurationMenu->Remove(GUI_CONFIG_MENU);
-        configurationMenu->Remove(GUI_CONFIG_DELETE_MENU);
+        configurationMenu->Delete(GUI_CONFIG_MENU);
+		configurationDeleteMenu->Delete(GUI_CONFIG_DELETE_MENU);
     }
     
 	switch(event.GetSelection())
@@ -4845,8 +4842,8 @@ void Main::onTelmacChoiceBook(wxChoicebookEvent&event)
 {
     if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
     {
-        configurationMenu->Remove(GUI_CONFIG_MENU);
-        configurationMenu->Remove(GUI_CONFIG_DELETE_MENU);
+        configurationMenu->Delete(GUI_CONFIG_MENU);
+		configurationDeleteMenu->Delete(GUI_CONFIG_DELETE_MENU);
     }
     
 	switch(event.GetSelection())
@@ -4875,8 +4872,8 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
 {
 	if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
 	{
-		configurationMenu->Remove(GUI_CONFIG_MENU);
-		configurationMenu->Remove(GUI_CONFIG_DELETE_MENU);
+		configurationMenu->Delete(GUI_CONFIG_MENU);
+		configurationDeleteMenu->Delete(GUI_CONFIG_DELETE_MENU);
 	}
 
 	switch (event.GetSelection())
@@ -4917,8 +4914,8 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
 {
 	if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
 	{
-		configurationMenu->Remove(GUI_CONFIG_MENU);
-		configurationMenu->Remove(GUI_CONFIG_DELETE_MENU);
+		configurationMenu->Delete(GUI_CONFIG_MENU);
+		configurationDeleteMenu->Delete(GUI_CONFIG_DELETE_MENU);
 	}
 
 	switch (event.GetSelection())
@@ -4986,14 +4983,14 @@ void Main::setConfigurationMenu()
         if (selectedComputer_ <= 2)
         {
             configurationMenu->Insert(0, GUI_CONFIG_MENU, "Load", conf[2].configurationMenu);
-            configurationMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[2].configurationDeleteMenu);
+			configurationDeleteMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[2].configurationDeleteMenu);
         }
         else
         {
             if (selectedComputer_ < NO_COMPUTER)
             {
                 configurationMenu->Insert(0, GUI_CONFIG_MENU, "Load", conf[selectedComputer_].configurationMenu);
-                configurationMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[selectedComputer_].configurationDeleteMenu);
+				configurationDeleteMenu->Insert(2, GUI_CONFIG_DELETE_MENU, "Delete", conf[selectedComputer_].configurationDeleteMenu);
             }
         }
     }
@@ -6480,11 +6477,12 @@ void Main::updateCheckTimeout(wxTimerEvent&WXUNUSED(event))
 	bool checkForUpdate;
 	configPointer->Read("/Main/Check_For_Update", &checkForUpdate, true);
 
-
     if (checkForUpdate)
 	{
-        m_pThread = new MyThread(this);
-        m_pThread->Run();
+		updateCheckStarted_ = true;
+
+        m_pUpdateCheckThread = new UpdateCheckThread(this);
+        m_pUpdateCheckThread->Run();
         
 /*		if (p_Main->checkUpdateEmma())
 		{
@@ -8079,7 +8077,7 @@ void Main::storeDefaultTmc600Keys(int keysNormal[], int keysShift[])
     configPointer->Write("/TMC600/KeyShift2E", keysShift[20]);
 }
 
-wxThread::ExitCode MyThread::Entry()
+wxThread::ExitCode UpdateCheckThread::Entry()
 {
     if (p_Main->checkUpdateEmma())
     {
@@ -8090,9 +8088,9 @@ wxThread::ExitCode MyThread::Entry()
     return (wxThread::ExitCode)0;     // success
 }
 
-MyThread::~MyThread()
+UpdateCheckThread::~UpdateCheckThread()
 {
-    wxCriticalSectionLocker enter(m_pHandler->m_pThreadCS);
+    wxCriticalSectionLocker enter(m_pHandler->m_pUpdateCheckThreadCS);
     // the thread is being destroyed; make sure not to leave dangling pointers around
-    m_pHandler->m_pThread = NULL;
+    m_pHandler->m_pUpdateCheckThread = NULL;
 }
