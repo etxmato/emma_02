@@ -1732,6 +1732,9 @@ Main::~Main()
 			configurationDeleteMenu->Destroy(GUI_CONFIG_DELETE_MENU);
 		}
 
+        if (selectedComputer_ == 0 || selectedComputer_ == 1)
+            selectedComputer_ = 2;
+        
 		for (int computer = 2; computer<NO_COMPUTER; computer++)
 		{
 			if (selectedComputer_ != computer)
@@ -2715,6 +2718,7 @@ wxString Main::downloadString(wxString urlString)
 
 bool Main::checkUpdateEmma()
 {
+//	wxString version = configPointer->Read("/Main/Version", EMMA_VERSION);
 	wxString version;
 	version.Printf("%1.2f", EMMA_VERSION);
 

@@ -83,8 +83,10 @@ Sound::~Sound()
 	}
 	delete tapeSynthPointer;
 
+#if defined (__WXMSW__) || defined(__linux__)
 	if (audioIn_)
 		SDL_CloseAudioIn();
+#endif
 }
 
 void Sound::initSound(double clock, double percentageClock, int computerType, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency)

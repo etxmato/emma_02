@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "525903883.613777"
+            timestampString = "527632408.782327"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2726"
-            endingLineNumber = "2726"
+            startingLineNumber = "2729"
+            endingLineNumber = "2729"
             landmarkName = "Main::checkUpdateEmma()"
             landmarkType = "7">
          </BreakpointContent>
