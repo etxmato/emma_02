@@ -130,6 +130,8 @@
 		99792E091B88FF590044FDBB /* ports.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DFD1B88FF580044FDBB /* ports.xrc */; };
 		99792E0A1B88FF590044FDBB /* sb.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DFE1B88FF580044FDBB /* sb.xrc */; };
 		99792E0B1B88FF590044FDBB /* vt.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DFF1B88FF580044FDBB /* vt.xrc */; };
+		998AE1961F769A9500D6B0D1 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
+		998AE1971F769A9F00D6B0D1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
 		9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
@@ -858,6 +860,7 @@
 				99792DDC1B88A1EA0044FDBB /* emma_02.htb in Resources */,
 				99431DEB1F22213400F5A2D4 /* images_osx in Resources */,
 				99792DE91B88FEE70044FDBB /* colour.xrc in Resources */,
+				998AE1961F769A9500D6B0D1 /* Configurations in Resources */,
 				99792E011B88FF580044FDBB /* menuComx.xrc in Resources */,
 				99792E041B88FF580044FDBB /* menuElf2K.xrc in Resources */,
 				9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */,
@@ -871,6 +874,7 @@
 				99792E001B88FF580044FDBB /* menu_Cas_Mem.xrc in Resources */,
 				99792DE51B88A4100044FDBB /* cassette.xrc in Resources */,
 				99F3746B1CADBB93000DA615 /* copyright.rtf in Resources */,
+				998AE1971F769A9F00D6B0D1 /* data in Resources */,
 				99792DF21B88FF340044FDBB /* keymap_tmc.xrc in Resources */,
 				99792E031B88FF580044FDBB /* menuElf.xrc in Resources */,
 				99792DF31B88FF340044FDBB /* keymap.xrc in Resources */,

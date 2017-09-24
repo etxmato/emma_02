@@ -556,8 +556,8 @@ void Panel::onMouseRelease(wxMouseEvent& WXUNUSED(event))
 void Panel::ledTimeout()
 {
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
 	wxClientDC dc(this);
 	updateQLed(dc);
@@ -574,8 +574,8 @@ void Panel::ledTimeout()
 	updateDataTil313(dc);
 	updateAddress(dc);
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 }
 

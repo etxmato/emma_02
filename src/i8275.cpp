@@ -419,14 +419,14 @@ void i8275::cycle8275()
 			reBlit_ = true;
 			reDraw_ = false;
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
 			setColour(backGround_);
 			drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 			copyScreen();
 			videoSyncCount_++;
@@ -665,14 +665,14 @@ void i8275::drawScreen()
 {
 	int addr = 0;
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
 	setColour(backGround_);
 	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 	for (int i=0; i<(horizontalCharactersPerRow_*verticalRowsPerFrame_); i++)
 	{
@@ -713,10 +713,10 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 	int line_byte, line, drawLine;
 
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
-#if defined(__WXMAC__)// || defined(__linux__)
+#if defined(__WXMAC__) || defined(__linux__)
 	reBlit_ = true;
 #else
 	if (zoomFraction_)
@@ -754,8 +754,8 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 			drawRectangle(x+offsetX_, y+offsetY_+(underLinePlacement_-2), I8275CHARW, videoM_);
 		}
 #if defined(__linux__)
-		if (!wxIsMainThread())
-			wxMutexGuiLeave();
+//		if (!wxIsMainThread())
+//			wxMutexGuiLeave();
 #endif
 		return;
 	}
@@ -792,8 +792,8 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 	if (blinkScr_[addr] && blinkOn_)
 	{
 #if defined(__linux__)
-		if (!wxIsMainThread())
-			wxMutexGuiLeave();
+//		if (!wxIsMainThread())
+//			wxMutexGuiLeave();
 #endif
 		return;
 	}
@@ -834,8 +834,8 @@ void i8275::drawCharacter8275(wxCoord x, wxCoord y, Byte v, bool cursor, Word ad
 	}
 
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 }
 

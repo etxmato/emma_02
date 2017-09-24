@@ -446,6 +446,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_MENU(XRCID(GUISAVEONEXIT), Main::onSaveOnExit)
     EVT_MENU(XRCID(GUIDEFAULTWINDOWPOS), Main::onDefaultWindowPosition)
     EVT_MENU(XRCID(GUIDEFAULTGUISIZE), Main::onDefaultGuiSize)
+    EVT_MENU(XRCID("MI_ReInstallConfig"), Main::onReInstallConfig)
+    EVT_MENU(XRCID("MI_ReInstallData"), Main::onReInstallData)
     EVT_MENU(XRCID("MI_FixedWindowPosition"), Main::onFixedWindowPosition)
     EVT_MENU(XRCID("MI_NumPad"), Main::onUseNumPad)
 	EVT_MENU(XRCID("MI_FunctionKeys"), Main::onFunctionKeys)
@@ -539,15 +541,15 @@ int main(int argc, char *argv[])
         return false;
 
     wxDISABLE_DEBUG_SUPPORT();
-    return wxEntry(argc, argv);
+//    return wxEntry(argc, argv);
 
 //  code as suggested initially by Mark but replaced by two lines above as on Elf2K exit with assert
-//  wxEntryStart( argc, argv );
-//  wxTheApp->OnInit();
-//  wxTheApp->OnRun();
-//  wxTheApp->OnExit();
-//  wxEntryCleanup();
-//  return 0;
+    wxEntryStart( argc, argv );
+    wxTheApp->OnInit();
+    wxTheApp->OnRun();
+    wxTheApp->OnExit();
+    wxEntryCleanup();
+    return 0;
 }
 #else
 IMPLEMENT_APP(Emu1802)
@@ -905,15 +907,8 @@ bool Emu1802::OnInit()
 
 	int mainWindowX = (int)configPointer->Read("/Main/Window_Position_X", 30 + ubuntuOffsetX);
 	int mainWindowY = (int)configPointer->Read("/Main/Window_Position_Y", 30);
-
-//	WindowInfo windowInfo = getWinSizeInfo();
-
-//    int mainwX = (int)configPointer->Read("/Main/Window_Size_X", -1);
-//    int mainwY = (int)configPointer->Read("/Main/Window_Size_Y", -1);
     
 	p_Main = new Main("Emma 02", wxPoint(mainWindowX, mainWindowY), wxSize(-1, -1), mode_, dataDir_, iniDirectory_);
-
-//	configPointer->Write("/Main/Version", EMMA_VERSION);
 
 	p_Main->Show(mode_.gui);
 
@@ -1039,11 +1034,11 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 
-	if (!mode_.portable)
-	{
-		if (!wxDir::Exists(dataDir_))
-			wxDir::Make(dataDir_);
-	}
+//	if (!mode_.portable)
+//	{
+//		if (!wxDir::Exists(dataDir_))
+//			wxDir::Make(dataDir_);
+//	}
     configPointer->Read("/DataDirRelative", &dataDirRelative_, false);
 
 	if (dataDirRelative_)
@@ -1072,10 +1067,10 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 	{
 		dataDir_ = applicationDirectory_ + "data" + pathSeparator_;
 
-#if wxCHECK_VERSION(2, 9, 0)
-		if (!wxDir::Exists(dataDir_))
-			wxDir::Make(dataDir_);
-#endif
+//#if wxCHECK_VERSION(2, 9, 0)
+//		if (!wxDir::Exists(dataDir_))
+//			wxDir::Make(dataDir_);
+//#endif
 
 		if (configPointer->Read("/Dir/Main/Debug", dataDir_) != dataDir_)
 			configPointer->DeleteGroup("Dir");
@@ -1712,6 +1707,25 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     
     if (mode_.gui)
         buildConfigMenu();
+
+    wxDir checkDirForFiles;
+    bool dataDirEmpty = true;
+    if (wxDir::Exists(dataDir_))
+    {
+        checkDirForFiles.Open(dataDir_);
+        if (checkDirForFiles.HasFiles() || checkDirForFiles.HasSubDirs())
+            dataDirEmpty = false;
+    }
+
+    if (dataDirEmpty)
+    {
+        if (!wxDir::Exists(dataDir_))
+            wxDir::Make(dataDir_);
+        
+        int answer = wxMessageBox("1802 Software directory is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+        if (answer == wxYES)
+            reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_);
+    }
 
 	this->connectKeyEvent(this);
 
@@ -2841,8 +2855,11 @@ void Main::buildConfigMenu()
     configurationMenuInfoNumber_ = 0;
 
     if (!wxDir::Exists(iniDir_ + "Configurations"))
+    {
         wxDir::Make(iniDir_ + "Configurations");
-
+        reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_);
+    }
+    
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
         wxString filename;
@@ -3335,6 +3352,94 @@ void Main::onDataDir(wxCommandEvent&WXUNUSED(event))
     DatadirDialog dataDialog(this);
     dataDialog.ShowModal();
 }
+
+void Main::onReInstallConfig(wxCommandEvent&WXUNUSED(event))
+{
+    reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_);
+}
+
+void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
+{
+    reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_);
+}
+
+void Main::reInstall(wxString sourceDir, wxString destinationDir)
+{
+    wxString filename;
+
+    wxFileName destination(destinationDir);
+    wxDir dir (sourceDir);
+    bool cont = dir.GetFirst(&filename);
+    
+    while ( cont )
+    {
+        if (wxDir::Exists(sourceDir + filename))
+            filename += pathSeparator_;
+        
+        wxFileName source(sourceDir + filename);
+        
+        copyTree(&source, &destination);
+        cont = dir.GetNext(&filename);
+    }
+}
+
+bool Main::copyTree( wxFileName* source, wxFileName* destination )
+{
+    // Copy file if it isn't a directory.
+    if ( ! wxDir::Exists(source->GetFullPath()) )
+    {
+        if ( ! wxCopyFile(source->GetFullPath(), destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetFullName() ))
+            return false;
+        
+        wxYield ();
+        return true;
+    }
+    else
+    {
+#if defined (__WXMAC__)
+        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1], 0777, wxPATH_MKDIR_FULL) )
+            return false;
+#else
+        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + p_Main->getPathSep(), 0777, wxPATH_MKDIR_FULL) )
+            return false;
+#endif
+    }
+    
+    // Deal sequentially with each child file & subdir.
+    wxDir dir( source->GetPath() );
+    if ( !dir.IsOpened() )        return false;
+    
+    // Go thru the dir, cloning 1 child @ a time.
+    wxString filename;
+    bool cont = dir.GetFirst( &filename );
+    while ( cont )
+    {
+        wxString childPath = source->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + filename;
+        wxString newDestinationPath = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSeparator_;
+
+        wxFileName child;
+        
+        if ( wxDir::Exists(childPath) )
+        {
+            child.Assign( childPath + pathSeparator_);
+        }
+        else
+        {
+            child.Assign( source->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR), filename );
+        }
+        
+        // Make a new wxFileName for child
+        wxFileName newDestination( newDestinationPath );
+        
+        // Clone it by recursion, whether it's a dir or file.
+        if ( ! copyTree( &child, &newDestination ) )
+            // If this fails, bug out.
+            return false;
+        
+        cont = dir.GetNext(&filename);
+    } 
+    return true;
+} 
 
 void Main::onConfiguration(wxCommandEvent&WXUNUSED(event))
 {
@@ -6572,6 +6677,10 @@ void Main::showTime()
 
 void Main::vuSet(wxString item, int gaugeValue)
 {
+#if defined(__linux__)
+    exit;
+#endif
+    
 	if (gaugeValue == oldGauge_)
 		return;
 
