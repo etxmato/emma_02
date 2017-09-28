@@ -3403,8 +3403,8 @@ void GuiMain::onLedTimer(wxCommandEvent&event)
 	{
 		if (ms == 0)
 			ledTimePointer->Stop();
-		else
-			ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
+//		else
+//			ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
 		p_Computer->setLedMs(ms);
 	}
 }

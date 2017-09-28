@@ -3355,12 +3355,16 @@ void Main::onDataDir(wxCommandEvent&WXUNUSED(event))
 
 void Main::onReInstallConfig(wxCommandEvent&WXUNUSED(event))
 {
-    reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_);
+    int answer = wxMessageBox("This will overwrite files in the configuration directory:\n"+iniDir_ + "Configurations" + pathSeparator_+"\n\nContinue to install default configuration files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+    if (answer == wxYES)
+        reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_);
 }
 
 void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
 {
-    reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_);
+    int answer = wxMessageBox("This will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+    if (answer == wxYES)
+        reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_);
 }
 
 void Main::reInstall(wxString sourceDir, wxString destinationDir)
@@ -3400,7 +3404,7 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination )
         if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1], 0777, wxPATH_MKDIR_FULL) )
             return false;
 #else
-        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + p_Main->getPathSep(), 0777, wxPATH_MKDIR_FULL) )
+        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSeparator_, 0777, wxPATH_MKDIR_FULL) )
             return false;
 #endif
     }
@@ -4635,8 +4639,8 @@ void Main::onStart(int computer)
         conf[runningComputer_].ledTimeMs_ = ms;
         if (ms == 0)
             ledTimePointer->Stop();
-        else
-            ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
+//        else
+//            ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
     }
     if (mode_.gui)
     {

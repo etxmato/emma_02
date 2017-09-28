@@ -133,7 +133,9 @@ private:
 	Word lastAddress_;
 
 	int cycleValue_;
-	int cycleSize_;
+    int cycleSize_;
+    int ledCycleValue_;
+    int ledCycleSize_;
 
 	int runButtonState_;
 	bool inPressed_;

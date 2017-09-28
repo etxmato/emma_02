@@ -160,6 +160,9 @@ Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	rtcTimerPointer = new wxTimer(this, 900);
 	cycleValue_ = -1;
 	cycleSize_ = -1;
+    
+    ledCycleSize_ = (int) ((elfClockSpeed_ * 1000000) / 8) / 10;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Elf2K::~Elf2K()
@@ -700,14 +703,24 @@ void Elf2K::cycle(int type)
 
 void Elf2K::cycleElf2K()
 {
-	if (cycleValue_ < 0)  return;
-
-	cycleValue_ --;
-	if (cycleValue_ <= 0)
-	{
-		cycleValue_ = cycleSize_;
-		rtcRam_[0xc] |= 0x40;
-	}
+	if (cycleValue_ > 0)
+    {
+        cycleValue_ --;
+        if (cycleValue_ <= 0)
+        {
+            cycleValue_ = cycleSize_;
+            rtcRam_[0xc] |= 0x40;
+        }
+    }
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            ledTimeout();
+        }
+    }
 }
 
 void Elf2K::switchQ(int value)

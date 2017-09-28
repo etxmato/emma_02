@@ -1542,7 +1542,7 @@ void DebugWindow::updateChip8Window()
 {
 	wxString buffer;
 	Word scratchpadRegister;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
@@ -1561,7 +1561,7 @@ void DebugWindow::updateChip8Window()
 		lastI_ = scratchpadRegister;
 	}
 	p_Computer->showChip8Registers();
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -1574,7 +1574,7 @@ void DebugWindow::updateWindow()
 	Byte cpucpuRegister;
 	Byte cpuFlag;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
@@ -1702,7 +1702,7 @@ void DebugWindow::updateWindow()
 		lastEf4_ = cpuFlag & 8;
 	}
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -1714,12 +1714,12 @@ void DebugWindow::debugTrace(wxString buffer)
 #if defined(__WXMAC__)
 	traceString_ = traceString_ + buffer + "\n";
 #else
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
 	traceWindowPointer->AppendText(buffer+"\n");
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -1734,14 +1734,14 @@ void DebugWindow::chip8DebugTrace(wxString buffer)
     if (!additionalChip8Details_)
         chipTraceString_ = chipTraceString_ + "\n";
 #else
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
     chip8TraceWindowPointer->AppendText(buffer);
     if (!additionalChip8Details_)
         chip8TraceWindowPointer->AppendText("\n");
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif

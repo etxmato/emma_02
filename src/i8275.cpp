@@ -340,14 +340,14 @@ void i8275::cRegWrite(Byte value)
 		status_ &= 0xfb;
 
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
 		setColour(backGround_);
 		drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 #if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 //		reBlit_ = true;
 //		copyScreen();
@@ -665,7 +665,7 @@ void i8275::drawScreen()
 {
 	int addr = 0;
 #if defined(__linux__)
-//	if (!wxIsMainThread())
+//  if (!wxIsMainThread())
 //		wxMutexGuiEnter();
 #endif
 	setColour(backGround_);

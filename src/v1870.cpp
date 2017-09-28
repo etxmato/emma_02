@@ -650,15 +650,15 @@ void V1870::out7_1870(Word address)
 		if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
 		{
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiEnter();
+//			if (!wxIsMainThread())
+//				wxMutexGuiEnter();
 #endif
 			dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
 			dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
 			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiLeave();
+//			if (!wxIsMainThread())
+//				wxMutexGuiLeave();
 #endif
 			reBlit_ = true;
 			return;
@@ -666,15 +666,15 @@ void V1870::out7_1870(Word address)
 		if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
 		{
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiEnter();
+//			if (!wxIsMainThread())
+//				wxMutexGuiEnter();
 #endif
 			dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
 			dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
 			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiLeave();
+//			if (!wxIsMainThread())
+//				wxMutexGuiLeave();
 #endif
 			reBlit_ = true;
 			return;
@@ -1062,14 +1062,14 @@ void V1870::drawScreen()
 	int address;
 
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
 	setColour(backGround_);
 	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 	if (displayOff_)
 	{
@@ -1646,8 +1646,8 @@ void V1870::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
 	int line_byte, line;
 
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
 	setColour(BACK);
 	drawRectangle(x+offsetX_, y+offsetY_, MC6845CHARW, scanLine_*videoM_);
@@ -1697,8 +1697,8 @@ void V1870::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
 		line++;
 	}
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 }
 
@@ -1716,8 +1716,8 @@ void V1870::drawCursor6845(Word addr, bool status)
 	v = mc6845ram_[addr];
 	line = cursorStartLine_;
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
+//	if (!wxIsMainThread())
+//		wxMutexGuiEnter();
 #endif
 	for (int yLine = y + cursorStartLine_*videoM_; yLine <= (y + cursorEndLine_*videoM_); yLine+=videoM_)
 	{
@@ -1772,8 +1772,8 @@ void V1870::drawCursor6845(Word addr, bool status)
 	}
 #if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
 	this->Update();
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+//	if (!wxIsMainThread())
+//		wxMutexGuiLeave();
 #endif
 }
 
