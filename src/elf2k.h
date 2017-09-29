@@ -104,7 +104,6 @@ public:
 	void setElf2KClockSpeed(double clock) {elfClockSpeed_ = clock;};
 	void dataAvailable(bool data); 
 	void thrStatus(bool data); 
-	void ledTimeout();
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();

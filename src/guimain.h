@@ -411,7 +411,8 @@ public:
 	ScreenInfo getScreenInfo(int id);
 	bool isFullScreenFloat() {return fullScreenFloat_;};
 	void onFullScreenFloat(wxCommandEvent&event);
-	void onLedTimer(wxCommandEvent&event);
+    void onLedTimer(wxCommandEvent&event);
+    void onLedTimer2(wxCommandEvent&event);
     int getCpuType();
     int getCpuStartupRegisters() {return cpuStartupRegisters_;};
     int getCpuStartupRam() {return cpuStartupRam_;};

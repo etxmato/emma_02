@@ -403,6 +403,7 @@ void Elf::configureComputer()
 //	int input = p_Main->getConfigItem("/Elf/HexInput", 4l);
 //	int output = p_Main->getConfigItem("/Elf/HexOutput", 4l);
 
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 	p_Main->message("Configuring Elf");
 	printBuffer.Printf("	Output %d: display output, input %d: data input", elfConfiguration.elfPortConf.hexOutput, elfConfiguration.elfPortConf.hexInput);
 	p_Main->message(printBuffer);
@@ -819,7 +820,25 @@ void Elf::cycle(int type)
 		case IDECYCLE:
 			cycleIde();
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
+}
+
+void Elf::cycleLed()
+{
+    ledCycleValue_ --;
+    if (ledCycleValue_ <= 0)
+    {
+        ledCycleValue_ = ledCycleSize_;
+        elfScreenPointer->ledTimeout();
+        if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+            keypadPointer->ledTimeout();
+        if (elfConfiguration.useLedModule && !ledModuleClosed_)
+            ledModulePointer->ledTimeout();
+    }
 }
 
 void Elf::autoBoot()
@@ -987,8 +1006,11 @@ void Elf::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	elfScreenPointer->setLedMs(p_Main->getLedTimeMs(ELF));
 
+    int ms = (int) p_Main->getLedTimeMs(ELF);
+    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
     else
@@ -1486,7 +1508,6 @@ void Elf::configureElfExtensions()
 	{
 		ledModulePointer = new LedModule("Led Module", p_Main->getLedModulePos(), wxSize(172, 116), ELF);
 		ledModulePointer->configure(elfConfiguration.elfPortConf);
-		ledModulePointer->setLedMs(p_Main->getLedTimeMs(ELF));
 		ledModulePointer->Show(p_Main->getUseElfControlWindows(ELF));
 	}
 
@@ -1495,7 +1516,6 @@ void Elf::configureElfExtensions()
 	if (elfConfiguration.useHexKeyboard)
 	{
 		keypadPointer = new Keypad("Keypad", p_Main->getKeypadPos(ELF), wxSize(172, 229), ELF);
-		keypadPointer->setLedMs(p_Main->getLedTimeMs(ELF));
 		keypadPointer->Show(p_Main->getUseElfControlWindows(ELF));
 		p_Main->message("Configuring Elf Keypad\n");
 	}
@@ -1656,22 +1676,9 @@ Word Elf::get6847RamMask()
 		return 0;
 }
 
-void Elf::ledTimeout()
-{
-	elfScreenPointer->ledTimeout();
-	if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
-		keypadPointer->ledTimeout();
-	if (elfConfiguration.useLedModule && !ledModuleClosed_)
-		ledModulePointer->ledTimeout();
-}
-
 void Elf::setLedMs(long ms)
 {
-	elfScreenPointer->setLedMs(ms);
-	if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
-		keypadPointer->setLedMs(ms);
-	if (elfConfiguration.useLedModule && !ledModuleClosed_)
-		ledModulePointer->setLedMs(ms);
+    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
 }
 
 Byte Elf::getKey(Byte vtOut)

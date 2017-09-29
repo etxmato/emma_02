@@ -354,7 +354,7 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_BUTTON(XRCID("ColoursElfII"), Main::onColoursDef)
 	EVT_BUTTON(XRCID("ColoursSuperElf"), Main::onColoursDef)
 
-	EVT_TEXT(XRCID("ShowAddressElf"), GuiMain::onLedTimer)
+	EVT_TEXT(XRCID("ShowAddressElf"), GuiMain::onLedTimer2)
 	EVT_TEXT(XRCID("ShowAddressElfII"), GuiMain::onLedTimer)
 	EVT_TEXT(XRCID("ShowAddressSuperElf"), GuiMain::onLedTimer)
 

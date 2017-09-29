@@ -61,6 +61,7 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void showData(Byte value);
 	void cycle(int type);
+    void cycleLed();
 
 	void autoBoot();
 	void switchQ(int value);
@@ -101,7 +102,6 @@ public:
 	int readDirect6847(Word addr);
 	Word get6847RamMask();
 	void writeDirect6847(Word addr, int value);
-	void ledTimeout();
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
@@ -119,6 +119,9 @@ private:
 	Keypad *keypadPointer;
 	LedModule *ledModulePointer;
 
+    int ledCycleValue_;
+    int ledCycleSize_;
+    
 	int runButtonState_;
 	int mpButtonState_;
 	int loadButtonState_;

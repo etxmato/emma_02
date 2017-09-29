@@ -3403,10 +3403,25 @@ void GuiMain::onLedTimer(wxCommandEvent&event)
 	{
 		if (ms == 0)
 			ledTimePointer->Stop();
-//		else
-//			ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
+		else
+			ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
 		p_Computer->setLedMs(ms);
 	}
+}
+
+void GuiMain::onLedTimer2(wxCommandEvent&event)
+{
+    wxString stringMs = event.GetString();
+    if (stringMs == "")  stringMs = "0";
+    long ms;
+    if (!stringMs.ToLong(&ms, 10))
+        return;
+    
+    conf[selectedComputer_].ledTime_ = stringMs;
+    conf[selectedComputer_].ledTimeMs_ = ms;
+    
+    if (computerRunning_ && (selectedComputer_ == runningComputer_))
+        p_Computer->setLedMs(ms);
 }
 
 int GuiMain::getCpuType()

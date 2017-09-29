@@ -4637,10 +4637,13 @@ void Main::onStart(int computer)
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
-        if (ms == 0)
-            ledTimePointer->Stop();
-//        else
-//            ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
+        if (runningComputer_ != ELF2K && runningComputer_ != ELF)
+        {
+            if (ms == 0)
+                ledTimePointer->Stop();
+            else
+                ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
+        }
     }
     if (mode_.gui)
     {

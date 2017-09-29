@@ -160,9 +160,6 @@ Elf2K::Elf2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	rtcTimerPointer = new wxTimer(this, 900);
 	cycleValue_ = -1;
 	cycleSize_ = -1;
-    
-    ledCycleSize_ = (int) ((elfClockSpeed_ * 1000000) / 8) / 10;
-    ledCycleValue_ = ledCycleSize_;
 }
 
 Elf2K::~Elf2K()
@@ -712,14 +709,11 @@ void Elf2K::cycleElf2K()
             rtcRam_[0xc] |= 0x40;
         }
     }
-    if (ledCycleValue_ > 0)
+    ledCycleValue_ --;
+    if (ledCycleValue_ <= 0)
     {
-        ledCycleValue_ --;
-        if (ledCycleValue_ <= 0)
-        {
-            ledCycleValue_ = ledCycleSize_;
-            ledTimeout();
-        }
+        ledCycleValue_ = ledCycleSize_;
+        elf2KScreenPointer->ledTimeout();
     }
 }
 
@@ -772,7 +766,10 @@ void Elf2K::startComputer()
 	if (elfConfiguration.usePs2gpio)
 		startPs2gpioKeyFile();
 	rtcTimerPointer->Start(1000, wxTIMER_CONTINUOUS);
-	elf2KScreenPointer->setLedMs(p_Main->getLedTimeMs(ELF2K));
+    
+    int ms = (int) p_Main->getLedTimeMs(ELF2K);
+    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
@@ -1283,14 +1280,9 @@ void Elf2K::thrStatus(bool data)
 	thrStatusUart(data);
 }
 
-void Elf2K::ledTimeout()
-{
-	elf2KScreenPointer->ledTimeout();
-}
-
 void Elf2K::setLedMs(long ms)
 {
-	elf2KScreenPointer->setLedMs(ms);
+    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
 }
 
 Byte Elf2K::getKey(Byte vtOut)
