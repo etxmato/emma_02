@@ -65,6 +65,7 @@ void Vip::configureComputer()
 	outType_[7] = VIPIIOUT7;
 	efType_[2] = VIPEF2;
 	efType_[3] = VIPKEYEF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	vipSound_ = p_Main->getSound(VIP);
 	cdp1862_ = p_Main->getVipVp590();
@@ -459,7 +460,7 @@ void Vip::cycle(int type)
 		case VIPIIKEYCYCLE:
 			cycleKey();
 		break;
-	}
+    }
 }
 
 void Vip::cycleKey()
@@ -530,7 +531,6 @@ void Vip::cycleKey()
 		}
 	}
 }
-
 
 void Vip::cycleVP550()
 {
@@ -620,7 +620,6 @@ void Vip::startComputer()
 	setVipSound(vipSound_);
 
 	p_Main->updateTitle();
-
 
 	cpuCycles_ = 0;
 	p_Main->startTime();

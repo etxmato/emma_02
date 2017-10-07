@@ -43,7 +43,7 @@
 #include "wx/cmdline.h"
 #include "wx/sstream.h"
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include <X11/Xlib.h>
 #include "app_icon.xpm"
 #endif
@@ -489,7 +489,6 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
 	EVT_TIMER(902, Main::vuTimeout)
 	EVT_TIMER(903, Main::cpuTimeout)
-	EVT_TIMER(904, Main::ledTimeout)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
@@ -817,64 +816,6 @@ bool Emu1802::OnInit()
 	wxInitAllImageHandlers();
     wxFileSystem::AddHandler(new wxZipFSHandler);
 	wxXmlResource::Get()->InitAllHandlers();
-/*
-#if defined(__linux__)
-    wxString appName = "emma_02";
-#else
-    wxString appName = "Emma 02";
-#endif
-
-#if defined(__linux__)
-    wxString workingDir_ = wxGetCwd();
-    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
-#elif (__WXMAC__)
-    wxString workingDir_;
-    if (mode_.portable)
-        workingDir_ = wxGetCwd();
-    else
-        workingDir_ = wxStandardPaths::Get().GetDataDir();
-    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
-#else
-    wxString workingDir_ = wxGetCwd();
-    wxFileName applicationFile = wxFileName(workingDir_, "", wxPATH_NATIVE);
-#endif
-    
-    wxString pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
-    
-    wxString iniDirectory_ = wxStandardPaths::Get().GetUserConfigDir();
-#if defined(__linux__)
-    iniDirectory_ = iniDirectory_ + pathSeparator_ + ".emma_02" + pathSeparator_;
-#elif (__WXMAC__)
-    iniDirectory_ = iniDirectory_ + pathSeparator_ + "Emma 02" + pathSeparator_;
-#else
-    iniDirectory_ = iniDirectory_ + pathSeparator_ + ".emma_02" + pathSeparator_;
-#endif
-    
-    if (mode_.portable)
-    {
-        if (!wxDir::Exists(iniDirectory_))
-            wxDir::Make(iniDirectory_);
-    }
-    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", iniDirectory_ + "emma_02.ini");
-    wxConfigBase::Set(pConfig);
-    configPointer = wxConfigBase::Get();
-
-    wxString xrcFile;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-    wxString applicationDirectory_;
-    applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-    ubuntuOffsetX = 36;
-#elif (__WXMAC__)
-	wxString applicationDirectory_;
-	if (mode_.portable)
-		applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	else
-        applicationDirectory_ = wxStandardPaths::Get().GetResourcesDir() + pathSeparator_;
-    ubuntuOffsetX = 30;
-#else
-	wxString applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	ubuntuOffsetX = 0;
-#endif*/
 
 #if defined(__linux__)
 	ubuntuOffsetX = 36;
@@ -1022,7 +963,9 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
     dataDir_ = wxStandardPaths::Get().GetDocumentsDir();
     if (dataDir_.Right(9) == "Documents")
         dataDir_ = dataDir_.Left(dataDir_.Len()-9) + "Emma 02" + pathSeparator_;
-    dataDir_ = configPointer->Read("/DataDir", dataDir_);
+	else
+		dataDir_ = dataDir_ + pathSeparator_;
+	dataDir_ = configPointer->Read("/DataDir", dataDir_);
  
     if (mode_.portable)
         applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
@@ -1030,16 +973,16 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
         applicationDirectory_ = wxStandardPaths::Get().GetResourcesDir() + pathSeparator_;
 #endif
 #if defined (__WXMSW__)
-	dataDir_ = configPointer->Read("/DataDir", wxStandardPaths::Get().GetUserDataDir() + pathSeparator_);
-    applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+//	dataDir_ = configPointer->Read("/DataDir", wxStandardPaths::Get().GetUserDataDir() + pathSeparator_);
+	dataDir_ = wxStandardPaths::Get().GetDocumentsDir();
+	if (dataDir_.Right(9) == "My Documents")
+		dataDir_ = dataDir_.Left(dataDir_.Len() - 12) + "Emma 02" + pathSeparator_;
+	else
+		dataDir_ = dataDir_ + pathSeparator_;
+	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 
-//	if (!mode_.portable)
-//	{
-//		if (!wxDir::Exists(dataDir_))
-//			wxDir::Make(dataDir_);
-//	}
-    configPointer->Read("/DataDirRelative", &dataDirRelative_, false);
+	configPointer->Read("/DataDirRelative", &dataDirRelative_, false);
 
 	if (dataDirRelative_)
 	{
@@ -1066,11 +1009,6 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 	if (mode_.portable)
 	{
 		dataDir_ = applicationDirectory_ + "data" + pathSeparator_;
-
-//#if wxCHECK_VERSION(2, 9, 0)
-//		if (!wxDir::Exists(dataDir_))
-//			wxDir::Make(dataDir_);
-//#endif
 
 		if (configPointer->Read("/Dir/Main/Debug", dataDir_) != dataDir_)
 			configPointer->DeleteGroup("Dir");
@@ -1700,7 +1638,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 	oldGauge_ = 1;
 	vuPointer = new wxTimer(this, 902);
 	cpuPointer = new wxTimer(this, 903);
-	ledTimePointer = new wxTimer(this, 904);
     updateCheckPointer = new wxTimer(this, 905);
     traceTimeoutPointer = new wxTimer(this, 906);
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
@@ -1770,7 +1707,6 @@ Main::~Main()
 	delete vuPointer;
 	delete cpuPointer;
 	delete updateCheckPointer;
-    delete ledTimePointer;
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
     delete help_;
@@ -2048,7 +1984,7 @@ void Main::initConfig()
 {
 	Byte brightness[8] = { 0, 28, 77, 105, 150, 194, 227, 0xff };
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	ubuntuOffsetX_ = 36;
 #elif (__WXMAC__)
 	ubuntuOffsetX_ = 30;
@@ -2783,7 +2719,7 @@ bool Main::updateEmma()
 
 	if (messageBoxAnswer_ == wxYES)
 	{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		wxLinuxDistributionInfo linuxDistro;
 		linuxDistro = ::wxGetLinuxDistributionInfo();
 		if (linuxDistro.Id == "Ubuntu")
@@ -3004,7 +2940,7 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
     conf[computer].configurationInfo_.menuName = configurationInfo.menuName;
     conf[computer].configurationInfo_.subMenuName = configurationInfo.subMenuName;
     
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
     wxString appName = "emma_02";
 #else
     wxString appName = "Emma 02";
@@ -3174,7 +3110,7 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
 ConfigurationInfo Main::getMenuInfo(wxString fileName)
 {
     ConfigurationInfo configurationInfo;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
     wxString appName = "emma_02";
 #else
     wxString appName = "Emma 02";
@@ -3200,7 +3136,7 @@ ConfigurationInfo Main::getMenuInfo(wxString fileName)
 
 void Main::loadComputerConfig(wxString fileName)
 {
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
     wxString appName = "emma_02";
 #else
     wxString appName = "Emma 02";
@@ -4637,13 +4573,6 @@ void Main::onStart(int computer)
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
-        if (runningComputer_ != ELF2K && runningComputer_ != ELF)
-        {
-            if (ms == 0)
-                ledTimePointer->Stop();
-            else
-                ledTimePointer->Start((int)ms, wxTIMER_CONTINUOUS);
-        }
     }
     if (mode_.gui)
     {
@@ -4699,7 +4628,6 @@ void Main::stopComputer()
 	if (popupDialog_ != NULL)
 		delete popupDialog_;
 	popupDialog_ = NULL;
-	ledTimePointer->Stop();
 	if (mode_.gui)
 	{
 		vuPointer->Stop();
@@ -6583,11 +6511,6 @@ void Main::updateSlotInfo()
 	updateAssTab();
 }
 
-void Main::ledTimeout(wxTimerEvent&WXUNUSED(event))
-{
-	p_Computer->ledTimeout();
-}
-
 void Main::updateCheckTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	bool checkForUpdate;
@@ -7537,7 +7460,7 @@ bool Main::loadKeyDefinition(wxString findFile1, wxString findFile2, int keyDefA
     wxTextFile keyDefinitionFile;
     wxString gameName, nextValue;
     
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
 	wxString appName = "emma_02";
 #else
 	wxString appName = "Emma 02";
@@ -8096,7 +8019,7 @@ void Main::getDefaultTmc600Keys(int keysNormal[], int keysShift[])
 		keysShift[i] = 0;
 	}
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
 	wxString appName = "emma_02";
 #else
 	wxString appName = "Emma 02";

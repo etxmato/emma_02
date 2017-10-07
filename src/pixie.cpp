@@ -31,7 +31,7 @@
     #include "wx/wx.h"
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -631,10 +631,6 @@ void Pixie::drawScreen()
 	int v;
 	int color;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 	setColour(backGround_);
 	drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 
@@ -651,10 +647,6 @@ void Pixie::drawScreen()
 			}
 		}
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
 }
 
 void Pixie::plot(int x, int y, int c, int color)
@@ -667,9 +659,6 @@ void Pixie::plot(int x, int y, int c, int color)
 	color_[x][y] = color;
 	pbacking_[x][y] = c;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	wxMutexGuiEnter();
-#endif
 	if (c)
 	{
 		setColour(color);
@@ -682,9 +671,6 @@ void Pixie::plot(int x, int y, int c, int color)
 	}
 	drawPoint(x+offsetX_, y+offsetY_);
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	wxMutexGuiLeave();
-#endif
 #if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
 #else

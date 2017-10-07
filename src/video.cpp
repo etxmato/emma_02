@@ -234,28 +234,16 @@ Byte VideoScreen::getKey(Byte vtOut)
 
 void VideoScreen::blit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
 {
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 	wxClientDC dcWindow(this);
 	dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
 #if defined(__WXMAC__)
 //    dcWindow.SetInterpolationQuality(wxINTERPOLATION_NONE);
 #endif
 	dcWindow.Blit(xdest, ydest, width, height, source, xsrc, ysrc);
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 }
 
 void VideoScreen::drawExtraBackground(wxColour clr, int width, int height, wxCoord offsetX, wxCoord offsetY)
 {
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 	wxClientDC dcWindow(this);
 	wxSize size = wxGetDisplaySize();
 
@@ -267,10 +255,6 @@ void VideoScreen::drawExtraBackground(wxColour clr, int width, int height, wxCoo
 
 	int yStart = (int)((2*offsetY+height)*zoom_);
 	dcWindow.DrawRectangle(0, yStart, size.x, size.y-yStart);
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 }
 
 void VideoScreen::drawRectangle(wxColour clr, int x, int y, wxCoord width, wxCoord height)
@@ -284,19 +268,11 @@ void VideoScreen::drawRectangle(wxColour clr, int x, int y, wxCoord width, wxCoo
 
 void VideoScreen::disableScreen(wxColour clr, int xSize, int ySize)
 {
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 	wxClientDC dcWindow(this);
 	dcWindow.SetUserScale(zoom_*xZoomFactor_, zoom_);
 	dcWindow.SetBrush(wxBrush(clr));
 	dcWindow.SetPen(wxPen(clr));
 	dcWindow.DrawRectangle(0, 0, xSize, ySize);
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 }
 
 void VideoScreen::setForceUCVt(bool status)
@@ -474,17 +450,9 @@ void Video::ResetIo()
 
 void Video::setScreenSize()
 {
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 	if (fullScreenSet_)
 		return;
 	SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 	changeScreenSize();
 }
 
@@ -492,10 +460,6 @@ void Video::changeScreenSize()
 {
 	double zoomx, zoomy;
 
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 	wxSize size = this->GetClientSize();
 	destinationWidth_ = size.x;
 	destinationHeight_ = size.y;
@@ -547,10 +511,6 @@ void Video::changeScreenSize()
 		p_Main->zoomEventVt(zoom_);
 	else
 		p_Main->zoomEvent(zoom_);
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 }
 
 void Video::onF3()
@@ -696,10 +656,6 @@ void Video::drawPoint(wxCoord x, wxCoord y)
 
 void Video::setColourMutex(int clr)
 {
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 #if defined(__WXMAC__)
 	gc->SetBrush(brushColour_[clr]);
 	gc->SetPen(penColour_[clr]);
@@ -707,43 +663,23 @@ void Video::setColourMutex(int clr)
 	dcMemory.SetBrush(brushColour_[clr]);
 	dcMemory.SetPen(penColour_[clr]);
 #endif
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 }
 
 void Video::drawRectangleMutex(wxCoord x, wxCoord y, wxCoord width, wxCoord height)
 {
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 #if defined(__WXMAC__)
 	gc->DrawRectangle(x, y, width-1, height-1);
 #else
 	dcMemory.DrawRectangle(x, y, width, height);
 #endif
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 }
 
 void Video::drawPointMutex(wxCoord x, wxCoord y)
 {
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 #if defined(__WXMAC__)
 	gc->DrawRectangle(x, y, 0, 0);
 #else
 	dcMemory.DrawPoint(x, y);
-#endif
-#if defined(__linux__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
 #endif
 }
 

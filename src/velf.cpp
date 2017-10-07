@@ -236,6 +236,7 @@ void Velf::configureComputer()
     inType_[4] = ELFIN;
 	efType_[3] = VIPKEYEF;
     efType_[4] = ELFINEF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring VELF");
 	p_Main->message("	Output 2: hex key latch, output 4: display output");
@@ -607,7 +608,11 @@ void Velf::cycle(int type)
 		case VIPIIKEYCYCLE:
 			cycleKey();
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
 }
 
 void Velf::cycleKey()
@@ -629,6 +634,19 @@ void Velf::cycleKey()
 			}
 		}
 	}
+}
+
+void Velf::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            velfScreenPointer->ledTimeout();
+        }
+    }
 }
 
 void Velf::startComputer()
@@ -681,8 +699,15 @@ void Velf::startComputer()
 
 	cpuCycles_ = 0;
     p_Main->startTime();
-    velfScreenPointer->setLedMs(p_Main->getLedTimeMs(VELF));
 
+    int ms = (int) p_Main->getLedTimeMs(VELF);
+    velfScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((velfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
 	threadPointer->Run();
 }
 
@@ -891,14 +916,14 @@ void Velf::sleepComputer(long ms)
 	threadPointer->Sleep(ms);
 }
 
-void Velf::ledTimeout()
-{
-    velfScreenPointer->ledTimeout();
-}
-
 void Velf::setLedMs(long ms)
 {
     velfScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((velfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 

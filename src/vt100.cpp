@@ -31,7 +31,7 @@
     #include "wx/wx.h"
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -1326,10 +1326,6 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
 
 	int x = pos * charWidth_ * doubleWidth_[line];
 	int y = line * linesPerCharacter_ * heightFactor;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 #if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
 #else
@@ -1367,10 +1363,6 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
     
 	if (blinkScr_[line][pos] && blinkOn_)
 	{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-		if (!wxIsMainThread())
-			wxMutexGuiLeave();
-#endif
 		return;
 	}
 
@@ -1414,10 +1406,7 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
 		}
 		drawLine+=doubleHeight_[line];
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-		if (!wxIsMainThread())
-			wxMutexGuiLeave();
-#endif
+
 }
 
 void Vt100::setInterlace(bool status)

@@ -13236,7 +13236,7 @@ void DebugWindow::DebugDisplayMap()
 		wxMemoryDC dcMapLine;
 
 		dcMapLine.SelectObject(line);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		dcMapLine.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
 		dcMapLine.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
 		dcMapLine.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));

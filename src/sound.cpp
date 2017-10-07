@@ -29,7 +29,7 @@
 #include "main.h"
 #include "sound.h"
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #define CLOCK_FACTOR 2
 #define SAMPLE_RATE 44100
 #else

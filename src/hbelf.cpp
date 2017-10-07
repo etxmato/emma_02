@@ -39,7 +39,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -387,8 +387,6 @@ void Elf::onHexKeyUp(int keycode)
 	}
 		
 	ef3State_ = 1;
-    
-    
 }
 
 void Elf::configureComputer()
@@ -829,15 +827,18 @@ void Elf::cycle(int type)
 
 void Elf::cycleLed()
 {
-    ledCycleValue_ --;
-    if (ledCycleValue_ <= 0)
+    if (ledCycleValue_ > 0)
     {
-        ledCycleValue_ = ledCycleSize_;
-        elfScreenPointer->ledTimeout();
-        if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
-            keypadPointer->ledTimeout();
-        if (elfConfiguration.useLedModule && !ledModuleClosed_)
-            ledModulePointer->ledTimeout();
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            elfScreenPointer->ledTimeout();
+            if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+                keypadPointer->ledTimeout();
+            if (elfConfiguration.useLedModule && !ledModuleClosed_)
+                ledModulePointer->ledTimeout();
+        }
     }
 }
 
@@ -1008,7 +1009,15 @@ void Elf::startComputer()
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(ELF);
-    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    elfScreenPointer->setLedMs(ms);
+    if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+        keypadPointer->setLedMs(ms);
+    if (elfConfiguration.useLedModule && !ledModuleClosed_)
+        ledModulePointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
     
     if (p_Vt100 != NULL)
@@ -1678,7 +1687,16 @@ Word Elf::get6847RamMask()
 
 void Elf::setLedMs(long ms)
 {
-    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    elfScreenPointer->setLedMs(ms);
+    if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+        keypadPointer->setLedMs(ms);
+    if (elfConfiguration.useLedModule && !ledModuleClosed_)
+        ledModulePointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Elf::getKey(Byte vtOut)

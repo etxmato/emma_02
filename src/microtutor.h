@@ -50,6 +50,7 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void showData(Byte value);
 	void cycle(int type);
+    void cycleLed();
 
 	void onPowerButton(wxCommandEvent& event);
 
@@ -62,7 +63,6 @@ public:
 	void onReset();
 
 	void setMicrotutorClockSpeed(double clock) {microtutorClockSpeed_ = clock;};
-	void ledTimeout();
 	void setLedMs(long ms);
 	void activateMainWindow();
 
@@ -71,7 +71,10 @@ private:
 
 	ElfConfiguration microtutorConfiguration;
 
-	Byte switches_;
+    int ledCycleValue_;
+    int ledCycleSize_;
+
+    Byte switches_;
 	Byte data_;
 
 	double microtutorClockSpeed_;

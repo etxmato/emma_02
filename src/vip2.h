@@ -29,10 +29,10 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void outVip(Byte value);
 	void switchQ(int value);
-	void ledTimeout();
 	void setLedMs(long ms);
 	void cycle(int type);
 	void cycleKey();
+    void cycleLed();
 
 	void startComputer();
 	void setTempo(int tempo);
@@ -66,6 +66,9 @@ private:
 	bool flashState_;
 	int cycleValue_;
 	int cycleSize_;
+
+    int ledCycleValue_;
+    int ledCycleSize_;
 
 	int keyDefA1_[16];
 	int keyDefB1_[16];

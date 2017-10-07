@@ -39,7 +39,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -265,6 +265,7 @@ void Membership::configureComputer()
 		}
 	}
 	efType_[4] = ELFINEF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring Membership Card");
 	switch (elfConfiguration.ioType)
@@ -416,7 +417,23 @@ void Membership::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case LEDCYCLE:
+            cycleLed();
+        break;
 	}
+}
+
+void Membership::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            memberScreenPointer->ledTimeout();
+        }
+    }
 }
 
 void Membership::autoBoot()
@@ -568,8 +585,15 @@ void Membership::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	memberScreenPointer->setLedMs(p_Main->getLedTimeMs(MEMBER));
 
+    int ms = (int) p_Main->getLedTimeMs(MEMBER);
+    memberScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((clockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
 	qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
 	memberScreenPointer->setQLed(qLedStatus_);
 
@@ -854,14 +878,14 @@ void Membership::sleepComputer(long ms)
 	threadPointer->Sleep(ms);
 }
 
-void Membership::ledTimeout()
-{
-	memberScreenPointer->ledTimeout();
-}
-
 void Membership::setLedMs(long ms)
 {
 	memberScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((clockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Membership::getKey(Byte vtOut)

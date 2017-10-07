@@ -39,7 +39,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -379,6 +379,7 @@ void Elf2::configureComputer()
 	efType_[2] = EF2UNDEFINED;
 	efType_[3] = EF3UNDEFINED;
 
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 //	int efPort;
 	wxString printBuffer;
 
@@ -786,7 +787,24 @@ void Elf2::cycle(int type)
 		case IDECYCLE:
 			cycleIde();
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
+}
+
+void Elf2::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            elf2ScreenPointer->ledTimeout();
+        }
+    }
 }
 
 void Elf2::autoBoot()
@@ -976,8 +994,15 @@ void Elf2::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	elf2ScreenPointer->setLedMs(p_Main->getLedTimeMs(ELFII));
 
+    int ms = (int) p_Main->getLedTimeMs(ELFII);
+    elf2ScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
     else
@@ -1624,14 +1649,14 @@ Word Elf2::get6847RamMask()
 		return 0;
 }
 
-void Elf2::ledTimeout()
-{
-	elf2ScreenPointer->ledTimeout();
-}
-
 void Elf2::setLedMs(long ms)
 {
 	elf2ScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Elf2::getKey(Byte vtOut)

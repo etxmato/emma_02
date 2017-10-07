@@ -53,6 +53,7 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void showData(Byte value);
 	void cycle(int type);
+    void cycleLed();
 
 	void autoBoot();
 	void switchQ(int value);
@@ -75,7 +76,6 @@ public:
 	void saveRam();
 	void loadRam();
 	void sleepComputer(long ms);
-	void ledTimeout();
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
@@ -88,7 +88,10 @@ public:
 private:
 	class MemberScreen *memberScreenPointer;
 
-	int runButtonState_;
+    int ledCycleValue_;
+    int ledCycleSize_;
+
+    int runButtonState_;
 	int mpButtonState_;
 	int loadButtonState_;
 	int dataSwitchState_[8];

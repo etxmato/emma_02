@@ -287,7 +287,7 @@ void ComxStatusBar::updateStatusBarText()
 	wxString buf;
 	wxString leader;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
 	leader = "%d:         ";
 #else
 	leader = "%d:           ";
@@ -296,7 +296,7 @@ void ComxStatusBar::updateStatusBarText()
 	wxRect rect;
 	this->GetFieldRect (1, rect);
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	SetFont(defaultFont);
 #endif

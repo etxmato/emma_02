@@ -26,7 +26,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -99,7 +99,7 @@ void CosmicosScreen::init()
     int offsetX = 10;
     int offsetY = 8;
     
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	SetFont(defaultFont);
 #endif
@@ -605,6 +605,7 @@ void Cosmicos::configureComputer()
 	inType_[7] = COSMICOSIN;
 	outType_[7] = COSMICOSOUT;
 
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 	p_Main->message("Configuring Cosmicos");
 	p_Main->message("	Output 7: display output, input 7: data input");
 	if (cosmicosConfiguration.useHexKeyboardEf3 || cosmicosConfiguration.useHex)
@@ -829,7 +830,25 @@ void Cosmicos::cycle(int type)
 		case VT100CYCLE:
 			vtPointer->cycleVt();
 		break;
-	}
+            
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
+}
+
+void Cosmicos::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            cosmicosScreenPointer->ledTimeout();
+            p_Cosmicoshex->ledTimeout();
+        }
+    }
 }
 
 void Cosmicos::startComputer()
@@ -838,7 +857,6 @@ void Cosmicos::startComputer()
 
 	p_Cosmicoshex = new Cosmicoshex("Hex Panel", p_Main->getKeypadPos(COSMICOS), wxSize(185, 160));
 	p_Cosmicoshex->Show(cosmicosConfiguration.useHex);
-	p_Cosmicoshex->setLedMs(p_Main->getLedTimeMs(COSMICOS));
 
 	if (p_Main->getRamType(COSMICOS)==0)
 	{
@@ -884,8 +902,16 @@ void Cosmicos::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	cosmicosScreenPointer->setLedMs(p_Main->getLedTimeMs(COSMICOS));
 
+    int ms = (int) p_Main->getLedTimeMs(COSMICOS);
+    cosmicosScreenPointer->setLedMs(ms);
+    p_Cosmicoshex->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((cosmicosClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
 	threadPointer->Run();
 }
 
@@ -1231,16 +1257,15 @@ void Cosmicos::checkCosmicosFunction()
 	}
 }
 
-void Cosmicos::ledTimeout()
-{
-	cosmicosScreenPointer->ledTimeout();
-	p_Cosmicoshex->ledTimeout();
-}
-
 void Cosmicos::setLedMs(long ms)
 {
-	cosmicosScreenPointer->setLedMs(ms);
-	p_Cosmicoshex->setLedMs(ms);
+    cosmicosScreenPointer->setLedMs(ms);
+    p_Cosmicoshex->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((cosmicosClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Cosmicos::getKey(Byte vtOut)

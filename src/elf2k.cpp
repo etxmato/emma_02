@@ -26,7 +26,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -709,11 +709,14 @@ void Elf2K::cycleElf2K()
             rtcRam_[0xc] |= 0x40;
         }
     }
-    ledCycleValue_ --;
-    if (ledCycleValue_ <= 0)
+    if (ledCycleValue_ > 0)
     {
-        ledCycleValue_ = ledCycleSize_;
-        elf2KScreenPointer->ledTimeout();
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            elf2KScreenPointer->ledTimeout();
+        }
     }
 }
 
@@ -768,7 +771,11 @@ void Elf2K::startComputer()
 	rtcTimerPointer->Start(1000, wxTIMER_CONTINUOUS);
     
     int ms = (int) p_Main->getLedTimeMs(ELF2K);
-    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    elf2KScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
 
     if (p_Vt100 != NULL)
@@ -1282,7 +1289,12 @@ void Elf2K::thrStatus(bool data)
 
 void Elf2K::setLedMs(long ms)
 {
-    ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    elf2KScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Elf2K::getKey(Byte vtOut)

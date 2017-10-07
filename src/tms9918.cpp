@@ -31,7 +31,7 @@
     #include "wx/wx.h"
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -207,18 +207,12 @@ void Tms9918::modeLowOut(Byte value)
 	if (addr >= memoryStart && addr<(memoryStart + 256))
 		p_Main->updateDebugMemory(addr);
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiEnter();
-#endif
 	switch(mode_)
 	{
 		case 0:
 			if (addr >= nameAddress_ && addr < nameAddress_+768)
 			{
 				drawTile(addr - nameAddress_);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= colorAddress_ && addr < colorAddress_+32)
@@ -226,9 +220,6 @@ void Tms9918::modeLowOut(Byte value)
 				p = addr - colorAddress_;
 				for (int i=0; i<768; i++)
 					if ((tmsMemory_[nameAddress_+i] >> 3) == p) drawTile(i);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= patternAddress_ && addr < patternAddress_+2048)
@@ -243,9 +234,6 @@ void Tms9918::modeLowOut(Byte value)
 			if (addr >= nameAddress_ && addr < nameAddress_+768)
 			{
 				drawTile(addr - nameAddress_);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= colorAddress_ && addr < colorAddress_+2048)
@@ -253,9 +241,6 @@ void Tms9918::modeLowOut(Byte value)
 				p = addr - colorAddress_;
 				for (int i=0; i<256; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= colorAddress_+2048 && addr < colorAddress_+4096)
@@ -263,9 +248,6 @@ void Tms9918::modeLowOut(Byte value)
 				p = addr -(colorAddress_-2048);
 				for (int i=256; i<512; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= colorAddress_+4096 && addr < colorAddress_+6144)
@@ -273,9 +255,6 @@ void Tms9918::modeLowOut(Byte value)
 				p = addr -(colorAddress_-4096);
 				for (int i=512; i<768; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= patternAddress_ && addr < patternAddress_+2048)
@@ -283,9 +262,6 @@ void Tms9918::modeLowOut(Byte value)
 				p = (addr -(patternAddress_-2048)) >> 3;
 				for (int i=0; i<256; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= patternAddress_+2048 && addr < patternAddress_+4096)
@@ -293,9 +269,6 @@ void Tms9918::modeLowOut(Byte value)
 				p = (addr -(patternAddress_-2048)) >> 3;
 				for (int i=256; i<512; i++)
 					if (tmsMemory_[nameAddress_+i] == p) drawTile(i);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-				wxMutexGuiLeave();
-#endif
 				return;
 			}
 			if (addr >= patternAddress_+4096 && addr < patternAddress_+6144)
@@ -313,9 +286,6 @@ void Tms9918::modeLowOut(Byte value)
 			}
 		break;
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	wxMutexGuiLeave();
-#endif
 }
 
 void Tms9918::cycleTms()
@@ -526,9 +496,6 @@ void Tms9918::drawTile(Word tile)
 
 void Tms9918::drawScreen()
 {
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	wxMutexGuiEnter();
-#endif
 	int cl = registers_[7] & 0xf;
 	setColourMutex(cl+16);
 	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
@@ -547,9 +514,6 @@ void Tms9918::drawScreen()
 		for (int x=0; x<960; x++)
 			drawTile(x);
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	wxMutexGuiLeave();
-#endif
 }
 
 void Tms9918::setFullScreen(bool fullScreenSet)
