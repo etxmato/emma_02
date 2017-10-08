@@ -46,7 +46,9 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3392"
-            endingLineNumber = "3392">
+            endingLineNumber = "3392"
+            landmarkName = "Main::onConfiguration(wxCommandEvent&amp;WXUNUSED(event))"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

@@ -94,7 +94,7 @@ Source: ..\Configurations Windows\Victory\*.*; DestDir: {app}\Configurations\Vic
 Source: ..\Configurations Windows\Vip\*.*; DestDir: {app}\Configurations\Vip; Components: MAIN
 Source: ..\Configurations Windows\VipII\*.*; DestDir: {app}\Configurations\VipII; Components: MAIN
 Source: ..\Configurations Windows\Visicom\*.*; DestDir: {app}\Configurations\Visicom; Components: MAIN
-Source: ..\data\keydefinition.txt; DestDir: {userappdata}\Emma 02; Components: MAIN
+Source: ..\data\keydefinition.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\data\keydefinition_studio.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\data\multi-cart.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\data\us.ini; DestDir: {app}\data; Components: MAIN
