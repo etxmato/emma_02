@@ -208,6 +208,8 @@
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
+		996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.pkgproj"; sourceTree = "<group>"; };
+		996FC5821F8ABDE800E08812 /* introduction.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = introduction.rtf; sourceTree = "<group>"; };
 		9971896D1C3B16D10061426E /* menuVelf.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuVelf.xrc; sourceTree = "<group>"; };
 		9971896F1C3B19BC0061426E /* menuVip.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuVip.xrc; sourceTree = "<group>"; };
 		9973DDFC1A69B7B300B57557 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
@@ -537,7 +539,6 @@
 				99ACA8591F42330C00788104 /* Emma 02 vc14.sln */,
 				99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */,
 				99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */,
-				99F3746A1CADBB93000DA615 /* copyright.rtf */,
 				99F3746E1CADBBC2000DA615 /* COPYING - curl */,
 				99E6EA921F40931D0030F125 /* OpenSSL - LICENSE */,
 				99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */,
@@ -551,6 +552,9 @@
 				99431DEA1F22213400F5A2D4 /* images_osx */,
 				99B5DE4F1F4A228400674C05 /* images_linux */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
+				996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */,
+				996FC5821F8ABDE800E08812 /* introduction.rtf */,
+				99F3746A1CADBB93000DA615 /* copyright.rtf */,
 				99E6EA971F40EC300030F125 /* IsTool */,
 				99AEEE621F3CF6A800E4D4D0 /* libcurl.4.dylib */,
 				997646E11A61D1FA00FB9B33 /* src */,

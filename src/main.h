@@ -377,7 +377,7 @@ public:
 #include "video.h"
 
 #define EMMA_VERSION 1.24
-#define EMMA_SUB_VERSION 33
+#define EMMA_SUB_VERSION 39
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2

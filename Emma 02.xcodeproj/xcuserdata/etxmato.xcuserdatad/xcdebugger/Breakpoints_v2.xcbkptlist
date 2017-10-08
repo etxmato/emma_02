@@ -15,7 +15,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2738"
             endingLineNumber = "2738"
-            landmarkName = "Main::checkUpdateEmma()"
+            landmarkName = "Main::updateEmma()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -31,7 +31,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3362"
             endingLineNumber = "3362"
-            landmarkName = "Main::onReInstallData(wxCommandEvent&amp;WXUNUSED(event))"
+            landmarkName = "Main::copyTree( wxFileName* source, wxFileName* destination )"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -46,9 +46,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3392"
-            endingLineNumber = "3392"
-            landmarkName = "Main::copyTree( wxFileName* source, wxFileName* destination )"
-            landmarkType = "7">
+            endingLineNumber = "3392">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -63,7 +61,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "3410"
             endingLineNumber = "3410"
-            landmarkName = "Main::copyTree( wxFileName* source, wxFileName* destination )"
+            landmarkName = "Main::onDeleteConfiguration(wxCommandEvent&amp; event)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,7 +93,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1706"
             endingLineNumber = "1706"
-            landmarkName = "Main::Main(const wxString&amp; title, const wxPoint&amp; pos, const wxSize&amp; size, Mode mode, wxString dataDir, wxString iniDir)"
+            landmarkName = "Main::~Main()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -159,7 +157,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4637"
             endingLineNumber = "4637"
-            landmarkName = "Main::onStart(int computer)"
+            landmarkName = "Main::stopComputer()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
