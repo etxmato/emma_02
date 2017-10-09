@@ -951,6 +951,19 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 	else
 		iniDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
+    if (!wxFile::Exists(iniDirectory_ + "emma_02.ini"))
+    {
+        wxConfigBase *regPointer;
+        regPointer = wxConfigBase::Get();
+        regPointer->SetRecordDefaults();
+        dataDir_ = regPointer->Read("/DataDir", "");
+        if (wxFile::Exists(dataDir_ + "emma_02.ini"))
+        {
+            if (wxCopyFile(dataDir_ + "emma_02.ini", iniDirectory_ + "emma_02.ini"))
+                wxRemoveFile (dataDir_ + "emma_02.ini");
+        }
+    }
+            
     wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", iniDirectory_ + "emma_02.ini");
     wxConfigBase::Set(pConfig);
     configPointer = wxConfigBase::Get();
@@ -1645,25 +1658,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     
     if (mode_.gui)
         buildConfigMenu();
-
-    wxDir checkDirForFiles;
-    bool dataDirEmpty = true;
-    if (wxDir::Exists(dataDir_))
-    {
-        checkDirForFiles.Open(dataDir_);
-        if (checkDirForFiles.HasFiles() || checkDirForFiles.HasSubDirs())
-            dataDirEmpty = false;
-    }
-
-    if (dataDirEmpty)
-    {
-        if (!wxDir::Exists(dataDir_))
-            wxDir::Make(dataDir_);
-        
-        int answer = wxMessageBox("1802 Software directory is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
-        if (answer == wxYES)
-            reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_);
-    }
 
 	this->connectKeyEvent(this);
 
@@ -2794,7 +2788,7 @@ void Main::buildConfigMenu()
     if (!wxDir::Exists(iniDir_ + "Configurations"))
     {
         wxDir::Make(iniDir_ + "Configurations");
-        reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_);
+        reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_, pathSeparator_);
     }
     
     for (int computer=2; computer<NO_COMPUTER; computer++)
@@ -3294,17 +3288,17 @@ void Main::onReInstallConfig(wxCommandEvent&WXUNUSED(event))
 {
     int answer = wxMessageBox("This will overwrite files in the configuration directory:\n"+iniDir_ + "Configurations" + pathSeparator_+"\n\nContinue to install default configuration files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
-        reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_);
+        reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_, pathSeparator_);
 }
 
 void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
 {
     int answer = wxMessageBox("This will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
-        reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_);
+        reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
 }
 
-void Main::reInstall(wxString sourceDir, wxString destinationDir)
+void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep)
 {
     wxString filename;
 
@@ -3315,16 +3309,16 @@ void Main::reInstall(wxString sourceDir, wxString destinationDir)
     while ( cont )
     {
         if (wxDir::Exists(sourceDir + filename))
-            filename += pathSeparator_;
+            filename += pathSep;
         
         wxFileName source(sourceDir + filename);
         
-        copyTree(&source, &destination);
+        copyTree(&source, &destination, pathSep);
         cont = dir.GetNext(&filename);
     }
 }
 
-bool Main::copyTree( wxFileName* source, wxFileName* destination )
+bool Main::copyTree( wxFileName* source, wxFileName* destination, wxString pathSep)
 {
     // Copy file if it isn't a directory.
     if ( ! wxDir::Exists(source->GetFullPath()) )
@@ -3341,7 +3335,7 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination )
         if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1], 0777, wxPATH_MKDIR_FULL) )
             return false;
 #else
-        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSeparator_, 0777, wxPATH_MKDIR_FULL) )
+        if( ! wxFileName::Mkdir(destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSep, 0777, wxPATH_MKDIR_FULL) )
             return false;
 #endif
     }
@@ -3356,13 +3350,13 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination )
     while ( cont )
     {
         wxString childPath = source->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + filename;
-        wxString newDestinationPath = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSeparator_;
+        wxString newDestinationPath = destination->GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR) + source->GetDirs()[source->GetDirCount() - 1] + pathSep;
 
         wxFileName child;
         
         if ( wxDir::Exists(childPath) )
         {
-            child.Assign( childPath + pathSeparator_);
+            child.Assign( childPath + pathSep);
         }
         else
         {
@@ -3373,7 +3367,7 @@ bool Main::copyTree( wxFileName* source, wxFileName* destination )
         wxFileName newDestination( newDestinationPath );
         
         // Clone it by recursion, whether it's a dir or file.
-        if ( ! copyTree( &child, &newDestination ) )
+        if ( ! copyTree( &child, &newDestination, pathSep ) )
             // If this fails, bug out.
             return false;
         

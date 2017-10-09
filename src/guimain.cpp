@@ -71,6 +71,25 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 
+    wxDir checkDirForFiles;
+    bool dataDirEmpty = true;
+    if (wxDir::Exists(dataDir_))
+    {
+        checkDirForFiles.Open(dataDir_);
+        if (checkDirForFiles.HasFiles() || checkDirForFiles.HasSubDirs())
+            dataDirEmpty = false;
+    }
+    
+    if (dataDirEmpty)
+    {
+        if (!wxDir::Exists(dataDir_))
+            wxDir::Make(dataDir_);
+        
+        int answer = wxMessageBox("1802 Software directory is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+        if (answer == wxYES)
+            p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+    }
+    
 	playBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_black.png", wxBITMAP_TYPE_PNG);
 	playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
 

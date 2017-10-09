@@ -854,8 +854,8 @@ public:
     void onDataDir(wxCommandEvent& event);
     void onReInstallConfig(wxCommandEvent& event);
     void onReInstallData(wxCommandEvent& event);
-    void reInstall(wxString source, wxString destination);
-    bool copyTree( wxFileName* source, wxFileName* destination );
+    void reInstall(wxString source, wxString destination, wxString pathSep);
+    bool copyTree( wxFileName* source, wxFileName* destination, wxString pathSep);
     void onConfiguration(wxCommandEvent& event);
     void onDeleteConfiguration(wxCommandEvent& event);
 	void onHome(wxCommandEvent& event);
