@@ -987,12 +987,6 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 #endif
 #if defined (__WXMSW__)
 	dataDir_ = configPointer->Read("/DataDir", wxStandardPaths::Get().GetUserDataDir() + pathSeparator_);
-//	dataDir_ = wxStandardPaths::Get().GetDocumentsDir();
-//	if (dataDir_.Right(9) == "Documents" || dataDir_.Right(12) == "My Documents")
-//		dataDir_ = dataDir_.Left(dataDir_.Len() - 12) + "Emma 02" + pathSeparator_;
-//	else
-//		dataDir_ = dataDir_ + pathSeparator_;
-//    dataDir_ = configPointer->Read("/DataDir", dataDir_);
 	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
 
