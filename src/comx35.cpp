@@ -239,28 +239,6 @@ Byte Comx::in()
 {
 	Byte ret;
 
-/*	if (comxKeyFileOpened_ && !fAndMBasicRunning_)
-	{
-		if (comxKeyFile_.Read(&keyboardCode_, 1) == 0)
-		{
-			comxKeyFileOpened_ = false;
-			comxKeyFile_.Close();
-		}
-		else
-		{
-			if (keyboardCode_ == 13) keyboardCode_ = 128;
-			if (keyboardCode_ == 10 && lastKeyCode_ == 128) keyboardCode_ = 0;
-			if (keyboardCode_ == 0xb6)  keyboardCode_ = 1;
-			if (keyboardCode_ >= 'A' && keyboardCode_ <= 'Z')
-				keyboardCode_ += 32;
-			else
-				if (keyboardCode_ >= 'a' && keyboardCode_ <= 'z')
-					keyboardCode_ -= 32;
-
-			lastKeyCode_ = keyboardCode_;
-		}
-	}*/
-
 	if (p_Main->isDiagOn(COMX) == 1)
 	{
 		switch (keyboardCode_)
@@ -277,21 +255,16 @@ Byte Comx::in()
 	keyboardEf3_ = 1;
 	ret = keyboardCode_;
 
-	wxMutexGuiEnter();
+//	wxMutexGuiEnter();
 	if (wxGetKeyState(previousKeyCode_))
 	{
 		keyboardEf2_ = 0;
 	}
-	wxMutexGuiLeave();
+//	wxMutexGuiLeave();
 	switch(ret)
 	{
 		case '@':ret = 0x20; break;
-//		case '!':ret = 0x21; break;
-//		case '"':ret = 0x22; break;
 		case '#':ret = 0x23; break;
-//		case '$':ret = 0x24; break;
-//		case '%':ret = 0x25; break;
-//		case '&': ret = 0x26; break;
 		case '\'': ret = 0x27; break;
 		case '[':ret = 0x28; break;
 		case ']':ret = 0x29; break;
