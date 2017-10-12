@@ -1628,10 +1628,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		xTextPointer = XRCCTRL(*this,"X", wxTextCtrl);
 		tTextPointer = XRCCTRL(*this,"T", wxTextCtrl);
 
-//		assemblerWindowPointer = XRCCTRL(*this,"AssemblerWindow", wxTextCtrl);
-//		disassemblerWindowPointer = XRCCTRL(*this,"DisassemblerWindow", wxTextCtrl);
         traceWindowPointer = XRCCTRL(*this,"TraceWindow", wxTextCtrl);
-//		inputWindowPointer = XRCCTRL(*this,"InputWindow", wxTextCtrl);
 		assInputWindowPointer = XRCCTRL(*this,"AssInputWindow", wxTextCtrl);
 		assErrorWindowPointer = XRCCTRL(*this,"AssErrorMultiLine", wxTextCtrl);
 		breakPointWindowPointer = XRCCTRL(*this,"BreakPointWindow", wxListCtrl);
@@ -4567,7 +4564,7 @@ void Main::onStart(int computer)
     {
         XRCCTRL(*this, "Message_Window", wxTextCtrl)->Clear();
         vuPointer->Start(100, wxTIMER_CONTINUOUS);
-#ifdef __WXMAC__
+#if defined(__WXMAC__) || defined(__linux__)
         traceTimeoutPointer->Start(100, wxTIMER_CONTINUOUS);
 #endif
         cpuPointer->Start(1000, wxTIMER_CONTINUOUS);
@@ -6387,7 +6384,7 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 		switch (debuggerChoice_)
 		{
 			case TRACETAB:
-				if (percentageClock_ == 1)
+                if (percentageClock_ == 1)
 					p_Main->updateWindow();
 			break;
 

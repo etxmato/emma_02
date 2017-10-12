@@ -353,10 +353,7 @@ public:
 protected:
 	void trace();
 
-//	wxTextCtrl *assemblerWindowPointer;
-//	wxTextCtrl *disassemblerWindowPointer;
     wxTextCtrl *traceWindowPointer;
-//	wxTextCtrl *inputWindowPointer;
 	wxTextCtrl *assInputWindowPointer;
 	wxTextCtrl *assErrorWindowPointer;
 	wxListCtrl *breakPointWindowPointer;

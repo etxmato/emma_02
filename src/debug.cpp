@@ -1711,54 +1711,26 @@ void DebugWindow::updateWindow()
 void DebugWindow::debugTrace(wxString buffer)
 {
 	if (!debugMode_)  return;
-#if defined(__WXMAC__)
+#if defined(__WXMAC__) || defined(__linux__)
 	traceString_ = traceString_ + buffer + "\n";
 #else
-#if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 	traceWindowPointer->AppendText(buffer+"\n");
-#if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
 #endif
 }
 
 void DebugWindow::chip8DebugTrace(wxString buffer)
 {
 	if (!chip8DebugMode_)  return;
-#if defined(__WXMAC__)
+#if defined(__WXMAC__) || defined(__linux__)
     chipTraceString_ = chipTraceString_ + buffer;
     if (!additionalChip8Details_)
         chipTraceString_ = chipTraceString_ + "\n";
 #else
-#if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
     chip8TraceWindowPointer->AppendText(buffer);
     if (!additionalChip8Details_)
         chip8TraceWindowPointer->AppendText("\n");
-#if defined(__linux__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
 #endif
 }
-/*
-void DebugWindow::assemblerDisplay(wxString buffer)
-{
-	assemblerWindowPointer->AppendText(buffer);
-	assemblerWindowPointer->AppendText("\n");
-}*/
-/*
-void DebugWindow::disassemblerDisplay(wxString buffer)
-{
-	disassemblerWindowPointer->AppendText(buffer);
-	disassemblerWindowPointer->AppendText("\n");
-}*/
 
 void DebugWindow::deleteBreakPoint(wxListEvent&event)
 {
@@ -7100,42 +7072,6 @@ void DebugWindow::onLog(wxCommandEvent& WXUNUSED(event))
 	}
 	traceWindowPointer->SaveFile(fileName);
 }
-/*
-void DebugWindow::onDebugDisLog(wxCommandEvent& WXUNUSED(event))
-{
-//	wxSetWorkingDirectory (workingDir_);
-	int num = 0;
-	wxString fileName, number;
-
-	fileName = wxFileSelector( "Select the log file to save",
-                               debugDir_, "disassembler.log",
-                               "log",
-                               wxString::Format
-                              (
-                                   "Dump File (*.log)|*.log|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                               ),
-                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                               this
-                              );
-
-	if (!fileName || fileName.empty())
-		return;
-
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	wxString name = FullPath.GetName();
-	wxString path = FullPath.GetPath();
-	wxString ext = FullPath.GetExt();
-
-	while(wxFile::Exists(fileName))
-	{
-		num++;
-		number.Printf("%d", num);
-		fileName = path + pathSeparator_ + name + "." + number + "." + ext;
-	}
-	disassemblerWindowPointer->SaveFile(fileName);
-}*/
 
 void DebugWindow::onDebugDisChip8(wxCommandEvent& WXUNUSED(event))
 {
