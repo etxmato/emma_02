@@ -1481,7 +1481,7 @@ void Comx::cpuInstruction()
 
 void Comx::charEvent(int keycode)
 {
-	if (keyboardEf3_ == 0)  return;
+//	if (keyboardEf3_ == 0)  return;
 
 	keyboardCode_ = keycode;
 	keyboardEf3_ = 0;
@@ -1489,7 +1489,7 @@ void Comx::charEvent(int keycode)
 
 bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-	if (keyboardEf3_ == 0)  return true;
+//	if (keyboardEf3_ == 0)  return true;
 	previousKeyCode_ = (wxKeyCode) keycode;
 
  	switch(keycode)
