@@ -1,0 +1,15 @@
+<HTML>
+<Title>ROM Files</Title>
+<BODY>
+<h2>ROM Files</h2>
+<p>
+To run the COMX emulator at least the COMX basic ROM file should be specified in the 'ROM' field. Default COMX ROM location is the Comx directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) and the default filename is 'comx35.1.1.bin' which is already filled in. To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+Similar as for the basic ROM the <a href="ComxExpansion.htm">Expansion Box</a> ROM can be specified via 'EXP ROM' and other interface card ROM files via 'CARD' 1 to 4. The expansion ROM will simulate the COMX expansion box allowing up to 4 interface cards.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>

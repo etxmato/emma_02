@@ -1,0 +1,51 @@
+
+<HTML>
+<Title>Super Board</Title>
+<BODY>
+<h2>Super Board</h2>
+<p>
+For more information about the Super Board (SB) project please see our <a href="http://www.comx35.com/superboard.html">COMX Super Board</a> page.
+</p>
+<p>
+To run the COMX emulator with the Super Board, select the SB checkbox (default setting). This will disable the ROM, EXP ROM and CARD 4 fields as they are now controlled by the SB settings.
+</p>
+<p>
+The SB ROM files can be controlled and changed via the SB 'SET-UP' button, under the ROM Files tab. In principle these do not need to be changed.
+</p>
+<h3>Settings</h3>
+<p>
+To open the Super Board Settings window press the SB 'SET-UP' button. The settings window contains 4 tabs as described in following sub chapters.
+</p>
+<p>
+All tabs contains a 'Save All' button, make sure to press any of these to save changes made.
+</p>
+<h4>Online</h4>
+<p>
+Define the Player name and location as used in the USB HSWEB command. Note that the maximum length of both player name and location is 25 characters and the following characters are not allowed and will be ignored: # ~ ; :.
+</p>
+<p>
+Home page and bookmark fields are used by the USB BROWSER command and can be shown on the COMX by pressing the &#8216;H&#8217; or 0 to 9 keys during a browser session. Max length of these fields is 126 characters.
+</p>
+<h4>USB</h4>
+<p>
+Root &#8211; Either use the &#8216;Root&#8217; button or change the path manually to change the root directory seen from the COMX. The selected root is the highest directory level that can be accessed by the COMX. This is either shown as directory  or top-directory on the COMX (depending on &#8216;Show to directory in USB CD&#8217; setting)
+</p>
+<p>
+Show top directory in USB CD &#8211; Select Yes / No, &#8216;No&#8217; will show the root directory as , &#8216;Yes&#8217; will show the root directory as top-directory (i.e. Comx when the default root folder is used).
+</p>
+<p>
+Case conversion &#8211; These settings are only used if USB CHAR(0), normal COMX character set or USB CHAR(1), lower case &#8216;default&#8217; standard COMX characters on &#8216;SHIFT&#8217; are selected. USB CHAR(0) is set as default. For these character sets the USB SW will convert any filename or directory name as specified: in lower case, upper case or capitalized. Default all filenames will be in lower case and directory names capitalized. When USB CHAR(2) or (3) are used the capitalization is as typed on the COMX.
+</p>
+<p>
+Back-up &#8211; Select Yes / No, &#8216;Yes&#8217; will result in creation of a back-up file for the specified commands with the format &#8216;nameNumber.type.bak&#8217;. So when saving a file &#8216;happiehap.comx&#8217; the first back-up file created will be named happiehap1.comx.bak, second happiehap2.comx.bak etc. &#8216;No&#8217; will result in a question on the COMX to overwrite the file Y/N when the file already exist on the PC.
+</p>
+<h4>ROM files</h4>
+<p>
+SB ROM file details, not recommended to be changed.
+</p>
+<h4>Backup</h4>
+<p>
+The Backup tab shows all back-up (.bak) files in the specified root directory (and if selected sub directories). Pressing &#8216;Yes&#8217; will delete all these files.
+</p>
+</BODY>
+</HTML>

@@ -1,0 +1,37 @@
+<html>
+<title>Fixed Point Basic</title>
+<body>
+<h1>Fixed Point Basic</h1>
+<p>
+Default the VIP emulator will start up with Fixed Point Basic (FPB) loaded. In this configuration the VIP is started with 7 VP570 boards, i.e. 32 KB RAM as well as the VP590 color board and of course ASCII keyboard support.
+</p>
+<p>
+Two versions of FPB are included in Emma 02:
+<UL>
+<LI>fbb.bin: original FPB
+<LI>fpb_color.bin: color version of FPB
+</UL>
+</p>
+<p>
+Both files include the (original) boot loader from 0 to FF. The bootloader is also included as a stand alone file (fpb_bootloader.bin). On startup the VIP will run the bootloader where:
+<UL>
+<LI>Key 1: Jump directly to FPB. 
+<LI>Hold 'B' while switching to 'RUN' (F12): "Tape Read", this isn't needed in Emma 02 as FPB is alread loaded via the fpb.bin or fpb_color.bin file.
+<LI>hold 'F' while switching to 'RUN' (F12): "Tape Write", allows user to make a copy of FPB 0100h - 3FFFh.
+</UL>
+</p>
+<p>
+It is possible to change FPB to skip the bootloader on startup by changing the following bytes:
+<pre>
+Original:	Mod:    
+0008: 62	0008: 30
+0009: 0B	0009: 1A
+0012: 62	0012: 30
+0013: 01	0013: 1A
+</pre>
+FPB only allows 32K of RAM (Due to the VIP ROM using all addresses above 8000h). The bootloader included is set to 32K. If you would like to use less RAM you need to alter the following addresses in the fpb-rom and/or fpb_color.rom files:
+<pre>
+1Ch - High byte of available RAM size (7Fh for 32K)
+1Fh - Low  byte of available RAM size (FFh for 32K)
+</pre>
+</body></html>

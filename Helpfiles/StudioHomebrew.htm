@@ -1,0 +1,367 @@
+
+<html>
+<title>Homebrew</title>
+<body>
+<h2>Homebrew</h2>
+<p>
+This chapter includes short instructions for most included 'homebrew' st2 files, in some cases more complete instructions can be found in the game folder. These instructions need 'Auto Arcade Key Definition' selected which is the default setting. For more details about arcade keys see chapter Arcade Mapping in <a href="MainHexKeyMap.htm">Key Mapping</a>.
+</p>
+<p>
+Definitions below assume you are using a numeric keypad and have selected menu item 'Settings / Use Numeric Keypad'. If this option is not selected correct key is indicated in (). Note that for player B keys W, A, S, Z for directions and TAB for fire will work both with and without the 'Use Numeric Keypad' setting selected.
+</p>
+<h3>Asteroids</h3>
+<p>
+Freeware game developed by Paul Robson.
+</p>
+<p>
+Keys definition:<br>
+5: start level<br>
+Arrow up: move<br>
+Arrow left: left<br>
+Arrow right: right<br>
+Space: fire
+</p>
+<h3>Berzerk</h3>
+<p>
+Freeware game developed by Paul Robson.
+</p>
+<p>
+Keys definition:<br>
+5: Start level<br>
+Arrow keys: Move in 8 directions (pressing two arrow key simultaneously will move diagonal).<br>
+Space (and arrow key): Fire in walking direction
+</p>
+<h3>Climber</h3>
+<p>
+Developed by Lee Romanow.
+</p>
+<p>
+To start press:<br>
+3: Novice<br>
+4: Standard<br>
+5: Advanced<br>
+6: Expert<br>
+</p>
+<p>
+To move up, left or right use the arrow keys.
+</p>
+<h3>Combat</h3>
+<p>
+This is a version of the Atari 2600 game "Combat" for 2 players designed by Paul Robson. This game has 256 different game types (well probably about 80 or so, some of them are duplicates). 
+</p>
+<p>
+Options include a tank or plane game, slow or fast missiles, short and long range missiles and various playing areas. And some weird mixes.
+</p>
+<p>
+<b>Keys for Player A:</b><br>
+Arrow left: left<br>
+Arrow right: right<br>
+Arrow up: Forward or speed up on plane variation<br>
+Arrow down: backward or speed down plane variation<br>
+Space: fire
+</p>
+<p>
+<b>Keys for Player B:</b><br>
+Numpad 4 (A): left<br>
+Numpad 6 (S): right<br>
+Numpad 8 (W): Forward or speed up on plane variation<br>
+Numpad 2 (Z): down: backward or speed down plane variation<br>
+Numpad 0 (TAB): fire
+</p>
+<p>
+<b>Starting:</b><br>
+The game will display G? in the middle of the screen. Enter the code of the game you want to play (using keys 0 to 9). After giving the game code press Numpad 0 (TAB) to start the game.
+</p>
+<p>
+The winner is the first person to score 9 hits. Collision with everything is fatal.
+</p>
+<p>
+A complete list of levels is shown below. Here is how to work out your level. Start with zero. Then.....
+</p>
+<p>
+- add 128 for the plane game (otherwise tank game)<br>
+- add 64 for long range missiles (otherwise short range)<br>
+- add 32 for slow missiles (otherwise fast missiles)<br>
+- add 16 for a border around the screen<br>
+- add 8 for the tank defenses<br>
+- add 4 for both the defenses and the in game barriers<br>
+- add 2 for balloons<br>
+- add 1 for mines<br>
+</p>
+<p>
+Note, for the last four only the first named option will work; you cannot have balloons *and* mines (at the moment).
+</p>
+<p>
+Here are the levels the game supports:
+</p>
+<p>
+Game   0 : Tank   :Short range Fast missiles. <br>
+Game   1 : Tank   :Short range Fast missiles. Minefield.<br>
+Game   2 : Tank   :Short range Fast missiles. Balloons.<br>
+Game   4 : Tank   :Short range Fast missiles. Full Terrain.<br>
+Game   8 : Tank   :Short range Fast missiles. Tank Bases.<br>
+Game  16 : Tank   :Short range Fast missiles. Enclosed area.<br> 
+Game  17 : Tank   :Short range Fast missiles. Enclosed area. Minefield.<br>
+Game  18 : Tank   :Short range Fast missiles. Enclosed area. Balloons.<br>
+Game  20 : Tank   :Short range Fast missiles. Enclosed area. Full Terrain.<br>
+Game  24 : Tank   :Short range Fast missiles. Enclosed area. Tank Bases.<br>
+Game  32 : Tank   :Short range Slow missiles.<br>
+Game  33 : Tank   :Short range Slow missiles. Minefield.<br>
+Game  34 : Tank   :Short range Slow missiles. Balloons.<br>
+Game  36 : Tank   :Short range Slow missiles. Full Terrain.<br>
+Game  40 : Tank   :Short range Slow missiles. Tank Bases.<br>
+Game  48 : Tank   :Short range Slow missiles. Enclosed area. <br>
+Game  49 : Tank   :Short range Slow missiles. Enclosed area. Minefield.<br>
+Game  50 : Tank   :Short range Slow missiles. Enclosed area. Balloons.<br>
+Game  52 : Tank   :Short range Slow missiles. Enclosed area. Full Terrain.<br>
+Game  56 : Tank   :Short range Slow missiles. Enclosed area. Tank Bases.<br>
+Game  64 : Tank   :Long range Fast missiles.<br>
+Game  65 : Tank   :Long range Fast missiles. Minefield.<br>
+Game  66 : Tank   :Long range Fast missiles. Balloons.<br>
+Game  68 : Tank   :Long range Fast missiles. Full Terrain.<br>
+Game  72 : Tank   :Long range Fast missiles. Tank Bases.<br>
+Game  80 : Tank   :Long range Fast missiles. Enclosed area. <br>
+Game  81 : Tank   :Long range Fast missiles. Enclosed area. Minefield.<br>
+Game  82 : Tank   :Long range Fast missiles. Enclosed area. Balloons.<br>
+Game  84 : Tank   :Long range Fast missiles. Enclosed area. Full Terrain.<br>
+Game  88 : Tank   :Long range Fast missiles. Enclosed area. Tank Bases.<br>
+Game  96 : Tank   :Long range Slow missiles.<br>
+Game  97 : Tank   :Long range Slow missiles. Minefield.<br>
+Game  98 : Tank   :Long range Slow missiles. Balloons.<br>
+Game 100 : Tank   :Long range Slow missiles. Full Terrain.<br>
+Game 104 : Tank   :Long range Slow missiles. Tank Bases.<br>
+Game 112 : Tank   :Long range Slow missiles. Enclosed area. <br>
+Game 113 : Tank   :Long range Slow missiles. Enclosed area. Minefield.<br>
+Game 114 : Tank   :Long range Slow missiles. Enclosed area. Balloons.<br>
+Game 116 : Tank   :Long range Slow missiles. Enclosed area. Full Terrain.<br>
+Game 120 : Tank   :Long range Slow missiles. Enclosed area. Tank Bases.<br>
+Game 128 : Plane  :Short range Fast missiles.<br>
+Game 129 : Plane  :Short range Fast missiles. Minefield.<br>
+Game 130 : Plane  :Short range Fast missiles. Balloons.<br>
+Game 132 : Plane  :Short range Fast missiles. Full Terrain.<br>
+Game 136 : Plane  :Short range Fast missiles. Tank Bases.<br>
+Game 144 : Plane  :Short range Fast missiles. Enclosed area. <br>
+Game 145 : Plane  :Short range Fast missiles. Enclosed area. Minefield.<br>
+Game 146 : Plane  :Short range Fast missiles. Enclosed area. Balloons.<br>
+Game 148 : Plane  :Short range Fast missiles. Enclosed area. Full Terrain.<br>
+Game 152 : Plane  :Short range Fast missiles. Enclosed area. Tank Bases.<br>
+Game 160 : Plane  :Short range Slow missiles.<br>
+Game 161 : Plane  :Short range Slow missiles. Minefield.<br>
+Game 162 : Plane  :Short range Slow missiles. Balloons.<br>
+Game 164 : Plane  :Short range Slow missiles. Full Terrain.<br>
+Game 168 : Plane  :Short range Slow missiles. Tank Bases.<br>
+Game 176 : Plane  :Short range Slow missiles. Enclosed area. <br>
+Game 177 : Plane  :Short range Slow missiles. Enclosed area. Minefield.<br>
+Game 178 : Plane  :Short range Slow missiles. Enclosed area. Balloons.<br>
+Game 180 : Plane  :Short range Slow missiles. Enclosed area. Full Terrain.<br>
+Game 184 : Plane  :Short range Slow missiles. Enclosed area. Tank Bases.<br>
+Game 192 : Plane  :Long range Fast missiles.<br>
+Game 193 : Plane  :Long range Fast missiles. Minefield.<br>
+Game 194 : Plane  :Long range Fast missiles. Balloons.<br>
+Game 196 : Plane  :Long range Fast missiles. Full Terrain.<br>
+Game 200 : Plane  :Long range Fast missiles. Tank Bases.<br>
+Game 208 : Plane  :Long range Fast missiles. Enclosed area. <br>
+Game 209 : Plane  :Long range Fast missiles. Enclosed area. Minefield.<br>
+Game 210 : Plane  :Long range Fast missiles. Enclosed area. Balloons.<br>
+Game 212 : Plane  :Long range Fast missiles. Enclosed area. Full Terrain.<br>
+Game 216 : Plane  :Long range Fast missiles. Enclosed area. Tank Bases.<br>
+Game 224 : Plane  :Long range Slow missiles.<br>
+Game 225 : Plane  :Long range Slow missiles. Minefield.<br>
+Game 226 : Plane  :Long range Slow missiles. Balloons.<br>
+Game 228 : Plane  :Long range Slow missiles. Full Terrain.<br>
+Game 232 : Plane  :Long range Slow missiles. Tank Bases.<br>
+Game 240 : Plane  :Long range Slow missiles. Enclosed area. <br>
+Game 241 : Plane  :Long range Slow missiles. Enclosed area. Minefield.<br>
+Game 242 : Plane  :Long range Slow missiles. Enclosed area. Balloons.<br>
+Game 244 : Plane  :Long range Slow missiles. Enclosed area. Full Terrain.<br>
+Game 248 : Plane  :Long range Slow missiles. Enclosed area. Tank Bases.
+</p>
+<h3>Graphics Computer</h3>
+<p>
+To start the 'Graphics Computer' (a DIY ROM cartridge to convert the RCA Studio II to a graphics Computer) select the CART file 'computer.st2' en start the Studio II.
+</p>
+<p>
+For more information about this cartridge see the file 'StudioII.rar' on the yahoo <a href="http://groups.yahoo.com/group/rcacosmac/">RCA COSMAC VIP</a> Group.
+</p>
+<p>
+After start-up four modes may be selected (using keys 1 to 4), see chapters below.
+</p>
+<p>
+When you have completed your entries in one mode and wish to switch to another mode, press numpad 0. DO NOT PRESS RESET. Pushing RESET will destroy part of the program you have just entered!
+</p>
+<p>
+After numpad 0 has been released, you may select the next mode. Pressing numpad 0 also casuses the control program to store most of the 1802 internal 16 bit registers in memory so they can be examined using the memory read mode. This is very useful when trying to debug a program.
+</p>
+<p>
+All registers except R0, R1, R2 and R8 are stored in the RAM at addresses 09B3 to 09CF. The last digit of the address is the register number, if the third address digit is B, it's the lower order register address. For example, 09B5 contains the contents of 1802 register R5.0. While 09C5 contains the contents of register R5.1.
+</p>
+<h4>Load Mode (key 1)</h4>
+<p>
+When key 1 is pressed, the Studio II waits for the starting address of the program you intend to load. You enter this address in hex notation. Using keys 0 to 9 for digits 0 to 9 and numpad 1 to 6 for A to F (A=numpad 1, B=numpad 2, C=numpad 3, D=numpad 4, E=numpad 5, F=numpad 6). The address will be displayed on the screen. The normal start address is 0800, and your program can normally extend from there to address 08FB. There is also RAM from address 0900 to 09FF: this RAM is normally bit mapped onto the display, but may be used for program storage if your program doesn't need a full display. 
+</p>
+<p>
+After you enter the four digit start address, you next enter the first byte of the program. Then continue to key in your code one byte after another, until you're done. You'll notice that the address display automatically increments itself as you enter each byte, and that each data byte is displayed as it is entered.
+</p>
+<h4>Memory-Read Mode (key 2)</h4>
+<p>
+When key 2 is pressed, enter the address of the memory location you wish to examine. Pressing any key (0 to 9) will then display the byte stored at that location.
+</p>
+<p>
+Continuing to press any key (0 to 9) will sequentially step through memory, displaying its contents and incrementing the address display at the same time.
+</p>
+<h4>Run Mode (key 3)</h4>
+<p>
+The program that has just been loaded can be run by pressing key 3 and then entering the four digit start address of the program. The program will start runnng as soon as the last digit of the start address has been entered, and will use R9 as the program counter.
+</p>
+<h4>ShiftMode (key 4)</h4>
+<p>
+Suppose you have loaded a program and then want to add several bytes in the middle of it. Pressing key 4 and the entering a four digit start address will allow you to shift the entire program, beginning with this address, one location higher in memory. The shifting is done by pressing either key 8 or key 9. Press key 8 to shift page 8 (0800-08FB) or press 9 to shift page 9 (0900-09FF). Each key press will shift the entire program after the shift start address one location higher in memory.
+</p>
+<h3>Hockey</h3>
+<p>
+This is an improved tennis game designed by Paul Robson for the RCA Studio II. 
+</p>
+<p>
+<b>Keys for Player A:</b><br>
+Arrow up: up<br>
+Arrow down: down<br>
+Space: serve
+</p>
+<p>
+<b>Keys for Player B:</b><br>
+Numpad 8 (W): up<br>
+Numpad 2 (Z): down<br>
+Numpad 0 (TAB): serve
+</p>
+<p>
+<b>Start:</b><br>
+1: Hockey <br>
+2: Soccer (or doubles tennis)<br>
+3: Pong<br>
+4: Squash<br>
+<b>then</b><br>
+8: Easy<br>
+9: Hard<br>
+</p>
+<h3>Kaboom</h3>
+<p>
+Freeware game developed by Paul Robson based on the Atari 2600 classic.
+</p>
+<p>
+Keys definition:<br>
+Arrow left: left<br>
+Arrow right: right<br>
+Space: start
+</p>
+<h3>Outbreak</h3>
+<p>
+Developed by Lee Romanow.
+</p>
+<p>
+To start press:<br>
+0: Novice<br>
+1: Standard<br>
+2: Advanced<br>
+3: Expert<br>
+</p>
+<p>
+To move up your reflector press arrow left or right, for double speed press left/numpad 4 (A) or right/Numpad 6 (S) simultaneously. Once the game is over press space to play again.
+</p>
+<h3>Pacman</h3>
+<p>
+Freeware game developed by Paul Robson.
+</p>
+<p>
+Keys definition:<br>
+Arrow up: up<br>
+Arrow left: left<br>
+Arrow right: right<br>
+Arrow down: down<br>
+Space: start
+</p>
+<p>
+The controls are very much directional in the way that Pacman was, i.e. it is used to change direction not to fix a direction.
+</p>
+<p>
+It has most of the standard features of Pacman but none of the fancy bits either down to memory or video resolution or processor time. There are no bonus lives for reaching 10,000 points (or whatever). If you lose a life you have to start again with the whole maze filled in.
+</p>
+<h3>Rocket</h3>
+<p>
+Conversion of the game written by Joseph Weisbecker, published in Byte magazine (1978)
+</p>
+<p>
+Press 1 or TAB to start and space to fire a rocket. After 9 rockets press reset to play again.
+</p>
+<h3>Scramble</h3>
+<p>
+Freeware game developed by Paul Robson.
+</p>
+<p>
+Keys definition:<br>
+TAB, 6 or numpad 6: start level<br>
+Arrow up: up<br>
+Arrow down: down<br>
+Arrow left: break<br>
+Space: fire
+</p>
+<p>
+At the start it displays G?. Press 2 for easy, 4 for medium, 6 for hard.
+</p>
+<p>
+You will need to refuel periodically by shooting/bombing fuel dumps.
+</p>
+<h3>Space Invaders</h3>
+<p>
+This is a "Space Invaders" game designed by Paul Robson for the RCA Studio II.  
+</p>
+<p>
+There are 4 rows of 8 invaders; and no mother-ship (due to screen space restrictions (invader rows) and memory restrictions (mother-ship).
+</p>
+<p>
+<b>Keys:</b><br>
+Arrow left: left<br>
+Arrow right: right<br>
+Space: fire<br>
+TAB: restart<br>
+</p>
+<h3>Tv arcade 2012</h3>
+<p>
+Developed by Lee Romanow.
+</p>
+<h4>Craps</h4>
+<OL>
+<LI>To start press 1.
+<LI>A pair of numbers are shown on the screen. The number on the left represents the sum of two dice, the number on the right is money in the players wallet.
+<LI>To place your bet, press a non-zero key (1 to 9) which corresponds to a bet from $1.00 to $9.00. The dice will automatically be thrown.
+<LI>If the total on this First roll is 7 or 11, you win the amount of your bet. If the total is 2, 3 or 12, you lose your bet. In either case there is long series of beeps to indicate the end of the round, and the player's wallet is updated. If you rolled 4, 5, 6, 8, 9 or 10, the round continues, re-rolling the dice by pressing any non-zero key on keyboard A until you roll the same number (winning twice your bet), or lose by rolling 7. The end of the round will be marked by a long series of beeps, and an update to the player's funds.
+<LI>If the balance of the player's wallet is above $0.00, the game continues from step 3. If the balance is $0.00, the game is over. You can play a new game by pressing space or numpad 1.
+</OL>
+<h4>Moon Lander</h4>
+<OL>
+<LI>To start press 2.
+<LI>Distance to the surface, downward velocity, and available fuel are shown as three numbers on the screen; distance (x) on the left, velocity (v) in the center, and fuel (f) on the right.
+<LI>Each turn you burn from 0 to 9 units of fuel by pressing that number (key 0 to 9). If you request more fuel than you actually have, the computer will burn what is available.
+<LI>The computer calculates the new values for x, v and f, and updates the display. While x is greater than 0, the game continues from step 3. When x reaches 0, the lander is on the surface and the game is over. You win if the final value of v is not higher than 5. You can play a new game by pressing space or numpad 1.
+</OL>
+<h4>Repeat After Me</h4>
+<OL>
+<LI>To start press 3.
+<LI>The game starts with the computer playing the random sequence. Numbers momentarily appear near the center of the screen, accompanied by a beep sound. Try to memorize the order of the numbers as they play. When finished, the computer waits for the response.
+<LI>Now replay the number sequence, using keys 1, 2, 3 and 4. The computer checks the entries as you make them. If replayed correctly, another number is added to the series, and the game continues from step 2. If you make a mistake, the game ends with a long series of beeps, and your score is displayed on the screen. If you successfully memorize a sequence of 25 digits, the game ends with a perfect score.
+<LI>Once the game is over, you can play a new game by pressing space or numpad 1.
+</OL>
+<h4>Space Rescue</h4>
+<OL>
+<LI>To start press 4.
+<LI>Randomly placed asteroids scroll down from the top of the screen. Try to avoid hitting the asteroids for as long as possible. Steer the space ship with left/right arrow keys. You are not allowed to move past the edges of the screen. 
+<LI>If the ship collides with an asteroid, a long series of beeps will be heard and the game is over. You can play a new game by pressing space or numpad 1.
+</OL>
+<h4>Nim</h4>
+<OL>
+<LI>To play Nim 1 (last stone loses), press 5 or to play Nim 2 (last stone wins), press 6.
+<LI>The computer displays 3 rows of numbers on the screen. The top row shows the number of games each player has won, player 1 score on the left, player 2 on the right. The middle row shows the number of stones in the pile, and the bottom row indicates whose turn it is. Each players keyboard is active only during their turn.
+<LI>Player 1 has the first turn in a new game. In each turn, 1 to 3 stones is removed from the pile by pressing that number on the active keyboard. The pile is updated, and then the other player's turn begins. You can reset the game (including scores) by pressing 0.
+<LI>Players alternate turns until the last stone is taken, ending the game. The winner scores a point, and the computer sets up a new game where the loser of the previous game takes the first turn.
+</OL>
+</body>
+</html>

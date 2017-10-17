@@ -1,0 +1,135 @@
+<HTML>
+<Title>MicroDos and Software</Title>
+<BODY>
+<h2>MicroDos and Software</h2>
+<h3>MicroDos</h3>
+<p>
+To start MicroDos first select 'microdos.img' as FDC 0 (or MICRODOS or Software as HD directory), start the MS2000 and the UT71 startup message and prompt should show on the terminal. Press L or B 0 and MicroDos will be loaded from FDC 0 (or selected HD directory).
+</p>
+<p>
+To return to UT71 type U 8000, after this P9000 will restart MicroDos.
+</p>
+<p>
+For some MicroDos software examples see the Software chapter below, for more details about MicroDos commands see the RCA MPM-241 manual.
+</p>
+<p>
+Note 1: The MicroDos comands PERTEC and PROM25 are NOT supported in Emma 02. 
+</p>
+<p>
+Note 2: When using the HD Directory option commands DIAG, EXAM, FORMAT, FREE, SUBMIT and SYSGEN;E are also NOT supported. 
+</p>
+<h3>Software</h3>
+<p>
+This chapter is not a PLM or BASIC manual it just shows some examples of how to compile PLM or BASIC as well as how to load and save in the BASIC interpreter. For more details see the RCA MPM-234 Basic 1 Compiler/Interpreter manual and/or the MPM-239A PLM 1800 manual.
+</p>
+<h4>PLM</h4>
+<p>
+Before running the commands below make sure to use the 'HD' configuration, to load this go to 'File/Configuration/Load/HD'. Alternatively set both HD 0 and HD 1 to 'Software'. It is also recommended to use a high clock rate as PLM and ASM8 are rather slow to execute on a 2 MHZ MS2000.
+</p>
+<p>
+This example compiles the HELLO.PLM file resulting in HELLO.CM which can be executed from MicroDos. Reason to use the 'Software' directory both for HD 0 and HD 1 is that ASM8 writes the output (.LST) file back to drive 1 if executed from drive 0. All commands given assume that all files are stored on drive 0 (HD 0) and as such in the 'Software' directory. All input commands are shown in bold.
+</p>
+<p>
+First create the 'assembler' file by compiling the 'PLM' file, this will create a 'HELLO.ASM' and 'HELLO.SYM' file:
+<pre>
+><B>PLM HELLO.PLM</B>
+PLM COMPILER 2.1
+COMPILATION COMPLETE
+</pre>
+Merge the PLMLIB.ASM with the just created HELLO.ASM into TMP.ASM:
+<pre>
+><B>MERGE TMP.ASM PLMLIB.ASM HELLO.ASM</B>
+PLMLIB.ASM MERGED
+HELLO.ASM MERGED
+</pre>
+Assemble the TMP.ASM file into an assemble listing file TMP.LST:
+<pre>
+><B>ASM8 TMP.ASM</B>
+ASM8 VERSION 3.0
+</pre>
+Convert the assembler listing file TMP.LST into a binary object file HELLO.CM:
+<pre>
+><B>CDSBIN TMP.LST HELLO.CM</B>
+</pre>
+Execute the program:
+<pre>
+><B>HELLO</B>
+HELLO
+</pre>
+</p>
+<h4>BASIC COMPILER</h4>
+<p>
+Before running the commands below make sure to use the 'HD' configuration, to load this go to 'File/Configuration/Load/HD'. Alternatively set both HD 0 and HD 1 to 'Software'. It is also recommended to use a high clock rate as PLM and ASM8 are rather slow to execute on a 2 MHZ MS2000.
+</p>
+<p>
+This example compiles the EUPH.BAS file resulting in EUPH.CM which can be executed from MicroDos. Reason to use the 'Software' directory both for HD 0 and HD 1 is that ASM8 writes the output (.LST) file back to drive 1 if executed from drive 0. All commands given assume that all files are stored on drive 0 (HD 0) and as such in the 'Software' directory. All input commands and text are shown in bold.
+</p>
+<p>
+First create the 'assembler' file by compiling the 'BAS' file, this will create a 'EUPH.ASM' file:
+<pre>
+><B>BASIC1.CMP</B>
+BASIC1 COMPILER V2.0 FOR ASM8
+COPYRIGHT RCA CORP.  1982
+SELECT UNITS:
+LIBRARY? <B>BASIC1.LIB</B>
+READ? <B>EUPH.BAS</B>
+WRITE? <B>EUPH.ASM</B>
+ORIGIN? <B>0</B>
+VARS? <B>7000</B>
+STACK? <B>9000</B>
+
+0 ERRORS
+</pre>
+Assemble the EUPH.ASM file into an assemble listing file EUPH.LST:
+<pre>
+><B>ASM8 EUPH.ASM</B>
+ASM8 VERSION 3.0
+</pre>
+Convert the assembler listing file EUPH.LST into a binary object file EUPH.CM:
+<pre>
+><B>CDSBIN EUPH.LST EUPH.CM</B>
+</pre>
+Execute the program:
+<pre>
+><B>EUPH</B>
+THE KINGDOM OF EUPHORIA
+
+DO YOU NEED INSTRUCTIONS (Y OR N)?
+</pre>
+</p>
+<h4>BASIC INTERPRETER</h4>
+<p>
+Before running the commands below make sure to use the 'HD' configuration, to load this go to 'File/Configuration/Load/HD'. Alternatively set both HD 0 and HD 1 to 'Software'. 
+</p>
+<p>
+This example shows how to save and load a program from the BASIC interpreter to disk. All input commands and text are shown in bold.
+</p>
+<p>
+First start the BASIC interpreter:
+<pre>
+><B>BASIC1.INT</B>
+BASIC1 INTERPRETER   V2.0 
+COPYRIGHT RCA CORP.  1982
+</pre>
+Write a short program in BASIC:
+<pre>
+:<B>10 PRINT"HELLO WORLD"</B>
+:<B>10 END</B>
+</pre>
+Save to file PROG.BAS, make sure the specified filename does not exist in the 'Software' directory.
+<pre>
+:<B>DOUT PROG.BAS:LIST 1,10000:PR"END":CLOSE</B>
+</pre>
+Restart BASIC with NEW and load the file back:
+<pre>
+:<B>RFLN</B>
+READ? PROG.BAS
+:DIN
+:
+:
+:
+</pre>
+Note that loading longer programs could take some time so wait until a few prompts are repeated before giving the next command. To leave the BASIC interpreter type RDOS.
+</p>
+</BODY>
+</HTML>

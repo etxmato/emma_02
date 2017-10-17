@@ -1,0 +1,56 @@
+
+<html>
+<title>Chip 8</title>
+<body>
+<h2>Chip 8 Interpreter</h2>
+<p>
+The Studio II chip 8 interpreter was designed by Marcel van Tongeren and is based on the VIP chip 8 interpreter. This interpreter also runs on the Victory MPT-02.
+</p>
+<p>
+To use the chip 8 interpreter in Emma 02 load the configuration 'Chip 8' or 'Multi-Cart' alternatively select 'chip8.bin' as ROM and any chip 8 file as CART.
+</p>
+<p>
+On HW this chip 8 interpreter can run on a Victory MPT-02 with the 40th Anniversary Multi-Cart as designed by FLiP. Due to HW differences of the Victory MPT-02 compared with the VIP there are some limitations:
+<UL>
+<LI>Free RAM is limited to 0x9F bytes. Chip 8 code writing to memory will try to emulate writing to RAM by changing register I to a value within 0xB00 and 0xB9F (addressing Victory MPT-02 memory 0x800-0x89F). This will work for the simplest cases but most SW will need re-coding if RAM is used.
+<LI>Chip 8 size should be lass than 0xB00 bytes.
+<LI>Keys A to F do not exist on a Victory MPT-02, these keys are mapped to keypad two 1 (A) to 6 (F).
+</UL>
+<pre>
+Memory map:
+
+    0 - 0x2FF:  Interpreter
+0x300 - 0x7FF:  Chip 8 SW using an offset of 0x100 
+		mapped to chip 8 memory 0x200 - 0x6FF.
+                i.e. a JP to address 0x200 in chip 8 
+		code will jump to Victory MPT-02  
+		address 0x300.
+0x800 - 0x89F:  RAM free to use by chip 8 SW with an 1
+		offset of 0x300. i.e. to address RAM 
+		register I should contain a value 
+		between 0xB00-0xB9F.
+0x8A0 - 0x8CF:  Chip 8 Stack
+0x8D0 - 0x8EF:  Chip 8 interpreter work area
+0x8F0 - 0x8FF:  Content V0 - VF
+0x900 - 0x9FF:  Display RAM
+0xA00 - 0xBFF:  Not used
+0xC00 - 0xFFF:  Chip 8 SW using an offset of 0x500 
+		mapped to chip 8 memory 0x700 - 0xAFF.
+                i.e. a JP to address 0x700 in chip 8 
+		code will jump to Victory MPT-02  
+		address 0xC00.
+</pre>
+Note: JP or CALL in Studio II chip 8 is not possible to address range 0x800-0xBFF.
+<pre>
+Memory map as seen by the chip 8 interpreter:
+
+0x200 - 0x6FF:  Chip 8 SW stored in Victory MPT-02  
+		memory 0x300 - 0x7FF
+0x700 - 0xAFF:  Chip 8 SW stored in Victory MPT-02 
+		memory 0xC00 - 0xFFF
+0xB00 - 0xB9F:  RAM free to use by chip 8 SW stored 
+		in Victory MPT-02 Memory 0x800 - 0x89F
+</pre>
+</p>
+</body>
+</html>

@@ -1,0 +1,50 @@
+
+<HTML>
+<Title>Real Cassette Support</Title>
+<BODY>
+<h2>Real Cassette Support</h2>
+<p>
+N<B>ote: </B>Real cassette support is currently NOT implemented in the Mac OSX version!
+</p>
+<p>
+To use the Real Cassette Support first make sure a tape player is connected to the audio in (line in or microphone) of the PC. Also check that the connection used is set as the default 'Recording' device in the windows 'Sound' control panel.
+</p>
+<p>
+In the Emma 02 window select the 'Disable / Enable real cassette loading' button (small cassette icon) to show a green 'v'. A green 'v' indicates real cassette loading is enabled, a red 'minus' indicates real cassette loading is disabled and wave file loading will be used instead. When real cassette loading is active the Turbo and Auto load/save features are disabled and deactivated. Wave file saving will still be possible however wave file loading will not be possible until real cassette loading is switched off.
+</p>
+<p>
+After starting the emulated computer, start the tape recorder and use the applicable load command on the emulated computer. 
+</p>
+<p>
+The input volume can be seen on the green and red 'vu meter'. Best results will be achieved if the vu meter does NOT go into red. If it does, lower the cassette player volume or audio input level (via recording device properties in the windows sound control panel)
+</p>
+<p>
+If loading does not work or gives tape errors, try changing one of the settings as described below in the Real Cassette Settings chapter.
+</p>
+<h3>Settings</h3>
+<p>
+Via the 'Settings' drop down menu select 'Wav File and Real Cassette Settings' to change the Real Cassette settings used for loading a cassette program. The following subchapters describe applicable settings in more detail.
+</p>
+<h4>Input channel</h4> 
+<p>
+This selects the left or right cassette player sound channel. Default this is set to the left channel, note that only the left channel has been successfully tested with a real cassette player. Only change this setting if the 'vu meter' does not work when playing a tape. 
+</p>
+<h4>Wav file conversion</h4> 
+<p>
+Only used for wav file loading.
+</p>
+<h4>Cassette conversion</h4> 
+<p>
+Two conversion types can be used:<br>
+1. <B>Amplitude</B>: where the signal is converted to a 1 on positive amplitude and a 0 on a negative amplitude.<br>
+2. <B>Sinus</B>: where the signal is converted to a 1 on an upward sinus and a 0 on a downward sinus
+</p>
+<p>
+Default this is set to 'Sinus' which proved to work with a real COMX tape. Depending on the emulated computer this might need to be changed if loading does not work or gives tape errors.
+</p>
+<h4>Reversed Polarity</h4> 
+<p>
+Switch converted signal polarity (1->0 and 0->1) as described for conversion types above.
+</p>
+</BODY>
+</HTML>

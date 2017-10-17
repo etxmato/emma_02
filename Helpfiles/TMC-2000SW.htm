@@ -1,0 +1,19 @@
+
+<HTML>
+<Title>Pre SW Load</Title>
+<BODY>
+<h2>Pre SW Load</h2>
+<p>
+To run the Telmac 1800 or 2000 emulator with SW loaded before the emulator starts select the SW file in the 'RAM SW' field. To change the location use the 'RAM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+The selected file will be loaded at RAM address 0 (if the file is binary, other formats like intel hex will be loaded at the specified locations). This can for example be used to start the emulator with the chip-8 interpreter loaded. To also load chip-8 SW directly at address @0200 use the 'Chip-8 SW' button. Default the emulator will start with the chip-8 pong game.
+</p>
+<p>
+The Chip-8 interpreter is stored in the TMC1800 or TMC2000 directory and SW is stored in the Chip-8 directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). 
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>

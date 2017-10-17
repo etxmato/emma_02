@@ -1,0 +1,22 @@
+
+<HTML>
+<Title>RAM Size</Title>
+<BODY>
+<h2>RAM Size</h2>
+<p>
+The Cosmicos has 2 different types of RAM: main board RAM and a RAM card.
+</p>
+<p>
+Main board RAM is only 256 bytes and located from address 0000 to 00FF (if no RAM card is used, i.e. 0 Kb) or from address FF00 to FFFF (if a RAM card is specified, i.e. >= 1 Kb).
+</p>
+<p>
+The 2 switches on the main Cosmicos panel will control the main board RAM. When the protect switch is to the right the main board RAM is write protected. When the disable switch is to the right before the Cosmicos is switched off the main board RAM content will be saved to a file. The same file will be loaded when the emulator is started simulating battery back-up RAM.
+</p>
+<p>
+When starting the Cosmicos with main board RAM located at FF00 the memory protect switch will be set to protected. This is to avoid any Cosmicos software detecting RAM above FF00 and subsequently setting the stack pointer to FFFF.
+</p>
+<p>
+To specify the RAM card size of the emulated Cosmicos use the 'RAM Card' spin button. Default setting uses a RAM card size of 48 Kb located from address 0000 to BFFF. 
+</p>
+</BODY>
+</HTML>

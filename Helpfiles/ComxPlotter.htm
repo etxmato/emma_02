@@ -1,0 +1,63 @@
+
+<HTML>
+<Title>PL-80 Plotter Simulation</Title>
+<BODY>
+<h2>PL-80 Plotter Simulation</h2>
+<p>
+To simulate the COMX PL-80 Plotter select f&m.printer.1.1.bin or printer.bin in any available slot (CARD 1 if no expansion box is used).  
+</p>
+<h3>Plotting to File</h3>
+<p>
+To plot to a file select 'File' in the selection box next to the printer output file name. If the indicate plot file already exists a new file is created with a sequence number every time the COMX emulator window is initiated, after a CARD P1 command and/or after a CALL (@C050) to the switch off plotter routine. E.g. if the print file is 'printerout.txt', this file is used the first time, after a CARD P1 and a CARD P4 the file printerout.1.txt' will be created.
+</p>
+<p>
+From the COMX Emulator activate the PL-80 Plotter via the parallel printer commands (see also <a href="ComxPrinter.htm">Parallel Printer Support</a>) or load a '.comx' file from the Plotter directory to start a demo program.
+</p>
+<h3>Plotting to Screen and or Printer</h3>
+<p>
+To plot to an output screen and after this to a real printer select 'Plot' in the selection box next to the printer output file name.  When the COMX is ready with the drawing and a CARD P1 or CALL (@C050) is given the drawing can be send to any connected printer. To start a new plotter drawing close the plotter output screen. After this a new plotter window will be created when the COMX starts the first output to the plotter.
+</p>
+<p>
+To open a plotter window manually press the F4 button or the printer icon on the Emma 02 window before giving plotter commands from the COMX.
+</p>
+<p>
+To switch between Plotter and Printer output press the 'PRINTER &#60-> PLOTTER' button, default is set to plotter.
+</p>
+<p>
+From the Plotter output window it is possible to print towards a real printer by pressing the 'PRINT' button. With the 'PAGE SETUP' button page margins and paper format can be selected. To preview the printout before an actual print use the 'PREVIEW' button.
+</p>
+<p>
+From the COMX Emulator activate the PL-80 Plotter via the parallel printer commands (see also <a href="ComxPrinter.htm">Parallel Printer Support</a>) or load a '.comx' file from the Plotter directory to start a demo program.
+</p>
+<p>
+It is possible to disable the status leds by clicking on one of the leds. This will speed up plotting especially when using higher CPU speeds.
+</p>
+<h3>Character Roms</h3>
+<p>
+The installation includes a rom file (pl80.bin) with the original character font set and 2 additional font roms Italic, Emphasized and Outline (pl80.it.em.ou.bin) and Tiny (pl80.tiny.bin). The first font rom also includes 2 sets designed for use with MSX computers which is of no use with the COMX Emulator. To access the fonts use code '12' and character set:
+</p>
+<pre>
+0. Original PL-80 Pica font (character 32 to 255)</pre>
+<p>
+With the italic font rom selected:
+</p>
+<pre>
+1. Italic font
+2. Emphasized font
+3. Outline font
+4. MSX font (character 1 to 31, by adding 32)
+5. MSX font (character 32 to 255)</pre>
+<p>
+<p>
+With the tiny font rom selected:
+</p>
+<pre>
+1. Tiny font</pre>
+<p>
+An example is also included to print the different character sets, see the file 'Fonts.comx' in the 'Comx/Plotter' directory.
+</p>
+<p>
+For additional PL-80 commands please have a look in the PL-80 folder on the <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a>.
+</p>
+</BODY>
+</HTML>

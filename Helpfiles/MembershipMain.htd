@@ -1,0 +1,20 @@
+<html>
+<title>Membership Card Emulator</title>
+<body>
+<h1>Membership Card Emulator</h1>
+<p>
+This emulator will emulate the Membership Card. Additional information about the Membership Card can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="MembershipRom.htm">ROM and RAM Files</a><br>
+<a href="MembershipRam.htm">Memory</a><br>
+<a href="MembershipNvr.htm">NVR</a><br>
+<a href="MembershipWindows.htm">Control Windows</a><br>
+<a href="MembershipBoot.htm">Boot Method</a><br>
+<a href="MembershipVt100.htm">Video Terminal Simulation</a><br>
+</p>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<HTML>
+<Title>ASCII Monitor</Title>
+<BODY>
+<h2>ASCII Monitor</h2>
+<p>
+VT 100 Setting: Reversed EF4, baudrate 300, 1800, 2000 or 2400. 
+</p>
+<p>
+ROM Filename: ascii.monitor.bin.
+</p>
+<p>
+<B>Note:</B> Memory (M) command does NOT work, the bug might be in the 1802 code or in the Emma 02 emulator.</p>
+</p>
+<h3>Bit-set</h3>
+<p>
+Format: <B>B PD</B>
+</p>
+<p>
+This command will set one bit of a specific output port., P gives the output port number and D the bitnumber. E.g. B 30 will set bit 0 of output port 3 to 1. The same command will reset the same bit to 0.
+</p>
+<h3>Copy</h3>
+<p>
+Format: <B>C start end destination</B>
+</p>
+<p>
+This command will copy the indicated block of memory (start to end) to the destination loaction. The monitor will check if enough RAM is available and if not give an error message. Overlap in the source and destination is handled by the monitor.
+</p>
+<h3>Dump</h3>
+<p>
+Format:<B> D start end </B>or<B> D start end N</B>
+</p>
+<p>
+N is optional or can be '8' or 'A', When no value is given the indicated memory block will be shown in UT4 format. '8' will give a shortened UT4 format with 8 bytes per line. 'A' will show only ASCII characters.
+</p>
+<h3>Find</h3>
+<p>
+Format: <B>F start end hex-string </B>or <B>F start end "ascii-string"</B>
+</p>
+<p>
+This command will search for the hex-string in the indicated memory block. The hex string can be one or more bytes, bytes that do not matter can be indicated with a '/'. E.g. F 4000 8000 C03B// will search for all long branches to 3Bxx in memory location 4000 to 8000.
+</p>
+<p>
+8 locations will be shown after which the monitor will wait for a comman, ESC will return to the monitor any other key will continue the search.
+</p>
+<p>
+ASCII search can be done in the same way by putting the string between double quotes. E.g. F 4000 8000 "EMU".
+</p>
+<h3>Jump</h3>
+<p>
+Format: <B>J address </B>or <B>J</B>
+</p>
+<p>
+This command will jump into a program with R3 = PC, R2 = RX and IE = 0. If no address is given a jump to addresss 0 will be done.
+</p>
+<h3>Program</h3>
+<p>
+Format: <B>P address </B>or <B>P</B>
+</p>
+<p>
+This command will start a program with the same conditions as after a reset or run, R0 = PC and RX and IE = 1. If no address is given address 0 will be used.
+</p>
+<h3>Memory</h3>
+<p>
+Format: <B>M address </B>or <B>M</B>
+</p>
+<p>
+Note: this command does NOT work, the bug might be in the 1802 code or in the Emma 02 emulator.
+</p>
+<p>
+After this command is given memory can be changed at the given address or when omitted at address 0. The current value is shown by the monitor which can be changed by typing a different byte after which the address will be incremented. A space will just move to the next address without making any change. Backspace or DEL will go back one address.
+</p>
+<h3>Register</h3>
+<p>
+Format: <B>R N</B>
+</p>
+<p>
+This command will print register values at entry in the monitor and/or at a breakpoint.
+</p>
+<h3>Test</h3>
+<p>
+Format: <B>T start end</B>
+</p>
+<p>
+This command will test RAM between indicated start and end.
+</p>
+<h3>Write</h3>
+<p>
+Format: <B>W start end hex-srting</B> or <B>W start end "ascii-srting"</B>
+</p>
+<p>
+This command will write the hex-string or ascii-string to the memory between start and end.
+</p>
+<h3>Save</h3>
+<p>
+Format: <B>S start end "name"</B>
+</p>
+<p>
+This command will save the memory block between start and end to tape including the indicated name. 
+</p>
+<h3>Verify</h3>
+<p>
+Format: <B>V "name"</B>
+</p>
+<p>
+This command will verify the recording on tape compared to what is in memory. The recording has to be recorded with the indicated name. If a diferent name is found it will be printed on the screen including start and end addresses, at this time the command can be stoped by ESC and continued by a 'CR'.
+</p>
+<h3>Load</h3>
+<p>
+Format: <B>L "name"</B>
+</p>
+<p>
+This command will load the recording on tape compared to memory. The recording has to be recorded with the indicated name.
+</p>
+</BODY>
+</HTML>

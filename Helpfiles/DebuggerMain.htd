@@ -1,0 +1,30 @@
+</body>
+</html><html>
+<title>Debugger</title>
+<body>
+<h2>Debugger</h2>
+<p>
+The debugger gives you an inside view of what is going on in the Emma 02 emulator. To use the debugger select the 'Debugger' tab.
+</p>
+<p>
+The debugger consists of 5 parts 'Messages' containing information about the current running computer, 'Debug 1802' to perform tracing commands on the 1802 CPU, 'Debug Chip-8' to perform tracing commands on Chip-8 and ST2, 'Memory' to inspect and change the CPU and video memory and 'Assembler' to assemble and disassemble 1802 code or disassemble Chip-8 and ST2, all on the running 1802 computer.
+</p>
+<p>
+Note: None of the settings in the debugger windows are saved in the configuration, so at every start of the Emma 02 emulator all debugger settings are set to default.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="DebuggerAssembler.htm">Direct Assembler</a><br>
+<a href="DebuggerExampleConfig.htm">Program Configuration - Example</a><br>
+<a href="DebuggerExistingCode.htm">Debugging Existing Code - Example</a><br>
+<a href="DebuggerTrace.htm">Debug 1802</a><br>
+<a href="DebuggerChip8.htm">Debug Chip-8</a><br>
+<a href="DebuggerMemory.htm">Memory Dump</a><br>
+<a href="DebuggerSyntax180x.htm">1802, 1804 and 1805 Syntax</a><br>
+<a href="DebuggerSyntaxChip.htm">Chip-8 Syntax</a><br>
+<a href="DebuggerSyntaxSt.htm">ST2 Syntax</a>
+</p>
+</body>
+</html>

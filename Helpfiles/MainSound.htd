@@ -1,0 +1,50 @@
+<HTML>
+<Title>Sound</Title>
+<BODY>
+<h2>Sound</h2>
+<p>
+Sound emulation volume can be changed by dragging the volume slider, sound can be turned off by dragging the slider to the far left. Equalization can be change via the main settings menu, default is 'TV Speaker'.
+</p>
+<p>
+Some computer have support for different sound emulation, see following sub-chapter.
+</p>
+<h3>Beeper (hardware oscilator)</h3>
+<p>
+A very basic sound emulation for just one tone frequency (selectable in Hz). The tone will be heard when the Q flag is set by 1. 
+</p>
+<p>
+Supported for: Cosmac VIP, Cosmac VIP II, Telmac 1800, Cosmac Elf, Netronics Elf II and Quest Super Elf. 
+</p>
+<p>
+Note that the sound menu for the Cosmac VIP should be set to 'beeper' and for all Elf computers the Q Sound should be set to 'Hardware' and no Video Terminal should be configured to support this emulation.
+</p>
+<h3>Beeper (software oscilator)</h3>
+<p>
+A very basic sound emulation where the changing of the Q flag generates the tone oscilator. The speed of changing the Q flag in software determines the frequency.
+</p>
+<p>
+Supported for: Oscom Nano, Cosmicos, Cosmac Elf 2000, Cosmac Elf, Netronics Elf II and Quest Super Elf.
+</p>
+<p>
+Note that for all Elf computers the Q Sound should be set to 'Software' and no Video Terminal should be configured to support this emulation. For the Oscom Nano Sound should be set to 'Q' and for the Cosmicos NO CDP 1864 should be selected as video option.
+</p>
+<h3>Beeper (warpy)</h3>
+<p>
+A very basic sound emulation for just one tone with a decaying frequency. The tone will be heard when the Q flag is set by 1. This variant does not generate a fixed tone, instead the tone starts at 480 Hz and decays to 240 Hz quickly causing a warpy efect.
+</p>
+<p>
+Supported for: RCA Studio II, Visicom COM-100.
+</p>
+<h3>CDP 1864 Sound</h3>
+<p>
+Supported for: Oscom Nano, Cosmac VIP, Cosmicos, Victory MPT-02, Telmac 2000 and ETI 660.
+</p>
+<p>
+Note that the sound menu for the Cosmac VIP should be set to 'VP595 Simple Sound Board'. For the Oscom Nano Sound should be set to 'CDP 1864' and for the Cosmicos the CDP 1864 should be selected as video option.
+</p>
+<h3>CDP 1869 Sound</h3>
+<p>
+Supported for: COMX-35, TMC-600 and Pecom 64.
+</p>
+</BODY>
+</HTML>

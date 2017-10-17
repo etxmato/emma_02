@@ -108,7 +108,6 @@
 		9976480F1A61D5EF00FB9B33 /* pushbutton.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647991A61D5EE00FB9B33 /* pushbutton.cpp */; };
 		997648101A61D5EF00FB9B33 /* breakpoints.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9976479C1A61D5EE00FB9B33 /* breakpoints.cpp */; };
 		997648111A61D5EF00FB9B33 /* iodevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997647A51A61D5EE00FB9B33 /* iodevice.cpp */; };
-		99792DDC1B88A1EA0044FDBB /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 99792DDB1B88A0ED0044FDBB /* emma_02.htb */; };
 		99792DE11B88A3B10044FDBB /* about.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DE01B88A3B10044FDBB /* about.xrc */; };
 		99792DE31B88A3F50044FDBB /* main.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DE21B88A3F50044FDBB /* main.xrc */; };
 		99792DE51B88A4100044FDBB /* cassette.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DE41B88A4100044FDBB /* cassette.xrc */; };
@@ -132,6 +131,7 @@
 		99792E0B1B88FF590044FDBB /* vt.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DFF1B88FF580044FDBB /* vt.xrc */; };
 		998AE1961F769A9500D6B0D1 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
 		998AE1971F769A9F00D6B0D1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
+		999899A41F96A72600870480 /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 999899A31F96A72600870480 /* emma_02.htb */; };
 		9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
@@ -396,7 +396,6 @@
 		997647B11A61D5EE00FB9B33 /* til313.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = til313.h; path = src/til313.h; sourceTree = "<group>"; };
 		997647B21A61D5EE00FB9B33 /* vtsetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vtsetup.h; path = src/vtsetup.h; sourceTree = "<group>"; };
 		997647B31A61D5EE00FB9B33 /* waveReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = waveReader.h; path = src/waveReader.h; sourceTree = "<group>"; };
-		99792DDB1B88A0ED0044FDBB /* emma_02.htb */ = {isa = PBXFileReference; lastKnownFileType = file; path = emma_02.htb; sourceTree = "<group>"; };
 		99792DE01B88A3B10044FDBB /* about.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = about.xrc; sourceTree = "<group>"; };
 		99792DE21B88A3F50044FDBB /* main.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main.xrc; sourceTree = "<group>"; };
 		99792DE41B88A4100044FDBB /* cassette.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = cassette.xrc; sourceTree = "<group>"; };
@@ -418,6 +417,8 @@
 		99792DFD1B88FF580044FDBB /* ports.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ports.xrc; sourceTree = "<group>"; };
 		99792DFE1B88FF580044FDBB /* sb.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sb.xrc; sourceTree = "<group>"; };
 		99792DFF1B88FF580044FDBB /* vt.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt.xrc; sourceTree = "<group>"; };
+		9998999D1F96A3E500870480 /* Helpfiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Helpfiles; sourceTree = "<group>"; };
+		999899A31F96A72600870480 /* emma_02.htb */ = {isa = PBXFileReference; lastKnownFileType = file; path = emma_02.htb; sourceTree = "<group>"; };
 		9999EAC41CBA8B8800A50336 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
 		999CFEDB1DCD33070094BEC8 /* guims2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guims2000.cpp; path = src/guims2000.cpp; sourceTree = "<group>"; };
 		999CFEDC1DCD33070094BEC8 /* guims2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guims2000.h; path = src/guims2000.h; sourceTree = "<group>"; };
@@ -478,7 +479,7 @@
 			isa = PBXGroup;
 			children = (
 				9999EAC41CBA8B8800A50336 /* SDL2.framework */,
-				99792DDB1B88A0ED0044FDBB /* emma_02.htb */,
+				999899A31F96A72600870480 /* emma_02.htb */,
 				9909A2151F2144B200B17E58 /* Emma 02.pjd */,
 				9909A2161F2144B200B17E58 /* Colours.pjd */,
 				9909A2171F2144B200B17E58 /* Ports.pjd */,
@@ -551,6 +552,7 @@
 				9973DDFC1A69B7B300B57557 /* images */,
 				99431DEA1F22213400F5A2D4 /* images_osx */,
 				99B5DE4F1F4A228400674C05 /* images_linux */,
+				9998999D1F96A3E500870480 /* Helpfiles */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
 				996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */,
 				996FC5821F8ABDE800E08812 /* introduction.rtf */,
@@ -861,7 +863,6 @@
 				99792E0A1B88FF590044FDBB /* sb.xrc in Resources */,
 				997189701C3B19BC0061426E /* menuVip.xrc in Resources */,
 				99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */,
-				99792DDC1B88A1EA0044FDBB /* emma_02.htb in Resources */,
 				99431DEB1F22213400F5A2D4 /* images_osx in Resources */,
 				99792DE91B88FEE70044FDBB /* colour.xrc in Resources */,
 				998AE1961F769A9500D6B0D1 /* Configurations in Resources */,
@@ -873,6 +874,7 @@
 				9909A2141F21444B00B17E58 /* menuMcds.xrc in Resources */,
 				99792E091B88FF590044FDBB /* ports.xrc in Resources */,
 				99792DF11B88FF340044FDBB /* functionkey.xrc in Resources */,
+				999899A41F96A72600870480 /* emma_02.htb in Resources */,
 				99792E0B1B88FF590044FDBB /* vt.xrc in Resources */,
 				99BE53221F155713006BD353 /* diag.xrc in Resources */,
 				99792E001B88FF580044FDBB /* menu_Cas_Mem.xrc in Resources */,

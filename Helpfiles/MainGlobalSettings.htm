@@ -1,0 +1,127 @@
+
+<html>
+<title>Global Settings & Menu</title>
+<body>
+<h2>Global Settings & Menu</h2>
+<p>
+The following chapters describe all global settings and menu options; chapter headings are equal to the menu structure.
+</p>
+<h3>File</h3>
+<h4>Configuration</h4>
+<h5>Load</h5>
+<p>
+Load a specific configuration for the current selected computer. See chapter <a href="MainConfigurations.htm">Configurations</a> for more details.
+</p>
+<h5>Save</h5>
+<p>
+Save a specific configuration for the current selected computer. See chapter <a href="MainConfigurations.htm">Configurations</a> for more details.
+</p>
+<h5>Delete</h5>
+<p>
+Delete a specific configuration for the current selected computer. See chapter <a href="MainConfigurations.htm">Configurations</a> for more details.
+</p>
+<h5>Save All</h5>
+<p>
+Save all global and computer emulator specific settings.
+</p>
+<h5>Save All on Exit</h5>
+<p>
+If selected all global and computer emulator specific settings will be saved on exit of Emma 02.
+</p>
+<h5>Set Default (All)</h5>
+<p>
+Reset all computer emulator specific settings, 'Wav file and Real Cassette Settings' and 'Function and Hot Keys' back to Emma 02 defaults. Note remaining global settings, SB Player name, location, email address and aliasses will not be reset. 
+</p>
+<h4>Re-install</h4>
+<h5>Configuration Files</h5>
+<p>
+This will re-install the default configuration files for the computer configurations that can be loaded from the above described 'Configuration' menu. This might be needed to install updated configuration files from the latest Emma 02 release or if current installed files are corrupt.
+</p>
+<p>
+When installing a new version of Emma 02 the configuration menus will NOT be re-installed automatically to avoid overwriting changes made by users. 
+</p>
+<h5>1802 SW Files</h5>
+<p>
+This will re-install the default 1802 SW files as stored in the Emma 02 data directory. This might be needed to install updated 1802 SW files from the latest Emma 02 release or if current installed files are corrupt.
+</p>
+<p>
+When installing a new version of Emma 02 the data directory will NOT be re-installed automatically to avoid overwriting changes made by users. 
+</p>
+<h4>Change Data Directory</h4>
+<p>
+This will allow you to change the location of the data directory. The location for the data directory is default set to 'C:Users<I>username</I>AppDataRoamingEmma 02' for Vista and 7, 'C:Documents and Settings<I>username</I>Application DataEmma 02' for XP and to '/Users/<I>username</I>/Documents/emma_02' for Mac OSX.
+</p>
+<p>
+A small window will open where with the 'browse' button a new location can be selected. After this 2 options are available: either to only save the new location ('Save' button) or save and move the existing data directory and files to the new location ('Move & Save' button). If the save only option is used the data folder should be moved manually. When moving the folder to another disk the process could take a few minutes (depending on the disk speed). In all cases all settings will be set to default as in the 'Set Default Configuration' menu action.
+</p>
+<p>
+<B>Note: after a re-installation of Emma 02 (or installation of a later version) the data directory will be installed to the original default location.</B>
+</p>
+<p>
+See also chapter <a href="MainFile.htm">Directory and File Structure</a>.
+</p><h3>Settings</h3>
+<h4>Wav file and Real Cassette Settings</h4>
+<p>
+Open window to change settings for wav files and real cassette handling, see Settings chapter in <a href="MainRealCassette.htm">Real Cassette Support</a> for details.
+</p>
+<h4>Equalization</h4>
+<p>
+Select one of the sub menu items to adjust sound equalization. Default 'TV Speaker' is selected. For additional details see the <a href="MainSound.htm">Sound</a> chapter.
+</p>
+<h4>Window</h4>
+<p>
+Sub menu items for Emma 02 window handling, see chapter <a href="MainWindow.htm">Window Settings</a>.
+</p>
+<h4>CPU Type</h4>
+<p>
+Select one of the sub menu items to choose the CPU type used for all emulated computers. Default CDP1805 is selected allowing a more extensive instruction set than the CDP1802 which was used in most emulated computers.
+</p>
+<h4>Startup Values</h4>
+<p>
+Select one of the sub menu items to set the startup values of CPU registers, RAM and/or Video RAM. The following options can be chosen:
+</p>
+<UL>
+<LI>
+Zero: CPU registers, RAM content or Video RAM content is set to 0 on startup
+<LI>
+Random: CPU registers, RAM content or Video RAM content is set to a random value on startup 
+<LI>
+Dynamic: RAM content or Video RAM content is set similar to the COMX Dynamic RAM content on startup. This content is a repeating patern of 64 values 255 (FF) followed by 64 values of 0, one random location of these 128 values will have a random value instead of 0 or 255.
+</UL><h4>Function and Hot Keys</h4>
+<p>
+Open function and Hot keys window, see also chapter <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+</p>
+<h4>Use Numeric Keypad</h4>
+<p>
+Unselect this menu item if your PC does NOT have a numeric keypad (numpad). If unselected all keymap windows will not use any key definitions from the PC numeric keypad. Note that the keypad definition 'on Character' for keypad B in the VIP emulator will always use the numeric keypad as there is no good way to handle this without using a numeric keypad.
+</p>
+<h4>Default keyboard</h4>
+<p>
+Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts (Dutch, German, French, Swedish / Finnish) are provided and can be selected via this menu. See chapter <a href="MainHexKeyMap.htm">Key Mapping</a> for more details.
+</p>
+<h3>Help</h3>
+<h4>Help</h4>
+<p>
+Open Emma 02 help pages.
+</p>
+<h4>Emma 02 Homepage</h4>
+<p>
+Direct link opening the Emma 02 homepage.
+</p>
+<h4>COMX Superboard</h4>
+<p>
+Two sub menu items with direct links opening the COMX Superboard homepage and high score page.
+</p>
+<h4>Check for Update on Start-up</h4>
+<p>
+At start-up Emma 02 will check if a newer version is available. This will only work if an internet connection is available.
+</p>
+<p>
+To disable the start-up check, uncheck this menu item.
+</p>
+<h4>Check for Update</h4>
+<p>
+Do a manual update check.
+</p>
+</body>
+</html>

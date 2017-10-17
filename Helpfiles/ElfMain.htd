@@ -1,0 +1,42 @@
+<html>
+<title>Elf Emulators</title>
+<body>
+<h1>Elf Emulators</h1>
+<p>
+This chapter describes the Cosmac Elf, Netronics Elf II and Quest Super Elf Emulators.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="CosmacMain.htm">Cosmac Elf</a><br>
+<a href="ElfIIMain.htm">Netronics Elf II</a><br>
+<a href="SuperMain.htm">Quest Super Elf</a><br>
+<a href="ElfRom.htm">ROM and RAM Files</a><br>
+<a href="ElfVideo.htm">Video Types</a><br>
+<a href="ElfKey.htm">Keyboard Mapping and Types</a><br>
+<a href="ElfDisk.htm">Disk Types</a><br>
+<a href="ElfBoot.htm">Auto Boot</a><br>
+<a href="ElfRam.htm">Memory</a><br>
+<a href="ElfPorts.htm">Device Ports</a><br>
+<a href="ElfVt100.htm">Video Terminal Simulation</a><br>
+<a href="ElfPrinter.htm">Printer Support</a><br>
+<a href="ElfCassette.htm">Cassette Support</a><br>
+<a href="ElfSuperBasic.htm">Quest Super Basic</a><br>
+<a href="ElfRcaBasic.htm">RCA Basic</a><br>
+<a href="ElfGiant.htm">Giant Board</a><br>
+<a href="ElfInstElfOsIo.htm">Installation Elf/Os 2.5 via Biosio</a><br>
+<a href="ElfInstElfOs.htm">Installation Elf/Os 2.8</a><br>
+<a href="ElfInstBiosio.htm">Installation Biosio</a><br>
+</p>
+<p>
+Please note the following limitations:<br>
+TMS 9918 Support does not include multi colour mode and sprites<br>
+Extended ports only supports Extended RAM pager<br>
+FDC Disk Support has not been tested<br>
+</p>
+<p>
+If you know how the above not tested features should work or have SW that support these and/or additional HW please drop me an email.
+</p>
+</body>
+</html>

@@ -1,0 +1,12 @@
+<HTML>
+<Title>Control Windows</Title>
+<BODY>
+<h2>Control Windows</h2>
+<p>
+3 types of Elf 2000 control windows can be emulated. The main board, switch panel and hex panel. Note the switch and hex panel can not be emulated simultaneously.
+</p>
+<p>
+The main board includes the status leds and TIL311 displays. Emulation of the TIL311 displays and the leds can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'Leds' field. When 0 ms (or nothing) is specfied the TIL311 displays and leds will be updated in real time. Note that the SC0 and SC1 leds are not emulated also due to PC CPU power needs.
+</p>
+</BODY>
+</HTML>

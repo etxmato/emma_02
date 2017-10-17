@@ -1,0 +1,74 @@
+
+<HTML>
+<Title>Thermal Printer Support</Title>
+<BODY>
+<h2>Thermal Printer Support</h2>
+<p>
+To run the COMX emulator with the Thermal printer card select &#145;thermal.bin&#146; in any available slot (CARD 1 if no expansion box is used). 
+</p>
+<h3>Printing to Screen and or Printer</h3>
+<p>
+When the first input or output is done by the COMX to the Thermal Printer an output screen is opened automatically. When the COMX is ready with the printout and a CARD T1 or CALL (@C050) is given the printout can be send to any connected printer. To start a new printout close the printer output screen. After this a new printer window will be created when the COMX starts the first output to the printer. Note that when the thermal printer window is closed during printout the COMX might hang as it will be waiting for input from the printer.
+</p>
+<p>
+To open a print window manually, press the F4 button or the printer icon on the Emma 02 window before giving printer commands from the COMX.
+</p>
+<p>
+From the printer output window it is possible to print towards a real printer by pressing the 'PRINT' button. With the 'PAGE SETUP' button page margins and paper format can be selected. To preview the printout before an actual print use the 'PREVIEW' button.
+</p>
+<p>
+It is possible to disable the status leds by clicking on one of the leds. This will speed up printout especially when using higher CPU speeds.
+</p>
+<h3>Thermal Printer CALL Routines</h3>
+<p>
+The printer can be activated by using the CARD Tm commands as described in the <a href="ComxExpansion.htm">Expansion Box</a> chapter. If no expansion box is used the same commands can be activated by CALL statements as below:
+</p>
+<pre>
+Syntax          Function
+
+CALL (@C040, m)	Mode Selection
+
+CALL (@C050)    Switch off the thermal 
+	        printer with 8 line 
+		feeds (m = 0)
+
+CALL (@C060)    Enter the thermal  
+	        printer Text mode
+		(m = 1)
+
+CALL (@C080)    Switch on the printer  
+	        and TV display (m = 3)
+
+CALL (@C0A0)    Disable keyboard input 
+		(m = 5)
+
+CALL (@C0C0)    Memory dump (HEX&ASCII)
+
+CALL (@C0D0)    Switch the printer to
+	        no line space (m = 8)
+
+CALL (@C0E0)    Self test (m = 9)
+
+CALL (@C0F0,1)	Start screen capture
+CALL (@C0F0,2,y)Print screen line 0 to
+		'y'
+CALL (@C0F0,3)	Stop screen capture
+
+CALL (@C106)	Switch off the thermal
+		printer without line
+		feeds
+
+CALL (@C10C, Source, Destination)
+		Memory Move
+
+CALL (@C10F)	Memory Modify
+
+CALL (@CB05)	Help (m = 11)</pre>
+<p>
+Note: if the expansion box is used the user should enable the standard printer card first before any assembly call is initiated. This can be done by the OUT 1 instruction or in BASIC by using any CARD Tm statement before the CALL statement.
+</p>
+<p>
+When using the Screen capture function it is recommended not to use the F&M Screen editor or before use to turn it off by using POKE (@43F8,1). To start screen capture use CALL (@C0F0,1) to allow the COMX to store all screen data in regular RAM, after the data is printed on the screen use CALL (@C0F0,2,y) to print the screen lines 0 to y to the thermal printer. Stop the screen capture by using CALL (@C0F0,3). 
+</p>
+</BODY>
+</HTML>

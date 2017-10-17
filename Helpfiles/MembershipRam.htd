@@ -1,0 +1,21 @@
+<HTML>
+<Title>Memory</Title>
+<BODY>
+<h2>Memory</h2>
+<p>
+To select the memory configuration select the memory choiche button. The following configurations are supported:
+</p>
+<UL>
+<LI>2 KB RAM
+<LI>4 KB RAM
+<LI>16 KB RAM
+<LI>32 KB RAM
+<LI>64 KB RAM
+<LI>32 KB ROM - 32 KB RAM
+<LI>32 KB RAM - 32 KB ROM
+</UL>
+<p>
+For the 32 KB ROM - 32 KB RAM configurations 32 KB ROM is configred from @0000 to @7FFF and 32 KB RAM from @8000 to @FFFF. For the 32 KB RAM - 32 KB ROM configurations 32 KB RAM is configred from @0000 to @7FFF and 32 KB ROM from @8000 to @FFFF.
+</p>
+</BODY>
+</HTML>

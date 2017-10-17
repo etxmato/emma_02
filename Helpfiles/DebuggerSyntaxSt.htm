@@ -1,0 +1,320 @@
+
+<html>
+<title>ST2 Syntax</title>
+<body>
+<h2>ST2 Syntax</h2>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">I</TD>
+<TD WIDTH="400">Register I (12 bit)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[I]</TD>
+<TD WIDTH="400">Memory value of address in register I</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[Vy]</TD>
+<TD WIDTH="400">Memory value of address in register Vy (in page 8)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>ST2 Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">7xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk, x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy4</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, VB = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">FxB6</TD>
+<TD WIDTH="40">AFOR</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">AND register Vx with F (15), then OR result into least significant byte of register I (used for looking up number graphics), x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy2</TD>
+<TD WIDTH="40">AND</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx AND Vy, VB undefined</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa (The maximum depth of subroutine call is defined by the 1802 Stack, which grows down into user memory from $880 onwards)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">70kk</TD>
+<TD WIDTH="40">DJNZ</TD>
+<TD WIDTH="100">V0, kk</TD>
+<TD WIDTH="250">Decrement V0, jump to kk (same page) if register V0 is not zero</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dnkk</TD>
+<TD WIDTH="40">JKP</TD>
+<TD WIDTH="100">n, kk</TD>
+<TD WIDTH="250">Check if key number n is pressed, if so store key in RB and jump to kk (same page), n != F</TD>
+</TR>
+<TR>
+<TD WIDTH="55">DFkk</TD>
+<TD WIDTH="40">JKP</TD>
+<TD WIDTH="100">VB, kk</TD>
+<TD WIDTH="250">Check if key number stored in RB from keypad in RA (1= left, 0 = right) is pressed, if jump to kk (same page)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3xkk</TD>
+<TD WIDTH="40">JNZ</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Jump to kk (same page) if register Vx is not zero</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xkk</TD>
+<TD WIDTH="40">JZ</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Jump to kk (same page) if register Vx is zero</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy8</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, [Vy], Vx<BR>B, Vy, Vx</TD>
+<TD WIDTH="250">Store BCD value of Vx in [Vy+800], [Vy+801], [Vy+802], MSB Vx unchanged, Vy will point to last byte of the converted number</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Aaaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, aaa</TD>
+<TD WIDTH="250">I = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy0</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy, VB undefined</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy2</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [Vy]</TD>
+<TD WIDTH="250">Vx = [Vy+800]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy1</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vy, Vx</TD>
+<TD WIDTH="250">Vy = Vx, VB undefined</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bnkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[I], kk, n<BR>[I], kk, +n</TD>
+<TD WIDTH="250">[I] = kk, I = I + n</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy4</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[Vy], Vx</TD>
+<TD WIDTH="250">[Vy+800] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">02F2</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[->I], 0<BR>[I], 0</TD>
+<TD WIDTH="250">If I contains $Axx fills memory locations $A00 to $Axx (inclusive) with zero.</TD>
+</TR>
+<TR>
+<TD WIDTH="55">FxA6</TD>
+<TD WIDTH="40">LDM</TD>
+<TD WIDTH="100">Vx, [I]</TD>
+<TD WIDTH="250">Vx = [I], x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">FxA9</TD>
+<TD WIDTH="40">LDM</TD>
+<TD WIDTH="100">[I], Vx</TD>
+<TD WIDTH="250">[I] = Vx, x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">FxAC</TD>
+<TD WIDTH="40">LDMA</TD>
+<TD WIDTH="100">Vx, [I]</TD>
+<TD WIDTH="250">Vx = [I], I = I + 1, x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">FxAF</TD>
+<TD WIDTH="40">LDMA</TD>
+<TD WIDTH="100">[I], Vx</TD>
+<TD WIDTH="250">[I] = Vx, I = I + 1, x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy1</TD>
+<TD WIDTH="40">OR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx OR Vy, VB undefined</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C0</TD>
+<TD WIDTH="40">RET</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx , kk</TD>
+<TD WIDTH="250">Vx = random AND kk, x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">FxB3</TD>
+<TD WIDTH="40">SLSB</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Set least significant byte of I to Vx, bit 8 to 11 are unaffected, x != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xxE</TD>
+<TD WIDTH="40">SHL</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx &lt;&lt; 1, VB = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xyE</TD>
+<TD WIDTH="40">SHL</TD>
+<TD WIDTH="100">Vx , Vy</TD>
+<TD WIDTH="250">Vx = Vy &lt;&lt; 1, VB = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xx6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx &gt;&gt; 1, VB = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx , Vy</TD>
+<TD WIDTH="250">Vx = Vy &gt;&gt; 1, VB = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy0</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx != Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E0</TD>
+<TD WIDTH="40">SP</TD>
+<TD WIDTH="100">CLEAR</TD>
+<TD WIDTH="250">Clear sprite graphic buffer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E1</TD>
+<TD WIDTH="40">SP</TD>
+<TD WIDTH="100">MOVE</TD>
+<TD WIDTH="250">Move sprite</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E2</TD>
+<TD WIDTH="40">SP</TD>
+<TD WIDTH="100">VC, MOVE</TD>
+<TD WIDTH="250">Move sprite in direction given in register RC</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E4</TD>
+<TD WIDTH="40">SP</TD>
+<TD WIDTH="100">XOR, [I]</TD>
+<TD WIDTH="250">XOR graphic data at register I into sprite graphic buffer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E8</TD>
+<TD WIDTH="40">SP</TD>
+<TD WIDTH="100">DRW, JC, kk<BR>DRW, kk</TD>
+<TD WIDTH="250">Draw sprite, jump to kk (same page) if a collision occurs</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy5</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, VB = !borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy7</TD>
+<TD WIDTH="40">SUBN</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy - Vx, VB = !borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1802 code at aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">F0kk</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">2kk</TD>
+<TD WIDTH="250">Call CDP1802 code at 2kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0066</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">ON</TD>
+<TD WIDTH="250">Turns on the video circuitry. This is actually done in the boot sequence.</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy3</TD>
+<TD WIDTH="40">XOR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx XOR Vy, VB undefined</TD>
+</TR>
+</TABLE>
+</body>
+</html>
+

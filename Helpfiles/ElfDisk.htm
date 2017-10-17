@@ -1,0 +1,29 @@
+
+<HTML>
+<Title>Disk Types</Title>
+<BODY>
+<h2>Disk Types</h2>
+<p>
+To specify which disk HW to use, use the 'Disk Type' choice button to select either FDC or IDE. 
+</p>
+<p>
+For IDE you can specify which .ide file to use by using the 'Disk' File button. Default 'xxx.ide' is used (where xxx is pixie, mc6845, mc6847, tms or vt100) but this can be changed to any file name. Number of tracks, heads and sectors can be specified for the IDE type, default is 512 tracks, 4 heads and 26 sectors (changeable via Device Port button). ElfOs can be installed on a simulated hard disk with IDE type, see also <a href="ElfElfOs.htm">Installation Elf/Os</a>.
+</p>
+<p>
+During installation the following .ide files are already installed including Elf/Os 2.8: 
+<UL>
+<LI>pixie-installation.ide
+<LI>mc6845-installation.ide
+<LI>mc6847-installation.ide
+<LI>tms-installation.ide
+<LI>gra-installation.ide
+<LI>serial-installation.ide
+<LI>vt100-installation.ide.
+</UL>
+These files include a pre installed Elf/Os and additional Elf/Os software. The installation files will be renamed to pixie.ide, mc6845.ide, mc6847.ide, tms.ide, gra.ide, serial.ide or vt100.ide if the used file doesn't exist.
+</p>
+<p>
+FDC Disk Support has not been tested; disks should be named diskX.dsk with X 1 to 4.
+</p>
+</BODY>
+</HTML>

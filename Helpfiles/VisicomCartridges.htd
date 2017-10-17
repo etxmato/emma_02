@@ -1,0 +1,69 @@
+<html>
+<title>Cartridges</title>
+<body>
+<h2>Cartridges</h2>
+<p>
+This chapter includes short instructions for the only dumped Visicom cartridge file, These instructions need 'Auto Arcade Key Definition' selected which is the default setting. For more details about arcade keys see chapter Arcade Mapping in <a href="MainHexKeyMap.htm">Key Mapping</a>.
+</p>
+<p>
+Definitions below assume you are using a numeric keypad and have selected menu item 'Settings / Use Numeric Keypad'. If this option is not selected correct key is indicated in (). Note that for player B keys W, A, S, Z for directions and TAB for fire will work both with and without the 'Use Numeric Keypad' setting selected.
+</p> 
+<h3>cas-130</h3>
+<h4>Baseball</h4>
+<p>
+To start press 0, player using keyboard 'A' bats first and player using keyboard 'B' pitches. Pitching player attempts to catch ball after it is hit by moving fielders. Keyboard function A/B changes every 1/2 inning.
+</p>
+<h5>Batting:</h5>
+<p>
+Player A:<br>
+Space: swings bat
+</p>
+<p>
+Player B:<br>
+TAB: swings bat
+</p>
+<h5>Pitching:</h5>
+<p>
+Player A:<br>
+Arrow up: inside curve<br>
+Space: straight pitch<br>
+Arrow down: outside curve
+</p>
+<p>
+Player B:<br>
+Numpad 8 (W): inside curve<br>
+Numpad 5 (TAB): straight pitch<br>
+Numpad 2 (Z): outside curve
+</p>
+<p>
+Hold key down for 1/4 second for change up (slow ball).
+</p>
+<h5>Moving fielders:</h5>
+<p>
+Player A: <br>
+Arrow up: up <br>
+Arrow down: down
+</p>
+<p>
+Player B: <br>
+Numpad 8 (W): up <br>
+Numpad 2 (Z): down
+</p>
+<h4>Sumo Wrestling</h4>
+<p>
+To start press space. Then press the 0 and numpad 0 (P) to do the initial charge.
+</p>
+<p>
+Player A (left):<br>
+Arrow right: push<br>
+Arrow left: pull<br>
+Space: throw
+</p>
+<p>
+Player B:<br>
+Numpad 4 (A): push<br>
+Numpad 6 (S): pull<br>
+Numpad 5 (TAB): throw
+</p>
+</body>
+</html>

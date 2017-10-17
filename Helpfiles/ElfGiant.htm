@@ -1,0 +1,42 @@
+
+
+<HTML>
+<Title>Giant Board</Title>
+<BODY>
+<h2>Giant Board</h2>
+<p>
+To use the Giant Board either load the Giant Board configuration via the 'File/Configuration/Load/Giant Board' menu or make sure that:<br>
+- giantboard.hex or supermon.hex is loaded as ROM file<br>
+- Cassette support is enabled by checkbox 'Cassette'<br>
+- Autoboot is enabled and set to hex F000 for the giant board and hex 8000 for the supermon<br>
+- Giant is enabled to map (or ghost) the Giant Board ROM from @F000 to @FF00
+</p>
+<p>
+For specifics on how to use the cassette emulation also see the chapter on <a href="ElfCassette.htm">Cassette Support</a>.
+</p>
+<p>
+Instead of automatic booting it is also possible to start the monitor manually via the Elf control window as follows: turn off the Run, Load and M/P (memory protect) switches to reset the 1802. Place the load switch in the on position and, using the keypad, enter C0 F0 00. Set the load switch in the off position. When the Run switch is turned on, the monitor will come into play. The next input will determine the monitor mode: 00 is execute, 01 is memory examine, 02 is memory change, 03 is cassette write, 04 is cassette read, and 05 is memory scan.
+</p>
+<p>
+To execute (run) a program from a memory location other than 0000, enter the monitor and then enter 00. Insert the two-byte address of the beginning location. When the Input switch is depressed, the program executes from the memory location specified.
+</p>
+<p>
+To examine a memory location, enter the monitor and key in 01. Insert the two-byte address of the memory to be examined, then depress and release the Input switch. The byte stored at that memory location will be displayed. Depress and hold the Input switch down and the low-order address of the next byte is displayed, followed by the memory byte when the Input switch is released.
+</p>
+<p>
+To change data at a memory location, enter the monitor then enter 02. Insert the two-byte address of the memory to be changed and note that the Q LED comes on. Enter the new data. Then depress and release the Input switch. The new byte will then be displayed. Note that the low-order address of the next byte is displayed if you hold the Input switch down. If desired, that byte can also be changed. Loading and checking programs thru the monitor allows easy identification of addresses and corrections.
+</p>
+<p>
+To cassette write, enter the monitor then enter 03. Key in the starting two-byte address of memory to be recorded, then key in the ending two-byte address. Place the cassette emulation in the record mode, and then depress the Input key. The Q LED will extinguish when the recording is complete and the low-order ending address will be displayed. 
+</p>
+<p>
+To cassette read, enter the monitor and then enter 04. Enter the two-byte address of the memory to be loaded. Then enter the ending two-byte address. Put the cassette emulation in the playback mode and depress the input switch. Allow 2.5 seconds for each 256 memory bytes recorded. The display will increment the low-order address of memory being entered. When the display stops incrementing at the last low-order address, the playback is complete. The final digits in the display will show the low-order address of the data being written (recorded).
+</p>
+<p>
+To perform a memory scan enter the monitor and then enter 05. Enter the starting address (two-byte) of where you want to begin the search, and then enter the byte that you are searching for; depress the Input switch twice holding it down the second time. The display will now indicate the first low-order address that the byte appears in memory. Releasing the Input key will then show the contents of the memory at that location. The monitor is now automatically in the examine mode.
+</p>
+<p>
+If you are in the monitor program and select an illegal operating code (other than those spelled out above), an EE will be displayed on the readouts and the Q LED will come on.
+</p>
+</BODY>
+</HTML>

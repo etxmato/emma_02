@@ -1,0 +1,12 @@
+<HTML>
+<Title>Disk File</Title>
+<BODY>
+<h2>Disk File</h2>
+<p>
+The IDE file can be specified by using the IDE button. Default 'elf2k.ide' is used but this can be changed to any file name. Number of tracks, heads and sectors can be specified for the IDE type, default is 512 tracks, 4 heads and 26 sectors (changeable via Device Port button).  
+</p>
+<p>
+During installation also the following .ide file is installed: elf2k-installation.ide. This files includes a pre installed Elf/Os and some additional Elf/Os software. Make sure to rename this file before usage as it will be overwritten during installation of a new version of the Emma 02 emulator.
+</p>
+</BODY>
+</HTML>
