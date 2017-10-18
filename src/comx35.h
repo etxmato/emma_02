@@ -20,6 +20,7 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
 	void cycleComx();
+    void cycleKeyboard();
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
@@ -58,6 +59,9 @@ private:
 	int keyboardCode_;
 	wxKeyCode previousKeyCode_;
 
+    int keyCycles_;
+    int rawKeyCode_;
+    
 	int dmaCounter_;
 	int debounceCounter_;
 	wxFile comxKeyFile_;

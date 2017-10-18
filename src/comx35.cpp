@@ -101,7 +101,8 @@ void Comx::configureComputer()
 	efType_[2] = COMXEF2;
 	efType_[3] = COMXEF3;
 	efType_[4] = COMXEF4;
-	cycleType_[COMPUTERCYCLE] = COMXCYCLE;
+    cycleType_[COMPUTERCYCLE] = COMXCYCLE;
+    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
 	p_Main->message("Configuring Comx");
 	p_Main->message("	Input 3: keyboard input");
@@ -124,7 +125,10 @@ void Comx::initComputer()
 	keyboardEf3_ = 1;
 	cassetteEf_ = 0;
 
-	keyboardCode_ = 0;
+    keyCycles_ = 500000;
+    rawKeyCode_ = 0;
+
+    keyboardCode_ = 0;
 	previousKeyCode_ = (wxKeyCode) 0;
 
 	dmaCounter_ = -100;
@@ -237,7 +241,7 @@ void Comx::switchQ(int value)
 
 Byte Comx::in()
 {
-	Byte ret;
+/*	Byte ret;
 
 	if (p_Main->isDiagOn(COMX) == 1)
 	{
@@ -288,7 +292,9 @@ Byte Comx::in()
 		case ' ':ret = 0x5f; break;
 	}
 	if (ret >= 0x90)  ret &= 0x7f;
-	return ret;
+	return ret;*/
+    keyboardEf3_ = 1;
+    return keyboardCode_;
 }
 
 Byte Comx::in(Byte port, Word WXUNUSED(address))
@@ -530,6 +536,10 @@ void Comx::cycle(int type)
 			return;
 		break;
 
+        case KEYBRDCYCLE:
+            cycleKeyboard();
+        break;
+            
 		case COMXCYCLE:
 			cycleComx();
 		break;
@@ -686,6 +696,74 @@ void Comx::cycleComx()
 			}
 		}
 	}
+}
+
+void Comx::cycleKeyboard()
+{
+    if (keyCycles_ > 0 && keyboardEf3_ == 1)
+        keyCycles_--;
+    if (rawKeyCode_<0)
+        rawKeyCode_ = 0;
+    if (rawKeyCode_ != 0)
+    {
+        keyboardCode_ = rawKeyCode_;
+        switch(keyboardCode_)
+        {
+            case WXK_RETURN:
+                keyboardCode_ = 0x80;
+            break;
+            case WXK_NUMPAD_ENTER:
+                keyboardCode_ = 0x80;
+            break;
+            case WXK_ESCAPE:
+                keyboardCode_ = 0x81;
+            break;
+            case WXK_BACK:
+                keyboardCode_ = 0x86;
+            break;
+            case WXK_DELETE:
+                keyboardCode_ = 0x86;
+            break;
+            case WXK_LEFT:
+                keyboardCode_ = 0x84;
+            break;
+            case WXK_RIGHT:
+                keyboardCode_ = 0x83;
+            break;
+            case WXK_UP:
+                keyboardCode_ = 0x82;
+            break;
+            case WXK_DOWN:
+                keyboardCode_ = 0x85;
+            break;
+            case '@':keyboardCode_ = 0x20; break;
+            case '#':keyboardCode_ = 0x23; break;
+            case '\'': keyboardCode_ = 0x27; break;
+            case '[':keyboardCode_ = 0x28; break;
+            case ']':keyboardCode_ = 0x29; break;
+            case ':':keyboardCode_ = 0x2a; break;
+            case ';':keyboardCode_ = 0x2b; break;
+            case '<':keyboardCode_ = 0x2c; break;
+            case '=':keyboardCode_ = 0x2d; break;
+            case '>':keyboardCode_ = 0x2e; break;
+            case '\\':keyboardCode_ = 0x2f; break;
+            case '.':keyboardCode_ = 0x3a; break;
+            case ',':keyboardCode_ = 0x3b; break;
+            case '(':keyboardCode_ = 0x3c; break;
+            case '^':keyboardCode_ = 0x3d; break;
+            case ')':keyboardCode_ = 0x3e; break;
+            case '_':keyboardCode_ = 0x3f; break;
+            case '?':keyboardCode_ = 0x40; break;
+            case '+':keyboardCode_ = 0x5b; break;
+            case '-':keyboardCode_ = 0x5c; break;
+            case '*':keyboardCode_ = 0x5d; break;
+            case '/':keyboardCode_ = 0x5e; break;
+            case ' ':keyboardCode_ = 0x5f; break;
+        }
+        if (keyboardCode_ >= 0x90)  keyboardCode_ &= 0x7f;
+        rawKeyCode_ = 0;
+        keyboardEf3_ = 0;
+    }
 }
 
 void Comx::startComputer()
@@ -1481,15 +1559,16 @@ void Comx::cpuInstruction()
 
 void Comx::charEvent(int keycode)
 {
-	if (keyboardEf3_ == 0)  return;
-
-	keyboardCode_ = keycode;
-	keyboardEf3_ = 0;
+//	if (keyboardEf3_ == 0)  return;
+//
+//	keyboardCode_ = keycode;
+//	keyboardEf3_ = 0;
+    rawKeyCode_ = keycode;
 }
 
 bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-	if (keyboardEf3_ == 0)  return true;
+/*	if (keyboardEf3_ == 0)  return true;
 	previousKeyCode_ = (wxKeyCode) keycode;
 
  	switch(keycode)
@@ -1565,21 +1644,22 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 			keyboardEf3_ = 0;
 			return true;
 		break;
-	}
+	}*/
 	return false;
 }
 
 void Comx::keyUp(int WXUNUSED(keycode))
 {
-    if (p_Main->isDiagOn(COMX) == 1)
-    {
-        if ((outValues_[1]) != 0)
-            return;
-    }
-	keyboardEf2_ = 1;
-	keyboardEf3_ = 1;
-	keyboardCode_ = 0;
-	previousKeyCode_ = (wxKeyCode) 0;
+//    if (p_Main->isDiagOn(COMX) == 1)
+//    {
+//        if ((outValues_[1]) != 0)
+//            return;
+//    }
+//	keyboardEf2_ = 1;
+//	keyboardEf3_ = 1;
+//	keyboardCode_ = 0;
+//	previousKeyCode_ = (wxKeyCode) 0;
+    keyboardEf3_ = 1;
 }
 
 void Comx::keyClear()
