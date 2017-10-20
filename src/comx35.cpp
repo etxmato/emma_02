@@ -92,6 +92,9 @@ Comx::~Comx()
 		}
 	}
 	p_Main->setMainPos(COMX, GetPosition());
+//    keyLogFilePc_.Close();
+//    keyLogFile1802_.Close();
+//    keyLogFileCycle_.Close();
 }
 
 void Comx::configureComputer()
@@ -102,7 +105,7 @@ void Comx::configureComputer()
 	efType_[3] = COMXEF3;
 	efType_[4] = COMXEF4;
     cycleType_[COMPUTERCYCLE] = COMXCYCLE;
-    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
+//    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
 	p_Main->message("Configuring Comx");
 	p_Main->message("	Input 3: keyboard input");
@@ -139,6 +142,22 @@ void Comx::initComputer()
 
 	systemTime_ = wxDateTime::Now();
 	comxTime_ = wxDateTime::Now();
+
+/*    wxString fileName_pc = p_Main->getDataDir() + "key_pc_in.log";
+    if (wxFile::Exists(fileName_pc))
+        keyLogFilePc_.Open(fileName_pc, wxFile::write);
+    else
+        keyLogFilePc_.Create(fileName_pc);
+    wxString fileName_1802 = p_Main->getDataDir() + "key_1802.log";
+    if (wxFile::Exists(fileName_1802))
+        keyLogFile1802_.Open(fileName_1802, wxFile::write);
+    else
+        keyLogFile1802_.Create(fileName_1802);*/
+//    wxString fileName_cycle = p_Main->getDataDir() + "key_cycle.log";
+//    if (wxFile::Exists(fileName_cycle))
+//        keyLogFileCycle_.Open(fileName_cycle, wxFile::write);
+//    else
+//        keyLogFileCycle_.Create(fileName_cycle);
 }
 
 Byte Comx::ef(int flag)
@@ -241,7 +260,7 @@ void Comx::switchQ(int value)
 
 Byte Comx::in()
 {
-/*	Byte ret;
+	Byte ret;
 
 	if (p_Main->isDiagOn(COMX) == 1)
 	{
@@ -292,9 +311,11 @@ Byte Comx::in()
 		case ' ':ret = 0x5f; break;
 	}
 	if (ret >= 0x90)  ret &= 0x7f;
-	return ret;*/
-    keyboardEf3_ = 1;
-    return keyboardCode_;
+//    keyLogFile1802_.Write(&ret, 1);
+	return ret;
+//    keyboardEf3_ = 1;
+//    keyLogFile1802_.Write(&keyboardCode_, 1);
+//    return keyboardCode_;
 }
 
 Byte Comx::in(Byte port, Word WXUNUSED(address))
@@ -536,9 +557,9 @@ void Comx::cycle(int type)
 			return;
 		break;
 
-        case KEYBRDCYCLE:
-            cycleKeyboard();
-        break;
+//        case KEYBRDCYCLE:
+//            cycleKeyboard();
+//        break;
             
 		case COMXCYCLE:
 			cycleComx();
@@ -707,6 +728,7 @@ void Comx::cycleKeyboard()
     if (rawKeyCode_ != 0)
     {
         keyboardCode_ = rawKeyCode_;
+//        keyLogFileCycle_.Write(&keyboardCode_, 1);
         switch(keyboardCode_)
         {
             case WXK_RETURN:
@@ -1561,14 +1583,16 @@ void Comx::charEvent(int keycode)
 {
 //	if (keyboardEf3_ == 0)  return;
 //
-//	keyboardCode_ = keycode;
-//	keyboardEf3_ = 0;
-    rawKeyCode_ = keycode;
+	keyboardCode_ = keycode;
+	keyboardEf3_ = 0;
+//    rawKeyCode_ = keycode;
+//    interrupt();
+//    keyLogFilePc_.Write(&keyboardCode_, 1);
 }
 
 bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-/*	if (keyboardEf3_ == 0)  return true;
+//	if (keyboardEf3_ == 0)  return true;
 	previousKeyCode_ = (wxKeyCode) keycode;
 
  	switch(keycode)
@@ -1576,54 +1600,63 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 		case WXK_RETURN:
 			keyboardCode_ = 0x80;
 			keyboardEf3_ = 0;
+    //        keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_NUMPAD_ENTER:
 			keyboardCode_ = 0x80;
 			keyboardEf3_ = 0;
+    //        keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_ESCAPE:
 			keyboardCode_ = 0x81;
 			keyboardEf3_ = 0;
+     //       keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_BACK:
 			keyboardCode_ = 0x86;
 			keyboardEf3_ = 0;
+     //       keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_DELETE:
 			keyboardCode_ = 0x86;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_LEFT:
 			keyboardCode_ = 0x84;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_RIGHT:
 			keyboardCode_ = 0x83;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_UP:
 			keyboardCode_ = 0x82;
 			keyboardEf3_ = 0;
+       //     keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_DOWN:
 			keyboardCode_ = 0x85;
 			keyboardEf3_ = 0;
+     //       keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
@@ -1633,6 +1666,7 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 			else
 				keyboardCode_ = 0xdb;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
@@ -1642,24 +1676,24 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 			else
 				keyboardCode_ = 0xdc;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
-	}*/
+	}
 	return false;
 }
 
 void Comx::keyUp(int WXUNUSED(keycode))
 {
-//    if (p_Main->isDiagOn(COMX) == 1)
-//    {
-//        if ((outValues_[1]) != 0)
-//            return;
-//    }
-//	keyboardEf2_ = 1;
+    if (p_Main->isDiagOn(COMX) == 1)
+    {
+        if ((outValues_[1]) != 0)
+            return;
+    }
+	keyboardEf2_ = 1;
 //	keyboardEf3_ = 1;
 //	keyboardCode_ = 0;
-//	previousKeyCode_ = (wxKeyCode) 0;
-    keyboardEf3_ = 1;
+	previousKeyCode_ = (wxKeyCode) 0;
 }
 
 void Comx::keyClear()

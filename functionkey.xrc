@@ -18,10 +18,10 @@
                 <object class="wxFlexGridSizer">
                     <cols>4</cols>
                     <rows>5</rows>
-                    <vgap>1</vgap>
+                    <vgap>3</vgap>
                     <hgap>0</hgap>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxCheckBox" name="EnableEscape">
                             <font>
@@ -30,14 +30,6 @@
                             </font>
                             <label>Exit Key</label>
                             <checked>0</checked>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey0" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -52,7 +44,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -60,14 +52,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Video Dump</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey5" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -82,7 +66,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC ">
                             <font>
@@ -90,14 +74,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Help</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey1" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -112,7 +88,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -120,14 +96,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Debug Mode</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey6" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -142,7 +110,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -150,14 +118,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Activate Main</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey2" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -172,7 +132,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -180,14 +140,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Menu</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey7" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -202,7 +154,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -210,14 +162,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Full Screen</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey3" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -232,7 +176,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -240,14 +184,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Video Terminal Setup</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey8" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -262,7 +198,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -270,14 +206,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Printer Window</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKey4" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -293,7 +221,7 @@
                         </object>
                     </object>
                     <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                         <border>5</border>
                         <object class="wxStaticText" name="wxID_STATIC">
                             <font>
@@ -301,14 +229,6 @@
                                 <size>-1</size>
                             </font>
                             <label>Start / Reset / Run</label>
-                        </object>
-                    </object>
-                    <object platform="mac" class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
-                        <border>5</border>
-                        <object platform="mac" class="wxTextCtrl" name="InputFunctionKeyC" subclass="IntEdit">
-                            <size>30,-1</size>
-                            <hidden>1</hidden>
                         </object>
                     </object>
                     <object class="sizeritem">

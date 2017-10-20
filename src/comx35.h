@@ -61,7 +61,10 @@ private:
 
     int keyCycles_;
     int rawKeyCode_;
-    
+    wxFile keyLogFilePc_;
+    wxFile keyLogFile1802_;
+//    wxFile keyLogFileCycle_;
+
 	int dmaCounter_;
 	int debounceCounter_;
 	wxFile comxKeyFile_;
