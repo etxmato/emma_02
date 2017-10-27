@@ -940,7 +940,7 @@ public:
 
 	wxString getApplicationDir();
 
-	wxChar getPathSep();
+	wxString getPathSep();
 	int setFdcStepRate(int rate);
     int getFdcCpms();
 	int getPsaveData(int item);

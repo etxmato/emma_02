@@ -70,6 +70,14 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	pathSeparator_ = applicationFile.GetPathSeparator(wxPATH_NATIVE);
 	applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 #endif
+#if defined(__linux__)
+    if (!wxFile::Exists(applicationDirectory_ + "main.xrc"))
+    {
+        applicationDirectory_ = wxStandardPaths::Get().GetExecutablePath();
+        applicationDirectory_ = applicationDirectory_.Left(applicationDirectory_.Len()-11);
+        applicationDirectory_ = applicationDirectory_ + "share" + pathSeparator_ + "emma_02" + pathSeparator_;
+    }
+#endif
 
     wxDir checkDirForFiles;
     bool dataDirEmpty = true;

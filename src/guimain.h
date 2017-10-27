@@ -473,7 +473,7 @@ protected:
 	wxString elf2K8275Clock_;
 
 	wxString applicationDirectory_;
-	wxChar pathSeparator_;
+	wxString pathSeparator_;
 	int mainWindowX_, mainWindowY_;
 	int ubuntuOffsetX_;
 

@@ -1,0 +1,1542 @@
+E: emma-02: embedded-library usr/bin/emma_02: libjpeg
+E: emma-02: embedded-library usr/bin/emma_02: tiff
+W: emma-02: syntax-error-in-debian-changelog line 1 "badly formatted heading line"
+W: emma-02: syntax-error-in-debian-changelog line 2 "found blank line where expected first heading"
+W: emma-02: syntax-error-in-debian-changelog line 3 "found change data where expected first heading"
+E: emma-02: control-file-has-bad-permissions md5sums 0664 != 0644
+E: emma-02: copyright-should-refer-to-common-license-file-for-lgpl
+W: emma-02: no-section-field
+W: emma-02: non-standard-file-perm usr/share/applications/emma_02.desktop.desktop 0664 != 0644
+W: emma-02: non-standard-file-perm usr/share/doc/emma-02/changelog.gz 0664 != 0644
+W: emma-02: non-standard-file-perm usr/share/doc/emma-02/copyright 0664 != 0644
+W: emma-02: macos-ds-store-file-in-package usr/share/emma_02/Configurations/.DS_Store
+W: emma-02: macos-ds-store-file-in-package usr/share/emma_02/data/.DS_Store
+W: emma-02: macos-ds-store-file-in-package usr/share/emma_02/data/Vip/.DS_Store
+W: emma-02: non-standard-file-perm usr/share/emma_02/data/Visicom/cas-110.st2 0666 != 0644
+W: emma-02: non-standard-file-perm usr/share/emma_02/data/Visicom/cas-140.st2 0666 != 0644
+W: emma-02: non-standard-file-perm usr/share/emma_02/data/Visicom/cas-141.st2 0666 != 0644
+W: emma-02: non-standard-file-perm usr/share/emma_02/data/Visicom/cas-160.st2 0666 != 0644
+W: emma-02: binary-without-manpage usr/bin/emma_02
+E: emma-02: md5sums-lists-nonexistent-file usr/share/pixmaps/emma02.xp
+W: emma-02: file-missing-in-md5sums usr/share/pixmaps/emma02.xpm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/superbasic.5.0.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Joystick Tekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Programmable Spacefighters [Jef Winsor].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programs/Regressie I.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/kaboom.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Particle Demo [zeroZshadow, 2008].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.MERGE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/pushdownblack.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Kredledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/Starpilot.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Runaway.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Titreren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.SUBMIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PERTEC.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/The Capture.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/superelf.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_installation_2_5_biosio_mc6845.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/MEM.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/f&m.eprom.board.1.2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Rocket Launch [Jonas Lindstedt].src
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Airplane.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Maze 2 (ETI660 Hybrid).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/largeledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/X-Mirror.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcBasic L2.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/f&m.utilities.1.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kwadratische Functies.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/runButtonUp.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/VliegendTapijt.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/OpsporingVerzocht.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/COMX Orgel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLM.OV4
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/bios.1.0.4.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/clock2.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/printer-hexdump.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/pl80.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Nim [Carmelo Cortez, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/A&ESpandoek.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/39f040.final.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/addbookm.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8X/Blockout [Steve Houk].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/The First Noel (3_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_installation_2_5_biosio_tms_9918.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Monitor English.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-7.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Rekenoefeningen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Preposition.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/mpButtonUp.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cidelsa/altair.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/sweep.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Factoren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/app_icon.xpm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Vergelijkingen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/biosio.elfos.0.2.5.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/monitor_rom_8000.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Qchuck.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth v1.0/Makefile
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/rocket_v101_readme.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mc6847-installation.ide
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/play_black.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.ASM8.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Ijskikker.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Assembler.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Space Shuttle.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/RCABug.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Hi-Lo [Jef Winsor, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/FREE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLM.OV4
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Music Machine.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/ASM8.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Music Ball.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-3.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Omreken Tabel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.DEL.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/berzerk.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Activate Joycard - CALL (@B000).comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M Super Plot+.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/XREF.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/EDIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/hex.and.UT4.monitor.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Overhoren Engels.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Trip-8 Demo [Revival Studios, 2008].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Stratego.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Trigoniometrie1.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/scramble.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Verdeel de wereld.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/ZeroPong [ZeroShadowZ, 2007].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/While Shepherds Watched.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/It Came Upon A Midnight Clear (3_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/superbasic.1.46.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/computer.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Huishoud Budgetering.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/f&m.joycard.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M Basic.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Eeuwigdurendekalender.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/mpButtonDown.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-3.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/Climber.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/snoopy.tmc600
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/DIR.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.1.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Worm V4 [RB-Revival Studios, 2007].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Bruto-Netto Loon.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Programmable Spacefighters [Jef Winsor].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/RCA-CDP 1802 Microprocessor.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/largeledgreenon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Ordo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Trainspotting.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Ruimte Kolonies.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/RENAME.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Framed MK1 [GV Samways, 1980].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Soccer.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Donkey the kong.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Eeuwigdurendekalender 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth Rom Version/Makefile
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcLisp Rom Version/rclisp.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/pause_off.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Get Your Gadget.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/happy birthday pcm.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/cosmac.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/berzerk.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/filesave.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/f&m.basic.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/monitor_ram_8000.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Overture.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/rca_bug.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/U.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Connectica.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/biorhythm.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/pushdown.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/pin-8.4ch.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Animal Race [Brian Astle].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Rivier Race.Manual.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/asteroids.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M TOS v3.00.Advies.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/vip.32.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/pl80.tiny.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/EUPH.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Getallen Jager.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Zeeslag.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Dobbelspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Blitz [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Russian Roulette [Carmelo Cortez, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/TICTAC.ASM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.FREE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Diver.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/f&m_rom_2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-0.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/largeledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.ASM8.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/EDIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/intel8275.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-1.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M Alpha+ (tape).comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Shooting Stars [Philip Baltzer, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Tank.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-0.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Mastermind FourRow (Robert Lindley, 1978).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M WP v1.05.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.MEM.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Vak-keuze.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/BascomM3.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Kgreenledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/OP.SYS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/plotter.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Tafels.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Memo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8X/Color Kaleidoscope [Steve Houk, 1978].c8x
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Golf.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Driehoek van pascal.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/BASIC/.BASIC1.INT
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kaart Spel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/BMP Viewer - Hello (C8 example) [Hap, 2005].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Trigonometrie2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Away In A Manger.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-4.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Keypad Test [Hap, 2006].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PRINT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/MazeCaves.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Bowling [Gooitzen van der Wal].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/EXAM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Spacejager.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Space Flight.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-6.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/Outbreak.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.SUBMIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/elfos2k_0_2_8.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Koekjesmonster.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Spelletje van Stijn.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Silent Night (Double Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Delay Timer Test [Matthew Mikolay, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/f&m_rom_2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Bombardement.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth Rom Version.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/DIR.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Sum Fun [Joyce Weisbecker].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Recall Basic.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Craps [Camerlo Cortez, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kleine letters DLOAD data.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.DIR.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/app.icns
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/1802 Disassembler.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/TMC600/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Zero Demo [ZeroShadowZ, 2007].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/netronics_tiny_basic_pixie_video.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Character Mover.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Woord Leren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/TinyosTS/Tinyostsnotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/minus.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Nano/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Tinyos2k/TICTAC.HEX
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Framed MK2 [GV Samways, 1980].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/esim3.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Happiehap2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Astro Dodge Hires [Revival Studios, 2008].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/EdtAsm/edtasm.doc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/print_off.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Bioritam.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Klinkertje.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Alkohol.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Weerstand Berekening.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.MEM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Kgreenledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/usb.bmp
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/hockey.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kokopoly.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kanonnen Jacht.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Random Number Test [Matthew Mikolay, 2010].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programs/Benchmark.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf2K/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Huishoud Boekje.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Blackjack.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.VERIFY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM.OV2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Digitaal Klok.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-5.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/resetButtonDown.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Filter.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Meetkunde 1.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/De Stelling van Pythagoras.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Talen Leren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Woorden Maker 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/EdtAsm/edtasm.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/hockey.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/KleuterRekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-6.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/rocket_v101.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Tijd Bom.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Clock/clock.lst
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/WinkelDemo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/runButtonDown.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.CDSBIN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/1802 Disassembler/disasm.lst
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/RekenenOpTijd.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/checked.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/MEMTST.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/F-Toetsen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mc6847.pal.square.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Tafels Leren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_biosio_mc6845.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Spelling Nederlands.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8X/Blockout [Steve Houk].c8x
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/eprom_super.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Noordzeeramp.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Report Diagram.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/bios.1.0.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Spelling Engels.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Pong (ETI660 Hybrid).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Sam Svoj Kompozitor.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programs/COMX Demo 3.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Kredledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/real_cas_off.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/eprom_boards_mini_monitor_and_super_basic.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/!hires_information.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kazka.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mini.monitor.and.super.basic.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Minimal game [Revival Studios, 2007].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/empty.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Vlooienspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Visicom/cas-130.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/PIXINIZ.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Sum Fun [Joyce Weisbecker].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Wissel Koersen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/hit.it.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Electronica Voedingen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-0.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/scramble.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/hexmonitor.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Jumping X and O [Harry Kleinberg, 1977].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/KleuterBasRekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Basic Programming Exercise.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/super.gold.monitor.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/largeledorangeon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Trip-8 Demo [Revival Studios, 2008].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Submarine [Carmelo Cortez, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Sterrenplukken.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Hex-Dec Conversie.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Laser-Gun.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Music Maker (ETI660 Hybrid) [Peter Collins, 198x].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Lavirint.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Grafiek Demo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Worm V4 [RB-Revival Studios, 2007].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/pixie-installation.ide
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/bascomm3.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Verkeer.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/f&m.printer.1.2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-3.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MCDS/edit_asm.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Timebomb.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/blackjack.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/rca.basic3.v1.1.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Escape.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Video Display Drawing Game [Joseph Weisbecker] (hybrid).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Pong (1 player).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/EdtAsm/Makefile
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/pushup.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/grand-pack.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-5.1.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Competitie Stand.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Addition Problems [Paul C. Moews].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/jvip310x.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/rec_on.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/ASM8.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/Climber.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Voortgezet Basic.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Deflection [John Fort].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/MonsterEiland.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Slide [Joyce Weisbecker].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/til313.full.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Rekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/spacewar.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/VELFbios-v3.1.HEX
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/elfinvad.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth v1.0/forth.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Sequence Shoot [Joyce Weisbecker].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/hockey.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/rocket_v101_readme.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programs/F&M Pixel Drawing.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/keydefinition.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/GRAINIZ.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Rush Hour [Hap, 2006].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/F&M Memory.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/pacman.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/TMC2000/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/tms-installation.ide
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/outbreak.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/fig_forth.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/esim4.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/counter.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/chip8.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Rocket [Joseph Weisbecker, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kleine letters data programma.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Songbird.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educational/Vitamins.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Statistiek 1.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/screen.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/kaboom.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Othello.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Tiny Basic Compiler Rom Version/bascom.doc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/blinker.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Netronics Tiny Basic/TINYBASI.LST
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/bios+biosiov92_32.column.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Spionnenweb.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/mathfun.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Shljive.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/f&m.eprom.board.1.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Squash [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/esim5.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Autorace.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Chip8 emulator Logo [Garstyciuks].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Connect 4 [David Winter].src
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/ledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Zeegevecht.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/quest_tape_loader.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/PROM25.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/asteroids.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/School Rekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/SUBMIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.SYSGEN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kerstgroet.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.EXAM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/demo2.tmc600
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.U.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Elf Duet.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/TinyosTS/TinyosTS.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/O Christmas Tree.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/beeper.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/rommapper.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/TinyosTS/TINYOSTS.BIN
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Lopov i Bankar.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Bridge.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_biosio_tms_graphic.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLMLIB.ASM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.DIAG.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcBasic L1.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Zero Demo [ZeroShadowZ, 2007].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kruisvuur.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Columbia.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/rca_basic_pixie_video.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/berzerk.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Wintersport Berekeningen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/chip_8_mode.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Morse Trainer 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth v1.0/forth.prg
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Hypotheek Berekening.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/COPY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/BMP Viewer - Hello (C8 example) [Hap, 2005].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Nano/beeper.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.f800.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM.OV1
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Ruimtemission.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/TYP.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/MEM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/backgroung.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Nederland.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Spook Huis.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Woordgooier.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.4.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/games.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/swdown.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Music Machine (Double Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/EUPH.BAS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/demo.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/fdc.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Poolbiljard.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Middeleeuws Monopolie.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Breakout [Carmelo Cortez, 1979].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elfos.0.2.8.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/f&m.monitor.dutch.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.CDSBIN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.BASIC1.LIB
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/chip8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kleine letters data programma - Memory Access.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/comxledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/ascii.monitor.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Brix [Andreas Gustafsson, 1990].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Joy To The World.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/SYSGEN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Astro Dodge [Revival Studios, 2008].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Rocket Launcher.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/ledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Fig Forth 1802/FigForth.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/program_3.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-2.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Fonetiek.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcLisp Rom Version/Makefile
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Galgje.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/quest_super_basic_6_0.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Hypotheek Lening.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/.EUPH.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/superbasic.1.45.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.HELP.MSG
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth Rom Version/bios.inc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Drugsmokkel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Autorace.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/basic1.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Sequence Shoot [Joyce Weisbecker].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/biorhythm.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Multiplan.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/SUBMIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/speedway.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/SET(X).comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/monitor_ram_0000.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Morse Tekens.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Space Intercept [Joseph Weisbecker, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/XREF.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/largeledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Wipe Off [Joseph Weisbecker].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Tankbattle.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/tiny_basic_interpreter_v2_mc6847.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Pong (alt).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Message Center [Andrew Modla] (hybrid).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Gezinsbudget.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Honderdveld.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Car Rally.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/bingo.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/CDSBIN.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.BASIC1.INT
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/fig.forth.1802.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.RENAME.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/GRAINIZnotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLM.OV3
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Griekse Les.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/computer.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/pushupblack.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.e000.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Bingo [Andrew Modla] (hybrid).txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Particle Demo [zeroZshadow, 2008].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/chip8x.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kalah.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Super Lichtkrant.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/prijslijst.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/invaders.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/terminal.log
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Type-Les.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Audiogram.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/rca.basic4.v1.1.install.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/f&m-heijmans.sw.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/rom_mapper_pixie_and_serial_io.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLMLIB.ASM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/asteroids.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Koekalender.Manual.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Zeven Stedenspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Spellenslag.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M TOS v3.00.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.DIR.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Startup.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8X/ColourTest.c8x
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-5.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Voorraad Administratie.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/kaboom.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/berzerk.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Dubbel en Zeven.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kamikaze.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Video Display Drawing Game [Joseph Weisbecker] (hybrid).txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Shape Maker 3.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Victory/chip_8.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Space Intercept [Joseph Weisbecker, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/elf2.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Feyenoord-lied.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Chip8 Picture.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2K.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/polka.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.e000.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/80column.1.0.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Hi-Lo [Jef Winsor, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Tennismania.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.MEMTST.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/pixiniznotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/inButtonDown.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Werkwoorden.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLM.OV3
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-3.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/speedway.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Rubicscube.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLM.OV1
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Boulderdash.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/PRINT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/TICTAC.BAS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/GateMaster.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Brick (Brix hack, 1990).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/City Raid.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Comx/superboard.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/print.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-10/Kaleidoscope [Joseph Weisbecker, 1978].ch10
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM File details.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Clock Program [Bill Fisher, 1981].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kassabeheer.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Jackpot.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/FORMAT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Disassembler.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/DEL.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Drie Schot.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Merlin [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/thermal.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Ratiocalc.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/MEM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Dice Rolling.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/inButtonUp.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Emma02.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Guess Who.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/esim2.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Killerwatt.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/berzerk.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Landing.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Coin Flipping [Carmelo Cortez, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/SQRT Test [Sergey Naydenov, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/esim3.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Marketing Game.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Fig Forth 1802/FigForth.LST
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/Monitor Program.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Willekeurige driehoeken.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/v87a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programs/Fuel Economy.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/elf2kswitches.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/usb_super.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.OP.SYS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/BiosioPS2/BIOSPSV1REQ.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Jumping X and O [Harry Kleinberg, 1977].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Renumber.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M WP PL-80.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/loadButtonDown.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Velf/jvip.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/monitor_0000h.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Cockpit.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Visicom/visicom.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Mastermind3.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Comx/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/151182.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Overhoren Frans.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/EdtAsm/bios.inc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Nutty's fruitcake shop.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/U.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/swright.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Huishoud Boekje II.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Division Test [Sergey Naydenov, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Winkel Admin.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Music Maker (ETI660 Hybrid) [Peter Collins, 198x].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Boter Kaas Eieren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/eject.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Boeken Bestand.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Syzygy [Roy Trevino, 1990].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/TAPED.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/biosio.elfos.0.2.5_32.column.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLM.OV1
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/15 Puzzle [Roger Ivie] (alt).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Tinyos2k/Tinyos2knotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/tmc.24.3.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Woordenspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Eet een pudding.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLM.OV5
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cidelsa/destroyer set 2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Leasecalculatie.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Color Picture.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Woninginrichting.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Alpha X$.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/1802 Disassembler/disasm.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Concatenator.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/O Come All Ye Faithful (3_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/EdtAsm Rom Version.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/KijkUit.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-0.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Stars [Sergey Naydenov, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/esim5.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/pause_on.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.HELP.MSG
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/HELP.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.MEM.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/KleiduivenSchieten.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Manneke pis.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Rotate Ability.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Mastermind2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.4.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/Star Trek 2.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Tapeworm [JDR, 1999].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/MEM.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/quest.tape.loader.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Studio2/chip_8.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/80column.1.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MCDS/basic_3.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/.TICTAC.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/HELP.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/bios+biosiov93_32.column.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Puzzle.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/f&m.monitor.english.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Music Expert.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Life [GV Samways, 1980].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/BiosioPS2/PSiniznotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/De Vrek.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/loadButtonUp.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Comx Key File Example.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/rca_bug.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.XREF.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Blackjack [Andrew Modla] (hybrid).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/super.video.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/monitor_8000h.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/emma 02.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Pong [Paul Vervalin, 1990].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/combat.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Comx Turtle.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Computer Kennismaking.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_biosio_pixie_video.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/tv-arcade-2012.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Unlock.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Vidicalc.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M Pixel Tekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.config
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Most Dangerous Game [Peter Maruhnic].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Wall [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Korangeledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Deflection [John Fort].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Fonts.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Cosmicos/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Tinyos2k/TINYOS2K.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/RENAME.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Bioritme.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/esim2.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/fpb_bootloader.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Brick (Brix hack, 1990).txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Zeeslag.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Topografie Groningen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Talen - Languages/COMX CForth.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Brandalarm.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Bingo [Andrew Modla] (hybrid).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/quest_super_basic_1_4_super_video.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Marketing spel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/elf.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/quest_super_basic_3_0.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth v1.0.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/mathfun.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.1.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Blinky [Hans Christian Egeberg, 1991].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Appel Plukker.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Tiny Basic Compiler Rom Version/Makefile
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Jaaroverzicht.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/Battle.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/invaders.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.SYSGEN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Funktie Programma.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth v1.0/forth.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/gunfighter.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Electronica Weerstanden.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/microdos.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/ledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.OP.SYS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/demo.tmc600
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Getal Raden III.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/F&M Pit Stop.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Hoger-Lager.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Life 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Particle Demo [zeroZshadow, 2008].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/expansion.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Good King Wenceslas.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Woord Raden.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Koff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Space Aliens.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Vraag en Antwoord.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Renbaan.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Een is teveel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-4.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MCDS/vt52.b.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Burgertime.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/MissionControl.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Getal Raden II.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Bestands Beheer.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Eet Een Wurm 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mc6845-installation.ide
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/Starship.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Korangeledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/system_rom.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/pecom64.v1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.HELP.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/blackjack.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/chip10.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/LazyBug.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Type Spel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Maze (alt) [David Winter, 199x].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/largeledgreenoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Risk Dobbelen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Connect 4 [David Winter].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/data dir for portable mode.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/BASIC/BASIC1.INT
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMXMemory.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/kaboom.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Clock.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Bankroof.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Scheepvaartspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MCDS/ut62_rev2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Numerieke Wiskunde.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/Invaders.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Witch Doctor.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Schaken.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/From5to0.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/comxstar.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.f800.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/elf_die.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Rocket Launch [Jonas Lindstedt].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Telefoonboek 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Trainspotting.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Patience.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/led.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/french.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Lunar Lander [Udo Pernisz, 1979].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/TICTAC.LST
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/pinball.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-7.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_biosio_mc6847.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/invaders.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Cave invader.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Quick Tac Toe.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Laatste Gulden.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/printer-test.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Particle Demo [zeroZshadow, 2008].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/Outbreak.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/step.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Algebra 1.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Autorace.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Torens van Hanoi.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.3.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/1802 Disassembler/disasm.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/swedish.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Cosmicos/ascii_monitor.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Mijnenveld.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/concentration-match.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/TICTAC.BAS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Studio2/multi-cart.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Monitor.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.BASIC1.CMP
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/BASIC1.LIB
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Mastermind FourRow (Robert Lindley, 1978).txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.EXAM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Studio2/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/SYSGEN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/blackjack.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/swleft.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/hexpad.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Brandstofverbruik.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/real_cas_on.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.MEMTST.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-7.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/fun-with-numbers.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Geluksdoos.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Breakfree [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcLisp Rom Version.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Print Kalender 84.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Netronics Tiny Basic/NTBManual.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/chip8.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/dutch.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Vertegenwoordiger Beheer.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/SERINIZ.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/unchecked.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Utopia.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/PERTEC.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/chip8.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth v1.0/bios.inc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/esim1.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Hongerhapper.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/BASIC/BASIC1.CMP
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Woordenboek Makers.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Spookbos.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Smurfen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/eprom_boards_super_gold_monitor.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Life [GV Samways, 1980].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/vip.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/disk.utilities.1.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.EDIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/multi-cart.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Restart.Manual.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Clock/clock2.lst
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Spelling.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/close_encounters.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Tetris [Fran Dachille, 1991].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Trainspotting.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Schaak.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Slide [Joyce Weisbecker].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Velf/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/BiosioPS2/PSiniz.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Dammen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Overhoren Duits.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLMLIB.ASM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/MERGE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/TinyosTS/TINYOSTS.LST
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Schuifspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Rekenen 1.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Pong 2 (Pong hack) [David Winter, 1997].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/MS2000/hd.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-4.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Koekalender.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Master Duck.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/chip8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLM.OV3
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Concatenator.Manual.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Orgel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/tictacIL.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/mops.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Lichtschakeling.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Bord van Galton.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Magisch Vierkant.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Brandstofzoeker.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Fig Forth 1802/FigForth.ASM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.4.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Demo/Snake Demo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/throbber.gif
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/giant_board.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Biorhythm [Jef Winsor].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Sirpinski [Sergey Naydenov, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/What Child Is This  (3_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Jingle Bells.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/ut71.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Cosmicos/ut4_monitor.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/scramble.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLM.OV6
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cidelsa/destroyer set 1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kartografie.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Draak.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Space Invaders [David Winter].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Monitor+.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/BASIC/.BASIC1.CMP
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Griezelgrotten.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/membership.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/school.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Visicom/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Eti/eti-660.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Restart.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Cash Flow Analysis.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/giantboard.v2.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-1.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Talen - Languages/CForthAssembler.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Elf2Kon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.DIAG.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Molenspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Astro Dodge [Revival Studios, 2008].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/kaboom.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Telefoonboek.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mc6847.ntsc.square.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/eject.ico
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Shape maker - Memory Access.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/nvramdump.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Test [Tom Swan, 1979].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Fishie [Hap, 2005].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/play_green.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/BIOSIOV9.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/yankee.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Random Number Test [Matthew Mikolay, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Syzygy [Roy Trevino, 1990].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/vip.32.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Astro Dodge Hires [Revival Studios, 2008].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Highway.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Clock/index.html
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Marketing Game II.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/keydefinition_studio.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/chip8x.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/esim4.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/rs232.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/TICTAC.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/CONASM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/EUPH.BAS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Character Set.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Personal Accounting.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/largeledgreenon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Digitaal klok.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M WP.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Solitaire.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Happiehap 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.HELP.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Galaxis.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Cidelsa/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/monitor_8000h.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/tennis.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/comx35.1.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/BIOSIO93.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/esim1.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/CavePilot.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Temperatuur Schalen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Activate Joycard.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/The 1802 Music Machine.mht
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/TMSINIZnotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/FORMAT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/EUPH.ASM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/CONASM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Vestingspel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/pecom64.v4.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Microtutor/Nim.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/COPY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-2.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-6.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Sierpinski [Sergey Naydenov, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Dbase I.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/usb_rom.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/f&m.utilities.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Space Invaders (ETI660 Hybrid) [P. Easdown,198x].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.2.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Virus.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/chip8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Tiny Basic Compiler Rom Version.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/game_mode.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Weet Je Veel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/combat.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.3.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Cassette Beheer.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/F&M Basic.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Tiny Basic Compiler Rom Version/bascom.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/concentration-match.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-5.2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elfos.0.2.6.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Munten Vangen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Talen - Languages/COMX Pascal.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/VERIFY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Biorhythm [Jef Winsor].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/1802Assembler.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.CONASM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Matrixrekening.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Paddles.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Tetris [Fran Dachille, 1991].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/rec_off.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Copydub.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Clock/clock2.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/system_rom.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Turbo v1.00.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Etiketten Programma.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Sin & Cosine.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Cave.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/DIAG.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/victory.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/LOAD-8275.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/EdtAsm.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/serial-installation.ide
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-7.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/largeledredon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PROM25.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Caleidoscoop.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/intel8275.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.COPY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/tv-arcade-2012.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/16 Line Types.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/OP.SYS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Shape lader.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/page_setup.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLM.OV5
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/HELP.MSG
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Happiehap.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/pin-8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.PRINT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Maze (alt) [David Winter, 199x].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.EDIT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/COMX Demo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Extended ETOPS.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/telmac1800.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Jogging.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Reversi [Philip Baltzer].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PROM25.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Histogram Opbouw.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Mechanical Drawing.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Breakout (Brix hack) [David Winter, 1997].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/us.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Suvi Ajnc.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/printer.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/hitandrun.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Chinees Schaak.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Guess [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLM.OV5
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/tv-arcade-2012.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/microtutor.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/largeledgreenoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/tiny.basic.interpreter.v2.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Blackjack [Andrew Modla] (hybrid).txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/rocket.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MCDS/vt100.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/COMX Hybride.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Craps [Camerlo Cortez, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/ABC.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/membership2.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Trip8 Hires Demo (2008) [Revival Studios].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Energie Programma.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.RENAME.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/TICCMP.BAS
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/1802 Disassembler/bios.inc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/combat.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Adressenbestand.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/Climber.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/hockey.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/RCA_demo.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Demos/Stars [Sergey Naydenov, 2010].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.COPY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/F&M Schaak.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Blinky [Hans Christian Egeberg, 1991].src
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.CDSBIN.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.TAPED.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/CDSBIN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8X/Color Kaleidoscope [Steve Houk, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/netronic.tinyBasic.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/swup.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLM.OV6
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Tiny Basic Compiler Rom Version/bascom.prg
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Sorteer Programma.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PRINT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/baseball.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Expert.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Pakze.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/tennis.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/VIDINIZ.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/vu.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.e000.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Plotter Mechanism.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Hidden [David Winter, 1996].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Talen - Languages/COMX Logo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/largeledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Patience.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.XREF.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Doelschieten.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mc6847.pal.round.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLM.OV2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Cijferbeheer.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.DEL.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/pacman.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/15 Puzzle [Roger Ivie].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Popcorn.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/f&m.expansion.3.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8X/SoundTest.c8x
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/ledon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Maze Race.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/bios+biosiov92.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/39f040.final.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Russian Roulette [Carmelo Cortez, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/UFO [Lutz V, 1992].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Tank.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/TMSINIZ.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-5.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/gunfighter.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Adresar.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/EXAM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M Super Plot.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/quest_super_basic_5_0.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.FREE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/asteroids.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/3D Graphic.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/vip.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.TAPED.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.2.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Music Machine (1_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Diskmonitor.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Lotto.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Coin Flipping [Carmelo Cortez, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcLisp Rom Version/rclisp.prg
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Bomber.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Tinyos2k/TINYOS2K.BIN
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/DEL.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mc6845.comx.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Adressenbestand 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Woorden Maker.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/tennismania.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Gasverbruik-Besparing.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Fishie [Hap, 2005].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Autocross.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M Joy Tekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/long live the 1802.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Renteberekening.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/seriniznotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PERTEC.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/GetallenLijn.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/combat.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/pecom32.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Maanden Leerprogramma.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Kaleidoscope [Joseph Weisbecker, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/quest_super_basic_1_4_serial_io.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M EPROM Switchboard/disk.utilities.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Tic-Tac-Toe [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLMLIB.ASM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/TBshipIL.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/gra-installation.ide
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Shape maker.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Kaleidoscope [Joseph Weisbecker, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/character.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/bios+biosiov93.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/TinyosTS/TINYOSTS.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Bommenwerper.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/music_machine.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Pinball [Andrew Modla].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/combat.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Mparts.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Fun Factory.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Basic introductie 1.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Worm V4 [RB-Revival Studios, 2007].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Vip/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/snoopy.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/Star Trek.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Springplank.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM.OV6
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programs/F&M Basic.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLM.OV4
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/star-wars.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Shape Maker 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/pin-8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Nano/polka.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcLisp Rom Version/bios.inc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_installation_2_5_biosio_mc6847.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Spooky Spot [Joseph Weisbecker, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Maze [David Winter, 199x].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Mind Reader.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Music Composer.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/tick.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Merlin [David Winter].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_installation_2_5_biosio_pixie_video.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/BASIC/.BASIC1.LIB
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/netronics_tiny_basic_serial_io.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/chip10.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/til311.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/COMX Tekenen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/tv-arcade-2012.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Rush Hour [Hap, 2006] (alt).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Determinanten.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/preview.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/MS2000/fdc.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM.OV4
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Schaakklok.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth Rom Version/forth.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/beeper.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/spacewar.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.CDSBIN.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-5.2.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/usb_rom.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Velf/velf.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-5.2.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Jolly Old Saint Nicholas.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Nim [Carmelo Cortez, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Hit and Run.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/fpb.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/largeledredon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Nano/nano.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/MERGE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/TinyosTS/TINYOSTS.HEX
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Space Invaders.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Obligatierendement.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Reversi [Philip Baltzer].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/GetYourGadget-Disk.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-5.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Eti/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Computer Christmas Music.mht
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/switch.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/rca_basic_super_video.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Zoek het woord.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/dos.1.4+f&m.disk.tools.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Comx/original_loaded.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.c000-5.2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Breakout [Carmelo Cortez, 1979].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Squash.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/COMX Dragon.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/star-wars.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/stop.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Electronica Condensatoren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/MEMTST.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Bakterieaanval.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Comx/original_bare.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/fun-with-numbers.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_serial_io.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Tinyos2k/TINYOS2K.HEX
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Basicode v8.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/VERIFY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Schiet een Getal.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/strategisch dobbelen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/MannekePis.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Worm V4 [RB-Revival Studios, 2007].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/Emma 02.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/3aplus4b.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Ruimte Oorlog.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/sweep.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/pinball.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Nachtvlucht.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kluis Kraker.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Shape Maker 4.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Membership/monitor_rom_0000.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/studio2.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/BASIC/BASIC1.LIB
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.VERIFY.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/superbasic.3.0.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/UFO.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Mondharmonica.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Scheikunde - Natuurkunde.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Mastermind.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Netronics Tiny Basic/Tinybasi.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Reken Treintje.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Vers [JMN, 1991].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/fpb.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Shooting Stars [Philip Baltzer, 1978].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Syzygy [Roy Trevino, 1990].SRC
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Guess [David Winter].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/school.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Keypad Test [Hap, 2006].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Pinball [Andrew Modla].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcForth Rom Version/forth.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/We Three Kings (3_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Turbo v2.00.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/leddance.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/app.ico
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/VELFbios-v3.1.LST
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Spooky Spot [Joseph Weisbecker, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Basic introductie 2.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-6.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Victory/multi-cart.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.f800.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kleinste Kwadraten.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Doolhof Race.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Comx/fandm_eprom_board.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Skien.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Zin Ontleding.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/BiosioPS2/BIOSPSV1.ROM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Honingraat.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.e000.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/rom_mapper_pixie_video.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Straight Line.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.MERGE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cidelsa/draco.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Simplepac.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hybrids/Message Center [Andrew Modla] (hybrid).txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Strip Dobbel.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/hockey.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.MEM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Tinyos2k/Tinyos2k.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Clock Program [Bill Fisher, 1981].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Figures.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Disassembler&Monitor.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Pecom/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/DIAG.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/bingo.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/pl80.it.em.ou.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/HELLO.PLM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.U.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/pacman.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/comxleddisabled.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Music Machine (3_4 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-5.1.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/RcLisp Rom Version/rclisp.asm
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Space Invaders (ETI660 Hybrid) [P. Easdown,198x].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.PERTEC.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Sterrenbeelden.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC600/demo2.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Hidden [David Winter, 1996].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/outbreak.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Pong [Paul Vervalin, 1990].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Bowling [Gooitzen van der Wal].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.PROM25.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/sounder.1802asm.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Roulette.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/comxledoff.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/supermon.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Werkwoorden en Vervoegingen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/tapeloader.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.3.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Energie Verbruik.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Backgammon.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/extra.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Hires Maze [David Winter, 199x].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.c000-4.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Isomech.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Afdaling.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/invaders.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Duikbootjager.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/largeledorangeon.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/TAPED.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/Climber.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/15 Puzzle [Roger Ivie].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/cosmicos.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/f&m.expansion.3.2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Music Machine (3_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/De Eerste Woordjes.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/God Rest Ye Merry Gentlemen (3_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/QuestData/buttermilk hill pcm.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MCDS/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Blitz [David Winter].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Sterrenslag.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.3.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM.OV3
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/TMC1800/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/HELP.MSG
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC1800/chip8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/IBM Logo.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Nano/chip8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/BASIC1.INT
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/.PLM.OV2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Zoekdetrein.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/rcabug.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Crazy Kong.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Eet een wurm.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Superzoeker.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Deck The Halls  (1_2 Duration).hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Cross Fire.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kookboek.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/BIOSiov9REQ.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Kwiedelgrotten.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/O Little Town Of Bethlehem.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Rivier Race.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/superbasic.1.4.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Wipeout (ETI660 hybrid) [W.F. Kreykes, 1982].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLM.OV1
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Bowling.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/kaleidoscope.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/chip8.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM.OV5
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/invaders.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM/PLM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Missile [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Wedstrijd Programma.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/mc6847.ntsc.round.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Labyrint.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Shape lader - Memory Access.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLM.OV6
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Animal Race [Brian Astle].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/PLM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Schippersklavier.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Yathzee.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/chip8.stepper.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Tron.ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Joy in Basic.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/beeper.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Cosmicos/hexmops.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programs/HistoryTimeChart.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M TOS v3.00.Manual.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Vlaggen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Kleine letters.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.CONASM.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Reactie Snelheid.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Osvajaci Svemira.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Connect 4 [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/giantboard.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/scramble.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Games/flipflop.cos
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Getal Raden.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Hoofdsteden.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_installation_2_8_serial_io.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/F&M Basic/Zoek de trein.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/F&M Alpha+.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 ETI660 Hybrids/Wipeout (ETI660 hybrid) [W.F. Kreykes, 1982].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Angels We Have Heard On High.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Submarine [Carmelo Cortez, 1978].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Look Before You.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/MICRODOS/.FORMAT.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Fruitautomaat.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/delbookm.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW Development/sb.0000.4.debug
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Integraal Berekening.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Lunar Lander (Udo Pernisz, 1979).ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Trka Konja.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Electronica Zelfinducties.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/rocket.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Framed MK2 [GV Samways, 1980].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/3DBoterKaasEieren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images_linux/swupred.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Paardenraces.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.config
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Electronica Transformatoren.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/v88.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/print_on.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/CDSBIN.SR
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Dr Math.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Vidicalc.Manual.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Victory/scramble.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/til313.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/CDSBIN.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/rocket_v101.pdf
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/images/resetButtonUp.png
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/FREE.CM
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/pacman.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Victory/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Music/Hark! The Herald Angels Sing.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.0000.2.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Plotter/Graph Chart.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.PLM.OV2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Space Invaders [David Winter].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Rush Hour [Hap, 2006].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/baseball.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/plotter-2.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/UFO [Lutz V, 1992].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/RP/EUPH.LST
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/TMC2000/telmac2000.rom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Usb FW/sb.f800.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Get Your Gadget.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Cijfer Series.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Gedachten Lezen.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/Biosio/VIDINIZnotes.txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Delay Timer Test [Matthew Mikolay, 2010].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/Pacman.zip
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Boggle.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Joodse Kalender.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Studio2/asteroids.st2
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Microtutor/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/Mini Monitor.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Games/Raider.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/program3.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_biosio_tms_9918.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/super.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/BASIC1.CMP
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/superbasic.6.0.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/german.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Vertical Brix [Paul Robson, 1996].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Lock.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Programmas/Geboorte Kalender.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Pecom/Pecom Ratuje.pecom
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/superbasic.1.47.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Hazenjacht.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Tinyos2k/TINYOS2K.LST
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Demo/F&M Donkey Kong Demo.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/fpb_color.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Educatief/Matrix.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Programs/Framed MK1 [GV Samways, 1980].ch8
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Jack Pot Machine.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Disks/assembler.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/VipII/default.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Empire.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Hulpmiddelen - Utilities/F&M Turbo v2.00.Manual.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/vt52.a.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Games/Most Dangerous Game [Peter Maruhnic].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Membership/monitor_0000h.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/rca_basic_serial_io.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/VipII/pin-8.4ch.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/comx35.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Vier Op Een Rij.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/chip8x.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf/elf-emulation.com/Tiny Basic Compiler Rom Version/bios.inc
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Velf/VELFbios-v3.1.bin
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Vip/cosmac.ram
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/Configurations/Elf/elfos_biosio_serial_io.ini
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Comx/Spellen/Galaxion.comx
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Elf2K/Clock/clock2.hex
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/PLM 1800.img
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/Chip-8/Chip-8 Hires/Trip8 Hires Demo (2008) [Revival Studios].txt
+W: emma-02: executable-not-elf-or-script usr/share/emma_02/data/MS2000/Software/.FORMAT.CM

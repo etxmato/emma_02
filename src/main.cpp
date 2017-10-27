@@ -971,6 +971,12 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 #if defined(__linux__)
 	dataDir_ = configPointer->Read("/DataDir", configDirectory + pathSeparator_ + "emma_02_data" + pathSeparator_);
     applicationDirectory_ = applicationFile.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    if (!wxFile::Exists(applicationDirectory_ + "main.xrc"))
+    {
+        applicationDirectory_ = wxStandardPaths::Get().GetExecutablePath();
+        applicationDirectory_ = applicationDirectory_.Left(applicationDirectory_.Len()-11);
+        applicationDirectory_ = applicationDirectory_ + "share" + pathSeparator_ + "emma_02" + pathSeparator_;
+    }
 #endif
 #if defined (__WXMAC__)
     dataDir_ = wxStandardPaths::Get().GetDocumentsDir();
@@ -6258,7 +6264,7 @@ wxString Main::getApplicationDir()
 	return applicationDirectory_;
 }
 
-wxChar Main::getPathSep()
+wxString Main::getPathSep()
 {
 	return pathSeparator_;
 }
