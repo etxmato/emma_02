@@ -242,7 +242,7 @@ void VipII::keyDown(int keycode)
 
 void VipII::keyUp(int keycode)
 {
-	keyboardEf_ = 1;
+//	keyboardEf_ = 1;
 	if (keyDefinition[keycode].defined)
 		vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
@@ -356,9 +356,10 @@ Byte VipII::in(Byte port, Word WXUNUSED(address))
 
 		case KEYBRDIN:
 			ret = keyboardValue_;
+			keyboardEf_ = 1;
 			if (vipRunCommand_ != 0)
 			{
-				keyboardEf_ = 1;
+				//keyboardEf_ = 1;
 				if (keyboardValue_ == 13)
 					vipRunCommand_ = 0;
 			}

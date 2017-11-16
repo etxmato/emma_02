@@ -278,8 +278,8 @@ void Vip::keyDown(int keycode)
 
 void Vip::keyUp(int keycode)
 {
-	if (useKeyboard_)
-		keyboardEf_ = 1;
+//	if (useKeyboard_)
+//		keyboardEf_ = 1;
 	if (keyDefinition[keycode].defined)
 		vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
@@ -352,9 +352,10 @@ Byte Vip::in(Byte port, Word WXUNUSED(address))
 
 		case KEYBRDIN:
 			ret = keyboardValue_;
+			keyboardEf_ = 1;
 			if (vipRunCommand_ != 0)
 			{
-				keyboardEf_ = 1;
+				//keyboardEf_ = 1;
 				if (keyboardValue_ == 13)
 					vipRunCommand_ = 0;
 			}
