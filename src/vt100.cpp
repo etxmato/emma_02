@@ -1096,7 +1096,7 @@ void Vt100::cycleVt()
 				{
 					vtCount_ = -1;
 					Display(rs232_ & 0x7f, false);
-//                    p_Main->messageHex(rs232_);
+                    p_Main->messageHex(rs232_);
 				}
 			}
 		}
