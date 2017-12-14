@@ -133,7 +133,8 @@ void GuiCosmicos::readCosmicosConfig()
 	configPointer->Read("/Cosmicos/Enable_Real_Cassette", &conf[COSMICOS].realCassetteLoad_, false);
 
 	getConfigBool("/Cosmicos/SerialLog", false);
-	configPointer->Read("/Cosmicos/VtEf", &elfConfiguration[COSMICOS].vtEf, false);
+    configPointer->Read("/Cosmicos/BaudRateDetachedFromCpuSpeed", &elfConfiguration[COSMICOS].baudRateDetachedFromCpuSpeed, false);
+    configPointer->Read("/Cosmicos/VtEf", &elfConfiguration[COSMICOS].vtEf, false);
 	configPointer->Read("/Cosmicos/VtQ", &elfConfiguration[COSMICOS].vtQ, true);
 	elfConfiguration[COSMICOS].bellFrequency_ = (int)configPointer->Read("/Cosmicos/Bell_Frequency", 800);
 
@@ -244,7 +245,8 @@ void GuiCosmicos::writeCosmicosConfig()
 	configPointer->Write("/Cosmicos/Wav_File", conf[COSMICOS].wavFile_);
 	configPointer->Write("/Cosmicos/Vt_Wav_File", elfConfiguration[COSMICOS].vtWavFile_);
 
-	configPointer->Write("/Cosmicos/VtEf", elfConfiguration[COSMICOS].vtEf);
+    configPointer->Write("/Cosmicos/BaudRateDetachedFromCpuSpeed", elfConfiguration[COSMICOS].baudRateDetachedFromCpuSpeed);
+    configPointer->Write("/Cosmicos/VtEf", elfConfiguration[COSMICOS].vtEf);
 	configPointer->Write("/Cosmicos/VtQ", elfConfiguration[COSMICOS].vtQ);
 	configPointer->Write("/Cosmicos/VT_Type", elfConfiguration[COSMICOS].vtType);
 	configPointer->Write("/Cosmicos/Bell_Frequency", elfConfiguration[COSMICOS].bellFrequency_);

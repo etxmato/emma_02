@@ -447,6 +447,9 @@ void Membership::switchQ(int value)
 {
 	qLedStatus_ = (qLedStatus_ & 2) | (value & 1);
     memberScreenPointer->setQLed(qLedStatus_);
+    
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
 }
 
 int Membership::getMpButtonState()

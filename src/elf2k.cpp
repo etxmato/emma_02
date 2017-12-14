@@ -723,6 +723,9 @@ void Elf2K::cycleElf2K()
 void Elf2K::switchQ(int value)
 {
 	elf2KScreenPointer->setQLed(value);
+    
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
 }
 
 void Elf2K::startComputer()

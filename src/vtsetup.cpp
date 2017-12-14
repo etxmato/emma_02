@@ -64,35 +64,33 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-//			XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(p_Main->getConfigBool(computerTypeStr_+"/Uart", false));
             XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
 			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart CDP1854");
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-			XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->SetValue(elfConfiguration_.baudRateAdjust);
+//            XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->SetValue(elfConfiguration_.baudRateAdjust);
 		break;
 
         case MCDS:
             XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
-            XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
+//            XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
         break;
             
 		case MS2000:
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
 			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
-			XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
+//			XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
 		break;
 
 		case ELF2K:
-//          XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(p_Main->getConfigBool(computerTypeStr_+"/Uart", false));
             XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
 			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart 16450");
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-			XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
+//			XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
 		break;
 
 		case COSMICOS:
@@ -102,9 +100,11 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
 			XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
 			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
-            XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
+//            XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->Hide();
 		break;
 	}
+
+    XRCCTRL(*this, "BaudRateDetachedFromCpuSpeed", wxCheckBox)->SetValue(elfConfiguration_.baudRateDetachedFromCpuSpeed);
 
     wxString bellFrequency;
     bellFrequency.Printf("%d", elfConfiguration_.bellFrequency_);
@@ -158,6 +158,14 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     }
 
     elfConfiguration_.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
+    
+    bool baudRateDetachedFromCpuSpeed = XRCCTRL(*this, "BaudRateDetachedFromCpuSpeed", wxCheckBox)->GetValue();
+    
+    if (baudRateDetachedFromCpuSpeed != elfConfiguration_.baudRateDetachedFromCpuSpeed)
+    {
+        elfConfiguration_.baudRateDetachedFromCpuSpeed = baudRateDetachedFromCpuSpeed;
+        elfConfiguration_.clearRam = true;
+    }
 
 	switch (computerType_)
 	{
@@ -172,7 +180,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
                 wxPostEvent(p_Main, uartEvent);
             }
             
-            elfConfiguration_.baudRateAdjust = XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->GetValue();
+//            elfConfiguration_.baudRateAdjust = XRCCTRL(*this, "BaudRateAdjust", wxCheckBox)->GetValue();
 		break;
 
         case MCDS:

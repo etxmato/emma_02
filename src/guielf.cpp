@@ -430,7 +430,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	elfConfiguration[elfType].memoryType = (int)configPointer->Read(elfTypeStr+"/Memory_Type", 0l);
 
 	elfConfiguration[elfType].bellFrequency_ = (int)configPointer->Read(elfTypeStr + "/Bell_Frequency", 800);
-	configPointer->Read(elfTypeStr+"/BaudRateAdjust", &elfConfiguration[elfType].baudRateAdjust, false);
+    configPointer->Read(elfTypeStr+"/BaudRateDetachedFromCpuSpeed", &elfConfiguration[elfType].baudRateDetachedFromCpuSpeed, false);
+//    configPointer->Read(elfTypeStr+"/BaudRateAdjust", &elfConfiguration[elfType].baudRateAdjust, false);
     configPointer->Read(elfTypeStr+"/SerialLog", &elfConfiguration[elfType].serialLog, false);
     configPointer->Read(elfTypeStr+"/Uart", &elfConfiguration[elfType].useUart, false);
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Boot", &elfConfiguration[elfType].autoBoot, true);
@@ -708,7 +709,8 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Receive", elfConfiguration[elfType].baudR);
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Transmit", elfConfiguration[elfType].baudT);
 	configPointer->Write(elfTypeStr + "/Bell_Frequency", elfConfiguration[elfType].bellFrequency_);
-	configPointer->Write(elfTypeStr+"/BaudRateAdjust", elfConfiguration[elfType].baudRateAdjust);
+    configPointer->Write(elfTypeStr+"/BaudRateDetachedFromCpuSpeed", elfConfiguration[elfType].baudRateDetachedFromCpuSpeed);
+//    configPointer->Write(elfTypeStr+"/BaudRateAdjust", elfConfiguration[elfType].baudRateAdjust);
     configPointer->Write(elfTypeStr+"/SerialLog", elfConfiguration[elfType].serialLog);
     configPointer->Write(elfTypeStr+"/Uart", elfConfiguration[elfType].useUart);
     configPointer->Write(elfTypeStr+"/Enable_Auto_Boot", elfConfiguration[elfType].autoBoot);

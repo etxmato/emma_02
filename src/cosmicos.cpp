@@ -798,6 +798,10 @@ void Cosmicos::switchQ(int value)
 
 	if (bootstrap_ != 0 && flipFlopQ_ == 1)
 		bootstrap_ = 0;
+
+    
+    if (cosmicosConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
 }
 
 void Cosmicos::showData(Byte val)

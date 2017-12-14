@@ -45,6 +45,7 @@ public:
 
 	void setMcdsClockSpeed(double clock) {McdsClockSpeed_ = clock;};
 	void activateMainWindow();
+    void switchQ(int value);
 
 private:
 

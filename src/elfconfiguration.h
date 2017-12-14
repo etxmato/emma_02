@@ -104,6 +104,7 @@ public:
 	int vtType;
     bool serialLog;
     bool baudRateAdjust;
+    bool baudRateDetachedFromCpuSpeed;
 	int bellFrequency_;
 	wxString vtWavFileDir_;
 	wxString vtWavFile_;

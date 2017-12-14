@@ -577,7 +577,10 @@ void Velf::outVelf(Byte value)
 
 void Velf::switchQ(int value)
 {
-	if (!usePrinter_)  return;
+    if (vipConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (!usePrinter_)  return;
 
 	if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
 		p_Printer->printerOut(printLatch_);

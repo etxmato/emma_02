@@ -104,6 +104,7 @@ void GuiMembership::readMembershipConfig()
 	selectedComputer_ = MEMBER;
 
 	getConfigBool("/Membership/SerialLog", false);
+    configPointer->Read("/Membership/BaudRateDetachedFromCpuSpeed", &elfConfiguration[MEMBER].baudRateDetachedFromCpuSpeed, false);
 	configPointer->Read("/Membership/VtEf", &elfConfiguration[MEMBER].vtEf, true);
 	configPointer->Read("/Membership/VtQ", &elfConfiguration[MEMBER].vtQ, false);
 	elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
@@ -249,6 +250,7 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
 
 	configPointer->Write("/Membership/Load_Mode_Rom", (loadromMode_ == ROM));
+    configPointer->Write("/Membership/BaudRateDetachedFromCpuSpeed", elfConfiguration[MEMBER].baudRateDetachedFromCpuSpeed);
 	configPointer->Write("/Membership/VtEf", elfConfiguration[MEMBER].vtEf);
 	configPointer->Write("/Membership/VtQ", elfConfiguration[MEMBER].vtQ);
 	configPointer->Write("/Membership/Bell_Frequency", elfConfiguration[MEMBER].bellFrequency_);

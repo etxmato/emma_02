@@ -44,6 +44,7 @@ public:
 
 	void setMs2000ClockSpeed(double clock) {ms2000ClockSpeed_ = clock;};
 	void activateMainWindow();
+    void switchQ(int value);
 
 private:
 

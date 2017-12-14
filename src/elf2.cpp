@@ -817,6 +817,9 @@ void Elf2::autoBoot()
 void Elf2::switchQ(int value)
 {
 	elf2ScreenPointer->setQLed(value);
+
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
 }
 
 int Elf2::getMpButtonState()

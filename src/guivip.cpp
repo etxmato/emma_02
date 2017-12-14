@@ -199,6 +199,7 @@ void GuiVip::readVipConfig()
 	defaultClock.Printf("%1.4f", 1.7609);
 	conf[VIP].clock_ = configPointer->Read("/Vip/Clock_Speed", defaultClock);
 
+    configPointer->Read("/Vip/BaudRateDetachedFromCpuSpeed", &elfConfiguration[VIP].baudRateDetachedFromCpuSpeed, false);
 	configPointer->Read("/Vip/VtEf", &elfConfiguration[VIP].vtEf, false);
 	configPointer->Read("/Vip/VtQ", &elfConfiguration[VIP].vtQ, true);
 	elfConfiguration[VIP].bellFrequency_ = (int)configPointer->Read("/Vip/Bell_Frequency", 800);
@@ -290,6 +291,7 @@ void GuiVip::writeVipConfig()
 	configPointer->Write("/Vip/Wav_File", conf[VIP].wavFile_);
 	configPointer->Write("/Vip/Vt_Wav_File", elfConfiguration[VIP].vtWavFile_);
 
+    configPointer->Write("/Vip/BaudRateDetachedFromCpuSpeed", elfConfiguration[VIP].baudRateDetachedFromCpuSpeed);
 	configPointer->Write("/Vip/VtEf", elfConfiguration[VIP].vtEf);
 	configPointer->Write("/Vip/VtQ", elfConfiguration[VIP].vtQ);
 	configPointer->Write("/Vip/Bell_Frequency", elfConfiguration[VIP].bellFrequency_);

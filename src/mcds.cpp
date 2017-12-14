@@ -555,3 +555,10 @@ void Mcds::activateMainWindow()
 	Show(true);
 	Maximize(maximize);
 }
+
+void Mcds::switchQ(int value)
+{
+    if (McdsConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+}
+

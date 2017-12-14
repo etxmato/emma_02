@@ -30,6 +30,7 @@ public:
 	void setInterlace(bool status);
 	void setStretchDot(bool status);
 
+    void switchQ(int value);
 	void setClock(double clock);
 	void setCycle();
 	void copyScreen();

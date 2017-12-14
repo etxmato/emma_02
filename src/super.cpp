@@ -932,6 +932,9 @@ void Super::autoBoot()
 void Super::switchQ(int value)
 {
 	superScreenPointer->setQLed(value);
+
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
 }
 
 int Super::getMpButtonState()

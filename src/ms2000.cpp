@@ -662,3 +662,10 @@ void Ms2000::activateMainWindow()
 	Show(true);
 	Maximize(maximize);
 }
+
+void Ms2000::switchQ(int value)
+{
+    if (ms2000Configuration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+}
+
