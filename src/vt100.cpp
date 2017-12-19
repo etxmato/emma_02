@@ -398,7 +398,7 @@ void Vt100::configureMember(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ += 1;
     selectedBaudR_ += 1;
 
-    int originalClockSpeed = 1880000;
+    int originalClockSpeed = 1900000;
     
     baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
     if (elfConfiguration_.baudRateDetachedFromCpuSpeed)

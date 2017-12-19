@@ -121,7 +121,8 @@ public:
 	void onChip8TraceInt(wxCommandEvent&event);
 	void onTraceTrap(wxCommandEvent&event);
 
-	void onInt(wxCommandEvent&event);
+    void onInt(wxCommandEvent&event);
+    void onReset(wxCommandEvent&event);
 
 	void onPauseButton(wxCommandEvent&event);
 	void onStepButton(wxCommandEvent&event);

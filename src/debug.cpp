@@ -425,6 +425,7 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 
 	EVT_BUTTON(XRCID("DebugInterrupt"), DebugWindow::onInt)
 	EVT_BUTTON(XRCID("ClearButton"), DebugWindow::onClear)
+    EVT_BUTTON(XRCID("DebugReset"), DebugWindow::onReset)
 
 	EVT_BUTTON(XRCID("DebugPauseButton"), DebugWindow::onPauseButton)
 	EVT_BUTTON(XRCID("DebugStepButton"), DebugWindow::onStepButton)
@@ -1118,7 +1119,8 @@ void DebugWindow::enableDebugGui(bool status)
 //	XRCCTRL(*this,"DebugAssemblerAddress", wxTextCtrl)->Enable(status);
 	XRCCTRL(*this,"ProtectedMode", wxCheckBox)->Enable(status);
 	XRCCTRL(*this,"DebugRunButton", wxButton)->Enable(status);
-	XRCCTRL(*this,"DebugInterrupt", wxButton)->Enable(status);
+    XRCCTRL(*this,"DebugInterrupt", wxButton)->Enable(status);
+    XRCCTRL(*this,"DebugReset", wxButton)->Enable(status);
 //	XRCCTRL(*this,"DebugDis", wxButton)->Enable(status);
 //	XRCCTRL(*this,"DebugDisLog", wxButton)->Enable(status);
 	XRCCTRL(*this,"DebugCopy", wxButton)->Enable(status);
@@ -7141,6 +7143,11 @@ void DebugWindow::onTraceTrap(wxCommandEvent& WXUNUSED(event))
 void DebugWindow::onInt(wxCommandEvent& WXUNUSED(event))
 {
 	p_Computer->interrupt();
+}
+
+void DebugWindow::onReset(wxCommandEvent& WXUNUSED(event))
+{
+    p_Computer->onReset();
 }
 
 void DebugWindow::onBreakPointSet(wxCommandEvent&WXUNUSED(event))

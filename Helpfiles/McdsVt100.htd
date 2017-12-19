@@ -15,7 +15,7 @@ Currently no Uart is supported. The serial mode is using serial output on the Q 
 <p>
 Note that the transmit and receive (choice button T/R) baudrates are equal and the speed can be set between 300 to 1200 baud. The UT62 FW uses max 1200 baud.
 </p>
-<h3>Stretch Dot</h3>
+<h3>Stretch</h3>
 <p>
 The original VT terminals repeated every 'dot' on the screen if defined as 'on' in the font. This resulted in 'stretched' characters. The detail of the character is actually higher if this function is not used. To enable select the Strecth check box.
 </p>
@@ -26,6 +26,13 @@ In the terminal Setup window either a frequency for the bell sound can be select
 <h3>Log</h3>
 <p>
 To log all VT terminal output to a file (terminal.log) select the Log check box (in Terminal Setup window). If the terminal.log file already exists a new file is created with a sequence number every time the emulated computer window is initiated. E.g. the file 'terminal.log' is used the first time, next time the file 'terminal.1.log' will be created.
+</p>
+<h3>Baud rate detached from CPU speed</h3>
+<p>
+Default the baud rate of the emulated video terminal is calculated based on a machine running on clock speed of around 2 MHz. The calculation is done using the current CPU speed to allow the emulated machine to run on any speed without need for baud rate changes. This means that Emma 02 might use a faster baud rate then specified if the CPU speed is increased over 2 MHz.
+</p>
+<p>
+This can be changed (in the terminal Setup window) by selecting 'Baud rate detached from CPU speed'. With this option the selected baud rate will always be the same even in the CPU speed is increased. As a result some SW might not run unless the CPU speed is equal to the machine it was created for. For example 1802 code that was designed for a 2 MHz machine and 4800 baud, will not run on 4 MHz and 4800, instead it will only work on 9600 baud.
 </p>
 <h3>VT100</h3>
 <h4>Set-up</h4>
