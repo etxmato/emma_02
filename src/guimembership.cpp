@@ -146,8 +146,8 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].volume_ = (int)configPointer->Read("/Membership/Volume", 25l);
 
 	elfConfiguration[MEMBER].clearRam = false;
-	elfConfiguration[MEMBER].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 0l);
-	elfConfiguration[MEMBER].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 0l);
+	elfConfiguration[MEMBER].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 1l);
+	elfConfiguration[MEMBER].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 1l);
 
 	configPointer->Read("/Membership/Open_Control_Windows", &elfConfiguration[MEMBER].useElfControlWindows, true);
 	configPointer->Read("/Membership/Force_Uppercase", &elfConfiguration[MEMBER].forceUpperCase, true);
@@ -339,6 +339,7 @@ void GuiMembership::onMembershipControlWindows(wxCommandEvent&event)
 void GuiMembership::setBaudChoiceMembership()
 {
 	wxArrayString choices;
+    choices.Add("19200");
     choices.Add("9600");
     choices.Add("4800");
     choices.Add("3600");

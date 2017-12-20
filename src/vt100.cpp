@@ -395,14 +395,11 @@ void Vt100::configureMember(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    selectedBaudT_ += 1;
-    selectedBaudR_ += 1;
-
-    int originalClockSpeed = 1900000;
+    int originalClockSpeed = 2000000;
     
     baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
     if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
+        baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -1052,7 +1049,7 @@ void Vt100::cycleVt()
             {
                 vt100Ef_ = 0;
                 parity_ = Parity(vtOut_);
-                vtOutCount_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]); //baudRateT_;
+                vtOutCount_ = baudRateT_; //(int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
                 if (SetUpFeature_[VTBITS])
                     vtOutBits_ = 10;
                 else
