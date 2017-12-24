@@ -56,13 +56,6 @@ To log all VT terminal output to a file (terminal.log) select the Log check box 
 <p>
 In the terminal Setup window either a frequency for the bell sound can be selected (default 800 Hz) or a wav file. If a wav file is specified the sound contained in that file will be played when a bell is activated on the simulated VT.
 </p>
-<h3>Baud rate detached from CPU speed</h3>
-<p>
-Default the baud rate of the emulated video terminal is calculated based on a machine running on clock speed of around 2 MHz. The calculation is done using the current CPU speed to allow the emulated machine to run on any speed without need for baud rate changes. This means that Emma 02 might use a faster baud rate then specified if the CPU speed is increased over 2 MHz.
-</p>
-<p>
-This can be changed (in the terminal Setup window) by selecting 'Baud rate detached from CPU speed'. With this option the selected baud rate will always be the same even in the CPU speed is increased. As a result some SW might not run unless the CPU speed is equal to the machine it was created for. For example 1802 code that was designed for a 2 MHz machine and 4800 baud, will not run on 4 MHz and 4800, instead it will only work on 9600 baud.
-</p>
 <h3>VT100</h3>
 <h4>Set-up</h4>
 <p>

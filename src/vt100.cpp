@@ -312,28 +312,10 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
 		selectedBaudR_ += 3;
 	}
 
-    int originalClockSpeed = 2160000;
-    
-    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudR_]);
-    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-    {
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
-        baudRateR_ = (baudRateR_ * clock_ * 1000000) / originalClockSpeed;
-    }
-    
-/*    if (elfConfiguration_.baudRateAdjust)
-    {
-        baudRateT_ = baudRateFactor_[selectedBaudT_];
-        baudRateR_ = baudRateFactor_[selectedBaudR_];
-    }
-    else
-    {
-        baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-        baudRateR_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudR_]);
-    }*/
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
 
-	if (uart_)
+    if (uart_)
 	{
 		configureUart(elfPortConf);
 	}
@@ -341,8 +323,8 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
 	{
 //		output = p_Main->getConfigItem(runningComp+"/Vt100Output", 7l);
 //		efPort = p_Main->getConfigItem(runningComp+"/Vt100Ef", 2l);
-        reverseEf_ = elfPortConf.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
-        reverseQ_ = elfPortConf.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
+        reverseEf_ = elfPortConf.vt100ReverseEf;
+        reverseQ_ = elfPortConf.vt100ReverseQ; 
 
 		p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
 		p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
@@ -395,10 +377,7 @@ void Vt100::configureMember(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-//    int originalClockSpeed = 2000000;
-//    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-//    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-        baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -431,11 +410,7 @@ void Vt100::configureMcds(int selectedBaudR, int selectedBaudT)
 	selectedBaudT_ = selectedBaudT + 7;
 	selectedBaudR_ = selectedBaudR + 7;
 
-    int originalClockSpeed = 2000000;
-    
-    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
 
 	p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -476,11 +451,7 @@ void Vt100::configureCosmicos(int selectedBaudR, int selectedBaudT)
 		selectedBaudR_ += 4;
 	}
 
-    int originalClockSpeed = 2000000;
-    
-    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -517,14 +488,8 @@ void Vt100::configureVip(int selectedBaudR, int selectedBaudT)
 		selectedBaudT_ += 4;
 		selectedBaudR_ += 4;
 	}
-//	baudRateT_ = baudRateFactor_[selectedBaudT_];
-//  baudRateR_ = baudRateFactor_[selectedBaudR_];
 
-    int originalClockSpeed = 2000000;
-    
-    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
+    baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -559,11 +524,7 @@ void Vt100::configureVelf(int selectedBaudR, int selectedBaudT)
 	selectedBaudT_ ++;
 	selectedBaudR_ ++;
     
-    int originalClockSpeed = 1880000;
-    
-    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
+    baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -624,15 +585,8 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    int originalClockSpeed = 2000000;
-    
-    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudR_]);
-    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-    {
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
-        baudRateR_ = (baudRateR_ * clock_ * 1000000) / originalClockSpeed;
-    }
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
     
     p_Computer->setEfType(4, VT100EF);
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
@@ -683,15 +637,8 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigura
 		selectedBaudR_ += 3;
 	}
 
-    int originalClockSpeed = 2000000;
-    
-    baudRateT_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((originalClockSpeed) / 8) / baudRateValue_[selectedBaudR_]);
-    if (elfConfiguration_.baudRateDetachedFromCpuSpeed)
-    {
-        baudRateT_ = (baudRateT_ * clock_ * 1000000) / originalClockSpeed;
-        baudRateR_ = (baudRateR_ * clock_ * 1000000) / originalClockSpeed;
-    }
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
 
 	if (uart_)
 	{

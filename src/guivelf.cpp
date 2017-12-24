@@ -184,7 +184,6 @@ void GuiVelf::readVelfConfig()
     defaultTimer.Printf("%d", 100);
     conf[VELF].ledTime_ = configPointer->Read("/Velf/Led_Update_Frequency", defaultTimer);
     
-    configPointer->Read("/Velf/BaudRateDetachedFromCpuSpeed", &elfConfiguration[VELF].baudRateDetachedFromCpuSpeed, false);
 	configPointer->Read("/Velf/VtEf", &elfConfiguration[VELF].vtEf, true);
 	configPointer->Read("/Velf/VtQ", &elfConfiguration[VELF].vtQ, false);
 	elfConfiguration[VELF].bellFrequency_ = (int)configPointer->Read("/Velf/Bell_Frequency", 800);
@@ -276,7 +275,6 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Wav_File", conf[VELF].wavFile_);
 	configPointer->Write("/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFile_);
 
-    configPointer->Write("/Velf/BaudRateDetachedFromCpuSpeed", elfConfiguration[VELF].baudRateDetachedFromCpuSpeed);
 	configPointer->Write("/Velf/VtEf", elfConfiguration[VELF].vtEf);
 	configPointer->Write("/Velf/VtQ", elfConfiguration[VELF].vtQ);
 	configPointer->Write("/Velf/Bell_Frequency", elfConfiguration[VELF].bellFrequency_);
