@@ -65,6 +65,7 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
 
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
 
+    EVT_CHECKBOX(XRCID("VtExternalMcds"), GuiMain::onVtExternal)
     EVT_CHOICE(XRCID("VTTypeMcds"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtMcds"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMcds"), GuiMain::onZoomDownVt)
@@ -170,6 +171,7 @@ void GuiMcds::readMcdsConfig()
 	getConfigBool("/Mcds/SerialLog", false);
 
 	configPointer->Read("/Mcds/Enable_Vt_Stretch_Dot", &conf[MCDS].stretchDot_, false);
+    configPointer->Read("/Mcds/Enable_Vt_External", &elfConfiguration[MCDS].vtExternal, false);
 
     elfConfiguration[MCDS].useUart = false; 
     elfConfiguration[MCDS].bellFrequency_ = (int)configPointer->Read("/Mcds/Bell_Frequency", 800);
@@ -244,6 +246,7 @@ void GuiMcds::readMcdsConfig()
 		XRCCTRL(*this, "ZoomValueVtMcds", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
+        XRCCTRL(*this, "VtExternalMcds", wxCheckBox)->SetValue(elfConfiguration[MCDS].vtExternal);
 		XRCCTRL(*this, "StretchDotMcds", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
         XRCCTRL(*this, "WavFileMcds", wxTextCtrl)->SetValue(conf[MCDS].wavFile_);
         XRCCTRL(*this, "VolumeMcds", wxSlider)->SetValue(conf[MCDS].volume_);
@@ -305,6 +308,7 @@ void GuiMcds::writeMcdsConfig()
 	configPointer->Write("/Mcds/Vt_Zoom", conf[MCDS].zoomVt_);
     configPointer->Write("/Mcds/Force_Uppercase", elfConfiguration[MCDS].forceUpperCase);
     configPointer->Write("/Mcds/Enable_Vt_Stretch_Dot", conf[MCDS].stretchDot_);
+    configPointer->Write("/Mcds/Enable_Vt_External", elfConfiguration[MCDS].vtExternal);
     configPointer->Write("/Mcds/Volume", conf[MCDS].volume_);
     configPointer->Write("/Mcds/Boot_From_Ram", elfConfiguration[MCDS].bootRam);
     

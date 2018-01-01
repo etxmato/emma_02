@@ -291,6 +291,8 @@ Elf2::~Elf2()
 		p_Main->setVtPos(ELFII, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	if (p_Main->getPrinterStatus(ELFII))
 	{
 		p_Printer->closeFrames();
@@ -1431,6 +1433,12 @@ void Elf2::configureElfExtensions()
 		vtPointer->Show(true);
 		vtPointer->drawScreen();
 	}
+
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(ELFII, elfClockSpeed_, elfConfiguration);
+        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+    }
 
 	if (elfConfiguration.usePixie)
 	{

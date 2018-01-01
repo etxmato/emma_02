@@ -102,10 +102,12 @@ public:
 	bool useTMS9918;
 	bool use8275;
 	int vtType;
+    int vtExternal;
     bool serialLog;
 	int bellFrequency_;
 	wxString vtWavFileDir_;
-	wxString vtWavFile_;
+    wxString vtWavFile_;
+    wxString serialPort_;
 	bool useUart;
 	int baudR;
 	int baudT;

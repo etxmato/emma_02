@@ -56,6 +56,7 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
 	EVT_BUTTON(XRCID("KeyFileButtonElf2K"), GuiMain::onKeyFile)
 	EVT_BUTTON(XRCID("EjectKeyFileElf2K"), GuiMain::onKeyFileEject)
 
+    EVT_CHECKBOX(XRCID("VtExternalElf2K"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeElf2K"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinElf2K"), GuiMain::onZoomUp)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinElf2K"), GuiMain::onZoomDown)
@@ -143,6 +144,7 @@ void GuiElf2K::readElf2KConfig()
 
 	configPointer->Read("/Elf2K/Enable_Interlace", &conf[ELF2K].interlace_, true);
 	configPointer->Read("/Elf2K/Enable_Vt_Stretch_Dot", &conf[ELF2K].stretchDot_, false);
+    configPointer->Read("/Elf2K/Enable_Vt_External", &elfConfiguration[ELF2K].vtExternal, false);
     conf[ELF2K].beepFrequency_ = (int)configPointer->Read("/Elf2K/Beep_Frequency", 250);
     
 	elfConfiguration[ELF2K].bellFrequency_ = (int)configPointer->Read("/Elf2K/Bell_Frequency", 800);
@@ -225,6 +227,7 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "Elf2KControlWindows", wxCheckBox)->SetValue(elfConfiguration[ELF2K].useElfControlWindows);
 		XRCCTRL(*this, "ShowAddressElf2K",wxTextCtrl)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
 		XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->SetValue(conf[ELF2K].interlace_);
+        XRCCTRL(*this, "VtExternalElf2K", wxCheckBox)->SetValue(elfConfiguration[ELF2K].vtExternal);
 		XRCCTRL(*this, "StretchDotElf2K", wxCheckBox)->SetValue(conf[ELF2K].stretchDot_);
 		XRCCTRL(*this, "Elf2KNvr", wxCheckBox)->SetValue(elfConfiguration[ELF2K].nvr);
 		XRCCTRL(*this, "Elf2KRtc", wxCheckBox)->SetValue(elfConfiguration[ELF2K].rtc);
@@ -303,6 +306,7 @@ void GuiElf2K::writeElf2KConfig()
 	configPointer->Write("/Elf2K/Open_Control_Windows", elfConfiguration[ELF2K].useElfControlWindows);
 	configPointer->Write("/Elf2K/Enable_Interlace", conf[ELF2K].interlace_);
 	configPointer->Write("/Elf2K/Enable_Vt_Stretch_Dot", conf[ELF2K].stretchDot_);
+    configPointer->Write("/Elf2K/Enable_Vt_External", elfConfiguration[ELF2K].vtExternal);
 	configPointer->Write("/Elf2K/Volume", conf[ELF2K].volume_);
 
 	configPointer->Write("/Elf2K/Clock_Speed_When_Using_Pixie", elf2KPixieClock_);

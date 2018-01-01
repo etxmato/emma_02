@@ -23,7 +23,7 @@ public:
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void setTabChar(Byte value);
     void configureVt2K(int SelectedBaudR, int SelectedBaudT, ElfPortConfiguration elfPortConf);
-	void configureQandEfPolarity(int ef, bool vtEnable);
+    void configureQandEfPolarity(int ef, bool vtEnable);
 	Byte ef();
 	void out(Byte value);
 	void cycleVt();
@@ -209,6 +209,7 @@ private:
 	Byte uartControl_;
 	bitset<8> uartStatus_;
 	bool uart_;
+    bool serialOpen_;
 
 	char displayBuffer_[VTBUFFER];
 	int  displayStart_;

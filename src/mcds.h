@@ -3,6 +3,7 @@
 
 #include "cdp1802.h"
 #include "vt100.h"
+#include "serial.h"
 #include "upd765.h"
 #include "elfconfiguration.h"
 
@@ -48,7 +49,6 @@ public:
     void switchQ(int value);
 
 private:
-
 	Vt100 *vtPointer;
 
 	ElfConfiguration McdsConfiguration;

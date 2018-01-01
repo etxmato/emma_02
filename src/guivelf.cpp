@@ -90,6 +90,7 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
 	EVT_COMBOBOX(XRCID("VtCharRomVelf"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("VtCharRomButtonVelf"), GuiMain::onVtCharRom)
 
+    EVT_CHECKBOX(XRCID("VtExternalVelf"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeVelf"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomDownVt)
@@ -152,6 +153,7 @@ void GuiVelf::readVelfConfig()
 	conf[VELF].useLoadLocation_ = false;
 
     configPointer->Read("/Velf/Open_Control_Windows", &elfConfiguration[VELF].useElfControlWindows, true);
+    configPointer->Read("/Velf/Enable_Vt_External", &elfConfiguration[VELF].vtExternal, false);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -229,6 +231,7 @@ void GuiVelf::readVelfConfig()
 		XRCCTRL(*this, "VtCharRomButtonVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
 		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->Enable(elfConfiguration[VELF].vtType != VTNONE);
 		XRCCTRL(*this, "VtSetupVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
+        XRCCTRL(*this, "VtExternalVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].vtExternal);
 		XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
 
 		XRCCTRL(*this, "ZoomValueVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoom_);
@@ -291,6 +294,7 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Zoom", conf[VELF].zoom_);
 	configPointer->Write("/Velf/Vt_Zoom", conf[VELF].zoomVt_);
 	configPointer->Write("/Velf/Enable_Vt_Stretch_Dot", conf[VELF].stretchDot_);
+    configPointer->Write("/Velf/Enable_Vt_External", elfConfiguration[VELF].vtExternal);
     configPointer->Write("/Velf/Open_Control_Windows", elfConfiguration[VELF].useElfControlWindows);
 
 	configPointer->Write("/Velf/Latch", latch_);

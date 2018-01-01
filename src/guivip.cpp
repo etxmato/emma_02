@@ -105,6 +105,7 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 	EVT_COMBOBOX(XRCID("VtCharRomVip"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("VtCharRomButtonVip"), GuiMain::onVtCharRom)
 
+    EVT_CHECKBOX(XRCID("VtExternalVip"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeVip"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtVip"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVip"), GuiMain::onZoomDownVt)
@@ -172,6 +173,7 @@ void GuiVip::readVipConfig()
 	conf[VIP].xScale_ = configPointer->Read("/Vip/Window_Scale_Factor_X", defaultScale);
 
 	configPointer->Read("/Vip/Enable_Vt_Stretch_Dot", &conf[VIP].stretchDot_, false);
+    configPointer->Read("/Vip/Enable_Vt_External", &elfConfiguration[VIP].vtExternal, false);
 	configPointer->Read("/Vip/Enable_Turbo_Cassette", &conf[VIP].turbo_, true);
 	configPointer->Read("/Vip/Enable_Auto_Cassette", &conf[VIP].autoCassetteLoad_, true);
 	configPointer->Read("/Vip/Enable_Real_Cassette", &conf[VIP].realCassetteLoad_, false);
@@ -237,6 +239,7 @@ void GuiVip::readVipConfig()
 		XRCCTRL(*this, "VtCharRomButtonVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 		XRCCTRL(*this, "VtCharRomVip", wxComboBox)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 		XRCCTRL(*this, "VtSetupVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
+        XRCCTRL(*this, "VtExternalVip", wxCheckBox)->SetValue(elfConfiguration[VIP].vtExternal);
 		XRCCTRL(*this, "ZoomValueVtVip", wxTextCtrl)->ChangeValue(conf[VIP].zoomVt_);
 
 		XRCCTRL(*this, "ZoomValueVip", wxTextCtrl)->ChangeValue(conf[VIP].zoom_);
@@ -305,6 +308,7 @@ void GuiVip::writeVipConfig()
 	configPointer->Write("/Vip/Zoom", conf[VIP].zoom_);
 	configPointer->Write("/Vip/Vt_Zoom", conf[VIP].zoomVt_);
 	configPointer->Write("/Vip/Enable_Vt_Stretch_Dot", conf[VIP].stretchDot_);
+    configPointer->Write("/Vip/Enable_Vt_External", elfConfiguration[VIP].vtExternal);
 
 	configPointer->Write("/Vip/Chip_10_High_Resolution", highRes_);
 	configPointer->Write("/Vip/Enable_VP570", vipVp570_);

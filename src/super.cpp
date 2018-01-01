@@ -377,6 +377,8 @@ Super::~Super()
 		p_Main->setVtPos(SUPERELF, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	if (p_Main->getPrinterStatus(SUPERELF))
 	{
 		p_Printer->closeFrames();
@@ -1637,7 +1639,13 @@ void Super::configureElfExtensions()
 		vtPointer->drawScreen();
 	}
 
-	if (elfConfiguration.usePixie)
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(SUPERELF, elfClockSpeed_, elfConfiguration);
+        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+    }
+
+    if (elfConfiguration.usePixie)
 	{
 		double zoom = p_Main->getZoom();
 		double scale = p_Main->getScale();

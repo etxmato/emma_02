@@ -43,6 +43,7 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_BUTTON(XRCID("RomMembership"), GuiMembership::onRomEvent)
 
 	EVT_BUTTON(XRCID("VtCharRomButtonMembership"), GuiMain::onVtCharRom)
+    EVT_CHECKBOX(XRCID("VtExternalMembership"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeMembership"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomDownVt)
@@ -141,6 +142,7 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].screenDumpFile_ = configPointer->Read("/Membership/Video_Dump_File", "screendump.png");
     conf[MEMBER].wavFile_ = configPointer->Read("/Membership/Terminal_File", "");
 	elfConfiguration[MEMBER].vtWavFile_ = configPointer->Read("/Membership/Vt_Wav_File", "");
+    elfConfiguration[MEMBER].serialPort_ = configPointer->Read("/Membership/VtSerialPortChoice", "");
 
 	conf[MEMBER].volume_ = (int)configPointer->Read("/Membership/Volume", 25l);
 
@@ -151,7 +153,8 @@ void GuiMembership::readMembershipConfig()
 	configPointer->Read("/Membership/Open_Control_Windows", &elfConfiguration[MEMBER].useElfControlWindows, true);
 	configPointer->Read("/Membership/Force_Uppercase", &elfConfiguration[MEMBER].forceUpperCase, true);
 	configPointer->Read("/Membership/Enable_Auto_Boot", &elfConfiguration[MEMBER].autoBoot, true);
-	configPointer->Read("/Membership/Enable_Vt_Stretch_Dot", &conf[MEMBER].stretchDot_, false);
+    configPointer->Read("/Membership/Enable_Vt_Stretch_Dot", &conf[MEMBER].stretchDot_, false);
+    configPointer->Read("/Membership/Enable_Vt_External", &elfConfiguration[MEMBER].vtExternal, false);
 	configPointer->Read("/Membership/Use_Non_Volatile_Ram", &elfConfiguration[MEMBER].nvr, true);
 	elfConfiguration[MEMBER].ioType = (int)configPointer->Read("/Membership/IO_Type", IO_TYPE_N2);
 
@@ -208,7 +211,8 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
-		XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
+        XRCCTRL(*this, "VtExternalMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].vtExternal);
+        XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
 		XRCCTRL(*this, "RamMembership", wxChoice)->SetSelection(conf[MEMBER].ramType_);
 		XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);
 		XRCCTRL(*this, "VolumeMembership", wxSlider)->SetValue(conf[MEMBER].volume_);
@@ -246,7 +250,8 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Vt_Font_Rom_File", conf[MEMBER].vtCharRom_);
 	configPointer->Write("/Membership/Video_Dump_File", conf[MEMBER].screenDumpFile_);
     configPointer->Write("/Membership/Terminal_File", conf[MEMBER].wavFile_);
-	configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
+    configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
+    configPointer->Write("/Membership/VtSerialPortChoice", elfConfiguration[MEMBER].serialPort_);
 
 	configPointer->Write("/Membership/Load_Mode_Rom", (loadromMode_ == ROM));
 	configPointer->Write("/Membership/VtEf", elfConfiguration[MEMBER].vtEf);
@@ -268,7 +273,8 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Vt_Zoom", conf[MEMBER].zoomVt_);
 	configPointer->Write("/Membership/Force_Uppercase", elfConfiguration[MEMBER].forceUpperCase);
 	configPointer->Write("/Membership/Open_Control_Windows", elfConfiguration[MEMBER].useElfControlWindows);
-	configPointer->Write("/Membership/Enable_Vt_Stretch_Dot", conf[MEMBER].stretchDot_);
+    configPointer->Write("/Membership/Enable_Vt_Stretch_Dot", conf[MEMBER].stretchDot_);
+    configPointer->Write("/Membership/Enable_Vt_External", elfConfiguration[MEMBER].vtExternal);
 	configPointer->Write("/Membership/Ram_Type", conf[MEMBER].ramType_);
 	configPointer->Write("/Membership/Volume", conf[MEMBER].volume_);
 	configPointer->Write("/Membership/Use_Non_Volatile_Ram", elfConfiguration[MEMBER].nvr);

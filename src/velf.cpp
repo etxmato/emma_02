@@ -219,6 +219,8 @@ Velf::~Velf()
 		p_Main->setVtPos(VELF, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (vipConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(VELF, GetPosition());
     delete velfScreenPointer;
 }
@@ -267,6 +269,12 @@ void Velf::configureComputer()
 		vtPointer->configureVelf(vipConfiguration.baudR, vipConfiguration.baudT);
 		vtPointer->Show(true);
 	}
+
+    if (vipConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(VELF, velfClockSpeed_, vipConfiguration);
+        p_Serial->configureMember(vipConfiguration.baudR, vipConfiguration.baudT);
+    }
 
     defineKeys();
 	resetCpu();

@@ -333,6 +333,8 @@ Cosmicos::~Cosmicos()
 		p_Main->setVtPos(COSMICOS, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (cosmicosConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(COSMICOS, GetPosition());
 
 	if (cosmicosConfiguration.useHex)
@@ -1112,7 +1114,13 @@ void Cosmicos::configureElfExtensions()
 		vtPointer->Show(true);
 	}
 
-	if (cosmicosConfiguration.usePixie)
+    if (cosmicosConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration);
+        p_Serial->configureMember(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT);
+    }
+
+    if (cosmicosConfiguration.usePixie)
 	{
 		double zoom = p_Main->getZoom();
 		double scale = p_Main->getScale();

@@ -70,6 +70,8 @@ Ms2000::~Ms2000()
 		p_Main->setVtPos(MS2000, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (ms2000Configuration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(MS2000, GetPosition());
 }
 
@@ -117,6 +119,12 @@ void Ms2000::configureComputer()
         vtPointer->configureMs2000(ms2000Configuration.baudR, ms2000Configuration.baudT);
     }
     
+    if (ms2000Configuration.vtExternal)
+    {
+        p_Serial = new Serial(MS2000, ms2000ClockSpeed_, ms2000Configuration);
+        p_Serial->configureMember(ms2000Configuration.baudR, ms2000Configuration.baudT);
+    }
+
     p_Main->message("Configuring printer support");
     p_Main->message("	Output 6: data out");
     p_Main->message("	EF 1: printer ready\n");

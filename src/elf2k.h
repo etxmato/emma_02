@@ -14,6 +14,7 @@
 #include "ps2gpio.h"
 #include "ledmodule.h"
 #include "vt100.h"
+#include "serial.h"
 #include "portext.h"
 #include "printer.h"
 #include "ps2.h"

@@ -183,8 +183,9 @@ Elf2K::~Elf2K()
 		p_Main->setVtPos(ELF2K, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(ELF2K, GetPosition());
-
 	if (elfConfiguration.useSwitch)
 	{
 		p_Main->setElf2KswitchPos(p_Elf2Kswitch->GetPosition());
@@ -988,7 +989,13 @@ void Elf2K::configureElfExtensions()
 		vtPointer->Show(true);
 	}
 
-	if (elfConfiguration.usePixie)
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(MEMBER, elfClockSpeed_, elfConfiguration);
+        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+    }
+
+    if (elfConfiguration.usePixie)
 	{
 		double zoom = p_Main->getZoom();
 		double scale = p_Main->getScale();

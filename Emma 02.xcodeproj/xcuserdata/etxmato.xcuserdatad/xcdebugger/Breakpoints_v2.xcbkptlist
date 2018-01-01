@@ -10,12 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/ms2000.cpp"
-            timestampString = "534979339.188488"
+            timestampString = "536532560.573087"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "669"
-            endingLineNumber = "669"
-            landmarkName = "Ms2000::switchQ(int value)"
+            startingLineNumber = "677"
+            endingLineNumber = "677"
+            landmarkName = "Ms2000::activateMainWindow()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -58,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/mcds.cpp"
-            timestampString = "534979496.239912"
+            timestampString = "536532560.573298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "562"
-            endingLineNumber = "562"
-            landmarkName = "Mcds::switchQ(int value)"
+            startingLineNumber = "570"
+            endingLineNumber = "570"
+            landmarkName = "Mcds::activateMainWindow()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/elf2k.cpp"
-            timestampString = "534979752.371598"
+            timestampString = "536532560.573449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "728"
-            endingLineNumber = "728"
+            startingLineNumber = "729"
+            endingLineNumber = "729"
             landmarkName = "Elf2K::switchQ(int value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/vt100.cpp"
-            timestampString = "535842263.098739"
+            timestampString = "536435604.791738"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
-            landmarkName = "Vt100::configureVelf(int selectedBaudR, int selectedBaudT)"
+            startingLineNumber = "561"
+            endingLineNumber = "561"
+            landmarkName = "Vt100::configureUart(ElfPortConfiguration elfPortConf)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/vt100.cpp"
-            timestampString = "535842263.098947"
+            timestampString = "536435604.791855"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
-            landmarkName = "Vt100::configureMember(int selectedBaudR, int selectedBaudT)"
+            startingLineNumber = "417"
+            endingLineNumber = "417"
+            landmarkName = "Vt100::configureMcds(int selectedBaudR, int selectedBaudT)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

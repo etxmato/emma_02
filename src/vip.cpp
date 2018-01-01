@@ -50,6 +50,8 @@ Vip::~Vip()
 		p_Main->setVtPos(VIP, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (vipConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(VIP, GetPosition());
 }
 
@@ -116,6 +118,12 @@ void Vip::configureComputer()
 		vtPointer->configureVip(vipConfiguration.baudR, vipConfiguration.baudT);
 		vtPointer->Show(true);
 	}
+
+    if (vipConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(VIP, clock_, vipConfiguration);
+        p_Serial->configureMember(vipConfiguration.baudR, vipConfiguration.baudT);
+    }
 
 	defineKeys();
 	resetCpu();

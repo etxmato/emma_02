@@ -375,6 +375,7 @@ public:
 #include "guicomx.h"
 #include "debug.h"
 #include "video.h"
+#include "serial.h"
 
 #define EMMA_VERSION 1.24
 #define EMMA_SUB_VERSION 41
@@ -666,6 +667,7 @@ public:
 #define VTNONE 0
 #define VT52 1
 #define VT100 2
+#define EXTERNAL_TERMINAL 3
 
 	// 1 Scroll - repeat - screen reverse - cursor block line
 	// 2 bell - keyklick - ansi/vt52 - xon/xoff
@@ -1123,6 +1125,7 @@ private:
 EXT Main *p_Main;
 EXT Video *p_Video;
 EXT Video *p_Vt100;
+EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
 
 EXT	Printer *p_PrinterParallel;

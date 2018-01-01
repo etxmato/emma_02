@@ -251,6 +251,8 @@ Elf::~Elf()
 		p_Main->setVtPos(ELF, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	if (p_Main->getPrinterStatus(ELF))
 	{
 		p_Printer->closeFrames();
@@ -1438,7 +1440,13 @@ void Elf::configureElfExtensions()
 		vtPointer->drawScreen();
 	}
 
-	if (elfConfiguration.usePixie)
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(ELF, elfClockSpeed_, elfConfiguration);
+        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+    }
+
+    if (elfConfiguration.usePixie)
 	{
 		double zoom = p_Main->getZoom();
 		double scale = p_Main->getScale();

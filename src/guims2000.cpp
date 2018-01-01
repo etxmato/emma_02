@@ -76,6 +76,7 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
 
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
 
+    EVT_CHECKBOX(XRCID("VtExternalMS2000"), GuiMain::onVtExternal)
     EVT_CHOICE(XRCID("VTTypeMS2000"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMS2000"), GuiMain::onZoomDownVt)
@@ -159,6 +160,7 @@ void GuiMS2000::readMS2000Config()
 	getConfigBool("/MS2000/SerialLog", false);
 
 	configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
+    configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
     elfConfiguration[MS2000].useUart = true; 
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
@@ -312,6 +314,7 @@ void GuiMS2000::readMS2000Config()
 		XRCCTRL(*this, "ZoomValueVtMS2000", wxTextCtrl)->ChangeValue(conf[MS2000].zoomVt_);
         XRCCTRL(*this, "MS2000BootRam", wxCheckBox)->SetValue(elfConfiguration[MS2000].bootRam);
         
+        XRCCTRL(*this, "VtExternalMS2000", wxCheckBox)->SetValue(elfConfiguration[MS2000].vtExternal);
 		XRCCTRL(*this, "StretchDotMS2000", wxCheckBox)->SetValue(conf[MS2000].stretchDot_);
         XRCCTRL(*this, "WavFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].wavFile_);
         XRCCTRL(*this, "VolumeMS2000", wxSlider)->SetValue(conf[MS2000].volume_);
@@ -367,6 +370,7 @@ void GuiMS2000::writeMS2000Config()
 	configPointer->Write("/MS2000/Vt_Zoom", conf[MS2000].zoomVt_);
     configPointer->Write("/MS2000/Force_Uppercase", elfConfiguration[MS2000].forceUpperCase);
     configPointer->Write("/MS2000/Enable_Vt_Stretch_Dot", conf[MS2000].stretchDot_);
+    configPointer->Write("/MS2000/Enable_Vt_External", elfConfiguration[MS2000].vtExternal);
     configPointer->Write("/MS2000/Volume", conf[MS2000].volume_);
     configPointer->Write("/MS2000/Boot_From_Ram", elfConfiguration[MS2000].bootRam);
     

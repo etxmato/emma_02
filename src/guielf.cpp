@@ -66,6 +66,10 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_BUTTON(XRCID("EjectKeyFileElfII"), GuiMain::onKeyFileEject)
 	EVT_BUTTON(XRCID("EjectKeyFileSuperElf"), GuiMain::onKeyFileEject)
 
+    EVT_CHECKBOX(XRCID("VtExternalElf"), GuiMain::onVtExternal)
+    EVT_CHECKBOX(XRCID("VtExternalElfII"), GuiMain::onVtExternal)
+    EVT_CHECKBOX(XRCID("VtExternalSuperElf"), GuiMain::onVtExternal)
+
 	EVT_CHOICE(XRCID("VTTypeElf"), GuiMain::onVT100)
 	EVT_CHOICE(XRCID("VTTypeElfII"), GuiMain::onVT100)
 	EVT_CHOICE(XRCID("VTTypeSuperElf"), GuiMain::onVT100)
@@ -439,6 +443,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Read(elfTypeStr+"/Open_Control_Windows", &elfConfiguration[elfType].useElfControlWindows, false);
 	configPointer->Read(elfTypeStr+"/Enable_Interlace", &conf[elfType].interlace_, true);
 	configPointer->Read(elfTypeStr+"/Enable_Vt_Stretch_Dot", &conf[elfType].stretchDot_, false);
+    configPointer->Read(elfTypeStr+"/Enable_Vt_External", &elfConfiguration[elfType].vtExternal, false);
 	conf[elfType].printMode_ = (int)configPointer->Read(elfTypeStr+"/Print_Mode", 1l);
 
     configPointer->Read(elfTypeStr+"/GiantBoardMapping", &elfConfiguration[elfType].giantBoardMapping, false);
@@ -538,6 +543,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
 		XRCCTRL(*this, "ControlWindows"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useElfControlWindows);
 		XRCCTRL(*this, "Interlace"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].interlace_);
+        XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].vtExternal);
         XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].stretchDot_);
 
         if (elfType == ELFII)
@@ -727,6 +733,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Open_Control_Windows", elfConfiguration[elfType].useElfControlWindows);
 	configPointer->Write(elfTypeStr+"/Enable_Interlace", conf[elfType].interlace_);
 	configPointer->Write(elfTypeStr+"/Enable_Vt_Stretch_Dot", conf[elfType].stretchDot_);
+    configPointer->Write(elfTypeStr+"/Enable_Vt_External", elfConfiguration[elfType].vtExternal);
 
 	configPointer->Write(elfTypeStr+"/Clock_Speed", conf[elfType].clock_);
 	configPointer->Write(elfTypeStr+"/Beep_Frequency", conf[elfType].beepFrequency_);

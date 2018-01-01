@@ -42,6 +42,7 @@ BEGIN_EVENT_TABLE(GuiCosmicos, GuiMicrotutor)
 	EVT_COMBOBOX(XRCID("VtCharRomCosmicos"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("VtCharRomButtonCosmicos"), GuiMain::onVtCharRom)
 
+    EVT_CHECKBOX(XRCID("VtExternalCosmicos"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeCosmicos"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinCosmicos"), GuiMain::onZoomUp)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinCosmicos"), GuiMain::onZoomDown)
@@ -129,6 +130,7 @@ void GuiCosmicos::readCosmicosConfig()
 
 	configPointer->Read("/Cosmicos/Enable_Auto_Cassette", &conf[COSMICOS].autoCassetteLoad_, true);
 	configPointer->Read("/Cosmicos/Enable_Vt_Stretch_Dot", &conf[COSMICOS].stretchDot_, false);
+    configPointer->Read("/Cosmicos/Enable_Vt_External", &elfConfiguration[COSMICOS].vtExternal, false);
 	configPointer->Read("/Cosmicos/Enable_Turbo_Cassette", &conf[COSMICOS].turbo_, true);
 	configPointer->Read("/Cosmicos/Enable_Real_Cassette", &conf[COSMICOS].realCassetteLoad_, false);
 
@@ -204,6 +206,7 @@ void GuiCosmicos::readCosmicosConfig()
 		XRCCTRL(*this, "ZoomValueVtCosmicos", wxTextCtrl)->ChangeValue(conf[COSMICOS].zoomVt_);
 		XRCCTRL(*this, "ControlWindowsCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useElfControlWindows);
 		XRCCTRL(*this, "ShowAddressCosmicos",wxTextCtrl)->Enable(elfConfiguration[COSMICOS].useElfControlWindows);
+        XRCCTRL(*this, "VtExternalCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].vtExternal);
 		XRCCTRL(*this, "StretchDotCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].stretchDot_);
 		XRCCTRL(*this, "RamCosmicos", wxSpinCtrl)->SetValue(conf[COSMICOS].ramType_);
 		XRCCTRL(*this, "HexCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useHex);
@@ -264,6 +267,7 @@ void GuiCosmicos::writeCosmicosConfig()
 	configPointer->Write("/Cosmicos/Use_Hex_Panel", elfConfiguration[COSMICOS].useHex);
 	configPointer->Write("/Cosmicos/Open_Control_Windows", elfConfiguration[COSMICOS].useElfControlWindows);
 	configPointer->Write("/Cosmicos/Enable_Vt_Stretch_Dot", conf[COSMICOS].stretchDot_);
+    configPointer->Write("/Cosmicos/Enable_Vt_External", elfConfiguration[COSMICOS].vtExternal);
 	configPointer->Write("/Cosmicos/Ram_Type", conf[COSMICOS].ramType_);
 	configPointer->Write("/Cosmicos/Enable_Turbo_Cassette", conf[COSMICOS].turbo_);
 	configPointer->Write("/Cosmicos/Turbo_Clock_Speed", conf[COSMICOS].turboClock_);

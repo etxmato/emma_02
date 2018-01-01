@@ -9,6 +9,7 @@
 #include "keyboard.h"
 #include "keypad.h"
 #include "vt100.h"
+#include "serial.h"
 #include "printer.h"
 #include "elfconfiguration.h"
 

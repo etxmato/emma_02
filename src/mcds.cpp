@@ -68,6 +68,8 @@ Mcds::~Mcds()
 		p_Main->setVtPos(MCDS, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (McdsConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(MCDS, GetPosition());
 }
 
@@ -114,6 +116,12 @@ void Mcds::configureComputer()
         vtPointer->configureMcds(McdsConfiguration.baudR, McdsConfiguration.baudT);
     }
     
+    if (McdsConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(MCDS, McdsClockSpeed_, McdsConfiguration);
+        p_Serial->configureMember(McdsConfiguration.baudR, McdsConfiguration.baudT);
+    }
+
     p_Main->message("Configuring printer support");
     p_Main->message("	Output 6: data out");
     p_Main->message("	EF 1: printer ready\n");

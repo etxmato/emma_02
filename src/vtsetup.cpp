@@ -24,6 +24,8 @@
 #include "wx/xrc/xmlres.h"             
 #include "wx/spinctrl.h"
 
+#include <libserialport.h>
+
 BEGIN_EVENT_TABLE(VtSetupDialog, wxDialog)
 	EVT_BUTTON(XRCID("VtSetupSave"), VtSetupDialog::onSaveButton)
 	EVT_TEXT(XRCID("VtSetupWavFile"), VtSetupDialog::onVtWavFile)
@@ -115,6 +117,8 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		box.Printf("%d", i);
 		XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->SetSelection(SetUpFeature_[i]);
 	}
+    
+    listPorts();
 }
 
 void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
@@ -202,6 +206,9 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     elfConfiguration_.bellFrequency_ = (int)bellFrequency;
 
 	elfConfiguration_.vtWavFile_= XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->GetValue();
+    
+    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetSelection();
+    elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetString(selection);
 
     p_Main->setElfConfiguration(elfConfiguration_);
 
@@ -261,4 +268,25 @@ void VtSetupDialog::onVtWavFileEject(wxCommandEvent& WXUNUSED(event))
 	XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(true);
 }
 
+void VtSetupDialog::listPorts()
+{
+/*    int i;
+    struct sp_port **ports;
+    wxString port;
+    
+    sp_return error = sp_list_ports(&ports);
+    if (error == SP_OK)
+    {
+        for (i = 0; ports[i]; i++)
+        {
+            port = sp_get_port_name(ports[i]);
+            XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->Append(port);
+        }
+        sp_free_port_list(ports);
+    }
+    
+    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->FindString(elfConfiguration_.serialPort_);
+    if (selection != wxNOT_FOUND)
+        XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->SetSelection(selection);*/
+}
 

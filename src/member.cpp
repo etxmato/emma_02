@@ -44,7 +44,8 @@
 #endif
 
 #include "main.h"
-
+//#include "vt100.h"
+//#include "serial.h"
 #include "member.h"
 
 MemberScreen::MemberScreen(wxWindow *parent, const wxSize& size)
@@ -177,6 +178,8 @@ Membership::~Membership()
 		p_Main->setVtPos(MEMBER, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(MEMBER, GetPosition());
 
 	delete memberScreenPointer;
@@ -311,10 +314,14 @@ Byte Membership::ef(int flag)
 			return 1;
 		break;
 
-		case VT100EF:
-			return vtPointer->ef();
-		break;
-
+        case VT100EF:
+            return vtPointer->ef();
+        break;
+            
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+            
 		case ELFINEF:
 			return ef4();
 		break;
@@ -416,6 +423,10 @@ void Membership::cycle(int type)
 		case VT100CYCLE:
 			vtPointer->cycleVt();
 		break;
+
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
 
         case LEDCYCLE:
             cycleLed();
@@ -753,28 +764,46 @@ void Membership::cpuInstruction()
 
 void Membership::configureElfExtensions()
 {
-	wxString fileName, fileName2;
+    double zoom;
 
-	if (elfConfiguration.vtType != VTNONE)
-	{
-		double zoom = p_Main->getZoomVt();
-        if (elfConfiguration.vtType == VT52)
+    switch (elfConfiguration.vtType)
+    {
+        case VTNONE:
+            setSoundFollowQ (true);
+        break;
+            
+        case VT52:
+            zoom = p_Main->getZoomVt();
             vtPointer = new Vt100("Membership Card - VT 52", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
-        else
+            p_Vt100 = vtPointer;
+            vtPointer->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+            vtPointer->Show(true);
+            vtPointer->drawScreen();
+            setSoundFollowQ (false);
+        break;
+
+        case VT100:
+            zoom = p_Main->getZoomVt();
             vtPointer = new Vt100("Membership Card - VT 100", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
-		p_Vt100 = vtPointer;
-		vtPointer->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
-		vtPointer->Show(true);
-		vtPointer->drawScreen();
-		setSoundFollowQ (false);
-	}
-	else
-		setSoundFollowQ (true);
+            p_Vt100 = vtPointer;
+            vtPointer->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+            vtPointer->Show(true);
+            vtPointer->drawScreen();
+            setSoundFollowQ (false);
+        break;
+    }
+    
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(MEMBER, clockSpeed_, elfConfiguration);
+        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+        setSoundFollowQ (false);
+    }
 }
 
 void Membership::moveWindows()
 {
-	if (elfConfiguration.vtType != VTNONE)
+    if (elfConfiguration.vtType == VT52 || elfConfiguration.vtType == VT100)
 		vtPointer->Move(p_Main->getVtPos(MEMBER));
 }
 

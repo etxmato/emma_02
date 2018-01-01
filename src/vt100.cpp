@@ -65,12 +65,12 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	computerType_ = computerType;
 	vtType_ = elfConfiguration_.vtType;
 	clock_ = clock;
-	videoScreenPointer = new VideoScreen(this, size, zoom, computerType, true);
-	line_ = "";
 
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, true);
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
+    line_ = "";
 
     colourIndex_ = 2;
 	switch(computerType_)
@@ -113,9 +113,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     }
 	readCharRomFile(p_Main->getVtCharRomDir(computerType_), p_Main->getVtCharRomFile(computerType_));
 	stretchDot_ = p_Main->getStretchDot(computerType_);
-//    serialLog_ = p_Main->getConfigBool(computerTypeStr_+"/SerialLog", false);
     serialLog_ = elfConfiguration_.serialLog;
-//    uart_ = p_Main->getConfigBool(computerTypeStr_+"/Uart", false);
     uart_ = elfConfiguration_.useUart;
 
 	fullScreenSet_ = false;
@@ -189,16 +187,15 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	cycleBell_ = 0;
 	cycleClick_ = 0;
 
-	initScreen();
-	videoScreenPointer->setRepeat(SetUpFeature_[VTREPEAT]);
+    initScreen();
+    videoScreenPointer->setRepeat(SetUpFeature_[VTREPEAT]);
 
-	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
-	dcMemory.SelectObject(*screenCopyPointer);
+    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    dcMemory.SelectObject(*screenCopyPointer);
 
 #if defined(__WXMAC__)
-	gc = wxGraphicsContext::Create(dcMemory);
-	gc->SetAntialiasMode(wxANTIALIAS_NONE);
-//	gc->SetInterpolationQuality(wxINTERPOLATION_NONE);
+    gc = wxGraphicsContext::Create(dcMemory);
+    gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
 	pressedKey_ = 0;
@@ -241,8 +238,11 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     terminalLoad_ = false;
     terminalInputFileLine_ = "";
 
-	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-	this->SetBackgroundColour(colour_[colourIndex_+1]);
+    if (vtType_ != EXTERNAL_TERMINAL)
+    {
+        this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+        this->SetBackgroundColour(colour_[colourIndex_+1]);
+    }
 	characterListPointer = NULL;
 	offsetX_ = 0;
 	offsetY_ = 0;
@@ -267,7 +267,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 		logFile_.Create(fileName);
     }
     mcdsRunCommand_ = 0;
-
+    serialOpen_ = false;
 }
 
 Vt100::~Vt100()
@@ -385,11 +385,17 @@ void Vt100::configureMember(int selectedBaudR, int selectedBaudT)
 	dataReadyFlag_ = 3;
 	p_Computer->setEfType(dataReadyFlag_, VT100EF);
     
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
-    else
-        p_Main->message("Configuring VT100 terminal");
- 
+    switch (vtType_)
+    {
+        case VT52:
+            p_Main->message("Configuring VT52 terminal");
+        break;
+
+        case VT100:
+            p_Main->message("Configuring VT100 terminal");
+        break;
+    }
+    
 	configureQandEfPolarity(dataReadyFlag_, false);
 
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
@@ -770,35 +776,35 @@ void Vt100::cycleVt()
 			}
 		}
 
-			scrolling_--;
-			if (scrolling_ < 0 || !SetUpFeature_[VTSMOOTHSCROLL])
-			{
-				scrolling_ = 10;
-
-				if ((smoothScroll_ && scroll_ != 0 && SetUpFeature_[VTSMOOTHSCROLL]) || (scroll_ != 0 && !SetUpFeature_[VTSMOOTHSCROLL]) || ctrlQpressed_)
-				{
-					if (displayStart_ != displayEnd_)
-					{
-						Display(getDisplay(), true);
-						while (displayBuffer_[displayStart_] != 10 && (displayStart_ != displayEnd_))
-						{
-							Display(getDisplay(), true);
-						}
-					}
-					if (scroll_ > 0)
-						scroll_--;
-					if (displayStart_ == displayEnd_)
-					{
-						if (smoothScroll_)
-							smoothScroll_ = false;
-						if (xOff_)
-						{
-							xOff_ = false;
-							videoScreenPointer->vtOut(17);
-						}
-					}
-				}
-			}
+        scrolling_--;
+        if (scrolling_ < 0 || !SetUpFeature_[VTSMOOTHSCROLL])
+        {
+            scrolling_ = 10;
+            
+            if ((smoothScroll_ && scroll_ != 0 && SetUpFeature_[VTSMOOTHSCROLL]) || (scroll_ != 0 && !SetUpFeature_[VTSMOOTHSCROLL]) || ctrlQpressed_)
+            {
+                if (displayStart_ != displayEnd_)
+                {
+                    Display(getDisplay(), true);
+                    while (displayBuffer_[displayStart_] != 10 && (displayStart_ != displayEnd_))
+                    {
+                        Display(getDisplay(), true);
+                    }
+                }
+                if (scroll_ > 0)
+                    scroll_--;
+                if (displayStart_ == displayEnd_)
+                {
+                    if (smoothScroll_)
+                        smoothScroll_ = false;
+                    if (xOff_)
+                    {
+                        xOff_ = false;
+                        videoScreenPointer->vtOut(17);
+                    }
+                }
+            }
+        }
 
 		cycleValue_ = cycleSize_;
 		if (changeScreenSize_)
@@ -900,13 +906,13 @@ void Vt100::cycleVt()
             }
         }
     }
-    else
+    else  // if !uart
     {
         if (vtOutCount_ > 0)
 		{
 			vtOutCount_--;
 			if (vtOutCount_ <= 0)
-			{
+			{ // input from terminal
 				vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
 				vtOut_ = (vtOut_ >> 1) | 128;
 				vtOutCount_ = baudRateT_;
@@ -995,7 +1001,7 @@ void Vt100::cycleVt()
             {
                 vt100Ef_ = 0;
                 parity_ = Parity(vtOut_);
-                vtOutCount_ = baudRateT_; //(int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
+                vtOutCount_ = baudRateT_;
                 if (SetUpFeature_[VTBITS])
                     vtOutBits_ = 10;
                 else
@@ -1008,38 +1014,10 @@ void Vt100::cycleVt()
 			}
         }
 
-		if (vtCount_ < 0)
-		{
-/*			if (vtCount_ <= -10)
-			{
-				vtCount_--;
-				if (vtCount_ < -14)
-					vtCount_ = -1;
-			}
-			else
-			{
-                Byte qValue = p_Computer->getFlipFlopQ();
-				if (qValue ^ reverseQ_)
-				{
-					vtCount_ = baudRateR_ + baudRateR_ / 2;
-					if (SetUpFeature_[VTBITS])
-						vtBits_ = 9;
-					else
-						vtBits_ = 8;
-					if (SetUpFeature_[VTPARITY])
-						vtBits_++;
-//					p_Main->message("start");
-//					p_Main->messageInt(p_Computer->getFlipFlopQ());
-					rs232_ = 0;
-				}
-			}*/
-		}
-		else
-		{
-			wxString buffer;
-			buffer.Printf("%d", p_Computer->getFlipFlopQ());
-            
-
+		if (vtCount_ >= 0)
+		{ // output to terminal
+			//wxString buffer;
+			//buffer.Printf("%d", p_Computer->getFlipFlopQ());
 			//p_Main->messageNoReturn(buffer);
 
 			vtCount_--; 
