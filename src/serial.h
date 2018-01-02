@@ -4,8 +4,6 @@
 #include <bitset>
 using namespace std;
 
-#define VTBUFFER 1024
-
 class Serial
 {
 public:
