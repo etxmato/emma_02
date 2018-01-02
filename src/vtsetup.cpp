@@ -24,7 +24,7 @@
 #include "wx/xrc/xmlres.h"             
 #include "wx/spinctrl.h"
 
-#include <libserialport.h>
+//#include <libserialport.h>
 
 BEGIN_EVENT_TABLE(VtSetupDialog, wxDialog)
 	EVT_BUTTON(XRCID("VtSetupSave"), VtSetupDialog::onSaveButton)
