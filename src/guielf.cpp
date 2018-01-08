@@ -418,6 +418,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].screenDumpFile_ = configPointer->Read(elfTypeStr+"/Video_Dump_File", "screendump.png");
 	conf[elfType].wavFile_ = configPointer->Read(elfTypeStr+"/Wav_File", "");
 	elfConfiguration[elfType].vtWavFile_ = configPointer->Read(elfTypeStr + "/Vt_Wav_File", "");
+    elfConfiguration[elfType].serialPort_ = configPointer->Read(elfTypeStr + "/VtSerialPortChoice", "");
 
 	conf[elfType].saveStartString_ = "";
 	conf[elfType].saveEndString_ = "";
@@ -427,6 +428,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	elfConfiguration[elfType].vtType = (int)configPointer->Read(elfTypeStr+"/VT_Type", 2l);
     elfConfiguration[elfType].vt52SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT52Setup", 0x00004092l);
     elfConfiguration[elfType].vt100SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT100Setup", 0x0000ca52l);
+    elfConfiguration[elfType].vtExternalSetUpFeature_ = configPointer->Read(elfTypeStr+"/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[elfType].baudR = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Receive", 0l);
 	elfConfiguration[elfType].baudT = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Transmit", 0l);
 	elfConfiguration[elfType].diskType = (int)configPointer->Read(elfTypeStr+"/Disk_Type", 2l);
@@ -517,14 +519,14 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
 		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudR);
 		XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudT);
-		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
+//		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
         XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
         XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-        XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
-        XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//        XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
+//        XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].vtType != VTNONE);
         XRCCTRL(*this,"AddressText1"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
         XRCCTRL(*this,"AddressText2"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
-        XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//        XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 
 		XRCCTRL(*this, "VideoType"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].videoMode_);
 		XRCCTRL(*this, "AutoBoot"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].autoBoot);
@@ -534,9 +536,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "UpperCase"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].forceUpperCase);
 		XRCCTRL(*this, "DiskType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].diskType);
 		XRCCTRL(*this, "Memory"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].memoryType);
-		XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[elfType].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//		XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 		XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
 		XRCCTRL(*this, "ZoomValue"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoom_);
 		XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoomVt_);
@@ -691,7 +693,8 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Print_File", conf[elfType].printFile_);
 	configPointer->Write(elfTypeStr+"/Video_Dump_File", conf[elfType].screenDumpFile_);
 	configPointer->Write(elfTypeStr+"/Wav_File", conf[elfType].wavFile_);
-	configPointer->Write(elfTypeStr + "/Vt_Wav_File", elfConfiguration[elfType].vtWavFile_);
+	configPointer->Write(elfTypeStr+"/Vt_Wav_File", elfConfiguration[elfType].vtWavFile_);
+    configPointer->Write(elfTypeStr+"/VtSerialPortChoice", elfConfiguration[elfType].serialPort_);
 
 	configPointer->Write(elfTypeStr+"/Load_Mode_Rom_1", (loadromMode_[elfType][0] == ROM));
 	configPointer->Write(elfTypeStr+"/Load_Mode_Rom_2", (loadromMode_[elfType][1] == ROM));
@@ -709,7 +712,9 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/VT52Setup", value);
     value = elfConfiguration[elfType].vt100SetUpFeature_.to_ulong();
     configPointer->Write(elfTypeStr+"/VT100Setup", value);
-  
+    value = elfConfiguration[elfType].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write(elfTypeStr+"/VTExternalSetup", value);
+
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Receive", elfConfiguration[elfType].baudR);
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Transmit", elfConfiguration[elfType].baudT);
 	configPointer->Write(elfTypeStr + "/Bell_Frequency", elfConfiguration[elfType].bellFrequency_);

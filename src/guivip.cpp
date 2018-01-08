@@ -157,6 +157,7 @@ void GuiVip::readVipConfig()
 	conf[VIP].chip8SW_ = configPointer->Read("/Vip/Chip_8_Software", "");
 	conf[VIP].wavFile_ = configPointer->Read("/Vip/Wav_File", "");
 	elfConfiguration[VIP].vtWavFile_ = configPointer->Read("/Vip/Vt_Wav_File", "");
+    elfConfiguration[VIP].serialPort_ = configPointer->Read("/Vip/VtSerialPortChoice", "");
 
 	conf[VIP].printFile_ = configPointer->Read("/Vip/Print_File", "printerout.txt");
 	conf[VIP].screenDumpFile_ = configPointer->Read("/Vip/Video_Dump_File", "screendump.png");
@@ -209,6 +210,7 @@ void GuiVip::readVipConfig()
 	elfConfiguration[VIP].vtType = (int)configPointer->Read("/Vip/VT_Type", 0l);
     elfConfiguration[VIP].vt52SetUpFeature_ = configPointer->Read("/Vip/VT52Setup", 0x00004092l);
     elfConfiguration[VIP].vt100SetUpFeature_ = configPointer->Read("/Vip/VT100Setup", 0x0000ca52l);
+    elfConfiguration[VIP].vtExternalSetUpFeature_ = configPointer->Read("/Vip/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[VIP].baudT = (int)configPointer->Read("/Vip/Vt_Baud", 5l);
 	elfConfiguration[VIP].baudR = elfConfiguration[VIP].baudT;
 
@@ -233,12 +235,12 @@ void GuiVip::readVipConfig()
 
 		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
-		XRCCTRL(*this, "VTBaudTTextVip", wxStaticText)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Enable(elfConfiguration[VIP].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudTTextVip", wxStaticText)->Enable(elfConfiguration[VIP].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 
-		XRCCTRL(*this, "VtCharRomButtonVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomVip", wxComboBox)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomButtonVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomVip", wxComboBox)->Enable(elfConfiguration[VIP].vtType != VTNONE);
+//		XRCCTRL(*this, "VtSetupVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
         XRCCTRL(*this, "VtExternalVip", wxCheckBox)->SetValue(elfConfiguration[VIP].vtExternal);
 		XRCCTRL(*this, "ZoomValueVtVip", wxTextCtrl)->ChangeValue(conf[VIP].zoomVt_);
 
@@ -292,6 +294,7 @@ void GuiVip::writeVipConfig()
 	configPointer->Write("/Vip/Video_Dump_File", conf[VIP].screenDumpFile_);
 	configPointer->Write("/Vip/Wav_File", conf[VIP].wavFile_);
 	configPointer->Write("/Vip/Vt_Wav_File", elfConfiguration[VIP].vtWavFile_);
+    configPointer->Write("/Vip/VtSerialPortChoice", elfConfiguration[VIP].serialPort_);
 
 	configPointer->Write("/Vip/VtEf", elfConfiguration[VIP].vtEf);
 	configPointer->Write("/Vip/VtQ", elfConfiguration[VIP].vtQ);
@@ -302,6 +305,8 @@ void GuiVip::writeVipConfig()
     configPointer->Write("/Vip/VT52Setup", value);
     value = elfConfiguration[VIP].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Vip/VT100Setup", value);
+    value = elfConfiguration[VIP].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Vip/VTExternalSetup", value);
 
 	configPointer->Write("/Vip/Vt_Baud", elfConfiguration[VIP].baudT);
 

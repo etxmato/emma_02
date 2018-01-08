@@ -23,8 +23,12 @@
 
 #include "wx/xrc/xmlres.h"             
 #include "wx/spinctrl.h"
+#include "wx/statline.h"
 
-//#include <libserialport.h>
+extern "C" 
+{
+#include <libserialport.h>
+}
 
 BEGIN_EVENT_TABLE(VtSetupDialog, wxDialog)
 	EVT_BUTTON(XRCID("VtSetupSave"), VtSetupDialog::onSaveButton)
@@ -53,11 +57,65 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "VtSetupBit5Text", wxStaticText)->Hide();
 			XRCCTRL(*this, "VtSetupBit9", wxChoice)->Hide();
 			XRCCTRL(*this, "VtSetupBit9Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "StaticLine3", wxStaticLine)->Hide();
+#ifdef __WXMSW__
+			XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->Hide();
+#else
+            XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->Hide();
+#endif
+			XRCCTRL(*this, "VtSerialPortText", wxStaticText)->Hide();
 		break;
 
 		case VT100:
             SetUpFeature_ = elfConfiguration_.vt100SetUpFeature_;
+			XRCCTRL(*this, "StaticLine3", wxStaticLine)->Hide();
+#ifdef __WXMSW__
+			XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->Hide();
+#else
+            XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->Hide();
+#endif
+			XRCCTRL(*this, "VtSerialPortText", wxStaticText)->Hide();
 		break;
+	}
+
+	if (elfConfiguration_.vtExternal)
+	{
+            SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
+			XRCCTRL(*this, "VtSetupBit0", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit0Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit4", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit4Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit5", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit5Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit6", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit6Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit7", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit7Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit8", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit8Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit9", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit9Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit10", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit10Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit11", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit11Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit12", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit12Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit13", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit13Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit14", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit14Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit15", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit15Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupBit16", wxChoice)->Hide();
+			XRCCTRL(*this, "VtSetupBit16Text", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtBellText", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtBell", wxTextCtrl)->Hide();
+			XRCCTRL(*this, "VtHzText", wxStaticText)->Hide();
+			XRCCTRL(*this, "VtSetupWavButton", wxButton)->Hide();
+			XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->Hide();
+			XRCCTRL(*this, "VtSetupWavEject", wxBitmapButton)->Hide();
+			XRCCTRL(*this, "StaticLine1", wxStaticLine)->Hide();
 	}
 
     XRCCTRL(*this, "SerialLog", wxCheckBox)->SetValue(elfConfiguration_.serialLog);
@@ -118,7 +176,11 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->SetSelection(SetUpFeature_[i]);
 	}
     
+#ifdef __WXMSW__
     listPorts();
+#else
+	XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->ChangeValue(elfConfiguration_.serialPort_);
+#endif
 }
 
 void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
@@ -153,6 +215,9 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             elfConfiguration_.vt100SetUpFeature_ = SetUpFeature_;
         break;
     }
+
+	if (elfConfiguration_.vtExternal)
+            elfConfiguration_.vtExternalSetUpFeature_ = SetUpFeature_;
 
     elfConfiguration_.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
     
@@ -207,9 +272,14 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 
 	elfConfiguration_.vtWavFile_= XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->GetValue();
     
-    int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetSelection();
+#ifdef __WXMSW__
+   int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetSelection();
     elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->GetString(selection);
+#else
+    elfConfiguration_.serialPort_= XRCCTRL(*this, "VtSerialPort", wxTextCtrl)->GetValue();
+#endif
 
+	p_Main->setSerialPorts(elfConfiguration_.serialPort_);
     p_Main->setElfConfiguration(elfConfiguration_);
 
 	EndModal(wxID_OK);
@@ -270,7 +340,7 @@ void VtSetupDialog::onVtWavFileEject(wxCommandEvent& WXUNUSED(event))
 
 void VtSetupDialog::listPorts()
 {
-/*    int i;
+    int i;
     struct sp_port **ports;
     wxString port;
     
@@ -287,6 +357,6 @@ void VtSetupDialog::listPorts()
     
     int selection = XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->FindString(elfConfiguration_.serialPort_);
     if (selection != wxNOT_FOUND)
-        XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->SetSelection(selection);*/
+        XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->SetSelection(selection);
 }
 

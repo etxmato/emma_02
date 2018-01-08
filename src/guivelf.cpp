@@ -146,6 +146,7 @@ void GuiVelf::readVelfConfig()
 	conf[VELF].chip8SW_ = configPointer->Read("/Velf/Chip_8_Software", "");
 	conf[VELF].wavFile_ = configPointer->Read("/Velf/Wav_File", "");
 	elfConfiguration[VELF].vtWavFile_ = configPointer->Read("/Velf/Vt_Wav_File", "");
+    elfConfiguration[VELF].serialPort_ = configPointer->Read("/Velf/VtSerialPortChoice", "");
 
 	conf[VELF].printFile_ = configPointer->Read("/Velf/Print_File", "printerout.txt");
 	conf[VELF].screenDumpFile_ = configPointer->Read("/Velf/Video_Dump_File", "screendump.png");
@@ -194,6 +195,7 @@ void GuiVelf::readVelfConfig()
 	elfConfiguration[VELF].vtType = (int)configPointer->Read("/Velf/VT_Type", 2l);
     elfConfiguration[VELF].vt52SetUpFeature_ = configPointer->Read("/Velf/VT52Setup", 0x00004092l);
     elfConfiguration[VELF].vt100SetUpFeature_ = configPointer->Read("/Velf/VT100Setup", 0x0000ca52l);
+    elfConfiguration[VELF].vtExternalSetUpFeature_ = configPointer->Read("/Velf/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 0l);
 	elfConfiguration[VELF].baudR = elfConfiguration[VELF].baudT;
 
@@ -221,16 +223,16 @@ void GuiVelf::readVelfConfig()
 
 		XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);
-		XRCCTRL(*this, "VTBaudTTextVelf", wxStaticText)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->Enable(elfConfiguration[VELF].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudTTextVelf", wxStaticText)->Enable(elfConfiguration[VELF].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->Enable(elfConfiguration[VELF].vtType != VTNONE);
 
         XRCCTRL(*this,"AddressText1Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].useElfControlWindows);
 
-		XRCCTRL(*this, "VtCharRomButtonVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomButtonVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->Enable(elfConfiguration[VELF].vtType != VTNONE);
+//		XRCCTRL(*this, "VtSetupVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
         XRCCTRL(*this, "VtExternalVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].vtExternal);
 		XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
 
@@ -277,6 +279,7 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Video_Dump_File", conf[VELF].screenDumpFile_);
 	configPointer->Write("/Velf/Wav_File", conf[VELF].wavFile_);
 	configPointer->Write("/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFile_);
+    configPointer->Write("/Velf/VtSerialPortChoice", elfConfiguration[VELF].serialPort_);
 
 	configPointer->Write("/Velf/VtEf", elfConfiguration[VELF].vtEf);
 	configPointer->Write("/Velf/VtQ", elfConfiguration[VELF].vtQ);
@@ -287,6 +290,8 @@ void GuiVelf::writeVelfConfig()
     configPointer->Write("/Velf/VT52Setup", value);
     value = elfConfiguration[VELF].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Velf/VT100Setup", value);
+    value = elfConfiguration[VELF].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Velf/VTExternalSetup", value);
 
 	configPointer->Write("/Velf/Vt_Baud", elfConfiguration[VELF].baudT);
     configPointer->Write("/Velf/Enable_Auto_Boot", elfConfiguration[VELF].autoBoot);

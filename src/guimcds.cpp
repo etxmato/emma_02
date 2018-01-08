@@ -180,6 +180,8 @@ void GuiMcds::readMcdsConfig()
 	elfConfiguration[MCDS].vtType = (int)configPointer->Read("/Mcds/VT_Type", 2l);
     elfConfiguration[MCDS].vt52SetUpFeature_ = configPointer->Read("/Mcds/VT52Setup", 0x00004092l);
     elfConfiguration[MCDS].vt100SetUpFeature_ = configPointer->Read("/Mcds/VT100Setup", 0x0000cad2l);
+    elfConfiguration[MCDS].vtExternalSetUpFeature_ = configPointer->Read("/Mcds/VTExternalSetup", 0x0000cad2l);
+    elfConfiguration[MCDS].serialPort_ = configPointer->Read("/Mcds/VtSerialPortChoice", "");
 
     configPointer->Read("/Mcds/Force_Uppercase", &elfConfiguration[MCDS].forceUpperCase, true);
     configPointer->Read("/Mcds/Boot_From_Ram", &elfConfiguration[MCDS].bootRam, false);
@@ -237,12 +239,12 @@ void GuiMcds::readMcdsConfig()
         
 		XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
-		XRCCTRL(*this, "VTBaudTTextMcds", wxStaticText)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudTTextMcds", wxStaticText)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
 
-		XRCCTRL(*this, "VtCharRomButtonMcds", wxButton)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupMcds", wxButton)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomButtonMcds", wxButton)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+//		XRCCTRL(*this, "VtSetupMcds", wxButton)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
 		XRCCTRL(*this, "ZoomValueVtMcds", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
@@ -294,7 +296,8 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/Print_File", conf[MCDS].printFile_);
     configPointer->Write("/Mcds/Video_Dump_File", conf[MCDS].screenDumpFile_);
     configPointer->Write("/Mcds/Wav_File", conf[MCDS].wavFile_);
-    
+    configPointer->Write("/Mcds/VtSerialPortChoice", elfConfiguration[MCDS].serialPort_);
+
 	configPointer->Write("/Mcds/Bell_Frequency", elfConfiguration[MCDS].bellFrequency_);
 	configPointer->Write("/Mcds/VT_Type", elfConfiguration[MCDS].vtType);
     
@@ -302,6 +305,8 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/VT52Setup", value);
     value = elfConfiguration[MCDS].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Mcds/VT100Setup", value);
+    value = elfConfiguration[MCDS].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Mcds/VTExternalSetup", value);
     
 	configPointer->Write("/Mcds/Vt_Baud_Receive", elfConfiguration[MCDS].baudR);
 	configPointer->Write("/Mcds/Vt_Baud_Transmit", elfConfiguration[MCDS].baudT);

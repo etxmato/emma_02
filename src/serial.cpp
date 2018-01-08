@@ -27,9 +27,13 @@
 
 #include "main.h"
 #include "serial.h"
-//#include <libserialport.h>
 
-//struct sp_port *port;
+extern "C" 
+{
+#include <libserialport.h>
+}
+
+struct sp_port *port;
 
 int baudRateValueSerial_[] =
 {
@@ -84,7 +88,7 @@ Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
         break;
     }
     uart_ = elfConfiguration_.useUart;
-    SetUpFeature_ = elfConfiguration_.vt100SetUpFeature_;
+    SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
 
 	setCycle();
 
@@ -93,8 +97,8 @@ Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
 
 Serial::~Serial()
 {
-//    if (serialOpen_)
-//        sp_close(port);
+    if (serialOpen_)
+        sp_close(port);
 }
 
 void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
@@ -441,20 +445,37 @@ void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigur
 
 void Serial::startSerial()
 {
-/*    sp_return error = sp_get_port_by_name(elfConfiguration_.serialPort_, &port);
+    sp_return error = sp_get_port_by_name(elfConfiguration_.serialPort_, &port);
     if (error == SP_OK)
     {
-        error = sp_open(port, SP_MODE_READ);
+        error = sp_open(port, SP_MODE_READ_WRITE);
         if (error == SP_OK)
         {
-            sp_set_baudrate(port, baudRateValueSerial_[selectedBaudT_]);
+            sp_set_baudrate(port, baudRateValueSerial_[selectedBaudT_]); 
+            if (SetUpFeature_[VTBITS])
+				sp_set_bits	(port, 8);
+			else
+				sp_set_bits	(port, 7);
+			sp_set_stopbits(port, 1);
+			sp_set_xon_xoff(port, SP_XONXOFF_DISABLED);
+			sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
+			if (SetUpFeature_[VTPARITY])
+			{
+				if (SetUpFeature_[VTPARITYSENSE])
+					sp_set_parity(port, SP_PARITY_EVEN);
+				else
+					sp_set_parity(port, SP_PARITY_ODD);
+			}	
+			else
+					sp_set_parity(port, SP_PARITY_NONE);
+
             serialOpen_ = true;
         }
         else
             p_Main->message("Error opening serial device");
     }
     else
-        p_Main->message("Error finding serial device");*/
+        p_Main->message("Error finding serial device");
 }
 
 void Serial::configureQandEfPolarity(int ef, bool vtEnable)
@@ -508,6 +529,12 @@ void Serial::cycleVt()
 	cycleValue_--;
 	if (cycleValue_ <= 0)
 	{
+		size_t numberOfBytes;
+		Byte input;
+		numberOfBytes = sp_nonblocking_read(port, &input, 1);
+
+		if (numberOfBytes >= 1)
+			vtOut_ = input;
 		cycleValue_ = cycleSize_;
 	}
 
@@ -590,7 +617,7 @@ void Serial::cycleVt()
 				}
 //				else
 //					p_Main->messageInt(serialEf_);
-                p_Computer->setGreenLed(serialEf_ ^ 1);
+//                p_Computer->setGreenLed(serialEf_ ^ 1);
 			}
 		}
 		else
@@ -663,23 +690,15 @@ void Serial::cycleVt()
                 if (SetUpFeature_[VTPARITY])
                     vtOutBits_++;
                 p_Computer->setGreenLed(serialEf_ ^ 1);
-//				p_Main->message("start");
-//				p_Main->messageHex(vtOut_);
 			}
         }
 
 		if (vtCount_ >= 0)
 		{ // output to terminal
-			//wxString buffer;
-			//buffer.Printf("%d", p_Computer->getFlipFlopQ());
-            
-			//p_Main->messageNoReturn(buffer);
 
 			vtCount_--; 
 			if (vtCount_ <= 0)
 			{
-				//p_Main->messageInt(p_Computer->getFlipFlopQ());
-				//p_Main->message("");
 				if (SetUpFeature_[VTPARITY])
 				{
 					if (vtBits_ > 2)
@@ -712,8 +731,9 @@ void Serial::cycleVt()
 				if (--vtBits_ == 0)
 				{
 					vtCount_ = -1;
-//					Display(rs232_ & 0x7f, false);
-//                    p_Main->messageHex(rs232_);
+					rs232_ = rs232_ & 0x7f;
+					if (serialOpen_)
+						sp_nonblocking_write(port, &rs232_, 1);
 				}
 			}
 		}
@@ -733,8 +753,6 @@ void Serial::switchQ(int value)
                 vtBits_ = 8;
             if (SetUpFeature_[VTPARITY])
                 vtBits_++;
-            //					p_Main->message("start");
-            //					p_Main->messageInt(p_Computer->getFlipFlopQ());
             rs232_ = 0;
         }
     }
@@ -747,11 +765,7 @@ void Serial::setClock(double clock)
 
 void Serial::setCycle()
 {   
-	if (SetUpFeature_[VTPOWER])
-		cycleSize_ = (int) (((clock_ * 1000000) / 8) / 50);
-	else
-		cycleSize_ = (int) (((clock_ * 1000000) / 8) / 60);
-
+	cycleSize_ = (int) (((clock_ * 1000000) / 8) / 10);
 	cycleValue_ = cycleSize_;
 }
 
@@ -812,12 +826,4 @@ void Serial::ResetIo()
 	vtOut_ = 0;
 	serialEf_ = 1;
 	elfRunCommand_ = 0;*/
-}
-
-void Serial::keyDownPressed(wxKeyEvent& event)
-{
-//	if (SetUpFeature_[VTANSI])
-//		keyDownVT100(event);
-//	else
-//		keyDownVT52(event);
 }

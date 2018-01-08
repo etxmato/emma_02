@@ -122,7 +122,7 @@ void Ms2000::configureComputer()
     if (ms2000Configuration.vtExternal)
     {
         p_Serial = new Serial(MS2000, ms2000ClockSpeed_, ms2000Configuration);
-        p_Serial->configureMember(ms2000Configuration.baudR, ms2000Configuration.baudT);
+        p_Serial->configureMs2000(ms2000Configuration.baudR, ms2000Configuration.baudT);
     }
 
     p_Main->message("Configuring printer support");
@@ -170,7 +170,11 @@ Byte Ms2000::ef(int flag)
             return vtPointer->ef();
         break;
             
-        default:
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
+		default:
 			return 1;
 	}
 }
@@ -371,6 +375,10 @@ void Ms2000::cycle(int type)
         case VT100CYCLE:
 			vtPointer->cycleVt();
 		break;
+
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
 	}
 }
 
@@ -675,5 +683,8 @@ void Ms2000::switchQ(int value)
 {
     if (ms2000Configuration.vtType != VTNONE)
         vtPointer->switchQ(value);
+
+    if (ms2000Configuration.vtExternal)
+        p_Serial->switchQ(value);
 }
 

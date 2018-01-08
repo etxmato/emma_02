@@ -818,9 +818,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
 			{
                 if (!elfConfiguration[selectedComputer_].vtExternal)
                 {
-                    XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(false);
+					XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(false);
                     XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(false);
-                    XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
+					XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
                     XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
                     XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
                     if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
@@ -831,9 +831,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
                 }
                 else
                 {
-                    XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(true);
+					XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
                     XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-                    XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(true);
+					XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
                     XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                     XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
                     if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
@@ -1956,6 +1956,15 @@ ElfConfiguration GuiMain::getElfConfiguration(int computer)
 void GuiMain::setElfConfiguration(ElfConfiguration elfConf)
 {
     elfConfiguration[selectedComputer_] = elfConf;
+}
+
+void GuiMain::setSerialPorts(wxString port)
+{
+	for (int computer = 0; computer <= LAST_ELF_TYPE; computer++)
+	{
+		if (elfConfiguration[computer].serialPort_ == "")
+			elfConfiguration[computer].serialPort_ = port;
+	}
 }
 
 long GuiMain::getBitValue(wxString reference)

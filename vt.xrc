@@ -30,7 +30,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit0Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -130,7 +130,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit4Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -180,7 +180,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit6Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -205,7 +205,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit7Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -230,7 +230,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit16Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -272,7 +272,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit8Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -322,7 +322,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit10Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -347,7 +347,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit11Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -372,7 +372,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit12Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -397,7 +397,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit13Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -422,7 +422,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit14Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -447,7 +447,7 @@
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
-                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                <object class="wxStaticText" name="VtSetupBit15Text">
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -480,7 +480,7 @@
             <object class="sizeritem">
                 <flag>wxGROW|wxALL</flag>
                 <border>5</border>
-                <object class="wxStaticLine" name="wxID_STATIC">
+                <object class="wxStaticLine" name="StaticLine1">
                     <style>wxLI_HORIZONTAL</style>
                 </object>
             </object>
@@ -497,7 +497,7 @@
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                 <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
+                                <object class="wxStaticText" name="VtBellText">
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
@@ -520,7 +520,7 @@
                             <object class="sizeritem">
                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                 <border>24</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
+                                <object class="wxStaticText" name="VtHzText">
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
@@ -591,7 +591,7 @@
             <object class="sizeritem">
                 <flag>wxGROW|wxALL</flag>
                 <border>5</border>
-                <object class="wxStaticLine" name="wxID_STATIC">
+                <object class="wxStaticLine" name="StaticLine2">
                     <style>wxLI_HORIZONTAL</style>
                 </object>
             </object>
@@ -655,7 +655,7 @@
             <object class="sizeritem">
                 <flag>wxGROW|wxALL</flag>
                 <border>5</border>
-                <object class="wxStaticLine" name="wxID_STATIC">
+                <object class="wxStaticLine" name="StaticLine3">
                     <size>180,-1</size>
                     <style>wxLI_HORIZONTAL</style>
                 </object>
@@ -668,24 +668,34 @@
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>5</border>
-                        <object class="wxStaticText" name="wxID_STATIC">
+                        <object class="wxStaticText" name="VtSerialPortText">
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
                             </font>
-                            <hidden>1</hidden>
                             <label>Serial Port</label>
                         </object>
                     </object>
-                    <object class="sizeritem">
+                    <object platform="unix|mac" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <object class="wxChoice" name="VtSerialPortChoice">
+                        <object platform="unix|mac" class="wxTextCtrl" name="VtSerialPort">
+                            <size>146,-1</size>
+                            <tooltip>Specify serial port</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>
                             </font>
-                            <hidden>1</hidden>
+                        </object>
+                    </object>
+                    <object platform="win" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <object platform="win" class="wxChoice" name="VtSerialPortChoice">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
                         </object>
                     </object>
                 </object>
@@ -696,7 +706,6 @@
                 <object class="wxStaticLine" name="wxID_STATIC">
                     <size>180,-1</size>
                     <style>wxLI_HORIZONTAL</style>
-                    <hidden>1</hidden>
                 </object>
             </object>
             <object class="sizeritem">

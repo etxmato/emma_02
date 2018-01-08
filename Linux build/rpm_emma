@@ -1,2 +1,2 @@
 #!/bin/sh 
-epm -f rpm emma02 -v -v
+epm -f rpm emma02 -v -v -k

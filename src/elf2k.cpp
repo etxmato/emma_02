@@ -505,6 +505,10 @@ Byte Elf2K::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		case I8275EF:
 			return i8275Pointer->ef8275();
 		break;
@@ -689,6 +693,10 @@ void Elf2K::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case ELF2KDISKCYCLE:
 			cycleDisk();
 		break;
@@ -727,6 +735,9 @@ void Elf2K::switchQ(int value)
     
     if (elfConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 void Elf2K::startComputer()
@@ -992,7 +1003,7 @@ void Elf2K::configureElfExtensions()
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(MEMBER, elfClockSpeed_, elfConfiguration);
-        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+        p_Serial->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
     }
 
     if (elfConfiguration.usePixie)

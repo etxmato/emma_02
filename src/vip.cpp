@@ -122,7 +122,7 @@ void Vip::configureComputer()
     if (vipConfiguration.vtExternal)
     {
         p_Serial = new Serial(VIP, clock_, vipConfiguration);
-        p_Serial->configureMember(vipConfiguration.baudR, vipConfiguration.baudT);
+        p_Serial->configureVip(vipConfiguration.baudR, vipConfiguration.baudT);
     }
 
 	defineKeys();
@@ -329,6 +329,10 @@ Byte Vip::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		default:
 			return 1;
 	}
@@ -441,6 +445,9 @@ void Vip::switchQ(int value)
     if (vipConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
 
+    if (vipConfiguration.vtExternal)
+        p_Serial->switchQ(value);
+
     if (!usePrinter_)  return;
 
 	if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
@@ -469,6 +476,10 @@ void Vip::cycle(int type)
             vtPointer->cycleVt();
             break;
             
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case VIPIIKEYCYCLE:
 			cycleKey();
 		break;

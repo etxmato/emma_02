@@ -5407,7 +5407,7 @@ void Main::enableGui(bool status)
 				XRCCTRL(*this,"PrintButtonVip", wxBitmapButton)->SetToolTip("Enable printer support");
 		}
 		XRCCTRL(*this, "VTTypeVip", wxChoice)->Enable(status);
-		if (XRCCTRL(*this,"VTTypeVip",wxChoice)->GetSelection() != VTNONE)
+		if (XRCCTRL(*this,"VTTypeVip",wxChoice)->GetSelection() != VTNONE || XRCCTRL(*this,"VtExternalVip",wxCheckBox)->GetValue() == true)
 		{
 			if (elfConfiguration[VIP].useUart)
 			{
@@ -5417,6 +5417,7 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Enable(status);
             XRCCTRL(*this, "VTBaudTTextVip", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupVip", wxButton)->Enable(status);
+			XRCCTRL(*this, "VtExternalVip", wxCheckBox)->Enable(status);
 		}
 
 		XRCCTRL(*this,"ScreenDumpF5Vip", wxButton)->Enable(!status);
@@ -5507,7 +5508,7 @@ void Main::enableGui(bool status)
                 XRCCTRL(*this,"PrintButtonVelf", wxBitmapButton)->SetToolTip("Enable printer support");
         }
         XRCCTRL(*this, "VTTypeVelf", wxChoice)->Enable(status);
-        if (XRCCTRL(*this,"VTTypeVelf",wxChoice)->GetSelection() != VTNONE)
+        if (XRCCTRL(*this,"VTTypeVelf",wxChoice)->GetSelection() != VTNONE || XRCCTRL(*this,"VtExternalVelf",wxCheckBox)->GetValue() == true)
         {
             if (elfConfiguration[VELF].useUart)
             {
@@ -5517,6 +5518,7 @@ void Main::enableGui(bool status)
             XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->Enable(status);
             XRCCTRL(*this, "VTBaudTTextVelf", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupVelf", wxButton)->Enable(status);
+			XRCCTRL(*this,"VtExternalVelf",wxCheckBox)->Enable(status);
         }
         
         XRCCTRL(*this,"ScreenDumpF5Velf", wxButton)->Enable(!status);
@@ -5864,7 +5866,7 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this, "EndRam"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
 		}
 		XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->Enable(status);
-		if (XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->GetSelection() != VTNONE)
+		if (XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->GetSelection() != VTNONE  || XRCCTRL(*this,"VtExternal"+elfTypeStr,wxCheckBox)->GetValue() == true)
 		{
 			if (elfConfiguration[runningComputer_].useUart)
 			{
@@ -5873,7 +5875,8 @@ void Main::enableGui(bool status)
 			}
 			XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(status);
 			XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(status);
-			XRCCTRL(*this,"VtSetup"+elfTypeStr, wxButton)->Enable(status);
+			XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(status);
+			XRCCTRL(*this, "VtExternal"+elfTypeStr,wxCheckBox)->Enable(status);
 		}
 		XRCCTRL(*this,"VideoType"+elfTypeStr,wxChoice)->Enable(status);
 		XRCCTRL(*this,"VideoTypeText"+elfTypeStr,wxStaticText)->Enable(status);
@@ -5881,11 +5884,14 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"Keyboard"+elfTypeStr,wxChoice)->Enable(status);
 		XRCCTRL(*this,"KeyboardText"+elfTypeStr,wxStaticText)->Enable(status);
 		XRCCTRL(*this,"CharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
-		XRCCTRL(*this,"VtCharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].vtType != VTNONE));
-		XRCCTRL(*this,"VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[runningComputer_].vtType != VTNONE);
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this,"VtCharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].vtType != VTNONE));
+            XRCCTRL(*this,"VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[runningComputer_].vtType != VTNONE);
+            XRCCTRL(*this,"FullScreenF3"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
+       }
 		XRCCTRL(*this,"CharRom"+elfTypeStr, wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
-		XRCCTRL(*this,"FullScreenF3"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
-		XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
 		enableMemAccessGui(!status);
 	}
 	if (runningComputer_ == ELF2K)
@@ -5924,7 +5930,7 @@ void Main::enableGui(bool status)
 		if (!elfConfiguration[ELF2K].use8275)
 		{
 			XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(status);
-			if (XRCCTRL(*this,"VTTypeElf2K",wxChoice)->GetSelection() != VTNONE)
+			if (XRCCTRL(*this,"VTTypeElf2K",wxChoice)->GetSelection() != VTNONE || XRCCTRL(*this,"VtExternalElf2K",wxCheckBox)->GetValue() == true)
 			{
 				if (elfConfiguration[ELF2K].useUart)
 				{
@@ -5934,6 +5940,7 @@ void Main::enableGui(bool status)
 				XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(status);
                 XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable(status);
                 XRCCTRL(*this,"VtSetupElf2K", wxButton)->Enable(status);
+				XRCCTRL(*this,"VtExternalElf2K",wxCheckBox)->Enable(status);
 			}
 		}
 		XRCCTRL(*this,"Elf2KVideoType",wxChoice)->Enable(status);
@@ -5941,11 +5948,14 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"Elf2KKeyboard",wxChoice)->Enable(status);
 		XRCCTRL(*this,"Elf2KKeyboard_Text",wxStaticText)->Enable(status);
 		XRCCTRL(*this,"CharRomButtonElf2K", wxButton)->Enable(status&elfConfiguration[ELF2K].use8275);
-		XRCCTRL(*this,"VtCharRomButtonElf2K", wxButton)->Enable(status&(elfConfiguration[ELF2K].vtType != VTNONE));
-		XRCCTRL(*this,"VtCharRomElf2K", wxComboBox)->Enable(status&(elfConfiguration[ELF2K].vtType != VTNONE));
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this,"VtCharRomButtonElf2K", wxButton)->Enable(status&(elfConfiguration[ELF2K].vtType != VTNONE));
+            XRCCTRL(*this,"VtCharRomElf2K", wxComboBox)->Enable(status&(elfConfiguration[ELF2K].vtType != VTNONE));
+            XRCCTRL(*this,"FullScreenF3Elf2K", wxButton)->Enable(!status&(elfConfiguration[ELF2K].usePixie||elfConfiguration[ELF2K].use8275||(elfConfiguration[ELF2K].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5Elf2K", wxButton)->Enable(!status&(elfConfiguration[ELF2K].usePixie||elfConfiguration[ELF2K].use8275||(elfConfiguration[ELF2K].vtType != VTNONE)));
+        }
 		XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(status&elfConfiguration[ELF2K].use8275);
-		XRCCTRL(*this,"FullScreenF3Elf2K", wxButton)->Enable(!status&(elfConfiguration[ELF2K].usePixie||elfConfiguration[ELF2K].use8275||(elfConfiguration[ELF2K].vtType != VTNONE)));
-		XRCCTRL(*this,"ScreenDumpF5Elf2K", wxButton)->Enable(!status&(elfConfiguration[ELF2K].usePixie||elfConfiguration[ELF2K].use8275||(elfConfiguration[ELF2K].vtType != VTNONE)));
 		XRCCTRL(*this,"Elf2KRtc", wxCheckBox)->Enable(status);
 	}
     if (runningComputer_ == MS2000)
@@ -5976,10 +5986,13 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"MainRomMS2000", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonMS2000", wxButton)->Enable(status);
         enableMemAccessGui(!status);
-        XRCCTRL(*this,"VtCharRomButtonMS2000", wxButton)->Enable(status&(elfConfiguration[MS2000].vtType != VTNONE));
-        XRCCTRL(*this,"VtCharRomMS2000", wxComboBox)->Enable(status&(elfConfiguration[MS2000].vtType != VTNONE));
-        XRCCTRL(*this,"FullScreenF3MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
-        XRCCTRL(*this,"ScreenDumpF5MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this,"VtCharRomButtonMS2000", wxButton)->Enable(status&(elfConfiguration[MS2000].vtType != VTNONE));
+            XRCCTRL(*this,"VtCharRomMS2000", wxComboBox)->Enable(status&(elfConfiguration[MS2000].vtType != VTNONE));
+            XRCCTRL(*this,"FullScreenF3MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
+            XRCCTRL(*this,"ScreenDumpF5MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
+        }
         XRCCTRL(*this, "VTTypeMS2000", wxChoice)->Enable(status);
 		if (elfConfiguration[MS2000].useUart)
 		{
@@ -5988,7 +6001,8 @@ void Main::enableGui(bool status)
 		}
 		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->Enable(status);
 		XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(status);
-        XRCCTRL(*this,"VtSetupMS2000", wxButton)->Enable(status);
+        XRCCTRL(*this, "VtSetupMS2000", wxButton)->Enable(status);
+ 		XRCCTRL(*this, "VtExternalMS2000",wxCheckBox)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
@@ -6024,10 +6038,13 @@ void Main::enableGui(bool status)
         XRCCTRL(*this, "RomButton2Mcds", wxButton)->Enable(status);
         XRCCTRL(*this, "RomButton3Mcds", wxButton)->Enable(status);
         enableMemAccessGui(!status);
-		XRCCTRL(*this, "VtCharRomButtonMcds", wxButton)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
-		XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
-		XRCCTRL(*this, "FullScreenF3Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
-		XRCCTRL(*this, "ScreenDumpF5Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this, "VtCharRomButtonMcds", wxButton)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
+            XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
+            XRCCTRL(*this, "FullScreenF3Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
+            XRCCTRL(*this, "ScreenDumpF5Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
+        }
 		XRCCTRL(*this, "VTTypeMcds", wxChoice)->Enable(status);
 		if (elfConfiguration[MCDS].useUart)
 		{
@@ -6037,6 +6054,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Enable(status);
 		XRCCTRL(*this, "VTBaudTTextMcds", wxStaticText)->Enable(status);
 		XRCCTRL(*this, "VtSetupMcds", wxButton)->Enable(status);
+		XRCCTRL(*this, "VtExternalMcds",wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
@@ -6076,7 +6094,7 @@ void Main::enableGui(bool status)
 		enableMemAccessGui(!status);
 
 		XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->Enable(status);
-		if (XRCCTRL(*this,"VTTypeCosmicos",wxChoice)->GetSelection() != VTNONE)
+		if (XRCCTRL(*this,"VTTypeCosmicos",wxChoice)->GetSelection() != VTNONE || XRCCTRL(*this,"VtExternalCosmicos",wxCheckBox)->GetValue() == true)
 		{
 			if (elfConfiguration[COSMICOS].useUart)
 			{
@@ -6086,16 +6104,20 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Enable(status);
 			XRCCTRL(*this, "VTBaudTTextCosmicos", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupCosmicos", wxButton)->Enable(status);
+			XRCCTRL(*this,"VtExternalCosmicos",wxCheckBox)->Enable(status);
 		}
 
 		XRCCTRL(*this,"VideoTypeCosmicos",wxChoice)->Enable(status);
 		XRCCTRL(*this,"VideoType_TextCosmicos",wxStaticText)->Enable(status);
 		XRCCTRL(*this,"KeyboardCosmicos",wxChoice)->Enable(status);
 		XRCCTRL(*this,"Keyboard_TextCosmicos",wxStaticText)->Enable(status);
-		XRCCTRL(*this,"VtCharRomButtonCosmicos", wxButton)->Enable(status&(elfConfiguration[COSMICOS].vtType != VTNONE));
-		XRCCTRL(*this,"VtCharRomCosmicos", wxComboBox)->Enable(status&(elfConfiguration[COSMICOS].vtType != VTNONE));
-		XRCCTRL(*this,"FullScreenF3Cosmicos", wxButton)->Enable(!status&(elfConfiguration[COSMICOS].usePixie||(elfConfiguration[COSMICOS].vtType != VTNONE)));
-		XRCCTRL(*this,"ScreenDumpF5Cosmicos", wxButton)->Enable(!status&(elfConfiguration[COSMICOS].usePixie||(elfConfiguration[COSMICOS].vtType != VTNONE)));
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this,"VtCharRomButtonCosmicos", wxButton)->Enable(status&(elfConfiguration[COSMICOS].vtType != VTNONE));
+            XRCCTRL(*this,"VtCharRomCosmicos", wxComboBox)->Enable(status&(elfConfiguration[COSMICOS].vtType != VTNONE));
+            XRCCTRL(*this,"FullScreenF3Cosmicos", wxButton)->Enable(!status&(elfConfiguration[COSMICOS].usePixie||(elfConfiguration[COSMICOS].vtType != VTNONE)));
+            XRCCTRL(*this,"ScreenDumpF5Cosmicos", wxButton)->Enable(!status&(elfConfiguration[COSMICOS].usePixie||(elfConfiguration[COSMICOS].vtType != VTNONE)));
+        }
 	}
 	if (runningComputer_ == MEMBER)
 	{
@@ -6137,17 +6159,21 @@ void Main::enableGui(bool status)
 		enableMemAccessGui(!status);
 
 		XRCCTRL(*this, "VTTypeMembership", wxChoice)->Enable(status);
-		if (XRCCTRL(*this,"VTTypeMembership",wxChoice)->GetSelection() != VTNONE)
+		if (XRCCTRL(*this,"VTTypeMembership",wxChoice)->GetSelection() != VTNONE || XRCCTRL(*this,"VtExternalMembership",wxCheckBox)->GetValue() == true)
 		{
 			XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Enable(status);
             XRCCTRL(*this, "VTBaudTTextMembership", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupMembership", wxButton)->Enable(status);
+			XRCCTRL(*this,"VtExternalMembership",wxCheckBox)->Enable(status);
 		}
 
-		XRCCTRL(*this,"VtCharRomButtonMembership", wxButton)->Enable(status&(elfConfiguration[MEMBER].vtType != VTNONE));
-		XRCCTRL(*this,"VtCharRomMembership", wxComboBox)->Enable(status&(elfConfiguration[MEMBER].vtType != VTNONE));
-		XRCCTRL(*this,"FullScreenF3Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
-		XRCCTRL(*this,"ScreenDumpF5Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+        if (!elfConfiguration[runningComputer_].vtExternal)
+        {
+            XRCCTRL(*this,"VtCharRomButtonMembership", wxButton)->Enable(status&(elfConfiguration[MEMBER].vtType != VTNONE));
+            XRCCTRL(*this,"VtCharRomMembership", wxComboBox)->Enable(status&(elfConfiguration[MEMBER].vtType != VTNONE));
+            XRCCTRL(*this,"FullScreenF3Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+            XRCCTRL(*this,"ScreenDumpF5Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+        }
 	}
 	if (runningComputer_ == MICROTUTOR)
 	{

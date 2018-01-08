@@ -119,7 +119,7 @@ void Mcds::configureComputer()
     if (McdsConfiguration.vtExternal)
     {
         p_Serial = new Serial(MCDS, McdsClockSpeed_, McdsConfiguration);
-        p_Serial->configureMember(McdsConfiguration.baudR, McdsConfiguration.baudT);
+        p_Serial->configureMcds(McdsConfiguration.baudR, McdsConfiguration.baudT);
     }
 
     p_Main->message("Configuring printer support");
@@ -164,7 +164,11 @@ Byte Mcds::ef(int flag)
             return vtPointer->ef();
         break;
             
-        default:
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
+		default:
 			return 1;
 	}
 }
@@ -299,6 +303,10 @@ void Mcds::cycle(int type)
         case VT100CYCLE:
 			vtPointer->cycleVt();
 		break;
+
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
 	}
 }
 
@@ -568,5 +576,8 @@ void Mcds::switchQ(int value)
 {
     if (McdsConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
+
+    if (McdsConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 

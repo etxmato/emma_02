@@ -53,7 +53,7 @@
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;"
+				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win32\include\&quot;"
 				PreprocessorDefinitions="WIN32;WINVER=0x0400;__WXMSW__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -84,11 +84,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30u_xrc.lib wxmsw30u_html.lib wxmsw30u_adv.lib wxmsw30u_core.lib wxbase30u_xml.lib wxbase30u_net.lib wxbase30u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30u_xrc.lib wxmsw30u_html.lib wxmsw30u_adv.lib wxmsw30u_core.lib wxbase30u_xml.lib wxbase30u_net.lib wxbase30u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib libserialport.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release&quot;;&quot;$(SERIALPORT)\Win32\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -157,7 +157,7 @@
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;"
+				AdditionalIncludeDirectories=".;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswu&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
 				PreprocessorDefinitions="WIN32;WINVER=0x0400;__WXMSW__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -188,11 +188,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30u_xrc.lib wxmsw30u_html.lib wxmsw30u_adv.lib wxmsw30u_core.lib wxbase30u_xml.lib wxbase30u_net.lib wxbase30u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30u_xrc.lib wxmsw30u_html.lib wxmsw30u_adv.lib wxmsw30u_core.lib wxbase30u_xml.lib wxbase30u_net.lib wxbase30u.lib wxregexu.lib wxexpat.lib wsock32.lib wxtiff.lib wxjpeg.lib wxpng.lib wxzlib.lib libcurl.lib ws2_32.lib wldap32.lib libserialport.lib"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Release&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Release&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;;&quot;%(AdditionalLibraryDirectories)&quot;"
 				GenerateManifest="true"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
@@ -263,7 +263,7 @@
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\include&quot;;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;"
+				AdditionalIncludeDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\include&quot;;.\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win32\include\&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				MinimalRebuild="false"
@@ -295,12 +295,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib libserialport.lib"
 				ShowProgress="0"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\lib\Win32&quot;;&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswud&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Debug&quot;"
+				AdditionalLibraryDirectories="&quot;C:\Program Files (x86)\Visual Leak Detector\lib\Win32&quot;;&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32\mswud&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Debug&quot;;&quot;$(SERIALPORT)\Win32\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -369,8 +369,8 @@
 				AdditionalOptions="/EHsc /bigobj"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories=".\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;"
-				PreprocessorDefinitions="WIN64;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
+				AdditionalIncludeDirectories=".\images;&quot;$(SDL)\include&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\include&quot;;&quot;$(WXWIN)\include\msvc&quot;;&quot;$(CURL)\include\&quot;;&quot;$(SERIALPORT)\Win64\include\&quot;"
+				PreprocessorDefinitions="WIN64;WIN32=0;_DEBUG;__WXMSW__;__WXDEBUG__;_WINDOWS;NOPCH"
 				StringPooling="true"
 				MinimalRebuild="false"
 				BasicRuntimeChecks="3"
@@ -401,12 +401,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib"
+				AdditionalDependencies="comctl32.lib rpcrt4.lib winmm.lib advapi32.lib SDL2.lib SDL2main.lib wxmsw30ud_xrc.lib wxmsw30ud_html.lib wxmsw30ud_adv.lib wxmsw30ud_core.lib wxbase30ud_xml.lib wxbase30ud_net.lib wxbase30ud.lib libcurld.lib wxregexud.lib wxexpatd.lib wsock32.lib wxtiffd.lib wxjpegd.lib wxpngd.lib wxzlibd.lib ws2_32.lib wldap32.lib libserialport.lib"
 				ShowProgress="0"
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\lib\vc_x64_lib&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Debug&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x64&quot;;&quot;$(WXWIN)\lib\vc_x64_lib\mswud&quot;;&quot;$(WXWIN)\lib\vc_x64_lib&quot;;&quot;$(CURL)\build\Win64\VC9\LIB Debug&quot;;&quot;$(SERIALPORT)\Win64\lib&quot;"
 				IgnoreAllDefaultLibraries="false"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"
@@ -780,6 +780,10 @@
 			</File>
 			<File
 				RelativePath=".\src\SDL_audioin.c"
+				>
+			</File>
+			<File
+				RelativePath=".\src\serial.cpp"
 				>
 			</File>
 			<File
@@ -1232,6 +1236,10 @@
 			</File>
 			<File
 				RelativePath=".\src\SDL_audioin_internal.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\serial.h"
 				>
 			</File>
 			<File

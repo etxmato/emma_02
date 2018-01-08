@@ -595,6 +595,10 @@ Byte Super::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		case MC6847EF:
 			return mc6845Pointer->ef6845();
 		break;
@@ -862,6 +866,10 @@ void Super::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case FDCCYCLE:
 			cycleFdc();
 		break;
@@ -937,6 +945,9 @@ void Super::switchQ(int value)
 
     if (elfConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 int Super::getMpButtonState()
@@ -1642,7 +1653,7 @@ void Super::configureElfExtensions()
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(SUPERELF, elfClockSpeed_, elfConfiguration);
-        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
     }
 
     if (elfConfiguration.usePixie)

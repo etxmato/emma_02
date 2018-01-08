@@ -87,6 +87,7 @@ CPP_SRCS += \
 ../src/ps2gpio.cpp \
 ../src/psave.cpp \
 ../src/pushbutton.cpp \
+../src/serial.cpp \
 ../src/sound.cpp \
 ../src/splash.cpp \
 ../src/studio2.cpp \
@@ -205,6 +206,7 @@ OBJS += \
 ./src/ps2gpio.o \
 ./src/psave.o \
 ./src/pushbutton.o \
+./src/serial.o \
 ./src/sound.o \
 ./src/splash.o \
 ./src/studio2.o \
@@ -315,6 +317,7 @@ CPP_DEPS += \
 ./src/ps2gpio.d \
 ./src/psave.d \
 ./src/pushbutton.d \
+./src/serial.d \
 ./src/sound.d \
 ./src/splash.d \
 ./src/studio2.d \

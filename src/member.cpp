@@ -461,6 +461,9 @@ void Membership::switchQ(int value)
     
     if (elfConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 int Membership::getMpButtonState()

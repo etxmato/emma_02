@@ -123,6 +123,7 @@ void GuiMembership::readMembershipConfig()
 	elfConfiguration[MEMBER].vtType = (int)configPointer->Read("/Membership/VT_Type", 2l);
     elfConfiguration[MEMBER].vt52SetUpFeature_ = configPointer->Read("/Membership/VT52Setup", 0x00004092l);
     elfConfiguration[MEMBER].vt100SetUpFeature_ = configPointer->Read("/Membership/VT100Setup", 0x0000ca52l);
+    elfConfiguration[MEMBER].vtExternalSetUpFeature_ = configPointer->Read("/Membership/VTExternalSetup", 0x0000ca52l);
 
 	configPointer->Read("/Membership/Load_Mode_Rom", &romMode, true);
 	if (romMode)
@@ -196,17 +197,17 @@ void GuiMembership::readMembershipConfig()
 
 		XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudT);
-		XRCCTRL(*this, "VTBaudRTextMembership", wxStaticText)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-        XRCCTRL(*this, "VTBaudTTextMembership", wxStaticText)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudRTextMembership", wxStaticText)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
+//        XRCCTRL(*this, "VTBaudTTextMembership", wxStaticText)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
         XRCCTRL(*this,"AddressText1Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
-        XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+//        XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
+//		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
 
 		XRCCTRL(*this, "ForceUCMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].forceUpperCase);
-		XRCCTRL(*this, "VtCharRomButtonMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomMembership", wxComboBox)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomButtonMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomMembership", wxComboBox)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+//		XRCCTRL(*this, "VtSetupMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
 		XRCCTRL(*this, "AutoBootMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].autoBoot);
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
@@ -263,7 +264,9 @@ void GuiMembership::writeMembershipConfig()
     configPointer->Write("/Membership/VT52Setup", value);
     value = elfConfiguration[MEMBER].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Membership/VT100Setup", value);
-    
+    value = elfConfiguration[MEMBER].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Membership/VTExternalSetup", value);
+ 
 	configPointer->Write("/Membership/Vt_Baud_Receive", elfConfiguration[MEMBER].baudR);
 	configPointer->Write("/Membership/Vt_Baud_Transmit", elfConfiguration[MEMBER].baudT);
 	configPointer->Write("/Membership/Enable_Auto_Boot", elfConfiguration[MEMBER].autoBoot);

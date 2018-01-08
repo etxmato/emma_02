@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.24.41
+AppVerName=Emma 02 - V1.24.43
 AppVersion=1.24
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.24.41
+OutputBaseFilename=Emma_02_x64_setup_v1.24.43
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -332,7 +332,6 @@ Source: ..\Emma 02.rc; DestDir: {app}; Components: SOURCEFILES
 Name: {group}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; Components: MAIN
 Name: {group}\{cm:UninstallProgram,Emma 02}; Filename: {uninstallexe}; Components: MAIN
 Name: {commondesktop}\Emma 02; Filename: {app}\Emma 02.exe; WorkingDir: {app}; Tasks: desktopicon
-
 
 [Run]
 Filename: {tmp}\vcredist_x64.exe; Parameters: /quiet; Components: MAIN

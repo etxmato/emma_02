@@ -4,6 +4,8 @@
 #include <bitset>
 using namespace std;
 
+#define VTBUFFER 1024
+
 class Serial
 {
 public:
@@ -35,7 +37,6 @@ public:
 	void framingError(bool data); 
 	void ResetVt();
 	void ResetIo();
-	void keyDownPressed(wxKeyEvent& event);
 
 private:
     ElfConfiguration elfConfiguration_;

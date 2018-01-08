@@ -678,6 +678,10 @@ Byte Cosmicos::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		case COSMICOSEF:
 			return inPressed();
 		break;
@@ -800,10 +804,12 @@ void Cosmicos::switchQ(int value)
 
 	if (bootstrap_ != 0 && flipFlopQ_ == 1)
 		bootstrap_ = 0;
-
     
     if (cosmicosConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
+
+    if (cosmicosConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 void Cosmicos::showData(Byte val)
@@ -837,6 +843,10 @@ void Cosmicos::cycle(int type)
 			vtPointer->cycleVt();
 		break;
             
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
         case LEDCYCLE:
             cycleLed();
         break;
@@ -1117,7 +1127,7 @@ void Cosmicos::configureElfExtensions()
     if (cosmicosConfiguration.vtExternal)
     {
         p_Serial = new Serial(COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration);
-        p_Serial->configureMember(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT);
+        p_Serial->configureCosmicos(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT);
     }
 
     if (cosmicosConfiguration.usePixie)

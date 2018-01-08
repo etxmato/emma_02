@@ -273,7 +273,7 @@ void Velf::configureComputer()
     if (vipConfiguration.vtExternal)
     {
         p_Serial = new Serial(VELF, velfClockSpeed_, vipConfiguration);
-        p_Serial->configureMember(vipConfiguration.baudR, vipConfiguration.baudT);
+        p_Serial->configureVelf(vipConfiguration.baudR, vipConfiguration.baudT);
     }
 
     defineKeys();
@@ -487,6 +487,13 @@ Byte Velf::ef(int flag)
                 return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            if (isLoading() || realCassetteLoad_)
+                return cassetteEf_;
+            else
+	            return p_Serial->ef();
+        break;
+ 
 		default:
 			return 1;
 	}
@@ -588,7 +595,10 @@ void Velf::switchQ(int value)
     if (vipConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
 
-    if (!usePrinter_)  return;
+    if (vipConfiguration.vtExternal)
+        p_Serial->switchQ(value);
+
+	if (!usePrinter_)  return;
 
 	if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
 		p_Printer->printerOut(printLatch_);
@@ -616,6 +626,10 @@ void Velf::cycle(int type)
             vtPointer->cycleVt();
             break;
             
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case VIPIIKEYCYCLE:
 			cycleKey();
 		break;

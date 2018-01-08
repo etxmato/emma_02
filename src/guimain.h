@@ -318,6 +318,7 @@ public:
 	ElfConfiguration getElfConfiguration(int computer);
     ElfConfiguration getElfConfiguration();
     void setElfConfiguration(ElfConfiguration elfConf);
+    void setSerialPorts(wxString port);
 
 	long getBitValue(wxString reference);
 	long get8BitValue(wxString reference);

@@ -511,6 +511,10 @@ Byte Elf2::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		case MC6847EF:
 			return mc6845Pointer->ef6845();
 		break;
@@ -782,6 +786,10 @@ void Elf2::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case FDCCYCLE:
 			cycleFdc();
 		break;
@@ -822,6 +830,9 @@ void Elf2::switchQ(int value)
 
     if (elfConfiguration.vtType != VTNONE)
         vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 int Elf2::getMpButtonState()
@@ -1437,7 +1448,7 @@ void Elf2::configureElfExtensions()
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(ELFII, elfClockSpeed_, elfConfiguration);
-        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
     }
 
 	if (elfConfiguration.usePixie)

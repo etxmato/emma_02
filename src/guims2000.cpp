@@ -169,6 +169,8 @@ void GuiMS2000::readMS2000Config()
 	elfConfiguration[MS2000].vtType = (int)configPointer->Read("/MS2000/VT_Type", 2l);
     elfConfiguration[MS2000].vt52SetUpFeature_ = configPointer->Read("/MS2000/VT52Setup", 0x00004092l);
     elfConfiguration[MS2000].vt100SetUpFeature_ = configPointer->Read("/MS2000/VT100Setup", 0x0000cad2l);
+    elfConfiguration[MS2000].vtExternalSetUpFeature_ = configPointer->Read("/MS2000/VTExternalSetup", 0x0000cad2l);
+    elfConfiguration[MS2000].serialPort_ = configPointer->Read("/MS2000/VtSerialPortChoice", "");
 
     configPointer->Read("/MS2000/Force_Uppercase", &elfConfiguration[MS2000].forceUpperCase, true);
     configPointer->Read("/MS2000/Boot_From_Ram", &elfConfiguration[MS2000].bootRam, false);
@@ -303,14 +305,14 @@ void GuiMS2000::readMS2000Config()
         
 		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
-		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-        XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "VTBaudTTextMS2000", wxStaticText)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+//		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+  //      XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+	//	XRCCTRL(*this, "VTBaudTTextMS2000", wxStaticText)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+	//	XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
 
-		XRCCTRL(*this, "VtCharRomButtonMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomMS2000", wxComboBox)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+	//	XRCCTRL(*this, "VtCharRomButtonMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+	//	XRCCTRL(*this, "VtCharRomMS2000", wxComboBox)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+	//	XRCCTRL(*this, "VtSetupMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
 		XRCCTRL(*this, "ZoomValueVtMS2000", wxTextCtrl)->ChangeValue(conf[MS2000].zoomVt_);
         XRCCTRL(*this, "MS2000BootRam", wxCheckBox)->SetValue(elfConfiguration[MS2000].bootRam);
         
@@ -356,7 +358,8 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/Print_File", conf[MS2000].printFile_);
     configPointer->Write("/MS2000/Video_Dump_File", conf[MS2000].screenDumpFile_);
     configPointer->Write("/MS2000/Wav_File", conf[MS2000].wavFile_);
-    
+    configPointer->Write("/MS2000/VtSerialPortChoice", elfConfiguration[MS2000].serialPort_);
+  
 	configPointer->Write("/MS2000/Bell_Frequency", elfConfiguration[MS2000].bellFrequency_);
 	configPointer->Write("/MS2000/VT_Type", elfConfiguration[MS2000].vtType);
     
@@ -364,6 +367,8 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/VT52Setup", value);
     value = elfConfiguration[MS2000].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/MS2000/VT100Setup", value);
+    value = elfConfiguration[MS2000].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/MS2000/VTExternalSetup", value);
     
 	configPointer->Write("/MS2000/Vt_Baud_Receive", elfConfiguration[MS2000].baudR);
 	configPointer->Write("/MS2000/Vt_Baud_Transmit", elfConfiguration[MS2000].baudT);
