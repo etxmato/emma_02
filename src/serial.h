@@ -35,6 +35,10 @@ public:
 	char* getInteger(char* buffer,int* dest);
 	void dataAvailable();
 	void framingError(bool data); 
+	void uartOut(Byte value); 
+	void uartControl(Byte value); 
+	Byte uartIn(); 
+	Byte uartStatus(); 
 	void ResetVt();
 	void ResetIo();
 
@@ -68,6 +72,7 @@ private:
 	int reverseEf_;
 	int reverseQ_;
 
+	Byte uartControl_;
 	bitset<8> uartStatus_;
 	bool uart_;
     bool serialOpen_;

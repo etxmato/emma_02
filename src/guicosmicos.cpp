@@ -42,7 +42,7 @@ BEGIN_EVENT_TABLE(GuiCosmicos, GuiMicrotutor)
 	EVT_COMBOBOX(XRCID("VtCharRomCosmicos"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("VtCharRomButtonCosmicos"), GuiMain::onVtCharRom)
 
-    EVT_CHECKBOX(XRCID("VtExternalCosmicos"), GuiMain::onVtExternal)
+//    EVT_CHECKBOX(XRCID("VtExternalCosmicos"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeCosmicos"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinCosmicos"), GuiMain::onZoomUp)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinCosmicos"), GuiMain::onZoomDown)
@@ -175,7 +175,7 @@ void GuiCosmicos::readCosmicosConfig()
 	if (mode_.gui)
 		setBaudChoiceCosmicos();
 
-	setVtType("Cosmicos", COSMICOS, elfConfiguration[COSMICOS].vtType);
+	setVtType("Cosmicos", COSMICOS, elfConfiguration[COSMICOS].vtType, false);
 	setCosmicosVideoType(conf[COSMICOS].videoMode_);
 	setRealCas(COSMICOS);
 
@@ -208,7 +208,7 @@ void GuiCosmicos::readCosmicosConfig()
 		XRCCTRL(*this, "ZoomValueVtCosmicos", wxTextCtrl)->ChangeValue(conf[COSMICOS].zoomVt_);
 		XRCCTRL(*this, "ControlWindowsCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useElfControlWindows);
 		XRCCTRL(*this, "ShowAddressCosmicos",wxTextCtrl)->Enable(elfConfiguration[COSMICOS].useElfControlWindows);
-        XRCCTRL(*this, "VtExternalCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].vtExternal);
+//        XRCCTRL(*this, "VtExternalCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].vtExternal);
 		XRCCTRL(*this, "StretchDotCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].stretchDot_);
 		XRCCTRL(*this, "RamCosmicos", wxSpinCtrl)->SetValue(conf[COSMICOS].ramType_);
 		XRCCTRL(*this, "HexCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useHex);

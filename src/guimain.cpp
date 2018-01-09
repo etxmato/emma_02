@@ -796,59 +796,30 @@ void GuiMain::onKeyFileEject(wxCommandEvent& WXUNUSED(event) )
 
 void GuiMain::onVT100(wxCommandEvent&event)
 {
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, event.GetSelection());
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, event.GetSelection(), true);
 }
 
-void GuiMain::onVtExternal(wxCommandEvent&event)
-{
-    elfConfiguration[selectedComputer_].vtExternal = event.IsChecked();
-    elfConfiguration[selectedComputer_].vtType = 0;
-    XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].vtType);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType);
-}
-
-void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
+void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool GuiChange)
 {
 	elfConfiguration[elfType].vtType = Selection;
 
+    if (elfConfiguration[selectedComputer_].vtExternal & !GuiChange)
+        Selection = EXTERNAL_TERMINAL;
+    
 	switch(Selection)
 	{
 		case VTNONE:
 			if (mode_.gui)
 			{
-                if (!elfConfiguration[selectedComputer_].vtExternal)
+                XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(false);
+                XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(false);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
+                XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
+                XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
+                if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
                 {
-					XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(false);
-                    XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(false);
-					XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(false);
-                    XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(false);
-                    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
-                    {
-                        XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
-                        XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
-                    }
-                }
-                else
-                {
-					XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
-                    XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-					XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
-                    XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
-                    XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-                    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
-                    {
-                        elfConfiguration[elfType].qSound_ = QSOUNDOFF;
-                        if (mode_.gui)
-                        {
-                            XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
-                            XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
-                            XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
-                            XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
-                            XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
-                            XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
-                        }
-                    }
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(true);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(true);
                 }
 
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(false);
@@ -858,6 +829,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(false);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(false);
 			}
+            elfConfiguration[selectedComputer_].vtExternal = false;
 		break;
 
 		case VT52:
@@ -898,7 +870,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
 				}
 			}
             elfConfiguration[selectedComputer_].vtExternal = false;
-            XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].vtExternal);
+//            XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].vtExternal);
 		break;
 
 		case VT100:
@@ -939,8 +911,32 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection)
 				}
 			}
             elfConfiguration[selectedComputer_].vtExternal = false;
-            XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].vtExternal);
+//            XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].vtExternal);
 		break;
+    
+        case EXTERNAL_TERMINAL:
+            XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+            XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
+            XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+            XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
+            XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
+            if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+            {
+                elfConfiguration[elfType].qSound_ = QSOUNDOFF;
+                if (mode_.gui)
+                {
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(QSOUNDOFF);
+                    XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(false);
+                    XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->Enable(false);
+                    XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(false);
+                    XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(false);
+                    XRCCTRL(*this, "QsoundText"+elfTypeStr, wxStaticText)->Enable(false);
+                }
+            }
+            elfConfiguration[selectedComputer_].vtExternal = true;
+            elfConfiguration[elfType].vtType = VTNONE;
+        break;
+
 	}
 }
 

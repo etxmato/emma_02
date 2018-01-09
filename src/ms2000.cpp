@@ -198,7 +198,11 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    return vtPointer->uartIn();
+					if (p_Vt100 != NULL)
+						return p_Vt100->uartIn();
+					if (p_Serial != NULL)
+						return p_Serial->uartIn();
+//                    return vtPointer->uartIn();
                 break;
                 
                 default:
@@ -210,7 +214,11 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    return vtPointer->uartStatus();
+					if (p_Vt100 != NULL)
+						return p_Vt100->uartStatus();
+					if (p_Serial != NULL)
+						return p_Serial->uartStatus();
+//                    return vtPointer->uartStatus();
                 break;
                     
                 default:
@@ -274,7 +282,11 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    vtPointer->uartOut(value);
+					if (p_Vt100 != NULL)
+						p_Vt100->uartOut(value);
+					if (p_Serial != NULL)
+						p_Serial->uartOut(value);
+//                    vtPointer->uartOut(value);
                 break;
             }
         break;
@@ -283,7 +295,11 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    vtPointer->uartControl(value);
+					if (p_Vt100 != NULL)
+						p_Vt100->uartControl(value);
+					if (p_Serial != NULL)
+						p_Serial->uartControl(value);
+//                    vtPointer->uartControl(value);
                 break;
             }
         break;

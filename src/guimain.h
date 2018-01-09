@@ -403,7 +403,7 @@ public:
 	void setComputerInfo(int id, wxString gui, wxString name, wxString ploadExtension);
 	void setScreenInfo(int id, int start, int end, wxString colour[]);
 	void setScreenInfo(int id, int start, int end, wxString colour[], int numberVideo, int borderX[], int borderY[]);
-	void setVtType(wxString elfTypeStr, int elfType, int Selection);
+	void setVtType(wxString elfTypeStr, int elfType, int Selection, bool GuiChange);
 	void setBaudChoice(int computerType);
 	void setRealCas(int computerType);
 	void setRealCas2(int computerType);

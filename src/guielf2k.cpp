@@ -56,7 +56,7 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
 	EVT_BUTTON(XRCID("KeyFileButtonElf2K"), GuiMain::onKeyFile)
 	EVT_BUTTON(XRCID("EjectKeyFileElf2K"), GuiMain::onKeyFileEject)
 
-    EVT_CHECKBOX(XRCID("VtExternalElf2K"), GuiMain::onVtExternal)
+//    EVT_CHECKBOX(XRCID("VtExternalElf2K"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeElf2K"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinElf2K"), GuiMain::onZoomUp)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinElf2K"), GuiMain::onZoomDown)
@@ -192,7 +192,7 @@ void GuiElf2K::readElf2KConfig()
 	if (mode_.gui)
 		setBaudChoiceElf2K();
 
-	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType);
+	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
 	setElf2KVideoType(conf[ELF2K].videoMode_);
 
 	conf[ELF2K].vtCharRom_ = configPointer->Read("/Elf2K/Vt_Font_Rom_File", "vt52.a.bin");
@@ -229,7 +229,7 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "Elf2KControlWindows", wxCheckBox)->SetValue(elfConfiguration[ELF2K].useElfControlWindows);
 		XRCCTRL(*this, "ShowAddressElf2K",wxTextCtrl)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
 		XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->SetValue(conf[ELF2K].interlace_);
-        XRCCTRL(*this, "VtExternalElf2K", wxCheckBox)->SetValue(elfConfiguration[ELF2K].vtExternal);
+//        XRCCTRL(*this, "VtExternalElf2K", wxCheckBox)->SetValue(elfConfiguration[ELF2K].vtExternal);
 		XRCCTRL(*this, "StretchDotElf2K", wxCheckBox)->SetValue(conf[ELF2K].stretchDot_);
 		XRCCTRL(*this, "Elf2KNvr", wxCheckBox)->SetValue(elfConfiguration[ELF2K].nvr);
 		XRCCTRL(*this, "Elf2KRtc", wxCheckBox)->SetValue(elfConfiguration[ELF2K].rtc);
@@ -594,7 +594,7 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 //				XRCCTRL(*this, "StretchDotElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->SetSelection(0);
 				elfConfiguration[ELF2K].vtExternal = false;
-				XRCCTRL(*this, "VtExternalElf2K", wxCheckBox)->SetValue(elfConfiguration[ELF2K].vtExternal);
+//				XRCCTRL(*this, "VtExternalElf2K", wxCheckBox)->SetValue(elfConfiguration[ELF2K].vtExternal);
 //				XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
 //				XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 //				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(false);
@@ -607,7 +607,7 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			}
 		break;
 	}
-	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType);
+	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
 }
 
 wxPoint GuiElf2K::getElf2KswitchPos()

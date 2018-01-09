@@ -330,10 +330,10 @@ void Serial::configureVelf(int selectedBaudR, int selectedBaudT)
 
 void Serial::configureUart(ElfPortConfiguration elfPortConf)
 {
-	p_Computer->setOutType(elfPortConf.uartOut, UARTOUT);
-	p_Computer->setInType(elfPortConf.uartIn, UARTIN);
-	p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROL);
-	p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUS);
+	p_Computer->setOutType(elfPortConf.uartOut, UARTOUTSERIAL);
+	p_Computer->setInType(elfPortConf.uartIn, UARTINSERIAL);
+	p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROLSERIAL);
+	p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUSSERIAL);
 	p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
 
 	wxString printBuffer;
@@ -538,13 +538,13 @@ void Serial::cycleVt()
 		cycleValue_ = cycleSize_;
 	}
 
-/*	if (uart_)
+	if (uart_)
 	{
 		vtCount_--;
 		if (vtCount_ <= 0)
 		{
-//			if (rs232_ != 0)
-//				Display(rs232_ & 0x7f, false);
+			if (rs232_ != 0 && serialOpen_)
+				sp_nonblocking_write(port, &rs232_, 1);
             
             rs232_ = 0;
             p_Computer->thrStatus(0);
@@ -588,7 +588,7 @@ void Serial::cycleVt()
         }
     }
     else  // if !uart
-    {*/
+    {
         if (vtOutCount_ > 0)
 		{
 			vtOutCount_--;
@@ -737,7 +737,7 @@ void Serial::cycleVt()
 				}
 			}
 		}
-//	}
+	}
 }
 
 void Serial::switchQ(int value)
@@ -810,6 +810,36 @@ void Serial::dataAvailable()
 void Serial::framingError(bool data)
 {
 	uartStatus_[UART_FE_SERIAL] = data;
+}
+
+void Serial::uartOut(Byte value)
+{
+	rs232_ = value;
+	p_Computer->thrStatus(1);
+	uartStatus_[UART_THRE_SERIAL] = 0;
+}
+
+void Serial::uartControl(Byte value)
+{
+	uartControl_ = value;
+	uartStatus_ = 0x80;
+}
+
+Byte Serial::uartIn()
+{
+	framingError(0);
+	uartStatus_[UART_DA_SERIAL] = 0;
+	p_Computer->dataAvailable(0);
+		
+	Byte input = 0;
+	sp_nonblocking_read(port, &input, 1);
+
+	return input;
+}
+
+Byte Serial::uartStatus()
+{
+	return uartStatus_.to_ulong();
 }
 
 void Serial::ResetVt()

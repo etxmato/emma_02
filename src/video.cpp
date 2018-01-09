@@ -401,6 +401,16 @@ Byte Video::uartIn()
 	return 0;
 }
 
+void Video::uartControl(Byte WXUNUSED(value))
+{
+}
+
+Byte Video::uartStatus()
+{
+	return 0;
+}
+
+
 void Video::defineColours(int type)
 {
 	wxString colour, button, computerType;

@@ -66,9 +66,9 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_BUTTON(XRCID("EjectKeyFileElfII"), GuiMain::onKeyFileEject)
 	EVT_BUTTON(XRCID("EjectKeyFileSuperElf"), GuiMain::onKeyFileEject)
 
-    EVT_CHECKBOX(XRCID("VtExternalElf"), GuiMain::onVtExternal)
-    EVT_CHECKBOX(XRCID("VtExternalElfII"), GuiMain::onVtExternal)
-    EVT_CHECKBOX(XRCID("VtExternalSuperElf"), GuiMain::onVtExternal)
+//    EVT_CHECKBOX(XRCID("VtExternalElf"), GuiMain::onVtExternal)
+//    EVT_CHECKBOX(XRCID("VtExternalElfII"), GuiMain::onVtExternal)
+//    EVT_CHECKBOX(XRCID("VtExternalSuperElf"), GuiMain::onVtExternal)
 
 	EVT_CHOICE(XRCID("VTTypeElf"), GuiMain::onVT100)
 	EVT_CHOICE(XRCID("VTTypeElfII"), GuiMain::onVT100)
@@ -494,7 +494,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	if (mode_.gui)
 		setBaudChoice(elfType);
 
-	setVtType(elfTypeStr, elfType, elfConfiguration[elfType].vtType);
+	setVtType(elfTypeStr, elfType, elfConfiguration[elfType].vtType, false);
 	setVideoType(elfTypeStr, elfType, conf[elfType].videoMode_);
 
 	conf[elfType].charRom_ = configPointer->Read(elfTypeStr+"/Font_Rom_File", "super.video.bin");
@@ -545,7 +545,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
 		XRCCTRL(*this, "ControlWindows"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useElfControlWindows);
 		XRCCTRL(*this, "Interlace"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].interlace_);
-        XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].vtExternal);
+ //       XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].vtExternal);
         XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].stretchDot_);
 
         if (elfType == ELFII)
@@ -1063,7 +1063,7 @@ void GuiElf::setGameModeConfig(wxCommandEvent&WXUNUSED(event))
     }
     configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
     elfConfiguration[selectedComputer_].autoBoot = true;
     XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
     XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1105,7 +1105,7 @@ void GuiElf::setChipModeConfig(wxCommandEvent&WXUNUSED(event))
     }
     configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
     elfConfiguration[selectedComputer_].autoBoot = true;
     XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
     XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1148,7 +1148,7 @@ void GuiElf::setGiantBoard(wxCommandEvent&WXUNUSED(event))
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("F000");
@@ -1189,7 +1189,7 @@ void GuiElf::setQuestLoader(wxCommandEvent&WXUNUSED(event))
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("F000");
@@ -1268,7 +1268,7 @@ void GuiElf::setSuperBasic()
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1323,7 +1323,7 @@ void GuiElf::setSuperBasicSerial(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = false;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1373,7 +1373,7 @@ void GuiElf::setRcaBasic(wxCommandEvent&WXUNUSED(event))
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("2200");
@@ -1427,7 +1427,7 @@ void GuiElf::setRcaBasicPixie(wxCommandEvent&WXUNUSED(event))
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("2200");
@@ -1480,7 +1480,7 @@ void GuiElf::setRcaBasicSerial(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("2200");
@@ -1533,7 +1533,7 @@ void GuiElf::setRcaBasicElfOsInstall(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
@@ -1573,7 +1573,7 @@ void GuiElf::setTinyBasicPixie(wxCommandEvent&WXUNUSED(event))
     }
     configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
     elfConfiguration[selectedComputer_].autoBoot = true;
     XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
     XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1623,7 +1623,7 @@ void GuiElf::setRomMapperPixie(wxCommandEvent&WXUNUSED(event))
     }
     configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
     elfConfiguration[selectedComputer_].autoBoot = true;
     XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
     XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("8080");
@@ -1674,7 +1674,7 @@ void GuiElf::setRomMapperSerial(wxCommandEvent&WXUNUSED(event))
     elfConfiguration[selectedComputer_].baudR = 0;
     elfConfiguration[selectedComputer_].baudT = 0;
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
     elfConfiguration[selectedComputer_].autoBoot = true;
     XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
     XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("8080");
@@ -1731,7 +1731,7 @@ void GuiElf::setTinyBasicSerial(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 6;
 	elfConfiguration[selectedComputer_].baudT = 6;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1779,7 +1779,7 @@ void GuiElf::setTinyBasic6847(wxCommandEvent&WXUNUSED(event))
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1832,7 +1832,7 @@ void GuiElf::setSuperGoldMonitor(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 1;
 	elfConfiguration[selectedComputer_].baudT = 1;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("C0C0");
@@ -1881,7 +1881,7 @@ void GuiElf::setMonitorBasic(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 1;
 	elfConfiguration[selectedComputer_].baudT = 1;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("C0C0");
@@ -1935,7 +1935,7 @@ void GuiElf::setFigForth(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -1979,7 +1979,7 @@ void GuiElf::setMusic(wxCommandEvent&WXUNUSED(event))
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
@@ -2021,7 +2021,7 @@ void GuiElf::setElfOsInstallConfig(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("9000");
@@ -2061,7 +2061,7 @@ void GuiElf::setElfOsConfig(wxCommandEvent&WXUNUSED(event))
 	elfConfiguration[selectedComputer_].baudR = 0;
 	elfConfiguration[selectedComputer_].baudT = 0;
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
 	elfConfiguration[selectedComputer_].autoBoot = true;
 	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
 	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
@@ -2170,7 +2170,7 @@ void GuiElf::setElfOsIoConfig(wxCommandEvent&WXUNUSED(event))
     elfConfiguration[selectedComputer_].baudR = 0;
     elfConfiguration[selectedComputer_].baudT = 0;
     XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100, true);
     elfConfiguration[selectedComputer_].autoBoot = true;
     XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
     XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
@@ -2327,7 +2327,7 @@ void GuiElf::setElfOsIoConfigMain()
 	}
 	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
 	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE, true);
 
 	elfConfiguration[selectedComputer_].elfPortConf.hexOutput=4;
 	elfConfiguration[selectedComputer_].elfPortConf.hexInput=4;

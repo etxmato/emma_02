@@ -75,7 +75,9 @@ public:
 	virtual void keyDownPressed(wxKeyEvent& event);
 	virtual void keyUpPressed();
 	virtual void uartOut(Byte value); 
+	virtual void uartControl(Byte value); 
 	virtual Byte uartIn(); 
+	virtual Byte uartStatus(); 
 	virtual void ResetIo();
 
 	void defineColours(int type);

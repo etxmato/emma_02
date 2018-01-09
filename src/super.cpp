@@ -703,8 +703,16 @@ Byte Super::in(Byte port, Word WXUNUSED(address))
 			return vtPointer->uartIn();
 		break;
 
+		case UARTINSERIAL:
+			return p_Serial->uartIn();
+		break;
+
 		case UARTSTATUS:
 			return vtPointer->uartStatus();
+		break;
+
+		case UARTSTATUSSERIAL:
+			return p_Serial->uartStatus();
 		break;
 
 		default:
@@ -799,11 +807,19 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
             vtPointer->uartOut(value);
 		break;
 
-		case UARTCONTROL:
-            vtPointer->uartControl(value);
+		case UARTOUTSERIAL:
+			 p_Serial->uartOut(value);
 		break;
 
-        case ROMMAPPEROUT:
+        case UARTCONTROL:
+            vtPointer->uartControl(value);
+        break;
+            
+        case UARTCONTROLSERIAL:
+            p_Serial->uartControl(value);
+        break;
+            
+		case ROMMAPPEROUT:
             setRomMapper(value);
         break;
 

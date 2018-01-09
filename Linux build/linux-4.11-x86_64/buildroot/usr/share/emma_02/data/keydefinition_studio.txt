@@ -606,11 +606,6 @@ load: Studio on Character
 name: casino i: blackjack.st2
 load: Studio on Character
 
-name: cas-130.st2
-load: Studio on Character
-load: Studio set 2, fire 5
-load: Studio pad b, on Location
-
 name: climber.st2
 load: Studio on Character
 

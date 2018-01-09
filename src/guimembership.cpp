@@ -43,7 +43,7 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_BUTTON(XRCID("RomMembership"), GuiMembership::onRomEvent)
 
 	EVT_BUTTON(XRCID("VtCharRomButtonMembership"), GuiMain::onVtCharRom)
-    EVT_CHECKBOX(XRCID("VtExternalMembership"), GuiMain::onVtExternal)
+//    EVT_CHECKBOX(XRCID("VtExternalMembership"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeMembership"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomDownVt)
@@ -177,7 +177,7 @@ void GuiMembership::readMembershipConfig()
 	if (mode_.gui)
 		setBaudChoiceMembership();
 
-	setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType);
+	setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType, false);
 	conf[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
 
 	if (mode_.gui)
@@ -193,7 +193,10 @@ void GuiMembership::readMembershipConfig()
         XRCCTRL(*this, "WavFileMembership", wxTextCtrl)->SetValue(conf[MEMBER].wavFile_);
 		XRCCTRL(*this, "AutoCasLoadMembership", wxCheckBox)->SetValue(conf[MEMBER].autoCassetteLoad_);
 
-		XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].vtType);
+        if (elfConfiguration[MEMBER].vtExternal)
+            XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].vtType);
 
 		XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudT);
@@ -212,7 +215,7 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
-        XRCCTRL(*this, "VtExternalMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].vtExternal);
+ //       XRCCTRL(*this, "VtExternalMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].vtExternal);
         XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
 		XRCCTRL(*this, "RamMembership", wxChoice)->SetSelection(conf[MEMBER].ramType_);
 		XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);
@@ -258,7 +261,10 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/VtEf", elfConfiguration[MEMBER].vtEf);
 	configPointer->Write("/Membership/VtQ", elfConfiguration[MEMBER].vtQ);
 	configPointer->Write("/Membership/Bell_Frequency", elfConfiguration[MEMBER].bellFrequency_);
-	configPointer->Write("/Membership/VT_Type", elfConfiguration[MEMBER].vtType);
+    if (elfConfiguration[MEMBER].vtExternal)
+        configPointer->Write("/Membership/VT_Type", VTNONE);
+    else
+        configPointer->Write("/Membership/VT_Type", elfConfiguration[MEMBER].vtType);
     
     long value = elfConfiguration[MEMBER].vt52SetUpFeature_.to_ulong();
     configPointer->Write("/Membership/VT52Setup", value);
