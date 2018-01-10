@@ -650,6 +650,10 @@ void Elf2K::out(Byte port, Word WXUNUSED(address), Byte value)
 			vtPointer->out(value);
 		break;
 
+		case VTOUTSERIAL:
+			p_Serial->out(value);
+		break;
+
 		case ELF2KOUT:
 			showData(value);
 		break;

@@ -559,6 +559,13 @@ Byte Elf::ef(int flag)
 				return vtPointer->ef();
 		break;
 
+		case VTINEFSERIAL:
+			if (inPressed_ == true)
+				return 0;
+			else
+				return p_Serial->ef();
+		break;
+
 		case ELF2EF2:
 			return cassetteEf_;
 		break;
@@ -710,6 +717,10 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
 
 		case VT100OUT:
 			vtPointer->out(value);
+		break;
+
+		case VTOUTSERIAL:
+			p_Serial->out(value);
 		break;
 
 		case PRINTEROUT:

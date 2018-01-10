@@ -412,7 +412,8 @@ void Ms2000::startComputer()
     
 	readProgram(p_Main->getRomDir(MS2000, MAINROM1), p_Main->getRomFile(MS2000, MAINROM1), ROM, 0x8000, NONAME);
     
-    vtPointer->Show(true);
+    if (p_Vt100 != NULL)
+	    p_Vt100->Show(true);
 
     if (ms2000Configuration.bootRam)
         bootstrap_ = 0;
@@ -666,10 +667,13 @@ void Ms2000::checkMs2000Function()
                 loadStarted_ = false;
             }
             
-            if (microDosRunning_)
-                vtPointer->setTabChar(0x7f);
-            else
-                vtPointer->setTabChar(8);
+		    if (p_Vt100 != NULL)
+			{
+				if (microDosRunning_)
+					vtPointer->setTabChar(0x7f);
+				else
+					vtPointer->setTabChar(8);
+			}
 
             microDosRunning_ = false;
         break;

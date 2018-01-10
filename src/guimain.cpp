@@ -796,7 +796,17 @@ void GuiMain::onKeyFileEject(wxCommandEvent& WXUNUSED(event) )
 
 void GuiMain::onVT100(wxCommandEvent&event)
 {
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, event.GetSelection(), true);
+	int Selection = event.GetSelection();
+	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, Selection, true);
+
+	if (Selection != VTNONE)
+	{
+		if (selectedComputer_ == ELF2K)
+		{
+			XRCCTRL(*this, "Elf2KVideoType", wxChoice)->SetSelection(VIDEONONE);
+			p_Main->setElf2KVideoType(VIDEONONE);
+		}
+	}
 }
 
 void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool GuiChange)
@@ -870,7 +880,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 				}
 			}
             elfConfiguration[selectedComputer_].vtExternal = false;
-//            XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].vtExternal);
 		break;
 
 		case VT100:
@@ -911,7 +920,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 				}
 			}
             elfConfiguration[selectedComputer_].vtExternal = false;
-//            XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].vtExternal);
 		break;
     
         case EXTERNAL_TERMINAL:
@@ -936,7 +944,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
             elfConfiguration[selectedComputer_].vtExternal = true;
             elfConfiguration[elfType].vtType = VTNONE;
         break;
-
 	}
 }
 

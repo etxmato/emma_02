@@ -4,8 +4,6 @@
 #include <bitset>
 using namespace std;
 
-#define VTBUFFER 1024
-
 class Serial
 {
 public:
@@ -29,18 +27,14 @@ public:
 	void cycleVt();
 
     void switchQ(int value);
-	void setClock(double clock);
 	void setCycle();
 	int Parity(int value);
-	char* getInteger(char* buffer,int* dest);
 	void dataAvailable();
 	void framingError(bool data); 
 	void uartOut(Byte value); 
 	void uartControl(Byte value); 
 	Byte uartIn(); 
 	Byte uartStatus(); 
-	void ResetVt();
-	void ResetIo();
 
 private:
     ElfConfiguration elfConfiguration_;
@@ -48,7 +42,6 @@ private:
     double clock_;
 
 	int computerType_;
-	wxString computerTypeStr_;
 
 	int cycleValue_;
 	int cycleSize_;
@@ -80,7 +73,6 @@ private:
 	bitset<32> SetUpFeature_;
     
 	int dataReadyFlag_;
-    Byte previousByte_;
 };
 
 #endif  // SERIAL_H

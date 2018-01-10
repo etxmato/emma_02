@@ -214,7 +214,6 @@ public:
 	void onKeyFileText(wxCommandEvent& event);
 	void onKeyFileEject(wxCommandEvent& event);
     void onVT100(wxCommandEvent& event);
-    void onVtExternal(wxCommandEvent& event);
 	void onZoomUp(wxSpinEvent& event);
 	void onZoomDown(wxSpinEvent& event);
 	void onZoomValue(wxCommandEvent& event);

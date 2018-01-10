@@ -43,7 +43,6 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_BUTTON(XRCID("RomMembership"), GuiMembership::onRomEvent)
 
 	EVT_BUTTON(XRCID("VtCharRomButtonMembership"), GuiMain::onVtCharRom)
-//    EVT_CHECKBOX(XRCID("VtExternalMembership"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeMembership"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomDownVt)
@@ -215,7 +214,6 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
- //       XRCCTRL(*this, "VtExternalMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].vtExternal);
         XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
 		XRCCTRL(*this, "RamMembership", wxChoice)->SetSelection(conf[MEMBER].ramType_);
 		XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);

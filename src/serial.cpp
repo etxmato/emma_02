@@ -50,43 +50,6 @@ Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
 	computerType_ = computerType;
 	clock_ = clock;
 
-	switch(computerType_)
-	{
-		case ELF:
-			computerTypeStr_ = "Elf";
-		break;
-
-		case ELFII:
-			computerTypeStr_ = "ElfII";
-		break;
-
-		case ELF2K:
-			computerTypeStr_ = "Elf2K";
-		break;
-
-		case SUPERELF:
-			computerTypeStr_ = "SuperElf";
-		break;
-
-		case COSMICOS:
-			computerTypeStr_ = "Cosmicos";
-		break;
-		case MEMBER:
-			computerTypeStr_ = "Membership";
-		break;
-		case VIP:
-			computerTypeStr_ = "Vip";
-		break;
-        case VELF:
-            computerTypeStr_ = "Velf";
-        break;
-		case MCDS:
-			computerTypeStr_ = "MCDS";
-		break;
-		case MS2000:
-            computerTypeStr_ = "MS2000";
-        break;
-    }
     uart_ = elfConfiguration_.useUart;
     SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
 
@@ -127,11 +90,11 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguratio
         reverseQ_ = elfPortConf.vt100ReverseQ; 
 
 		p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-		p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
+		p_Computer->setOutType(elfPortConf.vt100Output, VTOUTSERIAL);
 
 		dataReadyFlag_ = elfPortConf.vt100Ef;
 		if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
-			p_Computer->setEfType(dataReadyFlag_, VTINEF);
+			p_Computer->setEfType(dataReadyFlag_, VTINEFSERIAL);
 		else
 			p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
 
@@ -530,11 +493,20 @@ void Serial::cycleVt()
 	if (cycleValue_ <= 0)
 	{
 		size_t numberOfBytes;
-		Byte input;
-		numberOfBytes = sp_nonblocking_read(port, &input, 1);
+		if (uart_)
+		{
+			numberOfBytes = sp_input_waiting(port);
+			if (numberOfBytes >= 1)
+				dataAvailable();
+		}
+		else
+		{
+			Byte input;
+			numberOfBytes = sp_nonblocking_read(port, &input, 1);
 
-		if (numberOfBytes >= 1)
-			vtOut_ = input;
+			if (numberOfBytes >= 1)
+				vtOut_ = input;
+		}
 		cycleValue_ = cycleSize_;
 	}
 
@@ -615,69 +587,10 @@ void Serial::cycleVt()
                     p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
 					vtOutCount_ = -1;
 				}
-//				else
-//					p_Main->messageInt(serialEf_);
-//                p_Computer->setGreenLed(serialEf_ ^ 1);
 			}
 		}
 		else
         {
-/*            if (terminalLoad_)
-            {
-                if (vtOut_ == 0)
-                {
-                    if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
-                    {
-                        bool eof=false;
-                        size_t numberOfBytes;
-                        int seek = -2;
-                            
-                        numberOfBytes = inputTerminalFile.Read(saveBuffer, 3);
-
-                        if (inputTerminalFile.Eof())
-                        {
-                            switch(numberOfBytes)
-                            {
-                                case 0:
-                                    eof = true;
-                                break;
-                                        
-                                case 1:
-                                    if (saveBuffer[0] == 0xa)
-                                    {
-                                        saveBuffer[0] = 0xd;
-                                        eof = true;
-                                    }
-                                    seek = 0;
-                                break;
-                                        
-                                case 2:
-                                    if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa)
-                                        eof = true;
-                                    seek = -1;
-                                break;
-                            }
-                        }
-                            
-                        if (saveBuffer[0] == 0xa && previousByte_ != 0xd)
-                            saveBuffer[0] = 0xd;
-                            
-                        if (eof)
-                        {
-                            terminalLoad_ = false;
-                            inputTerminalFile.Close();
-                            p_Main->stopTerminal();
-                        }
-                        else
-                        {
-                            inputTerminalFile.Seek(seek, wxFromCurrent);
-                            vtOut_ = saveBuffer[0];
-                            previousByte_ = vtOut_;
-                        }
-                    }
-                }
-            }*/
-            
             if (vtOut_ != 0 && vtEnabled_)
             {
                 serialEf_ = 0;
@@ -758,11 +671,6 @@ void Serial::switchQ(int value)
     }
 }
 
-void Serial::setClock(double clock)
-{
-	clock_ = clock;
-}
-
 void Serial::setCycle()
 {   
 	cycleSize_ = (int) (((clock_ * 1000000) / 8) / 10);
@@ -788,17 +696,6 @@ int Serial::Parity(int value)
 		return(par & 1);
 	else
 		return((par & 1) ^ 1);
-}
-
-char* Serial::getInteger(char* buffer,int* dest)
-{
-	*dest = 0;
-	while(*buffer >= '0' && *buffer <= '9')
-	{
-		*dest = *dest * 10 +(*buffer - '0');
-		buffer++;
-	}
-	return buffer;
 }
 
 void Serial::dataAvailable()
@@ -840,20 +737,4 @@ Byte Serial::uartIn()
 Byte Serial::uartStatus()
 {
 	return uartStatus_.to_ulong();
-}
-
-void Serial::ResetVt()
-{
-	vtEnabled_ = 1;
-}
-
-void Serial::ResetIo()
-{
-/*	escPosition_ = -1;
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	serialEf_ = 1;
-	elfRunCommand_ = 0;*/
 }

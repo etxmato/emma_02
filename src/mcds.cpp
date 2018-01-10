@@ -326,7 +326,8 @@ void Mcds::startComputer()
     readProgram(p_Main->getRomDir(MCDS, MAINROM2), p_Main->getRomFile(MCDS, MAINROM2), ROM, 0x9000, NONAME);
     readProgram(p_Main->getRomDir(MCDS, MAINROM3), p_Main->getRomFile(MCDS, MAINROM3), ROM, 0xB000, NONAME);
 
-    vtPointer->Show(true);
+    if (p_Vt100 != NULL)
+		p_Vt100->Show(true);
 
     if (McdsConfiguration.bootRam)
         bootstrap_ = 0;
@@ -552,7 +553,8 @@ void Mcds::sleepComputer(long ms)
 
 void Mcds::startComputerRun(bool load)
 {
-    vtPointer->startMcdsRun(load);
+    if (p_Vt100 != NULL)
+		vtPointer->startMcdsRun(load);
 }
 
 bool Mcds::isComputerRunning()

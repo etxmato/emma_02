@@ -105,7 +105,6 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 	EVT_COMBOBOX(XRCID("VtCharRomVip"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("VtCharRomButtonVip"), GuiMain::onVtCharRom)
 
- //   EVT_CHECKBOX(XRCID("VtExternalVip"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeVip"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtVip"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVip"), GuiMain::onZoomDownVt)
@@ -241,7 +240,6 @@ void GuiVip::readVipConfig()
 //		XRCCTRL(*this, "VtCharRomButtonVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 //		XRCCTRL(*this, "VtCharRomVip", wxComboBox)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 //		XRCCTRL(*this, "VtSetupVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-//        XRCCTRL(*this, "VtExternalVip", wxCheckBox)->SetValue(elfConfiguration[VIP].vtExternal);
 		XRCCTRL(*this, "ZoomValueVtVip", wxTextCtrl)->ChangeValue(conf[VIP].zoomVt_);
 
 		XRCCTRL(*this, "ZoomValueVip", wxTextCtrl)->ChangeValue(conf[VIP].zoom_);

@@ -333,6 +333,13 @@ Byte Membership::ef(int flag)
 				return vtPointer->ef();
 		break;
 
+		case VTINEFSERIAL:
+			if (inPressed_ == true)
+				return 0;
+			else
+				return p_Serial->ef();
+		break;
+
 		default:
 			return 1;
 	}

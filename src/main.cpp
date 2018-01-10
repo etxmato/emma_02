@@ -5419,7 +5419,6 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Enable(status);
             XRCCTRL(*this, "VTBaudTTextVip", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupVip", wxButton)->Enable(status);
-//			XRCCTRL(*this, "VtExternalVip", wxCheckBox)->Enable(status);
 		}
 
 		XRCCTRL(*this,"ScreenDumpF5Vip", wxButton)->Enable(!status);
@@ -5520,7 +5519,6 @@ void Main::enableGui(bool status)
             XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->Enable(status);
             XRCCTRL(*this, "VTBaudTTextVelf", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupVelf", wxButton)->Enable(status);
-//			XRCCTRL(*this,"VtExternalVelf",wxCheckBox)->Enable(status);
         }
         
         XRCCTRL(*this,"ScreenDumpF5Velf", wxButton)->Enable(!status);
@@ -5878,7 +5876,6 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(status);
 			XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(status);
 			XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(status);
-//			XRCCTRL(*this, "VtExternal"+elfTypeStr,wxCheckBox)->Enable(status);
 		}
 		XRCCTRL(*this,"VideoType"+elfTypeStr,wxChoice)->Enable(status);
 		XRCCTRL(*this,"VideoTypeText"+elfTypeStr,wxStaticText)->Enable(status);
@@ -5942,7 +5939,6 @@ void Main::enableGui(bool status)
 				XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(status);
                 XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable(status);
                 XRCCTRL(*this,"VtSetupElf2K", wxButton)->Enable(status);
-//				XRCCTRL(*this,"VtExternalElf2K",wxCheckBox)->Enable(status);
 			}
 		}
 		XRCCTRL(*this,"Elf2KVideoType",wxChoice)->Enable(status);
@@ -6004,7 +6000,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->Enable(status);
 		XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(status);
         XRCCTRL(*this, "VtSetupMS2000", wxButton)->Enable(status);
- //		XRCCTRL(*this, "VtExternalMS2000",wxCheckBox)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
@@ -6056,7 +6051,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Enable(status);
 		XRCCTRL(*this, "VTBaudTTextMcds", wxStaticText)->Enable(status);
 		XRCCTRL(*this, "VtSetupMcds", wxButton)->Enable(status);
-//		XRCCTRL(*this, "VtExternalMcds",wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
@@ -6106,7 +6100,6 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Enable(status);
 			XRCCTRL(*this, "VTBaudTTextCosmicos", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupCosmicos", wxButton)->Enable(status);
-//			XRCCTRL(*this,"VtExternalCosmicos",wxCheckBox)->Enable(status);
 		}
 
 		XRCCTRL(*this,"VideoTypeCosmicos",wxChoice)->Enable(status);
@@ -6166,7 +6159,6 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Enable(status);
             XRCCTRL(*this, "VTBaudTTextMembership", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupMembership", wxButton)->Enable(status);
-//			XRCCTRL(*this,"VtExternalMembership",wxCheckBox)->Enable(status);
 		}
 
         if (!elfConfiguration[runningComputer_].vtExternal)

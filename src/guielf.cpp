@@ -66,10 +66,6 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_BUTTON(XRCID("EjectKeyFileElfII"), GuiMain::onKeyFileEject)
 	EVT_BUTTON(XRCID("EjectKeyFileSuperElf"), GuiMain::onKeyFileEject)
 
-//    EVT_CHECKBOX(XRCID("VtExternalElf"), GuiMain::onVtExternal)
-//    EVT_CHECKBOX(XRCID("VtExternalElfII"), GuiMain::onVtExternal)
-//    EVT_CHECKBOX(XRCID("VtExternalSuperElf"), GuiMain::onVtExternal)
-
 	EVT_CHOICE(XRCID("VTTypeElf"), GuiMain::onVT100)
 	EVT_CHOICE(XRCID("VTTypeElfII"), GuiMain::onVT100)
 	EVT_CHOICE(XRCID("VTTypeSuperElf"), GuiMain::onVT100)
@@ -545,7 +541,6 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
 		XRCCTRL(*this, "ControlWindows"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useElfControlWindows);
 		XRCCTRL(*this, "Interlace"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].interlace_);
- //       XRCCTRL(*this, "VtExternal"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].vtExternal);
         XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].stretchDot_);
 
         if (elfType == ELFII)

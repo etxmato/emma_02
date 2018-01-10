@@ -65,7 +65,6 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
 
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
 
-//    EVT_CHECKBOX(XRCID("VtExternalMcds"), GuiMain::onVtExternal)
     EVT_CHOICE(XRCID("VTTypeMcds"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtMcds"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMcds"), GuiMain::onZoomDownVt)
@@ -248,7 +247,6 @@ void GuiMcds::readMcdsConfig()
 		XRCCTRL(*this, "ZoomValueVtMcds", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
- //       XRCCTRL(*this, "VtExternalMcds", wxCheckBox)->SetValue(elfConfiguration[MCDS].vtExternal);
 		XRCCTRL(*this, "StretchDotMcds", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
         XRCCTRL(*this, "WavFileMcds", wxTextCtrl)->SetValue(conf[MCDS].wavFile_);
         XRCCTRL(*this, "VolumeMcds", wxSlider)->SetValue(conf[MCDS].volume_);

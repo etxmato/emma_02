@@ -90,7 +90,6 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
 	EVT_COMBOBOX(XRCID("VtCharRomVelf"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("VtCharRomButtonVelf"), GuiMain::onVtCharRom)
 
-//    EVT_CHECKBOX(XRCID("VtExternalVelf"), GuiMain::onVtExternal)
 	EVT_CHOICE(XRCID("VTTypeVelf"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomDownVt)
@@ -233,7 +232,6 @@ void GuiVelf::readVelfConfig()
 //		XRCCTRL(*this, "VtCharRomButtonVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
 //		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->Enable(elfConfiguration[VELF].vtType != VTNONE);
 //		XRCCTRL(*this, "VtSetupVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-//        XRCCTRL(*this, "VtExternalVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].vtExternal);
 		XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
 
 		XRCCTRL(*this, "ZoomValueVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoom_);

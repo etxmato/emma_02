@@ -776,6 +776,10 @@ void Cosmicos::out(Byte port, Word WXUNUSED(address), Byte value)
 			vtPointer->out(value);
 		break;
 
+		case VTOUTSERIAL:
+			p_Serial->out(value);
+		break;
+
 		case COSMICOSOUT:
 			showData(value);
 		break;
