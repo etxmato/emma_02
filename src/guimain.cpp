@@ -3122,7 +3122,8 @@ void GuiMain::enableStartButtonGui(bool status)
 {
 	for (int i=0; i<NO_COMPUTER; i++)
 	{
-		startButton[i]->Enable(status);
+        startButton[i]->Enable(status);
+        stopButton[i]->Enable(false);
 	}
 
 	if (status)
@@ -3134,7 +3135,8 @@ void GuiMain::enableStartButtonGui(bool status)
 	{
 		startButton[runningComputer_]->SetLabel("Reset");
 		startButton[runningComputer_]->SetToolTip("Reset " + computerInfo[runningComputer_].name + " emulator (F12)");
-		startButton[runningComputer_]->Enable(true);
+        startButton[runningComputer_]->Enable(true);
+        stopButton[runningComputer_]->Enable(true);
 	}
 }
 

@@ -88,7 +88,7 @@
 				OutputFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release&quot;;&quot;$(SERIALPORT)\Win32\lib&quot;"
+				AdditionalLibraryDirectories="&quot;$(SDL)\lib\x86&quot;;&quot;$(WXWIN)\lib\vc_lib\Win32&quot;;&quot;$(CURL)\build\Win32\VC9\LIB Release&quot;;Y:\workspace\libserialport\Win32\lib;&quot;%(AdditionalLibraryDirectories)&quot;"
 				IgnoreAllDefaultLibraries="false"
 				IgnoreDefaultLibraryNames=""
 				ProgramDatabaseFile="$(SolutionDir)$(PlatformName)\$(ConfigurationName)\Emma 02.pdb"

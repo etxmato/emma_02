@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.24.43
+AppVerName=Emma 02 - V1.24.44
 AppVersion=1.24
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.24.43
+OutputBaseFilename=Emma_02_x64_setup_v1.24.44
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -65,6 +65,7 @@ Source: ..\sb.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt.xrc; DestDir: {app}; Components: MAIN
 Source: ..\..\SDL2-2.0.5\lib\x64\SDL2.dll; DestDir: {app}; Components: MAIN
+Source: ..\..\libserialport\Win64\lib\libserialport.dll; DestDir: {app}; Components: MAIN
 Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
 Source: ..\Quest_license.txt; DestDir: {app}; Components: MAIN
 Source: ..\Quest_CC_Lic.jpg; DestDir: {app}; Components: MAIN

@@ -737,6 +737,7 @@ public:
 #define GUI_MCDS_BAUDT 30019
 #define GUI_CLOCK_TEXTCTRL 30020
 #define GUI_START_BUTTON 30040
+#define GUI_STOP_BUTTON 30060
 #define GUI_CONFIG_MENU 10000
 #define GUI_CONFIG_DELETE_MENU 20000
 
@@ -928,6 +929,7 @@ public:
 	void setNoteBook();
 	void onStart(wxCommandEvent& event);
 	void onStart(int computer);
+    void onStop(wxCommandEvent& event);
 
 	void stopComputer();
     void killComputer(wxCommandEvent&WXUNUSED(event));

@@ -2201,46 +2201,54 @@ void Main::initConfig()
 #endif
 
 #if defined(__WXMAC__)
-    int clockTextCorrectionComxX = 256;
+    int clockTextCorrectionComxX = 256+60;
     int clockTextCorrectionComxY = 107;
-    int clockFloatCorrectionComxX = 220;
+    int clockFloatCorrectionComxX = 220+60;
     int clockFloatCorrectionComxY = 110;
-    int mhzTextCorrectionComxX = 171;
+    int mhzTextCorrectionComxX = 171+60;
     int mhzTextCorrectionComxY = 107;
-    int startCorrectionComxX = 143;
+    int stopCorrectionComxX = 143+60;
+    int stopCorrectionComxY = 111;
+    int startCorrectionComxX = 143-25;
     int startCorrectionComxY = 111;
     int floatHeight = -1;
     int startHeight = -1;
 
-    int clockTextCorrectionX = 255;
+    int clockTextCorrectionX = 255+60;
     int clockTextCorrectionY = 132;
-    int clockFloatCorrectionX = 217;
+    int clockFloatCorrectionX = 219+60;
     int clockFloatCorrectionY = 135;
-    int mhzTextCorrectionX = 170;
+    int mhzTextCorrectionX = 170+60;
     int mhzTextCorrectionY = 132;
-    int startCorrectionX = 142;
+    int stopCorrectionX = 142+60;
+    int stopCorrectionY = 136;
+    int startCorrectionX = 142-25;
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 256;
+	int clockTextCorrectionComxX = 256+60;
 	int clockTextCorrectionComxY = 117;
-	int clockFloatCorrectionComxX = 220;
+	int clockFloatCorrectionComxX = 220+60;
 	int clockFloatCorrectionComxY = 120;
-	int mhzTextCorrectionComxX = 171;
+	int mhzTextCorrectionComxX = 171+60;
 	int mhzTextCorrectionComxY = 117;
-	int startCorrectionComxX = 143;
-	int startCorrectionComxY = 121;
+    int stopCorrectionComxX = 143+60;
+    int stopCorrectionComxY = 121;
+    int startCorrectionComxX = 143-25;
+    int startCorrectionComxY = 121;
 	int floatHeight = 21;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 255;
+	int clockTextCorrectionX = 255+60;
 	int clockTextCorrectionY = 146;
-	int clockFloatCorrectionX = 217;
+	int clockFloatCorrectionX = 217+60;
 	int clockFloatCorrectionY = 149;
-	int mhzTextCorrectionX = 170;
-	int mhzTextCorrectionY = 146;
-	int startCorrectionX = 142;
-	int startCorrectionY = 150;
+	int mhzTextCorrectionX = 170+60;
+    int mhzTextCorrectionY = 146;
+    int stopCorrectionX = 142+60;
+    int stopCorrectionY = 150;
+    int startCorrectionX = 142-25;
+    int startCorrectionY = 150;
 #endif
 #if defined(__linux__)
     int clockTextCorrectionComxX = 260;
@@ -2277,74 +2285,30 @@ void Main::initConfig()
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionComxX, defaultGuiSize_.y - clockTextCorrectionComxY));
                     clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(45, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionComxX, defaultGuiSize_.y - mhzTextCorrectionComxY));
+                    stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionComxX, defaultGuiSize_.y - stopCorrectionComxY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionComxX, defaultGuiSize_.y - startCorrectionComxY), wxSize(80, startHeight));
                 break;
-
-/*
-#if defined(__WXMSW__)
-                    clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - 252, windowInfo.RegularClockY + 3));
-				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 35, windowInfo.RegularClockY), wxSize(45, 21));
-				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.RegularClockX + 81, windowInfo.RegularClockY + 3));
-				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 109, windowInfo.RegularClockY - 6), wxSize(80, 25));
-#endif
-#if defined(__linux__)
-				if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
-				{
-					clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.RegularClockX - 10, windowInfo.RegularClockY + 8));
-					clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 32, windowInfo.RegularClockY), wxSize(45, -1));
-					mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.RegularClockX + 81, windowInfo.RegularClockY + 8));
-					startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 114, windowInfo.RegularClockY - 1), wxSize(80, -1));
-				}
-				else
-				{
-					clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.RegularClockX - 10, windowInfo.RegularClockY + 0));
-					clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.RegularClockX + 32, windowInfo.RegularClockY - 5), wxSize(45, -1));
-					mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.RegularClockX + 81, windowInfo.RegularClockY + 0));
-					startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.RegularClockX + 114, windowInfo.RegularClockY - 6), wxSize(80, -1));
-				}
-#endif
-*/
                     
 			default:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionX, defaultGuiSize_.y - clockTextCorrectionY));
                     clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(45, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionX, defaultGuiSize_.y - mhzTextCorrectionY));
+                    stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionX, defaultGuiSize_.y - stopCorrectionY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionX, defaultGuiSize_.y - startCorrectionY), wxSize(80, startHeight));
                 break;
                     
-/*
-#if defined(__WXMSW__)
-				clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.ChoiceClockX, windowInfo.ChoiceClockY + 3));
-				clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 35, windowInfo.ChoiceClockY), wxSize(45, 21));
-				mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.ChoiceClockX + 81, windowInfo.ChoiceClockY + 3));
-				startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 109, windowInfo.ChoiceClockY - 6), wxSize(80, 25));
-#endif
-#if defined(__linux__)
-				if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
-				{
-					clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.ChoiceClockX - 11, windowInfo.ChoiceClockY + 8));
-					clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 31, windowInfo.ChoiceClockY), wxSize(45, -1));
-					mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.ChoiceClockX + 80, windowInfo.ChoiceClockY + 8));
-					startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 113, windowInfo.ChoiceClockY - 1), wxSize(80, -1));
-				}
-				else
-				{
-					clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(windowInfo.ChoiceClockX - 11, windowInfo.ChoiceClockY + 5));
-					clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(windowInfo.ChoiceClockX + 31, windowInfo.ChoiceClockY), wxSize(45, -1));
-					mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(windowInfo.ChoiceClockX + 80, windowInfo.ChoiceClockY + 5));
-					startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(windowInfo.ChoiceClockX + 113, windowInfo.ChoiceClockY - 1), wxSize(80, -1));
-				}
-#endif
-*/
 			}
 #if defined(__WXMAC__)
 			clockText[computer]->SetFont(defaultFont);
 			clockTextCtrl[computer]->SetFont(defaultFont);
 			mhzText[computer]->SetFont(defaultFont);
-			startButton[computer]->SetFont(defaultFont);
+            startButton[computer]->SetFont(defaultFont);
+            stopButton[computer]->SetFont(defaultFont);
 #endif
 			this->Connect(GUI_CLOCK_TEXTCTRL + computer, wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(GuiMain::onClock));
-			this->Connect(GUI_START_BUTTON + computer, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Main::onStart));
+            this->Connect(GUI_START_BUTTON + computer, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Main::onStart));
+            this->Connect(GUI_STOP_BUTTON + computer, wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(Main::onStop));
+            stopButton[computer]->Enable(false);
 		}
 	}
 
@@ -4610,6 +4574,11 @@ void Main::onStart(int computer)
 		else	
 			p_Main->eventVideoSetFullScreen(mode_.full_screen);
 	}
+}
+
+void Main::onStop(wxCommandEvent&WXUNUSED(event))
+{
+    stopComputer();
 }
 
 void Main::stopComputer()

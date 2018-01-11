@@ -516,7 +516,8 @@ protected:
 	wxStaticText *clockText[NO_COMPUTER];
 	FloatEdit *clockTextCtrl[NO_COMPUTER];
 	wxStaticText *mhzText[NO_COMPUTER];
-	wxButton *startButton[NO_COMPUTER];
+    wxButton *startButton[NO_COMPUTER];
+    wxButton *stopButton[NO_COMPUTER];
 
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;
