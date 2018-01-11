@@ -19,7 +19,6 @@ This chapter includes:
 <a href="ElfBoot.htm">Auto Boot</a><br>
 <a href="ElfRam.htm">Memory</a><br>
 <a href="ElfPorts.htm">Device Ports</a><br>
-<a href="ElfVt100.htm">Video Terminal Simulation</a><br>
 <a href="ElfPrinter.htm">Printer Support</a><br>
 <a href="ElfCassette.htm">Cassette Support</a><br>
 <a href="ElfSuperBasic.htm">Quest Super Basic</a><br>
