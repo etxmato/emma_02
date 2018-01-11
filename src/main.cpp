@@ -2251,24 +2251,28 @@ void Main::initConfig()
     int startCorrectionY = 150;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxX = 260;
+    int clockTextCorrectionComxX = 260+60;
     int clockTextCorrectionComxY = 136;
-    int clockFloatCorrectionComxX = 217;
+    int clockFloatCorrectionComxX = 217+60;
     int clockFloatCorrectionComxY = 141;
-    int mhzTextCorrectionComxX = 170;
+    int mhzTextCorrectionComxX = 170+60;
     int mhzTextCorrectionComxY = 136;
-    int startCorrectionComxX = 138;
+    int stopCorrectionComxX = 138+60;
+    int stopCorrectionComxY = 142;
+    int startCorrectionComxX = 138-25;
     int startCorrectionComxY = 142;
     int floatHeight = -1;
     int startHeight = -1;
     
-    int clockTextCorrectionX = 260;
+    int clockTextCorrectionX = 260+60;
     int clockTextCorrectionY = 172;
-    int clockFloatCorrectionX = 217;
+    int clockFloatCorrectionX = 217+60;
     int clockFloatCorrectionY = 177;
-    int mhzTextCorrectionX = 170;
+    int mhzTextCorrectionX = 170+60;
     int mhzTextCorrectionY = 172;
-    int startCorrectionX = 138;
+    int stopCorrectionX = 138+60;
+    int stopCorrectionY = 178;
+    int startCorrectionX = 138-25;
     int startCorrectionY = 178;
 #endif
   
