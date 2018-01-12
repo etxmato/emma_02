@@ -583,7 +583,11 @@
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmac VIP, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 64 and ETI 660 "</string>
+                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf,
+Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, 
+Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Studio II, Visicom 
+COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, 
+Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMAC__"</string>
@@ -644,7 +648,7 @@
                     <string name="proxy-Data validator">""</string>
                     <string name="proxy-Data variable">""</string>
                     <bool name="proxy-Enabled">1</bool>
-                    <bool name="proxy-External implementation">1</bool>
+                    <bool name="proxy-External implementation">0</bool>
                     <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
                     <string name="proxy-Foreground colour">""</string>
                     <string name="proxy-Header filename">""</string>
@@ -654,7 +658,8 @@
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmac VIP, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 64 and ETI 660 "</string>
+                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, 
+Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMSW__,__UNIX__"</string>
@@ -751,7 +756,7 @@
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Emma 02 Copyright (C) 2007-2016 Marcel van Tongeren, 
+                    <string name="proxy-Label">"Emma 02 Copyright (C) 2007-2018 Marcel van Tongeren, 
 core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
@@ -1516,10 +1521,82 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley"</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
+                    <string name="proxy-Label">"ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom
+Copyright (C) 2004 by Michael H Riley"</string>
+                    <string name="proxy-Member variable name">""</string>
+                    <string name="proxy-Name">""</string>
+                    <string name="proxy-Platform">"__WXMAC__"</string>
+                    <bool name="proxy-Separate files">0</bool>
+                    <long name="proxy-Stretch factor">0</long>
+                    <string name="proxy-Tooltip text">""</string>
+                    <long name="proxy-Width">400</long>
+                    <long name="proxy-Wrapping width">400</long>
+                    <bool name="proxy-wxADJUST_MINSIZE">0</bool>
+                    <bool name="proxy-wxALIGN_CENTRE">0</bool>
+                    <bool name="proxy-wxALIGN_LEFT">0</bool>
+                    <bool name="proxy-wxALIGN_RIGHT">0</bool>
+                    <bool name="proxy-wxBORDER_THEME">0</bool>
+                    <bool name="proxy-wxBOTTOM">0</bool>
+                    <bool name="proxy-wxDOUBLE_BORDER">0</bool>
+                    <bool name="proxy-wxFIXED_MINSIZE">0</bool>
+                    <bool name="proxy-wxFULL_REPAINT_ON_RESIZE">0</bool>
+                    <bool name="proxy-wxLEFT">1</bool>
+                    <bool name="proxy-wxNO_BORDER">0</bool>
+                    <bool name="proxy-wxNO_FULL_REPAINT_ON_RESIZE">0</bool>
+                    <bool name="proxy-wxRAISED_BORDER">0</bool>
+                    <bool name="proxy-wxRESERVE_SPACE_EVEN_IF_HIDDEN">0</bool>
+                    <bool name="proxy-wxRIGHT">1</bool>
+                    <bool name="proxy-wxSHAPED">0</bool>
+                    <bool name="proxy-wxSIMPLE_BORDER">0</bool>
+                    <bool name="proxy-wxST_NO_AUTORESIZE">0</bool>
+                    <bool name="proxy-wxSTATIC_BORDER">0</bool>
+                    <bool name="proxy-wxSUNKEN_BORDER">0</bool>
+                    <bool name="proxy-wxTOP">1</bool>
+                    <bool name="proxy-wxWANTS_CHARS">0</bool>
+                    <long name="proxy-X">-1</long>
+                    <long name="proxy-Y">-1</long>
+                    <string name="title">"wxStaticText: wxID_STATIC"</string>
+                    <long name="title-mode">0</long>
+                    <string name="type">"dialog-control-document"</string>
+                  </document>
+                  <document>
+                    <string name="proxy-type">"wbStaticTextProxy"</string>
+                    <string name="filename">""</string>
+                    <string name="icon-name">"statictext"</string>
+                    <long name="is-transient">0</long>
+                    <long name="locked">0</long>
+                    <long name="owns-file">1</long>
+                    <string name="proxy-AlignH">"Centre"</string>
+                    <string name="proxy-AlignV">"Centre"</string>
+                    <string name="proxy-Background colour">""</string>
+                    <string name="proxy-Base class">"wxStaticText"</string>
+                    <long name="proxy-Border">1</long>
+                    <string name="proxy-Class">"wxStaticText"</string>
+                    <string name="proxy-Custom arguments">""</string>
+                    <string name="proxy-Custom ctor arguments">""</string>
+                    <string name="proxy-Custom styles">""</string>
+                    <string name="proxy-Data class header filename">""</string>
+                    <string name="proxy-Data class implementation filename">""</string>
+                    <string name="proxy-Data class manager window">""</string>
+                    <string name="proxy-Data class name">""</string>
+                    <string name="proxy-Data source">""</string>
+                    <string name="proxy-Data validator">""</string>
+                    <string name="proxy-Data variable">""</string>
+                    <bool name="proxy-Enabled">1</bool>
+                    <bool name="proxy-External implementation">1</bool>
+                    <string name="proxy-Font">"wxSYS_DEFAULT_GUI_FONT"</string>
+                    <string name="proxy-Foreground colour">""</string>
+                    <string name="proxy-Header filename">""</string>
+                    <long name="proxy-Height">-1</long>
+                    <string name="proxy-Help text">""</string>
+                    <bool name="proxy-Hidden">0</bool>
+                    <string name="proxy-Id name">"wxID_STATIC"</string>
+                    <long name="proxy-Id value">5105</long>
+                    <string name="proxy-Implementation filename">""</string>
                     <string name="proxy-Label">"ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp, Rc/Basic and Bascom Copyright (C) 2004 by Michael H Riley"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
-                    <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
+                    <string name="proxy-Platform">"__WXMSW__,__UNIX__"</string>
                     <bool name="proxy-Separate files">0</bool>
                     <long name="proxy-Stretch factor">0</long>
                     <string name="proxy-Tooltip text">""</string>
@@ -2281,7 +2358,10 @@ Copyright (C) 2004 by Spare Time Gizmos "</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license"</string>
+                    <string name="proxy-Label">"The following libraries are licensed under the GNU Lesser General Public 
+License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, 
+libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and 
+libcurl are licensed under a MIT/X derivate license"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMAC__"</string>
@@ -2352,7 +2432,7 @@ Copyright (C) 2004 by Spare Time Gizmos "</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license"</string>
+                    <string name="proxy-Label">"The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMSW__,__UNIX__"</string>

@@ -2209,7 +2209,7 @@ void Main::initConfig()
     int mhzTextCorrectionComxY = 107;
     int stopCorrectionComxX = 143+60;
     int stopCorrectionComxY = 111;
-    int startCorrectionComxX = 143-25;
+    int startCorrectionComxX = 143-23;
     int startCorrectionComxY = 111;
     int floatHeight = -1;
     int startHeight = -1;
@@ -2222,7 +2222,7 @@ void Main::initConfig()
     int mhzTextCorrectionY = 132;
     int stopCorrectionX = 142+60;
     int stopCorrectionY = 136;
-    int startCorrectionX = 142-25;
+    int startCorrectionX = 142-23;
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
@@ -2234,7 +2234,7 @@ void Main::initConfig()
 	int mhzTextCorrectionComxY = 117;
     int stopCorrectionComxX = 143+60;
     int stopCorrectionComxY = 121;
-    int startCorrectionComxX = 143-25;
+    int startCorrectionComxX = 143-23;
     int startCorrectionComxY = 121;
 	int floatHeight = 21;
 	int startHeight = 25;
@@ -2247,7 +2247,7 @@ void Main::initConfig()
     int mhzTextCorrectionY = 146;
     int stopCorrectionX = 142+60;
     int stopCorrectionY = 150;
-    int startCorrectionX = 142-25;
+    int startCorrectionX = 142-23;
     int startCorrectionY = 150;
 #endif
 #if defined(__linux__)
@@ -2259,7 +2259,7 @@ void Main::initConfig()
     int mhzTextCorrectionComxY = 136;
     int stopCorrectionComxX = 138+60;
     int stopCorrectionComxY = 142;
-    int startCorrectionComxX = 138-25;
+    int startCorrectionComxX = 138-23;
     int startCorrectionComxY = 142;
     int floatHeight = -1;
     int startHeight = -1;
@@ -2272,7 +2272,7 @@ void Main::initConfig()
     int mhzTextCorrectionY = 172;
     int stopCorrectionX = 138+60;
     int stopCorrectionY = 178;
-    int startCorrectionX = 138-25;
+    int startCorrectionX = 138-23;
     int startCorrectionY = 178;
 #endif
   
