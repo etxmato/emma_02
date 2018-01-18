@@ -363,6 +363,16 @@ Byte Studio2::ef4()
 	return(studioKeyState_[1][studioKeyPort_]) ? 0 : 1;
 }
 
+void Studio2::switchQ(int value)
+{
+    if (value == 0)
+    {
+    }
+    else
+    {
+    }
+}
+
 Byte Studio2::in(Byte port, Word WXUNUSED(address))
 {
 	Byte ret;
@@ -430,10 +440,10 @@ void Studio2::startComputer()
 
 	p_Main->setSwName("");
 
-    for (int i=0xc00; i<0xff00; i+=0x400)
+    for (int i=0x800; i<0xff00; i+=0x400)
 	{
-		defineMemoryType(i, MAPPEDRAM);
-		defineMemoryType(i+0x100, MAPPEDRAM);
+        defineMemoryType(i, MAPPEDRAM);
+        defineMemoryType(i+0x100, MAPPEDRAM);
 	}
 
     readProgram(p_Main->getRomDir(STUDIO, MAINROM1), p_Main->getRomFile(STUDIO, MAINROM1), ROM, 0, NONAME);
@@ -478,6 +488,15 @@ void Studio2::startComputer()
 
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
+
+    if (mainMemory_[0x400]==0x4 && mainMemory_[0x500]==0xab && mainMemory_[0x600]==0xf8 && mainMemory_[0x700]==0xd5)
+    {
+        for (int i=0x1000; i<=0x4F00; i+=0x100)
+            defineMemoryType(i, CARTRIDGEROM);
+        for (int i=0x2000; i<=0x2300; i+=0x100)
+            defineMemoryType(i, MAPPEDROM);
+   }
+
 	double zoom = p_Main->getZoom();
 
 	configurePixieStudio2();
@@ -524,7 +543,8 @@ void Studio2::writeMemDataType(Word address, Byte type)
 	switch (memoryType_[address/256])
 	{
 		case RAM:
-		case ROM:
+        case ROM:
+        case MAPPEDROM:
 		case CARTRIDGEROM:
 			if (mainMemoryDataType_[address] != type)
 			{
@@ -569,6 +589,7 @@ Byte Studio2::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
+        case MAPPEDROM:
 		case CARTRIDGEROM:
 			return mainMemoryDataType_[address];
 		break;
@@ -608,9 +629,16 @@ Byte Studio2::readMem(Word addr)
         case MAPPEDRAM:
 			addr = (addr & 0x1ff) | 0x800;
 		break;
+ 
+        case CARTRIDGEROM:
+            addr = (addr & 0x3ff) | 0x400;
+        break;
+            
+        case MAPPEDROM:
+            addr = (addr & 0x3ff);
+        break;
 	}
-
-	return mainMemory_[addr];
+    return mainMemory_[addr];
 }
 
 void Studio2::writeMem(Word addr, Byte value, bool writeRom)

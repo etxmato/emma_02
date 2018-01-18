@@ -7,11 +7,39 @@ typedef unsigned short Word;
 //#endif
 
 #include "wx/file.h"
-#include "wx/html/helpctrl.h"
 #include "wx/spinctrl.h"
 #include "wx/choicebk.h"
 #include "vector"
 #include "wx/listctrl.h"
+#include "wx/html/helpctrl.h"
+
+class MyHtmlHelpController : public wxHtmlHelpController
+{
+public:
+    MyHtmlHelpController(int style=wxHF_DEFAULT_STYLE, wxWindow *parentWindow=NULL)
+    : wxHtmlHelpController(style, parentWindow) {}
+    MyHtmlHelpController(wxWindow *parentWindow, int style=wxHF_DEFAULT_STYLE)
+    : wxHtmlHelpController(parentWindow, style) {}
+protected:
+    virtual wxWindow* CreateHelpWindow()
+    {
+        wxHtmlHelpController::CreateHelpWindow();
+        
+        m_helpWindow->Bind(wxEVT_HTML_LINK_CLICKED, &MyHtmlHelpController::OnHtmlLinkClicked);
+        
+        return m_helpWindow;
+    }
+private:
+    static void OnHtmlLinkClicked(wxHtmlLinkEvent& event)
+    {
+        const wxString href = event.GetLinkInfo().GetHref();
+        
+        if ( href.StartsWith("http://") || href.StartsWith("https://"))
+            wxLaunchDefaultBrowser(href);
+        else
+            event.Skip(true);
+    }
+};
 
 // code defining event
 
@@ -378,7 +406,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.24
-#define EMMA_SUB_VERSION 43
+#define EMMA_SUB_VERSION 46
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -551,6 +579,7 @@ public:
 #define ROMMAPPER 25
 #define MULTICART 26
 #define DIAGROM 27
+#define MAPPEDROM 28
 #define NOCHANGE 30
 
 #define SHOWNAME true
@@ -1061,7 +1090,7 @@ public:
 	void setDebounceTimer(guiEvent& event);
 	void eventDebounceTimer();
 
-	wxString getMultiCartGame(Byte msb, Byte lsb);
+    wxString getMultiCartGame(Byte msb, Byte lsb);
     bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
@@ -1073,12 +1102,12 @@ public:
 	bool getThermalEf() {return thermalEf_;};
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
 	void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
-
+   
     UpdateCheckThread *m_pUpdateCheckThread;
     wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
 
 private:
-	wxHtmlHelpController *help_;
+	MyHtmlHelpController *help_;
 	wxString latestVersion_;
 
     bool saveOnExit_;

@@ -11,13 +11,14 @@ $srcdir=.
 %license COPYING
 %readme README
 %description Emma 02 emulates the following RCA CDP1802 based Cosmac Elf, Netronics Elf II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIP II, MCDS, MS 2000, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscom Nano, Pecom 32, Pecom 64 and ETI 660.
-%version 1.24.43
+%version 1.25
 %requires glibc
 %requires libcurl
 %requires SDL
 %requires wxGTK
 %requires wxBase
 %requires libpng12
+%requires libserialport0
 # Executables
 %system all
 f 755 root sys ${bindir}/emma_02 ../Release/emma_02

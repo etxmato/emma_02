@@ -86,7 +86,7 @@ wxString guiSizers[] =
     "End"
 };
 
-FloatEdit::FloatEdit() 
+FloatEdit::FloatEdit()
 : wxTextCtrl() 
 { 
 	Connect(wxEVT_CHAR, wxKeyEventHandler( FloatEdit::OnChar ), NULL, this ); 
@@ -1583,14 +1583,13 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 
 	wxString helpFile = applicationDirectory_ + "emma_02.htb";
 
-    help_ = new wxHtmlHelpController(wxHF_TOOLBAR | wxHF_CONTENTS | wxHF_INDEX | wxHF_SEARCH | wxHF_BOOKMARKS | wxHF_PRINT | wxHF_BOOKMARKS);
-	
- 	if (!help_->AddBook(helpFile))
+    help_ = new MyHtmlHelpController(wxHF_TOOLBAR | wxHF_CONTENTS | wxHF_INDEX | wxHF_SEARCH | wxHF_BOOKMARKS | wxHF_PRINT | wxHF_BOOKMARKS);
+	    
+    if (!help_->AddBook(helpFile))
 	{
-		(void)wxMessageBox( "Failed adding book " + helpFile + "\n",
-							"Emma 02", wxICON_ERROR | wxOK );
+        (void)wxMessageBox( "Failed adding book " + helpFile + "\n", "Emma 02", wxICON_ERROR | wxOK );
 	}
-
+    
 	if (mode_.gui)
 	{
 		this->Connect(XRCID(GUICOMPUTERNOTEBOOK), wxEVT_COMMAND_NOTEBOOK_PAGE_CHANGED, wxNotebookEventHandler(Main::onComputer) );

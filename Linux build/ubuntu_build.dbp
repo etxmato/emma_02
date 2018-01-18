@@ -1,12 +1,12 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.24.43
+Version: 1.25
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
 Priority: standard
-Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libwxgtk3.0-0v5, libwxbase3.0-0v5
+Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libwxgtk3.0-0v5, libwxbase3.0-0v5, libserialport0
 Description: Emma 02, the RCA 1802 Emulator
  Emma 02 emulates the following RCA CDP1802 based
  Cosmac Elf, Netronics Elf II, Quest Super Elf, Membership
@@ -18,43 +18,43 @@ Description: Emma 02, the RCA 1802 Emulator
 <</CTRL>>
 <<FILES>>
 1
-/media/psf/Home/workspace/emma_02/Linux build/emma02.xpm -> emma02.xpm -> /usr/share/pixmaps
-/media/psf/Home/workspace/emma_02/Release/emma_02* -> emma_02 -> /usr/bin
-/media/psf/Home/workspace/emma_02/copyright.rtf -> copyright.rtf -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/Quest_license.txt -> Quest_license.txt -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/Quest_CC_Lic.jpg -> Quest_CC_Lic.jpg -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/vt.xrc -> vt.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/splash.xrc -> splash.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/sb.xrc -> sb.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/ports.xrc -> ports.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menu_Cas_Mem.xrc -> menu_Cas_Mem.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuVip.xrc -> menuVip.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuVelf.xrc -> menuVelf.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuTmc600.xrc -> menuTmc600.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuPecom.xrc -> menuPecom.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuMembership.xrc -> menuMembership.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuMcds.xrc -> menuMcds.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuMS2000.xrc -> menuMS2000.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuElf2K.xrc -> menuElf2K.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuElf.xrc -> menuElf.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuCosmicos.xrc -> menuCosmicos.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/menuComx.xrc -> menuComx.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/main.xrc -> main.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/keymap_tmc.xrc -> keymap_tmc.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/keymap.xrc -> keymap.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/functionkey.xrc -> functionkey.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/eprom.xrc -> eprom.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/diag.xrc -> diag.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/datadir.xrc -> datadir.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/configuration.xrc -> configuration.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/colour.xrc -> colour.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/cassette.xrc -> cassette.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/about.xrc -> about.xrc -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/Helpfiles/emma_02.htb -> emma_02.htb -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/images_linux -> images_linux -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/images -> images -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/data -> data -> /usr/share/emma_02
 /media/psf/Home/workspace/emma_02/Configurations -> Configurations -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/data -> data -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/images -> images -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/images_linux -> images_linux -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/Helpfiles/emma_02.htb -> emma_02.htb -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/about.xrc -> about.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/cassette.xrc -> cassette.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/colour.xrc -> colour.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/configuration.xrc -> configuration.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/datadir.xrc -> datadir.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/diag.xrc -> diag.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/eprom.xrc -> eprom.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/functionkey.xrc -> functionkey.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/keymap.xrc -> keymap.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/keymap_tmc.xrc -> keymap_tmc.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/main.xrc -> main.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuComx.xrc -> menuComx.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuCosmicos.xrc -> menuCosmicos.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuElf.xrc -> menuElf.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuElf2K.xrc -> menuElf2K.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuMS2000.xrc -> menuMS2000.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuMcds.xrc -> menuMcds.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuMembership.xrc -> menuMembership.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuPecom.xrc -> menuPecom.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuTmc600.xrc -> menuTmc600.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuVelf.xrc -> menuVelf.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menuVip.xrc -> menuVip.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/menu_Cas_Mem.xrc -> menu_Cas_Mem.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/ports.xrc -> ports.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/sb.xrc -> sb.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/splash.xrc -> splash.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/vt.xrc -> vt.xrc -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/Quest_CC_Lic.jpg -> Quest_CC_Lic.jpg -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/Quest_license.txt -> Quest_license.txt -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/copyright.rtf -> copyright.rtf -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/Release/emma_02* -> emma_02 -> /usr/bin
+/media/psf/Home/workspace/emma_02/Linux build/emma02.xpm -> emma02.xpm -> /usr/share/pixmaps
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>
@@ -72,17 +72,17 @@ Description: Emma 02, the RCA 1802 Emulator
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.24.43) xenial; urgency=low
+emma-02 (1.25) xenial; urgency=low
 
   * New linux debian beta version
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Tue, 02 Jan 2018 20:53:16 +0100
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Sat, 13 Jan 2018 13:36:28 +0100
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
 Emma 02 Emulator 
-Copyright (C) 2007-2017 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
+Copyright (C) 2007-2018 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
 
 ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp and Rc/Basic
 Copyright (C) 2004 by Michael H Riley
@@ -115,6 +115,9 @@ Licensed under the GNU Lesser General Public License(LGPL)
 
 SDL_Audioin
 Licensed under the GNU Lesser General Public License(LGPL)
+
+libserialport
+Licensed under the GNU Lesser General Public License (LGPL)
 
 Curl and libcurl
 Curl and libcurl are licensed under a MIT/X derivate license
