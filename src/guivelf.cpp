@@ -195,11 +195,8 @@ void GuiVelf::readVelfConfig()
     elfConfiguration[VELF].vt52SetUpFeature_ = configPointer->Read("/Velf/VT52Setup", 0x00004092l);
     elfConfiguration[VELF].vt100SetUpFeature_ = configPointer->Read("/Velf/VT100Setup", 0x0000ca52l);
     elfConfiguration[VELF].vtExternalSetUpFeature_ = configPointer->Read("/Velf/VTExternalSetup", 0x0000ca52l);
-	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 0l);
+	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 1l);
 	elfConfiguration[VELF].baudR = elfConfiguration[VELF].baudT;
-
-	if (mode_.gui)
-		setBaudChoiceVelf();
 
 	setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
 
@@ -222,17 +219,11 @@ void GuiVelf::readVelfConfig()
 
 		XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);
-//		XRCCTRL(*this, "VTBaudTTextVelf", wxStaticText)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-//		XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->Enable(elfConfiguration[VELF].vtType != VTNONE);
 
         XRCCTRL(*this,"AddressText1Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].useElfControlWindows);
-
-//		XRCCTRL(*this, "VtCharRomButtonVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-//		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-//		XRCCTRL(*this, "VtSetupVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
+        XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
 
 		XRCCTRL(*this, "ZoomValueVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoom_);
 		XRCCTRL(*this, "LatchVelf", wxCheckBox)->SetValue(latch_);
@@ -355,25 +346,6 @@ void GuiVelf::onRamSWText(wxCommandEvent& WXUNUSED(event))
 void GuiVelf::onLatch(wxCommandEvent&event)
 {
 	latch_ = event.IsChecked();
-}
-
-void GuiVelf::setBaudChoiceVelf()
-{
-	wxArrayString choices;
-	choices.Add("9600");
-	choices.Add("4800");
-	choices.Add("3600");
-	choices.Add("2400");
-	choices.Add("2000");
-	choices.Add("1800");
-	choices.Add("1200");
-	choices.Add("600");
-	choices.Add("300");
-
-	XRCCTRL(*this, "VTBaudRTextVelf", wxStaticText)->Enable(false);
-	XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->Enable(false);
-	XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->Set(choices);
-	XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->Set(choices);
 }
 
 void GuiVelf::onVelfBaudR(wxCommandEvent&event)

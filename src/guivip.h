@@ -38,7 +38,6 @@ public:
 
 	void onVipBaudR(wxCommandEvent& event);
 	void onVipBaudT(wxCommandEvent& event);
-	void setBaudChoiceVip();
 
 private:
     wxPoint position_;

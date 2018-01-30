@@ -6064,11 +6064,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->Enable(status);
 		if (XRCCTRL(*this,"VTTypeCosmicos",wxChoice)->GetSelection() != VTNONE)
 		{
-			if (elfConfiguration[COSMICOS].useUart)
-			{
-				XRCCTRL(*this, "VTBaudRTextCosmicos", wxStaticText)->Enable(status);
-                XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Enable(status);
-			}
 			XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Enable(status);
 			XRCCTRL(*this, "VTBaudTTextCosmicos", wxStaticText)->Enable(status);
             XRCCTRL(*this,"VtSetupCosmicos", wxButton)->Enable(status);

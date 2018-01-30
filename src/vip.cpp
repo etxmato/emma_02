@@ -115,14 +115,14 @@ void Vip::configureComputer()
         else
             vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
 		p_Vt100 = vtPointer;
-		vtPointer->configureVip(vipConfiguration.baudR, vipConfiguration.baudT);
+		vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(true);
 	}
 
     if (vipConfiguration.vtExternal)
     {
         p_Serial = new Serial(VIP, clock_, vipConfiguration);
-        p_Serial->configureVip(vipConfiguration.baudR, vipConfiguration.baudT);
+        p_Serial->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
     }
 
 	defineKeys();

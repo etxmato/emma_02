@@ -113,13 +113,13 @@ void Mcds::configureComputer()
         else
             vtPointer = new Vt100("MCDS - VT 100", p_Main->getVtPos(MCDS), wxSize(640*zoom, 400*zoom), zoom, MCDS, McdsClockSpeed_, McdsConfiguration);
         p_Vt100 = vtPointer;
-        vtPointer->configureMcds(McdsConfiguration.baudR, McdsConfiguration.baudT);
+        vtPointer->configureStandard(McdsConfiguration.baudR, McdsConfiguration.baudT, 4);
     }
     
     if (McdsConfiguration.vtExternal)
     {
         p_Serial = new Serial(MCDS, McdsClockSpeed_, McdsConfiguration);
-        p_Serial->configureMcds(McdsConfiguration.baudR, McdsConfiguration.baudT);
+        p_Serial->configureStandard(McdsConfiguration.baudR, McdsConfiguration.baudT, 4);
     }
 
     p_Main->message("Configuring printer support");

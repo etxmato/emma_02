@@ -640,6 +640,10 @@ load: Studio on Character
 name: fun-with-numbers.st2
 load: Studio on Character
 
+name: fifteen.st2
+load: Studio on Character
+load: Studio set 2, fire 5
+
 name: fun with numbers.st2
 load: Studio on Character
 

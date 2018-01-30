@@ -192,7 +192,6 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     }
     
     wxString box;
-	wxCommandEvent uartEvent(ON_UART, 807);
     wxCommandEvent uartElf2KEvent(ON_UART_ELF2K, 808);
     wxCommandEvent uartMS2000Event(ON_UART_MS2000, 809);
     
@@ -227,12 +226,6 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 		case ELFII:
 		case SUPERELF:
             elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
-            
-            if (originalUartValue_ != elfConfiguration_.useUart)
-            {
-                uartEvent.SetEventObject(this);
-                wxPostEvent(p_Main, uartEvent);
-            }
         break;
 
         case MCDS:

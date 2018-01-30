@@ -491,11 +491,13 @@ void Studio2::startComputer()
 
     if (mainMemory_[0x400]==0x4 && mainMemory_[0x500]==0xab && mainMemory_[0x600]==0xf8 && mainMemory_[0x700]==0xd5)
     {
-        for (int i=0x1000; i<=0x4F00; i+=0x100)
-            defineMemoryType(i, CARTRIDGEROM);
-        for (int i=0x2000; i<=0x2300; i+=0x100)
-            defineMemoryType(i, MAPPEDROM);
-   }
+        for (int address=0x2000; address<0x4000; address+=0x800)
+        {
+            defineMemoryType(address, address+0x3ff, MAPPEDROM);
+            defineMemoryType(address+0x400, address+0x7ff, CARTRIDGEROM);
+        }
+        defineMemoryType(0x4000, 0x7fff, CARTRIDGEROM);
+    }
 
 	double zoom = p_Main->getZoom();
 

@@ -21,8 +21,6 @@ public:
 	void onMcdsClock(wxCommandEvent& event);
     void onMcdsForceUpperCase(wxCommandEvent& event);
     void onBootRam(wxCommandEvent&event);
-    
-    void setBaudChoiceMcds();
 
 protected:
 

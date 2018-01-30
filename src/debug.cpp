@@ -14231,7 +14231,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		case STUDIO:
 			if (setType == CRAM1870)
 				setType = CARTRIDGEROM;
-			if ((setType == RAM) || (setType == MAPPEDRAM) || (setType == ROMMAPPER) || (setType == ROM) || (setType == CARTRIDGEROM) || (setType == UNDEFINED))
+			if ((setType == RAM) || (setType == MAPPEDRAM) || (setType == MAPPEDROM) || (setType == ROM) || (setType == CARTRIDGEROM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
 			{

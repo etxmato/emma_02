@@ -24,7 +24,6 @@ public:
 
 	void onVelfBaudR(wxCommandEvent& event);
 	void onVelfBaudT(wxCommandEvent& event);
-	void setBaudChoiceVelf();
     void onVelfControlWindows(wxCommandEvent& event);
     bool getUseVelfControlWindows();
     int getVelfMode();

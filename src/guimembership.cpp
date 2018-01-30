@@ -173,9 +173,6 @@ void GuiMembership::readMembershipConfig()
 	configPointer->Read("/Membership/Enable_Auto_Cassette", &conf[MEMBER].autoCassetteLoad_, true);
     conf[MEMBER].realCassetteLoad_ = false;
 
-	if (mode_.gui)
-		setBaudChoiceMembership();
-
 	setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType, false);
 	conf[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
 
@@ -199,17 +196,10 @@ void GuiMembership::readMembershipConfig()
 
 		XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudT);
-//		XRCCTRL(*this, "VTBaudRTextMembership", wxStaticText)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-//        XRCCTRL(*this, "VTBaudTTextMembership", wxStaticText)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
         XRCCTRL(*this,"AddressText1Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
-//        XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-//		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
 
 		XRCCTRL(*this, "ForceUCMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].forceUpperCase);
-//		XRCCTRL(*this, "VtCharRomButtonMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
-//		XRCCTRL(*this, "VtCharRomMembership", wxComboBox)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
-//		XRCCTRL(*this, "VtSetupMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
 		XRCCTRL(*this, "AutoBootMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].autoBoot);
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
@@ -345,26 +335,6 @@ void GuiMembership::onMembershipControlWindows(wxCommandEvent&event)
 	XRCCTRL(*this,"AddressText2Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
     if (runningComputer_ == MEMBER)
 		p_Membership->Show(elfConfiguration[MEMBER].useElfControlWindows);
-}
-
-void GuiMembership::setBaudChoiceMembership()
-{
-	wxArrayString choices;
-    choices.Add("19200");
-    choices.Add("9600");
-    choices.Add("4800");
-    choices.Add("3600");
-    choices.Add("2400");
-    choices.Add("2000");
-    choices.Add("1800");
-    choices.Add("1200");
-    choices.Add("600");
-    choices.Add("300");
-    
-    XRCCTRL(*this, "VTBaudRTextMembership", wxStaticText)->Enable(false);
-    XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Enable(false);
-    XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->Set(choices);
-    XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->Set(choices);
 }
 
 void GuiMembership::onRam(wxCommandEvent&event)

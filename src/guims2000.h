@@ -45,7 +45,6 @@ public:
     wxString getMs2000FloppyDirSwitched(int drive);
     wxString getMs2000FloppyDir(int drive);
     wxString getMs2000FloppyFile(int drive);
-    void setBaudChoiceMS2000();
 
 protected:
 

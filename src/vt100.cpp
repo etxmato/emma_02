@@ -299,105 +299,54 @@ Vt100::~Vt100()
 
 void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
 {
-//	int output, efPort;
-	wxString runningComp = p_Main->getRunningComputerStr();
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 3;
-		selectedBaudR_ += 3;
-	}
-
+    wxString runningComp = p_Main->getRunningComputerStr();
+    wxString printBuffer;
+    
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    
     baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
-
+    
     if (uart_)
-	{
-		configureUart(elfPortConf);
-	}
-	else
-	{
-//		output = p_Main->getConfigItem(runningComp+"/Vt100Output", 7l);
-//		efPort = p_Main->getConfigItem(runningComp+"/Vt100Ef", 2l);
-        reverseEf_ = elfPortConf.vt100ReverseEf;
-        reverseQ_ = elfPortConf.vt100ReverseQ; 
-
-		p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-		p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
-
-		dataReadyFlag_ = elfPortConf.vt100Ef;
-		if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
-			p_Computer->setEfType(dataReadyFlag_, VTINEF);
-		else
-			p_Computer->setEfType(dataReadyFlag_, VT100EF);
-
-		if (reverseQ_) p_Computer->setFlipFlopQ(1);
-
-		wxString printEfReverse = ", ";
-		wxString printQ = "Serial out: Q";
-
-		if (reverseEf_ == 0)
-			printEfReverse = "(reversed), ";
-
-		if (reverseQ_ == 1)
-			printQ = "Serial out: reversed Q";
-
-		if (vtType_ == VT52)
-			p_Main->message("Configuring VT52 terminal");
-		else
-			p_Main->message("Configuring VT100 terminal");
-
-		printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
-		printBuffer = printBuffer + printEfReverse + printQ;
-		p_Main->message(printBuffer);
-	}
-
-//	if (selectedBaud == 7)
-		printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-//	else
-//		printBuffer.Printf("	Baud rate: %d\n", baudRateValue_[selectedBaudT_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
-}
-
-void Vt100::configureMember(int selectedBaudR, int selectedBaudT)
-{
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-
-	dataReadyFlag_ = 3;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-    
-    switch (vtType_)
     {
-        case VT52:
+        configureUart(elfPortConf);
+    }
+    else
+    {
+        reverseEf_ = elfPortConf.vt100ReverseEf;
+        reverseQ_ = elfPortConf.vt100ReverseQ;
+        
+        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+        p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
+        
+        dataReadyFlag_ = elfPortConf.vt100Ef;
+        if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
+            p_Computer->setEfType(dataReadyFlag_, VTINEF);
+        else
+            p_Computer->setEfType(dataReadyFlag_, VT100EF);
+        
+        if (reverseQ_) p_Computer->setFlipFlopQ(1);
+        
+        wxString printEfReverse = ", ";
+        wxString printQ = "Serial out: Q";
+        
+        if (reverseEf_ == 0)
+            printEfReverse = "(reversed), ";
+        
+        if (reverseQ_ == 1)
+            printQ = "Serial out: reversed Q";
+        
+        if (vtType_ == VT52)
             p_Main->message("Configuring VT52 terminal");
-        break;
-
-        case VT100:
+        else
             p_Main->message("Configuring VT100 terminal");
-        break;
+        
+        printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
+        printBuffer = printBuffer + printEfReverse + printQ;
+        p_Main->message(printBuffer);
     }
     
-	configureQandEfPolarity(dataReadyFlag_, false);
-
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
@@ -409,146 +358,33 @@ void Vt100::configureMember(int selectedBaudR, int selectedBaudT)
     elfRunCommand_ = 0;
 }
 
-void Vt100::configureMcds(int selectedBaudR, int selectedBaudT)
+void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)
 {
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT + 7;
-	selectedBaudR_ = selectedBaudR + 7;
-
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    wxString printBuffer;
+    
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP = 4
+    
+    if (dataReadyFlag == 2 || dataReadyFlag == 4)
+        baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
+    else
+        baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
-
-	p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-
-	if (vtType_ == VT52)
-		p_Main->message("Configuring VT52 terminal");
-	else
-		p_Main->message("Configuring VT100 terminal");
-
-    elfConfiguration_.vtEf = false;
-    elfConfiguration_.vtQ = true;
+    
+    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+    p_Computer->setEfType(dataReadyFlag_, VT100EF);
+    
+    if (vtType_ == VT52)
+        p_Main->message("Configuring VT52 terminal");
+    else
+        p_Main->message("Configuring VT100 terminal");
     configureQandEfPolarity(dataReadyFlag_, false);
-
-	printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
-}
-
-void Vt100::configureCosmicos(int selectedBaudR, int selectedBaudT)
-{
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 4;
-		selectedBaudR_ += 4;
-	}
-
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
-    else
-        p_Main->message("Configuring VT100 terminal");
-
-	configureQandEfPolarity(dataReadyFlag_, false);
-
-	printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
-}
-
-void Vt100::configureVip(int selectedBaudR, int selectedBaudT)
-{
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-	if (!uart_)
-	{
-		selectedBaudT_ += 4;
-		selectedBaudR_ += 4;
-	}
-
-    baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-    
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
-    else
-        p_Main->message("Configuring VT100 terminal");
-    
-	configureQandEfPolarity(dataReadyFlag_, false);
-    
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
     vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    vt100Ef_ = 1;
-    elfRunCommand_ = 0;
-}
-
-void Vt100::configureVelf(int selectedBaudR, int selectedBaudT)
-{
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-	selectedBaudT_ ++;
-	selectedBaudR_ ++;
-    
-    baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-	dataReadyFlag_ = 2;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-    
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
-    else
-        p_Main->message("Configuring VT100 terminal");
-    
-	configureQandEfPolarity(dataReadyFlag_, false);
-    
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-    p_Main->message(printBuffer);
-    
-    vtEnabled_ = 1;
-    vtCount_ = -10;
     vtOutCount_ = -1;
     vtOut_ = 0;
     vt100Ef_ = 1;
@@ -557,33 +393,27 @@ void Vt100::configureVelf(int selectedBaudR, int selectedBaudT)
 
 void Vt100::configureUart(ElfPortConfiguration elfPortConf)
 {
-//	int uartIn, uartOut, uartControl, uartStatus;
-	wxString runningComp = p_Main->getRunningComputerStr();
-
-//	uartOut = p_Main->getConfigItem(runningComp+"/UartOut", 2l);
-//	uartIn = p_Main->getConfigItem(runningComp+"/UartIn", 2l);
-//	uartControl = p_Main->getConfigItem(runningComp+"/UartControl", 3l);
-//	uartStatus = p_Main->getConfigItem(runningComp+"/UartStatus", 3l);
-
-	p_Computer->setOutType(elfPortConf.uartOut, UARTOUT);
-	p_Computer->setInType(elfPortConf.uartIn, UARTIN);
-	p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROL);
-	p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUS);
-	p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-
-	wxString printBuffer;
-
-	if (vtType_ == VT52)
-		p_Main->message("Configuring VT52 terminal with CDP1854/UART");
-	else
-		p_Main->message("Configuring VT100 terminal with CDP1854/UART");
-
-	printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
-	p_Main->message(printBuffer);
-
-	printBuffer.Printf("	Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
-	p_Main->message(printBuffer);
-	rs232_ = 0;
+    wxString runningComp = p_Main->getRunningComputerStr();
+    
+    p_Computer->setOutType(elfPortConf.uartOut, UARTOUT);
+    p_Computer->setInType(elfPortConf.uartIn, UARTIN);
+    p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROL);
+    p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUS);
+    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+    
+    wxString printBuffer;
+    
+    if (vtType_ == VT52)
+        p_Main->message("Configuring VT52 terminal with CDP1854/UART");
+    else
+        p_Main->message("Configuring VT100 terminal with CDP1854/UART");
+    
+    printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
+    p_Main->message(printBuffer);
+    
+    printBuffer.Printf("	Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
+    p_Main->message(printBuffer);
+    rs232_ = 0;
 }
 
 void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
@@ -630,75 +460,64 @@ void Vt100::setTabChar(Byte value)
 
 void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
 {
-//	int efPort;
-	wxString runningComp = p_Main->getRunningComputerStr();
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 3;
-		selectedBaudR_ += 3;
-	}
-
+    wxString runningComp = p_Main->getRunningComputerStr();
+    wxString printBuffer;
+    
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    
     baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
-
-	if (uart_)
-	{
+    
+    if (uart_)
+    {
         p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-
-		if (vtType_ == VT52)
-			p_Main->message("Configuring VT52 terminal with 16450/550 UART");
-		else
-			p_Main->message("Configuring VT100 terminal with 16450/550 UART");
-
-		rs232_ = 0;
-	}
-	else
-	{
-//		efPort = p_Main->getConfigItem(runningComp+"/Vt100Ef", 3l);
-		reverseEf_ = elfPortConf.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
-		reverseQ_ = elfPortConf.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
-
-		p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-		dataReadyFlag_ = elfPortConf.vt100Ef;
-		p_Computer->setEfType(elfPortConf.vt100Ef, VT100EF);
-		if (reverseQ_) p_Computer->setFlipFlopQ(1);
-
-		wxString printEfReverse = ", ";
-		wxString printQ = "Serial out: Q";
-
-		if (reverseEf_ == 0)
-			printEfReverse = "(reversed), ";
-
-		if (reverseQ_ == 1)
-			printQ = "Serial out: reversed Q";
-
-		if (vtType_ == VT52)
-			p_Main->message("Configuring VT52 terminal");
-		else
-			p_Main->message("Configuring VT100 terminal");
-
-		printBuffer.Printf("	EF %d: serial input", elfPortConf.vt100Ef);
-		printBuffer = printBuffer + printEfReverse + printQ;
-		p_Main->message(printBuffer);
-	}
-
-//	if (selectedBaud == 7)
-		printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-//	else
-//		printBuffer.Printf("	Baud rate: %d\n", baudRateValue_[selectedBaudT_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
+        
+        if (vtType_ == VT52)
+            p_Main->message("Configuring VT52 terminal with 16450/550 UART");
+        else
+            p_Main->message("Configuring VT100 terminal with 16450/550 UART");
+        
+        rs232_ = 0;
+    }
+    else
+    {
+        reverseEf_ = elfPortConf.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
+        reverseQ_ = elfPortConf.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
+        
+        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+        dataReadyFlag_ = elfPortConf.vt100Ef;
+        p_Computer->setEfType(elfPortConf.vt100Ef, VT100EF);
+        if (reverseQ_) p_Computer->setFlipFlopQ(1);
+        
+        wxString printEfReverse = ", ";
+        wxString printQ = "Serial out: Q";
+        
+        if (reverseEf_ == 0)
+            printEfReverse = "(reversed), ";
+        
+        if (reverseQ_ == 1)
+            printQ = "Serial out: reversed Q";
+        
+        if (vtType_ == VT52)
+            p_Main->message("Configuring VT52 terminal");
+        else
+            p_Main->message("Configuring VT100 terminal");
+        
+        printBuffer.Printf("	EF %d: serial input", elfPortConf.vt100Ef);
+        printBuffer = printBuffer + printEfReverse + printQ;
+        p_Main->message(printBuffer);
+    }
+    
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+    p_Main->message(printBuffer);
+    
+    vtEnabled_ = 1;
+    vtCount_ = -1;
+    vtOutCount_ = -1;
+    vtOut_ = 0;
+    vt100Ef_ = 1;
+    elfRunCommand_ = 0;
 }
 
 void Vt100::configureQandEfPolarity(int ef, bool vtEnable)

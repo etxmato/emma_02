@@ -1124,14 +1124,14 @@ void Cosmicos::configureElfExtensions()
         else
             vtPointer = new Vt100("Cosmicos - VT 100", p_Main->getVtPos(COSMICOS), wxSize(640*zoom, 400*zoom), zoom, COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration);
 		p_Vt100 = vtPointer;
-		vtPointer->configureCosmicos(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT);
+		vtPointer->configureStandard(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT, 4);
 		vtPointer->Show(true);
 	}
 
     if (cosmicosConfiguration.vtExternal)
     {
         p_Serial = new Serial(COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration);
-        p_Serial->configureCosmicos(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT);
+        p_Serial->configureStandard(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT, 4);
     }
 
     if (cosmicosConfiguration.usePixie)

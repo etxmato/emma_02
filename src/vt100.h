@@ -14,11 +14,7 @@ public:
 	~Vt100();
 
 	void configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf);
-	void configureMember(int selectedBaudR, int selectedBaudT); 
-	void configureMcds(int selectedBaudR, int selectedBaudT);
-	void configureCosmicos(int selectedBaudR, int selectedBaudT);
-    void configureVip(int selectedBaudR, int selectedBaudT);
-    void configureVelf(int selectedBaudR, int selectedBaudT);
+	void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
 	void configureUart(ElfPortConfiguration elfPortConf);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void setTabChar(Byte value);

@@ -191,9 +191,6 @@ void GuiMS2000::readMS2000Config()
     configPointer->Read("/MS2000/Enable_Auto_Cassette", &conf[MS2000].autoCassetteLoad_, true);
     configPointer->Read("/MS2000/Enable_Real_Cassette", &conf[MS2000].realCassetteLoad_, false);
  
-    if (mode_.gui)
-		setBaudChoiceMS2000();
-
 	setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType, false);
 
 	conf[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
@@ -304,15 +301,8 @@ void GuiMS2000::readMS2000Config()
         
 		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
-//		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-  //      XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-	//	XRCCTRL(*this, "VTBaudTTextMS2000", wxStaticText)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-	//	XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
 
-	//	XRCCTRL(*this, "VtCharRomButtonMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-	//	XRCCTRL(*this, "VtCharRomMS2000", wxComboBox)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-	//	XRCCTRL(*this, "VtSetupMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "ZoomValueVtMS2000", wxTextCtrl)->ChangeValue(conf[MS2000].zoomVt_);
+        XRCCTRL(*this, "ZoomValueVtMS2000", wxTextCtrl)->ChangeValue(conf[MS2000].zoomVt_);
         XRCCTRL(*this, "MS2000BootRam", wxCheckBox)->SetValue(elfConfiguration[MS2000].bootRam);
         
 		XRCCTRL(*this, "StretchDotMS2000", wxCheckBox)->SetValue(conf[MS2000].stretchDot_);
@@ -425,10 +415,6 @@ void GuiMS2000::onMS2000BaudT(wxCommandEvent&event)
 
 void GuiMS2000::onMS2000Uart(wxCommandEvent&WXUNUSED(event))
 {
-	setBaudChoiceMS2000();
-
-//    elfConfiguration[MS2000].baudR += 3;
-//    elfConfiguration[MS2000].baudT += 3;
     XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
     XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
 }
@@ -871,30 +857,3 @@ wxString GuiMS2000::getMs2000FloppyFile(int drive)
 {
     return floppyMs2000_[drive];
 }
-
-void GuiMS2000::setBaudChoiceMS2000()
-{
-	wxArrayString choices;
-	choices.Add("19200");
-	choices.Add("9600");
-	choices.Add("4800");
-	choices.Add("3600");
-	choices.Add("2400");
-	choices.Add("2000");
-	choices.Add("1800");
-	choices.Add("1200");
-	choices.Add("600");
-	choices.Add("300");
-	choices.Add("200");
-	choices.Add("150");
-	choices.Add("134");
-	choices.Add("110");
-	choices.Add("75");
-	choices.Add("50");
-
-	XRCCTRL(*this, "VTBaudRTextMS2000", wxStaticText)->Enable(false);
-	XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->Enable(false);
-	XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->Set(choices);
-	XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->Set(choices);
-}
-

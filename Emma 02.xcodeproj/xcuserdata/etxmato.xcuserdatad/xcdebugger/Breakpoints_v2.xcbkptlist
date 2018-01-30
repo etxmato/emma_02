@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "537988180.132876"
+            timestampString = "539026199.677868"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7420"
-            endingLineNumber = "7420"
+            startingLineNumber = "7415"
+            endingLineNumber = "7415"
             landmarkName = "Main::getMultiCartGame(Byte findMsb, Byte findLsb)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "537988180.132876"
+            timestampString = "539026199.677868"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7395"
-            endingLineNumber = "7395"
+            startingLineNumber = "7390"
+            endingLineNumber = "7390"
             landmarkName = "Main::debounceTimeout(wxTimerEvent&amp;WXUNUSED(event))"
             landmarkType = "7">
          </BreakpointContent>
@@ -160,6 +160,54 @@
             startingLineNumber = "37"
             endingLineNumber = "37"
             landmarkName = "OnHtmlLinkClicked(wxHtmlLinkEvent&amp; event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/serial.cpp"
+            timestampString = "539039724.683723"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
+            landmarkName = "Serial::startSerial()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539037931.7124341"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "363"
+            endingLineNumber = "363"
+            landmarkName = "Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539039724.683723"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "525"
+            endingLineNumber = "525"
+            landmarkName = "Vt100::configureQandEfPolarity(int ef, bool vtEnable)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

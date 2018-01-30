@@ -213,9 +213,6 @@ void GuiVip::readVipConfig()
 	elfConfiguration[VIP].baudT = (int)configPointer->Read("/Vip/Vt_Baud", 5l);
 	elfConfiguration[VIP].baudR = elfConfiguration[VIP].baudT;
 
-	if (mode_.gui)
-		setBaudChoiceVip();
-
 	setVtType("Vip", VIP, elfConfiguration[VIP].vtType, false);
 
 	conf[VIP].vtCharRom_ = configPointer->Read("/Vip/Vt_Font_Rom_File", "vt52.a.bin");
@@ -234,12 +231,6 @@ void GuiVip::readVipConfig()
 
 		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
-//		XRCCTRL(*this, "VTBaudTTextVip", wxStaticText)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-//		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-
-//		XRCCTRL(*this, "VtCharRomButtonVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-//		XRCCTRL(*this, "VtCharRomVip", wxComboBox)->Enable(elfConfiguration[VIP].vtType != VTNONE);
-//		XRCCTRL(*this, "VtSetupVip", wxButton)->Enable(elfConfiguration[VIP].vtType != VTNONE);
 		XRCCTRL(*this, "ZoomValueVtVip", wxTextCtrl)->ChangeValue(conf[VIP].zoomVt_);
 
 		XRCCTRL(*this, "ZoomValueVip", wxTextCtrl)->ChangeValue(conf[VIP].zoom_);
@@ -434,22 +425,6 @@ void GuiVip::onVipStereo(wxCommandEvent&event)
 void GuiVip::onLatch(wxCommandEvent&event)
 {
 	latch_ = event.IsChecked();
-}
-
-void GuiVip::setBaudChoiceVip()
-{
-	wxArrayString choices;
-	choices.Add("2400");
-	choices.Add("2000");
-	choices.Add("1800");
-	choices.Add("1200");
-	choices.Add("600");
-	choices.Add("300");
-
-	XRCCTRL(*this, "VTBaudRTextVip", wxStaticText)->Enable(false);
-	XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->Enable(false);
-	XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->Set(choices);
-	XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->Set(choices);
 }
 
 void GuiVip::onVipBaudR(wxCommandEvent&event)

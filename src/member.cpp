@@ -786,7 +786,7 @@ void Membership::configureElfExtensions()
             zoom = p_Main->getZoomVt();
             vtPointer = new Vt100("Membership Card - VT 52", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
             p_Vt100 = vtPointer;
-            vtPointer->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+            vtPointer->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
             vtPointer->Show(true);
             vtPointer->drawScreen();
             setSoundFollowQ (false);
@@ -796,7 +796,7 @@ void Membership::configureElfExtensions()
             zoom = p_Main->getZoomVt();
             vtPointer = new Vt100("Membership Card - VT 100", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
             p_Vt100 = vtPointer;
-            vtPointer->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+            vtPointer->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
             vtPointer->Show(true);
             vtPointer->drawScreen();
             setSoundFollowQ (false);
@@ -806,7 +806,7 @@ void Membership::configureElfExtensions()
     if (elfConfiguration.vtExternal)
     {
         p_Serial = new Serial(MEMBER, clockSpeed_, elfConfiguration);
-        p_Serial->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
+        p_Serial->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
         setSoundFollowQ (false);
     }
 }

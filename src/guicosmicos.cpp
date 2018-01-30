@@ -146,7 +146,7 @@ void GuiCosmicos::readCosmicosConfig()
     elfConfiguration[COSMICOS].vtExternalSetUpFeature_ = configPointer->Read("/Cosmicos/VTExternalSetup", 0xcad2l);
 
     elfConfiguration[COSMICOS].keyboardType = (int)configPointer->Read("/Cosmicos/Keyboard_Type", 0l);
-	elfConfiguration[COSMICOS].baudT = (int)configPointer->Read("/Cosmicos/Vt_Baud", 5l);
+	elfConfiguration[COSMICOS].baudT = (int)configPointer->Read("/Cosmicos/Vt_Baud", 9l);
 	elfConfiguration[COSMICOS].baudR = elfConfiguration[COSMICOS].baudT;
 
 	configPointer->Read("/Cosmicos/Force_Uppercase", &elfConfiguration[COSMICOS].forceUpperCase, true);
@@ -170,9 +170,6 @@ void GuiCosmicos::readCosmicosConfig()
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);
 	conf[COSMICOS].ledTime_ = configPointer->Read("/Cosmicos/Led_Update_Frequency", defaultTimer);
-
-	if (mode_.gui)
-		setBaudChoiceCosmicos();
 
 	setVtType("Cosmicos", COSMICOS, elfConfiguration[COSMICOS].vtType, false);
 	setCosmicosVideoType(conf[COSMICOS].videoMode_);
@@ -429,22 +426,6 @@ void GuiCosmicos::onCosmicosHex(wxCommandEvent&event)
 	elfConfiguration[COSMICOS].useHex = event.IsChecked();
 	if (runningComputer_ == COSMICOS)
 		p_Cosmicos->showModules(elfConfiguration[COSMICOS].useHex);
-}
-
-void GuiCosmicos::setBaudChoiceCosmicos()
-{
-	wxArrayString choices;
-	choices.Add("2400");
-	choices.Add("2000");
-	choices.Add("1800");
-	choices.Add("1200");
-	choices.Add("600");
-	choices.Add("300");
-
-	XRCCTRL(*this, "VTBaudRTextCosmicos", wxStaticText)->Enable(false);
-	XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Enable(false);
-	XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->Set(choices);
-	XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->Set(choices);
 }
 
 void GuiCosmicos::onRam(wxSpinEvent&event)

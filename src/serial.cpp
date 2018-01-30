@@ -66,188 +66,50 @@ Serial::~Serial()
 
 void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
 {
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 3;
-		selectedBaudR_ += 3;
-	}
-
+    wxString printBuffer;
+    
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    
     baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
     baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_]);
-
+    
     if (uart_)
-	{
-		configureUart(elfPortConf);
-	}
-	else
-	{
+    {
+        configureUart(elfPortConf);
+    }
+    else
+    {
         reverseEf_ = elfPortConf.vt100ReverseEf;
-        reverseQ_ = elfPortConf.vt100ReverseQ; 
-
-		p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-		p_Computer->setOutType(elfPortConf.vt100Output, VTOUTSERIAL);
-
-		dataReadyFlag_ = elfPortConf.vt100Ef;
-		if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
-			p_Computer->setEfType(dataReadyFlag_, VTINEFSERIAL);
-		else
-			p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
-
-		if (reverseQ_) p_Computer->setFlipFlopQ(1);
-
-		wxString printEfReverse = ", ";
-		wxString printQ = "Serial out: Q";
-
-		if (reverseEf_ == 0)
-			printEfReverse = "(reversed), ";
-
-		if (reverseQ_ == 1)
-			printQ = "Serial out: reversed Q";
-
+        reverseQ_ = elfPortConf.vt100ReverseQ;
+        
+        p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
+        p_Computer->setOutType(elfPortConf.vt100Output, VTOUTSERIAL);
+        
+        dataReadyFlag_ = elfPortConf.vt100Ef;
+        if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
+            p_Computer->setEfType(dataReadyFlag_, VTINEFSERIAL);
+        else
+            p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
+        
+        if (reverseQ_) p_Computer->setFlipFlopQ(1);
+        
+        wxString printEfReverse = ", ";
+        wxString printQ = "Serial out: Q";
+        
+        if (reverseEf_ == 0)
+            printEfReverse = "(reversed), ";
+        
+        if (reverseQ_ == 1)
+            printQ = "Serial out: reversed Q";
+        
         p_Main->message("Configuring external terminal");
         startSerial();
-
-		printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
-		printBuffer = printBuffer + printEfReverse + printQ;
-		p_Main->message(printBuffer);
-	}
-
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	serialEf_ = 1;
-}
-
-void Serial::configureMember(int selectedBaudR, int selectedBaudT)
-{
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-
-	dataReadyFlag_ = 3;
-	p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
-    
-    p_Main->message("Configuring external terminal");
-    startSerial();
-    
-	configureQandEfPolarity(dataReadyFlag_, false);
-
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
-    p_Main->message(printBuffer);
-    
-    vtEnabled_ = 1;
-    vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    serialEf_ = 1;
-}
-
-void Serial::configureMcds(int selectedBaudR, int selectedBaudT)
-{
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT + 7;
-	selectedBaudR_ = selectedBaudR + 7;
-
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-
-	p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
-
-    p_Main->message("Configuring external terminal");
-    startSerial();
-
-    elfConfiguration_.vtEf = false;
-    elfConfiguration_.vtQ = true;
-    configureQandEfPolarity(dataReadyFlag_, false);
-
-	printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	serialEf_ = 1;
-}
-
-void Serial::configureCosmicos(int selectedBaudR, int selectedBaudT)
-{
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 4;
-		selectedBaudR_ += 4;
-	}
-
-    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
-
-    p_Main->message("Configuring external terminal");
-    startSerial();
-
-	configureQandEfPolarity(dataReadyFlag_, false);
-
-	printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	serialEf_ = 1;
-}
-
-void Serial::configureVip(int selectedBaudR, int selectedBaudT)
-{
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-	if (!uart_)
-	{
-		selectedBaudT_ += 4;
-		selectedBaudR_ += 4;
-	}
-
-    baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValueSerial_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
-    
-    p_Main->message("Configuring external terminal");
-    startSerial();
-
-    configureQandEfPolarity(dataReadyFlag_, false);
+        
+        printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
+        printBuffer = printBuffer + printEfReverse + printQ;
+        p_Main->message(printBuffer);
+    }
     
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
@@ -259,33 +121,32 @@ void Serial::configureVip(int selectedBaudR, int selectedBaudT)
     serialEf_ = 1;
 }
 
-void Serial::configureVelf(int selectedBaudR, int selectedBaudT)
+void Serial::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)
 {
     wxString printBuffer;
     
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
+    dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP = 4
     
-	selectedBaudT_ ++;
-	selectedBaudR_ ++;
-    
-    baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValueSerial_[selectedBaudT_]);
+    if (dataReadyFlag == 2 || dataReadyFlag == 4)
+        baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValueSerial_[selectedBaudT_]);
+    else
+        baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
     
     p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-	dataReadyFlag_ = 2;
-	p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
+    p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
+    
+    startSerial();
     
     p_Main->message("Configuring external terminal");
-    startSerial();
-
-	configureQandEfPolarity(dataReadyFlag_, false);
-    
+    configureQandEfPolarity(dataReadyFlag_, false);
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
-    vtCount_ = -10;
+    vtCount_ = -1;
     vtOutCount_ = -1;
     vtOut_ = 0;
     serialEf_ = 1;
@@ -293,23 +154,23 @@ void Serial::configureVelf(int selectedBaudR, int selectedBaudT)
 
 void Serial::configureUart(ElfPortConfiguration elfPortConf)
 {
-	p_Computer->setOutType(elfPortConf.uartOut, UARTOUTSERIAL);
-	p_Computer->setInType(elfPortConf.uartIn, UARTINSERIAL);
-	p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROLSERIAL);
-	p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUSSERIAL);
-	p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-
-	wxString printBuffer;
-
+    p_Computer->setOutType(elfPortConf.uartOut, UARTOUTSERIAL);
+    p_Computer->setInType(elfPortConf.uartIn, UARTINSERIAL);
+    p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROLSERIAL);
+    p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUSSERIAL);
+    p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
+    
+    wxString printBuffer;
+    
     p_Main->message("Configuring external terminal");
     startSerial();
-
-	printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
-	p_Main->message(printBuffer);
-
-	printBuffer.Printf("	Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
-	p_Main->message(printBuffer);
-	rs232_ = 0;
+    
+    printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
+    p_Main->message(printBuffer);
+    
+    printBuffer.Printf("	Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
+    p_Main->message(printBuffer);
+    rs232_ = 0;
 }
 
 void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
@@ -325,7 +186,7 @@ void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
     
     p_Main->message("Configuring external terminal");
     startSerial();
-
+    
     p_Main->message("	Output 2: load transmitter, input 2: read receiver");
     p_Main->message("	Output 3: load control, input 3: read status");
     p_Main->message("	EF 4: serial input");
@@ -346,64 +207,58 @@ void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
 
 void Serial::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
 {
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 3;
-		selectedBaudR_ += 3;
-	}
-
+    wxString printBuffer;
+    
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    
     baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
     baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_]);
-
-	if (uart_)
-	{
+    
+    if (uart_)
+    {
         p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-
+        
         p_Main->message("Configuring external terminal");
         startSerial();
-
-		rs232_ = 0;
-	}
-	else
-	{
-		reverseEf_ = elfPortConf.vt100ReverseEf;
-		reverseQ_ = elfPortConf.vt100ReverseQ;
-
-		p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-		dataReadyFlag_ = elfPortConf.vt100Ef;
-		p_Computer->setEfType(elfPortConf.vt100Ef, VTSERIALEF);
-		if (reverseQ_) p_Computer->setFlipFlopQ(1);
-
-		wxString printEfReverse = ", ";
-		wxString printQ = "Serial out: Q";
-
-		if (reverseEf_ == 0)
-			printEfReverse = "(reversed), ";
-
-		if (reverseQ_ == 1)
-			printQ = "Serial out: reversed Q";
-
+        
+        rs232_ = 0;
+    }
+    else
+    {
+        reverseEf_ = elfPortConf.vt100ReverseEf;
+        reverseQ_ = elfPortConf.vt100ReverseQ;
+        
+        p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
+        dataReadyFlag_ = elfPortConf.vt100Ef;
+        p_Computer->setEfType(elfPortConf.vt100Ef, VTSERIALEF);
+        if (reverseQ_) p_Computer->setFlipFlopQ(1);
+        
+        wxString printEfReverse = ", ";
+        wxString printQ = "Serial out: Q";
+        
+        if (reverseEf_ == 0)
+            printEfReverse = "(reversed), ";
+        
+        if (reverseQ_ == 1)
+            printQ = "Serial out: reversed Q";
+        
         p_Main->message("Configuring external terminal");
         startSerial();
-
-		printBuffer.Printf("	EF %d: serial input", elfPortConf.vt100Ef);
-		printBuffer = printBuffer + printEfReverse + printQ;
-		p_Main->message(printBuffer);
-	}
-
+        
+        printBuffer.Printf("	EF %d: serial input", elfPortConf.vt100Ef);
+        printBuffer = printBuffer + printEfReverse + printQ;
+        p_Main->message(printBuffer);
+    }
+    
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
     p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	serialEf_ = 1;
+    
+    vtEnabled_ = 1;
+    vtCount_ = -1;
+    vtOutCount_ = -1;
+    vtOut_ = 0;
+    serialEf_ = 1;
 }
 
 void Serial::startSerial()
@@ -411,27 +266,31 @@ void Serial::startSerial()
     sp_return error = sp_get_port_by_name(elfConfiguration_.serialPort_, &port);
     if (error == SP_OK)
     {
+#if defined(__WXMAC__)
         error = sp_open(port, SP_MODE_READ_WRITE);
+#else
+        error = sp_open(port, SP_MODE_READ | SP_MODE_WRITE);
+#endif
         if (error == SP_OK)
         {
-            sp_set_baudrate(port, baudRateValueSerial_[selectedBaudT_]); 
+            sp_set_baudrate(port, baudRateValueSerial_[selectedBaudT_]);
             if (SetUpFeature_[VTBITS])
-				sp_set_bits	(port, 8);
-			else
-				sp_set_bits	(port, 7);
-			sp_set_stopbits(port, 1);
-			sp_set_xon_xoff(port, SP_XONXOFF_DISABLED);
-			sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
-			if (SetUpFeature_[VTPARITY])
-			{
-				if (SetUpFeature_[VTPARITYSENSE])
-					sp_set_parity(port, SP_PARITY_EVEN);
-				else
-					sp_set_parity(port, SP_PARITY_ODD);
-			}	
-			else
-					sp_set_parity(port, SP_PARITY_NONE);
-
+                sp_set_bits	(port, 8);
+            else
+                sp_set_bits	(port, 7);
+            sp_set_stopbits(port, 1);
+            sp_set_xon_xoff(port, SP_XONXOFF_DISABLED);
+            sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
+            if (SetUpFeature_[VTPARITY])
+            {
+                if (SetUpFeature_[VTPARITYSENSE])
+                    sp_set_parity(port, SP_PARITY_EVEN);
+                else
+                    sp_set_parity(port, SP_PARITY_ODD);
+            }	
+            else
+                sp_set_parity(port, SP_PARITY_NONE);
+            
             serialOpen_ = true;
         }
         else

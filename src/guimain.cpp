@@ -3408,57 +3408,16 @@ ScreenInfo GuiMain::getScreenInfo(int id)
 
 void GuiMain::setBaudChoice(int computerType)
 {
- 	wxArrayString choices;
-	if (elfConfiguration[computerType].useUart)
-	{
-		choices.Add("19200");
-		choices.Add("9600");
-		choices.Add("4800");
-		choices.Add("3600");
-		choices.Add("2400");
-		choices.Add("2000");
-		choices.Add("1800");
-		choices.Add("1200");
-		choices.Add("600");
-		choices.Add("300");
-		choices.Add("200");
-		choices.Add("150");
-		choices.Add("134");
-		choices.Add("110");
-		choices.Add("75");
-		choices.Add("50");
-		XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(true);
-		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(true);
-	}
-	else
-	{
-		choices.Add("3600");
-		choices.Add("2400");
-		choices.Add("2000");
-		choices.Add("1800");
-		choices.Add("1200");
-		choices.Add("600");
-		choices.Add("300");
-		XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(false);
-		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(false);
-	}
-	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[computerType].gui, wxChoice)->Set(choices);
-	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Set(choices);
+    XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(elfConfiguration[computerType].useUart);
+    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(elfConfiguration[computerType].useUart);
 }
 
 void GuiMain::setBaud(int baudR, int baudT)
 {
-	if (!elfConfiguration[runningComputer_].useUart)
-	{
-		baudT -= 3;
-		if (baudT < 0)  baudT = 0;
-		if (baudT > 6)  baudT = 6;
-		baudR = baudT;
-	}
-	XRCCTRL(*this, "VTBaudRChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudR);
-	XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
-	elfConfiguration[runningComputer_].baudR = baudR;
-	elfConfiguration[runningComputer_].baudT = baudT;
+    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudR);
+    XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
+    elfConfiguration[runningComputer_].baudR = baudR;
+    elfConfiguration[runningComputer_].baudT = baudT;
 }
 
 void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))

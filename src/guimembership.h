@@ -29,8 +29,6 @@ public:
 	int getLoadromModeMembership();
 	void onNvrMembership(wxCommandEvent&event);
 
-	void setBaudChoiceMembership();
-
 protected:
 	int loadromMode_;
 

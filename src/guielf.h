@@ -4,8 +4,6 @@
 #include "guielf2k.h"
 #include "elfconfiguration.h"
 
-DECLARE_EVENT_TYPE(ON_UART, 807) 
-
 class GuiElf: public GuiElf2K
 {
 public:
@@ -33,48 +31,9 @@ public:
 	void onElfControlWindows(wxCommandEvent& event);
 	void onRom1(wxCommandEvent& event);
 	void onRom2(wxCommandEvent& event);
-    void setGameModeConfig(wxCommandEvent& event);
-    void setChipModeConfig(wxCommandEvent& event);
-	void setGiantBoard(wxCommandEvent& event);
-	void setQuestLoader(wxCommandEvent& event);
-	void setSuperBasic1(wxCommandEvent& event);
-	void setSuperBasic3(wxCommandEvent& event);
-	void setSuperBasic5(wxCommandEvent& event);
-	void setSuperBasic6(wxCommandEvent& event);
-	void setSuperBasic();
-	void setSuperBasicSerial(wxCommandEvent& event);
-	void setRcaBasic(wxCommandEvent& event);
-	void setRcaBasicPixie(wxCommandEvent& event);
-	void setRcaBasicSerial(wxCommandEvent& event);
-	void setRcaBasicElfOsInstall(wxCommandEvent& event);
-    void setRomMapperPixie(wxCommandEvent& event);
-    void setRomMapperSerial(wxCommandEvent& event);
-    void setTinyBasicSerial(wxCommandEvent& event);
-	void setTinyBasicPixie(wxCommandEvent& event);
-	void setTinyBasic6847(wxCommandEvent& event);
-	void setFigForth(wxCommandEvent& event);
-	void setSuperGoldMonitor(wxCommandEvent& event);
-	void setMonitorBasic(wxCommandEvent& event);
-	void setMusic(wxCommandEvent& event);
-	void setElfOsInstallConfig(wxCommandEvent& event);
-	void setElfOsConfig(wxCommandEvent& event);
-	void setElfOsIoConfig(wxCommandEvent& event);
-	void setElfOsIoInstallConfigPixie(wxCommandEvent& event);
-	void setElfOsIoConfigPixie(wxCommandEvent& event);
-	void setElfOsIoInstallConfig6845(wxCommandEvent& event);
-	void setElfOsIoConfig6845(wxCommandEvent& event);
-	void setElfOsIoInstallConfig6847(wxCommandEvent& event);
-	void setElfOsIoConfig6847(wxCommandEvent& event);
-    void setElfOsIoInstallConfigTms(wxCommandEvent& event);
-    void setElfOsIoConfigTms(wxCommandEvent& event);
-    void setElfOsIoConfigTmsGra(wxCommandEvent& event);
-	void setElfOsConfigMain();
-	void setElfOsIoConfigMain();
 	void onElfScreenDump(wxCommandEvent& event);
 	void onTape(wxCommandEvent& event);
 	void onQsound(wxCommandEvent&event);
-	void onUart(wxCommandEvent&event);
-	void switchUart();
 
 	int getLoadromMode(int elfType, int num);
 	long getStartRam(wxString elfTypeStr, int elfType);

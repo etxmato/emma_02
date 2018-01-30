@@ -148,8 +148,8 @@ void GuiElf2K::readElf2KConfig()
     conf[ELF2K].beepFrequency_ = (int)configPointer->Read("/Elf2K/Beep_Frequency", 250);
     
 	elfConfiguration[ELF2K].bellFrequency_ = (int)configPointer->Read("/Elf2K/Bell_Frequency", 800);
-	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 0l);
-	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 0l);
+	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 3l);
+	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 3l);
 	elfConfiguration[ELF2K].vtType = (int)configPointer->Read("/Elf2K/VT_Type", 0l);
     elfConfiguration[ELF2K].vt52SetUpFeature_ = configPointer->Read("/Elf2K/VT52Setup", 0x00004092l);
     elfConfiguration[ELF2K].vt100SetUpFeature_ = configPointer->Read("/Elf2K/VT100Setup", 0x0000ca52l);
@@ -398,12 +398,8 @@ void GuiElf2K::onElf2KBaudT(wxCommandEvent&event)
 
 void GuiElf2K::onElf2KUart(wxCommandEvent&WXUNUSED(event))
 {
-//	if (elfConfiguration[ELF2K].useUart == p_Main->getConfigBool("Elf2K/Uart", false))
-//		return;
-
 	XRCCTRL(*this, "Elf2KClearRam", wxCheckBox)->SetValue(true);
 	elfConfiguration[ELF2K].clearRam = true;
-//	elfConfiguration[ELF2K].useUart = !elfConfiguration[ELF2K].useUart;
 
 	setBaudChoiceElf2K();
 
@@ -668,40 +664,6 @@ void GuiElf2K::onElf2KHex(wxCommandEvent&event)
 
 void GuiElf2K::setBaudChoiceElf2K()
 {
-    wxArrayString choices;
-    if (elfConfiguration[ELF2K].useUart)
-    {
-        choices.Add("19200");
-        choices.Add("9600");
-        choices.Add("4800");
-        choices.Add("3600");
-        choices.Add("2400");
-        choices.Add("2000");
-        choices.Add("1800");
-        choices.Add("1200");
-        choices.Add("600");
-        choices.Add("300");
-        choices.Add("200");
-        choices.Add("150");
-        choices.Add("134");
-        choices.Add("110");
-        choices.Add("75");
-        choices.Add("50");
-        XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(true);
-        XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable(true);
-    }
-    else
-    {
-        choices.Add("3600");
-        choices.Add("2400");
-        choices.Add("2000");
-        choices.Add("1800");
-        choices.Add("1200");
-        choices.Add("600");
-        choices.Add("300");
-        XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(false);
-        XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable(false);
-    }
-    XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Set(choices);
-    XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Set(choices);
+    XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].useUart);
+    XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].useUart);
 }
