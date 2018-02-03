@@ -12966,10 +12966,18 @@ void DebugWindow::DebugDisplayMap()
 				break;
 
 				case CARTRIDGEROM:
-				case CRAM1870:
-					value.Printf ("CR");
-				break;
-
+                case CRAM1870:
+                    value.Printf ("CR");
+                break;
+                    
+                case MULTICART:
+                    value.Printf ("MC");
+                break;
+                    
+                case MAPPEDMULTICART:
+                    value.Printf ("MM");
+                break;
+                    
 				case PRAM1870:
 					value.Printf ("PR");
 				break;

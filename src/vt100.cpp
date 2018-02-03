@@ -366,7 +366,7 @@ void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataRead
     selectedBaudR_ = selectedBaudR;
     dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP = 4
     
-    if (dataReadyFlag == 2 || dataReadyFlag == 4)
+    if (computerType_ == VELF || computerType_ == VIP)
         baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
     else
         baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
@@ -699,28 +699,31 @@ void Vt100::cycleVt()
 				uartStatus_[UART_DA] = 1;
 				vtOutCount_ = -1;
 			}
-            if (vtOutCount_ <= 0)
+            if (computerType_ == MS2000)
             {
-                vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
-                vtOut_ = (vtOut_ >> 1) | 128;
-                vtOutCount_ = baudRateT_;
-                if (SetUpFeature_[VTPARITY])
+                if (vtOutCount_ <= 0)
                 {
-                    if (vtOutBits_ == 3)
-                        vt100Ef_ = parity_;
-                    if (vtOutBits_ == 2)
-                        vt100Ef_ = 1;
-                }
-                else
-                {
-                    if (vtOutBits_ == 2)
-                        vt100Ef_ = 1;
-                }
-                if (--vtOutBits_ == 0)
-                {
-                    vtOut_ = 0;
-                    p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
-                    vtOutCount_ = -1;
+                    vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
+                    vtOut_ = (vtOut_ >> 1) | 128;
+                    vtOutCount_ = baudRateT_;
+                    if (SetUpFeature_[VTPARITY])
+                    {
+                        if (vtOutBits_ == 3)
+                            vt100Ef_ = parity_;
+                        if (vtOutBits_ == 2)
+                            vt100Ef_ = 1;
+                    }
+                    else
+                    {
+                        if (vtOutBits_ == 2)
+                            vt100Ef_ = 1;
+                    }
+                    if (--vtOutBits_ == 0)
+                    {
+                        vtOut_ = 0;
+                        p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+                        vtOutCount_ = -1;
+                    }
                 }
             }
         }
@@ -886,6 +889,9 @@ void Vt100::cycleVt()
 
 void Vt100::switchQ(int value)
 {
+    if(uart_)
+        return;
+    
     if (vtCount_ < 0)
     {
         if (value ^ reverseQ_)

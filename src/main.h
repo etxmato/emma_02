@@ -580,6 +580,7 @@ public:
 #define MULTICART 26
 #define DIAGROM 27
 #define MAPPEDROM 28
+#define MAPPEDMULTICART 29
 #define NOCHANGE 30
 
 #define SHOWNAME true

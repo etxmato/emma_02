@@ -129,7 +129,7 @@ void Serial::configureStandard(int selectedBaudR, int selectedBaudT, int dataRea
     selectedBaudR_ = selectedBaudR;
     dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP = 4
     
-    if (dataReadyFlag == 2 || dataReadyFlag == 4)
+    if (computerType_ == VELF || computerType_ == VIP)
         baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValueSerial_[selectedBaudT_]);
     else
         baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);

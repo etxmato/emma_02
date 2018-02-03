@@ -9,29 +9,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/help.cpp"
-            timestampString = "537657925.3728189"
+            filePath = "src/elf2k.cpp"
+            timestampString = "539123266.152791"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
-            landmarkName = "MyHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo&amp; link)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/help.cpp"
-            timestampString = "537658874.971398"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "MyHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo&amp; link)"
+            startingLineNumber = "585"
+            endingLineNumber = "585"
+            landmarkName = "Elf2K::in(Byte port, Word WXUNUSED(address))"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,61 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/help.cpp"
-            timestampString = "537659650.667907"
+            filePath = "src/elf2kdisk.cpp"
+            timestampString = "539123624.0067019"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "24"
-            endingLineNumber = "24"
-            landmarkName = "MyHtmlWindow::MyHtmlWindow(wxWindow *parent, wxWindowID id, const wxPoint&amp; pos, const wxSize&amp; size, long style, const wxString&amp; name)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MyHtmlWindow::MyHtmlWindow(wxWindow*, int, wxPoint const&amp;, wxSize const&amp;, long, wxString const&amp;)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/help.cpp"
-                  timestampString = "537818304.290379"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "162">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "MyHtmlWindow::MyHtmlWindow(wxWindow*, int, wxPoint const&amp;, wxSize const&amp;, long, wxString const&amp;)"
-                  moduleName = "Emma 02"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/etxmato/workspace/emma_02/src/help.cpp"
-                  timestampString = "537818304.292855"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "27"
-                  endingLineNumber = "27"
-                  offsetFromSymbolStart = "75">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/help.cpp"
-            timestampString = "537659653.131719"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "30"
-            endingLineNumber = "30"
-            landmarkName = "MyHtmlWindow::OnLinkClicked(const wxHtmlLinkInfo&amp; link)"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
+            landmarkName = "Elf2KDisk::inDisk()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -105,77 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            timestampString = "539026199.677868"
+            filePath = "src/elf2kdisk.cpp"
+            timestampString = "539123708.779415"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7415"
-            endingLineNumber = "7415"
-            landmarkName = "Main::getMultiCartGame(Byte findMsb, Byte findLsb)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            timestampString = "539026199.677868"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7390"
-            endingLineNumber = "7390"
-            landmarkName = "Main::debounceTimeout(wxTimerEvent&amp;WXUNUSED(event))"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.h"
-            timestampString = "537988002.432976"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "38"
-            endingLineNumber = "38"
-            landmarkName = "OnHtmlLinkClicked(wxHtmlLinkEvent&amp; event)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/main.h"
-            timestampString = "537988170.509308"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "37"
-            endingLineNumber = "37"
-            landmarkName = "OnHtmlLinkClicked(wxHtmlLinkEvent&amp; event)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/serial.cpp"
-            timestampString = "539039724.683723"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "270"
-            endingLineNumber = "270"
-            landmarkName = "Serial::startSerial()"
+            startingLineNumber = "271"
+            endingLineNumber = "271"
+            landmarkName = "Elf2KDisk::outDisk(Byte value)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/vt100.cpp"
-            timestampString = "539037931.7124341"
+            timestampString = "539212466.858209"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "363"
-            endingLineNumber = "363"
-            landmarkName = "Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)"
+            startingLineNumber = "698"
+            endingLineNumber = "698"
+            landmarkName = "Vt100::cycleVt()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -202,12 +74,140 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/vt100.cpp"
-            timestampString = "539039724.683723"
+            timestampString = "539375873.133556"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
-            landmarkName = "Vt100::configureQandEfPolarity(int ef, bool vtEnable)"
+            startingLineNumber = "2635"
+            endingLineNumber = "2635"
+            landmarkName = "Vt100::getKey()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539375873.133556"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2637"
+            endingLineNumber = "2637"
+            landmarkName = "Vt100::getKey()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539375873.133556"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2644"
+            endingLineNumber = "2644"
+            landmarkName = "Vt100::getKey()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539375873.133556"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2643"
+            endingLineNumber = "2643"
+            landmarkName = "Vt100::getKey()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539375873.133556"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2638"
+            endingLineNumber = "2638"
+            landmarkName = "Vt100::getKey()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539375873.133556"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2636"
+            endingLineNumber = "2636"
+            landmarkName = "Vt100::getKey()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/video.cpp"
+            timestampString = "539212000.610579"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "228"
+            endingLineNumber = "228"
+            landmarkName = "VideoScreen::getKey(Byte vtOut)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/vt100.cpp"
+            timestampString = "539375873.133556"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2645"
+            endingLineNumber = "2645"
+            landmarkName = "Vt100::getKey()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/guimain.cpp"
+            timestampString = "539354166.882794"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

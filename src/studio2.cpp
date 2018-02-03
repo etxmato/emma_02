@@ -452,8 +452,16 @@ void Studio2::startComputer()
     {
         if (readMultiCartBinFile(p_Main->getRomDir(STUDIO, CARTROM), p_Main->getRomFile(STUDIO, CARTROM)))
         {
-            defineMemoryType(0, 0x7ff, MULTICART);
+            if (disableSystemRom_)
+                defineMemoryType(0, 0x7ff, MULTICART);
+            else
+                defineMemoryType(0x400, 0x7ff, MULTICART);
             defineMemoryType(0xc00, 0xfff, MULTICART);
+            for (int i=0x1000; i<0xff00; i+=0x1000)
+            {
+                defineMemoryType(0+i, 0x7ff+i, MAPPEDMULTICART);
+                defineMemoryType(0xc00+i, 0xfff+i, MAPPEDMULTICART);
+            }
         }
         else
             multiCart_ = false;
@@ -574,6 +582,26 @@ void Studio2::writeMemDataType(Word address, Byte type)
 			}
         break;
             
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (mainMemoryDataType_[address] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    mainMemoryDataType_[address] = type;
+                }
+            }
+            else
+            {
+                if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
+                }
+            }
+        break;
+            
 		case MAPPEDRAM:
 			address = (address & 0x1ff) | 0x800;
 			if (mainMemoryDataType_[address] != type)
@@ -587,7 +615,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
 
 Byte Studio2::readMemDataType(Word address)
 {
-	switch (memoryType_[address/256])
+    switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
@@ -601,6 +629,14 @@ Byte Studio2::readMemDataType(Word address)
 				return mainMemoryDataType_[address];
 			else
 				return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+        break;
+            
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemoryDataType_[address];
+            else
+                return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
         break;
             
         case MAPPEDRAM:
@@ -626,6 +662,14 @@ Byte Studio2::readMem(Word addr)
 				return mainMemory_[addr];
 			else
 				return multiCartRom_[(addr+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+        break;
+            
+        case MAPPEDMULTICART:
+            addr = addr & 0xfff;
+            if ((addr < 0x400) && !disableSystemRom_)
+                return mainMemory_[addr];
+            else
+                return multiCartRom_[(addr+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
         break;
             
         case MAPPEDRAM:
@@ -666,6 +710,17 @@ void Studio2::writeMem(Word addr, Byte value, bool writeRom)
 				else
 					multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
 			}
+        break;
+            
+        case MAPPEDMULTICART:
+            addr = addr & 0xfff;
+            if (writeRom)
+            {
+                if ((addr < 0x400) && !disableSystemRom_)
+                    mainMemory_[addr] = value;
+                else
+                    multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+            }
         break;
             
 		case MAPPEDRAM:

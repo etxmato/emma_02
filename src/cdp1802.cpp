@@ -3490,6 +3490,26 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 }
             }
         break;
+
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (type > mainMemoryLabelType_[address] || type == 0)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    mainMemoryLabelType_[address] = type;
+                }
+            }
+            else
+            {
+                if (type > multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] || type == 0)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
+                }
+            }
+        break;
     }
 }
 
@@ -3753,6 +3773,14 @@ Byte Cdp1802::readMemLabelType(Word address)
         break;
             
         case MULTICART:
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemoryLabelType_[address];
+            else
+                return multiCartRomLabelType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+        break;
+
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
             if ((address < 0x400) && !disableSystemRom_)
                 return mainMemoryLabelType_[address];
             else

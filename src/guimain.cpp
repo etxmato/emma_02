@@ -125,7 +125,10 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
 {
     elfConfiguration[elfType].elfPortConf.ef1default = (int)configPointer->Read("/" + elfTypeStr + "/UnusedEf1", 1l);
     elfConfiguration[elfType].elfPortConf.ef2default = (int)configPointer->Read(elfTypeStr + "/UnusedEf2", 1l);
-    elfConfiguration[elfType].elfPortConf.ef3default = (int)configPointer->Read(elfTypeStr + "/UnusedEf3", 1l);
+    if (elfType == ELF2K)
+        elfConfiguration[elfType].elfPortConf.ef3default = (int)configPointer->Read(elfTypeStr + "/UnusedEf3", 0l);
+    else
+        elfConfiguration[elfType].elfPortConf.ef3default = (int)configPointer->Read(elfTypeStr + "/UnusedEf3", 1l);
     
     elfConfiguration[elfType].elfPortConf.pixieInput = (int)configPointer->Read(elfTypeStr + "/PixieInput", 1l);
     elfConfiguration[elfType].elfPortConf.pixieOutput = (int)configPointer->Read(elfTypeStr + "/PixieOutput", 1l);

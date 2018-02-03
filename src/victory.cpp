@@ -437,8 +437,16 @@ void Victory::startComputer()
     {
         if (readMultiCartBinFile(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM)))
         {
-            defineMemoryType(0, 0x7ff, MULTICART);
+            if (disableSystemRom_)
+                defineMemoryType(0, 0x7ff, MULTICART);
+            else
+                defineMemoryType(0x400, 0x7ff, MULTICART);
             defineMemoryType(0xc00, 0xfff, MULTICART);
+            for (int i=0x1000; i<0xff00; i+=0x1000)
+            {
+                defineMemoryType(0+i, 0x7ff+i, MAPPEDMULTICART);
+                defineMemoryType(0xc00+i, 0xfff+i, MAPPEDMULTICART);
+            }
         }
         else
             multiCart_ = false;
@@ -473,6 +481,17 @@ void Victory::startComputer()
     initRam(0x800, 0x9ff);
 	defineMemoryType(0xa00, 0);
 	defineMemoryType(0xb00, COLOURRAM);
+    
+    if (mainMemory_[0x400]==0x4 && mainMemory_[0x500]==0xab && mainMemory_[0x600]==0xf8 && mainMemory_[0x700]==0xd5)
+    {
+        for (int address=0x2000; address<0x4000; address+=0x800)
+        {
+            defineMemoryType(address, address+0x3ff, MAPPEDROM);
+            defineMemoryType(address+0x400, address+0x7ff, CARTRIDGEROM);
+        }
+        defineMemoryType(0x4000, 0x7fff, CARTRIDGEROM);
+    }
+
 	double zoom = p_Main->getZoom();
 
 	configurePixieVictory();
@@ -520,6 +539,7 @@ void Victory::writeMemDataType(Word address, Byte type)
 	{
 		case RAM:
 		case ROM:
+        case MAPPEDROM:
 		case CARTRIDGEROM:
 			if (mainMemoryDataType_[address] != type)
 			{
@@ -547,6 +567,26 @@ void Victory::writeMemDataType(Word address, Byte type)
 			}
 		break;
 
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (mainMemoryDataType_[address] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    mainMemoryDataType_[address] = type;
+                }
+            }
+            else
+            {
+                if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
+                }
+            }
+        break;
+            
 		case MAPPEDRAM:
 			address = (address & 0x1ff) | 0x800;
 			if (mainMemoryDataType_[address] != type)
@@ -564,6 +604,7 @@ Byte Victory::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
+        case MAPPEDROM:
 		case CARTRIDGEROM:
 			return mainMemoryDataType_[address];
 		break;
@@ -575,6 +616,14 @@ Byte Victory::readMemDataType(Word address)
 				return multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
 		break;
 
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemoryDataType_[address];
+            else
+                return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+        break;
+            
 		case MAPPEDRAM:
 			address = (address & 0x1ff) | 0x800;
 			return mainMemoryDataType_[address];
@@ -600,6 +649,14 @@ Byte Victory::readMem(Word addr)
 				return multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
 		break;
 
+        case MAPPEDMULTICART:
+            addr = addr & 0xfff;
+            if ((addr < 0x400) && !disableSystemRom_)
+                return mainMemory_[addr];
+            else
+                return multiCartRom_[(addr+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+        break;
+            
         case COLOURRAM:
 			if ((addr & 0xff) < 0x40)
 				return colorMemory1864_[addr&0xff] & 0xf;
@@ -610,7 +667,15 @@ Byte Victory::readMem(Word addr)
         case MAPPEDRAM:
 			addr = (addr & 0x1ff) | 0x800;
 		break;
-	}
+
+        case CARTRIDGEROM:
+            addr = (addr & 0x3ff) | 0x400;
+        break;
+            
+        case MAPPEDROM:
+            addr = (addr & 0x3ff);
+        break;
+}
 
 	return mainMemory_[addr];
 }
@@ -640,6 +705,17 @@ void Victory::writeMem(Word addr, Byte value, bool writeRom)
 			}
 		break;
 
+        case MAPPEDMULTICART:
+            addr = addr & 0xfff;
+            if (writeRom)
+            {
+                if ((addr < 0x400) && !disableSystemRom_)
+                    mainMemory_[addr] = value;
+                else
+                    multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+            }
+        break;
+            
 		case COLOURRAM:
 			if ((addr & 0xff) < 0x40)
 			{

@@ -211,17 +211,10 @@ void GuiElf2K::readElf2KConfig()
 
 		XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudT);
-//		XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//        XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//		XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
         XRCCTRL(*this, "Elf2KAddressText1",wxStaticText)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
         XRCCTRL(*this, "Elf2KAddressText2",wxStaticText)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
-//		XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 
-//		XRCCTRL(*this, "VtCharRomButtonElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//		XRCCTRL(*this, "VtCharRomElf2K", wxComboBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//		XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-		XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
+        XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
 		XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].zoom_);
 		XRCCTRL(*this, "ZoomValueVtElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].zoomVt_);
 		XRCCTRL(*this, "ShowAddressElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].ledTime_);
