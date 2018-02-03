@@ -266,11 +266,7 @@ void Serial::startSerial()
     sp_return error = sp_get_port_by_name(elfConfiguration_.serialPort_, &port);
     if (error == SP_OK)
     {
-#if defined(__WXMAC__)
-        error = sp_open(port, SP_MODE_READ_WRITE);
-#else
-        error = sp_open(port, SP_MODE_READ | SP_MODE_WRITE);
-#endif
+        error = sp_open(port, (sp_mode)(SP_MODE_READ | SP_MODE_WRITE));
         if (error == SP_OK)
         {
             sp_set_baudrate(port, baudRateValueSerial_[selectedBaudT_]);
@@ -392,30 +388,33 @@ void Serial::cycleVt()
 				uartStatus_[UART_DA_SERIAL] = 1;
 				vtOutCount_ = -1;
 			}
-            if (vtOutCount_ <= 0)
+            if (computerType_ == MS2000)
             {
-                serialEf_ = (vtOut_ & 1) ? 1 : 0;
-                vtOut_ = (vtOut_ >> 1) | 128;
-                vtOutCount_ = baudRateT_;
-                if (SetUpFeature_[VTPARITY])
-                {
-                    if (vtOutBits_ == 3)
-                        serialEf_ = parity_;
-                    if (vtOutBits_ == 2)
-                        serialEf_ = 1;
-                }
-                else
-                {
-                    if (vtOutBits_ == 2)
-                        serialEf_ = 1;
-                }
-                if (--vtOutBits_ == 0)
-                {
-                    vtOut_ = 0;
-                    p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
-                    vtOutCount_ = -1;
-                }
-            }
+				if (vtOutCount_ <= 0)
+				{
+					serialEf_ = (vtOut_ & 1) ? 1 : 0;
+					vtOut_ = (vtOut_ >> 1) | 128;
+					vtOutCount_ = baudRateT_;
+					if (SetUpFeature_[VTPARITY])
+					{
+						if (vtOutBits_ == 3)
+							serialEf_ = parity_;
+						if (vtOutBits_ == 2)
+							serialEf_ = 1;
+					}
+					else
+					{
+						if (vtOutBits_ == 2)
+							serialEf_ = 1;
+					}
+					if (--vtOutBits_ == 0)
+					{
+						vtOut_ = 0;
+						p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+						vtOutCount_ = -1;
+					}
+				}
+			}
         }
     }
     else  // if !uart
