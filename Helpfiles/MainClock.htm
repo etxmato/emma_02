@@ -1,0 +1,144 @@
+
+<HTML>
+<Title>Clock Speed</Title>
+<BODY>
+<h2>Clock Speed</h2>
+<p>
+With the clock function it is possible to specify the clock speed of the CPU for the emulated computer in MHz. The specified default values are the actual speed of the original computer. Note that too high values will not speed up the computer as the PC processor might not be able to handle that.
+</p>
+<p>
+When using the COMX-35, Cidelsa, TMC 600 or PECOM 64 with sound a clock frequency change will also change the sound frequency. This as the original computer derived the sound frequency from the video chip and as such the 1802 processor speed. So when increasing the speed, all sound will get higher frequencies.
+</p>
+<p>
+In principle the emulation of the video frequency will stay the same independently of the chosen CPU frequency (except when using the CPD1861 or CDP1864). The video frequency might change if high CPU speeds are specified.
+</p>
+<p>
+The effective CPU clock speed and vertical video frequency can be verified on the 'Debugger/Messages' tab. Note that the values shown are real values calculated from the current emulator speed and as such might deviate from the specified clock speed value.
+</p>
+<p>
+Default frequencies as used in Emma 02:
+</p>
+<TABLE BORDER="1" CELLSPACING="0" CELLPADDING="10" WIDTH="100%">
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Computer</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CPU Frequency (MHz)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Video Type</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Video Frequency (Hz)</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Cidelsa</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">3.579</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">2.813<br>2.835</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1870<br>CDP1870<br>MC6845</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50 (PAL)<br>60 (NTSC)<br>50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmac VIP / VIP II</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.7609</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmicos</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1864</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Elf</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861<br>MC6845<br>MC6847<br>TMS9918</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60<br><br><br></TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Elf 2000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">3.5795<br>1.7898</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Intel 8275<br>CDP1861</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">ETI-660</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.773</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1864</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Membership Card</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Microtutor</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">MS2000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">2.0</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Oscom Nano</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1864</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pecom 32 / 64</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">2.813</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">RCA Studio II</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Telmac 1800</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Telmac 2000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1864</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">TMC-600</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">3.579</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">VELF</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">3.579</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Victory MPT-02</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1864</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Visicom COM-100</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
+</TR>
+</TABLE>
+</BODY>
+</HTML>

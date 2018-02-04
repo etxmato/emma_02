@@ -110,10 +110,13 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
 
     EVT_COMMAND(wxID_ANY, ON_UART_MS2000, GuiMS2000::onMS2000Uart)
 
+	EVT_CHOICE(XRCID("VTBaudTChoiceMS2000"), GuiMS2000::onMS2000BaudT)
+	EVT_CHOICE(XRCID("VTBaudRChoiceMS2000"), GuiMS2000::onMS2000BaudR)
+
 END_EVENT_TABLE()
 
-GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir)
-: GuiMcds(title, pos, size, mode_, dataDir)
+GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
+: GuiMcds(title, pos, size, mode_, dataDir, iniDir)
 {
 	conf[MS2000].saveStartString_ = "";
 	conf[MS2000].saveEndString_ = "";
@@ -124,7 +127,7 @@ void GuiMS2000::readMS2000Config()
 {
 	selectedComputer_ = MS2000;
 
-	conf[MS2000].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
+	conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
 
     conf[MS2000].mainDir_ = readConfigDir("/Dir/MS2000/Main", dataDir_ + "MS2000" + pathSeparator_);
 	conf[MS2000].romDir_[MAINROM1] = readConfigDir("/Dir/MS2000/Main_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
@@ -156,6 +159,7 @@ void GuiMS2000::readMS2000Config()
 	getConfigBool("/MS2000/SerialLog", false);
 
 	configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
+    configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
     elfConfiguration[MS2000].useUart = true; 
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
@@ -164,6 +168,8 @@ void GuiMS2000::readMS2000Config()
 	elfConfiguration[MS2000].vtType = (int)configPointer->Read("/MS2000/VT_Type", 2l);
     elfConfiguration[MS2000].vt52SetUpFeature_ = configPointer->Read("/MS2000/VT52Setup", 0x00004092l);
     elfConfiguration[MS2000].vt100SetUpFeature_ = configPointer->Read("/MS2000/VT100Setup", 0x0000cad2l);
+    elfConfiguration[MS2000].vtExternalSetUpFeature_ = configPointer->Read("/MS2000/VTExternalSetup", 0x0000cad2l);
+    elfConfiguration[MS2000].serialPort_ = configPointer->Read("/MS2000/VtSerialPortChoice", "");
 
     configPointer->Read("/MS2000/Force_Uppercase", &elfConfiguration[MS2000].forceUpperCase, true);
     configPointer->Read("/MS2000/Boot_From_Ram", &elfConfiguration[MS2000].bootRam, false);
@@ -185,10 +191,7 @@ void GuiMS2000::readMS2000Config()
     configPointer->Read("/MS2000/Enable_Auto_Cassette", &conf[MS2000].autoCassetteLoad_, true);
     configPointer->Read("/MS2000/Enable_Real_Cassette", &conf[MS2000].realCassetteLoad_, false);
  
-    if (mode_.gui)
-		setBaudChoiceMS2000();
-
-	setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType);
+	setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType, false);
 
 	conf[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
 
@@ -296,17 +299,10 @@ void GuiMS2000::readMS2000Config()
         XRCCTRL(*this, "VTTypeMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].vtType);
         XRCCTRL(*this, "MS2000ForceUC", wxCheckBox)->SetValue(elfConfiguration[MS2000].forceUpperCase);
         
-		baudChoiceR[MS2000]->SetSelection(elfConfiguration[MS2000].baudR);
-		baudChoiceT[MS2000]->SetSelection(elfConfiguration[MS2000].baudT);
-		baudChoiceR[MS2000]->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-        baudTextR[MS2000]->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		baudTextT[MS2000]->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		baudChoiceT[MS2000]->Enable(elfConfiguration[MS2000].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
 
-		XRCCTRL(*this, "VtCharRomButtonMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomMS2000", wxComboBox)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupMS2000", wxButton)->Enable(elfConfiguration[MS2000].vtType != VTNONE);
-		XRCCTRL(*this, "ZoomValueVtMS2000", wxTextCtrl)->ChangeValue(conf[MS2000].zoomVt_);
+        XRCCTRL(*this, "ZoomValueVtMS2000", wxTextCtrl)->ChangeValue(conf[MS2000].zoomVt_);
         XRCCTRL(*this, "MS2000BootRam", wxCheckBox)->SetValue(elfConfiguration[MS2000].bootRam);
         
 		XRCCTRL(*this, "StretchDotMS2000", wxCheckBox)->SetValue(conf[MS2000].stretchDot_);
@@ -350,7 +346,8 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/Print_File", conf[MS2000].printFile_);
     configPointer->Write("/MS2000/Video_Dump_File", conf[MS2000].screenDumpFile_);
     configPointer->Write("/MS2000/Wav_File", conf[MS2000].wavFile_);
-    
+    configPointer->Write("/MS2000/VtSerialPortChoice", elfConfiguration[MS2000].serialPort_);
+  
 	configPointer->Write("/MS2000/Bell_Frequency", elfConfiguration[MS2000].bellFrequency_);
 	configPointer->Write("/MS2000/VT_Type", elfConfiguration[MS2000].vtType);
     
@@ -358,12 +355,15 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/VT52Setup", value);
     value = elfConfiguration[MS2000].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/MS2000/VT100Setup", value);
+    value = elfConfiguration[MS2000].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/MS2000/VTExternalSetup", value);
     
 	configPointer->Write("/MS2000/Vt_Baud_Receive", elfConfiguration[MS2000].baudR);
 	configPointer->Write("/MS2000/Vt_Baud_Transmit", elfConfiguration[MS2000].baudT);
 	configPointer->Write("/MS2000/Vt_Zoom", conf[MS2000].zoomVt_);
     configPointer->Write("/MS2000/Force_Uppercase", elfConfiguration[MS2000].forceUpperCase);
     configPointer->Write("/MS2000/Enable_Vt_Stretch_Dot", conf[MS2000].stretchDot_);
+    configPointer->Write("/MS2000/Enable_Vt_External", elfConfiguration[MS2000].vtExternal);
     configPointer->Write("/MS2000/Volume", conf[MS2000].volume_);
     configPointer->Write("/MS2000/Boot_From_Ram", elfConfiguration[MS2000].bootRam);
     
@@ -409,18 +409,14 @@ void GuiMS2000::onMS2000BaudR(wxCommandEvent&event)
 void GuiMS2000::onMS2000BaudT(wxCommandEvent&event)
 {
 	elfConfiguration[MS2000].baudT = event.GetSelection();
-    elfConfiguration[MS2000].baudR = event.GetSelection();
-    baudChoiceR[MS2000]->SetSelection(elfConfiguration[MS2000].baudR);
+//    elfConfiguration[MS2000].baudR = event.GetSelection();
+//    XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
 }
 
 void GuiMS2000::onMS2000Uart(wxCommandEvent&WXUNUSED(event))
 {
-	setBaudChoiceMS2000();
-
-//    elfConfiguration[MS2000].baudR += 3;
-//    elfConfiguration[MS2000].baudT += 3;
-    baudChoiceR[MS2000]->SetSelection(elfConfiguration[MS2000].baudR);
-    baudChoiceT[MS2000]->SetSelection(elfConfiguration[MS2000].baudT);
+    XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
+    XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
 }
 
 void GuiMS2000::onMS2000ForceUpperCase(wxCommandEvent&event)
@@ -861,56 +857,3 @@ wxString GuiMS2000::getMs2000FloppyFile(int drive)
 {
     return floppyMs2000_[drive];
 }
-
-void GuiMS2000::setBaudChoiceMS2000()
-{
-	wxString choices[16];
-    if (position_.x == 0)
-        position_ = XRCCTRL(*this, "CasButtonMS2000", wxButton)->GetPosition();
-
-    if (baudTextT[MS2000] != NULL)
-    {
-        baudTextT[MS2000]->Destroy();
-        baudChoiceT[MS2000]->Destroy();
-        baudTextR[MS2000]->Destroy();
-        baudChoiceR[MS2000]->Destroy();
-    }
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 15;
-	int offSetY = 48;
-	int choiseOffSetY = 45;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 51;
-	int choiseOffSetY = 49;
-#else
-	int offSetX = 10;
-	int offSetY = 47;
-	int choiseOffSetY = 47;
-#endif
-
-    choices[0] = "19200";
-    choices[1] = "9600";
-    choices[2] = "4800";
-    choices[3] = "3600";
-    choices[4] = "2400";
-    choices[5] = "2000";
-    choices[6] = "1800";
-    choices[7] = "1200";
-    choices[8] = "600";
-    choices[9] = "300";
-    choices[10] = "200";
-    choices[11] = "150";
-    choices[12] = "134";
-    choices[13] = "110";
-    choices[14] = "75";
-    choices[15] = "50";
-    baudTextT[MS2000] = new wxStaticText(XRCCTRL(*this, "PanelMS2000", wxPanel), wxID_ANY, "T:", wxPoint(position_.x+64+offSetX,position_.y+3+offSetY));
-    baudChoiceT[MS2000] = new wxChoice(XRCCTRL(*this, "PanelMS2000", wxPanel), GUI_MS2000_BAUDT, wxPoint(position_.x+74+offSetX,position_.y-1+choiseOffSetY), wxSize(60,23), 16, choices);
-    baudTextR[MS2000] = new wxStaticText(XRCCTRL(*this, "PanelMS2000", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+136+offSetX,position_.y+3+offSetY));
-    baudChoiceR[MS2000] = new wxChoice(XRCCTRL(*this, "PanelMS2000", wxPanel), GUI_MS2000_BAUDR, wxPoint(position_.x+148+offSetX,position_.y-1+choiseOffSetY), wxSize(60,23), 16, choices);
-
-    this->Connect(GUI_MS2000_BAUDR, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMS2000::onMS2000BaudR) );
-	this->Connect(GUI_MS2000_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMS2000::onMS2000BaudT) );
-}
-

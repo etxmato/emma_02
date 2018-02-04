@@ -117,8 +117,10 @@ public:
 	bool autoCassetteLoad_;
 	bool turbo_;
 	bool interlace_;
-    bool sbActive_;
-    bool videoLog_;
+	bool sbActive_;
+	bool diagActive_;
+	int diagOn_;
+	bool videoLog_;
 	bool stretchDot_;
 	bool realCassetteLoad_;
 	wxString turboClock_;
@@ -166,7 +168,7 @@ class GuiMain : public wxFrame
 {
 public:
 
-	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMain() {};
 
     void readElfPortConfig(int elfType, wxString elfTypeStr);
@@ -211,7 +213,7 @@ public:
 	void onKeyFile(wxCommandEvent& event);
 	void onKeyFileText(wxCommandEvent& event);
 	void onKeyFileEject(wxCommandEvent& event);
-	void onVT100(wxCommandEvent& event);
+    void onVT100(wxCommandEvent& event);
 	void onZoomUp(wxSpinEvent& event);
 	void onZoomDown(wxSpinEvent& event);
 	void onZoomValue(wxCommandEvent& event);
@@ -315,6 +317,7 @@ public:
 	ElfConfiguration getElfConfiguration(int computer);
     ElfConfiguration getElfConfiguration();
     void setElfConfiguration(ElfConfiguration elfConf);
+    void setSerialPorts(wxString port);
 
 	long getBitValue(wxString reference);
 	long get8BitValue(wxString reference);
@@ -399,7 +402,7 @@ public:
 	void setComputerInfo(int id, wxString gui, wxString name, wxString ploadExtension);
 	void setScreenInfo(int id, int start, int end, wxString colour[]);
 	void setScreenInfo(int id, int start, int end, wxString colour[], int numberVideo, int borderX[], int borderY[]);
-	void setVtType(wxString elfTypeStr, int elfType, int Selection);
+	void setVtType(wxString elfTypeStr, int elfType, int Selection, bool GuiChange);
 	void setBaudChoice(int computerType);
 	void setRealCas(int computerType);
 	void setRealCas2(int computerType);
@@ -409,14 +412,13 @@ public:
 	ScreenInfo getScreenInfo(int id);
 	bool isFullScreenFloat() {return fullScreenFloat_;};
 	void onFullScreenFloat(wxCommandEvent&event);
-	void onLedTimer(wxCommandEvent&event);
+    void onLedTimer(wxCommandEvent&event);
     int getCpuType();
     int getCpuStartupRegisters() {return cpuStartupRegisters_;};
     int getCpuStartupRam() {return cpuStartupRam_;};
     int getCpuStartupVideoRam() {return cpuStartupVideoRam_;};
 	bool isComputerRunning() {return computerRunning_;};
     bool useNumPad() {return useNumPad_;};
-    void deleteBaudChoice(int elfType);
     bool checkWavFile(wxString fileName);
 
 	bool showSoundError();
@@ -472,7 +474,7 @@ protected:
 	wxString elf2K8275Clock_;
 
 	wxString applicationDirectory_;
-	wxChar pathSeparator_;
+	wxString pathSeparator_;
 	int mainWindowX_, mainWindowY_;
 	int ubuntuOffsetX_;
 
@@ -498,7 +500,9 @@ protected:
 	WindowInfo windowInfo;
 	wxString workingDir_;
 	wxString dataDir_;
+	wxString iniDir_;
 	int psaveData_[LAST_ELF_TYPE+1];
+    wxSize defaultGuiSize_;
 
 	bool debugMode_;
 	bool chip8DebugMode_;
@@ -509,19 +513,15 @@ protected:
 
 	bool computerRunning_;
 
-	wxChoice *baudChoiceR[LAST_ELF_TYPE+1];
-	wxChoice *baudChoiceT[LAST_ELF_TYPE+1];
-	wxStaticText *baudTextR[LAST_ELF_TYPE+1];
-    wxStaticText *baudTextT[LAST_ELF_TYPE+1];
- 
 	wxStaticText *clockText[NO_COMPUTER];
 	FloatEdit *clockTextCtrl[NO_COMPUTER];
 	wxStaticText *mhzText[NO_COMPUTER];
-	wxButton *startButton[NO_COMPUTER];
+    wxButton *startButton[NO_COMPUTER];
+    wxButton *stopButton[NO_COMPUTER];
 
     wxTimer *traceTimeoutPointer;
-	wxTimer *vuPointer;
-	wxTimer *ledTimePointer;
+    wxTimer *keyDebounceTimeoutPointer;
+    wxTimer *vuPointer;
 
 	bool slotLedUpdate_;
 

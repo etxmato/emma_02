@@ -14,6 +14,7 @@
 #include "ps2gpio.h"
 #include "ledmodule.h"
 #include "vt100.h"
+#include "serial.h"
 #include "portext.h"
 #include "printer.h"
 #include "ps2.h"
@@ -104,7 +105,6 @@ public:
 	void setElf2KClockSpeed(double clock) {elfClockSpeed_ = clock;};
 	void dataAvailable(bool data); 
 	void thrStatus(bool data); 
-	void ledTimeout();
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
@@ -133,7 +133,9 @@ private:
 	Word lastAddress_;
 
 	int cycleValue_;
-	int cycleSize_;
+    int cycleSize_;
+    int ledCycleValue_;
+    int ledCycleSize_;
 
 	int runButtonState_;
 	bool inPressed_;

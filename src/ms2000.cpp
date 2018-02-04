@@ -26,7 +26,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -70,6 +70,8 @@ Ms2000::~Ms2000()
 		p_Main->setVtPos(MS2000, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (ms2000Configuration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(MS2000, GetPosition());
 }
 
@@ -117,6 +119,12 @@ void Ms2000::configureComputer()
         vtPointer->configureMs2000(ms2000Configuration.baudR, ms2000Configuration.baudT);
     }
     
+    if (ms2000Configuration.vtExternal)
+    {
+        p_Serial = new Serial(MS2000, ms2000ClockSpeed_, ms2000Configuration);
+        p_Serial->configureMs2000(ms2000Configuration.baudR, ms2000Configuration.baudT);
+    }
+
     p_Main->message("Configuring printer support");
     p_Main->message("	Output 6: data out");
     p_Main->message("	EF 1: printer ready\n");
@@ -162,7 +170,11 @@ Byte Ms2000::ef(int flag)
             return vtPointer->ef();
         break;
             
-        default:
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
+		default:
 			return 1;
 	}
 }
@@ -186,7 +198,11 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    return vtPointer->uartIn();
+					if (p_Vt100 != NULL)
+						return p_Vt100->uartIn();
+					if (p_Serial != NULL)
+						return p_Serial->uartIn();
+//                    return vtPointer->uartIn();
                 break;
                 
                 default:
@@ -198,7 +214,11 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    return vtPointer->uartStatus();
+					if (p_Vt100 != NULL)
+						return p_Vt100->uartStatus();
+					if (p_Serial != NULL)
+						return p_Serial->uartStatus();
+//                    return vtPointer->uartStatus();
                 break;
                     
                 default:
@@ -262,7 +282,11 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    vtPointer->uartOut(value);
+					if (p_Vt100 != NULL)
+						p_Vt100->uartOut(value);
+					if (p_Serial != NULL)
+						p_Serial->uartOut(value);
+//                    vtPointer->uartOut(value);
                 break;
             }
         break;
@@ -271,7 +295,11 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-                    vtPointer->uartControl(value);
+					if (p_Vt100 != NULL)
+						p_Vt100->uartControl(value);
+					if (p_Serial != NULL)
+						p_Serial->uartControl(value);
+//                    vtPointer->uartControl(value);
                 break;
             }
         break;
@@ -363,6 +391,10 @@ void Ms2000::cycle(int type)
         case VT100CYCLE:
 			vtPointer->cycleVt();
 		break;
+
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
 	}
 }
 
@@ -380,7 +412,8 @@ void Ms2000::startComputer()
     
 	readProgram(p_Main->getRomDir(MS2000, MAINROM1), p_Main->getRomFile(MS2000, MAINROM1), ROM, 0x8000, NONAME);
     
-    vtPointer->Show(true);
+    if (p_Vt100 != NULL)
+	    p_Vt100->Show(true);
 
     if (ms2000Configuration.bootRam)
         bootstrap_ = 0;
@@ -634,10 +667,13 @@ void Ms2000::checkMs2000Function()
                 loadStarted_ = false;
             }
             
-            if (microDosRunning_)
-                vtPointer->setTabChar(0x7f);
-            else
-                vtPointer->setTabChar(8);
+		    if (p_Vt100 != NULL)
+			{
+				if (microDosRunning_)
+					vtPointer->setTabChar(0x7f);
+				else
+					vtPointer->setTabChar(8);
+			}
 
             microDosRunning_ = false;
         break;
@@ -662,3 +698,13 @@ void Ms2000::activateMainWindow()
 	Show(true);
 	Maximize(maximize);
 }
+
+void Ms2000::switchQ(int value)
+{
+    if (ms2000Configuration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (ms2000Configuration.vtExternal)
+        p_Serial->switchQ(value);
+}
+

@@ -85,8 +85,8 @@ BEGIN_EVENT_TABLE(GuiNano, GuiCidelsa)
 
 END_EVENT_TABLE()
 
-GuiNano::GuiNano(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiCidelsa(title, pos, size, mode, dataDir)
+GuiNano::GuiNano(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiCidelsa(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[NANO].saveStartString_ = "";
 	conf[NANO].saveEndString_ = "";
@@ -96,7 +96,7 @@ void GuiNano::readNanoConfig()
 {
 	selectedComputer_ = NANO;
 
-    conf[NANO].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Nano" + pathSeparator_;
+    conf[NANO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Nano" + pathSeparator_;
     conf[NANO].mainDir_ = readConfigDir("/Dir/Nano/Main", dataDir_ + "Nano" + pathSeparator_);
     
     conf[NANO].romDir_[MAINROM1] = readConfigDir("/Dir/Nano/Main_Rom_File", dataDir_ + "Nano"  + pathSeparator_);

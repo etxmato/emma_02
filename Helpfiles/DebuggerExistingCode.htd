@@ -1,0 +1,113 @@
+<html>
+<title>Debugging Existing Code - Example</title>
+<body>
+<h2>Debugging Existing Code - Example</h2>
+<p>
+This chapter gives a simple example on how to use the Direct Assembler to debug and change existing code. For all details please see chapter <a href="DebuggerAssembler.htm">Direct Assembler</a>.
+</p>
+<p>
+For this example we will use a small Studio II game written in 1802 code.
+</p>
+<p>
+First set up the Studio II emulator with the Space Invaders game:
+<UL>
+<LI>Select the Studio II tab
+<LI>Make sure the RCA Studio II tab within the Studio tab is also selected
+<LI>Select 'invaders.st2' as CART
+<LI>Press Start
+</UL>
+</p>
+<p>
+A Studio II running Space Invaders should start. Make sure to play the game a bit so most code gets executed. So move to all directions, shoot some invaders and get killled yourself. Default the keys are mapped as follows:
+</p>
+<p>
+Left: 'Q' (4 on keyboard A)<br>
+Right: 'E' (6 on keyboard A)<br>
+Fire: 'Numpad 0' (0 on keyboard B)<br>
+Restart: 'X' (0 on keyboard A)<br>
+</p>
+<p>
+Move to the 'Debugger / Direct Assembler' tab, and 'Move to:' address 0400. Address 0400 (hexadecimal) is the start address of all Studio II software. This address will show an ST2 instruction SYS 45D, which is a call to an 1802 code routine at address 045D. From address 0402 to 041D data bytes should be shown in <FONT COLOR="BLUE">blue</FONT>. After that from 041E and onwards 1802 code should be shown in black, as also shown in the picture below. 
+<BR>
+<IMG SRC="invaders.png" BORDER="0">
+</p>
+<p>
+The Space Invaders game runs somewhere from 0400 to 07FF, so now do a manual walk thru of the code from the current address to 0800. Easiest is to use 'SHIFT arrow down' which will go one page down on every press. What you need to look out for is if all 'code' is shown as 1802 code in 'black/<FONT COLOR="FOREST GREEN">green</FONT>' text and 'data' is shown in <FONT COLOR="BLUE">blue</FONT>. 
+</p>
+<p>
+Have a closer look at all <FONT COLOR="BLUE">blue</FONT> text as that is code or data which has not been executed by the emulator. So either it is data or maybe the code isn't execute for some reason.
+</p>
+<p>
+The following areas will probably show up in <FONT COLOR="BLUE">blue</FONT>:
+<UL>
+<LI>0402 - 041D: As this is at the start of the game we can assume it is some kind of table. However so far no proof.
+<LI>0594: One byte which is preceded by a SEX R3, OUT 2. So obviously this is data, i.e. an OUT 2 is being done with the 04 value stored on 0594
+<LI>0598: Same as 0594!
+<LI>0668: Same as 0594!
+<LI>06CB - 96CF: This must be code! As it is preceded by a BNZ D2, so the 'zero' case will execute 06CB. Now manually change this part of the code via the 'Mark' button as '1802' code. First make sure the type is set to '1802', 'One' is selected and press 'Mark' for every address.
+<LI>06E4 - 06E7: Same as above, mark this also as 1802 code via the 'Mark' button
+<LI>0733 - 0737: Same as above, mark this also as 1802 code via the 'Mark' button 
+<LI>076A: Same as 0594!
+<LI>0770 - 07F7: Looks like the end of the code so probably not used
+<LI>07F8 - 07FF: Some table?
+</UL>
+</p>
+<p>
+Now we are ready to save the program configuration including all debug information as just collected. To do this first press 'New' then fill in a file name, e.g. invaders.bin, code start = 0400, code end 07F7, end: 0800 and press Store. You should have the following configuration:
+<BR>
+<IMG SRC="invaders_config.png" BORDER="0">
+</p>
+<p>
+Press 'Save' and give the configuration a name, e.g. invaders.config. 
+</p>
+<p>
+The reason why I took 07F7 as code end is because it looks like there is a table from 07F8 to 07FF. So not part of the code as such but it still needs to be saved so 'end' marks 0800 so 0400 to 0800 will be saved.
+</p>
+<p>
+Before we make any changes to the code we do need to check if there is any code that is location specific. I did the following:
+<UL>
+<LI>Move to address 0402 and press 'Load V' this will list all locations that possibly do something with address 0402. The following should be shown in the message area:<br>
+Locations loading 'value' or 'location' 0402:<br>
+LD H-L: 047A<br>
+LD L: 047D<br>
+LD L: 04E3<br>
+LD H: 04FC<br>
+LD H: 050E<br>
+LD H: 0518<br>
+LD H: 05A5<br>
+LD H: 05B4<br>
+LD L: 06DD<br>
+LD L: 071D<br>
+<LI>Let's start with the first and easiest one: LD H-L: 047A. Move to location 047A. Here you can see 0402 being loaded into RC. Looking at the code here a bit closer also reveals that a few LDA RC instructions are done and later a check if a '0' is found branching out of the routine. So this concludes that 0402 to 041D is indeed a data table, it also ends with a '0' onr 041D. Now we can sefely 'Mark' 047A as an LDL instruction (Select 'LDL' instead of '1802' and press 'Mark').
+<LI>LD L: 047D, part of the LDL we just found on 047A.
+<LI>LD L: 04E3, on first glance nothing to do with 0402 as this load 02 in RF.0 only. To make 100% sure I set a bookmark on 04E3 to check what RF.1 is at this part of the code: RF.1 = 08.
+<LI>LD H: 04FC, here or actually starting  at 04F9, RA is loaded with location 044A. After that a SEP A is done as well. So we need to replace this with an LDL A,044A. However note that the code first loads RA.0 and the RA.1. The LDL macro requires it the other way around. To make sure no other branches are made to any address between 04FB - 04FE, press the 'Branch' button on each address. It will show 'No branches found' for every address; meaning it is safe to put an LDL A,044A on address 04F9
+<LI>LD H: 050E, same as for 04FC; address 050B should be replaced by an LDL 4,0437
+<LI>LD H: 0518, same as for 04FC; address 0515 should be replaced by an LDL 4,041E
+<LI>LD H: 05A5, same as for 04FC; address 05A2 should be replaced by an LDL 4,041E<br>
+<LI>LD H: 05B4, same as for 04FC; address 05B1 should be replaced by an LDL 4,0437<br>
+<LI>LD L: 06DD, same as 04E3 no need to change anything<br>
+<LI>LD L: 071D, same as 04E3 no need to change anything<br>
+</UL>
+</p>
+<p>
+After this I also printed 0400 to 0800 to a dissassembly file (via 'Dis' and searched for all SEP instructions. To make sure all were covered. I didn't find anymore.
+</p>
+<p>
+Now there are some possible 'data' locations left:
+<UL>
+<LI>0770: Containing D8, I pressed 'Branch' and 'Load V' on this address but couldn't find any related code. As such I'm assuming it not used
+<LI>07F8 - 07FF: Here you will find (by using 'Load V' two locations doing something with this table: 064D and 0687. This is not easily handled automatically in the Direct Assembler so we need to note these down as locations to be changed manually if we decide we want to move the code to another location.
+</UL>
+</p>
+<p>
+That's it!
+</p>
+<p>
+In theory it should now be possible to 'insert' a byte anywhere between 041E and 07F7 and the code should still run fine. I did a few inserts on 041E and managed to play the game. Note that giving an insert will give a 'Memory warning', to get rid of that fill memory from 0770 to 07F7 with '0' as the Direct Assembler only uses that as 'not used memory'.
+</p>
+<p>
+Now this code code be moved, adapted and even ported to another computer (e.g. an Elf) fairly easy.
+</p>
+</body>
+</html>

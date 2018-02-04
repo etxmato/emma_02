@@ -106,8 +106,8 @@ BEGIN_EVENT_TABLE(GuiTelmac, GuiPecom)
 
 END_EVENT_TABLE()
 
-GuiTelmac::GuiTelmac(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiPecom(title, pos, size, mode, dataDir)
+GuiTelmac::GuiTelmac(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiPecom(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[TMC600].loadFileNameFull_ = "";
 	conf[TMC600].loadFileName_ = "";
@@ -133,7 +133,7 @@ void GuiTelmac::readTelmacConfig()
 {
 	selectedComputer_ = TMC600;
 
-    conf[TMC600].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "TMC600" + pathSeparator_;
+    conf[TMC600].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "TMC600" + pathSeparator_;
     conf[TMC600].mainDir_ = readConfigDir("/Dir/TMC600/Main", dataDir_ + "TMC600" + pathSeparator_);
     
     conf[TMC600].romDir_[MAINROM1] = readConfigDir("/Dir/TMC600/Main_Rom_File", dataDir_ + "TMC600" + pathSeparator_);

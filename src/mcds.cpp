@@ -26,7 +26,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -68,6 +68,8 @@ Mcds::~Mcds()
 		p_Main->setVtPos(MCDS, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (McdsConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(MCDS, GetPosition());
 }
 
@@ -111,9 +113,15 @@ void Mcds::configureComputer()
         else
             vtPointer = new Vt100("MCDS - VT 100", p_Main->getVtPos(MCDS), wxSize(640*zoom, 400*zoom), zoom, MCDS, McdsClockSpeed_, McdsConfiguration);
         p_Vt100 = vtPointer;
-        vtPointer->configureMcds(McdsConfiguration.baudR, McdsConfiguration.baudT);
+        vtPointer->configureStandard(McdsConfiguration.baudR, McdsConfiguration.baudT, 4);
     }
     
+    if (McdsConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(MCDS, McdsClockSpeed_, McdsConfiguration);
+        p_Serial->configureStandard(McdsConfiguration.baudR, McdsConfiguration.baudT, 4);
+    }
+
     p_Main->message("Configuring printer support");
     p_Main->message("	Output 6: data out");
     p_Main->message("	EF 1: printer ready\n");
@@ -156,7 +164,11 @@ Byte Mcds::ef(int flag)
             return vtPointer->ef();
         break;
             
-        default:
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
+		default:
 			return 1;
 	}
 }
@@ -291,6 +303,10 @@ void Mcds::cycle(int type)
         case VT100CYCLE:
 			vtPointer->cycleVt();
 		break;
+
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
 	}
 }
 
@@ -310,7 +326,8 @@ void Mcds::startComputer()
     readProgram(p_Main->getRomDir(MCDS, MAINROM2), p_Main->getRomFile(MCDS, MAINROM2), ROM, 0x9000, NONAME);
     readProgram(p_Main->getRomDir(MCDS, MAINROM3), p_Main->getRomFile(MCDS, MAINROM3), ROM, 0xB000, NONAME);
 
-    vtPointer->Show(true);
+    if (p_Vt100 != NULL)
+		p_Vt100->Show(true);
 
     if (McdsConfiguration.bootRam)
         bootstrap_ = 0;
@@ -536,7 +553,8 @@ void Mcds::sleepComputer(long ms)
 
 void Mcds::startComputerRun(bool load)
 {
-    vtPointer->startMcdsRun(load);
+    if (p_Vt100 != NULL)
+		vtPointer->startMcdsRun(load);
 }
 
 bool Mcds::isComputerRunning()
@@ -555,3 +573,13 @@ void Mcds::activateMainWindow()
 	Show(true);
 	Maximize(maximize);
 }
+
+void Mcds::switchQ(int value)
+{
+    if (McdsConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (McdsConfiguration.vtExternal)
+        p_Serial->switchQ(value);
+}
+

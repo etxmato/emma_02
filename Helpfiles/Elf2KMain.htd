@@ -1,0 +1,23 @@
+<html>
+<title>Elf 2000 Emulator</title>
+<body>
+<h1>Elf 2000 Emulator</h1>
+<p>
+This emulator will emulate the Spare Time Gizmos Elf 2000 computer. Additional information about the Elf 2000 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> and the <a href="http://www.sparetimegizmos.com/">Spare Time Gizmos</a> site.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="Elf2KRom.htm">ROM Files</a><br>
+<a href="Elf2KWindows.htm">Control Windows</a><br>
+<a href="Elf2KVideo.htm">Video Types</a><br>
+<a href="Elf2KKey.htm">Keyboard Mapping and Types</a><br>
+<a href="Elf2KDisk.htm">Disk File</a><br>
+<a href="Elf2KBoot.htm">Boot Method</a><br>
+<a href="Elf2KPorts.htm">Device Ports</a><br>
+<a href="Elf2KNvrRtc.htm">NVR and RTC</a><br>
+<a href="Elf2KNvrRtc.htm">Installation Elf/Os</a><br>
+</p>
+</body>
+</html>

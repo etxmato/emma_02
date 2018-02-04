@@ -8,7 +8,6 @@
  *******************************************************************
 */ 
 
-//OS X commit test
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__
@@ -38,9 +37,17 @@ END_EVENT_TABLE()
 
 MyAboutDialog::MyAboutDialog(wxWindow* parent)
 {
+	wxString version, subversion;
+	version.Printf("%1.2f",EMMA_VERSION);
+	if (EMMA_SUB_VERSION != 0)
+	{
+		subversion.Printf(".%02d", EMMA_SUB_VERSION);
+		version = version + subversion;
+	}
+
 	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"about.xrc");
 	wxXmlResource::Get()->LoadDialog(this, parent, _T("AboutDialog"));
-	XRCCTRL(*this, "EmmaVersion", wxStaticText)->SetLabel("Emma 02 - V"+p_Main->getConfigItem("/Main/Version", EMMA_VERSION));
+	XRCCTRL(*this, "EmmaVersion", wxStaticText)->SetLabel("Emma 02 - V"+version);
 }
 
 void MyAboutDialog::onOkButton(wxCommandEvent& WXUNUSED(event))

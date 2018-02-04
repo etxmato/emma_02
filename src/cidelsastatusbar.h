@@ -29,7 +29,7 @@ private:
 	void displayLeds();
 	void deleteBitmaps();
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
 	wxBitmapButton *ledBitmapPointers [5];
 #else
 	wxButton *ledBitmapPointers [5];
@@ -40,6 +40,8 @@ private:
 	bool status_[5];
 
 	bool ledsDefined_;
+    
+    int linux_led_pos_y_;
 
     DECLARE_EVENT_TABLE()
 };

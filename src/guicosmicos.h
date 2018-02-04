@@ -8,7 +8,7 @@ class GuiCosmicos: public GuiMicrotutor
 {
 public:
 
-	GuiCosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiCosmicos(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiCosmicos() {};
 
 	void readCosmicosConfig();
@@ -28,8 +28,6 @@ public:
 
 	void setCosmicosKeyboard(int Selection);
 	void setCosmicosVideoType(int Selection);
-
-	void setBaudChoiceCosmicos();
 
 protected:
 	int switchX_, switchY_;

@@ -26,7 +26,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -86,7 +86,7 @@ void MicrotutorScreen::init()
 		dataPointer[i]->init(dc, 145+i*24, 30);
 	}
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/microtutor.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/microtutor.png", wxBITMAP_TYPE_PNG);
 
 	this->connectKeyEvent(this);
 }
@@ -300,6 +300,7 @@ void Microtutor::configureComputer()
 	inType_[0] = MICROTUTORIN;
     outType_[0] = MICROTUTOROUT;
     efType_[4] = MICROTUTOREF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
     
 	p_Main->message("Configuring Microtutor");
 	p_Main->message("	Output 0: display output, input 0: data input");
@@ -393,7 +394,21 @@ void Microtutor::cycle(int type)
 		case 0:
 			return;
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
+}
+
+void Microtutor::cycleLed()
+{
+    ledCycleValue_ --;
+    if (ledCycleValue_ <= 0)
+    {
+        ledCycleValue_ = ledCycleSize_;
+        microtutorScreenPointer->ledTimeout();
+    }
 }
 
 void Microtutor::startComputer()
@@ -419,8 +434,15 @@ void Microtutor::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	microtutorScreenPointer->setLedMs(p_Main->getLedTimeMs(MICROTUTOR));
 
+    int ms = (int) p_Main->getLedTimeMs(MICROTUTOR);
+    microtutorScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((microtutorClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
 	threadPointer->Run();
 }
 
@@ -546,14 +568,14 @@ void Microtutor::onReset()
 	resetPressed_ = true;
 }
 
-void Microtutor::ledTimeout()
-{
-	microtutorScreenPointer->ledTimeout();
-}
-
 void Microtutor::setLedMs(long ms)
 {
 	microtutorScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((microtutorClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 void Microtutor::activateMainWindow()

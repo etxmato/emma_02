@@ -10,6 +10,7 @@
 #include "printer.h"
 #include "ps2.h"
 #include "vt100.h"
+#include "serial.h"
 
 class MainElf : public Cdp1802, public Fdc, public Ide, public Keyboard, public PortExt, public Ps2, public Ps2gpio
 {			
@@ -28,7 +29,7 @@ public:
 
 protected:
 	Vt100 *vtPointer;
-
+    
 	int elfRunState_;
 
     wxString runningGame_;

@@ -39,7 +39,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -81,7 +81,7 @@ void KeypadScreen::init(int computerType)
 	wxString buttonText;
 	int x, y;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/hexpad.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/hexpad.png", wxBITMAP_TYPE_PNG);
 
 	for (int i=0;i<2;i++) 
 	{

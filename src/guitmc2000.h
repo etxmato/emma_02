@@ -7,7 +7,7 @@ class GuiTMC2000: public GuiEti
 {
 public:
 
-	GuiTMC2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiTMC2000(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiTMC2000() {};
 
 	void readTMC2000Config();

@@ -37,7 +37,7 @@
 #define FORE 64
 #define BACK 65
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 /*#include "comx_icon.xpm"
 #include "telmac_icon.xpm"
@@ -112,8 +112,16 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 				videoWidth_ = 240;
 				videoHeight_ = 192;
 			}
-			comxStatusBarPointer = new ComxStatusBar(this);
-			SetStatusBar(comxStatusBarPointer);
+            if (p_Main->isDiagActive(COMX))
+            {
+                diagStatusBarPointer = new DiagStatusBar(this);
+                SetStatusBar(diagStatusBarPointer);
+            }
+            else
+            {
+                comxStatusBarPointer = new ComxStatusBar(this);
+                SetStatusBar(comxStatusBarPointer);
+            }
 
 			cursorAddress_ = 0;
 			startAddress_ = 0;
@@ -176,7 +184,10 @@ V1870::~V1870()
 	switch (computerType_)
 	{
 		case COMX:
-			delete comxStatusBarPointer;
+            if (p_Main->isDiagActive(COMX))
+                delete diagStatusBarPointer;
+            else
+                delete comxStatusBarPointer;
 		break;
 
 		case CIDELSA:
@@ -222,7 +233,10 @@ void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
 {
 	pcbMask_ = 0x7f;
 
-	comxStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
+    if (p_Main->isDiagActive(COMX))
+        diagStatusBarPointer->initDiagBar();
+    else
+        comxStatusBarPointer->initComxBar(expansionRomLoaded, expansionTypeCard0);
 
 	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
 	screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
@@ -346,8 +360,13 @@ void V1870::v1870BarSize()
 {
 	if (computerType_ == COMX)
 	{
-		comxStatusBarPointer->reDrawBar();
-		updateExpansionLed(true);
+        if (p_Main->isDiagActive(COMX))
+            diagStatusBarPointer->reDrawBar();
+        else
+        {
+            comxStatusBarPointer->reDrawBar();
+            updateExpansionLed(true);
+        }
 	}
 	if (computerType_ == CIDELSA && cidelsaGame_ != DRACO)
 	{
@@ -534,10 +553,6 @@ void V1870::out5_1870(Word address)
 		}
 		else
 		{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiEnter();
-#endif
 			dcMemory.SelectObject(wxNullBitmap);
 			dcScroll.SelectObject(wxNullBitmap);
 			delete screenCopyPointer;
@@ -558,10 +573,6 @@ void V1870::out5_1870(Word address)
 #endif
 
             setScreenSize();
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-//	if (!wxIsMainThread())
-//		wxMutexGuiLeave();
-#endif
 		}
 		reDraw_ = true;
 	}
@@ -630,33 +641,17 @@ void V1870::out7_1870(Word address)
 	{
 		if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
 		{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiEnter();
-#endif
 			dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
 			dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
 			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiLeave();
-#endif
 			reBlit_ = true;
 			return;
 		}
 		if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
 		{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiEnter();
-#endif
 			dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
 			dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
 			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-			if (!wxIsMainThread())
-				wxMutexGuiLeave();
-#endif
 			reBlit_ = true;
 			return;
 		}
@@ -1042,17 +1037,10 @@ void V1870::drawScreen()
 	wxCoord x,y;
 	int address;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 	setColour(backGround_);
 	drawRectangle(0, 0, videoWidth_ + 2*offsetX_, videoHeight_ + 2*offsetY_);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
-	if (displayOff_)
+
+    if (displayOff_)
 	{
 		return;
 	}
@@ -1208,7 +1196,10 @@ void V1870::reDrawBar()
 {
 	if (computerType_ == COMX)
 	{
-		comxStatusBarPointer->reDrawBar();
+        if (p_Main->isDiagActive(COMX))
+            diagStatusBarPointer->reDrawBar();
+        else
+            comxStatusBarPointer->reDrawBar();
 		updateExpansionLed(true);
 	}
 	else if (computerType_ == CIDELSA)
@@ -1228,7 +1219,16 @@ void V1870::updateStatusLed(bool status)
 
 void V1870::updateLedStatus(int card, int i, bool status)
 {
-	comxStatusBarPointer->updateLedStatus(card, i, status);
+    if (p_Main->isDiagActive(COMX))
+        diagStatusBarPointer->updateLedStatus(0, status);
+    else
+        comxStatusBarPointer->updateLedStatus(card, i, status);
+}
+
+void V1870::updateDiagLedStatus(int led, bool status)
+{
+    if (p_Main->isDiagActive(COMX))
+        diagStatusBarPointer->updateLedStatus(led, status);
 }
 
 void V1870::updateCidelsaLedStatus(int number, bool status)
@@ -1614,10 +1614,6 @@ void V1870::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
 {
 	int line_byte, line;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 	setColour(BACK);
 	drawRectangle(x+offsetX_, y+offsetY_, MC6845CHARW, scanLine_*videoM_);
 	setColour(FORE);
@@ -1665,10 +1661,6 @@ void V1870::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
 		}
 		line++;
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
 }
 
 void V1870::drawCursor6845(Word addr, bool status)
@@ -1684,10 +1676,6 @@ void V1870::drawCursor6845(Word addr, bool status)
 
 	v = mc6845ram_[addr];
 	line = cursorStartLine_;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 	for (int yLine = y + cursorStartLine_*videoM_; yLine <= (y + cursorEndLine_*videoM_); yLine+=videoM_)
 	{
 		if (yLine == (y + (scanLine_-1)*videoM_))
@@ -1739,10 +1727,8 @@ void V1870::drawCursor6845(Word addr, bool status)
 		}
 		line++;
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	this->Update();
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
 #endif
 }
 
@@ -1855,7 +1841,12 @@ void V1870::setFullScreen(bool fullScreenSet)
     else
     {
         if (computerType_ == COMX)
-            SetStatusBar(comxStatusBarPointer);
+        {
+            if (p_Main->isDiagActive(COMX))
+                SetStatusBar(diagStatusBarPointer);
+            else
+                SetStatusBar(comxStatusBarPointer);
+        }
         if (computerType_ == CIDELSA)
             SetStatusBar(cidelsaStatusBarPointer);
     }

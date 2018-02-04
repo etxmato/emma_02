@@ -92,6 +92,9 @@ Comx::~Comx()
 		}
 	}
 	p_Main->setMainPos(COMX, GetPosition());
+//    keyLogFilePc_.Close();
+//    keyLogFile1802_.Close();
+//    keyLogFileCycle_.Close();
 }
 
 void Comx::configureComputer()
@@ -101,7 +104,8 @@ void Comx::configureComputer()
 	efType_[2] = COMXEF2;
 	efType_[3] = COMXEF3;
 	efType_[4] = COMXEF4;
-	cycleType_[COMPUTERCYCLE] = COMXCYCLE;
+    cycleType_[COMPUTERCYCLE] = COMXCYCLE;
+//    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
 	p_Main->message("Configuring Comx");
 	p_Main->message("	Input 3: keyboard input");
@@ -114,9 +118,9 @@ void Comx::initComputer()
 {
 	init1870();
 	qMode_ = 0;
-	setClear(1);
-	setWait(1);
-
+    setClear(1);
+    setWait(1);
+    
 	thermalPrinting_ = false;
 	thermalEF_ = 0;
 
@@ -124,16 +128,36 @@ void Comx::initComputer()
 	keyboardEf3_ = 1;
 	cassetteEf_ = 0;
 
-	keyboardCode_ = 0;
+    keyCycles_ = 500000;
+    rawKeyCode_ = 0;
+
+    keyboardCode_ = 0;
 	previousKeyCode_ = (wxKeyCode) 0;
 
 	dmaCounter_ = -100;
+	debounceCounter_ = 0;
 	comxRunCommand_ = 0;
 	comxRunState_ = RESETSTATE;
 	nvramWriteProtected_ = true;
 
 	systemTime_ = wxDateTime::Now();
 	comxTime_ = wxDateTime::Now();
+
+/*    wxString fileName_pc = p_Main->getDataDir() + "key_pc_in.log";
+    if (wxFile::Exists(fileName_pc))
+        keyLogFilePc_.Open(fileName_pc, wxFile::write);
+    else
+        keyLogFilePc_.Create(fileName_pc);
+    wxString fileName_1802 = p_Main->getDataDir() + "key_1802.log";
+    if (wxFile::Exists(fileName_1802))
+        keyLogFile1802_.Open(fileName_1802, wxFile::write);
+    else
+        keyLogFile1802_.Create(fileName_1802);*/
+//    wxString fileName_cycle = p_Main->getDataDir() + "key_cycle.log";
+//    if (wxFile::Exists(fileName_cycle))
+//        keyLogFileCycle_.Open(fileName_cycle, wxFile::write);
+//    else
+//        keyLogFileCycle_.Create(fileName_cycle);
 }
 
 Byte Comx::ef(int flag)
@@ -225,50 +249,45 @@ Byte Comx::ef4()
 	return cassetteEf_;
 }
 
+void Comx::switchQ(int value)
+{
+    if (p_Main->isDiagActive(COMX))
+    {
+        if (p_Main->getDiagCassetteCables() == 1)
+            cassetteEf_ = value;
+    }
+}
+
 Byte Comx::in()
 {
 	Byte ret;
 
-/*	if (comxKeyFileOpened_ && !fAndMBasicRunning_)
+	if (p_Main->isDiagOn(COMX) == 1)
 	{
-		if (comxKeyFile_.Read(&keyboardCode_, 1) == 0)
+		switch (keyboardCode_)
 		{
-			comxKeyFileOpened_ = false;
-			comxKeyFile_.Close();
+			case 'a':
+			case 'r':
+			case 's':
+				return 0;
+			break;
 		}
-		else
-		{
-			if (keyboardCode_ == 13) keyboardCode_ = 128;
-			if (keyboardCode_ == 10 && lastKeyCode_ == 128) keyboardCode_ = 0;
-			if (keyboardCode_ == 0xb6)  keyboardCode_ = 1;
-			if (keyboardCode_ >= 'A' && keyboardCode_ <= 'Z')
-				keyboardCode_ += 32;
-			else
-				if (keyboardCode_ >= 'a' && keyboardCode_ <= 'z')
-					keyboardCode_ -= 32;
-
-			lastKeyCode_ = keyboardCode_;
-		}
-	}*/
-
+        if ((outValues_[1]) != 0)
+            keyboardEf2_ = 0;
+    }
 	keyboardEf3_ = 1;
 	ret = keyboardCode_;
 
-	wxMutexGuiEnter();
+//	wxMutexGuiEnter();
 	if (wxGetKeyState(previousKeyCode_))
 	{
 		keyboardEf2_ = 0;
 	}
-	wxMutexGuiLeave();
+//	wxMutexGuiLeave();
 	switch(ret)
 	{
 		case '@':ret = 0x20; break;
-//		case '!':ret = 0x21; break;
-//		case '"':ret = 0x22; break;
 		case '#':ret = 0x23; break;
-//		case '$':ret = 0x24; break;
-//		case '%':ret = 0x25; break;
-//		case '&': ret = 0x26; break;
 		case '\'': ret = 0x27; break;
 		case '[':ret = 0x28; break;
 		case ']':ret = 0x29; break;
@@ -292,7 +311,11 @@ Byte Comx::in()
 		case ' ':ret = 0x5f; break;
 	}
 	if (ret >= 0x90)  ret &= 0x7f;
+//    keyLogFile1802_.Write(&ret, 1);
 	return ret;
+//    keyboardEf3_ = 1;
+//    keyLogFile1802_.Write(&keyboardCode_, 1);
+//    return keyboardCode_;
 }
 
 Byte Comx::in(Byte port, Word WXUNUSED(address))
@@ -334,7 +357,46 @@ Byte Comx::in(Byte port, Word WXUNUSED(address))
 			ret = usbIn6();
 		break;
 
-		default:
+        case COMXDIAGIN1:
+            if (diagRomActive_)
+            {
+                diagRomActive_ = false;
+                updateDiagLedStatus(1, diagRomActive_);
+            }
+            ret = 0xff;
+            if (keyboardEf3_ == 0)
+            {
+                switch(keyboardCode_)
+                {
+                    case 's':
+                        ret = 0xfb;
+                    break;
+                    case 'a':
+                        ret = 0xbf;
+                    break;
+                    case 'r':
+                        ret = 0x7f;
+                    break;
+                }
+            }
+			if (debounceCounter_ > 0)
+				ret = ret & 0xfd;
+        break;
+            
+        case COMXDIAGIN2:
+            ret = 0;
+            if (p_Main->getDiagRomChecksum() == 0)
+                ret = 2;
+            if (dmaCounter_ == -100)
+                ret = ret ^ 4;
+            if (p_Main->getDiagFactory() == 1)
+                ret = ret ^ 8;
+            // bit 1 ROM checksum
+            // bit 2 IDEN itself
+            // bit 3 keyboard debounce, repeat and IDEN
+        break;
+ 
+        default:
 			ret = 255;
 	}
 	inValues_[port] = ret;
@@ -381,6 +443,109 @@ void Comx::out(Byte port, Word address, Byte value)
 			outValues_[port] = address;
 			out7_1870(address);
 		break;
+            
+        case COMXDIAGOUT1:
+			if (p_Main->getDiagFactory() == 0)
+				return;
+            switch (value)
+            {
+                case 0:
+					debounceCounter_ = 4000;
+					p_Main->eventDebounceTimer();
+                break;
+                    
+				case 0x10:
+				case 0x11: //set breakpoint onn ce8f / CEE8
+				case 0x12:
+				case 0x13:
+				case 0x14:
+				case 0x15:
+				case 0x16:
+				case 0x17:
+					if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = (value & 0xf)+ 0x30;
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+				case 0x09:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '8';
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x0A:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = '?';
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x0B:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 'h';
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x0C:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 'p';
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                    break;
+
+                case 0x0D:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 'x';
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                    break;
+
+                case 0x0E:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 0x80;
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+
+                case 0x2D:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 0x58;
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                case 0x4D:
+                    if (keyboardEf3_ == 1)
+                    {
+                        keyboardCode_ = 0x18;
+                        keyboardEf2_ = 1;
+                        keyboardEf3_ = 0;
+                    }
+                break;
+                    
+                default:
+                break;
+            }
+        break;
 	}
 }
 
@@ -392,6 +557,10 @@ void Comx::cycle(int type)
 			return;
 		break;
 
+//        case KEYBRDCYCLE:
+//            cycleKeyboard();
+//        break;
+            
 		case COMXCYCLE:
 			cycleComx();
 		break;
@@ -427,6 +596,9 @@ void Comx::cycleComx()
 			dmaCounter_ = DMACYCLE;
 	}
 
+	if (debounceCounter_ > 0)
+		debounceCounter_--;
+
 	if (dmaCounter_ > 0)
 	{
 		dmaCounter_--;
@@ -434,6 +606,11 @@ void Comx::cycleComx()
 		{
 			dmaOut();
 			dmaCounter_ = DMACYCLE;
+			if (!diagDmaLedOn_)
+			{
+				diagDmaLedOn_ = true;
+				updateDiagLedStatus(2, diagDmaLedOn_);
+			}
 		}
 	}
 
@@ -542,6 +719,75 @@ void Comx::cycleComx()
 	}
 }
 
+void Comx::cycleKeyboard()
+{
+    if (keyCycles_ > 0 && keyboardEf3_ == 1)
+        keyCycles_--;
+    if (rawKeyCode_<0)
+        rawKeyCode_ = 0;
+    if (rawKeyCode_ != 0)
+    {
+        keyboardCode_ = rawKeyCode_;
+//        keyLogFileCycle_.Write(&keyboardCode_, 1);
+        switch(keyboardCode_)
+        {
+            case WXK_RETURN:
+                keyboardCode_ = 0x80;
+            break;
+            case WXK_NUMPAD_ENTER:
+                keyboardCode_ = 0x80;
+            break;
+            case WXK_ESCAPE:
+                keyboardCode_ = 0x81;
+            break;
+            case WXK_BACK:
+                keyboardCode_ = 0x86;
+            break;
+            case WXK_DELETE:
+                keyboardCode_ = 0x86;
+            break;
+            case WXK_LEFT:
+                keyboardCode_ = 0x84;
+            break;
+            case WXK_RIGHT:
+                keyboardCode_ = 0x83;
+            break;
+            case WXK_UP:
+                keyboardCode_ = 0x82;
+            break;
+            case WXK_DOWN:
+                keyboardCode_ = 0x85;
+            break;
+            case '@':keyboardCode_ = 0x20; break;
+            case '#':keyboardCode_ = 0x23; break;
+            case '\'': keyboardCode_ = 0x27; break;
+            case '[':keyboardCode_ = 0x28; break;
+            case ']':keyboardCode_ = 0x29; break;
+            case ':':keyboardCode_ = 0x2a; break;
+            case ';':keyboardCode_ = 0x2b; break;
+            case '<':keyboardCode_ = 0x2c; break;
+            case '=':keyboardCode_ = 0x2d; break;
+            case '>':keyboardCode_ = 0x2e; break;
+            case '\\':keyboardCode_ = 0x2f; break;
+            case '.':keyboardCode_ = 0x3a; break;
+            case ',':keyboardCode_ = 0x3b; break;
+            case '(':keyboardCode_ = 0x3c; break;
+            case '^':keyboardCode_ = 0x3d; break;
+            case ')':keyboardCode_ = 0x3e; break;
+            case '_':keyboardCode_ = 0x3f; break;
+            case '?':keyboardCode_ = 0x40; break;
+            case '+':keyboardCode_ = 0x5b; break;
+            case '-':keyboardCode_ = 0x5c; break;
+            case '*':keyboardCode_ = 0x5d; break;
+            case '/':keyboardCode_ = 0x5e; break;
+            case ' ':keyboardCode_ = 0x5f; break;
+        }
+        if (keyboardCode_ >= 0x90)  keyboardCode_ &= 0x7f;
+        rawKeyCode_ = 0;
+        keyboardEf3_ = 0;
+    }
+}
+
 void Comx::startComputer()
 {
 	resetPressed_ = false;
@@ -555,8 +801,20 @@ void Comx::startComputer()
 	allocComxExpansionMemory();
 	readProgram(p_Main->getRomDir(COMX, MAINROM1), p_Main->getRomFile(COMX, MAINROM1), ROM, 0, NONAME);
 
-	readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), COMXEXPROM, 0xE000, NONAME);
+	if (p_Main->isDiagActive(COMX))
+	{
+		diagRomActive_ = true;
+		readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), DIAGROM, 0, NONAME);
+	}
+    else
+        readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), COMXEXPROM, 0xE000, NONAME);
 
+	if (p_Main->isDiagOn(COMX) == 1)
+		diagRomActive_ = true;
+	else
+		diagRomActive_ = false;
+    
+	diagDmaLedOn_ = false;
 	expansionRomLoaded_ = false;
 	if (mainMemory_[0xE000] != 0x0)
 	{
@@ -619,7 +877,9 @@ void Comx::startComputer()
 	month_ = comxTime_.GetMonth();
 	year_ = comxTime_.GetYear();
 
-	if (threadPointer->Run() != wxTHREAD_NO_ERROR )
+    updateDiagLedStatus(1, diagRomActive_);
+    updateDiagLedStatus(2, diagDmaLedOn_);
+    if (threadPointer->Run() != wxTHREAD_NO_ERROR )
 	{
 		p_Main->message("Can't start thread!");
 	}
@@ -696,8 +956,9 @@ void Comx::writeMemDataType(Word address, Byte type)
 		break;
 
 		case COMXEXPROM:
-		case ROM:
-		case RAM:
+        case ROM:
+        case DIAGROM:
+        case RAM:
 		case NVRAM:
 			if (mainMemoryDataType_[address] != type)
 			{
@@ -780,6 +1041,7 @@ Byte Comx::readMemDataType(Word address)
 		break;
 
 		case ROM:
+        case DIAGROM:
 		case NVRAM:
 		case RAM:
 		case COMXEXPROM:
@@ -833,7 +1095,14 @@ Byte Comx::readMem(Word address)
 			return readCram(address);
 		break;
 
-		case COMXEXPBOX:
+        case DIAGROM:
+            if (diagRomActive_)
+                return diagRomReplacement_[address];
+            else
+                return mainMemory_[address];
+        break;
+            
+        case COMXEXPBOX:
 			switch (expansionMemoryType_[expansionSlot_*32 + (address & 0x1fff)/256])
 			{
 				case RAMBANK:
@@ -999,6 +1268,16 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 				mainMemory_[address]=value;
 		break;
 
+        case DIAGROM:
+            if (writeRom)
+            {
+                if (diagRomActive_)
+                    diagRomReplacement_[address]=value;
+                else
+                    mainMemory_[address]=value;
+            }
+        break;
+            
 		case COMXEXPBOX:
 			switch (expansionMemoryType_[expansionSlot_*32 + (address & 0x1fff)/256])
 			{
@@ -1051,6 +1330,8 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 
 				case RAM:
 					expansionRom_[(expansionSlot_*0x2000) + (address & 0x1fff)] = value;
+//                    if (address == 0xdff8)
+//                        p_Main->messageHex(scratchpadRegister_[programCounter_]);
 				break;
 
 				case MC6845RAM:
@@ -1276,14 +1557,23 @@ void Comx::cpuInstruction()
 			out(1, 0, 0x10);
 		resetCpu();
 		init1870();
-		initComputer();
-		p_Main->v1870BarSizeEvent();
+        initComputer();
+        
+        p_Main->v1870BarSizeEvent();
 		writeMem(0xbf42, 0, false);
 		writeMem(0xbf44, 0, false);
 		p_Main->setSwName("");
         p_Main->eventUpdateTitle();
 		comxRunCommand_ = 0;
 		resetPressed_ = false;
+		if (p_Main->isDiagOn(COMX) == 1)
+			diagRomActive_ = true;
+		else
+			diagRomActive_ = false;
+        updateDiagLedStatus(1, diagRomActive_);
+		diagDmaLedOn_ = false;
+		updateDiagLedStatus(2, diagDmaLedOn_);
+        updateDiagLedStatus(5, false);
 	}
 	if (debugMode_)
 		p_Main->cycleDebug();
@@ -1291,15 +1581,18 @@ void Comx::cpuInstruction()
 
 void Comx::charEvent(int keycode)
 {
-	if (keyboardEf3_ == 0)  return;
-
+//	if (keyboardEf3_ == 0)  return;
+//
 	keyboardCode_ = keycode;
 	keyboardEf3_ = 0;
+//    rawKeyCode_ = keycode;
+//    interrupt();
+//    keyLogFilePc_.Write(&keyboardCode_, 1);
 }
 
 bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-	if (keyboardEf3_ == 0)  return true;
+//	if (keyboardEf3_ == 0)  return true;
 	previousKeyCode_ = (wxKeyCode) keycode;
 
  	switch(keycode)
@@ -1307,54 +1600,63 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 		case WXK_RETURN:
 			keyboardCode_ = 0x80;
 			keyboardEf3_ = 0;
+    //        keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_NUMPAD_ENTER:
 			keyboardCode_ = 0x80;
 			keyboardEf3_ = 0;
+    //        keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_ESCAPE:
 			keyboardCode_ = 0x81;
 			keyboardEf3_ = 0;
+     //       keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_BACK:
 			keyboardCode_ = 0x86;
 			keyboardEf3_ = 0;
+     //       keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_DELETE:
 			keyboardCode_ = 0x86;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_LEFT:
 			keyboardCode_ = 0x84;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_RIGHT:
 			keyboardCode_ = 0x83;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_UP:
 			keyboardCode_ = 0x82;
 			keyboardEf3_ = 0;
+       //     keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
 		case WXK_DOWN:
 			keyboardCode_ = 0x85;
 			keyboardEf3_ = 0;
+     //       keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
@@ -1364,6 +1666,7 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 			else
 				keyboardCode_ = 0xdb;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 
@@ -1373,6 +1676,7 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 			else
 				keyboardCode_ = 0xdc;
 			keyboardEf3_ = 0;
+      //      keyLogFilePc_.Write(&keyboardCode_, 1);
 			return true;
 		break;
 	}
@@ -1381,9 +1685,14 @@ bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 
 void Comx::keyUp(int WXUNUSED(keycode))
 {
+    if (p_Main->isDiagOn(COMX) == 1)
+    {
+        if ((outValues_[1]) != 0)
+            return;
+    }
 	keyboardEf2_ = 1;
-	keyboardEf3_ = 1;
-	keyboardCode_ = 0;
+//	keyboardEf3_ = 1;
+//	keyboardCode_ = 0;
 	previousKeyCode_ = (wxKeyCode) 0;
 }
 
@@ -1670,8 +1979,8 @@ void Comx::checkComxFunction()
 			if (expansionSlot_ == columnSlot_)
 				configure6845();
 		break;
-
-/*		case 0x429f: 
+            
+/*		case 0x429f:
 		case 0x42a3: 
 				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
 				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
@@ -1735,6 +2044,7 @@ void Comx::closeComxKeyFile()
 
 void Comx::onReset()
 {
+    updateDiagLedStatus(5, true);
 	resetPressed_ = true;
 }
 

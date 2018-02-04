@@ -1,0 +1,16 @@
+<html>
+<title>Quest Super Elf Emulator</title>
+<body>
+<h2>Quest Super Elf Emulator</h2>
+<p>
+This emulator will emulate the Quest Super Elf computer. To run the Quest Super Elf including the giant board select the file supermon.hex or giantboard.hex as one of the ROM files and select the 'Cassette' checkbox. Additional information about the Quest Super Elf can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="SuperFront.htm">Front Panel</a><br>
+<a href="SuperWindows.htm">Control Windows</a><br>
+</p>
+</body>
+</html>

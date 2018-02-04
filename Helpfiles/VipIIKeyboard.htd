@@ -1,0 +1,16 @@
+<HTML>
+<Title>Keyboard</Title>
+<BODY>
+<h2>Keyboard</h2>
+<p>
+Both ASCII keyboard and 1 hex keypad is supported.
+</p>
+<h3>Hex Keypad</h3>
+<p>
+1 hex keypad is supported. 
+</p>
+<p>
+To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="MainHexKeyMap.htm">Key Mapping</a>
+</p>
+</BODY>
+</HTML>

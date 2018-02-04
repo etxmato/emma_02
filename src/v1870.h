@@ -2,6 +2,7 @@
 #define V1870_H
 
 #include "comxstatusbar.h"
+#include "diagstatusbar.h"
 #include "cidelsastatusbar.h"
 #include "cdp1802.h"
 #include "video.h"
@@ -85,6 +86,7 @@ public:
 	void setCycle();
 	void setFullScreen(bool fullScreenSet);
 	void onF3();
+    void updateDiagLedStatus(int led, bool status);
 
 protected:
 	int videoMode_;
@@ -98,11 +100,12 @@ private:
 	void drawLine(wxCoord x, wxCoord y, Byte v, Byte pcb, int address);
 	void drawBackgroundLine(wxCoord x, wxCoord y);
 	void drawPoint(wxCoord x, wxCoord y);
-	void updateLedStatus(int card, int i, bool status);
-
+    void updateLedStatus(int card, int i, bool status);
+    
 	CidelsaStatusBar *cidelsaStatusBarPointer;
 	ComxStatusBar *comxStatusBarPointer;
-	wxBitmap *screenScrollCopyPointer;
+    DiagStatusBar *diagStatusBarPointer;
+    wxBitmap *screenScrollCopyPointer;
 	CharacterList *characterListPointer;
 	CharacterList *characterListPointer6845;
 

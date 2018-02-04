@@ -1,0 +1,24 @@
+<HTML>
+<Title>J-VIP Mode</Title>
+<BODY>
+<h2>J-VIP Mode</h2>
+<p>
+To run the VELF emulator in J-VIP Mode load the JVIP configuration (see also <a href="MainConfigurations.htm">Configurations</a>).
+</p>
+<p>
+On startup the J-VIP will start with the CPU in stopped mode. Before starting execution by switching the RUN switch or pressing F12 make sure to press one of the following options while the CDP1861 screen is active.
+</p>
+<p>
+<UL>
+<LI>Press and hold C until the Beep and the JVIP will run the standard VIP monitor
+<LI>Press and hold D until the Beep and the JVIP will run Josh Bensadon's Serial monitor (see <a href="VelfVelf.htm">VELF Mode</a>)
+<LI>Press and hold E until the Beep and the JVIP will copy CHIP8 from rom to ram and then halts for reset.
+<LI>Press and hold F until the Beep and the JVIP will copy CHIP8 and PinBall from rom to ram and then halts for reset.
+<LI>Press and hold A until the Beep and the JVIP will copy CHIP8 and Animal Race from rom to ram and then halts for reset.
+<LI>Press and hold 1 until the beep and the JVIP will copy the COSMAC Starship image to ram and then haults for reset.
+<LI>Press and hold 2 until the beep and the JVIP will copy CHIP8 and Lunar Lander from rom to ram and then halts for reset.
+<LI>With nothing held down, the JVIP will being executing code at 0 
+</UL>
+</p>
+</BODY>
+</HTML>

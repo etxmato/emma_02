@@ -219,6 +219,8 @@ Velf::~Velf()
 		p_Main->setVtPos(VELF, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (vipConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(VELF, GetPosition());
     delete velfScreenPointer;
 }
@@ -236,6 +238,7 @@ void Velf::configureComputer()
     inType_[4] = ELFIN;
 	efType_[3] = VIPKEYEF;
     efType_[4] = ELFINEF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring VELF");
 	p_Main->message("	Output 2: hex key latch, output 4: display output");
@@ -263,9 +266,15 @@ void Velf::configureComputer()
         else
             vtPointer = new Vt100("VELF - VT 100", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration);
 		p_Vt100 = vtPointer;
-		vtPointer->configureVelf(vipConfiguration.baudR, vipConfiguration.baudT);
+        vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 2);
 		vtPointer->Show(true);
 	}
+
+    if (vipConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(VELF, velfClockSpeed_, vipConfiguration);
+        p_Serial->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 2);
+    }
 
     defineKeys();
 	resetCpu();
@@ -478,6 +487,13 @@ Byte Velf::ef(int flag)
                 return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            if (isLoading() || realCassetteLoad_)
+                return cassetteEf_;
+            else
+	            return p_Serial->ef();
+        break;
+ 
 		default:
 			return 1;
 	}
@@ -553,6 +569,10 @@ void Velf::out(Byte port, Word WXUNUSED(address), Byte value)
 			vtPointer->out(value);
 		break;
 
+		case VTOUTSERIAL:
+			p_Serial->out(value);
+		break;
+
 		case VIPIIOUT7:
 			if (value == 1)
 			{
@@ -576,6 +596,12 @@ void Velf::outVelf(Byte value)
 
 void Velf::switchQ(int value)
 {
+    if (vipConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (vipConfiguration.vtExternal)
+        p_Serial->switchQ(value);
+
 	if (!usePrinter_)  return;
 
 	if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
@@ -604,10 +630,18 @@ void Velf::cycle(int type)
             vtPointer->cycleVt();
             break;
             
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case VIPIIKEYCYCLE:
 			cycleKey();
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
 }
 
 void Velf::cycleKey()
@@ -629,6 +663,19 @@ void Velf::cycleKey()
 			}
 		}
 	}
+}
+
+void Velf::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            velfScreenPointer->ledTimeout();
+        }
+    }
 }
 
 void Velf::startComputer()
@@ -681,8 +728,15 @@ void Velf::startComputer()
 
 	cpuCycles_ = 0;
     p_Main->startTime();
-    velfScreenPointer->setLedMs(p_Main->getLedTimeMs(VELF));
 
+    int ms = (int) p_Main->getLedTimeMs(VELF);
+    velfScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((velfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
 	threadPointer->Run();
 }
 
@@ -891,14 +945,14 @@ void Velf::sleepComputer(long ms)
 	threadPointer->Sleep(ms);
 }
 
-void Velf::ledTimeout()
-{
-    velfScreenPointer->ledTimeout();
-}
-
 void Velf::setLedMs(long ms)
 {
     velfScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((velfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 

@@ -32,8 +32,6 @@
 #include "main.h"
 #include "guielf.h"
 
-DEFINE_EVENT_TYPE(ON_UART)
-
 BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 
 	EVT_TEXT(XRCID("MainRomElf"), GuiMain::onMainRom1Text)
@@ -239,6 +237,14 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_BUTTON(XRCID("PrintFileButtonElf"), GuiMain::onPrintFile)
 	EVT_BUTTON(XRCID("PrintFileButtonElfII"), GuiMain::onPrintFile)
 	EVT_BUTTON(XRCID("PrintFileButtonSuperElf"), GuiMain::onPrintFile)
+		
+	EVT_CHOICE(XRCID("VTBaudTChoiceElf"), GuiMain::onBaudT)
+	EVT_CHOICE(XRCID("VTBaudTChoiceElfII"), GuiMain::onBaudT)
+	EVT_CHOICE(XRCID("VTBaudTChoiceSuperElf"), GuiMain::onBaudT)
+
+	EVT_CHOICE(XRCID("VTBaudRChoiceElf"), GuiMain::onBaudR)
+	EVT_CHOICE(XRCID("VTBaudRChoiceElfII"), GuiMain::onBaudR)
+	EVT_CHOICE(XRCID("VTBaudRChoiceSuperElf"), GuiMain::onBaudR)
 
 	EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
 
@@ -307,41 +313,6 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeSuperElf"), GuiMain::onVolume)
 	EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeSuperElf"), GuiMain::onVolume)
 
-    EVT_MENU(XRCID("MI_GameMode"), GuiElf::setGameModeConfig)
-    EVT_MENU(XRCID("MI_ChipMode"), GuiElf::setChipModeConfig)
-	EVT_MENU(XRCID("MI_GiantBoard"), GuiElf::setGiantBoard)
-	EVT_MENU(XRCID("MI_QuestLoader"), GuiElf::setQuestLoader)
-	EVT_MENU(XRCID("MI_SuperBasic"), GuiElf::setSuperBasic1)
-	EVT_MENU(XRCID("MI_SuperBasic3"), GuiElf::setSuperBasic3)
-	EVT_MENU(XRCID("MI_SuperBasic5"), GuiElf::setSuperBasic5)
-	EVT_MENU(XRCID("MI_SuperBasic6"), GuiElf::setSuperBasic6)
-	EVT_MENU(XRCID("MI_SuperBasicSerial"), GuiElf::setSuperBasicSerial)
-	EVT_MENU(XRCID("MI_RcaBasic"), GuiElf::setRcaBasic)
-	EVT_MENU(XRCID("MI_RcaBasicPixie"), GuiElf::setRcaBasicPixie)
-	EVT_MENU(XRCID("MI_RcaBasicSerial"), GuiElf::setRcaBasicSerial)
-	EVT_MENU(XRCID("MI_RcaBasicElfOsInstall"), GuiElf::setRcaBasicElfOsInstall)
-    EVT_MENU(XRCID("MI_ROM_Mapper_Pixie"), GuiElf::setRomMapperPixie)
-    EVT_MENU(XRCID("MI_ROM_Mapper_Serial"), GuiElf::setRomMapperSerial)
-    EVT_MENU(XRCID("MI_TinyBasicPixie"), GuiElf::setTinyBasicPixie)
-	EVT_MENU(XRCID("MI_TinyBasicSerial"), GuiElf::setTinyBasicSerial)
-	EVT_MENU(XRCID("MI_TinyBasic6847"), GuiElf::setTinyBasic6847)
-	EVT_MENU(XRCID("MI_SuperGoldMonitor"), GuiElf::setSuperGoldMonitor)
-	EVT_MENU(XRCID("MI_MonitorBasic"), GuiElf::setMonitorBasic)
-	EVT_MENU(XRCID("MI_FigForth"), GuiElf::setFigForth)
-	EVT_MENU(XRCID("MI_Music"), GuiElf::setMusic)
-	EVT_MENU(XRCID("MI_SetElfOsInstallConfig"), GuiElf::setElfOsInstallConfig)
-	EVT_MENU(XRCID("MI_SetElfOsConfig"), GuiElf::setElfOsConfig)
-	EVT_MENU(XRCID("MI_SetElfOsIoConfig"), GuiElf::setElfOsIoConfig)
-	EVT_MENU(XRCID("MI_SetElfOsIoInstallConfigPixie"), GuiElf::setElfOsIoInstallConfigPixie)
-	EVT_MENU(XRCID("MI_SetElfOsIoConfigPixie"), GuiElf::setElfOsIoConfigPixie)
-	EVT_MENU(XRCID("MI_SetElfOsIoInstallConfig6845"), GuiElf::setElfOsIoInstallConfig6845)
-	EVT_MENU(XRCID("MI_SetElfOsIoConfig6845"), GuiElf::setElfOsIoConfig6845)
-	EVT_MENU(XRCID("MI_SetElfOsIoInstallConfig6847"), GuiElf::setElfOsIoInstallConfig6847)
-	EVT_MENU(XRCID("MI_SetElfOsIoConfig6847"), GuiElf::setElfOsIoConfig6847)
-    EVT_MENU(XRCID("MI_SetElfOsIoInstallConfigTms"), GuiElf::setElfOsIoInstallConfigTms)
-    EVT_MENU(XRCID("MI_SetElfOsIoConfigTms"), GuiElf::setElfOsIoConfigTms)
-    EVT_MENU(XRCID("MI_SetElfOsIoConfigTmsGra"), GuiElf::setElfOsIoConfigTmsGra)
-
 	EVT_BUTTON(XRCID("ColoursElf"), Main::onColoursDef)
 	EVT_BUTTON(XRCID("ColoursElfII"), Main::onColoursDef)
 	EVT_BUTTON(XRCID("ColoursSuperElf"), Main::onColoursDef)
@@ -362,15 +333,13 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_TEXT(XRCID("SaveExecElfII10"), GuiMain::onSaveExec)
 	EVT_TEXT(XRCID("SaveExecSuperElf"), GuiMain::onSaveExec)
 
-	EVT_COMMAND(wxID_ANY, ON_UART, GuiElf::onUart) 
-
 	END_EVENT_TABLE()
 
-GuiElf::GuiElf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiElf2K(title, pos, size, mode, dataDir)
+GuiElf::GuiElf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiElf2K(title, pos, size, mode, dataDir, iniDir)
 {
-	tapeOnBitmap = wxBitmap(applicationDirectory_ + "images/tick.png", wxBITMAP_TYPE_PNG);
-	tapeOffBitmap = wxBitmap(applicationDirectory_ + "images/minus.png", wxBITMAP_TYPE_PNG);
+	tapeOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/tick.png", wxBITMAP_TYPE_PNG);
+	tapeOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
 }
 
 void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
@@ -382,7 +351,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     
 	conf[elfType].volume_ = 0;
 
-    conf[elfType].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Elf" + pathSeparator_;
+    conf[elfType].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Elf" + pathSeparator_;
     conf[elfType].mainDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Main", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].romDir_[MAINROM1] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_1_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].romDir_[MAINROM2] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_2_File", dataDir_ + "Elf" + pathSeparator_);
@@ -406,6 +375,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].screenDumpFile_ = configPointer->Read(elfTypeStr+"/Video_Dump_File", "screendump.png");
 	conf[elfType].wavFile_ = configPointer->Read(elfTypeStr+"/Wav_File", "");
 	elfConfiguration[elfType].vtWavFile_ = configPointer->Read(elfTypeStr + "/Vt_Wav_File", "");
+    elfConfiguration[elfType].serialPort_ = configPointer->Read(elfTypeStr + "/VtSerialPortChoice", "");
 
 	conf[elfType].saveStartString_ = "";
 	conf[elfType].saveEndString_ = "";
@@ -415,14 +385,14 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	elfConfiguration[elfType].vtType = (int)configPointer->Read(elfTypeStr+"/VT_Type", 2l);
     elfConfiguration[elfType].vt52SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT52Setup", 0x00004092l);
     elfConfiguration[elfType].vt100SetUpFeature_ = configPointer->Read(elfTypeStr+"/VT100Setup", 0x0000ca52l);
-	elfConfiguration[elfType].baudR = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Receive", 0l);
-	elfConfiguration[elfType].baudT = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Transmit", 0l);
+    elfConfiguration[elfType].vtExternalSetUpFeature_ = configPointer->Read(elfTypeStr+"/VTExternalSetup", 0x0000ca52l);
+	elfConfiguration[elfType].baudR = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Receive", 3l);
+	elfConfiguration[elfType].baudT = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Transmit", 3l);
 	elfConfiguration[elfType].diskType = (int)configPointer->Read(elfTypeStr+"/Disk_Type", 2l);
 	elfConfiguration[elfType].keyboardType = (int)configPointer->Read(elfTypeStr+"/Keyboard_Type", 0l);
 	elfConfiguration[elfType].memoryType = (int)configPointer->Read(elfTypeStr+"/Memory_Type", 0l);
 
 	elfConfiguration[elfType].bellFrequency_ = (int)configPointer->Read(elfTypeStr + "/Bell_Frequency", 800);
-	configPointer->Read(elfTypeStr+"/BaudRateAdjust", &elfConfiguration[elfType].baudRateAdjust, false);
     configPointer->Read(elfTypeStr+"/SerialLog", &elfConfiguration[elfType].serialLog, false);
     configPointer->Read(elfTypeStr+"/Uart", &elfConfiguration[elfType].useUart, false);
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Boot", &elfConfiguration[elfType].autoBoot, true);
@@ -432,6 +402,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Read(elfTypeStr+"/Open_Control_Windows", &elfConfiguration[elfType].useElfControlWindows, false);
 	configPointer->Read(elfTypeStr+"/Enable_Interlace", &conf[elfType].interlace_, true);
 	configPointer->Read(elfTypeStr+"/Enable_Vt_Stretch_Dot", &conf[elfType].stretchDot_, false);
+    configPointer->Read(elfTypeStr+"/Enable_Vt_External", &elfConfiguration[elfType].vtExternal, false);
 	conf[elfType].printMode_ = (int)configPointer->Read(elfTypeStr+"/Print_Mode", 1l);
 
     configPointer->Read(elfTypeStr+"/GiantBoardMapping", &elfConfiguration[elfType].giantBoardMapping, false);
@@ -480,7 +451,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	if (mode_.gui)
 		setBaudChoice(elfType);
 
-	setVtType(elfTypeStr, elfType, elfConfiguration[elfType].vtType);
+	setVtType(elfTypeStr, elfType, elfConfiguration[elfType].vtType, false);
 	setVideoType(elfTypeStr, elfType, conf[elfType].videoMode_);
 
 	conf[elfType].charRom_ = configPointer->Read(elfTypeStr+"/Font_Rom_File", "super.video.bin");
@@ -503,16 +474,16 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].vtType);
         XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
 
-		baudChoiceR[elfType]->SetSelection(elfConfiguration[elfType].baudR);
-		baudChoiceT[elfType]->SetSelection(elfConfiguration[elfType].baudT);
-		baudChoiceR[elfType]->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
+		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudR);
+		XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudT);
+//		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
         XRCCTRL(*this, "BeepFrequencyText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
         XRCCTRL(*this, "BeepFrequencyTextHz"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
-        baudTextR[elfType]->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
-        baudTextT[elfType]->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//        XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable((elfConfiguration[elfType].vtType != VTNONE) && elfConfiguration[elfType].useUart);
+//        XRCCTRL(*this, "VTBaudTText" + elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].vtType != VTNONE);
         XRCCTRL(*this,"AddressText1"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
         XRCCTRL(*this,"AddressText2"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useElfControlWindows);
-        baudChoiceT[elfType]->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//        XRCCTRL(*this, "VTBaudTChoice" + elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 
 		XRCCTRL(*this, "VideoType"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].videoMode_);
 		XRCCTRL(*this, "AutoBoot"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].autoBoot);
@@ -522,9 +493,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "UpperCase"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].forceUpperCase);
 		XRCCTRL(*this, "DiskType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].diskType);
 		XRCCTRL(*this, "Memory"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].memoryType);
-		XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[elfType].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//		XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[elfType].vtType != VTNONE);
+//		XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 		XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
 		XRCCTRL(*this, "ZoomValue"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoom_);
 		XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoomVt_);
@@ -556,8 +527,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
 		XRCCTRL(*this, "ShowAddress"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].ledTime_);
 		XRCCTRL(*this,"ShowAddress"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].useElfControlWindows);
- /*
-#ifdef __WXMAC__
+
+/*#ifdef __WXMAC__
         XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
         XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
         XRCCTRL(*this,"Eject_IDE"+elfTypeStr, wxBitmapButton)->SetSize(26, 27);
@@ -678,7 +649,8 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Print_File", conf[elfType].printFile_);
 	configPointer->Write(elfTypeStr+"/Video_Dump_File", conf[elfType].screenDumpFile_);
 	configPointer->Write(elfTypeStr+"/Wav_File", conf[elfType].wavFile_);
-	configPointer->Write(elfTypeStr + "/Vt_Wav_File", elfConfiguration[elfType].vtWavFile_);
+	configPointer->Write(elfTypeStr+"/Vt_Wav_File", elfConfiguration[elfType].vtWavFile_);
+    configPointer->Write(elfTypeStr+"/VtSerialPortChoice", elfConfiguration[elfType].serialPort_);
 
 	configPointer->Write(elfTypeStr+"/Load_Mode_Rom_1", (loadromMode_[elfType][0] == ROM));
 	configPointer->Write(elfTypeStr+"/Load_Mode_Rom_2", (loadromMode_[elfType][1] == ROM));
@@ -696,11 +668,12 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/VT52Setup", value);
     value = elfConfiguration[elfType].vt100SetUpFeature_.to_ulong();
     configPointer->Write(elfTypeStr+"/VT100Setup", value);
-  
+    value = elfConfiguration[elfType].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write(elfTypeStr+"/VTExternalSetup", value);
+
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Receive", elfConfiguration[elfType].baudR);
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Transmit", elfConfiguration[elfType].baudT);
 	configPointer->Write(elfTypeStr + "/Bell_Frequency", elfConfiguration[elfType].bellFrequency_);
-	configPointer->Write(elfTypeStr+"/BaudRateAdjust", elfConfiguration[elfType].baudRateAdjust);
     configPointer->Write(elfTypeStr+"/SerialLog", elfConfiguration[elfType].serialLog);
     configPointer->Write(elfTypeStr+"/Uart", elfConfiguration[elfType].useUart);
     configPointer->Write(elfTypeStr+"/Enable_Auto_Boot", elfConfiguration[elfType].autoBoot);
@@ -721,6 +694,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Open_Control_Windows", elfConfiguration[elfType].useElfControlWindows);
 	configPointer->Write(elfTypeStr+"/Enable_Interlace", conf[elfType].interlace_);
 	configPointer->Write(elfTypeStr+"/Enable_Vt_Stretch_Dot", conf[elfType].stretchDot_);
+    configPointer->Write(elfTypeStr+"/Enable_Vt_External", elfConfiguration[elfType].vtExternal);
 
 	configPointer->Write(elfTypeStr+"/Clock_Speed", conf[elfType].clock_);
 	configPointer->Write(elfTypeStr+"/Beep_Frequency", conf[elfType].beepFrequency_);
@@ -1029,1296 +1003,6 @@ void GuiElf::onRom2(wxCommandEvent&WXUNUSED(event))
 		XRCCTRL(*this, "RomButton2"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 2");
 		XRCCTRL(*this, "RomButton2"+computerInfo[selectedComputer_].gui, wxButton)->SetToolTip("Browse for Elf ROM file");
 	}
-}
-
-void GuiElf::setGameModeConfig(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("elfinvad.bin");
-    XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-    XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-    setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-    if (elfConfiguration[selectedComputer_].useUart)
-    {
-        elfConfiguration[selectedComputer_].useUart = false;
-        switchUart();
-    }
-    configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-    XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_HEX_EF);
-    setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_HEX_EF);
-    conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_ + "Games" + pathSeparator_;
-    
-    loadromMode_[selectedComputer_][0] = RAM;
-    XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-    
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-    XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-    XRCCTRL(*this, "UpperCase"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(true);
-    
-    conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-    clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-    
-    conf[selectedComputer_].printerOn_ = false;
-    setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-    setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setChipModeConfig(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("chip8.hex");
-    XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("Blinky [Hans Christian Egeberg, 1991].ch8");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-    XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-    setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-    if (elfConfiguration[selectedComputer_].useUart)
-    {
-        elfConfiguration[selectedComputer_].useUart = false;
-        switchUart();
-    }
-    configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-    XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_HEX_EF);
-    setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_HEX_EF);
-    conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-    conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Chip-8" + pathSeparator_ + "Chip-8 Games" + pathSeparator_;
-    
-    loadromMode_[selectedComputer_][0] = RAM;
-    XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-    
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-    XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-    XRCCTRL(*this, "UpperCase"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(true);
-    
-    conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-    clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-    
-    conf[selectedComputer_].printerOn_ = false;
-    setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-    setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setGiantBoard(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("giantboard.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("F000");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	elfConfiguration[selectedComputer_].useTape = true;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = ROM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 2;
-}
-
-void GuiElf::setQuestLoader(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("quest.tape.loader.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("F000");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOS100);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOS100);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-	elfConfiguration[selectedComputer_].useTape = true;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("7FFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf = 3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput = 5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf = 2;
-	elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 3;
-
-	conf[selectedComputer_].printerOn_ = true;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	elfConfiguration[selectedComputer_].elfPortConf.printerOutput = 3;
-	setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setSuperBasic1(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("superbasic.1.4.bin");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-	setSuperBasic();
-}
-
-void GuiElf::setSuperBasic3(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("superbasic.3.0.bin");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("DFFF");
-	setSuperBasic();
-}
-
-void GuiElf::setSuperBasic5(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("superbasic.5.0.bin");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("DFFF");
-	setSuperBasic();
-}
-
-void GuiElf::setSuperBasic6(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("superbasic.6.0.bin");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("DFFF");
-	setSuperBasic();
-}
-
-void GuiElf::setSuperBasic()
-{
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOS100);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOS100);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-	elfConfiguration[selectedComputer_].useTape = true;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf = 3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput = 5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf = 2;
-	elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 3;
-
-	conf[selectedComputer_].printerOn_ = true;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	elfConfiguration[selectedComputer_].elfPortConf.printerOutput = 3;
-	setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setSuperBasicSerial(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("superbasic.1.4.bin");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
-	elfConfiguration[selectedComputer_].baudR = 0;
-	elfConfiguration[selectedComputer_].baudT = 0;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = false;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	elfConfiguration[selectedComputer_].useTape = true;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-    elfConfiguration[selectedComputer_].elfPortConf.vt100Output = 5;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef = 2;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf = 1;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ = 0;
-	elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 3;
-
-	conf[selectedComputer_].printerOn_ = true;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	elfConfiguration[selectedComputer_].elfPortConf.printerOutput = 3;
-	setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setRcaBasic(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("rca.basic3.v1.1.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("2200");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOS100);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOS100);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-	elfConfiguration[selectedComputer_].useTape = false;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-	conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-	loadromMode_[selectedComputer_][1] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf = 3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput = 5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf = 4;
-
-	conf[selectedComputer_].printerOn_ = true;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	elfConfiguration[selectedComputer_].elfPortConf.printerOutput = 3;
-	setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setRcaBasicPixie(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("rca.basic3.v1.1.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("2200");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-	elfConfiguration[selectedComputer_].useTape = false;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-	conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-	loadromMode_[selectedComputer_][1] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf = 3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput = 7;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf = 3;
-}
-
-void GuiElf::setRcaBasicSerial(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("rca.basic3.v1.1.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
-	elfConfiguration[selectedComputer_].baudR = 0;
-	elfConfiguration[selectedComputer_].baudT = 0;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("2200");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	elfConfiguration[selectedComputer_].useTape = false;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-	conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-	loadromMode_[selectedComputer_][1] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Output = 5;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef = 2;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf = 1;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ = 0;
-
-	conf[selectedComputer_].printerOn_ = true;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	elfConfiguration[selectedComputer_].elfPortConf.printerOutput = 3;
-	setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setRcaBasicElfOsInstall(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("rca.basic4.v1.1.install.hex");
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
-	elfConfiguration[selectedComputer_].baudR = 0;
-	elfConfiguration[selectedComputer_].baudT = 0;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Output = 7;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef = 2;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf = 1;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ = 0;
-
-	conf[selectedComputer_].printerOn_ = true;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	elfConfiguration[selectedComputer_].elfPortConf.printerOutput = 3;
-	setPrinterState(selectedComputer_);
-
-	setElfOsConfigMain();
-}
-
-void GuiElf::setTinyBasicPixie(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("giantboard.hex");
-    XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("netronic.tinyBasic.hex");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-    XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-    setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-    if (elfConfiguration[selectedComputer_].useUart)
-    {
-        elfConfiguration[selectedComputer_].useUart = false;
-        switchUart();
-    }
-    configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-    XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-    setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-    elfConfiguration[selectedComputer_].useTape = true;
-    setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-    conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-    conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-    
-    loadromMode_[selectedComputer_][0] = ROM;
-    XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 1");
-    loadromMode_[selectedComputer_][1] = RAM;
-    XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-    
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-    XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-    
-    conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-    clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-    
-    elfConfiguration[selectedComputer_].elfPortConf.hexOutput = 4;
-    elfConfiguration[selectedComputer_].elfPortConf.hexInput = 4;
-    elfConfiguration[selectedComputer_].elfPortConf.hexEf = 3;
-    
-    elfConfiguration[selectedComputer_].elfPortConf.keyboardInput = 7;
-    elfConfiguration[selectedComputer_].elfPortConf.keyboardEf = 3;
-    elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 2;
-}
-
-void GuiElf::setRomMapperPixie(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("rommapper.bin");
-    XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-    XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-    setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-    if (elfConfiguration[selectedComputer_].useUart)
-    {
-        elfConfiguration[selectedComputer_].useUart = false;
-        switchUart();
-    }
-    configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("8080");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-    XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-    setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-    elfConfiguration[selectedComputer_].useTape = true;
-    setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-    conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-    conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-
-    loadromMode_[selectedComputer_][1] = RAM;
-    XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-    
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_ROM_MAP);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_ROM_MAP);
-
-    XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    
-    conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-    clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-    
-    elfConfiguration[selectedComputer_].elfPortConf.hexOutput = 4;
-    elfConfiguration[selectedComputer_].elfPortConf.hexInput = 4;
-    elfConfiguration[selectedComputer_].elfPortConf.hexEf = 3;
-    
-    elfConfiguration[selectedComputer_].elfPortConf.keyboardInput = 7;
-    elfConfiguration[selectedComputer_].elfPortConf.keyboardEf = 3;
-    elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 2;
-}
-
-void GuiElf::setRomMapperSerial(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("rommapper.bin");
-    XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-    XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-    setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-    if (elfConfiguration[selectedComputer_].useUart)
-    {
-        elfConfiguration[selectedComputer_].useUart = false;
-        switchUart();
-    }
-    configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    baudChoiceR[selectedComputer_]->SetSelection(0);
-    baudChoiceT[selectedComputer_]->SetSelection(0);
-    elfConfiguration[selectedComputer_].baudR = 0;
-    elfConfiguration[selectedComputer_].baudT = 0;
-    XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("8080");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-    XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-    setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-    elfConfiguration[selectedComputer_].useTape = false;
-    setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-    conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-    conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-    
-    loadromMode_[selectedComputer_][1] = RAM;
-    XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-    
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_ROM_MAP);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_ROM_MAP);
-    
-    XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-    
-    conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-    clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-    
-    elfConfiguration[selectedComputer_].elfPortConf.vt100Output = 6;
-    elfConfiguration[selectedComputer_].elfPortConf.vt100Ef = 2;
-    elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf = 1;
-    elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ = 0;
-
-    elfConfiguration[selectedComputer_].elfPortConf.hexOutput = 4;
-    elfConfiguration[selectedComputer_].elfPortConf.hexInput = 4;
-    elfConfiguration[selectedComputer_].elfPortConf.hexEf = 3;
-    
-    elfConfiguration[selectedComputer_].elfPortConf.keyboardInput = 7;
-    elfConfiguration[selectedComputer_].elfPortConf.keyboardEf = 3;
-
-    elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 2;
-}
-
-void GuiElf::setTinyBasicSerial(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("giantboard.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("netronic.tinyBasic.hex");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(6);
-	baudChoiceT[selectedComputer_]->SetSelection(6);
-	elfConfiguration[selectedComputer_].baudR = 6;
-	elfConfiguration[selectedComputer_].baudT = 6;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	elfConfiguration[selectedComputer_].useTape = true;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-	conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = ROM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 1");
-	loadromMode_[selectedComputer_][1] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Output = 7;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef = 4;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf = 1;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ = 0;
-	elfConfiguration[selectedComputer_].elfPortConf.tapeEf = 2;
-}
-
-void GuiElf::setTinyBasic6847(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("tiny.basic.interpreter.v2.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEO6847);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEO6847);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-	elfConfiguration[selectedComputer_].useTape = false;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = ROM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	reset6847ConfigItem(2);
-	elfConfiguration[selectedComputer_].elfPortConf.mc6847dd6=2;
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf=3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput=5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf=2;
-}
-
-void GuiElf::setSuperGoldMonitor(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("super.gold.monitor.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(1);
-	baudChoiceT[selectedComputer_]->SetSelection(1);
-	elfConfiguration[selectedComputer_].baudR = 1;
-	elfConfiguration[selectedComputer_].baudT = 1;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("C0C0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	elfConfiguration[selectedComputer_].useTape = true;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = ROM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("BFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Output=5;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef=4;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf=0;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ=0;
-	elfConfiguration[selectedComputer_].elfPortConf.tapeEf=2;
-}
-
-void GuiElf::setMonitorBasic(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("mini.monitor.and.super.basic.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(1);
-	baudChoiceT[selectedComputer_]->SetSelection(1);
-	elfConfiguration[selectedComputer_].baudR = 1;
-	elfConfiguration[selectedComputer_].baudT = 1;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("C0C0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	elfConfiguration[selectedComputer_].useTape = true;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = ROM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("BFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Output=5;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef=4;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf=0;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ=0;
-	elfConfiguration[selectedComputer_].elfPortConf.tapeEf=2;
-
-	conf[selectedComputer_].printerOn_ = true;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	elfConfiguration[selectedComputer_].elfPortConf.printerOutput=3;
-	setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setFigForth(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("fig.forth.1802.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	if (!elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = true;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
-	elfConfiguration[selectedComputer_].baudR = 0;
-	elfConfiguration[selectedComputer_].baudT = 0;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	elfConfiguration[selectedComputer_].useTape = false;
-	setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	elfConfiguration[selectedComputer_].elfPortConf.uartOut=2;
-	elfConfiguration[selectedComputer_].elfPortConf.uartIn=2;
-	elfConfiguration[selectedComputer_].elfPortConf.uartControl=3;
-	elfConfiguration[selectedComputer_].elfPortConf.uartStatus=3;
-}
-
-void GuiElf::setMusic(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("Music Machine.hex");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("O Christmas Tree.hex");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("");
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKNONE);
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKNONE);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_ + "Music" + pathSeparator_;
-	conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_ + "Music" + pathSeparator_;
-
-	loadromMode_[selectedComputer_][0] = RAM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 1");
-	loadromMode_[selectedComputer_][1] = RAM;
-	XRCCTRL(*this, "RomButton2"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-
-	conf[selectedComputer_].clock_ = "1";
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-}
-
-void GuiElf::setElfOsInstallConfig(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios.1.0.4.rom");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("elfos.0.2.8.hex");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("vt100.ide");
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
-	elfConfiguration[selectedComputer_].baudR = 0;
-	elfConfiguration[selectedComputer_].baudT = 0;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("9000");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-	conf[selectedComputer_].romDir_[MAINROM2] = dataDir_ + "Elf" + pathSeparator_;
-
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Output=7;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef=2;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf=1;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ=0;
-
-	loadromMode_[selectedComputer_][1] = RAM;
-	XRCCTRL(*this, "RomButton2"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("RAM 2");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	setElfOsConfigMain();
-}
-
-void GuiElf::setElfOsConfig(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios.1.0.4.rom");
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("vt100.ide");
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	baudChoiceR[selectedComputer_]->SetSelection(0);
-	baudChoiceT[selectedComputer_]->SetSelection(0);
-	elfConfiguration[selectedComputer_].baudR = 0;
-	elfConfiguration[selectedComputer_].baudT = 0;
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Output=7;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100Ef=2;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf=1;
-	elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ=0;
-
-	setElfOsConfigMain();
-}
-
-void GuiElf::setElfOsIoInstallConfigPixie(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("biosio.elfos.0.2.5.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("pixie.ide");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("DFA0");
-
-	elfConfiguration[selectedComputer_].elfPortConf.pixieInput=1;
-	elfConfiguration[selectedComputer_].elfPortConf.pixieOutput=1;
-	elfConfiguration[selectedComputer_].elfPortConf.pixieEf=1;
-
-	setElfOsIoConfigMain();
-}
-
-void GuiElf::setElfOsIoInstallConfig6845(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("biosio.elfos.0.2.5.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("mc6845.ide");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEO6845);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEO6845);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("DFA3");
-
-	setElfOsIoConfigMain();
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf=3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput=5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf=4;
-}
-
-void GuiElf::setElfOsIoInstallConfig6847(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("biosio.elfos.0.2.5_32.column.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("mc6847.ide");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEO6847);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEO6847);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("DFA3");
-
-	setElfOsIoConfigMain();
-
-	reset6847ConfigItem(2);
-	elfConfiguration[selectedComputer_].elfPortConf.mc6847dd6=2;
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf=3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput=5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf=4;
-}
-
-void GuiElf::setElfOsIoInstallConfigTms(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("biosio.elfos.0.2.5.rom");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("tms.ide");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOTMS);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOTMS);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("DFA6");
-    
-    elfConfiguration[selectedComputer_].elfPortConf.tmsModeHighOutput=5;
-    elfConfiguration[selectedComputer_].elfPortConf.tmsModeLowOutput=6;
-    
-    setElfOsIoConfigMain();
-}
-
-void GuiElf::setElfOsIoConfig(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-    XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("serial.ide");
-    if (elfConfiguration[selectedComputer_].useUart)
-    {
-        elfConfiguration[selectedComputer_].useUart = false;
-        switchUart();
-    }
-    configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-    baudChoiceR[selectedComputer_]->SetSelection(0);
-    baudChoiceT[selectedComputer_]->SetSelection(0);
-    elfConfiguration[selectedComputer_].baudR = 0;
-    elfConfiguration[selectedComputer_].baudT = 0;
-    XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VT100);
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VT100);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEONONE);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEONONE);
-    XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARDNONE);
-    setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARDNONE);
-    
-    elfConfiguration[selectedComputer_].elfPortConf.vt100Output=7;
-    elfConfiguration[selectedComputer_].elfPortConf.vt100Ef=2;
-    elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseEf=1;
-    elfConfiguration[selectedComputer_].elfPortConf.vt100ReverseQ=0;
-	elfConfiguration[selectedComputer_].elfPortConf.ef3default=0;
-
-    setElfOsConfigMain();
-}
-
-void GuiElf::setElfOsIoConfigPixie(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("pixie.ide");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOPIXIE);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOPIXIE);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-
-	elfConfiguration[selectedComputer_].elfPortConf.pixieInput=1;
-	elfConfiguration[selectedComputer_].elfPortConf.pixieOutput=1;
-	elfConfiguration[selectedComputer_].elfPortConf.pixieEf=1;
-
-	setElfOsIoConfigMain();
-}
-
-void GuiElf::setElfOsIoConfig6845(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("mc6845.ide");
-
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEO6845);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEO6845);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-
-	setElfOsIoConfigMain();
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf=3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput=5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf=4;
-}
-
-void GuiElf::setElfOsIoConfig6847(wxCommandEvent&WXUNUSED(event))
-{
-	XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93_32.column.rom");
-	XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("mc6847.ide");
-	XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEO6847);
-	setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEO6847);
-	elfConfiguration[selectedComputer_].autoBoot = true;
-	XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-	XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-
-	setElfOsIoConfigMain();
-
-	reset6847ConfigItem(2);
-	elfConfiguration[selectedComputer_].elfPortConf.mc6847dd6=2;
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf=3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput=5;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf=4;
-}
-
-void GuiElf::setElfOsIoConfigTms(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("tms.ide");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOTMS);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOTMS);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-    
-    elfConfiguration[selectedComputer_].elfPortConf.tmsModeHighOutput=5;
-    elfConfiguration[selectedComputer_].elfPortConf.tmsModeLowOutput=6;
-    
-    setElfOsIoConfigMain();
-}
-
-void GuiElf::setElfOsIoConfigTmsGra(wxCommandEvent&WXUNUSED(event))
-{
-    XRCCTRL(*this, "MainRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("bios+biosiov93.rom");
-    XRCCTRL(*this, "IdeFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("gra.ide");
-    XRCCTRL(*this, "VideoType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VIDEOTMS);
-    setVideoType(computerInfo[selectedComputer_].gui, selectedComputer_, VIDEOTMS);
-    elfConfiguration[selectedComputer_].autoBoot = true;
-    XRCCTRL(*this, "AutoBoot"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].autoBoot);
-    XRCCTRL(*this, "BootAddress"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FF00");
-    
-    elfConfiguration[selectedComputer_].elfPortConf.tmsModeHighOutput=5;
-    elfConfiguration[selectedComputer_].elfPortConf.tmsModeLowOutput=6;
-    
-    setElfOsIoConfigMain();
-}
-
-void GuiElf::setElfOsConfigMain()
-{
-	XRCCTRL(*this, "DiskType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(DISKIDE);
-	setDiskType(computerInfo[selectedComputer_].gui, selectedComputer_, DISKIDE);
-	XRCCTRL(*this, "StartRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("0");
-	XRCCTRL(*this, "EndRam"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue("FFFF");
-	XRCCTRL(*this, "UpperCase"+computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(true);
-	conf[selectedComputer_].romDir_[MAINROM1] = dataDir_ + "Elf" + pathSeparator_;
-	if (selectedComputer_ != ELF)
-	{
-		elfConfiguration[selectedComputer_].useTape = false;
-		setTapeType(computerInfo[selectedComputer_].gui, selectedComputer_);
-	}
-	elfConfiguration[selectedComputer_].elfPortConf.ideTracks=512;
-	elfConfiguration[selectedComputer_].elfPortConf.ideHeads=4;
-	elfConfiguration[selectedComputer_].elfPortConf.ideSectors=26;
-	elfConfiguration[selectedComputer_].elfPortConf.ideSelectOutput=2;
-	elfConfiguration[selectedComputer_].elfPortConf.ideWriteOutput=3;
-	elfConfiguration[selectedComputer_].elfPortConf.ideInput=3;
-
-	loadromMode_[selectedComputer_][0] = ROM;
-	XRCCTRL(*this, "RomButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("ROM 1");
-
-    XRCCTRL(*this, "Memory"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(MEM_64K);
-    setMemory(computerInfo[selectedComputer_].gui, selectedComputer_, MEM_64K);
-    
-	conf[selectedComputer_].clock_.Printf("%1.2f", 1.76);
-	clockTextCtrl[selectedComputer_]->ChangeValue(conf[selectedComputer_].clock_);
-
-	conf[selectedComputer_].printerOn_ = false;
-	setConfigItem(computerInfo[selectedComputer_].gui+"/Printer", conf[selectedComputer_].printerOn_);
-	setPrinterState(selectedComputer_);
-}
-
-void GuiElf::setElfOsIoConfigMain()
-{
-	XRCCTRL(*this, "MainRom2"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue("");
-	XRCCTRL(*this, "Keyboard"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(KEYBOARD_ASCII_HEX_EF);
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, KEYBOARD_ASCII_HEX_EF);
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].useUart = false;
-		switchUart();
-	}
-	configPointer->Write(computerInfo[selectedComputer_].gui+"/Uart", elfConfiguration[selectedComputer_].useUart);
-	XRCCTRL(*this, "VTType"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
-	setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, VTNONE);
-
-	elfConfiguration[selectedComputer_].elfPortConf.hexOutput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexInput=4;
-	elfConfiguration[selectedComputer_].elfPortConf.hexEf=3;
-
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardInput=7;
-	elfConfiguration[selectedComputer_].elfPortConf.keyboardEf=3;
-
-	setElfOsConfigMain();
 }
 
 int GuiElf::getLoadromMode(int elfType, int num)
@@ -2714,47 +1398,3 @@ void GuiElf::onQsound(wxCommandEvent&event)
     XRCCTRL(*this, "BeepFrequencyTextHz"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
 	XRCCTRL(*this, "BeepFrequency"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
 }
-
-void GuiElf::onUart(wxCommandEvent&WXUNUSED(event))
-{
-//	elfConfiguration[selectedComputer_].useUart = p_Main->getConfigBool(computerInfo[selectedComputer_].gui+"/Uart", false);
-	switchUart();
-}
-
-void GuiElf::switchUart()
-{
-/*	wxStaticText *TextR;
-	TextR = baudTextR[selectedComputer_];
-	wxChoice *baudR;
-	baudR = baudChoiceR[selectedComputer_];
-	wxStaticText *TextT;
-	TextT = baudTextT[selectedComputer_];
-	wxChoice *baudT;
-	baudT = baudChoiceT[selectedComputer_];*/
-	
-	setBaudChoice(selectedComputer_);
-
-/*	delete TextR;
-	delete baudR;
-	delete TextT;
-	delete baudT;*/
-
-	if (elfConfiguration[selectedComputer_].useUart)
-	{
-		elfConfiguration[selectedComputer_].baudR += 3;
-		elfConfiguration[selectedComputer_].baudT += 3;
-		baudChoiceR[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudR);
-		baudChoiceT[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudT);
-	}
-	else
-	{
-		if (elfConfiguration[selectedComputer_].baudT < 3)  elfConfiguration[selectedComputer_].baudT = 3;
-		if (elfConfiguration[selectedComputer_].baudT > 9)  elfConfiguration[selectedComputer_].baudT = 9;
-		elfConfiguration[selectedComputer_].baudT -= 3;
-		elfConfiguration[selectedComputer_].baudR = elfConfiguration[selectedComputer_].baudT;
-		baudChoiceR[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudR);
-		baudChoiceT[selectedComputer_]->SetSelection(elfConfiguration[selectedComputer_].baudT);
-//		baudTextR[selectedComputer_]->Enable(false);
-	}
-}
-

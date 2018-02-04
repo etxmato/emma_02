@@ -101,10 +101,13 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
     EVT_CHECKBOX(XRCID("ControlWindowsVelf"), GuiVelf::onVelfControlWindows)
     EVT_CHECKBOX(XRCID("AutoBootVelf"), GuiVelf::onAutoBoot)
 
+	EVT_CHOICE(XRCID("VTBaudTChoiceVelf"), GuiVelf::onVelfBaudT)
+	EVT_CHOICE(XRCID("VTBaudRChoiceVelf"), GuiVelf::onVelfBaudR)
+
 END_EVENT_TABLE()
 
-GuiVelf::GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiTMC2000(title, pos, size, mode, dataDir)
+GuiVelf::GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiTMC2000(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[VELF].loadFileNameFull_ = "";
 	conf[VELF].loadFileName_ = "";
@@ -125,7 +128,7 @@ void GuiVelf::readVelfConfig()
 {
 	selectedComputer_ = VELF;
 
-    conf[VELF].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Velf" + pathSeparator_;
+    conf[VELF].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Velf" + pathSeparator_;
     conf[VELF].mainDir_ = readConfigDir("/Dir/Velf/Main", dataDir_ + "Velf" + pathSeparator_);
     
     conf[VELF].romDir_[MAINROM1] = readConfigDir("/Dir/Velf/Main_Rom_File", dataDir_ + "Velf"  + pathSeparator_);
@@ -142,6 +145,7 @@ void GuiVelf::readVelfConfig()
 	conf[VELF].chip8SW_ = configPointer->Read("/Velf/Chip_8_Software", "");
 	conf[VELF].wavFile_ = configPointer->Read("/Velf/Wav_File", "");
 	elfConfiguration[VELF].vtWavFile_ = configPointer->Read("/Velf/Vt_Wav_File", "");
+    elfConfiguration[VELF].serialPort_ = configPointer->Read("/Velf/VtSerialPortChoice", "");
 
 	conf[VELF].printFile_ = configPointer->Read("/Velf/Print_File", "printerout.txt");
 	conf[VELF].screenDumpFile_ = configPointer->Read("/Velf/Video_Dump_File", "screendump.png");
@@ -149,6 +153,7 @@ void GuiVelf::readVelfConfig()
 	conf[VELF].useLoadLocation_ = false;
 
     configPointer->Read("/Velf/Open_Control_Windows", &elfConfiguration[VELF].useElfControlWindows, true);
+    configPointer->Read("/Velf/Enable_Vt_External", &elfConfiguration[VELF].vtExternal, false);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -189,13 +194,11 @@ void GuiVelf::readVelfConfig()
 	elfConfiguration[VELF].vtType = (int)configPointer->Read("/Velf/VT_Type", 2l);
     elfConfiguration[VELF].vt52SetUpFeature_ = configPointer->Read("/Velf/VT52Setup", 0x00004092l);
     elfConfiguration[VELF].vt100SetUpFeature_ = configPointer->Read("/Velf/VT100Setup", 0x0000ca52l);
-	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 0l);
+    elfConfiguration[VELF].vtExternalSetUpFeature_ = configPointer->Read("/Velf/VTExternalSetup", 0x0000ca52l);
+	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 1l);
 	elfConfiguration[VELF].baudR = elfConfiguration[VELF].baudT;
 
-	if (mode_.gui)
-		setBaudChoiceVelf();
-
-	setVtType("Velf", VELF, elfConfiguration[VELF].vtType);
+	setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
 
 	conf[VELF].vtCharRom_ = configPointer->Read("/Velf/Vt_Font_Rom_File", "vt100.bin");
 
@@ -214,20 +217,13 @@ void GuiVelf::readVelfConfig()
 
 		XRCCTRL(*this, "VTTypeVelf", wxChoice)->SetSelection(elfConfiguration[VELF].vtType);
 
-		baudChoiceT[VELF]->SetSelection(elfConfiguration[VELF].baudT);
-		baudTextR[VELF]->Hide();
-		baudChoiceR[VELF]->Hide();
-        baudTextT[VELF]->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		baudChoiceT[VELF]->Enable(elfConfiguration[VELF].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudTChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);
+		XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudT);
 
         XRCCTRL(*this,"AddressText1Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].useElfControlWindows);
-
-		XRCCTRL(*this, "VtCharRomButtonVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupVelf", wxButton)->Enable(elfConfiguration[VELF].vtType != VTNONE);
-		XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
+        XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
 
 		XRCCTRL(*this, "ZoomValueVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoom_);
 		XRCCTRL(*this, "LatchVelf", wxCheckBox)->SetValue(latch_);
@@ -272,6 +268,7 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Video_Dump_File", conf[VELF].screenDumpFile_);
 	configPointer->Write("/Velf/Wav_File", conf[VELF].wavFile_);
 	configPointer->Write("/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFile_);
+    configPointer->Write("/Velf/VtSerialPortChoice", elfConfiguration[VELF].serialPort_);
 
 	configPointer->Write("/Velf/VtEf", elfConfiguration[VELF].vtEf);
 	configPointer->Write("/Velf/VtQ", elfConfiguration[VELF].vtQ);
@@ -282,6 +279,8 @@ void GuiVelf::writeVelfConfig()
     configPointer->Write("/Velf/VT52Setup", value);
     value = elfConfiguration[VELF].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Velf/VT100Setup", value);
+    value = elfConfiguration[VELF].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Velf/VTExternalSetup", value);
 
 	configPointer->Write("/Velf/Vt_Baud", elfConfiguration[VELF].baudT);
     configPointer->Write("/Velf/Enable_Auto_Boot", elfConfiguration[VELF].autoBoot);
@@ -289,6 +288,7 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Zoom", conf[VELF].zoom_);
 	configPointer->Write("/Velf/Vt_Zoom", conf[VELF].zoomVt_);
 	configPointer->Write("/Velf/Enable_Vt_Stretch_Dot", conf[VELF].stretchDot_);
+    configPointer->Write("/Velf/Enable_Vt_External", elfConfiguration[VELF].vtExternal);
     configPointer->Write("/Velf/Open_Control_Windows", elfConfiguration[VELF].useElfControlWindows);
 
 	configPointer->Write("/Velf/Latch", latch_);
@@ -348,56 +348,6 @@ void GuiVelf::onLatch(wxCommandEvent&event)
 	latch_ = event.IsChecked();
 }
 
-void GuiVelf::setBaudChoiceVelf()
-{
-	wxString choices[16];
-
-    if (position_.x == 0)
-    {
-        position_ = XRCCTRL(*this, "CasButtonVelf", wxButton)->GetPosition();
-        position_.y += 28;
-    }
-    
-    if (baudTextT[VELF] != NULL)
-    {
-        baudTextT[VELF]->Destroy();
-        baudChoiceT[VELF]->Destroy();
-        baudTextR[VELF]->Destroy();
-        baudChoiceR[VELF]->Destroy();
-    }
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 28;
-	int offSetY = 54;
-	int choiseOffSetY = 51;
-#elif defined(__WXMAC__)
-	int offSetX = 38;
-	int offSetY = 51;
-	int choiseOffSetY = 49;
-#else
-	int offSetX = 14;
-	int offSetY = 48;
-	int choiseOffSetY = 48;
-#endif
-	
-	choices[0] = "9600";
-	choices[1] = "4800";
-	choices[2] = "3600";
-	choices[3] = "2400";
-	choices[4] = "2000";
-	choices[5] = "1800";
-	choices[6] = "1200";
-	choices[7] = "600";
-	choices[8] = "300";
-	baudTextT[VELF] = new wxStaticText(XRCCTRL(*this, "PanelVelf", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+4+offSetY));
-	baudChoiceT[VELF] = new wxChoice(XRCCTRL(*this, "PanelVelf", wxPanel), GUI_VELF_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 9, choices);
-	baudTextR[VELF] = new wxStaticText(XRCCTRL(*this, "PanelVelf", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+4+offSetY));
-    baudTextR[VELF]->Hide();
-	baudChoiceR[VELF] = new wxChoice(XRCCTRL(*this, "PanelVelf", wxPanel), GUI_VELF_BAUDR, wxPoint(position_.x+152+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 9, choices);
-	baudChoiceR[VELF]->Hide();
-
-	this->Connect(GUI_VELF_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiVelf::onVelfBaudT) );
-}
-
 void GuiVelf::onVelfBaudR(wxCommandEvent&event)
 {
 	elfConfiguration[VELF].baudR = event.GetSelection();
@@ -409,7 +359,7 @@ void GuiVelf::onVelfBaudT(wxCommandEvent&event)
 	if (!elfConfiguration[VELF].useUart)
 	{
 		elfConfiguration[VELF].baudR = event.GetSelection();
-		baudChoiceR[VELF]->SetSelection(elfConfiguration[VELF].baudR);
+		XRCCTRL(*this, "VTBaudRChoiceVelf", wxChoice)->SetSelection(elfConfiguration[VELF].baudR);
 	}
 }
 

@@ -50,6 +50,7 @@ public:
 	void cycle(int type);
     void showData(Byte value);
 	void cycleKey();
+    void cycleLed();
 
     int getMpButtonState();
     void onMpButton();
@@ -72,12 +73,14 @@ public:
 	void defineKeys();
 	void reDefineKeysA(int *, int *);
 
-    void ledTimeout();
     void setLedMs(long ms);
 
 private:
 	ElfConfiguration vipConfiguration;
 	Vt100 *vtPointer;
+
+    int ledCycleValue_;
+    int ledCycleSize_;
 
     int runButtonState_;
     int mpButtonState_;

@@ -7,7 +7,7 @@ class GuiStudio2: public GuiVip
 {
 public:
 
-	GuiStudio2(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiStudio2(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiStudio2() {};
 
 	void readStudioConfig();

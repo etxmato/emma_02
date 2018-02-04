@@ -1,0 +1,35 @@
+<html>
+<title>Did You Know...</title>
+<body>
+<h2>Did You Know...?</h2>
+<h4>
+Some strange, funny and/or interesting things about or related to the COMX computer:
+</h4>
+<p>
+The most famous bug in the COMX basic rom: type line number 65535 in BASIC and the COMX hangs and the screen gets all messed up. Don't do this after spending hours typing in some BASIC program!
+</p>
+<p>
+A similar thing as when using line number 65535 is typing in 'READY', after this the COMX is not 'READY' anymore! F&M (that is me and my brother) discovered this one when they designed the F&M screen editor and pressed 'CR' (return) on the 'READY' prompt. As such they decided to change the prompt into 'OK' to avoid too many accidental hangings when using a screen editor. After some tracing in the emulator I discovered this is actually caused by the basic READ command, when a READ Y (or any other READ x) instruction is given when there is no DATA statement in the loaded basic program the COMX hangs.
+</p>
+<p>
+Another bug we recently rediscovered, is that the '!' in the original COMX has a funny red dot. I corrected that in the rom file comx35.1.1.bin which is now the default rom file for the emulator.
+</p>
+<p>
+If you manage to play 'Eet een wurm' long enough it will eventually run out of places to put new 'food' and as such slow down the game almost to a stop! F&M managed to do this and also solved this bug at the time. The corrected game including some additional improvements is included in the emulator installation package as 'Eet een wurm 2'.
+</p>
+<p>
+F&M also fixed some bugs in the 'COMX Draak' game, this version is also available!
+</p>
+<p>
+The company importing the COMX in Holland, West Electronics, provided almost all their software for the COMX for free and without copyrights (or for a small fee for tape, disk and/or shipment). Some of this software is now available in the installation package of this emulator and the latest available software can always be found on the <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a>.
+</p>
+<p>
+West Electronics also organized different competitions for home made software, some software that ended in the top 3 that I can remember: 'Bowling bal', 'Happiehap' and 'Spellenslag'
+</p>
+<p>
+On the real COMX you could adjust the VIDEO and SYNC signal with a small screw under the COMX-35, some people in Holland gave this a try and managed to damage the screws completely.
+</p>
+<p>
+F&M managed to build their COMX-35 PCB into an old Commodore keyboard (not the 64!) as their keyboard was getting very bad. This did cost them some sweat and almost tears as initially it would not boot up anymore. This 'thing' is still up in an attic somewhere in Holland.
+</p>
+</body></html>

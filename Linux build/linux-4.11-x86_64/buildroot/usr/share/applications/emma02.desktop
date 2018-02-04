@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Emma 02
+Comment=RCA 1802 Emulator
+Icon=emma02
+Exec=emma_02
+Terminal=false
+Categories=Development;

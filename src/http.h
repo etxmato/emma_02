@@ -11,7 +11,7 @@
 #ifndef _WXCURLHTTP_H__INCLUDED_
 #define _WXCURLHTTP_H__INCLUDED_
 
-#include <wx/curl/base.h>
+#include "base.h"
 
 // C Function Declarations for LibCURL
 //

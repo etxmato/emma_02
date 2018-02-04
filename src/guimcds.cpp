@@ -101,10 +101,12 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_BUTTON(XRCID("CasStopMcds"), GuiMain::onCassetteStop)
     EVT_BUTTON(XRCID("RealCasLoadMcds"), GuiMain::onRealCas)
 
+	EVT_CHOICE(XRCID("VTBaudTChoiceMcds"), GuiMcds::onMcdsBaudT)
+
 END_EVENT_TABLE()
 
-GuiMcds::GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir)
-: GuiCosmicos(title, pos, size, mode_, dataDir)
+GuiMcds::GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
+: GuiCosmicos(title, pos, size, mode_, dataDir, iniDir)
 {
     conf[MCDS].loadFileNameFull_ = "";
     conf[MCDS].loadFileName_ = "";
@@ -132,7 +134,7 @@ void GuiMcds::readMcdsConfig()
 {
 	selectedComputer_ = MCDS;
 
-	conf[MCDS].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
+	conf[MCDS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
 
     conf[MCDS].mainDir_ = readConfigDir("/Dir/Mcds/Main", dataDir_ + "MCDS" + pathSeparator_);
 	conf[MCDS].romDir_[MAINROM1] = readConfigDir("/Dir/Mcds/Main_Rom_File1", dataDir_ + "MCDS" + pathSeparator_);
@@ -168,14 +170,19 @@ void GuiMcds::readMcdsConfig()
 	getConfigBool("/Mcds/SerialLog", false);
 
 	configPointer->Read("/Mcds/Enable_Vt_Stretch_Dot", &conf[MCDS].stretchDot_, false);
+    configPointer->Read("/Mcds/Enable_Vt_External", &elfConfiguration[MCDS].vtExternal, false);
 
     elfConfiguration[MCDS].useUart = false; 
     elfConfiguration[MCDS].bellFrequency_ = (int)configPointer->Read("/Mcds/Bell_Frequency", 800);
-	elfConfiguration[MCDS].baudR = (int)configPointer->Read("/Mcds/Vt_Baud_Receive", 0l);
-	elfConfiguration[MCDS].baudT = (int)configPointer->Read("/Mcds/Vt_Baud_Transmit", 0l);
+	elfConfiguration[MCDS].baudR = (int)configPointer->Read("/Mcds/Vt_Baud_Receive", 7l);
+	elfConfiguration[MCDS].baudT = (int)configPointer->Read("/Mcds/Vt_Baud_Transmit", 7l);
 	elfConfiguration[MCDS].vtType = (int)configPointer->Read("/Mcds/VT_Type", 2l);
     elfConfiguration[MCDS].vt52SetUpFeature_ = configPointer->Read("/Mcds/VT52Setup", 0x00004092l);
     elfConfiguration[MCDS].vt100SetUpFeature_ = configPointer->Read("/Mcds/VT100Setup", 0x0000cad2l);
+    elfConfiguration[MCDS].vtExternalSetUpFeature_ = configPointer->Read("/Mcds/VTExternalSetup", 0x0000cad2l);
+    elfConfiguration[MCDS].serialPort_ = configPointer->Read("/Mcds/VtSerialPortChoice", "");
+    elfConfiguration[MCDS].vtEf = false;
+    elfConfiguration[MCDS].vtQ = true;
 
     configPointer->Read("/Mcds/Force_Uppercase", &elfConfiguration[MCDS].forceUpperCase, true);
     configPointer->Read("/Mcds/Boot_From_Ram", &elfConfiguration[MCDS].bootRam, false);
@@ -198,10 +205,7 @@ void GuiMcds::readMcdsConfig()
     configPointer->Read("/Mcds/Enable_Real_Cassette", &conf[MCDS].realCassetteLoad_, false);
 	conf[MCDS].useLoadLocation_ = false;
 
-    if (mode_.gui)
-		setBaudChoiceMcds();
-
-	setVtType("Mcds", MCDS, elfConfiguration[MCDS].vtType);
+ 	setVtType("Mcds", MCDS, elfConfiguration[MCDS].vtType, false);
 
 	conf[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
 
@@ -231,17 +235,10 @@ void GuiMcds::readMcdsConfig()
         XRCCTRL(*this, "VTTypeMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].vtType);
         XRCCTRL(*this, "McdsForceUC", wxCheckBox)->SetValue(elfConfiguration[MCDS].forceUpperCase);
         
-		baudChoiceR[MCDS]->SetSelection(elfConfiguration[MCDS].baudR);
-		baudChoiceT[MCDS]->SetSelection(elfConfiguration[MCDS].baudT);
-		baudChoiceR[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-        baudTextR[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		baudTextT[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		baudChoiceT[MCDS]->Enable(elfConfiguration[MCDS].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
 
-		XRCCTRL(*this, "VtCharRomButtonMcds", wxButton)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupMcds", wxButton)->Enable(elfConfiguration[MCDS].vtType != VTNONE);
-		XRCCTRL(*this, "ZoomValueVtMcds", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
+        XRCCTRL(*this, "ZoomValueVtMcds", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
 		XRCCTRL(*this, "StretchDotMcds", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
@@ -291,7 +288,8 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/Print_File", conf[MCDS].printFile_);
     configPointer->Write("/Mcds/Video_Dump_File", conf[MCDS].screenDumpFile_);
     configPointer->Write("/Mcds/Wav_File", conf[MCDS].wavFile_);
-    
+    configPointer->Write("/Mcds/VtSerialPortChoice", elfConfiguration[MCDS].serialPort_);
+
 	configPointer->Write("/Mcds/Bell_Frequency", elfConfiguration[MCDS].bellFrequency_);
 	configPointer->Write("/Mcds/VT_Type", elfConfiguration[MCDS].vtType);
     
@@ -299,12 +297,15 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/VT52Setup", value);
     value = elfConfiguration[MCDS].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Mcds/VT100Setup", value);
+    value = elfConfiguration[MCDS].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Mcds/VTExternalSetup", value);
     
 	configPointer->Write("/Mcds/Vt_Baud_Receive", elfConfiguration[MCDS].baudR);
 	configPointer->Write("/Mcds/Vt_Baud_Transmit", elfConfiguration[MCDS].baudT);
 	configPointer->Write("/Mcds/Vt_Zoom", conf[MCDS].zoomVt_);
     configPointer->Write("/Mcds/Force_Uppercase", elfConfiguration[MCDS].forceUpperCase);
     configPointer->Write("/Mcds/Enable_Vt_Stretch_Dot", conf[MCDS].stretchDot_);
+    configPointer->Write("/Mcds/Enable_Vt_External", elfConfiguration[MCDS].vtExternal);
     configPointer->Write("/Mcds/Volume", conf[MCDS].volume_);
     configPointer->Write("/Mcds/Boot_From_Ram", elfConfiguration[MCDS].bootRam);
     
@@ -346,7 +347,7 @@ void GuiMcds::onMcdsBaudT(wxCommandEvent&event)
 {
 	elfConfiguration[MCDS].baudT = event.GetSelection();
     elfConfiguration[MCDS].baudR = event.GetSelection();
-    baudChoiceR[MCDS]->SetSelection(elfConfiguration[MCDS].baudR);
+    XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
 }
 
 void GuiMcds::onMcdsForceUpperCase(wxCommandEvent&event)
@@ -365,50 +366,4 @@ void GuiMcds::onBootRam(wxCommandEvent&event)
 	{
 		p_Mcds->setBootRam(event.IsChecked());
 	}
-}
-
-void GuiMcds::setBaudChoiceMcds()
-{
-	wxString choices[9];
-    if (position_.x == 0)
-        position_ = XRCCTRL(*this, "CasButtonMcds", wxButton)->GetPosition();
-
-    if (baudTextT[MCDS] != NULL)
-    {
-        baudTextT[MCDS]->Destroy();
-        baudChoiceT[MCDS]->Destroy();
-        baudTextR[MCDS]->Destroy();
-        baudChoiceR[MCDS]->Destroy();
-    }
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 15;
-	int offSetY = 48;
-	int choiseOffSetY = 45;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 51;
-	int choiseOffSetY = 49;
-#else
-	int offSetX = 10;
-	int offSetY = 47;
-	int choiseOffSetY = 47;
-#endif
-
-    choices[0] = "1200";
-    choices[1] = "600";
-    choices[2] = "300";
-    choices[3] = "200";
-    choices[4] = "150";
-    choices[5] = "134";
-    choices[6] = "110";
-    choices[7] = "75";
-    choices[8] = "50";
-    baudTextT[MCDS] = new wxStaticText(XRCCTRL(*this, "PanelMcds", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+3+offSetY));
-    baudChoiceT[MCDS] = new wxChoice(XRCCTRL(*this, "PanelMcds", wxPanel), GUI_MCDS_BAUDT, wxPoint(position_.x+84+offSetX,position_.y-1+choiseOffSetY), wxSize(60,23), 9, choices);
-    baudTextR[MCDS] = new wxStaticText(XRCCTRL(*this, "PanelMcds", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+3+offSetY));
-	baudTextR[MCDS]->Hide();
-	baudChoiceR[MCDS] = new wxChoice(XRCCTRL(*this, "PanelMcds", wxPanel), GUI_MCDS_BAUDR, wxPoint(position_.x+152+offSetX,position_.y-1+choiseOffSetY), wxSize(60,23), 9, choices);
-	baudChoiceR[MCDS]->Hide();
-
-	this->Connect(GUI_MCDS_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMcds::onMcdsBaudT) );
 }

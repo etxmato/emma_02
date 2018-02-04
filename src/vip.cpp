@@ -50,6 +50,8 @@ Vip::~Vip()
 		p_Main->setVtPos(VIP, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (vipConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(VIP, GetPosition());
 }
 
@@ -65,6 +67,7 @@ void Vip::configureComputer()
 	outType_[7] = VIPIIOUT7;
 	efType_[2] = VIPEF2;
 	efType_[3] = VIPKEYEF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	vipSound_ = p_Main->getSound(VIP);
 	cdp1862_ = p_Main->getVipVp590();
@@ -112,9 +115,15 @@ void Vip::configureComputer()
         else
             vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
 		p_Vt100 = vtPointer;
-		vtPointer->configureVip(vipConfiguration.baudR, vipConfiguration.baudT);
+		vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(true);
 	}
+
+    if (vipConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(VIP, clock_, vipConfiguration);
+        p_Serial->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
+    }
 
 	defineKeys();
 	resetCpu();
@@ -277,8 +286,8 @@ void Vip::keyDown(int keycode)
 
 void Vip::keyUp(int keycode)
 {
-	if (useKeyboard_)
-		keyboardEf_ = 1;
+//	if (useKeyboard_)
+//		keyboardEf_ = 1;
 	if (keyDefinition[keycode].defined)
 		vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
@@ -320,6 +329,10 @@ Byte Vip::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		default:
 			return 1;
 	}
@@ -351,9 +364,10 @@ Byte Vip::in(Byte port, Word WXUNUSED(address))
 
 		case KEYBRDIN:
 			ret = keyboardValue_;
+			keyboardEf_ = 1;
 			if (vipRunCommand_ != 0)
 			{
-				keyboardEf_ = 1;
+				//keyboardEf_ = 1;
 				if (keyboardValue_ == 13)
 					vipRunCommand_ = 0;
 			}
@@ -405,6 +419,10 @@ void Vip::out(Byte port, Word WXUNUSED(address), Byte value)
 			vtPointer->out(value);
 		break;
 
+		case VTOUTSERIAL:
+			p_Serial->out(value);
+		break;
+
 		case VIPIIOUT7:
 			if (value == 1)
 			{
@@ -428,7 +446,13 @@ void Vip::outVip(Byte value)
 
 void Vip::switchQ(int value)
 {
-	if (!usePrinter_)  return;
+    if (vipConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (vipConfiguration.vtExternal)
+        p_Serial->switchQ(value);
+
+    if (!usePrinter_)  return;
 
 	if (value == 0 && stateQ_ == 1 && printLatch_ != 0)
 		p_Printer->printerOut(printLatch_);
@@ -456,10 +480,14 @@ void Vip::cycle(int type)
             vtPointer->cycleVt();
             break;
             
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case VIPIIKEYCYCLE:
 			cycleKey();
 		break;
-	}
+    }
 }
 
 void Vip::cycleKey()
@@ -530,7 +558,6 @@ void Vip::cycleKey()
 		}
 	}
 }
-
 
 void Vip::cycleVP550()
 {
@@ -620,7 +647,6 @@ void Vip::startComputer()
 	setVipSound(vipSound_);
 
 	p_Main->updateTitle();
-
 
 	cpuCycles_ = 0;
 	p_Main->startTime();

@@ -7,11 +7,39 @@ typedef unsigned short Word;
 //#endif
 
 #include "wx/file.h"
-#include "wx/html/helpctrl.h"
 #include "wx/spinctrl.h"
 #include "wx/choicebk.h"
 #include "vector"
 #include "wx/listctrl.h"
+#include "wx/html/helpctrl.h"
+
+class MyHtmlHelpController : public wxHtmlHelpController
+{
+public:
+    MyHtmlHelpController(int style=wxHF_DEFAULT_STYLE, wxWindow *parentWindow=NULL)
+    : wxHtmlHelpController(style, parentWindow) {}
+    MyHtmlHelpController(wxWindow *parentWindow, int style=wxHF_DEFAULT_STYLE)
+    : wxHtmlHelpController(parentWindow, style) {}
+protected:
+    virtual wxWindow* CreateHelpWindow()
+    {
+        wxHtmlHelpController::CreateHelpWindow();
+        
+        m_helpWindow->Bind(wxEVT_HTML_LINK_CLICKED, &MyHtmlHelpController::OnHtmlLinkClicked);
+        
+        return m_helpWindow;
+    }
+private:
+    static void OnHtmlLinkClicked(wxHtmlLinkEvent& event)
+    {
+        const wxString href = event.GetLinkInfo().GetHref();
+        
+        if ( href.StartsWith("http://") || href.StartsWith("https://"))
+            wxLaunchDefaultBrowser(href);
+        else
+            event.Skip(true);
+    }
+};
 
 // code defining event
 
@@ -146,6 +174,20 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
     (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction) (wxEventFunction) \
     wxStaticCastEvent( guiEventFunction, & fn ), (wxObject *) NULL ),*/
 
+class Main;
+
+class UpdateCheckThread : public wxThread
+{
+public:
+    UpdateCheckThread(Main *handler)
+    : wxThread(wxTHREAD_DETACHED)
+    { m_pHandler = handler; }
+    ~UpdateCheckThread();
+protected:
+    virtual ExitCode Entry();
+    Main *m_pHandler;
+};
+
 #define SET_LOCATION 1
 #define SET_SW_NAME 2
 #define SET_TAPE_STATE 3
@@ -175,6 +217,7 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
 #define SHOW_MESSAGE 28
 #define SHOW_ADDRESS_POPUP 29
 #define SHOW_TEXT_MESSAGE 30
+#define DEBOUNCE_TIMER 31
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -187,6 +230,7 @@ typedef void (wxEvtHandler::*guiEventFunction)(guiEvent&);
 #define OS_LINUX_OPENSUSE_KDE 20
 #define OS_LINUX_OPENSUSE_GNOME 21
 #define OS_MAC 30
+#define OS_LINUX_FEDORA 40
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -359,8 +403,10 @@ public:
 #include "guicomx.h"
 #include "debug.h"
 #include "video.h"
+#include "serial.h"
 
-#define EMMA_VERSION "1.24.33"
+#define EMMA_VERSION 1.25
+#define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -400,6 +446,7 @@ public:
 #define COMXRS232 17
 #define COMXSUPERBOARD 0x21
 #define COMXEPROMBOARD 0x73
+#define COMXDIAG 0xC2
 #define COMXEMPTY 255
 #define PRINTFILE 0
 #define PRINTWINDOW 1
@@ -531,6 +578,9 @@ public:
 #define NVRAM 24
 #define ROMMAPPER 25
 #define MULTICART 26
+#define DIAGROM 27
+#define MAPPEDROM 28
+#define MAPPEDMULTICART 29
 #define NOCHANGE 30
 
 #define SHOWNAME true
@@ -647,6 +697,7 @@ public:
 #define VTNONE 0
 #define VT52 1
 #define VT100 2
+#define EXTERNAL_TERMINAL 3
 
 	// 1 Scroll - repeat - screen reverse - cursor block line
 	// 2 bell - keyklick - ansi/vt52 - xon/xoff
@@ -680,6 +731,7 @@ public:
 #define GUISAVECONFIG "MI_SaveConfig"
 #define GUISAVECOMPUTERCONFIG "MI_SaveComputerConfig"
 #define GUIDEFAULTWINDOWPOS "MI_DefaultWindowPosition"
+#define GUIDEFAULTGUISIZE "MI_DefaultGuiSize"
 #define GUIDEFAULT "MI_DefaultSettings"
 #define GUIPROTECTEDMODE "ProtectedMode"
 
@@ -714,7 +766,8 @@ public:
 #define GUI_MCDS_BAUDR 30018
 #define GUI_MCDS_BAUDT 30019
 #define GUI_CLOCK_TEXTCTRL 30020
-#define GUI_START_BUTTON 30040
+#define GUI_START_BUTTON 30060
+#define GUI_STOP_BUTTON 30100
 #define GUI_CONFIG_MENU 10000
 #define GUI_CONFIG_DELETE_MENU 20000
 
@@ -780,6 +833,11 @@ public:
 #define VIDEO 0
 #define PIXIE 1
 
+#if defined(__WXMAC__)
+#define IMAGES_FOLDER "images_osx"
+#else
+#define IMAGES_FOLDER "images"
+#endif
 
 class Emu1802: public wxApp
 {
@@ -789,15 +847,20 @@ class Emu1802: public wxApp
     virtual void OnInitCmdLine(wxCmdLineParser& parser);
     virtual bool OnCmdLineParsed(wxCmdLineParser& parser);
 	void getSoftware(wxString computer, wxString type, wxString software);
+	void checkXrc(wxString xrcFile);
 
 private:
-	wxConfigBase *regPointer;
 	wxConfigBase *configPointer;
 
 	Mode mode_;
     int startComputer_;
-	wxString dataDir_;
 	bool dataDirRelative_;
+    
+    wxString dataDir_;
+    wxString workingDir_;
+    wxString iniDirectory_;
+    wxString pathSeparator_;
+    wxString applicationDirectory_;
 };
 
 WindowInfo getWinSizeInfo();
@@ -806,9 +869,12 @@ class Main: public DebugWindow
 {
 public:
 
-	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxConfigBase *regPointer);
+	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~Main();
-
+    
+    wxSize getPosition(wxString control, wxSize size);
+    wxSize getDefaultGuiSize();
+    void windowSizeChanged(wxSizeEvent& event);
 	void pageSetup();
 	void onClose(wxCloseEvent&event );
 
@@ -819,6 +885,10 @@ public:
 	void onQuit(wxCommandEvent& event);
 	void onAbout(wxCommandEvent& event);
     void onDataDir(wxCommandEvent& event);
+    void onReInstallConfig(wxCommandEvent& event);
+    void onReInstallData(wxCommandEvent& event);
+    void reInstall(wxString source, wxString destination, wxString pathSep);
+    bool copyTree( wxFileName* source, wxFileName* destination, wxString pathSep);
     void onConfiguration(wxCommandEvent& event);
     void onDeleteConfiguration(wxCommandEvent& event);
 	void onHome(wxCommandEvent& event);
@@ -834,7 +904,8 @@ public:
     ConfigurationInfo getMenuInfo(wxString fileName);
     void loadComputerConfig(wxString fileName);
 	void onSaveOnExit(wxCommandEvent& event);
-	void onDefaultWindowPosition(wxCommandEvent& event);
+    void onDefaultWindowPosition(wxCommandEvent& event);
+    void onDefaultGuiSize(wxCommandEvent& event);
 	void onFixedWindowPosition(wxCommandEvent& event);
 	void nonFixedWindowPosition();
 	void fixedWindowPosition();
@@ -888,9 +959,10 @@ public:
 	void setNoteBook();
 	void onStart(wxCommandEvent& event);
 	void onStart(int computer);
+    void onStop(wxCommandEvent& event);
 
 	void stopComputer();
-	void killComputer(wxCommandEvent&WXUNUSED(event));
+    void killComputer(wxCommandEvent&WXUNUSED(event));
 	void enableGui(bool status);
 	void message(wxString buffer);
 	void messageNoReturn(wxString buffer);
@@ -902,7 +974,7 @@ public:
 
 	wxString getApplicationDir();
 
-	wxChar getPathSep();
+	wxString getPathSep();
 	int setFdcStepRate(int rate);
     int getFdcCpms();
 	int getPsaveData(int item);
@@ -912,7 +984,7 @@ public:
 	bool getUseExitKey() {return useExitKey_;};
 	void setUseExitKey(bool status) {useExitKey_ = status;};
     void traceTimeout(wxTimerEvent& event);
-	void vuTimeout(wxTimerEvent& event);
+    void vuTimeout(wxTimerEvent& event);
 	void updateMemoryTab();
 	void updateAssTab();
 	void updateSlotInfo();
@@ -1012,10 +1084,14 @@ public:
 	void setDisableControlsEvent(guiEvent& event);
 	void eventDisableControls();
 
-    void setUpdateTitle(guiEvent& event);
-    void eventUpdateTitle();
-    
-	wxString getMultiCartGame(Byte msb, Byte lsb);
+	void setUpdateTitle(guiEvent& event);
+	void eventUpdateTitle();
+
+	void debounceTimeout(wxTimerEvent& event);
+	void setDebounceTimer(guiEvent& event);
+	void eventDebounceTimer();
+
+    wxString getMultiCartGame(Byte msb, Byte lsb);
     bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
@@ -1027,9 +1103,12 @@ public:
 	bool getThermalEf() {return thermalEf_;};
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};
 	void setSlotLedUpdate(bool status) {slotLedUpdate_ =  status;};
-    
+   
+    UpdateCheckThread *m_pUpdateCheckThread;
+    wxCriticalSection m_pUpdateCheckThreadCS;    // protects the m_pUpdateCheckThread pointer
+
 private:
-	wxHtmlHelpController *help_;
+	MyHtmlHelpController *help_;
 	wxString latestVersion_;
 
     bool saveOnExit_;
@@ -1045,6 +1124,7 @@ private:
 	int treble_;
 	wxTimer *cpuPointer;
 	wxTimer *updateCheckPointer;
+	bool updateCheckStarted_;
 	int oldGauge_;
 
 	wxString message_;
@@ -1077,6 +1157,7 @@ private:
 EXT Main *p_Main;
 EXT Video *p_Video;
 EXT Video *p_Vt100;
+EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
 
 EXT	Printer *p_PrinterParallel;

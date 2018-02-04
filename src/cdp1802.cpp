@@ -6,7 +6,7 @@
  *** This software may not be used in commercial applications    ***
  *** without express written permission from the author.         ***
  ***                                                             ***
- *** 1802 Code based on elf emulator by Michael H Riley with     ***
+ *** 1802 Code based on elf emulator by Michael H Riley with     **
  *** copyright as below                                          ***
  *******************************************************************
 */
@@ -329,7 +329,20 @@ void Cdp1802::setEf(int flag,int value)
 
 void Cdp1802::interrupt()
 {
-	if (interruptEnable_ && (clear_ == 1))
+	if (p_Main->isDiagActive(COMX) && computerType_ == COMX)
+	{
+		if (interruptEnable_ && (clear_ == 1))
+		{
+			p_Video->updateDiagLedStatus(3, false); //INT
+			p_Video->updateDiagLedStatus(4, true); //INTACK
+		}
+		else
+		{
+			p_Video->updateDiagLedStatus(3, true); //INT
+			p_Video->updateDiagLedStatus(4, false); //INTACK
+		}
+	}
+	if (interruptEnable_ && (clear_ == 1) && (getDmaCounter() != -100))
 	{
 		if (traceInt_)
 		{
@@ -3477,6 +3490,26 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 }
             }
         break;
+
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (type > mainMemoryLabelType_[address] || type == 0)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    mainMemoryLabelType_[address] = type;
+                }
+            }
+            else
+            {
+                if (type > multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] || type == 0)
+                {
+                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                    multiCartRomLabelType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
+                }
+            }
+        break;
     }
 }
 
@@ -3740,6 +3773,14 @@ Byte Cdp1802::readMemLabelType(Word address)
         break;
             
         case MULTICART:
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemoryLabelType_[address];
+            else
+                return multiCartRomLabelType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+        break;
+
+        case MAPPEDMULTICART:
+            address = address & 0xfff;
             if ((address < 0x400) && !disableSystemRom_)
                 return mainMemoryLabelType_[address];
             else

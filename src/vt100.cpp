@@ -31,7 +31,7 @@
     #include "wx/wx.h"
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -65,12 +65,12 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	computerType_ = computerType;
 	vtType_ = elfConfiguration_.vtType;
 	clock_ = clock;
-	videoScreenPointer = new VideoScreen(this, size, zoom, computerType, true);
-	line_ = "";
 
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, true);
 #ifndef __WXMAC__
-	SetIcon(wxICON(app_icon));
+    SetIcon(wxICON(app_icon));
 #endif
+    line_ = "";
 
     colourIndex_ = 2;
 	switch(computerType_)
@@ -113,9 +113,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     }
 	readCharRomFile(p_Main->getVtCharRomDir(computerType_), p_Main->getVtCharRomFile(computerType_));
 	stretchDot_ = p_Main->getStretchDot(computerType_);
-//    serialLog_ = p_Main->getConfigBool(computerTypeStr_+"/SerialLog", false);
     serialLog_ = elfConfiguration_.serialLog;
-//    uart_ = p_Main->getConfigBool(computerTypeStr_+"/Uart", false);
     uart_ = elfConfiguration_.useUart;
 
 	fullScreenSet_ = false;
@@ -189,16 +187,15 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	cycleBell_ = 0;
 	cycleClick_ = 0;
 
-	initScreen();
-	videoScreenPointer->setRepeat(SetUpFeature_[VTREPEAT]);
+    initScreen();
+    videoScreenPointer->setRepeat(SetUpFeature_[VTREPEAT]);
 
-	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
-	dcMemory.SelectObject(*screenCopyPointer);
+    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    dcMemory.SelectObject(*screenCopyPointer);
 
 #if defined(__WXMAC__)
-	gc = wxGraphicsContext::Create(dcMemory);
-	gc->SetAntialiasMode(wxANTIALIAS_NONE);
-//	gc->SetInterpolationQuality(wxINTERPOLATION_NONE);
+    gc = wxGraphicsContext::Create(dcMemory);
+    gc->SetAntialiasMode(wxANTIALIAS_NONE);
 #endif
 
 	pressedKey_ = 0;
@@ -241,8 +238,11 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     terminalLoad_ = false;
     terminalInputFileLine_ = "";
 
-	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-	this->SetBackgroundColour(colour_[colourIndex_+1]);
+    if (vtType_ != EXTERNAL_TERMINAL)
+    {
+        this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+        this->SetBackgroundColour(colour_[colourIndex_+1]);
+    }
 	characterListPointer = NULL;
 	offsetX_ = 0;
 	offsetY_ = 0;
@@ -267,7 +267,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 		logFile_.Create(fileName);
     }
     mcdsRunCommand_ = 0;
-
+    serialOpen_ = false;
 }
 
 Vt100::~Vt100()
@@ -299,225 +299,53 @@ Vt100::~Vt100()
 
 void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
 {
-//	int output, efPort;
-	wxString runningComp = p_Main->getRunningComputerStr();
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 3;
-		selectedBaudR_ += 3;
-	}
-
-    if (elfConfiguration_.baudRateAdjust)
-    {
-        baudRateT_ = baudRateFactor_[selectedBaudT_];
-        baudRateR_ = baudRateFactor_[selectedBaudR_];
-    }
-    else
-    {
-        baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-        baudRateR_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudR_]);
-    }
-
-	if (uart_)
-	{
-		configureUart(elfPortConf);
-	}
-	else
-	{
-//		output = p_Main->getConfigItem(runningComp+"/Vt100Output", 7l);
-//		efPort = p_Main->getConfigItem(runningComp+"/Vt100Ef", 2l);
-        reverseEf_ = elfPortConf.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
-        reverseQ_ = elfPortConf.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
-
-		p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-		p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
-
-		dataReadyFlag_ = elfPortConf.vt100Ef;
-		if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
-			p_Computer->setEfType(dataReadyFlag_, VTINEF);
-		else
-			p_Computer->setEfType(dataReadyFlag_, VT100EF);
-
-		if (reverseQ_) p_Computer->setFlipFlopQ(1);
-
-		wxString printEfReverse = ", ";
-		wxString printQ = "Serial out: Q";
-
-		if (reverseEf_ == 0)
-			printEfReverse = "(reversed), ";
-
-		if (reverseQ_ == 1)
-			printQ = "Serial out: reversed Q";
-
-		if (vtType_ == VT52)
-			p_Main->message("Configuring VT52 terminal");
-		else
-			p_Main->message("Configuring VT100 terminal");
-
-		printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
-		printBuffer = printBuffer + printEfReverse + printQ;
-		p_Main->message(printBuffer);
-	}
-
-//	if (selectedBaud == 7)
-		printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-//	else
-//		printBuffer.Printf("	Baud rate: %d\n", baudRateValue_[selectedBaudT_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
-}
-
-void Vt100::configureMember(int selectedBaudR, int selectedBaudT)
-{
+    wxString runningComp = p_Main->getRunningComputerStr();
     wxString printBuffer;
     
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    selectedBaudT_ += 1;
-    selectedBaudR_ += 1;
-
-    baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-    if (baudRateValue_[selectedBaudT_] > 2400)
-        baudRateT_ -=3;
-    baudRateR_ = baudRateT_;
-   
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-//    p_Computer->setOutType(7, VT100OUT);
-
-	dataReadyFlag_ = 3;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
     
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
+    if (uart_)
+    {
+        configureUart(elfPortConf);
+    }
     else
-        p_Main->message("Configuring VT100 terminal");
- 
-	configureQandEfPolarity(dataReadyFlag_, false);
-
-    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-    p_Main->message(printBuffer);
-    
-    vtEnabled_ = 1;
-    vtCount_ = -1;
-    vtOutCount_ = -1;
-    vtOut_ = 0;
-    vt100Ef_ = 1;
-    elfRunCommand_ = 0;
-}
-
-void Vt100::configureMcds(int selectedBaudR, int selectedBaudT)
-{
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT + 7;
-	selectedBaudR_ = selectedBaudR + 7;
-
-	baudRateT_ = (int)(((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-	if (baudRateValue_[selectedBaudT_] > 2400)
-		baudRateT_ -= 3;
-	baudRateR_ = baudRateT_;
-
-	p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-
-	if (vtType_ == VT52)
-		p_Main->message("Configuring VT52 terminal");
-	else
-		p_Main->message("Configuring VT100 terminal");
-
-    elfConfiguration_.vtEf = false;
-    elfConfiguration_.vtQ = true;
-    configureQandEfPolarity(dataReadyFlag_, false);
-
-	printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
-}
-
-void Vt100::configureCosmicos(int selectedBaudR, int selectedBaudT)
-{
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 4;
-		selectedBaudR_ += 4;
-	}
-	baudRateT_ = baudRateFactor_[selectedBaudT_];
-	baudRateR_ = baudRateFactor_[selectedBaudR_];
-    baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = baudRateT_;
-    
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
-    else
-        p_Main->message("Configuring VT100 terminal");
-
-	configureQandEfPolarity(dataReadyFlag_, false);
-
-	printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
-}
-
-void Vt100::configureVip(int selectedBaudR, int selectedBaudT)
-{
-    wxString printBuffer;
-    
-    selectedBaudT_ = selectedBaudT;
-    selectedBaudR_ = selectedBaudR;
-    
-	if (!uart_)
-	{
-		selectedBaudT_ += 4;
-		selectedBaudR_ += 4;
-	}
-	baudRateT_ = baudRateFactor_[selectedBaudT_];
-    baudRateR_ = baudRateFactor_[selectedBaudR_];
+    {
+        reverseEf_ = elfPortConf.vt100ReverseEf;
+        reverseQ_ = elfPortConf.vt100ReverseQ;
         
-    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-	dataReadyFlag_ = 4;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
-    
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal");
-    else
-        p_Main->message("Configuring VT100 terminal");
-    
-	configureQandEfPolarity(dataReadyFlag_, false);
+        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+        p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
+        
+        dataReadyFlag_ = elfPortConf.vt100Ef;
+        if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
+            p_Computer->setEfType(dataReadyFlag_, VTINEF);
+        else
+            p_Computer->setEfType(dataReadyFlag_, VT100EF);
+        
+        if (reverseQ_) p_Computer->setFlipFlopQ(1);
+        
+        wxString printEfReverse = ", ";
+        wxString printQ = "Serial out: Q";
+        
+        if (reverseEf_ == 0)
+            printEfReverse = "(reversed), ";
+        
+        if (reverseQ_ == 1)
+            printQ = "Serial out: reversed Q";
+        
+        if (vtType_ == VT52)
+            p_Main->message("Configuring VT52 terminal");
+        else
+            p_Main->message("Configuring VT100 terminal");
+        
+        printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
+        printBuffer = printBuffer + printEfReverse + printQ;
+        p_Main->message(printBuffer);
+    }
     
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
@@ -530,37 +358,33 @@ void Vt100::configureVip(int selectedBaudR, int selectedBaudT)
     elfRunCommand_ = 0;
 }
 
-void Vt100::configureVelf(int selectedBaudR, int selectedBaudT)
+void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)
 {
     wxString printBuffer;
     
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
+    dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP = 4
     
-	selectedBaudT_ ++;
-	selectedBaudR_ ++;
-    
-    baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-    if (baudRateValue_[selectedBaudT_] > 2400)
-        baudRateT_ -=3;
+    if (computerType_ == VELF || computerType_ == VIP)
+        baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
+    else
+        baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = baudRateT_;
-
+    
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-	dataReadyFlag_ = 2;
-	p_Computer->setEfType(dataReadyFlag_, VT100EF);
+    p_Computer->setEfType(dataReadyFlag_, VT100EF);
     
     if (vtType_ == VT52)
         p_Main->message("Configuring VT52 terminal");
     else
         p_Main->message("Configuring VT100 terminal");
-    
-	configureQandEfPolarity(dataReadyFlag_, false);
-    
+    configureQandEfPolarity(dataReadyFlag_, false);
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
     p_Main->message(printBuffer);
     
     vtEnabled_ = 1;
-    vtCount_ = -10;
+    vtCount_ = -1;
     vtOutCount_ = -1;
     vtOut_ = 0;
     vt100Ef_ = 1;
@@ -569,33 +393,27 @@ void Vt100::configureVelf(int selectedBaudR, int selectedBaudT)
 
 void Vt100::configureUart(ElfPortConfiguration elfPortConf)
 {
-//	int uartIn, uartOut, uartControl, uartStatus;
-	wxString runningComp = p_Main->getRunningComputerStr();
-
-//	uartOut = p_Main->getConfigItem(runningComp+"/UartOut", 2l);
-//	uartIn = p_Main->getConfigItem(runningComp+"/UartIn", 2l);
-//	uartControl = p_Main->getConfigItem(runningComp+"/UartControl", 3l);
-//	uartStatus = p_Main->getConfigItem(runningComp+"/UartStatus", 3l);
-
-	p_Computer->setOutType(elfPortConf.uartOut, UARTOUT);
-	p_Computer->setInType(elfPortConf.uartIn, UARTIN);
-	p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROL);
-	p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUS);
-	p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-
-	wxString printBuffer;
-
-	if (vtType_ == VT52)
-		p_Main->message("Configuring VT52 terminal with CDP1854/UART");
-	else
-		p_Main->message("Configuring VT100 terminal with CDP1854/UART");
-
-	printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
-	p_Main->message(printBuffer);
-
-	printBuffer.Printf("	Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
-	p_Main->message(printBuffer);
-	rs232_ = 0;
+    wxString runningComp = p_Main->getRunningComputerStr();
+    
+    p_Computer->setOutType(elfPortConf.uartOut, UARTOUT);
+    p_Computer->setInType(elfPortConf.uartIn, UARTIN);
+    p_Computer->setOutType(elfPortConf.uartControl, UARTCONTROL);
+    p_Computer->setInType(elfPortConf.uartStatus, UARTSTATUS);
+    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+    
+    wxString printBuffer;
+    
+    if (vtType_ == VT52)
+        p_Main->message("Configuring VT52 terminal with CDP1854/UART");
+    else
+        p_Main->message("Configuring VT100 terminal with CDP1854/UART");
+    
+    printBuffer.Printf("	Output %d: load transmitter, input %d: read receiver", elfPortConf.uartOut, elfPortConf.uartIn);
+    p_Main->message(printBuffer);
+    
+    printBuffer.Printf("	Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
+    p_Main->message(printBuffer);
+    rs232_ = 0;
 }
 
 void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
@@ -603,9 +421,9 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
-    baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-    baudRateR_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudR_]);
-  
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
+    
     p_Computer->setEfType(4, VT100EF);
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
@@ -642,74 +460,64 @@ void Vt100::setTabChar(Byte value)
 
 void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf)
 {
-//	int efPort;
-	wxString runningComp = p_Main->getRunningComputerStr();
-	wxString printBuffer;
-
-	selectedBaudT_ = selectedBaudT;
-	selectedBaudR_ = selectedBaudR;
-
-	if (!uart_)
-	{
-		selectedBaudT_ += 3;
-		selectedBaudR_ += 3;
-	}
-	baudRateT_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]);
-	baudRateR_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudR_]);
-
-	if (uart_)
-	{
-		p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-
-		if (vtType_ == VT52)
-			p_Main->message("Configuring VT52 terminal with 16450/550 UART");
-		else
-			p_Main->message("Configuring VT100 terminal with 16450/550 UART");
-
-		rs232_ = 0;
-	}
-	else
-	{
-//		efPort = p_Main->getConfigItem(runningComp+"/Vt100Ef", 3l);
-		reverseEf_ = elfPortConf.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
-		reverseQ_ = elfPortConf.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
-
-		p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-		dataReadyFlag_ = elfPortConf.vt100Ef;
-		p_Computer->setEfType(elfPortConf.vt100Ef, VT100EF);
-		if (reverseQ_) p_Computer->setFlipFlopQ(1);
-
-		wxString printEfReverse = ", ";
-		wxString printQ = "Serial out: Q";
-
-		if (reverseEf_ == 0)
-			printEfReverse = "(reversed), ";
-
-		if (reverseQ_ == 1)
-			printQ = "Serial out: reversed Q";
-
-		if (vtType_ == VT52)
-			p_Main->message("Configuring VT52 terminal");
-		else
-			p_Main->message("Configuring VT100 terminal");
-
-		printBuffer.Printf("	EF %d: serial input", elfPortConf.vt100Ef);
-		printBuffer = printBuffer + printEfReverse + printQ;
-		p_Main->message(printBuffer);
-	}
-
-//	if (selectedBaud == 7)
-		printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
-//	else
-//		printBuffer.Printf("	Baud rate: %d\n", baudRateValue_[selectedBaudT_]);
-	p_Main->message(printBuffer);
-
-	vtEnabled_ = 1;
-	vtCount_ = -1;
-	vtOutCount_ = -1;
-	vtOut_ = 0;
-	vt100Ef_ = 1;
-	elfRunCommand_ = 0;
+    wxString runningComp = p_Main->getRunningComputerStr();
+    wxString printBuffer;
+    
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
+    
+    if (uart_)
+    {
+        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+        
+        if (vtType_ == VT52)
+            p_Main->message("Configuring VT52 terminal with 16450/550 UART");
+        else
+            p_Main->message("Configuring VT100 terminal with 16450/550 UART");
+        
+        rs232_ = 0;
+    }
+    else
+    {
+        reverseEf_ = elfPortConf.vt100ReverseEf; //p_Main->getConfigItem(runningComp+"/Vt100ReverseEf", 1l);
+        reverseQ_ = elfPortConf.vt100ReverseQ; //p_Main->getConfigItem(runningComp+"/Vt100ReverseQ", 0l);
+        
+        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+        dataReadyFlag_ = elfPortConf.vt100Ef;
+        p_Computer->setEfType(elfPortConf.vt100Ef, VT100EF);
+        if (reverseQ_) p_Computer->setFlipFlopQ(1);
+        
+        wxString printEfReverse = ", ";
+        wxString printQ = "Serial out: Q";
+        
+        if (reverseEf_ == 0)
+            printEfReverse = "(reversed), ";
+        
+        if (reverseQ_ == 1)
+            printQ = "Serial out: reversed Q";
+        
+        if (vtType_ == VT52)
+            p_Main->message("Configuring VT52 terminal");
+        else
+            p_Main->message("Configuring VT100 terminal");
+        
+        printBuffer.Printf("	EF %d: serial input", elfPortConf.vt100Ef);
+        printBuffer = printBuffer + printEfReverse + printQ;
+        p_Main->message(printBuffer);
+    }
+    
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+    p_Main->message(printBuffer);
+    
+    vtEnabled_ = 1;
+    vtCount_ = -1;
+    vtOutCount_ = -1;
+    vtOut_ = 0;
+    vt100Ef_ = 1;
+    elfRunCommand_ = 0;
 }
 
 void Vt100::configureQandEfPolarity(int ef, bool vtEnable)
@@ -787,35 +595,35 @@ void Vt100::cycleVt()
 			}
 		}
 
-			scrolling_--;
-			if (scrolling_ < 0 || !SetUpFeature_[VTSMOOTHSCROLL])
-			{
-				scrolling_ = 10;
-
-				if ((smoothScroll_ && scroll_ != 0 && SetUpFeature_[VTSMOOTHSCROLL]) || (scroll_ != 0 && !SetUpFeature_[VTSMOOTHSCROLL]) || ctrlQpressed_)
-				{
-					if (displayStart_ != displayEnd_)
-					{
-						Display(getDisplay(), true);
-						while (displayBuffer_[displayStart_] != 10 && (displayStart_ != displayEnd_))
-						{
-							Display(getDisplay(), true);
-						}
-					}
-					if (scroll_ > 0)
-						scroll_--;
-					if (displayStart_ == displayEnd_)
-					{
-						if (smoothScroll_)
-							smoothScroll_ = false;
-						if (xOff_)
-						{
-							xOff_ = false;
-							videoScreenPointer->vtOut(17);
-						}
-					}
-				}
-			}
+        scrolling_--;
+        if (scrolling_ < 0 || !SetUpFeature_[VTSMOOTHSCROLL])
+        {
+            scrolling_ = 10;
+            
+            if ((smoothScroll_ && scroll_ != 0 && SetUpFeature_[VTSMOOTHSCROLL]) || (scroll_ != 0 && !SetUpFeature_[VTSMOOTHSCROLL]) || ctrlQpressed_)
+            {
+                if (displayStart_ != displayEnd_)
+                {
+                    Display(getDisplay(), true);
+                    while (displayBuffer_[displayStart_] != 10 && (displayStart_ != displayEnd_))
+                    {
+                        Display(getDisplay(), true);
+                    }
+                }
+                if (scroll_ > 0)
+                    scroll_--;
+                if (displayStart_ == displayEnd_)
+                {
+                    if (smoothScroll_)
+                        smoothScroll_ = false;
+                    if (xOff_)
+                    {
+                        xOff_ = false;
+                        videoScreenPointer->vtOut(17);
+                    }
+                }
+            }
+        }
 
 		cycleValue_ = cycleSize_;
 		if (changeScreenSize_)
@@ -891,39 +699,42 @@ void Vt100::cycleVt()
 				uartStatus_[UART_DA] = 1;
 				vtOutCount_ = -1;
 			}
-            if (vtOutCount_ <= 0)
+            if (computerType_ == MS2000)
             {
-                vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
-                vtOut_ = (vtOut_ >> 1) | 128;
-                vtOutCount_ = baudRateT_;
-                if (SetUpFeature_[VTPARITY])
+                if (vtOutCount_ <= 0)
                 {
-                    if (vtOutBits_ == 3)
-                        vt100Ef_ = parity_;
-                    if (vtOutBits_ == 2)
-                        vt100Ef_ = 1;
-                }
-                else
-                {
-                    if (vtOutBits_ == 2)
-                        vt100Ef_ = 1;
-                }
-                if (--vtOutBits_ == 0)
-                {
-                    vtOut_ = 0;
-                    p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
-                    vtOutCount_ = -1;
+                    vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
+                    vtOut_ = (vtOut_ >> 1) | 128;
+                    vtOutCount_ = baudRateT_;
+                    if (SetUpFeature_[VTPARITY])
+                    {
+                        if (vtOutBits_ == 3)
+                            vt100Ef_ = parity_;
+                        if (vtOutBits_ == 2)
+                            vt100Ef_ = 1;
+                    }
+                    else
+                    {
+                        if (vtOutBits_ == 2)
+                            vt100Ef_ = 1;
+                    }
+                    if (--vtOutBits_ == 0)
+                    {
+                        vtOut_ = 0;
+                        p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+                        vtOutCount_ = -1;
+                    }
                 }
             }
         }
     }
-    else
+    else  // if !uart
     {
         if (vtOutCount_ > 0)
 		{
 			vtOutCount_--;
 			if (vtOutCount_ <= 0)
-			{
+			{ // input from terminal
 				vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
 				vtOut_ = (vtOut_ >> 1) | 128;
 				vtOutCount_ = baudRateT_;
@@ -1012,7 +823,7 @@ void Vt100::cycleVt()
             {
                 vt100Ef_ = 0;
                 parity_ = Parity(vtOut_);
-                vtOutCount_ = (int) (((2000000) / 8) / baudRateValue_[selectedBaudT_]); //baudRateT_;
+                vtOutCount_ = baudRateT_;
                 if (SetUpFeature_[VTBITS])
                     vtOutBits_ = 10;
                 else
@@ -1025,37 +836,10 @@ void Vt100::cycleVt()
 			}
         }
 
-		if (vtCount_ < 0)
-		{
-			if (vtCount_ <= -10)
-			{
-				vtCount_--;
-				if (vtCount_ < -14)
-					vtCount_ = -1;
-			}
-			else
-			{
-				if (p_Computer->getFlipFlopQ() ^ reverseQ_)
-				{
-					vtCount_ = baudRateR_ + baudRateR_ / 2;
-					if (SetUpFeature_[VTBITS])
-						vtBits_ = 9;
-					else
-						vtBits_ = 8;
-					if (SetUpFeature_[VTPARITY])
-						vtBits_++;
-//					p_Main->message("start");
-//					p_Main->messageInt(p_Computer->getFlipFlopQ());
-//					rs232_ = 0;
-				}
-			}
-		}
-		else
-		{
-			wxString buffer;
-			buffer.Printf("%d", p_Computer->getFlipFlopQ());
-            
-
+		if (vtCount_ >= 0)
+		{ // output to terminal
+			//wxString buffer;
+			//buffer.Printf("%d", p_Computer->getFlipFlopQ());
 			//p_Main->messageNoReturn(buffer);
 
 			vtCount_--; 
@@ -1101,6 +885,29 @@ void Vt100::cycleVt()
 			}
 		}
 	}
+}
+
+void Vt100::switchQ(int value)
+{
+    if(uart_)
+        return;
+    
+    if (vtCount_ < 0)
+    {
+        if (value ^ reverseQ_)
+        {
+            vtCount_ = baudRateR_ + baudRateR_ / 2;
+            if (SetUpFeature_[VTBITS])
+                vtBits_ = 9;
+            else
+                vtBits_ = 8;
+            if (SetUpFeature_[VTPARITY])
+                vtBits_++;
+            //					p_Main->message("start");
+            //					p_Main->messageInt(p_Computer->getFlipFlopQ());
+            rs232_ = 0;
+        }
+    }
 }
 
 void Vt100::setClock(double clock)
@@ -1326,10 +1133,6 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
 
 	int x = pos * charWidth_ * doubleWidth_[line];
 	int y = line * linesPerCharacter_ * heightFactor;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 #if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
 #else
@@ -1367,10 +1170,6 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
     
 	if (blinkScr_[line][pos] && blinkOn_)
 	{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-		if (!wxIsMainThread())
-			wxMutexGuiLeave();
-#endif
 		return;
 	}
 
@@ -1414,10 +1213,7 @@ void Vt100::drawCharacter(int pos, int line, Byte v, bool cursor)
 		}
 		drawLine+=doubleHeight_[line];
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-		if (!wxIsMainThread())
-			wxMutexGuiLeave();
-#endif
+
 }
 
 void Vt100::setInterlace(bool status)

@@ -49,8 +49,8 @@ BEGIN_EVENT_TABLE(GuiMicrotutor, GuiMembership)
 
 END_EVENT_TABLE()
 
-GuiMicrotutor::GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiMembership(title, pos, size, mode, dataDir)
+GuiMicrotutor::GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiMembership(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[MICROTUTOR].saveStartString_ = "";
 	conf[MICROTUTOR].saveEndString_ = "";
@@ -62,7 +62,7 @@ void GuiMicrotutor::readMicrotutorConfig()
 {
 	selectedComputer_ = MICROTUTOR;
 
-    conf[MICROTUTOR].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Microtutor" + pathSeparator_;
+    conf[MICROTUTOR].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Microtutor" + pathSeparator_;
 
     conf[MICROTUTOR].mainDir_ = readConfigDir("/Dir/Microtutor/Main", dataDir_ + "Microtutor" + pathSeparator_);
 	conf[MICROTUTOR].romDir_[MAINROM1] = readConfigDir("/Dir/Microtutor/Main_Rom_File", dataDir_ + "Microtutor" + pathSeparator_);

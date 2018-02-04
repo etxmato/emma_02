@@ -60,7 +60,7 @@ DECLSPEC void SDLCALL SDL_QuitAudioIn(void);
  *  Returns the current status of the audio input device.  If it returns
  *  SDL_AUDIO_STOPPED, the device hasn't been opened yet.
  */
-#if defined(__WINXP__) || defined(__linux__)
+#if defined (__linux__)
 DECLSPEC SDL_audiostatus  SDLCALL SDL_GetAudioInStatus(void);
 #else
 DECLSPEC SDL_AudioStatus  SDLCALL SDL_GetAudioInStatus(void);

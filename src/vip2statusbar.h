@@ -20,7 +20,7 @@ private:
 	void deleteBitmaps();
 	void updateStatusBarText();
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
 	wxBitmapButton *ledBitmapPointers [4];
 #else
 	wxButton *ledBitmapPointers [4];
@@ -32,6 +32,8 @@ private:
 	wxMask *maskOn;
 	wxMask *maskOff;
 
+    int linux_led_pos_y_;
+    
 	bool ledsDefined_;
 };
 

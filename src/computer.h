@@ -425,7 +425,8 @@ public:
     virtual void setMultiCartLsb(Byte lsb);
 	virtual void setMultiCartMsb(Byte msb); 
 	virtual void setDisableSystemRom(bool disableSystemRom);
-    
+    virtual int getDmaCounter() {return 0;};
+
 protected:
 	RunComputer *threadPointer;
 

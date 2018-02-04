@@ -8,7 +8,7 @@ class GuiMembership: public GuiStudio2
 {
 public:
 
-	GuiMembership(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiMembership(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMembership() {};
 
 	void readMembershipConfig();
@@ -28,8 +28,6 @@ public:
 	void onRom();
 	int getLoadromModeMembership();
 	void onNvrMembership(wxCommandEvent&event);
-
-	void setBaudChoiceMembership();
 
 protected:
 	int loadromMode_;

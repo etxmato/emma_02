@@ -31,7 +31,7 @@
     #include "wx/wx.h"
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -567,11 +567,7 @@ void MC6845::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
 {
 	int line_byte, line;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
-	setColour(backGround_);
+    setColour(backGround_);
 	drawRectangle(x+offsetX_, y+offsetY_, charW_, scanLine_*videoM_);
 
 	setColour(FOREGROUND);
@@ -619,10 +615,6 @@ void MC6845::drawCharacter6845(wxCoord x, wxCoord y, Byte v)
 		}
 		line++;
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
 }
 
 void MC6845::drawCursor6845(Word addr, bool status)
@@ -638,11 +630,8 @@ void MC6845::drawCursor6845(Word addr, bool status)
 
 	v = mc6845ram_[addr];
 	line = cursorStartLine_;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
-	for (int yLine = y + cursorStartLine_*videoM_; yLine <= (y + cursorEndLine_*videoM_); yLine+=videoM_)
+
+    for (int yLine = y + cursorStartLine_*videoM_; yLine <= (y + cursorEndLine_*videoM_); yLine+=videoM_)
 	{
 		if (yLine == (y + (scanLine_-1)*videoM_))
 		{
@@ -693,11 +682,6 @@ void MC6845::drawCursor6845(Word addr, bool status)
 		}
 		line++;
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	this->Update();
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
 }
 
 void MC6845::setInterlace(bool status)

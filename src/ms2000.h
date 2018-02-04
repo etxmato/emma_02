@@ -3,6 +3,7 @@
 
 #include "cdp1802.h"
 #include "vt100.h"
+#include "serial.h"
 #include "upd765.h"
 #include "elfconfiguration.h"
 
@@ -44,9 +45,9 @@ public:
 
 	void setMs2000ClockSpeed(double clock) {ms2000ClockSpeed_ = clock;};
 	void activateMainWindow();
+    void switchQ(int value);
 
 private:
-
 	Vt100 *vtPointer;
 
 	ElfConfiguration ms2000Configuration;

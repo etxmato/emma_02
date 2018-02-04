@@ -39,12 +39,13 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
 #include "main.h"
-
+//#include "vt100.h"
+//#include "serial.h"
 #include "member.h"
 
 MemberScreen::MemberScreen(wxWindow *parent, const wxSize& size)
@@ -78,7 +79,7 @@ void MemberScreen::init()
 
 	wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/membership.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership.png", wxBITMAP_TYPE_PNG);
 
 	runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
 	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
@@ -177,6 +178,8 @@ Membership::~Membership()
 		p_Main->setVtPos(MEMBER, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(MEMBER, GetPosition());
 
 	delete memberScreenPointer;
@@ -265,6 +268,7 @@ void Membership::configureComputer()
 		}
 	}
 	efType_[4] = ELFINEF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring Membership Card");
 	switch (elfConfiguration.ioType)
@@ -310,10 +314,14 @@ Byte Membership::ef(int flag)
 			return 1;
 		break;
 
-		case VT100EF:
-			return vtPointer->ef();
-		break;
-
+        case VT100EF:
+            return vtPointer->ef();
+        break;
+            
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+            
 		case ELFINEF:
 			return ef4();
 		break;
@@ -323,6 +331,13 @@ Byte Membership::ef(int flag)
 				return 0;
 			else
 				return vtPointer->ef();
+		break;
+
+		case VTINEFSERIAL:
+			if (inPressed_ == true)
+				return 0;
+			else
+				return p_Serial->ef();
 		break;
 
 		default:
@@ -416,7 +431,27 @@ void Membership::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
 	}
+}
+
+void Membership::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            memberScreenPointer->ledTimeout();
+        }
+    }
 }
 
 void Membership::autoBoot()
@@ -430,6 +465,12 @@ void Membership::switchQ(int value)
 {
 	qLedStatus_ = (qLedStatus_ & 2) | (value & 1);
     memberScreenPointer->setQLed(qLedStatus_);
+    
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 int Membership::getMpButtonState()
@@ -568,8 +609,15 @@ void Membership::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	memberScreenPointer->setLedMs(p_Main->getLedTimeMs(MEMBER));
 
+    int ms = (int) p_Main->getLedTimeMs(MEMBER);
+    memberScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((clockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
 	qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
 	memberScreenPointer->setQLed(qLedStatus_);
 
@@ -726,28 +774,46 @@ void Membership::cpuInstruction()
 
 void Membership::configureElfExtensions()
 {
-	wxString fileName, fileName2;
+    double zoom;
 
-	if (elfConfiguration.vtType != VTNONE)
-	{
-		double zoom = p_Main->getZoomVt();
-        if (elfConfiguration.vtType == VT52)
+    switch (elfConfiguration.vtType)
+    {
+        case VTNONE:
+            setSoundFollowQ (true);
+        break;
+            
+        case VT52:
+            zoom = p_Main->getZoomVt();
             vtPointer = new Vt100("Membership Card - VT 52", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
-        else
+            p_Vt100 = vtPointer;
+            vtPointer->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
+            vtPointer->Show(true);
+            vtPointer->drawScreen();
+            setSoundFollowQ (false);
+        break;
+
+        case VT100:
+            zoom = p_Main->getZoomVt();
             vtPointer = new Vt100("Membership Card - VT 100", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
-		p_Vt100 = vtPointer;
-		vtPointer->configureMember(elfConfiguration.baudR, elfConfiguration.baudT);
-		vtPointer->Show(true);
-		vtPointer->drawScreen();
-		setSoundFollowQ (false);
-	}
-	else
-		setSoundFollowQ (true);
+            p_Vt100 = vtPointer;
+            vtPointer->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
+            vtPointer->Show(true);
+            vtPointer->drawScreen();
+            setSoundFollowQ (false);
+        break;
+    }
+    
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(MEMBER, clockSpeed_, elfConfiguration);
+        p_Serial->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
+        setSoundFollowQ (false);
+    }
 }
 
 void Membership::moveWindows()
 {
-	if (elfConfiguration.vtType != VTNONE)
+    if (elfConfiguration.vtType == VT52 || elfConfiguration.vtType == VT100)
 		vtPointer->Move(p_Main->getVtPos(MEMBER));
 }
 
@@ -854,14 +920,14 @@ void Membership::sleepComputer(long ms)
 	threadPointer->Sleep(ms);
 }
 
-void Membership::ledTimeout()
-{
-	memberScreenPointer->ledTimeout();
-}
-
 void Membership::setLedMs(long ms)
 {
 	memberScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((clockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Membership::getKey(Byte vtOut)

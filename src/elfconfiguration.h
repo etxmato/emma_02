@@ -102,11 +102,12 @@ public:
 	bool useTMS9918;
 	bool use8275;
 	int vtType;
+    bool vtExternal;
     bool serialLog;
-    bool baudRateAdjust;
 	int bellFrequency_;
 	wxString vtWavFileDir_;
-	wxString vtWavFile_;
+    wxString vtWavFile_;
+    wxString serialPort_;
 	bool useUart;
 	int baudR;
 	int baudT;
@@ -153,6 +154,7 @@ public:
 	bool vtQ;
 	bitset<32> vt52SetUpFeature_;
     bitset<32> vt100SetUpFeature_;
+    bitset<32> vtExternalSetUpFeature_;
 
 	ElfPortConfiguration elfPortConf;
 };

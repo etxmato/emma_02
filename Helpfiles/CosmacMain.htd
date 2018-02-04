@@ -1,0 +1,16 @@
+<html>
+<title>Cosmac Elf Emulator</title>
+<body>
+<h2>Cosmac Elf Emulator</h2>
+<p>
+This emulator will emulate an Elf computer similar in design to the Cosmac Elf computer project published in popular electronics in 1976. The Cosmac Elf computer had 256 bytes of RAM, 8 toggle switches for input, 4 hex displays to show the current address and 2 hex displays for data output. Additional information about the Cosmac Elf can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="CosmacFront.htm">Front Panel</a><br>
+<a href="CosmacWindows.htm">Control Windows</a><br>
+</p>
+</body>
+</html>

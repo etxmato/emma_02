@@ -26,7 +26,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -72,7 +72,7 @@ void Elf2KScreen::init()
 	wxClientDC dc(this);
 	wxString switchNumber;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/Elf2K.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/Elf2K.png", wxBITMAP_TYPE_PNG);
 	powerSwitchButton = new SwitchButton(dc, ELF2K_POWER_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 480, 71, "");
 
 	for (int i=0; i<4; i++)
@@ -183,8 +183,9 @@ Elf2K::~Elf2K()
 		p_Main->setVtPos(ELF2K, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	p_Main->setMainPos(ELF2K, GetPosition());
-
 	if (elfConfiguration.useSwitch)
 	{
 		p_Main->setElf2KswitchPos(p_Elf2Kswitch->GetPosition());
@@ -504,6 +505,10 @@ Byte Elf2K::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		case I8275EF:
 			return i8275Pointer->ef8275();
 		break;
@@ -645,6 +650,10 @@ void Elf2K::out(Byte port, Word WXUNUSED(address), Byte value)
 			vtPointer->out(value);
 		break;
 
+		case VTOUTSERIAL:
+			p_Serial->out(value);
+		break;
+
 		case ELF2KOUT:
 			showData(value);
 		break;
@@ -688,6 +697,10 @@ void Elf2K::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case ELF2KDISKCYCLE:
 			cycleDisk();
 		break;
@@ -700,19 +713,35 @@ void Elf2K::cycle(int type)
 
 void Elf2K::cycleElf2K()
 {
-	if (cycleValue_ < 0)  return;
-
-	cycleValue_ --;
-	if (cycleValue_ <= 0)
-	{
-		cycleValue_ = cycleSize_;
-		rtcRam_[0xc] |= 0x40;
-	}
+	if (cycleValue_ > 0)
+    {
+        cycleValue_ --;
+        if (cycleValue_ <= 0)
+        {
+            cycleValue_ = cycleSize_;
+            rtcRam_[0xc] |= 0x40;
+        }
+    }
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            elf2KScreenPointer->ledTimeout();
+        }
+    }
 }
 
 void Elf2K::switchQ(int value)
 {
 	elf2KScreenPointer->setQLed(value);
+    
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 void Elf2K::startComputer()
@@ -759,7 +788,14 @@ void Elf2K::startComputer()
 	if (elfConfiguration.usePs2gpio)
 		startPs2gpioKeyFile();
 	rtcTimerPointer->Start(1000, wxTIMER_CONTINUOUS);
-	elf2KScreenPointer->setLedMs(p_Main->getLedTimeMs(ELF2K));
+    
+    int ms = (int) p_Main->getLedTimeMs(ELF2K);
+    elf2KScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
@@ -968,7 +1004,13 @@ void Elf2K::configureElfExtensions()
 		vtPointer->Show(true);
 	}
 
-	if (elfConfiguration.usePixie)
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(MEMBER, elfClockSpeed_, elfConfiguration);
+        p_Serial->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+    }
+
+    if (elfConfiguration.usePixie)
 	{
 		double zoom = p_Main->getZoom();
 		double scale = p_Main->getScale();
@@ -1270,14 +1312,14 @@ void Elf2K::thrStatus(bool data)
 	thrStatusUart(data);
 }
 
-void Elf2K::ledTimeout()
-{
-	elf2KScreenPointer->ledTimeout();
-}
-
 void Elf2K::setLedMs(long ms)
 {
-	elf2KScreenPointer->setLedMs(ms);
+    elf2KScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Elf2K::getKey(Byte vtOut)

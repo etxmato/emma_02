@@ -39,7 +39,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -87,7 +87,7 @@ void ElfScreen::init()
 
 	wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/elf.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/elf.png", wxBITMAP_TYPE_PNG);
 
 	runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 190, 312, "");
 	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 150, 312, "");
@@ -251,6 +251,8 @@ Elf::~Elf()
 		p_Main->setVtPos(ELF, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	if (p_Main->getPrinterStatus(ELF))
 	{
 		p_Printer->closeFrames();
@@ -387,8 +389,6 @@ void Elf::onHexKeyUp(int keycode)
 	}
 		
 	ef3State_ = 1;
-    
-    
 }
 
 void Elf::configureComputer()
@@ -403,6 +403,7 @@ void Elf::configureComputer()
 //	int input = p_Main->getConfigItem("/Elf/HexInput", 4l);
 //	int output = p_Main->getConfigItem("/Elf/HexOutput", 4l);
 
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 	p_Main->message("Configuring Elf");
 	printBuffer.Printf("	Output %d: display output, input %d: data input", elfConfiguration.elfPortConf.hexOutput, elfConfiguration.elfPortConf.hexInput);
 	p_Main->message(printBuffer);
@@ -535,6 +536,10 @@ Byte Elf::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		case MC6847EF:
 			return mc6845Pointer->ef6845();
 		break;
@@ -552,6 +557,13 @@ Byte Elf::ef(int flag)
 				return 0;
 			else
 				return vtPointer->ef();
+		break;
+
+		case VTINEFSERIAL:
+			if (inPressed_ == true)
+				return 0;
+			else
+				return p_Serial->ef();
 		break;
 
 		case ELF2EF2:
@@ -645,8 +657,16 @@ Byte Elf::in(Byte port, Word WXUNUSED(address))
 			return vtPointer->uartIn();
 		break;
 
+		case UARTINSERIAL:
+			return p_Serial->uartIn();
+		break;
+
 		case UARTSTATUS:
 			return vtPointer->uartStatus();
+		break;
+
+		case UARTSTATUSSERIAL:
+			return p_Serial->uartStatus();
 		break;
 
 		default:
@@ -699,6 +719,10 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
 			vtPointer->out(value);
 		break;
 
+		case VTOUTSERIAL:
+			p_Serial->out(value);
+		break;
+
 		case PRINTEROUT:
 //			p_Main->eventPrintDefault(value); *** Maybe this was needed on Mac or Linux? however it doesn't work on windows, i.e. no printer window will be opened.
 			if ((value & 0xfc) != 0)
@@ -745,9 +769,17 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
             vtPointer->uartOut(value);
 		break;
 
-		case UARTCONTROL:
-            vtPointer->uartControl(value);
+		case UARTOUTSERIAL:
+			 p_Serial->uartOut(value);
 		break;
+
+        case UARTCONTROL:
+            vtPointer->uartControl(value);
+        break;
+            
+        case UARTCONTROLSERIAL:
+            p_Serial->uartControl(value);
+        break;
             
         case ROMMAPPEROUT:
             setRomMapper(value);
@@ -812,6 +844,10 @@ void Elf::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case FDCCYCLE:
 			cycleFdc();
 		break;
@@ -819,7 +855,28 @@ void Elf::cycle(int type)
 		case IDECYCLE:
 			cycleIde();
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
+}
+
+void Elf::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            elfScreenPointer->ledTimeout();
+            if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+                keypadPointer->ledTimeout();
+            if (elfConfiguration.useLedModule && !ledModuleClosed_)
+                ledModulePointer->ledTimeout();
+        }
+    }
 }
 
 void Elf::autoBoot()
@@ -834,6 +891,12 @@ void Elf::autoBoot()
 void Elf::switchQ(int value)
 {
 	elfScreenPointer->setQLed(value);
+
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 int Elf::getMpButtonState()
@@ -987,8 +1050,19 @@ void Elf::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	elfScreenPointer->setLedMs(p_Main->getLedTimeMs(ELF));
 
+    int ms = (int) p_Main->getLedTimeMs(ELF);
+    elfScreenPointer->setLedMs(ms);
+    if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+        keypadPointer->setLedMs(ms);
+    if (elfConfiguration.useLedModule && !ledModuleClosed_)
+        ledModulePointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
     else
@@ -1404,7 +1478,13 @@ void Elf::configureElfExtensions()
 		vtPointer->drawScreen();
 	}
 
-	if (elfConfiguration.usePixie)
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(ELF, elfClockSpeed_, elfConfiguration);
+        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+    }
+
+    if (elfConfiguration.usePixie)
 	{
 		double zoom = p_Main->getZoom();
 		double scale = p_Main->getScale();
@@ -1486,7 +1566,6 @@ void Elf::configureElfExtensions()
 	{
 		ledModulePointer = new LedModule("Led Module", p_Main->getLedModulePos(), wxSize(172, 116), ELF);
 		ledModulePointer->configure(elfConfiguration.elfPortConf);
-		ledModulePointer->setLedMs(p_Main->getLedTimeMs(ELF));
 		ledModulePointer->Show(p_Main->getUseElfControlWindows(ELF));
 	}
 
@@ -1495,7 +1574,6 @@ void Elf::configureElfExtensions()
 	if (elfConfiguration.useHexKeyboard)
 	{
 		keypadPointer = new Keypad("Keypad", p_Main->getKeypadPos(ELF), wxSize(172, 229), ELF);
-		keypadPointer->setLedMs(p_Main->getLedTimeMs(ELF));
 		keypadPointer->Show(p_Main->getUseElfControlWindows(ELF));
 		p_Main->message("Configuring Elf Keypad\n");
 	}
@@ -1656,22 +1734,18 @@ Word Elf::get6847RamMask()
 		return 0;
 }
 
-void Elf::ledTimeout()
-{
-	elfScreenPointer->ledTimeout();
-	if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
-		keypadPointer->ledTimeout();
-	if (elfConfiguration.useLedModule && !ledModuleClosed_)
-		ledModulePointer->ledTimeout();
-}
-
 void Elf::setLedMs(long ms)
 {
-	elfScreenPointer->setLedMs(ms);
-	if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
-		keypadPointer->setLedMs(ms);
-	if (elfConfiguration.useLedModule && !ledModuleClosed_)
-		ledModulePointer->setLedMs(ms);
+    elfScreenPointer->setLedMs(ms);
+    if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
+        keypadPointer->setLedMs(ms);
+    if (elfConfiguration.useLedModule && !ledModuleClosed_)
+        ledModulePointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Elf::getKey(Byte vtOut)

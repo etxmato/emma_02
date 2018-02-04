@@ -8,7 +8,7 @@ class GuiMcds: public GuiCosmicos
 {
 public:
 
-	GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiMcds(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMcds() {};
 
 	void readMcdsConfig();
@@ -21,8 +21,6 @@ public:
 	void onMcdsClock(wxCommandEvent& event);
     void onMcdsForceUpperCase(wxCommandEvent& event);
     void onBootRam(wxCommandEvent&event);
-    
-    void setBaudChoiceMcds();
 
 protected:
 

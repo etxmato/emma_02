@@ -15,7 +15,7 @@ class GuiComx: public GuiElf
 {
 public:
 
-	GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiComx();
 
 	void readComxConfig();
@@ -52,7 +52,11 @@ public:
 	void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
 	void onEpromDialog(wxCommandEvent& event);
 	void onSBDialog(wxCommandEvent& event);
+	void onDiagDialog(wxCommandEvent& event);
 	void onSbActive(wxCommandEvent& event);
+	void diagSbChange();
+	void onDiagActive(wxCommandEvent& event);
+	void onDiagOn(wxCommandEvent& event);
 
 	void statusLedOn(wxCommandEvent &event);
 	void statusLedOff(wxCommandEvent &event);
@@ -93,13 +97,31 @@ public:
     wxString getEpromRomDirectory(int number) {return EpromRomDir_[number];};
     wxString getEpromRom(int number) {return EpromRom_[number];};
 
-	int getSbCdRoot() {return sbCdRoot_;}; 
+	wxString getDiagPalRomDirectory(int number) { return DiagPalRomDir_[number]; };
+	wxString getDiagPalRom(int number) { return DiagPalRom_[number]; };
+	void setDiagPalRomDirectory(int number, wxString directory);
+	void setDiagPalRom(int number, wxString filename);
+
+	wxString getDiagNtscRomDirectory(int number) { return DiagNtscRomDir_[number]; };
+	wxString getDiagNtscRom(int number) { return DiagNtscRom_[number]; };
+	void setDiagNtscRomDirectory(int number, wxString directory);
+	void setDiagNtscRom(int number, wxString filename);
+
+	int getSbCdRoot() {return sbCdRoot_;};
 	int getSbBackup() {return sbBackup_;}; 
 	int getSbBackupSys() {return sbBackupSys_;}; 
 	int getSbCaseFile() {return sbCaseFile_;}; 
 	int getSbCaseDir() {return sbCaseDir_;}; 
-	int getSbFwVersion() {return sbFwVersion_;}; 
-
+    int getSbFwVersion() {return sbFwVersion_;};
+	bool isDiagActive(int computer) { return conf[computer].diagActive_; };
+	int isDiagOn(int computer);
+    int getDiagRomChecksum() {return diagRomChecksum_;};
+    int getDiagFactory() {return diagFactory_;};
+    void setDiagRomChecksum(int diagRomChecksum) { diagRomChecksum_ = diagRomChecksum;};
+    void setDiagFactory(int diagFactory) { diagFactory_ = diagFactory;};
+    int getDiagCassetteCables() {return diagCassetteCables_;};
+    void setDiagCassetteCables(int diagCassetteCables) { diagCassetteCables_ = diagCassetteCables;};
+  
 	void setSbEmail(wxString sbEmail) { sbEmail_ = sbEmail; };
 	void setSbPlayer(wxString sbPlayer) { sbPlayer_ = sbPlayer; };
 	void setSbLocation(wxString sbLocation) { sbLocation_ = sbLocation; };
@@ -159,8 +181,12 @@ private:
 	wxString sbUrlHome_;
 	wxString sbUrlBookMark_[10];
 	wxString sbRootDirectory_;
-    wxString SBRomDir_[12];
-    wxString SBRom_[12];
+	wxString DiagPalRomDir_[2];
+	wxString DiagPalRom_[2];
+	wxString DiagNtscRomDir_[2];
+	wxString DiagNtscRom_[2];
+	wxString SBRomDir_[12];
+	wxString SBRom_[12];
     wxString EpromRomDir_[5];
     wxString EpromRom_[5];
 
@@ -170,7 +196,10 @@ private:
 	int sbCaseFile_;
 	int sbCaseDir_;
 	int sbFwVersion_;
-
+    int diagRomChecksum_;
+    int diagFactory_;
+    int diagCassetteCables_;
+    
 	int comxPrintMode_;
 	bool isComxStatusLedOn_;
 	bool isComxExpLedOn_;

@@ -500,6 +500,15 @@ Byte Pecom::in(Byte port, Word address)
 //			ret = keyValue_[address - 0x7cca] & 0x3;
 			ret = keyValue_[(address&0x3f) - 0xa] & 0x3;
 
+/*			if (inputKeyValue[keyboardCode_] == ((address & 0x3f) - 0xa))
+			{
+				if (!wxGetKeyState((wxKeyCode)keyboardCode_))
+				{
+					keyValue_[(address & 0x3f) - 0xa] = keyValue_[(address & 0x3f) - 0xa] & 0xfc;
+					keyboardCode_ = 0;
+				}
+			}*/
+
 			if (pecomRunCommand_ != 0)
 			{
 				cycleValue_--;

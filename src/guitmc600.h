@@ -7,7 +7,7 @@ class GuiTelmac : public GuiPecom
 {
 public:
 
-	GuiTelmac(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiTelmac(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiTelmac() {};
 
 	void readTelmacConfig();

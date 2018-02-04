@@ -1,0 +1,188 @@
+
+<HTML>
+<Title>Configurations</Title>
+<BODY>
+<h2>Configurations</h2>
+<p>
+After initial start-up of Emma 02 default configurations will be made available according to the sub chapters below. These files can be re-installed at any time by using the menu item 'File/Re-install/Configuration Files'.
+</p>
+<p>
+To load a pre defined computer configurations select one of items under the menu 'File/Configuration/Load'. Some of the configurations included in Emma 02 are described n the chapters below. For all computers the default setting is included in the 'Default' menu option.
+</p>
+<p>
+To save a specific computer configuration, first make sure all setting for that computer are correct. Then select 'File/Configuration/Save'. A new window will open where it is possible to specify the 'Item Name' and optionally the 'Sub Menu Name'. After pressing save the new configuration will be saved under the specified menu. If a configuration was loaded before the save request, a new window will open to confirm overwrite, to replace the old menu or to create a new one.
+</p>
+<p>
+The following settings are NOT saved in individual computer configurations but will be saved when saving the Emma 02 configuration on exit or manually when using menu item 'File/Configuration/Save All':
+<UL>
+<LI>Any video setup items like colours and border sizes
+<LI>Any key mapping definition
+<LI>Superboard online settings like player name, location, email, home page, bookmarks and aliases
+</UL>
+</p>
+<p>
+To delete a configuration from the menu select 'File/Configuration/Delete' and the configuration to be deleted.
+</p>
+<p>
+<B>Note:</B> when installing a new version of Emma 02 the configuration menus will NOT be re-installed automatically. If so desired copy the latest files by using the menu item 'File/Re-install/COnfiguration Files'.
+</p>
+<p>
+The configuration files location is:
+</p>
+<UL>
+<LI>Windows Vista and later: C:\Users\<I>username</I>\AppData\Roaming\Emma 02 Config
+<LI>XP: C:\Documents and Settings\<I>username</I>\Application Data\Emma 02 Config
+<LI>Mac OSX: ~/Library/Preferences/Emma 02
+<LI>Linux: ~/.emma_02
+</UL>
+<h3>COMX-35</h3>
+<h4>SuperBoard</h4>
+<p>
+COMX-35 with Super Board support as well as floppy, printer and 80 column support 
+</p>
+<h4>F&M Eprom Board</h4>
+<p>
+COMX-35 with F&M Eprom Board support as well as COMX-35 BASIC ROM 1.1 (small corrections) F&M expansion 3.2, floppy, printer (F&M version 1.2) and 80 column support 
+</p>
+<h4>Original/Bare</h4>
+<p>
+COMX-35 as it was in the box! No corrections included on the BASIC ROM and no expansion boards
+</p>
+<h4>Original/Loaded</h4>
+<p>
+COMX-35 as it was in the box! Original expansion box ROM is also included with floppy, printer, 32K RAM and 80 column support. All using original ROMs without any corrections.
+</p>
+<h3>Cosmicos</h3>
+<h4>Ascii Monitor</h4>
+<p>
+Cosmicos Ascii monitor.
+</p>
+<h4>UT4 Monitor</h4>
+<p>
+Cosmicos UT4 monitor.
+</p>
+<h3>Cosmac Elf, Netronic Elf II and Quest Super Elf</h3>
+<p>
+A configuration save in any of the Cosmac Elf, Elf II and Super Elf computers can be loaded back into any of these computers.
+</p> 
+<h4>Chip 8 Mode</h4>
+<p>
+Chip-8 configuration for the Elf, default Blinky is selected as chip 8 game. The Chip-8 interpreter will be loaded from address 0 to 1FF as well as E00 to E6D. The selected chip-8 SW will load from 200.
+</p>
+<h4>Elf/Os - BIOSIO</h4>
+<p>
+These configurations are for running ElfOs on indicated video type with BIOSIO.
+</p>
+<h4>Elf/Os Installation</h4>
+<p>
+These configurations are for installation of ElfOs on indicated video type with or without BIOSIO.
+</p>
+<h4>Elf/Os - Serial I/O</h4>
+<p>
+This configuration is for running ElfOs on Serial I/O.
+</p>
+<h4>EPROM Boards</h4>
+<p>
+Two EPROM board configurations are supported, one including a mini monitor and Quest Super BASIC REL 5.0 and one with the Super Gold Monitor and assembler. Both ROM files were created by Eric Tchong. Of course Super BASIC itself was designed by Ron Cenker. BASIC can be started from the monitor by pressing B. For documentation on these ROM see the file section of the CosmacElf yahoo group. 
+</p>
+<h4>Fig Forth</h4>
+<p>
+This configuration will load and run Fig Forth for the 1802. This version of Forth uses a terminal connected to an Uart CDP1854 for which very basic support is implemented in the emulator.
+</p>
+<h4>Game Mode</h4>
+<p>
+This configuration should run most games, default the invaders game will be selected but this can be changed to any of the other provided game files.
+</p>
+<h4>Giant Board</h4>
+<p>
+Basic configuration that will load and run the netronics giant board monitor (at location hex F000. See the chapter on the <a href="ElfGiant.htm">Giant Board</a>
+</p>
+<h4>Music Machine</h4>
+<p>
+Basic configuration to run the Music Maker and Christmas songs as all published in the Ipso Facto (Issue 5 and 8). Default the 'Music Maker.hex' and song 'O Christmas Tree.hex' will be loaded. Note that some songs will need a different speed which is indicated in the song file name (Double, 1_2 etc.), to play these also load the equivalent Music Maker file. The Ipso Facto articles can be found on <a href="http://www.cosmacelf.com">www.cosmacelf.com</a> and are also included in the Elf/Music directory.
+</p>
+<h4>Netronics Tiny Basic</h4>
+<p>
+These configuration will load and run Netronics Tiny Basic, either on Pixie video or a vt-100 terminal. Note that to start the basic you will need to press 'return' when using the Pixie version and press return twice on the vt-100 version.
+</p>
+<h4>Quest Super Basic</h4>
+<p>
+These configurations will load and run Quest Super Basic (version is indicated in the filename) on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the chapter on <a href="ElfSuperBasic.htm">Quest Super Basic</a>.
+</p>
+<h4>Quest Tape Loader</h4>
+<p>
+Quest Super Basic loader program.
+</p>
+<h4>RCA Basic</h4>
+<p>
+These configuration will load and run RCA Basic on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the chapter on <a href="ElfRcaBasic.htm">RCA Basic</a>.
+</p>
+<h4>RCA Bug</h4>
+<p>
+RCA Monitor program as described in IPSO facto number 10.
+</p>
+<h4>ROM Mapper</h4>
+<p>
+Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM chip. Selected ROM is swicthed to 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. After starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+</p>
+<h4>Tiny Basic Interpreter V2 - MC6847</h4>
+<p>
+This configuration will load and run Tiny Basic Interpreter for the Cosmac 1802 version 2 by Robert Edwards including output routines for an MC6847 video.
+</p>
+<h3>Membership Card</h3>
+<h4>Monitor</h4>
+<p>
+Chuck's Membership Card monitor in 4 different configurations:
+<UL>
+<LI>64 KB RAM and monitor loaded at address 0
+<LI>64 KB RAM and monitor loaded at address @8000
+<LI>32 KB ROM at address 0 with monitor loaded in ROM
+<LI>32 KB ROM at address @8000 with monitor loaded in ROM
+</UL>
+</p>
+<h4>Program 3</h4>
+<p>
+Example program 3
+</p>
+<h4>RCA Bug</h4>
+<p>
+RCA Monitor program as described in IPSO facto number 10 with a SW change to run on the Membership Card.
+</p>
+<h3>MS2000</h3>
+<h4>FDC</h4>
+<p>
+Default confiuration using FDC image files
+</p>
+<h4>HD</h4>
+<p>
+Configuration using HD Directory simulation with all available MicroDos SW stored in the MS2000/Software folder.
+</p>
+<h3>Studio II</h3>
+<h4>Chip 8</h4>
+<p>
+Studio II chip 8 interpreter with one of the chip 8 games selected as default.
+</p>
+<h4>Multi-cart</h4>
+<p>
+FLiPs Studio II and Victory MPT-02 Multi-cart
+</p>
+<h3>VELF</h3>
+<h4>VELF</h4>
+<p>
+Josh's VELF including VELF bios v3.1.
+</p>
+<h4>JVIP</h4>
+<p>
+Walter's JVIP including JVIP bios 310x.
+</p>
+<h3>Victory MPT-02</h3>
+<h4>Chip 8</h4>
+<p>
+Studio II chip 8 interpreter with one of the chip 8 games selected as default.
+</p>
+<h4>Multi-cart</h4>
+<p>
+FLiPs Studio II and Victory MPT-02 Multi-cart
+</p>
+</BODY>
+</HTML>

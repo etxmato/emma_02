@@ -29,7 +29,7 @@
 #include "main.h"
 #include "sound.h"
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #define CLOCK_FACTOR 2
 #define SAMPLE_RATE 44100
 #else
@@ -65,6 +65,7 @@ Sound::Sound()
 	vipSound_ = VIP_BEEP;
 	followQ_ = false;
     studioBeep_ = false;
+	audioIn_ = false;
 }
 
 Sound::~Sound()
@@ -81,6 +82,11 @@ Sound::~Sound()
 		delete psaveSynthPointer[i];
 	}
 	delete tapeSynthPointer;
+
+#if defined (__WXMSW__) || defined(__linux__)
+	if (audioIn_)
+		SDL_CloseAudioIn();
+#endif
 }
 
 void Sound::initSound(double clock, double percentageClock, int computerType, int volume, int bass, int treble, int toneChannels, int stereo, bool realCasLoad, int beepFrequency, int bellFrequency)

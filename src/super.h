@@ -59,6 +59,7 @@ public:
 	void cycle(int type);
 	void cycleA();
 	void cycleB();
+    void cycleLed();
 
 	void autoBoot();
 	void switchQ(int value);
@@ -108,7 +109,6 @@ public:
 	int readDirect6847(Word addr);
 	Word get6847RamMask();
 	void writeDirect6847(Word addr, int value);
-	void ledTimeout();
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
@@ -122,7 +122,10 @@ private:
 	mc6847 *mc6847Pointer;
 	i8275 *i8275Pointer;
 
-	Byte switches_;
+    int ledCycleValue_;
+    int ledCycleSize_;
+
+    Byte switches_;
 	int mpButtonState_;
 	Byte lastMode_;
 	char state_;

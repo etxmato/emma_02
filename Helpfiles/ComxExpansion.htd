@@ -1,0 +1,145 @@
+<HTML>
+<Title>Expansion Box</Title>
+<BODY>
+<h2>Expansion Box</h2>
+</p>
+<p>
+<p>
+To run the COMX emulator with the expansion box, fill in the ROM file via 'EXP ROM'. Default the 'f&m.expansion.rom.3.2' is filled in which also includes a screen editor. It is also possible to use the original expansion box ROM (excluding the screen editor) by selecting 'expansion.bin'. The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+<p>
+<b>NOTE:</b> The following SW is not compatible with the F&M expansion ROM but versions included in the installation package and available on the COMX Club site have been corrected:<br>
+1. Killerwatt<br>
+2. F&M Schaak<br>
+3. Ijskikker<br>
+4. Torens van Hanoi<br>
+5. Kleiduiven Schieten<br>
+6. F&M Monitor+<br>
+7. Life 2
+</p>
+<p>
+The expansion ROM will simulate the COMX expansion box allowing up to 4 interface cards. All known interface cards have now been implemented and tested.
+</p>
+<p>
+To remove the expansion box functionality just select an empty EXP ROM entry or remove the EXP ROM file name from the Emma 02 window and start the COMX as normal.
+</p>
+<p>
+The expansion box commands and functionality is described below, note that not all commands will work unless the correct interface cards are configured.
+</p>
+<h3>Screen Editor</h3>
+<p>
+With the screen editor any text already on the screen can be changed and given as input to the basic interpreter. Just move the cursor, which is now just a yellow line, over the screen with the arrow/joystick keys and change the text on any line to the desired input. Do not forget to push the return key to allow the basic interpreter to analyze the input.
+</p>
+<p>
+CTRL D: Delete character at cursor and shift rest of line left<br>
+CTRL S: Clear the screen<br>
+CTRL I: Insert space at cursor and shift rest of line right<br>
+SPACEBAR during LISTING: Pause LIST function until next SPACEBAR press
+</p>
+<p>
+Screen editor off: POKE (@43F8, 1)<br>
+Screen editor on: POKE (@43F8, 0)
+</p>
+<p>
+Standard COMX basic edit functions like repeat last line with CTRL R will not work anymore when the screen editor is active.
+</p>
+<p>
+Note 1: Some software, like the original version of the F&M Monitor+, might not be fully compatible with the screen editor and when giving control back to BASIC, after the program is ended, the screen looks empty but at every return key ERR CODE 39 is given. To solve this just press CTRL S to really clear the screen.
+</p>
+<p>
+Note 2: Some software, like Kleiduiven Schieten, Torens van Hanoi, Ijskikker and F&M Schaak might not be fully compatible with the screen editor because they use the character 0 for a different shape. In this case the screen will be filled with funny shaped characters instead of spaces. To avoid this problem you can switch off the screen editor by using POKE (@43F8, 1).
+</p>
+<p>
+Note 3: Some software, like Killerwatt might not be fully compatible with the screen editor and will cause the game to hang. 
+</p>
+<h3>CARD Sn</h3>
+<p>
+This option is used whenever the user wants to select a particular interface card plugged into slot n. n ranges from 1 to 4.
+</p>
+<h3>CARD Tm</h3>
+<p>
+This option is used whenever the user wants to use the Thermal Printer card. The Thermal Printer card will be selected or an error message will be echoed if the Thermal Printer card does not exist. m specifies the functional options of the Thermal Printer card. m ranges from 0 to 8:
+<pre>
+Syntax	 Function
+
+CARD T0	 Mode preselection
+CARD T1	 Switch off the thermal
+	 printer with 8 line feeds
+CARD T2	 Enter the thermal printer
+	 Text mode
+CARD T3	 Switch on the printer and
+	 TV display
+CARD T4	 Disable keyboard input
+CARD T5	 Memory dump (HEX & ASCII)
+CARD T6  Switch the printer to no 
+	 line space
+CARD T7	 Self test
+CARD T8  Create screen image</pre>
+<p>
+Note: before any assembly call, the user should enable the thermal printer card first, by the OUT 1 instruction. In BASIC, just use any CARD Tm before the CALL statement. 
+</p>
+<p>
+For use of the Screen image creation (CARD T8) please use the CALL (@C0F0) screen capture statements as described in the <a href="ComxThermal.htm">Thermal Printer Support</a> chapter.
+</p>
+<h3>CARD Pm</h3>
+<p>
+This option is used whenever the user wants to use the Standard (Serial RS232 or Parallel) Printer card. The Standard Printer card will be selected or an error message will be echoed if the Standard Printer card does not exist. m specifies the functional options of the Standard Printer card. m ranges from 0 to 11:
+<pre>
+Syntax	 Function
+
+CARD P0m Selection routine
+	 (m = 1-11, for P1-P11)
+CARD P1	 Switch off the printer
+CARD P2	 Switch on the printer with
+	 control character suppressed 
+CARD P3	 Switch on the printer
+CARD P4	 Switch on the printer and
+	 TV display mode with control
+	 character suppressed 
+CARD P5	 Switch on the printer and
+	 TV display mode 
+CARD P6	 Disable keyboard input	to
+	 printer
+CARD P8	 Memory dump
+CARD P9  Shape small characters
+	 (only available in F&M ROM)
+CARD P10 Self test
+CARD P11 Recall Basic after reset, will 
+	 only work if Basic progam 
+	 started with '10 REM' before 
+	 restart
+	 (only available in F&M ROM)
+
+Paraller Printer:
+CARD P7  F&M Feature Select
+	 (only available in F&M ROM
+	  version 1.1, in 1.0 use 
+	  CALL (@C030))
+
+Serial Printer:
+CARD P7  Change RS232 Settings</pre>
+<p>
+Note: before any assembly call, the user should enable the standard printer card first, by the OUT 1 instruction. In BASIC, just use any CARD Pm before the CALL statement.
+</p>
+<h3>CARD Bm</h3>
+<p>
+This option is used whenever the user wants to use the <a href="ComxRamCard.htm">RAM Card</a>. The RAM card will be selected or an error message will be echoed if it does not exist. m specifies one of the 8K RAM blocks of the RAM card, m ranges from 0 to 3. 
+</p>
+<h3>CARD M</h3>
+<p>
+This option is used whenever the user wants to move a block of memory content from one place to another. Before this statement, the user should poke the source address into @BF45, @BF46 (HI/LO), the target address into @BF47, @BF48 (HI/LO) and the length of the block into @BF49, @BF4A (HI/LO).
+</p>
+<h3>CARD Q</h3>
+<p>
+This option is used when the user does not want the 80-column display any more. Notice that the 80-column display has a higher priority over the 40-column display.
+</p>
+<h3>CARD V</h3>
+<p>
+This option is used whenever the user wants to compare a block of memory content with another. Before this statement, the user should poke the source address into @BF45, @BF46 (HI/LO), the target address into @BF47, @BF48 (HI/LO) and the length of the block into @BF49, @BF4A (HI/LO).
+</p>
+<h3>DOS</h3>
+<p>
+This option is used whenever the user wants to use DOS with DOS controller card installed. The DOS card will be selected or an error message will be given if it does not exist.
+</p>
+</BODY>
+</HTML>

@@ -1,0 +1,35 @@
+<html>
+<title>General Information</title>
+<body>
+<h1>General Information</h1>
+<p>
+To select the computer you want to emulate select the desired notebook tab and select 'Start'. During emulation you can restart the computer by selecting the same button which should now be called 'Reset'.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="MainGlobalSettings.htm">Global Settings & Menu</a><br>
+<a href="Main1802.htm">The RCA 1802</a><br>
+<a href="MainFile.htm">Directory and File Structure</a><br>
+<a href="MainConfigurations.htm">Configurations</a><br>
+<a href="MainMemAccess.htm">Memory Access</a><br>
+<a href="MainSound.htm">Sound</a><br>
+<a href="MainColour.htm">Video Setup</a><br>
+<a href="MainTerminal.htm">Video Terminal Simulation</a><br>
+<a href="MainExternalTerminal.htm">External Terminal</a><br>
+<a href="MainScreenDump.htm">Screen Dump</a><br>
+<a href="MainClock.htm">Clock Speed</a><br>
+<a href="MainZoom.htm">Zoom Level and Full Screen Mode</a><br>
+<a href="MainRealCassette.htm">Real Cassette Support</a><br>
+<a href="MainKeyFile.htm">Key File</a><br>
+<a href="MainHexKeyMap.htm">Key Mapping</a><br>
+<a href="MainFunctionKeys.htm">Function and Hot Keys</a><br>
+<a href="MainWindow.htm">Window Settings</a><br>
+<a href="MainCommandLine.htm">Command Line</a><br>
+</p>
+<p>
+At exit all settings are saved (except settings in debugger windows), unless save settings is unchecked in the settings menu.
+</p>
+</body>
+</html>

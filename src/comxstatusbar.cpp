@@ -36,12 +36,19 @@ END_EVENT_TABLE()
 ComxStatusBar::ComxStatusBar(wxWindow *parent)
 : wxStatusBar(parent, wxID_ANY, 0)
 {
-	ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + "images/comxledoff.png", wxBITMAP_TYPE_PNG);
-	ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + "images/comxledon.png", wxBITMAP_TYPE_PNG);
-	ledDisabledPointer = new wxBitmap(p_Main->getApplicationDir() + "images/comxleddisabled.png", wxBITMAP_TYPE_PNG);
+    ledOffPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledoff.png", wxBITMAP_TYPE_PNG);
+    ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
+    ledDisabledPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxleddisabled.png", wxBITMAP_TYPE_PNG);
+
 	ledsDefined_ = false;
 	statusLedUpdate_ = true;
 	slotLedUpdate_ = true;
+    
+    WindowInfo windowInfo = getWinSizeInfo();
+    linux_led_pos_y_ = 2;
+    
+    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
+        linux_led_pos_y_ = 4;
 }
 
 ComxStatusBar::~ComxStatusBar()
@@ -92,7 +99,11 @@ void ComxStatusBar::updateLedStatus(int card, int i, bool status)
 
 void ComxStatusBar::displayText()
 {
-	wxRect rect;
+#if defined(__linux__)
+    wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    SetFont(defaultFont);
+#endif
+    wxRect rect;
 	this->GetFieldRect (1, rect);
 	if (expansionRomLoaded_)
 	{
@@ -125,21 +136,21 @@ void ComxStatusBar::displayLeds()
 	{
 		for (int i = 0; i < 2; i++)
 		{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 			ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
-							         wxPoint((card+1)*((int)rect.GetWidth()+1)+i*14+16+(card*3), 4), wxSize(-1, -1), // check 2 on ubuntu
+							         wxPoint((card+1)*((int)rect.GetWidth()+1)+i*14+16+(card*3), linux_led_pos_y_), wxSize(-1, -1),
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
-#else
+#endif
 #if defined(__WXMAC__)
 			ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
 							         wxPoint((card+1)*((int)rect.GetWidth()+1)+i*14+19+(card*3), 4), wxSize(-1, -1), 
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
-#else
+#endif
+#if defined(__WXMSW__)
 			ledBitmapPointers [card][i] = new PushButton(this, number, wxEmptyString,
 							         wxPoint((card+1)*(rect.GetWidth()+1)+i*14+16, 9), wxSize(LED_SIZE_X, LED_SIZE_Y),
 							         wxBORDER_NONE);
 			ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
-#endif
 #endif
 			if (i == 1)
 			{
@@ -276,7 +287,7 @@ void ComxStatusBar::updateStatusBarText()
 	wxString buf;
 	wxString leader;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
 	leader = "%d:         ";
 #else
 	leader = "%d:           ";
@@ -285,7 +296,7 @@ void ComxStatusBar::updateStatusBarText()
 	wxRect rect;
 	this->GetFieldRect (1, rect);
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	SetFont(defaultFont);
 #endif
@@ -317,6 +328,14 @@ void ComxStatusBar::updateStatusBarText()
 					else
 						buf.Printf(leader + "FDC", slot+1);
 					SetStatusText(buf, slot+1);
+				break;
+
+				case COMXDIAG:
+					if (rect.GetWidth() < 70)
+						buf.Printf("%d:", slot + 1);
+					else
+						buf.Printf(leader + "Diag", slot + 1);
+					SetStatusText(buf, slot + 1);
 				break;
 
 				case COMXPRINTER:

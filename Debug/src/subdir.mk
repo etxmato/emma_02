@@ -21,6 +21,7 @@ CPP_SRCS += \
 ../src/cosmicoshex.cpp \
 ../src/datadir.cpp \
 ../src/debug.cpp \
+../src/diagstatusbar.cpp \
 ../src/elf.cpp \
 ../src/elf2.cpp \
 ../src/elf2k.cpp \
@@ -35,6 +36,7 @@ CPP_SRCS += \
 ../src/guicidelsa.cpp \
 ../src/guicomx.cpp \
 ../src/guicosmicos.cpp \
+../src/guidiag.cpp \
 ../src/guielf.cpp \
 ../src/guielf2k.cpp \
 ../src/guieprom.cpp \
@@ -85,6 +87,7 @@ CPP_SRCS += \
 ../src/ps2gpio.cpp \
 ../src/psave.cpp \
 ../src/pushbutton.cpp \
+../src/serial.cpp \
 ../src/sound.cpp \
 ../src/splash.cpp \
 ../src/studio2.cpp \
@@ -113,7 +116,8 @@ CPP_SRCS += \
 
 C_SRCS += \
 ../src/SDL_audioin.c \
-../src/audioin_devdsp.c 
+../src/audioin_devdsp.c \
+../src/audioin_windib.c 
 
 OBJS += \
 ./src/Blip_Buffer.o \
@@ -121,6 +125,7 @@ OBJS += \
 ./src/Sync_Audio.o \
 ./src/about.o \
 ./src/audioin_devdsp.o \
+./src/audioin_windib.o \
 ./src/base.o \
 ./src/breakpoints.o \
 ./src/cdp1802.o \
@@ -135,6 +140,7 @@ OBJS += \
 ./src/cosmicoshex.o \
 ./src/datadir.o \
 ./src/debug.o \
+./src/diagstatusbar.o \
 ./src/elf.o \
 ./src/elf2.o \
 ./src/elf2k.o \
@@ -149,6 +155,7 @@ OBJS += \
 ./src/guicidelsa.o \
 ./src/guicomx.o \
 ./src/guicosmicos.o \
+./src/guidiag.o \
 ./src/guielf.o \
 ./src/guielf2k.o \
 ./src/guieprom.o \
@@ -199,6 +206,7 @@ OBJS += \
 ./src/ps2gpio.o \
 ./src/psave.o \
 ./src/pushbutton.o \
+./src/serial.o \
 ./src/sound.o \
 ./src/splash.o \
 ./src/studio2.o \
@@ -243,6 +251,7 @@ CPP_DEPS += \
 ./src/cosmicoshex.d \
 ./src/datadir.d \
 ./src/debug.d \
+./src/diagstatusbar.d \
 ./src/elf.d \
 ./src/elf2.d \
 ./src/elf2k.d \
@@ -257,6 +266,7 @@ CPP_DEPS += \
 ./src/guicidelsa.d \
 ./src/guicomx.d \
 ./src/guicosmicos.d \
+./src/guidiag.d \
 ./src/guielf.d \
 ./src/guielf2k.d \
 ./src/guieprom.d \
@@ -307,6 +317,7 @@ CPP_DEPS += \
 ./src/ps2gpio.d \
 ./src/psave.d \
 ./src/pushbutton.d \
+./src/serial.d \
 ./src/sound.d \
 ./src/splash.d \
 ./src/studio2.d \
@@ -335,14 +346,15 @@ CPP_DEPS += \
 
 C_DEPS += \
 ./src/SDL_audioin.d \
-./src/audioin_devdsp.d 
+./src/audioin_devdsp.d \
+./src/audioin_windib.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
 src/%.o: ../src/%.cpp
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D__WXGTK__ -D_REENTRANT -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -I/usr/include/SDL -I../images -O0 -g3 -Wall -c -fmessage-length=0 `wx-config --cxxflags` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
+	g++ -D__WXGTK__ -D_REENTRANT -DWXUSINGDLL -D_FILE_OFFSET_BITS=64 -I/usr/include/SDL -I../images -O0 -g3 -Wall -c -fmessage-length=0 `wx-config --cxxflags --debug=yes` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

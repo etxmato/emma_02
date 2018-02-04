@@ -9,7 +9,7 @@ class GuiVipII: public GuiVelf
 {
 public:
 
-	GuiVipII(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir);
+	GuiVipII(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir);
 	~GuiVipII() {};
 
 	void readVipIIConfig();

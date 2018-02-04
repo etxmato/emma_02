@@ -1,0 +1,62 @@
+$prefix=/usr
+$bindir=${prefix}/bin
+$datadir=${prefix}/share
+$docdir=${datadir}/doc/emma_02
+$libdir=/usr/lib
+$mandir=${prefix}/share/man
+$srcdir=.
+%product Emma 02
+%copyright 2007-2017 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
+%vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
+%license COPYING
+%readme README
+%description Emma 02 emulates the following RCA CDP1802 based Cosmac Elf, Netronics Elf II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIP II, MCDS, MS 2000, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscom Nano, Pecom 32, Pecom 64 and ETI 660.
+%version 1.25
+%requires glibc
+%requires libcurl
+%requires SDL
+%requires wxGTK
+%requires wxBase
+%requires libpng12
+%requires libserialport0
+# Executables
+%system all
+f 755 root sys ${bindir}/emma_02 ../Release/emma_02
+# Application files
+f 644 root sys ${datadir}/emma_02/about.xrc ../about.xrc
+f 644 root sys ${datadir}/emma_02/cassette.xrc ../cassette.xrc
+f 644 root sys ${datadir}/emma_02/colour.xrc ../colour.xrc
+f 644 root sys ${datadir}/emma_02/configuration.xrc ../configuration.xrc
+f 644 root sys ${datadir}/emma_02/datadir.xrc ../datadir.xrc
+f 644 root sys ${datadir}/emma_02/diag.xrc ../diag.xrc
+f 644 root sys ${datadir}/emma_02/eprom.xrc ../eprom.xrc
+f 644 root sys ${datadir}/emma_02/functionkey.xrc ../functionkey.xrc
+f 644 root sys ${datadir}/emma_02/keymap_tmc.xrc ../keymap_tmc.xrc
+f 644 root sys ${datadir}/emma_02/keymap.xrc ../keymap.xrc
+f 644 root sys ${datadir}/emma_02/main.xrc ../main.xrc
+f 644 root sys ${datadir}/emma_02/menuComx.xrc ../menuComx.xrc
+f 644 root sys ${datadir}/emma_02/menuCosmicos.xrc ../menuCosmicos.xrc
+f 644 root sys ${datadir}/emma_02/menuElf.xrc ../menuElf.xrc
+f 644 root sys ${datadir}/emma_02/menuElf2K.xrc ../menuElf2K.xrc
+f 644 root sys ${datadir}/emma_02/menuMS2000.xrc ../menuMS2000.xrc
+f 644 root sys ${datadir}/emma_02/menuMcds.xrc ../menuMcds.xrc
+f 644 root sys ${datadir}/emma_02/menuMembership.xrc ../menuMembership.xrc
+f 644 root sys ${datadir}/emma_02/menuPecom.xrc ../menuPecom.xrc
+f 644 root sys ${datadir}/emma_02/menuTmc600.xrc ../menuTmc600.xrc
+f 644 root sys ${datadir}/emma_02/menuVelf.xrc ../menuVelf.xrc
+f 644 root sys ${datadir}/emma_02/menuVip.xrc ../menuVip.xrc
+f 644 root sys ${datadir}/emma_02/menu_Cas_Mem.xrc ../menu_Cas_Mem.xrc
+f 644 root sys ${datadir}/emma_02/ports.xrc ../ports.xrc
+f 644 root sys ${datadir}/emma_02/sb.xrc ../sb.xrc
+f 644 root sys ${datadir}/emma_02/splash.xrc ../splash.xrc
+f 644 root sys ${datadir}/emma_02/vt.xrc ../vt.xrc
+f 644 root sys ${datadir}/emma_02/Quest_CC_Lic.jpg ../Quest_CC_Lic.jpg
+f 644 root sys ${datadir}/emma_02/Quest_license.txt ../Quest_license.txt
+f 644 root sys ${datadir}/emma_02/copyright.rtf ../copyright.rtf
+f 644 root sys ${datadir}/emma_02/emma_02.htb ../Helpfiles/emma_02.htb
+f 644 root sys ${datadir}/emma_02/Configurations ../Configurations/*.*
+f 644 root sys ${datadir}/emma_02/data ../data/*.*
+f 644 root sys ${datadir}/emma_02/images ../images/*.*
+f 644 root sys ${datadir}/emma_02/images_linux ../images_linux/*.*
+f 644 root sys /usr/share/applications/emma02.desktop emma02.desktop
+f 644 root sys /usr/share/pixmaps/emma02.xpm emma02.xpm

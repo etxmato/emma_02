@@ -1,0 +1,23 @@
+<HTML>
+<Title>Keyboard Mapping and Types</Title>
+<BODY>
+<h2>Keyboard Mapping and Types</h2>
+<h3>Keyboard Mapping</h3>
+<p>
+Default the PC key 'Ins' is mapped to the Cosmicos 'Enter' or 'E' button. F12 is mapped to the Cosmicos 'Run' or 'G' button. If the CPU is stopped F12 will start it and when the CPU is running F12 will stop it. stop mode is indicated in the emulated window title. See also <a href="MainHexKeyMap.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+</p>
+<h3>Keyboard Types</h3>
+<p>
+To select the specific Cosmicos keyboard type use the choice button 'Keyboard'. Currently only 1 type is supported: 
+</p>
+<h4>
+Hex Keyboard: 
+</h4>
+<p>
+Only 1 hex keypad is supported.
+</p>
+<p>
+To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="MainHexKeyMap.htm">Key Mapping</a>
+</p>
+</BODY>
+</HTML>

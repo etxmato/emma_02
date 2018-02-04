@@ -36,6 +36,7 @@
 #include "printer.h"
 #include "guieprom.h"
 #include "guisb.h"
+#include "guidiag.h"
 
 DEFINE_EVENT_TYPE(STATUS_LED_ON)
 DEFINE_EVENT_TYPE(STATUS_LED_OFF)
@@ -131,14 +132,17 @@ BEGIN_EVENT_TABLE(GuiComx, GuiElf)
 
 	EVT_BUTTON(XRCID("EpromComx"), GuiComx::onEpromDialog)
 	EVT_BUTTON(XRCID("SbSetupComx"), GuiComx::onSBDialog)
+	EVT_BUTTON(XRCID("DiagSetupComx"), GuiComx::onDiagDialog)
 	EVT_CHECKBOX(XRCID("SbActiveComx"), GuiComx::onSbActive)
+	EVT_CHECKBOX(XRCID("DiagActiveComx"), GuiComx::onDiagActive)
+	EVT_CHOICE(XRCID("DiagOnComx"), GuiComx::onDiagOn)
 
     EVT_CHECKBOX(XRCID("LogComx"), GuiComx::onLogComx)
 
 	END_EVENT_TABLE()
 
-GuiComx::GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiElf(title, pos, size, mode, dataDir)
+GuiComx::GuiComx(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiElf(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[COMX].loadFileNameFull_ = "";
 	conf[COMX].loadFileName_ = "";
@@ -168,9 +172,11 @@ void GuiComx::readComxConfig()
 {
 	selectedComputer_ = COMX;
 
-    configPointer->Read("/Comx/Enable_SB", &conf[COMX].sbActive_, true);
+	configPointer->Read("/Comx/Enable_SB", &conf[COMX].sbActive_, true);
+	configPointer->Read("/Comx/Enable_DIAG", &conf[COMX].diagActive_, false);
+	conf[COMX].diagOn_ = (int)configPointer->Read("/Comx/Enable_DIAG_ON", 1l);
 
-    conf[COMX].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Comx" + pathSeparator_;
+    conf[COMX].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Comx" + pathSeparator_;
 
     conf[COMX].mainDir_ = readConfigDir("/Dir/Comx/Main", dataDir_ + "Comx" + pathSeparator_);
 
@@ -248,6 +254,20 @@ void GuiComx::readComxConfig()
 	readSbConfig();
 	setRealCas(COMX);
 
+	DiagPalRom_[0] = getConfigItem("/Comx/DIAG_ROM_0", "diag_pal1.bin");
+	DiagPalRom_[1] = getConfigItem("/Comx/DIAG_ROM_1", "diag_pal2_v1.1.bin");
+	DiagPalRomDir_[0] = readConfigDir("/Dir/Comx/DIAG_ROM_0", dataDir_ + "Comx" + pathSeparator_);
+	DiagPalRomDir_[1] = readConfigDir("/Dir/Comx/DIAG_ROM_1", dataDir_ + "Comx" + pathSeparator_);
+	DiagNtscRom_[0] = getConfigItem("/Comx/DIAG_NTSC_ROM_0", "diag_ntsc1.bin");
+	DiagNtscRom_[1] = getConfigItem("/Comx/DIAG_NTSC_ROM_1", "diag_ntsc2_v1.1.bin");
+	DiagNtscRomDir_[0] = readConfigDir("/Dir/Comx/DIAG_NTSC_ROM_0", dataDir_ + "Comx" + pathSeparator_);
+	DiagNtscRomDir_[1] = readConfigDir("/Dir/Comx/DIAG_NTSC_ROM_1", dataDir_ + "Comx" + pathSeparator_);
+	diagRomChecksum_ = (int)configPointer->Read("/Comx/DiagRomChecksum", 1l);
+    diagFactory_ = (int)configPointer->Read("/Comx/DiagFactoryUnit", 1l);
+    diagCassetteCables_ = (int)configPointer->Read("/Comx/DiagCassetteCables", 1l);
+
+	diagSbChange();
+
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "TurboClockComx", wxTextCtrl)->SetValue(conf[COMX].turboClock_);
@@ -271,6 +291,8 @@ void GuiComx::readComxConfig()
 
 		XRCCTRL(*this, "InterlaceComx", wxCheckBox)->SetValue(conf[COMX].interlace_);
 		XRCCTRL(*this, "SbActiveComx", wxCheckBox)->SetValue(conf[COMX].sbActive_);
+		XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->SetValue(conf[COMX].diagActive_);
+		XRCCTRL(*this, "DiagOnComx", wxChoice)->SetSelection(conf[COMX].diagOn_);
 
         XRCCTRL(*this, "LogComx", wxCheckBox)->SetValue(conf[COMX].videoLog_);
 
@@ -281,20 +303,22 @@ void GuiComx::readComxConfig()
 		XRCCTRL(*this, "Cart2RomComx", wxComboBox)->Enable(expansionRomLoaded_ );
 		XRCCTRL(*this, "Cart3RomButtonComx", wxButton)->Enable(expansionRomLoaded_ );
 		XRCCTRL(*this, "Cart3RomComx", wxComboBox)->Enable(expansionRomLoaded_ );
-		XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(expansionRomLoaded_ );
-		XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(expansionRomLoaded_ );
 
 		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
 		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"Cart4RomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"Cart4RomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
+		XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
+		XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(!(conf[COMX].sbActive_ || conf[COMX].diagActive_));
+        XRCCTRL(*this,"Cart1RomComx", wxComboBox)->Enable(!conf[COMX].diagActive_);
+        XRCCTRL(*this,"Cart1RomButtonComx", wxButton)->Enable(!conf[COMX].diagActive_);
+        XRCCTRL(*this,"Cart4RomComx", wxComboBox)->Enable(expansionRomLoaded_ && !(conf[COMX].sbActive_ || conf[COMX].diagActive_));
+        XRCCTRL(*this,"Cart4RomButtonComx", wxButton)->Enable(expansionRomLoaded_ && !(conf[COMX].sbActive_ || conf[COMX].diagActive_));
 
-        if (conf[COMX].sbActive_)
+        XRCCTRL(*this, "ExpRamSlotComx", wxSpinCtrl)->SetRange(1, 4);
+		if (conf[COMX].sbActive_)
             XRCCTRL(*this, "ExpRamSlotComx", wxSpinCtrl)->SetRange(1, 3);
         else
             XRCCTRL(*this, "ExpRamSlotComx", wxSpinCtrl)->SetRange(1, 4);
+        
 		XRCCTRL(*this, "ExpRamSlotComx", wxSpinCtrl)->Enable(useExpansionRam_);
 		if (useExpansionRam_)
 			setComxExpRamSlot();
@@ -348,7 +372,7 @@ void GuiComx::readSbConfig()
     sbCaseFile_ = (int)configPointer->Read("/Comx/CaseFile", 0l);
     sbCaseDir_ = (int)configPointer->Read("/Comx/CaseDir", 2l);
     
-    if (conf[COMX].sbActive_)
+/*    if (conf[COMX].sbActive_)
     {
         conf[COMX].romDir_[MAINROM1] = SBRomDir_[0];
         conf[COMX].rom_[MAINROM1] = SBRom_[0];
@@ -356,7 +380,7 @@ void GuiComx::readSbConfig()
         conf[COMX].rom_[EXPROM] = SBRom_[1];
         conf[COMX].romDir_[CARTROM4] = SBRomDir_[2];
         conf[COMX].rom_[CARTROM4] = SBRom_[2];
-    }
+    }*/
 }
 
 void GuiComx::readInitialComxConfig()
@@ -438,17 +462,33 @@ void GuiComx::writeComxDirConfig()
     writeConfigDir("/Dir/Comx/Print_File", conf[COMX].printFileDir_);
     writeConfigDir("/Dir/Comx/Video_Dump_File", conf[COMX].screenDumpFileDir_);
     writeConfigDir("/Dir/Comx/Wav_File", conf[COMX].wavFileDir_);
+	writeConfigDir("/Dir/Comx/DIAG_ROM_0", DiagPalRomDir_[0]);
+	writeConfigDir("/Dir/Comx/DIAG_ROM_1", DiagPalRomDir_[1]);
+	writeConfigDir("/Dir/Comx/DIAG_NTSC_ROM_0", DiagNtscRomDir_[0]);
+	writeConfigDir("/Dir/Comx/DIAG_NTSC_ROM_1", DiagNtscRomDir_[1]);
 }
 
 void GuiComx::writeComxConfig()
 {
-    if (!conf[COMX].sbActive_)
+    if (!conf[COMX].sbActive_ && !conf[COMX].diagActive_)
     {
         configPointer->Write("/Comx/Main_Rom_File", conf[COMX].rom_[MAINROM1]);
         configPointer->Write("/Comx/Expansion_Rom_File", conf[COMX].rom_[EXPROM]);
+        configPointer->Write("/Comx/Card_1_Rom_File", conf[COMX].rom_[CARTROM1]);
         configPointer->Write("/Comx/Card_4_Rom_File", conf[COMX].rom_[CARTROM4]);
     }
-	configPointer->Write("/Comx/Card_1_Rom_File", conf[COMX].rom_[CARTROM1]);
+    
+    if (conf[COMX].sbActive_)
+    {
+        configPointer->Write("/Comx/Card_1_Rom_File", conf[COMX].rom_[CARTROM1]);
+    }
+    
+    if (conf[COMX].diagActive_)
+    {
+        configPointer->Write("/Comx/Main_Rom_File", conf[COMX].rom_[MAINROM1]);
+        configPointer->Write("/Comx/Card_4_Rom_File", conf[COMX].rom_[CARTROM4]);
+    }
+    
 	configPointer->Write("/Comx/Card_2_Rom_File", conf[COMX].rom_[CARTROM2]);
 	configPointer->Write("/Comx/Card_3_Rom_File", conf[COMX].rom_[CARTROM3]);
 	configPointer->Write("/Comx/PL80_Rom_File", Pl80Data_[1]);
@@ -471,6 +511,8 @@ void GuiComx::writeComxConfig()
 	configPointer->Write("/Comx/Enable_Real_Cassette", conf[COMX].realCassetteLoad_);
 	configPointer->Write("/Comx/Enable_80_Column_Interlace", conf[COMX].interlace_);
 	configPointer->Write("/Comx/Enable_SB", conf[COMX].sbActive_);
+	configPointer->Write("/Comx/Enable_DIAG", conf[COMX].diagActive_);
+	configPointer->Write("/Comx/Enable_DIAG_ON", conf[COMX].diagOn_);
 	configPointer->Write("/Comx/Use_Ram_Card", useExpansionRam_);
     configPointer->Write("/Comx/Video_Log", conf[COMX].videoLog_);
 	configPointer->Write("/Comx/Ram_Card_Slot", expansionRamSlot_);
@@ -487,6 +529,14 @@ void GuiComx::writeComxConfig()
         setConfigItem("/Comx/Eprom"+number, EpromRom_[i]);
     }
     
+	setConfigItem("/Comx/DIAG_ROM_0", DiagPalRom_[0]);
+	setConfigItem("/Comx/DIAG_ROM_1", DiagPalRom_[1]);
+	setConfigItem("/Comx/DIAG_NTSC_ROM_0", DiagNtscRom_[0]);
+	setConfigItem("/Comx/DIAG_NTSC_ROM_1", DiagNtscRom_[1]);
+	configPointer->Write("/Comx/DiagRomChecksum", diagRomChecksum_);
+    configPointer->Write("/Comx/DiagFactoryUnit", diagFactory_);
+    configPointer->Write("/Comx/DiagCassetteCables", diagCassetteCables_);
+
 	writeSbConfig();
 }
 
@@ -861,6 +911,11 @@ void GuiComx::onComxVideoMode(wxCommandEvent&event)
 			clockTextCtrl[COMX]->ChangeValue(comxNtscClock_);
 		break;
 	}
+    if (conf[COMX].videoMode_ == PAL)
+        conf[COMX].clock_ = comxPalClock_;
+    else
+        conf[COMX].clock_ = comxNtscClock_;
+    diagSbChange();
 }
 
 void GuiComx::onComxExpansionRam(wxCommandEvent&event)
@@ -1232,6 +1287,14 @@ int GuiComx::getComxPrintMode()
 	return comxPrintMode_;
 }
 
+int GuiComx::isDiagOn(int computer)
+{
+    if (conf[computer].diagActive_)
+        return conf[computer].diagOn_;
+    else
+        return 0;
+}
+
 void GuiComx::onEpromDialog(wxCommandEvent&WXUNUSED(event))
 {
 	EpromDialog EpromDialog(this);
@@ -1241,57 +1304,125 @@ void GuiComx::onEpromDialog(wxCommandEvent&WXUNUSED(event))
 void GuiComx::onSBDialog(wxCommandEvent&WXUNUSED(event))
 {
 	SBDialog SBDialog(this);
- 	SBDialog.ShowModal();
+	SBDialog.ShowModal();
+}
+
+void GuiComx::onDiagDialog(wxCommandEvent&WXUNUSED(event))
+{
+	DiagDialog DiagDialog(this);
+	DiagDialog.ShowModal();
 }
 
 void GuiComx::onSbActive(wxCommandEvent&event)
 {
 	conf[COMX].sbActive_ = event.IsChecked();
+	conf[COMX].diagActive_ = false;
+	diagSbChange();
+}
 
+void GuiComx::onDiagActive(wxCommandEvent&event)
+{
+	conf[COMX].diagActive_ = event.IsChecked();
+	conf[COMX].sbActive_ = false;
+	diagSbChange();
+}
+
+void GuiComx::onDiagOn(wxCommandEvent&event)
+{
+	conf[COMX].diagOn_ = event.GetSelection();
+}
+
+void GuiComx::diagSbChange()
+{
 	if (mode_.gui)
 	{
-		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"ExpRomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"ExpRomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"Cart4RomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
-		XRCCTRL(*this,"Cart4RomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
+		XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->SetValue(conf[COMX].diagActive_);
+		XRCCTRL(*this, "SbActiveComx", wxCheckBox)->SetValue(conf[COMX].sbActive_);
+
+		XRCCTRL(*this, "MainRomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
+		XRCCTRL(*this, "RomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
+		XRCCTRL(*this, "ExpRomComx", wxComboBox)->Enable(!(conf[COMX].diagActive_ || conf[COMX].sbActive_));
+		XRCCTRL(*this, "ExpRomButtonComx", wxButton)->Enable(!(conf[COMX].diagActive_ || conf[COMX].sbActive_));
+		XRCCTRL(*this, "Cart1RomComx", wxComboBox)->Enable(!conf[COMX].diagActive_);
+		XRCCTRL(*this, "Cart1RomButtonComx", wxButton)->Enable(!conf[COMX].diagActive_);
+		XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(!conf[COMX].sbActive_);
+		XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(!conf[COMX].sbActive_);
+		XRCCTRL(*this, "DiagOnComx", wxChoice)->Enable(conf[COMX].diagActive_);
+		XRCCTRL(*this, "ExpRamComx", wxCheckBox)->Enable(!conf[COMX].diagActive_);
 	}
+
+	conf[COMX].romDir_[MAINROM1] = readConfigDir("/Dir/Comx/Main_Rom_File", dataDir_ + "Comx" + pathSeparator_);
+	conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.1.bin");
+	conf[COMX].romDir_[EXPROM] = readConfigDir("/Dir/Comx/Expansion_Rom_File", dataDir_ + "Comx" + pathSeparator_);
+	conf[COMX].rom_[EXPROM] = configPointer->Read("/Comx/Expansion_Rom_File", "f&m.expansion.3.2.bin");
+	conf[COMX].romDir_[CARTROM1] = readConfigDir("/Dir/Comx/Card_1_Rom_File", dataDir_ + "Comx" + pathSeparator_);
+	conf[COMX].rom_[CARTROM1] = configPointer->Read("/Comx/Card_1_Rom_File", "fdc.bin");
+	conf[COMX].romDir_[CARTROM4] = readConfigDir("/Dir/Comx/Card_4_Rom_File", dataDir_ + "Comx" + pathSeparator_);
+	conf[COMX].rom_[CARTROM4] = configPointer->Read("/Comx/Card_4_Rom_File", "f&m.eprom.board.1.2.bin");
+
 	if (conf[COMX].sbActive_)
 	{
-        conf[COMX].romDir_[MAINROM1] = SBRomDir_[0];
-        conf[COMX].rom_[MAINROM1] = SBRom_[0];
-        conf[COMX].romDir_[EXPROM] = SBRomDir_[1];
+		conf[COMX].romDir_[MAINROM1] = SBRomDir_[0];
+		conf[COMX].rom_[MAINROM1] = SBRom_[0];
+		conf[COMX].romDir_[EXPROM] = SBRomDir_[1];
 		conf[COMX].rom_[EXPROM] = SBRom_[1];
-        conf[COMX].romDir_[CARTROM4] = SBRomDir_[2];
+		conf[COMX].romDir_[CARTROM4] = SBRomDir_[2];
 		conf[COMX].rom_[CARTROM4] = SBRom_[2];
 		if (expansionRamSlot_ == 4 && useExpansionRam_)
 		{
 			expansionRamSlot_ = 3;
 			useExpansionRam_ = false;
-            XRCCTRL(*this, "ExpRamComx", wxCheckBox)->SetValue(useExpansionRam_);
+			if (mode_.gui)
+				XRCCTRL(*this, "ExpRamComx", wxCheckBox)->SetValue(useExpansionRam_);
 		}
-	}
-	else
+		if (mode_.gui)
+		{
+			XRCCTRL(*this, "Cart2RomComx", wxComboBox)->Enable(true);
+			XRCCTRL(*this, "Cart2RomButtonComx", wxButton)->Enable(true);
+			XRCCTRL(*this, "Cart3RomComx", wxComboBox)->Enable(true);
+			XRCCTRL(*this, "Cart3RomButtonComx", wxButton)->Enable(true);
+		}
+    }
+
+	if (conf[COMX].diagActive_)
 	{
-		conf[COMX].romDir_[MAINROM1] = readConfigDir("/Dir/Comx/Main_Rom_File", dataDir_ + "Comx" + pathSeparator_);
-		conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.1.bin");
-		conf[COMX].romDir_[EXPROM] = readConfigDir("/Dir/Comx/Expansion_Rom_File", dataDir_ + "Comx" + pathSeparator_);
-		conf[COMX].rom_[EXPROM] = configPointer->Read("/Comx/Expansion_Rom_File", "f&m.expansion.3.2.bin");
-		conf[COMX].romDir_[CARTROM4] = readConfigDir("/Dir/Comx/Card_4_Rom_File", dataDir_ + "Comx" + pathSeparator_);
-		conf[COMX].rom_[CARTROM4] = configPointer->Read("/Comx/Card_4_Rom_File", "f&m.eprom.board.1.2.bin");
+		if (conf[COMX].videoMode_ == PAL)
+		{
+			conf[COMX].romDir_[EXPROM] = DiagPalRomDir_[0];
+			conf[COMX].rom_[EXPROM] = DiagPalRom_[0];
+			conf[COMX].romDir_[CARTROM1] = DiagPalRomDir_[1];
+			conf[COMX].rom_[CARTROM1] = DiagPalRom_[1];
+		}
+		else
+		{
+			conf[COMX].romDir_[EXPROM] = DiagNtscRomDir_[0];
+			conf[COMX].rom_[EXPROM] = DiagNtscRom_[0];
+			conf[COMX].romDir_[CARTROM1] = DiagNtscRomDir_[1];
+			conf[COMX].rom_[CARTROM1] = DiagNtscRom_[1];
+		}
+
+		if (mode_.gui)
+		{
+			XRCCTRL(*this, "Cart2RomComx", wxComboBox)->Enable(false);
+			XRCCTRL(*this, "Cart2RomButtonComx", wxButton)->Enable(false);
+			XRCCTRL(*this, "Cart3RomComx", wxComboBox)->Enable(false);
+			XRCCTRL(*this, "Cart3RomButtonComx", wxButton)->Enable(false);
+			XRCCTRL(*this, "Cart4RomComx", wxComboBox)->Enable(false);
+			XRCCTRL(*this, "Cart4RomButtonComx", wxButton)->Enable(false);
+		}
 	}
 
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomComx", wxComboBox)->SetValue(conf[COMX].rom_[MAINROM1]);
 		XRCCTRL(*this, "ExpRomComx", wxComboBox)->SetValue(conf[COMX].rom_[EXPROM]);
+		XRCCTRL(*this, "Cart1RomComx", wxComboBox)->SetValue(conf[COMX].rom_[CARTROM1]);
 		XRCCTRL(*this, "Cart4RomComx", wxComboBox)->SetValue(conf[COMX].rom_[CARTROM4]);
 		if (conf[COMX].sbActive_)
 			XRCCTRL(*this, "ExpRamSlotComx", wxSpinCtrl)->SetRange(1, 3);
 		else
-			XRCCTRL(*this, "ExpRamSlotComx", wxSpinCtrl)->SetRange(1, 4);
-	}
+            XRCCTRL(*this, "ExpRamSlotComx", wxSpinCtrl)->SetRange(1, 4);
+    }
 }
 
 void GuiComx::setSbUrlHome(wxString urlHome)
@@ -1322,12 +1453,32 @@ void GuiComx::setUrlBookMark(int number, wxString urlBookMark)
 
 void GuiComx::setSbRomDirectory(int number, wxString directory)
 {
-    SBRomDir_[number] = directory;
+	SBRomDir_[number] = directory;
 }
 
 void GuiComx::setSbRom(int number, wxString filename)
 {
-    SBRom_[number] = filename;
+	SBRom_[number] = filename;
+}
+
+void GuiComx::setDiagPalRomDirectory(int number, wxString directory)
+{
+	DiagPalRomDir_[number] = directory;
+}
+
+void GuiComx::setDiagPalRom(int number, wxString filename)
+{
+	DiagPalRom_[number] = filename;
+}
+
+void GuiComx::setDiagNtscRomDirectory(int number, wxString directory)
+{
+	DiagNtscRomDir_[number] = directory;
+}
+
+void GuiComx::setDiagNtscRom(int number, wxString filename)
+{
+	DiagNtscRom_[number] = filename;
 }
 
 void GuiComx::setEpromRomDirectory(int number, wxString directory)

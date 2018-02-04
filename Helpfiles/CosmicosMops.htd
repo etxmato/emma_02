@@ -1,0 +1,39 @@
+<HTML>
+<Title>MOPS & Hexmops</Title>
+<BODY>
+<h2>MOPS</h2>
+<p>
+To run MOPS (Mini OPerating System) start the Cosmicos without the 'Autoboot' selected and then load the mops.bin file (via the LOAD button). MOPS has 3 functions:<br>
+00 = Start program<br>
+01 = Inspect<br>
+02 = Write<br></p>
+To select one of the above set the data buttons/led's to the desired function and press 'G'. After this select an address (via the data buttons/led's) for the specific function and press 'E'. The address should now show on the display.
+</p>
+<p>
+If code 00 was specified before starting MOPS the processor will start the program at the chosen address after 'E' is released.
+</p>
+<p>
+If code 01 was specified before starting MOPS the value of the specified address will be shown when 'E' is pressed, every press of 'E' will show the value of the next address.
+</p>
+<p>
+If code 02 was specified before starting MOPS the Q led will go on and a byte can be specified which will be written to memory and shown on the display when 'E' is pressed. After reset of the input a new byte can be written on the next address. 
+</p>
+<h2>Hexmops</h2>
+<p>
+To run Hexmops start the Cosmicos without the 'Autoboot' selected, load the hex.mops.bin file and press the 'G' button. After starting Hexmops one of 3 functions can be chosen by pressing the hex number key as specified below:<br>
+0 = Start program<br> 
+1 = Write<br>
+2 = Inspect<br>
+After this Hexmops will expect an address, first the high byte then the low byte. The address bytes will be shown  on the display.
+</p>
+<p>
+With function 0 the program on the chosen address will start after any key is pressed (R2 = RX = M00FF and R3 = PC).
+</p>
+<p>
+With function 1 Hexmops will wait for a byte which will be shown on the display and written to the chosen address, after which the address will be incremented.
+</p>
+<p>
+With function 2 the byte on the chosen address will be shown after any key is pressed. A second press will show the value of the next address. 
+</p>
+</BODY>
+</HTML>

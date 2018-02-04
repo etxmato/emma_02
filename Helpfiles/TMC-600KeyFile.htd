@@ -1,0 +1,18 @@
+<HTML>
+<Title>Key File</Title>
+<BODY>
+<h2>Key File</h2>
+<p>
+With the Key File function it is possible to specify a set of keys (or text) to be typed into the emulated TMC-600 automatically as defined in the file. Note that the Key File needs to be specified before start of the emulated computer or before performing a 'Reset'.
+</p>
+<p>
+To specify the location and file use the 'Key File' button to browse for the file or type in a new file name in the text field.
+</p>
+<p>
+If the key file uses both capital and small characters press the Caps Lock at start-up to allow input of small characters.
+</p>
+<p>
+Note: Specify one extra 'C' at the start of the file to allow the TMC-600 to start basic.
+</p>
+</BODY>
+</HTML>

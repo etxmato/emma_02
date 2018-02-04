@@ -116,8 +116,8 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 
 END_EVENT_TABLE()
 
-GuiStudio2::GuiStudio2(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiVip(title, pos, size, mode, dataDir)
+GuiStudio2::GuiStudio2(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiVip(title, pos, size, mode, dataDir, iniDir)
 {
 }
 
@@ -125,7 +125,7 @@ void GuiStudio2::readStudioConfig()
 {
 	selectedComputer_ = STUDIO;
 
-    conf[STUDIO].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Studio2" + pathSeparator_;
+    conf[STUDIO].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Studio2" + pathSeparator_;
     conf[STUDIO].mainDir_ = readConfigDir("/Dir/Studio2/Main", dataDir_ + "Studio2" + pathSeparator_);
     
     conf[STUDIO].romDir_[MAINROM1] = readConfigDir("/Dir/Studio2/Main_Rom_File", dataDir_ + "Studio2"  + pathSeparator_);
@@ -254,7 +254,7 @@ void GuiStudio2::readVisicomConfig()
 {
 	selectedComputer_ = VISICOM;
 
-    conf[VISICOM].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Visicom" + pathSeparator_;
+    conf[VISICOM].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Visicom" + pathSeparator_;
     conf[VISICOM].mainDir_ = readConfigDir("/Dir/Visicom/Main", dataDir_ + "Visicom" + pathSeparator_);
     
     conf[VISICOM].romDir_[MAINROM1] = readConfigDir("/Dir/Visicom/Main_Rom_File", dataDir_ + "Visicom"  + pathSeparator_);
@@ -332,7 +332,7 @@ void GuiStudio2::readVictoryConfig()
 {
 	selectedComputer_ = VICTORY;
 
-    conf[VICTORY].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Victory" + pathSeparator_;
+    conf[VICTORY].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Victory" + pathSeparator_;
     conf[VICTORY].mainDir_ = readConfigDir("/Dir/Victory/Main", dataDir_ + "Victory" + pathSeparator_);
     
     conf[VICTORY].romDir_[MAINROM1] = readConfigDir("/Dir/Victory/Main_Rom_File", dataDir_ + "Victory"  + pathSeparator_);

@@ -97,12 +97,15 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
 	EVT_CHECKBOX(XRCID("Elf2KBootRam"), GuiElf2K::onBootRam)
 	EVT_CHECKBOX(XRCID("Elf2KClearRtc"), GuiElf2K::onClearRtc)
 
-	EVT_COMMAND(wxID_ANY, ON_UART_ELF2K, GuiElf::onElf2KUart) 
+    EVT_CHOICE(XRCID("VTBaudTChoiceElf2K"), GuiElf2K::onElf2KBaudT)
+    EVT_CHOICE(XRCID("VTBaudRChoiceElf2K"), GuiElf2K::onElf2KBaudR)
+
+    EVT_COMMAND(wxID_ANY, ON_UART_ELF2K, GuiElf::onElf2KUart)
 
 END_EVENT_TABLE()
 
-GuiElf2K::GuiElf2K(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir)
-: GuiMS2000(title, pos, size, mode_, dataDir)
+GuiElf2K::GuiElf2K(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
+: GuiMS2000(title, pos, size, mode_, dataDir, iniDir)
 {
 	conf[ELF2K].saveStartString_ = "";
 	conf[ELF2K].saveEndString_ = "";
@@ -115,7 +118,7 @@ void GuiElf2K::readElf2KConfig()
 
 	readElfPortConfig(ELF2K, "Elf2K");
 	
-	conf[ELF2K].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Elf2K" + pathSeparator_;
+	conf[ELF2K].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Elf2K" + pathSeparator_;
 
     conf[ELF2K].mainDir_ = readConfigDir("/Dir/Elf2K/Main", dataDir_ + "Elf2K" + pathSeparator_);
 	conf[ELF2K].romDir_[MAINROM1] = readConfigDir("/Dir/Elf2K/Main_Rom_File", dataDir_ + "Elf2K" + pathSeparator_);
@@ -126,13 +129,14 @@ void GuiElf2K::readElf2KConfig()
 	conf[ELF2K].keyFileDir_ = readConfigDir("/Dir/Elf2K/Key_File", dataDir_ + "Elf2K" + pathSeparator_);
 	conf[ELF2K].screenDumpFileDir_ = readConfigDir("/Dir/Elf2K/Video_Dump_File", dataDir_ + "Elf2K" + pathSeparator_);
 	elfConfiguration[ELF2K].vtWavFileDir_ = readConfigDir("/Dir/Elf2K/Vt_Wav_File", dataDir_ + "Elf2K" + pathSeparator_);
-
+ 
 	conf[ELF2K].rom_[MAINROM1] = configPointer->Read("/Elf2K/Main_Rom_File", "v88.bin");
 	conf[ELF2K].charRom_ = configPointer->Read("/Elf2K/I8275_Font_Rom_File", "intel8275.bin");
 	conf[ELF2K].ide_ = configPointer->Read("/Elf2K/Ide_File", "elf2k.ide");
 	conf[ELF2K].keyFile_ = configPointer->Read("/Elf2K/Key_File", "");
 	conf[ELF2K].screenDumpFile_ = configPointer->Read("/Elf2K/Video_Dump_File", "screendump.png");
 	elfConfiguration[ELF2K].vtWavFile_ = configPointer->Read("/Elf2K/Vt_Wav_File", "");
+    elfConfiguration[ELF2K].serialPort_ = configPointer->Read("/Elf2K/VtSerialPortChoice", "");
 	conf[ELF2K].volume_ = (int)configPointer->Read("/Elf2K/Volume", 25l);
 	conf[ELF2K].videoMode_ = (int)configPointer->Read("/Elf2K/Video_Type", 2l);
 
@@ -140,14 +144,16 @@ void GuiElf2K::readElf2KConfig()
 
 	configPointer->Read("/Elf2K/Enable_Interlace", &conf[ELF2K].interlace_, true);
 	configPointer->Read("/Elf2K/Enable_Vt_Stretch_Dot", &conf[ELF2K].stretchDot_, false);
+    configPointer->Read("/Elf2K/Enable_Vt_External", &elfConfiguration[ELF2K].vtExternal, false);
     conf[ELF2K].beepFrequency_ = (int)configPointer->Read("/Elf2K/Beep_Frequency", 250);
     
 	elfConfiguration[ELF2K].bellFrequency_ = (int)configPointer->Read("/Elf2K/Bell_Frequency", 800);
-	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 0l);
-	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 0l);
+	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 3l);
+	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 3l);
 	elfConfiguration[ELF2K].vtType = (int)configPointer->Read("/Elf2K/VT_Type", 0l);
     elfConfiguration[ELF2K].vt52SetUpFeature_ = configPointer->Read("/Elf2K/VT52Setup", 0x00004092l);
     elfConfiguration[ELF2K].vt100SetUpFeature_ = configPointer->Read("/Elf2K/VT100Setup", 0x0000ca52l);
+    elfConfiguration[ELF2K].vtExternalSetUpFeature_ = configPointer->Read("/Elf2K/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[ELF2K].keyboardType = (int)configPointer->Read("/Elf2K/Keyboard_Type", 2l);
 	elfConfiguration[ELF2K].clearRam = false;
 	elfConfiguration[ELF2K].clearRtc = false;
@@ -185,7 +191,7 @@ void GuiElf2K::readElf2KConfig()
 	if (mode_.gui)
 		setBaudChoiceElf2K();
 
-	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType);
+	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
 	setElf2KVideoType(conf[ELF2K].videoMode_);
 
 	conf[ELF2K].vtCharRom_ = configPointer->Read("/Elf2K/Vt_Font_Rom_File", "vt52.a.bin");
@@ -203,19 +209,12 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "Elf2KVideoType", wxChoice)->SetSelection(conf[ELF2K].videoMode_);
 		XRCCTRL(*this, "Elf2KForceUC", wxCheckBox)->SetValue(elfConfiguration[ELF2K].forceUpperCase);
 
-		baudChoiceR[ELF2K]->SetSelection(elfConfiguration[ELF2K].baudR);
-		baudChoiceT[ELF2K]->SetSelection(elfConfiguration[ELF2K].baudT);
-		baudChoiceR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-        baudTextR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-		baudTextT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudT);
         XRCCTRL(*this, "Elf2KAddressText1",wxStaticText)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
         XRCCTRL(*this, "Elf2KAddressText2",wxStaticText)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
-		baudChoiceT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 
-		XRCCTRL(*this, "VtCharRomButtonElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomElf2K", wxComboBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-		XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
+        XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
 		XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].zoom_);
 		XRCCTRL(*this, "ZoomValueVtElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].zoomVt_);
 		XRCCTRL(*this, "ShowAddressElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].ledTime_);
@@ -274,6 +273,7 @@ void GuiElf2K::writeElf2KConfig()
 	configPointer->Write("/Elf2K/Key_File", conf[ELF2K].keyFile_);
 	configPointer->Write("/Elf2K/Video_Dump_File", conf[ELF2K].screenDumpFile_);
 	configPointer->Write("/Elf2K/Vt_Wav_File", elfConfiguration[ELF2K].vtWavFile_);
+    configPointer->Write("/Elf2K/VtSerialPortChoice", elfConfiguration[ELF2K].serialPort_);
 
 	configPointer->Write("/Elf2K/Bell_Frequency", elfConfiguration[ELF2K].bellFrequency_);
 	configPointer->Write("/Elf2K/VT_Type", elfConfiguration[ELF2K].vtType);
@@ -282,6 +282,8 @@ void GuiElf2K::writeElf2KConfig()
     configPointer->Write("/Elf2K/VT52Setup", value);
     value = elfConfiguration[ELF2K].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Elf2K/VT100Setup", value);
+    value = elfConfiguration[ELF2K].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Elf2K/VTExternalSetup", value);
     
 	configPointer->Write("/Elf2K/Vt_Baud_Receive", elfConfiguration[ELF2K].baudR);
 	configPointer->Write("/Elf2K/Vt_Baud_Transmit", elfConfiguration[ELF2K].baudT);
@@ -289,8 +291,9 @@ void GuiElf2K::writeElf2KConfig()
 	configPointer->Write("/Elf2K/Keyboard_Type", elfConfiguration[ELF2K].keyboardType);
 	configPointer->Write("/Elf2K/Zoom", conf[ELF2K].zoom_);
 	configPointer->Write("/Elf2K/Vt_Zoom", conf[ELF2K].zoomVt_);
-	configPointer->Write("/Elf2K/Force_Uppercase", elfConfiguration[ELF2K].forceUpperCase);
-	configPointer->Write("/Elf2K/Led_Update_Frequency", conf[ELF2K].ledTime_);
+    configPointer->Write("/Elf2K/Force_Uppercase", elfConfiguration[ELF2K].forceUpperCase);
+    configPointer->Write("/Elf2K/Uart", elfConfiguration[ELF2K].useUart);
+    configPointer->Write("/Elf2K/Led_Update_Frequency", conf[ELF2K].ledTime_);
 	configPointer->Write("/Elf2K/Use_Real_Time_Clock", elfConfiguration[ELF2K].rtc);
 	configPointer->Write("/Elf2K/Use_Non_Volatile_Ram", elfConfiguration[ELF2K].nvr);
 	configPointer->Write("/Elf2K/Boot_From_Ram", elfConfiguration[ELF2K].bootRam);
@@ -299,6 +302,7 @@ void GuiElf2K::writeElf2KConfig()
 	configPointer->Write("/Elf2K/Open_Control_Windows", elfConfiguration[ELF2K].useElfControlWindows);
 	configPointer->Write("/Elf2K/Enable_Interlace", conf[ELF2K].interlace_);
 	configPointer->Write("/Elf2K/Enable_Vt_Stretch_Dot", conf[ELF2K].stretchDot_);
+    configPointer->Write("/Elf2K/Enable_Vt_External", elfConfiguration[ELF2K].vtExternal);
 	configPointer->Write("/Elf2K/Volume", conf[ELF2K].volume_);
 
 	configPointer->Write("/Elf2K/Clock_Speed_When_Using_Pixie", elf2KPixieClock_);
@@ -380,42 +384,24 @@ void GuiElf2K::onElf2KBaudT(wxCommandEvent&event)
 		if (!elfConfiguration[ELF2K].useUart)
 		{
 			elfConfiguration[ELF2K].baudR = event.GetSelection();
-			baudChoiceR[ELF2K]->SetSelection(elfConfiguration[ELF2K].baudR);
+			XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudR);
 		}
 	}
 }
 
 void GuiElf2K::onElf2KUart(wxCommandEvent&WXUNUSED(event))
 {
-//	if (elfConfiguration[ELF2K].useUart == p_Main->getConfigBool("Elf2K/Uart", false))
-//		return;
-
 	XRCCTRL(*this, "Elf2KClearRam", wxCheckBox)->SetValue(true);
 	elfConfiguration[ELF2K].clearRam = true;
-//	elfConfiguration[ELF2K].useUart = !elfConfiguration[ELF2K].useUart;
-
-/*	wxStaticText *TextR;
-	TextR = baudTextR[ELF2K];
-	wxChoice *baudR;
-	baudR = baudChoiceR[ELF2K];
-	wxStaticText *TextT;
-	TextT = baudTextT[ELF2K];
-	wxChoice *baudT;
-	baudT = baudChoiceT[ELF2K];*/
 
 	setBaudChoiceElf2K();
-
-/*	delete TextR;
-	delete baudR;
-	delete TextT;
-	delete baudT;*/
 
 	if (elfConfiguration[ELF2K].useUart)
 	{
 		elfConfiguration[ELF2K].baudR += 3;
 		elfConfiguration[ELF2K].baudT += 3;
-		baudChoiceR[ELF2K]->SetSelection(elfConfiguration[ELF2K].baudR);
-		baudChoiceT[ELF2K]->SetSelection(elfConfiguration[ELF2K].baudT);
+		XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudT);
 	}
 	else
 	{
@@ -423,9 +409,9 @@ void GuiElf2K::onElf2KUart(wxCommandEvent&WXUNUSED(event))
 		if (elfConfiguration[ELF2K].baudT > 9)  elfConfiguration[ELF2K].baudT = 9;
 		elfConfiguration[ELF2K].baudT -= 3;
 		elfConfiguration[ELF2K].baudR = elfConfiguration[ELF2K].baudT;
-		baudChoiceR[ELF2K]->SetSelection(elfConfiguration[ELF2K].baudR);
-		baudChoiceT[ELF2K]->SetSelection(elfConfiguration[ELF2K].baudT);
-//		baudTextR[ELF2K]->Enable(false);
+		XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].baudT);
+		XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable(false);
 	}
 }
 
@@ -532,13 +518,13 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			elfConfiguration[ELF2K].use8275 = false;
 			if (mode_.gui)
 			{
-				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(true);
-				baudChoiceR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-                baudChoiceT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-                baudTextR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-                baudTextT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(true);
+//				XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
+//                XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//                XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
+//                XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
                 XRCCTRL(*this, "ZoomTextElf2K", wxStaticText)->Enable(false);
-				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 				XRCCTRL(*this, "ZoomSpinElf2K", wxSpinButton)->Enable(false);
 				XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->Enable(false);
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(false);
@@ -557,13 +543,13 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			elfConfiguration[ELF2K].use8275 = false;
 			if (mode_.gui)
 			{
-				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(true);
-				baudChoiceR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-                baudChoiceT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-                baudTextR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-				baudTextT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(true);
+//				XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
+//                XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//                XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
+//				XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
                 XRCCTRL(*this, "ZoomTextElf2K", wxStaticText)->Enable(true);
-				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 				XRCCTRL(*this, "ZoomSpinElf2K", wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(false);
@@ -583,20 +569,21 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			elfConfiguration[ELF2K].vtType = VTNONE;
 			if (mode_.gui)
 			{
-				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(false);
-                baudTextR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-                baudTextT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-                XRCCTRL(*this, "ZoomTextVtElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(false);
+//                XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
+//                XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//                XRCCTRL(*this, "ZoomTextVtElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
                 XRCCTRL(*this, "ZoomTextElf2K", wxStaticText)->Enable(true);
-				XRCCTRL(*this, "VtCharRomButtonElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-				XRCCTRL(*this, "VtCharRomElf2K", wxComboBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-				XRCCTRL(*this, "ZoomValueVtElf2K", wxTextCtrl)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-				XRCCTRL(*this, "ZoomSpinVtElf2K", wxSpinButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-				XRCCTRL(*this, "StretchDotElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VtCharRomButtonElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VtCharRomElf2K", wxComboBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "ZoomValueVtElf2K", wxTextCtrl)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "ZoomSpinVtElf2K", wxSpinButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "StretchDotElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->SetSelection(0);
-				baudChoiceR[ELF2K]->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-				baudChoiceT[ELF2K]->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(false);
+				elfConfiguration[ELF2K].vtExternal = false;
+//				XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
+//				XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
+//				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(false);
 				XRCCTRL(*this, "ZoomSpinElf2K", wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(true);
@@ -606,6 +593,7 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			}
 		break;
 	}
+	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
 }
 
 wxPoint GuiElf2K::getElf2KswitchPos()
@@ -669,71 +657,6 @@ void GuiElf2K::onElf2KHex(wxCommandEvent&event)
 
 void GuiElf2K::setBaudChoiceElf2K()
 {
-	wxString choices[16];
-    if (position_.x == 0)
-        position_ = XRCCTRL(*this, "DP_ButtonElf2K", wxButton)->GetPosition();
-
-    if (baudTextT[ELF2K] != NULL)
-    {
-        baudTextT[ELF2K]->Destroy();
-        baudChoiceT[ELF2K]->Destroy();
-        baudTextR[ELF2K]->Destroy();
-        baudChoiceR[ELF2K]->Destroy();
-    }
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 15;
-	int offSetY = 48;
-	int choiseOffSetY = 45;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 51;
-	int choiseOffSetY = 49;
-#else
-	int offSetX = 10;
-	int offSetY = 47;
-	int choiseOffSetY = 47;
-#endif
-
-	if (elfConfiguration[ELF2K].useUart)
-	{
-		choices[0] = "19200";
-		choices[1] = "9600";
-		choices[2] = "4800";
-		choices[3] = "3600";
-		choices[4] = "2400";
-		choices[5] = "2000";
-		choices[6] = "1800";
-		choices[7] = "1200";
-		choices[8] = "600";
-		choices[9] = "300";
-		choices[10] = "200";
-		choices[11] = "150";
-		choices[12] = "134";
-		choices[13] = "110";
-		choices[14] = "75";
-		choices[15] = "50";
-		baudTextT[ELF2K] = new wxStaticText(XRCCTRL(*this, "PanelElf2K", wxPanel), wxID_ANY, "T:", wxPoint(position_.x+64+offSetX,position_.y+4+offSetY));
-		baudChoiceT[ELF2K] = new wxChoice(XRCCTRL(*this, "PanelElf2K", wxPanel), GUI_ELF2K_BAUDT, wxPoint(position_.x+74+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 16, choices);
-		baudTextR[ELF2K] = new wxStaticText(XRCCTRL(*this, "PanelElf2K", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+136+offSetX,position_.y+4+offSetY));
-		baudChoiceR[ELF2K] = new wxChoice(XRCCTRL(*this, "PanelElf2K", wxPanel), GUI_ELF2K_BAUDR, wxPoint(position_.x+148+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 16, choices);
-	}
-	else
-	{
-		choices[0] = "3600";
-		choices[1] = "2400";
-		choices[2] = "2000";
-		choices[3] = "1800";
-		choices[4] = "1200";
-		choices[5] = "600";
-		choices[6] = "300";
-		baudTextT[ELF2K] = new wxStaticText(XRCCTRL(*this, "PanelElf2K", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+4+offSetY));
-		baudChoiceT[ELF2K] = new wxChoice(XRCCTRL(*this, "PanelElf2K", wxPanel), GUI_ELF2K_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 7, choices);
-		baudTextR[ELF2K] = new wxStaticText(XRCCTRL(*this, "PanelElf2K", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+146+offSetX,position_.y+4+offSetY));
-        baudTextR[ELF2K]->Hide();
-		baudChoiceR[ELF2K] = new wxChoice(XRCCTRL(*this, "PanelElf2K", wxPanel), GUI_ELF2K_BAUDR, wxPoint(position_.x+156+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 7, choices);
-		baudChoiceR[ELF2K]->Hide();
-	}
-	this->Connect(GUI_ELF2K_BAUDR, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiElf2K::onElf2KBaudR) );
-	this->Connect(GUI_ELF2K_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiElf2K::onElf2KBaudT) );
+    XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].useUart);
+    XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].useUart);
 }
-

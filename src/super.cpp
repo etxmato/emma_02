@@ -39,7 +39,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -102,7 +102,7 @@ void SuperScreen::init()
 	wxString Number, buttonText;
 	int x, y;
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + "images/superelf.png", wxBITMAP_TYPE_PNG);
+	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/superelf.png", wxBITMAP_TYPE_PNG);
 
 	wxSize buttonSize;
 
@@ -377,6 +377,8 @@ Super::~Super()
 		p_Main->setVtPos(SUPERELF, vtPointer->GetPosition());
 		vtPointer->Destroy();
 	}
+    if (elfConfiguration.vtExternal)
+        delete p_Serial;
 	if (p_Main->getPrinterStatus(SUPERELF))
 	{
 		p_Printer->closeFrames();
@@ -463,6 +465,7 @@ void Super::configureComputer()
 	efType_[1] = EF1UNDEFINED;
 	efType_[2] = EF2UNDEFINED;
 	efType_[3] = EF3UNDEFINED;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 //	int efPort;
 	wxString printBuffer;
@@ -592,6 +595,10 @@ Byte Super::ef(int flag)
 			return vtPointer->ef();
 		break;
 
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+ 
 		case MC6847EF:
 			return mc6845Pointer->ef6845();
 		break;
@@ -613,6 +620,13 @@ Byte Super::ef(int flag)
 				return 0;
 			else
 				return vtPointer->ef();
+		break;
+
+		case VTINEFSERIAL:
+			if (ef4State_ == 0)
+				return 0;
+			else
+				return p_Serial->ef();
 		break;
 
 		case EF1UNDEFINED:
@@ -696,8 +710,16 @@ Byte Super::in(Byte port, Word WXUNUSED(address))
 			return vtPointer->uartIn();
 		break;
 
+		case UARTINSERIAL:
+			return p_Serial->uartIn();
+		break;
+
 		case UARTSTATUS:
 			return vtPointer->uartStatus();
+		break;
+
+		case UARTSTATUSSERIAL:
+			return p_Serial->uartStatus();
 		break;
 
 		default:
@@ -750,6 +772,10 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
 			vtPointer->out(value);
 		break;
 
+		case VTOUTSERIAL:
+			p_Serial->out(value);
+		break;
+
 		case PRINTEROUT:
 //			p_Main->eventPrintDefault(value);
 			if ((value & 0xfc) != 0)
@@ -792,11 +818,19 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
             vtPointer->uartOut(value);
 		break;
 
-		case UARTCONTROL:
-            vtPointer->uartControl(value);
+		case UARTOUTSERIAL:
+			 p_Serial->uartOut(value);
 		break;
 
-        case ROMMAPPEROUT:
+        case UARTCONTROL:
+            vtPointer->uartControl(value);
+        break;
+            
+        case UARTCONTROLSERIAL:
+            p_Serial->uartControl(value);
+        break;
+            
+		case ROMMAPPEROUT:
             setRomMapper(value);
         break;
 
@@ -859,6 +893,10 @@ void Super::cycle(int type)
 			vtPointer->cycleVt();
 		break;
 
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+
 		case FDCCYCLE:
 			cycleFdc();
 		break;
@@ -866,7 +904,24 @@ void Super::cycle(int type)
 		case IDECYCLE:
 			cycleIde();
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
+}
+
+void Super::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            superScreenPointer->ledTimeout();
+        }
+    }
 }
 
 void Super::cycleA()
@@ -914,6 +969,12 @@ void Super::autoBoot()
 void Super::switchQ(int value)
 {
 	superScreenPointer->setQLed(value);
+
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+
+    if (elfConfiguration.vtExternal)
+        p_Serial->switchQ(value);
 }
 
 int Super::getMpButtonState()
@@ -1173,7 +1234,14 @@ void Super::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
-	superScreenPointer->setLedMs(p_Main->getLedTimeMs(SUPERELF));
+
+    int ms = (int) p_Main->getLedTimeMs(SUPERELF);
+    superScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
@@ -1609,7 +1677,13 @@ void Super::configureElfExtensions()
 		vtPointer->drawScreen();
 	}
 
-	if (elfConfiguration.usePixie)
+    if (elfConfiguration.vtExternal)
+    {
+        p_Serial = new Serial(SUPERELF, elfClockSpeed_, elfConfiguration);
+        p_Serial->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+    }
+
+    if (elfConfiguration.usePixie)
 	{
 		double zoom = p_Main->getZoom();
 		double scale = p_Main->getScale();
@@ -1827,14 +1901,14 @@ Word Super::get6847RamMask()
 		return 0;
 }
 
-void Super::ledTimeout()
-{
-	superScreenPointer->ledTimeout();
-}
-
 void Super::setLedMs(long ms)
 {
 	superScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 Byte Super::getKey(Byte vtOut)

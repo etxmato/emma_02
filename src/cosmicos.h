@@ -9,6 +9,7 @@
 #include "keyboard.h"
 #include "keypad.h"
 #include "vt100.h"
+#include "serial.h"
 #include "printer.h"
 #include "elfconfiguration.h"
 
@@ -80,6 +81,7 @@ public:
 	void switchQ(int value);
 	void showData(Byte value);
 	void cycle(int type);
+    void cycleLed();
 
 	void onPowerButton(wxCommandEvent& event);
 
@@ -101,7 +103,6 @@ public:
 	void setCosmicosClockSpeed(double clock) {cosmicosClockSpeed_ = clock;};
 	void saveRam();
 	void loadRam();
-	void ledTimeout();
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
@@ -151,6 +152,8 @@ private:
 
 	int cycleValue_;
 	int cycleSize_;
+    int ledCycleValue_;
+    int ledCycleSize_;
 	bool pixieOn_;
 
 	DECLARE_EVENT_TABLE()

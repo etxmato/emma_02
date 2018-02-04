@@ -14,22 +14,19 @@ public:
 	~Vt100();
 
 	void configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf);
-	void configureMember(int selectedBaudR, int selectedBaudT); 
-	void configureMcds(int selectedBaudR, int selectedBaudT);
-	void configureCosmicos(int selectedBaudR, int selectedBaudT);
-    void configureVip(int selectedBaudR, int selectedBaudT);
-    void configureVelf(int selectedBaudR, int selectedBaudT);
+	void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
 	void configureUart(ElfPortConfiguration elfPortConf);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void setTabChar(Byte value);
     void configureVt2K(int SelectedBaudR, int SelectedBaudT, ElfPortConfiguration elfPortConf);
-	void configureQandEfPolarity(int ef, bool vtEnable);
+    void configureQandEfPolarity(int ef, bool vtEnable);
 	Byte ef();
 	void out(Byte value);
 	void cycleVt();
 	void setInterlace(bool status);
 	void setStretchDot(bool status);
 
+    void switchQ(int value);
 	void setClock(double clock);
 	void setCycle();
 	void copyScreen();
@@ -208,6 +205,7 @@ private:
 	Byte uartControl_;
 	bitset<8> uartStatus_;
 	bool uart_;
+    bool serialOpen_;
 
 	char displayBuffer_[VTBUFFER];
 	int  displayStart_;

@@ -7,7 +7,7 @@ class GuiPecom : public GuiMain
 {
 public:
 
-	GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiPecom() {};
 
 	void readPecomConfig();

@@ -1,0 +1,299 @@
+
+<HTML>
+<Title>F&M EPROM Switchboard Support</Title>
+<BODY>
+<h2>F&M EPROM Switchboard Support</h2>
+<p>
+To run the COMX emulator with the F&M EPROM Switchboad card select f&m.eprom.board.1.1.bin  in any available slot (CARD 1 if no expansion box is used). Default slot 2 is used, this means that for all CARD Sx commands mentioned in this chapter CARD S2 should be used.
+</p>
+<p>
+The EPROM Switchboard includes one 2 KB EPROM with the firmware and up to five 8 KB EPROMs with additional software. The 2 KB firmware ROM is placed at address @F800 - @FFFF, this location is also used by the CDP 1870 but the CDP 1870 in the COMX architecture did not allow reading of page memory so selecting an EPROM at this location was actually possible.
+</p>
+<p>
+The 8 KB EPROMs are all mapped at address @C000 - @DFFF. The first 8 KB EPROM will always be loaded with f&m.utilities.bin as additional firmware is included in this EPROM. To select what software is loaded into the additional 4 EPROMs press the F&M EPROM Switchboad 'Setup' button. A new window will open showing the default EPROM files. Note EPROM software can only be change if the COMX emulator is not running.
+</p>
+<h3>Firmware Commands</h3>
+<h4>CARD Sx or CALL(@F800)</h4>
+<p>
+The 'CARDS Sx' command (or when no expansion box is used 'CALL(@F800)' will select the EPROM Switchboard and show which of the 5 EPROMs is active.
+</p>
+<p>
+For example when the EPROM Switchboard is defined in expansion box slot 2:
+</p>
+<pre>
+CARD S2
+</pre>
+will result in:
+<pre>
+CURRENT EPROM = x
+</pre>
+where 'x' is EPROM number 0 to 4.
+</p>
+<h4>CARD Sx y or CALL(@F800) y</h4>
+<p>
+The 'CARDS Sx y' command (or when no expansion box is used 'CALL(@F800) y' will select the EPROM Switchboard and EPROM y, where y is 0 to 4.
+</p>
+<p>
+For example when the EPROM Switchboard is defined in expansion box slot 2:
+</p>
+<pre>
+CARD S2 4
+</pre>
+will result in selection of EPROM 4 between address @C000 - @DFFF
+</p>
+<h4>CARD Sx CAT or CALL(@F800) CAT</h4>
+<p>
+The 'CARDS Sx CAT' command (or when no expansion box is used 'CALL(@F800) CAT' will select the EPROM Switchboard and show all software defined in the firmware EPROM as well as in EPROM 0 to 4.
+</p>
+<p>
+For example when the EPROM Switchboard is defined in expansion box slot 2:
+</p>
+<pre>
+CARD S2 CAT
+</pre>
+will show something like:
+<pre>
+F&M EPROM SWITCHBOARD
+
+   AVAILABLE EPROM'S: x, y, z...
+   ROM SIZE	    : size K
+
+	FILE NAME	USE OF RAM
+
+  01:OLD		    NONE
+  02:CLOCK-ON		@BFF0 / @BFF4
+  03:CHAR		    NONE
+  04:F&M INIT		@B000 / @B5FF
+  05:STARTUP		@4400 / @479F
+</pre>
+Where 'x, y, z...' indicates which EPROM numbers are used/defined (0, 1, 2, 3 and/or 4), 'size' is the total size of all EPROMs (10K to 42K). In the above example 5 programs are loaded in the EPROMs, where 'OLD' and 'CHAR' indicate 'NONE' meaning no RAM is used when executing these programs, in other words they RUN in EPROM memory. In the other cases the addresses of the used RAM is indicated. Any software that indicates use of RAM from @4400 like 'STARTUP' above will be copied to RAM and overwrite any BASIC software in COMX memory.
+</p>
+<h4>CARD Sx "software" or CALL(@F800) "software"</h4>
+<p>
+The 'CARDS Sx "software"' command (or when no expansion box is used 'CALL(@F800) "software"'  will select the EPROM Switchboard and execute or load indicated software if available. 
+</p>
+<p>
+For example when the EPROM Switchboard is defined in expansion box slot 2:
+</p>
+<pre>
+CARD S2,"CLOCK-ON"
+</pre>
+will start the 'CLOCK-ON' software. However:
+<pre>
+CARD S2,"STARTUP"
+</pre>
+will load the program STARTUP in BASIC memory (overwriting any other BASIC software that was in COMX memory). The message:
+<pre>
+PROGRAM LOADED
+START WITH RUN
+</pre>
+will also be shown. Note that in some cases the "software" should be followed by a number (CHAR) or a '+' (LOAD/SAVE routines) see also software format described below.
+</p>
+<h3>EPROM 0 Software: F&M Utilitites</h3>
+<h4>OLD</h4>
+<p>
+Format:
+<pre>
+CARD Sx "OLD"
+</pre>
+F&M Old, this small program recovers a BASIC program after a computer reset, giving the COMX BASIC a 'warm' start. Note this only works if the BASIC program in memory before the restart started with:
+<pre>
+10 REM
+</pre>
+</p>
+<h4>CLOCK-ON, CLOCK-OFF</h4>
+<p>
+Formats:
+<pre>
+CARD Sx "CLOCK-ON"
+CARD Sx "CLOCK-OFF"
+</pre>
+F&M Clock: CLOCK-ON will start a clock in the top right of the screen, CLOCK-OFF will turn it off. The remaining clock functions can be done by POKE commands:
+<pre>
+POKE (@BF00,0): Clock printed
+POKE (@BF00,1): Not printed but running
+POKE (@BF01,h): Set hours
+POKE (@BF02,m): Set minutes
+POKE (@BF03,s): Set seconds
+</pre>
+When the BASIC scroll function is used the clock will still be printed on the top right, however note that sometimes (quite often when NOT using the f&m expansion rom) the clock will not be removed and the 'old' time will show up at the bottom of the screen. I'm not sure if this is a fault in the original clock software or a bug in the emulator.
+</p>
+<h4>CHAR</h4>
+<p>
+Format:
+<pre>
+CARD Sx "CHAR" y
+</pre>
+F&M Char, will 'SHAPE' (define) small character set:
+<pre>
+y = 1: Default COMX characters
+y = 2: Small under shift
+y = 3: Capitals under shift
+</pre>
+</p>
+<h4>T-PSAVE, T-PLOAD, T-DSAVE, T-DLOAD and + variants</h4>
+<p>
+Formats:
+<pre>
+CARD Sx "T-PSAVE"
+CARD Sx "T-PLOAD"
+CARD Sx "T-DSAVE"
+CARD Sx "T-DLOAD"
+CARD Sx "T-PSAVE"+
+CARD Sx "T-PLOAD"+
+CARD Sx "T-DSAVE"+
+CARD Sx "T-DLOAD"+
+</pre>
+F&M Turbo tape routines work exactly like BASIC save/load commands except much faster. The '+' versions are improved versions resulting in different wav formats. The wav files created with the regular versions can be loaded with the regulad and '+' versions. Wav files created with the '+' versions are not loadable with the regular versions.
+</p>
+<h4>DOS NEW</h4>
+<p>
+Format:
+<pre>
+CARD Sx "DOS NEW"
+</pre>
+This more or less performs the same as 'DOS NEW' except this loads the DOS boot loaders from EPROM instead of from DISK. Normally not used directly, but this program is called before running any of the other EPROM disk routines to allow starting them without a formatted disk present.
+</p>
+<h4>F&M INIT</h4>
+<p>
+Format:
+<pre>
+CARD Sx "F&M INIT"
+</pre>
+Formats a disk like the INIT program however with an F&M boot sector which will attempt to load and run a program called 'STARTUP' when DOS is initialized (like with DOS NEW).
+<p>
+<h4>STARTUP</h4>
+<p>
+Format:
+<pre>
+CARD Sx "STARTUP"
+</pre>
+An example start-up program showing all programs on disk and allowing starting them from a menu. This software can be saved on a disk created by F&M INIT and will in that case start automatically after the first 'DOS' command. To save STARTUP to disk use the following DOS command:
+<pre>
+DOS SAVE,"STARTUP",@4400
+</pre>
+</p>
+<h4>F&M LOCK</h4>
+<p>
+Format:
+<pre>
+CARD Sx "F&M LOCK"
+</pre>
+Locks all software on the disk.
+</p>
+<h4>F&M UNLOCK</h4>
+<p>
+Format:
+<pre>
+CARD Sx "F&M UNLOCK"
+</pre>
+Unlocks all software on the disk.
+</p>
+<h3>EPROM 1 Software: Disk Utilitites</h3>
+<h4>INIT</h4>
+<p>
+Format:
+<pre>
+CARD Sx "INIT"
+</pre>
+COMX Disk initialization program to create a new disk image including COMX DOS boot data. First make sure to specify a new filename as DISK 1 or 2. Start the INIT program, press any key and 'Y' for being sure, then select drive number 1 or 2. After this 3 Different type of disks can be created by selecting the options:
+</p>
+<h5>
+1. Double sided disk, 35 tracks per side with a total size of 140K:
+</h5>
+<p>
+- Double track density: N<br>
+- Double sided: 2
+</p>
+<h5>
+2. Single sided disk, 70 tracks with a total size of 140K:
+</h5>
+<p>
+- Double track density: Y
+</p>
+<h5>
+3. Single sided disk, 35 tracks with a total size of 70K:
+</h5>
+<p>
+- Double track density: N<br>
+- Double sided: 1
+</p>
+<p>
+After this selection, again confirm that you are sure and the format process will start.
+</p>
+<h4>LOCK</h4>
+<p>
+Format:
+<pre>
+CARD Sx "LOCK"
+</pre>
+COMX lock software to lock one file on a disk.
+</p>
+<h4>UNLOCK</h4>
+<p>
+Format:
+<pre>
+CARD Sx "UNLOCK"
+</pre>
+COMX unlock software, to unlock one file on a disk.
+</p>
+<h4>DISKCOPY</h4>
+<p>
+Format:
+<pre>
+CARD Sx "DISKCOPY"
+</pre>
+COMX disk copy software to make an exact copy of a disk, including a format/initialization of the destination disk before copy begins.
+</p>
+<h4>FILECOPY</h4>
+<p>
+Format:
+<pre>
+CARD Sx "FILECOPY"
+</pre>
+COMX file copy software to copy any file to another disk image.
+</p>
+<h4>DISKHELP</h4>
+<p>
+Format:
+<pre>
+CARD Sx "DISKHELP"
+</pre>
+COMX disk help program, showing the description of disk error codes.
+</p>
+<h3>EPROM 2 Software: F&M Monitor</h3>
+<p>
+Format:
+<pre>
+CARD Sx "MONITOR"
+</pre>
+F&M Monitor+, standard &#145;monitor&#146; program to write machine code software (using hex code) and to inspect memory. The program also includes some simple tools for moving code, register inspection and clearing memory. One very handy feature is the ability to insert &#145;NOP&#146; (or #C4) instructions anywhere in the written code and at the same time &#145;translating&#146; 1802 branch instructions, i.e. changing the destination address if changed by the &#145;insert&#146;. This includes additional &#145;inserts&#146; if a short branch has to be changed to a long branch and as such needed 3 bytes instead of 2; also the branch itself will in such cases be changed to a long branch.
+</p>
+<p>
+Note 2 versions are available one in English and one in Dutch.
+</p>
+<h3>EPROM 3 Software: F&M Basic</h3>
+<p>
+Format:
+<pre>
+CARD Sx "F&M BASIC"
+</pre>
+F&M BASIC loaded from EPROM to COMX RAM.
+</p>
+<h3>EPROM 4 Software: Tennismania</h3>
+<p>
+Format:
+<pre>
+CARD Sx "TENNISMANIA"
+</pre>
+Pong clone for the COMX, written by Steven de Vries and F&M.
+</p>
+<h3>Additional EPROM Software: Hit and Run</h3>
+<p>
+Format:
+<pre>
+CARD Sx "HIT AND RUN"
+</pre>
+COMX Game Hit and Run. This EPROM is not selected by default but can be loaded instead of EPROM 1 to 4.
+</p></BODY>
+</HTML>

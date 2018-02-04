@@ -1,0 +1,18 @@
+<HTML>
+<Title>ROM and RAM Files</Title>
+<BODY>
+<h2>ROM and RAM Files</h2>
+<p>
+The Membership Card emulator can be started with a specific ROM or RAM file loaded. To specify which file to load use the 'ROM' or 'RAM' button to browse for the file, or type in a new file name in the text field. Default Membership Card ROM location is the Membership Card directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). 
+</p>
+<p>
+To load SW into RAM instead of ROM select the toggle ROM/RAM button (2 arrows) to switch a button from 'ROM' to 'RAM' and vice versa.
+</p>
+<p>
+Note that RAM/ROM files in binary format, normally using extension .bin, will be loaded at address 0 unless the '32 KB RAM - 32 KB ROM' has been selected. In that case binary files will be loaded at @8000. Intel hex and RCS Elf emulator hex format include storage locations and as such will be loaded in the specified address location.
+</p>
+<p>
+Additional RAM files can be loaded after starting the emulator by using the 'LOAD' button.
+</p>
+</BODY>
+</HTML>

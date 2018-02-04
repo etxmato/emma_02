@@ -7,7 +7,7 @@ class GuiCidelsa : public GuiTelmac
 {
 public:
 
-	GuiCidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	GuiCidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiCidelsa() {};
 
 	void readCidelsaConfig();

@@ -31,7 +31,7 @@
     #include "wx/wx.h"
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -542,11 +542,6 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
 	if (extBit_ < 12) 
 		ext_ = (v >> extBit_) & 1;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
-
 	if (as_ == 0)
 	{
 		if (inv_)
@@ -640,10 +635,7 @@ void mc6847::drawCharacter(wxCoord x, wxCoord y, int v)
 			}
 		}
 	}
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
+
 #if defined(__WXMAC__) || defined(__linux__)
     reBlit_ = true;
 #else
@@ -671,10 +663,6 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
 	if (css_ < 12) 
 		css_ = (v >> cssBit_) & 1;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 	if (gm0_ == 0)
 	{
 		for (wxCoord i=x; i<x+charWidth_; i+=elementWidth_)
@@ -702,22 +690,18 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
 		}
 	}
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
+#if defined(__WXMAC__) || defined(__linux__)
+    reBlit_ = true;
+#else
+    CharacterList6847 *temp = new CharacterList6847;
+    temp->x = x;
+    temp->y = y;
+    temp->nextCharacter = characterListPointer6847;
+    characterListPointer6847 = temp;
+    updateCharacter_++;
+    if (updateCharacter_ > 40)
+        reBlit_ = true;
 #endif
-//#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-//		reBlit_ = true;
-//#else
-		CharacterList6847 *temp = new CharacterList6847;
-		temp->x = x;
-		temp->y = y;
-		temp->nextCharacter = characterListPointer6847;
-		characterListPointer6847 = temp;
-		updateCharacter_++;
-		if (updateCharacter_ > 40)
-			reBlit_ = true;
-//#endif
 }
 
 bool mc6847::readCharRomFile(wxString romDir, wxString romFile)

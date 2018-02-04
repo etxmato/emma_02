@@ -27,7 +27,8 @@ public:
 	Byte ef(int flag);
 	Byte ef3();
 	Byte ef4();
-	Byte in(Byte port, Word address);
+    void switchQ(int value);
+    Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
 	void outStudio(Byte value);
 	void cycle(int type);

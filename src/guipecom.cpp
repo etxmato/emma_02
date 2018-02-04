@@ -82,8 +82,8 @@ BEGIN_EVENT_TABLE(GuiPecom, GuiMain)
 
 END_EVENT_TABLE()
 
-GuiPecom::GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiMain(title, pos, size, mode, dataDir)
+GuiPecom::GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiMain(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[PECOM].loadFileNameFull_ = "";
 	conf[PECOM].loadFileName_ = "";
@@ -109,7 +109,7 @@ void GuiPecom::readPecomConfig()
 {
 	selectedComputer_ = PECOM;
 
-    conf[PECOM].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Pecom" + pathSeparator_;
+    conf[PECOM].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Pecom" + pathSeparator_;
     conf[PECOM].mainDir_ = readConfigDir("/Dir/Pecom/Main", dataDir_ + "Pecom" + pathSeparator_);
     
     conf[PECOM].romDir_[MAINROM1] = readConfigDir("/Dir/Pecom/Main_Rom_File", dataDir_ + "Pecom" + pathSeparator_);

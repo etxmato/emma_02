@@ -1,0 +1,78 @@
+
+<html>
+<title>Trace</title>
+<body>
+<h2>Debug 1802</h2>
+<p>
+To use the trace functions of the debugger first select the 'Debug 1802' tab of the choice book on the debugger tab.
+</p>
+<p>
+To activate/deactivate the debug mode select/deselect the 'Debug Mode' checkbox. Debug mode is also activated and deactivated automatically when using any of the trace commands. The F6 key enables/disables the debug mode when used from the emulated computer window.
+</p>
+<p>
+Active debug mode will be indicated in the emulated computer window title. Note that in debug mode the emulator will run slower and take more processor power.  
+</p>
+<h3>Tracing</h3>
+<p>
+There are 4 trace possibilities:<br>
+- All Instructions: to show all 1802 instructions executed by the emulated computer; except DMA and interrupt instructions. To start or stop this trace, press the 'Trace' button.<br>
+- DMA: to show when the emulated computer executes a DMA instruction. To start or stop this trace, press the 'DMA' button.<br>
+- Interrupt: to show when the emulated computer executes an interrupt instruction. To start or stop this trace, press the 'INT' button.
+- Specific Instructions: to show specific 1802 input instructions executed by the emulated computer. To start or stop this trace, press the 'Instr.' button. After this the 'Instr. Trap:' listbox will change to 'Instr. Trace:' and all instruction listed will be traced. Additional instructions can be added via the 'Instr. Trap' button, see also chapter 'Instruction Traps' below.
+</p>
+<p>
+Tracing output will be shown in the trace output window. To save the output to a log file press the 'Log' button. If the specified file already exists the filename will be given a number starting with 1. The trace window cleared by pressing 'Clear'.
+</p>
+<h3>Pause, Step, Run and Speed</h3>
+<p>
+The emulated computer can be 'paused' by pressing the pause button and will pause automatically when hitting a break point or trap, see also below. 
+</p>
+<p>
+When the emulated computer is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again.
+</p>
+<p>
+In pause mode the 'Step' button can be used to get the emulated computer to execute the indicated number of instructions and after this go back to pause mode. The 'RUN' button will start execution at the paused address or at the indicated address if a value is specified.
+</p>
+<p>
+If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
+</p>
+<h3>Register, flag and I/O port values</h3>
+<p>
+There are two modes when using register, flag and I/O port values, protected and unprotected mode. To switch select/deselect the 'Protected Mode' check box. In protected mode it is not possible to change any value! This as changing these values will in most cases mess up the execution of the emulated computer.
+</p>
+<p>
+To change the value of registers, flags and I/O ports, type in a different value and press enter. Note in this case no value is changed until enter is pressed, again to avoid unwanted behaviour of the emulated computer. Also be ware that changing values during run time of a computer might be difficult as the emulator constantly changes values, in this case pause the emulator.
+</p>
+<p>
+Note: I/O values can be 8 or 16 bit depending on simulated HW, for example when the CDP 1870 is used output 4, 5, 6 and 7 are using a 16 bit address value instead of the 8 bit data bus.
+</p>
+<h3>Break Points and Traps</h3>
+<h4>Break Points</h4>
+<p>
+To set a break point on a CPU 'execution address' type the required address in the field next to the 'Break point' button and press return (or the button). The address will be shown in the break point list. When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
+</p>
+<h4>Register Traps</h4>
+<p>
+To set a register trap first select the required register and type the required value in the fields next to the 'Register trap' button and press return (or the button). The register and value will be shown in the register trap list. When the specified register in the emulated computer reaches the specified value it will stop execution and go into 'pause' mode. A total of 64 register traps can be set.
+</p>
+<h4>Instruction Traps</h4>
+<p>
+To set an instruction trap first select the required instruction in the fields next to the 'Instruction trap' button and press the button. The 1802 instruction will be shown in the instruction trap list. When the emulated computer executes the specified instruction it will stop execution and go into 'pause' mode. A total of 64 instruction traps can be set.
+</p>
+<p>
+An instruction trap can be set on a range of instructions. Either by specifiying 'Rx' instead of an actual register value (by use of the choice button) or using 'X' instead of a specifi 4, 8 or 16 bit value. For example 'BZ X' will set a trap on all BZ instructions, INP X on all input instructions etc.
+</p>
+<h4>Delete</h4>
+<p>
+To delete a breakpoint, register or instruction trap select it in the list and press the 'Delete' key.
+</p>
+<h4>Deactivate</h4>
+<p>
+This feature is not availlable on Linux. On Windows: to deactivate a breakpoint, register or instruction trap uncheck the applicable checkbox. To activate it again re-check the box.
+</p>
+<h4>Edit</h4>
+<p>
+To edit a breakpoint, register or instruction trap select it in the list and edit the text.
+</p>
+</body>
+</html>

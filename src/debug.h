@@ -85,7 +85,7 @@ public:
 class DebugWindow : public GuiComx 
 {
 public:
-	DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir);
+	DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~DebugWindow();
 
 	void readDebugConfig();
@@ -104,11 +104,11 @@ public:
 	void updateWindow(); 
 	void resetDisplay();
 	void assemblerDisplay(wxString buffer);
-	void disassemblerDisplay(wxString buffer);
+//	void disassemblerDisplay(wxString buffer);
 	void debugTrace(wxString buffer);
 	void chip8DebugTrace(wxString buffer);
-	void onEnter(wxCommandEvent& event);
-	void onDebugDis(wxCommandEvent&event);
+//	void onEnter(wxCommandEvent& event);
+//	void onDebugDis(wxCommandEvent&event);
 	void setPauseState();
 	void SetDebugMode();
 	void SetChip8DebugMode();
@@ -121,7 +121,8 @@ public:
 	void onChip8TraceInt(wxCommandEvent&event);
 	void onTraceTrap(wxCommandEvent&event);
 
-	void onInt(wxCommandEvent&event);
+    void onInt(wxCommandEvent&event);
+    void onReset(wxCommandEvent&event);
 
 	void onPauseButton(wxCommandEvent&event);
 	void onStepButton(wxCommandEvent&event);
@@ -296,10 +297,10 @@ public:
 	void onDebugCopyStart(wxCommandEvent&event);
 	void onDebugCopyEnd(wxCommandEvent&event);
 	void onDebugCopyTo(wxCommandEvent&event);
-	void onDebugAssemblerAddress(wxCommandEvent&event);
-	void onDebugDisStart(wxCommandEvent&event);
-	void onDebugDisEnd(wxCommandEvent&event);
-	void onDebugDisLog(wxCommandEvent&event);
+//	void onDebugAssemblerAddress(wxCommandEvent&event);
+//	void onDebugDisStart(wxCommandEvent&event);
+//	void onDebugDisEnd(wxCommandEvent&event);
+//	void onDebugDisLog(wxCommandEvent&event);
 	void onDebugDisChip8(wxCommandEvent&event);
 
 	void onEditMemory(wxCommandEvent&event);
@@ -353,10 +354,7 @@ public:
 protected:
 	void trace();
 
-	wxTextCtrl *assemblerWindowPointer;
-	wxTextCtrl *disassemblerWindowPointer;
     wxTextCtrl *traceWindowPointer;
-	wxTextCtrl *inputWindowPointer;
 	wxTextCtrl *assInputWindowPointer;
 	wxTextCtrl *assErrorWindowPointer;
 	wxListCtrl *breakPointWindowPointer;
@@ -411,7 +409,7 @@ private:
 	void addChip8BreakPoint(); 
 	void addTrap(); 
 	void addTreg(); 
-	void disassemble(Word start, Word end);
+//	void disassemble(Word start, Word end);
 	wxString cdp1802disassemble(Word* address, bool includeDetails, bool showOpcode, bool textAssembler, Word start, Word end);
     wxString getShortAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getLongAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
@@ -420,8 +418,8 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-    void disassembleChip8(Word start, Word end);
-	wxString disassembleChip8(Word* address);
+//    void disassembleChip8(Word start, Word end);
+//	wxString disassembleChip8(Word* address);
 	int assembleChip(wxString *buffer, Byte* b1, Byte* b2);
 	AssInput getAssInput(wxString buffer);
 	int assembleSt2(wxString *buffer, Byte* b1, Byte* b2);
@@ -519,6 +517,9 @@ private:
     bool disassembleAgain_;
     
     LabelInfo labelInfo_[65536];
+
+	int numberOfDebugLines_;
+
     
 	DECLARE_EVENT_TABLE()
 };

@@ -59,6 +59,7 @@ void VipII::configureComputer()
 	outType_[7] = VIPIIOUT7;
 	efType_[2] = VIPEF2;
 	efType_[3] = VIPKEYEF;
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring Cosmac VIP II");
 
@@ -241,7 +242,7 @@ void VipII::keyDown(int keycode)
 
 void VipII::keyUp(int keycode)
 {
-	keyboardEf_ = 1;
+//	keyboardEf_ = 1;
 	if (keyDefinition[keycode].defined)
 		vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
@@ -355,9 +356,10 @@ Byte VipII::in(Byte port, Word WXUNUSED(address))
 
 		case KEYBRDIN:
 			ret = keyboardValue_;
+			keyboardEf_ = 1;
 			if (vipRunCommand_ != 0)
 			{
-				keyboardEf_ = 1;
+				//keyboardEf_ = 1;
 				if (keyboardValue_ == 13)
 					vipRunCommand_ = 0;
 			}
@@ -444,20 +446,14 @@ void VipII::switchQ(int value)
 	stateQ_ = value;
 }
 
-void VipII::ledTimeout()
-{
-	if (updateQLed_)
-		updateLedStatus(1, stateQ_ == 1);
-	if (cassetteEf_ != oldCassetteEf_)
-	{
-		oldCassetteEf_ = cassetteEf_;
-		updateLedStatus(2, cassetteEf_ != 0);
-	}
-}
-
 void VipII::setLedMs(long ms)
 {
 	ms_ = ms;
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((clock_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 void VipII::cycle(int type)
@@ -564,6 +560,25 @@ void VipII::cycleKey()
 	}
 }
 
+void VipII::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            if (updateQLed_)
+                updateLedStatus(1, stateQ_ == 1);
+            if (cassetteEf_ != oldCassetteEf_)
+            {
+                oldCassetteEf_ = cassetteEf_;
+                updateLedStatus(2, cassetteEf_ != 0);
+            }
+        }
+    }
+}
+
 void VipII::startComputer()
 {
 	resetPressed_ = false;
@@ -627,8 +642,14 @@ void VipII::startComputer()
 		setClear(0);
 
 	p_Main->updateTitle();
-	ms_ = p_Main->getLedTimeMs(VIPII);
 
+    ms_ = (int) p_Main->getLedTimeMs(VIPII);
+    if (ms_ == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((clock_ * 1000000) / 8) / 1000) * ms_;
+    ledCycleValue_ = ledCycleSize_;
+    
 	cpuCycles_ = 0;
 	p_Main->startTime();
 	reDrawBar();

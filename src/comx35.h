@@ -20,6 +20,7 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
 	void cycleComx();
+    void cycleKeyboard();
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
@@ -44,7 +45,10 @@ public:
 	void setDosFileName(int addr);
 	void saveRam();
 	void loadRam();
+    void switchQ(int value);
 
+    int getDmaCounter() {return dmaCounter_;};
+    
 private:
 	Byte keyboardEf2_;
 	Byte keyboardEf3_;
@@ -55,7 +59,14 @@ private:
 	int keyboardCode_;
 	wxKeyCode previousKeyCode_;
 
+    int keyCycles_;
+    int rawKeyCode_;
+    wxFile keyLogFilePc_;
+    wxFile keyLogFile1802_;
+//    wxFile keyLogFileCycle_;
+
 	int dmaCounter_;
+	int debounceCounter_;
 	wxFile comxKeyFile_;
 	bool comxKeyFileOpened_;
 	size_t comxRunCommand_;
@@ -68,6 +79,9 @@ private:
 	bool fAndMBasicRunning_;
 	bool nvramWriteProtected_;
 
+    bool diagRomActive_;
+	bool diagDmaLedOn_;
+    
 	wxDateTime systemTime_;
 	wxDateTime comxTime_;
 	int day_, month_, year_;

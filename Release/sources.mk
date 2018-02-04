@@ -23,5 +23,9 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Win32/Debug/Emma\ 02 \
+Win32/Release/Emma\ 02 \
 src \
+x64/Debug/Emma\ 02 \
+x64/Release/Emma\ 02 \
 

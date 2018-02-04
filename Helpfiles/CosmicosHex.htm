@@ -1,0 +1,87 @@
+
+<HTML>
+<Title>Hex Monitor and UT4</Title>
+<BODY>
+<h2>Hex Monitor & UT4</h2>
+<p>
+VT 100 Setting: EF4 (not reversed), baudrate 300 or 600
+</p>
+<p>
+ROM Filename: hex.monitor.and.ut4.bin.
+</p>
+<p>
+To start the Cosmicos with UT4 first select a VT terminal and to start the hex monitor first set VT to 'None'. For some details about these 2 programs see chapters below.
+</p>
+<h3>UT4</h3>
+<p>
+Start UT4 as described in chapter 'Hex Monitor & UT4' above, note that at this moment only a baudrate of 300 or 600 works 'ok'. At start-up the VT terminal should show a blinking cursor; at that time press the 'CR/return' key (or for half duplex use LF/CTRL J). CR and LF are used by UT4 to set the baudrate. 
+</p>
+<p>
+After the prompt (*) is shown on the screen one of 3 commands can be given:<br>
+$P'address'<br>
+?M 'address' 'number of bytes'<br>
+!M 'address' 'data'
+</p>
+<p>
+The command $P starts a user program on the indicated address, e.g. $P4000 starts on address 4000. Note no space is given between the '$' and 'P'. The user program will start with R0 as program counter and interrupts disabled.
+</p>
+<p>
+The command ?M prints memory bytes starting with the indicated address and the indicated 'number of bytes'. Note this command and the !M command do need a space before the address is given. For example ?M 4000 10, prints the value of address 4000 until 4010.
+</p>
+<p>
+The command !M writes the 'data' bytes to the indicated address. For example !M 4000 10 20 30, writes 10 to 4000, 20 to 4001 etc.
+</p>
+<h3>Hex Monitor</h3>
+<p>
+ROM Filename: hex.monitor.bin or hex.monitor.and.ut4.bin.
+</p>
+Make sure the hex & 7 Segment panel is selected before starting the Cosmicos. At start-up of the monitor the 7 segment panel should show "CPU UP". After this one of the following codes can be given:<br>
+0: Start program<br>
+1: Inspect or change memory<br>
+2: Write to tape<br>
+3: Load from tape<br>
+4: Move<br>
+5: Write to EPROM (not emulated)<br>
+C: Start program (address 0, P=0, X=0, IE=0)
+</p>
+<p>
+<B>Note:</B> The inspect/change memory (1) command does NOT work, the bug might be in the 1802 code or in the Emma 02 emulator.
+</p>
+<h4>0: Start program</h4>
+<p>
+The monitor will wait for an address which will be shown on the display. After a 4 byte address is given the monitor will wait for any key (0 to F), after this the user program will be started at given address with R3=PC and R2=RX. Where RX will be xxF6, xx being the highest available RAM page (max FE). 
+</p>
+<h4>1: Inspect or change memory</h4>
+<p>
+Note: This command does NOT work, the bug might be in the 1802 code or in the Emma 02 emulator.
+</p>
+<p>
+The monitor expects an address which will be shown on the display. After this with key 1, 2 or 3 the value of the given address will be shown on the right of the display, a second press will show the next memory location. 
+</p>
+<p>
+Auto-increment: With a key higher then '3' the address will be incremented. With key 0 the address will be incremented with high speed.
+</p>
+<p>
+Write: By pressing SEQ the Q led will go on, and a byte can be written to the next address. If directly after typing the address the write mode is chosen the given address will be written. By pressing REQ the write mode is disabled.
+</p>
+<p>
+Decrement: By pressing DEC the address is decreased with 1.
+</p>
+<h4>2: Write to tape</h4>
+<p>
+The monitor expects 2 addresses, the memory block between will be written to tape after a press of any key.
+</p>
+<h4>3: Load from tape</h4>
+<p>
+The monitor expects 2 addresses (see 2), and a key press during the start tone will load the data to memory.
+</p>
+<h4>4: Move</h4>
+<p>
+The monitor expects 3 addresses, start, end and destination address of memory block to be moved. After the third address any key will start the copy procedure and the monitor will report with "ready" when done. If source and destination overlap it is NOT possible to copy 'up'.
+</p>
+<h4>C: Start program (address 0, P=0, X=0, IE=0)</h4>
+<p>
+Like code 1 except with P and X using R0.
+</p>
+</BODY>
+</HTML>

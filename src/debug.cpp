@@ -52,11 +52,27 @@
 
 #define CHIP8_I 10
 #define CHIP8_PC 5
+#if defined (__linux__)
+#define EDIT_ROW 18
+#define NUMBER_OF_DEBUG_LINES 40
+#define LINE_SPACE 13
+#define ASS_WIDTH 268
+#define CHAR_WIDTH 8
+#endif
+#if defined (__WXMSW__)
 #define EDIT_ROW 16
 #define NUMBER_OF_DEBUG_LINES 33
 #define LINE_SPACE 11
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 8
+#endif
+#if defined (__WXMAC__)
+#define EDIT_ROW 16
+#define NUMBER_OF_DEBUG_LINES 35
+#define LINE_SPACE 11
+#define ASS_WIDTH 268
+#define CHAR_WIDTH 8
+#endif
 
 enum
 {
@@ -409,6 +425,7 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 
 	EVT_BUTTON(XRCID("DebugInterrupt"), DebugWindow::onInt)
 	EVT_BUTTON(XRCID("ClearButton"), DebugWindow::onClear)
+    EVT_BUTTON(XRCID("DebugReset"), DebugWindow::onReset)
 
 	EVT_BUTTON(XRCID("DebugPauseButton"), DebugWindow::onPauseButton)
 	EVT_BUTTON(XRCID("DebugStepButton"), DebugWindow::onStepButton)
@@ -866,8 +883,8 @@ vector<Word> dirAssProgramEndVector(0);
 vector<Word> dirAssDataEndVector(0);
 vector<Byte> dirAssSlotVector(0);
 
-DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiComx(title, pos, size, mode, dataDir)
+DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiComx(title, pos, size, mode, dataDir, iniDir)
 {
 	traceString_ = "";
 	updatingTraceString_ = false;
@@ -900,12 +917,12 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	selectedTreg_ = -1;
 	selectedTrap_ = -1;
 
-	pauseOnBitmap = wxBitmap(applicationDirectory_ + "images/pause_on.png", wxBITMAP_TYPE_PNG);
-	pauseOffBitmap = wxBitmap(applicationDirectory_ + "images/pause_off.png", wxBITMAP_TYPE_PNG);
-
-#if defined(__WXMSW__) 
-	uncheckBitmap_ = wxBitmap(applicationDirectory_ + "images/unchecked.png", wxBITMAP_TYPE_PNG);
-	checkedBitmap_ = wxBitmap(applicationDirectory_ + "images/checked.png", wxBITMAP_TYPE_PNG);
+    pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
+    pauseOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_off.png", wxBITMAP_TYPE_PNG);
+    
+#if defined(__WXMSW__)
+	uncheckBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/unchecked.png", wxBITMAP_TYPE_PNG);
+	checkedBitmap_ = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/checked.png", wxBITMAP_TYPE_PNG);
 	imageList_ = new wxImageList(13, 13, true, 2);
 	checkedButton_ = imageList_->Add(checkedBitmap_, wxColour (255, 255, 255));
 	uncheckButton_ = imageList_->Add(uncheckBitmap_, wxColour (255, 255, 255));
@@ -920,11 +937,16 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	shownRange_ = -1;
 	lastAssError_ = "";
 
-    assBmp = new wxBitmap(ASS_WIDTH, NUMBER_OF_DEBUG_LINES*LINE_SPACE+4, 24);
+	numberOfDebugLines_ = (int)configPointer->Read("/Main/NumberOfDebugLines", NUMBER_OF_DEBUG_LINES);
+
+    assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
 }
 
 DebugWindow::~DebugWindow()
 {
+    if (!mode_.gui)
+    	return;
+
 	for (int i=0; i<16; i++)
 		delete lineBmp[i];
 #if defined(__WXMSW__) 
@@ -939,6 +961,8 @@ void DebugWindow::readDebugConfig()
 
 	dirAssConfigFileDir_ = readConfigDir("/Dir/Main/DebugConfig", dataDir_);
 	debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
+
+	numberOfDebugLines_ = (int)configPointer->Read("/Main/NumberOfDebugLines", NUMBER_OF_DEBUG_LINES);
 
 	if (!mode_.gui)
 		return;
@@ -961,6 +985,8 @@ void DebugWindow::writeDebugConfig()
 
 	writeConfigDir("/Dir/Main/DebugConfig", dirAssConfigFileDir_);
 	writeConfigDir("/Dir/Main/Debug", debugDir_);
+
+	configPointer->Write("/Main/NumberOfDebugLines", numberOfDebugLines_);
 }
 
 void DebugWindow::enableDebugGuiMemory ()
@@ -1093,7 +1119,8 @@ void DebugWindow::enableDebugGui(bool status)
 //	XRCCTRL(*this,"DebugAssemblerAddress", wxTextCtrl)->Enable(status);
 	XRCCTRL(*this,"ProtectedMode", wxCheckBox)->Enable(status);
 	XRCCTRL(*this,"DebugRunButton", wxButton)->Enable(status);
-	XRCCTRL(*this,"DebugInterrupt", wxButton)->Enable(status);
+    XRCCTRL(*this,"DebugInterrupt", wxButton)->Enable(status);
+    XRCCTRL(*this,"DebugReset", wxButton)->Enable(status);
 //	XRCCTRL(*this,"DebugDis", wxButton)->Enable(status);
 //	XRCCTRL(*this,"DebugDisLog", wxButton)->Enable(status);
 	XRCCTRL(*this,"DebugCopy", wxButton)->Enable(status);
@@ -1517,7 +1544,7 @@ void DebugWindow::updateChip8Window()
 {
 	wxString buffer;
 	Word scratchpadRegister;
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
@@ -1536,7 +1563,7 @@ void DebugWindow::updateChip8Window()
 		lastI_ = scratchpadRegister;
 	}
 	p_Computer->showChip8Registers();
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -1549,7 +1576,7 @@ void DebugWindow::updateWindow()
 	Byte cpucpuRegister;
 	Byte cpuFlag;
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
@@ -1677,7 +1704,7 @@ void DebugWindow::updateWindow()
 		lastEf4_ = cpuFlag & 8;
 	}
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
 #endif
@@ -1686,53 +1713,25 @@ void DebugWindow::updateWindow()
 void DebugWindow::debugTrace(wxString buffer)
 {
 	if (!debugMode_)  return;
-#if defined(__WXMAC__)
+#if defined(__WXMAC__) || defined(__linux__)
 	traceString_ = traceString_ + buffer + "\n";
 #else
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
 	traceWindowPointer->AppendText(buffer+"\n");
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
-#endif
 #endif
 }
 
 void DebugWindow::chip8DebugTrace(wxString buffer)
 {
 	if (!chip8DebugMode_)  return;
-#if defined(__WXMAC__)
+#if defined(__WXMAC__) || defined(__linux__)
     chipTraceString_ = chipTraceString_ + buffer;
     if (!additionalChip8Details_)
         chipTraceString_ = chipTraceString_ + "\n";
 #else
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiEnter();
-#endif
     chip8TraceWindowPointer->AppendText(buffer);
     if (!additionalChip8Details_)
         chip8TraceWindowPointer->AppendText("\n");
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	if (!wxIsMainThread())
-		wxMutexGuiLeave();
 #endif
-#endif
-}
-
-void DebugWindow::assemblerDisplay(wxString buffer)
-{
-	assemblerWindowPointer->AppendText(buffer);
-	assemblerWindowPointer->AppendText("\n");
-}
-
-void DebugWindow::disassemblerDisplay(wxString buffer)
-{
-	disassemblerWindowPointer->AppendText(buffer);
-	disassemblerWindowPointer->AppendText("\n");
 }
 
 void DebugWindow::deleteBreakPoint(wxListEvent&event)
@@ -2778,7 +2777,7 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
 	*buffer = buffer->Mid(end + 1, buffer->Len()- end);
 	return ret;
 }
-
+/*
 void DebugWindow::disassemble(Word start, Word end)
 {
 	wxString printBuffer;
@@ -2788,7 +2787,7 @@ void DebugWindow::disassemble(Word start, Word end)
 		printBuffer = cdp1802disassemble(&start, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
 		disassemblerDisplay(printBuffer);
 	}
-}
+}*/
 
 wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool showOpcode, bool textAssembler, Word start, Word end)
 {
@@ -3864,15 +3863,15 @@ wxString DebugWindow::getHexByte(Word address, bool textAssembler)
     
     return branchAddressString;
 }
-
+/*
 void DebugWindow::disassembleChip8(Word start, Word end)
 {
 	wxString printBuffer;
 
 	while(start <= end)
 		disassemblerDisplay(disassembleChip8(&start));
-}
-
+}*/
+/*
 wxString DebugWindow::disassembleChip8(Word* address)
 {
 	wxString printBuffer;
@@ -3901,7 +3900,7 @@ wxString DebugWindow::disassembleChip8(Word* address)
 		*address = *address + 2;
 	}
 	return printBuffer;
-}
+}*/
 
 AssInput DebugWindow::getAssInput(wxString buffer)
 {
@@ -6759,7 +6758,7 @@ int DebugWindow::getRegister(wxString buffer)
 	if (buffer == "RF")  return TREG_RF;
 	return TREG_FAULT;
 }
-
+/*
 void DebugWindow::onEnter(wxCommandEvent&WXUNUSED(event))
 {
 	wxString debugIn, address, error;
@@ -6809,8 +6808,8 @@ void DebugWindow::onEnter(wxCommandEvent&WXUNUSED(event))
 	{
 		assemblerDisplay(DirAssErrorCodes[count-ERROR_START-1]);
 	}
-}
-
+}*/
+/*
 void DebugWindow::onDebugDis(wxCommandEvent&WXUNUSED(event))
 {
 	long start = get16BitValue("DebugDisStart");
@@ -6823,7 +6822,7 @@ void DebugWindow::onDebugDis(wxCommandEvent&WXUNUSED(event))
 		disassembleChip8(start, end);
 	else
 		disassemble(start, end);
-}
+}*/
 
 void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 {
@@ -7076,42 +7075,6 @@ void DebugWindow::onLog(wxCommandEvent& WXUNUSED(event))
 	traceWindowPointer->SaveFile(fileName);
 }
 
-void DebugWindow::onDebugDisLog(wxCommandEvent& WXUNUSED(event))
-{
-//	wxSetWorkingDirectory (workingDir_);
-	int num = 0;
-	wxString fileName, number;
-
-	fileName = wxFileSelector( "Select the log file to save",
-                               debugDir_, "disassembler.log",
-                               "log",
-                               wxString::Format
-                              (
-                                   "Dump File (*.log)|*.log|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                               ),
-                               wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                               this
-                              );
-
-	if (!fileName || fileName.empty())
-		return;
-
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	wxString name = FullPath.GetName();
-	wxString path = FullPath.GetPath();
-	wxString ext = FullPath.GetExt();
-
-	while(wxFile::Exists(fileName))
-	{
-		num++;
-		number.Printf("%d", num);
-		fileName = path + pathSeparator_ + name + "." + number + "." + ext;
-	}
-	disassemblerWindowPointer->SaveFile(fileName);
-}
-
 void DebugWindow::onDebugDisChip8(wxCommandEvent& WXUNUSED(event))
 {
 	enableDebugGui(true);
@@ -7180,6 +7143,11 @@ void DebugWindow::onTraceTrap(wxCommandEvent& WXUNUSED(event))
 void DebugWindow::onInt(wxCommandEvent& WXUNUSED(event))
 {
 	p_Computer->interrupt();
+}
+
+void DebugWindow::onReset(wxCommandEvent& WXUNUSED(event))
+{
+    p_Computer->onReset();
 }
 
 void DebugWindow::onBreakPointSet(wxCommandEvent&WXUNUSED(event))
@@ -7959,20 +7927,31 @@ void DebugWindow::directAss()
             
         case OS_LINUX_OPENSUSE_GNOME:
         case OS_LINUX_OPENSUSE_KDE:
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
             dcAss.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
         break;
             
+        case OS_LINUX_UBUNTU_11_04:
+        case OS_LINUX_UBUNTU_11_10:
+            dcAss.SetPen(wxPen(wxColour(242, 241, 240)));
+            dcAss.SetBrush(wxBrush(wxColour(242, 241, 240)));
+            dcAss.SetTextBackground(wxColour(242, 241, 240));
+        break;
+
+        case OS_LINUX_FEDORA:
+            dcAss.SetPen(wxPen(wxColour(232, 232, 231)));
+            dcAss.SetBrush(wxBrush(wxColour(232, 232, 231)));
+            dcAss.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
+        break;
+
         default:
             dcAss.SetPen(wxPen(wxColour(255,255,255)));
             dcAss.SetBrush(wxBrush(wxColour(255,255,255)));
             dcAss.SetTextBackground(wxColour(255,255,255));
         break;
     }
-	dcAss.DrawRectangle(0, 0, ASS_WIDTH, NUMBER_OF_DEBUG_LINES*LINE_SPACE+4);
+	dcAss.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
 
 	if (dirAssStart_ == dirAssEnd_)
 	{
@@ -7987,7 +7966,7 @@ void DebugWindow::directAss()
 	wxString line2;
 	wxString printBufferAddress, printBufferOpcode;
 
-	for (int line=0; line <NUMBER_OF_DEBUG_LINES; line ++)
+	for (int line=0; line <numberOfDebugLines_; line ++)
 	{
 		wxColourDatabase colour;
 		if (line == EDIT_ROW)
@@ -8226,7 +8205,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < NUMBER_OF_DEBUG_LINES)
+				if (line < numberOfDebugLines_)
 				{
                     line2.Printf("%02X", p_Computer->readMem(address-3));
                     dcAss.DrawText(line2, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
@@ -8259,7 +8238,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < NUMBER_OF_DEBUG_LINES)
+				if (line < numberOfDebugLines_)
 				{
 					dcAss.SetTextForeground(colour.Find("BLACK"));
                     line2.Printf("%02X", p_Computer->readMem(address-3));
@@ -8293,7 +8272,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < NUMBER_OF_DEBUG_LINES)
+				if (line < numberOfDebugLines_)
 				{
 					dcAss.SetTextForeground(colour.Find("BLACK"));
                     line2.Printf("%02X", p_Computer->readMem(address-3));
@@ -9131,7 +9110,7 @@ void DebugWindow::onAssSpinPageUp(wxSpinEvent&WXUNUSED(event))
 	if (!computerRunning_)
 		return;
 
-	for (int i=0; i<NUMBER_OF_DEBUG_LINES; i++)
+	for (int i=0; i<numberOfDebugLines_; i++)
 		assSpinUp();
 
 	directAss();
@@ -9140,7 +9119,7 @@ void DebugWindow::onAssSpinPageUp(wxSpinEvent&WXUNUSED(event))
 
 void DebugWindow::onAssSpinPageUp()
 {
-	for (int i=0; i<NUMBER_OF_DEBUG_LINES; i++)
+	for (int i=0; i<numberOfDebugLines_; i++)
 		assSpinUp();
 
 	directAss();
@@ -12671,13 +12650,23 @@ void DebugWindow::paintDebugBackground()
             
         case OS_LINUX_OPENSUSE_GNOME:
         case OS_LINUX_OPENSUSE_KDE:
+            dcLine.SetPen(wxPen(wxColour(242, 241, 240)));
+            dcLine.SetBrush(wxBrush(wxColour(242, 241, 240)));
+            dcLine.SetTextBackground(wxColour(242, 241, 240));
+        break;
+
         case OS_LINUX_UBUNTU_11_04:
         case OS_LINUX_UBUNTU_11_10:
             dcLine.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
         break;
-            
+
+        case OS_LINUX_FEDORA:
+        	dcLine.SetPen(wxPen(wxColour(232, 232, 231)));
+        	dcLine.SetBrush(wxBrush(wxColour(232, 232, 231)));
+        break;
+
         default:
             dcLine.SetPen(wxPen(wxColour(255,255,255)));
             dcLine.SetBrush(wxBrush(wxColour(255,255,255)));
@@ -12703,21 +12692,28 @@ void DebugWindow::paintDebugBackground()
             
         case OS_LINUX_OPENSUSE_GNOME:
         case OS_LINUX_OPENSUSE_KDE:
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
-//            dcDebugBackground.SetPen(wxPen(wxColour(211, 211, 211)));
-//            dcDebugBackground.SetBrush(wxBrush(wxColour(211, 211, 211)));
             dcDebugBackground.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcDebugBackground.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
         break;
-            
+
+        case OS_LINUX_UBUNTU_11_04:
+        case OS_LINUX_UBUNTU_11_10:
+            dcDebugBackground.SetPen(wxPen(wxColour(242, 241, 240)));
+            dcDebugBackground.SetBrush(wxBrush(wxColour(242, 241, 240)));
+        break;
+
+        case OS_LINUX_FEDORA:
+        	dcDebugBackground.SetPen(wxPen(wxColour(232, 232, 231)));
+        	dcDebugBackground.SetBrush(wxBrush(wxColour(232, 232, 231)));
+        break;
+
         default:
             dcDebugBackground.SetPen(wxPen(wxColour(255,255,255)));
             dcDebugBackground.SetBrush(wxBrush(wxColour(255,255,255)));
         break;
     }
     
-    dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, NUMBER_OF_DEBUG_LINES*LINE_SPACE+4);
+    dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
     
     dcDebugBackground.SelectObject(wxNullBitmap);
     XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetBitmap(*assBmp);
@@ -12948,10 +12944,14 @@ void DebugWindow::DebugDisplayMap()
 					value.Printf (".");
 				break;
 
-				case MAPPEDRAM:
-					value.Printf ("M.");
-				break;
-
+                case MAPPEDRAM:
+                    value.Printf ("M.");
+                break;
+                    
+                case MAPPEDROM:
+                    value.Printf ("MR");
+                break;
+                    
 				case VP570RAM:
 					value.Printf ("E.");
 				break;
@@ -12966,10 +12966,18 @@ void DebugWindow::DebugDisplayMap()
 				break;
 
 				case CARTRIDGEROM:
-				case CRAM1870:
-					value.Printf ("CR");
-				break;
-
+                case CRAM1870:
+                    value.Printf ("CR");
+                break;
+                    
+                case MULTICART:
+                    value.Printf ("MC");
+                break;
+                    
+                case MAPPEDMULTICART:
+                    value.Printf ("MM");
+                break;
+                    
 				case PRAM1870:
 					value.Printf ("PR");
 				break;
@@ -13183,7 +13191,7 @@ void DebugWindow::DebugDisplayMap()
 		wxMemoryDC dcMapLine;
 
 		dcMapLine.SelectObject(line);
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		dcMapLine.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
 		dcMapLine.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
 		dcMapLine.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
@@ -14231,7 +14239,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		case STUDIO:
 			if (setType == CRAM1870)
 				setType = CARTRIDGEROM;
-			if ((setType == RAM) || (setType == MAPPEDRAM) || (setType == ROM) || (setType == CARTRIDGEROM) || (setType == UNDEFINED))
+			if ((setType == RAM) || (setType == MAPPEDRAM) || (setType == MAPPEDROM) || (setType == ROM) || (setType == CARTRIDGEROM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
 			{
@@ -14626,24 +14634,24 @@ void DebugWindow::onDebugCopyTo(wxCommandEvent&WXUNUSED(event))
 {
 	get16BitValue("DebugCopyTo");
 }
-
+/*
 void DebugWindow::onDebugAssemblerAddress(wxCommandEvent&WXUNUSED(event))
 {
 	long address = get16BitValue("DebugAssemblerAddress");
 	if (address == -1)  return;
 
 	debugAddress_ =	address;
-}
-
+}*/
+/*
 void DebugWindow::onDebugDisStart(wxCommandEvent&WXUNUSED(event))
 {
 	get16BitValue("DebugDisStart");
-}
-
+}*/
+/*
 void DebugWindow::onDebugDisEnd(wxCommandEvent&WXUNUSED(event))
 {
 	get16BitValue("DebugDisEnd");
-}
+}*/
 
 
 Byte DebugWindow::debugReadMem(Word address)

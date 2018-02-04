@@ -84,10 +84,13 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_TEXT(XRCID("WavFileMembership"), GuiMain::onCassetteText)
 	EVT_CHECKBOX(XRCID("AutoCasLoadMembership"), GuiMain::onAutoLoad)
 
+    EVT_CHOICE(XRCID("VTBaudTChoiceMembership"), GuiMembership::onMembershipBaudT)
+    EVT_CHOICE(XRCID("VTBaudRChoiceMembership"), GuiMembership::onMembershipBaudR)
+
 END_EVENT_TABLE()
 
-GuiMembership::GuiMembership(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir)
-: GuiStudio2(title, pos, size, mode, dataDir)
+GuiMembership::GuiMembership(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
+: GuiStudio2(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[MEMBER].saveStartString_ = "";
 	conf[MEMBER].saveEndString_ = "";
@@ -106,7 +109,7 @@ void GuiMembership::readMembershipConfig()
 	elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
 	elfConfiguration[MEMBER].useUart = false;
 
-    conf[MEMBER].configurationDir_ = dataDir_ + "Configurations" + pathSeparator_ + "Membership" + pathSeparator_;
+    conf[MEMBER].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "Membership" + pathSeparator_;
 
     conf[MEMBER].mainDir_ = readConfigDir("/Dir/Membership/Main", dataDir_ + "Membership" + pathSeparator_);
 	conf[MEMBER].romDir_[MAINROM1] = readConfigDir("/Dir/Membership/Main_Rom_File", dataDir_ + "Membership" + pathSeparator_);
@@ -119,6 +122,7 @@ void GuiMembership::readMembershipConfig()
 	elfConfiguration[MEMBER].vtType = (int)configPointer->Read("/Membership/VT_Type", 2l);
     elfConfiguration[MEMBER].vt52SetUpFeature_ = configPointer->Read("/Membership/VT52Setup", 0x00004092l);
     elfConfiguration[MEMBER].vt100SetUpFeature_ = configPointer->Read("/Membership/VT100Setup", 0x0000ca52l);
+    elfConfiguration[MEMBER].vtExternalSetUpFeature_ = configPointer->Read("/Membership/VTExternalSetup", 0x0000ca52l);
 
 	configPointer->Read("/Membership/Load_Mode_Rom", &romMode, true);
 	if (romMode)
@@ -138,17 +142,19 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].screenDumpFile_ = configPointer->Read("/Membership/Video_Dump_File", "screendump.png");
     conf[MEMBER].wavFile_ = configPointer->Read("/Membership/Terminal_File", "");
 	elfConfiguration[MEMBER].vtWavFile_ = configPointer->Read("/Membership/Vt_Wav_File", "");
+    elfConfiguration[MEMBER].serialPort_ = configPointer->Read("/Membership/VtSerialPortChoice", "");
 
 	conf[MEMBER].volume_ = (int)configPointer->Read("/Membership/Volume", 25l);
 
 	elfConfiguration[MEMBER].clearRam = false;
-	elfConfiguration[MEMBER].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 0l);
-	elfConfiguration[MEMBER].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 0l);
+	elfConfiguration[MEMBER].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 1l);
+	elfConfiguration[MEMBER].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 1l);
 
 	configPointer->Read("/Membership/Open_Control_Windows", &elfConfiguration[MEMBER].useElfControlWindows, true);
 	configPointer->Read("/Membership/Force_Uppercase", &elfConfiguration[MEMBER].forceUpperCase, true);
 	configPointer->Read("/Membership/Enable_Auto_Boot", &elfConfiguration[MEMBER].autoBoot, true);
-	configPointer->Read("/Membership/Enable_Vt_Stretch_Dot", &conf[MEMBER].stretchDot_, false);
+    configPointer->Read("/Membership/Enable_Vt_Stretch_Dot", &conf[MEMBER].stretchDot_, false);
+    configPointer->Read("/Membership/Enable_Vt_External", &elfConfiguration[MEMBER].vtExternal, false);
 	configPointer->Read("/Membership/Use_Non_Volatile_Ram", &elfConfiguration[MEMBER].nvr, true);
 	elfConfiguration[MEMBER].ioType = (int)configPointer->Read("/Membership/IO_Type", IO_TYPE_N2);
 
@@ -167,10 +173,7 @@ void GuiMembership::readMembershipConfig()
 	configPointer->Read("/Membership/Enable_Auto_Cassette", &conf[MEMBER].autoCassetteLoad_, true);
     conf[MEMBER].realCassetteLoad_ = false;
 
-	if (mode_.gui)
-		setBaudChoiceMembership();
-
-	setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType);
+	setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType, false);
 	conf[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
 
 	if (mode_.gui)
@@ -186,26 +189,22 @@ void GuiMembership::readMembershipConfig()
         XRCCTRL(*this, "WavFileMembership", wxTextCtrl)->SetValue(conf[MEMBER].wavFile_);
 		XRCCTRL(*this, "AutoCasLoadMembership", wxCheckBox)->SetValue(conf[MEMBER].autoCassetteLoad_);
 
-		XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].vtType);
+        if (elfConfiguration[MEMBER].vtExternal)
+            XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].vtType);
 
-		baudChoiceR[MEMBER]->SetSelection(elfConfiguration[MEMBER].baudR);
-		baudChoiceT[MEMBER]->SetSelection(elfConfiguration[MEMBER].baudT);
-		baudTextR[MEMBER]->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-        baudTextT[MEMBER]->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
+		XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudT);
         XRCCTRL(*this,"AddressText1Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
-        baudChoiceR[MEMBER]->Enable((elfConfiguration[MEMBER].vtType != VTNONE) && elfConfiguration[MEMBER].useUart);
-		baudChoiceT[MEMBER]->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
 
 		XRCCTRL(*this, "ForceUCMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].forceUpperCase);
-		XRCCTRL(*this, "VtCharRomButtonMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
-		XRCCTRL(*this, "VtCharRomMembership", wxComboBox)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
-		XRCCTRL(*this, "VtSetupMembership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
 		XRCCTRL(*this, "AutoBootMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].autoBoot);
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
-		XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
+        XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
 		XRCCTRL(*this, "RamMembership", wxChoice)->SetSelection(conf[MEMBER].ramType_);
 		XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);
 		XRCCTRL(*this, "VolumeMembership", wxSlider)->SetValue(conf[MEMBER].volume_);
@@ -243,19 +242,25 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Vt_Font_Rom_File", conf[MEMBER].vtCharRom_);
 	configPointer->Write("/Membership/Video_Dump_File", conf[MEMBER].screenDumpFile_);
     configPointer->Write("/Membership/Terminal_File", conf[MEMBER].wavFile_);
-	configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
+    configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
+    configPointer->Write("/Membership/VtSerialPortChoice", elfConfiguration[MEMBER].serialPort_);
 
 	configPointer->Write("/Membership/Load_Mode_Rom", (loadromMode_ == ROM));
 	configPointer->Write("/Membership/VtEf", elfConfiguration[MEMBER].vtEf);
 	configPointer->Write("/Membership/VtQ", elfConfiguration[MEMBER].vtQ);
 	configPointer->Write("/Membership/Bell_Frequency", elfConfiguration[MEMBER].bellFrequency_);
-	configPointer->Write("/Membership/VT_Type", elfConfiguration[MEMBER].vtType);
+    if (elfConfiguration[MEMBER].vtExternal)
+        configPointer->Write("/Membership/VT_Type", VTNONE);
+    else
+        configPointer->Write("/Membership/VT_Type", elfConfiguration[MEMBER].vtType);
     
     long value = elfConfiguration[MEMBER].vt52SetUpFeature_.to_ulong();
     configPointer->Write("/Membership/VT52Setup", value);
     value = elfConfiguration[MEMBER].vt100SetUpFeature_.to_ulong();
     configPointer->Write("/Membership/VT100Setup", value);
-    
+    value = elfConfiguration[MEMBER].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/Membership/VTExternalSetup", value);
+ 
 	configPointer->Write("/Membership/Vt_Baud_Receive", elfConfiguration[MEMBER].baudR);
 	configPointer->Write("/Membership/Vt_Baud_Transmit", elfConfiguration[MEMBER].baudT);
 	configPointer->Write("/Membership/Enable_Auto_Boot", elfConfiguration[MEMBER].autoBoot);
@@ -265,7 +270,8 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Vt_Zoom", conf[MEMBER].zoomVt_);
 	configPointer->Write("/Membership/Force_Uppercase", elfConfiguration[MEMBER].forceUpperCase);
 	configPointer->Write("/Membership/Open_Control_Windows", elfConfiguration[MEMBER].useElfControlWindows);
-	configPointer->Write("/Membership/Enable_Vt_Stretch_Dot", conf[MEMBER].stretchDot_);
+    configPointer->Write("/Membership/Enable_Vt_Stretch_Dot", conf[MEMBER].stretchDot_);
+    configPointer->Write("/Membership/Enable_Vt_External", elfConfiguration[MEMBER].vtExternal);
 	configPointer->Write("/Membership/Ram_Type", conf[MEMBER].ramType_);
 	configPointer->Write("/Membership/Volume", conf[MEMBER].volume_);
 	configPointer->Write("/Membership/Use_Non_Volatile_Ram", elfConfiguration[MEMBER].nvr);
@@ -308,7 +314,7 @@ void GuiMembership::onMembershipBaudT(wxCommandEvent&event)
 	if (!elfConfiguration[MEMBER].useUart)
 	{
 		elfConfiguration[MEMBER].baudR = event.GetSelection();
-		baudChoiceR[MEMBER]->SetSelection(elfConfiguration[MEMBER].baudR);
+		XRCCTRL(*this, "VTBaudRChoiceMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].baudR);
 	}
 }
 
@@ -329,54 +335,6 @@ void GuiMembership::onMembershipControlWindows(wxCommandEvent&event)
 	XRCCTRL(*this,"AddressText2Membership",wxStaticText)->Enable(elfConfiguration[MEMBER].useElfControlWindows);
     if (runningComputer_ == MEMBER)
 		p_Membership->Show(elfConfiguration[MEMBER].useElfControlWindows);
-}
-
-void GuiMembership::setBaudChoiceMembership()
-{
-	wxString choices[16];
-
-    if (position_.x == 0)
-        position_ = XRCCTRL(*this, "ScreenDumpFileButtonMembership", wxButton)->GetPosition();
-    
-    if (baudTextT[MEMBER] != NULL)
-    {
-        baudTextT[MEMBER]->Destroy();
-        baudChoiceT[MEMBER]->Destroy();
-        baudTextR[MEMBER]->Destroy();
-        baudChoiceR[MEMBER]->Destroy();
-    }
-
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
-	int offSetX = 13;
-	int offSetY = 48;
-	int choiseOffSetY = 45;
-#elif defined(__WXMAC__)
-	int offSetX = 20;
-	int offSetY = 52;
-	int choiseOffSetY = 50;
-#else
-	int offSetX = 9;
-	int offSetY = 47;
-	int choiseOffSetY = 47;
-#endif
-
-    choices[0] = "9600";
-    choices[1] = "4800";
-    choices[2] = "3600";
-    choices[3] = "2400";
-    choices[4] = "2000";
-    choices[5] = "1800";
-    choices[6] = "1200";
-    choices[7] = "600";
-    choices[8] = "300";
-    baudTextT[MEMBER] = new wxStaticText(XRCCTRL(*this, "PanelMembership", wxPanel), wxID_ANY, "T/R:", wxPoint(position_.x+62+offSetX,position_.y+4+offSetY));
-    baudChoiceT[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDT, wxPoint(position_.x+84+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 9, choices);
-    baudTextR[MEMBER] = new wxStaticText(XRCCTRL(*this, "PanelMembership", wxPanel), wxID_ANY, "R:", wxPoint(position_.x+142+offSetX,position_.y+4+offSetY));
-    baudTextR[MEMBER]->Hide();
-    baudChoiceR[MEMBER] = new wxChoice(XRCCTRL(*this, "PanelMembership", wxPanel), GUI_MEMBER_BAUDR, wxPoint(position_.x+152+offSetX,position_.y+choiseOffSetY), wxSize(60,23), 9, choices);
-    baudChoiceR[MEMBER]->Hide();
-
-    this->Connect(GUI_MEMBER_BAUDT, wxEVT_COMMAND_CHOICE_SELECTED , wxCommandEventHandler(GuiMembership::onMembershipBaudT) );
 }
 
 void GuiMembership::onRam(wxCommandEvent&event)

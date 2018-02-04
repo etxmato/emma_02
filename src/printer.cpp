@@ -26,7 +26,7 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 #include "app_icon.xpm"
 #endif
 
@@ -1972,11 +1972,11 @@ void Printer::onF4()
 #ifndef __WXMAC__
 		printerFramePointer->GetToolBar()->AddSeparator();
 #endif
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+"images/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+"images/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+"images/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 		fontTextPointer->SetFont(defaultFont);
 		rowsTextPointer->SetFont(defaultFont);
@@ -2008,18 +2008,18 @@ void Printer::onF4Thermal()
 
 	if (!thermalFrameOpen_)
 	{
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMAC__) || defined(__WXMGL__)
+#if defined(__linux__) || defined(__WXMAC__)
 		printerFramePointer = new PrinterFrame( "COMX Thermal Printer Output", wxPoint(-1, -1), wxSize(480, 1408/4*3), COMXTHPRINTER);
 #else
 		printerFramePointer = new PrinterFrame( "COMX Thermal Printer Output", wxPoint(-1, -1), wxSize(480, 1408/4*3), COMXTHPRINTER);
 #endif
 		printerFramePointer->CreateToolBar(wxTB_HORZ_TEXT);
 
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+"images/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+"images/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
-		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+"images/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), wxNullBitmap, wxITEM_NORMAL , "Send output to Printer");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
+		printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 		wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 		printerFramePointer->GetToolBar()->SetFont(defaultFont);
 #endif
@@ -2150,9 +2150,9 @@ void Printer::onComxF4()
 #ifndef __WXMAC__
 	printerFramePointer->GetToolBar()->AddSeparator();
 #endif
-	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+"images/print.png", wxBITMAP_TYPE_PNG), "Send output to Printer", wxITEM_NORMAL);
-	printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+"images/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
-	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+"images/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
+	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT, "Print", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/print.png", wxBITMAP_TYPE_PNG), "Send output to Printer", wxITEM_NORMAL);
+	printerFramePointer->GetToolBar()->AddTool(wxID_PREVIEW, "Preview", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/preview.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Send output to Preview Window");
+	printerFramePointer->GetToolBar()->AddTool(wxID_PRINT_SETUP, "Setup", wxBitmap(p_Main->getApplicationDir()+IMAGES_FOLDER + "/page_setup.png", wxBITMAP_TYPE_PNG), wxNullBitmap,  wxITEM_NORMAL, "Specify Preview and Printout page details");
 	printerFramePointer->GetToolBar()->AddControl(printerPlotterButtonPointer);
 #ifndef __WXMAC__
 	printerFramePointer->GetToolBar()->AddSeparator();
@@ -2163,7 +2163,7 @@ void Printer::onComxF4()
 	printerFramePointer->GetToolBar()->AddControl(plotterExtensionRomTextPointer);
 	printerFramePointer->GetToolBar()->SetBackgroundColour(wxColour(230,230,230));
 
-#if defined(__WXGTK__) || defined(__WXX11__) || defined(__WXMOTIF__) || defined(__WXMGL__)
+#if defined(__linux__)
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	printerPlotterButtonPointer->SetFont(defaultFont);
 	plotterRomPointer->SetFont(defaultFont);

@@ -1,0 +1,38 @@
+<html>
+<title>Key Definition</title>
+<body>
+<h2>Key Definition</h2>
+<p>
+All games can be started by '1' for 1 player or '2' for a 2 player game, note however that the 1 and 2 keys/buttons are only activated if there is enough credit (i.e. enough coins are inserted). For Altair and destroyer this is shown by the green leds in the status bar. The leds in the status bar can also be pressed instead of the defined keys.
+</p>
+<p>
+<B>Keys for Altair are mapped as follows:</B><br>
+Test Screen: Return<br>
+Coin Shute A: A<br>
+Coin Shute B: B<br>
+Joystick: Cursor keys<br>
+Fire: Space<br>
+Insert: Button 2 (not sure what this is used for) 
+</p>
+<p>
+<B>Keys for Destroyer are mapped as follows:</B><br>
+Test Screen: Return<br>
+Coin Shute A: A<br>
+Coin Shute B: B<br>
+Joystick left: Cursor key left<br>
+Joystick right: Cursor key right<br>
+Fire: Space
+</p>
+<p>
+<B>Keys for Draco are mapped as follows:</B><br>
+Test Screen: Return<br>
+Coin Shute A: A<br>
+Coin Shute B: B<br>
+Tilt: T<br>
+Joystick 1 (move): Cursor keys<br>
+Joystick 2 (fire left): J, numpad 4 or numpad left<br>
+Joystick 2 (fire right): K, numpad 6 or numpad right<br>
+Joystick 2 (fire up): I, numpad 8 or numpad up<br>
+Joystick 2 (fire down): M, numpad 2 or numpad down
+</p>
+</body></html>
