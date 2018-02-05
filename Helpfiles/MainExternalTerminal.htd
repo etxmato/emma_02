@@ -3,7 +3,7 @@
 <body>
 <h2>External Terminal</h2>
 <p>
-To use Emma 02 with an external terminal additional software is needed. So far I have only been able to get this to work on Windows and Linux.
+To use Emma 02 with an external terminal additional software is needed. So far I have only been able to get this to work on Windows and Linux. Note that on Linux using 'socat' will NOT work, instead use tty0tty as described below!
 </p>
 <p>
 Of course serial terminal software is needed. For windows I have used and tested <a href="https://www.emtec.com/download.html#zocfiles">ZOC7</a>. For Ubuntu I have tested with <a href="https://help.ubuntu.com/community/Minicom">Minicom</a>. Any other serial terminal emulation should work
@@ -41,7 +41,7 @@ Two different uart are available: the 16450 for the Elf 2000 and MS2000 and the 
 This uart mode can be use by selecting the Uart 16450 or Uart CDP1854 checkbox (in Terminal Setup window). Only basic usage of the 16450 and a simple mode 1 emulation for the CDP1854 is implemented.
 </p>
 <p>
-In this mode the transmit and (T) and receive (R) baudrates can be different and the speed can be set between 50 to 19200 baud.
+In this mode the transmit and (T) and receive (R) baudrates can be different.
 </p>
 <h3>Reversed EF / Q</h3>
 <p>
