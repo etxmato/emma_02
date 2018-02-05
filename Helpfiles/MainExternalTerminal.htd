@@ -41,7 +41,7 @@ Two different uart are available: the 16450 for the Elf 2000 and MS2000 and the 
 This uart mode can be use by selecting the Uart 16450 or Uart CDP1854 checkbox (in Terminal Setup window). Only basic usage of the 16450 and a simple mode 1 emulation for the CDP1854 is implemented.
 </p>
 <p>
-In this mode the transmit and (T) and receive (R) baudrates can be different.
+In this mode the transmit and (T) and receive (R) baudrates can be different. 
 </p>
 <h3>Reversed EF / Q</h3>
 <p>

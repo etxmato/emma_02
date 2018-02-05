@@ -36,7 +36,7 @@ This uart mode can be use by selecting the Uart 16450 or Uart CDP1854 checkbox (
 </p>
 <p>
 In this mode the transmit and (T) and receive (R) baudrates can be different.
-</p>
+</p> 
 <h3>Stretch Dot</h3>
 <p>
 The original VT terminals repeated every 'dot' on the screen if defined as 'on' in the font. This resulted in 'stretched' characters. The detail of the character is actually higher if this function is not used. To enable select the Strecth check box.
