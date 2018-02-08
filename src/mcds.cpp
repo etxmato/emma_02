@@ -531,13 +531,13 @@ void Mcds::checkMcdsFunction()
             mcdsRunState_ = RESETSTATE;
         break;
             
-        case 0x9f:
+/*        case 0x9f:
         case 0xa3:
             buffer.Printf("%04X", mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
             p_Main->eventShowTextMessage(buffer);
             buffer.Printf("%04X", mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
             p_Main->eventShowTextMessage(buffer);
-        break;
+        break;*/
     }
 }
 
