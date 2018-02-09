@@ -596,6 +596,7 @@ void Sound::psaveAmplitudeChange(int q)
                     
                 case VISICOM:
                 case STUDIO:
+                case COINARCADE:
                     if (q)
                         beepOnStudio();
                     else

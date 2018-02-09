@@ -389,6 +389,7 @@ public:
 #include "cosmicos.h"
 #include "super.h"
 #include "studio2.h"
+#include "coinarcade.h"
 #include "visicom.h"
 #include "victory.h"
 #include "vip.h"
@@ -430,7 +431,8 @@ public:
 #define VISICOM 20
 #define VICTORY 21
 #define VIPII 22
-#define DEBUGGER 23
+#define COINARCADE 23
+#define DEBUGGER 24
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -490,9 +492,10 @@ public:
 #define MCDSTAB 3
 #define MS2000TAB 4
 
-#define STUDIOIITAB 0
-#define VISICOMTAB 1
-#define VICTORYTAB 2
+#define COINARCADETAB 0
+#define STUDIOIITAB 1
+#define VISICOMTAB 2
+#define VICTORYTAB 3
 
 #define TMC600TAB 0
 #define TMC1800TAB 1

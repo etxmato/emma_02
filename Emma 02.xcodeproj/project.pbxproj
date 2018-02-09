@@ -15,6 +15,7 @@
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
+		99677914202E430B00108BB6 /* coinarcade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99677912202E430B00108BB6 /* coinarcade.cpp */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896D1C3B16D10061426E /* menuVelf.xrc */; };
 		997189701C3B19BC0061426E /* menuVip.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896F1C3B19BC0061426E /* menuVip.xrc */; };
@@ -207,6 +208,8 @@
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
 		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
+		99677912202E430B00108BB6 /* coinarcade.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coinarcade.cpp; path = src/coinarcade.cpp; sourceTree = "<group>"; };
+		99677913202E430B00108BB6 /* coinarcade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coinarcade.h; path = src/coinarcade.h; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
@@ -598,6 +601,8 @@
 				997647441A61D5EE00FB9B33 /* cidelsa.h */,
 				997646FA1A61D5EE00FB9B33 /* cidelsastatusbar.cpp */,
 				9976470D1A61D5EE00FB9B33 /* cidelsastatusbar.h */,
+				99677912202E430B00108BB6 /* coinarcade.cpp */,
+				99677913202E430B00108BB6 /* coinarcade.h */,
 				997647011A61D5EE00FB9B33 /* colour.cpp */,
 				9976479F1A61D5EE00FB9B33 /* colour.h */,
 				997647151A61D5EE00FB9B33 /* computer.cpp */,
@@ -1001,6 +1006,7 @@
 				997647BA1A61D5EE00FB9B33 /* cdp1802.cpp in Sources */,
 				997647D71A61D5EF00FB9B33 /* til313.full.cpp in Sources */,
 				99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */,
+				99677914202E430B00108BB6 /* coinarcade.cpp in Sources */,
 				997648001A61D5EF00FB9B33 /* guieti660.cpp in Sources */,
 				99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */,
 				997647F11A61D5EF00FB9B33 /* vt100.cpp in Sources */,

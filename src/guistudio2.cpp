@@ -63,6 +63,31 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 	EVT_SPINCTRL(XRCID("MsbStudio2"), GuiStudio2::onMsbStudio)
     EVT_SPINCTRL(XRCID("LsbStudio2"), GuiStudio2::onLsbStudio)
 
+
+    EVT_TEXT(XRCID("MainRomCoinArcade"), GuiMain::onMainRom1Text)
+    EVT_COMBOBOX(XRCID("MainRomCoinArcade"), GuiMain::onMainRom1Text)
+    EVT_BUTTON(XRCID("RomButtonCoinArcade"), GuiMain::onMainRom1)
+
+    EVT_TEXT(XRCID("CartRomCoinArcade"), GuiMain::onCartRomText)
+    EVT_COMBOBOX(XRCID("CartRomCoinArcade"), GuiMain::onCartRomText)
+    EVT_BUTTON(XRCID("CartRomButtonCoinArcade"), GuiMain::onCartRom)
+
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonCoinArcade"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileCoinArcade"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileCoinArcade"), GuiMain::onScreenDumpFileText)
+
+    EVT_SPIN_UP(XRCID("ZoomSpinCoinArcade"), GuiMain::onZoomUp)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinCoinArcade"), GuiMain::onZoomDown)
+    EVT_TEXT(XRCID("ZoomValueCoinArcade"), GuiMain::onZoomValue)
+    EVT_BUTTON(XRCID("FullScreenF3CoinArcade"), GuiMain::onFullScreen)
+    EVT_BUTTON(XRCID("ScreenDumpF5CoinArcade"), GuiMain::onScreenDump)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeCoinArcade"), GuiMain::onVolume)
+    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeCoinArcade"), GuiMain::onVolume)
+    EVT_BUTTON(XRCID("KeyMapCoinArcade"), Main::onHexKeyDef)
+    EVT_BUTTON(XRCID("ColoursCoinArcade"), Main::onColoursDef)
+    EVT_TEXT(XRCID("BeepFrequencyCoinArcade"), GuiMain::onBeepFrequency)
+
+
 	EVT_TEXT(XRCID("MainRomVisicom"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomVisicom"), GuiMain::onMainRom1Text)
 	EVT_BUTTON(XRCID("RomButtonVisicom"), GuiMain::onMainRom1)
@@ -86,6 +111,11 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 	EVT_BUTTON(XRCID("ColoursVisicom"), Main::onColoursDef)
 	EVT_TEXT(XRCID("BeepFrequencyVisicom"), GuiMain::onBeepFrequency)
 
+    EVT_CHECKBOX(XRCID("MultiCartVictory"), GuiStudio2::onMultiCartVictory)
+    EVT_CHECKBOX(XRCID("DisableSystemRomVictory"), GuiStudio2::onDisableSystemRomVictory)
+    EVT_SPINCTRL(XRCID("MsbVictory"), GuiStudio2::onMsbVictory)
+    EVT_SPINCTRL(XRCID("LsbVictory"), GuiStudio2::onLsbVictory)
+
 
 	EVT_TEXT(XRCID("MainRomVictory"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomVictory"), GuiMain::onMainRom1Text)
@@ -108,11 +138,6 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 	EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeVictory"), GuiMain::onVolume)
 	EVT_BUTTON(XRCID("KeyMapVictory"), Main::onHexKeyDef)
 	EVT_BUTTON(XRCID("ColoursVictory"), Main::onColoursDef)
-
-	EVT_CHECKBOX(XRCID("MultiCartVictory"), GuiStudio2::onMultiCartVictory)
-	EVT_CHECKBOX(XRCID("DisableSystemRomVictory"), GuiStudio2::onDisableSystemRomVictory)
-	EVT_SPINCTRL(XRCID("MsbVictory"), GuiStudio2::onMsbVictory)
-	EVT_SPINCTRL(XRCID("LsbVictory"), GuiStudio2::onLsbVictory)
 
 END_EVENT_TABLE()
 
@@ -248,6 +273,91 @@ void GuiStudio2::onLsbStudio(wxSpinEvent&event)
     conf[STUDIO].lsb_ = event.GetPosition();
     if (runningComputer_ == STUDIO)
         p_Studio2->setMultiCartLsb(conf[STUDIO].lsb_);
+}
+
+void GuiStudio2::readCoinArcadeConfig()
+{
+    selectedComputer_ = COINARCADE;
+    
+    conf[COINARCADE].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "CoinArcade" + pathSeparator_;
+    conf[COINARCADE].mainDir_ = readConfigDir("/Dir/CoinArcade/Main", dataDir_ + "CoinArcade" + pathSeparator_);
+    
+    conf[COINARCADE].romDir_[MAINROM1] = readConfigDir("/Dir/CoinArcade/Main_Rom_File", dataDir_ + "CoinArcade"  + pathSeparator_);
+    conf[COINARCADE].romDir_[CARTROM] = readConfigDir("/Dir/CoinArcade/St2_File", dataDir_ + "CoinArcade" + pathSeparator_);
+    conf[COINARCADE].screenDumpFileDir_ = readConfigDir("/Dir/CoinArcade/Video_Dump_File", dataDir_ + "CoinArcade" + pathSeparator_);
+    
+    conf[COINARCADE].rom_[MAINROM1] = configPointer->Read("/CoinArcade/Main_Rom_File", "swords.arc");
+    conf[COINARCADE].rom_[CARTROM] = configPointer->Read("/CoinArcade/St2_File", "");
+    conf[COINARCADE].screenDumpFile_ = configPointer->Read("/CoinArcade/Video_Dump_File", "screendump.png");
+    
+    wxString defaultZoom;
+    defaultZoom.Printf("%2.2f", 2.0);
+    conf[COINARCADE].zoom_ = configPointer->Read("/CoinArcade/Zoom", defaultZoom);
+    wxString defaultClock;
+    defaultClock.Printf("%1.2f", 1.76);
+    conf[COINARCADE].clock_ = configPointer->Read("/CoinArcade/Clock_Speed", defaultClock);
+    conf[COINARCADE].beepFrequency_ = 640;
+    conf[COINARCADE].volume_ = (int)configPointer->Read("/CoinArcade/Volume", 25l);
+    
+    wxString defaultScale;
+    defaultScale.Printf("%i", 3);
+    conf[COINARCADE].xScale_ = configPointer->Read("/CoinArcade/Window_Scale_Factor_X", defaultScale);
+    conf[COINARCADE].realCassetteLoad_ = false;
+    
+    configPointer->Read("/CoinArcade/MultiCart", &conf[COINARCADE].multiCart_, false);
+    configPointer->Read("/CoinArcade/DisableSystemRom", &conf[COINARCADE].disableSystemRom_, true);
+    conf[COINARCADE].lsb_ = (Byte)configPointer->Read("/CoinArcade/Lsb", 0l);
+    conf[COINARCADE].msb_ = (Byte)configPointer->Read("/CoinArcade/Msb", 0l);
+    
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
+        XRCCTRL(*this, "CartRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[CARTROM]);
+        XRCCTRL(*this, "ScreenDumpFileCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].screenDumpFile_);
+        XRCCTRL(*this, "ZoomValueCoinArcade", wxTextCtrl)->ChangeValue(conf[COINARCADE].zoom_);
+        clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
+        XRCCTRL(*this, "VolumeCoinArcade", wxSlider)->SetValue(conf[COINARCADE].volume_);
+        
+        XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->Enable(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_);
+        XRCCTRL(*this, "RomButtonCoinArcade", wxButton)->Enable(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_);
+    }
+}
+
+void GuiStudio2::writeCoinArcadeDirConfig()
+{
+    writeConfigDir("/Dir/CoinArcade/Main", conf[COINARCADE].mainDir_);
+    writeConfigDir("/Dir/CoinArcade/Main_Rom_File", conf[COINARCADE].romDir_[MAINROM1]);
+    writeConfigDir("/Dir/CoinArcade/St2_File", conf[COINARCADE].romDir_[CARTROM]);
+    writeConfigDir("/Dir/CoinArcade/Video_Dump_File", conf[COINARCADE].screenDumpFileDir_);
+}
+
+void GuiStudio2::writeCoinArcadeConfig()
+{
+    configPointer->Write("/CoinArcade/Main_Rom_File", conf[COINARCADE].rom_[MAINROM1]);
+    configPointer->Write("/CoinArcade/St2_File", conf[COINARCADE].rom_[CARTROM]);
+    configPointer->Write("/CoinArcade/Video_Dump_File", conf[COINARCADE].screenDumpFile_);
+    
+    configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_);
+    configPointer->Write("/CoinArcade/Clock_Speed", conf[COINARCADE].clock_);
+    configPointer->Write("/CoinArcade/Volume", conf[COINARCADE].volume_);
+    configPointer->Write("/CoinArcade/MultiCart", conf[COINARCADE].multiCart_);
+    configPointer->Write("/CoinArcade/DisableSystemRom", conf[COINARCADE].disableSystemRom_);
+    configPointer->Write("/CoinArcade/Lsb", conf[COINARCADE].lsb_);
+    configPointer->Write("/CoinArcade/Msb", conf[COINARCADE].msb_);
+}
+
+void GuiStudio2::readCoinArcadeWindowConfig()
+{
+    conf[COINARCADE].mainX_ = (int)configPointer->Read("/CoinArcade/Window_Position_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[COINARCADE].mainY_ = (int)configPointer->Read("/CoinArcade/Window_Position_Y", mainWindowY_);
+}
+
+void GuiStudio2::writeCoinArcadeWindowConfig()
+{
+    if (conf[COINARCADE].mainX_ > 0)
+        configPointer->Write("/CoinArcade/Window_Position_X", conf[COINARCADE].mainX_);
+    if (conf[COINARCADE].mainY_ > 0)
+        configPointer->Write("/CoinArcade/Window_Position_Y", conf[COINARCADE].mainY_);
 }
 
 void GuiStudio2::readVisicomConfig()

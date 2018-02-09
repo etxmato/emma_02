@@ -14236,7 +14236,8 @@ void DebugWindow::setMemoryType(int id, int setType)
 		break;
 
 		case VISICOM:
-		case STUDIO:
+        case STUDIO:
+        case COINARCADE:
 			if (setType == CRAM1870)
 				setType = CARTRIDGEROM;
 			if ((setType == RAM) || (setType == MAPPEDRAM) || (setType == MAPPEDROM) || (setType == ROM) || (setType == CARTRIDGEROM) || (setType == UNDEFINED))
@@ -15144,13 +15145,20 @@ void DebugWindow::updateTitle()
 			p_Pecom->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
-		case STUDIO:
-			if (p_Studio2->getSteps()==0)
+		case COINARCADE:
+			if (p_CoinArcade->getSteps()==0)
 				title = title + " ** PAUSED **";
-			p_Studio2->SetTitle("Studio II" + title);
-			p_Studio2->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+			p_CoinArcade->SetTitle("RCA Video Coin Arcade" + title);
+			p_CoinArcade->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
+        case STUDIO:
+            if (p_Studio2->getSteps()==0)
+                title = title + " ** PAUSED **";
+            p_Studio2->SetTitle("Studio II" + title);
+            p_Studio2->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+            break;
+            
 		case VISICOM:
 			if (p_Visicom->getSteps()==0)
 				title = title + " ** PAUSED **";

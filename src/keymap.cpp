@@ -157,7 +157,8 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             inButton2_ = p_Main->getDefaultInKey2(computerTypeStr_);
 		break;
 
-		case STUDIO:
+        case COINARCADE:
+        case STUDIO:
 		case VISICOM:
 		case VICTORY:
             keyDefGameHexA_[4] = 0;
@@ -252,7 +253,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
         break;
 	}
 
-    if (computerType == STUDIO || computerType == VISICOM || computerType == VICTORY)
+    if (computerType == STUDIO || computerType == COINARCADE || computerType == VISICOM || computerType == VICTORY)
     {
         simDefA2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalA2", true);
         simDefB2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalB2", true);
@@ -331,6 +332,10 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 				}
 				p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
 			break;
+            case COINARCADE:
+                gameName = p_Main->getRomFile(computerType, CARTROM);
+                p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+            break;
 		}
 	}
     enableAuto(autoGame_);

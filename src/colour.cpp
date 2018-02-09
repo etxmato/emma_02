@@ -167,7 +167,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 	XRCCTRL(*this, "ColourSave", wxButton)->Enable(false);
 
 	wxString scaleString;
-	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
+	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
 	{
 		scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "3");
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
@@ -238,7 +238,7 @@ ColourDialog::~ColourDialog()
 			if (p_Vt100 != NULL)
 				p_Vt100->setBorder(i, borderX, borderY);
 		}
-		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY  || computerType_ == NANO || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == VISICOM)
+		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY  || computerType_ == NANO || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM)
 		{
 			double scale;
 			wxString scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "");
@@ -286,7 +286,7 @@ void ColourDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 		p_Main->setConfigItem(computerTypeStr_+"/Colour"+button, colour.GetAsString(wxC2S_HTML_SYNTAX));
 	}
 
-	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY  || computerType_ == NANO || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == VISICOM)
+	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY  || computerType_ == NANO || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM)
 	{
 		double scale;
 		scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
@@ -355,7 +355,7 @@ void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
 				p_Vt100->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
 		}
 
-		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == NANO || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == VISICOM)
+		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == NANO || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM)
 		{
 			double scale;
 			scaleString = XRCCTRL(*this, "ScaleXText", wxTextCtrl)->GetValue();
@@ -425,7 +425,7 @@ void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
 		 screenInfo_.number -= 12;
 
 	wxString scaleString = "3";
-	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
+	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
 	{
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("3");
 	}
