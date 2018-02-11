@@ -7,7 +7,7 @@
  *** without express written permission from the author.         ***
  *******************************************************************
 */
-
+ 
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__

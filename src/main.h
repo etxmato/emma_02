@@ -1080,7 +1080,7 @@ public:
 
 	void setVtFullScreenEvent(guiEvent& event);
 	void eventVtSetFullScreen(bool state);
-
+ 
 	void setChangeNoteBookEvent(guiEvent& event);
 	void eventChangeNoteBook();
 

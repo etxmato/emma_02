@@ -8221,7 +8221,7 @@ int Main::getDefaultCoinArcadeKeys(int keysA[], int keysB[])
         keysA[i] = 0;
         keysB[i] = 0;
     }
-    
+     
 #if defined(__linux__) || defined(__WXMAC__)
     wxString appName = "emma_02";
 #else

@@ -454,7 +454,7 @@ void Visicom::startComputer()
 	defineMemoryType(0x1300, 0x13ff, RAM);
     initRam(0x1300, 0x13ff);
 	double zoom = p_Main->getZoom();
-
+ 
 	configurePixieVisicom();
 	initPixie();
 	setZoom(zoom);

@@ -16,7 +16,6 @@ public:
 class Pixie : public Video
 {
 public:
-
 	Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
 	~Pixie();
 

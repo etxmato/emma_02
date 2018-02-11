@@ -1,5 +1,5 @@
 #define COMXEF2 1
-#define PIXIEEF 2
+#define PIXIEEF 2 
 #define CIDELSAEF2 3
 #define V1870EF 4
 #define KEYBRDEF 5 

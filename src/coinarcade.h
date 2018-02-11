@@ -1,6 +1,6 @@
 #ifndef COINARCADE_H
 #define COINARCADE_H
-
+ 
 #include "cdp1802.h"
 #include "pixie.h"
 

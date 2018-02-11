@@ -535,7 +535,6 @@ void Pixie::cyclePixieCoinArcade()
             copyScreen();
             videoSyncCount_++;
         }
-        
     }
     if (graphicsNext_ == 2)
     {
