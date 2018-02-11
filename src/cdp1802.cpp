@@ -1062,12 +1062,23 @@ void Cdp1802::cpuCycle()
 			}
 			else
 			{
-				accumulator_=readMem(scratchpadRegister_[n]);
-				if (trace_)
-				{
-					buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
-					tr = tr + buffer;
-				}
+                if (cpuType_ == CPU1801)
+                {
+                    if (trace_)
+                    {
+                        buffer.Printf("Illegal code");
+                        tr = tr + buffer;
+                    }
+                }
+                else
+                {
+                    accumulator_=readMem(scratchpadRegister_[n]);
+                    if (trace_)
+                    {
+                        buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
+                        tr = tr + buffer;
+                    }
+                }
 			}
 		break;
 
@@ -1459,16 +1470,6 @@ void Cdp1802::cpuCycle()
 			}
 		break;
 		case 7:
-            if (cpuType_ == CPU1801)
-            {
-                if (trace_)
-                {
-                    buffer.Printf("Illegal code");
-                    tr = tr + buffer;
-                }
-            }
-            else
-            {
 			switch(n)
 			{
  				case 0:
@@ -1494,87 +1495,153 @@ void Cdp1802::cpuCycle()
 					}
 				break;
 				case 2:
-					accumulator_ = readMem(scratchpadRegister_[dataPointer_]++);
-					if (trace_)
-					{
-						buffer.Printf("LDXA      D=M(%04X)=%02X", scratchpadRegister_[dataPointer_]-1, accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        accumulator_ = readMem(scratchpadRegister_[dataPointer_]++);
+                        if (trace_)
+                        {
+                            buffer.Printf("LDXA      D=M(%04X)=%02X", scratchpadRegister_[dataPointer_]-1, accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 3:
-					writeMem(scratchpadRegister_[dataPointer_]--, accumulator_, false);
-					if (trace_)
-					{
-						buffer.Printf("STXD      M(%04X)=%02X",scratchpadRegister_[dataPointer_]+1,accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        writeMem(scratchpadRegister_[dataPointer_]--, accumulator_, false);
+                        if (trace_)
+                        {
+                            buffer.Printf("STXD      M(%04X)=%02X",scratchpadRegister_[dataPointer_]+1,accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 4:
-					w=accumulator_ + readMem(scratchpadRegister_[dataPointer_]) + dataFlag_;
-					if (w>255)
-					{
-						accumulator_ = w & 255;
-						dataFlag_=1;
-					}
-					else
-					{
-						accumulator_=w;
-						dataFlag_=0;
-					}
-					if (trace_)
-					{
-						buffer.Printf("ADC       D=%02X", accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        w=accumulator_ + readMem(scratchpadRegister_[dataPointer_]) + dataFlag_;
+                        if (w>255)
+                        {
+                            accumulator_ = w & 255;
+                            dataFlag_=1;
+                        }
+                        else
+                        {
+                            accumulator_=w;
+                            dataFlag_=0;
+                        }
+                        if (trace_)
+                        {
+                            buffer.Printf("ADC       D=%02X", accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 5:
-					w=readMem(scratchpadRegister_[dataPointer_]) +((~accumulator_)&0xff) + dataFlag_;
-					if (w>255)
-					{
-						accumulator_ = w&255;
-						dataFlag_=1;
-					}
-					else
-					{
-						accumulator_=w&255;
-						dataFlag_=0;
-					}
-					if (trace_)
-					{
-						buffer.Printf("SDB       D=%02X", accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        w=readMem(scratchpadRegister_[dataPointer_]) +((~accumulator_)&0xff) + dataFlag_;
+                        if (w>255)
+                        {
+                            accumulator_ = w&255;
+                            dataFlag_=1;
+                        }
+                        else
+                        {
+                            accumulator_=w&255;
+                            dataFlag_=0;
+                        }
+                        if (trace_)
+                        {
+                            buffer.Printf("SDB       D=%02X", accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
  				break;
 				case 6:
-					df1= (dataFlag_) ? 128 : 0;
-					dataFlag_ = (accumulator_ & 1) ? 1 : 0;
-					accumulator_ = (accumulator_ >> 1) | df1;
-					if (trace_)
-					{
-						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_RSHR)
-							buffer.Printf("RSHR      D=%02X", accumulator_);
-						else
-							buffer.Printf("SHRC      D=%02X", accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        df1= (dataFlag_) ? 128 : 0;
+                        dataFlag_ = (accumulator_ & 1) ? 1 : 0;
+                        accumulator_ = (accumulator_ >> 1) | df1;
+                        if (trace_)
+                        {
+                            if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_RSHR)
+                                buffer.Printf("RSHR      D=%02X", accumulator_);
+                            else
+                                buffer.Printf("SHRC      D=%02X", accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 7:
-					w=accumulator_ +((~readMem(scratchpadRegister_[dataPointer_]))&0xff) + dataFlag_;
-					if (w>255)
-					{
-						accumulator_ = w & 0xff;
-						dataFlag_=1;
-					}
-					else
-					{
-						accumulator_=w&255;
-						dataFlag_=0;
-					}
-					if (trace_)
-					{
-						buffer.Printf("SMB       D=%02X", accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        w=accumulator_ +((~readMem(scratchpadRegister_[dataPointer_]))&0xff) + dataFlag_;
+                        if (w>255)
+                        {
+                            accumulator_ = w & 0xff;
+                            dataFlag_=1;
+                        }
+                        else
+                        {
+                            accumulator_=w&255;
+                            dataFlag_=0;
+                        }
+                        if (trace_)
+                        {
+                            buffer.Printf("SMB       D=%02X", accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 8:
 					writeMem(scratchpadRegister_[dataPointer_], registerT_, false);
@@ -1585,109 +1652,185 @@ void Cdp1802::cpuCycle()
 					}
 				break;
 				case 9:
-					registerT_= (dataPointer_<<4) | programCounter_;
-					writeMem(scratchpadRegister_[2]--, registerT_, false);
-					dataPointer_=programCounter_;
-					if (trace_)
-					{
-						buffer.Printf("MARK");
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        registerT_= (dataPointer_<<4) | programCounter_;
+                        writeMem(scratchpadRegister_[2]--, registerT_, false);
+                        dataPointer_=programCounter_;
+                        if (trace_)
+                        {
+                            buffer.Printf("MARK");
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 10:
-					flipFlopQ_=0;
-					if (trace_)
-					{
-						tr = tr + "REQ";
-					}
-					switchQ(0);
-                    if (computerType_ != MS2000)
-                        psaveAmplitudeChange(0);
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        flipFlopQ_=0;
+                        if (trace_)
+                        {
+                            tr = tr + "REQ";
+                        }
+                        switchQ(0);
+                        if (computerType_ != MS2000)
+                            psaveAmplitudeChange(0);
+                    }
 				break;
 				case 11:
-					flipFlopQ_=1;
-					if (trace_)
-					{
-						tr = tr + "SEQ";
-					}
-					switchQ(1);
-                    if (computerType_ != MS2000)
-                        psaveAmplitudeChange(1);
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        flipFlopQ_=1;
+                        if (trace_)
+                        {
+                            tr = tr + "SEQ";
+                        }
+                        switchQ(1);
+                        if (computerType_ != MS2000)
+                            psaveAmplitudeChange(1);
+                    }
 				break;
 				case 12:
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]++);
-					w=accumulator_ + i + dataFlag_;
-					if (w>255)
-					{
-						accumulator_ = w & 255;
-						dataFlag_=1;
-					}
-					else
-					{
-						accumulator_=w;
-						dataFlag_=0;
-					}
-					if (trace_)
-					{
-						buffer.Printf("ADCI %02X   D=%02X", i, accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        i=readMem(scratchpadRegister_[programCounter_]++);
+                        w=accumulator_ + i + dataFlag_;
+                        if (w>255)
+                        {
+                            accumulator_ = w & 255;
+                            dataFlag_=1;
+                        }
+                        else
+                        {
+                            accumulator_=w;
+                            dataFlag_=0;
+                        }
+                        if (trace_)
+                        {
+                            buffer.Printf("ADCI %02X   D=%02X", i, accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 13:
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]++);
-					w=i +((~accumulator_)&0xff) + dataFlag_;
-					if (w>255)
-					{
-						accumulator_ = w & 0xff;
-						dataFlag_=1;
-					}
-					else
-					{
-						accumulator_=w&255;
-						dataFlag_=0;
-					}
-					if (trace_)
-					{
-						buffer.Printf("SDBI %02X   D=%02X", i, accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        i=readMem(scratchpadRegister_[programCounter_]++);
+                        w=i +((~accumulator_)&0xff) + dataFlag_;
+                        if (w>255)
+                        {
+                            accumulator_ = w & 0xff;
+                            dataFlag_=1;
+                        }
+                        else
+                        {
+                            accumulator_=w&255;
+                            dataFlag_=0;
+                        }
+                        if (trace_)
+                        {
+                            buffer.Printf("SDBI %02X   D=%02X", i, accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 14:
-					df1= (dataFlag_ & 1) ? 1: 0;
-					dataFlag_ = (accumulator_ & 128) ? 1 : 0;
-					accumulator_ = (accumulator_ << 1) | df1;
-					if (trace_)
-					{
-						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_RSHL)
-							buffer.Printf("RSHL      D=%02X", accumulator_);
-						else
-							buffer.Printf("SHLC      D=%02X", accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        df1= (dataFlag_ & 1) ? 1: 0;
+                        dataFlag_ = (accumulator_ & 128) ? 1 : 0;
+                        accumulator_ = (accumulator_ << 1) | df1;
+                        if (trace_)
+                        {
+                            if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_RSHL)
+                                buffer.Printf("RSHL      D=%02X", accumulator_);
+                            else
+                                buffer.Printf("SHLC      D=%02X", accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 15:
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i= (~readMem(scratchpadRegister_[programCounter_]++)) & 0xff;
-					w=accumulator_ + i + dataFlag_;
-					if (w>255)
-					{
-						accumulator_ = w & 0xff;
-						dataFlag_=1;
-					}
-					else
-					{
-						accumulator_=w&255;
-						dataFlag_=0;
-					}
-					if (trace_)
-					{
-						buffer.Printf("SMBI %02X   D=%02X", i, accumulator_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == CPU1801)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        i= (~readMem(scratchpadRegister_[programCounter_]++)) & 0xff;
+                        w=accumulator_ + i + dataFlag_;
+                        if (w>255)
+                        {
+                            accumulator_ = w & 0xff;
+                            dataFlag_=1;
+                        }
+                        else
+                        {
+                            accumulator_=w&255;
+                            dataFlag_=0;
+                        }
+                        if (trace_)
+                        {
+                            buffer.Printf("SMBI %02X   D=%02X", i, accumulator_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
-			}
             }
 		break;
 		case 8:

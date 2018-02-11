@@ -4,6 +4,16 @@
 #include "cdp1802.h"
 #include "pixie.h"
 
+#define PLAYER_A 0
+#define PLAYER_B 1
+
+#define KEY_UP 0
+#define KEY_LEFT 1
+#define KEY_RIGHT 2
+#define KEY_DOWN 3
+#define KEY_FIRE 4
+#define KEY_COIN 5
+
 class CoinArcade : public Cdp1802, public Pixie
 {
 public:
@@ -11,18 +21,16 @@ public:
 	~CoinArcade();
 
 	void configureComputer();
-	void reDefineKeysA(int *, int *);
-    void reDefineKeysB(int *, int *);
+	void reDefineKeys(int *, int *, int coin);
 	void keyDown(int keycode);
 	void keyUp(int keycode);
 
 	Byte ef(int flag);
-	Byte ef3();
+    Byte ef1();
+    Byte ef3();
 	Byte ef4();
-    void switchQ(int value);
     Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
-	void outStudio(Byte value);
 	void cycle(int type);
 
 	void startComputer();
@@ -32,30 +40,13 @@ public:
 	void writeMem(Word addr, Byte value, bool writeRom);
 	void cpuInstruction();
 	void onReset();
-    void checkFunction();
-    int getBuildInGame(){return buildInGame_;};
 
 private:
-	int studioKeyPort_;
-	Byte studioKeyState_[2][10];
-
-    int keyDefA1_[16];
-    int keyDefB1_[16];
-    int keyDefA2_[16];
-    int keyDefB2_[16];
-    int inKey1_;
-    int inKey2_;
- 
-    bool simDefA2_;
-    bool simDefB2_;
+	Byte coinArcadeKeyState_[2][6];
     
-	int keyDefGameHexA_[5];
-	int keyDefGameHexB_[5];
-
-	KeyDef keyDefinition[512];
-
-    int buildInGame_;
-    bool gameAuto_;
+	int keyDefA_[5];
+	int keyDefB_[5];
+    int keyDefCoin_;
     
 };
 

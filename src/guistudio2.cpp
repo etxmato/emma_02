@@ -294,7 +294,7 @@ void GuiStudio2::readCoinArcadeConfig()
     defaultZoom.Printf("%2.2f", 2.0);
     conf[COINARCADE].zoom_ = configPointer->Read("/CoinArcade/Zoom", defaultZoom);
     wxString defaultClock;
-    defaultClock.Printf("%1.2f", 1.76);
+    defaultClock.Printf("%1.2f", 1.6);
     conf[COINARCADE].clock_ = configPointer->Read("/CoinArcade/Clock_Speed", defaultClock);
     conf[COINARCADE].beepFrequency_ = 640;
     conf[COINARCADE].volume_ = (int)configPointer->Read("/CoinArcade/Volume", 25l);

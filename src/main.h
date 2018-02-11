@@ -1099,9 +1099,11 @@ public:
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
     void getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int *, int *, int*);
-    void storeDefaultTmc600Keys(int *, int *);
 	void getTmc600Keys(int *, int *);
 	void getDefaultTmc600Keys(int *, int *);
+    void storeDefaultTmc600Keys(int *, int *);
+    int getDefaultCoinArcadeKeys(int *, int *);
+    void storeDefaultCoinArcadeKeys(int *, int *, int coin);
 	bool emuClosing() { return emuClosing_; };
 	bool getThermalEf() {return thermalEf_;};
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};

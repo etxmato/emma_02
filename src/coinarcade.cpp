@@ -56,267 +56,89 @@ CoinArcade::~CoinArcade()
 
 void CoinArcade::configureComputer()
 {
-    buildInGame_ = 0;
+    inType_[5] = COINARCADEINPPAR5;
+    inType_[6] = COINARCADEINPKEY6;
+    outType_[5] = COINARCADEOUTFREQ5;
+    outType_[6] = COINARCADEOUTTONE6;
+	efType_[1] = COINARCADEEF1;
+    efType_[3] = COINARCADEEF3;
+    efType_[4] = COINARCADEEF4;
 
-    outType_[2] = STUDIOOUT;
-	studioKeyPort_ = 0;
-	efType_[3] = STUDIOEF3;
-	efType_[4] = STUDIOEF4;
+	for (int j=0; j<2; j++) for (int i=0; i<6; i++)
+		coinArcadeKeyState_[j][i] = 1;
 
-	for (int j=0; j<2; j++) for (int i=0; i<10; i++)
-		studioKeyState_[j][i] = 0;
+	p_Main->message("Configuring RCA Video Coin Arcade");
+	p_Main->message("	...\n");
 
-	p_Main->message("Configuring Studio II");
-	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
-
-    p_Main->getDefaultHexKeys(COINARCADE, "CoinArcade", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-    p_Main->getDefaultHexKeys(COINARCADE, "CoinArcade", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
-
-    gameAuto_ = p_Main->getConfigBool("/CoinArcade/GameAuto", true);
-    
-    simDefA2_ = p_Main->getConfigBool("/CoinArcade/DiagonalA2", true);
-    simDefB2_ = p_Main->getConfigBool("/CoinArcade/DiagonalB2", true);
+    keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
 
 	resetCpu();
 }
 
-void CoinArcade::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
+void CoinArcade::reDefineKeys(int keyDefA[], int keyDefB[], int coin)
 {
-	for (int i=0; i<512; i++)
+	for (int i=0; i<4; i++)
 	{
-		keyDefinition[i].defined = false;
+        keyDefA_[i] = keyDefA[i];
+        keyDefB_[i] = keyDefB[i];
 	}
-	for (int i=0; i<10; i++)
-	{
-        keyDefA1_[i] = hexKeyDefA1[i];
-        if (hexKeyDefA1[i] != 0)
-        {
-            keyDefinition[keyDefA1_[i]].defined = true;
-            keyDefinition[keyDefA1_[i]].player = 0;
-            keyDefinition[keyDefA1_[i]].key = i;
-        }
-        keyDefA2_[i] = hexKeyDefA2[i];
-        if (hexKeyDefA2[i] != 0)
-        {
-            keyDefinition[keyDefA2_[i]].defined = true;
-            keyDefinition[keyDefA2_[i]].player = 0;
-            keyDefinition[keyDefA2_[i]].key = i;
-        }
-	}
-}
-
-void CoinArcade::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
-{
-	for (int i=0; i<10; i++)
-	{
-        keyDefB1_[i] = hexKeyDefB1[i];
-        if (hexKeyDefB1[i] != 0)
-        {
-            keyDefinition[keyDefB1_[i]].defined = true;
-            keyDefinition[keyDefB1_[i]].player = 1;
-            keyDefinition[keyDefB1_[i]].key = i;
-        }
-        keyDefB2_[i] = hexKeyDefB2[i];
-        if (hexKeyDefB2[i] != 0)
-        {
-            keyDefinition[keyDefB2_[i]].defined = true;
-            keyDefinition[keyDefB2_[i]].player = 1;
-            keyDefinition[keyDefB2_[i]].key = i;
-        }
-	}
+    keyDefCoin_ = coin;
 }
 
 void CoinArcade::keyDown(int keycode)
 {
-	if (keyDefinition[keycode].defined)
-    {
-        if (simDefA2_)
-        {
-            if (keycode == keyDefA2_[2])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key-1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key+1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-                    return;
-                }
-            }
-            if (keycode == keyDefA2_[4])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key-1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key-1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-                    return;
-                }
-            }
-            if (keycode == keyDefA2_[6])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key+1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key+1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-                    return;
-                }
-            }
-            if (keycode == keyDefA2_[8])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key-1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
-                {
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key+1] = 1;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 0;
-                    studioKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 0;
-                    return;
-                }
-            }
-        }
-        
-        if (simDefB2_)
-        {
-            if (keycode == keyDefB2_[2])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key-1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key+1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-                    return;
-                }
-            }
-            if (keycode == keyDefB2_[4])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key-1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key-1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-                    return;
-                }
-            }
-            if (keycode == keyDefB2_[6])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key+1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key+1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-                    return;
-                }
-            }
-            if (keycode == keyDefB2_[8])
-            {
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key-1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 0;
-                    return;
-                }
-                if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-                {
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key+1] = 1;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 0;
-                    studioKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 0;
-                    return;
-                }
-            }
-        }
-        studioKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
-    }
+    if (keycode == keyDefCoin_)
+        coinArcadeKeyState_[PLAYER_A][KEY_COIN] = 0;
+    
+    if (keycode == keyDefA_[KEY_UP])
+        coinArcadeKeyState_[PLAYER_A][KEY_UP] = 0;
+    if (keycode == keyDefA_[KEY_LEFT])
+        coinArcadeKeyState_[PLAYER_A][KEY_LEFT] = 0;
+    if (keycode == keyDefA_[KEY_RIGHT])
+        coinArcadeKeyState_[PLAYER_A][KEY_RIGHT] = 0;
+    if (keycode == keyDefA_[KEY_DOWN])
+        coinArcadeKeyState_[PLAYER_A][KEY_DOWN] = 0;
+    if (keycode == keyDefA_[KEY_FIRE])
+        coinArcadeKeyState_[PLAYER_A][KEY_FIRE] = 0;
+    
+    if (keycode == keyDefB_[KEY_UP])
+        coinArcadeKeyState_[PLAYER_B][KEY_UP] = 0;
+    if (keycode == keyDefB_[KEY_LEFT])
+        coinArcadeKeyState_[PLAYER_B][KEY_LEFT] = 0;
+    if (keycode == keyDefB_[KEY_RIGHT])
+        coinArcadeKeyState_[PLAYER_B][KEY_RIGHT] = 0;
+    if (keycode == keyDefB_[KEY_DOWN])
+        coinArcadeKeyState_[PLAYER_B][KEY_DOWN] = 0;
+    if (keycode == keyDefB_[KEY_FIRE])
+        coinArcadeKeyState_[PLAYER_B][KEY_FIRE] = 0;
 }
 
 void CoinArcade::keyUp(int keycode)
 {
-    if (simDefA2_)
-    {
-        if (keycode == keyDefA2_[2] || keycode == keyDefA2_[4] || keycode == keyDefA2_[6] || keycode == keyDefA2_[8])
-        {
-            studioKeyState_[0][keyDefinition[keyDefA2_[2]].key-1] = 0;
-            studioKeyState_[0][keyDefinition[keyDefA2_[2]].key+1] = 0;
-            studioKeyState_[0][keyDefinition[keyDefA2_[8]].key-1] = 0;
-            studioKeyState_[0][keyDefinition[keyDefA2_[8]].key+1] = 0;
-            if (::wxGetKeyState((wxKeyCode)keyDefA2_[2]) == true)
-                studioKeyState_[0][keyDefinition[keyDefA2_[2]].key] = 1;
-            if (::wxGetKeyState((wxKeyCode)keyDefA2_[4]) == true)
-                studioKeyState_[0][keyDefinition[keyDefA2_[4]].key] = 1;
-            if (::wxGetKeyState((wxKeyCode)keyDefA2_[6]) == true)
-                studioKeyState_[0][keyDefinition[keyDefA2_[6]].key] = 1;
-            if (::wxGetKeyState((wxKeyCode)keyDefA2_[8]) == true)
-                studioKeyState_[0][keyDefinition[keyDefA2_[8]].key] = 1;
-        }
-    }
-    if (simDefB2_)
-    {
-        if (keycode == keyDefB2_[2] || keycode == keyDefB2_[4] || keycode == keyDefB2_[6] || keycode == keyDefB2_[8])
-        {
-            studioKeyState_[1][keyDefinition[keyDefB2_[2]].key-1] = 0;
-            studioKeyState_[1][keyDefinition[keyDefB2_[2]].key+1] = 0;
-            studioKeyState_[1][keyDefinition[keyDefB2_[8]].key-1] = 0;
-            studioKeyState_[1][keyDefinition[keyDefB2_[8]].key+1] = 0;
-            if (::wxGetKeyState((wxKeyCode)keyDefB2_[2]) == true)
-                studioKeyState_[1][keyDefinition[keyDefB2_[2]].key] = 1;
-            if (::wxGetKeyState((wxKeyCode)keyDefB2_[4]) == true)
-                studioKeyState_[1][keyDefinition[keyDefB2_[4]].key] = 1;
-            if (::wxGetKeyState((wxKeyCode)keyDefB2_[6]) == true)
-                studioKeyState_[1][keyDefinition[keyDefB2_[6]].key] = 1;
-            if (::wxGetKeyState((wxKeyCode)keyDefB2_[8]) == true)
-                studioKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 1;
-        }
-    }
-	if (keyDefinition[keycode].defined)
-		studioKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
+    if (keycode == keyDefCoin_)
+        coinArcadeKeyState_[PLAYER_A][KEY_COIN] = 1;
+    
+    if (keycode == keyDefA_[KEY_UP])
+        coinArcadeKeyState_[PLAYER_A][KEY_UP] = 1;
+    if (keycode == keyDefA_[KEY_LEFT])
+        coinArcadeKeyState_[PLAYER_A][KEY_LEFT] = 1;
+    if (keycode == keyDefA_[KEY_RIGHT])
+        coinArcadeKeyState_[PLAYER_A][KEY_RIGHT] = 1;
+    if (keycode == keyDefA_[KEY_DOWN])
+        coinArcadeKeyState_[PLAYER_A][KEY_DOWN] = 1;
+    if (keycode == keyDefA_[KEY_FIRE])
+        coinArcadeKeyState_[PLAYER_A][KEY_FIRE] = 1;
+    
+    if (keycode == keyDefB_[KEY_UP])
+        coinArcadeKeyState_[PLAYER_B][KEY_UP] = 1;
+    if (keycode == keyDefB_[KEY_LEFT])
+        coinArcadeKeyState_[PLAYER_B][KEY_LEFT] = 1;
+    if (keycode == keyDefB_[KEY_RIGHT])
+        coinArcadeKeyState_[PLAYER_B][KEY_RIGHT] = 1;
+    if (keycode == keyDefB_[KEY_DOWN])
+        coinArcadeKeyState_[PLAYER_B][KEY_DOWN] = 1;
+    if (keycode == keyDefB_[KEY_FIRE])
+        coinArcadeKeyState_[PLAYER_B][KEY_FIRE] = 1;
 }
 
 Byte CoinArcade::ef(int flag)
@@ -327,15 +149,15 @@ Byte CoinArcade::ef(int flag)
 			return 1;
 		break;
 
-		case PIXIEEF:
-			return efPixie();
-		break;
-
-		case STUDIOEF3:
+        case COINARCADEEF1:
+            return ef1();
+        break;
+            
+		case COINARCADEEF3:
 			return ef3();
 		break;
 
-		case STUDIOEF4:
+		case COINARCADEEF4:
 			return ef4();
 		break;
 
@@ -344,28 +166,19 @@ Byte CoinArcade::ef(int flag)
 	}
 }
 
+Byte CoinArcade::ef1()
+{
+    return coinArcadeKeyState_[PLAYER_A][KEY_FIRE];
+}
+
 Byte CoinArcade::ef3()
 {
-	if (studioKeyPort_<0 || studioKeyPort_>9)
-		return 1;
-	return(studioKeyState_[0][studioKeyPort_]) ? 0 : 1;
+    return coinArcadeKeyState_[PLAYER_B][KEY_FIRE];
 }
 
 Byte CoinArcade::ef4()
 {
-	if (studioKeyPort_<0 || studioKeyPort_>9)
-		return 1;
-	return(studioKeyState_[1][studioKeyPort_]) ? 0 : 1;
-}
-
-void CoinArcade::switchQ(int value)
-{
-    if (value == 0)
-    {
-    }
-    else
-    {
-    }
+    return coinArcadeKeyState_[PLAYER_A][KEY_COIN];
 }
 
 Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
@@ -378,10 +191,14 @@ Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
 			ret = 255;
 		break;
 
-		case PIXIEIN:
-			ret = inPixie();
-		break;
-
+        case PIXIEIN:
+            ret = inPixie();
+        break;
+            
+        case COINARCADEINPPAR5:
+            ret = 0;    // COIN_ARCADE_PARAMETER_SWITCH = 0; 8 is test mode?
+        break;
+            
 		default:
 			ret = 255;
 	}
@@ -400,19 +217,9 @@ void CoinArcade::out(Byte port, Word WXUNUSED(address), Byte value)
 		break;
 
 		case PIXIEOUT:
-			outPixie();
-		break;
-
-		case STUDIOOUT:
-			outStudio(value);
+			inPixie();
 		break;
 	}
-}
-
-void CoinArcade::outStudio(Byte value)
-{
-//	while(value >= 0x10) value -= 0x10;
-	studioKeyPort_ = value & 0xf;
 }
 
 void CoinArcade::cycle(int type)
@@ -424,7 +231,7 @@ void CoinArcade::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			cyclePixie();
+			cyclePixieCoinArcade();
 		break;
 	}
 }
@@ -435,7 +242,9 @@ void CoinArcade::startComputer()
 
 	p_Main->setSwName("");
 
-    for (int i=0x800; i<0xff00; i+=0x400)
+    defineMemoryType(0x800, RAM);
+    defineMemoryType(0x900, RAM);
+    for (int i=0x1800; i<0xff00; i+=0x400)
 	{
         defineMemoryType(i, MAPPEDRAM);
         defineMemoryType(i+0x100, MAPPEDRAM);
@@ -443,39 +252,17 @@ void CoinArcade::startComputer()
 
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
     
-    if (readMem(0) == 0x90)
-    {
-        chip8baseVar_ = 0x8c0;
-        chip8mainLoop_ = 0x6b;
-        chip8type_ = CHIPST2;
-        p_Main->assDefault("studiocart_1", 0x400, 0x7FF);
-        p_Main->assDefault("studiocart_2", 0xC00, 0xFFF);
-    }
-    else
-    {
-        chip8baseVar_ = 0x8f0;
-        chip8mainLoop_ = 0x1c;
-        chip8type_ = CHIP8;
-        p_Main->assDefault("studiocart_1", 0x400, 0x7FF);
-        p_Main->assDefault("studiocart_2", 0xC00, 0xFFF);
-	}
+    chip8baseVar_ = 0x8c0;
+    chip8mainLoop_ = 0x6b;
+    chip8type_ = CHIPST2;
+    p_Main->assDefault("coinarcade", 00, 0x7FF);
 
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
 
-    if (mainMemory_[0x400]==0x4 && mainMemory_[0x500]==0xab && mainMemory_[0x600]==0xf8 && mainMemory_[0x700]==0xd5)
-    {
-        for (int address=0x2000; address<0x4000; address+=0x800)
-        {
-            defineMemoryType(address, address+0x3ff, MAPPEDROM);
-            defineMemoryType(address+0x400, address+0x7ff, CARTRIDGEROM);
-        }
-        defineMemoryType(0x4000, 0x7fff, CARTRIDGEROM);
-    }
-
 	double zoom = p_Main->getZoom();
 
-	configurePixieStudio2();
+	configurePixieCoinArcade();
 	initPixie();
 	setZoom(zoom);
 	Show(true);
@@ -483,12 +270,6 @@ void CoinArcade::startComputer()
 	setClear(0);
 	setWait(1);
 	setClear(1);
-
-    if (gameAuto_)
-        p_Main->loadKeyDefinition("", p_Main->getRomFile(COINARCADE, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-
-	reDefineKeysA(keyDefA1_, keyDefA2_);
-	reDefineKeysB(keyDefB1_, keyDefB2_);
 
 	p_Main->updateTitle();
 
@@ -504,8 +285,6 @@ void CoinArcade::writeMemDataType(Word address, Byte type)
 	{
 		case RAM:
         case ROM:
-        case MAPPEDROM:
-		case CARTRIDGEROM:
 			if (mainMemoryDataType_[address] != type)
 			{
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
@@ -530,8 +309,6 @@ Byte CoinArcade::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
-        case MAPPEDROM:
-		case CARTRIDGEROM:
 			return mainMemoryDataType_[address];
 		break;
 
@@ -556,15 +333,7 @@ Byte CoinArcade::readMem(Word addr)
         case MAPPEDRAM:
 			addr = (addr & 0x1ff) | 0x800;
 		break;
- 
-        case CARTRIDGEROM:
-            addr = (addr & 0x3ff) | 0x400;
-        break;
-            
-        case MAPPEDROM:
-            addr = (addr & 0x3ff);
-        break;
-	}
+ 	}
     return mainMemory_[addr];
 }
 
@@ -619,36 +388,14 @@ void CoinArcade::cpuInstruction()
 		}
 		else
 			soundCycle();
-        checkFunction();
 		if (resetPressed_)
 		{
 			resetCpu();
 			resetPressed_ = false;
 
-			if (readMem(0) == 0x90)
-			{
-				chip8baseVar_ = 0x8c0;
-				chip8mainLoop_ = 0x6b;
-				chip8type_ = CHIPST2;
-			}
-			else
-			{
-				chip8baseVar_ = 0x8f0;
-				chip8mainLoop_ = 0x1c;
-				chip8type_ = CHIP8;
-			}
-
-            p_Main->getDefaultHexKeys(COINARCADE, "CoinArcade", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-            p_Main->getDefaultHexKeys(COINARCADE, "CoinArcade", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
-            
-            simDefA2_ = p_Main->getConfigBool("/CoinArcade/DiagonalA2", true);
-            simDefB2_ = p_Main->getConfigBool("/CoinArcade/DiagonalB2", true);
-            
-            if (gameAuto_)
-                p_Main->loadKeyDefinition("", p_Main->getRomFile(COINARCADE, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-
-            reDefineKeysA(keyDefA1_, keyDefA2_);
-            reDefineKeysB(keyDefB1_, keyDefB2_);
+            chip8baseVar_ = 0x8c0;
+            chip8mainLoop_ = 0x6b;
+            chip8type_ = CHIPST2;
 
             setWait(1);
 			setClear(0);
@@ -674,51 +421,4 @@ void CoinArcade::cpuInstruction()
 void CoinArcade::onReset()
 {
 	resetPressed_ = true;
-}
-
-void CoinArcade::checkFunction()
-{
-    if (!gameAuto_)
-        return;
-
-    bool buildInGameFound = false;
-    if (chip8mainLoop_ == scratchpadRegister_[programCounter_])
-    {
-        if ((mainMemory_[0x402] == 0xd1) && (mainMemory_[0x403] == 0x0e) && (mainMemory_[0x404] == 0xd2) && (mainMemory_[0x405] == 0x39))
-        {
-            switch(scratchpadRegister_[CHIP8_PC])
-            {
-                case 0x40e:
-					p_Main->loadKeyDefinition("", "CoinArcadebuildin1", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-                    buildInGameFound = true;
-                    buildInGame_ = 1;
-                break;
-                case 0x439:
-					p_Main->loadKeyDefinition("", "CoinArcadebuildin2", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-                    buildInGameFound = true;
-                    buildInGame_ = 2;
-                break;
-                case 0x48b:
-					p_Main->loadKeyDefinition("", "CoinArcadebuildin3", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-                    buildInGameFound = true;
-                    buildInGame_ = 3;
-                break;
-                case 0x48d:
-					p_Main->loadKeyDefinition("", "CoinArcadebuildin4", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-                    buildInGameFound = true;
-                    buildInGame_ = 4;
-                break;
-                case 0x48f:
-					p_Main->loadKeyDefinition("", "CoinArcadebuildin5", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-                    buildInGameFound = true;
-                    buildInGame_ = 5;
-                break;
-            }
-        }
-    }
-    if (buildInGameFound)
-    {
-        reDefineKeysA(keyDefA1_, keyDefA2_);
-        reDefineKeysB(keyDefB1_, keyDefB2_);
-    }
 }

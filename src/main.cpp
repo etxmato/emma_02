@@ -8214,6 +8214,63 @@ void Main::storeDefaultTmc600Keys(int keysNormal[], int keysShift[])
     configPointer->Write("/TMC600/KeyShift2E", keysShift[20]);
 }
 
+int Main::getDefaultCoinArcadeKeys(int keysA[], int keysB[])
+{
+    for (int i = 0; i<5; i++)
+    {
+        keysA[i] = 0;
+        keysB[i] = 0;
+    }
+    
+#if defined(__linux__) || defined(__WXMAC__)
+    wxString appName = "emma_02";
+#else
+    wxString appName = "Emma 02";
+#endif
+    
+    wxConfigBase *keyConfigPointer;
+    
+    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", dataDir_ + keyboardType_ + ".ini");
+    wxConfigBase *currentConfigPointer = wxConfigBase::Set(pConfig);
+    keyConfigPointer = wxConfigBase::Get();
+    
+    keysA[0] = (int)keyConfigPointer->Read("/CoinArcade/A-Up", 315);
+    keysA[1] = (int)keyConfigPointer->Read("/CoinArcade/A-Left", 314);
+    keysA[2] = (int)keyConfigPointer->Read("/CoinArcade/A-Right", 316);
+    keysA[3] = (int)keyConfigPointer->Read("/CoinArcade/A-Down", 317);
+    keysA[4] = (int)keyConfigPointer->Read("/CoinArcade/A-Fire", 32);
+    
+    keysB[0] = (int)keyConfigPointer->Read("/CoinArcade/B-Up", 87);
+    keysB[1] = (int)keyConfigPointer->Read("/CoinArcade/B-Left", 65);
+    keysB[2] = (int)keyConfigPointer->Read("/CoinArcade/B-Right", 83);
+    keysB[3] = (int)keyConfigPointer->Read("/CoinArcade/B-Down", 90);
+    keysB[4] = (int)keyConfigPointer->Read("/CoinArcade/A-Fire", 9);
+    
+    int coin = (int)keyConfigPointer->Read("/CoinArcade/Coin", 67);
+    
+    delete pConfig;
+    wxConfigBase::Set(currentConfigPointer);
+    
+    return coin;
+}
+
+void Main::storeDefaultCoinArcadeKeys(int keysA[], int keysB[], int coin)
+{
+    configPointer->Write("/CoinArcade/A-Up", keysA[0]);
+    configPointer->Write("/CoinArcade/A-Left", keysA[1]);
+    configPointer->Write("/CoinArcade/A-Right", keysA[2]);
+    configPointer->Write("/CoinArcade/A-Down", keysA[3]);
+    configPointer->Write("/CoinArcade/A-Fire", keysA[4]);
+    
+    configPointer->Write("/CoinArcade/B-Up", keysB[0]);
+    configPointer->Write("/CoinArcade/B-Left", keysB[1]);
+    configPointer->Write("/CoinArcade/B-Right", keysB[2]);
+    configPointer->Write("/CoinArcade/B-Down", keysB[3]);
+    configPointer->Write("/CoinArcade/B-Fire", keysB[4]);
+
+    configPointer->Write("/CoinArcade/Coin", coin);
+}
+
 wxThread::ExitCode UpdateCheckThread::Entry()
 {
     if (p_Main->checkUpdateEmma())
