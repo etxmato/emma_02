@@ -5624,8 +5624,6 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
         XRCCTRL(*this,"MainRomCoinArcade", wxComboBox)->Enable(status&(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_));
         XRCCTRL(*this,"RomButtonCoinArcade", wxButton)->Enable(status&(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_));
-        XRCCTRL(*this,"CartRomCoinArcade", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"CartRomButtonCoinArcade", wxButton)->Enable(status);
         XRCCTRL(*this,"FullScreenF3CoinArcade", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5CoinArcade", wxButton)->Enable(!status);
     }

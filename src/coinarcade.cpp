@@ -54,11 +54,15 @@ void CoinArcade::configureComputer()
     efType_[3] = COINARCADEEF3;
     efType_[4] = COINARCADEEF4;
 
-	for (int j=0; j<2; j++) for (int i=0; i<6; i++)
-		coinArcadeKeyState_[j][i] = 1;
-
+    directionKey_ = 0;
+    fireKeyA_ = 1;
+    fireKeyB_ = 1;
+    coinKey_ = 1;
+    
 	p_Main->message("Configuring RCA Video Coin Arcade");
-	p_Main->message("	...\n");
+    p_Main->message("	Input 5: parameter switch, input 6: direction keys\n");
+    p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin\n");
+    p_Main->message("	Output 5: tone latch, output 6: tone on/off\n");
 
     keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
 
@@ -78,57 +82,57 @@ void CoinArcade::reDefineKeys(int keyDefA[], int keyDefB[], int coin)
 void CoinArcade::keyDown(int keycode)
 {
     if (keycode == keyDefCoin_)
-        coinArcadeKeyState_[PLAYER_A][KEY_COIN] = 0;
+        coinKey_ = 0;
     
     if (keycode == keyDefA_[KEY_UP])
-        coinArcadeKeyState_[PLAYER_A][KEY_UP] = 0;
+        directionKey_ |= 0x02;
     if (keycode == keyDefA_[KEY_LEFT])
-        coinArcadeKeyState_[PLAYER_A][KEY_LEFT] = 0;
+        directionKey_ |= 0x01;
     if (keycode == keyDefA_[KEY_RIGHT])
-        coinArcadeKeyState_[PLAYER_A][KEY_RIGHT] = 0;
+        directionKey_ |= 0x04;
     if (keycode == keyDefA_[KEY_DOWN])
-        coinArcadeKeyState_[PLAYER_A][KEY_DOWN] = 0;
+        directionKey_ |= 0x08;
     if (keycode == keyDefA_[KEY_FIRE])
-        coinArcadeKeyState_[PLAYER_A][KEY_FIRE] = 0;
+        fireKeyA_ = 0;
     
     if (keycode == keyDefB_[KEY_UP])
-        coinArcadeKeyState_[PLAYER_B][KEY_UP] = 0;
+        directionKey_ |= 0x20;
     if (keycode == keyDefB_[KEY_LEFT])
-        coinArcadeKeyState_[PLAYER_B][KEY_LEFT] = 0;
+        directionKey_ |= 0x10;
     if (keycode == keyDefB_[KEY_RIGHT])
-        coinArcadeKeyState_[PLAYER_B][KEY_RIGHT] = 0;
+        directionKey_ |= 0x40;
     if (keycode == keyDefB_[KEY_DOWN])
-        coinArcadeKeyState_[PLAYER_B][KEY_DOWN] = 0;
+        directionKey_ |= 0x80;
     if (keycode == keyDefB_[KEY_FIRE])
-        coinArcadeKeyState_[PLAYER_B][KEY_FIRE] = 0;
+        fireKeyB_ = 0;
 }
 
 void CoinArcade::keyUp(int keycode)
 {
     if (keycode == keyDefCoin_)
-        coinArcadeKeyState_[PLAYER_A][KEY_COIN] = 1;
+        coinKey_ = 1;
     
     if (keycode == keyDefA_[KEY_UP])
-        coinArcadeKeyState_[PLAYER_A][KEY_UP] = 1;
+        directionKey_ &= 0xFD;
     if (keycode == keyDefA_[KEY_LEFT])
-        coinArcadeKeyState_[PLAYER_A][KEY_LEFT] = 1;
+        directionKey_ &= 0xFE;
     if (keycode == keyDefA_[KEY_RIGHT])
-        coinArcadeKeyState_[PLAYER_A][KEY_RIGHT] = 1;
+        directionKey_ &= 0xFB;
     if (keycode == keyDefA_[KEY_DOWN])
-        coinArcadeKeyState_[PLAYER_A][KEY_DOWN] = 1;
+        directionKey_ &= 0xF7;
     if (keycode == keyDefA_[KEY_FIRE])
-        coinArcadeKeyState_[PLAYER_A][KEY_FIRE] = 1;
+        fireKeyA_ = 1;
     
     if (keycode == keyDefB_[KEY_UP])
-        coinArcadeKeyState_[PLAYER_B][KEY_UP] = 1;
+        directionKey_ &= 0xDF;
     if (keycode == keyDefB_[KEY_LEFT])
-        coinArcadeKeyState_[PLAYER_B][KEY_LEFT] = 1;
+        directionKey_ &= 0xEF;
     if (keycode == keyDefB_[KEY_RIGHT])
-        coinArcadeKeyState_[PLAYER_B][KEY_RIGHT] = 1;
+        directionKey_ &= 0xBF;
     if (keycode == keyDefB_[KEY_DOWN])
-        coinArcadeKeyState_[PLAYER_B][KEY_DOWN] = 1;
+        directionKey_ &= 0x7F;
     if (keycode == keyDefB_[KEY_FIRE])
-        coinArcadeKeyState_[PLAYER_B][KEY_FIRE] = 1;
+        fireKeyB_ = 1;
 }
 
 Byte CoinArcade::ef(int flag)
@@ -158,17 +162,17 @@ Byte CoinArcade::ef(int flag)
 
 Byte CoinArcade::ef1()
 {
-    return coinArcadeKeyState_[PLAYER_A][KEY_FIRE];
+    return fireKeyA_;
 }
 
 Byte CoinArcade::ef3()
 {
-    return coinArcadeKeyState_[PLAYER_B][KEY_FIRE];
+    return fireKeyB_;
 }
 
 Byte CoinArcade::ef4()
 {
-    return coinArcadeKeyState_[PLAYER_A][KEY_COIN];
+    return coinKey_;
 }
 
 Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
@@ -187,6 +191,10 @@ Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
             
         case COINARCADEINPPAR5:
             ret = 0;    // COIN_ARCADE_PARAMETER_SWITCH = 0; 8 is test mode?
+        break;
+            
+        case COINARCADEINPKEY6:
+            ret = directionKey_;
         break;
             
 		default:
@@ -209,6 +217,22 @@ void CoinArcade::out(Byte port, Word WXUNUSED(address), Byte value)
 		case PIXIEOUT:
 			inPixie();
 		break;
+            
+        case COINARCADEOUTFREQ4:
+            tone1864Latch(value);
+        break;
+            
+        case COINARCADEOUTFREQ5:
+            tone1864Latch(value);
+        break;
+            
+        case COINARCADEOUTTONE6:
+            if (value != 0)
+                tone1864On();
+            else
+                beepOff();
+        break;
+
 	}
 }
 

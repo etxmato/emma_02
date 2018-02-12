@@ -42,12 +42,14 @@ public:
 	void onReset();
 
 private:
-	Byte coinArcadeKeyState_[2][6];
-    
 	int keyDefA_[5];
 	int keyDefB_[5];
     int keyDefCoin_;
     
+    Byte directionKey_;
+    Byte fireKeyA_;
+    Byte fireKeyB_;
+    Byte coinKey_;
 };
 
 #endif  // COINARCADE_H

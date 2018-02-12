@@ -1,6 +1,13 @@
 #ifndef KEYMAPDLG_H
 #define KEYMAPDLG_H
 
+#define KEY_UP 0
+#define KEY_LEFT 1
+#define KEY_RIGHT 2
+#define KEY_DOWN 3
+#define KEY_FIRE 4
+#define KEY_COIN 5
+
 class KeyMapDialog : public wxDialog
 {
 public:
@@ -37,18 +44,27 @@ private:
 
     void onFocusTimer(wxTimerEvent& event);
     
+    void updateButtonsCoinArcade();
+    void onArcadeADirKey(wxCommandEvent &event);
+    void onArcadeBDirKey(wxCommandEvent &event);
+    void onArcadeCoinKey(wxCommandEvent &event);
+
     wxTimer *focusTimer;
     
     int inButton1_;
     int inButton2_;
 
+    long arcadeADirKey_;
+    long arcadeBDirKey_;
+    long arcadeCoinKey_;
     long hexKey_;
 	long inKey_;
     int hexKeyDefA1_[16];
     int hexKeyDefA2_[16];
 	int keyDefGameHexA_[5];
 	int keyDefGameValueA_[5];
-
+    int keyDefCoin_;
+    
     int hexKeyDefB1_[16];
     int hexKeyDefB2_[18];
 	int keyDefGameHexB_[5];

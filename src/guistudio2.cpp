@@ -68,10 +68,6 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
     EVT_COMBOBOX(XRCID("MainRomCoinArcade"), GuiMain::onMainRom1Text)
     EVT_BUTTON(XRCID("RomButtonCoinArcade"), GuiMain::onMainRom1)
 
-    EVT_TEXT(XRCID("CartRomCoinArcade"), GuiMain::onCartRomText)
-    EVT_COMBOBOX(XRCID("CartRomCoinArcade"), GuiMain::onCartRomText)
-    EVT_BUTTON(XRCID("CartRomButtonCoinArcade"), GuiMain::onCartRom)
-
     EVT_BUTTON(XRCID("ScreenDumpFileButtonCoinArcade"), GuiMain::onScreenDumpFile)
     EVT_TEXT(XRCID("ScreenDumpFileCoinArcade"), GuiMain::onScreenDumpFileText)
     EVT_COMBOBOX(XRCID("ScreenDumpFileCoinArcade"), GuiMain::onScreenDumpFileText)
@@ -312,7 +308,6 @@ void GuiStudio2::readCoinArcadeConfig()
     if (mode_.gui)
     {
         XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
-        XRCCTRL(*this, "CartRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].screenDumpFile_);
         XRCCTRL(*this, "ZoomValueCoinArcade", wxTextCtrl)->ChangeValue(conf[COINARCADE].zoom_);
         clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
