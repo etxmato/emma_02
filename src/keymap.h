@@ -48,6 +48,8 @@ private:
     void onArcadeADirKey(wxCommandEvent &event);
     void onArcadeBDirKey(wxCommandEvent &event);
     void onArcadeCoinKey(wxCommandEvent &event);
+    void onSaveArcadeCoin(wxCommandEvent&event);
+    void onDefaultArcadeCoin(wxCommandEvent&event);
 
     wxTimer *focusTimer;
     

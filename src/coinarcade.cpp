@@ -48,6 +48,7 @@ void CoinArcade::configureComputer()
 {
     inType_[5] = COINARCADEINPPAR5;
     inType_[6] = COINARCADEINPKEY6;
+    outType_[3] = COINARCADEOUTTONE6;
     outType_[5] = COINARCADEOUTFREQ5;
     outType_[6] = COINARCADEOUTTONE6;
 	efType_[1] = COINARCADEEF1;
@@ -60,9 +61,9 @@ void CoinArcade::configureComputer()
     coinKey_ = 1;
     
 	p_Main->message("Configuring RCA Video Coin Arcade");
-    p_Main->message("	Input 5: parameter switch, input 6: direction keys\n");
-    p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin\n");
-    p_Main->message("	Output 5: tone latch, output 6: tone on/off\n");
+    p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
+    p_Main->message("	Input 5: parameter switch, input 6: direction keys");
+    p_Main->message("	Output 5: tone latch, output 3 & 6: tone on/off");
 
     keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
 
@@ -105,6 +106,11 @@ void CoinArcade::keyDown(int keycode)
         directionKey_ |= 0x80;
     if (keycode == keyDefB_[KEY_FIRE])
         fireKeyB_ = 0;
+
+    if (keycode == '1')
+        directionKey_ |= 0x01;
+    if (keycode == '2')
+        directionKey_ |= 0x02;
 }
 
 void CoinArcade::keyUp(int keycode)
@@ -133,6 +139,11 @@ void CoinArcade::keyUp(int keycode)
         directionKey_ &= 0x7F;
     if (keycode == keyDefB_[KEY_FIRE])
         fireKeyB_ = 1;
+
+    if (keycode == '1')
+        directionKey_ &= 0xFE;
+    if (keycode == '2')
+        directionKey_ &= 0xFD;
 }
 
 Byte CoinArcade::ef(int flag)
@@ -291,6 +302,8 @@ void CoinArcade::startComputer()
 	p_Main->startTime();
 
 	threadPointer->Run();
+    if (mainMemory_[0] == 0)
+        p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
 }
 
 void CoinArcade::writeMemDataType(Word address, Byte type)
@@ -416,6 +429,8 @@ void CoinArcade::cpuInstruction()
 			setWait(1);
 			setClear(1);
 			initPixie();
+            if (mainMemory_[0] == 0)
+                p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();

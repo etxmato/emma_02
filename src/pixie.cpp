@@ -179,7 +179,6 @@ void Pixie::configurePixieCoinArcade()
     backGroundInit_ = 1;
     colourMask_ = 0;
     
-    p_Main->message("Configuring CDP 1861");
     p_Main->message("	Output 1: enable graphics, input 1: enable graphics\n");
 }
 

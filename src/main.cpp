@@ -8214,40 +8214,19 @@ void Main::storeDefaultTmc600Keys(int keysNormal[], int keysShift[])
 
 int Main::getDefaultCoinArcadeKeys(int keysA[], int keysB[])
 {
-    for (int i = 0; i<5; i++)
-    {
-        keysA[i] = 0;
-        keysB[i] = 0;
-    }
-     
-#if defined(__linux__) || defined(__WXMAC__)
-    wxString appName = "emma_02";
-#else
-    wxString appName = "Emma 02";
-#endif
+    keysA[0] = (int)configPointer->Read("/CoinArcade/A-Up", 315);
+    keysA[1] = (int)configPointer->Read("/CoinArcade/A-Left", 314);
+    keysA[2] = (int)configPointer->Read("/CoinArcade/A-Right", 316);
+    keysA[3] = (int)configPointer->Read("/CoinArcade/A-Down", 317);
+    keysA[4] = (int)configPointer->Read("/CoinArcade/A-Fire", 32);
     
-    wxConfigBase *keyConfigPointer;
+    keysB[0] = (int)configPointer->Read("/CoinArcade/B-Up", 87);
+    keysB[1] = (int)configPointer->Read("/CoinArcade/B-Left", 65);
+    keysB[2] = (int)configPointer->Read("/CoinArcade/B-Right", 83);
+    keysB[3] = (int)configPointer->Read("/CoinArcade/B-Down", 90);
+    keysB[4] = (int)configPointer->Read("/CoinArcade/B-Fire", 9);
     
-    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", dataDir_ + keyboardType_ + ".ini");
-    wxConfigBase *currentConfigPointer = wxConfigBase::Set(pConfig);
-    keyConfigPointer = wxConfigBase::Get();
-    
-    keysA[0] = (int)keyConfigPointer->Read("/CoinArcade/A-Up", 315);
-    keysA[1] = (int)keyConfigPointer->Read("/CoinArcade/A-Left", 314);
-    keysA[2] = (int)keyConfigPointer->Read("/CoinArcade/A-Right", 316);
-    keysA[3] = (int)keyConfigPointer->Read("/CoinArcade/A-Down", 317);
-    keysA[4] = (int)keyConfigPointer->Read("/CoinArcade/A-Fire", 32);
-    
-    keysB[0] = (int)keyConfigPointer->Read("/CoinArcade/B-Up", 87);
-    keysB[1] = (int)keyConfigPointer->Read("/CoinArcade/B-Left", 65);
-    keysB[2] = (int)keyConfigPointer->Read("/CoinArcade/B-Right", 83);
-    keysB[3] = (int)keyConfigPointer->Read("/CoinArcade/B-Down", 90);
-    keysB[4] = (int)keyConfigPointer->Read("/CoinArcade/A-Fire", 9);
-    
-    int coin = (int)keyConfigPointer->Read("/CoinArcade/Coin", 67);
-    
-    delete pConfig;
-    wxConfigBase::Set(currentConfigPointer);
+    int coin = (int)configPointer->Read("/CoinArcade/Coin", 67);
     
     return coin;
 }

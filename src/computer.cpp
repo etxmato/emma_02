@@ -1442,6 +1442,10 @@ void Computer::reDefineKeys()
 {
 }
 
+void Computer::reDefineKeys(int* WXUNUSED(hexKeyDefA[]), int* WXUNUSED(keyDefGameValueA[]), int WXUNUSED(coin))
+{
+}
+
 int Computer::getRunState()
 {
 	return 0;

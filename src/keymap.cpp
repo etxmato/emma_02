@@ -1,4 +1,4 @@
-/*
+    /*
  *******************************************************************
  *** This software is copyright 2008 by Marcel van Tongeren      ***
  *** You have permission to use, modify, copy, and distribute    ***
@@ -35,6 +35,8 @@
 
 BEGIN_EVENT_TABLE(KeyMapDialog, wxDialog)
    EVT_BUTTON(XRCID("HexSave"), KeyMapDialog::onSaveButton)
+   EVT_BUTTON(XRCID("CoinSave"), KeyMapDialog::onSaveArcadeCoin)
+   EVT_BUTTON(XRCID("CoinDefault"), KeyMapDialog::onDefaultArcadeCoin)
    EVT_BUTTON(XRCID("HexSwitchPad"), KeyMapDialog::onSwitchPad)
    EVT_BUTTON(XRCID("HexSwitchPlayer"), KeyMapDialog::onSwitchPlayer)
    EVT_BUTTON(XRCID("HexLocation"), KeyMapDialog::onHexLocation)
@@ -1476,6 +1478,7 @@ void KeyMapDialog::onKeyDown(wxKeyEvent& event)
 			else
 				hexKeyDefB2_[hexKey_] = key;
 		hexKey_ = -1;
+        updateButtons();
 	}
 	if (inKey_ != -1)
 	{
@@ -1486,8 +1489,33 @@ void KeyMapDialog::onKeyDown(wxKeyEvent& event)
         else
             inButton2_ = key;
 		inKey_ = -1;
+        updateButtons();
 	}
-	updateButtons();
+    if (arcadeADirKey_ != -1)
+    {
+        int key = event.GetKeyCode();
+        keyDefGameHexA_[arcadeADirKey_] = key;
+        
+        setLabel("KeyTextA%01X", arcadeADirKey_, keyDefGameHexA_[arcadeADirKey_]);
+        arcadeADirKey_ = -1;
+        updateButtonsCoinArcade();
+    }
+    if (arcadeBDirKey_ != -1)
+    {
+        int key = event.GetKeyCode();
+        keyDefGameHexB_[arcadeBDirKey_] = key;
+        setLabel("KeyTextB%01X", arcadeBDirKey_, keyDefGameHexB_[arcadeBDirKey_]);
+        arcadeBDirKey_ = -1;
+        updateButtonsCoinArcade();
+    }
+    if (arcadeCoinKey_ != -1)
+    {
+        int key = event.GetKeyCode();
+        keyDefCoin_ = key;
+        setLabel("CoinButton", 20, keyDefCoin_);
+        arcadeCoinKey_ = -1;
+        updateButtonsCoinArcade();
+    }
 }
 
 void KeyMapDialog::connectKeyDownEvent(wxWindow* pclComponent) 
@@ -2140,5 +2168,29 @@ void KeyMapDialog::onArcadeCoinKey(wxCommandEvent &event)
     }
 }
 
+void KeyMapDialog::onSaveArcadeCoin( wxCommandEvent& WXUNUSED(event) )
+{
+    p_Main->storeDefaultCoinArcadeKeys(keyDefGameHexA_, keyDefGameHexB_, keyDefCoin_);
+    if (p_Computer != NULL)
+        p_Computer->reDefineKeys(keyDefGameHexA_, keyDefGameHexB_, keyDefCoin_);
+    
+    EndModal( wxID_OK );
+}
 
-
+void KeyMapDialog::onDefaultArcadeCoin(wxCommandEvent& WXUNUSED(event))
+{
+    keyDefGameHexA_[0] = 315;
+    keyDefGameHexA_[1] = 314;
+    keyDefGameHexA_[2] = 316;
+    keyDefGameHexA_[3] = 317;
+    keyDefGameHexA_[4] = 32;
+    
+    keyDefGameHexB_[0] = 87;
+    keyDefGameHexB_[1] = 65;
+    keyDefGameHexB_[2] = 83;
+    keyDefGameHexB_[3] = 90;
+    keyDefGameHexB_[4] = 9;
+    
+    keyDefCoin_ = 67;
+    updateButtonsCoinArcade();
+}
