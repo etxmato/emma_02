@@ -34,7 +34,7 @@
 </TR>
 <TR>
 <TD WIDTH="70">[Vy]</TD>
-<TD WIDTH="400">Memory value of address in register Vy (in page 8)</TD>
+<TD WIDTH="400">Memory value of address in register Vy within in page 8 (RAM)</TD>
 </TR>
 <TR>
 <TD WIDTH="70">1..9, A..F</TD>
@@ -71,7 +71,7 @@
 <TD WIDTH="55">2aaa</TD>
 <TD WIDTH="40">CALL</TD>
 <TD WIDTH="100">aaa</TD>
-<TD WIDTH="250">Call subroutine at aaa (The maximum depth of subroutine call is defined by the 1802 Stack, which grows down into user memory from $880 onwards)</TD>
+<TD WIDTH="250">Call subroutine at aaa (The maximum depth of subroutine call is defined by the 1802 Stack, which grows down into user memory from $880)</TD>
 </TR>
 <TR>
 <TD WIDTH="55">70kk</TD>
@@ -160,7 +160,7 @@
 <TR>
 <TD WIDTH="55">02F2</TD>
 <TD WIDTH="40">LD</TD>
-<TD WIDTH="100">[->I], 0<BR>[I], 0</TD>
+<TD WIDTH="100">[>I], 0<BR>[I], 0</TD>
 <TD WIDTH="250">If I contains $Axx fills memory locations $A00 to $Axx (inclusive) with zero.</TD>
 </TR>
 <TR>

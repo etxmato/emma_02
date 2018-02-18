@@ -78,10 +78,12 @@ enum
 {
 	CHIP8_VX,
 	CHIP8_VX_MEM,
-	ASS_HEX_VALUE,
+    ASS_HEX_VALUE,
+    ASS_HEX_VALUE_MEM,
 	ASS_STRING,
 	ASS_REG,
 	ASS_SLOT,
+    FEL_C,
 	ERROR_START,
 	ERROR_4BIT,
 	ERROR_8BIT,
@@ -144,6 +146,8 @@ enum
 	ERROR_COPIED_JUMPS,
     ERROR_CPU_1801,
     ERROR_STUDIO_CHIP_ADDRESS,
+    ERROR_FEL2_CHIP_ADDRESS,
+    ERROR_RAM_CHIP_ADDRESS,
     ERROR_STUDIO_CHIP_ADDRESS_I,
     ERROR_COMX_NOT_RUNNING,
     WARNING_MISSING_SLOT_ADDRESS,
@@ -212,6 +216,8 @@ wxString DirAssErrorCodes[] =
 	"Copied, long branches corrected",
     "Not supported on CDP1801",
     "Specify address > 2FC and < FFF",
+    "Specify address > 1FF and < FFF",
+    "Specify address >= 800 and <= 8FF",
     "Specify address > 100 and < FFF",
     "COMX-35 not running",
     "Warning: no slot specified",
@@ -1160,6 +1166,7 @@ void DebugWindow::updateAssTabCheck(Word address)
 		p_Main->updateAssTab();
 }
 
+
 void DebugWindow::cycleChip8Debug()
 {
 	if (p_Computer->getChip8Type() == CHIP_NONE)
@@ -1218,6 +1225,76 @@ void DebugWindow::cycleChip8Debug()
 			}
 		}
 	}
+}
+
+void DebugWindow::cycleFredDebug()
+{
+    if (p_Computer->getChip8Type() == CHIP_NONE)
+        return;
+    
+    Byte programCounter = p_Computer->getProgramCounter();
+    Word programCounterAddress = p_Computer->getScratchpadRegister(programCounter);
+    
+    if (selectedComputer_ == DEBUGGER && debuggerChoice_ == CHIP8TAB)
+    {
+        if (programCounterAddress == p_Computer->getChip8MainLoop())
+            updateChip8Window();
+    }
+    
+    Word chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
+    
+    if (programCounterAddress == p_Computer->getChip8MainLoop())
+    {
+        p_Computer->writeMemDataType(chip8PC, MEM_TYPE_FEL2_1);
+        switch (p_Computer->readMem(chip8PC))
+        {
+            case 0xC0:
+            case 0xC4:
+            case 0xCC:
+            break;
+                
+            default:
+                p_Computer->writeMemDataType((chip8PC+1)&0xffff, MEM_TYPE_FEL2_2);
+            break;
+        }
+        p_Main->updateAssTabCheck(chip8PC);
+    }
+    
+    if (chip8DebugMode_)
+    {
+        if (chip8Steps_ >= 0)
+        {
+            if (programCounterAddress == p_Computer->getChip8MainLoop())
+            {
+                if (additionalChip8Details_)
+                    chip8DebugTrace(fel2Disassemble(chip8PC-2, true, false));
+                if (chip8Steps_ == 1)
+                {
+                    p_Computer->setSteps(0);
+                    chip8Steps_--;
+                    setChip8PauseState();
+                }
+                if (chip8Steps_ != 0)
+                {
+                    if (chip8BreakPointCheck())  return;
+                    if (chip8Trace_)
+                        fredTrace(chip8PC);
+                    chip8Steps_--;
+                }
+            }
+        }
+        else
+        {
+            if (programCounterAddress == p_Computer->getChip8MainLoop())
+            {
+                if (additionalChip8Details_)
+                    chip8DebugTrace(fel2Disassemble(chip8PC-2, true, false));
+                if (chip8BreakPointCheck())  return;
+                if (chip8Trace_)
+                    fredTrace(chip8PC);
+            }
+        }
+    }
 }
 
 void DebugWindow::cycleSt2Debug()
@@ -1552,7 +1629,7 @@ void DebugWindow::updateChip8Window()
 	if (scratchpadRegister != lastPC_)
 	{
 		buffer.Printf("%03X", scratchpadRegister&0xfff);
-		pcTextPointer->ChangeValue(buffer);
+//		pcTextPointer->ChangeValue(buffer);
 		lastPC_ = scratchpadRegister;
 	}
 	scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_I);
@@ -2761,7 +2838,7 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
 	buffer->Trim(true);
 
 	end = 0;
-	while (buffer->Mid(end, 1) != " " && buffer->Mid(end, 1) != "/" && buffer->Mid(end, 1) != "," && end != buffer->Len())
+	while (buffer->Mid(end, 1) != " " && buffer->Mid(end, 1) != "/" && buffer->Mid(end, 1) != "," && buffer->Mid(end, 1) != "+" && buffer->Mid(end, 1) != "-" && buffer->Mid(end, 1) != "=" && end != buffer->Len())
 		end++;
 
 	if (end == buffer->Len())
@@ -3256,10 +3333,6 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 			}
 		break;
 		case 0x7:
-            if (cpuType_ == CPU1801)
-                printBufferAssembler.Printf("Illegal code");
-            else
-            {
             switch(n)
 			{
 				case 0x0:
@@ -3271,75 +3344,133 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 					printBufferDetails.Printf("P=R%X, X=R%X", p_Computer->getProgramCounter(), p_Computer->getDataPointer());
 				break;
 				case 0x2:
-					printBufferAssembler.operator += ("LDXA");
-					printBufferDetails.Printf("D=M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1, accumulator);
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler.operator += ("LDXA");
+                        printBufferDetails.Printf("D=M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1, accumulator);
+                    }
 				break;
 				case 0x3:
-					printBufferAssembler.operator += ("STXD");
-					printBufferDetails.Printf("M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer())+1, accumulator);
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler.operator += ("STXD");
+                        printBufferDetails.Printf("M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer())+1, accumulator);
+                    }
 				break;
 				case 0x4:
-					printBufferAssembler.operator += ("ADC");
-					printBufferDetails.Printf("D=%02X", accumulator);
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler.operator += ("ADC");
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                    }
 				break;
 				case 0x5:
-					printBufferAssembler.operator += ("SDB");
-					printBufferDetails.Printf("D=%02X", accumulator);
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler.operator += ("SDB");
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                    }
 				break;
 				case 0x6:
-					if (p_Computer->readMemDataType(instructionAddress) == MEM_TYPE_OPCODE_RSHR)
-						printBufferAssembler.operator += ("RSHR");
-					else
-						printBufferAssembler.operator += ("SHRC");
-					printBufferDetails.Printf("D=%02X", accumulator);
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        if (p_Computer->readMemDataType(instructionAddress) == MEM_TYPE_OPCODE_RSHR)
+                            printBufferAssembler.operator += ("RSHR");
+                        else
+                            printBufferAssembler.operator += ("SHRC");
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                    }
 				break;
 				case 0x7:
-					printBufferAssembler.operator += ("SMB");
-					printBufferDetails.Printf("D=%02X", accumulator);
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler.operator += ("SMB");
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                    }
 				break;
 				case 0x8:
 					printBufferAssembler.operator += ("SAV");
 					printBufferDetails.Printf("M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer()), p_Computer->getRegisterT());
 				break;
 				case 0x9:
-					printBufferAssembler.operator += ("MARK");
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                        printBufferAssembler.operator += ("MARK");
 				break;
 				case 0xa:
-					printBufferAssembler.operator += ("REQ");
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                        printBufferAssembler.operator += ("REQ");
 				break;
 				case 0xb:
-					printBufferAssembler.operator += ("SEQ");
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                        printBufferAssembler.operator += ("SEQ");
 				break;
 				case 0xc:
-                    printBufferAssembler = "ADCI " + getHexByte(*address, textAssembler);
-					printBufferTemp.Printf("%02X ",p_Computer->readMem(*address));
-					printBufferOpcode.operator += (printBufferTemp);
-					printBufferDetails.Printf("D=%02X", accumulator);
-					*address = *address + 1;
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler = "ADCI " + getHexByte(*address, textAssembler);
+                        printBufferTemp.Printf("%02X ",p_Computer->readMem(*address));
+                        printBufferOpcode.operator += (printBufferTemp);
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                        *address = *address + 1;
+                    }
 				break;
 				case 0xd:
-                    printBufferAssembler = "SDBI " + getHexByte(*address, textAssembler);
-					printBufferTemp.Printf("%02X ",p_Computer->readMem(*address));
-					printBufferOpcode.operator += (printBufferTemp);
-					printBufferDetails.Printf("D=%02X", accumulator);
-					*address = *address + 1;
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler = "SDBI " + getHexByte(*address, textAssembler);
+                        printBufferTemp.Printf("%02X ",p_Computer->readMem(*address));
+                        printBufferOpcode.operator += (printBufferTemp);
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                        *address = *address + 1;
+                    }
 				break;
 				case 0xe:
-					if (p_Computer->readMemDataType(instructionAddress) == MEM_TYPE_OPCODE_RSHL)
-						printBufferAssembler.operator += ("RSHL");
-					else
-						printBufferAssembler.operator += ("SHLC");
-					printBufferDetails.Printf("D=%02X", accumulator);
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        if (p_Computer->readMemDataType(instructionAddress) == MEM_TYPE_OPCODE_RSHL)
+                            printBufferAssembler.operator += ("RSHL");
+                        else
+                            printBufferAssembler.operator += ("SHLC");
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                    }
 				break;
 				case 0xf:
-                    printBufferAssembler = "SMBI " + getHexByte(*address, textAssembler);
-					printBufferTemp.Printf("%02X ",p_Computer->readMem(*address));
-					printBufferOpcode.operator += (printBufferTemp);
-					printBufferDetails.Printf("D=%02X", accumulator);
-					*address = *address + 1;
+                    if (cpuType_ == CPU1801)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler = "SMBI " + getHexByte(*address, textAssembler);
+                        printBufferTemp.Printf("%02X ",p_Computer->readMem(*address));
+                        printBufferOpcode.operator += (printBufferTemp);
+                        printBufferDetails.Printf("D=%02X", accumulator);
+                        *address = *address + 1;
+                    }
 				break;
 			}
-            }
 		break;
 		case 0x8:
 			printBufferAssembler.Printf("GLO  R%X",n);
@@ -3863,44 +3994,6 @@ wxString DebugWindow::getHexByte(Word address, bool textAssembler)
     
     return branchAddressString;
 }
-/*
-void DebugWindow::disassembleChip8(Word start, Word end)
-{
-	wxString printBuffer;
-
-	while(start <= end)
-		disassemblerDisplay(disassembleChip8(&start));
-}*/
-/*
-wxString DebugWindow::disassembleChip8(Word* address)
-{
-	wxString printBuffer;
-
-	if (p_Computer->getChip8Type() == CHIPST2)
-	{
-		printBuffer = st2Disassemble(*address, false, true);
-		switch (p_Computer->readMem(*address))
-		{
-			case 0xC0:
-			case 0xE0:
-			case 0xE1:
-			case 0xE2:
-			case 0xE4:
-				*address = *address + 1;
-			break;
-
-			default:		
-				*address = *address + 2;
-			break;
-		}
-	}
-	else
-	{
-		printBuffer = chip8Disassemble(*address, false, true);
-		*address = *address + 2;
-	}
-	return printBuffer;
-}*/
 
 AssInput DebugWindow::getAssInput(wxString buffer)
 {
@@ -4148,18 +4241,18 @@ int DebugWindow::assembleSt2(wxString *buffer, Byte* b1, Byte* b2)
 			}
 		}
 		if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[I]" && assInput.numberOfParameters > 2)
-		{ // LD [I], kk, n or LD [I], kk, +n
+		{ // LD [I], kk, n
 			if (assInput.parameterType[1] != ASS_HEX_VALUE)
 				return ERROR_8BIT;
-			if (assInput.parameterType[2] != ASS_HEX_VALUE)
-				return ERROR_4BIT;
 			if (assInput.seperator[0] != "," || assInput.seperator[1] != "," )
 				return ERROR_COMMA;
-			if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-				return ERROR_PAR;
 
-			if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[1] == ASS_HEX_VALUE)
+			if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[2] == ASS_HEX_VALUE && assInput.numberOfParameters == 3)
 			{ 
+                if (assInput.parameterType[2] != ASS_HEX_VALUE)
+                    return ERROR_4BIT;
+                if (assInput.seperator[2] != " ")
+                    return ERROR_PAR;
 				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
 					return ERROR_8BIT;
 				if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xf)
@@ -4168,6 +4261,20 @@ int DebugWindow::assembleSt2(wxString *buffer, Byte* b1, Byte* b2)
 				*b2 = assInput.parameterValue[1];
 				return 2;
 			}
+            if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[3] == ASS_HEX_VALUE && assInput.numberOfParameters == 4 && assInput.seperator[2] == "+")
+            {//LD [I], kk, +n
+                if (assInput.parameterType[3] != ASS_HEX_VALUE)
+                    return ERROR_4BIT;
+                if (assInput.seperator[3] != " ")
+                    return ERROR_PAR;
+                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
+                    return ERROR_8BIT;
+                if (assInput.parameterValue[3] < 0 || assInput.parameterValue[3] > 0xf)
+                    return ERROR_4BIT;
+                *b1 = 0xb0 | assInput.parameterValue[3];
+                *b2 = assInput.parameterValue[1];
+                return 2;
+            }
 		}
 		if (assInput.parameterType[0] != CHIP8_VX && assInput.parameterType[0] != ASS_STRING && assInput.parameterType[0] != CHIP8_VX_MEM)
 			return ERROR_SYNTAX;
@@ -4216,8 +4323,8 @@ int DebugWindow::assembleSt2(wxString *buffer, Byte* b1, Byte* b2)
 			*b2 = (assInput.parameterValue[0] << 4) | 0x4;
 			return 2;
 		}
-		if (assInput.parameterType[0] == ASS_STRING && (assInput.parameterString[0] == "[->I]" || assInput.parameterString[0] == "[I]") && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{ // LD [->I], 0 or LD [I], 0
+		if (assInput.parameterType[0] == ASS_STRING && (assInput.parameterString[0] == "[>I]" || assInput.parameterString[0] == "[I]") && assInput.parameterType[1] == ASS_HEX_VALUE)
+		{ // LD [>I], 0 or LD [I], 0
 			if (assInput.parameterValue[1] != 0)
 				return ERROR_ONLY_VALUE_0;
 			*b1 = 0x02;
@@ -5115,7 +5222,7 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 		}
 		return ERROR_SYNTAX;
 	}
-	if (assInput.command == "CLR" || assInput.command == "CLR-L" || assInput.command == "CLR-H") 
+	if (assInput.command == "CLR" || assInput.command == "CLRL" || assInput.command == "CLRH")
 	{
 		if (p_Computer->getChip8Type() != CHIP8X)
 		{
@@ -5130,7 +5237,7 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 
 		if (assInput.numberOfParameters == 1)
 		{
-			if (assInput.command == "CLR-H" || assInput.command == "CLR-L")
+			if (assInput.command == "CLRH" || assInput.command == "CLRL")
 				return ERROR_CLR;
 			if (assInput.seperator[0] != " ")
 				return ERROR_PAR;
@@ -5155,8 +5262,8 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 			return ERROR_REG_EXP;
 		
 		if (assInput.numberOfParameters == 2)
-		{ // CLR Vx, Vy or CLR-L Vx, Vy
-			if (assInput.command == "CLR-H")
+		{ // CLR Vx, Vy or CLRH Vx, Vy
+			if (assInput.command == "CLRH")
 				return ERROR_CLR;
 			if (assInput.seperator[0] != ",")
 				return ERROR_COMMA;
@@ -5179,8 +5286,8 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 				return ERROR_PAR;
 			
 			if (assInput.seperator[0] == ",")
-			{ // CLR Vx, Vy, n or CLR-H Vx, Vy, n
-				if (assInput.command == "CLR-L")
+			{ // CLR Vx, Vy, n or CLRL Vx, Vy, n
+				if (assInput.command == "CLRL")
 					return ERROR_CLR;
 				if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_HEX_VALUE)
 				{
@@ -5196,8 +5303,8 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 			}
 
 			if (assInput.seperator[0] == "/")
-			{ // CLR Vx/V(x+1), Vy or CLR-L Vx/V(x+1), Vy
-				if (assInput.command == "CLR-H")
+			{ // CLR Vx/V(x+1), Vy or CLRH Vx/V(x+1), Vy
+				if (assInput.command == "CLRH")
 					return ERROR_CLR;
 				if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX)
 				{
@@ -5212,8 +5319,8 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 		}
 
 		if (assInput.numberOfParameters == 4)
-		{ // CLR Vx/V(x+1), Vy, n or CLR-H Vx/V(x+1), Vy, n 
-			if (assInput.command == "CLR-L")
+		{ // CLR Vx/V(x+1), Vy, n or CLRL Vx/V(x+1), Vy, n
+			if (assInput.command == "CLRL")
 				return ERROR_CLR;
 			if (assInput.seperator[0] != "/")
 				return ERROR_SLASH;
@@ -5236,8 +5343,8 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 		}
 		return ERROR_CLR;
 	}
-	if (assInput.command == "ADD-8") 
-	{ // ADD-8 Vx, Vy
+	if (assInput.command == "ADD8")
+	{ // ADD8 Vx, Vy
 		if (p_Computer->getChip8Type() != CHIP8X)
 		{
 			if (p_Computer->getChip8Type() == CHIPETI)
@@ -5305,8 +5412,8 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 		}
 		return ERROR_REG_EXP;
 	}
-	if (assInput.command == "OUT-3" || assInput.command == "OUT") 
-	{ // OUT-3 Vx or OUT Vx
+	if (assInput.command == "OUT3" || assInput.command == "OUT")
+	{ // OUT3 Vx or OUT Vx
 		if (p_Computer->getChip8Type() != CHIP8X)
 		{
 			if (p_Computer->getChip8Type() == CHIPETI)
@@ -5326,8 +5433,8 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 		}
 		return ERROR_REG_EXP;
 	}
-	if (assInput.command == "INP-1" || assInput.command == "INP") 
-	{ // INP-1 Vx or INP Vx
+	if (assInput.command == "INP1" || assInput.command == "INP")
+	{ // INP1 Vx or INP Vx
 		if (p_Computer->getChip8Type() != CHIP8X)
 		{
 			if (p_Computer->getChip8Type() == CHIPETI)
@@ -5348,6 +5455,403 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 		return ERROR_REG_EXP;
 	}
 	return ERROR_CHIP;
+}
+
+int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
+{
+    AssInput assInput = getAssInput(*buffer);
+    if (assInput.errorCode != 0)  return assInput.errorCode;
+    if (assInput.commandSeperator != " ") return ERROR_COMMAND_SEP;
+    
+    if (assInput.command == "ADD")
+    {
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
+        { // ADD Vx, Vy
+            if (assInput.seperator[1] != " ")
+                return ERROR_PAR;
+            *b1 = 0x60 | assInput.parameterValue[0];
+            *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[0];
+            return 2;
+        }
+        if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "+")
+        { // ADD Vz, Vx+Vy
+            if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
+                return ERROR_PAR;
+            *b1 = 0x60 | assInput.parameterValue[1];
+            *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
+            return 2;
+        }
+        return ERROR_SYNTAX;
+    }
+    if (assInput.command == "CALL")
+    { // CALL aaa
+        if (assInput.numberOfParameters > 1)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == ASS_HEX_VALUE)
+        {
+            if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
+                return ERROR_12BIT;
+            if (assInput.parameterValue[0] < 0x1ff)
+                return ERROR_FEL2_CHIP_ADDRESS;
+            *b1 = (assInput.parameterValue[0] >> 8) | 0x10;
+            *b2 = assInput.parameterValue[0] & 0xff;
+            return 2;
+        }
+        return ERROR_12BIT;
+    }
+    if (assInput.command == "DRW")
+    { // DRW Vx, Vy, n
+        if (assInput.parameterType[0] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.parameterType[1] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.parameterType[2] != ASS_HEX_VALUE)
+            return ERROR_4BIT;
+        if (assInput.seperator[0] != "," || assInput.seperator[1] != ",")
+            return ERROR_COMMA;
+        if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_HEX_VALUE)
+        {
+            if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xf)
+                return ERROR_4BIT;
+            *b1 = 0xA0 | assInput.parameterValue[0];
+            *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
+            return 2;
+        }
+        return ERROR_SYNTAX;
+    }
+    if (assInput.command == "JP")
+    {
+        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.numberOfParameters == 1 && assInput.seperator[0] == " ")
+        { // JP aaa
+            if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
+                return ERROR_12BIT;
+            if (assInput.parameterValue[0] < 0x1ff)
+                return ERROR_FEL2_CHIP_ADDRESS;
+            *b1 = 0xF0 | (assInput.parameterValue[0] >> 8);
+            *b2 = assInput.parameterValue[0] & 0xff;
+            return 2;
+        }
+        return ERROR_12BIT;
+    }
+    if (assInput.command == "LD")
+    {
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        if (assInput.numberOfParameters > 3)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == ASS_HEX_VALUE)
+        {
+            if (assInput.parameterValue[0] == 0xb)
+            { // LD B, Vy, Vx
+                if (assInput.seperator[2] != " ")
+                    return ERROR_PAR;
+                if (assInput.parameterType[1] != CHIP8_VX)
+                    return ERROR_REG_EXP;
+                if (assInput.parameterType[2] != CHIP8_VX)
+                    return ERROR_REG_EXP;
+                *b1 = 0x50 | assInput.parameterValue[2];
+                *b2 = ((assInput.parameterValue[1]<<4)&0xf0);
+                return 2;
+            }
+        }
+        if (assInput.parameterType[0] == CHIP8_VX)
+        {
+            if (assInput.parameterType[1] == ASS_HEX_VALUE)
+            { // LD Vx, kk
+                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                    return ERROR_PAR;
+                if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
+                    return ERROR_8BIT;
+                *b1 = 0x40 | assInput.parameterValue[0];
+                *b2 = assInput.parameterValue[1];
+                return 2;
+            }
+            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "+")
+            { // LD Vz, Vx+Vy
+                if (assInput.seperator[2] != " ")
+                    return ERROR_PAR;
+                *b1 = 0x60 | assInput.parameterValue[1];
+                *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
+                return 2;
+            }
+            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "-")
+            { // LD Vz, Vx-Vy
+                if (assInput.seperator[2] != " ")
+                    return ERROR_PAR;
+                *b1 = 0x70 | assInput.parameterValue[1];
+                *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
+                return 2;
+            }
+            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "PAR")
+            { // LD Vx, PAR
+                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                    return ERROR_PAR;
+                *b1 = 0xC8;
+                *b2 = (assInput.parameterValue[0] << 4) &0xf0;
+                return 2;
+            }
+            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "COIN")
+            { // LD Vx, COIN
+                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                    return ERROR_PAR;
+                *b1 = 0xe0 | assInput.parameterValue[0];
+                *b2 = 0;
+                return 2;
+            }
+            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "FIREA")
+            { // LD Vx, COIN
+                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                    return ERROR_PAR;
+                *b1 = 0xe0 | assInput.parameterValue[0];
+                *b2 = 0x1;
+                return 2;
+            }
+            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "FIREB")
+            { // LD Vx, COIN
+                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                    return ERROR_PAR;
+                *b1 = 0xe0 | assInput.parameterValue[0];
+                *b2 = 0x2;
+                return 2;
+            }
+            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "JOYA")
+            { // LD Vx, COIN
+                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                    return ERROR_PAR;
+                *b1 = 0xe0 | assInput.parameterValue[0];
+                *b2 = 0x4;
+                return 2;
+            }
+            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "JOYB")
+            { // LD Vx, COIN
+                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                    return ERROR_PAR;
+                *b1 = 0xe0 | assInput.parameterValue[0];
+                *b2 = 0x8;
+                return 2;
+            }
+        }
+        if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM && assInput.parameterType[1] == CHIP8_VX)
+        { // LD [8aa], Vx
+            if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0x800 || assInput.parameterValue[0] > 0x8ff)
+                return ERROR_RAM_CHIP_ADDRESS;
+            *b1 = 0xD0 | assInput.parameterValue[1];
+            *b2 = assInput.parameterValue[0] & 0xff;
+            return 2;
+        }
+        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterType[1] == CHIP8_VX)
+        { // LD [8aa], Vx
+            if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0x800 || assInput.parameterValue[0] > 0x8ff)
+                return ERROR_RAM_CHIP_ADDRESS;
+            *b1 = 0xD0 | assInput.parameterValue[1];
+            *b2 = assInput.parameterValue[0] & 0xff;
+            return 2;
+        }
+        return ERROR_LD;
+    }
+    if (assInput.command == "RET")
+    { // RET
+        if (assInput.numberOfParameters > 0)
+            return ERROR_PAR;
+        
+        *b1 = 0xc0;
+        return 1;
+    }
+    if (assInput.command == "RND")
+    { // RND Vx, kk
+        if (assInput.parameterType[0] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.parameterType[1] != ASS_HEX_VALUE)
+            return ERROR_8BIT;
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
+        {
+            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
+                return ERROR_8BIT;
+            
+            *b1 = 0x80 | assInput.parameterValue[0];
+            *b2 = assInput.parameterValue[1];
+            return 2;
+        }
+        return ERROR_8REG;
+    }
+    if (assInput.command == "SNE")
+    {
+        if (assInput.parameterType[0] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.parameterType[1] != ASS_HEX_VALUE_MEM && assInput.parameterType[1] != ASS_HEX_VALUE)
+            return ERROR_8REG;
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
+        { // SNE Vx, kk
+            if (assInput.parameterValue[1] > 0 && assInput.parameterValue[1] <= 0xff)
+            {
+                *b1 = 0x20 | assInput.parameterValue[0];
+                *b2 = assInput.parameterValue[1];
+            }
+            else
+            {
+                if (assInput.parameterValue[1] < 0x800 || assInput.parameterValue[1] > 0x8ff)
+                    return ERROR_RAM_CHIP_ADDRESS;
+                *b1 = 0x30 | assInput.parameterValue[0];
+                *b2 = assInput.parameterValue[1] & 0xf0;
+            }
+            return 2;
+        }
+        return ERROR_SYNTAX;
+    }
+    if (assInput.command == "SUB")
+    { // SUB Vx, Vy
+        if (assInput.parameterType[0] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.parameterType[1] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
+        {
+            if (assInput.seperator[1] != " ")
+                return ERROR_PAR;
+            *b1 = 0x70 | assInput.parameterValue[0];
+            *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[0];
+            return 2;
+        }
+        if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "-")
+        { // SUB Vz, Vx-Vy
+            if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
+                return ERROR_PAR;
+            *b1 = 0x70 | assInput.parameterValue[1];
+            *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
+            return 2;
+        }
+        return ERROR_SYNTAX;
+    }
+    if (assInput.command == "SYS")
+    { // SYS aaa
+        if (assInput.numberOfParameters > 1)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == ASS_HEX_VALUE)
+        {
+            if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
+                return ERROR_12BIT;
+            *b1 = (assInput.parameterValue[0] >> 8) & 0xf;
+            *b2 = assInput.parameterValue[0] & 0xff;
+            return 2;
+        }
+        return ERROR_12BIT;
+    }
+    if (assInput.command == "ADD8")
+    { // ADD8 Vx, Vy, Vz
+        if (assInput.parameterType[0] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.parameterType[1] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX)
+        {
+            *b1 = 0xB0 | assInput.parameterValue[0];
+            *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
+            return 2;
+        }
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == FEL_C)
+        {
+            *b1 = 0xB0 | assInput.parameterValue[0];
+            *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
+            return 2;
+        }
+        return ERROR_REG_EXP;
+    }
+    if (assInput.command == "TONE")
+    {
+        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.numberOfParameters == 1)
+        { // TONE kk
+            if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
+                return ERROR_8BIT;
+            *b1 = 0xC1;
+            *b2 = assInput.parameterValue[0];
+            return 2;
+        }
+        if (assInput.parameterType[0] == ASS_STRING && assInput.numberOfParameters == 1 && assInput.parameterString[0] == "OFF")
+        { // TONE OFF
+            *b1 = 0xC2;
+            *b2 = 0;
+            return 2;
+        }
+        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+            return ERROR_PAR;
+        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0]== 0xf && assInput.parameterType[1] == ASS_HEX_VALUE)
+        { // TONE F=kk
+            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
+                return ERROR_8BIT;
+            *b1 = 0xC1;
+            *b2 = assInput.parameterValue[1];
+            return 2;
+        }
+        return ERROR_SYNTAX;
+    }
+    if (assInput.command == "BEEP")
+    {
+        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
+        { // BEEP kk, d
+            if (assInput.seperator[1] != " ")
+                return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
+                return ERROR_8BIT;
+            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
+                return ERROR_4BIT;
+            *b1 = 0x90 | assInput.parameterValue[1];
+            *b2 = assInput.parameterValue[0];
+            return 2;
+        }
+        if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
+            return ERROR_PAR;
+        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0]== 0xf && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[2] == ASS_HEX_VALUE)
+        { // BEEP F=kk, d
+            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
+                return ERROR_8BIT;
+            if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xf)
+                return ERROR_4BIT;
+            *b1 = 0x90 | assInput.parameterValue[2];
+            *b2 = assInput.parameterValue[1];
+            return 2;
+        }
+        return ERROR_SYNTAX;
+   }
+    if (assInput.command == "NOP")
+    { // NOP
+        if (assInput.numberOfParameters > 0)
+            return ERROR_PAR;
+        
+        *b1 = 0xc4;
+        return 1;
+    }
+    return ERROR_CHIP;
 }
 
 int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX)
@@ -6716,15 +7220,14 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
 		*type = CHIP8_VX_MEM;
 		return 0;
 	}
-	if (buffer.Left(1) == "+")
-	{
-		buffer = buffer.Right(buffer.Len()-1);
-		if (buffer.ToLong(value, 10))
-		{
-			*type = ASS_HEX_VALUE;
-			return 0;
-		}
-	}
+    if (buffer.Left(1) == "[" && buffer.Right(1)== "]")
+    {
+        buffer = buffer.Right(buffer.Len()-1);
+        buffer = buffer.Left(buffer.Len()-1);
+        if (buffer.ToLong(value, 16))
+            *type = ASS_HEX_VALUE_MEM;
+    }
+        
 	if (!buffer.ToLong(value, 16))
 		*type = ASS_STRING;
 	else
@@ -8308,7 +8811,27 @@ void DebugWindow::directAss()
 				address&=0xffff;
 			break;
 
-			case MEM_TYPE_CHIP_8_1:
+            case MEM_TYPE_FEL2_1:
+                code = fel2Disassemble(address, false, true);
+                dcAss.DrawText(code.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+                dcAss.SetTextForeground(colour.Find("STEEL BLUE"));
+                dcAss.DrawText(code.Right(code.Len()-6), 57, 1+line*LINE_SPACE);
+                switch (p_Computer->readMem(address))
+                {
+                    case 0xC0:
+                    case 0xC4:
+                    case 0xCC:
+                        address+=1;
+                    break;
+                    
+                    default:
+                        address+=2;
+                    break;
+                }
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_CHIP_8_1:
 				code = chip8Disassemble(address, false, true);
 				dcAss.DrawText(code.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
 				dcAss.SetTextForeground(colour.Find("STEEL BLUE"));
@@ -8406,7 +8929,7 @@ void DebugWindow::directAss()
 					dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
 					count = 0;
 					memType = p_Computer->readMemDataType(address);
-					while (count < 4 && (memType == MEM_TYPE_UNDEFINED || memType == MEM_TYPE_DATA || memType == MEM_TYPE_TEXT || memType == MEM_TYPE_ST2_2 || memType == MEM_TYPE_CHIP_8_2 || memType == MEM_TYPE_OPERAND))
+					while (count < 4 && (memType == MEM_TYPE_UNDEFINED || memType == MEM_TYPE_DATA || memType == MEM_TYPE_TEXT || memType == MEM_TYPE_ST2_2 || memType == MEM_TYPE_FEL2_2 ||memType == MEM_TYPE_CHIP_8_2 || memType == MEM_TYPE_OPERAND))
 					{
 						printBufferOpcode.Printf("%02X", p_Computer->readMem(address));
 						if (memType == MEM_TYPE_UNDEFINED)
@@ -8537,18 +9060,26 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 
 	if (XRCCTRL(*this,"AssDebugDisChip8", wxToggleButton)->GetValue())
 	{
-		if (p_Computer->getChip8Type() == CHIPST2)
-		{
-			typeOpcode = MEM_TYPE_ST2_1;
-			typeOperand1 = MEM_TYPE_ST2_2;
-			count = assembleSt2(&debugIn, &b1, &b2);
-		}
-		else
-		{
-			typeOpcode = MEM_TYPE_CHIP_8_1;
-			typeOperand1 = MEM_TYPE_CHIP_8_2;
-			count = assembleChip(&debugIn, &b1, &b2);
-		}
+        switch (p_Computer->getChip8Type())
+        {
+            case CHIPST2:
+                typeOpcode = MEM_TYPE_ST2_1;
+                typeOperand1 = MEM_TYPE_ST2_2;
+                count = assembleSt2(&debugIn, &b1, &b2);
+            break;
+                
+            case CHIPFEL2:
+                typeOpcode = MEM_TYPE_FEL2_1;
+                typeOperand1 = MEM_TYPE_FEL2_2;
+                count = assembleFel2(&debugIn, &b1, &b2);
+            break;
+                
+            default:
+                typeOpcode = MEM_TYPE_CHIP_8_1;
+                typeOperand1 = MEM_TYPE_CHIP_8_2;
+                count = assembleChip(&debugIn, &b1, &b2);
+            break;
+        }
 	}
 	else
 	{
@@ -8724,7 +9255,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 //			p_Computer->writeMemDataType(addressValue++, MEM_TYPE_OPCODE);
 //		}
 
-		while (p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND_LD_2  || p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND_LD_3  || p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND_LD_5 || p_Computer->readMemDataType(addressValue) == MEM_TYPE_ST2_2 || p_Computer->readMemDataType(addressValue) == MEM_TYPE_CHIP_8_2)
+		while (p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND_LD_2  || p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND_LD_3  || p_Computer->readMemDataType(addressValue) == MEM_TYPE_OPERAND_LD_5 || p_Computer->readMemDataType(addressValue) == MEM_TYPE_ST2_2 || p_Computer->readMemDataType(addressValue) == MEM_TYPE_FEL2_2 || p_Computer->readMemDataType(addressValue) == MEM_TYPE_CHIP_8_2)
 		{
 			if (XRCCTRL(*this,"AssDebugDisChip8", wxToggleButton)->GetValue())
 			{
@@ -8971,12 +9502,22 @@ void DebugWindow::assSpinDown()
 		case MEM_TYPE_JUMP:
 		case MEM_TYPE_JUMP_REV:
 		case MEM_TYPE_OPCODE_JUMP_SLOT:
-		case MEM_TYPE_CHIP_8_1:
+        case MEM_TYPE_CHIP_8_1:
 			dirAssStart_+=2;
 			dirAssStart_&=0xffff;
 		break;
 
-		case MEM_TYPE_ST2_1:
+        case MEM_TYPE_FEL2_1:
+            dirAssStart_++;
+            dirAssStart_&=0xffff;
+            if (p_Computer->readMemDataType(dirAssStart_) == MEM_TYPE_FEL2_2)
+            {
+                dirAssStart_++;
+                dirAssStart_&=0xffff;
+            }
+        break;
+
+        case MEM_TYPE_ST2_1:
 			dirAssStart_++;
 			dirAssStart_&=0xffff;
 			if (p_Computer->readMemDataType(dirAssStart_) == MEM_TYPE_ST2_2)
@@ -9056,13 +9597,9 @@ void DebugWindow::assSpinUp()
 			dirAssStart_&=0xffff;
 		break;
 
-//		case MEM_TYPE_JUMP:
 		case MEM_TYPE_CHIP_8_2:
-			dirAssStart_--;
-			dirAssStart_&=0xffff;
-		break;
-
-		case MEM_TYPE_ST2_2:
+        case MEM_TYPE_ST2_2:
+        case MEM_TYPE_FEL2_2:
 			dirAssStart_--;
 			dirAssStart_&=0xffff;
 		break;
@@ -9423,9 +9960,25 @@ int DebugWindow::markType(long *addrLong, int type)
 				break;
 			}
 		break;
+        case 10:
+            p_Computer->writeMemDataType(address, MEM_TYPE_FEL2_1);
+            switch (p_Computer->readMem(address))
+            {
+                case 0xC0:
+                case 0xC4:
+                case 0xCC:
+                    address++;
+                break;
+                
+                default:
+                    address++;
+                    p_Computer->writeMemDataType(address++, MEM_TYPE_FEL2_2);
+                break;
+            }
+        break;
 	}
 	Word clearAddress = address;
-	while (p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_ST2_2 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_CHIP_8_2 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND_LD_2 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND_LD_5)
+	while (p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_ST2_2 ||  p_Computer->readMemDataType(clearAddress) == MEM_TYPE_FEL2_2 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_CHIP_8_2 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND_LD_2 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(clearAddress) == MEM_TYPE_OPERAND_LD_5)
 		p_Computer->writeMemDataType(clearAddress++, MEM_TYPE_DATA);
     setMemLabel((Word)*addrLong, false);
     return 0;
@@ -10106,7 +10659,7 @@ void DebugWindow::onInsert(wxCommandEvent&WXUNUSED(event))
 		branchAddressTableCorrection[i] = false;
 	}
 
-	if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_DATA || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_TEXT || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_ST2_1 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_CHIP_8_1)
+	if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_DATA || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_TEXT || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_ST2_1 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_CHIP_8_1 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_FEL2_1)
 		insertByte(dirAssAddress_, 0, -1);
 	else
 		insertByte(dirAssAddress_, 0xc4, -1);
@@ -10339,7 +10892,26 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 				addr+=3;
 			break;
 
-			case MEM_TYPE_CHIP_8_1:
+            case MEM_TYPE_FEL2_1:
+                chip8_instruction = p_Computer->readMem(addr)&0xf0;
+                switch (chip8_instruction)
+                {
+                    case 0:
+                    case 0x10:
+                    case 0xF0:
+                        branchAddr = ((p_Computer->readMem(addr)&0xf) << 8) +  p_Computer->readMem(addr+1);
+                        if (branchAddr>insertAddress && branchAddr < endAddr)
+                        {
+                            branchAddr++;
+                            p_Computer->writeMem(addr, chip8_instruction | ((branchAddr&0xf00)>>8), true);
+                            p_Computer->writeMem(addr+1, branchAddr&0xff, true);
+                        }
+                        addr++;
+                    break;
+                }
+            break;
+                
+            case MEM_TYPE_CHIP_8_1:
 				chip8_instruction = p_Computer->readMem(addr)&0xf0;
 				switch (chip8_instruction)
 				{
@@ -10544,7 +11116,26 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 					addr+=3;
 				break;
 
-				case MEM_TYPE_CHIP_8_1:
+                case MEM_TYPE_FEL2_1:
+                    chip8_instruction = p_Computer->readMem(addr)&0xf0;
+                    switch (chip8_instruction)
+                    {
+                        case 0:
+                        case 0x10:
+                        case 0xF0:
+                            branchAddr = ((p_Computer->readMem(addr)&0xf) << 8) +  p_Computer->readMem(addr+1);
+                            if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(i, addr, branchAddr))
+                            {
+                                branchAddr++;
+                                p_Computer->writeMem(addr, chip8_instruction | ((branchAddr&0xf00)>>8), true);
+                                p_Computer->writeMem(addr+1, branchAddr&0xff, true);
+                            }
+                            addr++;
+                        break;
+                    }
+                break;
+
+                case MEM_TYPE_CHIP_8_1:
 					chip8_instruction = p_Computer->readMem(addr)&0xf0;
 					switch (chip8_instruction)
 					{
@@ -10712,10 +11303,10 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
 		}
 		else
 		{
-			if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_ST2_1 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_CHIP_8_1)
+			if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_ST2_1 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_CHIP_8_1 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_FEL2_1)
 			{
 				deleteByte(dirAssAddress_);
-				if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_ST2_2 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_CHIP_8_2)
+				if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_ST2_2 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_FEL2_2 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_CHIP_8_2 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_FEL2_2)
                 {
 					deleteByte(dirAssAddress_);
                     if (checkAddres != -1)
@@ -10939,7 +11530,26 @@ void DebugWindow::deleteByte(Word insertAddress)
 				addr+=3;
 			break;
 
-			case MEM_TYPE_CHIP_8_1:
+            case MEM_TYPE_FEL2_1:
+                chip8_instruction = p_Computer->readMem(addr)&0xf0;
+                switch (chip8_instruction)
+                {
+                    case 0:
+                    case 0x10:
+                    case 0xF0:
+                        branchAddr = ((p_Computer->readMem(addr)&0xf) << 8) +  p_Computer->readMem(addr+1);
+                        if (branchAddr>insertAddress && branchAddr < endAddr)
+                        {
+                            branchAddr--;
+                            p_Computer->writeMem(addr, chip8_instruction | ((branchAddr&0xf00)>>8), true);
+                            p_Computer->writeMem(addr+1, branchAddr&0xff, true);
+                        }
+                        addr++;
+                    break;
+                }
+            break;
+                
+            case MEM_TYPE_CHIP_8_1:
 				chip8_instruction = p_Computer->readMem(addr)&0xf0;
 				switch (chip8_instruction)
 				{
@@ -11130,7 +11740,26 @@ void DebugWindow::deleteByte(Word insertAddress)
 					addr+=3;
 				break;
 
-				case MEM_TYPE_CHIP_8_1:
+                case MEM_TYPE_FEL2_1:
+                    chip8_instruction = p_Computer->readMem(addr)&0xf0;
+                    switch (chip8_instruction)
+                    {
+                        case 0:
+                        case 0x10:
+                        case 0xF0:
+                            branchAddr = ((p_Computer->readMem(addr)&0xf) << 8) +  p_Computer->readMem(addr+1);
+                            if (branchAddr>insertAddress && branchAddr < endAddr && branchChangeNeeded(i, addr, branchAddr))
+                            {
+                                branchAddr--;
+                                p_Computer->writeMem(addr, chip8_instruction | ((branchAddr&0xf00)>>8), true);
+                                p_Computer->writeMem(addr+1, branchAddr&0xff, true);
+                            }
+                            addr++;
+                        break;
+                    }
+                break;
+                    
+               case MEM_TYPE_CHIP_8_1:
 					chip8_instruction = p_Computer->readMem(addr)&0xf0;
 					switch (chip8_instruction)
 					{
@@ -12156,6 +12785,24 @@ void DebugWindow::onAssCopy(wxCommandEvent&WXUNUSED(event))
 					break;
 				}
 			}
+            if (p_Computer->readMemDataType(correctAddress) == MEM_TYPE_FEL2_1)
+            {
+                chip8_instruction = p_Computer->readMem(correctAddress)&0xf0;
+                switch (chip8_instruction)
+                {
+                    case 0:
+                    case 0x10:
+                    case 0xF0:
+                        branchAddr = ((p_Computer->readMem(correctAddress)&0xf) << 8) +  p_Computer->readMem(correctAddress+1);
+                        if (branchAddr>start && branchAddr < end)
+                        {
+                            branchAddr += moveCorrection;
+                            p_Computer->writeMem(correctAddress, chip8_instruction | ((branchAddr&0xf00)>>8), true);
+                            p_Computer->writeMem(correctAddress+1, branchAddr&0xff, true);
+                        }
+                        break;
+                }
+            }
 			if (p_Computer->readMemDataType(correctAddress) == MEM_TYPE_ST2_1)
 			{
 				chip8_instruction = p_Computer->readMem(correctAddress)&0xf0;
@@ -12371,6 +13018,23 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                 case MEM_TYPE_CHIP_8_1:
                     line = chip8Disassemble(address, false, true);
                     address+=2;
+                    address&=0xffff;
+                break;
+                    
+                case MEM_TYPE_FEL2_1:
+                    line = fel2Disassemble(address, false, true);
+                    switch (p_Computer->readMem(address))
+                    {
+                        case 0xC0:
+                        case 0xC4:
+                        case 0xCC:
+                            address+=1;
+                        break;
+                        
+                        default:
+                            address+=2;
+                        break;
+                    }
                     address&=0xffff;
                 break;
                     
@@ -15443,6 +16107,11 @@ void DebugWindow::chip8Trace(Word address)
 	chip8DebugTrace(chip8Disassemble(address, true, false));
 }
 
+void DebugWindow::fredTrace(Word address)
+{
+    chip8DebugTrace(fel2Disassemble(address, true, false));
+}
+
 wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bool showOpcode)
 {
 	Byte chip8_opcode1 = p_Computer->readMem(dis_address);
@@ -15540,7 +16209,7 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 						tempStr1.ToLong(&tempLong2, 8); 
 						resultValue = resultValue + ((tempLong1 + tempLong2)&0x7);
 
-						buffer.Printf(" ADD-8 V%01X, V%01X", vX, vY);
+						buffer.Printf(" ADD8  V%01X, V%01X", vX, vY);
 						detailsBuffer.Printf("V%01X=%02X", vX, (resultValue)&0xff);
 					}
 					else
@@ -15638,9 +16307,9 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 			if (p_Computer->getChip8Type() == CHIP8X)
 			{
 				if ((chip8_opcode2 & 0xf) == 0)
-					buffer.Printf(" CLR-L V%01X/V%01X, V%01X", vX, (vX+1)&0xf, vY);
+					buffer.Printf(" CLRL  V%01X/V%01X, V%01X", vX, (vX+1)&0xf, vY);
 				else
-					buffer.Printf(" CLR-H V%01X/V%01X, V%01X, %01X", vX, (vX+1)&0xf, vY, nibble);
+					buffer.Printf(" CLRH  V%01X/V%01X, V%01X, %01X", vX, (vX+1)&0xf, vY, nibble);
 			}
 			else
 			{
@@ -15780,7 +16449,7 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 
 				case 0xF8:
 					if (p_Computer->getChip8Type() == CHIP8X)
-						buffer.Printf(" OUT-3 V%01X", vX);
+						buffer.Printf(" OUT3  V%01X", vX);
 					else
 						buffer.Printf(" Illegal instruction");
 				break;
@@ -15796,7 +16465,7 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 						}
 						else
 						{
-							buffer.Printf(" INP-1 V%01X", vX);
+							buffer.Printf(" INP1  V%01X", vX);
 							if (includeDetails)
 								additionalChip8Details_ = true;
 						}
@@ -15817,6 +16486,153 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 	if (includeDetails)
 		buffer = buffer + detailsBuffer;
 	return buffer;
+}
+
+wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)
+{
+    Byte chip8_opcode1 = p_Computer->readMem(dis_address);
+    Byte chip8_opcode2 = p_Computer->readMem(dis_address + 1);
+    wxString buffer, detailsBuffer, addressStr;
+    
+    buffer = "";
+    detailsBuffer = "";
+    
+    //Instruction value
+    int vX = chip8_opcode1&0xf;
+    int vY = (chip8_opcode2>>4)&0xf;
+    Word address = ((chip8_opcode1 & 0xf) << 8) + chip8_opcode2;
+    
+    Byte nibble = chip8_opcode2&0xf;
+    Byte value = chip8_opcode2;
+    
+    //Real time value
+    Word addressX = p_Computer->getChip8baseVar() + vX;
+    Word addressY = p_Computer->getChip8baseVar() + vY;
+    Byte valueX = p_Computer->readMem(addressX);
+    Byte valueY = p_Computer->readMem(addressY);
+    
+    //Calculation variables
+    wxString tempStr1;
+    
+    if (showOpcode)
+        addressStr.Printf("%04X: %02X%02X  ", dis_address, chip8_opcode1, chip8_opcode2);
+    else
+        addressStr.Printf("%03X", dis_address&0xfff);
+    
+    switch (chip8_opcode1 & 0xf0)
+    {
+        case 0:
+            buffer.Printf(" SYS   %03X", address);
+        break;
+            
+        case 0x10:
+            buffer.Printf(" CALL  %03X", address );
+        break;
+            
+        case 0x20:
+            buffer.Printf(" SNE   V%01X, %02X", vX, value);
+        break;
+            
+        case 0x30:
+            buffer.Printf(" SNE   V%01X, [8%02X]", vX, value);
+            detailsBuffer.Printf("[8%02X]=%02X", 0x800+value, valueX);
+        break;
+        
+        case 0x40:
+            buffer.Printf(" LD    V%01X, %02X", vX, value);
+        break;
+            
+        case 0x50:
+            buffer.Printf(" LD    B, V%01X, V%01X", vY, vX);
+            detailsBuffer.Printf("V%01X->V%01X='%03d'", vY, vY+2, valueX);
+        break;
+            
+        case 0x60:
+            if (nibble == vX)
+                buffer.Printf(" ADD   V%01X, V%01X", vX, vY);
+            else
+                buffer.Printf(" ADD   V%01X, V%01X+V%01X", nibble, vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", nibble, (valueX + valueY)&0xff);
+        break;
+            
+        case 0x70:
+            if (nibble == vX)
+                buffer.Printf(" SUB   V%01X, V%01X", vX, vY);
+            else
+                buffer.Printf(" SUB   V%01X, V%01X-V%01X", nibble, vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", nibble, (valueX - valueY)&0xff);
+        break;
+            
+        case 0x80:
+            buffer.Printf(" RND   V%01X, %02X", vX, value);
+        break;
+            
+        case 0x90:
+            buffer.Printf(" BEEP  F=%02X, %01X", value, vX);
+        break;
+            
+        case 0xA0:
+            buffer.Printf(" DRW   V%01X, V%01X, %01X", vX, vY, nibble);
+        break;
+        
+        case 0xB0:
+            buffer.Printf(" ADD8  V%01X, V%01X, V%01X", vX, vY, nibble);
+            if ((valueX + valueY) & 0x8)
+                detailsBuffer.Printf("V%01X=%02X", nibble, 0xFF);
+            else
+                detailsBuffer.Printf("V%01X=%02X", vX, valueX + valueY);
+        break;
+            
+        case 0xC0:
+            if (chip8_opcode1 == 0xc0)
+            {
+                if (showOpcode)
+                    addressStr.Printf("%04X: %02X    ", dis_address, chip8_opcode1);
+                buffer.Printf(" RET");
+            }
+            if (chip8_opcode1&0x1)
+                buffer.Printf(" TONE  F=%02X", value);
+            if (chip8_opcode1&0x2)
+                buffer.Printf(" TONE  OFF");
+            if (chip8_opcode1&0x4)
+            {
+                if (showOpcode)
+                    addressStr.Printf("%04X: %02X    ", dis_address, chip8_opcode1);
+                buffer.Printf(" NOP");
+            }
+            if (chip8_opcode1&0x8)
+                buffer.Printf(" LD    V%01X, PAR", vY);
+        break;
+            
+        case 0xD0:
+            buffer.Printf(" LD    [8%02X], V%01X", value, vX);
+            detailsBuffer.Printf("[8%02X]=%02X", 0x800+value, valueX);
+        break;
+            
+        case 0xE0:
+            if ((chip8_opcode2&0xf) == 0)
+                buffer.Printf(" LD    V%01X, COIN", vX);
+            if (chip8_opcode2&0x1)
+                buffer.Printf(" LD    V%01X, FIREA", vX);
+            if (chip8_opcode2&0x2)
+                buffer.Printf(" LD    V%01X, FIREB", vX);
+            if (chip8_opcode2&0x4)
+                buffer.Printf(" LD    V%01X, JOYA", vX);
+            if (chip8_opcode2&0x8)
+                buffer.Printf(" LD    V%01X, JOYB", vX);
+        break;
+            
+        case 0xF0:
+            address = address | ((address & 0x800) >> 1);
+            buffer.Printf(" JP    %03X", address );
+        break;
+    }	
+    while (buffer.Len() < 21 && addressStr != "")
+        buffer += " ";
+    buffer = addressStr + buffer;
+    if (includeDetails)
+        buffer = buffer + detailsBuffer;
+    return buffer;
 }
 
 void DebugWindow::st2Trace(Word address)
@@ -15869,7 +16685,7 @@ wxString DebugWindow::st2Disassemble(Word dis_address, bool includeDetails, bool
 				default:
 					if (chip8_opcode1 == 0x2 && chip8_opcode2 == 0xF2)
 					{
-						buffer.Printf(" LD    [->I], 0");
+						buffer.Printf(" LD    [>I], 0");
 						detailsBuffer.Printf("[%03X->%03X]=0", valueI&0xf00, valueI);
 					}
 					else

@@ -95,7 +95,8 @@ public:
 	void enableChip8DebugGui(bool status);
 	void enableDebugGui(bool status);
 	void updateAssTabCheck(Word address);
-	void cycleChip8Debug();
+    void cycleChip8Debug();
+    void cycleFredDebug();
 	bool chip8BreakPointCheck();
 	void cycleSt2Debug();
 	void showInstructionTrace();
@@ -334,8 +335,10 @@ public:
 	void onChip8PauseButton(wxCommandEvent&event);
 	void setChip8PauseState();
 	void onChip8StepButton(wxCommandEvent&event);
-	void chip8Trace(Word address);
+    void chip8Trace(Word address);
+    void fredTrace(Word address);
 	wxString chip8Disassemble(Word address, bool includeDetails, bool showOpcode);
+    wxString fel2Disassemble(Word address, bool includeDetails, bool showOpcode);
 	void st2Trace(Word address);
 	wxString st2Disassemble(Word address, bool includeDetails, bool showOpcode);
 	void onChip8Trace(wxCommandEvent&event);
@@ -409,7 +412,6 @@ private:
 	void addChip8BreakPoint(); 
 	void addTrap(); 
 	void addTreg(); 
-//	void disassemble(Word start, Word end);
 	wxString cdp1802disassemble(Word* address, bool includeDetails, bool showOpcode, bool textAssembler, Word start, Word end);
     wxString getShortAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getLongAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
@@ -418,9 +420,8 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-//    void disassembleChip8(Word start, Word end);
-//	wxString disassembleChip8(Word* address);
 	int assembleChip(wxString *buffer, Byte* b1, Byte* b2);
+    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2);
 	AssInput getAssInput(wxString buffer);
 	int assembleSt2(wxString *buffer, Byte* b1, Byte* b2);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);

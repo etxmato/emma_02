@@ -62,7 +62,7 @@ void CoinArcade::configureComputer()
     
 	p_Main->message("Configuring RCA Video Coin Arcade");
     p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
-    p_Main->message("	Input 5: parameter switch, input 6: direction keys");
+    p_Main->message("	Input 5: parameter switch, input 6: direction keys & coin reset");
     p_Main->message("	Output 5: tone latch, output 3 & 6: tone on/off");
 
     keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
@@ -111,12 +111,16 @@ void CoinArcade::keyDown(int keycode)
         directionKey_ |= 0x01;
     if (keycode == '2')
         directionKey_ |= 0x02;
+    if (keycode == '3')
+        directionKey_ |= 0x04;
+    if (keycode == '4')
+        directionKey_ |= 0x08;
 }
 
 void CoinArcade::keyUp(int keycode)
 {
-    if (keycode == keyDefCoin_)
-        coinKey_ = 1;
+//    if (keycode == keyDefCoin_)
+//        coinKey_ = 1;
     
     if (keycode == keyDefA_[KEY_UP])
         directionKey_ &= 0xFD;
@@ -144,6 +148,10 @@ void CoinArcade::keyUp(int keycode)
         directionKey_ &= 0xFE;
     if (keycode == '2')
         directionKey_ &= 0xFD;
+    if (keycode == '3')
+        directionKey_ &= 0xFB;
+    if (keycode == '4')
+        directionKey_ &= 0xF7;
 }
 
 Byte CoinArcade::ef(int flag)
@@ -196,15 +204,12 @@ Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
 			ret = 255;
 		break;
 
-        case PIXIEIN:
-            ret = inPixie();
-        break;
-            
         case COINARCADEINPPAR5:
             ret = 0;    // COIN_ARCADE_PARAMETER_SWITCH = 0; 8 is test mode?
         break;
             
         case COINARCADEINPKEY6:
+            coinKey_ = 1;
             ret = directionKey_;
         break;
             
@@ -277,10 +282,19 @@ void CoinArcade::startComputer()
 
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
     
-    chip8baseVar_ = 0x8c0;
-    chip8mainLoop_ = 0x6b;
-    chip8type_ = CHIPST2;
-    p_Main->assDefault("coinarcade", 00, 0x7FF);
+    if (readMem(0) == 0)
+    {
+        chip8baseVar_ = 0x880;
+        chip8mainLoop_ = 0x2a;
+        chip8type_ = CHIPFEL2;
+    }
+    else
+    {
+        chip8baseVar_ = 0x800;
+        chip8mainLoop_ = 0x87;
+        chip8type_ = CHIPST2;
+    }
+    p_Main->assDefault("coinarcade", 0, 0x7FF);
 
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
@@ -420,9 +434,18 @@ void CoinArcade::cpuInstruction()
 			resetCpu();
 			resetPressed_ = false;
 
-            chip8baseVar_ = 0x8c0;
-            chip8mainLoop_ = 0x6b;
-            chip8type_ = CHIPST2;
+            if (readMem(0) == 0)
+            {
+                chip8baseVar_ = 0x880;
+                chip8mainLoop_ = 0x2a;
+                chip8type_ = CHIPFEL2;
+            }
+            else
+            {
+                chip8baseVar_ = 0x8c0;
+                chip8mainLoop_ = 0x6b;
+                chip8type_ = CHIPST2;
+            }
 
             setWait(1);
 			setClear(0);
@@ -434,10 +457,10 @@ void CoinArcade::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-        if (mainMemory_[0] == 0x90)
-            p_Main->cycleSt2Debug();
+        if (mainMemory_[0] == 0)
+            p_Main->cycleFredDebug();
         else
-            p_Main->cycleChip8Debug();
+            p_Main->cycleSt2Debug();
 	}
 	else
 	{

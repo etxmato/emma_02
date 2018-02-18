@@ -785,6 +785,7 @@ public:
 #define CHIP8X 2
 #define CHIPETI 3
 #define CHIPST2 4
+#define CHIPFEL2 5
 
 #define CPU1801 1
 #define CPU1802 2
@@ -806,6 +807,8 @@ public:
 #define MEM_TYPE_UNDEFINED 8
 #define MEM_TYPE_JUMP_REV 9
 #define MEM_TYPE_TEXT 10
+#define MEM_TYPE_FEL2_1 11
+#define MEM_TYPE_FEL2_2 12
 #define MEM_TYPE_OPCODE_RSHR 70
 #define MEM_TYPE_OPCODE_RSHL 71
 #define MEM_TYPE_OPCODE_BPZ 72

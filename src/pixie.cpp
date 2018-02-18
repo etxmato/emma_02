@@ -173,13 +173,12 @@ void Pixie::configurePixieCoinArcade()
 {
     p_Computer->setOutType(2, PIXIEOUT);
     p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
-    p_Computer->setInType(1, PIXIEIN);
     p_Computer->setEfType(2, PIXIEEF);
   
     backGroundInit_ = 1;
     colourMask_ = 0;
     
-    p_Main->message("	Output 1: enable graphics, input 1: enable graphics\n");
+    p_Main->message("	Output 1: enable graphics\n");
 }
 
 void Pixie::configurePixieVisicom()
