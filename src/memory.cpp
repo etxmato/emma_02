@@ -59,6 +59,7 @@ Memory::Memory()
 	comxExpansionMemoryDefined_ = false;
     emsMemoryDefined_ = false;
     multiCartMemoryDefined_ = false;
+    testCartMemoryDefined_ = false;
     pagerDefined_ = false;
     romMapperDefined_ = false;
 }
