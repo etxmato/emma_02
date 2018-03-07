@@ -477,6 +477,9 @@ void Victory::startComputer()
 			readProgram(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM), ROM, 0x300, NONAME);
 	}
 
+//    if (testCartMemoryDefined_)
+ //       readProgram(p_Main->getRomDir(VICTORY, MAINROM1), p_Main->getRomFile(VICTORY, MAINROM1), ROM, 0x2000, NONAME);
+    
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
 	defineMemoryType(0xa00, 0);
@@ -540,14 +543,22 @@ void Victory::writeMemDataType(Word address, Byte type)
 		case RAM:
 		case ROM:
         case MAPPEDROM:
-		case CARTRIDGEROM:
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address] = type;
-			}
-		break;
-
+        case CARTRIDGEROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
+            break;
+            
+        case TESTCARTRIDGEROM:
+            if (testCartRomDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                testCartRomDataType_[address] = type;
+            }
+        break;
+            
 		case MULTICART:
 			if ((address < 0x400) && !disableSystemRom_)
 			{
@@ -605,10 +616,14 @@ Byte Victory::readMemDataType(Word address)
 		case RAM:
 		case ROM:
         case MAPPEDROM:
-		case CARTRIDGEROM:
-			return mainMemoryDataType_[address];
-		break;
-
+        case CARTRIDGEROM:
+            return mainMemoryDataType_[address];
+        break;
+            
+        case TESTCARTRIDGEROM:
+            return testCartRomDataType_[address];
+        break;
+            
 		case MULTICART:
 			if ((address < 0x400) && !disableSystemRom_)
 				return mainMemoryDataType_[address];
@@ -672,10 +687,14 @@ Byte Victory::readMem(Word addr)
             addr = (addr & 0x3ff) | 0x400;
         break;
             
+        case TESTCARTRIDGEROM:
+            return testCartRom_[addr];
+        break;
+            
         case MAPPEDROM:
             addr = (addr & 0x3ff);
         break;
-}
+    }
 
 	return mainMemory_[addr];
 }
@@ -739,6 +758,13 @@ void Victory::writeMem(Word addr, Byte value, bool writeRom)
 			p_Main->updateAssTabCheck(addr);
 		break;
 
+        case TESTCARTRIDGEROM:
+            if (writeRom)
+            {
+                testCartRom_[addr] = value;
+            }
+        break;
+            
 		default:
 			if (writeRom)
 				mainMemory_[addr]=value;

@@ -282,7 +282,7 @@ void CoinArcade::startComputer()
 
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
     
-    if (readMem(0) == 0)
+    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
     {
         chip8baseVar_ = 0x880;
         chip8mainLoop_ = 0x2a;
@@ -291,9 +291,11 @@ void CoinArcade::startComputer()
     else
     {
         chip8baseVar_ = 0x800;
-        chip8mainLoop_ = 0x87;
-        chip8type_ = CHIPST2;
+        chip8mainLoop_ = 0x45;
+        chip8type_ = CHIPFEL3;
     }
+    p_Main->defineFelCommands_(chip8type_);
+
     p_Main->assDefault("coinarcade", 0, 0x7FF);
 
     defineMemoryType(0x800, 0x9ff, RAM);
@@ -434,17 +436,11 @@ void CoinArcade::cpuInstruction()
 			resetCpu();
 			resetPressed_ = false;
 
-            if (readMem(0) == 0)
+            if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
             {
                 chip8baseVar_ = 0x880;
                 chip8mainLoop_ = 0x2a;
                 chip8type_ = CHIPFEL2;
-            }
-            else
-            {
-                chip8baseVar_ = 0x8c0;
-                chip8mainLoop_ = 0x6b;
-                chip8type_ = CHIPST2;
             }
 
             setWait(1);

@@ -60,6 +60,30 @@ public:
 #define MEM_LABEL_TYPE true
 #define FIND_BRANCH false
 
+enum
+{
+    ADD_VX_VY_VZ,
+    ADD8_VX_VY_N,
+    BEEP_F_KK_N,
+    CALL_MMM,
+    DRW_VX_VY_N,
+    DRW_VX_L_N,
+    JP_MMM,
+    LD_B_VX_VY,
+    LD_M8AA_VX,
+    LD_RA_MMM,
+    LD_RB_MMM,
+    LD_VX_KK,
+    RND_VX_KK,
+    SNE_VX_KK,
+    SNE_VX_M8AA,
+    SUB_VX_VY_VZ,
+    SYS_MMM,
+    FEL2_COMMAND_C,
+    FEL2_COMMAND_E,
+    LAST_COMMAND
+};
+
 class AssInput
 {
 public:
@@ -338,6 +362,8 @@ public:
     void chip8Trace(Word address);
     void fredTrace(Word address);
 	wxString chip8Disassemble(Word address, bool includeDetails, bool showOpcode);
+    void defineFelCommands_(int chip8Type);
+    void defineFelCommand(int command, int type);
     wxString fel2Disassemble(Word address, bool includeDetails, bool showOpcode);
 	void st2Trace(Word address);
 	wxString st2Disassemble(Word address, bool includeDetails, bool showOpcode);
@@ -520,6 +546,8 @@ private:
     LabelInfo labelInfo_[65536];
 
 	int numberOfDebugLines_;
+    int dissassembleCommand_[16];
+    int assembleCommand_[LAST_COMMAND];
 
     
 	DECLARE_EVENT_TABLE()

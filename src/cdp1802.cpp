@@ -3129,10 +3129,20 @@ void Cdp1802::readSt2Program(int computerType)
 			if (inFile.Open(fileName, _(_("rb"))))
 			{
 				inFile.Read(&st2Header, 256);
+                if (st2Header.offsets[0] == 0)
+                    allocTestCartMemory();
 				for (int i=1; i<st2Header.numBlocks; i++)
 				{
-					inFile.Read((&mainMemory_[st2Header.offsets[i-1] << 8]),256);
-					defineMemoryType(st2Header.offsets[i-1] << 8, CARTRIDGEROM);
+                    if (st2Header.offsets[0] == 0)
+                    {
+                        inFile.Read((&testCartRom_[st2Header.offsets[i-1] << 8]),256);
+                        defineMemoryType(st2Header.offsets[i-1] << 8, TESTCARTRIDGEROM);
+                    }
+                    else
+                    {
+                        inFile.Read((&mainMemory_[st2Header.offsets[i-1] << 8]),256);
+                        defineMemoryType(st2Header.offsets[i-1] << 8, CARTRIDGEROM);
+                    }
 				}
 				inFile.Close();
 				wxFileName swFullPath = wxFileName(fileName, wxPATH_NATIVE);

@@ -584,7 +584,8 @@ public:
 #define DIAGROM 27
 #define MAPPEDROM 28
 #define MAPPEDMULTICART 29
-#define NOCHANGE 30
+#define TESTCARTRIDGEROM 30
+#define NOCHANGE 31
 
 #define SHOWNAME true
 #define NONAME false
@@ -786,6 +787,7 @@ public:
 #define CHIPETI 3
 #define CHIPST2 4
 #define CHIPFEL2 5
+#define CHIPFEL3 6
 
 #define CPU1801 1
 #define CPU1802 2
