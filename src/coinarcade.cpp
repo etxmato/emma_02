@@ -283,13 +283,13 @@ void CoinArcade::startComputer()
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
     
     if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {
+    {  // tag-bowling
         chip8baseVar_ = 0x880;
         chip8mainLoop_ = 0x2a;
         chip8type_ = CHIPFEL2;
     }
-    else
-    {
+    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xf8 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xd4)
+    {  // Bowling
         chip8baseVar_ = 0x800;
         chip8mainLoop_ = 0x45;
         chip8type_ = CHIPFEL3;
@@ -437,10 +437,16 @@ void CoinArcade::cpuInstruction()
 			resetPressed_ = false;
 
             if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-            {
+            {  // tag-bowling
                 chip8baseVar_ = 0x880;
                 chip8mainLoop_ = 0x2a;
                 chip8type_ = CHIPFEL2;
+            }
+            if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xf8 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xd4)
+            {  // Bowling
+                chip8baseVar_ = 0x800;
+                chip8mainLoop_ = 0x45;
+                chip8type_ = CHIPFEL3;
             }
 
             setWait(1);

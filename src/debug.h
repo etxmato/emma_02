@@ -63,6 +63,7 @@ public:
 enum
 {
     ADD_VX_VY_VZ,
+    ADD_VX_KK,
     ADD8_VX_VY_N,
     BEEP_F_KK_N,
     CALL_MMM,
@@ -76,11 +77,21 @@ enum
     LD_VX_KK,
     RND_VX_KK,
     SNE_VX_KK,
+    SNE_VX_VY,
     SNE_VX_M8AA,
     SUB_VX_VY_VZ,
     SYS_MMM,
+    SYS1_AA,
+    TAPE_KK,
+    TONE_VX_VY,
+    FEL1_COMMAND_7,
     FEL2_COMMAND_C,
     FEL2_COMMAND_E,
+    FEL3_COMMAND_4,
+    FEL3_COMMAND_6,
+    FEL3_COMMAND_8,
+    FEL3_COMMAND_C,
+    FEL3_COMMAND_E,
     LAST_COMMAND
 };
 

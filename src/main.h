@@ -786,8 +786,9 @@ public:
 #define CHIP8X 2
 #define CHIPETI 3
 #define CHIPST2 4
-#define CHIPFEL2 5
-#define CHIPFEL3 6
+#define CHIPFEL1 5
+#define CHIPFEL2 6
+#define CHIPFEL3 7
 
 #define CPU1801 1
 #define CPU1802 2
