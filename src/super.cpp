@@ -1504,10 +1504,13 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 				break;
 
 				case RAM:
-					emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))] = value;
-					if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-						p_Main->updateDebugMemory(addr);
-					p_Main->updateAssTabCheck(addr);
+                    if (!getMpButtonState())
+                    {
+                        emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))] = value;
+                        if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
+                            p_Main->updateDebugMemory(addr);
+                        p_Main->updateAssTabCheck(addr);
+                    }
 				break;
 			}
 		break;
@@ -1560,14 +1563,16 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 
 		case MAPPEDRAM:
 		case RAM:
-			if (mainMemory_[addr]==value)
-				return;
-			if (addr < 32 && monitor_) return;
-			addr = (addr & ramMask_) + ramStart_;
-			mainMemory_[addr]=value;
-			if (addr >= (memoryStart_& ramMask_) && addr<((memoryStart_& ramMask_) + 256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+            if (!getMpButtonState())
+            {
+                if (mainMemory_[addr]==value)
+                    return;
+                if (addr < 32 && monitor_) return;
+                addr = (addr & ramMask_) + ramStart_;
+                mainMemory_[addr]=value;
+                if (addr >= (memoryStart_& ramMask_) && addr<((memoryStart_& ramMask_) + 256))
+                    p_Main->updateDebugMemory(addr);
+                p_Main->updateAssTabCheck(addr);
 /*			if (loadedOs_ == ELFOS)
 			{
 				if (addr == 0x7cb1)
@@ -1577,6 +1582,7 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 					p_Main->eventSetLocation (true, saveStart, saveEnd, 0);
 				}
 			}*/
+            }
 		break;
 
 		case PAGER:
@@ -1590,11 +1596,14 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 				break;
 
 				case RAM:
-					if (addr < 32 && monitor_) return;
-					mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)] = value;
-					if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-						p_Main->updateDebugMemory(addr);
-					p_Main->updateAssTabCheck(addr);
+                    if (!getMpButtonState())
+                    {
+                        if (addr < 32 && monitor_) return;
+                        mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)] = value;
+                        if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
+                            p_Main->updateDebugMemory(addr);
+                        p_Main->updateAssTabCheck(addr);
+                    }
 				break;
 			}
 		break;
