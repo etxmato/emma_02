@@ -2212,7 +2212,7 @@ void Main::initConfig()
 	colour[23] = "#800000";
 
 	setScreenInfo(VICTORY, 0, 24, colour, 2, borderX, borderY);
-	setComputerInfo(VICTORY, "Victory", "Victory MPT-02", "");
+	setComputerInfo(VICTORY, "Victory", "Studio III / Victory MPT-02", "");
 
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)

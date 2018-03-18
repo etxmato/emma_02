@@ -16508,7 +16508,7 @@ void DebugWindow::updateTitle()
 		case VICTORY:
 			if (p_Victory->getSteps()==0)
 				title = title + " ** PAUSED **";
-			p_Victory->SetTitle("Victory MPT-02" + title);
+			p_Victory->SetTitle("Studio III / Victory MPT-02" + title);
 			p_Victory->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 

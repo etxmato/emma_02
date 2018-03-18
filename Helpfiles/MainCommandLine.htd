@@ -49,7 +49,7 @@ Options only valid when &quot;-c&quot; is specified:<BR>
 Note the equal sign is optional in the above commands. All commands where software files are specifiec can either include  the full path (c:\games\invaders.st2) or just the file name. If only a file name is used Emma 02 will try to load the game file from the directory specified in the emma_02.ini file (set manually or via the GUI).
 </p>
 <p>
-It is possible to specify -s=&quot;&quot; (for a Studio II, Visicom COM-100 or Victory MPT-02) to start without st2 file loaded, i.e. to run emulator with the build-in games.
+It is possible to specify -s=&quot;&quot; (for a Studio II, Studio III / Victory MPT-02 or Visicom COM-100) to start without st2 file loaded, i.e. to run emulator with the build-in games.
 </p>
 <p>
 In portable mode (-p) the emulator can run from any location and will expect all data and setting files in the sub directory &quot;data&quot; in the application directory (wherever the Emma 02.exe file is located). The first time option -p is used all directory entries in the .ini file will be set to the application folder on start-up. Also if the &quot;data&quot; folder does not exist it will be created.

@@ -61,8 +61,8 @@
                                             <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf,
 Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, 
 Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade,
-RCA Studio II, Visicom, COM-100, Victory MPT-02, Cidelsa, 
-Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, 
+RCA Studio II, RCA Studio III, Victory MPT-02, Visicom, COM-100, 
+Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, 
 Pecom 32, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
                                         </object>
@@ -76,7 +76,7 @@ Pecom 32, Pecom 64 and ETI 660 </label>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
+                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>

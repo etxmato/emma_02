@@ -30,7 +30,7 @@ To change the location of these files use the menu item 'File/Configuration/Chan
 </p>
 <h3>Chip 8</h3>
 <p>
-Directory including Chip 8, Chip 8X and Chip 10 software. This software can be used in the Cosmac Vip, TMC 2000, Nano, Studio II, Victory MPT-02 and where indicated in the ETI660. Sub directories include: 
+Directory including Chip 8, Chip 8X and Chip 10 software. This software can be used in the Cosmac Vip, TMC 2000, Nano, Studio II, Studio III / Victory MPT-02 and where indicated in the ETI660. Sub directories include: 
 </p>
 <UL>- Chip-8 Demos</UL>
 <UL>- Chip-8 ETI660 Hybrids, SW only running on ETI660 (not compatible with other chip 8 interpreters)</UL>
@@ -192,7 +192,7 @@ Directory including the Velf and Jvip ROM file.
 </p>
 <h3>Victory</h3>
 <p>
-Directory including the Victory MPT-02 ROM file, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game roms.
+Directory including the Victory MPT-02 (RCA Studio III) ROM file, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game roms.
 </p>
 <h3>Vip</h3>
 <p>

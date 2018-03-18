@@ -494,8 +494,8 @@ public:
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
-#define VISICOMTAB 2
-#define VICTORYTAB 3
+#define VICTORYTAB 2
+#define VISICOMTAB 3
 
 #define TMC600TAB 0
 #define TMC1800TAB 1

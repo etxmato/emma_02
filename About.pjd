@@ -586,8 +586,8 @@
                     <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf,
 Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, 
 Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade,
-RCA Studio II, Visicom, COM-100, Victory MPT-02, Cidelsa, 
-Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, 
+RCA Studio II, RCA Studio III, Victory MPT-02, Visicom, COM-100, 
+Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, 
 Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
@@ -659,7 +659,7 @@ Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
+                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMSW__,__UNIX__"</string>

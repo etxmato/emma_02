@@ -294,7 +294,8 @@ void CoinArcade::startComputer()
         chip8mainLoop_ = 0x45;
         chip8type_ = CHIPFEL3;
     }
-    p_Main->defineFelCommands_(chip8type_);
+    if (chip8type_ != CHIP_NONE)
+        p_Main->defineFelCommands_(chip8type_);
 
     p_Main->assDefault("coinarcade", 0, 0x7FF);
 
@@ -459,10 +460,8 @@ void CoinArcade::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-        if (mainMemory_[0] == 0)
+        if (chip8type_ != CHIP_NONE)
             p_Main->cycleFredDebug();
-        else
-            p_Main->cycleSt2Debug();
 	}
 	else
 	{
