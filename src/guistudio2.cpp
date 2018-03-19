@@ -282,7 +282,7 @@ void GuiStudio2::readCoinArcadeConfig()
     conf[COINARCADE].romDir_[CARTROM] = readConfigDir("/Dir/CoinArcade/St2_File", dataDir_ + "CoinArcade" + pathSeparator_);
     conf[COINARCADE].screenDumpFileDir_ = readConfigDir("/Dir/CoinArcade/Video_Dump_File", dataDir_ + "CoinArcade" + pathSeparator_);
     
-    conf[COINARCADE].rom_[MAINROM1] = configPointer->Read("/CoinArcade/Main_Rom_File", "swords.arc");
+    conf[COINARCADE].rom_[MAINROM1] = configPointer->Read("/CoinArcade/Main_Rom_File", "Swords.arc");
     conf[COINARCADE].rom_[CARTROM] = configPointer->Read("/CoinArcade/St2_File", "");
     conf[COINARCADE].screenDumpFile_ = configPointer->Read("/CoinArcade/Video_Dump_File", "screendump.png");
     

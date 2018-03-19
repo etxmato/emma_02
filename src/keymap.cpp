@@ -2142,7 +2142,7 @@ void KeyMapDialog::onArcadeBDirKey(wxCommandEvent &event)
         arcadeBDirKey_ = -1;
 }
 
-void KeyMapDialog::onArcadeCoinKey(wxCommandEvent &event)
+void KeyMapDialog::onArcadeCoinKey(wxCommandEvent& WXUNUSED(event))
 {
     wxString buttonName, buttonNumber;
     
