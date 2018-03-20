@@ -10,8 +10,8 @@ $srcdir=.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README
-%description Emma 02 emulates the following RCA CDP1802 based Cosmac Elf, Netronics Elf II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIP II, MCDS, MS 2000, RCA Studio II, Visicom COM-100, Victory MPT-02, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscom Nano, Pecom 32, Pecom 64 and ETI 660.
-%version 1.25
+%description Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+%version 1.26
 %requires glibc
 %requires libcurl
 %requires SDL

@@ -36,56 +36,56 @@
 
 BEGIN_EVENT_TABLE(GuiTelmac, GuiPecom)
 
-	EVT_TEXT(XRCID("MainRomTmc600"), GuiMain::onMainRom1Text)
-	EVT_COMBOBOX(XRCID("MainRomTmc600"), GuiMain::onMainRom1Text)
-	EVT_BUTTON(XRCID("RomButtonTmc600"), GuiMain::onMainRom1)
+	EVT_TEXT(XRCID("MainRomTMC600"), GuiMain::onMainRom1Text)
+	EVT_COMBOBOX(XRCID("MainRomTMC600"), GuiMain::onMainRom1Text)
+	EVT_BUTTON(XRCID("RomButtonTMC600"), GuiMain::onMainRom1)
 
-	EVT_TEXT(XRCID("ExpRomTmc600"), GuiTelmac::onTelmacExpRomText)
-	EVT_COMBOBOX(XRCID("ExpRomTmc600"), GuiTelmac::onTelmacExpRomText)
-	EVT_BUTTON(XRCID("ExpRomButtonTmc600"), GuiTelmac::onTelmacExpRom)
+	EVT_TEXT(XRCID("ExpRomTMC600"), GuiTelmac::onTelmacExpRomText)
+	EVT_COMBOBOX(XRCID("ExpRomTMC600"), GuiTelmac::onTelmacExpRomText)
+	EVT_BUTTON(XRCID("ExpRomButtonTMC600"), GuiTelmac::onTelmacExpRom)
 
-	EVT_TEXT(XRCID("CharRomTmc600"), GuiMain::onCharRomText)
-	EVT_COMBOBOX(XRCID("CharRomTmc600"), GuiMain::onCharRomText)
-	EVT_BUTTON(XRCID("CharRomButtonTmc600"), GuiMain::onCharRom)
+	EVT_TEXT(XRCID("CharRomTMC600"), GuiMain::onCharRomText)
+	EVT_COMBOBOX(XRCID("CharRomTMC600"), GuiMain::onCharRomText)
+	EVT_BUTTON(XRCID("CharRomButtonTMC600"), GuiMain::onCharRom)
 
-	EVT_BUTTON(XRCID("ScreenDumpFileButtonTmc600"), GuiMain::onScreenDumpFile)
-	EVT_TEXT(XRCID("ScreenDumpFileTmc600"), GuiMain::onScreenDumpFileText)
-	EVT_COMBOBOX(XRCID("ScreenDumpFileTmc600"), GuiMain::onScreenDumpFileText)
-	EVT_BUTTON(XRCID("ScreenDumpF5Tmc600"), GuiMain::onScreenDump)
+	EVT_BUTTON(XRCID("ScreenDumpFileButtonTMC600"), GuiMain::onScreenDumpFile)
+	EVT_TEXT(XRCID("ScreenDumpFileTMC600"), GuiMain::onScreenDumpFileText)
+	EVT_COMBOBOX(XRCID("ScreenDumpFileTMC600"), GuiMain::onScreenDumpFileText)
+	EVT_BUTTON(XRCID("ScreenDumpF5TMC600"), GuiMain::onScreenDump)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinTmc600"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinTmc600"), GuiMain::onZoomDown)
-	EVT_TEXT(XRCID("ZoomValueTmc600"), GuiMain::onZoomValue)
-	EVT_BUTTON(XRCID("FullScreenF3Tmc600"), GuiMain::onFullScreen)
-	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeTmc600"), GuiMain::onVolume) 
-	EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeTmc600"), GuiMain::onVolume) 
-	EVT_BUTTON(XRCID("CasButtonTmc600"), GuiMain::onCassette)
-	EVT_BUTTON(XRCID("EjectCasTmc600"), GuiMain::onCassetteEject)
-	EVT_TEXT(XRCID("WavFileTmc600"), GuiMain::onCassetteText)
-	EVT_BUTTON(XRCID("RealCasLoadTmc600"), GuiMain::onRealCas)
-	EVT_BUTTON(XRCID("CasLoadTmc600"), GuiMain::onCassetteLoad)
-	EVT_BUTTON(XRCID("CasSaveTmc600"), GuiMain::onCassetteSave)
-	EVT_BUTTON(XRCID("CasStopTmc600"), GuiMain::onCassetteStop)
-	EVT_CHECKBOX(XRCID("TurboTmc600"), GuiMain::onTurbo)
-	EVT_TEXT(XRCID("TurboClockTmc600"), GuiMain::onTurboClock)
-	EVT_CHECKBOX(XRCID("AutoCasLoadTmc600"), GuiMain::onAutoLoad)
+	EVT_SPIN_UP(XRCID("ZoomSpinTMC600"), GuiMain::onZoomUp)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinTMC600"), GuiMain::onZoomDown)
+	EVT_TEXT(XRCID("ZoomValueTMC600"), GuiMain::onZoomValue)
+	EVT_BUTTON(XRCID("FullScreenF3TMC600"), GuiMain::onFullScreen)
+	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeTMC600"), GuiMain::onVolume) 
+	EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeTMC600"), GuiMain::onVolume) 
+	EVT_BUTTON(XRCID("CasButtonTMC600"), GuiMain::onCassette)
+	EVT_BUTTON(XRCID("EjectCasTMC600"), GuiMain::onCassetteEject)
+	EVT_TEXT(XRCID("WavFileTMC600"), GuiMain::onCassetteText)
+	EVT_BUTTON(XRCID("RealCasLoadTMC600"), GuiMain::onRealCas)
+	EVT_BUTTON(XRCID("CasLoadTMC600"), GuiMain::onCassetteLoad)
+	EVT_BUTTON(XRCID("CasSaveTMC600"), GuiMain::onCassetteSave)
+	EVT_BUTTON(XRCID("CasStopTMC600"), GuiMain::onCassetteStop)
+	EVT_CHECKBOX(XRCID("TurboTMC600"), GuiMain::onTurbo)
+	EVT_TEXT(XRCID("TurboClockTMC600"), GuiMain::onTurboClock)
+	EVT_CHECKBOX(XRCID("AutoCasLoadTMC600"), GuiMain::onAutoLoad)
 
-	EVT_BUTTON(XRCID("PrintFileButtonTmc600"), GuiMain::onPrintFile)
-	EVT_TEXT(XRCID("PrintFileTmc600"), GuiMain::onPrintFileText)
-	EVT_BUTTON(XRCID("PrintButtonTmc600"), GuiMain::onPrintButton)
-	EVT_CHOICE(XRCID("PrintModeTmc600"), GuiMain::onPrintMode)
+	EVT_BUTTON(XRCID("PrintFileButtonTMC600"), GuiMain::onPrintFile)
+	EVT_TEXT(XRCID("PrintFileTMC600"), GuiMain::onPrintFileText)
+	EVT_BUTTON(XRCID("PrintButtonTMC600"), GuiMain::onPrintButton)
+	EVT_CHOICE(XRCID("PrintModeTMC600"), GuiMain::onPrintMode)
 
-	EVT_TEXT(XRCID("KeyFileTmc600"), GuiMain::onKeyFileText)
-	EVT_BUTTON(XRCID("KeyFileButtonTmc600"), GuiMain::onKeyFile)
-	EVT_BUTTON(XRCID("EjectKeyFileTmc600"), GuiMain::onKeyFileEject)
+	EVT_TEXT(XRCID("KeyFileTMC600"), GuiMain::onKeyFileText)
+	EVT_BUTTON(XRCID("KeyFileButtonTMC600"), GuiMain::onKeyFile)
+	EVT_BUTTON(XRCID("EjectKeyFileTMC600"), GuiMain::onKeyFileEject)
 
-	EVT_CHOICE(XRCID("RamTmc600"), GuiMain::onChoiceRam)
+	EVT_CHOICE(XRCID("RamTMC600"), GuiMain::onChoiceRam)
 
-	EVT_TEXT(XRCID("SaveStartTmc600"), GuiMain::onSaveStart)
-	EVT_TEXT(XRCID("SaveEndTmc600"), GuiMain::onSaveEnd)
-	EVT_TEXT(XRCID("SaveExecTmc600"), GuiMain::onSaveExec)
+	EVT_TEXT(XRCID("SaveStartTMC600"), GuiMain::onSaveStart)
+	EVT_TEXT(XRCID("SaveEndTMC600"), GuiMain::onSaveEnd)
+	EVT_TEXT(XRCID("SaveExecTMC600"), GuiMain::onSaveExec)
 
-	EVT_CHECKBOX(XRCID("RealTimeClockTmc600"), GuiTelmac::onRealTimeClockTmc600)
+	EVT_CHECKBOX(XRCID("RealTimeClockTMC600"), GuiTelmac::onRealTimeClockTmc600)
 	EVT_SPINCTRL(XRCID("AdsChannel"), GuiTelmac::onTelmacAdsChannel)
 	EVT_TEXT(XRCID("AdsChannel"), GuiTelmac::onTelmacAdsChannelText)
 	EVT_SPINCTRL(XRCID("AdsVolt"), GuiTelmac::onTelmacAdsVolt)
@@ -94,15 +94,15 @@ BEGIN_EVENT_TABLE(GuiTelmac, GuiPecom)
 	EVT_TEXT(XRCID("AdiChannel"), GuiTelmac::onTelmacAdiChannelText)
 	EVT_SPINCTRL(XRCID("AdiVolt"), GuiTelmac::onTelmacAdiVolt)
 	EVT_TEXT(XRCID("AdiVolt"), GuiTelmac::onTelmacAdiVoltText)
-	EVT_CHECKBOX(XRCID("UseLocationTmc600"), GuiMain::onUseLocation)
-	EVT_BUTTON(XRCID("SaveButtonTmc600"), GuiMain::onSaveButton) 
-	EVT_BUTTON(XRCID("LoadButtonTmc600"), GuiMain::onLoadButton)
-	EVT_BUTTON(XRCID("RunButtonTmc600"), GuiMain::onLoadRunButton)
-	EVT_BUTTON(XRCID("DsaveButtonTmc600"), GuiMain::onDataSaveButton)
+	EVT_CHECKBOX(XRCID("UseLocationTMC600"), GuiMain::onUseLocation)
+	EVT_BUTTON(XRCID("SaveButtonTMC600"), GuiMain::onSaveButton) 
+	EVT_BUTTON(XRCID("LoadButtonTMC600"), GuiMain::onLoadButton)
+	EVT_BUTTON(XRCID("RunButtonTMC600"), GuiMain::onLoadRunButton)
+	EVT_BUTTON(XRCID("DsaveButtonTMC600"), GuiMain::onDataSaveButton)
 	EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
-	EVT_BUTTON(XRCID("ColoursTmc600"), Main::onColoursDef)
+	EVT_BUTTON(XRCID("ColoursTMC600"), Main::onColoursDef)
 
-    EVT_BUTTON(XRCID("KeyMapTmc600"), GuiTelmac::onKeyDef)
+    EVT_BUTTON(XRCID("KeyMapTMC600"), GuiTelmac::onKeyDef)
 
 END_EVENT_TABLE()
 
@@ -175,28 +175,28 @@ void GuiTelmac::readTelmacConfig()
 
 	if (mode_.gui)
 	{
-		XRCCTRL(*this, "MainRomTmc600", wxComboBox)->SetValue(conf[TMC600].rom_[MAINROM1]);
-		XRCCTRL(*this, "ExpRomTmc600", wxComboBox)->SetValue(conf[TMC600].rom_[EXPROM]);
-		XRCCTRL(*this, "CharRomTmc600", wxComboBox)->SetValue(conf[TMC600].charRom_);
-		XRCCTRL(*this, "KeyFileTmc600", wxTextCtrl)->SetValue(conf[TMC600].keyFile_);
-		XRCCTRL(*this, "PrintFileTmc600", wxTextCtrl)->SetValue(conf[TMC600].printFile_);
-		XRCCTRL(*this, "ScreenDumpFileTmc600", wxComboBox)->SetValue(conf[TMC600].screenDumpFile_);
-		XRCCTRL(*this, "WavFileTmc600", wxTextCtrl)->SetValue(conf[TMC600].wavFile_);
+		XRCCTRL(*this, "MainRomTMC600", wxComboBox)->SetValue(conf[TMC600].rom_[MAINROM1]);
+		XRCCTRL(*this, "ExpRomTMC600", wxComboBox)->SetValue(conf[TMC600].rom_[EXPROM]);
+		XRCCTRL(*this, "CharRomTMC600", wxComboBox)->SetValue(conf[TMC600].charRom_);
+		XRCCTRL(*this, "KeyFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].keyFile_);
+		XRCCTRL(*this, "PrintFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].printFile_);
+		XRCCTRL(*this, "ScreenDumpFileTMC600", wxComboBox)->SetValue(conf[TMC600].screenDumpFile_);
+		XRCCTRL(*this, "WavFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].wavFile_);
 
-		XRCCTRL(*this, "ZoomValueTmc600", wxTextCtrl)->ChangeValue(conf[TMC600].zoom_);
-		XRCCTRL(*this, "VolumeTmc600", wxSlider)->SetValue(conf[TMC600].volume_);
+		XRCCTRL(*this, "ZoomValueTMC600", wxTextCtrl)->ChangeValue(conf[TMC600].zoom_);
+		XRCCTRL(*this, "VolumeTMC600", wxSlider)->SetValue(conf[TMC600].volume_);
 		clockTextCtrl[TMC600]->ChangeValue(conf[TMC600].clock_);
-		XRCCTRL(*this, "TurboTmc600", wxCheckBox)->SetValue(conf[TMC600].turbo_);
-		turboGui("Tmc600");
-		XRCCTRL(*this, "TurboClockTmc600", wxTextCtrl)->SetValue(conf[TMC600].turboClock_);
-		XRCCTRL(*this, "AutoCasLoadTmc600", wxCheckBox)->SetValue(conf[TMC600].autoCassetteLoad_);
-		XRCCTRL(*this, "RealTimeClockTmc600", wxCheckBox)->SetValue(realTimeClock_);
+		XRCCTRL(*this, "TurboTMC600", wxCheckBox)->SetValue(conf[TMC600].turbo_);
+		turboGui("TMC600");
+		XRCCTRL(*this, "TurboClockTMC600", wxTextCtrl)->SetValue(conf[TMC600].turboClock_);
+		XRCCTRL(*this, "AutoCasLoadTMC600", wxCheckBox)->SetValue(conf[TMC600].autoCassetteLoad_);
+		XRCCTRL(*this, "RealTimeClockTMC600", wxCheckBox)->SetValue(realTimeClock_);
 
-		XRCCTRL(*this, "RamTmc600", wxChoice)->SetSelection(conf[TMC600].ramType_);
+		XRCCTRL(*this, "RamTMC600", wxChoice)->SetSelection(conf[TMC600].ramType_);
 
-		XRCCTRL(*this, "PrintModeTmc600", wxChoice)->SetSelection(conf[TMC600].printMode_);
+		XRCCTRL(*this, "PrintModeTMC600", wxChoice)->SetSelection(conf[TMC600].printMode_);
 		setPrintMode();
-		XRCCTRL(*this, "UseLocationTmc600", wxCheckBox)->SetValue(false);
+		XRCCTRL(*this, "UseLocationTMC600", wxCheckBox)->SetValue(false);
 	}
 }
 
@@ -255,7 +255,7 @@ void GuiTelmac::onTelmacExpRom(wxCommandEvent& WXUNUSED(event) )
 	wxString fileName;
 
 	fileName = wxFileSelector( "Select the Expansion ROM file to load",
-                               conf[TMC600].romDir_[EXPROM], XRCCTRL(*this, "ExpRomTmc600", wxComboBox)->GetValue(),
+                               conf[TMC600].romDir_[EXPROM], XRCCTRL(*this, "ExpRomTMC600", wxComboBox)->GetValue(),
                                "",
                                wxString::Format
                               (
@@ -273,12 +273,12 @@ void GuiTelmac::onTelmacExpRom(wxCommandEvent& WXUNUSED(event) )
 	conf[TMC600].romDir_[EXPROM] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 	conf[TMC600].rom_[EXPROM] = FullPath.GetFullName();
 
-	XRCCTRL(*this, "ExpRomTmc600", wxComboBox)->SetValue(conf[TMC600].rom_[EXPROM]);
+	XRCCTRL(*this, "ExpRomTMC600", wxComboBox)->SetValue(conf[TMC600].rom_[EXPROM]);
 }
 
 void GuiTelmac::onTelmacExpRomText(wxCommandEvent& WXUNUSED(event))
 {
-	conf[selectedComputer_].rom_[EXPROM] = XRCCTRL(*this, "ExpRomTmc600", wxComboBox)->GetValue();
+	conf[selectedComputer_].rom_[EXPROM] = XRCCTRL(*this, "ExpRomTMC600", wxComboBox)->GetValue();
 }
 
 void GuiTelmac::onRealTimeClockTmc600(wxCommandEvent&event)

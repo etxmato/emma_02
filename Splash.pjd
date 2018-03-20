@@ -3024,7 +3024,7 @@ While keeping 'C' pressed, press 'F12' twice&quot;
           <string name="proxy-Help text">""</string>
           <bool name="proxy-Hidden">0</bool>
           <string name="proxy-Icon">""</string>
-          <string name="proxy-Id name">"Mcds"</string>
+          <string name="proxy-Id name">"MCDS"</string>
           <long name="proxy-Id value">10005</long>
           <string name="proxy-Implementation filename">"popupcomx.cpp"</string>
           <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -3063,7 +3063,7 @@ While keeping 'C' pressed, press 'F12' twice&quot;
           <long name="proxy-X">-1</long>
           <string name="proxy-XRC filename">""</string>
           <long name="proxy-Y">-1</long>
-          <string name="title">"Mcds"</string>
+          <string name="title">"MCDS"</string>
           <long name="title-mode">0</long>
           <string name="type">"dialog-document"</string>
           <bool name="use-id-prefix">0</bool>

@@ -1671,6 +1671,28 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     if (mode_.gui)
         buildConfigMenu();
 
+    bool softwareDirInstalled;
+    for (int computer=2; computer<NO_COMPUTER; computer++)
+    {
+        int confComputer = computer;
+        if (confComputer == 2)
+            confComputer = 0;
+        configPointer->Read(computerInfo[confComputer].gui + "/SoftwareDirInstalled", &softwareDirInstalled, false);
+        if (!softwareDirInstalled)
+        {
+            if (!wxDir::Exists(dataDir_ + computerInfo[confComputer].gui))
+            {
+                int answer = wxMessageBox("1802 Software directory " + computerInfo[confComputer].gui + " does not exist, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+                if (answer == wxYES)
+                {
+                    wxDir::Make(dataDir_ + computerInfo[confComputer].gui);
+                    p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_,  dataDir_ + computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
+                }
+                configPointer->Write(computerInfo[confComputer].gui + "/SoftwareDirInstalled", true);
+            }
+        }
+    }
+    
 	this->connectKeyEvent(this);
 
 	wxSystemOptions::SetOption("msw.window.no-clip-children", 0);
@@ -2037,7 +2059,7 @@ void Main::initConfig()
 	setComputerInfo(CIDELSA, "Cidelsa", "Cidelsa", "");
 
 	setScreenInfo(TMC600, 56, 64, colour, 1, borderX, borderY);
-	setComputerInfo(TMC600, "Tmc600", "Telmac 600", "tmc600");
+	setComputerInfo(TMC600, "TMC600", "Telmac 600", "tmc600");
 
 	setScreenInfo(PECOM, 56, 64, colour, 1, borderX, borderY);
 	setComputerInfo(PECOM, "Pecom", "Pecom 64", "pecom");
@@ -2059,7 +2081,7 @@ void Main::initConfig()
     setScreenInfo(MS2000, 0, 5, colour, 3, borderX, borderY);
     setComputerInfo(MS2000, "MS2000", "MS2000", "");
 	setScreenInfo(MCDS, 0, 5, colour, 3, borderX, borderY);
-	setComputerInfo(MCDS, "Mcds", "MCDS", "rca");
+	setComputerInfo(MCDS, "MCDS", "MCDS", "rca");
 	setScreenInfo(MEMBER, 0, 5, colour, 1, borderX, borderY);
 	setComputerInfo(MEMBER, "Membership", "Membership Card", "");
 
@@ -2562,18 +2584,20 @@ void Main::readConfig()
 			XRCCTRL(*this, "PanelElf2K", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-			XRCCTRL(*this, "PanelCosmicos", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCosmicos", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCoinArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelElf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelElfII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelSuperElf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMS2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelStudio2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelVisicom", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-			XRCCTRL(*this, "PanelTmc600", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+			XRCCTRL(*this, "PanelTMC600", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC1800", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelNano", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -2781,6 +2805,15 @@ void Main::buildConfigMenu()
     
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
+        int confComputer = computer;
+        if (confComputer == 2)
+            confComputer = 0;
+        if (!wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
+        {
+            wxDir::Make(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui);
+            reInstall(applicationDirectory_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_+ computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
+        }
+        
         wxString filename;
 
         if (!wxDir::Exists(conf[computer].configurationDir_))
@@ -5224,7 +5257,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5233,7 +5266,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5281,7 +5314,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5289,7 +5322,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5313,7 +5346,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5326,17 +5359,17 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
-		XRCCTRL(*this,"PrintButtonTmc600", wxButton)->Enable(!status);
-		XRCCTRL(*this,"ScreenDumpF5Tmc600", wxButton)->Enable(!status);
-		XRCCTRL(*this,"FullScreenF3Tmc600", wxButton)->Enable(!status);
-		XRCCTRL(*this,"MainRomTmc600", wxComboBox)->Enable(status);
-		XRCCTRL(*this,"RomButtonTmc600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ExpRomTmc600", wxComboBox)->Enable(status);
-		XRCCTRL(*this,"ExpRomButtonTmc600", wxButton)->Enable(status);
-		XRCCTRL(*this,"CharRomTmc600", wxComboBox)->Enable(status);
-		XRCCTRL(*this,"CharRomButtonTmc600", wxButton)->Enable(status);
-		XRCCTRL(*this,"RamTmc600", wxChoice)->Enable(status);
-		XRCCTRL(*this,"RamTextTmc600", wxStaticText)->Enable(status);
+		XRCCTRL(*this,"PrintButtonTMC600", wxButton)->Enable(!status);
+		XRCCTRL(*this,"ScreenDumpF5TMC600", wxButton)->Enable(!status);
+		XRCCTRL(*this,"FullScreenF3TMC600", wxButton)->Enable(!status);
+		XRCCTRL(*this,"MainRomTMC600", wxComboBox)->Enable(status);
+		XRCCTRL(*this,"RomButtonTMC600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ExpRomTMC600", wxComboBox)->Enable(status);
+		XRCCTRL(*this,"ExpRomButtonTMC600", wxButton)->Enable(status);
+		XRCCTRL(*this,"CharRomTMC600", wxComboBox)->Enable(status);
+		XRCCTRL(*this,"CharRomButtonTMC600", wxButton)->Enable(status);
+		XRCCTRL(*this,"RamTMC600", wxChoice)->Enable(status);
+		XRCCTRL(*this,"RamTextTMC600", wxStaticText)->Enable(status);
 		if (status == true)
 		{
 			XRCCTRL(*this,"AdiInputText", wxStaticText)->Enable(!status);
@@ -5348,7 +5381,7 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this,"AdsVolt", wxSpinCtrl)->Enable(!status);
 			XRCCTRL(*this,"AdsVoltText", wxStaticText)->Enable(!status);
 		}
-		XRCCTRL(*this,"RealTimeClockTmc600", wxCheckBox)->Enable(status);
+		XRCCTRL(*this,"RealTimeClockTMC600", wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
@@ -5364,7 +5397,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5373,7 +5406,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5396,7 +5429,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5405,7 +5438,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5471,7 +5504,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5480,7 +5513,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5510,7 +5543,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5519,7 +5552,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5574,7 +5607,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5582,7 +5615,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5606,7 +5639,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+        XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5615,7 +5648,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5643,14 +5676,14 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5675,14 +5708,14 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5711,7 +5744,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5720,7 +5753,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
@@ -5739,7 +5772,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5748,7 +5781,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
@@ -5778,7 +5811,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5787,7 +5820,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5815,7 +5848,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5824,7 +5857,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
@@ -5857,13 +5890,13 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -5981,7 +6014,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
@@ -5990,7 +6023,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -6043,7 +6076,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
@@ -6053,7 +6086,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -6101,36 +6134,36 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this, "ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursNano", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursPecom", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursEti", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursMembership", wxButton)->Enable(status);
-		XRCCTRL(*this, "MainRomMcds", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRom2Mcds", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRom3Mcds", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "RomButtonMcds", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButton2Mcds", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButton3Mcds", wxButton)->Enable(status);
+		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->Enable(status);
+        XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->Enable(status);
+        XRCCTRL(*this, "MainRom3MCDS", wxComboBox)->Enable(status);
+        XRCCTRL(*this, "RomButtonMCDS", wxButton)->Enable(status);
+        XRCCTRL(*this, "RomButton2MCDS", wxButton)->Enable(status);
+        XRCCTRL(*this, "RomButton3MCDS", wxButton)->Enable(status);
         enableMemAccessGui(!status);
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this, "VtCharRomButtonMcds", wxButton)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
-            XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
-            XRCCTRL(*this, "FullScreenF3Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
-            XRCCTRL(*this, "ScreenDumpF5Mcds", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
+            XRCCTRL(*this, "VtCharRomButtonMCDS", wxButton)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
+            XRCCTRL(*this, "VtCharRomMCDS", wxComboBox)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
+            XRCCTRL(*this, "FullScreenF3MCDS", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
+            XRCCTRL(*this, "ScreenDumpF5MCDS", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
         }
-		XRCCTRL(*this, "VTTypeMcds", wxChoice)->Enable(status);
+		XRCCTRL(*this, "VTTypeMCDS", wxChoice)->Enable(status);
 		if (elfConfiguration[MCDS].useUart)
 		{
-			XRCCTRL(*this, "VTBaudRTextMcds", wxStaticText)->Enable(status);
-			XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->Enable(status);
+			XRCCTRL(*this, "VTBaudRTextMCDS", wxStaticText)->Enable(status);
+			XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->Enable(status);
 		}
-		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->Enable(status);
-		XRCCTRL(*this, "VTBaudTTextMcds", wxStaticText)->Enable(status);
-		XRCCTRL(*this, "VtSetupMcds", wxButton)->Enable(status);
+		XRCCTRL(*this, "VTBaudTChoiceMCDS", wxChoice)->Enable(status);
+		XRCCTRL(*this, "VTBaudTTextMCDS", wxStaticText)->Enable(status);
+		XRCCTRL(*this, "VtSetupMCDS", wxButton)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
@@ -6145,7 +6178,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
@@ -6154,7 +6187,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -6201,7 +6234,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
@@ -6210,7 +6243,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
@@ -6256,7 +6289,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "ColoursVipII", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursVelf", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMcds", wxButton)->Enable(status);
+		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursElf", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursElfII", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursElf2K", wxButton)->Enable(status);
@@ -6265,7 +6298,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this, "ColoursVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursVictory", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTmc600", wxButton)->Enable(status);
+		XRCCTRL(*this, "ColoursTMC600", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this, "ColoursNano", wxButton)->Enable(status);
@@ -7439,12 +7472,12 @@ void Main::setDisableControlsEvent(guiEvent& WXUNUSED(event))
 	XRCCTRL(*this, "TextEndMembership", wxStaticText)->Enable(true);
 	XRCCTRL(*this, "TextEndMembership", wxStaticText)->Enable(false);
 
-	XRCCTRL(*this, "TextStartTmc600", wxStaticText)->Enable(true);
-	XRCCTRL(*this, "TextStartTmc600", wxStaticText)->Enable(false);
-	XRCCTRL(*this, "TextEndTmc600", wxStaticText)->Enable(true);
-	XRCCTRL(*this, "TextEndTmc600", wxStaticText)->Enable(false);
-	XRCCTRL(*this, "TextExecTmc600", wxStaticText)->Enable(true);
-	XRCCTRL(*this, "TextExecTmc600", wxStaticText)->Enable(false);
+	XRCCTRL(*this, "TextStartTMC600", wxStaticText)->Enable(true);
+	XRCCTRL(*this, "TextStartTMC600", wxStaticText)->Enable(false);
+	XRCCTRL(*this, "TextEndTMC600", wxStaticText)->Enable(true);
+	XRCCTRL(*this, "TextEndTMC600", wxStaticText)->Enable(false);
+	XRCCTRL(*this, "TextExecTMC600", wxStaticText)->Enable(true);
+	XRCCTRL(*this, "TextExecTMC600", wxStaticText)->Enable(false);
 
 	XRCCTRL(*this, "TextStartTMC1800", wxStaticText)->Enable(true);
 	XRCCTRL(*this, "TextStartTMC1800", wxStaticText)->Enable(false);

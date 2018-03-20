@@ -248,7 +248,7 @@
           <string name="proxy-Help text">""</string>
           <bool name="proxy-Hidden">0</bool>
           <string name="proxy-Icon">""</string>
-          <string name="proxy-Id name">"PopupMcds"</string>
+          <string name="proxy-Id name">"PopupMCDS"</string>
           <long name="proxy-Id value">10005</long>
           <string name="proxy-Implementation filename">"popupcomx.cpp"</string>
           <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -287,7 +287,7 @@
           <long name="proxy-X">-1</long>
           <string name="proxy-XRC filename">""</string>
           <long name="proxy-Y">-1</long>
-          <string name="title">"PopupMcds"</string>
+          <string name="title">"PopupMCDS"</string>
           <long name="title-mode">0</long>
           <string name="type">"dialog-document"</string>
           <bool name="use-id-prefix">0</bool>
