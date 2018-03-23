@@ -1680,13 +1680,13 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         configPointer->Read(computerInfo[confComputer].gui + "/SoftwareDirInstalled", &softwareDirInstalled, false);
         if (!softwareDirInstalled)
         {
-            if (!wxDir::Exists(dataDir_ + computerInfo[confComputer].gui))
+            if (!wxDir::Exists(dataDir + computerInfo[confComputer].gui))
             {
                 int answer = wxMessageBox("1802 Software directory " + computerInfo[confComputer].gui + " does not exist, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
                 if (answer == wxYES)
                 {
-                    wxDir::Make(dataDir_ + computerInfo[confComputer].gui);
-                    p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_,  dataDir_ + computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
+                    wxDir::Make(dataDir + computerInfo[confComputer].gui);
+                    p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_,  dataDir + computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
                 }
                 configPointer->Write(computerInfo[confComputer].gui + "/SoftwareDirInstalled", true);
             }

@@ -6,7 +6,7 @@ $libdir=/usr/lib
 $mandir=${prefix}/share/man
 $srcdir=.
 %product Emma 02
-%copyright 2007-2017 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
+%copyright 2007-2018 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README
@@ -54,9 +54,11 @@ f 644 root sys ${datadir}/emma_02/Quest_CC_Lic.jpg ../Quest_CC_Lic.jpg
 f 644 root sys ${datadir}/emma_02/Quest_license.txt ../Quest_license.txt
 f 644 root sys ${datadir}/emma_02/copyright.rtf ../copyright.rtf
 f 644 root sys ${datadir}/emma_02/emma_02.htb ../Helpfiles/emma_02.htb
-f 644 root sys ${datadir}/emma_02/Configurations ../Configurations/*.*
-f 644 root sys ${datadir}/emma_02/data ../data/*.*
+f 644 root sys ${datadir}/emma_02/configurations.tar configurations.tar
+f 644 root sys ${datadir}/emma_02/data.tar data.tar
 f 644 root sys ${datadir}/emma_02/images ../images/*.*
 f 644 root sys ${datadir}/emma_02/images_linux ../images_linux/*.*
-f 644 root sys /usr/share/applications/emma02.desktop emma02.desktop
-f 644 root sys /usr/share/pixmaps/emma02.xpm emma02.xpm
+f 644 root sys ${datadir}/emma_02/extract_files extract_files
+f 644 root sys ${datadir}/applications/emma02.desktop emma02.desktop
+f 644 root sys ${datadir}/pixmaps/emma02.xpm emma02.xpm
+%postinstall <${datadir}/emma_02/extract_files
