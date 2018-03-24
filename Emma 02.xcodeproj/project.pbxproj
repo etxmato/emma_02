@@ -15,6 +15,7 @@
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
+		99677914202E430B00108BB6 /* coinarcade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99677912202E430B00108BB6 /* coinarcade.cpp */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896D1C3B16D10061426E /* menuVelf.xrc */; };
 		997189701C3B19BC0061426E /* menuVip.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896F1C3B19BC0061426E /* menuVip.xrc */; };
@@ -134,6 +135,7 @@
 		999899A41F96A72600870480 /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 999899A31F96A72600870480 /* emma_02.htb */; };
 		9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
+		999DE99B20667EF2005B3A29 /* Linux build in Resources */ = {isa = PBXBuildFile; fileRef = 999DE99A20667EF2005B3A29 /* Linux build */; };
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
 		99AA43FF20270FAD00474FB4 /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99AA43FE20270FAD00474FB4 /* libserialport.a */; };
 		99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99ABC2981E56538800850E94 /* menuMS2000.xrc */; };
@@ -207,6 +209,8 @@
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
 		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
+		99677912202E430B00108BB6 /* coinarcade.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coinarcade.cpp; path = src/coinarcade.cpp; sourceTree = "<group>"; };
+		99677913202E430B00108BB6 /* coinarcade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coinarcade.h; path = src/coinarcade.h; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
@@ -424,6 +428,7 @@
 		9999EAC41CBA8B8800A50336 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
 		999CFEDB1DCD33070094BEC8 /* guims2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guims2000.cpp; path = src/guims2000.cpp; sourceTree = "<group>"; };
 		999CFEDC1DCD33070094BEC8 /* guims2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guims2000.h; path = src/guims2000.h; sourceTree = "<group>"; };
+		999DE99A20667EF2005B3A29 /* Linux build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Linux build"; sourceTree = "<group>"; };
 		99A502CA1E959040004218C8 /* splash.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash.xrc; sourceTree = "<group>"; };
 		99AA43FE20270FAD00474FB4 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/libserialport.a; sourceTree = "<group>"; };
 		99ABC2981E56538800850E94 /* menuMS2000.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMS2000.xrc; sourceTree = "<group>"; };
@@ -552,18 +557,19 @@
 				99F3746D1CADBBC2000DA615 /* Quest_license.txt */,
 				99F3746F1CADBBC2000DA615 /* README-SDL.txt */,
 				99F374701CADBBC2000DA615 /* LGPL.txt */,
-				9911BF351F477D6200B795BB /* Configurations */,
-				9911BF341F477D5000B795BB /* Configurations Windows */,
-				996B97391B24116B009827BF /* data */,
-				9973DDFC1A69B7B300B57557 /* images */,
-				99431DEA1F22213400F5A2D4 /* images_osx */,
-				99B5DE4F1F4A228400674C05 /* images_linux */,
-				9998999D1F96A3E500870480 /* Helpfiles */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
 				996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */,
 				996FC5821F8ABDE800E08812 /* introduction.rtf */,
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,
+				9911BF351F477D6200B795BB /* Configurations */,
+				9911BF341F477D5000B795BB /* Configurations Windows */,
+				996B97391B24116B009827BF /* data */,
+				9998999D1F96A3E500870480 /* Helpfiles */,
+				999DE99A20667EF2005B3A29 /* Linux build */,
 				99E6EA971F40EC300030F125 /* IsTool */,
+				9973DDFC1A69B7B300B57557 /* images */,
+				99B5DE4F1F4A228400674C05 /* images_linux */,
+				99431DEA1F22213400F5A2D4 /* images_osx */,
 				99E940F81FF1746900E69E8B /* libcurl.4.dylib */,
 				99AA43FE20270FAD00474FB4 /* libserialport.a */,
 				997646E11A61D1FA00FB9B33 /* src */,
@@ -598,6 +604,8 @@
 				997647441A61D5EE00FB9B33 /* cidelsa.h */,
 				997646FA1A61D5EE00FB9B33 /* cidelsastatusbar.cpp */,
 				9976470D1A61D5EE00FB9B33 /* cidelsastatusbar.h */,
+				99677912202E430B00108BB6 /* coinarcade.cpp */,
+				99677913202E430B00108BB6 /* coinarcade.h */,
 				997647011A61D5EE00FB9B33 /* colour.cpp */,
 				9976479F1A61D5EE00FB9B33 /* colour.h */,
 				997647151A61D5EE00FB9B33 /* computer.cpp */,
@@ -898,6 +906,7 @@
 				99F374751CADBBC2000DA615 /* LGPL.txt in Resources */,
 				99792DE71B88A4200044FDBB /* configuration.xrc in Resources */,
 				99792DE11B88A3B10044FDBB /* about.xrc in Resources */,
+				999DE99B20667EF2005B3A29 /* Linux build in Resources */,
 				99792DEB1B88FEFD0044FDBB /* datadir.xrc in Resources */,
 				99792E021B88FF580044FDBB /* menuCosmicos.xrc in Resources */,
 				99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */,
@@ -1001,6 +1010,7 @@
 				997647BA1A61D5EE00FB9B33 /* cdp1802.cpp in Sources */,
 				997647D71A61D5EF00FB9B33 /* til313.full.cpp in Sources */,
 				99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */,
+				99677914202E430B00108BB6 /* coinarcade.cpp in Sources */,
 				997648001A61D5EF00FB9B33 /* guieti660.cpp in Sources */,
 				99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */,
 				997647F11A61D5EF00FB9B33 /* vt100.cpp in Sources */,

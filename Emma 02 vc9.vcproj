@@ -479,6 +479,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\coinarcade.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\colour.cpp"
 				>
 			</File>
@@ -924,6 +928,10 @@
 			</File>
 			<File
 				RelativePath=".\src\cidelsastatusbar.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\coinarcade.h"
 				>
 			</File>
 			<File

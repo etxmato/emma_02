@@ -20,7 +20,13 @@ public:
 	void onMsbStudio(wxSpinEvent&event);
     void onLsbStudio(wxSpinEvent&event);
     
-	void readVisicomConfig();
+    void readCoinArcadeConfig();
+    void writeCoinArcadeDirConfig();
+    void writeCoinArcadeConfig();
+    void readCoinArcadeWindowConfig();
+    void writeCoinArcadeWindowConfig();
+
+    void readVisicomConfig();
     void writeVisicomDirConfig();
     void writeVisicomConfig();
     void readVisicomWindowConfig();

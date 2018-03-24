@@ -1,0 +1,12 @@
+<HTML>
+<Title>ROM Files</Title>
+<BODY>
+<h2>ROM Files</h2>
+<p>
+To run the RCA Video Coin Arcade emulator at least one 'game' should be loaded as ROM. To do so specify the binary file in the 'ROM' field. Default RCA Video Coin Arcade ROM location is the CoinArcade directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>

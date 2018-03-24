@@ -169,11 +169,22 @@ void Pixie::configurePixieStudio2()
 	p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
 }
 
+void Pixie::configurePixieCoinArcade()
+{
+    p_Computer->setOutType(2, PIXIEOUT);
+    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setEfType(2, PIXIEEF);
+  
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+    
+    p_Main->message("	Output 1: enable graphics\n");
+}
+
 void Pixie::configurePixieVisicom()
 {
 	p_Computer->setOutType(1, PIXIEOUT);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
-//	p_Computer->setInType(1, PIXIEIN);
 	p_Computer->setEfType(1, PIXIEEF);
 
 	backGroundInit_ = 0;
@@ -280,7 +291,6 @@ void Pixie::configurePixieVictory()
 	p_Computer->setOutType(1, PIXIEBACKGROUND);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
 	p_Computer->setInType(1, PIXIEIN);
-//	p_Computer->setInType(4, PIXIEOUT);
 	p_Computer->setEfType(1, PIXIEEF);
 
 	backGroundInit_ = 8;
@@ -498,6 +508,69 @@ void Pixie::cyclePixie()
 	graphicsNext_ += 1;
 	if (graphicsNext_ > (5+graphicsX_))
 		graphicsNext_ = 0;
+}
+
+void Pixie::cyclePixieCoinArcade()
+{
+    int j;
+    Byte v;
+    int color;
+    
+    if (graphicsNext_ == 0)
+    {
+        p_Computer->debugTrace("----  H.Sync");
+        graphicsMode_++;
+        if (graphicsMode_ >= 262)
+        {
+            if (changeScreenSize_)
+            {
+                changeScreenSize();
+                if (!fullScreenSet_)
+                    p_Main->pixieBarSizeEvent();
+                changeScreenSize_ = false;
+            }
+            graphicsMode_ = 0;
+            copyScreen();
+            videoSyncCount_++;
+        }
+    }
+    if (graphicsNext_ == 2)
+    {
+        if (graphicsMode_ == 62)
+        {
+            if (graphicsOn_)
+            {
+                p_Computer->pixieInterrupt();
+                vidInt_ = 1;
+                p_Computer->setCycle0();
+            }
+            else vidInt_ = 0;
+        }
+    }
+    if (graphicsMode_ >= 72 && graphicsMode_ <=199 && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ < (4+graphicsX_))
+    {
+        j = 0;
+        while(graphicsNext_ >= 4 && graphicsNext_ < (4+graphicsX_))
+        {
+            graphicsNext_ ++;
+            v = p_Computer->pixieDmaOut(&color);
+            for (int i=0; i<8; i++)
+            {
+                plot(j+i, (int)graphicsMode_-64,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-63,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-62,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-61,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                v <<= 1;
+            }
+            j += 8;
+        }
+        graphicsMode_+=3;
+        p_Computer->setCycle0();
+        graphicsNext_ -= 1;
+    }
+    graphicsNext_ += 1;
+    if (graphicsNext_ > (5+graphicsX_))
+        graphicsNext_ = 0;
 }
 
 void Pixie::cyclePixieTelmac()

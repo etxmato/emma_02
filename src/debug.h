@@ -60,6 +60,41 @@ public:
 #define MEM_LABEL_TYPE true
 #define FIND_BRANCH false
 
+enum
+{
+    ADD_VX_VY_VZ,
+    ADD_VX_KK,
+    ADD8_VX_VY_N,
+    BEEP_F_KK_N,
+    CALL_MMM,
+    DRW_VX_VY_N,
+    DRW_VX_L_N,
+    JP_MMM,
+    LD_B_VX_VY,
+    LD_M8AA_VX,
+    LD_RA_MMM,
+    LD_RB_MMM,
+    LD_VX_KK,
+    RND_VX_KK,
+    SNE_VX_KK,
+    SNE_VX_VY,
+    SNE_VX_M8AA,
+    SUB_VX_VY_VZ,
+    SYS_MMM,
+    SYS1_AA,
+    TAPE_KK,
+    TONE_VX_VY,
+    FEL1_COMMAND_7,
+    FEL2_COMMAND_C,
+    FEL2_COMMAND_E,
+    FEL3_COMMAND_4,
+    FEL3_COMMAND_6,
+    FEL3_COMMAND_8,
+    FEL3_COMMAND_C,
+    FEL3_COMMAND_E,
+    LAST_COMMAND
+};
+
 class AssInput
 {
 public:
@@ -95,7 +130,8 @@ public:
 	void enableChip8DebugGui(bool status);
 	void enableDebugGui(bool status);
 	void updateAssTabCheck(Word address);
-	void cycleChip8Debug();
+    void cycleChip8Debug();
+    void cycleFredDebug();
 	bool chip8BreakPointCheck();
 	void cycleSt2Debug();
 	void showInstructionTrace();
@@ -334,8 +370,12 @@ public:
 	void onChip8PauseButton(wxCommandEvent&event);
 	void setChip8PauseState();
 	void onChip8StepButton(wxCommandEvent&event);
-	void chip8Trace(Word address);
+    void chip8Trace(Word address);
+    void fredTrace(Word address);
 	wxString chip8Disassemble(Word address, bool includeDetails, bool showOpcode);
+    void defineFelCommands_(int chip8Type);
+    void defineFelCommand(int command, int type);
+    wxString fel2Disassemble(Word address, bool includeDetails, bool showOpcode);
 	void st2Trace(Word address);
 	wxString st2Disassemble(Word address, bool includeDetails, bool showOpcode);
 	void onChip8Trace(wxCommandEvent&event);
@@ -409,7 +449,6 @@ private:
 	void addChip8BreakPoint(); 
 	void addTrap(); 
 	void addTreg(); 
-//	void disassemble(Word start, Word end);
 	wxString cdp1802disassemble(Word* address, bool includeDetails, bool showOpcode, bool textAssembler, Word start, Word end);
     wxString getShortAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
     wxString getLongAddressOrLabel(Word address, bool textAssembler, Word start, Word end);
@@ -418,9 +457,8 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-//    void disassembleChip8(Word start, Word end);
-//	wxString disassembleChip8(Word* address);
 	int assembleChip(wxString *buffer, Byte* b1, Byte* b2);
+    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2);
 	AssInput getAssInput(wxString buffer);
 	int assembleSt2(wxString *buffer, Byte* b1, Byte* b2);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
@@ -519,6 +557,8 @@ private:
     LabelInfo labelInfo_[65536];
 
 	int numberOfDebugLines_;
+    int dissassembleCommand_[16];
+    int assembleCommand_[LAST_COMMAND];
 
     
 	DECLARE_EVENT_TABLE()

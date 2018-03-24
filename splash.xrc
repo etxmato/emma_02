@@ -454,7 +454,7 @@ While keeping 'C' pressed, press 'F12' twice"
             </object>
         </object>
     </object>
-    <object class="wxDialog" name="Mcds">
+    <object class="wxDialog" name="MCDS">
         <style>wxCAPTION|wxSTAY_ON_TOP|wxCLOSE_BOX|wxBORDER_THEME|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Emma 02 - Info</title>

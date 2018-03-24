@@ -389,6 +389,7 @@ public:
 #include "cosmicos.h"
 #include "super.h"
 #include "studio2.h"
+#include "coinarcade.h"
 #include "visicom.h"
 #include "victory.h"
 #include "vip.h"
@@ -405,7 +406,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.25
+#define EMMA_VERSION 1.26
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -430,7 +431,8 @@ public:
 #define VISICOM 20
 #define VICTORY 21
 #define VIPII 22
-#define DEBUGGER 23
+#define COINARCADE 23
+#define DEBUGGER 24
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -490,9 +492,10 @@ public:
 #define MCDSTAB 3
 #define MS2000TAB 4
 
-#define STUDIOIITAB 0
-#define VISICOMTAB 1
+#define COINARCADETAB 0
+#define STUDIOIITAB 1
 #define VICTORYTAB 2
+#define VISICOMTAB 3
 
 #define TMC600TAB 0
 #define TMC1800TAB 1
@@ -581,7 +584,8 @@ public:
 #define DIAGROM 27
 #define MAPPEDROM 28
 #define MAPPEDMULTICART 29
-#define NOCHANGE 30
+#define TESTCARTRIDGEROM 30
+#define NOCHANGE 31
 
 #define SHOWNAME true
 #define NONAME false
@@ -782,6 +786,9 @@ public:
 #define CHIP8X 2
 #define CHIPETI 3
 #define CHIPST2 4
+#define CHIPFEL1 5
+#define CHIPFEL2 6
+#define CHIPFEL3 7
 
 #define CPU1801 1
 #define CPU1802 2
@@ -803,6 +810,8 @@ public:
 #define MEM_TYPE_UNDEFINED 8
 #define MEM_TYPE_JUMP_REV 9
 #define MEM_TYPE_TEXT 10
+#define MEM_TYPE_FEL2_1 11
+#define MEM_TYPE_FEL2_2 12
 #define MEM_TYPE_OPCODE_RSHR 70
 #define MEM_TYPE_OPCODE_RSHL 71
 #define MEM_TYPE_OPCODE_BPZ 72
@@ -1077,7 +1086,7 @@ public:
 
 	void setVtFullScreenEvent(guiEvent& event);
 	void eventVtSetFullScreen(bool state);
-
+ 
 	void setChangeNoteBookEvent(guiEvent& event);
 	void eventChangeNoteBook();
 
@@ -1096,9 +1105,11 @@ public:
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
     void getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int *, int *, int*);
-    void storeDefaultTmc600Keys(int *, int *);
 	void getTmc600Keys(int *, int *);
 	void getDefaultTmc600Keys(int *, int *);
+    void storeDefaultTmc600Keys(int *, int *);
+    int getDefaultCoinArcadeKeys(int *, int *);
+    void storeDefaultCoinArcadeKeys(int *, int *, int coin);
 	bool emuClosing() { return emuClosing_; };
 	bool getThermalEf() {return thermalEf_;};
 	void setStatusLedUpdate(bool status) {statusLedUpdate_ =  status;};

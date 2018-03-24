@@ -16,14 +16,14 @@ public:
 class Pixie : public Video
 {
 public:
-
 	Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
 	~Pixie();
 
 	void reset();
 	void configurePixie(ElfPortConfiguration portConf);
 	void configurePixieStudio2();
-	void configurePixieVisicom();
+    void configurePixieCoinArcade();
+    void configurePixieVisicom();
 	void configurePixieVip();
 	void configurePixieVelf();
 	void configurePixieVipII();
@@ -39,8 +39,9 @@ public:
 	Byte inPixie();
 	void outPixie(); 
 	void outPixieBackGround(); 
-	void cyclePixie(); 
-	void cyclePixieTelmac(); 
+    void cyclePixie();
+    void cyclePixieCoinArcade();
+	void cyclePixieTelmac();
 
 	void copyScreen();
 	void drawScreen();

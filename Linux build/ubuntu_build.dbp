@@ -1,19 +1,21 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.25
+Version: 1.26
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
 Priority: standard
 Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libwxgtk3.0-0v5, libwxbase3.0-0v5, libserialport0
 Description: Emma 02, the RCA 1802 Emulator
- Emma 02 emulates the following RCA CDP1802 based
- Cosmac Elf, Netronics Elf II, Quest Super Elf, Membership
- Card, VELF, Microtutor, Cosmac VIP, Cosmac VIP II, MCDS,
- MS 2000, RCA Studio II, Visicom COM-100, Victory MPT-02,
- Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000,
- Oscom Nano, Pecom 32, Pecom 64 and ETI 660.
+ Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos,
+ Cosmac Elf, Netronics ELF II, Quest Super Elf,
+ Membership Card, VELF, Microtutor, Cosmac VIP,
+ Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade,
+ RCA Studio II, RCA Studio III, Victory MPT-02,
+ Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800,
+ Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and
+ ETI 660
 
 <</CTRL>>
 <<FILES>>
@@ -72,12 +74,12 @@ Description: Emma 02, the RCA 1802 Emulator
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.25) xenial; urgency=low
+emma-02 (1.26) xenial; urgency=low
 
   * New linux debian beta version
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Sat, 13 Jan 2018 13:36:28 +0100
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Wed, 23 Mar 2018 21:48:00 +0100
 
 <</CHANGELOG>>
 <<COPYRIGHT>>

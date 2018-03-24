@@ -276,7 +276,7 @@ All of the instruction from Chip-8, except 'Baaa: JP V0, aaa' are valid for Chip
 <TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
 <TD WIDTH="55">5xy1</TD>
-<TD WIDTH="40">ADD-8</TD>
+<TD WIDTH="40">ADD8</TD>
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Vx = Vx + Vy (hex digits 00 to 77, mainly for manipulating the NH and NV parameters)</TD>
 </TR>
@@ -288,25 +288,25 @@ All of the instruction from Chip-8, except 'Baaa: JP V0, aaa' are valid for Chip
 </TR>
 <TR>
 <TD WIDTH="55">Bxy0</TD>
-<TD WIDTH="40">CLR<BR>CLR-L</TD>
-<TD WIDTH="100">Vx, Vy<BR>Vx/V(x+1), Vy</TD>
-<TD WIDTH="250">Set Vy colour @ Vx (NH), V(x+1) (NV)</TD>
+<TD WIDTH="40">CLR<BR>CLRL</TD>
+<TD WIDTH="100">Vx, Vy<BR>Vx/Vz, Vy</TD>
+<TD WIDTH="250">Set Vy colour @ Vx (NH), Vz (Vz has to be V(x+1)) (NV)</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Bxyn</TD>
-<TD WIDTH="40">CLR<BR>CLR-H</TD>
-<TD WIDTH="100">Vx, Vy, n<BR>Vx/V(x+1), Vy, n</TD>
-<TD WIDTH="250">Set Vy colour @ Vx, V(x+1) byte, n bytes vertically, n != 0</TD>
+<TD WIDTH="40">CLR<BR>CLRH</TD>
+<TD WIDTH="100">Vx, Vy, n<BR>Vx/Vz, Vy, n</TD>
+<TD WIDTH="250">Set Vy colour @ Vx, Vz (Vz has to be V(x+1)) byte, n bytes vertically, n != 0</TD>
 </TR>
 <TR>
 <TD WIDTH="55">FxFB</TD>
-<TD WIDTH="40">INP<BR>INP-1</TD>
+<TD WIDTH="40">INP<BR>INP1</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Input port 1 to Vx (waits for EF4=1)</TD>
 </TR>
 <TR>
 <TD WIDTH="55">FxF8</TD>
-<TD WIDTH="40">OUT<BR>OUT-3</TD>
+<TD WIDTH="40">OUT<BR>OUT3</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Vx to output port 3 (used for simple sound)</TD>
 </TR>

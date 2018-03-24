@@ -23,6 +23,7 @@ public:
 	void allocComxExpansionMemory();
     void allocEmsMemory();
     size_t allocMultiCartMemory(size_t memorySize);
+    void allocTestCartMemory();
     void setEmsPage(Byte value);
     void setPager(int page, Byte value);
     void setRomMapper(Byte value);
@@ -62,6 +63,7 @@ protected:
 	int superBankMemoryType_[512];
 	int emsMemoryType_[2048];
     int multiCartMemoryType_[4096];
+    int testCartMemoryType_[256];
     int pagerMemoryType_[4096];
 	int romMapperMemoryType_[32768];
 	int colorMemory1864_[1024];
@@ -85,6 +87,9 @@ protected:
     Byte* multiCartRom_;
 	Byte* multiCartRomDataType_;
 	Byte* multiCartRomLabelType_;
+    Byte* testCartRom_;
+    Byte* testCartRomDataType_;
+    Byte* testCartRomLabelType_;
 	Byte* emsRam_;
 	Byte* emsRamDataType_;
 	Byte* emsRamLabelType_;
@@ -97,6 +102,7 @@ protected:
     Byte maxNumberOfPages_;
     
     bool multiCartMemoryDefined_;
+    bool testCartMemoryDefined_;
     bool emsMemoryDefined_;
 	bool pagerDefined_;
     bool romMapperDefined_;

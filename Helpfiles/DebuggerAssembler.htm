@@ -17,6 +17,7 @@ When a computer emulation is running the left half of the Direct Assembler tab w
 <LI>Macro's (in black/<FONT COLOR="FOREST GREEN">green</FONT> or black/<FONT COLOR="#C833A1">light purple</FONT>)
 <LI>Chip 8 code (in <FONT COLOR="STEEL BLUE">steel blue</FONT>)
 <LI>ST2 code (in <FONT COLOR="STEEL BLUE">steel blue</FONT>)
+<LI>FEL-2 code (in <FONT COLOR="STEEL BLUE">steel blue</FONT>)
 <LI>Undefined, i.e. no ROM or RAM (in <FONT COLOR="RED">red</FONT>)
 </UL>
 </p>
@@ -114,6 +115,7 @@ The following choices are available:
 <LI>Switch: Switch to other mnemonic, see also chapter 'Switch mnemonic'
 <LI>Chip 8: Chip 8 code
 <LI>ST2: ST2 code
+<LI>FEL-2: FEL-2 code
 </UL>
 </p>
 <h3>Move working address</h3>
@@ -306,7 +308,14 @@ If ST2 code is used within the program configuration that code will also be corr
 <p>
 Note: none of the jumps within a page will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the jump will be listed in the message area.
 </p>
+<h4>FEL-2 - Insert and Delete</h4>
 <p>
+If FEL-2 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>SYS aaa
+</UL>
 </p>
 <h3>Copy data or code</h3>
 <p>

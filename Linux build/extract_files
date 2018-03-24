@@ -1,0 +1,5 @@
+#!/bin/sh 
+tar -xf /usr/share/emma_02/configurations.tar -C /usr/share/emma_02/
+tar -xf /usr/share/emma_02/data.tar -C /usr/share/emma_02/
+rm /usr/share/emma_02/configurations.tar
+rm /usr/share/emma_02/data.tar

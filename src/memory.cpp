@@ -59,6 +59,7 @@ Memory::Memory()
 	comxExpansionMemoryDefined_ = false;
     emsMemoryDefined_ = false;
     multiCartMemoryDefined_ = false;
+    testCartMemoryDefined_ = false;
     pagerDefined_ = false;
     romMapperDefined_ = false;
 }
@@ -94,6 +95,12 @@ Memory::~Memory()
         free(multiCartRom_);
         free(multiCartRomDataType_);
         free(multiCartRomLabelType_);
+    }
+    if (testCartMemoryDefined_)
+    {
+        free(testCartRom_);
+        free(testCartRomDataType_);
+        free(testCartRomLabelType_);
     }
     if (romMapperDefined_)
     {
@@ -394,6 +401,24 @@ size_t Memory::allocMultiCartMemory(size_t memorySize)
         multiCartRomLabelType_[i] = LABEL_TYPE_NONE;
     }
     return memorySize;
+}
+
+void Memory::allocTestCartMemory()
+{
+    testCartRom_ = (Byte*)malloc(0xFFFF);
+    testCartRomDataType_ = (Byte*)malloc(0xFFFF);
+    testCartRomLabelType_ = (Byte*)malloc(0xFFFF);
+    
+    testCartMemoryDefined_ = true;
+    
+    for (int i = 0; i<4096; i++) testCartMemoryType_[i] = ROM;
+    
+    for (size_t i = 0; i<0xFFFF; i++)
+    {
+        testCartRom_[i] = 0xff;
+        testCartRomDataType_[i] = MEM_TYPE_DATA;
+        testCartRomLabelType_[i] = LABEL_TYPE_NONE;
+    }
 }
 
 void Memory::setEmsPage(Byte value)

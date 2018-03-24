@@ -1,4 +1,4 @@
-/*
+    /*
  *******************************************************************
  *** This software is copyright 2008 by Marcel van Tongeren      ***
  *** You have permission to use, modify, copy, and distribute    ***
@@ -35,6 +35,8 @@
 
 BEGIN_EVENT_TABLE(KeyMapDialog, wxDialog)
    EVT_BUTTON(XRCID("HexSave"), KeyMapDialog::onSaveButton)
+   EVT_BUTTON(XRCID("CoinSave"), KeyMapDialog::onSaveArcadeCoin)
+   EVT_BUTTON(XRCID("CoinDefault"), KeyMapDialog::onDefaultArcadeCoin)
    EVT_BUTTON(XRCID("HexSwitchPad"), KeyMapDialog::onSwitchPad)
    EVT_BUTTON(XRCID("HexSwitchPlayer"), KeyMapDialog::onSwitchPlayer)
    EVT_BUTTON(XRCID("HexLocation"), KeyMapDialog::onHexLocation)
@@ -62,6 +64,17 @@ BEGIN_EVENT_TABLE(KeyMapDialog, wxDialog)
    EVT_BUTTON(XRCID("HexKeyD"), KeyMapDialog::onHexKey)
    EVT_BUTTON(XRCID("HexKeyE"), KeyMapDialog::onHexKey)
    EVT_BUTTON(XRCID("HexKeyF"), KeyMapDialog::onHexKey)
+   EVT_BUTTON(XRCID("KeyTextA0"), KeyMapDialog::onArcadeADirKey)
+   EVT_BUTTON(XRCID("KeyTextA1"), KeyMapDialog::onArcadeADirKey)
+   EVT_BUTTON(XRCID("KeyTextA2"), KeyMapDialog::onArcadeADirKey)
+   EVT_BUTTON(XRCID("KeyTextA3"), KeyMapDialog::onArcadeADirKey)
+   EVT_BUTTON(XRCID("KeyTextA4"), KeyMapDialog::onArcadeADirKey)
+   EVT_BUTTON(XRCID("KeyTextB0"), KeyMapDialog::onArcadeBDirKey)
+   EVT_BUTTON(XRCID("KeyTextB1"), KeyMapDialog::onArcadeBDirKey)
+   EVT_BUTTON(XRCID("KeyTextB2"), KeyMapDialog::onArcadeBDirKey)
+   EVT_BUTTON(XRCID("KeyTextB3"), KeyMapDialog::onArcadeBDirKey)
+   EVT_BUTTON(XRCID("KeyTextB4"), KeyMapDialog::onArcadeBDirKey)
+   EVT_BUTTON(XRCID("CoinButton"), KeyMapDialog::onArcadeCoinKey)
    EVT_CHECKBOX(XRCID("GameAuto"), KeyMapDialog::onAuto)
    EVT_CHECKBOX(XRCID("StudioEnableDiagonal"), KeyMapDialog::onStudioEnableDiagonal)
 #ifdef __WXMAC__
@@ -76,7 +89,10 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 	computerTypeStr_ = p_Main->getSelectedComputerStr();
 	int computerType = p_Main->getSelectedComputerId();
 
-	hexKey_ = -1;
+    arcadeADirKey_ = -1;
+    arcadeBDirKey_ = -1;
+    arcadeCoinKey_ = -1;
+    hexKey_ = -1;
 	inKey_ = -1;
 	numberOfKeys_ = 16;
 	hexPadBdefined_ = false;
@@ -157,7 +173,12 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             inButton2_ = p_Main->getDefaultInKey2(computerTypeStr_);
 		break;
 
-		case STUDIO:
+        case COINARCADE:
+            wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog4"));
+            keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefGameHexA_, keyDefGameHexB_);
+        break;
+            
+        case STUDIO:
 		case VISICOM:
 		case VICTORY:
             keyDefGameHexA_[4] = 0;
@@ -252,91 +273,100 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
         break;
 	}
 
-    if (computerType == STUDIO || computerType == VISICOM || computerType == VICTORY)
+    if (computerType != COINARCADE)
     {
-        simDefA2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalA2", true);
-        simDefB2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalB2", true);
+        if (computerType == STUDIO || computerType == VISICOM || computerType == VICTORY)
+        {
+            simDefA2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalA2", true);
+            simDefB2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalB2", true);
+        }
+        else
+        {
+            simDefA2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalA2", false);
+            simDefB2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalB2", false);
+        }
+        
+        XRCCTRL(*this, "HexSave", wxButton)->SetFocus();
+ 
+        wxString gameName;
+        if (autoGame_)
+        {
+            switch (computerType)
+            {
+                case ELF:
+                case ELFII:
+                case SUPERELF:
+                    if (p_Main->isComputerRunning())
+                    {
+                        gameName = p_Computer->getRunningGame();
+                        if (gameName == "")
+                            gameName = p_Main->getRomFile(computerType, MAINROM2);
+                    }
+                    p_Main->loadKeyDefinition(p_Main->getRomFile(computerType, MAINROM1), gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                break;
+                    
+                case ETI:
+                    p_Main->loadKeyDefinition("", p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                break;
+                    
+                case VELF:
+                case VIP:
+                case VIPII:
+                    p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                break;
+                    
+                case NANO:
+                case TMC2000:
+                case TMC1800:
+                    p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                break;
+                    
+                case VICTORY:
+                    gameName = p_Main->getRomFile(computerType, CARTROM);
+                    if (p_Main->isComputerRunning())
+                    {
+                        if (p_Computer->getBuildInGame() != 0)
+                        {
+                            gameName.Printf("victorygrandpack%01d", p_Computer->getBuildInGame());
+                        }
+                    }
+                    p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                break;
+                case VISICOM:
+                    gameName = p_Main->getRomFile(computerType, CARTROM);
+                    if (p_Main->isComputerRunning())
+                    {
+                        if (p_Computer->getBuildInGame() != 0)
+                        {
+                            gameName.Printf("visicombuildin%01d", p_Computer->getBuildInGame());
+                        }
+                    }
+                    p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                break;
+                case STUDIO:
+                    gameName = p_Main->getRomFile(computerType, CARTROM);
+                    if (p_Main->isComputerRunning())
+                    {
+                        if (p_Computer->getBuildInGame() != 0)
+                        {
+                            gameName.Printf("studio2buildin%01d", p_Computer->getBuildInGame());
+                        }
+                    }
+                    p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+                break;
+            }
+        }
+        enableAuto(autoGame_);
+        
+        this->connectKeyDownEvent(this); 
+        updateButtons();
     }
     else
     {
-        simDefA2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalA2", false);
-        simDefB2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalB2", false);
+        XRCCTRL(*this, "CoinSave", wxButton)->SetFocus();
+        this->connectKeyDownEvent(this);
+        updateButtonsCoinArcade();
     }
-
-    XRCCTRL(*this, "HexSave", wxButton)->SetFocus();
- 
-    wxString gameName;
-	if (autoGame_)
-	{
-		switch (computerType)
-		{
-			case ELF:
-			case ELFII:
-			case SUPERELF:
-				if (p_Main->isComputerRunning())
-				{
-					gameName = p_Computer->getRunningGame();
-					if (gameName == "")
-						gameName = p_Main->getRomFile(computerType, MAINROM2);
-				}
-				p_Main->loadKeyDefinition(p_Main->getRomFile(computerType, MAINROM1), gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
-			break;
-
-			case ETI:
-				p_Main->loadKeyDefinition("", p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
-			break;
-
-			case VELF:
-			case VIP:
-			case VIPII:
-				p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
-			break;
-
-			case NANO:
-			case TMC2000:
-			case TMC1800:
-				p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
-			break;
-
-			case VICTORY:
-				gameName = p_Main->getRomFile(computerType, CARTROM);
-				if (p_Main->isComputerRunning())
-				{
-					if (p_Computer->getBuildInGame() != 0)
-					{
-						gameName.Printf("victorygrandpack%01d", p_Computer->getBuildInGame());
-					}
-				}
-				p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-			break;
-			case VISICOM:
-				gameName = p_Main->getRomFile(computerType, CARTROM);
-				if (p_Main->isComputerRunning())
-				{
-					if (p_Computer->getBuildInGame() != 0)
-					{
-						gameName.Printf("visicombuildin%01d", p_Computer->getBuildInGame());
-					}
-				}
-				p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
-			break;
-			case STUDIO:
-				gameName = p_Main->getRomFile(computerType, CARTROM);
-				if (p_Main->isComputerRunning())
-				{
-					if (p_Computer->getBuildInGame() != 0)
-					{
-						gameName.Printf("studio2buildin%01d", p_Computer->getBuildInGame());
-					}
-				}
-				p_Main->loadKeyDefinition("", gameName, hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-			break;
-		}
-	}
-    enableAuto(autoGame_);
-
-	this->connectKeyDownEvent(this); 
-	updateButtons();
     
 #ifdef __WXMAC__
     focusTimer = new wxTimer(this, wxID_ANY);
@@ -1448,6 +1478,7 @@ void KeyMapDialog::onKeyDown(wxKeyEvent& event)
 			else
 				hexKeyDefB2_[hexKey_] = key;
 		hexKey_ = -1;
+        updateButtons();
 	}
 	if (inKey_ != -1)
 	{
@@ -1458,8 +1489,33 @@ void KeyMapDialog::onKeyDown(wxKeyEvent& event)
         else
             inButton2_ = key;
 		inKey_ = -1;
+        updateButtons();
 	}
-	updateButtons();
+    if (arcadeADirKey_ != -1)
+    {
+        int key = event.GetKeyCode();
+        keyDefGameHexA_[arcadeADirKey_] = key;
+        
+        setLabel("KeyTextA%01X", arcadeADirKey_, keyDefGameHexA_[arcadeADirKey_]);
+        arcadeADirKey_ = -1;
+        updateButtonsCoinArcade();
+    }
+    if (arcadeBDirKey_ != -1)
+    {
+        int key = event.GetKeyCode();
+        keyDefGameHexB_[arcadeBDirKey_] = key;
+        setLabel("KeyTextB%01X", arcadeBDirKey_, keyDefGameHexB_[arcadeBDirKey_]);
+        arcadeBDirKey_ = -1;
+        updateButtonsCoinArcade();
+    }
+    if (arcadeCoinKey_ != -1)
+    {
+        int key = event.GetKeyCode();
+        keyDefCoin_ = key;
+        setLabel("CoinButton", 20, keyDefCoin_);
+        arcadeCoinKey_ = -1;
+        updateButtonsCoinArcade();
+    }
 }
 
 void KeyMapDialog::connectKeyDownEvent(wxWindow* pclComponent) 
@@ -1989,4 +2045,152 @@ void KeyMapDialog::onFocusTimer(wxTimerEvent& WXUNUSED(event))
     XRCCTRL(*this, "Focus", wxTextCtrl)->SetFocus();
 }
 
+void KeyMapDialog::updateButtonsCoinArcade()
+{
+    wxString keyStr, keyStrNum;
+    
+    keyStrNum.Printf("(%i)", keyDefGameHexA_[KEY_UP]);
+    keyStr = getKeyStr(keyDefGameHexA_[KEY_UP])+keyStrNum;
+    XRCCTRL(*this, "KeyTextA0", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexA_[KEY_LEFT]);
+    keyStr = getKeyStr(keyDefGameHexA_[KEY_LEFT])+keyStrNum;
+    XRCCTRL(*this, "KeyTextA1", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexA_[KEY_RIGHT]);
+    keyStr = getKeyStr(keyDefGameHexA_[KEY_RIGHT])+keyStrNum;
+    XRCCTRL(*this, "KeyTextA2", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexA_[KEY_DOWN]);
+    keyStr = getKeyStr(keyDefGameHexA_[KEY_DOWN])+keyStrNum;
+    XRCCTRL(*this, "KeyTextA3", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexA_[KEY_FIRE]);
+    keyStr = getKeyStr(keyDefGameHexA_[KEY_FIRE])+keyStrNum;
+    XRCCTRL(*this, "KeyTextA4", wxButton)->SetLabel(keyStr);
 
+    keyStrNum.Printf("(%i)", keyDefGameHexB_[KEY_UP]);
+    keyStr = getKeyStr(keyDefGameHexB_[KEY_UP])+keyStrNum;
+    XRCCTRL(*this, "KeyTextB0", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexB_[KEY_LEFT]);
+    keyStr = getKeyStr(keyDefGameHexB_[KEY_LEFT])+keyStrNum;
+    XRCCTRL(*this, "KeyTextB1", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexB_[KEY_RIGHT]);
+    keyStr = getKeyStr(keyDefGameHexB_[KEY_RIGHT])+keyStrNum;
+    XRCCTRL(*this, "KeyTextB2", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexB_[KEY_DOWN]);
+    keyStr = getKeyStr(keyDefGameHexB_[KEY_DOWN])+keyStrNum;
+    XRCCTRL(*this, "KeyTextB3", wxButton)->SetLabel(keyStr);
+    keyStrNum.Printf("(%i)", keyDefGameHexB_[KEY_FIRE]);
+    keyStr = getKeyStr(keyDefGameHexB_[KEY_FIRE])+keyStrNum;
+    XRCCTRL(*this, "KeyTextB4", wxButton)->SetLabel(keyStr);
+
+    keyStrNum.Printf("(%i)", keyDefCoin_);
+    keyStr = getKeyStr(keyDefCoin_)+keyStrNum;
+    XRCCTRL(*this, "CoinButton", wxButton)->SetLabel(keyStr);
+}
+
+void KeyMapDialog::onArcadeADirKey(wxCommandEvent &event)
+{
+    wxString buttonName, buttonNumber;
+    
+    if (arcadeADirKey_ != -1)
+    {
+        setLabel("KeyTextA%01X", arcadeADirKey_, keyDefGameHexA_[arcadeADirKey_]);
+        arcadeADirKey_ = -1;
+    }
+    if (arcadeBDirKey_ != -1)
+    {
+        setLabel("KeyTextB%01X", arcadeBDirKey_, keyDefGameHexB_[arcadeBDirKey_]);
+        arcadeBDirKey_ = -1;
+    }
+    if (arcadeCoinKey_ != -1)
+    {
+        setLabel("CoinButton", 20, keyDefCoin_);
+        arcadeCoinKey_ = -1;
+    }
+    
+    buttonName = wxWindow::FindWindowById(event.GetId())->GetName();
+    buttonNumber = buttonName.Last();
+    if (buttonNumber.ToLong(&arcadeADirKey_, 16))
+        XRCCTRL(*this, buttonName, wxButton)->SetLabel("Press Key");
+    else
+        arcadeADirKey_ = -1;
+}
+
+void KeyMapDialog::onArcadeBDirKey(wxCommandEvent &event)
+{
+    wxString buttonName, buttonNumber;
+    
+    if (arcadeADirKey_ != -1)
+    {
+        setLabel("KeyTextA%01X", arcadeADirKey_, keyDefGameHexA_[arcadeADirKey_]);
+        arcadeADirKey_ = -1;
+    }
+    if (arcadeBDirKey_ != -1)
+    {
+        setLabel("KeyTextB%01X", arcadeBDirKey_, keyDefGameHexB_[arcadeBDirKey_]);
+        arcadeBDirKey_ = -1;
+    }
+    if (arcadeCoinKey_ != -1)
+    {
+        setLabel("CoinButton", 20, keyDefCoin_);
+        arcadeCoinKey_ = -1;
+    }
+    
+    buttonName = wxWindow::FindWindowById(event.GetId())->GetName();
+    buttonNumber = buttonName.Last();
+    if (buttonNumber.ToLong(&arcadeBDirKey_, 16))
+        XRCCTRL(*this, buttonName, wxButton)->SetLabel("Press Key");
+    else
+        arcadeBDirKey_ = -1;
+}
+
+void KeyMapDialog::onArcadeCoinKey(wxCommandEvent& WXUNUSED(event))
+{
+    wxString buttonName, buttonNumber;
+    
+    if (arcadeADirKey_ != -1)
+    {
+        setLabel("KeyTextA%01X", arcadeADirKey_, keyDefGameHexA_[arcadeADirKey_]);
+        arcadeADirKey_ = -1;
+    }
+    if (arcadeBDirKey_ != -1)
+    {
+        setLabel("KeyTextB%01X", arcadeBDirKey_, keyDefGameHexB_[arcadeBDirKey_]);
+        arcadeBDirKey_ = -1;
+    }
+    if (arcadeCoinKey_ != -1)
+    {
+        setLabel("CoinButton", 20, keyDefCoin_);
+        arcadeCoinKey_ = -1;
+    }
+    else
+    {
+        arcadeCoinKey_ = 20;
+        XRCCTRL(*this, "CoinButton", wxButton)->SetLabel("Press Key");
+    }
+}
+
+void KeyMapDialog::onSaveArcadeCoin( wxCommandEvent& WXUNUSED(event) )
+{
+    p_Main->storeDefaultCoinArcadeKeys(keyDefGameHexA_, keyDefGameHexB_, keyDefCoin_);
+    if (p_Computer != NULL)
+        p_Computer->reDefineKeys(keyDefGameHexA_, keyDefGameHexB_, keyDefCoin_);
+    
+    EndModal( wxID_OK );
+}
+
+void KeyMapDialog::onDefaultArcadeCoin(wxCommandEvent& WXUNUSED(event))
+{
+    keyDefGameHexA_[0] = 315;
+    keyDefGameHexA_[1] = 314;
+    keyDefGameHexA_[2] = 316;
+    keyDefGameHexA_[3] = 317;
+    keyDefGameHexA_[4] = 32;
+    
+    keyDefGameHexB_[0] = 87;
+    keyDefGameHexB_[1] = 65;
+    keyDefGameHexB_[2] = 83;
+    keyDefGameHexB_[3] = 90;
+    keyDefGameHexB_[4] = 9;
+    
+    keyDefCoin_ = 67;
+    updateButtonsCoinArcade();
+}

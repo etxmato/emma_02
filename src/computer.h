@@ -381,6 +381,7 @@ public:
     int getInKey1() {return inKey1_;};
     int getInKey2() {return inKey2_;};
 	virtual void reDefineKeys();
+    virtual void reDefineKeys(int *, int *, int);
 	virtual void reDefineKeysA(int *, int *, int *);
 	virtual void reDefineKeysB(int *, int *, int *);
 	virtual void reDefineKeysA(int *, int *);

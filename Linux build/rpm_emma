@@ -1,2 +1,6 @@
 #!/bin/sh 
+tar -cf data.tar ../data
+tar -cf configurations.tar ../Configurations
 epm -f rpm emma02 -v -v -k
+rm configurations.tar
+rm data.tar

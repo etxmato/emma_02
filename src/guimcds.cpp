@@ -34,74 +34,74 @@
 
 BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
 
-	EVT_TEXT(XRCID("MainRomMcds"), GuiMain::onMainRom1Text)
-	EVT_COMBOBOX(XRCID("MainRomMcds"), GuiMain::onMainRom1Text)
-	EVT_BUTTON(XRCID("RomButtonMcds"), GuiMain::onMainRom1)
+	EVT_TEXT(XRCID("MainRomMCDS"), GuiMain::onMainRom1Text)
+	EVT_COMBOBOX(XRCID("MainRomMCDS"), GuiMain::onMainRom1Text)
+	EVT_BUTTON(XRCID("RomButtonMCDS"), GuiMain::onMainRom1)
 
-	EVT_TEXT(XRCID("MainRom2Mcds"), GuiMain::onMainRom2Text)
-	EVT_COMBOBOX(XRCID("MainRom2Mcds"), GuiMain::onMainRom2Text)
-	EVT_BUTTON(XRCID("RomButton2Mcds"), GuiMain::onMainRom2)
+	EVT_TEXT(XRCID("MainRom2MCDS"), GuiMain::onMainRom2Text)
+	EVT_COMBOBOX(XRCID("MainRom2MCDS"), GuiMain::onMainRom2Text)
+	EVT_BUTTON(XRCID("RomButton2MCDS"), GuiMain::onMainRom2)
 
-	EVT_TEXT(XRCID("MainRom3Mcds"), GuiMain::onMainRom3Text)
-	EVT_COMBOBOX(XRCID("MainRom3Mcds"), GuiMain::onMainRom3Text)
-	EVT_BUTTON(XRCID("RomButton3Mcds"), GuiMain::onMainRom3)
+	EVT_TEXT(XRCID("MainRom3MCDS"), GuiMain::onMainRom3Text)
+	EVT_COMBOBOX(XRCID("MainRom3MCDS"), GuiMain::onMainRom3Text)
+	EVT_BUTTON(XRCID("RomButton3MCDS"), GuiMain::onMainRom3)
 
-	EVT_BUTTON(XRCID("CasButtonMcds"), GuiMain::onCassette)
-    EVT_BUTTON(XRCID("EjectCasMcds"), GuiMain::onCassetteEject)
-    EVT_TEXT(XRCID("WavFileMcds"), GuiMain::onCassetteText)
+	EVT_BUTTON(XRCID("CasButtonMCDS"), GuiMain::onCassette)
+    EVT_BUTTON(XRCID("EjectCasMCDS"), GuiMain::onCassetteEject)
+    EVT_TEXT(XRCID("WavFileMCDS"), GuiMain::onCassetteText)
 
-    EVT_TEXT(XRCID("VtCharRomMcds"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomMcds"), GuiMain::onVtCharRomText)
-	EVT_BUTTON(XRCID("VtCharRomButtonMcds"), GuiMain::onVtCharRom)
+    EVT_TEXT(XRCID("VtCharRomMCDS"), GuiMain::onVtCharRomText)
+	EVT_COMBOBOX(XRCID("VtCharRomMCDS"), GuiMain::onVtCharRomText)
+	EVT_BUTTON(XRCID("VtCharRomButtonMCDS"), GuiMain::onVtCharRom)
 
-	EVT_TEXT(XRCID("KeyFileMcds"), GuiMain::onKeyFileText)
-	EVT_BUTTON(XRCID("KeyFileButtonMcds"), GuiMain::onKeyFile)
-	EVT_BUTTON(XRCID("EjectKeyFileMcds"), GuiMain::onKeyFileEject)
+	EVT_TEXT(XRCID("KeyFileMCDS"), GuiMain::onKeyFileText)
+	EVT_BUTTON(XRCID("KeyFileButtonMCDS"), GuiMain::onKeyFile)
+	EVT_BUTTON(XRCID("EjectKeyFileMCDS"), GuiMain::onKeyFileEject)
 
-    EVT_TEXT(XRCID("PrintFileMcds"), GuiMain::onPrintFileText)
-    EVT_BUTTON(XRCID("PrintButtonMcds"), GuiMain::onPrintButton)
-    EVT_CHOICE(XRCID("PrintModeMcds"), GuiMain::onPrintMode)
-    EVT_BUTTON(XRCID("PrintFileButtonMcds"), GuiMain::onPrintFile)
+    EVT_TEXT(XRCID("PrintFileMCDS"), GuiMain::onPrintFileText)
+    EVT_BUTTON(XRCID("PrintButtonMCDS"), GuiMain::onPrintButton)
+    EVT_CHOICE(XRCID("PrintModeMCDS"), GuiMain::onPrintMode)
+    EVT_BUTTON(XRCID("PrintFileButtonMCDS"), GuiMain::onPrintFile)
 
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
 
-    EVT_CHOICE(XRCID("VTTypeMcds"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtMcds"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMcds"), GuiMain::onZoomDownVt)
-	EVT_TEXT(XRCID("ZoomValueVtMcds"), GuiMain::onZoomValueVt)
-	EVT_BUTTON(XRCID("FullScreenF3Mcds"), GuiMain::onFullScreen)
-    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeMcds"), GuiMain::onVolume)
-    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeMcds"), GuiMain::onVolume)
+    EVT_CHOICE(XRCID("VTTypeMCDS"), GuiMain::onVT100)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomUpVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomDownVt)
+	EVT_TEXT(XRCID("ZoomValueVtMCDS"), GuiMain::onZoomValueVt)
+	EVT_BUTTON(XRCID("FullScreenF3MCDS"), GuiMain::onFullScreen)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeMCDS"), GuiMain::onVolume)
+    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeMCDS"), GuiMain::onVolume)
 
-    EVT_BUTTON(XRCID("ScreenDumpFileButtonMcds"), GuiMain::onScreenDumpFile)
-	EVT_TEXT(XRCID("ScreenDumpFileMcds"), GuiMain::onScreenDumpFileText)
-	EVT_COMBOBOX(XRCID("ScreenDumpFileMcds"), GuiMain::onScreenDumpFileText)
-	EVT_BUTTON(XRCID("ScreenDumpF5Mcds"), GuiMain::onScreenDump)
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonMCDS"), GuiMain::onScreenDumpFile)
+	EVT_TEXT(XRCID("ScreenDumpFileMCDS"), GuiMain::onScreenDumpFileText)
+	EVT_COMBOBOX(XRCID("ScreenDumpFileMCDS"), GuiMain::onScreenDumpFileText)
+	EVT_BUTTON(XRCID("ScreenDumpF5MCDS"), GuiMain::onScreenDump)
 
     EVT_CHECKBOX(XRCID("McdsForceUC"), GuiMcds::onMcdsForceUpperCase)
-    EVT_BUTTON(XRCID("VtSetupMcds"), GuiMain::onVtSetup)
-	EVT_CHECKBOX(XRCID("StretchDotMcds"), GuiMain::onStretchDot)
-	EVT_BUTTON(XRCID("ColoursMcds"), Main::onColoursDef)
+    EVT_BUTTON(XRCID("VtSetupMCDS"), GuiMain::onVtSetup)
+	EVT_CHECKBOX(XRCID("StretchDotMCDS"), GuiMain::onStretchDot)
+	EVT_BUTTON(XRCID("ColoursMCDS"), Main::onColoursDef)
     EVT_CHECKBOX(XRCID("McdsBootRam"), GuiMcds::onBootRam)
 
-    EVT_BUTTON(XRCID("SaveButtonMcds"), GuiMain::onSaveButton)
-    EVT_BUTTON(XRCID("LoadButtonMcds"), GuiMain::onLoadButton)
-    EVT_BUTTON(XRCID("RunButtonMcds"), GuiMain::onLoadRunButton)
-    EVT_BUTTON(XRCID("DsaveButtonMcds"), GuiMain::onDataSaveButton)
+    EVT_BUTTON(XRCID("SaveButtonMCDS"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonMCDS"), GuiMain::onLoadButton)
+    EVT_BUTTON(XRCID("RunButtonMCDS"), GuiMain::onLoadRunButton)
+    EVT_BUTTON(XRCID("DsaveButtonMCDS"), GuiMain::onDataSaveButton)
 
-    EVT_CHECKBOX(XRCID("UseLocationMcds"), GuiMain::onUseLocation)
-    EVT_TEXT(XRCID("SaveStartMcds"), GuiMain::onSaveStart)
-	EVT_TEXT(XRCID("SaveEndMcds"), GuiMain::onSaveEnd)
+    EVT_CHECKBOX(XRCID("UseLocationMCDS"), GuiMain::onUseLocation)
+    EVT_TEXT(XRCID("SaveStartMCDS"), GuiMain::onSaveStart)
+	EVT_TEXT(XRCID("SaveEndMCDS"), GuiMain::onSaveEnd)
 
-    EVT_CHECKBOX(XRCID("TurboMcds"), GuiMain::onTurbo)
-    EVT_TEXT(XRCID("TurboClockMcds"), GuiMain::onTurboClock)
-    EVT_CHECKBOX(XRCID("AutoCasLoadMcds"), GuiMain::onAutoLoad)
-    EVT_BUTTON(XRCID("CasLoadMcds"), GuiMain::onCassetteLoad)
-    EVT_BUTTON(XRCID("CasSaveMcds"), GuiMain::onCassetteSave)
-    EVT_BUTTON(XRCID("CasStopMcds"), GuiMain::onCassetteStop)
-    EVT_BUTTON(XRCID("RealCasLoadMcds"), GuiMain::onRealCas)
+    EVT_CHECKBOX(XRCID("TurboMCDS"), GuiMain::onTurbo)
+    EVT_TEXT(XRCID("TurboClockMCDS"), GuiMain::onTurboClock)
+    EVT_CHECKBOX(XRCID("AutoCasLoadMCDS"), GuiMain::onAutoLoad)
+    EVT_BUTTON(XRCID("CasLoadMCDS"), GuiMain::onCassetteLoad)
+    EVT_BUTTON(XRCID("CasSaveMCDS"), GuiMain::onCassetteSave)
+    EVT_BUTTON(XRCID("CasStopMCDS"), GuiMain::onCassetteStop)
+    EVT_BUTTON(XRCID("RealCasLoadMCDS"), GuiMain::onRealCas)
 
-	EVT_CHOICE(XRCID("VTBaudTChoiceMcds"), GuiMcds::onMcdsBaudT)
+	EVT_CHOICE(XRCID("VTBaudTChoiceMCDS"), GuiMcds::onMcdsBaudT)
 
 END_EVENT_TABLE()
 
@@ -205,7 +205,7 @@ void GuiMcds::readMcdsConfig()
     configPointer->Read("/Mcds/Enable_Real_Cassette", &conf[MCDS].realCassetteLoad_, false);
 	conf[MCDS].useLoadLocation_ = false;
 
- 	setVtType("Mcds", MCDS, elfConfiguration[MCDS].vtType, false);
+ 	setVtType("MCDS", MCDS, elfConfiguration[MCDS].vtType, false);
 
 	conf[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
 
@@ -216,38 +216,38 @@ void GuiMcds::readMcdsConfig()
 
     if (mode_.gui)
 	{
-		XRCCTRL(*this, "MainRomMcds", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM1]);
-		XRCCTRL(*this, "MainRom2Mcds", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM2]);
-		XRCCTRL(*this, "MainRom3Mcds", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM3]);
-		XRCCTRL(*this, "VtCharRomMcds", wxComboBox)->SetValue(conf[MCDS].vtCharRom_);
-        XRCCTRL(*this, "KeyFileMcds", wxTextCtrl)->SetValue(conf[MCDS].keyFile_);
-        XRCCTRL(*this, "PrintFileMcds", wxTextCtrl)->SetValue(conf[MCDS].printFile_);
-        XRCCTRL(*this, "ScreenDumpFileMcds", wxComboBox)->SetValue(conf[MCDS].screenDumpFile_);
+		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM1]);
+		XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM2]);
+		XRCCTRL(*this, "MainRom3MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM3]);
+		XRCCTRL(*this, "VtCharRomMCDS", wxComboBox)->SetValue(conf[MCDS].vtCharRom_);
+        XRCCTRL(*this, "KeyFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].keyFile_);
+        XRCCTRL(*this, "PrintFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].printFile_);
+        XRCCTRL(*this, "ScreenDumpFileMCDS", wxComboBox)->SetValue(conf[MCDS].screenDumpFile_);
         
-        XRCCTRL(*this, "TurboClockMcds", wxTextCtrl)->SetValue(conf[MCDS].turboClock_);
-        XRCCTRL(*this, "TurboMcds", wxCheckBox)->SetValue(conf[MCDS].turbo_);
-        turboGui("Mcds");
-        XRCCTRL(*this, "AutoCasLoadMcds", wxCheckBox)->SetValue(conf[MCDS].autoCassetteLoad_);
+        XRCCTRL(*this, "TurboClockMCDS", wxTextCtrl)->SetValue(conf[MCDS].turboClock_);
+        XRCCTRL(*this, "TurboMCDS", wxCheckBox)->SetValue(conf[MCDS].turbo_);
+        turboGui("MCDS");
+        XRCCTRL(*this, "AutoCasLoadMCDS", wxCheckBox)->SetValue(conf[MCDS].autoCassetteLoad_);
         
-        XRCCTRL(*this, "PrintModeMcds", wxChoice)->SetSelection((int)configPointer->Read("/Mcds/Print_Mode", 1l));
+        XRCCTRL(*this, "PrintModeMCDS", wxChoice)->SetSelection((int)configPointer->Read("/Mcds/Print_Mode", 1l));
         setPrintMode();
   
-        XRCCTRL(*this, "VTTypeMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].vtType);
+        XRCCTRL(*this, "VTTypeMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].vtType);
         XRCCTRL(*this, "McdsForceUC", wxCheckBox)->SetValue(elfConfiguration[MCDS].forceUpperCase);
         
-		XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
-		XRCCTRL(*this, "VTBaudTChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
+		XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
+		XRCCTRL(*this, "VTBaudTChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
 
-        XRCCTRL(*this, "ZoomValueVtMcds", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
+        XRCCTRL(*this, "ZoomValueVtMCDS", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
-		XRCCTRL(*this, "StretchDotMcds", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
-        XRCCTRL(*this, "WavFileMcds", wxTextCtrl)->SetValue(conf[MCDS].wavFile_);
-        XRCCTRL(*this, "VolumeMcds", wxSlider)->SetValue(conf[MCDS].volume_);
+		XRCCTRL(*this, "StretchDotMCDS", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
+        XRCCTRL(*this, "WavFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].wavFile_);
+        XRCCTRL(*this, "VolumeMCDS", wxSlider)->SetValue(conf[MCDS].volume_);
         
         clockTextCtrl[MCDS]->ChangeValue(conf[MCDS].clock_);
 
-        XRCCTRL(*this, "UseLocationMcds", wxCheckBox)->SetValue(conf[MCDS].useLoadLocation_);
+        XRCCTRL(*this, "UseLocationMCDS", wxCheckBox)->SetValue(conf[MCDS].useLoadLocation_);
     }
 }
 
@@ -274,7 +274,7 @@ void GuiMcds::writeMcdsDirConfig()
 
 void GuiMcds::writeMcdsConfig()
 {
-    writeElfPortConfig(MCDS, "Mcds");
+    writeElfPortConfig(MCDS, "MCDS");
 
 	configPointer->Write("/Mcds/Main_Rom_File1", conf[MCDS].rom_[MAINROM1]);
 	configPointer->Write("/Mcds/Main_Rom_File2", conf[MCDS].rom_[MAINROM2]);
@@ -347,7 +347,7 @@ void GuiMcds::onMcdsBaudT(wxCommandEvent&event)
 {
 	elfConfiguration[MCDS].baudT = event.GetSelection();
     elfConfiguration[MCDS].baudR = event.GetSelection();
-    XRCCTRL(*this, "VTBaudRChoiceMcds", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
+    XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
 }
 
 void GuiMcds::onMcdsForceUpperCase(wxCommandEvent&event)

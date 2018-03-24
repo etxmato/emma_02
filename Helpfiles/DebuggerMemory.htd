@@ -81,7 +81,7 @@ R = ROM<br>
 <p>
 When changing any of these values the Cosmac Elf 2000, Telmac 1800, Telmac 2000, Oscom Nano and/or ETI 660 emulation might not work anymore!
 </p>
-<h4>Values allowed in RCA Studio II, Visicom COM-100 and Victory MPT-02 emulation</h4> 
+<h4>Values allowed in RCA Studio II, RCA Studio III / Victory MPT-02 and Visicom COM-100 emulation</h4> 
 <p>
 space = UNDEFINED<br>
 . = RAM<br>
@@ -90,7 +90,7 @@ M. = Mapped RAM<br>
 C. = Victory Colour RAM Access<br>
 </p>
 <p>
-When changing any of these values the RCA Studio II, Visicom COM-100 and/or Victory MPT-02 emulation might not work anymore!
+When changing any of these values the RCA Studio II, RCA Studio III / Victory MPT-02 and/or Visicom COM-100 emulation might not work anymore!
 </p>
 <h4>Values allowed in Cidelsa, Telmac TMC 600 and Pecom 64 emulation</h4> 
 <p>

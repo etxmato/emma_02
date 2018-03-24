@@ -12,6 +12,7 @@ CPP_SRCS += \
 ../src/cdp1802.cpp \
 ../src/cidelsa.cpp \
 ../src/cidelsastatusbar.cpp \
+../src/coinarcade.cpp \
 ../src/colour.cpp \
 ../src/computer.cpp \
 ../src/comx35.cpp \
@@ -131,6 +132,7 @@ OBJS += \
 ./src/cdp1802.o \
 ./src/cidelsa.o \
 ./src/cidelsastatusbar.o \
+./src/coinarcade.o \
 ./src/colour.o \
 ./src/computer.o \
 ./src/comx35.o \
@@ -242,6 +244,7 @@ CPP_DEPS += \
 ./src/cdp1802.d \
 ./src/cidelsa.d \
 ./src/cidelsastatusbar.d \
+./src/coinarcade.d \
 ./src/colour.d \
 ./src/computer.d \
 ./src/comx35.d \

@@ -3,17 +3,17 @@
 <body>
 <h2>Chip 8 Interpreter</h2>
 <p>
-The Studio II chip 8 interpreter was designed by Marcel van Tongeren and is based on the VIP chip 8 interpreter. This interpreter also runs on the Victory MPT-02.
+The Studio II chip 8 interpreter was designed by Marcel van Tongeren and is based on the VIP chip 8 interpreter. This interpreter also runs on the RCA Studio III / Victory MPT-02.
 </p>
 <p>
 To use the chip 8 interpreter in Emma 02 load the configuration 'Chip 8' or 'Multi-Cart' alternatively select 'chip8.bin' as ROM and any chip 8 file as CART.
 </p>
 <p>
-On HW this chip 8 interpreter can run on a Victory MPT-02 with the 40th Anniversary Multi-Cart as designed by FLiP. Due to HW differences of the Victory MPT-02 compared with the VIP there are some limitations:
+On HW this chip 8 interpreter can run on a RCA Studio III / Victory MPT-02 with the 40th Anniversary Multi-Cart as designed by FLiP. Due to HW differences of the RCA Studio III / Victory MPT-02 compared with the VIP there are some limitations:
 <UL>
-<LI>Free RAM is limited to 0x9F bytes. Chip 8 code writing to memory will try to emulate writing to RAM by changing register I to a value within 0xB00 and 0xB9F (addressing Victory MPT-02 memory 0x800-0x89F). This will work for the simplest cases but most SW will need re-coding if RAM is used.
+<LI>Free RAM is limited to 0x9F bytes. Chip 8 code writing to memory will try to emulate writing to RAM by changing register I to a value within 0xB00 and 0xB9F (addressing RCA Studio III / Victory MPT-02 memory 0x800-0x89F). This will work for the simplest cases but most SW will need re-coding if RAM is used.
 <LI>Chip 8 size should be lass than 0xB00 bytes.
-<LI>Keys A to F do not exist on a Victory MPT-02, these keys are mapped to keypad two 1 (A) to 6 (F).
+<LI>Keys A to F do not exist on a RCA Studio III / Victory MPT-02, these keys are mapped to keypad two 1 (A) to 6 (F).
 </UL>
 <pre>
 Memory map:
