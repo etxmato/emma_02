@@ -15562,7 +15562,8 @@ void DebugWindow::setMemoryType(int id, int setType)
 			}
 		break;
 
-		case VICTORY:
+        case VICTORY:
+        case STUDIOIV:
 			if (setType == CRAM1870)
 				setType = CARTRIDGEROM;
 			if ((setType == RAM) || (setType == MAPPEDRAM) || (setType == COLOURRAM) || (setType == ROM) || (setType == CARTRIDGEROM) || (setType == UNDEFINED) || (setType == TESTCARTRIDGEROM))
@@ -16505,13 +16506,20 @@ void DebugWindow::updateTitle()
 			p_Visicom->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
-		case VICTORY:
-			if (p_Victory->getSteps()==0)
-				title = title + " ** PAUSED **";
-			p_Victory->SetTitle("Studio III / Victory MPT-02" + title);
-			p_Victory->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
-		break;
-
+        case VICTORY:
+            if (p_Victory->getSteps()==0)
+                title = title + " ** PAUSED **";
+            p_Victory->SetTitle("Studio III / Victory MPT-02" + title);
+            p_Victory->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
+        case STUDIOIV:
+            if (p_StudioIV->getSteps()==0)
+                title = title + " ** PAUSED **";
+            p_StudioIV->SetTitle("Studio IV" + title);
+            p_StudioIV->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+            break;
+            
 		case VIP:
 			if (p_Vip->getSteps()==0)
 				title = title + " ** PAUSED **";

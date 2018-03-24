@@ -219,7 +219,8 @@ Byte Cdp1802::pixieDmaOut(int *color)
 			else
 				*color = colorMemory1864_[scratchpadRegister_[0] & colourMask_] & 0x7;
 		break;
-		case VICTORY:
+        case VICTORY:
+        case STUDIOIV:
             if (colourMask_ == 0)
                 *color = 7;
             else
@@ -2846,6 +2847,7 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
             case COINARCADE:
 			case VISICOM:
 			case VICTORY:
+            case STUDIOIV:
 			break;
 
 			default:
@@ -3459,6 +3461,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case STUDIO:
                 case COINARCADE:
                 case VICTORY:
+                case STUDIOIV:
                 case VISICOM:
                     address = (address & 0x1ff) | 0x800;
                 break;
@@ -3812,6 +3815,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case COINARCADE:
                 case VICTORY:
                 case VISICOM:
+                case STUDIOIV:
                     address = (address & 0x1ff) | 0x800;
                 break;
                 

@@ -1372,7 +1372,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 			break;
 
 			case 'S':
-				if (computer == "Studio")
+				if (computer == "Studio" || computer == "Studio2" || computer == "StudioII")
 				{
 					startComputer_ = STUDIO;
 					computer = "Studio2";
@@ -1388,6 +1388,37 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 					}
 					return true;
 				}
+                if (computer == "StudioIII" || computer == "Studio3")
+                {
+                    startComputer_ = VICTORY;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("r", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on RCA Studio III emulator");
+                        return false;
+                    }
+                    return true;
+                }
+                if (computer == "StudioIV" || computer == "Studio4")
+                {
+                    startComputer_ = STUDIOIV;
+                    computer = "StudioIV";
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("r", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on RCA Studio IV emulator");
+                        return false;
+                    }
+                    return true;
+                }
 				wxMessageOutput::Get()->Printf("Incorrect computer name specified");
 				return false;
 			break;
@@ -1953,6 +1984,7 @@ void Main::writeConfig()
     writeCoinArcadeDirConfig();
     writeVisicomDirConfig();
     writeVictoryDirConfig();
+    writeStudioIVDirConfig();
     writeCidelsaDirConfig();
     writeTelmacDirConfig();
     writeTMC2000DirConfig();
@@ -1977,7 +2009,8 @@ void Main::writeConfig()
     writeStudioConfig();
     writeCoinArcadeConfig();
 	writeVisicomConfig();
-	writeVictoryConfig();
+    writeVictoryConfig();
+    writeStudioIVConfig();
 	writeCidelsaConfig();
 	writeTelmacConfig();
 	writeTMC2000Config();
@@ -2003,6 +2036,7 @@ void Main::writeConfig()
     writeCoinArcadeWindowConfig();
     writeVisicomWindowConfig();
     writeVictoryWindowConfig();
+    writeStudioIVWindowConfig();
     writeCidelsaWindowConfig();
     writeTelmacWindowConfig();
     writeTMC2000WindowConfig();
@@ -2236,6 +2270,9 @@ void Main::initConfig()
 	setScreenInfo(VICTORY, 0, 24, colour, 2, borderX, borderY);
 	setComputerInfo(VICTORY, "Victory", "Studio III / Victory MPT-02", "");
 
+    setScreenInfo(STUDIOIV, 0, 24, colour, 2, borderX, borderY);
+    setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "");
+    
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)
 	wxFont defaultFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -2392,7 +2429,8 @@ void Main::readConfig()
     readStudioConfig();
     readCoinArcadeConfig();
 	readVisicomConfig();
-	readVictoryConfig();	
+    readVictoryConfig();
+    readStudioIVConfig();
 	readCidelsaConfig();
 	readTelmacConfig();
 	readTMC1800Config();
@@ -2418,6 +2456,7 @@ void Main::readConfig()
     readCoinArcadeWindowConfig();
     readVisicomWindowConfig();
     readVictoryWindowConfig();
+    readStudioIVWindowConfig();
     readCidelsaWindowConfig();
     readTelmacWindowConfig();
     readTMC1800WindowConfig();
@@ -2594,9 +2633,11 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMS2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCoindArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelStudio2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelVisicom", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-			XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelStudioIV", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC600", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC1800", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3035,6 +3076,11 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeVictoryConfig();
         break;
             
+        case STUDIOIV:
+            writeStudioIVDirConfig();
+            writeStudioIVConfig();
+        break;
+            
         case VIP:
             writeVipDirConfig();
             writeVipConfig();
@@ -3232,6 +3278,10 @@ void Main::loadComputerConfig(wxString fileName)
             
         case VICTORY:
             readVictoryConfig();
+        break;
+            
+        case STUDIOIV:
+            readStudioIVConfig();
         break;
             
         case VIP:
@@ -4070,7 +4120,7 @@ void Main::fullScreenMenu()
 
 void Main::popUp()
 {
-	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == VICTORY || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
+	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == VICTORY || runningComputer_ == STUDIOIV || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
 		return;
 
 	if (popupDialog_ == NULL)
@@ -4183,6 +4233,10 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Victory->Move(conf[VICTORY].mainX_, conf[VICTORY].mainY_);
 		break;
 
+        case STUDIOIV:
+            p_StudioIV->Move(conf[STUDIOIV].mainX_, conf[STUDIOIV].mainY_);
+        break;
+            
 		case VIP:
 			p_Vip->moveWindows();
 			p_Vip->Move(conf[VIP].mainX_, conf[VIP].mainY_);
@@ -4287,8 +4341,10 @@ void Main::nonFixedWindowPosition()
     conf[COINARCADE].mainY_ = -1;
 	conf[VISICOM].mainX_ = -1;
 	conf[VISICOM].mainY_ = -1;
-	conf[VICTORY].mainX_ = -1;
-	conf[VICTORY].mainY_ = -1;
+    conf[VICTORY].mainX_ = -1;
+    conf[VICTORY].mainY_ = -1;
+    conf[STUDIOIV].mainX_ = -1;
+    conf[STUDIOIV].mainY_ = -1;
 	conf[MEMBER].mainX_ = -1;
 	conf[MEMBER].mainY_ = -1;
 	conf[MICROTUTOR].mainX_ = -1;
@@ -4371,6 +4427,8 @@ void Main::fixedWindowPosition()
 	conf[VISICOM].mainY_ = mainWindowY_;
 	conf[VICTORY].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VICTORY].mainY_ = mainWindowY_;
+    conf[STUDIOIV].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[STUDIOIV].mainY_ = mainWindowY_;
 	conf[MEMBER].mainX_ = mainWindowX_;
 	conf[MEMBER].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
 	conf[MICROTUTOR].mainX_ = mainWindowX_;
@@ -4543,6 +4601,12 @@ void Main::onStart(int computer)
 			p_Computer = p_Victory;
 		break;
 
+        case STUDIOIV:
+            p_StudioIV = new StudioIV(computerInfo[STUDIOIV].name, wxPoint(conf[STUDIOIV].mainX_, conf[STUDIOIV].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, STUDIOIV);
+            p_Video = p_StudioIV;
+            p_Computer = p_StudioIV;
+        break;
+            
 		case VIP:
 			p_Vip = new Vip(computerInfo[VIP].name, wxPoint(conf[VIP].mainX_, conf[VIP].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIP, conf[VIP].clockSpeed_, conf[VIP].tempo_, elfConfiguration[VIP]);
 			p_Video = p_Vip;
@@ -4819,14 +4883,18 @@ void Main::onComputer(wxNotebookEvent&event)
                     studioChoice_ = STUDIO;
                 break;
                     
-				case VISICOMTAB:
-					studioChoice_ = VISICOM;
-				break;
-
 				case VICTORYTAB:
 					studioChoice_ = VICTORY;
 				break;
 
+                case STUDIOIVTAB:
+                    studioChoice_ = STUDIOIV;
+                break;
+                    
+                case VISICOMTAB:
+                    studioChoice_ = VISICOM;
+                break;
+                    
 				default:
 					studioChoice_ = STUDIO;
 				break;
@@ -4924,14 +4992,18 @@ void Main::onStudioChoiceBook(wxChoicebookEvent&event)
             studioChoice_ = STUDIO;
         break;
             
-		case VISICOMTAB:
-			studioChoice_ = VISICOM;
-		break;
-
 		case VICTORYTAB:
 			studioChoice_ = VICTORY;
 		break;
-	}
+
+        case STUDIOIVTAB:
+            studioChoice_ = STUDIOIV;
+        break;
+
+        case VISICOMTAB:
+            studioChoice_ = VISICOM;
+        break;
+    }
 	selectedComputer_ = studioChoice_;
     setConfigurationMenu();
 }
@@ -5185,6 +5257,11 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(VICTORYTAB);
 		break;
 
+        case STUDIOIV:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(STUDIOTAB);
+            XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(STUDIOIVTAB);
+        break;
+            
 		case CIDELSA:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(CIDELSATAB);
 		break;
@@ -5236,6 +5313,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
     XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status | (runningComputer_ == STUDIO));
     XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status | (runningComputer_ == VICTORY));
+    XRCCTRL(*this,"ColoursStudioIV", wxButton)->Enable(status | (runningComputer_ == STUDIOIV));
     XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status | (runningComputer_ == VISICOM));
     XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status | (runningComputer_ == CIDELSA));
     XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status | (runningComputer_ == TMC600));
@@ -5514,6 +5592,16 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ScreenDumpF5Victory", wxButton)->Enable(!status);
         XRCCTRL(*this,"MultiCartVictory", wxCheckBox)->Enable(status);
 	}
+    if (runningComputer_ == STUDIOIV)
+    {
+        enableChip8DebugGui(!status);
+        XRCCTRL(*this,"MainRomStudioIV", wxComboBox)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
+        XRCCTRL(*this,"RomButtonStudioIV", wxButton)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
+        XRCCTRL(*this,"CartRomStudioIV", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"CartRomButtonStudioIV", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3StudioIV", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5StudioIV", wxButton)->Enable(!status);
+    }
 	if (runningComputer_ == TMC2000)
 	{
 		enableChip8DebugGui(!status);
@@ -7360,7 +7448,8 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
     {
         case STUDIO:
         case COINARCADE:
-		case VICTORY:
+        case VICTORY:
+        case STUDIOIV:
 			keysFound = loadKeyDefinition("", "studiodefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
         break;
             
@@ -7400,6 +7489,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case STUDIO:
             case COINARCADE:
             case VICTORY:
+            case STUDIOIV:
             case VISICOM:
                 if (player == "A")
                 {

@@ -136,6 +136,7 @@
 		9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
 		999DE99B20667EF2005B3A29 /* Linux build in Resources */ = {isa = PBXBuildFile; fileRef = 999DE99A20667EF2005B3A29 /* Linux build */; };
+		999DE99E2066EA7E005B3A29 /* studioiv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999DE99D2066EA7E005B3A29 /* studioiv.cpp */; };
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
 		99AA43FF20270FAD00474FB4 /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99AA43FE20270FAD00474FB4 /* libserialport.a */; };
 		99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99ABC2981E56538800850E94 /* menuMS2000.xrc */; };
@@ -429,6 +430,8 @@
 		999CFEDB1DCD33070094BEC8 /* guims2000.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guims2000.cpp; path = src/guims2000.cpp; sourceTree = "<group>"; };
 		999CFEDC1DCD33070094BEC8 /* guims2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guims2000.h; path = src/guims2000.h; sourceTree = "<group>"; };
 		999DE99A20667EF2005B3A29 /* Linux build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Linux build"; sourceTree = "<group>"; };
+		999DE99C2066EA7E005B3A29 /* studioiv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = studioiv.h; path = src/studioiv.h; sourceTree = "<group>"; };
+		999DE99D2066EA7E005B3A29 /* studioiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv.cpp; path = src/studioiv.cpp; sourceTree = "<group>"; };
 		99A502CA1E959040004218C8 /* splash.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash.xrc; sourceTree = "<group>"; };
 		99AA43FE20270FAD00474FB4 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/libserialport.a; sourceTree = "<group>"; };
 		99ABC2981E56538800850E94 /* menuMS2000.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMS2000.xrc; sourceTree = "<group>"; };
@@ -768,6 +771,8 @@
 				991199431E92ECC30074ADAA /* splash.h */,
 				997647081A61D5EE00FB9B33 /* studio2.cpp */,
 				997647501A61D5EE00FB9B33 /* studio2.h */,
+				999DE99D2066EA7E005B3A29 /* studioiv.cpp */,
+				999DE99C2066EA7E005B3A29 /* studioiv.h */,
 				997647511A61D5EE00FB9B33 /* super.cpp */,
 				997647521A61D5EE00FB9B33 /* super.h */,
 				997647251A61D5EE00FB9B33 /* Sync_Audio.cpp */,
@@ -960,6 +965,7 @@
 				997647DA1A61D5EF00FB9B33 /* vtsetup.cpp in Sources */,
 				99BE53251F156AA1006BD353 /* diagstatusbar.cpp in Sources */,
 				997647D81A61D5EF00FB9B33 /* fdc.cpp in Sources */,
+				999DE99E2066EA7E005B3A29 /* studioiv.cpp in Sources */,
 				9976480F1A61D5EF00FB9B33 /* pushbutton.cpp in Sources */,
 				997647CB1A61D5EF00FB9B33 /* computer.cpp in Sources */,
 				9976480E1A61D5EF00FB9B33 /* ide.cpp in Sources */,

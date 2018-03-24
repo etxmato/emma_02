@@ -71,7 +71,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
 	videoScreenPointer = new VideoScreen(this, size, zoom, computerType, xZoomFactor_);
 
-	if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY))
+	if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY) || (computerType_ == STUDIOIV))
 		videoHeight_ = 192;
 	else
 		videoHeight_ = 128;
@@ -286,11 +286,11 @@ void Pixie::configurePixieTelmac()
 	p_Main->message("	EF 1: in frame indicator\n");
 }
 
-void Pixie::configurePixieVictory()
+void Pixie::configurePixieStudioIV()
 {
-	p_Computer->setOutType(1, PIXIEBACKGROUND);
+    p_Computer->setOutType(1, PIXIEBACKGROUND);
+    p_Computer->setOutType(4, PIXIEOUT);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
-	p_Computer->setInType(1, PIXIEIN);
 	p_Computer->setEfType(1, PIXIEEF);
 
 	backGroundInit_ = 8;
@@ -298,9 +298,26 @@ void Pixie::configurePixieVictory()
 
 	p_Main->message("Configuring CDP 1864");
 
-	p_Main->message("	Output 1: switch background colour, output 4: tone latch");
-	p_Main->message("	Input 1: enable graphics");
+	p_Main->message("	Output 1: switch background colour, output ?: tone latch");
+	p_Main->message("	Output 4: enable graphics");
 	p_Main->message("	EF 1: in frame indicator\n");
+}
+
+void Pixie::configurePixieVictory()
+{
+    p_Computer->setOutType(1, PIXIEBACKGROUND);
+    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setInType(1, PIXIEIN);
+    p_Computer->setEfType(1, PIXIEEF);
+    
+    backGroundInit_ = 8;
+    colourMask_ = 0;
+    
+    p_Main->message("Configuring CDP 1864");
+    
+    p_Main->message("	Output 1: switch background colour, output 4: tone latch");
+    p_Main->message("	Input 1: enable graphics");
+    p_Main->message("	EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieNano()

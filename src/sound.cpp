@@ -604,7 +604,8 @@ void Sound::psaveAmplitudeChange(int q)
                     
 				case TMC2000:
 				case ETI:
-				case VICTORY:
+                case VICTORY:
+                case STUDIOIV:
                 case VIPII:
 					if (q)
 						tone1864On();

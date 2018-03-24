@@ -42,6 +42,12 @@ public:
 	void onMsbVictory(wxSpinEvent&event);
 	void onLsbVictory(wxSpinEvent&event);
 
+    void readStudioIVConfig();
+    void writeStudioIVDirConfig();
+    void writeStudioIVConfig();
+    void readStudioIVWindowConfig();
+    void writeStudioIVWindowConfig();
+    
 	void onSt2Rom(wxCommandEvent& event);
 	void onSt2RomEject(wxCommandEvent& event);
 

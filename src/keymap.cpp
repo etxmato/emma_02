@@ -180,7 +180,8 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             
         case STUDIO:
 		case VISICOM:
-		case VICTORY:
+        case VICTORY:
+        case STUDIOIV:
             keyDefGameHexA_[4] = 0;
             keyDefGameHexB_[0] = 2;
             keyDefGameHexB_[1] = 4;
@@ -275,7 +276,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 
     if (computerType != COINARCADE)
     {
-        if (computerType == STUDIO || computerType == VISICOM || computerType == VICTORY)
+        if (computerType == STUDIO || computerType == VISICOM || computerType == VICTORY || computerType == STUDIOIV)
         {
             simDefA2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalA2", true);
             simDefB2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalB2", true);
@@ -721,7 +722,7 @@ void KeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         p_Main->setConfigItem(computerTypeStr_+conf, hexKeyDefA2_[i]);
 	}
 
-	if ((computerTypeStr_ == "Vip") || (computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory"))
+	if ((computerTypeStr_ == "Vip") || (computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory") || (computerTypeStr_ == "StudioIV"))
 	{
 		for (int i= 0; i < numberOfKeys_; i++)
 		{	
@@ -748,7 +749,7 @@ void KeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         }
         p_Computer->reDefineInKey(inButton1_, inButton2_);
 	}
-    if (computerTypeStr_ == "Studio2" || computerTypeStr_ == "Visicom" || computerTypeStr_ == "Victory")
+    if (computerTypeStr_ == "Studio2" || computerTypeStr_ == "Visicom" || computerTypeStr_ == "Victory" || computerTypeStr_ == "StudioIV")
     {
         p_Main->setConfigBool(computerTypeStr_+"/DiagonalA2", simDefA2_);
         p_Main->setConfigBool(computerTypeStr_+"/DiagonalB2", simDefB2_);
@@ -2028,7 +2029,7 @@ void KeyMapDialog::enableAuto(bool status)
         XRCCTRL(*this, button, wxButton)->Enable(!status);
     }
     
-    if ((computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory"))
+    if ((computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory") || (computerTypeStr_ == "StudioIV"))
     {
         XRCCTRL(*this, "StudioChar", wxButton)->Enable(!status);
         XRCCTRL(*this, "StudioLocation", wxButton)->Enable(!status);

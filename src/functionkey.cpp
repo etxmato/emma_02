@@ -131,6 +131,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     LoadAndCompareStudio(COINARCADE, "CoinArcade");
     LoadAndCompareStudio(VISICOM, "Visicom");
     LoadAndCompareStudio(VICTORY, "Victory");
+    LoadAndCompareStudio(STUDIOIV, "StudioIV");
     
 	updateButtons();
     

@@ -29,7 +29,8 @@ public:
 	void configurePixieVipII();
 	void configurePixieTmc1800();
 	void configurePixieTelmac();
-	void configurePixieVictory();
+    void configurePixieStudioIV();
+    void configurePixieVictory();
 	void configurePixieEti();
 	void initiateColour(bool colour);
 	void configurePixieNano();

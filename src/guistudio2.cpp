@@ -135,6 +135,29 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 	EVT_BUTTON(XRCID("KeyMapVictory"), Main::onHexKeyDef)
 	EVT_BUTTON(XRCID("ColoursVictory"), Main::onColoursDef)
 
+
+    EVT_TEXT(XRCID("MainRomStudioIV"), GuiMain::onMainRom1Text)
+    EVT_COMBOBOX(XRCID("MainRomStudioIV"), GuiMain::onMainRom1Text)
+    EVT_BUTTON(XRCID("RomButtonStudioIV"), GuiMain::onMainRom1)
+
+    EVT_TEXT(XRCID("CartRomStudioIV"), GuiMain::onCartRomText)
+    EVT_COMBOBOX(XRCID("CartRomStudioIV"), GuiMain::onCartRomText)
+    EVT_BUTTON(XRCID("CartRomButtonStudioIV"), GuiMain::onCartRom)
+
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonStudioIV"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
+
+    EVT_SPIN_UP(XRCID("ZoomSpinStudioIV"), GuiMain::onZoomUp)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinStudioIV"), GuiMain::onZoomDown)
+    EVT_TEXT(XRCID("ZoomValueStudioIV"), GuiMain::onZoomValue)
+    EVT_BUTTON(XRCID("FullScreenF3StudioIV"), GuiMain::onFullScreen)
+    EVT_BUTTON(XRCID("ScreenDumpF5StudioIV"), GuiMain::onScreenDump)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeStudioIV"), GuiMain::onVolume)
+    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeStudioIV"), GuiMain::onVolume)
+    EVT_BUTTON(XRCID("KeyMapStudioIV"), Main::onHexKeyDef)
+    EVT_BUTTON(XRCID("ColoursStudioIV"), Main::onColoursDef)
+
 END_EVENT_TABLE()
 
 GuiStudio2::GuiStudio2(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
@@ -557,3 +580,87 @@ void GuiStudio2::onLsbVictory(wxSpinEvent&event)
 		p_Computer->setMultiCartLsb(conf[VICTORY].lsb_);
 }
 
+void GuiStudio2::readStudioIVConfig()
+{
+    selectedComputer_ = STUDIOIV;
+    
+    conf[STUDIOIV].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "StudioIV" + pathSeparator_;
+    conf[STUDIOIV].mainDir_ = readConfigDir("/Dir/StudioIV/Main", dataDir_ + "StudioIV" + pathSeparator_);
+    
+    conf[STUDIOIV].romDir_[MAINROM1] = readConfigDir("/Dir/StudioIV/Main_Rom_File", dataDir_ + "StudioIV"  + pathSeparator_);
+    conf[STUDIOIV].romDir_[CARTROM] = readConfigDir("/Dir/StudioIV/St2_File", dataDir_ + "StudioIV" + pathSeparator_);
+    conf[STUDIOIV].screenDumpFileDir_ = readConfigDir("/Dir/StudioIV/Video_Dump_File", dataDir_ + "StudioIV" + pathSeparator_);
+    
+    conf[STUDIOIV].rom_[MAINROM1] = configPointer->Read("/StudioIV/Main_Rom_File", "Studio IV V3.bin");
+    conf[STUDIOIV].rom_[CARTROM] = configPointer->Read("/StudioIV/St2_File", "");
+    conf[STUDIOIV].screenDumpFile_ = configPointer->Read("/StudioIV/Video_Dump_File", "screendump.png");
+    
+    wxString defaultZoom;
+    defaultZoom.Printf("%2.2f", 2.0);
+    conf[STUDIOIV].zoom_ = configPointer->Read("/StudioIV/Zoom", defaultZoom);
+    wxString defaultClock;
+    defaultClock.Printf("%1.2f", 1.76);
+    conf[STUDIOIV].clock_ = configPointer->Read("/StudioIV/Clock_Speed", defaultClock);
+    conf[STUDIOIV].volume_ = (int)configPointer->Read("/StudioIV/Volume", 25l);
+    
+    wxString defaultScale;
+    defaultScale.Printf("%i", 4);
+    conf[STUDIOIV].xScale_ = configPointer->Read("/StudioIV/Window_Scale_Factor_X", defaultScale);
+    conf[STUDIOIV].realCassetteLoad_ = false;
+    
+    configPointer->Read("/StudioIV/MultiCart", &conf[STUDIOIV].multiCart_, false);
+    configPointer->Read("/StudioIV/DisableSystemRom", &conf[STUDIOIV].disableSystemRom_, true);
+    conf[STUDIOIV].lsb_ = (Byte)configPointer->Read("/StudioIV/Lsb", 0l);
+    conf[STUDIOIV].msb_ = (Byte)configPointer->Read("/StudioIV/Msb", 0l);
+    
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
+        XRCCTRL(*this, "CartRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[CARTROM]);
+        XRCCTRL(*this, "ScreenDumpFileStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].screenDumpFile_);
+        XRCCTRL(*this, "ZoomValueStudioIV", wxTextCtrl)->ChangeValue(conf[STUDIOIV].zoom_);
+        clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);
+        XRCCTRL(*this, "VolumeStudioIV", wxSlider)->SetValue(conf[STUDIOIV].volume_);
+        
+        XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->Enable(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_);
+        XRCCTRL(*this, "RomButtonStudioIV", wxButton)->Enable(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_);
+    }
+}
+
+void GuiStudio2::writeStudioIVDirConfig()
+{
+    writeConfigDir("/Dir/StudioIV/Main", conf[STUDIOIV].mainDir_);
+    writeConfigDir("/Dir/StudioIV/Main_Rom_File", conf[STUDIOIV].romDir_[MAINROM1]);
+    writeConfigDir("/Dir/StudioIV/St2_File", conf[STUDIOIV].romDir_[CARTROM]);
+    writeConfigDir("/Dir/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFileDir_);
+}
+
+void GuiStudio2::writeStudioIVConfig()
+{
+    configPointer->Write("/StudioIV/Main_Rom_File",conf[STUDIOIV].rom_[MAINROM1]);
+    configPointer->Write("/StudioIV/St2_File", conf[STUDIOIV].rom_[CARTROM]);
+    configPointer->Write("/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFile_);
+    
+    configPointer->Write("/StudioIV/Zoom", conf[STUDIOIV].zoom_);
+    configPointer->Write("/StudioIV/Clock_Speed", conf[STUDIOIV].clock_);
+    configPointer->Write("/StudioIV/Volume", conf[STUDIOIV].volume_);
+    
+    configPointer->Write("/StudioIV/MultiCart", conf[STUDIOIV].multiCart_);
+    configPointer->Write("/StudioIV/DisableSystemRom", conf[STUDIOIV].disableSystemRom_);
+    configPointer->Write("/StudioIV/Lsb", conf[STUDIOIV].lsb_);
+    configPointer->Write("/StudioIV/Msb", conf[STUDIOIV].msb_);
+}
+
+void GuiStudio2::readStudioIVWindowConfig()
+{
+    conf[STUDIOIV].mainX_ = (int)configPointer->Read("/StudioIV/Window_Position_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[STUDIOIV].mainY_ = (int)configPointer->Read("/StudioIV/Window_Position_Y", mainWindowY_);
+}
+
+void GuiStudio2::writeStudioIVWindowConfig()
+{
+    if (conf[STUDIOIV].mainX_ > 0)
+        configPointer->Write("/StudioIV/Window_Position_X", conf[STUDIOIV].mainX_);
+    if (conf[STUDIOIV].mainY_ > 0)
+        configPointer->Write("/StudioIV/Window_Position_Y", conf[STUDIOIV].mainY_);
+}

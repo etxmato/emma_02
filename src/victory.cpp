@@ -58,7 +58,7 @@ void Victory::configureComputer()
 	for (int j=0; j<2; j++) for (int i=0; i<10; i++)
 		victoryKeyState_[j][i] = 0;
 
-	p_Main->message("Configuring Victory MPT-02");
+	p_Main->message("Configuring Studio III / Victory MPT-02");
 	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
 	p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
