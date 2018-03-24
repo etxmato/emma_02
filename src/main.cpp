@@ -5219,6 +5219,33 @@ void Main::setNoteBook()
 	}
 }
 
+void Main::enableColorbutton(bool status)
+{
+    XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status | (runningComputer_ == COMX));
+    XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status | (runningComputer_ == ELF2K));
+    XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status | (runningComputer_ == COSMICOS));
+    XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status | (runningComputer_ == ELF));
+    XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status | (runningComputer_ == ELFII));
+    XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
+    XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
+    XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
+    XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status | (runningComputer_ == VIP));
+    XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status | (runningComputer_ == VIPII));
+    XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status | (runningComputer_ == MCDS));
+    XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status | (runningComputer_ == MS2000));
+    XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
+    XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status | (runningComputer_ == STUDIO));
+    XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status | (runningComputer_ == VICTORY));
+    XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status | (runningComputer_ == VISICOM));
+    XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status | (runningComputer_ == CIDELSA));
+    XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status | (runningComputer_ == TMC600));
+    XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status | (runningComputer_ == TMC1800));
+    XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status | (runningComputer_ == TMC2000));
+    XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status | (runningComputer_ == NANO));
+    XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status | (runningComputer_ == PECOM));
+    XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status | (runningComputer_ == ETI));
+}
+
 void Main::enableGui(bool status)
 {
 	if (!mode_.gui)
@@ -5246,33 +5273,12 @@ void Main::enableGui(bool status)
     menubarPointer->Enable(XRCID("KeyboardUs"), status);
     menubarPointer->Enable(XRCID("KeyboardUserDefined"), status);
 
+    enableColorbutton(status);
 	if (runningComputer_ == COMX)
 	{
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false); 
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"EpromComx", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
 		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
@@ -5307,28 +5313,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomCidelsa", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonCidelsa", wxButton)->Enable(status);
 		XRCCTRL(*this,"ScreenDumpF5Cidelsa", wxButton)->Enable(!status);
@@ -5339,26 +5323,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"PrintButtonTMC600", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5TMC600", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3TMC600", wxButton)->Enable(!status);
@@ -5391,27 +5355,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"PrintButtonPecom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Pecom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3Pecom", wxButton)->Enable(!status);
@@ -5423,28 +5366,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == VIP)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"HighResVip", wxCheckBox)->Enable(status);
 		XRCCTRL(*this,"MainRomVip", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVip", wxButton)->Enable(status);
@@ -5498,28 +5419,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == VIPII)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomVipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"MainRom2VipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVipII", wxButton)->Enable(status);
@@ -5537,28 +5436,6 @@ void Main::enableGui(bool status)
     if (runningComputer_ == VELF)
     {
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
         XRCCTRL(*this,"MainRomVelf", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"RamSWVelf", wxComboBox)->Enable(status);
@@ -5600,28 +5477,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == STUDIO)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomStudio2", wxComboBox)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"RomButtonStudio2", wxButton)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"CartRomStudio2", wxComboBox)->Enable(status);
@@ -5633,28 +5488,6 @@ void Main::enableGui(bool status)
     if (runningComputer_ == COINARCADE)
     {
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
         XRCCTRL(*this,"MainRomCoinArcade", wxComboBox)->Enable(status&(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_));
         XRCCTRL(*this,"RomButtonCoinArcade", wxButton)->Enable(status&(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_));
         XRCCTRL(*this,"FullScreenF3CoinArcade", wxButton)->Enable(!status);
@@ -5663,33 +5496,12 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == VISICOM)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomVisicom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"CartRomVisicom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"CartRomButtonVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"FullScreenF3Visicom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Visicom", wxButton)->Enable(!status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 	}
 	if (runningComputer_ == VICTORY)
 	{
@@ -5701,27 +5513,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"FullScreenF3Victory", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Victory", wxButton)->Enable(!status);
         XRCCTRL(*this,"MultiCartVictory", wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 	}
 	if (runningComputer_ == TMC2000)
 	{
@@ -5737,56 +5528,12 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"RamTMC2000", wxChoice)->Enable(status);
 		XRCCTRL(*this,"RamTextTMC2000", wxStaticText)->Enable(status);
 		XRCCTRL(*this,"ScreenDumpF5TMC2000", wxButton)->Enable(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
 	if (runningComputer_ == TMC1800)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomTMC1800", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWTMC1800", wxComboBox)->Enable(status);
@@ -5804,28 +5551,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == ETI)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomEti", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonEti", wxButton)->Enable(status);
 		XRCCTRL(*this,"Chip8SWEti", wxTextCtrl)->Enable(status);
@@ -5841,28 +5566,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == NANO)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomNano", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonNano", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWNano", wxComboBox)->Enable(status);
@@ -5883,26 +5586,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		wxString elfTypeStr;
 		switch (runningComputer_)
 		{
@@ -6008,28 +5691,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomElf2K", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonElf2K", wxButton)->Enable(status);
 		XRCCTRL(*this,"IDE_ButtonElf2K", wxButton)->Enable(status);
@@ -6071,28 +5732,6 @@ void Main::enableGui(bool status)
     {
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
         XRCCTRL(*this,"MainRomMS2000", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonMS2000", wxButton)->Enable(status);
         enableMemAccessGui(!status);
@@ -6119,28 +5758,6 @@ void Main::enableGui(bool status)
 	{
 		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVipII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVelf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->Enable(status);
         XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->Enable(status);
         XRCCTRL(*this, "MainRom3MCDS", wxComboBox)->Enable(status);
@@ -6172,28 +5789,6 @@ void Main::enableGui(bool status)
         chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomCosmicos", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamCosmicos", wxSpinCtrl)->Enable(status);
@@ -6228,28 +5823,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomMembership", wxComboBox)->Enable(status);
 		if (conf[MEMBER].ramType_ == 5 || conf[MEMBER].ramType_ == 6)
 			XRCCTRL(*this, "RomMembership", wxButton)->Enable(false);
@@ -6283,47 +5856,11 @@ void Main::enableGui(bool status)
 	{
 		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVipII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVelf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this, "MainRomMicrotutor", wxComboBox)->Enable(status);
 		XRCCTRL(*this, "RomButtonMicrotutor", wxButton)->Enable(status);
 		enableMemAccessGui(!status);
 	}
 	enableDebugGui(!status);
-
-/*	if (status == true)
-	{
-		XRCCTRL(*this,"AssProgramSlot",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssProgramStart",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssCodeEnd",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssProgramEnd",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssRangeNumber",wxStaticText)->SetLabel("0:");
-		XRCCTRL(*this,"AssFileName",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssStore",wxButton)->Enable(false);
-		XRCCTRL(*this, "AssStore", wxButton)->SetForegroundColour(*wxBLACK);
-	}*/
-
-//	assNew(0);
 
 	if (status)
 	{

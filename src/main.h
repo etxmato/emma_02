@@ -972,7 +972,8 @@ public:
 
 	void stopComputer();
     void killComputer(wxCommandEvent&WXUNUSED(event));
-	void enableGui(bool status);
+    void enableColorbutton(bool status);
+    void enableGui(bool status);
 	void message(wxString buffer);
 	void messageNoReturn(wxString buffer);
 	void messageInt(int value);
