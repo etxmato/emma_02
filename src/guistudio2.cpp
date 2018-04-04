@@ -157,6 +157,7 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeStudioIV"), GuiMain::onVolume)
     EVT_BUTTON(XRCID("KeyMapStudioIV"), Main::onHexKeyDef)
     EVT_BUTTON(XRCID("ColoursStudioIV"), Main::onColoursDef)
+    EVT_CHOICE(XRCID("VidModeStudioIV"), GuiStudio2::onStudioVideoMode)
 
 END_EVENT_TABLE()
 
@@ -591,7 +592,7 @@ void GuiStudio2::readStudioIVConfig()
     conf[STUDIOIV].romDir_[CARTROM] = readConfigDir("/Dir/StudioIV/St2_File", dataDir_ + "StudioIV" + pathSeparator_);
     conf[STUDIOIV].screenDumpFileDir_ = readConfigDir("/Dir/StudioIV/Video_Dump_File", dataDir_ + "StudioIV" + pathSeparator_);
     
-    conf[STUDIOIV].rom_[MAINROM1] = configPointer->Read("/StudioIV/Main_Rom_File", "Studio IV V3.bin");
+    conf[STUDIOIV].rom_[MAINROM1] = configPointer->Read("/StudioIV/Main_Rom_File", "Studio IV V3 PAL.bin");
     conf[STUDIOIV].rom_[CARTROM] = configPointer->Read("/StudioIV/St2_File", "");
     conf[STUDIOIV].screenDumpFile_ = configPointer->Read("/StudioIV/Video_Dump_File", "screendump.png");
     
@@ -599,7 +600,7 @@ void GuiStudio2::readStudioIVConfig()
     defaultZoom.Printf("%2.2f", 2.0);
     conf[STUDIOIV].zoom_ = configPointer->Read("/StudioIV/Zoom", defaultZoom);
     wxString defaultClock;
-    defaultClock.Printf("%1.2f", 1.76);
+    defaultClock.Printf("%1.2f", 3.58);
     conf[STUDIOIV].clock_ = configPointer->Read("/StudioIV/Clock_Speed", defaultClock);
     conf[STUDIOIV].volume_ = (int)configPointer->Read("/StudioIV/Volume", 25l);
     
@@ -612,7 +613,8 @@ void GuiStudio2::readStudioIVConfig()
     configPointer->Read("/StudioIV/DisableSystemRom", &conf[STUDIOIV].disableSystemRom_, true);
     conf[STUDIOIV].lsb_ = (Byte)configPointer->Read("/StudioIV/Lsb", 0l);
     conf[STUDIOIV].msb_ = (Byte)configPointer->Read("/StudioIV/Msb", 0l);
-    
+    conf[STUDIOIV].videoMode_ = (int)configPointer->Read("/StudioIV/Video_Mode", 0l);
+
     if (mode_.gui)
     {
         XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
@@ -624,6 +626,7 @@ void GuiStudio2::readStudioIVConfig()
         
         XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->Enable(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_);
         XRCCTRL(*this, "RomButtonStudioIV", wxButton)->Enable(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_);
+        XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);
     }
 }
 
@@ -649,6 +652,7 @@ void GuiStudio2::writeStudioIVConfig()
     configPointer->Write("/StudioIV/DisableSystemRom", conf[STUDIOIV].disableSystemRom_);
     configPointer->Write("/StudioIV/Lsb", conf[STUDIOIV].lsb_);
     configPointer->Write("/StudioIV/Msb", conf[STUDIOIV].msb_);
+    configPointer->Write("/StudioIV/Video_Mode", conf[STUDIOIV].videoMode_);
 }
 
 void GuiStudio2::readStudioIVWindowConfig()
@@ -663,4 +667,22 @@ void GuiStudio2::writeStudioIVWindowConfig()
         configPointer->Write("/StudioIV/Window_Position_X", conf[STUDIOIV].mainX_);
     if (conf[STUDIOIV].mainY_ > 0)
         configPointer->Write("/StudioIV/Window_Position_Y", conf[STUDIOIV].mainY_);
+}
+
+void GuiStudio2::onStudioVideoMode(wxCommandEvent&event)
+{
+    conf[STUDIOIV].videoMode_ = event.GetSelection();
+    if (mode_.gui)
+    {
+        if (conf[STUDIOIV].videoMode_ == PAL)
+            conf[STUDIOIV].rom_[MAINROM1] = "Studio IV V3 PAL.bin";
+        else
+            conf[STUDIOIV].rom_[MAINROM1] = "Studio IV V3 NTSC.bin";
+        XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
+    }
+}
+
+int GuiStudio2::getStudioVideoMode()
+{
+    return conf[STUDIOIV].videoMode_;
 }

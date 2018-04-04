@@ -50,7 +50,7 @@ void StudioIV::configureComputer()
 //    chip8type_ = CHIPST2;
     
 	outType_[2] = STUDIOOUT;
-//	outType_[4] = VIPOUT4;
+	outType_[1] = VIPOUT4;
 	victoryKeyPort_ = 0;
 	efType_[3] = STUDIOEF3;
 	efType_[4] = STUDIOEF4;
@@ -386,16 +386,24 @@ void StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)
 		break;
 
         case PIXIEOUT:
-            inPixie();
+            if ((value&0x2) == 0x2)
+                inPixie();
+            else
+                outPixie();
+            
+ //           if ((value&0x40) == 0x40)
+ //               switchVideoMode(PAL);
+ //           else
+ //               switchVideoMode(NTSC);
         break;
             
-//        case VIPOUT4:
-//			tone1864Latch(value);
-//		break;
-
-		case PIXIEBACKGROUND:
-			outPixieBackGround();
+        case VIPOUT4:
+			tone1864Latch(value);
 		break;
+
+//		case PIXIEBACKGROUND:
+//			outPixieBackGround();
+//		break;
 	}
 }
 
@@ -413,7 +421,7 @@ void StudioIV::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			cyclePixieTelmac();
+			cyclePixieStudioIV();
 		break;
 	}
 }
@@ -429,8 +437,8 @@ void StudioIV::startComputer()
     p_Main->assDefault("studioivcart_1", 0x800, 0xFFF);
     p_Main->assDefault("studioivcart_2", 0x1000, 0x17FF);
 
-    defineMemoryType(0x2000, 0x3B00, RAM);
-    initRam(0x2000, 0x3B00);
+    defineMemoryType(0x2000, 0x3C00, RAM);
+    initRam(0x2000, 0x3C00);
 	defineMemoryType(0x2800, 0x2BFF, COLOURRAM);
     
 	double zoom = p_Main->getZoom();
@@ -446,6 +454,12 @@ void StudioIV::startComputer()
 
     if (gameAuto_)
         p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+
+    chip8baseVar_ = 0x27E0;
+    chip8mainLoop_ = 0x16;
+    chip8type_ = CHIPSTIV;
+    p_Main->defineFelCommands_(chip8type_);
+    readSt2Program(STUDIOIV);
 
 	reDefineKeysA(keyDefA1_, keyDefA2_);
 	reDefineKeysB(keyDefB1_, keyDefB2_);
@@ -464,7 +478,6 @@ void StudioIV::writeMemDataType(Word address, Byte type)
 	{
 		case RAM:
 		case ROM:
-        case MAPPEDROM:
         case CARTRIDGEROM:
             if (mainMemoryDataType_[address] != type)
             {
@@ -472,63 +485,7 @@ void StudioIV::writeMemDataType(Word address, Byte type)
                 mainMemoryDataType_[address] = type;
             }
             break;
-            
-        case TESTCARTRIDGEROM:
-            if (testCartRomDataType_[address] != type)
-            {
-                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                testCartRomDataType_[address] = type;
-            }
-        break;
-            
-		case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
-			{
-				if (mainMemoryDataType_[address] != type)
-				{
-					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-					mainMemoryDataType_[address] = type;
-				}
-			}
-			else
-			{
-				if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
-				{
-					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-					multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
-				}
-			}
-		break;
-
-        case MAPPEDMULTICART:
-            address = address & 0xfff;
-            if ((address < 0x400) && !disableSystemRom_)
-            {
-                if (mainMemoryDataType_[address] != type)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    mainMemoryDataType_[address] = type;
-                }
-            }
-            else
-            {
-                if (multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] != type)
-                {
-                    p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-                    multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
-                }
-            }
-        break;
-            
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			if (mainMemoryDataType_[address] != type)
-			{
-				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-				mainMemoryDataType_[address]=type;
-			}
-		break;
-	}
+    }
 }
 
 Byte StudioIV::readMemDataType(Word address)
@@ -537,35 +494,10 @@ Byte StudioIV::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
-        case MAPPEDROM:
         case CARTRIDGEROM:
             return mainMemoryDataType_[address];
         break;
-            
-        case TESTCARTRIDGEROM:
-            return testCartRomDataType_[address];
-        break;
-            
-		case MULTICART:
-			if ((address < 0x400) && !disableSystemRom_)
-				return mainMemoryDataType_[address];
-			else
-				return multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
-		break;
-
-        case MAPPEDMULTICART:
-            address = address & 0xfff;
-            if ((address < 0x400) && !disableSystemRom_)
-                return mainMemoryDataType_[address];
-            else
-                return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
-        break;
-            
-		case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
-			return mainMemoryDataType_[address];
-		break;
-	}
+    }
 	return MEM_TYPE_UNDEFINED;
 }
 
@@ -579,43 +511,10 @@ Byte StudioIV::readMem(Word addr)
 			return 255;
 		break;
 
-		case MULTICART:
-			if ((addr < 0x400) && !disableSystemRom_)
-				return mainMemory_[addr];
-			else
-				return multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
-		break;
-
-        case MAPPEDMULTICART:
-            addr = addr & 0xfff;
-            if ((addr < 0x400) && !disableSystemRom_)
-                return mainMemory_[addr];
-            else
-                return multiCartRom_[(addr+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
-        break;
-            
         case COLOURRAM:
-			if ((addr & 0xff) < 0x40)
-				return colorMemory1864_[addr&0xff] & 0xf;
-			else
-				return 255;
+            return colorMemory1864_[addr&0x3ff] & 0xf;
         break;
             
-        case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
-		break;
-
-        case CARTRIDGEROM:
-            addr = (addr & 0x3ff) | 0x400;
-        break;
-            
-        case TESTCARTRIDGEROM:
-            return testCartRom_[addr];
-        break;
-            
-        case MAPPEDROM:
-            addr = (addr & 0x3ff);
-        break;
     }
 
 	return mainMemory_[addr];
@@ -636,56 +535,15 @@ void StudioIV::writeMem(Word addr, Byte value, bool writeRom)
 			p_Main->updateAssTabCheck(addr);
 		break;
 
-		case MULTICART:
-			if (writeRom)
-			{
-				if ((addr < 0x400) && !disableSystemRom_)
-					mainMemory_[addr] = value;
-				else
-					multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
-			}
-		break;
-
-        case MAPPEDMULTICART:
-            addr = addr & 0xfff;
-            if (writeRom)
-            {
-                if ((addr < 0x400) && !disableSystemRom_)
-                    mainMemory_[addr] = value;
-                else
-                    multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
-            }
-        break;
-            
 		case COLOURRAM:
-			if ((addr & 0xff) < 0x40)
-			{
-				colorMemory1864_[addr & 0xff] = value & 0xf;
-				if ((addr & 0xff) >= memoryStart_ && (addr & 0xff) < (memoryStart_ + 256))
-					p_Main->updateDebugMemory(addr & 0xff);
-				if (addr >= memoryStart_ && addr < (memoryStart_ + 256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(addr);
-				useColour(7);
-			}
+            colorMemory1864_[addr & 0x3ff] = value & 0xf;
+            if ((addr & 0x3ff) >= memoryStart_ && (addr & 0x3ff) < (memoryStart_ + 256))
+                p_Main->updateDebugMemory(addr & 0x3ff);
+            if (addr >= memoryStart_ && addr < (memoryStart_ + 256))
+                p_Main->updateDebugMemory(addr);
+            p_Main->updateAssTabCheck(addr);
+            useColour(7);
 		break;
-
-		case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
-			if (mainMemory_[addr]==value)
-				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
-		break;
-
-        case TESTCARTRIDGEROM:
-            if (writeRom)
-            {
-                testCartRom_[addr] = value;
-            }
-        break;
             
 		default:
 			if (writeRom)
@@ -739,7 +597,7 @@ void StudioIV::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleSt2Debug();
+        p_Main->cycleFredDebug();
 	}
 	else
 	{

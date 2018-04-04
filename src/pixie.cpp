@@ -52,7 +52,33 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	if (!p_Main->isFullScreenFloat())
 		xZoomFactor_ = (int) xZoomFactor_;
 
-	if ((computerType == VIP && p_Main->getVipHighRes()))
+    if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY))
+        videoHeight_ = 192;
+    else
+        videoHeight_ = 128;
+
+    if (computerType_ == STUDIOIV)
+    {
+        videoMode_ = p_Main->getStudioVideoMode();
+        if (videoMode_ == PAL)
+        {
+            interruptGraphicsMode_ = 74;
+            startGraphicsMode_ = 76;
+            endGraphicsMode_ = 267;
+            endScreen_ = 312;
+            videoHeight_ = 192;
+        }
+        else
+        {
+            interruptGraphicsMode_ = 62;
+            startGraphicsMode_ = 64;
+            endGraphicsMode_ = 191;
+            endScreen_ = 262;
+            videoHeight_ = 128;
+        }
+        studioIVFactor_ = true;
+    }
+	if ( (computerType == VIP && p_Main->getVipHighRes()) | (computerType_ == STUDIOIV))
 	{
 		highRes_ = 2;
 		xZoomFactor_ = zoomfactor/highRes_;
@@ -62,7 +88,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 		highRes_ = 1;
 		xZoomFactor_ = zoomfactor;
 	}
-	graphicsX_ = 8*highRes_;
+ 	graphicsX_ = 8*highRes_;
     videoWidth_ = 64*highRes_;
 	backGroundInit_ = 1;
 	backGround_ = 1;
@@ -70,11 +96,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	this->SetClientSize(size);
 
 	videoScreenPointer = new VideoScreen(this, size, zoom, computerType, xZoomFactor_);
-
-	if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY) || (computerType_ == STUDIOIV))
-		videoHeight_ = 192;
-	else
-		videoHeight_ = 128;
 
 #ifndef __WXMAC__
 	SetIcon(wxICON(app_icon));
@@ -288,7 +309,7 @@ void Pixie::configurePixieTelmac()
 
 void Pixie::configurePixieStudioIV()
 {
-    p_Computer->setOutType(1, PIXIEBACKGROUND);
+//    p_Computer->setOutType(1, PIXIEBACKGROUND);
     p_Computer->setOutType(4, PIXIEOUT);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
 	p_Computer->setEfType(1, PIXIEEF);
@@ -298,9 +319,9 @@ void Pixie::configurePixieStudioIV()
 
 	p_Main->message("Configuring CDP 1864");
 
-	p_Main->message("	Output 1: switch background colour, output ?: tone latch");
-	p_Main->message("	Output 4: enable graphics");
-	p_Main->message("	EF 1: in frame indicator\n");
+	p_Main->message("	Output ?: switch background colour, output 1: tone latch");
+	p_Main->message("	Output 4, bit 2: enable graphics, bit 6: PAL/NTSC");
+//	p_Main->message("	EF 1: in frame indicator\n");
 }
 
 void Pixie::configurePixieVictory()
@@ -429,8 +450,34 @@ Byte Pixie::inPixie()
 void Pixie::outPixie()
 {
 	graphicsOn_ = false;
-	if (computerType_ == ETI)
+	if (computerType_ == ETI || computerType_ == STUDIOIV)
 		videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+}
+
+void Pixie::switchVideoMode(int videoMode)
+{
+    if (videoMode == videoMode_)
+        return;
+    
+    videoMode_ = videoMode;
+    
+    if (videoMode_ == PAL)
+    {
+        interruptGraphicsMode_ = 74;
+        startGraphicsMode_ = 76;
+        endGraphicsMode_ = 267;
+        endScreen_ = 312;
+        videoHeight_ = 192;
+    }
+    else
+    {
+        interruptGraphicsMode_ = 62;
+        startGraphicsMode_ = 64;
+        endGraphicsMode_ = 191;
+        endScreen_ = 262;
+        videoHeight_ = 128;
+    }
+    this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
 }
 
 void Pixie::outPixieBackGround()
@@ -527,6 +574,66 @@ void Pixie::cyclePixie()
 		graphicsNext_ = 0;
 }
 
+void Pixie::cyclePixieStudioIV()
+{
+    int j;
+    Byte v;
+    int color;
+
+    studioIVFactor_ = !studioIVFactor_;
+    if (studioIVFactor_)
+        return;
+    
+    if (graphicsNext_ == 0)
+    {
+        p_Computer->debugTrace("----  H.Sync");
+        graphicsMode_++;
+        if (graphicsMode_ >= endScreen_)
+        {
+            if (changeScreenSize_)
+            {
+                changeScreenSize();
+                if (!fullScreenSet_)
+                    p_Main->pixieBarSizeEvent();
+                changeScreenSize_ = false;
+            }
+            graphicsMode_ = 0;
+            copyScreen();
+            videoSyncCount_++;
+        }
+        
+    }
+    
+    if (graphicsNext_ == 18)
+    {
+        if (graphicsMode_ == interruptGraphicsMode_)
+        {
+            p_Computer->pixieInterrupt();
+            p_Computer->setCycle0();
+        }
+    }
+    if (graphicsMode_ >= startGraphicsMode_ && graphicsMode_ <=endGraphicsMode_ && graphicsOn_ && graphicsNext_ >=4 && graphicsNext_ <= 19)
+    {
+        j = 0;
+        while(graphicsNext_ >= 4 && graphicsNext_ <= 19)
+        {
+            graphicsNext_ ++;
+            v = p_Computer->pixieDmaOut(&color);
+            for (int i=0; i<8; i++)
+            {
+                plot(j+i, (int)graphicsMode_ - startGraphicsMode_,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                v <<= 1;
+            }
+            j += 8;
+        }
+        p_Computer->setCycle0();
+        graphicsNext_ -= 1;
+    }
+    graphicsNext_ += 1;
+    if (graphicsNext_ > 21)
+        graphicsNext_ = 0;
+}
+
 void Pixie::cyclePixieCoinArcade()
 {
     int j;
@@ -564,10 +671,10 @@ void Pixie::cyclePixieCoinArcade()
             else vidInt_ = 0;
         }
     }
-    if (graphicsMode_ >= 72 && graphicsMode_ <=199 && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ < (4+graphicsX_))
+    if (graphicsMode_ >= 72 && graphicsMode_ <=199 && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ < 12)
     {
         j = 0;
-        while(graphicsNext_ >= 4 && graphicsNext_ < (4+graphicsX_))
+        while(graphicsNext_ >= 4 && graphicsNext_ < 12)
         {
             graphicsNext_ ++;
             v = p_Computer->pixieDmaOut(&color);
@@ -586,7 +693,7 @@ void Pixie::cyclePixieCoinArcade()
         graphicsNext_ -= 1;
     }
     graphicsNext_ += 1;
-    if (graphicsNext_ > (5+graphicsX_))
+    if (graphicsNext_ > 13)
         graphicsNext_ = 0;
 }
 

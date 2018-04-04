@@ -220,7 +220,6 @@ Byte Cdp1802::pixieDmaOut(int *color)
 				*color = colorMemory1864_[scratchpadRegister_[0] & colourMask_] & 0x7;
 		break;
         case VICTORY:
-        case STUDIOIV:
             if (colourMask_ == 0)
                 *color = 7;
             else

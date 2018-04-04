@@ -47,6 +47,8 @@ public:
     void writeStudioIVConfig();
     void readStudioIVWindowConfig();
     void writeStudioIVWindowConfig();
+    void onStudioVideoMode(wxCommandEvent&event);
+    int getStudioVideoMode();
     
 	void onSt2Rom(wxCommandEvent& event);
 	void onSt2RomEject(wxCommandEvent& event);

@@ -39,8 +39,10 @@ public:
 	Byte efPixie();
 	Byte inPixie();
 	void outPixie(); 
-	void outPixieBackGround(); 
+    void outPixieBackGround();
+    void switchVideoMode(int videoMode);
     void cyclePixie();
+    void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
 	void cyclePixieTelmac();
 
@@ -76,6 +78,14 @@ private:
 	int updatePlot_;
 	int colourMask_;
 	int highRes_;
+    
+    bool studioIVFactor_;
+    int interruptGraphicsMode_;
+    int startGraphicsMode_;
+    int endGraphicsMode_;
+    int endScreen_;
+
+    int videoMode_;
 };
 
 #endif  // PIXIE_H

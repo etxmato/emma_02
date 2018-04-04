@@ -62,6 +62,7 @@ public:
 
 enum
 {
+    DUMMY,
     ADD_VX_VY_VZ,
     ADD_VX_KK,
     ADD8_VX_VY_N,
@@ -70,12 +71,20 @@ enum
     DRW_VX_VY_N,
     DRW_VX_L_N,
     JP_MMM,
+    JZ_VX_KK,
+    JNZ_VX_KK,
+    JE_I_VX_KK,
+    JNE_I_VX_KK,
     LD_B_VX_VY,
     LD_M8AA_VX,
     LD_RA_MMM,
     LD_RB_MMM,
+    LD_I_MMMM,
     LD_VX_KK,
+    LD_VX_27KK,
+    LD_27KK_VX,
     RND_VX_KK,
+    SE_VX_KK,
     SNE_VX_KK,
     SNE_VX_VY,
     SNE_VX_M8AA,
@@ -92,6 +101,9 @@ enum
     FEL3_COMMAND_8,
     FEL3_COMMAND_C,
     FEL3_COMMAND_E,
+    STIV_COMMAND_4,
+    STIV_COMMAND_5,
+    STIV_COMMAND_6,
     LAST_COMMAND
 };
 
@@ -559,7 +571,7 @@ private:
 	int numberOfDebugLines_;
     int dissassembleCommand_[16];
     int assembleCommand_[LAST_COMMAND];
-
+    int chip8Type_;
     
 	DECLARE_EVENT_TABLE()
 };

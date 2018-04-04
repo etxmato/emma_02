@@ -5601,6 +5601,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"CartRomButtonStudioIV", wxButton)->Enable(status);
         XRCCTRL(*this,"FullScreenF3StudioIV", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5StudioIV", wxButton)->Enable(!status);
+        XRCCTRL(*this,"VidModeStudioIV", wxChoice)->Enable(status);
     }
 	if (runningComputer_ == TMC2000)
 	{

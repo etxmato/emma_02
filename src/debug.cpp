@@ -1632,14 +1632,23 @@ void DebugWindow::updateChip8Window()
 	scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_PC);
 	if (scratchpadRegister != lastPC_)
 	{
-		buffer.Printf("%03X", scratchpadRegister&0xfff);
-//		pcTextPointer->ChangeValue(buffer);
+        if (chip8Type_ == CHIPSTIV)
+            buffer.Printf("%04X", scratchpadRegister);
+        else
+            buffer.Printf("%03X", scratchpadRegister&0xfff);
+		pcTextPointer->ChangeValue(buffer);
 		lastPC_ = scratchpadRegister;
 	}
-	scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_I);
+    if (chip8Type_ == CHIPSTIV)
+        scratchpadRegister = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
+    else
+        scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_I);
 	if (scratchpadRegister != lastI_)
 	{
-		buffer.Printf("%03X", scratchpadRegister&0xfff);
+        if (chip8Type_ == CHIPSTIV)
+            buffer.Printf("%04X", scratchpadRegister);
+        else
+            buffer.Printf("%03X", scratchpadRegister&0xfff);
 		iTextPointer->ChangeValue(buffer);
 		lastI_ = scratchpadRegister;
 	}
@@ -5669,6 +5678,20 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         }
         if (assInput.parameterType[0] == ASS_STRING)
         {
+            if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "I")
+            {
+                if (assembleCommand_[LD_I_MMMM] != -1)
+                { // LD I, MMMM
+                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                        return ERROR_PAR;
+                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0x3fff)
+                        return ERROR_16BIT;
+                    *b1 = (assInput.parameterValue[1] >> 8) & 0xff;
+                    *b2 = assInput.parameterValue[1] & 0xff;
+                    return 2;
+                }
+                return ERROR_FEL;
+            }
             if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "RA")
             { 
                 if (assembleCommand_[LD_RA_MMM] != -1)
@@ -6096,6 +6119,30 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
             return 2;
         }
         return ERROR_8REG;
+    }
+    if (assInput.command == "SE")
+    {
+        if (assInput.parameterType[0] != CHIP8_VX)
+            return ERROR_REG_EXP;
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+            return ERROR_PAR;
+        
+        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
+        { // SE Vx, kk
+            if (assInput.parameterType[1] != ASS_HEX_VALUE_MEM && assInput.parameterType[1] != ASS_HEX_VALUE)
+                return ERROR_8REG;
+            if (assInput.parameterValue[1] > 0 && assInput.parameterValue[1] <= 0xff)
+            {
+                if (assembleCommand_[SE_VX_KK] == -1)
+                    return ERROR_FEL;
+                *b1 = assembleCommand_[SE_VX_KK] | assInput.parameterValue[0];
+                *b2 = assInput.parameterValue[1];
+            }
+            return 2;
+        }
+        return ERROR_SYNTAX;
     }
     if (assInput.command == "SNE")
     {
@@ -8756,7 +8803,13 @@ void DebugWindow::chip8I(wxCommandEvent&WXUNUSED(event))
 	long value = get16BitValue("Chip8I");
 	if (value == -1)  return;
 
-	p_Computer->setScratchpadRegister(CHIP8_I, value);
+    if (chip8Type_ == CHIPSTIV)
+    {
+        p_Computer->writeMem(0x27f6, (value&0xff00)>>8, false);
+        p_Computer->writeMem(0x27f7, value&0xff, false);
+    }
+    else
+        p_Computer->setScratchpadRegister(CHIP8_I, value);
 }
 
 void DebugWindow::Vx(wxCommandEvent&event)
@@ -9731,6 +9784,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             case CHIPFEL1:
             case CHIPFEL2:
             case CHIPFEL3:
+            case CHIPSTIV:
                 typeOpcode = MEM_TYPE_FEL2_1;
                 typeOperand1 = MEM_TYPE_FEL2_2;
                 count = assembleFel2(&debugIn, &b1, &b2);
@@ -16819,7 +16873,7 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 	Word addressY = p_Computer->getChip8baseVar() + vY;
 	Byte valueX = p_Computer->readMem(addressX);
 	Byte valueY = p_Computer->readMem(addressY);
-	Word valueI = p_Computer->getScratchpadRegister(CHIP8_I);
+    Word valueI = p_Computer->getScratchpadRegister(CHIP8_I);
     
 	//Calculation variables
 	int resultValue;
@@ -17124,10 +17178,12 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 
 				case 0x55:
 					buffer.Printf(" LD    [I], V%01X", vX);
+                    detailsBuffer.Printf("[%04X]=%02X", valueI, vX);
 				break;
 
 				case 0x65:
 					buffer.Printf(" LD    V%01X, [I]", vX);
+                    detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(valueI));
 				break;
 
 				case 0xF8:
@@ -17173,6 +17229,8 @@ wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bo
 
 void DebugWindow::defineFelCommands_(int chip8Type)
 {
+    chip8Type_ = chip8Type;
+    
     for (int command = 0; command <16; command++)
         dissassembleCommand_[command] = 0;
     
@@ -17237,6 +17295,25 @@ void DebugWindow::defineFelCommands_(int chip8Type)
             defineFelCommand(0xe, FEL3_COMMAND_E);
             defineFelCommand(0xf, JP_MMM);
         break;
+        
+        case CHIPSTIV:
+            defineFelCommand(0, LD_I_MMMM);
+            defineFelCommand(1, LD_I_MMMM);
+            defineFelCommand(2, LD_I_MMMM);
+            defineFelCommand(3, LD_I_MMMM);
+            defineFelCommand(4, STIV_COMMAND_4);
+            defineFelCommand(5, STIV_COMMAND_5);
+            defineFelCommand(6, STIV_COMMAND_6);
+            defineFelCommand(7, ADD_VX_KK);
+            defineFelCommand(8, JZ_VX_KK);
+            defineFelCommand(9, JNZ_VX_KK);
+            defineFelCommand(0xa, JE_I_VX_KK);
+            defineFelCommand(0xb, JNE_I_VX_KK);
+            defineFelCommand(0xc, RND_VX_KK);
+            defineFelCommand(0xd, LD_27KK_VX);
+            defineFelCommand(0xe, LD_VX_27KK);
+            defineFelCommand(0xf, LD_VX_KK);
+        break;
     }
 }
 
@@ -17258,16 +17335,25 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
     //Instruction value
     int vX = chip8_opcode1&0xf;
     int vY = (chip8_opcode2>>4)&0xf;
+  
     Word address = ((chip8_opcode1 & 0xf) << 8) + chip8_opcode2;
+    Word address16bit = (chip8_opcode1 << 8) + chip8_opcode2;
     
     Byte nibble = chip8_opcode2&0xf;
     Byte value = chip8_opcode2;
-    
+
+    if (chip8Type_ == CHIPSTIV)
+    {
+        vY = (chip8_opcode2)&0xf;
+        nibble = (chip8_opcode2>>4)&0xf;
+    }
+
     //Real time value
     Word addressX = p_Computer->getChip8baseVar() + vX;
     Word addressY = p_Computer->getChip8baseVar() + vY;
     Byte valueX = p_Computer->readMem(addressX);
     Byte valueY = p_Computer->readMem(addressY);
+    Word valueI = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
     
     //Calculation variables
     wxString tempStr1;
@@ -17275,7 +17361,12 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
     if (showOpcode)
         addressStr.Printf("%04X: %02X%02X  ", dis_address, chip8_opcode1, chip8_opcode2);
     else
-        addressStr.Printf("%03X", dis_address&0xfff);
+    {
+        if (chip8Type_ == CHIPSTIV)
+            addressStr.Printf("%04X", dis_address);
+        else
+            addressStr.Printf("%03X", dis_address&0xfff);
+    }
     
     Byte command = chip8_opcode1 >> 4;
     
@@ -17294,6 +17385,9 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
     if (dissassembleCommand_[command] == SNE_VX_KK)
         buffer.Printf(" SNE   V%01X, %02X", vX, value);
     
+    if (dissassembleCommand_[command] == SE_VX_KK)
+        buffer.Printf(" SE    V%01X, %02X", vX, value);
+    
     if (dissassembleCommand_[command] == SNE_VX_VY)
         buffer.Printf(" SNE   V%01X, V%01X", vX, vY);
     
@@ -17309,11 +17403,20 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
     if (dissassembleCommand_[command] == LD_VX_KK)
         buffer.Printf(" LD    V%01X, %02X", vX, value);
     
+    if (dissassembleCommand_[command] == LD_VX_27KK)
+        buffer.Printf(" LD    V%01X, [27%02X]", vX, value);
+    
+    if (dissassembleCommand_[command] == LD_27KK_VX)
+        buffer.Printf(" LD    [27%02X], V%01X", value, vX);
+    
     if (dissassembleCommand_[command] == LD_B_VX_VY)
     {
         buffer.Printf(" LD    B, V%01X, V%01X", vY, vX);
         detailsBuffer.Printf("V%01X->V%01X='%03d'", vY, vY+2, valueX);
     }
+    
+    if (dissassembleCommand_[command] == LD_I_MMMM)
+        buffer.Printf(" LD    I, %04X", address16bit);
     
     if (dissassembleCommand_[command] == LD_RA_MMM)
         buffer.Printf(" LD    RA, %03X", address );
@@ -17374,6 +17477,18 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
         address = address | ((address & 0x800) >> 1);
         buffer.Printf(" JP    %03X", address );
     }
+    
+    if (dissassembleCommand_[command] == JNZ_VX_KK)
+        buffer.Printf(" JNZ   V%01X, %02X", vX, value);
+    
+    if (dissassembleCommand_[command] == JZ_VX_KK)
+        buffer.Printf(" JZ    V%01X, %02X", vX, value);
+
+    if (dissassembleCommand_[command] == JNE_I_VX_KK)
+        buffer.Printf(" JNE   I, V%01X, %02X", vX, value);
+    
+    if (dissassembleCommand_[command] == JE_I_VX_KK)
+        buffer.Printf(" JE    I, V%01X, %02X", vX, value);
     
     if (dissassembleCommand_[command] == FEL1_COMMAND_7)
     {
@@ -17518,7 +17633,145 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
         if (chip8_opcode2 == 0x56)
             buffer.Printf(" LD    V%01X, RA.0", vX);
     }
+
+    if (dissassembleCommand_[command] == STIV_COMMAND_4)
+    {
+        if (nibble == 0)
+            buffer.Printf(" 4x0y");
+        if (nibble == 1)
+        {
+            buffer.Printf(" OR    V%01X, V%01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", vX, valueX | valueY);
+        }
+        if (nibble == 2)
+        {
+            buffer.Printf(" AND   V%01X, V%01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", vX, valueX & valueY);
+        }
+        if (nibble == 3)
+        {
+            buffer.Printf(" XOR   V%01X, V%01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", vX, valueX ^ valueY);
+        }
+        if (nibble == 4)
+        {
+            buffer.Printf(" ADD   V%01X, V%01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", vX, (valueX + valueY)&0xff);
+        }
+        if (nibble == 5)
+        {
+            buffer.Printf(" SUB   V%01X, V%01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", vX, (valueX - valueY)&0xff);
+        }
+        if (nibble == 6)
+        {
+            buffer.Printf(" SHL   V%01X, %01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX<<vY)&0xff, ((valueX<<vY)&0xff00)>>8);
+        }
+        if (nibble == 7)
+            buffer.Printf(" KEY   W7, V%01X", vY);
+        if (nibble == 8)
+            buffer.Printf(" KEY   W8, V%01X", vY);
+        if (nibble == 9)
+        {
+            buffer.Printf(" SHR   V%01X, %01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX>>vY)&0xff, ((valueX &(0xff >> (8-vY)))<<(8-vY)));
+        }
+        if (nibble == 0xA)
+        {
+            buffer.Printf(" ADDN  V%01X, V%01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X", vX, ((valueX + valueY)&0xf) | ((valueX&0xf0 + valueY&0xf0)));
+        }
+        if (nibble == 0xB)
+            buffer.Printf(" JP    I");
+        if (nibble == 0xC)
+        {
+            buffer.Printf(" SHR   V%01X, V%01X", vX, vY);
+            detailsBuffer.Printf("V%01X=%02X, V%01X=%02X", vX, (valueX>>3)&0xf, vY, (valueY>>2)&0xf);
+        }
+        if (nibble == 0xD)
+            buffer.Printf(" WAIT");
+        if (nibble == 0xE)
+            buffer.Printf(" 4xEy");
+        if (nibble == 0xF)
+            buffer.Printf(" KEY   V%01X", vY);
+    }
     
+    if (dissassembleCommand_[command] == STIV_COMMAND_5)
+    {
+        if (nibble == 0)
+            buffer.Printf(" CALL  I");
+        if (nibble == 1)
+            buffer.Printf(" MOVE  V%01X, V%01X, [I]", vX, vY);
+        if (nibble == 2)
+            buffer.Printf(" DRW   I, V%01X", vX);
+        if (nibble == 3)
+            buffer.Printf(" JE    I, V%01X, V%01X", vX, vY);
+        if (nibble == 4)
+            buffer.Printf(" JNE   I, V%01X, V%01X", vX, vY);
+        if (nibble == 5)
+            buffer.Printf(" CLR   I, V%01X, V%01X", vX, vY);
+        if (nibble == 6)
+            buffer.Printf(" CLR   I, V%01X, %01X", vX, nibble);
+        if (nibble == 7)
+            buffer.Printf(" DRWR  I, V%01X", vX);
+        if (nibble == 8)
+            buffer.Printf(" JKP   I");
+        if (nibble == 9)
+            buffer.Printf(" JNKP  I");
+        if (nibble == 0xA)
+            buffer.Printf(" JL    I, V%01X, V%01X", vX, vY);
+        if (nibble == 0xB)
+            buffer.Printf(" JSE   I, V%01X, V%01X", vX, vY);
+        if (nibble == 0xC)
+            buffer.Printf(" CP    V%01X, V%01X, [I]", vX, vY);
+        if (nibble == 0xD)
+            buffer.Printf(" CP    [I], V%01X, V%01X", vX, vY);
+        if (nibble == 0xE)
+            buffer.Printf(" LD    [I], V%01X, [V%01X]", vX, vY);
+        if (nibble == 0xF)
+            buffer.Printf(" LD    V%01X, [I], [V%01X]", vX, vY);
+    }
+    
+    if (dissassembleCommand_[command] == STIV_COMMAND_6)
+    {
+        if (chip8_opcode1 == 0x60)
+            buffer.Printf(" CALL  10%02X", value);
+        if (chip8_opcode1 == 0x61)
+            buffer.Printf(" CALL  11%02X", value);
+        if (chip8_opcode1 == 0x62)
+        {
+            buffer.Printf(" ADD   I, %02X", value);
+            detailsBuffer.Printf("I=%04X", (valueI&0xff00)+(((valueI&0xff)+value)&0xff));
+        }
+        if (chip8_opcode1 == 0x63)
+            buffer.Printf(" LD    I, [27%02X]", value);
+        if (chip8_opcode1 == 0x64)
+            buffer.Printf(" LD    [27%02X], I", value);
+        if (chip8_opcode1 == 0x65)
+            buffer.Printf(" JP    %02X", value);
+        if (chip8_opcode1 == 0x66)
+            buffer.Printf(" CALL  6%02X", value);
+        if (chip8_opcode1 == 0x67)
+            buffer.Printf(" CALL  7%02X", value);
+        if (chip8_opcode1 == 0x68)
+            buffer.Printf(" CALL  8%02X", value);
+        if (chip8_opcode1 == 0x69)
+            buffer.Printf(" CALL  I");
+        if (chip8_opcode1 == 0x6A)
+            buffer.Printf(" PUSH  I");
+        if (chip8_opcode1 == 0x6B)
+            buffer.Printf(" RET");
+        if (chip8_opcode1 == 0x6C)
+            buffer.Printf(" POP   I");
+        if (chip8_opcode1 == 0x6D)
+            buffer.Printf(" 6D..");
+        if (chip8_opcode1 == 0x6E)
+            buffer.Printf(" OUT   4, V%01X", vY);
+        if (chip8_opcode1 == 0x6F)
+            buffer.Printf(" OUT   4, %01X", value);
+    }
+
     if (dissassembleCommand_[command] == FEL3_COMMAND_E)
         buffer.Printf(" Illegal instruction");
     

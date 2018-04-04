@@ -792,6 +792,7 @@ public:
 #define CHIPFEL1 5
 #define CHIPFEL2 6
 #define CHIPFEL3 7
+#define CHIPSTIV 8
 
 #define CPU1801 1
 #define CPU1802 2
