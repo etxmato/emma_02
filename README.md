@@ -22,7 +22,7 @@ MCDS, Microboard Computer Development System<br>
 MS 2000, MicroDisk Development System<br>
 RCA Video Coin Arcade
 RCA Studio II<br>
-RCA Studio III / Victoy MPT-02<br>
+RCA Studio III / Victory MPT-02<br>
 Visicom COM-100<br>
 Cidelsa<br>
 Telmac TMC-600<br>
