@@ -111,8 +111,9 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
     EVT_CHECKBOX(XRCID("DisableSystemRomVictory"), GuiStudio2::onDisableSystemRomVictory)
     EVT_SPINCTRL(XRCID("MsbVictory"), GuiStudio2::onMsbVictory)
     EVT_SPINCTRL(XRCID("LsbVictory"), GuiStudio2::onLsbVictory)
+    EVT_CHOICE(XRCID("VidModeVictory"), GuiStudio2::onVictoryVideoMode)
 
-
+	
 	EVT_TEXT(XRCID("MainRomVictory"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomVictory"), GuiMain::onMainRom1Text)
 	EVT_BUTTON(XRCID("RomButtonVictory"), GuiMain::onMainRom1)
@@ -135,7 +136,7 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 	EVT_BUTTON(XRCID("KeyMapVictory"), Main::onHexKeyDef)
 	EVT_BUTTON(XRCID("ColoursVictory"), Main::onColoursDef)
 
-
+	
     EVT_TEXT(XRCID("MainRomStudioIV"), GuiMain::onMainRom1Text)
     EVT_COMBOBOX(XRCID("MainRomStudioIV"), GuiMain::onMainRom1Text)
     EVT_BUTTON(XRCID("RomButtonStudioIV"), GuiMain::onMainRom1)
@@ -157,7 +158,7 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
     EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeStudioIV"), GuiMain::onVolume)
     EVT_BUTTON(XRCID("KeyMapStudioIV"), Main::onHexKeyDef)
     EVT_BUTTON(XRCID("ColoursStudioIV"), Main::onColoursDef)
-    EVT_CHOICE(XRCID("VidModeStudioIV"), GuiStudio2::onStudioVideoMode)
+    EVT_CHOICE(XRCID("VidModeStudioIV"), GuiStudio2::onStudioIVVideoMode)
 
 END_EVENT_TABLE()
 
@@ -489,6 +490,7 @@ void GuiStudio2::readVictoryConfig()
     configPointer->Read("/Victory/DisableSystemRom", &conf[VICTORY].disableSystemRom_, true);
     conf[VICTORY].lsb_ = (Byte)configPointer->Read("/Victory/Lsb", 0l);
     conf[VICTORY].msb_ = (Byte)configPointer->Read("/Victory/Msb", 0l);
+    conf[VICTORY].videoMode_ = (int)configPointer->Read("/Victory/Video_Mode", 0l);
     
     if (mode_.gui)
 	{
@@ -506,6 +508,7 @@ void GuiStudio2::readVictoryConfig()
 		XRCCTRL(*this, "DisableSystemRomVictory", wxCheckBox)->Enable(conf[VICTORY].multiCart_);
 		XRCCTRL(*this, "MainRomVictory", wxComboBox)->Enable(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_);
 		XRCCTRL(*this, "RomButtonVictory", wxButton)->Enable(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_);
+        XRCCTRL(*this, "VidModeVictory", wxChoice)->SetSelection(conf[VICTORY].videoMode_);
 	}
 }
 
@@ -531,6 +534,7 @@ void GuiStudio2::writeVictoryConfig()
     configPointer->Write("/Victory/DisableSystemRom", conf[VICTORY].disableSystemRom_);
     configPointer->Write("/Victory/Lsb", conf[VICTORY].lsb_);
     configPointer->Write("/Victory/Msb", conf[VICTORY].msb_);
+    configPointer->Write("/Victory/Video_Mode", conf[VICTORY].videoMode_);
 }
 
 void GuiStudio2::readVictoryWindowConfig()
@@ -579,6 +583,19 @@ void GuiStudio2::onLsbVictory(wxSpinEvent&event)
 	conf[VICTORY].lsb_ = event.GetPosition();
 	if (runningComputer_ == VICTORY)
 		p_Computer->setMultiCartLsb(conf[VICTORY].lsb_);
+}
+
+void GuiStudio2::onVictoryVideoMode(wxCommandEvent&event)
+{
+    conf[VICTORY].videoMode_ = event.GetSelection();
+    if (mode_.gui)
+    {
+        if (conf[VICTORY].videoMode_ == PAL)
+            conf[VICTORY].rom_[MAINROM1] = "victory.rom";
+        else
+            conf[VICTORY].rom_[MAINROM1] = "studio3.rom";
+        XRCCTRL(*this, "MainRomVictory", wxComboBox)->SetValue(conf[VICTORY].rom_[MAINROM1]);
+    }
 }
 
 void GuiStudio2::readStudioIVConfig()
@@ -669,7 +686,7 @@ void GuiStudio2::writeStudioIVWindowConfig()
         configPointer->Write("/StudioIV/Window_Position_Y", conf[STUDIOIV].mainY_);
 }
 
-void GuiStudio2::onStudioVideoMode(wxCommandEvent&event)
+void GuiStudio2::onStudioIVVideoMode(wxCommandEvent&event)
 {
     conf[STUDIOIV].videoMode_ = event.GetSelection();
     if (mode_.gui)
@@ -682,7 +699,7 @@ void GuiStudio2::onStudioVideoMode(wxCommandEvent&event)
     }
 }
 
-int GuiStudio2::getStudioVideoMode()
+int GuiStudio2::getStudioVideoMode(int computer)
 {
-    return conf[STUDIOIV].videoMode_;
+    return conf[computer].videoMode_;
 }

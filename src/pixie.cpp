@@ -57,19 +57,17 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     else
         videoHeight_ = 128;
 
-    if (computerType_ == STUDIOIV)
+    interruptGraphicsMode_ = 74;
+	startGraphicsMode_ = 76;
+	endGraphicsMode_ = 267;
+	endScreen_ = 312;
+	
+    if (computerType_ == STUDIOIV || (computerType_ == VICTORY))
     {
-        videoMode_ = p_Main->getStudioVideoMode();
-        if (videoMode_ == PAL)
-        {
-            interruptGraphicsMode_ = 74;
-            startGraphicsMode_ = 76;
-            endGraphicsMode_ = 267;
-            endScreen_ = 312;
-            videoHeight_ = 192;
-        }
-        else
-        {
+        videoHeight_ = 192;
+        videoMode_ = p_Main->getStudioVideoMode(computerType_);
+        if (videoMode_ != PAL)
+		{
             interruptGraphicsMode_ = 62;
             startGraphicsMode_ = 64;
             endGraphicsMode_ = 191;
@@ -707,11 +705,11 @@ void Pixie::cyclePixieTelmac()
 	{
 		p_Computer->debugTrace("----  H.Sync");
 		graphicsMode_++;
-		if (graphicsMode_ == 72) pixieEf_ = 0;
-		if (graphicsMode_ == 76) pixieEf_ = 1;
-		if (graphicsMode_ == 264) pixieEf_ = 0;
-		if (graphicsMode_ == 268) pixieEf_ = 1;
-		if (graphicsMode_ >= 312)
+		if (graphicsMode_ == interruptGraphicsMode_-2) pixieEf_ = 0;
+		if (graphicsMode_ == startGraphicsMode_) pixieEf_ = 1;
+		if (graphicsMode_ == startGraphicsMode_+videoHeight_-4) pixieEf_ = 0;
+		if (graphicsMode_ == startGraphicsMode_+videoHeight_) pixieEf_ = 1;
+		if (graphicsMode_ >= endScreen_)
 		{
 			if (changeScreenSize_)
 			{
@@ -727,7 +725,7 @@ void Pixie::cyclePixieTelmac()
 	}
 	if (graphicsNext_ == 2)
 	{
-		if (graphicsMode_ == 74)
+		if (graphicsMode_ == interruptGraphicsMode_)
 		{
 			if (graphicsOn_)
 			{
@@ -738,7 +736,7 @@ void Pixie::cyclePixieTelmac()
 			else vidInt_ = 0;
 		}
 	}
-	if (graphicsMode_ >= 76 && graphicsMode_ <=267 && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ <=11)
+	if (graphicsMode_ >= startGraphicsMode_ && graphicsMode_ <=endGraphicsMode_ && graphicsOn_ && vidInt_ == 1 && graphicsNext_ >=4 && graphicsNext_ <=11)
 	{
 		j = 0;
 		while(graphicsNext_ >= 4 && graphicsNext_ <= 11)
@@ -747,7 +745,7 @@ void Pixie::cyclePixieTelmac()
 			v = p_Computer->pixieDmaOut(&color);
 			for (int i=0; i<8; i++)
 			{
-				plot(j+i, (int)graphicsMode_-76, (v & 128) ? 1 : 0, (color|colourMask_)&7);
+				plot(j+i, (int)graphicsMode_-startGraphicsMode_, (v & 128) ? 1 : 0, (color|colourMask_)&7);
 				v <<= 1;
 			}
 			j += 8;

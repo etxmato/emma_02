@@ -434,6 +434,7 @@ void StudioIV::startComputer()
 
     readProgram(p_Main->getRomDir(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, MAINROM1), ROM, 0, NONAME);
     
+    p_Main->assDefault("studioivrom", 0x000, 0x7FF);
     p_Main->assDefault("studioivcart_1", 0x800, 0xFFF);
     p_Main->assDefault("studioivcart_2", 0x1000, 0x17FF);
 

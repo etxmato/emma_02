@@ -803,6 +803,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\studioiv.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\super.cpp"
 				>
 			</File>
@@ -1260,6 +1264,10 @@
 			</File>
 			<File
 				RelativePath=".\src\studio2.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\studioiv.h"
 				>
 			</File>
 			<File

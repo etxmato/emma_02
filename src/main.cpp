@@ -2633,7 +2633,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMS2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelCoindArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCoinArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelStudio2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelVisicom", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -5591,6 +5591,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"FullScreenF3Victory", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Victory", wxButton)->Enable(!status);
         XRCCTRL(*this,"MultiCartVictory", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"VidModeStudioIV", wxChoice)->Enable(status);
 	}
     if (runningComputer_ == STUDIOIV)
     {

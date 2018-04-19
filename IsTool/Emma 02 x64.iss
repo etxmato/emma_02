@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.26
+AppVerName=Emma 02 - V1.26.1
 AppVersion=1.26
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.26
+OutputBaseFilename=Emma_02_x64_setup_v1.26.1
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -88,6 +88,7 @@ Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS20
 Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
 Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
 Source: ..\Configurations Windows\Studio2\*.*; DestDir: {app}\Configurations\Studio2; Components: MAIN
+Source: ..\Configurations Windows\StudioIV\*.*; DestDir: {app}\Configurations\StudioIV; Components: MAIN
 Source: ..\Configurations Windows\TMC600\*.*; DestDir: {app}\Configurations\TMC600; Components: MAIN
 Source: ..\Configurations Windows\TMC1800\*.*; DestDir: {app}\Configurations\TMC1800; Components: MAIN
 Source: ..\Configurations Windows\TMC2000\*.*; DestDir: {app}\Configurations\TMC2000; Components: MAIN
@@ -164,6 +165,7 @@ Source: ..\data\Studio2\*.st2; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.txt; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.pdf; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.zip; DestDir: {app}\data\Studio2; Components: MAIN
+Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
 Source: ..\data\Visicom\visicom.rom; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Visicom\*.st2; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Victory\victory.rom; DestDir: {app}\data\Victory; Components: MAIN

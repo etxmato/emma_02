@@ -41,14 +41,16 @@ public:
 	void onDisableSystemRomVictory(wxCommandEvent&event);
 	void onMsbVictory(wxSpinEvent&event);
 	void onLsbVictory(wxSpinEvent&event);
+    void onVictoryVideoMode(wxCommandEvent&event);
 
     void readStudioIVConfig();
     void writeStudioIVDirConfig();
     void writeStudioIVConfig();
     void readStudioIVWindowConfig();
     void writeStudioIVWindowConfig();
-    void onStudioVideoMode(wxCommandEvent&event);
-    int getStudioVideoMode();
+    void onStudioIVVideoMode(wxCommandEvent&event);
+    
+    int getStudioVideoMode(int computer);
     
 	void onSt2Rom(wxCommandEvent& event);
 	void onSt2RomEject(wxCommandEvent& event);

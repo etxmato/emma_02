@@ -10,92 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16559"
-            endingLineNumber = "16559"
-            landmarkName = "DebugWindow::updateTitle()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/pixie.cpp"
-            timestampString = "544479241.263938"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "612"
-            endingLineNumber = "612"
-            landmarkName = "Pixie::cyclePixieStudioIV()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/pixie.cpp"
-            timestampString = "544479241.263938"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "635"
-            endingLineNumber = "635"
-            landmarkName = "Pixie::cyclePixieStudioIV()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/pixie.cpp"
-            timestampString = "544479241.263938"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
-            landmarkName = "Pixie::cyclePixieStudioIV()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/pixie.cpp"
-            timestampString = "544479241.263938"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "618"
-            endingLineNumber = "618"
-            landmarkName = "Pixie::cyclePixieStudioIV()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/pixie.cpp"
-            timestampString = "544479241.263938"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "621"
-            endingLineNumber = "621"
-            landmarkName = "Pixie::cyclePixieStudioIV()"
+            startingLineNumber = "6512"
+            endingLineNumber = "6512"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,28 +26,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545865270.497723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17322"
-            endingLineNumber = "17322"
-            landmarkName = "DebugWindow::defineFelCommand(int command, int type)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9775"
-            endingLineNumber = "9775"
-            landmarkName = "DebugWindow::onAssEnter(wxCommandEvent&amp;WXUNUSED(event))"
+            startingLineNumber = "7044"
+            endingLineNumber = "7044"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -138,12 +42,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545865270.497723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9784"
-            endingLineNumber = "9784"
-            landmarkName = "DebugWindow::onAssEnter(wxCommandEvent&amp;WXUNUSED(event))"
+            startingLineNumber = "7032"
+            endingLineNumber = "7032"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -154,12 +58,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9790"
-            endingLineNumber = "9790"
-            landmarkName = "DebugWindow::onAssEnter(wxCommandEvent&amp;WXUNUSED(event))"
+            startingLineNumber = "6434"
+            endingLineNumber = "6434"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -170,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9785"
-            endingLineNumber = "9785"
-            landmarkName = "DebugWindow::onAssEnter(wxCommandEvent&amp;WXUNUSED(event))"
+            startingLineNumber = "6556"
+            endingLineNumber = "6556"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545865270.497723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "9783"
-            endingLineNumber = "9783"
-            landmarkName = "DebugWindow::onAssEnter(wxCommandEvent&amp;WXUNUSED(event))"
+            startingLineNumber = "6774"
+            endingLineNumber = "6774"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -202,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545865270.497723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17366"
-            endingLineNumber = "17366"
-            landmarkName = "DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)"
+            startingLineNumber = "7254"
+            endingLineNumber = "7254"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -218,12 +122,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545862435.254746"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17367"
-            endingLineNumber = "17367"
-            landmarkName = "DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)"
+            startingLineNumber = "5756"
+            endingLineNumber = "5756"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -234,12 +138,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17469"
-            endingLineNumber = "17469"
-            landmarkName = "DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)"
+            startingLineNumber = "6391"
+            endingLineNumber = "6391"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -250,12 +154,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1815"
-            endingLineNumber = "1815"
-            landmarkName = "DebugWindow::chip8DebugTrace(wxString buffer)"
+            startingLineNumber = "6376"
+            endingLineNumber = "6376"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -266,12 +170,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1634"
-            endingLineNumber = "1634"
-            landmarkName = "DebugWindow::updateChip8Window()"
+            startingLineNumber = "6374"
+            endingLineNumber = "6374"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -282,12 +186,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545865270.497723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1631"
-            endingLineNumber = "1631"
-            landmarkName = "DebugWindow::updateChip8Window()"
+            startingLineNumber = "9150"
+            endingLineNumber = "9150"
+            landmarkName = "DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -298,12 +202,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285532.051172"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1644"
-            endingLineNumber = "1644"
-            landmarkName = "DebugWindow::updateChip8Window()"
+            startingLineNumber = "6528"
+            endingLineNumber = "6528"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -314,28 +218,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544285595.127561"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1643"
-            endingLineNumber = "1643"
-            landmarkName = "DebugWindow::updateChip8Window()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/studioiv.cpp"
-            timestampString = "544355190.50472"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "StudioIV::configureComputer()"
+            startingLineNumber = "6526"
+            endingLineNumber = "6526"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -346,12 +234,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544393231.547393"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17669"
-            endingLineNumber = "17669"
-            landmarkName = "DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)"
+            startingLineNumber = "6510"
+            endingLineNumber = "6510"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -362,12 +250,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544393260.730335"
+            timestampString = "545865270.497723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17677"
-            endingLineNumber = "17677"
-            landmarkName = "DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)"
+            startingLineNumber = "7328"
+            endingLineNumber = "7328"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -378,12 +266,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "544393279.7317491"
+            timestampString = "545864619.158088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17639"
-            endingLineNumber = "17639"
-            landmarkName = "DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)"
+            startingLineNumber = "6038"
+            endingLineNumber = "6038"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -393,13 +281,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/studioiv.cpp"
-            timestampString = "544478153.511181"
+            filePath = "src/debug.cpp"
+            timestampString = "545865270.497723"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
-            landmarkName = "StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)"
+            startingLineNumber = "7326"
+            endingLineNumber = "7326"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -409,45 +297,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/studioiv.cpp"
-            timestampString = "544479572.262522"
+            filePath = "src/debug.cpp"
+            timestampString = "545865113.9103611"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "394"
-            endingLineNumber = "394"
-            landmarkName = "StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/studioiv.cpp"
-            timestampString = "544479572.262522"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "395"
-            endingLineNumber = "395"
-            landmarkName = "StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/pixie.cpp"
-            timestampString = "544479503.080126"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "460"
-            endingLineNumber = "460"
-            landmarkName = "Pixie::switchVideoMode(int videoMode)"
+            startingLineNumber = "6748"
+            endingLineNumber = "6748"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

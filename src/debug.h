@@ -104,6 +104,7 @@ enum
     STIV_COMMAND_4,
     STIV_COMMAND_5,
     STIV_COMMAND_6,
+    STIV_COMMAND_7,
     LAST_COMMAND
 };
 
@@ -470,7 +471,7 @@ private:
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
 	int assembleChip(wxString *buffer, Byte* b1, Byte* b2);
-    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2);
+    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4);
 	AssInput getAssInput(wxString buffer);
 	int assembleSt2(wxString *buffer, Byte* b1, Byte* b2);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
