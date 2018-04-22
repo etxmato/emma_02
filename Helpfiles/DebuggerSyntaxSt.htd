@@ -195,7 +195,7 @@
 </TR>
 <TR>
 <TD WIDTH="55">C0</TD>
-<TD WIDTH="40">RET</TD>
+<TD WIDTH="40">RETURN</TD>
 <TD WIDTH="100"></TD>
 <TD WIDTH="250">Return from subroutine</TD>
 </TR>

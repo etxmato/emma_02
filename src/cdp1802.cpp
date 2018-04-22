@@ -3460,7 +3460,6 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case STUDIO:
                 case COINARCADE:
                 case VICTORY:
-                case STUDIOIV:
                 case VISICOM:
                     address = (address & 0x1ff) | 0x800;
                 break;
@@ -3814,7 +3813,6 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case COINARCADE:
                 case VICTORY:
                 case VISICOM:
-                case STUDIOIV:
                     address = (address & 0x1ff) | 0x800;
                 break;
                 

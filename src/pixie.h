@@ -40,11 +40,13 @@ public:
 	Byte inPixie();
 	void outPixie(); 
     void outPixieBackGround();
+    void outPixieBackGround(int colour);
     void switchVideoMode(int videoMode);
     void cyclePixie();
     void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
 	void cyclePixieTelmac();
+    void dmaEnable();
 
 	void copyScreen();
 	void drawScreen();

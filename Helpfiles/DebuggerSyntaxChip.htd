@@ -299,13 +299,13 @@ All of the instruction from Chip-8, except 'Baaa: JP V0, aaa' are valid for Chip
 </TR>
 <TR>
 <TD WIDTH="55">FxFB</TD>
-<TD WIDTH="40">INP<BR>INP1</TD>
+<TD WIDTH="40">INP1</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Input port 1 to Vx (waits for EF4=1)</TD>
 </TR>
 <TR>
 <TD WIDTH="55">FxF8</TD>
-<TD WIDTH="40">OUT<BR>OUT3</TD>
+<TD WIDTH="40">OUT3</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Vx to output port 3 (used for simple sound)</TD>
 </TR>

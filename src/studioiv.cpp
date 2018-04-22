@@ -395,15 +395,17 @@ void StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)
  //               switchVideoMode(PAL);
  //           else
  //               switchVideoMode(NTSC);
+            
+            outPixieBackGround((value&0xc)>>2);
         break;
             
         case VIPOUT4:
 			tone1864Latch(value);
 		break;
 
-//		case PIXIEBACKGROUND:
-//			outPixieBackGround();
-//		break;
+		case STUDIOIVDMA:
+            dmaEnable();
+		break;
 	}
 }
 
@@ -479,13 +481,12 @@ void StudioIV::writeMemDataType(Word address, Byte type)
 	{
 		case RAM:
 		case ROM:
-        case CARTRIDGEROM:
             if (mainMemoryDataType_[address] != type)
             {
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
-            break;
+        break;
     }
 }
 
@@ -495,7 +496,6 @@ Byte StudioIV::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
-        case CARTRIDGEROM:
             return mainMemoryDataType_[address];
         break;
     }

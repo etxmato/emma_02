@@ -1,7 +1,7 @@
 <html>
-<title>FEL-2 Syntax</title>
+<title>FEL Syntax</title>
 <body>
-<h2>FEL-2 Syntax</h2>
+<h2>FEL Syntax</h2>
 <h3>Definitions</h3>
 <TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
@@ -53,7 +53,7 @@
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
 </TABLE>
-<h3>ST2 Syntax</h3>
+<h3>FEL-2 Syntax</h3>
 <TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
 <TD WIDTH="55">6xyz</TD>
@@ -178,7 +178,7 @@
 </TR>
 <TR>
 <TD WIDTH="55">C0</TD>
-<TD WIDTH="40">RET</TD>
+<TD WIDTH="40">RETURN</TD>
 <TD WIDTH="100"></TD>
 <TD WIDTH="250">Return from subroutine</TD>
 </TR>

@@ -1,20 +1,20 @@
 <html>
-<title>Debug Chip-8</title>
+<title>Debug Pseudo</title>
 <body>
-<h2>Debug Chip-8</h2>
+<h2>Debug Pseudo</h2>
 <p>
-To use the Chip-8, ST2 (Studio II Chip-8 variant) or FEL-2 (FRED2 / Coin Arcade variant) trace functions of the debugger first select the 'Debug Chip-8' tab of the choice book on the debugger tab.
+To use the Chip-8, ST2 (Studio II), ST4 (Studio IV) or FEL (FRED2 / Coin Arcade variant) trace functions of the debugger first select the 'Debug Pseudo' tab of the choice book on the debugger tab.
 </p>
 <p>
-To activate/deactivate the Chip-8 debug mode select/deselect the 'Debug Mode' checkbox. Debug mode is also activated and deactivated automatically when using the Chip-8 trace command. 
+To activate/deactivate the Pseudo debug mode select/deselect the 'Debug Mode' checkbox. Debug mode is also activated and deactivated automatically when using the Pseudo trace command. 
 </p>
 <p>
-Active Chip-8 debug mode will be indicated in the emulated computer window title. Note that in Chip-8 debug mode the emulator will run slower and take more processor power.  
+Active Pseudo debug mode will be indicated in the emulated computer window title. Note that in Pseudo debug mode the emulator will run slower and take more processor power.  
 </p>
 <h3>Tracing</h3>
 <p>
 There are 2 trace possibilities:<br>
-- All Instructions: to show all Chip-8 instructions executed by the emulated computer press the 'Trace' button.<br>
+- All Instructions: to show all Pseudo code instructions executed by the emulated computer press the 'Trace' button.<br>
 - Interrupt: to show when the emulated computer executes an 1802 interrupt instruction. To start or stop this trace, press the 'INT' button.
 </p>
 <p>
@@ -22,27 +22,27 @@ Tracing output will be shown in the trace output window. To save the output to a
 </p>
 <h3>Pause, Step and Speed</h3>
 <p>
-The Chip-8 running on the emulated computer can be 'paused' by pressing the pause button and will pause automatically when hitting a break point, see also below. 
+The Pseudo code running on the emulated computer can be 'paused' by pressing the pause button and will pause automatically when hitting a break point, see also below. 
 </p>
 <p>
-When Chip-8 is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again. Note that when the pause button is pressed during execution of a Chip-8 instruction, Chip-8 is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a LD Vx, K command, in this case the pause command will only take effect after a key press. 
+When Pseudo code is paused the pause button will light up orange and the title of the computer will include '** PAUSED **'. To continue just hit the pause button again. Note that when the pause button is pressed during execution of a Pseudo code instruction, Pseudo code is paused only when the current instruction is finished. During execution of the current instruction the pause button will be disabled. This is especially visible when pausing during a LD Vx, K command, in this case the pause command will only take effect after a key press. 
 </p>
 <p>
-In pause mode the 'Step' button can be used to get the emulated computer to execute the indicated number of Chip-8 instructions and after this go back to pause mode.
+In pause mode the 'Step' button can be used to get the emulated computer to execute the indicated number of Pseudo code instructions and after this go back to pause mode.
 </p>
 <p>
 If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
 </p>
 <h3>Registers & Variables</h3>
 <p>
-There are two modes for the registers & variables, protected and unprotected mode. To switch select/deselect the 'Protected Mode' check box. In protected mode it is not possible to change any value! This as changing these values will in most cases mess up the execution of the emulated Chip-8 software. The PC register is never allowed to be changed.
+There are two modes for the registers & variables, protected and unprotected mode. To switch select/deselect the 'Protected Mode' check box. In protected mode it is not possible to change any value! This as changing these values will in most cases mess up the execution of the emulated Pseudo code software. The PC register is never allowed to be changed.
 </p>
 <p>
-To change the values of any of the registers & variables type in a different value and press enter. Note in this case no value is changed until enter is pressed, again to avoid unwanted behaviour of the emulated Chip-8 sofwtare. Also be ware that changing values during run time of a computer might be difficult as the emulator might constantly change the values, in this case pause the emulator.
+To change the values of any of the registers & variables type in a different value and press enter. Note in this case no value is changed until enter is pressed, again to avoid unwanted behaviour of the emulated Pseudo code sofwtare. Also be aware that changing values during run time of a computer might be difficult as the emulator might constantly change the values, in this case pause the emulator.
 </p>
 <h3>Break Points</h3>
 <p>
-To set a break point on a Chip-8 'execution address' type the required address in the field next to the 'Set' button and press return (or the button). The address will be shown in the break point list. When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
+To set a break point on a Pseudo code 'execution address' type the required address in the field next to the 'Set' button and press return (or the button). The address will be shown in the break point list. When the emulated computer reaches the specified address it will stop execution and go into 'pause' mode. A total of 64 break points can be set.
 </p>
 <h4>Delete</h4>
 <p>

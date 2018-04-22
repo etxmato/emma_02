@@ -307,19 +307,19 @@ void Pixie::configurePixieTelmac()
 
 void Pixie::configurePixieStudioIV()
 {
-//    p_Computer->setOutType(1, PIXIEBACKGROUND);
     p_Computer->setOutType(4, PIXIEOUT);
+    p_Computer->setOutType(5, STUDIOIVDMA);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
 	p_Computer->setEfType(1, PIXIEEF);
 
 	backGroundInit_ = 8;
 	colourMask_ = 0;
 
-	p_Main->message("Configuring CDP 1864");
+	p_Main->message("Configuring RCA Studio IV Video Chip");
 
-	p_Main->message("	Output ?: switch background colour, output 1: tone latch");
-	p_Main->message("	Output 4, bit 2: enable graphics, bit 6: PAL/NTSC");
-//	p_Main->message("	EF 1: in frame indicator\n");
+	p_Main->message("	Output 1: tone latch");
+    p_Main->message("	Output 4: bit 1 enable graphics, bit 2/3 bakground colour, bit 6 PAL/NTSC");
+    p_Main->message("	Output 5, enable DMA");
 }
 
 void Pixie::configurePixieVictory()
@@ -488,6 +488,14 @@ void Pixie::outPixieBackGround()
 	drawScreen();
 }
 
+void Pixie::outPixieBackGround(int colour)
+{
+    backGround_ = (colour &0x3) + 8;
+    newBackGround_ = true;
+    reBlit_ = true;
+    drawScreen();
+}
+
 void Pixie::cyclePixie()
 {
 	int j;
@@ -574,10 +582,6 @@ void Pixie::cyclePixie()
 
 void Pixie::cyclePixieStudioIV()
 {
-    int j;
-    Byte v;
-    int color;
-
     studioIVFactor_ = !studioIVFactor_;
     if (studioIVFactor_)
         return;
@@ -612,24 +616,28 @@ void Pixie::cyclePixieStudioIV()
     }
     if (graphicsMode_ >= startGraphicsMode_ && graphicsMode_ <=endGraphicsMode_ && graphicsOn_ && graphicsNext_ >=4 && graphicsNext_ <= 19)
     {
-        j = 0;
-        while(graphicsNext_ >= 4 && graphicsNext_ <= 19)
-        {
-            graphicsNext_ ++;
-            v = p_Computer->pixieDmaOut(&color);
-            for (int i=0; i<8; i++)
-            {
-                plot(j+i, (int)graphicsMode_ - startGraphicsMode_,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-                v <<= 1;
-            }
-            j += 8;
-        }
+        graphicsNext_ = 19;
         p_Computer->setCycle0();
-        graphicsNext_ -= 1;
     }
     graphicsNext_ += 1;
     if (graphicsNext_ > 21)
         graphicsNext_ = 0;
+}
+
+void Pixie::dmaEnable()
+{
+    Byte v;
+    int color;
+
+    for(int j=0; j<128; j+=8)
+    {
+        v = p_Computer->pixieDmaOut(&color);
+        for (int i=0; i<8; i++)
+        {
+            plot(j+i, (int)graphicsMode_ - startGraphicsMode_,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+            v <<= 1;
+        }
+    }
 }
 
 void Pixie::cyclePixieCoinArcade()
