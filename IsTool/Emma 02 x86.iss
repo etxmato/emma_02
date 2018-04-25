@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.26.1
+AppVerName=Emma 02 - V1.26.2
 AppVersion=1.26
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.26.1
+OutputBaseFilename=Emma_02_x86_setup_v1.26.2
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -166,6 +166,7 @@ Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
 Source: ..\data\Visicom\visicom.rom; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Visicom\*.st2; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Victory\victory.rom; DestDir: {app}\data\Victory; Components: MAIN
+Source: ..\data\Victory\studio3.rom; DestDir: {app}\data\Victory; Components: MAIN
 Source: ..\data\Victory\*.bin; DestDir: {app}\data\Victory; Components: MAIN
 Source: ..\data\Victory\*.st2; DestDir: {app}\data\Victory; Components: MAIN
 Source: ..\data\Victory\*.txt; DestDir: {app}\data\Victory; Components: MAIN

@@ -325,11 +325,6 @@ void GuiStudio2::readCoinArcadeConfig()
     conf[COINARCADE].xScale_ = configPointer->Read("/CoinArcade/Window_Scale_Factor_X", defaultScale);
     conf[COINARCADE].realCassetteLoad_ = false;
     
-    configPointer->Read("/CoinArcade/MultiCart", &conf[COINARCADE].multiCart_, false);
-    configPointer->Read("/CoinArcade/DisableSystemRom", &conf[COINARCADE].disableSystemRom_, true);
-    conf[COINARCADE].lsb_ = (Byte)configPointer->Read("/CoinArcade/Lsb", 0l);
-    conf[COINARCADE].msb_ = (Byte)configPointer->Read("/CoinArcade/Msb", 0l);
-    
     if (mode_.gui)
     {
         XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
@@ -360,10 +355,6 @@ void GuiStudio2::writeCoinArcadeConfig()
     configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_);
     configPointer->Write("/CoinArcade/Clock_Speed", conf[COINARCADE].clock_);
     configPointer->Write("/CoinArcade/Volume", conf[COINARCADE].volume_);
-    configPointer->Write("/CoinArcade/MultiCart", conf[COINARCADE].multiCart_);
-    configPointer->Write("/CoinArcade/DisableSystemRom", conf[COINARCADE].disableSystemRom_);
-    configPointer->Write("/CoinArcade/Lsb", conf[COINARCADE].lsb_);
-    configPointer->Write("/CoinArcade/Msb", conf[COINARCADE].msb_);
 }
 
 void GuiStudio2::readCoinArcadeWindowConfig()
@@ -626,10 +617,6 @@ void GuiStudio2::readStudioIVConfig()
     conf[STUDIOIV].xScale_ = configPointer->Read("/StudioIV/Window_Scale_Factor_X", defaultScale);
     conf[STUDIOIV].realCassetteLoad_ = false;
     
-    configPointer->Read("/StudioIV/MultiCart", &conf[STUDIOIV].multiCart_, false);
-    configPointer->Read("/StudioIV/DisableSystemRom", &conf[STUDIOIV].disableSystemRom_, true);
-    conf[STUDIOIV].lsb_ = (Byte)configPointer->Read("/StudioIV/Lsb", 0l);
-    conf[STUDIOIV].msb_ = (Byte)configPointer->Read("/StudioIV/Msb", 0l);
     conf[STUDIOIV].videoMode_ = (int)configPointer->Read("/StudioIV/Video_Mode", 0l);
 
     if (mode_.gui)
@@ -665,10 +652,6 @@ void GuiStudio2::writeStudioIVConfig()
     configPointer->Write("/StudioIV/Clock_Speed", conf[STUDIOIV].clock_);
     configPointer->Write("/StudioIV/Volume", conf[STUDIOIV].volume_);
     
-    configPointer->Write("/StudioIV/MultiCart", conf[STUDIOIV].multiCart_);
-    configPointer->Write("/StudioIV/DisableSystemRom", conf[STUDIOIV].disableSystemRom_);
-    configPointer->Write("/StudioIV/Lsb", conf[STUDIOIV].lsb_);
-    configPointer->Write("/StudioIV/Msb", conf[STUDIOIV].msb_);
     configPointer->Write("/StudioIV/Video_Mode", conf[STUDIOIV].videoMode_);
 }
 

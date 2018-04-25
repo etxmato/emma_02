@@ -308,18 +308,20 @@ void Pixie::configurePixieTelmac()
 void Pixie::configurePixieStudioIV()
 {
     p_Computer->setOutType(4, PIXIEOUT);
+    p_Computer->setOutType(6, PIXIEOUT);
     p_Computer->setOutType(5, STUDIOIVDMA);
+    p_Computer->setOutType(7, STUDIOIVDMA);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
 	p_Computer->setEfType(1, PIXIEEF);
 
-	backGroundInit_ = 8;
+	backGroundInit_ = 9;
 	colourMask_ = 0;
 
 	p_Main->message("Configuring RCA Studio IV Video Chip");
 
-	p_Main->message("	Output 1: tone latch");
-    p_Main->message("	Output 4: bit 1 enable graphics, bit 2/3 bakground colour, bit 6 PAL/NTSC");
-    p_Main->message("	Output 5, enable DMA");
+    p_Main->message("	Output 4/6: bit 0-2 background colour, bit 3 white foreground");
+    p_Main->message("	Output 4/6: bit 4-5 enable graphics, bit 6 PAL/NTSC");
+    p_Main->message("	Output 5/7, enable DMA");
 }
 
 void Pixie::configurePixieVictory()
@@ -488,12 +490,48 @@ void Pixie::outPixieBackGround()
 	drawScreen();
 }
 
-void Pixie::outPixieBackGround(int colour)
+void Pixie::outPixieStudioIV(int value)
 {
-    backGround_ = (colour &0x3) + 8;
-    newBackGround_ = true;
-    reBlit_ = true;
-    drawScreen();
+    int newBackground = (value &0x7) + 8;
+    
+    if (newBackground != backGround_)
+    {
+        backGround_ = newBackground;
+        newBackGround_ = true;
+        reBlit_ = true;
+        drawScreen();
+    }
+    
+    if ((value & 0x8) == 0x8)
+    {
+        if (colourMask_ != 7)
+        {
+            reBlit_ = true;
+            drawScreen();
+
+        }
+        colourMask_ = 7;
+    }
+    else
+    {
+        if (colourMask_ != 0)
+        {
+            reBlit_ = true;
+            drawScreen();
+        }
+        colourMask_ = 0;
+    }
+    
+    if ((value & 0x30) == 0x30)
+        inPixie();
+    else
+        outPixie();
+    
+    
+//           if ((value&0x40) == 0x40)
+//               switchVideoMode(PAL);
+//           else
+//               switchVideoMode(NTSC);
 }
 
 void Pixie::cyclePixie()

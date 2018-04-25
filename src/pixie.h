@@ -40,7 +40,7 @@ public:
 	Byte inPixie();
 	void outPixie(); 
     void outPixieBackGround();
-    void outPixieBackGround(int colour);
+    void outPixieStudioIV(int value);
     void switchVideoMode(int videoMode);
     void cyclePixie();
     void cyclePixieStudioIV();

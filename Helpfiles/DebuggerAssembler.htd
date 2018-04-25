@@ -60,7 +60,7 @@ Next to 180x, Chip-8, ST2, ST4 and FEL code the following options are also avail
 All code shown in the left side of the Direct Assembler tab is disassembled in real time. Any part of memory can also be disassembled to an assembler (.asm or .txt) file by pressing the 'Dis' button. The first two text boxes on the right of the 'Dis' button will be used as start and end address.
 </p>
 <p>
-Code will be disassmbled based on 'execution' by the CPU. So only code that has been executed is marked as 180x code and will be disassembled. Main advantage of this is that 'data' will be shown as bytes instead of 180x code. This does mean that for a complete disassembly all code should first be executed as much as possible. Parts of code that are 'less easy' to execute can however be marked as code manually; see also chapter 'Marking Specific types'. 
+Code will be disassmbled based on 'execution' by the CPU. So only code that has been executed is marked as 180x code and will be disassembled. Main advantage of this is that 'data' will be shown as bytes instead of 180x code. This does mean that for a complete disassembly all code should first be executed as much as possible. Parts of code that are 'less easy' to execute can however be marked as code manually; see also chapter 'Marking Specific types'. Executed 'pseudo' code will be shown as 'DB' in the output file with the pseudo code shown as comments.
 </p>
 <p>
 Next to marking code it is also possible to:
@@ -304,7 +304,25 @@ If ST2 code is used within the program configuration that code will also be corr
 <p>
 Note: none of the jumps within a page will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the jump will be listed in the message area.
 </p>
-<h4>FEL-2 - Insert and Delete</h4>
+<h4>ST4 - Insert and Delete</h4>
+<p>
+If ST4 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL 6kk
+<LI>CALL 7kk
+<LI>CALL 8kk
+<LI>CALL 10kk
+<LI>CALL 11kk
+<LI>JP kk
+<LI>JNZ Vx, kk
+<LI>JZ Vx, kk
+<LI>LD I, 0aaa
+<LI>LD I, 2aaa
+<LI>LD I, 3aaa
+<LI>LD I, 4aaa
+</UL>
+</p>
+<h4>FEL - Insert and Delete</h4>
 <p>
 If FEL-2 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
 <UL>

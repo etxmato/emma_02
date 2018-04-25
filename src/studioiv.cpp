@@ -45,12 +45,8 @@ StudioIV::~StudioIV()
 
 void StudioIV::configureComputer()
 {
-//    chip8baseVar_ = 0x8c0;
-//    chip8mainLoop_ = 0x6b;
-//    chip8type_ = CHIPST2;
-    
+    outType_[1] = VIPOUT4;
 	outType_[2] = STUDIOOUT;
-	outType_[1] = VIPOUT4;
 	victoryKeyPort_ = 0;
 	efType_[3] = STUDIOEF3;
 	efType_[4] = STUDIOEF4;
@@ -59,6 +55,7 @@ void StudioIV::configureComputer()
 		victoryKeyState_[j][i] = 0;
 
 	p_Main->message("Configuring Studio IV");
+    p_Main->message("	Output 1: tone latch");
 	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
 	p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
@@ -386,17 +383,7 @@ void StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)
 		break;
 
         case PIXIEOUT:
-            if ((value&0x2) == 0x2)
-                inPixie();
-            else
-                outPixie();
-            
- //           if ((value&0x40) == 0x40)
- //               switchVideoMode(PAL);
- //           else
- //               switchVideoMode(NTSC);
-            
-            outPixieBackGround((value&0xc)>>2);
+            outPixieStudioIV(value);
         break;
             
         case VIPOUT4:
@@ -440,8 +427,8 @@ void StudioIV::startComputer()
     p_Main->assDefault("studioivcart_1", 0x800, 0xFFF);
     p_Main->assDefault("studioivcart_2", 0x1000, 0x17FF);
 
-    defineMemoryType(0x2000, 0x3C00, RAM);
-    initRam(0x2000, 0x3C00);
+    defineMemoryType(0x2000, 0x2C00, RAM);
+    initRam(0x2000, 0x2C00);
 	defineMemoryType(0x2800, 0x2BFF, COLOURRAM);
     
 	double zoom = p_Main->getZoom();

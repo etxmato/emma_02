@@ -149,7 +149,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 
 	screenInfo_ = p_Main->getScreenInfo(computerType_);
 
-	if (computerType_ == VICTORY || computerType_ == STUDIOIV)
+	if (computerType_ == VICTORY)
 		 screenInfo_.number -= 12;
 
 	wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"colour.xrc");
@@ -421,7 +421,7 @@ void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
 	XRCCTRL(*this, "ColourSave", wxButton)->Enable(true);
 	screenInfo_ = p_Main->getScreenInfo(computerType_);
 
-	if (computerType_ == VICTORY || computerType_ == STUDIOIV)
+	if (computerType_ == VICTORY)
 		 screenInfo_.number -= 12;
 
 	wxString scaleString = "3";

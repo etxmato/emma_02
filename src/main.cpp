@@ -2270,7 +2270,24 @@ void Main::initConfig()
 	setScreenInfo(VICTORY, 0, 24, colour, 2, borderX, borderY);
 	setComputerInfo(VICTORY, "Victory", "Studio III / Victory MPT-02", "");
 
-    setScreenInfo(STUDIOIV, 0, 24, colour, 2, borderX, borderY);
+    colour[0] = "#141414"; // Black
+    colour[1] = "#ff4040"; // Red
+    colour[2] = "#4040ff"; // Blue
+    colour[3] = "#ff40ff"; // Pink
+    colour[4] = "#40ff40"; // Green
+    colour[5] = "#ffff40"; // Yellow
+    colour[6] = "#40ffff"; // Cyan
+    colour[7] = "#ffffff"; // white
+    colour[8] = "#000000";
+    colour[9] = "#a00000";
+    colour[10] = "#0000a0";
+    colour[11] = "#a000a0";
+    colour[12] = "#00a000";
+    colour[13] = "#d0d000";
+    colour[14] = "#00d0d0";
+    colour[15] = "#fbfbfb";
+
+    setScreenInfo(STUDIOIV, 0, 16, colour, 2, borderX, borderY);
     setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "");
     
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
