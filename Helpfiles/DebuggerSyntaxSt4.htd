@@ -327,7 +327,7 @@ Following bytes contain jump table for the pressed keys, first two bytes key 0, 
 <TR>
 <TD WIDTH="55">4x0y</TD>
 <TD WIDTH="40">LD</TD>
-<TD WIDTH="100">B, [Vy], Vx<br>B, [Vy], Vx</TD>
+<TD WIDTH="100">B, [Vy], Vx<br>B, Vy, Vx</TD>
 <TD WIDTH="250">Convert Vx to 3 digit decimal at [Vy+2700], [Vy+2701], [Vy+2702]</TD>
 </TR>
 <TR>
@@ -439,16 +439,16 @@ Following bytes contain jump table for the pressed keys, first two bytes key 0, 
 <TD WIDTH="250">POP (get) V0 to V9 from 2702-270B</TD>
 </TR>
 <TR>
-<TD WIDTH="55">6C..</TD>
-<TD WIDTH="40">POP</TD>
-<TD WIDTH="100">I</TD>
-<TD WIDTH="250">Load I from stack</TD>
-</TR>
-<TR>
 <TD WIDTH="55">660A</TD>
 <TD WIDTH="40">POP</TD>
 <TD WIDTH="100">V0-V9</TD>
 <TD WIDTH="250">POP (get) V0 to V9 from 2702-270B</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6C..</TD>
+<TD WIDTH="40">POP</TD>
+<TD WIDTH="100">I</TD>
+<TD WIDTH="250">Load I from stack</TD>
 </TR>
 <TR>
 <TD WIDTH="55">6648</TD>
@@ -497,16 +497,16 @@ Last byte 0xFF</TD>
 <TD WIDTH="250">PUSH (save) V0 to V9 on 2702-270B</TD>
 </TR>
 <TR>
-<TD WIDTH="55">6A..</TD>
-<TD WIDTH="40">PUSH</TD>
-<TD WIDTH="100">I</TD>
-<TD WIDTH="250">Store value I on stack</TD>
-</TR>
-<TR>
 <TD WIDTH="55">6600</TD>
 <TD WIDTH="40">PUSH</TD>
 <TD WIDTH="100">V0-V9</TD>
 <TD WIDTH="250">PUSH (save) V0 to V9 on 2702-270B</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6A..</TD>
+<TD WIDTH="40">PUSH</TD>
+<TD WIDTH="100">I</TD>
+<TD WIDTH="250">Store value I on stack</TD>
 </TR>
 <TR>
 <TD WIDTH="55">6700</TD>
@@ -611,7 +611,7 @@ Byte 2: Vx+1 value</TD>
 <TR>
 <TD WIDTH="55">6D..</TD>
 <TD WIDTH="40">WAIT</TD>
-<TD WIDTH="100">[I], kk</TD>
+<TD WIDTH="100">[I], kk<br>I, kk</TD>
 <TD WIDTH="250">WAIT with a value kk, using [I] towards a table on 049h and 048l where hl is the byte on [I]</TD>
 </TR>
 <TR>

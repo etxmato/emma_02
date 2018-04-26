@@ -130,10 +130,7 @@ enum
     ERROR_DASH,
     ERROR_CPU_1802,
 	ERROR_CPU_1804,
-    ERROR_PSEUDO,
-    ERROR_CHIP,
-    ERROR_FEL,
-	ERROR_1802,
+	ERROR_INST,
 	ERROR_COMMAND_SEP,
 	ERROR_SPRITE,
 	ERROR_VIDEO,
@@ -163,11 +160,17 @@ enum
     ERROR_FEL2_CHIP_ADDRESS,
     ERROR_RAM_CHIP_ADDRESS,
     ERROR_STUDIO_CHIP_ADDRESS_I,
+    ERROR_STUDIOIV_ADDRESS_I,
     ERROR_COMX_NOT_RUNNING,
     WARNING_MISSING_SLOT_ADDRESS,
     ERROR_HEX,
     ERROR_HEX_TO_HIGH,
     ERROR_NO_COMPUTER_RUNNING,
+    ERROR_INCORRECT_ADDRESS,
+    ERROR_INCORRECT_PAR,
+    ERROR_INCORRECT_REG,
+    ERROR_TEMP_PAR,
+    ERROR_TEMP_CPU_1801,
     ERROR_LAST,
 };
 
@@ -203,10 +206,7 @@ wxString DirAssErrorCodes[] =
     "Dash expected after parameter",
 	"Not supported on CDP1802",
 	"Not supported on CDP1804,",
-    "Pseudo Instruction not recognized",
-    "Chip-8 Instruction not recognized",
-    "FEL Instruction not recognized",
-	"1802 Instruction not recognized",
+    "Instruction not recognized",
 	"Space expected after command",
 	"Incorrect sprite (SP) command",
 	"Incorrect video command",
@@ -232,15 +232,21 @@ wxString DirAssErrorCodes[] =
 	"Copied, NO branches corrected",
 	"Copied, long branches corrected",
     "Not supported on CDP1801",
-    "Specify address > 2FC and < FFF",
-    "Specify address > 1FF and < FFF",
+    "Specify address > 2FC and <= FFF",
+    "Specify address > 1FF and <= FFF",
     "Specify address >= 800 and <= 8FF",
-    "Specify address > 100 and < FFF",
+    "Specify address >= 100 and <= FFF",
+    "Specify address >= 2700 and <= 27FF",
     "COMX-35 not running",
     "Warning: no slot specified",
     "Hexadecimal value expected",
     "Hexadecimal value to high",
     "No computer running",
+    "Incorrect address value",
+    "Incorrect parameter",
+    "Incorrect register value",
+    "Too many parameters",
+    "Not supported on CDP1801",
 };
 
 int opCode[] =
@@ -2011,10 +2017,10 @@ void DebugWindow::editTrap(wxListEvent&event)
 	count = assemble(&trapStr, &b1, &b2, &b3, &b4, &b5, &b6, &b7, true);
 
 	if (count >10 && count <15)
-		count = ERROR_1802;
+		count = ERROR_INST;
 
 	if (count == 21)
-		count = ERROR_1802;
+		count = ERROR_INST;
 
 	if (count >= MEM_TYPE_OPCODE_RSHR)
 	{
@@ -2058,7 +2064,7 @@ void DebugWindow::editTrap(wxListEvent&event)
 			case MEM_TYPE_OPCODE_LDL_SLOT:
 			case MEM_TYPE_OPCODE_LBR_SLOT:
 			case MEM_TYPE_OPCODE_JUMP_SLOT:
-				count = ERROR_1802;
+				count = ERROR_INST;
 			break;
 		}
 	}
@@ -4687,7 +4693,7 @@ int DebugWindow::assembleSt2(wxString *buffer, Byte* b1, Byte* b2)
 		}
 		return ERROR_8REG;
 	}
-	return ERROR_CHIP;
+	return ERROR_INST;
 }
 
 int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
@@ -5460,7 +5466,7 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 		}
 		return ERROR_REG_EXP;
 	}
-	return ERROR_CHIP;
+	return ERROR_INST;
 }
 
 int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)
@@ -5526,12 +5532,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                 *b2 = assInput.parameterValue[1] | 0x40;
                 return 2;
             }
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "+")
         { // ADD Vz, Vx+Vy
             if (assembleCommand_[ADD_VX_VY_VZ] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
                 return ERROR_PAR;
             *b1 = assembleCommand_[ADD_VX_VY_VZ]  | assInput.parameterValue[1];
@@ -5543,7 +5549,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             if (assInput.parameterType[1] == ASS_HEX_VALUE)
             { // ADD Vx, kk
                 if (assembleCommand_[ADD_VX_KK] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
                     return ERROR_PAR;
                 if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
@@ -5558,10 +5564,10 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             if (assInput.parameterType[1] == ASS_HEX_VALUE)
             { // ADD I, kk
                 if (assembleCommand_[STIV_COMMAND_6] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
                     return ERROR_PAR;
-                if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
+                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
                     return ERROR_8BIT;
                 *b1 = assembleCommand_[STIV_COMMAND_6] | 2;
                 *b2 = assInput.parameterValue[1];
@@ -5573,7 +5579,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
     if (assInput.command == "ADD8")
     { // ADD8 Vx, Vy, Vz
         if (assembleCommand_[ADD8_VX_VY_N] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.parameterType[0] != CHIP8_VX)
             return ERROR_REG_EXP;
         if (assInput.parameterType[1] != CHIP8_VX)
@@ -5611,7 +5617,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0xa0;
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         return ERROR_SYNTAX;
     }
@@ -5637,14 +5643,14 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0x20;
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         return ERROR_SYNTAX;
     }
     if (assInput.command == "BEEP")
     {
         if (assembleCommand_[BEEP_F_KK_N] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
         { // BEEP kk, d
             if (assInput.seperator[1] != " ")
@@ -5682,7 +5688,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			{
 				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
 					return ERROR_12BIT;
-				if (assInput.parameterValue[0] < 0x1ff)
+				if (assInput.parameterValue[0] <= 0x1ff)
 					return ERROR_FEL2_CHIP_ADDRESS;
 				*b1 = assembleCommand_[CALL_MMM] | (assInput.parameterValue[0] >> 8);
 				*b2 = assInput.parameterValue[0] & 0xff;
@@ -5696,16 +5702,14 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			{ // CALL aaaa
 				if (assInput.numberOfParameters > 1)
 					return ERROR_PAR;
-				if ((assInput.parameterValue[0] > 0x600 && assInput.parameterValue[0] < 0x8ff) ||
-					(assInput.parameterValue[0] > 0x1000 && assInput.parameterValue[0] < 0x11ff))
+				if ((assInput.parameterValue[0] >= 0x600 && assInput.parameterValue[0] <= 0x8ff) ||
+					(assInput.parameterValue[0] >= 0x1000 && assInput.parameterValue[0] <= 0x11ff))
 				{
-					if (assInput.parameterValue[0] < 0x1ff)
-						return ERROR_FEL2_CHIP_ADDRESS;
 					*b1 = assembleCommand_[STIV_COMMAND_6] | ((assInput.parameterValue[0] >> 8) & 0xf);
 					*b2 = assInput.parameterValue[0] & 0xff;
 					return 2;
 				}
-				return ERROR_16BIT;
+				return ERROR_INCORRECT_ADDRESS;
 			}
 			if (assInput.parameterType[0] == ASS_STRING)
 			{ // CALL I, KK
@@ -5719,9 +5723,9 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				}
 				return ERROR_REG;
 			}
-			return ERROR_FEL;
+			return ERROR_INST;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "CHAR")
     { 
@@ -5742,9 +5746,9 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = 0x2e;
 				return 2;
 			}
-			return ERROR_FEL;
+			return ERROR_REG_EXP;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "CLR")
     {
@@ -5766,19 +5770,21 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0x50;
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
         { // CLR Vx, c
             if (assembleCommand_[STIV_COMMAND_5] != -1)
 			{
+                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
+                    return ERROR_4BIT;
 				if (assInput.seperator[1] != " ")
 					return ERROR_PAR;
 				*b1 = assembleCommand_[STIV_COMMAND_5]  | assInput.parameterValue[0];
 				*b2 = assInput.parameterValue[1] | 0x60;
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         return ERROR_SYNTAX;
     }
@@ -5836,7 +5842,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_REG_EXP;
 		}
-		return ERROR_FEL;
+		return ERROR_INST;
     }
     if (assInput.command == "DECB")
     { // DECB
@@ -5844,7 +5850,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             return ERROR_PAR;
 
         if (assembleCommand_[FEL3_COMMAND_C] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.seperator[0] != " ")
             return ERROR_PAR;
         *b1 = assembleCommand_[FEL3_COMMAND_C];
@@ -5856,7 +5862,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
         if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
         { // DELAY Vx
             if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[0] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[FEL1_COMMAND_7]  | assInput.parameterValue[0];
@@ -5947,7 +5953,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			*b2 = 0x20;
 			return 2;
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "DRWR")
     { 
@@ -5966,7 +5972,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			*b2 = 0x70;
 			return 2;
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "INCA")
     { // INCA
@@ -5984,12 +5990,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             *b2 = 0x6F;
             return 2;
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "INCB")
     { // INCB
         if (assembleCommand_[FEL3_COMMAND_C] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.seperator[0] != " ")
             return ERROR_PAR;
         *b1 = assembleCommand_[FEL3_COMMAND_C];
@@ -6052,7 +6058,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_8REG;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "JG")
     { 
@@ -6081,9 +6087,9 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0xA0;
 				return 2;
 			}
-			return ERROR_FEL;
+			return ERROR_INST;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "JK")
     { 
@@ -6117,12 +6123,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_PAR;
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "JNE")
     { // JNE I, Vx, kk
         if (assembleCommand_[JNE_I_VX_KK] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.seperator[0] != ",")
             return ERROR_COMMA;
         if (assInput.numberOfParameters > 3)
@@ -6180,12 +6186,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
             return ERROR_PAR;
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "JNZ")
     { // JNZ Vx, kk
         if (assembleCommand_[JNZ_VX_KK] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.parameterType[0] != CHIP8_VX)
             return ERROR_REG_EXP;
         if (assInput.parameterType[1] != ASS_HEX_VALUE)
@@ -6246,7 +6252,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				return 2;
 			}
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "JS")
     { 
@@ -6275,9 +6281,9 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0xB0;
 				return 2;
 			}
-			return ERROR_FEL;
+			return ERROR_INST;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "JU")
     { 
@@ -6308,12 +6314,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_PAR;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "JZ")
     { // JZ Vx, kk
         if (assembleCommand_[JZ_VX_KK] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.parameterType[0] != CHIP8_VX)
             return ERROR_REG_EXP;
         if (assInput.parameterType[1] != ASS_HEX_VALUE)
@@ -6339,7 +6345,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
         if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
         { // KEY Vy
             if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[0] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[STIV_COMMAND_4]  ;
@@ -6363,36 +6369,37 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = 0xaa;
 				return 2;
 			}
+            return ERROR_INCORRECT_PAR;
 		}
-        return ERROR_SYNTAX;
+        return ERROR_INST;
     }
     if (assInput.command == "KEYP")
     {
         if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
         { // KEYP Vy
             if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[0] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[STIV_COMMAND_4]  ;
             *b2 = assInput.parameterValue[0] | 0x70;
             return 2;
         }
-        return ERROR_SYNTAX;
+        return ERROR_INST;
     }
     if (assInput.command == "KEYR")
     {
         if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
         { // KEYR Vy
             if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[0] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[STIV_COMMAND_4]  ;
             *b2 = assInput.parameterValue[0] | 0x80;
             return 2;
         }
-        return ERROR_SYNTAX;
+        return ERROR_INST;
     }
     if (assInput.command == "LD")
     {
@@ -6417,12 +6424,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = assInput.parameterValue[1] & 0xff;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterValue[0] == 0xb && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[RA]" && assInput.parameterType[2] == CHIP8_VX && assInput.numberOfParameters == 3)
             { // LD B, [RA], Vx
                 if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 if (assInput.seperator[2] != " ")
                     return ERROR_PAR;
                 *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[2];
@@ -6467,7 +6474,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = assInput.parameterValue[1] & 0xff;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
         }
         if (assInput.parameterType[0] == ASS_STRING)
@@ -6479,12 +6486,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
                         return ERROR_PAR;
                     if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0x3fff)
-                        return ERROR_16BIT;
+                        return ERROR_INCORRECT_ADDRESS;
                     *b1 = (assInput.parameterValue[1] >> 8) & 0xff;
                     *b2 = assInput.parameterValue[1] & 0xff;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[0] == "I")
             {
@@ -6500,7 +6507,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					*b2 = 0x9c;
 					return 2;
 				}
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_HEX_VALUE_MEM && assInput.parameterString[0] == "I")
             {
@@ -6509,12 +6516,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 						return ERROR_PAR;
 					if (assInput.parameterValue[1] < 0x2700 || assInput.parameterValue[1] > 0x27ff)
-						return ERROR_RAM_CHIP_ADDRESS;
+						return ERROR_STUDIOIV_ADDRESS_I;
 					*b1 = assembleCommand_[STIV_COMMAND_6] | 3;
 					*b2 = assInput.parameterValue[1];
 					return 2;
 				}
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "I")
             { 
@@ -6526,7 +6533,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					*b2 = assInput.parameterValue[1] | 0xe0;
 					return 2;
 				}
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "RA")
             { 
@@ -6540,7 +6547,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = assInput.parameterValue[1] & 0xff;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "RB")
             {
@@ -6554,7 +6561,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = assInput.parameterValue[1] & 0xff;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "[RA]")
             { // LD [RA], Vx
@@ -6572,7 +6579,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x24;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "[RB]")
             { // LD [RB], Vx
@@ -6590,7 +6597,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x27;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RB.0")
             { // LD RB.0, Vx
@@ -6608,7 +6615,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x34;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RB.1")
             { // LD RB.1, Vx
@@ -6620,7 +6627,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x44;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RA.0")
             { // LD RA.0, Vx
@@ -6638,7 +6645,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x2A;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RA.1")
             { // LD RA.0, Vx
@@ -6650,7 +6657,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x30;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
         }
         if (assInput.parameterType[0] == CHIP8_VX_MEM)
@@ -6661,11 +6668,11 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				{ // LD [Vx], Vy
 					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 						return ERROR_PAR;
-					*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-					*b2 = 0xE0 | assInput.parameterValue[1];
+					*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
+					*b2 = 0xE0 | assInput.parameterValue[0];
 					return 2;
 				}
-				return ERROR_FEL;
+				return ERROR_INST;
             }
 		}
         if (assInput.parameterType[0] == CHIP8_VX)
@@ -6687,12 +6694,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 						return ERROR_PAR;
 					if (assInput.parameterValue[1] < 0x2700 || assInput.parameterValue[1] > 0x27ff)
-						return ERROR_RAM_CHIP_ADDRESS;
+						return ERROR_STUDIOIV_ADDRESS_I;
 					*b1 = assembleCommand_[LD_VX_27KK] | assInput.parameterValue[0];
 					*b2 = assInput.parameterValue[1];
 					return 2;
 				}
-				return ERROR_FEL;
+				return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_HEX_VALUE_MEM)
             { 
@@ -6701,12 +6708,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 						return ERROR_PAR;
 					if (assInput.parameterValue[1] < 0x2700 || assInput.parameterValue[1] > 0x27ff)
-						return ERROR_RAM_CHIP_ADDRESS;
+						return ERROR_STUDIOIV_ADDRESS_I;
 					*b1 = assembleCommand_[LD_VX_27KK] | assInput.parameterValue[0];
 					*b2 = assInput.parameterValue[1];
 					return 2;
 				}
-				return ERROR_FEL;
+				return ERROR_INST;
             }
             if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.seperator[1] == " ")
             { 
@@ -6746,7 +6753,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					*b2 = assInput.parameterValue[0] | 0xe0;
 					return 2;
 				}
-				return ERROR_FEL;
+				return ERROR_INST;
             }
             if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX_MEM && assInput.seperator[1] == " ")
             { 
@@ -6758,12 +6765,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					*b2 = 0xF0 | assInput.parameterValue[1];
 					return 2;
 				}
-				return ERROR_FEL;
+				return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "+")
             { // LD Vz, Vx+Vy
                 if (assembleCommand_[ADD_VX_VY_VZ] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 if (assInput.seperator[2] != " ")
                     return ERROR_PAR;
                 *b1 = assembleCommand_[ADD_VX_VY_VZ] | assInput.parameterValue[1];
@@ -6773,7 +6780,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX)
             { // LD Vz, Vx-Vy
                 if (assembleCommand_[SUB_VX_VY_VZ] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 if (assInput.seperator[1] != "-")
                     return ERROR_DASH;
                 if (assInput.seperator[2] != " ")
@@ -6809,7 +6816,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x1E;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[RB]")
             { // LD Vx, [RB]
@@ -6827,7 +6834,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x21;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RB.0")
             { // LD Vx, RB.0
@@ -6839,7 +6846,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x47;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RB.1")
             { // LD Vx, RB.1
@@ -6851,7 +6858,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x4A;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RA.0")
             { // LD Vx, RA.0
@@ -6869,7 +6876,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x38;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RA.1")
             { // LD Vx, RA.0
@@ -6881,7 +6888,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x3B;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "PAR")
             { // LD Vx, PAR
@@ -6899,7 +6906,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x7b;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "COIN")
             { // LD Vx, COIN
@@ -6917,7 +6924,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x5d;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "FIREA")
             { // LD Vx, COIN
@@ -6935,7 +6942,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x63;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "FIREB")
             { // LD Vx, COIN
@@ -6953,7 +6960,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x67;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "JOYA")
             { // LD Vx, COIN
@@ -6971,7 +6978,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x6b;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
             if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "JOYB")
             { // LD Vx, COIN
@@ -6989,7 +6996,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     *b2 = 0x74;
                     return 2;
                 }
-                return ERROR_FEL;
+                return ERROR_INST;
             }
         }
         if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM && assInput.parameterType[1] == CHIP8_VX)
@@ -7009,7 +7016,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 					return ERROR_PAR;
 				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_RAM_CHIP_ADDRESS;
+					return ERROR_STUDIOIV_ADDRESS_I;
 				*b1 = assembleCommand_[LD_27KK_VX] | assInput.parameterValue[1];
 				*b2 = assInput.parameterValue[0] & 0xff;
 				return 2;
@@ -7022,7 +7029,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 					return ERROR_PAR;
 				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_RAM_CHIP_ADDRESS;
+					return ERROR_STUDIOIV_ADDRESS_I;
 				if (assInput.parameterString[1] != "I")
 					return ERROR_REG;
 				
@@ -7030,7 +7037,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[0];
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterType[1] == CHIP8_VX)
         { 
@@ -7049,7 +7056,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 					return ERROR_PAR;
 				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_RAM_CHIP_ADDRESS;
+					return ERROR_STUDIOIV_ADDRESS_I;
 				*b1 = assembleCommand_[LD_27KK_VX] | assInput.parameterValue[1];
 				*b2 = assInput.parameterValue[0] & 0xff;
 				return 2;
@@ -7059,7 +7066,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
 					return ERROR_PAR;
 				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_RAM_CHIP_ADDRESS;
+					return ERROR_STUDIOIV_ADDRESS_I;
 				if (assInput.parameterString[1] != "I")
 					return ERROR_REG;
 				
@@ -7067,7 +7074,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1];
 				return 2;
 			}
-			return ERROR_FEL;
+			return ERROR_INST;
         }
         return ERROR_LD;
     }
@@ -7084,7 +7091,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                 return 1;
             }
         }
-        return ERROR_FEL;
+        return ERROR_INST;
 
     }
     if (assInput.command == "OR")
@@ -7109,7 +7116,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0x10;
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         return ERROR_SYNTAX;
     }
@@ -7133,7 +7140,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_8BIT;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "POP")
     { 
@@ -7165,7 +7172,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_REG;
 		}
-		return ERROR_FEL;
+		return ERROR_INST;
     }
     if (assInput.command == "PRINT")
     { 
@@ -7213,9 +7220,9 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = 0x82;
 				return 2;
 			}
-			return ERROR_FEL;
+			return ERROR_INCORRECT_PAR;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "PUSH")
     { 
@@ -7248,7 +7255,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_REG;
 		}
-		return ERROR_FEL;
+		return ERROR_INST;
     }
     if (assInput.command == "RESET")
     { 
@@ -7263,8 +7270,9 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = 0;
 				return 2;
 			}
+            return ERROR_INCORRECT_PAR;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "RETURN")
     { // RET
@@ -7285,7 +7293,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			*b2 = 0;
 			return 2;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "RND")
     { 
@@ -7294,10 +7302,14 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			if (assInput.numberOfParameters > 3)
 				return ERROR_PAR;
 			
-			if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM && assInput.parameterValue[0] == 0x270B &&
-			    assInput.parameterType[1] == CHIP8_VX && assInput.parameterValue[1] == 8 &&
-				assInput.parameterType[2] == CHIP8_VX && assInput.parameterValue[2] == 9)
+			if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM &&
+			    assInput.parameterType[1] == CHIP8_VX &&
+				assInput.parameterType[2] == CHIP8_VX)
 			{ // RND [270B], V8, V9
+                if (assInput.parameterValue[0] != 0x270B)
+                    return ERROR_INCORRECT_ADDRESS;
+                if (assInput.parameterValue[1] != 8 || assInput.parameterValue[2] != 9)
+                    return ERROR_INCORRECT_REG;
                 if (assInput.seperator[0] != ",")
                     return ERROR_COMMA;
  				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
@@ -7306,26 +7318,34 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			if (assInput.numberOfParameters > 2)
 				return ERROR_PAR;
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterValue[0] == 8 &&
-				assInput.parameterType[1] == CHIP8_VX && assInput.parameterValue[1] == 9)
+			if (assInput.parameterType[0] == CHIP8_VX &&
+				assInput.parameterType[1] == CHIP8_VX)
 			{ // RND V8, V9
+                if (assInput.parameterValue[0] != 8 || assInput.parameterValue[1] != 9)
+                    return ERROR_INCORRECT_REG;
                 if (assInput.seperator[0] != ",")
                     return ERROR_COMMA;
 				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
 				*b2 = 0xbc;
 				return 2;
 			}
-            if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM && assInput.parameterValue[0] == 0x270B &&
-			    assInput.parameterType[1] == CHIP8_VX && assInput.parameterValue[1] == 9)
+            if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM &&
+			    assInput.parameterType[1] == CHIP8_VX)
 			{ // RND [270B], V9
+                if (assInput.parameterValue[1] != 9)
+                    return ERROR_INCORRECT_REG;
+                if (assInput.parameterValue[0] != 0x270B)
+                    return ERROR_INCORRECT_ADDRESS;
                 if (assInput.seperator[0] != ",")
                     return ERROR_COMMA;
 				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
                 *b2 = 0xb6;
 				return 2;
 			}
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterValue[0] == 9)
+			if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
 			{ // RND V9
+                if (assInput.parameterValue[0] != 9)
+                    return ERROR_INCORRECT_REG;
 				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
 				*b2 = 0xb6;
 				return 2;
@@ -7334,7 +7354,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
         if (assInput.seperator[0] != ",")
             return ERROR_COMMA;
         if (assembleCommand_[RND_VX_KK] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.parameterType[0] != CHIP8_VX)
             return ERROR_REG_EXP;
         if (assInput.parameterType[1] != ASS_HEX_VALUE)
@@ -7379,7 +7399,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				return 2;
 			}
 		}
-        return ERROR_FEL;
+        return ERROR_INCORRECT_PAR;
     }
     if (assInput.command == "SE")
     {
@@ -7397,7 +7417,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             if (assInput.parameterValue[1] > 0 && assInput.parameterValue[1] <= 0xff)
             {
                 if (assembleCommand_[SE_VX_KK] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 *b1 = assembleCommand_[SE_VX_KK] | assInput.parameterValue[0];
                 *b2 = assInput.parameterValue[1];
             }
@@ -7408,9 +7428,11 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
     if (assInput.command == "SHL")
     {
         if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
-        { // SHR Vx, n
+        { // SHL Vx, n
             if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
+            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
+                return ERROR_4BIT;
             if (assInput.seperator[1] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
@@ -7424,7 +7446,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
         if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
         { // SHL4 Vx
             if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[0] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[FEL1_COMMAND_7]  | assInput.parameterValue[0];
@@ -7453,12 +7475,14 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0xc0;
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
         { // SHL Vx, n
             if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
+            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
+                return ERROR_4BIT;
             if (assInput.seperator[1] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
@@ -7472,7 +7496,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
         if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
         { // SHR4 Vx
             if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[0] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[FEL1_COMMAND_7]  | assInput.parameterValue[0];
@@ -7497,14 +7521,14 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             if (assInput.parameterValue[1] > 0 && assInput.parameterValue[1] <= 0xff)
             {
                 if (assembleCommand_[SNE_VX_KK] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 *b1 = assembleCommand_[SNE_VX_KK] | assInput.parameterValue[0];
                 *b2 = assInput.parameterValue[1];
             }
             else
             {// SNE Vx, [8aa]
                 if (assembleCommand_[SNE_VX_M8AA] == -1)
-                    return ERROR_FEL;
+                    return ERROR_INST;
                 if (assInput.parameterValue[1] < 0x800 || assInput.parameterValue[1] > 0x8ff)
                     return ERROR_RAM_CHIP_ADDRESS;
                 *b1 = assembleCommand_[SNE_VX_M8AA] | assInput.parameterValue[0];
@@ -7526,7 +7550,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                 *b2 = assInput.parameterValue[1] << 4;
                 return 2;
             }
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         return ERROR_SYNTAX;
     }
@@ -7541,7 +7565,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             *b2 = 0xd0;
             return 2;
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "SUB")
     {
@@ -7598,12 +7622,12 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                 *b2 = assInput.parameterValue[1] | 0x50;
                 return 2;
             }
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "-")
         { // SUB Vz, Vx-Vy
             if (assembleCommand_[SUB_VX_VY_VZ] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
                 return ERROR_PAR;
             *b1 = assembleCommand_[SUB_VX_VY_VZ] | assInput.parameterValue[1];
@@ -7615,7 +7639,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
     if (assInput.command == "SWITCH")
     { // SWITCH Vx, Vy, [I]
         if (assembleCommand_[STIV_COMMAND_5] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.parameterType[0] != CHIP8_VX)
             return ERROR_REG_EXP;
         if (assInput.parameterType[1] != CHIP8_VX)
@@ -7661,7 +7685,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_REG;
 		}
-		return ERROR_FEL;
+		return ERROR_INST;
     }
     if (assInput.command == "SYS1" && assembleCommand_[SYS1_AA] != -1)
     { // SYS1 aa
@@ -7671,7 +7695,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
         if (assInput.parameterType[0] == ASS_HEX_VALUE)
         {
             if (assembleCommand_[SYS1_AA] == -1)
-                return ERROR_FEL;
+                return ERROR_INST;
             if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
                 return ERROR_12BIT;
             *b1 = assembleCommand_[SYS1_AA] | 1;
@@ -7683,7 +7707,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
     if (assInput.command == "TAPE")
     {
         if (assembleCommand_[TAPE_KK] == -1)
-            return ERROR_FEL;
+            return ERROR_INST;
         if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.numberOfParameters == 1)
         { // TAPE kk
             if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
@@ -7736,7 +7760,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                 return 2;
             }
         }
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "WAIT")
     { 
@@ -7756,7 +7780,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 			}
 			return ERROR_8BIT;
 		}
-        return ERROR_FEL;
+        return ERROR_INST;
     }
     if (assInput.command == "XOR")
     {
@@ -7780,11 +7804,11 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				*b2 = assInput.parameterValue[1] | 0x30;
 				return 2;
 			}
-            return ERROR_FEL;
+            return ERROR_INST;
         }
         return ERROR_SYNTAX;
     }
-    return ERROR_PSEUDO;
+    return ERROR_INST;
 }
 
 int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX)
@@ -7840,7 +7864,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	if (assInput.command == "ADD") 
 	{
 		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
+			return ERROR_TEMP_PAR;
 		*b1 = 0xf4; 
 		return 1;
 	}
@@ -7852,7 +7876,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	if (assInput.command == "AND") 
 	{ 
 		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
+			return ERROR_TEMP_PAR;
 		*b1 = 0xf2; 
 		return 1; 
 	}
@@ -8382,7 +8406,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	if (assInput.command == "OR") 
 	{ 
 		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
+			return ERROR_TEMP_PAR;
 		*b1 = 0xf1; 
 		return 1; 
 	}
@@ -8510,9 +8534,9 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SHL") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ == CPU1801)  return ERROR_TEMP_CPU_1801;
 		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
+			return ERROR_TEMP_PAR;
 		*b1 = 0xfe; 
 		return 1; 
 	}
@@ -8535,7 +8559,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	if (assInput.command == "SHR") 
 	{ 
 		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
+			return ERROR_TEMP_PAR;
 		*b1 = 0xf6; 
 		return 1; 
 	}
@@ -8615,7 +8639,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	if (assInput.command == "XOR") 
 	{ 
 		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
+			return ERROR_TEMP_PAR;
 		*b1 = 0xf3; 
 		return 1; 
 	}
@@ -8990,7 +9014,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 		*b2 = 0xff;
 		return 3;
 	}
-	return ERROR_1802;
+	return ERROR_INST;
 }
 
 int DebugWindow::getByte(AssInput assInput, Byte* b2, bool allowX)
@@ -10942,7 +10966,6 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 	wxString debugIn, address, error;
 	Byte b1, b2, b3=0, b4=0, b5=0, b6=0, b7;
 	int count;
-    int count_pseudo;
 	Word addressValue = dirAssAddress_;
 	Byte typeOpcode, typeOperand1=MEM_TYPE_OPERAND, typeOperand2=MEM_TYPE_OPERAND, typeOperand3=MEM_TYPE_OPERAND, typeOperand4=MEM_TYPE_OPERAND, typeOperand5=MEM_TYPE_OPERAND;
 	int	dataViewCount = 4;
@@ -11162,14 +11185,14 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
         }
     }
 
-    if (p_Computer->getChip8Type() != CHIP_NONE && count >= ERROR_START && count <= ERROR_LAST)
+    if (p_Computer->getChip8Type() != CHIP_NONE && (count == ERROR_INST || count == ERROR_TEMP_PAR || count == ERROR_TEMP_CPU_1801))
     {
         switch (p_Computer->getChip8Type())
         {
             case CHIPST2:
                 typeOpcode = MEM_TYPE_ST2_1;
                 typeOperand1 = MEM_TYPE_ST2_2;
-                count_pseudo = assembleSt2(&debugIn, &b1, &b2);
+                count = assembleSt2(&debugIn, &b1, &b2);
             break;
                 
             case CHIPFEL1:
@@ -11178,18 +11201,15 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             case CHIPSTIV:
                 typeOpcode = MEM_TYPE_FEL2_1;
                 typeOperand1 = MEM_TYPE_FEL2_2;
-                count_pseudo = assembleFel2(&debugIn, &b1, &b2, &b3, &b4);
+                count = assembleFel2(&debugIn, &b1, &b2, &b3, &b4);
             break;
                 
             default:
                 typeOpcode = MEM_TYPE_CHIP_8_1;
                 typeOperand1 = MEM_TYPE_CHIP_8_2;
-                count_pseudo = assembleChip(&debugIn, &b1, &b2);
+                count = assembleChip(&debugIn, &b1, &b2);
             break;
         }
-        
-        if (count_pseudo < ERROR_START)
-            count = count_pseudo;
     }
 
 	if (count > 0 && count < 7)
@@ -11279,7 +11299,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 			for (int i=0; i<count; i++)
 				assSpinDown();
 		directAss();
-		assErrorDisplay("");
+//		assErrorDisplay("");
 	}
 	else
 	{
