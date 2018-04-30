@@ -139,7 +139,8 @@ public:
 	bool useElfControlWindows;
 	bool showAddress;
 
-	bool bootRam;
+    bool bootStrap;
+    bool bootRam;
 	bool clearRam;
 	bool clearRtc;
 

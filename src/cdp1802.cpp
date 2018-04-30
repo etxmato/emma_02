@@ -3183,7 +3183,7 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
                 p_Main->updateTitle();
 			}
 
-			if (buffer[0] == ':')
+			if (buffer[0] == ':' || (buffer[0] == 0x0d && buffer[1] == 0x0a && buffer[2] == ':'))
 				return readIntelFile(fileName, memoryType, end, showFilename);
 			else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
 				return readLstFile(fileName, memoryType, end, showFilename);

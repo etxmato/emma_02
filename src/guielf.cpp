@@ -327,11 +327,13 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 
 	EVT_TEXT(XRCID("SaveEndElf"), GuiMain::onSaveEnd)
 	EVT_TEXT(XRCID("SaveEndElfII"), GuiMain::onSaveEnd)
-	EVT_TEXT(XRCID("SaveEndElfSuperII"), GuiMain::onSaveEnd)
+	EVT_TEXT(XRCID("SaveEndSuperElf"), GuiMain::onSaveEnd)
 
 	EVT_TEXT(XRCID("SaveExecElf"), GuiMain::onSaveExec)
-	EVT_TEXT(XRCID("SaveExecElfII10"), GuiMain::onSaveExec)
+	EVT_TEXT(XRCID("SaveExecElfII"), GuiMain::onSaveExec)
 	EVT_TEXT(XRCID("SaveExecSuperElf"), GuiMain::onSaveExec)
+
+    EVT_CHECKBOX(XRCID("BootStrapSuperElf"), GuiElf::onBootStrap)
 
 	END_EVENT_TABLE()
 
@@ -406,7 +408,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].printMode_ = (int)configPointer->Read(elfTypeStr+"/Print_Mode", 1l);
 
     configPointer->Read(elfTypeStr+"/GiantBoardMapping", &elfConfiguration[elfType].giantBoardMapping, false);
-    
+    if (elfType == SUPERELF)
+        configPointer->Read(elfTypeStr+"/BootStrap", &elfConfiguration[elfType].bootStrap, false);
+
     wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
 	conf[elfType].zoom_ = configPointer->Read(elfTypeStr+"/Zoom", defaultZoom);
@@ -506,6 +510,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
         if (elfType == ELFII)
             XRCCTRL(*this, "Giant"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].giantBoardMapping);
+
+        if (elfType == SUPERELF)
+            XRCCTRL(*this, "BootStrapSuperElf", wxCheckBox)->SetValue(elfConfiguration[elfType].bootStrap);
 
 		setPrinterState(elfType);
 		XRCCTRL(*this, "PrintMode"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].printMode_);
@@ -702,7 +709,10 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	if (elfTypeStr == "Elf")
 		configPointer->Write(elfTypeStr+"/Enable_Led_Module", elfConfiguration[elfType].useLedModule);
 
-	configPointer->Write(elfTypeStr+"/Led_Update_Frequency", conf[elfType].ledTime_);
+    if (elfType == SUPERELF)
+        configPointer->Write(elfTypeStr+"/BootStrap", elfConfiguration[elfType].bootStrap);
+
+    configPointer->Write(elfTypeStr+"/Led_Update_Frequency", conf[elfType].ledTime_);
 	configPointer->Write(elfTypeStr+"/Enable_Turbo_Cassette", conf[elfType].turbo_);
 	configPointer->Write(elfTypeStr+"/Turbo_Clock_Speed", conf[elfType].turboClock_);
 	configPointer->Write(elfTypeStr+"/Enable_Auto_Cassette", conf[elfType].autoCassetteLoad_);
@@ -1398,3 +1408,10 @@ void GuiElf::onQsound(wxCommandEvent&event)
     XRCCTRL(*this, "BeepFrequencyTextHz"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
 	XRCCTRL(*this, "BeepFrequency"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
 }
+
+void GuiElf::onBootStrap(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].bootStrap = event.IsChecked();
+}
+
+

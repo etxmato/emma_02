@@ -1196,6 +1196,11 @@ void Super::startComputer()
 
     p_Main->enableDebugGuiMemory();
 
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+    else
+        bootstrap_ = 0;
+    
     Word offset = 0;
     wxString fileName = p_Main->getRomFile(SUPERELF, MAINROM1);
     if (fileName.Right(4) == ".ch8")
@@ -1210,7 +1215,8 @@ void Super::startComputer()
 	readProgram(p_Main->getRomDir(SUPERELF, MAINROM2), p_Main->getRomFile(SUPERELF, MAINROM2), p_Main->getLoadromMode(SUPERELF, 1), offset, NONAME);
 
 	configureElfExtensions();
-	if (elfConfiguration.autoBoot)
+
+    if (elfConfiguration.autoBoot)
 	{
 		scratchpadRegister_[0]=p_Main->getBootAddress("SuperElf", SUPERELF);
 		autoBoot();
@@ -1253,6 +1259,7 @@ void Super::startComputer()
 
 void Super::writeMemDataType(Word address, Byte type)
 {
+    address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1323,6 +1330,7 @@ void Super::writeMemDataType(Word address, Byte type)
 
 Byte Super::readMemDataType(Word address)
 {
+    address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1375,6 +1383,10 @@ Byte Super::readMemDataType(Word address)
 
 Byte Super::readMem(Word addr)
 {
+    if ((addr & 0x8000) == 0x8000)
+        bootstrap_ = 0;
+
+    addr = addr | bootstrap_;
 	Byte minimon[] = { 0xf8, 0xff, 0xa1, 0xe1, 0x6c, 0x64, 0xa3, 0x21,
                    0x6c, 0x64, 0x3f, 0x07, 0x37, 0x0c, 0x3a, 0x11,
                    0xd3, 0xe3, 0xf6, 0x33, 0x17, 0x7b, 0x6c, 0x64,
@@ -1481,6 +1493,7 @@ Byte Super::readMem(Word addr)
 
 void Super::writeMem(Word addr, Byte value, bool writeRom)
 {
+    addr = addr | bootstrap_;
 	address_ = addr;
 	superScreenPointer->showAddress(address_);
 
@@ -1637,7 +1650,12 @@ void Super::cpuInstruction()
 		if (resetPressed_)
 		{
 			resetCpu();
-			if (elfConfiguration.use8275)
+            if (elfConfiguration.bootStrap)
+                bootstrap_ = 0x8000;
+            else
+                bootstrap_ = 0;
+
+            if (elfConfiguration.use8275)
 				i8275Pointer->cRegWrite(0x40);
 			if (elfConfiguration.autoBoot)
 			{

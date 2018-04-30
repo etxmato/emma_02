@@ -224,7 +224,7 @@
 <TD WIDTH="250">Vx = Vy &lt;&lt; 1, VB = carry</TD>
 </TR>
 <TR>
-<TD WIDTH="55">8xx6</TD>
+<TD WIDTH="55">8x.6</TD>
 <TD WIDTH="40">SHR</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Vx = Vx &gt;&gt; 1, VB = carry</TD>

@@ -1,0 +1,711 @@
+
+<html>
+<title>FEL Syntax</title>
+<body>
+<h2>FEL Syntax</h2>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">4 bit value but not used</TD>
+</TR>
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">z</TD>
+<TD WIDTH="400">Register number Vz (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[8aa]</TD>
+<TD WIDTH="400">Memory value of address aa within page 8 (RAM)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[Vy]</TD>
+<TD WIDTH="400">Memory value of address in register Vy within in page 8 (RAM)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">F=</TD>
+<TD WIDTH="400">Tone frequency</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>FEL-1 Syntax</h3>
+<p>
+Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 currently not emulated in Emma 02 as yet.
+</p>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">5xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy4</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy2</TD>
+<TD WIDTH="40">AND</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx AND Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in SYS 26E (which is the 'FEL-1' equivalent of RETURN)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x4B</TD>
+<TD WIDTH="40">DELAY</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx Delay (Tape On, Speaker off)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xyl</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, Vy, l</TD>
+<TD WIDTH="250">Draw pattern, x = pattern address in page 3, y = tv cell address, l number of lines</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7F6F</TD>
+<TD WIDTH="40">INCA</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">RA = RA + 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Faaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x52</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, [RA], Vx</TD>
+<TD WIDTH="250">Convert Vx to 3 digit decimal at A, A+1, A+2</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Aaaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA, aaa</TD>
+<TD WIDTH="250">RA = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Baaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RB, aaa</TD>
+<TD WIDTH="250">RB = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x2A</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA.0, Vx</TD>
+<TD WIDTH="250">RA.0 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x30</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA.1, Vx</TD>
+<TD WIDTH="250">RA.1 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x34</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RB.0, Vx</TD>
+<TD WIDTH="250">RB.0 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x38</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, RA.0</TD>
+<TD WIDTH="250">Vx = RA.0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x3B</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, RA.1</TD>
+<TD WIDTH="250">Vx = RA.1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1x1E</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [RA]</TD>
+<TD WIDTH="250">Vx = [RA]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x21</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [RB]</TD>
+<TD WIDTH="250">Vx = [RB]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x24</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RA], Vx</TD>
+<TD WIDTH="250">[RA] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x27</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RB], Vx</TD>
+<TD WIDTH="250">[RB] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy1</TD>
+<TD WIDTH="40">OR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx OR Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = random AND kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy SHR, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x3E</TD>
+<TD WIDTH="40">SHL4</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx SHL 4</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x41</TD>
+<TD WIDTH="40">SHR4</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx SHR 4</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxy0</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx != Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy5</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy7</TD>
+<TD WIDTH="40">SUBN</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy - Vx, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Exaa</TD>
+<TD WIDTH="40">SYS1</TD>
+<TD WIDTH="100">aa</TD>
+<TD WIDTH="250">Execute code at 01aa with X = 6</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6.kk</TD>
+<TD WIDTH="40">TAPE</TD>
+<TD WIDTH="100">kk</TD>
+<TD WIDTH="250">Tape Controller - kk = code to write</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dxy0</TD>
+<TD WIDTH="40">TONE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx Tone, Vy Delay (Tape on spk off)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy3</TD>
+<TD WIDTH="40">XOR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx XOR Vy</TD>
+</TR>
+</TABLE>
+<h3>FEL-2 Syntax</h3>
+<p>
+Pseudo command syntax described here as FEL-2 is a variant used in the Fred 2 game 'Tag-Bowling' running on the RCA Video Coin Arcade machine.
+</p>
+<p>
+V0-F are stored on memory locations 0880-088F.
+</p>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyx</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bxyx</TD>
+<TD WIDTH="40">ADD8</TD>
+<TD WIDTH="100">Vx, Vy, Vz</TD>
+<TD WIDTH="250">If (Vx+Vy)&0x7 = 8 THEN Vz = 0xFF ELSE Vx = Vx+Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9dkk</TD>
+<TD WIDTH="40">BEEP</TD>
+<TD WIDTH="100">F=kk, d<br>kk, d</TD>
+<TD WIDTH="250">Tone beep with a frequency kk and duration d</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in C0 (which is the 'FEL-2' equivalent of RETURN)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Axyn</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, Vy, n</TD>
+<TD WIDTH="250">Draw 8*8 graphics:
+<br>n: bit 0-2, specify the number of graphics to draw - 1 (0 will draw one graphic, 7 will draw 8 graphics)
+<br>n: bit 3, 0 = next graphic, 1 = repeat same graphic
+<br>Page 6 [Vx to Vx+8] contains the graphic memory location start, calculated as: 
+<br>- bit 0 defines the lower byte of graphic memory location bit 3
+<br>- bit 1-3 defines page number 0=Page 5, 1=Page 4, 2=Page 3, 3=Page 2 etc.
+<br>- bit 4-7 defines the lower byte of graphic memory location bit 4-7 e.g. B0 points to memory 5B0, B2 points to 4B0, B3 points to 4B8. 
+<br>Graphic memory location bit 0-2 are always 0, the graphic memory should contain 8 bytes to make up the 8*8 graphic which will be stored on screen location Vy-0xA0. Where A0 is top left corner A8 to right corner, D0 bottom left corner and D8 bottom right corner. The memory location values used (from page 6) are copied to 08A0-08D8 RAM</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Faaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xy.</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, Vy, Vx</TD>
+<TD WIDTH="250">Store BCD value of Vx in Vy, Vy+1 and Vy+2, Vy will point to last byte of the converted number</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex.0</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, COIN</TD>
+<TD WIDTH="250">Load status coin detector to Vx, no coin Vx = 0, coin Vx = 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex.1</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, FIREA</TD>
+<TD WIDTH="250">Load status fire key player A to Vx, no fire pressed Vx = 0, fire pressed Vx = 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex.2</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, FIREB</TD>
+<TD WIDTH="250">Load status fire key player B to Vx, no fire pressed Vx = 0, fire pressed Vx = 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex.4</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, JOYA</TD>
+<TD WIDTH="250">Load status joystick keys player A to Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex.8</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, JOYB</TD>
+<TD WIDTH="250">Load status joystick keys player B to Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C8y.</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vy, PAR</TD>
+<TD WIDTH="250">Load input parameter switch to Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Same as ADD: Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Same as SUB: Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dxaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">LD [8aa], Vx<br>LD 8aa, vx</TD>
+<TD WIDTH="250">Memory Location [8aa] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C4</TD>
+<TD WIDTH="40">NO</TD>
+<TD WIDTH="100">OP</TD>
+<TD WIDTH="250">Do nothing (same as CC)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C0</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = random AND kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3xaa</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, [8aa]<br>Vx, 8aa</TD>
+<TD WIDTH="250">Skip next instruction if Vx != memory location [8aa]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xyz</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xyx</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C1kk</TD>
+<TD WIDTH="40">TONE</TD>
+<TD WIDTH="100">F=kk<br>kk</TD>
+<TD WIDTH="250">Tone on with frequency kk (same as C3kk, C5kk, C7kk, C9kk, CBkk, CDkk, CFkk)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C2..</TD>
+<TD WIDTH="40">TONE</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Tone off (same as C6.., CA.., CE..)</TD>
+</TR>
+</TABLE>
+<h3>FEL-3 Syntax</h3>
+<p>
+Pseudo command syntax described here as FEL-3 is a variant used in the game 'Coin Bowling' running on the RCA Video Coin Arcade machine.
+</p>
+<p>
+V0-F are stored on memory locations 0880-088F.
+</p>
+<p>
+Note: E... is not defined in FEL-3.
+</p>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">5xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy4</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy2</TD>
+<TD WIDTH="40">AND</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx AND Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ddkk</TD>
+<TD WIDTH="40">BEEP</TD>
+<TD WIDTH="100">F=kk, d<br>kk, d</TD>
+<TD WIDTH="250">Tone beep with a frequency kk and duration d</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in SYS 100 (which is the 'FEL-3' equivalent of RETURN)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C.54</TD>
+<TD WIDTH="40">DECB</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">RB = RB - 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xln</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, l,  n</TD>
+<TD WIDTH="250">Draw pattern, [RA] = pattern address in page 3, Vx = tv cell address, l = number of lines, n = number of graphics</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C.50</TD>
+<TD WIDTH="40">INCA</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">RA = RA + 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">C.51</TD>
+<TD WIDTH="40">INCB</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">RB = RB + 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Faaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Aaaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA, aaa</TD>
+<TD WIDTH="250">RA = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Baaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RB, aaa</TD>
+<TD WIDTH="250">RB = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx4D</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA.0, Vx</TD>
+<TD WIDTH="250">RA.0 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx41</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RB.0, Vx</TD>
+<TD WIDTH="250">RB.0 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx44</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RB.1, Vx</TD>
+<TD WIDTH="250">RB.1 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6x5D</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, COIN</TD>
+<TD WIDTH="250">Load status coin detector to Vx, no coin Vx = 1, coin Vx = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6x63</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, FIREA</TD>
+<TD WIDTH="250">Load status fire key player A to Vx, no fire pressed Vx = 1, fire pressed Vx = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6x67</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, FIREB</TD>
+<TD WIDTH="250">Load status fire key player B to Vx, no fire pressed Vx = 1, fire pressed Vx = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6x6B</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, JOYA</TD>
+<TD WIDTH="250">Load status joystick keys player A to Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6x74</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, JOYB</TD>
+<TD WIDTH="250">Load status joystick keys player B to Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vk, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6x7B</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, PAR</TD>
+<TD WIDTH="250">Load input parameter switch to Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx56</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, RA.0</TD>
+<TD WIDTH="250">Vx = RA.0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx47</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, RB.0</TD>
+<TD WIDTH="250">Vx = RB.0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx4A</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, RB.1</TD>
+<TD WIDTH="250">Vx = RB.1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xy1</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx35</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [RA]</TD>
+<TD WIDTH="250">Vx = [RA]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx38</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [RB]</TD>
+<TD WIDTH="250">Vx = [RB]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx3B</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RA], Vx</TD>
+<TD WIDTH="250">[RA] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cx3E</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RB], Vx</TD>
+<TD WIDTH="250">[RB] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy1</TD>
+<TD WIDTH="40">OR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx OR Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">71kk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = random AND kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy SHR, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xy0</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx != Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy5</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy7</TD>
+<TD WIDTH="40">SUBN</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy - Vx, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy3</TD>
+<TD WIDTH="40">XOR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx XOR Vy</TD>
+</TR>
+</TABLE>
+</body>
+</html>
+
