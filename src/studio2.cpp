@@ -677,7 +677,7 @@ Byte Studio2::readMem(Word addr)
 		break;
  
         case CARTRIDGEROM:
-            addr = (addr & 0x3ff) | 0x400;
+//            addr = (addr & 0x3ff) | 0x400;
         break;
             
         case MAPPEDROM:

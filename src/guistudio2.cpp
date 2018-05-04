@@ -628,8 +628,6 @@ void GuiStudio2::readStudioIVConfig()
         clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);
         XRCCTRL(*this, "VolumeStudioIV", wxSlider)->SetValue(conf[STUDIOIV].volume_);
         
-        XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->Enable(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_);
-        XRCCTRL(*this, "RomButtonStudioIV", wxButton)->Enable(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_);
         XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);
     }
 }

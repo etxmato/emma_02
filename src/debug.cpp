@@ -166,7 +166,7 @@ enum
     ERROR_HEX,
     ERROR_HEX_TO_HIGH,
     ERROR_NO_COMPUTER_RUNNING,
-    ERROR_INCORRECT_ADDRESS,
+    ERROR_INCORR_ADDRESS,
     ERROR_INCORRECT_PAR,
     ERROR_INCORRECT_REG,
     ERROR_TEMP_PAR,
@@ -5709,7 +5709,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 					*b2 = assInput.parameterValue[0] & 0xff;
 					return 2;
 				}
-				return ERROR_INCORRECT_ADDRESS;
+				return ERROR_INCORR_ADDRESS;
 			}
 			if (assInput.parameterType[0] == ASS_STRING)
 			{ // CALL I, KK
@@ -6482,7 +6482,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                     if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
                         return ERROR_PAR;
                     if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0x3fff)
-                        return ERROR_INCORRECT_ADDRESS;
+                        return ERROR_INCORR_ADDRESS;
                     *b1 = (assInput.parameterValue[1] >> 8) & 0xff;
                     *b2 = assInput.parameterValue[1] & 0xff;
                     return 2;
@@ -7303,7 +7303,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
 				assInput.parameterType[2] == CHIP8_VX)
 			{ // RND [270B], V8, V9
                 if (assInput.parameterValue[0] != 0x270B)
-                    return ERROR_INCORRECT_ADDRESS;
+                    return ERROR_INCORR_ADDRESS;
                 if (assInput.parameterValue[1] != 8 || assInput.parameterValue[2] != 9)
                     return ERROR_INCORRECT_REG;
                 if (assInput.seperator[0] != ",")
@@ -7331,7 +7331,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
                 if (assInput.parameterValue[1] != 9)
                     return ERROR_INCORRECT_REG;
                 if (assInput.parameterValue[0] != 0x270B)
-                    return ERROR_INCORRECT_ADDRESS;
+                    return ERROR_INCORR_ADDRESS;
                 if (assInput.seperator[0] != ",")
                     return ERROR_COMMA;
 				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;

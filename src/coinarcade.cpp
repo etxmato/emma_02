@@ -292,7 +292,7 @@ void CoinArcade::startComputer()
     {  // Bowling
         chip8baseVar_ = 0x800;
         chip8mainLoop_ = 0x45;
-        chip8type_ = CHIPFEL1;
+        chip8type_ = CHIPFEL3;
     }
     if (chip8type_ != CHIP_NONE)
         p_Main->defineFelCommands_(chip8type_);

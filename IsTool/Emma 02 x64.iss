@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.26.2
+AppVerName=Emma 02 - V1.26.3
 AppVersion=1.26
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.26.2
+OutputBaseFilename=Emma_02_x64_setup_v1.26.3
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -310,6 +310,7 @@ Source: ..\data\Elf\giantboard.hex; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\giantboard.v2.hex; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\tapeloader.txt; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\emma 02.cos; DestDir: {app}\data\Elf\; Components: MAIN
+Source: ..\data\Elf\SUPRMON-v1.1-2708.hex; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\TinyosTS\*.*; DestDir: {app}\data\Elf\TinyosTS; Components: MAIN
 Source: ..\data\Elf\Biosio\BIOSIO93.ROM; DestDir: {app}\data\Elf\Biosio; Components: MAIN
 Source: ..\data\Elf\Biosio\BIOSIOV9.ROM; DestDir: {app}\data\Elf\Biosio; Components: MAIN
