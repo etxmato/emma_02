@@ -347,6 +347,11 @@ void Elf::onInButtonRelease()
 
 void Elf::onHexKeyDown(int keycode)
 {
+#if defined (__WXMAC__)
+    if (ef3State_ == 0) // This is to avoid multiple key presses on OSX
+        return;
+#endif
+    
 //	if (!elfConfiguration.useHexKeyboard)
 //		return;
 	for (int i=0; i<16; i++)

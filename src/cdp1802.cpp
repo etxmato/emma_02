@@ -174,7 +174,7 @@ void Cdp1802::dmaIn(Byte value)
 	address_ = scratchpadRegister_[0]++;
 	idle_=0;
 	cpuCycles_++;
-	machineCycle();
+//	machineCycle(); // Using this will crash Elfs when tying in keys with Q sound on 'Hardware'
 }
 
 Byte Cdp1802::dmaOut()

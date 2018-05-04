@@ -1121,6 +1121,11 @@ void Super::onNumberKeyUp(wxCommandEvent&WXUNUSED(event))
 
 void Super::onHexKeyDown(int keycode)
 {
+#if defined (__WXMAC__)
+    if (ef3State_ == 0) // This is to avoid multiple key presses on OSX
+        return;
+#endif
+    
 	for (int i=0; i<16; i++)
 	{
         if (keycode == keyDefA1_[i])
