@@ -200,6 +200,18 @@ void Pixie::configurePixieCoinArcade()
     p_Main->message("	Output 1: enable graphics\n");
 }
 
+void Pixie::configurePixieFred()
+{
+    p_Computer->setOutType(2, PIXIEOUT);
+    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setEfType(2, PIXIEEF);
+    
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+    
+    p_Main->message("	Output 1: enable graphics\n");
+}
+
 void Pixie::configurePixieVisicom()
 {
 	p_Computer->setOutType(1, PIXIEOUT);

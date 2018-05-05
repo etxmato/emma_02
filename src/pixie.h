@@ -22,6 +22,7 @@ public:
 	void reset();
 	void configurePixie(ElfPortConfiguration portConf);
 	void configurePixieStudio2();
+    void configurePixieFred();
     void configurePixieCoinArcade();
     void configurePixieVisicom();
 	void configurePixieVip();

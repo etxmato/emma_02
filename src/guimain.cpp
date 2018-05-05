@@ -3445,7 +3445,7 @@ void GuiMain::onLedTimer(wxCommandEvent&event)
 
 int GuiMain::getCpuType()
 {
-	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE)
+	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED)
         cpuType_ = CPU1801;
 	else
         cpuType_ = defaultCpuType_;

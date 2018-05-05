@@ -127,6 +127,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     LoadAndCompare(NANO, "Nano");
     LoadAndCompare(VIP, "Vip");
     LoadAndCompare(VELF, "Velf");
+    LoadAndCompare(FRED, "FRED");
     LoadAndCompareStudio(STUDIO, "Studio2");
     LoadAndCompareStudio(COINARCADE, "CoinArcade");
     LoadAndCompareStudio(VISICOM, "Visicom");

@@ -391,6 +391,7 @@ public:
 #include "studio2.h"
 #include "studioiv.h"
 #include "coinarcade.h"
+#include "fred.h"
 #include "visicom.h"
 #include "victory.h"
 #include "vip.h"
@@ -434,7 +435,8 @@ public:
 #define VIPII 22
 #define COINARCADE 23
 #define STUDIOIV 24
-#define DEBUGGER 25
+#define FRED 25
+#define DEBUGGER 26
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -489,10 +491,11 @@ public:
 #define VELFTAB 6
 
 #define MICROTUTORTAB 0
-#define VIPTAB 1
-#define VIPIITAB 2
-#define MCDSTAB 3
-#define MS2000TAB 4
+#define FREDTAB 1
+#define VIPTAB 2
+#define VIPIITAB 3
+#define MCDSTAB 4
+#define MS2000TAB 5
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1

@@ -1,7 +1,7 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 25
+#define NO_COMPUTER 26
 #define LAST_ELF_TYPE 10
 
 #define MAINROM1 0
@@ -437,6 +437,7 @@ protected:
 	Tmc2000 *p_Tmc2000;
     Studio2 *p_Studio2;
     CoinArcade *p_CoinArcade;
+    Fred *p_Fred;
 	Visicom *p_Visicom;
     Victory *p_Victory;
     StudioIV *p_StudioIV;

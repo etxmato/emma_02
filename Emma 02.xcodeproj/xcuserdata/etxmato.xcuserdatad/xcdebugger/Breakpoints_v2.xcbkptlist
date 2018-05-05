@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "546776265.971509"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6533"
-            endingLineNumber = "6533"
+            startingLineNumber = "6609"
+            endingLineNumber = "6609"
             landmarkName = "Main::eventSaveEnd(Word saveEnd)"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "546776281.924024"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6512"
-            endingLineNumber = "6512"
+            startingLineNumber = "6588"
+            endingLineNumber = "6588"
             landmarkName = "Main::eventSaveStart(Word saveStart)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +234,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "546776315.876911"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6474"
-            endingLineNumber = "6474"
+            startingLineNumber = "6550"
+            endingLineNumber = "6550"
             landmarkName = "Main::eventSetLocation(bool state, Word saveStart, Word saveEnd, Word saveExec)"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "546776334.0572129"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6523"
-            endingLineNumber = "6523"
+            startingLineNumber = "6599"
+            endingLineNumber = "6599"
             landmarkName = "Main::setSaveEndEvent(guiEvent&amp;WXUNUSED(event))"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "546776335.767279"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6502"
-            endingLineNumber = "6502"
+            startingLineNumber = "6578"
+            endingLineNumber = "6578"
             landmarkName = "Main::setSaveStartEvent(guiEvent&amp;WXUNUSED(event))"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,11 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "546776379.383967"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6513"
-            endingLineNumber = "6513"
+            startingLineNumber = "6589"
+            endingLineNumber = "6589"
             landmarkName = "Main::eventSaveStart(Word saveStart)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "546776380.103999"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "6511"
-            endingLineNumber = "6511"
+            startingLineNumber = "6587"
+            endingLineNumber = "6587"
             landmarkName = "Main::eventSaveStart(Word saveStart)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "546779972.627309"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18850"
-            endingLineNumber = "18850"
+            startingLineNumber = "18858"
+            endingLineNumber = "18858"
             landmarkName = "DebugWindow::defineFelCommands_(int chip8Type)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "546779974.64109"
+            timestampString = "547244214.47166"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "18851"
-            endingLineNumber = "18851"
+            startingLineNumber = "18859"
+            endingLineNumber = "18859"
             landmarkName = "DebugWindow::defineFelCommands_(int chip8Type)"
             landmarkType = "7">
          </BreakpointContent>
@@ -448,6 +448,54 @@
             startingLineNumber = "1125"
             endingLineNumber = "1125"
             landmarkName = "Super::onHexKeyDown(int keycode)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            timestampString = "547244289.029959"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2423"
+            endingLineNumber = "2423"
+            landmarkName = "Main::initConfig()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/fred.cpp"
+            timestampString = "547246544.25586"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "Fred::startComputer()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/fred.cpp"
+            timestampString = "547246544.25586"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "379"
+            endingLineNumber = "379"
+            landmarkName = "Fred::writeMem(Word addr, Byte value, bool writeRom)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

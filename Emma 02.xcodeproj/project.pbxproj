@@ -130,6 +130,8 @@
 		99792E091B88FF590044FDBB /* ports.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DFD1B88FF580044FDBB /* ports.xrc */; };
 		99792E0A1B88FF590044FDBB /* sb.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DFE1B88FF580044FDBB /* sb.xrc */; };
 		99792E0B1B88FF590044FDBB /* vt.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99792DFF1B88FF580044FDBB /* vt.xrc */; };
+		997C6D62209E3FF000A8704E /* fred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D60209E3FF000A8704E /* fred.cpp */; };
+		997C6D65209E415500A8704E /* guifred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D63209E415500A8704E /* guifred.cpp */; };
 		998AE1961F769A9500D6B0D1 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
 		998AE1971F769A9F00D6B0D1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
 		999899A41F96A72600870480 /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 999899A31F96A72600870480 /* emma_02.htb */; };
@@ -424,6 +426,10 @@
 		99792DFD1B88FF580044FDBB /* ports.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ports.xrc; sourceTree = "<group>"; };
 		99792DFE1B88FF580044FDBB /* sb.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = sb.xrc; sourceTree = "<group>"; };
 		99792DFF1B88FF580044FDBB /* vt.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = vt.xrc; sourceTree = "<group>"; };
+		997C6D60209E3FF000A8704E /* fred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fred.cpp; path = src/fred.cpp; sourceTree = "<group>"; };
+		997C6D61209E3FF000A8704E /* fred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fred.h; path = src/fred.h; sourceTree = "<group>"; };
+		997C6D63209E415500A8704E /* guifred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guifred.cpp; path = src/guifred.cpp; sourceTree = "<group>"; };
+		997C6D64209E415500A8704E /* guifred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guifred.h; path = src/guifred.h; sourceTree = "<group>"; };
 		9998999D1F96A3E500870480 /* Helpfiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Helpfiles; sourceTree = "<group>"; };
 		999899A31F96A72600870480 /* emma_02.htb */ = {isa = PBXFileReference; lastKnownFileType = file; path = emma_02.htb; sourceTree = "<group>"; };
 		9999EAC41CBA8B8800A50336 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
@@ -650,6 +656,8 @@
 				997646FF1A61D5EE00FB9B33 /* expansion.h */,
 				997647281A61D5EE00FB9B33 /* fdc.cpp */,
 				9976479B1A61D5EE00FB9B33 /* fdc.h */,
+				997C6D60209E3FF000A8704E /* fred.cpp */,
+				997C6D61209E3FF000A8704E /* fred.h */,
 				9976471B1A61D5EE00FB9B33 /* functionkey.cpp */,
 				9976476F1A61D5EE00FB9B33 /* functionkey.h */,
 				997647701A61D5EE00FB9B33 /* guicidelsa.cpp */,
@@ -668,6 +676,8 @@
 				997647A31A61D5EE00FB9B33 /* guieprom.h */,
 				997647721A61D5EE00FB9B33 /* guieti660.cpp */,
 				997647791A61D5EE00FB9B33 /* guieti660.h */,
+				997C6D63209E415500A8704E /* guifred.cpp */,
+				997C6D64209E415500A8704E /* guifred.h */,
 				997647041A61D5EE00FB9B33 /* guimain.cpp */,
 				997647051A61D5EE00FB9B33 /* guimain.h */,
 				99F70FEF1E7096C800959A15 /* guimcds.cpp */,
@@ -980,11 +990,13 @@
 				997647BD1A61D5EE00FB9B33 /* guicomx.cpp in Sources */,
 				99DA24F11B7D3618003B8560 /* configuration.cpp in Sources */,
 				997647E91A61D5EF00FB9B33 /* keypad.cpp in Sources */,
+				997C6D65209E415500A8704E /* guifred.cpp in Sources */,
 				9976480D1A61D5EF00FB9B33 /* elf2kdisk.cpp in Sources */,
 				997648101A61D5EF00FB9B33 /* breakpoints.cpp in Sources */,
 				997647B51A61D5EE00FB9B33 /* guisb.cpp in Sources */,
 				997648031A61D5EF00FB9B33 /* datadir.cpp in Sources */,
 				9976480A1A61D5EF00FB9B33 /* ps2.cpp in Sources */,
+				997C6D62209E3FF000A8704E /* fred.cpp in Sources */,
 				997647EB1A61D5EF00FB9B33 /* mc6847.cpp in Sources */,
 				997648021A61D5EF00FB9B33 /* guitmc2000.cpp in Sources */,
 				99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */,

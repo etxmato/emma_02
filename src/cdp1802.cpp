@@ -228,6 +228,7 @@ Byte Cdp1802::pixieDmaOut(int *color)
 		case VELF:
         case STUDIO:
         case COINARCADE:
+        case FRED:
 		case ELF:
 		case ELFII:
 		case SUPERELF:
@@ -2844,6 +2845,7 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
 			case CIDELSA:
 			case STUDIO:
             case COINARCADE:
+            case FRED:
 			case VISICOM:
 			case VICTORY:
             case STUDIOIV:
@@ -3456,7 +3458,11 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case COSMICOS:
                     address = address | bootstrap_;
                 break;
-                
+
+                case FRED:
+                    address = address & 0x7ff;
+                break;
+       
                 case STUDIO:
                 case COINARCADE:
                 case VICTORY:
@@ -3809,6 +3815,10 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address | bootstrap_;
                 break;
                 
+                case FRED:
+                    address = address & 0x7ff;
+                break;
+                    
                 case STUDIO:
                 case COINARCADE:
                 case VICTORY:

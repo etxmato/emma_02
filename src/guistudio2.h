@@ -1,9 +1,9 @@
 #ifndef GUISTUDIO2_H
 #define GUISTUDIO2_H
 
-#include "guivip.h"
+#include "guifred.h"
 
-class GuiStudio2: public GuiVip
+class GuiStudio2: public GuiFred
 {
 public:
 

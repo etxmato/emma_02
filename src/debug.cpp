@@ -17206,6 +17206,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		break;
 
 		case COSMICOS:
+        case FRED:
 			if ((setType == MAPPEDRAM) || (setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
@@ -18147,13 +18148,20 @@ void DebugWindow::updateTitle()
 			p_Pecom->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
-		case COINARCADE:
-			if (p_CoinArcade->getSteps()==0)
-				title = title + " ** PAUSED **";
-			p_CoinArcade->SetTitle("RCA Video Coin Arcade" + title);
-			p_CoinArcade->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
-		break;
-
+        case COINARCADE:
+            if (p_CoinArcade->getSteps()==0)
+                title = title + " ** PAUSED **";
+            p_CoinArcade->SetTitle("RCA Video Coin Arcade" + title);
+            p_CoinArcade->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
+        case FRED:
+            if (p_Fred->getSteps()==0)
+                title = title + " ** PAUSED **";
+            p_Fred->SetTitle("FRED" + title);
+            p_Fred->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
         case STUDIO:
             if (p_Studio2->getSteps()==0)
                 title = title + " ** PAUSED **";

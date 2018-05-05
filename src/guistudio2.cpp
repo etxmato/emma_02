@@ -33,7 +33,7 @@
 #include "guistudio2.h"
 #include "pixie.h"
 
-BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
+BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
 
 	EVT_TEXT(XRCID("MainRomStudio2"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomStudio2"), GuiMain::onMainRom1Text)
@@ -163,7 +163,7 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 END_EVENT_TABLE()
 
 GuiStudio2::GuiStudio2(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiVip(title, pos, size, mode, dataDir, iniDir)
+: GuiFred(title, pos, size, mode, dataDir, iniDir)
 {
 }
 
@@ -332,9 +332,6 @@ void GuiStudio2::readCoinArcadeConfig()
         XRCCTRL(*this, "ZoomValueCoinArcade", wxTextCtrl)->ChangeValue(conf[COINARCADE].zoom_);
         clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
         XRCCTRL(*this, "VolumeCoinArcade", wxSlider)->SetValue(conf[COINARCADE].volume_);
-        
-        XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->Enable(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_);
-        XRCCTRL(*this, "RomButtonCoinArcade", wxButton)->Enable(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_);
     }
 }
 
