@@ -131,8 +131,10 @@ public:
 	void updateDataTil313(wxDC& dc);
 	void showSeg(int number, Byte value);
 	void updateSeg(wxDC& dc, int number);
-	void showAddress(Word address);
-	void updateAddress(wxDC& dc);
+    void showAddress(Word address);
+    void showAddressTil313(Word address);
+    void updateAddress(wxDC& dc);
+    void updateAddressTil313(wxDC& dc);
 	virtual void inUp();
 	virtual void inDown();
     virtual void inSetState(bool state);
@@ -235,9 +237,12 @@ protected:
 
 	Til311 *addressPointer[4];
 	Til311 *dataPointer[2];
+    Til313 *addressTil313Pointer[4];
 	Til313 *dataTil313Pointer[2];
 	Til313full *segPointer[8];
 
+    int tilType_;
+    
 	Word addressStatus;
 	Byte dataStatus;
 	Byte dataTil313Status;
@@ -263,7 +268,8 @@ protected:
 	bool updateRunLed_;
 	bool updateLoadLed_;
 	bool updateLed_[8];
-	bool updateAddress_;
+    bool updateAddress_;
+    bool updateAddressTil313_;
 	bool updateData_;
 	bool updateDataTil313_;
 	bool updateSeg_[8];

@@ -395,7 +395,8 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 		segStatus[i] = 0;
 		updateSeg_[i] = false;
 	}
-	updateAddress_ = false;
+    updateAddress_ = false;
+    updateAddressTil313_ = false;
 	updateData_ = false;
 	updateDataTil313_ = false;
 
@@ -568,7 +569,8 @@ void Panel::ledTimeout()
 	}
 	updateData(dc);
 	updateDataTil313(dc);
-	updateAddress(dc);
+    updateAddress(dc);
+    updateAddressTil313(dc);
 }
 
 void Panel::setLedMs(long ms)
@@ -787,16 +789,30 @@ void Panel::updateSeg(wxDC& dc, int number)
 
 void Panel::showAddress(Word address)
 {
-	if (addressStatus != address)
-	{
-		addressStatus = address;
-		updateAddress_ = true;
-		if (ms_ == 0)
-		{
-			wxClientDC dc(this);
-			updateAddress(dc);
-		}
-	}
+    if (addressStatus != address)
+    {
+        addressStatus = address;
+        updateAddress_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateAddress(dc);
+        }
+    }
+}
+
+void Panel::showAddressTil313(Word address)
+{
+    if (addressStatus != address)
+    {
+        addressStatus = address;
+        updateAddressTil313_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateAddressTil313(dc);
+        }
+    }
 }
 
 void Panel::updateAddress(wxDC& dc)
@@ -809,6 +825,18 @@ void Panel::updateAddress(wxDC& dc)
 		addressPointer[3]->update(dc, addressStatus&15);
 		updateAddress_ = false;
 	}
+}
+
+void Panel::updateAddressTil313(wxDC& dc)
+{
+    if (updateAddressTil313_)
+    {
+        addressTil313Pointer[0]->update(dc, addressStatus>>12);
+        addressTil313Pointer[1]->update(dc,(addressStatus>>8)&15);
+        addressTil313Pointer[2]->update(dc,(addressStatus>>4)&15);
+        addressTil313Pointer[3]->update(dc, addressStatus&15);
+        updateAddressTil313_ = false;
+    }
 }
 
 void Panel::inUp()

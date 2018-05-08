@@ -37,6 +37,10 @@
 Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
+    ef1State_ = 1;
+    
+    keyPadActive_ = false;
+    displayType_ = 0x3;
 }
 
 Fred::~Fred()
@@ -46,112 +50,95 @@ Fred::~Fred()
 
 void Fred::configureComputer()
 {
-    inType_[5] = COINARCADEINPPAR5;
-    inType_[6] = COINARCADEINPKEY6;
-    outType_[3] = COINARCADEOUTTONE6;
-    outType_[5] = COINARCADEOUTFREQ5;
-    outType_[6] = COINARCADEOUTTONE6;
-	efType_[1] = COINARCADEEF1;
-    efType_[3] = COINARCADEEF3;
-    efType_[4] = COINARCADEEF4;
-
-    directionKey_ = 0;
-    fireKeyA_ = 1;
-    fireKeyB_ = 1;
-    coinKey_ = 1;
+    inType_[0] = FREDINP0;
+    outType_[1] = FREDIOGROUP;
+    outType_[2] = FREDIO2;
+    outType_[3] = FREDIO3;
+    outType_[4] = FREDIO4;
+	efType_[1] = FREDEF1;
+    efType_[2] = FREDEF2;
+    efType_[4] = FREDEF4;
     
 	p_Main->message("Configuring FRED");
-    p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
-    p_Main->message("	Input 5: parameter switch, input 6: direction keys & coin reset");
-    p_Main->message("	Output 5: tone latch, output 3 & 6: tone on/off");
+    p_Main->message("	Output 1: set I/O group\n");
+    
+    p_Main->message("	I/O group 1: keypad");
+    p_Main->message("	I/O group 2: TV");
+    p_Main->message("	I/O group 3: tape");
+    
+    p_Main->message("");
+    
+    p_Main->message("Configuring hex keypad support");
+    p_Main->message("	Input 0: read byte");
+    p_Main->message("	EF 1: data ready\n");
+    
+    p_Main->message("Configuring TV support");
+    p_Main->message("	Output 2: display type 0 = 32x16, 1 = 32x32, 2 = 64x16, 3 = 64x32");
+    
+    p_Main->message("Configuring tape support");
+    p_Main->message("	Output 2: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode");
+    p_Main->message("	Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on");
+    p_Main->message("	Input 0: read byte");
+    p_Main->message("	EF 1: data ready\n");
+    p_Main->message("	EF 2: tape run/stop\n");
+    p_Main->message("	EF 4: tape error\n");
+    
+    p_Main->getDefaultHexKeys(FRED, "FRED", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
-    keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
+    if (p_Main->getConfigBool("/FRED/GameAuto", true))
+        p_Main->loadKeyDefinition(p_Main->getRamFile(FRED), p_Main->getRamFile(ELF), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 
-	resetCpu();
+    resetCpu();
 }
 
-void Fred::reDefineKeys(int keyDefA[], int keyDefB[], int coin)
+void Fred::reDefineKeys(int hexKeyDefA1[], int hexKeyDefA2[])
 {
-	for (int i=0; i<4; i++)
-	{
-        keyDefA_[i] = keyDefA[i];
-        keyDefB_[i] = keyDefB[i];
-	}
-    keyDefCoin_ = coin;
+    for (int i=0; i<16; i++)
+    {
+        keyDefA1_[i] = hexKeyDefA1[i];
+        keyDefA2_[i] = hexKeyDefA2[i];
+    }
+}
+
+void Fred::initComputer()
+{
+    setClear(1);
+    setWait(1);
+    
+    for (int i=0; i<16; i++)
+    {
+        keyState_[i] = 0;
+    }
+    ioGroup_ = 0;
 }
 
 void Fred::keyDown(int keycode)
 {
-    if (keycode == keyDefCoin_)
-        coinKey_ = 0;
-    
-    if (keycode == keyDefA_[KEY_UP])
-        directionKey_ |= 0x02;
-    if (keycode == keyDefA_[KEY_LEFT])
-        directionKey_ |= 0x01;
-    if (keycode == keyDefA_[KEY_RIGHT])
-        directionKey_ |= 0x04;
-    if (keycode == keyDefA_[KEY_DOWN])
-        directionKey_ |= 0x08;
-    if (keycode == keyDefA_[KEY_FIRE])
-        fireKeyA_ = 0;
-    
-    if (keycode == keyDefB_[KEY_UP])
-        directionKey_ |= 0x20;
-    if (keycode == keyDefB_[KEY_LEFT])
-        directionKey_ |= 0x10;
-    if (keycode == keyDefB_[KEY_RIGHT])
-        directionKey_ |= 0x40;
-    if (keycode == keyDefB_[KEY_DOWN])
-        directionKey_ |= 0x80;
-    if (keycode == keyDefB_[KEY_FIRE])
-        fireKeyB_ = 0;
+#if defined (__WXMAC__)
+//    if (ef1State_ == 0) // This is to avoid multiple key presses on OSX
+//        return;
+#endif
 
-    if (keycode == '1')
-        directionKey_ |= 0x01;
-    if (keycode == '2')
-        directionKey_ |= 0x02;
-    if (keycode == '3')
-        directionKey_ |= 0x04;
-    if (keycode == '4')
-        directionKey_ |= 0x08;
+    for (int i=0; i<16; i++)
+    {
+        if (keycode == keyDefA1_[i])
+        {
+            ef1State_ = 0;
+            keyValue_ = i;
+//            switches_ = ((switches_ << 4) & 0xf0) | i;
+        }
+        if (keycode == keyDefA2_[i])
+        {
+            ef1State_ = 0;
+            keyValue_ = i;
+//            switches_ = ((switches_ << 4) & 0xf0) | i;
+        }
+    }
 }
 
 void Fred::keyUp(int keycode)
 {
-//    if (keycode == keyDefCoin_)
-//        coinKey_ = 1;
-    
-    if (keycode == keyDefA_[KEY_UP])
-        directionKey_ &= 0xFD;
-    if (keycode == keyDefA_[KEY_LEFT])
-        directionKey_ &= 0xFE;
-    if (keycode == keyDefA_[KEY_RIGHT])
-        directionKey_ &= 0xFB;
-    if (keycode == keyDefA_[KEY_DOWN])
-        directionKey_ &= 0xF7;
-    if (keycode == keyDefA_[KEY_FIRE])
-        fireKeyA_ = 1;
-    
-    if (keycode == keyDefB_[KEY_UP])
-        directionKey_ &= 0xDF;
-    if (keycode == keyDefB_[KEY_LEFT])
-        directionKey_ &= 0xEF;
-    if (keycode == keyDefB_[KEY_RIGHT])
-        directionKey_ &= 0xBF;
-    if (keycode == keyDefB_[KEY_DOWN])
-        directionKey_ &= 0x7F;
-    if (keycode == keyDefB_[KEY_FIRE])
-        fireKeyB_ = 1;
-
-    if (keycode == '1')
-        directionKey_ &= 0xFE;
-    if (keycode == '2')
-        directionKey_ &= 0xFD;
-    if (keycode == '3')
-        directionKey_ &= 0xFB;
-    if (keycode == '4')
-        directionKey_ &= 0xF7;
+    ef1State_ = 1;
 }
 
 Byte Fred::ef(int flag)
@@ -162,16 +149,12 @@ Byte Fred::ef(int flag)
 			return 1;
 		break;
 
-        case COINARCADEEF1:
+        case FREDEF1:
             return ef1();
         break;
             
-		case COINARCADEEF3:
-			return ef3();
-		break;
-
-		case COINARCADEEF4:
-			return ef4();
+		case FREDEF2:
+			return ef2();
 		break;
 
 		default:
@@ -181,41 +164,34 @@ Byte Fred::ef(int flag)
 
 Byte Fred::ef1()
 {
-    return fireKeyA_;
+    return ef1State_;
 }
 
-Byte Fred::ef3()
+Byte Fred::ef2()
 {
-    return fireKeyB_;
-}
-
-Byte Fred::ef4()
-{
-    return coinKey_;
+    return 1;
 }
 
 Byte Fred::in(Byte port, Word WXUNUSED(address))
 {
-	Byte ret;
+	Byte ret = 255;
 
 	switch(inType_[port])
 	{
-		case 0:
-			ret = 255;
-		break;
-
-        case COINARCADEINPPAR5:
-            ret = 0;    // COIN_ARCADE_PARAMETER_SWITCH = 0; 8 is test mode?
+        case FREDINP0:
+            ret = 255;
+            switch (ioGroup_)
+            {
+                case IO_GRP_FRED_KEYPAD:
+                    if (keyPadActive_)
+                    {
+                        ret = keyValue_;
+                        ef1State_ = 1;
+                    }
+                break;
+            }
         break;
-            
-        case COINARCADEINPKEY6:
-            coinKey_ = 1;
-            ret = directionKey_;
-        break;
-            
-		default:
-			ret = 255;
-	}
+    }
 	inValues_[port] = ret;
 	return ret;
 }
@@ -230,26 +206,30 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
 			return;
 		break;
 
-		case PIXIEOUT:
-			inPixie();
-		break;
-            
-        case COINARCADEOUTFREQ4:
-            tone1864Latch(value);
+        case FREDIOGROUP:
+            ioGroup_ = value;
         break;
             
-        case COINARCADEOUTFREQ5:
-            tone1864Latch(value);
+        case FREDIO2:
+            switch (ioGroup_)
+            {
+                case IO_GRP_FRED_KEYPAD:
+                    if (value  == 1)
+                        keyPadActive_ = true;
+                    else
+                        keyPadActive_ = false;
+                break;
+                    
+                case IO_GRP_FRED_TV:
+                    inPixie();
+                    displayType_ = value;
+                break;
+                    
+                case IO_GRP_FRED_TAPE:
+                break;
+            }
         break;
-            
-        case COINARCADEOUTTONE6:
-            if (value != 0)
-                tone1864On();
-            else
-                beepOff();
-        break;
-
-	}
+    }
 }
 
 void Fred::cycle(int type)
@@ -261,7 +241,7 @@ void Fred::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			cyclePixieCoinArcade();
+			cyclePixieFred(displayType_);
 		break;
 	}
 }
@@ -438,6 +418,7 @@ void Fred::cpuInstruction()
 			setWait(1);
 			setClear(1);
 			initPixie();
+            ioGroup_ = 0;
             if (mainMemory_[0] == 0)
                 p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
 		}

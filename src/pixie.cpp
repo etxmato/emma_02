@@ -49,9 +49,6 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	videoType_ = VIDEOPIXIE;
 	runningComputer_ = p_Main->getRunningComputerStr();
 
-	if (!p_Main->isFullScreenFloat())
-		xZoomFactor_ = (int) xZoomFactor_;
-
     if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY))
         videoHeight_ = 192;
     else
@@ -86,6 +83,10 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 		highRes_ = 1;
 		xZoomFactor_ = zoomfactor;
 	}
+    
+    if (!p_Main->isFullScreenFloat())
+        xZoomFactor_ = (int) xZoomFactor_;
+    
  	graphicsX_ = 8*highRes_;
     videoWidth_ = 64*highRes_;
 	backGroundInit_ = 1;
@@ -202,14 +203,10 @@ void Pixie::configurePixieCoinArcade()
 
 void Pixie::configurePixieFred()
 {
-    p_Computer->setOutType(2, PIXIEOUT);
     p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
-    p_Computer->setEfType(2, PIXIEEF);
     
     backGroundInit_ = 1;
     colourMask_ = 0;
-    
-    p_Main->message("	Output 1: enable graphics\n");
 }
 
 void Pixie::configurePixieVisicom()
@@ -696,6 +693,7 @@ void Pixie::cyclePixieCoinArcade()
     Byte v;
     int color;
     
+    
     if (graphicsNext_ == 0)
     {
         p_Computer->debugTrace("----  H.Sync");
@@ -736,10 +734,10 @@ void Pixie::cyclePixieCoinArcade()
             v = p_Computer->pixieDmaOut(&color);
             for (int i=0; i<8; i++)
             {
-                plot(j+i, (int)graphicsMode_-64,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-                plot(j+i, (int)graphicsMode_-63,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-                plot(j+i, (int)graphicsMode_-62,(v & 128) ? 1 : 0, (color|colourMask_)&7);
-                plot(j+i, (int)graphicsMode_-61,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-72,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-71,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-70,(v & 128) ? 1 : 0, (color|colourMask_)&7);
+                plot(j+i, (int)graphicsMode_-69,(v & 128) ? 1 : 0, (color|colourMask_)&7);
                 v <<= 1;
             }
             j += 8;
@@ -750,6 +748,92 @@ void Pixie::cyclePixieCoinArcade()
     }
     graphicsNext_ += 1;
     if (graphicsNext_ > 13)
+        graphicsNext_ = 0;
+}
+
+void Pixie::cyclePixieFred(int displayType)
+{
+    int j;
+    Byte v;
+    int color;
+    
+    if (graphicsNext_ == 0)
+    {
+        p_Computer->debugTrace("----  H.Sync");
+        graphicsMode_++;
+        if (graphicsMode_ >= 64)
+        {
+            if (changeScreenSize_)
+            {
+                changeScreenSize();
+                if (!fullScreenSet_)
+                    p_Main->pixieBarSizeEvent();
+                changeScreenSize_ = false;
+            }
+            graphicsMode_ = 0;
+            copyScreen();
+            videoSyncCount_++;
+        }
+
+        if (graphicsMode_ == 1)
+        {
+            if (graphicsOn_)
+            {
+                p_Computer->pixieInterrupt();
+                vidInt_ = 1;
+                p_Computer->setCycle0();
+            }
+            else vidInt_ = 0;
+        }
+
+        int numberOfDmaInstructions = 8;
+        if ((displayType & 0x2) == 0)
+            numberOfDmaInstructions = 4;
+        
+        int lastGraphicsMode = 48;
+        if ((displayType & 0x1) == 0)
+            lastGraphicsMode = 32;
+
+        if (graphicsMode_ >= 16 && graphicsMode_ < lastGraphicsMode && graphicsOn_ && vidInt_ == 1)
+        {
+            j = 0;
+            for (int dma=0; dma<numberOfDmaInstructions; dma++)
+            {
+                graphicsNext_ += 1;
+                v = p_Computer->pixieDmaOut(&color);
+                int line = (int)graphicsMode_-16;
+                if ((displayType & 0x2) == 0)
+                {
+                    for (int i=0; i<16; i+=2)
+                    {
+                        if ((displayType & 0x1) == 0)
+                            plot(j+i, line*8, 2, 8, (v & 128) ? 1 : 0, (color|colourMask_)&7);
+                        else
+                            plot(j+i, line*4, 2, 4, (v & 128) ? 1 : 0, (color|colourMask_)&7);
+                        v <<= 1;
+                    }
+                    j += 16;
+                }
+                else
+                {
+                    for (int i=0; i<8; i++)
+                    {
+                        if ((displayType & 0x1) == 0)
+                            plot(j+i, line*8, 1, 8, (v & 128) ? 1 : 0, (color|colourMask_)&7);
+                        else
+                            plot(j+i, line*4, 1, 4, (v & 128) ? 1 : 0, (color|colourMask_)&7);
+                        v <<= 1;
+                    }
+                    j += 8;
+                }
+
+            }
+            p_Computer->setCycle0();
+            graphicsNext_ -= 1;
+        }
+    }
+    graphicsNext_ += 1;
+    if (graphicsNext_ > 31)
         graphicsNext_ = 0;
 }
 
@@ -942,6 +1026,49 @@ void Pixie::plot(int x, int y, int c, int color)
 		if (updatePlot_ > 40)
 			reBlit_ = true;
 	}
+#endif
+}
+
+void Pixie::plot(int x, int y, int width, int height, int c, int color)
+{
+    wxPen penClr;
+    
+    if (pbacking_[x][y] == c)
+        if (!c || (color_[x][y] == color))  return;
+    
+    color_[x][y] = color;
+    pbacking_[x][y] = c;
+    
+    if (c)
+    {
+        setColour(color);
+        penClr = penColour_[color];
+    }
+    else
+    {
+        setColour(backGround_);
+        penClr = penColour_[backGround_];
+    }
+    drawRectangle(x+offsetX_, y+offsetY_, width, height);
+    
+#if defined(__WXMAC__) || defined(__linux__)
+    reBlit_ = true;
+#else
+    if (reBlit_)  return;
+    if (zoomFraction_)
+        reBlit_ = true;
+    else
+    {
+        PlotList *temp = new PlotList;
+        temp->x = x;
+        temp->y = y;
+        temp->penClr = penClr;
+        temp->nextPlot = plotListPointer;
+        plotListPointer = temp;
+        updatePlot_++;
+        if (updatePlot_ > 40)
+            reBlit_ = true;
+    }
 #endif
 }
 

@@ -48,9 +48,10 @@
 
 #include "super.h"
 
-SuperScreen::SuperScreen(wxWindow *parent, const wxSize& size)
+SuperScreen::SuperScreen(wxWindow *parent, const wxSize& size, int tilType)
 : Panel(parent, size)
 {
+    tilType_ = tilType;
 }
 
 SuperScreen::~SuperScreen()
@@ -84,10 +85,21 @@ SuperScreen::~SuperScreen()
 
 	for (int i=0; i<8; i++)
 		delete ledPointer[i];
-	for (int i=0; i<4; i++)
-		delete addressPointer[i];
- 	for (int i=0; i<2; i++)
-		delete dataPointer[i];
+    
+    if (tilType_ == TIL311)
+    {
+        for (int i=0; i<4; i++)
+            delete addressPointer[i];
+        for (int i=0; i<2; i++)
+            delete dataPointer[i];
+    }
+    else
+    {
+        for (int i=0; i<4; i++)
+            delete addressTil313Pointer[i];
+        for (int i=0; i<2; i++)
+            delete dataTil313Pointer[i];
+    }
 	delete qLedPointer;
 }
 
@@ -161,16 +173,34 @@ void SuperScreen::init()
 	}
 	for (int i=0; i<4; i++)
 	{
-		addressPointer[i] = new Til311();
-		addressPointer[i]->init(dc, 304+i*28, 140);
+        if (tilType_ == TIL311)
+        {
+            addressPointer[i] = new Til311();
+            addressPointer[i]->init(dc, 304+i*28, 140);
+            updateAddress_ = true;
+        }
+        else
+        {
+            addressTil313Pointer[i] = new Til313();
+            addressTil313Pointer[i]->init(dc, 304+i*28, 140);
+            updateAddressTil313_ = true;
+        }
 	}
-	updateAddress_ = true;
 	for (int i=0; i<2; i++)
 	{
-		dataPointer[i] = new Til311();
-		dataPointer[i]->init(dc, 434+i*28,140);
+        if (tilType_ == TIL311)
+        {
+            dataPointer[i] = new Til311();
+            dataPointer[i]->init(dc, 434+i*28,140);
+            updateData_ = true;
+        }
+        else
+        {
+            dataTil313Pointer[i] = new Til313();
+            dataTil313Pointer[i]->init(dc, 434+i*28,140);
+            updateDataTil313_ = true;
+        }
 	}
-	updateData_ = true;
 
 	qLedPointer = new Led(dc, 284, 210, SUPERELFLED);
 	updateQLed_ = true;
@@ -182,12 +212,24 @@ void SuperScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
-	addressPointer[3]->onPaint(dc);
-	addressPointer[2]->onPaint(dc);
-	addressPointer[1]->onPaint(dc);
-	addressPointer[0]->onPaint(dc);
-	dataPointer[1]->onPaint(dc);
-	dataPointer[0]->onPaint(dc);
+    if (tilType_ == TIL311)
+    {
+        addressPointer[3]->onPaint(dc);
+        addressPointer[2]->onPaint(dc);
+        addressPointer[1]->onPaint(dc);
+        addressPointer[0]->onPaint(dc);
+        dataPointer[1]->onPaint(dc);
+        dataPointer[0]->onPaint(dc);
+    }
+    else
+    {
+        addressTil313Pointer[3]->onPaint(dc);
+        addressTil313Pointer[2]->onPaint(dc);
+        addressTil313Pointer[1]->onPaint(dc);
+        addressTil313Pointer[0]->onPaint(dc);
+        dataTil313Pointer[1]->onPaint(dc);
+        dataTil313Pointer[0]->onPaint(dc);
+    }
 	qLedPointer->onPaint(dc);
 	for (int i=0; i<8; i++)
 		ledPointer[i]->onPaint(dc);
@@ -336,7 +378,7 @@ Super::Super(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	SetIcon(wxICON(app_icon));
 #endif
 
-	superScreenPointer = new SuperScreen(this, size);
+	superScreenPointer = new SuperScreen(this, size, elfConfiguration.tilType);
 	superScreenPointer->init();
 
 	this->SetClientSize(size);
@@ -842,7 +884,10 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Super::showData(Byte val)
 {
-	superScreenPointer->showData(val);
+    if (elfConfiguration.tilType == TIL311)
+        superScreenPointer->showData(val);
+    else
+        superScreenPointer->showDataTil313(val);
 }
 
 void Super::cycle(int type)
@@ -1012,7 +1057,12 @@ void Super::onRun()
 		setWait(1);
 		p_Main->eventUpdateTitle();
 		if (cpuMode_ == RESET)
-			superScreenPointer->showAddress(0);
+        {
+            if (elfConfiguration.tilType == TIL311)
+                superScreenPointer->showAddress(0);
+            else
+                superScreenPointer->showAddressTil313(0);
+        }
 		singleStep_ = 0;
 		mpButtonState_ = 0;
 		monitor_ = false;
@@ -1068,7 +1118,12 @@ void Super::onLoadButton(wxCommandEvent&WXUNUSED(event))
 void Super::onLoadButton()
 {
     if (cpuMode_ != LOAD)
-        superScreenPointer->showAddress(0);
+    {
+        if (elfConfiguration.tilType == TIL311)
+            superScreenPointer->showAddress(0);
+        else
+            superScreenPointer->showAddressTil313(0);
+    }
     lastMode_ = cpuMode_;
     setClear(0);
     setWait(0);
@@ -1095,7 +1150,12 @@ void Super::onResetButton()
     setClear(0);
     setWait(1);
     if (cpuMode_ == RESET)
-        superScreenPointer->showAddress(0);
+    {
+        if (elfConfiguration.tilType == TIL311)
+            superScreenPointer->showAddress(0);
+        else
+            superScreenPointer->showAddressTil313(0);
+    }
     singleStep_ = 0;
     mpButtonState_ = 0;
     monitor_ = false;
@@ -1241,7 +1301,10 @@ void Super::startComputer()
 	p_Main->setSwName("");
 	p_Main->updateTitle();
 	address_ = 0;
-	superScreenPointer->showAddress(address_);
+    if (elfConfiguration.tilType == TIL311)
+        superScreenPointer->showAddress(address_);
+    else
+        superScreenPointer->showAddressTil313(address_);
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
@@ -1398,7 +1461,10 @@ Byte Super::readMem(Word addr)
                    0x23, 0x3f, 0x13, 0x37, 0x1b, 0x13, 0x30, 0x13 };
 
 	address_ = addr;
-	superScreenPointer->showAddress(address_);
+    if (elfConfiguration.tilType == TIL311)
+        superScreenPointer->showAddress(address_);
+    else
+        superScreenPointer->showAddressTil313(address_);
 
 	switch (memoryType_[addr/256])
 	{
@@ -1500,7 +1566,10 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 {
     addr = addr | bootstrap_;
 	address_ = addr;
-	superScreenPointer->showAddress(address_);
+    if (elfConfiguration.tilType == TIL311)
+        superScreenPointer->showAddress(address_);
+    else
+        superScreenPointer->showAddressTil313(address_);
 
 	if (emsMemoryDefined_)
 	{

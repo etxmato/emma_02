@@ -849,6 +849,9 @@ public:
 #define VIDEO 0
 #define PIXIE 1
 
+#define TIL311 0
+#define TIL313 1
+
 #if defined(__WXMAC__)
 #define IMAGES_FOLDER "images_osx"
 #else

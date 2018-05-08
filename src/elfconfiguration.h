@@ -150,6 +150,7 @@ public:
     
     bool forceUpperCase;
 	int qSound_;
+    int tilType;
 
 	bool vtEf;
 	bool vtQ;

@@ -7559,7 +7559,6 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
                 keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
-        case FRED:
         case ELF:
         case ELFII:
         case SUPERELF:
@@ -7568,6 +7567,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
+        case FRED:
         case VIPII:
         case VELF:
             keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");

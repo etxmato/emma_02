@@ -2358,6 +2358,10 @@ void DebugWindow::addTrap()
 						printBuffer.Printf("OUT  %X",n);
 				break;
 				case 0x8:
+                    if (cpuType_ == CPU1801)
+                        printBuffer.Printf("INP  %X",n-8);
+                    else
+                    {
 					n1805 = traps_[i][2] & 0xf;
 					i1805 = traps_[i][2] >> 4;
 					switch(i1805)
@@ -2554,6 +2558,7 @@ void DebugWindow::addTrap()
 						break;
 
 					}
+                    }
 				break;
 				case 0x9:
 				case 0xa:
@@ -9840,17 +9845,17 @@ void DebugWindow::onTrapSet(wxCommandEvent&WXUNUSED(event))
 				{
 					if (!strValue.ToLong(&trapValue))
 					{
-						(void)wxMessageBox( "Please specify value 1 to 7\n",
+						(void)wxMessageBox( "Please specify value 0 to 7\n",
 													"Emma 02", wxICON_ERROR | wxOK );
 						return;
 					}
-					if ((trapValue >= 1) && (trapValue <= 7))
+					if ((trapValue >= 0) && (trapValue <= 7))
 					{
 						traps_[numberOfTraps_][1] = traps_[numberOfTraps_][1] + trapValue - 1;
 					}
 					else
 					{
-						(void)wxMessageBox( "Please specify value 1 to 7\n",
+						(void)wxMessageBox( "Please specify value 0 to 7\n",
 													"Emma 02", wxICON_ERROR | wxOK );
 						return;
 					}

@@ -14,6 +14,10 @@
 #define KEY_FIRE 4
 #define KEY_COIN 5
 
+#define IO_GRP_FRED_KEYPAD 1
+#define IO_GRP_FRED_TV 2
+#define IO_GRP_FRED_TAPE 3
+
 class Fred : public Cdp1802, public Pixie
 {
 public:
@@ -21,14 +25,14 @@ public:
 	~Fred();
 
 	void configureComputer();
-	void reDefineKeys(int *, int *, int coin);
+    void initComputer();
+	void reDefineKeys(int *, int *);
 	void keyDown(int keycode);
 	void keyUp(int keycode);
 
 	Byte ef(int flag);
     Byte ef1();
-    Byte ef3();
-	Byte ef4();
+    Byte ef2();
     Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
@@ -42,14 +46,26 @@ public:
 	void onReset();
 
 private:
-	int keyDefA_[5];
-	int keyDefB_[5];
-    int keyDefCoin_;
+    Byte keyState_[16];
+
+    int keyDefA1_[16];
+    int keyDefB1_[16];
+    int keyDefA2_[16];
+    int keyDefB2_[16];
     
-    Byte directionKey_;
-    Byte fireKeyA_;
-    Byte fireKeyB_;
-    Byte coinKey_;
+    bool simDefA2_;
+    bool simDefB2_;
+    
+    int keyDefGameHexA_[5];
+    int keyDefGameHexB_[5];
+
+    Byte ef1State_;
+    Byte keyValue_;
+    
+    bool keyPadActive_;
+    int displayType_;
+
+    int ioGroup_;
 };
 
 #endif  // FRED_H

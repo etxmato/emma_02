@@ -35,6 +35,7 @@ public:
 	void onTape(wxCommandEvent& event);
 	void onQsound(wxCommandEvent&event);
     void onBootStrap(wxCommandEvent&event);
+    void onTilType(wxCommandEvent&event);
 
 	int getLoadromMode(int elfType, int num);
 	long getStartRam(wxString elfTypeStr, int elfType);

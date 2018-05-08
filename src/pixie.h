@@ -46,12 +46,14 @@ public:
     void cyclePixie();
     void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
+    void cyclePixieFred(int displayType);
 	void cyclePixieTelmac();
     void dmaEnable();
 
 	void copyScreen();
 	void drawScreen();
 	void plot(int x, int y, int c, int color);
+    void plot(int x, int y, int width, int height, int c, int color);
 
 	void setFullScreen(bool fullScreenSet);
 	void onF3();

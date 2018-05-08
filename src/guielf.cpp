@@ -334,6 +334,7 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_TEXT(XRCID("SaveExecSuperElf"), GuiMain::onSaveExec)
 
     EVT_CHECKBOX(XRCID("BootStrapSuperElf"), GuiElf::onBootStrap)
+    EVT_CHOICE(XRCID("TilTypeSuperElf"), GuiElf::onTilType)
 
 	END_EVENT_TABLE()
 
@@ -409,7 +410,10 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 
     configPointer->Read(elfTypeStr+"/GiantBoardMapping", &elfConfiguration[elfType].giantBoardMapping, false);
     if (elfType == SUPERELF)
+    {
         configPointer->Read(elfTypeStr+"/BootStrap", &elfConfiguration[elfType].bootStrap, false);
+        elfConfiguration[elfType].tilType = (int)configPointer->Read(elfTypeStr+"/TilType", 1l);
+    }
 
     wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -512,7 +516,10 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
             XRCCTRL(*this, "Giant"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].giantBoardMapping);
 
         if (elfType == SUPERELF)
+        {
             XRCCTRL(*this, "BootStrapSuperElf", wxCheckBox)->SetValue(elfConfiguration[elfType].bootStrap);
+            XRCCTRL(*this, "TilType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].tilType);
+        }
 
 		setPrinterState(elfType);
 		XRCCTRL(*this, "PrintMode"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].printMode_);
@@ -710,7 +717,10 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 		configPointer->Write(elfTypeStr+"/Enable_Led_Module", elfConfiguration[elfType].useLedModule);
 
     if (elfType == SUPERELF)
+    {
         configPointer->Write(elfTypeStr+"/BootStrap", elfConfiguration[elfType].bootStrap);
+        configPointer->Write(elfTypeStr+"/TilType", elfConfiguration[elfType].tilType);
+    }
 
     configPointer->Write(elfTypeStr+"/Led_Update_Frequency", conf[elfType].ledTime_);
 	configPointer->Write(elfTypeStr+"/Enable_Turbo_Cassette", conf[elfType].turbo_);
@@ -1412,6 +1422,11 @@ void GuiElf::onQsound(wxCommandEvent&event)
 void GuiElf::onBootStrap(wxCommandEvent&event)
 {
     elfConfiguration[selectedComputer_].bootStrap = event.IsChecked();
+}
+
+void GuiElf::onTilType(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].tilType = event.GetSelection();
 }
 
 
