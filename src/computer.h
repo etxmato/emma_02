@@ -332,6 +332,8 @@ public:
 	virtual void realCassette(short val);
 	virtual void cassette(short val);
 	virtual void cassette(char val);
+	virtual void cassetteFred(short val);
+	virtual void cassetteFred(char val);
 	virtual void keyClear();
 	virtual void startComputer();
 	virtual void initComputer();

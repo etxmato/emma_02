@@ -41,6 +41,16 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     
     keyPadActive_ = false;
     displayType_ = 0x3;
+    
+    currentTapeState_ = SOUND_DOWN;
+    pulseLength_ = 0;
+    lastSample_ = 0;
+    pulseCount_ = 0;
+    tapeInput_ = 0;
+    minValue_ = 0;
+    maxValue_ = 0;
+    polarity_ = 0;
+    bitNumber_ = -1;
 }
 
 Fred::~Fred()
@@ -189,6 +199,10 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
                         ef1State_ = 1;
                     }
                 break;
+                case IO_GRP_FRED_TAPE:
+                    ret = tapeInput_ & 0xff;
+                    ef1State_ = 1;
+                break;
             }
         break;
     }
@@ -226,6 +240,15 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                 break;
                     
                 case IO_GRP_FRED_TAPE:
+					currentTapeState_ = SOUND_DOWN;
+					pulseLength_ = 0;
+					lastSample_ = 0;
+					pulseCount_ = 0;
+					tapeInput_ = 0;
+                    minValue_ = 0;
+                    maxValue_ = 0;
+                    polarity_ = 0;
+                    bitNumber_ = -1;
                 break;
             }
         break;
@@ -252,10 +275,10 @@ void Fred::startComputer()
 
 	p_Main->setSwName("");
 
-    defineMemoryType(0x000, 0x7ff, RAM);
-    for (int i=0x800; i<0xff00; i+=0x800)
-        defineMemoryType(i, i+0x7ff, MAPPEDRAM);
-    initRam(0, 0x7ff);
+    defineMemoryType(0x000, 0xffff, RAM);
+//    for (int i=0x800; i<0xff00; i+=0x800)
+//        defineMemoryType(i, i+0x7ff, MAPPEDRAM);
+    initRam(0, 0xffff);
 
     readProgram(p_Main->getRamDir(FRED), p_Main->getRamFile(FRED), RAM, 0, NONAME);
     
@@ -400,6 +423,9 @@ void Fred::cpuInstruction()
 		}
 		else
 			soundCycle();
+        
+        playSaveLoad();
+
 		if (resetPressed_)
 		{
 			resetCpu();
@@ -439,3 +465,92 @@ void Fred::onReset()
 {
 	resetPressed_ = true;
 }
+
+void Fred::cassetteFred(short val)
+{
+    switch (currentTapeState_)
+    {
+        case SOUND_DOWN:
+            if (val < lastSample_)
+            {
+                pulseLength_++;
+                minValue_ = val;
+            }
+            else
+            {
+                if ((maxValue_ - minValue_) > 6000)
+                {
+                    if (pulseLength_ > 4)
+                        pulseCount_++;
+          //          else
+            //            pulseCount_ = 0;
+                    pulseLength_ = 0;
+                }
+                maxValue_ = minValue_;
+                currentTapeState_ = SOUND_UP;
+            }
+        break;
+        case SOUND_UP:
+            if (val > lastSample_)
+            {
+                pulseLength_++;
+                maxValue_ = val;
+            }
+            else
+            {
+                if ((maxValue_ - minValue_) > 6000)
+                {
+                    if (pulseLength_ > 4)
+                        pulseCount_++;
+          //          else
+           //             pulseCount_ = 0;
+                    pulseLength_ = 0;
+                }
+                minValue_ = maxValue_;
+                currentTapeState_ = SOUND_DOWN;
+            }
+        break;
+    }
+    
+    checkBit();
+    lastSample_ = val;
+}
+
+void Fred::checkBit()
+{
+    if (pulseCount_ > 2 && pulseLength_ > 25)
+  //  if (minValue_ !=0 && (maxValue_ - minValue_) < 500)
+    {
+        if (bitNumber_ == 8)
+        {
+            if (pulseCount_ > 6 && (polarity_ & 1) != 1)
+                ef4State_ = 0;
+
+            dmaIn(tapeInput_);
+            
+            ef1State_ = 0;
+            tapeInput_ = 0;
+            polarity_ = 0;
+            bitNumber_ = -1;
+        }
+        else
+        {
+            if (bitNumber_ != -1)
+            {
+                if (pulseCount_ > 6)
+                    tapeInput_ = (1 << bitNumber_) | tapeInput_;
+            }
+            if (pulseCount_ > 6)
+                polarity_++;
+            bitNumber_++;
+        }
+        pulseCount_ = 0;
+        
+    }
+}
+
+void Fred::cassetteFred(char val)
+{
+}
+
+

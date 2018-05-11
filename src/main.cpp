@@ -2008,6 +2008,7 @@ void Main::writeConfig()
     writeMicrotutorDirConfig();
     writeStudioDirConfig();
     writeCoinArcadeDirConfig();
+    writeFredDirConfig();
     writeVisicomDirConfig();
     writeVictoryDirConfig();
     writeStudioIVDirConfig();
@@ -2034,6 +2035,7 @@ void Main::writeConfig()
     writeMicrotutorConfig();
     writeStudioConfig();
     writeCoinArcadeConfig();
+    writeFredConfig();
 	writeVisicomConfig();
     writeVictoryConfig();
     writeStudioIVConfig();
@@ -2060,6 +2062,7 @@ void Main::writeConfig()
     writeMicrotutorWindowConfig();
     writeStudioWindowConfig();
     writeCoinArcadeWindowConfig();
+    writeFredWindowConfig();
     writeVisicomWindowConfig();
     writeVictoryWindowConfig();
     writeStudioIVWindowConfig();
@@ -4824,7 +4827,8 @@ void Main::stopComputer()
 				enableMemAccessGui(false);
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
-			case VIP:
+            case FRED:
+            case VIP:
 			case VIPII:
             case VELF:
 			case COSMICOS:
@@ -5533,6 +5537,8 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"RamSWButtonFRED", wxButton)->Enable(status);
         XRCCTRL(*this,"FullScreenF3FRED", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5FRED", wxButton)->Enable(!status);
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
     }
 	if (runningComputer_ == VIP)
 	{
@@ -6218,7 +6224,8 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	switch (runningComputer_)
 	{
-		case COSMICOS: 
+        case FRED:
+		case COSMICOS:
 		case ELF: 
 		case ELFII:
 		case SUPERELF:

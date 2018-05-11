@@ -41,8 +41,8 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 	EVT_COMBOBOX(XRCID("MainRomVip"), GuiMain::onMainRom1Text)
 	EVT_BUTTON(XRCID("RomButtonVip"), GuiMain::onMainRom1)
 
-	EVT_TEXT(XRCID("RamSWVip"), GuiVip::onRamSWText)
-	EVT_COMBOBOX(XRCID("RamSWVip"), GuiVip::onRamSWText)
+	EVT_TEXT(XRCID("RamSWVip"), GuiVip::onRamSWTextVip)
+	EVT_COMBOBOX(XRCID("RamSWVip"), GuiVip::onRamSWTextVip)
 	EVT_BUTTON(XRCID("RamSWButtonVip"), GuiVip::onRamSWVip)
 
 	EVT_TEXT(XRCID("Chip8SWVip"), GuiVip::onChip8SWText)
@@ -365,7 +365,7 @@ void GuiVip::onRamSWVip(wxCommandEvent&event)
 	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex");
 }
 
-void GuiVip::onRamSWText(wxCommandEvent& WXUNUSED(event))
+void GuiVip::onRamSWTextVip(wxCommandEvent& WXUNUSED(event))
 {
 	conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSWVip", wxComboBox)->GetValue();
 	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex");

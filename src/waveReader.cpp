@@ -94,10 +94,6 @@ long WaveReader::openFile(wxString fileName)
 		}
 		inFile_.Seek(dataPosition, wxFromStart);
 	}
-    currentState_ = SOUND_DOWN;
-    length_ = 0;
-    lastSample_ = 0;
-    pulseCount_ = 0;
 	return rate;
 }
 
@@ -128,49 +124,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 			bufferPointer += frameSize_;
 		}
 		p_Computer->cassette(amplitudeWord);
-
-        switch (currentState_)
-        {
-            case SOUND_DOWN:
-                if (amplitudeWord < lastSample_)
-                    length_++;
-                else
-                {
-                    if (amplitudeWord < -6000)
-                    {
-                        currentState_ = SOUND_UP;
-                        if (length_ > 5)
-                            pulseCount_++;
-                        length_ = 0;
-                    }
-                }
-            break;
-            case SOUND_UP:
-                if (amplitudeWord > lastSample_)
-                    length_++;
-                else
-                {
-                    if (amplitudeWord > 6000)
-                    {
-                        currentState_ = SOUND_DOWN;
-                        if (length_ > 5)
-                            pulseCount_++;
-                        length_ = 0;
-                    }
-                }
-            break;
-        }
-        
-        if (pulseCount_ > 3 && length_ > 50)
-        {
-            if (pulseCount_ <= 6)
-                bitValue_ = 0;
-            else
-                bitValue_ = 1;
-            pulseCount_ = 0;
-            
-        }
-        lastSample_ = amplitudeWord;
+		p_Computer->cassetteFred(amplitudeWord);
 	}
 	else
 	{
@@ -181,6 +135,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 			bufferPointer += frameSize_;
 		}
 		p_Computer->cassette(amplitudeByte);
+		p_Computer->cassetteFred(amplitudeWord);
 	}
 	return remaining;
 }

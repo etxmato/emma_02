@@ -1295,6 +1295,14 @@ void Computer::cassette(char val)
 	lastTapeInput_ = val;
 }
 
+void Computer::cassetteFred(short val)
+{
+}
+
+void Computer::cassetteFred(char val)
+{
+}
+
 void Computer::realCassette(short val)
 {
 	if (conversionType_ == 0)
