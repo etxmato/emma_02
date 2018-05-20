@@ -152,16 +152,16 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 
 		case ELF2K:
 		case COSMICOS:
-            keyDefGameHexA_[0] = 0xd;
-            keyDefGameHexA_[1] = 8;
-            keyDefGameHexA_[2] = 0xa;
-            keyDefGameHexA_[3] = 5;
-            keyDefGameHexA_[4] = 9;
-            keyDefGameHexB_[0] = 0xf;
-            keyDefGameHexB_[1] = 4;
-            keyDefGameHexB_[2] = 6;
-            keyDefGameHexB_[3] = 0xb;
-            keyDefGameHexB_[4] = 1;
+            keyDefGameHexA_[0] = 8;
+            keyDefGameHexA_[1] = 4;
+            keyDefGameHexA_[2] = 6;
+            keyDefGameHexA_[3] = 2;
+            keyDefGameHexA_[4] = 5;
+            keyDefGameHexB_[0] = 9;
+            keyDefGameHexB_[1] = 5;
+            keyDefGameHexB_[2] = 0xe;
+            keyDefGameHexB_[3] = 3;
+            keyDefGameHexB_[4] = 6;
             
 			wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog2"));
             XRCCTRL(*this, "GameAuto", wxCheckBox)->Hide();
@@ -173,8 +173,34 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             inButton2_ = p_Main->getDefaultInKey2(computerTypeStr_);
 		break;
 
-        case COINARCADE:
+        case FRED:
+            keyDefGameHexA_[0] = 0xd;
+            keyDefGameHexA_[1] = 8;
+            keyDefGameHexA_[2] = 0xa;
+            keyDefGameHexA_[3] = 5;
+            keyDefGameHexA_[4] = 9;
+            keyDefGameHexB_[0] = 0xf;
+            keyDefGameHexB_[1] = 4;
+            keyDefGameHexB_[2] = 6;
+            keyDefGameHexB_[3] = 0xb;
+            keyDefGameHexB_[4] = 1;
+            
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog4"));
+            XRCCTRL(*this, "GameAuto", wxCheckBox)->Hide();
+            XRCCTRL(*this, "GameAutoLine", wxStaticLine)->Hide();
+            autoGame_ = false;
+            player2defined_ = false;
+            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            
+            XRCCTRL(*this, "InButton", wxButton)->Hide();
+            XRCCTRL(*this, "InButtonText", wxStaticText)->Hide();
+
+            inButton1_ = 0;
+            inButton2_ = 0;
+        break;
+            
+        case COINARCADE:
+            wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog5"));
             keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefGameHexA_, keyDefGameHexB_);
         break;
             
@@ -836,7 +862,12 @@ void KeyMapDialog::onHexLocation(wxCommandEvent& WXUNUSED(event))
         if (computerTypeStr_ == "Elf" || computerTypeStr_ == "ElfII" || computerTypeStr_ == "SuperElf" || computerTypeStr_ == "Elf2K"|| computerTypeStr_ == "Cosmicos")
             keysFound = p_Main->loadKeyDefinition("", "elfonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         else
-            keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        {
+            if (computerTypeStr_ == "FRED")
+                keysFound = p_Main->loadKeyDefinition("", "fredonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+            else
+                keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        }
     }
 
     if (!keysFound)
@@ -1041,7 +1072,10 @@ void KeyMapDialog::onHexChar(wxCommandEvent& WXUNUSED(event))
         if (computerTypeStr_ == "Elf" || computerTypeStr_ == "ElfII" || computerTypeStr_ == "SuperElf" || computerTypeStr_ == "Elf2K"|| computerTypeStr_ == "Cosmicos")
             keysFound = p_Main->loadKeyDefinition("", "elfoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         else
-            keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+            if (computerTypeStr_ == "FRED")
+                keysFound = p_Main->loadKeyDefinition("", "fredoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+            else
+                keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
     }
 
     if (!keysFound)

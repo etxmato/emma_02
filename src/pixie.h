@@ -9,6 +9,8 @@ class PlotList
 public: 
 	wxCoord x;
 	wxCoord y;
+	int width;
+	int height;
 	wxPen penClr;
 	PlotList *nextPlot;
 };

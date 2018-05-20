@@ -33,24 +33,33 @@
 #include "fred.h"
 
 #define CHIP8_PC 5
+#define TAPE_MODE_PROGRAM 0x10
+#define TAPE_MODE_DIRECT 0x20
+#define TAPE_MODE_WRITE 0x40
+
+#define INP_MODE_NONE 0
+#define INP_MODE_KEYPAD 1
+#define INP_MODE_TAPE_PROGRAM 2
+#define INP_MODE_TAPE_DIRECT 3
+#define INP_MODE_TAPE_RUN 4
+
+int totalLength_;
 
 Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
     ef1State_ = 1;
+    ef4State_ = 1;
+    ef1StateTape_ = 1;
     
-    keyPadActive_ = false;
-    displayType_ = 0x3;
+    displayType_ = 0;
+	tapeRunSwitch_ = 0;
+    tapeActivated_ = false;
+	inpMode_ = INP_MODE_NONE;
     
-    currentTapeState_ = SOUND_DOWN;
-    pulseLength_ = 0;
-    lastSample_ = 0;
     pulseCount_ = 0;
-    tapeInput_ = 0;
-    minValue_ = 0;
-    maxValue_ = 0;
-    polarity_ = 0;
-    bitNumber_ = -1;
+    totalLength_ = 0;
+    pulseLength_ = 0;
 }
 
 Fred::~Fred()
@@ -72,31 +81,32 @@ void Fred::configureComputer()
 	p_Main->message("Configuring FRED");
     p_Main->message("	Output 1: set I/O group\n");
     
-    p_Main->message("	I/O group 1: keypad");
+    p_Main->message("	I/O group 1: hex keypad");
     p_Main->message("	I/O group 2: TV");
     p_Main->message("	I/O group 3: tape");
     
     p_Main->message("");
     
     p_Main->message("Configuring hex keypad support");
+    p_Main->message("	Output 2: 0 = keypad disabled, 1 = keypad enabled");
     p_Main->message("	Input 0: read byte");
     p_Main->message("	EF 1: data ready\n");
     
     p_Main->message("Configuring TV support");
-    p_Main->message("	Output 2: display type 0 = 32x16, 1 = 32x32, 2 = 64x16, 3 = 64x32");
+    p_Main->message("	Output 2: display type 0 = TV off, 1 = 32x32, 2 = 64x16, 3 = 64x32\n");
     
     p_Main->message("Configuring tape support");
     p_Main->message("	Output 2: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode");
-    p_Main->message("	Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on");
+    p_Main->message("	Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound");
     p_Main->message("	Input 0: read byte");
-    p_Main->message("	EF 1: data ready\n");
-    p_Main->message("	EF 2: tape run/stop\n");
+    p_Main->message("	EF 1: data ready");
+    p_Main->message("	EF 2: tape run/stop");
     p_Main->message("	EF 4: tape error\n");
     
     p_Main->getDefaultHexKeys(FRED, "FRED", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
     if (p_Main->getConfigBool("/FRED/GameAuto", true))
-        p_Main->loadKeyDefinition(p_Main->getRamFile(FRED), p_Main->getRamFile(ELF), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        p_Main->loadKeyDefinition(p_Main->getRamFile(FRED), p_Main->getRamFile(FRED), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 
     resetCpu();
 }
@@ -146,7 +156,7 @@ void Fred::keyDown(int keycode)
     }
 }
 
-void Fred::keyUp(int keycode)
+void Fred::keyUp(int WXUNUSED(keycode))
 {
     ef1State_ = 1;
 }
@@ -167,6 +177,10 @@ Byte Fred::ef(int flag)
 			return ef2();
 		break;
 
+		case FREDEF4:
+			return ef4();
+		break;
+
 		default:
 			return 1;
 	}
@@ -174,12 +188,32 @@ Byte Fred::ef(int flag)
 
 Byte Fred::ef1()
 {
-    return ef1State_;
+	switch (inpMode_)
+	{
+		case INP_MODE_KEYPAD:
+			return ef1State_;
+		break;
+
+		case INP_MODE_TAPE_PROGRAM:
+			return ef1StateTape_;
+		break;
+
+        default:
+            return 1;
+    }
 }
 
 Byte Fred::ef2()
 {
-    return 1;
+    if (tapeRunSwitch_&1)
+        return 0;
+    else
+        return 1;
+}
+
+Byte Fred::ef4()
+{
+    return ef4State_;
 }
 
 Byte Fred::in(Byte port, Word WXUNUSED(address))
@@ -190,20 +224,22 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
 	{
         case FREDINP0:
             ret = 255;
-            switch (ioGroup_)
-            {
-                case IO_GRP_FRED_KEYPAD:
-                    if (keyPadActive_)
-                    {
-                        ret = keyValue_;
-                        ef1State_ = 1;
-                    }
-                break;
-                case IO_GRP_FRED_TAPE:
-                    ret = tapeInput_ & 0xff;
+			switch (inpMode_)
+			{
+				case INP_MODE_NONE:
+					ret = 255;
+				break;
+
+				case INP_MODE_KEYPAD:
+					ret = keyValue_;
                     ef1State_ = 1;
-                break;
-            }
+				break;
+
+				case INP_MODE_TAPE_PROGRAM:
+					ret = tapeInput_ & 0xff;
+					ef1StateTape_ = 1;
+				break;
+			}
         break;
     }
 	inValues_[port] = ret;
@@ -229,30 +265,88 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
             {
                 case IO_GRP_FRED_KEYPAD:
                     if (value  == 1)
-                        keyPadActive_ = true;
+                        inpMode_ = INP_MODE_KEYPAD;
                     else
-                        keyPadActive_ = false;
+                        inpMode_ = INP_MODE_NONE;
                 break;
                     
                 case IO_GRP_FRED_TV:
-                    inPixie();
+                    if (value == 0)
+                        outPixie();
+                    else
+                        inPixie();
                     displayType_ = value;
                 break;
                     
                 case IO_GRP_FRED_TAPE:
-					currentTapeState_ = SOUND_DOWN;
-					pulseLength_ = 0;
-					lastSample_ = 0;
-					pulseCount_ = 0;
-					tapeInput_ = 0;
-                    minValue_ = 0;
-                    maxValue_ = 0;
-                    polarity_ = 0;
-                    bitNumber_ = -1;
+					if ((value & 0x10) == 0x10)
+	                    inpMode_ = INP_MODE_TAPE_PROGRAM;
+
+					if ((value & 0x20) == 0x20)
+	                    inpMode_ = INP_MODE_TAPE_DIRECT;
+
+					if (value == 0)
+                        inpMode_ = INP_MODE_NONE;
+
+					if (inpMode_ == INP_MODE_TAPE_DIRECT || inpMode_ == INP_MODE_TAPE_PROGRAM)
+					{
+						pulseLength_ = 0;
+						lastSample_ = 0;
+						pulseCount_ = 0;
+						tapeInput_ = 0;
+						polarity_ = 0;
+						totalLength_ = 0;
+						silenceCount_ = 0;
+						bitNumber_ = -1;
+                        if (tapeActivated_)
+                            p_Computer->restartTapeLoad();
+                        else
+                            p_Main->startCassetteLoad();
+                        tapeActivated_ = true;
+						tapeRunSwitch_ = 0x3;
+					}
                 break;
             }
         break;
-    }
+
+        case FREDIO3:
+            if ((value&1) != (tapeRunSwitch_&1))
+            {
+                if ((value&1) == 1)
+                {
+                    if (tapeActivated_)
+                        p_Computer->restartTapeLoad();
+                    else
+                        p_Main->startCassetteLoad();
+                    
+                    tapeActivated_ = true;
+                    pulseCount_ = 0;
+                    totalLength_ = 0;
+                    pulseLength_ = 0;
+                }
+                else
+                    p_Computer->pauseTape();
+            }
+            
+            if ((value&2) != (tapeRunSwitch_&2))
+            {
+                if ((value&2) == 2)
+                    p_Computer->setVolume(p_Main->getVolume(FRED));
+                else
+                {
+                    if ((value&4) != 4)
+                        p_Computer->setVolume(0);
+                }
+            }
+            
+            if ((value&4) != (tapeRunSwitch_&4))
+            {
+                psaveAmplitudeChange((value>>2)&1);
+            }
+
+            tapeRunSwitch_ = value;
+        break;
+	}
 }
 
 void Fred::cycle(int type)
@@ -275,10 +369,10 @@ void Fred::startComputer()
 
 	p_Main->setSwName("");
 
-    defineMemoryType(0x000, 0xffff, RAM);
-//    for (int i=0x800; i<0xff00; i+=0x800)
-//        defineMemoryType(i, i+0x7ff, MAPPEDRAM);
-    initRam(0, 0xffff);
+    defineMemoryType(0x000, 0x7ff, RAM);
+    for (int i=0x800; i<0xff00; i+=0x800)
+        defineMemoryType(i, i+0x7ff, MAPPEDRAM);
+    initRam(0, 0x7ff);
 
     readProgram(p_Main->getRamDir(FRED), p_Main->getRamFile(FRED), RAM, 0, NONAME);
     
@@ -430,8 +524,9 @@ void Fred::cpuInstruction()
 		{
 			resetCpu();
 			resetPressed_ = false;
+			tapeRunSwitch_ = 0;
+            tapeActivated_ = false;
 
-            
             if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
             {
                 chip8baseVar_ = 0x100;
@@ -468,70 +563,79 @@ void Fred::onReset()
 
 void Fred::cassetteFred(short val)
 {
-    switch (currentTapeState_)
-    {
-        case SOUND_DOWN:
-            if (val < lastSample_)
-            {
-                pulseLength_++;
-                minValue_ = val;
-            }
-            else
-            {
-                if ((maxValue_ - minValue_) > 6000)
-                {
-                    if (pulseLength_ > 4)
-                        pulseCount_++;
-          //          else
-            //            pulseCount_ = 0;
-                    pulseLength_ = 0;
-                }
-                maxValue_ = minValue_;
-                currentTapeState_ = SOUND_UP;
-            }
-        break;
-        case SOUND_UP:
-            if (val > lastSample_)
-            {
-                pulseLength_++;
-                maxValue_ = val;
-            }
-            else
-            {
-                if ((maxValue_ - minValue_) > 6000)
-                {
-                    if (pulseLength_ > 4)
-                        pulseCount_++;
-          //          else
-           //             pulseCount_ = 0;
-                    pulseLength_ = 0;
-                }
-                minValue_ = maxValue_;
-                currentTapeState_ = SOUND_DOWN;
-            }
-        break;
-    }
-    
-    checkBit();
-    lastSample_ = val;
-}
+    if (inpMode_ != INP_MODE_TAPE_DIRECT && inpMode_ != INP_MODE_TAPE_PROGRAM && (tapeRunSwitch_&1) != 1)
+		return;
 
-void Fred::checkBit()
-{
-    if (pulseCount_ > 2 && pulseLength_ > 25)
-  //  if (minValue_ !=0 && (maxValue_ - minValue_) < 500)
+	wxString message;
+
+	int difference;
+	if (val < lastSample_)
+		difference = lastSample_ - val;
+	else
+		difference = val - lastSample_;
+
+	if (difference < 300)
+		silenceCount_++;
+	else
+		silenceCount_ = 0;
+
+	pulseLength_++;
+	if (lastSample_ <= 0)
+	{
+		if (val > 0 && silenceCount_ == 0) 
+		{
+			pulseCount_++;
+	//		message.Printf("zero, p-count %d, p-length %d", pulseCount_, pulseLength_);
+	//		p_Main->eventShowTextMessage(message);
+			totalLength_ += pulseLength_; 
+            pulseLength_ = 0;
+		}
+	}
+	else
+	{
+		if (val < 0 && silenceCount_ == 0) 
+		{
+			pulseCount_++;
+		//	message.Printf("zero, p-count %d, p-length %d", pulseCount_, pulseLength_);
+		//	p_Main->eventShowTextMessage(message);
+			totalLength_ += pulseLength_;
+            pulseLength_ = 0;
+		}
+	}
+
+    if (pulseCount_ > 4000 && silenceCount_ > 10)
+	{
+    //    if ((totalLength_ / pulseCount_) < 10)
+    //    {
+            p_Computer->pauseTape();
+            tapeRunSwitch_ = tapeRunSwitch_ & 2;
+     //   }
+    }
+
+	if (pulseCount_ > 1 && silenceCount_ > 10)
     {
         if (bitNumber_ == 8)
         {
             if (pulseCount_ > 6 && (polarity_ & 1) != 1)
+			{
                 ef4State_ = 0;
+                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                p_Main->eventShowTextMessage(message);
+                bitNumber_ = 0;
+                polarity_ = 0;
+                tapeInput_ = 0;
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+					dmaIn(tapeInput_);
+         //       stopTape();
+			}
 
-            dmaIn(tapeInput_);
-            
-            ef1State_ = 0;
-            tapeInput_ = 0;
-            polarity_ = 0;
-            bitNumber_ = -1;
+            else
+            {
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
+            }
+            if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                ef1StateTape_ = 0;
         }
         else
         {
@@ -540,17 +644,49 @@ void Fred::checkBit()
                 if (pulseCount_ > 6)
                     tapeInput_ = (1 << bitNumber_) | tapeInput_;
             }
+            else
+            {
+                if (pulseCount_ <= 6)
+                {
+                    message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
+                    p_Main->eventShowTextMessage(message);
+                    bitNumber_++;
+           //         stopTape();
+                }
+                
+            }
             if (pulseCount_ > 6)
                 polarity_++;
-            bitNumber_++;
         }
-        pulseCount_ = 0;
+   //     message.Printf("bit%d, p-count %d, p-length %d, total %d, byte %02X", bitNumber_, pulseCount_, pulseLength_, totalLength_, tapeInput_);
+  //      p_Main->eventShowTextMessage(message);
+
+		if (bitNumber_ == 8)
+		{
+	//		message.Printf("BYTE-result %02X", tapeInput_);
+	//		p_Main->eventShowTextMessage(message);
+            polarity_ = 0;
+            tapeInput_ = 0;
+            bitNumber_ = -1;
+		}
+		else
+            bitNumber_++;
+
+		totalLength_ = 0;
+
+		pulseCount_ = 0;
         
     }
+
+    lastSample_ = val;
 }
 
 void Fred::cassetteFred(char val)
 {
 }
 
-
+void Fred::finishStopTape()
+{
+    tapeRunSwitch_ = tapeRunSwitch_ & 2;
+    tapeActivated_ = false;
+}

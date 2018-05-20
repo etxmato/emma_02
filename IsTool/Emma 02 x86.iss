@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.26.3
+AppVerName=Emma 02 - V1.26.6
 AppVersion=1.26
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.26.3
+OutputBaseFilename=Emma_02_x86_setup_v1.26.6
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -78,6 +78,7 @@ Source: ..\Configurations Windows\CoinArcade\*.*; DestDir: {app}\Configurations\
 Source: ..\Configurations Windows\Elf\*.*; DestDir: {app}\Configurations\Elf; Components: MAIN
 Source: ..\Configurations Windows\Elf2K\*.*; DestDir: {app}\Configurations\Elf2K; Components: MAIN
 Source: ..\Configurations Windows\Eti\*.*; DestDir: {app}\Configurations\Eti; Components: MAIN
+Source: ..\Configurations Windows\FRED\*.*; DestDir: {app}\Configurations\FRED; Components: MAIN
 Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
 Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
 Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
@@ -155,6 +156,7 @@ Source: ..\data\Comx\Disks\plotter.img; DestDir: {app}\data\Comx\Disks; Componen
 Source: ..\data\Comx\Disks\plotter-2.img; DestDir: {app}\data\Comx\Disks; Components: MAIN
 Source: ..\data\Comx\F&M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F&M EPROM Switchboard; Components: MAIN
 Source: ..\data\CoinArcade\*.*; DestDir: {app}\data\CoinArcade; Components: MAIN
+Source: ..\data\FRED\*.*; DestDir: {app}\data\FRED; Components: MAIN
 Source: ..\data\Studio2\studio2.rom; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.bin; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.rom; DestDir: {app}\data\Studio2; Components: MAIN

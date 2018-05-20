@@ -1324,7 +1324,15 @@ void GuiMain::onUseLocation(wxCommandEvent&event)
 
 void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 {
-	startLoad();
+    if (runningComputer_ == FRED)
+    {
+        if (p_Fred->isTapeActivated())
+            p_Computer->restartTapeLoad();
+        else
+            startLoad();
+    }
+    else
+        startLoad();
 }
 
 void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))

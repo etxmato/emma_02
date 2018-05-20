@@ -516,7 +516,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_GUI_MSG(SHOW_ADDRESS_POPUP, Main::ShowAddressPopupEvent)
 	EVT_GUI_MSG(SHOW_FILE_SELECTOR, Main::showFileSelectorEvent)
 	EVT_GUI_MSG(SET_FM_GUI, Main::setFandMBasicGuiEvent)
-	EVT_GUI_MSG(SET_SAVE_START, Main::setSaveStartEvent) 
+	EVT_GUI_MSG(SET_SAVE_START, Main::setSaveStartEvent)
 	EVT_GUI_MSG(SET_SAVE_END, Main::setSaveEndEvent) 
 	EVT_GUI_MSG(ENABLE_MEM_ACCESS, Main::enableMemAccesEvent) 
 	EVT_GUI_MSG(SET_VIDEO_FULLSCREEN, Main::setVideoFullScreenEvent)
@@ -7575,6 +7575,9 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         break;
 
         case FRED:
+            keysFound = loadKeyDefinition("", "freddefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        break;
+
         case VIPII:
         case VELF:
             keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");

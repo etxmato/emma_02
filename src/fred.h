@@ -18,9 +18,6 @@
 #define IO_GRP_FRED_TV 2
 #define IO_GRP_FRED_TAPE 3
 
-#define SOUND_UP 2
-#define SOUND_DOWN 1
-
 class Fred : public Cdp1802, public Pixie
 {
 public:
@@ -36,6 +33,7 @@ public:
 	Byte ef(int flag);
     Byte ef1();
     Byte ef2();
+    Byte ef4();
     Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
@@ -50,7 +48,9 @@ public:
 	
 	void cassetteFred(short val);
 	void cassetteFred(char val);
-    void checkBit();
+    void finishStopTape();
+    
+    bool isTapeActivated() {return tapeActivated_;};
 
 private:
     Byte keyState_[16];
@@ -67,24 +67,25 @@ private:
     int keyDefGameHexB_[5];
 
     Byte ef1State_;
+    Byte ef1StateTape_;
     Byte ef4State_;
     Byte keyValue_;
+
+	Byte tapeRunSwitch_;
+    bool tapeActivated_;
     
-    bool keyPadActive_;
     int displayType_;
+	int inpMode_;
 
     int ioGroup_;
 	
-    size_t pulseLength_;
-	int currentTapeState_;
+    int pulseLength_;
     short lastSample_;
     int pulseCount_;
     Byte tapeInput_;
     Byte polarity_;
     int bitNumber_;
-    int minValue_;
-    int maxValue_;
-    
+    int silenceCount_;
 };
 
 #endif  // FRED_H

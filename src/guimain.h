@@ -285,6 +285,7 @@ public:
 	wxString getSelectedComputerText() {return computerInfo[selectedComputer_].name;};
 	int getSelectedComputerId() {return selectedComputer_;};
 	int getRunningComputerId() {return runningComputer_;};
+	int getVolume(int computerType) {return conf[computerType].volume_;};
 	int getVideoMode(int computerType) {return conf[computerType].videoMode_;};
 	bool getInterlace(int computerType) {return conf[computerType].interlace_;};
 	bool getStretchDot(int computerType) {return conf[computerType].stretchDot_;};

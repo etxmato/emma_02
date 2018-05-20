@@ -587,12 +587,19 @@ void Sound::psaveAmplitudeChange(int q)
 						beepOff();
 				break;
 
+                case FRED:
+                    if (q)
+                        toneElf2KOn();
+                    else
+                        toneElf2KOff();
+                break;
+
                 case TMC1800:
 					if (q)
                         beepOn();
                     else
                         beepOff();
-                    break;
+                break;
                     
                 case VISICOM:
                 case STUDIO:
@@ -600,7 +607,7 @@ void Sound::psaveAmplitudeChange(int q)
                         beepOnStudio();
                     else
                         beepOff();
-                    break;
+                break;
                     
 				case TMC2000:
 				case ETI:
@@ -710,10 +717,13 @@ void Sound::playSaveLoad()
         if (ploadOn_)
         {
             long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
-            soundBufferPointerLeft->mix_samples(ploadSamples, in);
-            soundBufferPointerRight->mix_samples(ploadSamples, in);
-            if (ploadWavePointer->eof())
-                stopTape();
+			if (ploadOn_)
+			{
+				soundBufferPointerLeft->mix_samples(ploadSamples, in);
+				soundBufferPointerRight->mix_samples(ploadSamples, in);
+				if (ploadWavePointer->eof())
+					stopTape();
+			}
         }
         
         if (wavOn_)
@@ -862,8 +872,8 @@ void Sound::stopTape()
 		psaveOn_ = false;
 	}
 	p_Main->eventSetTapeState(TAPE_STOP);
-//	if (computerType_ == PECOM)
-//		p_Computer->finishStopTape();
+	if (computerType_ == FRED)
+		p_Computer->finishStopTape();
 	if (p_Vt100 != NULL)
 		p_Vt100->ResetIo();
 }
@@ -881,6 +891,7 @@ void Sound::pauseTape()
         psaveOn_ = false;
     }
     p_Main->eventSetTapeState(TAPE_STOP);
+    p_Computer->resetGaugeValue();
 }
 
 void Sound::restartTapeSave()

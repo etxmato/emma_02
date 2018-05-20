@@ -5474,7 +5474,7 @@ int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
 	return ERROR_INST;
 }
 
-int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4)
+int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
 {
     AssInput assInput = getAssInput(*buffer);
     if (assInput.errorCode != 0)  return assInput.errorCode;
@@ -5869,7 +5869,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, By
             if (assInput.seperator[0] != " ")
                 return ERROR_PAR;
             *b1 = assembleCommand_[FEL1_COMMAND_7]  | assInput.parameterValue[0];
-            *b2 = 0x4B;
+            *b2 = 0x48;
             return 2;
         }
         return ERROR_SYNTAX;
@@ -11234,7 +11234,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             case CHIPSTIV:
                 typeOpcode = MEM_TYPE_FEL2_1;
                 typeOperand1 = MEM_TYPE_FEL2_2;
-                count = assembleFel2(&debugIn, &b1, &b2, &b3, &b4);
+                count = assembleFel2(&debugIn, &b1, &b2);
             break;
                 
             default:
@@ -19146,7 +19146,7 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
             buffer.Printf(" SHL4  V%01X", vX);
         if (chip8_opcode2 == 0x41)
             buffer.Printf(" SHR4  V%01X", vX);
-        if (chip8_opcode2 == 0x4B)
+        if (chip8_opcode2 == 0x48)
             buffer.Printf(" DELAY V%01X", vX);
         if (chip8_opcode2 == 0x52)
             buffer.Printf(" LD    B, [RA], V%01X", vX);

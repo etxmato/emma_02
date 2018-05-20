@@ -1690,7 +1690,7 @@ void Cdp1802::cpuCycle()
                             tr = tr + "REQ";
                         }
                         switchQ(0);
-                        if (computerType_ != MS2000)
+                        if (computerType_ != MS2000 && computerType_ != FRED)
                             psaveAmplitudeChange(0);
                     }
 				break;
@@ -1711,7 +1711,7 @@ void Cdp1802::cpuCycle()
                             tr = tr + "SEQ";
                         }
                         switchQ(1);
-                        if (computerType_ != MS2000)
+                        if (computerType_ != MS2000 && computerType_ != FRED)
                             psaveAmplitudeChange(1);
                     }
 				break;

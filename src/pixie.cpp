@@ -955,7 +955,7 @@ void Pixie::copyScreen()
 		updatePlot_ = 0;
 		while(plotListPointer != NULL)
 		{
-			videoScreenPointer->blit(offsetX_+ plotListPointer->x, offsetY_+plotListPointer->y, 1, 1, &dcMemory, offsetX_+plotListPointer->x, offsetY_+plotListPointer->y);
+			videoScreenPointer->blit(offsetX_+ plotListPointer->x, offsetY_+plotListPointer->y, plotListPointer->width, plotListPointer->height, &dcMemory, offsetX_+plotListPointer->x, offsetY_+plotListPointer->y);
 			temp = plotListPointer;
 			plotListPointer = temp->nextPlot;
 			delete temp;
@@ -1019,6 +1019,8 @@ void Pixie::plot(int x, int y, int c, int color)
 		PlotList *temp = new PlotList;
 		temp->x = x;
 		temp->y = y;
+		temp->width = 1;
+		temp->height = 1;
 		temp->penClr = penClr;
 		temp->nextPlot = plotListPointer;
 		plotListPointer = temp;
@@ -1062,6 +1064,8 @@ void Pixie::plot(int x, int y, int width, int height, int c, int color)
         PlotList *temp = new PlotList;
         temp->x = x;
         temp->y = y;
+		temp->width = width;
+		temp->height = height;
         temp->penClr = penClr;
         temp->nextPlot = plotListPointer;
         plotListPointer = temp;

@@ -471,7 +471,7 @@ private:
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
 	int assembleChip(wxString *buffer, Byte* b1, Byte* b2);
-    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4);
+    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2);
 	AssInput getAssInput(wxString buffer);
 	int assembleSt2(wxString *buffer, Byte* b1, Byte* b2);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);

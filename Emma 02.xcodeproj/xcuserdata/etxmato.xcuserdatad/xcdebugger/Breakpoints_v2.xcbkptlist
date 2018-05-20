@@ -6,16 +6,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "547763337.843768"
+            timestampString = "548539127.501443"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "527"
-            endingLineNumber = "527"
-            landmarkName = "Fred::checkBit()"
+            startingLineNumber = "610"
+            endingLineNumber = "610"
+            landmarkName = "Fred::cassetteFred(short val)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

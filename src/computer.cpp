@@ -1295,11 +1295,11 @@ void Computer::cassette(char val)
 	lastTapeInput_ = val;
 }
 
-void Computer::cassetteFred(short val)
+void Computer::cassetteFred(short WXUNUSED(val))
 {
 }
 
-void Computer::cassetteFred(char val)
+void Computer::cassetteFred(char WXUNUSED(val))
 {
 }
 
