@@ -69,6 +69,7 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
     EVT_CHECKBOX(XRCID("ControlWindowsPopupElf"), PopupDialog::onElfControlWindows)
 
     EVT_CHECKBOX(XRCID("ControlWindowsPopupVelf"), PopupDialog::onVelfControlWindows)
+    EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED"), PopupDialog::onFredControlWindows)
 
 	EVT_CHECKBOX(XRCID("ControlWindowsPopupMembership"), PopupDialog::onMembershipControlWindows)
 
@@ -410,6 +411,13 @@ void PopupDialog::onVelfControlWindows(wxCommandEvent&event)
     p_Main->onVelfControlWindows(event);
     if (p_Main->getGuiMode())
         p_Main->setCheckBox("ControlWindowsVelf", event.IsChecked());
+}
+
+void PopupDialog::onFredControlWindows(wxCommandEvent&event)
+{
+    p_Main->onFredControlWindows(event);
+    if (p_Main->getGuiMode())
+        p_Main->setCheckBox("ControlWindowsFRED", event.IsChecked());
 }
 
 void PopupDialog::onMembershipControlWindows(wxCommandEvent&event)

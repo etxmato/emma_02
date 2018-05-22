@@ -18,13 +18,29 @@
 #define IO_GRP_FRED_TV 2
 #define IO_GRP_FRED_TAPE 3
 
-class Fred : public Cdp1802, public Pixie
+class FredScreen : public Panel
 {
 public:
-	Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+    FredScreen(wxWindow *parent, const wxSize& size);
+    ~FredScreen();
+    
+    void init();
+    void onPaint(wxPaintEvent&event);
+    void onMousePress(wxMouseEvent& event);
+    void onMouseRelease(wxMouseEvent& event);
+private:
+    int dataSwitchState_[8];
+};
+
+class Fred : public wxFrame, public Cdp1802
+{
+public:
+	Fred(const wxString& title, const wxPoint& pos, const wxSize& size);
 	~Fred();
 
-	void configureComputer();
+    void onClose(wxCloseEvent&WXUNUSED(event));
+
+    void configureComputer();
     void initComputer();
 	void reDefineKeys(int *, int *);
 	void keyDown(int keycode);
@@ -38,6 +54,8 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
 
+    void onRunButton();
+    
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
@@ -51,8 +69,12 @@ public:
     void finishStopTape();
     
     bool isTapeActivated() {return tapeActivated_;};
+    void moveWindows();
+    void updateTitle(wxString Title);
 
 private:
+    Pixie *pixiePointer;
+    class FredScreen *fredScreenPointer;
     Byte keyState_[16];
 
     int keyDefA1_[16];
@@ -80,12 +102,15 @@ private:
     int ioGroup_;
 	
     int pulseLength_;
+    int totalLength_;
     short lastSample_;
     int pulseCount_;
     Byte tapeInput_;
     Byte polarity_;
     int bitNumber_;
     int silenceCount_;
+
+    DECLARE_EVENT_TABLE()
 };
 
 #endif  // FRED_H

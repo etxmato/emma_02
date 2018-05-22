@@ -56,7 +56,7 @@
 </TABLE>
 <h3>FEL-1 Syntax</h3>
 <p>
-Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 currently not emulated in Emma 02 as yet.
+Pseudo command syntax described here as FEL-1 is a variant used in the FRED computer
 </p>
 <TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
@@ -84,6 +84,12 @@ Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 cu
 <TD WIDTH="250">Call subroutine at aaa. The subroutine must end in SYS 26E (which is the 'FEL-1' equivalent of RETURN)</TD>
 </TR>
 <TR>
+<TD WIDTH="55">0078</TD>
+<TD WIDTH="40">CLS</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Clear display</TD>
+</TR>
+<TR>
 <TD WIDTH="55">7x4B</TD>
 <TD WIDTH="40">DELAY</TD>
 <TD WIDTH="100">Vx</TD>
@@ -102,10 +108,28 @@ Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 cu
 <TD WIDTH="250">RA = RA + 1</TD>
 </TR>
 <TR>
+<TD WIDTH="55">Ex8D</TD>
+<TD WIDTH="40">INP6</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = INP 6</TD>
+</TR>
+<TR>
 <TD WIDTH="55">Faaa</TD>
 <TD WIDTH="40">JP</TD>
 <TD WIDTH="100">aaa</TD>
 <TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0268</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Switch hex keypad off</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex7A</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Wait for key press and return in Vx</TD>
 </TR>
 <TR>
 <TD WIDTH="55">7x52</TD>
@@ -150,6 +174,12 @@ Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 cu
 <TD WIDTH="250">Vx = kk</TD>
 </TR>
 <TR>
+<TD WIDTH="55">Ex9D</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, R0.1</TD>
+<TD WIDTH="250">Vx = R0.1</TD>
+</TR>
+<TR>
 <TD WIDTH="55">7x38</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">Vx, RA.0</TD>
@@ -192,6 +222,30 @@ Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 cu
 <TD WIDTH="250">Vx = Vx OR Vy</TD>
 </TR>
 <TR>
+<TD WIDTH="55">Ex91</TD>
+<TD WIDTH="40">OUT4</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">OUT 4 with Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex8F</TD>
+<TD WIDTH="40">OUT6</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">OUT 6 with Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">022F</TD>
+<TD WIDTH="40">PUSH</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Push V0-VF, A, B to 01E0-EF, F0-F3</TD>
+</TR>
+<TR>
+<TD WIDTH="55">026E</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return fron subroutine CALL</TD>
+</TR>
+<TR>
 <TD WIDTH="55">4xkk</TD>
 <TD WIDTH="40">RND</TD>
 <TD WIDTH="100">Vx, kk</TD>
@@ -214,6 +268,24 @@ Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 cu
 <TD WIDTH="40">SHR4</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Vx = Vx SHR 4</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.8A</TD>
+<TD WIDTH="40">SK3</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Skip next instruction if EF3 = 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex80</TD>
+<TD WIDTH="40">SKP</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Read key if available if not skip next instruction</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.87</TD>
+<TD WIDTH="40">SKT</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Skip next instruction if tape is stopped</TD>
 </TR>
 <TR>
 <TD WIDTH="55">3xkk</TD>
@@ -246,22 +318,40 @@ Pseudo command syntax described here as FEL-1 is a variant used in the Fred 2 cu
 <TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4)</TD>
 </TR>
 <TR>
-<TD WIDTH="55">Exaa</TD>
-<TD WIDTH="40">SYS1</TD>
-<TD WIDTH="100">aa</TD>
-<TD WIDTH="250">Execute code at 01aa with X = 6</TD>
-</TR>
-<TR>
 <TD WIDTH="55">6.kk</TD>
 <TD WIDTH="40">TAPE</TD>
 <TD WIDTH="100">kk</TD>
 <TD WIDTH="250">Tape Controller - kk = code to write</TD>
 </TR>
 <TR>
+<TD WIDTH="55">E.93</TD>
+<TD WIDTH="40">TAPE</TD>
+<TD WIDTH="100">READ</TD>
+<TD WIDTH="250">Read tape to [RA] and onwards</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.A0</TD>
+<TD WIDTH="40">TAPE</TD>
+<TD WIDTH="100">WRITE</TD>
+<TD WIDTH="250">Write to tape from [RA] to 06FF</TD>
+</TR>
+<TR>
 <TD WIDTH="55">Dxy0</TD>
 <TD WIDTH="40">TONE</TD>
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Vx Tone, Vy Delay (Tape on spk off)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">025C</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">ON</TD>
+<TD WIDTH="250">Video display enabled</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0240</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Video display disabled</TD>
 </TR>
 <TR>
 <TD WIDTH="55">8xy3</TD>

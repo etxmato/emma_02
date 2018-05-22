@@ -5,9 +5,6 @@
  *** this software so long as this copyright notice is retained. ***
  *** This software may not be used in commercial applications    ***
  *** without express written permission from the author.         ***
- ***                                                             ***
- *** 1802 Code based on elf emulator by Michael H Riley with     ***
- *** copyright as below                                          ***
  *******************************************************************
 */
 
@@ -43,10 +40,166 @@
 #define INP_MODE_TAPE_DIRECT 3
 #define INP_MODE_TAPE_RUN 4
 
-int totalLength_;
+FredScreen::FredScreen(wxWindow *parent, const wxSize& size)
+: Panel(parent, size)
+{
+}
 
-Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+FredScreen::~FredScreen()
+{
+#if defined (__WXMAC__)
+    delete osx_text_runButtonPointer;
+    delete osx_text_resetButtonPointer;
+#else
+    delete text_runButtonPointer;
+    delete text_resetButtonPointer;
+#endif
+
+    delete readSwitchButton;
+    delete cardSwitchButton;
+    delete powerSwitchButton;
+    
+    for (int i=0; i<8; i++)
+    {
+        delete ledPointer[i];
+    }
+}
+
+void FredScreen::init()
+{
+    keyStart_ = 0;
+    keyEnd_ = 0;
+    lastKey_ = 0;
+    forceUpperCase_ = p_Main->getUpperCase(ELF);
+    
+    wxClientDC dc(this);
+    
+#if defined(__linux__)
+    wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    SetFont(defaultFont);
+#endif
+#if defined(__WXMAC__)
+    wxFont defaultFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+    SetFont(defaultFont);
+#endif
+
+#if defined (__WXMAC__)
+    osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 35, 60, "");
+    osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 85, 60, "");
+#else
+    text_resetButtonPointer = new wxButton(this, 5, "", wxPoint(20, 60), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
+    text_resetButtonPointer->SetToolTip("Reset");
+    text_runButtonPointer = new wxButton(this, 1, "", wxPoint(80, 60, wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
+    text_runButtonPointer->SetToolTip("Go - RUN");
+#endif
+
+    for (int i=0; i<8; i++)
+    {
+        ledPointer[i] = new Led(dc, 24+34*(7-i), 15, ELFLED);
+    }
+    
+    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 135, 60, "");
+    cardSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 185, 60, "");
+    powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 235, 60, "");
+
+    stopLedPointer = new Led(dc, 55, 160, ELFLED);
+    readyLedPointer = new Led(dc, 140, 160, ELFLED);
+    errorLedPointer = new Led(dc, 225, 160, ELFLED);
+
+    this->connectKeyEvent(this);
+}
+
+void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
+{
+    wxPaintDC dc(this);
+    
+    dc.SetPen(*wxWHITE_PEN);
+    dc.SetBrush(*wxWHITE_BRUSH);
+    dc.DrawRectangle(0, 0, 310, 180);
+#if defined(__WXMAC__)
+    wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+#else
+    wxFont defaultFont(12, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+#endif
+    dc.SetFont(defaultFont);
+    
+    wxString number;
+    dc.SetTextForeground(*wxBLACK);
+    for (int i=0; i<8; i++)
+    {
+        number.Printf("%d", i);
+//        dc.DrawText(number, 24+34*(7-i), 35);
+    }
+    
+    dc.DrawText("RESET", 20, 88);
+    dc.DrawText("RUN", 80, 88);
+    dc.DrawText("READ", 125, 88);
+    dc.DrawText("CARD", 175, 88);
+    dc.DrawText("OFF", 232, 88);
+
+    dc.DrawText("STOP", 42, 138);
+    dc.DrawText("READY", 120, 138);
+    dc.DrawText("ERROR", 205, 138);
+
+    readSwitchButton->onPaint(dc);
+    cardSwitchButton->onPaint(dc);
+    powerSwitchButton->onPaint(dc);
+    for (int i=0; i<8; i++)
+    {
+        ledPointer[i]->onPaint(dc);
+    }
+    stopLedPointer->onPaint(dc);
+    readyLedPointer->onPaint(dc);
+    errorLedPointer->onPaint(dc);
+    
+#if defined (__WXMAC__)
+    osx_text_resetButtonPointer->onPaint(dc);
+    osx_text_runButtonPointer->onPaint(dc);
+#endif
+}
+
+void FredScreen::onMousePress(wxMouseEvent&event)
+{
+    int x, y;
+    event.GetPosition(&x, &y);
+    
+    wxClientDC dc(this);
+    
+#if defined (__WXMAC__)
+    if (osx_text_resetButtonPointer->onMousePress(dc, x, y))
+        p_Computer->onReset();
+    
+    if (osx_text_runButtonPointer->onMousePress(dc, x, y))
+        p_Computer->onRunButton();
+#endif
+}
+
+void FredScreen::onMouseRelease(wxMouseEvent&event)
+{
+    int x, y;
+    event.GetPosition(&x, &y);
+    
+    wxClientDC dc(this);
+    
+    if (readSwitchButton->onMouseRelease(dc, x, y))
+        p_Main->stopComputer();
+    if (cardSwitchButton->onMouseRelease(dc, x, y))
+        p_Main->stopComputer();
+    if (powerSwitchButton->onMouseRelease(dc, x, y))
+        p_Main->stopComputer();
+    
+#if defined (__WXMAC__)
+    osx_text_resetButtonPointer->onMouseRelease(dc, x, y);
+    osx_text_runButtonPointer->onMouseRelease(dc, x, y);
+#endif
+}
+
+BEGIN_EVENT_TABLE(Fred, wxFrame)
+EVT_CLOSE (Fred::onClose)
+END_EVENT_TABLE()
+
+Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size)
+: wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
     ef1State_ = 1;
     ef4State_ = 1;
@@ -60,11 +213,25 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     pulseCount_ = 0;
     totalLength_ = 0;
     pulseLength_ = 0;
+
+    this->SetClientSize(size);
+    
+    fredScreenPointer = new FredScreen(this, size);
+    fredScreenPointer->init();
 }
 
 Fred::~Fred()
 {
+    p_Main->setPixiePos(FRED, pixiePointer->GetPosition());
+    pixiePointer->Destroy();
+    
 	p_Main->setMainPos(FRED, GetPosition());
+    delete fredScreenPointer;
+}
+
+void Fred::onClose(wxCloseEvent&WXUNUSED(event) )
+{
+    p_Main->stopComputer();
 }
 
 void Fred::configureComputer()
@@ -122,6 +289,7 @@ void Fred::reDefineKeys(int hexKeyDefA1[], int hexKeyDefA2[])
 
 void Fred::initComputer()
 {
+    Show(p_Main->getUseVelfControlWindows());
     setClear(1);
     setWait(1);
     
@@ -272,9 +440,9 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                     
                 case IO_GRP_FRED_TV:
                     if (value == 0)
-                        outPixie();
+                        pixiePointer->outPixie();
                     else
-                        inPixie();
+                        pixiePointer->inPixie();
                     displayType_ = value;
                 break;
                     
@@ -358,21 +526,38 @@ void Fred::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			cyclePixieFred(displayType_);
+			pixiePointer->cyclePixieFred(displayType_);
 		break;
 	}
 }
 
+void Fred::onRunButton()
+{
+    setClear(1);
+    setWait(1);
+    p_Main->eventUpdateTitle();
+    p_Main->startTime();
+}
+                                         
 void Fred::startComputer()
 {
-	resetPressed_ = false;
+    double zoom = p_Main->getZoom();
+    double scale = p_Main->getScale();
+    pixiePointer = new Pixie( "FRED", p_Main->getPixiePos(FRED), wxSize(64*zoom, 128*zoom), zoom, scale, FRED);
+    p_Video = pixiePointer;
+
+    resetPressed_ = false;
 
 	p_Main->setSwName("");
-
-    defineMemoryType(0x000, 0x7ff, RAM);
-    for (int i=0x800; i<0xff00; i+=0x800)
-        defineMemoryType(i, i+0x7ff, MAPPEDRAM);
-    initRam(0, 0x7ff);
+    
+    ramMask_ = ((2<<p_Main->getRamType(FRED))<<10)-1;
+    
+    defineMemoryType(0x0, ramMask_, RAM);
+    for (int i=ramMask_+1; i<0xff00; i+=(ramMask_+1))
+        defineMemoryType(i, i+ramMask_, MAPPEDRAM);
+    
+    initRam(0x0, ramMask_);
+    p_Main->assDefault("fred", 0, ramMask_);
 
     readProgram(p_Main->getRamDir(FRED), p_Main->getRamFile(FRED), RAM, 0, NONAME);
     
@@ -385,14 +570,10 @@ void Fred::startComputer()
     if (chip8type_ != CHIP_NONE)
         p_Main->defineFelCommands_(chip8type_);
 
-    p_Main->assDefault("fred", 0, 0x7FF);
-
-	double zoom = p_Main->getZoom();
-
-	configurePixieFred();
-	initPixie();
-	setZoom(zoom);
-	Show(true);
+	pixiePointer->configurePixieFred();
+	pixiePointer->initPixie();
+	pixiePointer->setZoom(zoom);
+	pixiePointer->Show(true);
 	setWait(1);
 	setClear(0);
 	setWait(1);
@@ -538,7 +719,7 @@ void Fred::cpuInstruction()
 			setClear(0);
 			setWait(1);
 			setClear(1);
-			initPixie();
+			pixiePointer->initPixie();
             ioGroup_ = 0;
             if (mainMemory_[0] == 0)
                 p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
@@ -550,7 +731,7 @@ void Fred::cpuInstruction()
 	}
 	else
 	{
-		initPixie();
+		pixiePointer->initPixie();
 		cpuCycles_ = 0;
 		p_Main->startTime();
 	}
@@ -690,3 +871,14 @@ void Fred::finishStopTape()
     tapeRunSwitch_ = tapeRunSwitch_ & 2;
     tapeActivated_ = false;
 }
+
+void Fred::moveWindows()
+{
+    pixiePointer->Move(p_Main->getPixiePos(FRED));
+}
+
+void Fred::updateTitle(wxString Title)
+{
+    pixiePointer->SetTitle("FRED"+Title);
+}
+

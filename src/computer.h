@@ -221,6 +221,8 @@ protected:
 	SwitchButton *mpSwitchButton;
 	SwitchButton *ramSwitchButton;
     SwitchButton *inSwitchButton;
+    SwitchButton *readSwitchButton;
+    SwitchButton *cardSwitchButton;
     SwitchButton *clearSwitchButton;
     SwitchButton *velfSwitchButton;
 	SwitchButton *dataSwitchButton[8];
@@ -253,7 +255,10 @@ protected:
 	Led *pauseLedPointer;
 	Led *runLedPointer;
 	Led *loadLedPointer;
-	Led *ledPointer[8];
+    Led *ledPointer[8];
+    Led *stopLedPointer;
+    Led *readyLedPointer;
+    Led *errorLedPointer;
 
 	int qLedStatus;
 	int resetLedStatus;

@@ -111,6 +111,7 @@ public:
     int velfMode_;
 	int ramType_;
 	bool useKeyboard_;
+    bool useControlWindows;
 
 	bool printerOn_;
 	bool useLoadLocation_;

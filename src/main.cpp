@@ -4282,6 +4282,7 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 		break;
             
         case FRED:
+            p_Fred->moveWindows();
             p_Fred->Move(conf[FRED].mainX_, conf[FRED].mainY_);
         break;
 
@@ -4445,6 +4446,8 @@ void Main::nonFixedWindowPosition()
     conf[VELF].pixieY_ = -1;
     conf[VELF].vtX_ = -1;
     conf[VELF].vtY_ = -1;
+    conf[FRED].pixieX_ = -1;
+    conf[FRED].pixieY_ = -1;
 	conf[MS2000].vtX_ = -1;
 	conf[MS2000].vtY_ = -1;
 	conf[MCDS].vtX_ = -1;
@@ -4489,8 +4492,8 @@ void Main::fixedWindowPosition()
 	conf[STUDIO].mainY_ = mainWindowY_;
     conf[COINARCADE].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[COINARCADE].mainY_ = mainWindowY_;
-    conf[FRED].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[FRED].mainY_ = mainWindowY_;
+    conf[FRED].mainX_ = mainWindowX_;
+    conf[FRED].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[VISICOM].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VISICOM].mainY_ = mainWindowY_;
 	conf[VICTORY].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -4531,6 +4534,8 @@ void Main::fixedWindowPosition()
     conf[VELF].pixieY_ = mainWindowY_;
 	conf[VELF].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
+    conf[FRED].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[FRED].pixieX_ = mainWindowY_;
 	conf[MS2000].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[MS2000].vtY_ = mainWindowY_;
 	conf[MCDS].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
@@ -4658,8 +4663,7 @@ void Main::onStart(int computer)
         break;
             
         case FRED:
-            p_Fred = new Fred(computerInfo[FRED].name, wxPoint(conf[FRED].mainX_, conf[FRED].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, FRED);
-            p_Video = p_Fred;
+            p_Fred = new Fred(computerInfo[FRED].name, wxPoint(conf[FRED].mainX_, conf[FRED].mainY_), wxSize(310,180));
             p_Computer = p_Fred;
         break;
             
@@ -5537,6 +5541,8 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"RamSWButtonFRED", wxButton)->Enable(status);
         XRCCTRL(*this,"FullScreenF3FRED", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5FRED", wxButton)->Enable(!status);
+		XRCCTRL(*this,"RamFRED", wxChoice)->Enable(status);
+		XRCCTRL(*this,"RamTextFRED", wxStaticText)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
