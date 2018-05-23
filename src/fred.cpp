@@ -27,6 +27,7 @@
 #endif
 
 #include "main.h"
+#include "guimain.h"
 #include "fred.h"
 
 #define CHIP8_PC 5
@@ -87,9 +88,9 @@ void FredScreen::init()
     osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 35, 60, "");
     osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 85, 60, "");
 #else
-    text_resetButtonPointer = new wxButton(this, 5, "", wxPoint(20, 60), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
+    text_resetButtonPointer = new wxButton(this, 2, "", wxPoint(20, 60), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
     text_resetButtonPointer->SetToolTip("Reset");
-    text_runButtonPointer = new wxButton(this, 1, "", wxPoint(80, 60, wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
+    text_runButtonPointer = new wxButton(this, 1, "", wxPoint(80, 60), wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
     text_runButtonPointer->SetToolTip("Go - RUN");
 #endif
 
@@ -98,8 +99,8 @@ void FredScreen::init()
         ledPointer[i] = new Led(dc, 24+34*(7-i), 15, ELFLED);
     }
     
-    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 135, 60, "");
-    cardSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 185, 60, "");
+    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 135, 60, "");
+    cardSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 185, 60, "");
     powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 235, 60, "");
 
     stopLedPointer = new Led(dc, 55, 160, ELFLED);
@@ -182,7 +183,7 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
     wxClientDC dc(this);
     
     if (readSwitchButton->onMouseRelease(dc, x, y))
-        p_Main->stopComputer();
+        p_Computer->onReadButton();
     if (cardSwitchButton->onMouseRelease(dc, x, y))
         p_Main->stopComputer();
     if (powerSwitchButton->onMouseRelease(dc, x, y))
@@ -195,25 +196,30 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
 }
 
 BEGIN_EVENT_TABLE(Fred, wxFrame)
-EVT_CLOSE (Fred::onClose)
+	EVT_BUTTON(1, Cosmicos::onRunButton)
+	EVT_BUTTON(2, Cosmicos::onResetButton)
+	EVT_CLOSE (Fred::onClose)
 END_EVENT_TABLE()
 
-Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size)
+Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    fredConfiguration = conf;
+
     ef1State_ = 1;
     ef4State_ = 1;
     ef1StateTape_ = 1;
     
     displayType_ = 0;
-	tapeRunSwitch_ = 0;
-    tapeActivated_ = false;
+	tapeRunSwitch_ = 0x3;
+
 	inpMode_ = INP_MODE_NONE;
     
+    tapeActivated_ = true;
     pulseCount_ = 0;
     totalLength_ = 0;
     pulseLength_ = 0;
-
+    
     this->SetClientSize(size);
     
     fredScreenPointer = new FredScreen(this, size);
@@ -290,8 +296,8 @@ void Fred::reDefineKeys(int hexKeyDefA1[], int hexKeyDefA2[])
 void Fred::initComputer()
 {
     Show(p_Main->getUseVelfControlWindows());
-    setClear(1);
-    setWait(1);
+    setClear(0);
+    setWait(0);
     
     for (int i=0; i<16; i++)
     {
@@ -531,14 +537,61 @@ void Fred::cycle(int type)
 	}
 }
 
+void Fred::onRunButton(wxCommandEvent&WXUNUSED(event))
+{
+    onRunButton();
+}
+
 void Fred::onRunButton()
 {
     setClear(1);
     setWait(1);
     p_Main->eventUpdateTitle();
     p_Main->startTime();
+
+    if (mainMemory_[0] == 0)
+        p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
 }
-                                         
+
+void Fred::autoBoot()
+{
+//    fredScreenPointer->runSetState(BUTTON_UP);
+//    runButtonState_ = 1;
+    setClear(1);
+    setWait(1);
+    
+    if (mainMemory_[0] == 0)
+        p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
+}
+
+void Fred::onReadButton()
+{
+	if (inpMode_ == INP_MODE_TAPE_DIRECT)
+	{
+        inpMode_ = INP_MODE_NONE;
+		tapeRunSwitch_ = 0;
+        p_Computer->pauseTape();
+	}
+	else
+	{
+		inpMode_ = INP_MODE_TAPE_DIRECT;
+		pulseLength_ = 0;
+		lastSample_ = 0;
+		pulseCount_ = 0;
+		tapeInput_ = 0;
+		polarity_ = 0;
+		totalLength_ = 0;
+		silenceCount_ = 0;
+		bitNumber_ = -1;
+        if (tapeActivated_)
+            p_Computer->restartTapeLoad();
+        else
+            p_Main->startCassetteLoad();
+        tapeActivated_ = true;
+		tapeRunSwitch_ = 0x3;
+	}
+}
+
 void Fred::startComputer()
 {
     double zoom = p_Main->getZoom();
@@ -570,14 +623,18 @@ void Fred::startComputer()
     if (chip8type_ != CHIP_NONE)
         p_Main->defineFelCommands_(chip8type_);
 
+    if (fredConfiguration.autoBoot)
+        autoBoot();
+
 	pixiePointer->configurePixieFred();
 	pixiePointer->initPixie();
 	pixiePointer->setZoom(zoom);
 	pixiePointer->Show(true);
-	setWait(1);
-	setClear(0);
-	setWait(1);
-	setClear(1);
+
+//    setWait(1);
+//	setClear(0);
+//	setWait(1);
+//	setClear(1);
 
 	p_Main->updateTitle();
 
@@ -585,8 +642,8 @@ void Fred::startComputer()
 	p_Main->startTime();
 
 	threadPointer->Run();
-    if (mainMemory_[0] == 0)
-        p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
+
+    p_Main->startCassetteLoad();
 }
 
 void Fred::writeMemDataType(Word address, Byte type)
@@ -705,8 +762,14 @@ void Fred::cpuInstruction()
 		{
 			resetCpu();
 			resetPressed_ = false;
-			tapeRunSwitch_ = 0;
-            tapeActivated_ = false;
+			tapeRunSwitch_ = 0x3;
+
+		    tapeActivated_ = true;
+			pulseCount_ = 0;
+			totalLength_ = 0;
+			pulseLength_ = 0;
+
+			p_Main->startCassetteLoad();
 
             if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
             {
@@ -731,10 +794,25 @@ void Fred::cpuInstruction()
 	}
 	else
 	{
-		pixiePointer->initPixie();
+	//	pixiePointer->initPixie();
 		cpuCycles_ = 0;
+    /*    cycle0_=0;
+        machineCycle();
+        if (cycle0_ == 0) machineCycle();
+        if (cycle0_ == 0)
+        {
+        }*/
+        machineCycle();
+        machineCycle();
+        cpuCycles_ += 2;
+        playSaveLoad();
 		p_Main->startTime();
 	}
+}
+
+void Fred::onResetButton(wxCommandEvent&WXUNUSED(event))
+{
+    onReset();
 }
 
 void Fred::onReset()

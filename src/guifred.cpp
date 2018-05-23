@@ -64,6 +64,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_TEXT(XRCID("SaveStartFRED"), GuiMain::onSaveStart)
     EVT_TEXT(XRCID("SaveEndFRED"), GuiMain::onSaveEnd)
     EVT_CHECKBOX(XRCID("ControlWindowsFRED"), GuiFred::onFredControlWindows)
+    EVT_CHECKBOX(XRCID("AutoBootFRED"), GuiFred::onAutoBoot)
 
     EVT_CHECKBOX(XRCID("TurboFRED"), GuiMain::onTurbo)
     EVT_TEXT(XRCID("TurboClockFRED"), GuiMain::onTurboClock)
@@ -112,13 +113,15 @@ void GuiFred::readFredConfig()
     configPointer->Read("/FRED/Enable_Real_Cassette", &conf[FRED].realCassetteLoad_, false);
     conf[FRED].volume_ = (int)configPointer->Read("/FRED/Volume", 25l);
     conf[FRED].ramType_ = (int)configPointer->Read("/FRED/Ram_Type", 0l);
-    configPointer->Read("/FRED/Open_Control_Windows", &conf[FRED].useControlWindows, true);
+    configPointer->Read("/FRED/Open_Control_Windows", &elfConfiguration[FRED].useElfControlWindows, true);
 
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
     conf[FRED].xScale_ = configPointer->Read("/FRED/Window_Scale_Factor_X", defaultScale);
     conf[FRED].realCassetteLoad_ = false;
     
+    configPointer->Read("/FRED/Enable_Auto_Boot", &elfConfiguration[FRED].autoBoot, true);
+
     if (mode_.gui)
     {
         XRCCTRL(*this, "RamSWFRED", wxComboBox)->SetValue(conf[FRED].ram_);
@@ -133,12 +136,13 @@ void GuiFred::readFredConfig()
         XRCCTRL(*this, "VolumeFRED", wxSlider)->SetValue(conf[FRED].volume_);
         XRCCTRL(*this, "WavFileFRED", wxTextCtrl)->SetValue(conf[FRED].wavFile_);
 		XRCCTRL(*this, "RamFRED", wxChoice)->SetSelection(conf[FRED].ramType_);
-        XRCCTRL(*this,"AddressText1FRED", wxStaticText)->Enable(conf[FRED].useControlWindows);
-        XRCCTRL(*this,"AddressText2FRED", wxStaticText)->Enable(conf[FRED].useControlWindows);
-        XRCCTRL(*this, "ControlWindowsFRED", wxCheckBox)->SetValue(conf[FRED].useControlWindows);
-        XRCCTRL(*this, "ControlWindowsFRED", wxCheckBox)->SetValue(conf[FRED].useControlWindows);
+        XRCCTRL(*this,"AddressText1FRED", wxStaticText)->Enable(elfConfiguration[FRED].useElfControlWindows);
+        XRCCTRL(*this,"AddressText2FRED", wxStaticText)->Enable(elfConfiguration[FRED].useElfControlWindows);
+        XRCCTRL(*this, "ControlWindowsFRED", wxCheckBox)->SetValue(elfConfiguration[FRED].useElfControlWindows);
+        XRCCTRL(*this, "ControlWindowsFRED", wxCheckBox)->SetValue(elfConfiguration[FRED].useElfControlWindows);
         XRCCTRL(*this, "ShowAddressFRED", wxTextCtrl)->ChangeValue(conf[FRED].ledTime_);
-        XRCCTRL(*this,"ShowAddressFRED", wxTextCtrl)->Enable(conf[FRED].useControlWindows);
+        XRCCTRL(*this,"ShowAddressFRED", wxTextCtrl)->Enable(elfConfiguration[FRED].useElfControlWindows);
+        XRCCTRL(*this, "AutoBootFRED", wxCheckBox)->SetValue(elfConfiguration[FRED].autoBoot);
     }
 }
 
@@ -164,8 +168,9 @@ void GuiFred::writeFredConfig()
     configPointer->Write("/FRED/Enable_Real_Cassette", conf[FRED].realCassetteLoad_);
     configPointer->Write("/FRED/Volume", conf[FRED].volume_);
 	configPointer->Write("/FRED/Ram_Type", conf[FRED].ramType_);
-    configPointer->Write("/FRED/Open_Control_Windows", conf[FRED].useControlWindows);
+    configPointer->Write("/FRED/Open_Control_Windows", elfConfiguration[FRED].useElfControlWindows);
     configPointer->Write("/FRED/Led_Update_Frequency", conf[FRED].ledTime_);
+    configPointer->Write("/FRED/Enable_Auto_Boot", elfConfiguration[FRED].autoBoot);
 }
 
 void GuiFred::readFredWindowConfig()
@@ -190,22 +195,27 @@ void GuiFred::writeFredWindowConfig()
 
 void GuiFred::onFredControlWindows(wxCommandEvent&event)
 {
-    conf[FRED].useControlWindows = event.IsChecked();
+    elfConfiguration[FRED].useElfControlWindows = event.IsChecked();
     
     if (mode_.gui)
     {
-        XRCCTRL(*this,"ShowAddressFRED",wxTextCtrl)->Enable(conf[selectedComputer_].useControlWindows);
-        XRCCTRL(*this,"AddressText1FRED",wxStaticText)->Enable(conf[selectedComputer_].useControlWindows);
-        XRCCTRL(*this,"AddressText2FRED",wxStaticText)->Enable(conf[selectedComputer_].useControlWindows);
+        XRCCTRL(*this,"ShowAddressFRED",wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
+        XRCCTRL(*this,"AddressText1FRED",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
+        XRCCTRL(*this,"AddressText2FRED",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
     }
     
     if (runningComputer_ == FRED)
-        p_Fred->Show(conf[FRED].useControlWindows);
+        p_Fred->Show(elfConfiguration[FRED].useElfControlWindows);
 }
 
 bool GuiFred::getUseControlWindows()
 {
-    return conf[FRED].useControlWindows;
+    return elfConfiguration[FRED].useElfControlWindows;
+}
+
+void GuiFred::onAutoBoot(wxCommandEvent&event)
+{
+    elfConfiguration[FRED].autoBoot = event.IsChecked();
 }
 
 

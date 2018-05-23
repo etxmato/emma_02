@@ -35,7 +35,7 @@ private:
 class Fred : public wxFrame, public Cdp1802
 {
 public:
-	Fred(const wxString& title, const wxPoint& pos, const wxSize& size);
+	Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
 	~Fred();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
@@ -54,7 +54,10 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
 
+	void onRunButton(wxCommandEvent&event);
     void onRunButton();
+    void autoBoot();
+	void onReadButton();
     
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
@@ -62,6 +65,8 @@ public:
 	Byte readMem(Word addr);
 	void writeMem(Word addr, Byte value, bool writeRom);
 	void cpuInstruction();
+
+	void onResetButton(wxCommandEvent&event);
 	void onReset();
 	
 	void cassetteFred(short val);
@@ -75,6 +80,8 @@ public:
 private:
     Pixie *pixiePointer;
     class FredScreen *fredScreenPointer;
+    ElfConfiguration fredConfiguration;
+
     Byte keyState_[16];
 
     int keyDefA1_[16];

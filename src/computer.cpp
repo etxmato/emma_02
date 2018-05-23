@@ -1367,6 +1367,10 @@ void Computer::onRunButton()
 {
 }
 
+void Computer::onReadButton()
+{
+}
+
 void Computer::onRunButton(wxCommandEvent&WXUNUSED(event))
 {
 }

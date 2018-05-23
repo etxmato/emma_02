@@ -343,6 +343,7 @@ public:
 	virtual void startComputer();
 	virtual void initComputer();
 	virtual void configureComputer();
+	virtual void onReadButton();
     virtual void onRunButton();
     virtual void onRunButtonPress() {};
     virtual void onRunButtonRelease() {};

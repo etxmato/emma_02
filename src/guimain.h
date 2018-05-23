@@ -2,7 +2,7 @@
 #define GUIMAIN_H
 
 #define NO_COMPUTER 26
-#define LAST_ELF_TYPE 10
+#define LAST_ELF_TYPE 11
 
 #define MAINROM1 0
 
@@ -111,7 +111,6 @@ public:
     int velfMode_;
 	int ramType_;
 	bool useKeyboard_;
-    bool useControlWindows;
 
 	bool printerOn_;
 	bool useLoadLocation_;

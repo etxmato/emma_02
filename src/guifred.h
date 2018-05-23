@@ -17,6 +17,7 @@ public:
     void writeFredWindowConfig();
     void onFredControlWindows(wxCommandEvent&event);
     bool getUseControlWindows();
+    void onAutoBoot(wxCommandEvent&event);
 
 private:
 

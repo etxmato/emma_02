@@ -4663,7 +4663,7 @@ void Main::onStart(int computer)
         break;
             
         case FRED:
-            p_Fred = new Fred(computerInfo[FRED].name, wxPoint(conf[FRED].mainX_, conf[FRED].mainY_), wxSize(310,180));
+            p_Fred = new Fred(computerInfo[FRED].name, wxPoint(conf[FRED].mainX_, conf[FRED].mainY_), wxSize(310,180), conf[FRED].clockSpeed_, elfConfiguration[FRED]);
             p_Computer = p_Fred;
         break;
             
