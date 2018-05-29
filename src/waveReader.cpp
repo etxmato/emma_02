@@ -135,7 +135,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 			bufferPointer += frameSize_;
 		}
 		p_Computer->cassette(amplitudeByte);
-		p_Computer->cassetteFred(amplitudeWord);
+		p_Computer->cassetteFred(amplitudeByte);
 	}
 	return remaining;
 }

@@ -2691,10 +2691,12 @@ int GuiMain::pload()
 	}
 }
 
-void GuiMain::startCassetteLoad()
+bool GuiMain::startCassetteLoad()
 {
 	if (conf[runningComputer_].autoCassetteLoad_)
-		startLoad();
+		return startLoad();
+    else
+        return false;
 }
 
 void GuiMain::onRealCas(wxCommandEvent&WXUNUSED(event))
@@ -2834,7 +2836,7 @@ void GuiMain::setPrinterState(int computerType)
 	}
 }
 
-void GuiMain::startLoad()
+bool GuiMain::startLoad()
 {
 	wxString filePath, fileName;
 
@@ -2847,9 +2849,10 @@ void GuiMain::startLoad()
 		if (wxFile::Exists(filePath))
 		{
 			p_Main->eventSetTapeState(TAPE_PLAY);
-			p_Computer->ploadStartTape(filePath);
+			return p_Computer->ploadStartTape(filePath);
 		}
 	}
+    return false;
 }
 
 void GuiMain::stopCassette()

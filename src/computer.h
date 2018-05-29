@@ -113,6 +113,12 @@ public:
 	void ledTimeout();
 	void setLedMs(long ms);
 
+    void setReadyLed(int status);
+    void updateReadyLed(wxDC& dc);
+    void setStopLed(int status);
+    void updateStopLed(wxDC& dc);
+    void setErrorLed(int status);
+    void updateErrorLed(wxDC& dc);
 	void setQLed(int status);
 	void updateQLed(wxDC& dc);
 	void setResetLed(int status);
@@ -250,16 +256,19 @@ protected:
 	Byte dataTil313Status;
 	Byte segStatus[8];
 
+    Led *readyLedPointer;
+    Led *stopLedPointer;
+    Led *errorLedPointer;
 	Led *qLedPointer;
 	Led *resetLedPointer;
 	Led *pauseLedPointer;
 	Led *runLedPointer;
 	Led *loadLedPointer;
     Led *ledPointer[8];
-    Led *stopLedPointer;
-    Led *readyLedPointer;
-    Led *errorLedPointer;
 
+    int readyLedStatus;
+    int stopLedStatus;
+    int errorLedStatus;
 	int qLedStatus;
 	int resetLedStatus;
 	int pauseLedStatus;
@@ -267,6 +276,9 @@ protected:
 	int loadLedStatus;
 	int ledStatus[8];
 
+    bool updateReadyLed_;
+    bool updateStopLed_;
+    bool updateErrorLed_;
 	bool updateQLed_;
 	bool updateResetLed_;
 	bool updatePauseLed_;
@@ -343,7 +355,8 @@ public:
 	virtual void startComputer();
 	virtual void initComputer();
 	virtual void configureComputer();
-	virtual void onReadButton();
+    virtual void onReadButton();
+    virtual void onCardButton();
     virtual void onRunButton();
     virtual void onRunButtonPress() {};
     virtual void onRunButtonRelease() {};
@@ -407,6 +420,7 @@ public:
 	virtual void onNumberKeyUp(wxCommandEvent& event);
 	virtual void ledTimeout();
 	virtual void setLedMs(long ms);
+    virtual void showDataLeds(Byte value);
 	virtual Byte getKey(Byte vtOut);
 	virtual void activateMainWindow();
 	bool getAudioInStatus() {return audioIn_;};

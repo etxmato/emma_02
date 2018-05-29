@@ -185,7 +185,7 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
     if (readSwitchButton->onMouseRelease(dc, x, y))
         p_Computer->onReadButton();
     if (cardSwitchButton->onMouseRelease(dc, x, y))
-        p_Main->stopComputer();
+        p_Computer->onCardButton();
     if (powerSwitchButton->onMouseRelease(dc, x, y))
         p_Main->stopComputer();
     
@@ -193,6 +193,13 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
     osx_text_resetButtonPointer->onMouseRelease(dc, x, y);
     osx_text_runButtonPointer->onMouseRelease(dc, x, y);
 #endif
+}
+
+void FredScreen::releaseButtonOnScreen(HexButton* buttonPoint)
+{
+    wxClientDC dc(this);
+    
+    buttonPoint->releaseButtonOnScreen(dc);
 }
 
 BEGIN_EVENT_TABLE(Fred, wxFrame)
@@ -205,6 +212,7 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
     fredConfiguration = conf;
+    fredClockSpeed_ = clock;
 
     ef1State_ = 1;
     ef4State_ = 1;
@@ -214,11 +222,14 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
 	tapeRunSwitch_ = 0x3;
 
 	inpMode_ = INP_MODE_NONE;
+    cardSwitchOn_ = false;
+    readSwitchOn_ = false;
     
-    tapeActivated_ = true;
     pulseCount_ = 0;
     totalLength_ = 0;
     pulseLength_ = 0;
+    tapeRecording_ = false;
+	zeroWaveCounter_ = -1;
     
     this->SetClientSize(size);
     
@@ -459,13 +470,28 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
 					if ((value & 0x20) == 0x20)
 	                    inpMode_ = INP_MODE_TAPE_DIRECT;
 
+                    if ((value & 0x40) == 0x40)
+                    {
+                        inpMode_ = INP_MODE_NONE;
+                        if (tapeActivated_)
+                        {
+                            p_Computer->stopTape();
+                            tapeActivated_ = false;
+                        }
+                        if (!tapeRecording_)
+                            p_Main->startCassetteSave();
+                        
+                        tapeRecording_ = true;
+                    }
+                    
 					if (value == 0)
                         inpMode_ = INP_MODE_NONE;
 
 					if (inpMode_ == INP_MODE_TAPE_DIRECT || inpMode_ == INP_MODE_TAPE_PROGRAM)
 					{
 						pulseLength_ = 0;
-						lastSample_ = 0;
+                        lastSample_ = 0;
+                        lastSampleChar_ = 0;
 						pulseCount_ = 0;
 						tapeInput_ = 0;
 						polarity_ = 0;
@@ -473,10 +499,12 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
 						silenceCount_ = 0;
 						bitNumber_ = -1;
                         if (tapeActivated_)
+                        {
+                            p_Main->turboOn();
                             p_Computer->restartTapeLoad();
+                        }
                         else
-                            p_Main->startCassetteLoad();
-                        tapeActivated_ = true;
+                            tapeActivated_ = p_Main->startCassetteLoad();
 						tapeRunSwitch_ = 0x3;
 					}
                 break;
@@ -484,22 +512,27 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
         break;
 
         case FREDIO3:
-            if ((value&1) != (tapeRunSwitch_&1))
+            if ((value&1) != (tapeRunSwitch_&1) && !tapeRecording_)
             {
                 if ((value&1) == 1)
                 {
                     if (tapeActivated_)
+                    {
+                        p_Main->turboOn();
                         p_Computer->restartTapeLoad();
+                    }
                     else
-                        p_Main->startCassetteLoad();
+                        tapeActivated_ = p_Main->startCassetteLoad();
                     
-                    tapeActivated_ = true;
                     pulseCount_ = 0;
                     totalLength_ = 0;
                     pulseLength_ = 0;
                 }
                 else
+                {
                     p_Computer->pauseTape();
+                    p_Main->turboOff();
+                }
             }
             
             if ((value&2) != (tapeRunSwitch_&2))
@@ -516,6 +549,7 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
             if ((value&4) != (tapeRunSwitch_&4))
             {
                 psaveAmplitudeChange((value>>2)&1);
+                zeroWaveCounter_ = 7;
             }
 
             tapeRunSwitch_ = value;
@@ -534,7 +568,34 @@ void Fred::cycle(int type)
 		case PIXIECYCLE:
 			pixiePointer->cyclePixieFred(displayType_);
 		break;
-	}
+
+        case LEDCYCLE:
+            cycleLed();
+        break;
+    }
+}
+
+void Fred::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            fredScreenPointer->ledTimeout();
+        }
+    }
+}
+
+void Fred::setLedMs(long ms)
+{
+    fredScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((fredClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
 }
 
 void Fred::onRunButton(wxCommandEvent&WXUNUSED(event))
@@ -544,39 +605,58 @@ void Fred::onRunButton(wxCommandEvent&WXUNUSED(event))
 
 void Fred::onRunButton()
 {
-    setClear(1);
-    setWait(1);
-    p_Main->eventUpdateTitle();
-    p_Main->startTime();
-
-    if (mainMemory_[0] == 0)
-        p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
+    if (cardSwitchOn_ || readSwitchOn_)
+        showDataLeds(dmaOut());
+    else
+    {
+        if (scratchpadRegister_[0] == 0 && mainMemory_[0] == 0)
+            p_Computer->dmaOut(); // skip over IDL instruction
+        
+        fredScreenPointer->setReadyLed(1);
+        fredScreenPointer->setStopLed(0);
+        
+        setClear(1);
+        setWait(1);
+        
+        p_Main->eventUpdateTitle();
+        p_Main->startTime();
+    }
 }
 
 void Fred::autoBoot()
 {
-//    fredScreenPointer->runSetState(BUTTON_UP);
-//    runButtonState_ = 1;
-    setClear(1);
+    if (scratchpadRegister_[0] == 0 && mainMemory_[0] == 0)
+        p_Computer->dmaOut(); // skip over IDL instruction
+
+    fredScreenPointer->setReadyLed(1);
+    fredScreenPointer->setStopLed(0);
+
+	setClear(1);
     setWait(1);
-    
-    if (mainMemory_[0] == 0)
-        p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
 }
 
 void Fred::onReadButton()
 {
+    readSwitchOn_ = !readSwitchOn_;
 	if (inpMode_ == INP_MODE_TAPE_DIRECT)
 	{
         inpMode_ = INP_MODE_NONE;
 		tapeRunSwitch_ = 0;
         p_Computer->pauseTape();
-	}
+        p_Main->turboOff();
+
+        setClear(0);
+        setWait(1);
+        
+        fredScreenPointer->setReadyLed(1);
+        fredScreenPointer->setStopLed(1);
+    }
 	else
 	{
 		inpMode_ = INP_MODE_TAPE_DIRECT;
 		pulseLength_ = 0;
 		lastSample_ = 0;
+        lastSampleChar_ = 0;
 		pulseCount_ = 0;
 		tapeInput_ = 0;
 		polarity_ = 0;
@@ -584,12 +664,26 @@ void Fred::onReadButton()
 		silenceCount_ = 0;
 		bitNumber_ = -1;
         if (tapeActivated_)
+        {
+            p_Main->turboOn();
             p_Computer->restartTapeLoad();
+        }
         else
-            p_Main->startCassetteLoad();
-        tapeActivated_ = true;
-		tapeRunSwitch_ = 0x3;
+            tapeActivated_ = p_Main->startCassetteLoad();
+
+        tapeRunSwitch_ = 0x3;
+        
+        setClear(0);
+        setWait(0);
+
+        fredScreenPointer->setReadyLed(1);
+        fredScreenPointer->setStopLed(0);
 	}
+}
+
+void Fred::onCardButton()
+{
+    cardSwitchOn_ = !cardSwitchOn_;
 }
 
 void Fred::startComputer()
@@ -623,27 +717,41 @@ void Fred::startComputer()
     if (chip8type_ != CHIP_NONE)
         p_Main->defineFelCommands_(chip8type_);
 
+    fredScreenPointer->setErrorLed(0);
+
+    setClear(0);
+    setWait(1);
     if (fredConfiguration.autoBoot)
         autoBoot();
+    else
+    {
+        fredScreenPointer->setReadyLed(1);
+        fredScreenPointer->setStopLed(1);
+    }
 
-	pixiePointer->configurePixieFred();
+    pixiePointer->configurePixieFred();
 	pixiePointer->initPixie();
 	pixiePointer->setZoom(zoom);
 	pixiePointer->Show(true);
-
-//    setWait(1);
-//	setClear(0);
-//	setWait(1);
-//	setClear(1);
 
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
 
+    int ms = (int) p_Main->getLedTimeMs(FRED);
+    fredScreenPointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((fredClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
 	threadPointer->Run();
 
-    p_Main->startCassetteLoad();
+    tapeActivated_ =  p_Main->startCassetteLoad();
+   
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
 }
 
 void Fred::writeMemDataType(Word address, Byte type)
@@ -740,6 +848,12 @@ void Fred::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
+		if (tapeRecording_ && zeroWaveCounter_ >= 0)
+		{
+			zeroWaveCounter_--;
+			if (zeroWaveCounter_ == -1)
+				psaveAmplitudeZero();
+		}
 		if (steps_ != 0)
 		{
 			cycle0_=0;
@@ -757,56 +871,29 @@ void Fred::cpuInstruction()
 			soundCycle();
         
         playSaveLoad();
+        checkFredFunction();
 
 		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			tapeRunSwitch_ = 0x3;
+            resetFred();
 
-		    tapeActivated_ = true;
-			pulseCount_ = 0;
-			totalLength_ = 0;
-			pulseLength_ = 0;
-
-			p_Main->startCassetteLoad();
-
-            if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
-            {
-                chip8baseVar_ = 0x100;
-                chip8mainLoop_ = 0x13B;
-                chip8type_ = CHIPFEL1;
-            }
-            
-            setWait(1);
-			setClear(0);
-			setWait(1);
-			setClear(1);
-			pixiePointer->initPixie();
-            ioGroup_ = 0;
-            if (mainMemory_[0] == 0)
-                p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
-		}
-		if (debugMode_)
+        if (debugMode_)
 			p_Main->cycleDebug();
         if (chip8type_ != CHIP_NONE)
             p_Main->cycleFredDebug();
 	}
 	else
 	{
-	//	pixiePointer->initPixie();
-		cpuCycles_ = 0;
-    /*    cycle0_=0;
-        machineCycle();
-        if (cycle0_ == 0) machineCycle();
-        if (cycle0_ == 0)
-        {
-        }*/
+        cpuCycles_ = 0;
+        
         machineCycle();
         machineCycle();
         cpuCycles_ += 2;
         playSaveLoad();
-		p_Main->startTime();
+
+        if (resetPressed_)
+            resetFred();
+
+        p_Main->startTime();
 	}
 }
 
@@ -818,6 +905,46 @@ void Fred::onResetButton(wxCommandEvent&WXUNUSED(event))
 void Fred::onReset()
 {
 	resetPressed_ = true;
+}
+
+void Fred::sleepComputer(long ms)
+{
+    threadPointer->Sleep(ms);
+}
+
+void Fred::resetFred()
+{
+    resetCpu();
+    resetPressed_ = false;
+    tapeRunSwitch_ = 0x3;
+    
+    pulseCount_ = 0;
+    totalLength_ = 0;
+    pulseLength_ = 0;
+    ef4State_ = 1;
+    
+    tapeActivated_ = p_Main->startCassetteLoad();
+    
+    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
+    {
+        chip8baseVar_ = 0x100;
+        chip8mainLoop_ = 0x13B;
+        chip8type_ = CHIPFEL1;
+    }
+    
+    setClear(0);
+    setWait(1);
+    if (fredConfiguration.autoBoot)
+        autoBoot();
+    
+    fredScreenPointer->setErrorLed(0);
+    fredScreenPointer->setReadyLed(1);
+    fredScreenPointer->setStopLed(1);
+    for (int i=0; i<8; i++)
+        fredScreenPointer->setLed(i,0);
+    
+    pixiePointer->initPixie();
+    ioGroup_ = 0;
 }
 
 void Fred::cassetteFred(short val)
@@ -867,6 +994,7 @@ void Fred::cassetteFred(short val)
     //    if ((totalLength_ / pulseCount_) < 10)
     //    {
             p_Computer->pauseTape();
+            p_Main->turboOff();
             tapeRunSwitch_ = tapeRunSwitch_ & 2;
      //   }
     }
@@ -878,6 +1006,8 @@ void Fred::cassetteFred(short val)
             if (pulseCount_ > 6 && (polarity_ & 1) != 1)
 			{
                 ef4State_ = 0;
+                fredScreenPointer->setErrorLed(1);
+     
                 message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
                 p_Main->eventShowTextMessage(message);
                 bitNumber_ = 0;
@@ -932,22 +1062,123 @@ void Fred::cassetteFred(short val)
             bitNumber_++;
 
 		totalLength_ = 0;
-
 		pulseCount_ = 0;
-        
     }
-
     lastSample_ = val;
 }
 
 void Fred::cassetteFred(char val)
 {
+    if (inpMode_ != INP_MODE_TAPE_DIRECT && inpMode_ != INP_MODE_TAPE_PROGRAM && (tapeRunSwitch_&1) != 1)
+        return;
+    
+    wxString message;
+    
+    int difference;
+    if (val < lastSampleChar_)
+        difference = lastSampleChar_ - val;
+    else
+        difference = val - lastSampleChar_;
+    
+    if (difference < 10)
+        silenceCount_++;
+    else
+        silenceCount_ = 0;
+    
+    pulseLength_++;
+    if (lastSampleChar_ <= 0)
+    {
+        if (val > 0 && silenceCount_ == 0)
+        {
+            pulseCount_++;
+            totalLength_ += pulseLength_;
+            pulseLength_ = 0;
+        }
+    }
+    else
+    {
+        if (val < 0 && silenceCount_ == 0)
+        {
+            pulseCount_++;
+            totalLength_ += pulseLength_;
+            pulseLength_ = 0;
+        }
+    }
+    
+    if (pulseCount_ > 4000 && silenceCount_ > 10)
+    {
+        p_Computer->pauseTape();
+        p_Main->turboOff();
+        tapeRunSwitch_ = tapeRunSwitch_ & 2;
+    }
+    
+    if (pulseCount_ > 1 && silenceCount_ > 10)
+    {
+        if (bitNumber_ == 8)
+        {
+            if (pulseCount_ > 6 && (polarity_ & 1) != 1)
+            {
+                ef4State_ = 0;
+                fredScreenPointer->setErrorLed(1);
+                
+                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                p_Main->eventShowTextMessage(message);
+                bitNumber_ = 0;
+                polarity_ = 0;
+                tapeInput_ = 0;
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
+            }
+            
+            else
+            {
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
+            }
+            if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                ef1StateTape_ = 0;
+        }
+        else
+        {
+            if (bitNumber_ != -1)
+            {
+                if (pulseCount_ > 6)
+                    tapeInput_ = (1 << bitNumber_) | tapeInput_;
+            }
+            else
+            {
+                if (pulseCount_ <= 6)
+                {
+                    message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
+                    p_Main->eventShowTextMessage(message);
+                    bitNumber_++;
+                }
+                
+            }
+            if (pulseCount_ > 6)
+                polarity_++;
+        }
+        
+        if (bitNumber_ == 8)
+        {
+            polarity_ = 0;
+            tapeInput_ = 0;
+            bitNumber_ = -1;
+        }
+        else
+            bitNumber_++;
+        
+        totalLength_ = 0;
+        pulseCount_ = 0;
+    }
+    lastSampleChar_ = val;
 }
 
 void Fred::finishStopTape()
 {
     tapeRunSwitch_ = tapeRunSwitch_ & 2;
     tapeActivated_ = false;
+    tapeRecording_ = false;
 }
 
 void Fred::moveWindows()
@@ -959,4 +1190,44 @@ void Fred::updateTitle(wxString Title)
 {
     pixiePointer->SetTitle("FRED"+Title);
 }
+
+void Fred::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
+{
+    fredScreenPointer->releaseButtonOnScreen(buttonPointer);
+}
+
+void Fred::showDataLeds(Byte value)
+{
+    for (int i=0; i<8; i++)
+    {
+        fredScreenPointer->setLed(i, value&1);
+        value = value >> 1;
+    }
+}
+
+void Fred::checkFredFunction()
+{
+    if (scratchpadRegister_[programCounter_] == p_Computer->getChip8MainLoop() && chip8type_ == CHIPFEL1)
+    {
+        switch(scratchpadRegister_[5])
+        {
+            case 0xe0:
+                p_Main->stopCassette();
+            break;
+ 
+            case 0xca:
+                if (tapeActivated_)
+                {
+                    p_Computer->stopTape();
+                    tapeActivated_ = false;
+                }
+                if (!tapeRecording_)
+                    p_Main->startCassetteSave();
+                
+                tapeRecording_ = true;
+            break;
+        }
+    }
+}
+
 

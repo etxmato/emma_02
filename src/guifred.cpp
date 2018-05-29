@@ -73,6 +73,9 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("CasSaveFRED"), GuiMain::onCassetteSave)
     EVT_BUTTON(XRCID("CasStopFRED"), GuiMain::onCassetteStop)
     EVT_BUTTON(XRCID("RealCasLoadFRED"), GuiMain::onRealCas)
+
+    EVT_TEXT(XRCID("ShowAddressFRED"), GuiMain::onLedTimer)
+
 END_EVENT_TABLE()
 
 GuiFred::GuiFred(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)

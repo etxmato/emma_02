@@ -2908,17 +2908,27 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 	switch(i)
 	{
 		case 0x0:
-			switch(n)
-			{
-				case 0x0:
-					printBufferAssembler.operator += ("IDL");
-				break;
+            if (runningComputer_ == FRED)
+                printBufferAssembler.Printf("IDL  R%X", n);
+            else
+            {
+                switch(n)
+                {
+                    case 0x0:
+                        printBufferAssembler.operator += ("IDL");
+                    break;
 
-				default:
-					printBufferAssembler.Printf("LDN  R%X",n);
-					printBufferDetails.Printf("D=%02X", accumulator);
-				break;
-			}
+                    default:
+                        if (cpuType_ == CPU1801)
+                            printBufferAssembler.Printf("Illegal code");
+                        else
+                        {
+                            printBufferAssembler.Printf("LDN  R%X",n);
+                            printBufferDetails.Printf("D=%02X", accumulator);
+                        }
+                    break;
+                }
+            }
 		break;
 
 		case 0x1:
@@ -8224,8 +8234,17 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	if (assInput.command == "IDL") 
 	{ 
 		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
-		*b1 = 0x00; 
+        {
+            if (runningComputer_ == FRED)
+            {
+                ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
+                *b1 = registerNumber;
+                return 1;
+            }
+            else
+                return ERROR_PAR;
+        }
+		*b1 = 0x00;
 		return 1; 
 	}
 	if (assInput.command == "INC")

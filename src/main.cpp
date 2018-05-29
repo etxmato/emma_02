@@ -4751,7 +4751,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 9 || runningComputer_ == VIPII)
+    if (runningComputer_ < 9 || runningComputer_ == VIPII || runningComputer_ == FRED)
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;

@@ -169,7 +169,7 @@ void Cdp1802::dmaIn(Byte value)
 		traceText.Printf("----  DMA in    R0=%04X", scratchpadRegister_[0]);
 		p_Main->debugTrace(traceText);
 	}
-	if (cpuMode_ != RUN && cpuMode_ != LOAD) return;
+	if (cpuMode_ != RUN && cpuMode_ != LOAD && computerType_ != FRED) return;
 	writeMem(scratchpadRegister_[0], value, false);
 	address_ = scratchpadRegister_[0]++;
 	idle_=0;
@@ -1053,34 +1053,47 @@ void Cdp1802::cpuCycle()
 	switch(i)
 	{
  		case 0:
-			if (n == 0)
-			{
-				idle_=1;
-				if (trace_)
-				{
-					tr = tr + "IDL";
-				}
-			}
-			else
-			{
-                if (cpuType_ == CPU1801)
+            if (computerType_ == FRED)
+            {
+                idle_=1;
+                p_Computer->showDataLeds(readMem(scratchpadRegister_[n]));
+                if (trace_)
                 {
+                    buffer.Printf("IDL  R%X",n);
+                    tr = tr + buffer;
+                }
+            }
+            else
+            {
+                if (n == 0)
+                {
+                    idle_=1;
                     if (trace_)
                     {
-                        buffer.Printf("Illegal code");
-                        tr = tr + buffer;
+                        tr = tr + "IDL";
                     }
                 }
                 else
                 {
-                    accumulator_=readMem(scratchpadRegister_[n]);
-                    if (trace_)
+                    if (cpuType_ == CPU1801)
                     {
-                        buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
-                        tr = tr + buffer;
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        accumulator_=readMem(scratchpadRegister_[n]);
+                        if (trace_)
+                        {
+                            buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
+                            tr = tr + buffer;
+                        }
                     }
                 }
-			}
+            }
 		break;
 
 		case 1:

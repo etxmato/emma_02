@@ -377,8 +377,8 @@ public:
 	void setDataDir(wxString dataDir) {dataDir_ = dataDir;};
 
 	int pload();
-	void startCassetteLoad();
-	void startLoad();
+	bool startCassetteLoad();
+	bool startLoad();
 	void stopCassette();
 	void startCassetteSave();
     void startSave();

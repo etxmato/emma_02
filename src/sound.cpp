@@ -689,6 +689,13 @@ void Sound::psaveAmplitudeChange(int q)
 	}
 }
 
+void Sound::psaveAmplitudeZero()
+{
+    tapeSynthPointer->update(soundTime_, 0);
+    psaveSynthPointer[0]->update(soundTime_, 0);
+    psaveSynthPointer[1]->update(soundTime_, 0);
+}
+
 void Sound::playSaveLoad()
 {
 	if (!psaveOn_ && !ploadOn_ && !wavOn_)
@@ -759,7 +766,7 @@ void Sound::convertTo8Bit(const short* in, int count, unsigned char* out)
 		out[i]= (unsigned char) ((in[i] >> 8) ^ 0x80);
 }
 
-void Sound::ploadStartTape(wxString fileName)
+bool Sound::ploadStartTape(wxString fileName)
 {
     long sampleRate;
     
@@ -773,17 +780,20 @@ void Sound::ploadStartTape(wxString fileName)
             p_Main->message("Cassette sound error: out of memory");
             delete ploadWavePointer;
             p_Main->eventSetTapeState(TAPE_STOP);
+            return false;
         }
         else
         {
             ploadOn_ = true;
             p_Main->turboOn();
+            return true;
         }
     }
     else
     {
         delete ploadWavePointer;
         p_Main->eventSetTapeState(TAPE_STOP);
+        return false;
     }
 }
 
@@ -811,7 +821,7 @@ void Sound::startWavSound(wxString fileName)
 void Sound::psaveStartTape(wxString fileName)
 {
 	long sampleRate;
-
+    
 	sampleRate = 22050;
 	switch (psaveBitRate_)
 	{

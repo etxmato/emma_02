@@ -28,6 +28,8 @@ public:
     void onPaint(wxPaintEvent&event);
     void onMousePress(wxMouseEvent& event);
     void onMouseRelease(wxMouseEvent& event);
+    void releaseButtonOnScreen(HexButton* buttonPointer);
+
 private:
     int dataSwitchState_[8];
 };
@@ -53,11 +55,14 @@ public:
     Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
+    void cycleLed();
+    void setLedMs(long ms);
 
 	void onRunButton(wxCommandEvent&event);
     void onRunButton();
     void autoBoot();
-	void onReadButton();
+    void onReadButton();
+    void onCardButton();
     
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
@@ -68,6 +73,8 @@ public:
 
 	void onResetButton(wxCommandEvent&event);
 	void onReset();
+    void sleepComputer(long ms);
+    void resetFred();
 	
 	void cassetteFred(short val);
 	void cassetteFred(char val);
@@ -77,10 +84,19 @@ public:
     void moveWindows();
     void updateTitle(wxString Title);
 
+    void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    void showDataLeds(Byte value);
+    void checkFredFunction();
+    
 private:
     Pixie *pixiePointer;
     class FredScreen *fredScreenPointer;
     ElfConfiguration fredConfiguration;
+
+    int ledCycleValue_;
+    int ledCycleSize_;
+    
+    double fredClockSpeed_;
 
     Byte keyState_[16];
 
@@ -101,8 +117,12 @@ private:
     Byte keyValue_;
 
 	Byte tapeRunSwitch_;
+    bool cardSwitchOn_;
+    bool readSwitchOn_;
     bool tapeActivated_;
-    
+    bool tapeRecording_;
+    int zeroWaveCounter_;
+
     int displayType_;
 	int inpMode_;
 
@@ -111,6 +131,7 @@ private:
     int pulseLength_;
     int totalLength_;
     short lastSample_;
+    char lastSampleChar_;
     int pulseCount_;
     Byte tapeInput_;
     Byte polarity_;

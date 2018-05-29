@@ -557,7 +557,10 @@ void Panel::onMouseRelease(wxMouseEvent& WXUNUSED(event))
 void Panel::ledTimeout()
 {
     wxClientDC dc(this);
-	updateQLed(dc);
+    updateReadyLed(dc);
+    updateStopLed(dc);
+    updateErrorLed(dc);
+    updateQLed(dc);
 	updateResetLed(dc);
 	updatePauseLed(dc);
 	updateRunLed(dc);
@@ -576,6 +579,75 @@ void Panel::ledTimeout()
 void Panel::setLedMs(long ms)
 {
 	ms_ = ms;
+}
+
+void Panel::updateReadyLed(wxDC& dc)
+{
+    if (updateReadyLed_)
+    {
+        readyLedPointer->setStatus(dc, readyLedStatus);
+        updateReadyLed_ = false;
+    }
+}
+
+void Panel::setReadyLed(int status)
+{
+    if (readyLedStatus != status)
+    {
+        readyLedStatus = status;
+        updateReadyLed_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateReadyLed(dc);
+        }
+    }
+}
+
+void Panel::setStopLed(int status)
+{
+    if (stopLedStatus != status)
+    {
+        stopLedStatus = status;
+        updateStopLed_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateStopLed(dc);
+        }
+    }
+}
+
+void Panel::updateStopLed(wxDC& dc)
+{
+    if (updateStopLed_)
+    {
+        stopLedPointer->setStatus(dc, stopLedStatus);
+        updateStopLed_ = false;
+    }
+}
+
+void Panel::setErrorLed(int status)
+{
+	if (errorLedStatus != status)
+	{
+		errorLedStatus = status;
+		updateErrorLed_ = true;
+		if (ms_ == 0)
+		{
+			wxClientDC dc(this);
+			updateErrorLed(dc);
+		}
+	}
+}
+
+void Panel::updateErrorLed(wxDC& dc)
+{
+	if (updateErrorLed_)
+	{
+		errorLedPointer->setStatus(dc, errorLedStatus);
+		updateErrorLed_ = false;
+	}
 }
 
 void Panel::setQLed(int status)
@@ -1371,6 +1443,10 @@ void Computer::onReadButton()
 {
 }
 
+void Computer::onCardButton()
+{
+}
+
 void Computer::onRunButton(wxCommandEvent&WXUNUSED(event))
 {
 }
@@ -1540,6 +1616,10 @@ void Computer::ledTimeout()
 }
 
 void Computer::setLedMs(long WXUNUSED(ms))
+{
+}
+
+void Computer::showDataLeds(Byte WXUNUSED(value))
 {
 }
 
