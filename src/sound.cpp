@@ -900,7 +900,10 @@ void Sound::pauseTape()
 //        p_Main->turboOff();
         psaveOn_ = false;
     }
-    p_Main->eventSetTapeState(TAPE_STOP);
+    if (computerType_ == FRED)
+        p_Main->eventSetTapeState(TAPE_PAUSE);
+    else
+        p_Main->eventSetTapeState(TAPE_STOP);
     p_Computer->resetGaugeValue();
 }
 

@@ -197,7 +197,8 @@ protected:
 	wxButton *decButtonPointer;
 	wxButton *retButtonPointer;
 	wxButton *push_inButtonPointer;
-	wxButton *text_resetButtonPointer;
+    wxButton *text_readButtonPointer;
+    wxButton *text_resetButtonPointer;
 	wxButton *text_loadButtonPointer;
 	wxButton *text_runButtonPointer;
 	wxButton *text_mpButtonPointer;
@@ -207,6 +208,7 @@ protected:
 	HexButton *osx_monitorButtonPointer;
 	HexButton *osx_stepButtonPointer;
 	HexButton *osx_push_inButtonPointer;
+    HexButton *osx_text_readButtonPointer;
     HexButton *osx_text_resetButtonPointer;
     HexButton *osx_text_loadButtonPointer;
     HexButton *osx_text_runButtonPointer;
@@ -227,7 +229,7 @@ protected:
 	SwitchButton *mpSwitchButton;
 	SwitchButton *ramSwitchButton;
     SwitchButton *inSwitchButton;
-    SwitchButton *readSwitchButton;
+//    SwitchButton *readSwitchButton;
     SwitchButton *cardSwitchButton;
     SwitchButton *clearSwitchButton;
     SwitchButton *velfSwitchButton;

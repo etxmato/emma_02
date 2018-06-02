@@ -47,6 +47,10 @@ Whenever possible the Chip 8 directory will be build up of the same software as 
 <p>
 All available Cidelsa roms.
 </p>
+<h3>CoinArcade</h3>
+<p>
+All available RCA Coin Arcade roms.
+</p>
 <h3>Comx</h3>
 <p>
 Directory including all COMX-35 and PL-80 (Plotter) ROM files. With the sub directories:
@@ -150,9 +154,21 @@ Directory including Elf 2000 firmare and software.
 <p>
 Directory including ETI 660 firmare and software.
 </p>
+<h3>FRED</h3>
+<p>
+Directory including FRED software.
+</p>
+<h3>MCDS</h3>
+<p>
+Directory including MCDS firmware, ut62, basic3 and edit_asm.
+</p>
 <h3>Membership</h3>
 <p>
 Directory including some Membership Card software including the program3 example from the manual.
+</p>
+<h3>Microtutor</h3>
+<p>
+Directory including the Nim.bin example program.
 </p>
 <h3>MS2000</h3>
 <p>
@@ -162,29 +178,33 @@ Directory including MS2000 ut71 firmware and disk images including MicroDos, PLM
 <p>
 Directory including all SW from disk images MicroDos, PLM 18000 and BASIC1 in modern PC format. These files are usable via the HD Directory simulation. See also chapter <a href="MS2000Disk.htm">Disk File and HD Directory</a>
 </p>
-<h3>Microtutor</h3>
-<p>
-Directory including the Nim.bin example program.
-</p>
 <h3>Nano</h3>
 <p>
 Directory including the Nano ROM file, Chip 8 interpreter file and some Nano example software. For Chip 8 software see Chip 8 directory.
 </p>
 <h3>Pecom</h3>
 <p>
-Directory including Pecom 64 firmare and software.
+Directory including Pecom 32 and 64 firmare and software.
 </p>
 <h3>Studio2</h3>
 <p>
 Directory including the Studio II ROM file, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game roms.
 </p>
+<h3>StudioIV</h3>
+<p>
+Directory including the Studio IV ROM files.
+</p>
 <h3>TMC-600</h3>
 <p>
 Directory including some TMC 600 ROM file and example software. 
 </p>
+<h3>TMC-1800</h3>
+<p>
+Directory including the TMC 1800 ROM file, Chip 8 interpreter file and some TMC example software. For Chip 8 software see Chip 8 directory.
+</p>
 <h3>TMC-2000</h3>
 <p>
-Directory including the TMC 2000 ROM file, Chip 8 interpreter file and some TMC 2000 example software. For Chip 8 software see Chip 8 directory.
+Directory including the TMC 2000 ROM file, Chip 8 interpreter file and some TMC example software. For Chip 8 software see Chip 8 directory.
 </p>
 <h3>Velf</h3>
 <p>
@@ -192,7 +212,7 @@ Directory including the Velf and Jvip ROM file.
 </p>
 <h3>Victory</h3>
 <p>
-Directory including the Victory MPT-02 (RCA Studio III) ROM file, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game roms.
+Directory including the Studio III and Victory MPT-02 ROM files, multi-cart ROM, Studio II chip 8 and some cartridge files (with st2 extension) for some additional game roms.
 </p>
 <h3>Vip</h3>
 <p>

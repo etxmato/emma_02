@@ -334,6 +334,9 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_TEXT(XRCID("SaveExecSuperElf"), GuiMain::onSaveExec)
 
     EVT_CHECKBOX(XRCID("BootStrapSuperElf"), GuiElf::onBootStrap)
+
+    EVT_CHOICE(XRCID("TilTypeElf"), GuiElf::onTilType)
+    EVT_CHOICE(XRCID("TilTypeElfII"), GuiElf::onTilType)
     EVT_CHOICE(XRCID("TilTypeSuperElf"), GuiElf::onTilType)
 
 	END_EVENT_TABLE()
@@ -409,11 +412,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].printMode_ = (int)configPointer->Read(elfTypeStr+"/Print_Mode", 1l);
 
     configPointer->Read(elfTypeStr+"/GiantBoardMapping", &elfConfiguration[elfType].giantBoardMapping, false);
+    elfConfiguration[elfType].tilType = (int)configPointer->Read(elfTypeStr+"/TilType", 1l);
     if (elfType == SUPERELF)
-    {
         configPointer->Read(elfTypeStr+"/BootStrap", &elfConfiguration[elfType].bootStrap, false);
-        elfConfiguration[elfType].tilType = (int)configPointer->Read(elfTypeStr+"/TilType", 1l);
-    }
 
     wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -515,11 +516,10 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
         if (elfType == ELFII)
             XRCCTRL(*this, "Giant"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].giantBoardMapping);
 
+        XRCCTRL(*this, "TilType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].tilType);
+
         if (elfType == SUPERELF)
-        {
             XRCCTRL(*this, "BootStrapSuperElf", wxCheckBox)->SetValue(elfConfiguration[elfType].bootStrap);
-            XRCCTRL(*this, "TilType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].tilType);
-        }
 
 		setPrinterState(elfType);
 		XRCCTRL(*this, "PrintMode"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].printMode_);
@@ -716,11 +716,10 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	if (elfTypeStr == "Elf")
 		configPointer->Write(elfTypeStr+"/Enable_Led_Module", elfConfiguration[elfType].useLedModule);
 
+    configPointer->Write(elfTypeStr+"/TilType", elfConfiguration[elfType].tilType);
+
     if (elfType == SUPERELF)
-    {
         configPointer->Write(elfTypeStr+"/BootStrap", elfConfiguration[elfType].bootStrap);
-        configPointer->Write(elfTypeStr+"/TilType", elfConfiguration[elfType].tilType);
-    }
 
     configPointer->Write(elfTypeStr+"/Led_Update_Frequency", conf[elfType].ledTime_);
 	configPointer->Write(elfTypeStr+"/Enable_Turbo_Cassette", conf[elfType].turbo_);

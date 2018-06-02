@@ -65,6 +65,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_TEXT(XRCID("SaveEndFRED"), GuiMain::onSaveEnd)
     EVT_CHECKBOX(XRCID("ControlWindowsFRED"), GuiFred::onFredControlWindows)
     EVT_CHECKBOX(XRCID("AutoBootFRED"), GuiFred::onAutoBoot)
+    EVT_CHECKBOX(XRCID("InterlaceFRED"), GuiMain::onInterlace)
 
     EVT_CHECKBOX(XRCID("TurboFRED"), GuiMain::onTurbo)
     EVT_TEXT(XRCID("TurboClockFRED"), GuiMain::onTurboClock)
@@ -72,6 +73,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("CasLoadFRED"), GuiMain::onCassetteLoad)
     EVT_BUTTON(XRCID("CasSaveFRED"), GuiMain::onCassetteSave)
     EVT_BUTTON(XRCID("CasStopFRED"), GuiMain::onCassetteStop)
+    EVT_BUTTON(XRCID("CasPauseFRED"), GuiMain::onCassettePause)
     EVT_BUTTON(XRCID("RealCasLoadFRED"), GuiMain::onRealCas)
 
     EVT_TEXT(XRCID("ShowAddressFRED"), GuiMain::onLedTimer)
@@ -117,11 +119,12 @@ void GuiFred::readFredConfig()
     conf[FRED].volume_ = (int)configPointer->Read("/FRED/Volume", 25l);
     conf[FRED].ramType_ = (int)configPointer->Read("/FRED/Ram_Type", 0l);
     configPointer->Read("/FRED/Open_Control_Windows", &elfConfiguration[FRED].useElfControlWindows, true);
+    configPointer->Read("/FRED/Enable_Interlace", &conf[FRED].interlace_, true);
 
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
     conf[FRED].xScale_ = configPointer->Read("/FRED/Window_Scale_Factor_X", defaultScale);
-    conf[FRED].realCassetteLoad_ = false;
+//    conf[FRED].realCassetteLoad_ = false;
     
     configPointer->Read("/FRED/Enable_Auto_Boot", &elfConfiguration[FRED].autoBoot, true);
 
@@ -146,6 +149,7 @@ void GuiFred::readFredConfig()
         XRCCTRL(*this, "ShowAddressFRED", wxTextCtrl)->ChangeValue(conf[FRED].ledTime_);
         XRCCTRL(*this,"ShowAddressFRED", wxTextCtrl)->Enable(elfConfiguration[FRED].useElfControlWindows);
         XRCCTRL(*this, "AutoBootFRED", wxCheckBox)->SetValue(elfConfiguration[FRED].autoBoot);
+        XRCCTRL(*this, "InterlaceFRED", wxCheckBox)->SetValue(conf[FRED].interlace_);
     }
 }
 
@@ -174,11 +178,12 @@ void GuiFred::writeFredConfig()
     configPointer->Write("/FRED/Open_Control_Windows", elfConfiguration[FRED].useElfControlWindows);
     configPointer->Write("/FRED/Led_Update_Frequency", conf[FRED].ledTime_);
     configPointer->Write("/FRED/Enable_Auto_Boot", elfConfiguration[FRED].autoBoot);
+    configPointer->Write("/FRED/Enable_Interlace", conf[FRED].interlace_);
 }
 
 void GuiFred::readFredWindowConfig()
 {
-    conf[FRED].pixieX_ = (int)configPointer->Read("/FRED/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX);
+    conf[FRED].pixieX_ = (int)configPointer->Read("/FRED/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[FRED].pixieY_ = (int)configPointer->Read("/FRED/Window_Position_Pixie_Y", mainWindowY_);
     conf[FRED].mainX_ = (int)configPointer->Read("/FRED/Window_Position_X",  mainWindowX_);
     conf[FRED].mainY_ = (int)configPointer->Read("/FRED/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);

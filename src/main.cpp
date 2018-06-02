@@ -2211,15 +2211,17 @@ void Main::initConfig()
     setScreenInfo(COINARCADE, 0, 2, colour, 2, borderX, borderY);
     setComputerInfo(COINARCADE, "CoinArcade", "RCA Video Coin Arcade", "");
     
-    setScreenInfo(FRED, 0, 2, colour, 2, borderX, borderY);
-    setComputerInfo(FRED, "FRED", "FRED", "");
-    
 	setScreenInfo(TMC1800, 0, 2, colour, 2, borderX, borderY);
 	setComputerInfo(TMC1800, "TMC1800", "Telmac 1800", "");
 
 	setScreenInfo(VELF, 0, 5, colour, 2, borderX, borderY);
 	setComputerInfo(VELF, "Velf", "VELF", "");
 
+    borderX[VIDEOPIXIE] = 33;
+
+    setScreenInfo(FRED, 0, 2, colour, 2, borderX, borderY);
+    setComputerInfo(FRED, "FRED", "FRED", "");
+    
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
 
@@ -4535,7 +4537,7 @@ void Main::fixedWindowPosition()
 	conf[VELF].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
     conf[FRED].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[FRED].pixieX_ = mainWindowY_;
+    conf[FRED].pixieY_ = mainWindowY_;
 	conf[MS2000].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[MS2000].vtY_ = mainWindowY_;
 	conf[MCDS].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
@@ -5879,6 +5881,9 @@ void Main::enableGui(bool status)
             XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
 		XRCCTRL(*this,"CharRom"+elfTypeStr, wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        
+        XRCCTRL(*this,"TilType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
 		enableMemAccessGui(!status);
 	}
 	if (runningComputer_ == ELF2K)

@@ -244,6 +244,7 @@ public:
 	void onCassetteLoad(wxCommandEvent& event);
 	void onCassetteSave(wxCommandEvent& event);
 	void onCassetteStop(wxCommandEvent& event);
+	void onCassettePause(wxCommandEvent& event);
 	void onKeyboard(wxCommandEvent& event);
 	void onPsave(wxString fileName);
 	void onDataSaveButton(wxCommandEvent& event);
@@ -547,6 +548,8 @@ private:
 	wxBitmap realCasOnBitmap;
 	wxBitmap printerOffBitmap;
     wxBitmap printerOnBitmap;
+    wxBitmap pauseOffBitmap;
+    wxBitmap pauseOnBitmap;
 
     wxPoint position_[LAST_ELF_TYPE+1];
 

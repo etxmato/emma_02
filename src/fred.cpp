@@ -26,6 +26,10 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
+#if defined(__linux__)
+#include "app_icon.xpm"
+#endif
+
 #include "main.h"
 #include "guimain.h"
 #include "fred.h"
@@ -51,12 +55,14 @@ FredScreen::~FredScreen()
 #if defined (__WXMAC__)
     delete osx_text_runButtonPointer;
     delete osx_text_resetButtonPointer;
+    delete osx_text_readButtonPointer;
 #else
     delete text_runButtonPointer;
     delete text_resetButtonPointer;
+    delete text_readButtonPointer;
 #endif
 
-    delete readSwitchButton;
+//    delete readSwitchButton;
     delete cardSwitchButton;
     delete powerSwitchButton;
     
@@ -87,11 +93,14 @@ void FredScreen::init()
 #if defined (__WXMAC__)
     osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 35, 60, "");
     osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 85, 60, "");
+    osx_text_readButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 135, 60, "");
 #else
-    text_resetButtonPointer = new wxButton(this, 2, "", wxPoint(20, 60), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
+    text_resetButtonPointer = new wxButton(this, 2, "", wxPoint(35, 60), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
     text_resetButtonPointer->SetToolTip("Reset");
-    text_runButtonPointer = new wxButton(this, 1, "", wxPoint(80, 60), wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
+    text_runButtonPointer = new wxButton(this, 1, "", wxPoint(85, 60), wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
     text_runButtonPointer->SetToolTip("Go - RUN");
+    text_readButtonPointer = new wxButton(this, 3, "", wxPoint(135, 60), wxSize(25, 25), 0, wxDefaultValidator, "RaedButton");
+    text_runButtonPointer->SetToolTip("Start READ");
 #endif
 
     for (int i=0; i<8; i++)
@@ -99,7 +108,7 @@ void FredScreen::init()
         ledPointer[i] = new Led(dc, 24+34*(7-i), 15, ELFLED);
     }
     
-    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 135, 60, "");
+//    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 135, 60, "");
     cardSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 185, 60, "");
     powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 235, 60, "");
 
@@ -142,7 +151,7 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.DrawText("READY", 120, 138);
     dc.DrawText("ERROR", 205, 138);
 
-    readSwitchButton->onPaint(dc);
+//    readSwitchButton->onPaint(dc);
     cardSwitchButton->onPaint(dc);
     powerSwitchButton->onPaint(dc);
     for (int i=0; i<8; i++)
@@ -156,6 +165,7 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 #if defined (__WXMAC__)
     osx_text_resetButtonPointer->onPaint(dc);
     osx_text_runButtonPointer->onPaint(dc);
+    osx_text_readButtonPointer->onPaint(dc);
 #endif
 }
 
@@ -172,6 +182,9 @@ void FredScreen::onMousePress(wxMouseEvent&event)
     
     if (osx_text_runButtonPointer->onMousePress(dc, x, y))
         p_Computer->onRunButton();
+
+    if (osx_text_readButtonPointer->onMousePress(dc, x, y))
+        p_Computer->onReadButton();
 #endif
 }
 
@@ -182,8 +195,8 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
     
     wxClientDC dc(this);
     
-    if (readSwitchButton->onMouseRelease(dc, x, y))
-        p_Computer->onReadButton();
+//    if (readSwitchButton->onMouseRelease(dc, x, y))
+//        p_Computer->onReadButton();
     if (cardSwitchButton->onMouseRelease(dc, x, y))
         p_Computer->onCardButton();
     if (powerSwitchButton->onMouseRelease(dc, x, y))
@@ -192,6 +205,7 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
 #if defined (__WXMAC__)
     osx_text_resetButtonPointer->onMouseRelease(dc, x, y);
     osx_text_runButtonPointer->onMouseRelease(dc, x, y);
+    osx_text_readButtonPointer->onMouseRelease(dc, x, y);
 #endif
 }
 
@@ -214,21 +228,30 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     fredConfiguration = conf;
     fredClockSpeed_ = clock;
 
+#ifndef __WXMAC__
+    SetIcon(wxICON(app_icon));
+#endif
+    
     ef1State_ = 1;
     ef4State_ = 1;
     ef1StateTape_ = 1;
     
-    displayType_ = 0;
 	tapeRunSwitch_ = 0x3;
 
 	inpMode_ = INP_MODE_NONE;
     cardSwitchOn_ = false;
-    readSwitchOn_ = false;
+//    readSwitchOn_ = false;
     
+	lastSample_ = 0;
+	lastSampleChar_ = 0;
+	tapeInput_ = 0;
+	polarity_ = 0;
+	silenceCount_ = 0;
+	bitNumber_ = -1;
+
     pulseCount_ = 0;
-    totalLength_ = 0;
-    pulseLength_ = 0;
     tapeRecording_ = false;
+	tapeEnd_ = false;
 	zeroWaveCounter_ = -1;
     
     this->SetClientSize(size);
@@ -421,7 +444,7 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
 				break;
 
 				case INP_MODE_TAPE_PROGRAM:
-					ret = tapeInput_ & 0xff;
+					ret = lastTapeInpt_;
 					ef1StateTape_ = 1;
 				break;
 			}
@@ -460,15 +483,21 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                         pixiePointer->outPixie();
                     else
                         pixiePointer->inPixie();
-                    displayType_ = value;
+                    pixiePointer->setDisplayType(value);
                 break;
                     
                 case IO_GRP_FRED_TAPE:
-					if ((value & 0x10) == 0x10)
+					if ((value & 0x10) == 0x10 && !tapeEnd_)
+                    {
 	                    inpMode_ = INP_MODE_TAPE_PROGRAM;
+                        startLoad(false);
+                    }
 
-					if ((value & 0x20) == 0x20)
+					if ((value & 0x20) == 0x20 && !tapeEnd_)
+                    {
 	                    inpMode_ = INP_MODE_TAPE_DIRECT;
+                        startLoad(false);
+                    }
 
                     if ((value & 0x40) == 0x40)
                     {
@@ -487,26 +516,6 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
 					if (value == 0)
                         inpMode_ = INP_MODE_NONE;
 
-					if (inpMode_ == INP_MODE_TAPE_DIRECT || inpMode_ == INP_MODE_TAPE_PROGRAM)
-					{
-						pulseLength_ = 0;
-                        lastSample_ = 0;
-                        lastSampleChar_ = 0;
-						pulseCount_ = 0;
-						tapeInput_ = 0;
-						polarity_ = 0;
-						totalLength_ = 0;
-						silenceCount_ = 0;
-						bitNumber_ = -1;
-                        if (tapeActivated_)
-                        {
-                            p_Main->turboOn();
-                            p_Computer->restartTapeLoad();
-                        }
-                        else
-                            tapeActivated_ = p_Main->startCassetteLoad();
-						tapeRunSwitch_ = 0x3;
-					}
                 break;
             }
         break;
@@ -515,19 +524,7 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
             if ((value&1) != (tapeRunSwitch_&1) && !tapeRecording_)
             {
                 if ((value&1) == 1)
-                {
-                    if (tapeActivated_)
-                    {
-                        p_Main->turboOn();
-                        p_Computer->restartTapeLoad();
-                    }
-                    else
-                        tapeActivated_ = p_Main->startCassetteLoad();
-                    
-                    pulseCount_ = 0;
-                    totalLength_ = 0;
-                    pulseLength_ = 0;
-                }
+                    startLoad(false);
                 else
                 {
                     p_Computer->pauseTape();
@@ -566,7 +563,7 @@ void Fred::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			pixiePointer->cyclePixieFred(displayType_);
+			pixiePointer->cyclePixieFred();
 		break;
 
         case LEDCYCLE:
@@ -605,14 +602,14 @@ void Fred::onRunButton(wxCommandEvent&WXUNUSED(event))
 
 void Fred::onRunButton()
 {
-    if (cardSwitchOn_ || readSwitchOn_)
+    if (cardSwitchOn_) // || readSwitchOn_)
         showDataLeds(dmaOut());
     else
     {
         if (scratchpadRegister_[0] == 0 && mainMemory_[0] == 0)
             p_Computer->dmaOut(); // skip over IDL instruction
         
-        fredScreenPointer->setReadyLed(1);
+        fredScreenPointer->setReadyLed(0);
         fredScreenPointer->setStopLed(0);
         
         setClear(1);
@@ -628,7 +625,7 @@ void Fred::autoBoot()
     if (scratchpadRegister_[0] == 0 && mainMemory_[0] == 0)
         p_Computer->dmaOut(); // skip over IDL instruction
 
-    fredScreenPointer->setReadyLed(1);
+    fredScreenPointer->setReadyLed(0);
     fredScreenPointer->setStopLed(0);
 
 	setClear(1);
@@ -637,10 +634,12 @@ void Fred::autoBoot()
 
 void Fred::onReadButton()
 {
-    readSwitchOn_ = !readSwitchOn_;
+//    readSwitchOn_ = !readSwitchOn_;
+	tapeEnd_ = false;
 	if (inpMode_ == INP_MODE_TAPE_DIRECT)
-	{
-        inpMode_ = INP_MODE_NONE;
+        return;
+    
+/*        inpMode_ = INP_MODE_NONE;
 		tapeRunSwitch_ = 0;
         p_Computer->pauseTape();
         p_Main->turboOff();
@@ -652,33 +651,44 @@ void Fred::onReadButton()
         fredScreenPointer->setStopLed(1);
     }
 	else
-	{
+	{*/
 		inpMode_ = INP_MODE_TAPE_DIRECT;
-		pulseLength_ = 0;
-		lastSample_ = 0;
-        lastSampleChar_ = 0;
-		pulseCount_ = 0;
-		tapeInput_ = 0;
-		polarity_ = 0;
-		totalLength_ = 0;
-		silenceCount_ = 0;
-		bitNumber_ = -1;
-        if (tapeActivated_)
-        {
-            p_Main->turboOn();
-            p_Computer->restartTapeLoad();
-        }
-        else
-            tapeActivated_ = p_Main->startCassetteLoad();
-
-        tapeRunSwitch_ = 0x3;
+        startLoad(false);
         
         setClear(0);
         setWait(0);
 
         fredScreenPointer->setReadyLed(1);
         fredScreenPointer->setStopLed(0);
-	}
+	//}
+}
+
+void Fred::startLoad(bool button)
+{
+    if (tapeRunSwitch_&1)
+        return;
+    
+    lastSample_ = 0;
+    lastSampleChar_ = 0;
+    pulseCount_ = 0;
+    tapeInput_ = 0;
+    polarity_ = 0;
+    silenceCount_ = 0;
+    bitNumber_ = -1;
+    if (tapeActivated_)
+    {
+        p_Main->turboOn();
+        p_Computer->restartTapeLoad();
+    }
+    else
+    {
+        if (button)
+            tapeActivated_ = p_Main->startLoad();
+        else
+            tapeActivated_ = p_Main->startCassetteLoad();
+    }
+    
+    tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
 void Fred::onCardButton()
@@ -689,8 +699,8 @@ void Fred::onCardButton()
 void Fred::startComputer()
 {
     double zoom = p_Main->getZoom();
-    double scale = p_Main->getScale();
-    pixiePointer = new Pixie( "FRED", p_Main->getPixiePos(FRED), wxSize(64*zoom, 128*zoom), zoom, scale, FRED);
+//    double scale = p_Main->getScale();
+    pixiePointer = new PixieFred( "FRED", p_Main->getPixiePos(FRED), wxSize(64*3*zoom, 128*zoom), zoom, 1, FRED);
     p_Video = pixiePointer;
 
     resetPressed_ = false;
@@ -858,7 +868,8 @@ void Fred::cpuInstruction()
 		{
 			cycle0_=0;
 			machineCycle();
-			if (cycle0_ == 0) machineCycle();
+			if (cycle0_ == 0) 
+				machineCycle();
 			if (cycle0_ == 0 && steps_ != 0)
 			{
 				cpuCycle();
@@ -916,14 +927,16 @@ void Fred::resetFred()
 {
     resetCpu();
     resetPressed_ = false;
-    tapeRunSwitch_ = 0x3;
     
-    pulseCount_ = 0;
-    totalLength_ = 0;
-    pulseLength_ = 0;
     ef4State_ = 1;
     
-    tapeActivated_ = p_Main->startCassetteLoad();
+    stopTape();
+    p_Main->eventSetTapeState(TAPE_STOP);
+    tapeRecording_ = false;
+    tapeEnd_ = false;
+    zeroWaveCounter_ = -1;
+    tapeActivated_ = false;
+    startLoad(false);
     
     if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
     {
@@ -949,7 +962,7 @@ void Fred::resetFred()
 
 void Fred::cassetteFred(short val)
 {
-    if (inpMode_ != INP_MODE_TAPE_DIRECT && inpMode_ != INP_MODE_TAPE_PROGRAM && (tapeRunSwitch_&1) != 1)
+    if ((tapeRunSwitch_&1) != 1)
 		return;
 
 	wxString message;
@@ -965,38 +978,22 @@ void Fred::cassetteFred(short val)
 	else
 		silenceCount_ = 0;
 
-	pulseLength_++;
 	if (lastSample_ <= 0)
 	{
 		if (val > 0 && silenceCount_ == 0) 
-		{
 			pulseCount_++;
-	//		message.Printf("zero, p-count %d, p-length %d", pulseCount_, pulseLength_);
-	//		p_Main->eventShowTextMessage(message);
-			totalLength_ += pulseLength_; 
-            pulseLength_ = 0;
-		}
 	}
 	else
 	{
 		if (val < 0 && silenceCount_ == 0) 
-		{
 			pulseCount_++;
-		//	message.Printf("zero, p-count %d, p-length %d", pulseCount_, pulseLength_);
-		//	p_Main->eventShowTextMessage(message);
-			totalLength_ += pulseLength_;
-            pulseLength_ = 0;
-		}
 	}
 
     if (pulseCount_ > 4000 && silenceCount_ > 10)
 	{
-    //    if ((totalLength_ / pulseCount_) < 10)
-    //    {
             p_Computer->pauseTape();
             p_Main->turboOff();
             tapeRunSwitch_ = tapeRunSwitch_ & 2;
-     //   }
     }
 
 	if (pulseCount_ > 1 && silenceCount_ > 10)
@@ -1008,23 +1005,27 @@ void Fred::cassetteFred(short val)
                 ef4State_ = 0;
                 fredScreenPointer->setErrorLed(1);
      
-                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+	                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+				else
+	                message.Printf("Polarity issue");
                 p_Main->eventShowTextMessage(message);
                 bitNumber_ = 0;
                 polarity_ = 0;
                 tapeInput_ = 0;
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
 					dmaIn(tapeInput_);
-         //       stopTape();
 			}
-
             else
             {
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                     dmaIn(tapeInput_);
+				if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+				{
+					lastTapeInpt_ = tapeInput_;
+					ef1StateTape_ = 0;
+				}
             }
-            if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-                ef1StateTape_ = 0;
         }
         else
         {
@@ -1037,23 +1038,20 @@ void Fred::cassetteFred(short val)
             {
                 if (pulseCount_ <= 6)
                 {
-                    message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
+	                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+		                message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
+					else
+		                message.Printf("Start bit != 1, one bit skipped");
                     p_Main->eventShowTextMessage(message);
                     bitNumber_++;
-           //         stopTape();
-                }
-                
+                } 
             }
             if (pulseCount_ > 6)
                 polarity_++;
         }
-   //     message.Printf("bit%d, p-count %d, p-length %d, total %d, byte %02X", bitNumber_, pulseCount_, pulseLength_, totalLength_, tapeInput_);
-  //      p_Main->eventShowTextMessage(message);
 
 		if (bitNumber_ == 8)
 		{
-	//		message.Printf("BYTE-result %02X", tapeInput_);
-	//		p_Main->eventShowTextMessage(message);
             polarity_ = 0;
             tapeInput_ = 0;
             bitNumber_ = -1;
@@ -1061,7 +1059,6 @@ void Fred::cassetteFred(short val)
 		else
             bitNumber_++;
 
-		totalLength_ = 0;
 		pulseCount_ = 0;
     }
     lastSample_ = val;
@@ -1069,7 +1066,7 @@ void Fred::cassetteFred(short val)
 
 void Fred::cassetteFred(char val)
 {
-    if (inpMode_ != INP_MODE_TAPE_DIRECT && inpMode_ != INP_MODE_TAPE_PROGRAM && (tapeRunSwitch_&1) != 1)
+    if ((tapeRunSwitch_&1) != 1)
         return;
     
     wxString message;
@@ -1085,24 +1082,15 @@ void Fred::cassetteFred(char val)
     else
         silenceCount_ = 0;
     
-    pulseLength_++;
     if (lastSampleChar_ <= 0)
     {
         if (val > 0 && silenceCount_ == 0)
-        {
             pulseCount_++;
-            totalLength_ += pulseLength_;
-            pulseLength_ = 0;
-        }
     }
     else
     {
         if (val < 0 && silenceCount_ == 0)
-        {
             pulseCount_++;
-            totalLength_ += pulseLength_;
-            pulseLength_ = 0;
-        }
     }
     
     if (pulseCount_ > 4000 && silenceCount_ > 10)
@@ -1121,7 +1109,10 @@ void Fred::cassetteFred(char val)
                 ef4State_ = 0;
                 fredScreenPointer->setErrorLed(1);
                 
-                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+	                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+				else
+	                message.Printf("Polarity issue");
                 p_Main->eventShowTextMessage(message);
                 bitNumber_ = 0;
                 polarity_ = 0;
@@ -1134,9 +1125,12 @@ void Fred::cassetteFred(char val)
             {
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                     dmaIn(tapeInput_);
+				if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+				{
+					lastTapeInpt_ = tapeInput_;
+					ef1StateTape_ = 0;
+				}
             }
-            if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-                ef1StateTape_ = 0;
         }
         else
         {
@@ -1149,7 +1143,10 @@ void Fred::cassetteFred(char val)
             {
                 if (pulseCount_ <= 6)
                 {
-                    message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
+	                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+		                message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
+					else
+		                message.Printf("Start bit != 1, one bit skipped");
                     p_Main->eventShowTextMessage(message);
                     bitNumber_++;
                 }
@@ -1168,7 +1165,6 @@ void Fred::cassetteFred(char val)
         else
             bitNumber_++;
         
-        totalLength_ = 0;
         pulseCount_ = 0;
     }
     lastSampleChar_ = val;
@@ -1176,9 +1172,11 @@ void Fred::cassetteFred(char val)
 
 void Fred::finishStopTape()
 {
+    inpMode_ = INP_MODE_NONE;
     tapeRunSwitch_ = tapeRunSwitch_ & 2;
     tapeActivated_ = false;
     tapeRecording_ = false;
+	tapeEnd_ = true;
 }
 
 void Fred::moveWindows()
@@ -1203,6 +1201,7 @@ void Fred::showDataLeds(Byte value)
         fredScreenPointer->setLed(i, value&1);
         value = value >> 1;
     }
+    fredScreenPointer->setReadyLed(1);
 }
 
 void Fred::checkFredFunction()

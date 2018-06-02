@@ -48,12 +48,11 @@ public:
     void cyclePixie();
     void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
-    void cyclePixieFred(int displayType);
 	void cyclePixieTelmac();
     void dmaEnable();
 
 	void copyScreen();
-	void drawScreen();
+	virtual void drawScreen();
 	void plot(int x, int y, int c, int color);
     void plot(int x, int y, int width, int height, int c, int color);
 
@@ -62,6 +61,20 @@ public:
 	void pixieBarSize();
 	void reDrawBar();
 	void updateLedStatus(int led, bool status);
+    void setInterlace(bool status);
+
+protected:
+    Byte pbacking_[128][192];
+    Byte color_[128][192];
+    bool interlace_;
+
+    bool graphicsOn_;
+    long graphicsNext_;
+    long graphicsMode_;
+ 
+    int colourMask_;
+
+    Byte vidInt_;
 
 private:
 	PlotList *plotListPointer;
@@ -69,21 +82,14 @@ private:
 	VipIIStatusBar *vipIIStatusBarPointer;
 
 	int computerType_;
-	Byte pbacking_[128][192];
-	Byte color_[128][192];
-	Byte vidInt_;
 	Byte vidCycle_;
 
-	bool graphicsOn_;
-	long graphicsMode_;
-	long graphicsNext_;
 	int graphicsX_;
 	Byte pixieEf_;
 
 	int backGroundInit_;
 
 	int updatePlot_;
-	int colourMask_;
 	int highRes_;
     
     bool studioIVFactor_;
@@ -93,6 +99,21 @@ private:
     int endScreen_;
 
     int videoMode_;
+};
+
+class PixieFred : public Pixie
+{
+public:
+    PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+
+    void drawScreen();
+    void setDisplayType(int displayType);
+    void cyclePixieFred();
+   
+private:
+    int displayType_;
+    int xInterlace_, yInterlace_, xNonInterlace_, yNonInterlace_;
+
 };
 
 #endif  // PIXIE_H

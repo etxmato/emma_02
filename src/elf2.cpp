@@ -50,9 +50,10 @@
 
 #define OFF    1
 
-Elf2Screen::Elf2Screen(wxWindow *parent, const wxSize& size)
+Elf2Screen::Elf2Screen(wxWindow *parent, const wxSize& size, int tilType)
 : Panel(parent, size)
 {
+    tilType_ = tilType;
 }
 
 Elf2Screen::~Elf2Screen()
@@ -74,10 +75,20 @@ Elf2Screen::~Elf2Screen()
 
 	delete qLedPointer;
 
-	for (int i=0; i<2; i++)
-	{
-		delete dataPointer[i];
-	}
+    if (tilType_ == TIL311)
+    {
+        for (int i=0; i<2; i++)
+        {
+            delete dataPointer[i];
+        }
+    }
+    else
+    {
+        for (int i=0; i<2; i++)
+        {
+            delete dataTil313Pointer[i];
+        }
+    }
 }
 
 void Elf2Screen::init()
@@ -122,10 +133,19 @@ void Elf2Screen::init()
 
 	for (int i=0; i<2; i++)
 	{
-		dataPointer[i] = new Til311();
-		dataPointer[i]->init(dc, 370+i*28,180);
+        if (tilType_ == TIL311)
+        {
+            dataPointer[i] = new Til311();
+            dataPointer[i]->init(dc, 370+i*28,180);
+            updateData_ = true;
+        }
+        else
+        {
+            dataTil313Pointer[i] = new Til313();
+            dataTil313Pointer[i]->init(dc, 370+i*28,180);
+            updateDataTil313_ = true;
+        }
 	}
-	updateData_ = true;
 	this->connectKeyEvent(this);
 }
 
@@ -134,10 +154,20 @@ void Elf2Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
-	for (int i=0; i<2; i++)
-	{
-		dataPointer[i]->onPaint(dc);
-	}
+    if (tilType_ == TIL311)
+    {
+        for (int i=0; i<2; i++)
+        {
+            dataPointer[i]->onPaint(dc);
+        }
+    }
+    else
+    {
+        for (int i=0; i<2; i++)
+        {
+            dataTil313Pointer[i]->onPaint(dc);
+        }
+    }
 	qLedPointer->onPaint(dc);
 	runSwitchButton->onPaint(dc);
 	mpSwitchButton->onPaint(dc);
@@ -251,7 +281,7 @@ Elf2::Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double
     
 	this->SetClientSize(size);
 
-	elf2ScreenPointer = new Elf2Screen(this, size);
+	elf2ScreenPointer = new Elf2Screen(this, size, elfConfiguration.tilType);
 	elf2ScreenPointer->init();
 
 	offset_ = 0;
@@ -762,7 +792,10 @@ void Elf2::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Elf2::showData(Byte val)
 {
-	elf2ScreenPointer->showData(val);
+    if (elfConfiguration.tilType == TIL311)
+        elf2ScreenPointer->showData(val);
+    else
+        elf2ScreenPointer->showDataTil313(val);
 }
 
 void Elf2::cycle(int type)

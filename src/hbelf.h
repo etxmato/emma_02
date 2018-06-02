@@ -17,7 +17,7 @@
 class ElfScreen : public Panel
 {
 public:
-	ElfScreen(wxWindow *parent, const wxSize& size);
+	ElfScreen(wxWindow *parent, const wxSize& size, int tilType);
 	~ElfScreen();
 
 	void init();

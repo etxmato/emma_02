@@ -101,9 +101,12 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	playBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_black.png", wxBITMAP_TYPE_PNG);
 	playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
 
-	recOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_off.png", wxBITMAP_TYPE_PNG);
-	recOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_on.png", wxBITMAP_TYPE_PNG);
-
+    recOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_off.png", wxBITMAP_TYPE_PNG);
+    recOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_on.png", wxBITMAP_TYPE_PNG);
+    
+    pauseOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_off.png", wxBITMAP_TYPE_PNG);
+    pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
+    
 	realCasOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_on.png", wxBITMAP_TYPE_PNG);
 	realCasOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_off.png", wxBITMAP_TYPE_PNG);
 
@@ -1325,12 +1328,7 @@ void GuiMain::onUseLocation(wxCommandEvent&event)
 void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 {
     if (runningComputer_ == FRED)
-    {
-        if (p_Fred->isTapeActivated())
-            p_Computer->restartTapeLoad();
-        else
-            startLoad();
-    }
+        p_Fred->startLoad(true);
     else
         startLoad();
 }
@@ -1343,6 +1341,11 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
 void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
 {
 	p_Computer->stopSaveLoad();
+}
+
+void GuiMain::onCassettePause(wxCommandEvent& WXUNUSED(event))
+{
+	p_Computer->pauseTape();
 }
 
 void GuiMain::onKeyboard(wxCommandEvent&event)
@@ -3326,6 +3329,8 @@ void GuiMain::enableLoadGui(bool status)
     }
 	if (!conf[runningComputer_].autoCassetteLoad_)
 	{
+		if (runningComputer_ == FRED)
+			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
@@ -3343,12 +3348,23 @@ void GuiMain::setTapeState(int tapeState)
 	if (!mode_.gui)
 		return;
 
+    if (runningComputer_ == FRED)
+    {
+        if (tapeState == TAPE_PAUSE)
+        {
+            XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOnBitmap);
+            tapeState = TAPE_STOP;
+        }
+        else
+            XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
+    }
+    
 	XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
 	XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
-	if (tapeState != TAPE_STOP)
+    if (tapeState != TAPE_STOP)
 	{
 		XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
 		XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
@@ -3371,6 +3387,8 @@ void GuiMain::setTapeState(int tapeState)
 	}
 	else
 	{
+		if (runningComputer_ == FRED)
+			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);

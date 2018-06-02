@@ -48,6 +48,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	computerType_ = computerType;
 	videoType_ = VIDEOPIXIE;
 	runningComputer_ = p_Main->getRunningComputerStr();
+    interlace_ = p_Main->getInterlace(computerType_);
 
     if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY))
         videoHeight_ = 192;
@@ -89,6 +90,9 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     
  	graphicsX_ = 8*highRes_;
     videoWidth_ = 64*highRes_;
+    if (computerType == FRED)
+        videoWidth_ = 64*highRes_*3;
+
 	backGroundInit_ = 1;
 	backGround_ = 1;
 
@@ -751,92 +755,6 @@ void Pixie::cyclePixieCoinArcade()
         graphicsNext_ = 0;
 }
 
-void Pixie::cyclePixieFred(int displayType)
-{
-    int j;
-    Byte v;
-    int color;
-    
-    if (graphicsNext_ == 0)
-    {
-        p_Computer->debugTrace("----  H.Sync");
-        graphicsMode_++;
-        if (graphicsMode_ >= 64)
-        {
-            if (changeScreenSize_)
-            {
-                changeScreenSize();
-                if (!fullScreenSet_)
-                    p_Main->pixieBarSizeEvent();
-                changeScreenSize_ = false;
-            }
-            graphicsMode_ = 0;
-            copyScreen();
-            videoSyncCount_++;
-        }
-
-        if (graphicsMode_ == 1)
-        {
-            if (graphicsOn_)
-            {
-                p_Computer->pixieInterrupt();
-                vidInt_ = 1;
-                p_Computer->setCycle0();
-            }
-            else vidInt_ = 0;
-        }
-
-        int numberOfDmaInstructions = 8;
-        if ((displayType & 0x2) == 0)
-            numberOfDmaInstructions = 4;
-        
-        int lastGraphicsMode = 48;
-        if ((displayType & 0x1) == 0)
-            lastGraphicsMode = 32;
-
-        if (graphicsMode_ >= 16 && graphicsMode_ < lastGraphicsMode && graphicsOn_ && vidInt_ == 1)
-        {
-            j = 0;
-            for (int dma=0; dma<numberOfDmaInstructions; dma++)
-            {
-                graphicsNext_ += 1;
-                v = p_Computer->pixieDmaOut(&color);
-                int line = (int)graphicsMode_-16;
-                if ((displayType & 0x2) == 0)
-                {
-                    for (int i=0; i<16; i+=2)
-                    {
-                        if ((displayType & 0x1) == 0)
-                            plot(j+i, line*8, 2, 8, (v & 128) ? 1 : 0, (color|colourMask_)&7);
-                        else
-                            plot(j+i, line*4, 2, 4, (v & 128) ? 1 : 0, (color|colourMask_)&7);
-                        v <<= 1;
-                    }
-                    j += 16;
-                }
-                else
-                {
-                    for (int i=0; i<8; i++)
-                    {
-                        if ((displayType & 0x1) == 0)
-                            plot(j+i, line*8, 1, 8, (v & 128) ? 1 : 0, (color|colourMask_)&7);
-                        else
-                            plot(j+i, line*4, 1, 4, (v & 128) ? 1 : 0, (color|colourMask_)&7);
-                        v <<= 1;
-                    }
-                    j += 8;
-                }
-
-            }
-            p_Computer->setCycle0();
-            graphicsNext_ -= 1;
-        }
-    }
-    graphicsNext_ += 1;
-    if (graphicsNext_ > 31)
-        graphicsNext_ = 0;
-}
-
 void Pixie::cyclePixieTelmac()
 {
 	int j;
@@ -971,19 +889,19 @@ void Pixie::drawScreen()
 	setColour(backGround_);
 	drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 
-	for (int x=0; x<videoWidth_; x++)
-	{
-		for (int y=0; y<videoHeight_; y++)
-		{
-			v = pbacking_[x][y];
-			color = color_[x][y];
-			if (v)
-			{
-				setColour(color);
-				drawPoint(x+offsetX_, y+offsetY_);
-			}
-		}
-	}
+    for (int x=0; x<videoWidth_; x++)
+    {
+        for (int y=0; y<videoHeight_; y++)
+        {
+            v = pbacking_[x][y];
+            color = color_[x][y];
+            if (v)
+            {
+                setColour(color);
+                drawPoint(x+offsetX_, y+offsetY_);
+            }
+        }
+    }
 }
 
 void Pixie::plot(int x, int y, int c, int color)
@@ -1105,5 +1023,164 @@ void Pixie::updateLedStatus(int led, bool status)
 	if (computerType_ == VIPII)
 		vipIIStatusBarPointer->updateLedStatus(led, status);
 }
+
+void Pixie::setInterlace(bool status)
+{
+    interlace_ = status;
+    reDraw_ = true;
+}
+
+PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
+: Pixie(title, pos, size, zoom, zoomfactor, computerType)
+{
+    displayType_ = 3;
+    setDisplayType(displayType_);
+}
+
+void PixieFred::drawScreen()
+{
+    int v;
+    int color;
+    
+    setColour(backGround_);
+    drawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+    
+    for (int x=0; x<videoWidth_; x+=xInterlace_)
+    {
+        for (int y=0; y<videoHeight_; y+=yInterlace_)
+        {
+            v = pbacking_[x][y];
+            color = color_[x][y];
+            if (v)
+            {
+                setColour(color);
+                if (interlace_)
+                    drawRectangle(x+offsetX_, y+offsetY_, xInterlace_, yInterlace_);
+                else
+                    drawRectangle(x+offsetX_, y+offsetY_, xNonInterlace_, yNonInterlace_);
+            }
+        }
+    }
+
+}
+
+void PixieFred::setDisplayType(int displayType)
+{
+    displayType_ = displayType;
+    if ((displayType & 0x2) == 0)
+    {
+        xInterlace_ = 6;
+        xNonInterlace_ = 4;
+        if ((displayType & 0x1) == 0)
+        {
+            yInterlace_ = 8;
+            yNonInterlace_ = 6;
+        }
+        else
+        {
+            yInterlace_ = 4;
+            yNonInterlace_ = 3;
+        }
+    }
+    else
+    {
+        xInterlace_ = 3;
+        xNonInterlace_ = 2;
+        if ((displayType & 0x1) == 0)
+        {
+            yInterlace_ = 8;
+            yNonInterlace_ = 6;
+        }
+        else
+        {
+            yInterlace_ = 4;
+            yNonInterlace_ = 3;
+        }
+    }
+}
+
+void PixieFred::cyclePixieFred()
+{
+    int j;
+    Byte v;
+    int color;
+
+    if (graphicsNext_ == 0)
+    {
+        p_Computer->debugTrace("----  H.Sync");
+        graphicsMode_++;
+        if (graphicsMode_ >= 64)
+        {
+            if (changeScreenSize_)
+            {
+                changeScreenSize();
+                if (!fullScreenSet_)
+                    p_Main->pixieBarSizeEvent();
+                changeScreenSize_ = false;
+            }
+            graphicsMode_ = 0;
+            copyScreen();
+            videoSyncCount_++;
+        }
+        
+        if (graphicsMode_ == 1)
+        {
+            if (graphicsOn_)
+            {
+                p_Computer->pixieInterrupt();
+                vidInt_ = 1;
+                p_Computer->setCycle0();
+            }
+            else vidInt_ = 0;
+        }
+        
+        int numberOfDmaInstructions = 8;
+        if ((displayType_ & 0x2) == 0)
+            numberOfDmaInstructions = 4;
+        
+        int lastGraphicsMode = 48;
+        if ((displayType_ & 0x1) == 0)
+            lastGraphicsMode = 32;
+        
+        if (graphicsMode_ >= 16 && graphicsMode_ < lastGraphicsMode && graphicsOn_ && vidInt_ == 1)
+        {
+            j = 0;
+            for (int dma=0; dma<numberOfDmaInstructions; dma++)
+            {
+                graphicsNext_ += 1;
+                v = p_Computer->pixieDmaOut(&color);
+                int line = (int)graphicsMode_-16;
+                if (interlace_)
+                {
+                    for (int i=0; i<(8*xInterlace_); i+=xInterlace_)
+                    {
+                        plot(j+i, line*yInterlace_, xInterlace_, yInterlace_, (v & 128) ? 1 : 0, (color|colourMask_)&7);
+                        v <<= 1;
+                    }
+                    j += (8*xInterlace_);
+                }
+                else
+                {
+                    for (int i=0; i<(8*xInterlace_); i+=xInterlace_)
+                    {
+                        plot(j+i, line*yInterlace_, xNonInterlace_, yNonInterlace_, (v & 128) ? 1 : 0, (color|colourMask_)&7);
+                        v <<= 1;
+                    }
+                    j += (8*xInterlace_);
+                }
+            }
+            p_Computer->setCycle0();
+            graphicsNext_ -= 1;
+        }
+    }
+    graphicsNext_ += 1;
+    if (graphicsNext_ > 31)
+        graphicsNext_ = 0;
+}
+
+
+
+
+
 
 

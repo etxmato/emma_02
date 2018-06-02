@@ -383,7 +383,10 @@ END_EVENT_TABLE()
 Panel::Panel(wxWindow *parent, const wxSize& size)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
-	updateQLed_ = false;
+    updateQLed_ = false;
+    updateReadyLed_ = false;
+    updateStopLed_ = false;
+    updateErrorLed_ = false;
 	updateResetLed_ = false;
 	updatePauseLed_ = false;
 	updateRunLed_ = false;
@@ -401,7 +404,10 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	updateDataTil313_ = false;
 
 	qLedStatus = 0;
-	resetLedStatus = 0;
+    readyLedStatus = 0;
+    stopLedStatus = 0;
+    errorLedStatus = 0;
+    resetLedStatus = 0;
 	pauseLedStatus = 0;
 	runLedStatus = 0;
 	loadLedStatus = 0;

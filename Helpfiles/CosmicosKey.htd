@@ -4,7 +4,7 @@
 <h2>Keyboard Mapping and Types</h2>
 <h3>Keyboard Mapping</h3>
 <p>
-Default the PC key 'Ins' is mapped to the Cosmicos 'Enter' or 'E' button. F12 is mapped to the Cosmicos 'Run' or 'G' button. If the CPU is stopped F12 will start it and when the CPU is running F12 will stop it. stop mode is indicated in the emulated window title. See also <a href="MainHexKeyMap.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+Default the PC key 'Ins' is mapped to the Cosmicos 'Enter' or 'E' button. F12 is mapped to the Cosmicos 'Run' or 'G' button. If the CPU is stopped F12 will start it and when the CPU is running F12 will stop it. Stop mode is indicated in the emulated window title. See also <a href="MainHexKeyMap.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
 </p>
 <h3>Keyboard Types</h3>
 <p>

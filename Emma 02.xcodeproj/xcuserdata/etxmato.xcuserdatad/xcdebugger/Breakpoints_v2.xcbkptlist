@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/fred.cpp"
-            timestampString = "549307577.902406"
+            filePath = "src/pixie.cpp"
+            timestampString = "549661297.961228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1070"
             endingLineNumber = "1070"
-            landmarkName = "Fred::cassetteFred(char val)"
+            landmarkName = "PixieFred::setDisplayType(int displayType)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/waveReader.cpp"
-            timestampString = "549304600.643815"
+            filePath = "src/pixie.cpp"
+            timestampString = "549661297.961228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "127"
-            endingLineNumber = "127"
-            landmarkName = "WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)"
+            startingLineNumber = "1154"
+            endingLineNumber = "1154"
+            landmarkName = "PixieFred::cyclePixieFred()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/waveReader.cpp"
-            timestampString = "549304602.972749"
+            filePath = "src/pixie.cpp"
+            timestampString = "549661297.961228"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
-            landmarkName = "WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)"
+            startingLineNumber = "1076"
+            endingLineNumber = "1076"
+            landmarkName = "PixieFred::setDisplayType(int displayType)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/pixie.cpp"
+            timestampString = "549661297.961228"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1151"
+            endingLineNumber = "1151"
+            landmarkName = "PixieFred::cyclePixieFred()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -167,7 +167,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 	XRCCTRL(*this, "ColourSave", wxButton)->Enable(false);
 
 	wxString scaleString;
-	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
+	if (computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == VISICOM || computerType_ == VIP || computerType_ == VIPII || computerType_ == VELF)
 	{
 		scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "3");
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
@@ -177,6 +177,11 @@ ColourDialog::ColourDialog(wxWindow* parent)
 		scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "4");
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
 	}
+    if (computerType_ == FRED)
+    {
+        scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "1");
+        XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
+    }
 
 	double scaleValue;
 	if (scaleString.ToDouble(&scaleValue))

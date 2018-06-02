@@ -62,6 +62,7 @@ public:
     void onRunButton();
     void autoBoot();
     void onReadButton();
+    void startLoad(bool button);
     void onCardButton();
     
 	void startComputer();
@@ -80,7 +81,6 @@ public:
 	void cassetteFred(char val);
     void finishStopTape();
     
-    bool isTapeActivated() {return tapeActivated_;};
     void moveWindows();
     void updateTitle(wxString Title);
 
@@ -89,7 +89,7 @@ public:
     void checkFredFunction();
     
 private:
-    Pixie *pixiePointer;
+    PixieFred *pixiePointer;
     class FredScreen *fredScreenPointer;
     ElfConfiguration fredConfiguration;
 
@@ -118,25 +118,24 @@ private:
 
 	Byte tapeRunSwitch_;
     bool cardSwitchOn_;
-    bool readSwitchOn_;
+//    bool readSwitchOn_;
     bool tapeActivated_;
     bool tapeRecording_;
     int zeroWaveCounter_;
 
-    int displayType_;
 	int inpMode_;
 
     int ioGroup_;
 	
-    int pulseLength_;
-    int totalLength_;
     short lastSample_;
     char lastSampleChar_;
     int pulseCount_;
     Byte tapeInput_;
+	Byte lastTapeInpt_;
     Byte polarity_;
     int bitNumber_;
     int silenceCount_;
+	bool tapeEnd_;
 
     DECLARE_EVENT_TABLE()
 };
