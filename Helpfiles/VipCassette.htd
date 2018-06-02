@@ -6,7 +6,9 @@
 This chapter describes the LOAD and SAVE handling in ROM mode, for FPB mode handling see the Cosmac VIP II chapter: <a href="VipIICassette.htm">Cassette Support</a>
 </p>
 <h3>Real Cassette</h3>
-For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>
+<p>
+For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainCassette.htm">Real Cassette Support</a>
+</p>
 <h3>Wave Files</h3>
 <p>
 The easiest and fastest way to load or save a .wav file into the Cosmac Vip emulator is by making sure both options 'Turbo LOAD/SAVE' and 'Auto LOAD/SAVE' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below. 
