@@ -111,7 +111,9 @@ public:
 	bool useUart;
 	int baudR;
 	int baudT;
-	bool autoBoot;
+    bool autoBoot;
+    bool stopTone;
+    bool tapeStart;
 	bool rtc;
 	bool nvr;
 	bool useSwitch;
@@ -144,7 +146,8 @@ public:
 	bool clearRam;
 	bool clearRtc;
 
-	int ioType;
+    int ioType;
+    int frontType;
 
     bool giantBoardMapping;
     

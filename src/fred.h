@@ -118,7 +118,7 @@ private:
 
 	Byte tapeRunSwitch_;
     bool cardSwitchOn_;
-//    bool readSwitchOn_;
+    bool readSwitchOn_;
     bool tapeActivated_;
     bool tapeRecording_;
     int zeroWaveCounter_;

@@ -1012,4 +1012,6 @@ void Sound::setPsaveSettings()
 	p_Computer->setTapePolarity(p_Main->getPsaveData(6));
 	p_Computer->setConversionType(p_Main->getPsaveData(3), p_Main->getPsaveData(7));
 	audioPointer->setTapeConfig(inputChannel_, playback);
+    threshold8_ = p_Main->getPsaveData(8);
+    threshold16_ = p_Main->getPsaveData(9);
 }

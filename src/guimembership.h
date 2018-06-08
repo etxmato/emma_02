@@ -23,7 +23,8 @@ public:
 	void onMembershipControlWindows(wxCommandEvent& event);
 	void onMembershipClock(wxCommandEvent& event);
 	void onRam(wxCommandEvent& event);
-	void onIo(wxCommandEvent& event);
+    void onIo(wxCommandEvent& event);
+    void onFront(wxCommandEvent& event);
 	void onRomEvent(wxCommandEvent& event);
 	void onRom();
 	int getLoadromModeMembership();

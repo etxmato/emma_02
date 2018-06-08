@@ -18,6 +18,8 @@ public:
     void onFredControlWindows(wxCommandEvent&event);
     bool getUseControlWindows();
     void onAutoBoot(wxCommandEvent&event);
+    void onStopTone(wxCommandEvent&event);
+    void onTapeStart(wxCommandEvent&event);
 
 private:
 

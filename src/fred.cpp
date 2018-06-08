@@ -55,14 +55,14 @@ FredScreen::~FredScreen()
 #if defined (__WXMAC__)
     delete osx_text_runButtonPointer;
     delete osx_text_resetButtonPointer;
-    delete osx_text_readButtonPointer;
+//    delete osx_text_readButtonPointer;
 #else
     delete text_runButtonPointer;
     delete text_resetButtonPointer;
     delete text_readButtonPointer;
 #endif
 
-//    delete readSwitchButton;
+    delete readSwitchButton;
     delete cardSwitchButton;
     delete powerSwitchButton;
     
@@ -93,7 +93,7 @@ void FredScreen::init()
 #if defined (__WXMAC__)
     osx_text_resetButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 35, 60, "");
     osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 85, 60, "");
-    osx_text_readButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 135, 60, "");
+//    osx_text_readButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 135, 60, "");
 #else
     text_resetButtonPointer = new wxButton(this, 2, "", wxPoint(35, 60), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
     text_resetButtonPointer->SetToolTip("Reset");
@@ -108,7 +108,7 @@ void FredScreen::init()
         ledPointer[i] = new Led(dc, 24+34*(7-i), 15, ELFLED);
     }
     
-//    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 135, 60, "");
+    readSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 135, 60, "");
     cardSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 185, 60, "");
     powerSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 235, 60, "");
 
@@ -151,7 +151,7 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.DrawText("READY", 120, 138);
     dc.DrawText("ERROR", 205, 138);
 
-//    readSwitchButton->onPaint(dc);
+    readSwitchButton->onPaint(dc);
     cardSwitchButton->onPaint(dc);
     powerSwitchButton->onPaint(dc);
     for (int i=0; i<8; i++)
@@ -165,7 +165,7 @@ void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 #if defined (__WXMAC__)
     osx_text_resetButtonPointer->onPaint(dc);
     osx_text_runButtonPointer->onPaint(dc);
-    osx_text_readButtonPointer->onPaint(dc);
+//    osx_text_readButtonPointer->onPaint(dc);
 #endif
 }
 
@@ -183,8 +183,8 @@ void FredScreen::onMousePress(wxMouseEvent&event)
     if (osx_text_runButtonPointer->onMousePress(dc, x, y))
         p_Computer->onRunButton();
 
-    if (osx_text_readButtonPointer->onMousePress(dc, x, y))
-        p_Computer->onReadButton();
+//    if (osx_text_readButtonPointer->onMousePress(dc, x, y))
+//        p_Computer->onReadButton();
 #endif
 }
 
@@ -195,8 +195,8 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
     
     wxClientDC dc(this);
     
-//    if (readSwitchButton->onMouseRelease(dc, x, y))
-//        p_Computer->onReadButton();
+    if (readSwitchButton->onMouseRelease(dc, x, y))
+        p_Computer->onReadButton();
     if (cardSwitchButton->onMouseRelease(dc, x, y))
         p_Computer->onCardButton();
     if (powerSwitchButton->onMouseRelease(dc, x, y))
@@ -205,7 +205,7 @@ void FredScreen::onMouseRelease(wxMouseEvent&event)
 #if defined (__WXMAC__)
     osx_text_resetButtonPointer->onMouseRelease(dc, x, y);
     osx_text_runButtonPointer->onMouseRelease(dc, x, y);
-    osx_text_readButtonPointer->onMouseRelease(dc, x, y);
+//    osx_text_readButtonPointer->onMouseRelease(dc, x, y);
 #endif
 }
 
@@ -236,11 +236,11 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     ef4State_ = 1;
     ef1StateTape_ = 1;
     
-	tapeRunSwitch_ = 0x3;
+	tapeRunSwitch_ = 0x2;
 
 	inpMode_ = INP_MODE_NONE;
     cardSwitchOn_ = false;
-//    readSwitchOn_ = false;
+    readSwitchOn_ = false;
     
 	lastSample_ = 0;
 	lastSampleChar_ = 0;
@@ -440,7 +440,7 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
 
 				case INP_MODE_KEYPAD:
 					ret = keyValue_;
-                    ef1State_ = 1;
+   //                 ef1State_ = 1;
 				break;
 
 				case INP_MODE_TAPE_PROGRAM:
@@ -602,7 +602,7 @@ void Fred::onRunButton(wxCommandEvent&WXUNUSED(event))
 
 void Fred::onRunButton()
 {
-    if (cardSwitchOn_) // || readSwitchOn_)
+    if (cardSwitchOn_ || readSwitchOn_)
         showDataLeds(dmaOut());
     else
     {
@@ -634,12 +634,11 @@ void Fred::autoBoot()
 
 void Fred::onReadButton()
 {
-//    readSwitchOn_ = !readSwitchOn_;
+    readSwitchOn_ = !readSwitchOn_;
 	tapeEnd_ = false;
 	if (inpMode_ == INP_MODE_TAPE_DIRECT)
-        return;
-    
-/*        inpMode_ = INP_MODE_NONE;
+    {
+        inpMode_ = INP_MODE_NONE;
 		tapeRunSwitch_ = 0;
         p_Computer->pauseTape();
         p_Main->turboOff();
@@ -651,7 +650,7 @@ void Fred::onReadButton()
         fredScreenPointer->setStopLed(1);
     }
 	else
-	{*/
+	{
 		inpMode_ = INP_MODE_TAPE_DIRECT;
         startLoad(false);
         
@@ -660,7 +659,7 @@ void Fred::onReadButton()
 
         fredScreenPointer->setReadyLed(1);
         fredScreenPointer->setStopLed(0);
-	//}
+	}
 }
 
 void Fred::startLoad(bool button)
@@ -688,7 +687,8 @@ void Fred::startLoad(bool button)
             tapeActivated_ = p_Main->startCassetteLoad();
     }
     
-    tapeRunSwitch_ = tapeRunSwitch_ | 1;
+    if (tapeActivated_)
+        tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
 void Fred::onCardButton()
@@ -759,8 +759,13 @@ void Fred::startComputer()
     
 	threadPointer->Run();
 
-    tapeActivated_ =  p_Main->startCassetteLoad();
-   
+    if (fredConfiguration.tapeStart)
+    {
+        tapeActivated_ =  p_Main->startCassetteLoad();
+        if (tapeActivated_)
+            tapeRunSwitch_ = tapeRunSwitch_ | 1;
+    }
+
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 }
 
@@ -928,7 +933,7 @@ void Fred::resetFred()
     resetCpu();
     resetPressed_ = false;
     
-    ef4State_ = 1;
+/*    ef4State_ = 1;
     
     stopTape();
     p_Main->eventSetTapeState(TAPE_STOP);
@@ -936,7 +941,7 @@ void Fred::resetFred()
     tapeEnd_ = false;
     zeroWaveCounter_ = -1;
     tapeActivated_ = false;
-    startLoad(false);
+    startLoad(false);*/
     
     if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
     {
@@ -973,7 +978,7 @@ void Fred::cassetteFred(short val)
 	else
 		difference = val - lastSample_;
 
-	if (difference < 300)
+	if (difference < threshold16_)
 		silenceCount_++;
 	else
 		silenceCount_ = 0;
@@ -989,7 +994,7 @@ void Fred::cassetteFred(short val)
 			pulseCount_++;
 	}
 
-    if (pulseCount_ > 4000 && silenceCount_ > 10)
+    if (pulseCount_ > 4000 && silenceCount_ > 10 && fredConfiguration.stopTone)
 	{
             p_Computer->pauseTape();
             p_Main->turboOff();
@@ -1006,10 +1011,15 @@ void Fred::cassetteFred(short val)
                 fredScreenPointer->setErrorLed(1);
      
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                {
 	                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
-				else
+                    p_Main->eventShowTextMessage(message);
+                }
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
 	                message.Printf("Polarity issue");
-                p_Main->eventShowTextMessage(message);
+                    p_Main->eventShowTextMessage(message);
+                }
                 bitNumber_ = 0;
                 polarity_ = 0;
                 tapeInput_ = 0;
@@ -1033,18 +1043,6 @@ void Fred::cassetteFred(short val)
             {
                 if (pulseCount_ > 6)
                     tapeInput_ = (1 << bitNumber_) | tapeInput_;
-            }
-            else
-            {
-                if (pulseCount_ <= 6)
-                {
-	                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-		                message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
-					else
-		                message.Printf("Start bit != 1, one bit skipped");
-                    p_Main->eventShowTextMessage(message);
-                    bitNumber_++;
-                } 
             }
             if (pulseCount_ > 6)
                 polarity_++;
@@ -1077,7 +1075,7 @@ void Fred::cassetteFred(char val)
     else
         difference = val - lastSampleChar_;
     
-    if (difference < 10)
+    if (difference < threshold8_)
         silenceCount_++;
     else
         silenceCount_ = 0;
@@ -1092,8 +1090,8 @@ void Fred::cassetteFred(char val)
         if (val < 0 && silenceCount_ == 0)
             pulseCount_++;
     }
-    
-    if (pulseCount_ > 4000 && silenceCount_ > 10)
+
+    if (pulseCount_ > 4000 && silenceCount_ > 10 && fredConfiguration.stopTone)
     {
         p_Computer->pauseTape();
         p_Main->turboOff();
@@ -1110,10 +1108,15 @@ void Fred::cassetteFred(char val)
                 fredScreenPointer->setErrorLed(1);
                 
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
-	                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
-				else
-	                message.Printf("Polarity issue");
-                p_Main->eventShowTextMessage(message);
+                {
+                    message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                    p_Main->eventShowTextMessage(message);
+                }
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
+                    message.Printf("Polarity issue");
+                    p_Main->eventShowTextMessage(message);
+                }
                 bitNumber_ = 0;
                 polarity_ = 0;
                 tapeInput_ = 0;
@@ -1138,19 +1141,6 @@ void Fred::cassetteFred(char val)
             {
                 if (pulseCount_ > 6)
                     tapeInput_ = (1 << bitNumber_) | tapeInput_;
-            }
-            else
-            {
-                if (pulseCount_ <= 6)
-                {
-	                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-		                message.Printf("Start bit != 1, one bit skipped at %04X", scratchpadRegister_[0]);
-					else
-		                message.Printf("Start bit != 1, one bit skipped");
-                    p_Main->eventShowTextMessage(message);
-                    bitNumber_++;
-                }
-                
             }
             if (pulseCount_ > 6)
                 polarity_++;

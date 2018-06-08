@@ -70,7 +70,7 @@ MemberScreen::~MemberScreen()
  	delete qLedPointer;
 }
 
-void MemberScreen::init()
+void MemberScreen::init(int front)
 {
 	keyStart_ = 0;
 	keyEnd_ = 0;
@@ -79,20 +79,55 @@ void MemberScreen::init()
 
 	wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership.png", wxBITMAP_TYPE_PNG);
+    switch (front)
+    {
+        case FRONT_TYPE_B:
+            mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership.png", wxBITMAP_TYPE_PNG);
+            runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
+            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
+            loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 95, 212, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 18, 212, "");
+            
+            for (int i=0; i<8; i++)
+            {
+                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 197+34*(7-i), 212, "");
+                ledPointer[i] = new Led(dc, 197+34*(7-i), 136, MEMBERLED);
+                updateLed_[i] = true;
+            }
+            qLedPointer = new Led(dc, 20, 136, MEMBERLEDGREEN);
+        break;
+        case FRONT_TYPE_C:
+            mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership2.png", wxBITMAP_TYPE_PNG);
+            runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
+            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
+            loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 93, 210, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
+            
+            for (int i=0; i<8; i++)
+            {
+                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
+                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, MEMBERLED);
+                updateLed_[i] = true;
+            }
+            qLedPointer = new Led(dc, 25, 136, MEMBERLEDGREEN);
+        break;
+        case FRONT_TYPE_I:
+            mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership3.png", wxBITMAP_TYPE_PNG);
+            runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
+            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
+            loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 93, 210, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
+            
+            for (int i=0; i<8; i++)
+            {
+                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
+                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, MEMBERLED);
+                updateLed_[i] = true;
+            }
+            qLedPointer = new Led(dc, 25, 136, MEMBERLEDGREEN);
+        break;
+    }
 
-	runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
-	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
-	loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 95, 212, "");
-	inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 18, 212, "");
-
-	for (int i=0; i<8; i++)
-	{
-		dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 197+34*(7-i), 212, "");
-		ledPointer[i] = new Led(dc, 197+34*(7-i), 136, MEMBERLED);
-		updateLed_[i] = true;
-	}
-	qLedPointer = new Led(dc, 20, 136, MEMBERLEDGREEN);
 	updateQLed_ = true;
 	this->connectKeyEvent(this);
 }
@@ -167,7 +202,7 @@ Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& 
 	this->SetClientSize(size);
 
 	memberScreenPointer = new MemberScreen(this, size);
-	memberScreenPointer->init();
+	memberScreenPointer->init(elfConfiguration.frontType);
 }
 
 Membership::~Membership()

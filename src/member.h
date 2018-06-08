@@ -20,7 +20,7 @@ public:
 	MemberScreen(wxWindow *parent, const wxSize& size);
 	~MemberScreen();
 
-	void init();
+	void init(int front);
 	void onPaint(wxPaintEvent&event);
 	void onMousePress(wxMouseEvent& event);
 	void onMouseRelease(wxMouseEvent& event);

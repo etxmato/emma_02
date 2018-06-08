@@ -847,6 +847,10 @@ public:
 #define IO_TYPE_N1 1
 #define IO_TYPE_N2 2
 
+#define FRONT_TYPE_B 0
+#define FRONT_TYPE_C 1
+#define FRONT_TYPE_I 2
+
 #define VIDEO 0
 #define PIXIE 1
 

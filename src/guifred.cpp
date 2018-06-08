@@ -65,6 +65,8 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_TEXT(XRCID("SaveEndFRED"), GuiMain::onSaveEnd)
     EVT_CHECKBOX(XRCID("ControlWindowsFRED"), GuiFred::onFredControlWindows)
     EVT_CHECKBOX(XRCID("AutoBootFRED"), GuiFred::onAutoBoot)
+    EVT_CHECKBOX(XRCID("stopToneFRED"), GuiFred::onStopTone)
+    EVT_CHECKBOX(XRCID("TapeStartFRED"), GuiFred::onTapeStart)
     EVT_CHECKBOX(XRCID("InterlaceFRED"), GuiMain::onInterlace)
 
     EVT_CHECKBOX(XRCID("TurboFRED"), GuiMain::onTurbo)
@@ -127,6 +129,8 @@ void GuiFred::readFredConfig()
 //    conf[FRED].realCassetteLoad_ = false;
     
     configPointer->Read("/FRED/Enable_Auto_Boot", &elfConfiguration[FRED].autoBoot, true);
+    configPointer->Read("/FRED/Enable_Stop_Tone", &elfConfiguration[FRED].stopTone, true);
+    configPointer->Read("/FRED/Enable_Tape_Start", &elfConfiguration[FRED].tapeStart, true);
 
     if (mode_.gui)
     {
@@ -149,6 +153,8 @@ void GuiFred::readFredConfig()
         XRCCTRL(*this, "ShowAddressFRED", wxTextCtrl)->ChangeValue(conf[FRED].ledTime_);
         XRCCTRL(*this,"ShowAddressFRED", wxTextCtrl)->Enable(elfConfiguration[FRED].useElfControlWindows);
         XRCCTRL(*this, "AutoBootFRED", wxCheckBox)->SetValue(elfConfiguration[FRED].autoBoot);
+        XRCCTRL(*this, "stopToneFRED", wxCheckBox)->SetValue(elfConfiguration[FRED].stopTone);
+        XRCCTRL(*this, "TapeStartFRED", wxCheckBox)->SetValue(elfConfiguration[FRED].tapeStart);
         XRCCTRL(*this, "InterlaceFRED", wxCheckBox)->SetValue(conf[FRED].interlace_);
     }
 }
@@ -178,6 +184,8 @@ void GuiFred::writeFredConfig()
     configPointer->Write("/FRED/Open_Control_Windows", elfConfiguration[FRED].useElfControlWindows);
     configPointer->Write("/FRED/Led_Update_Frequency", conf[FRED].ledTime_);
     configPointer->Write("/FRED/Enable_Auto_Boot", elfConfiguration[FRED].autoBoot);
+    configPointer->Write("/FRED/Enable_Stop_Tone", elfConfiguration[FRED].stopTone);
+    configPointer->Write("/FRED/Enable_Tape_Start", elfConfiguration[FRED].tapeStart);
     configPointer->Write("/FRED/Enable_Interlace", conf[FRED].interlace_);
 }
 
@@ -224,6 +232,16 @@ bool GuiFred::getUseControlWindows()
 void GuiFred::onAutoBoot(wxCommandEvent&event)
 {
     elfConfiguration[FRED].autoBoot = event.IsChecked();
+}
+
+void GuiFred::onStopTone(wxCommandEvent&event)
+{
+    elfConfiguration[FRED].stopTone = event.IsChecked();
+}
+
+void GuiFred::onTapeStart(wxCommandEvent&event)
+{
+    elfConfiguration[FRED].tapeStart = event.IsChecked();
 }
 
 

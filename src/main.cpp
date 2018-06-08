@@ -1988,7 +1988,9 @@ void Main::writeConfig()
 	configPointer->Write("/Main/Cassette_Input_Channel", psaveData_[4]);
 	configPointer->Write("/Main/Cassette_Playback_Input", psaveData_[5]);
 	configPointer->Write("/Main/Cassette_Reversed_Polarity", psaveData_[6]);
-	configPointer->Write("/Main/Cassette_Conversion_Type", psaveData_[7]);
+    configPointer->Write("/Main/Cassette_Conversion_Type", psaveData_[7]);
+    configPointer->Write("/Main/Cassette_Fred_Threshold_8", psaveData_[8]);
+    configPointer->Write("/Main/Cassette_Fred_Threshold_16", psaveData_[9]);
 	configPointer->Write("/Main/Window_Positions_Fixed", mode_.window_position_fixed);
 
     writeDebugConfig();
@@ -2711,7 +2713,9 @@ void Main::readConfig()
 	psaveData_[4] = (int)configPointer->Read("/Main/Cassette_Input_Channel", 0l);
 	psaveData_[5] = (int)configPointer->Read("/Main/Cassette_Playback_Input", 0l);
 	psaveData_[6] = (int)configPointer->Read("/Main/Cassette_Reversed_Polarity", 0l);
-	psaveData_[7] = (int)configPointer->Read("/Main/Cassette_Conversion_Type", 1l);
+    psaveData_[7] = (int)configPointer->Read("/Main/Cassette_Conversion_Type", 1l);
+    psaveData_[8] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_8", 10l);
+    psaveData_[9] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_16", 300l);
 }
 
 void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
@@ -4567,6 +4571,7 @@ void Main::onStart(int computer)
 	int comxy;
 	int stereo = 1;
 	int toneChannels = 1;
+    int x, y;
 
 	updateAssPage_ = true;
 	updateMemoryPage_ = true;
@@ -4608,7 +4613,17 @@ void Main::onStart(int computer)
 		break;
 
 		case MEMBER:
-			p_Membership = new Membership(computerInfo[MEMBER].name, wxPoint(conf[MEMBER].mainX_, conf[MEMBER].mainY_), wxSize(483, 297), conf[MEMBER].clockSpeed_, elfConfiguration[MEMBER]);
+            switch (elfConfiguration[MEMBER].frontType)
+            {
+                case FRONT_TYPE_C:
+                case FRONT_TYPE_I:
+                    x = 480; y = 299;
+                break;
+                default:
+                    x = 483; y = 297;
+                break;
+            }
+			p_Membership = new Membership(computerInfo[MEMBER].name, wxPoint(conf[MEMBER].mainX_, conf[MEMBER].mainY_), wxSize(x, y), conf[MEMBER].clockSpeed_, elfConfiguration[MEMBER]);
 			p_Computer = p_Membership;
 		break;
 
@@ -6031,7 +6046,8 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"RomButtonMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamMembership", wxChoice)->Enable(status);
 		XRCCTRL(*this, "RamTextMembership", wxStaticText)->Enable(status);
-		XRCCTRL(*this, "IoMembership", wxChoice)->Enable(status);
+        XRCCTRL(*this, "IoMembership", wxChoice)->Enable(status);
+        XRCCTRL(*this, "FrontMembership", wxChoice)->Enable(status);
 		XRCCTRL(*this, "IoTextMembership", wxStaticText)->Enable(status);
 		enableLoadGui(!status);
 		enableMemAccessGui(!status);

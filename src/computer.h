@@ -229,7 +229,7 @@ protected:
 	SwitchButton *mpSwitchButton;
 	SwitchButton *ramSwitchButton;
     SwitchButton *inSwitchButton;
-//    SwitchButton *readSwitchButton;
+    SwitchButton *readSwitchButton;
     SwitchButton *cardSwitchButton;
     SwitchButton *clearSwitchButton;
     SwitchButton *velfSwitchButton;

@@ -506,7 +506,7 @@ protected:
 	wxString workingDir_;
 	wxString dataDir_;
 	wxString iniDir_;
-	int psaveData_[LAST_ELF_TYPE+1];
+	int psaveData_[10];
     wxSize defaultGuiSize_;
 
 	bool debugMode_;

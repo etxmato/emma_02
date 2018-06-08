@@ -81,7 +81,9 @@ protected:
 	double soundClock_;
 	double percentageClock_;
     int computerType_;
-
+    int threshold8_;
+    int threshold16_;
+    
 private:
 	Blip_Buffer *soundBufferPointerLeft;
 	Blip_Buffer *soundBufferPointerRight;
