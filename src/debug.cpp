@@ -156,6 +156,8 @@ enum
 	ERROR_COPIED_NO_JUMPS,
 	ERROR_COPIED_JUMPS,
     ERROR_CPU_1801,
+    ERROR_CPU_SYSTEM00,
+    ERROR_CPU_ONLY_SYSTEM00,
     ERROR_STUDIO_CHIP_ADDRESS,
     ERROR_FEL2_CHIP_ADDRESS,
     ERROR_RAM_CHIP_ADDRESS,
@@ -231,7 +233,9 @@ wxString DirAssErrorCodes[] =
 	"Configuration loaded",
 	"Copied, NO branches corrected",
 	"Copied, long branches corrected",
-    "Not supported on CDP1801",
+    "Not supported on CDP1801 or SYSTEM 00",
+    "Not supported on SYSTEM 00",
+    "Only supported on SYSTEM 00",
     "Specify address > 2FC and <= FFF",
     "Specify address > 1FF and <= FFF",
     "Specify address >= 800 and <= 8FF",
@@ -246,7 +250,7 @@ wxString DirAssErrorCodes[] =
     "Incorrect parameter",
     "Incorrect register value",
     "Too many parameters",
-    "Not supported on CDP1801",
+    "Not supported on CDP1801 or SYSTEM 00",
 };
 
 int opCode[] =
@@ -308,21 +312,21 @@ int macro[] =
 
 int minCpuType[] =
 {
-	2, 2, 1, 1, 1, 1, // A
-	1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 2, 1, 4, 1, // B
-	4, 4, // C
-	5, 5, 5, 5, 5, 1, 1, 5, 5, 5, 5, 5, 4, // D
-	4,
-	4, 1, 1, // G
-	1, 1, 1, 1, // I
-	2, 2, 2, 2, 2, 2, 2, 1, 4, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, // L
-	2, // M
-	1, 2, 2, // N
-	1, 1, 1, // O
-	1, 1, // P
-	2, 1, 4, 4, 4, 2, 2, 4, // R
-	1, 4, 4, 4, 1, 2, 2, 1, 1, 2, 1, 2, 2, 1, 2, 1, 1, 2, 2, 1, 4, 4, 4, 4, 4, 1, 2, // S
-	4, 4, 1, 1 // X
+	CPU1802, CPU1802, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, // A
+	SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, CPU1804, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, CPU1804, SYSTEM00, // B
+	CPU1804, CPU1804, // C
+	CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, SYSTEM00, SYSTEM00, CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, CPU1804, // D
+	CPU1804,
+	CPU1804, SYSTEM00, SYSTEM00, // G
+	SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, // I
+	CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, SYSTEM00, CPU1804, SYSTEM00, SYSTEM00, SYSTEM00, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, // L
+	CPU1802, // M
+	SYSTEM00, CPU1802, CPU1802, // N
+	SYSTEM00, SYSTEM00, SYSTEM00, // O
+	SYSTEM00, SYSTEM00, // P
+	CPU1802, SYSTEM00, CPU1804, CPU1804, CPU1804, CPU1802, CPU1802, CPU1804, // R
+	SYSTEM00, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, CPU1802, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, CPU1802, CPU1802, SYSTEM00, CPU1802, SYSTEM00, SYSTEM00, CPU1802, CPU1802, SYSTEM00, CPU1804, CPU1804, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, // S
+	CPU1804, CPU1804, SYSTEM00, SYSTEM00 // X
 };
 
 int numberOfBytes[] =
@@ -2358,7 +2362,7 @@ void DebugWindow::addTrap()
 						printBuffer.Printf("OUT  %X",n);
 				break;
 				case 0x8:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBuffer.Printf("INP  %X",n-8);
                     else
                     {
@@ -2908,7 +2912,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 	switch(i)
 	{
 		case 0x0:
-            if (runningComputer_ == FRED)
+            if (runningComputer_ == FRED2 || cpuType_ == SYSTEM00)
                 printBufferAssembler.Printf("IDL  R%X", n);
             else
             {
@@ -2942,6 +2946,11 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 		break;
 
 		case 0x3:
+            if (n > 7 && cpuType_ == SYSTEM00)
+            {
+                printBufferAssembler.Printf("Illegal code");
+                break;
+            }
             switch(n)
 			{
 				case 0x0:
@@ -2951,8 +2960,17 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 					*address = *address + 1;
 				break;
 				case 0x1:
-                    if (cpuType_ == CPU1801)
-                        printBufferAssembler.Printf("Illegal code");
+                    if (cpuType_ >= CPU1801)
+                    {
+                        if (cpuType_ == CPU1801)
+                            printBufferAssembler.Printf("Illegal code");
+                        else
+                        {
+                            printBufferAssembler = "BNZ  " + getShortAddressOrLabel(*address, textAssembler, start, end);
+                            printBufferTemp.Printf("%02X ",p_Computer->readMem(*address));
+                            printBufferOpcode.operator += (printBufferTemp);
+                        }
+                    }
                     else
                     {
                         printBufferAssembler = "BQ   " + getShortAddressOrLabel(*address, textAssembler, start, end);
@@ -3080,6 +3098,32 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 		break;
 
 		case 0x6:
+            if (cpuType_ == SYSTEM00)
+            {
+                switch (n)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                        printBufferAssembler.Printf("OUT  %X",n);
+                        printBufferDetails.Printf("[%02X]", p_Computer->readMem(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1));
+                    break;
+                        
+                    case 8:
+                        printBufferAssembler.Printf("INP  %X",n-8);
+                        printBufferDetails.Printf("D=M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer()), accumulator);
+                    break;
+                        
+                    default:
+                        printBufferAssembler.Printf("Illegal code");
+                    break;
+                }
+                break;
+            }
 			switch(n)
 			{
 				case 0x0:
@@ -3370,11 +3414,16 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 					printBufferDetails.Printf("P=R%X, X=R%X", p_Computer->getProgramCounter(), p_Computer->getDataPointer());
 				break;
 				case 0x1:
-					printBufferAssembler.operator += ("DIS");
-					printBufferDetails.Printf("P=R%X, X=R%X", p_Computer->getProgramCounter(), p_Computer->getDataPointer());
+                    if (cpuType_ == SYSTEM00)
+                        printBufferAssembler.Printf("Illegal code");
+                    else
+                    {
+                        printBufferAssembler.operator += ("DIS");
+                        printBufferDetails.Printf("P=R%X, X=R%X", p_Computer->getProgramCounter(), p_Computer->getDataPointer());
+                    }
 				break;
 				case 0x2:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3383,7 +3432,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0x3:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3392,7 +3441,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0x4:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3401,7 +3450,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0x5:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3410,7 +3459,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0x6:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3422,7 +3471,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0x7:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3435,25 +3484,25 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 					printBufferDetails.Printf("M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer()), p_Computer->getRegisterT());
 				break;
 				case 0x9:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                         printBufferAssembler.operator += ("MARK");
 				break;
 				case 0xa:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                         printBufferAssembler.operator += ("REQ");
 				break;
 				case 0xb:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                         printBufferAssembler.operator += ("SEQ");
 				break;
 				case 0xc:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3465,7 +3514,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0xd:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3477,7 +3526,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0xe:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3489,7 +3538,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     }
 				break;
 				case 0xf:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                         printBufferAssembler.Printf("Illegal code");
                     else
                     {
@@ -3519,8 +3568,16 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 			printBufferDetails.Printf("R%X=%04X", n, p_Computer->getScratchpadRegister(n));
 		break;
 		case 0xc:
-            if (cpuType_ == CPU1801)
-                printBufferAssembler.Printf("Illegal code");
+            if (cpuType_ <= CPU1801)
+            {
+                if (cpuType_ == SYSTEM00)
+                {
+                    printBufferAssembler.Printf("PNI  R%X",n);
+                    printBufferDetails.Printf("R%X=%04X", n, p_Computer->getScratchpadRegister(n));
+                }
+                else
+                    printBufferAssembler.Printf("Illegal code");
+            }
             else
             {
 			switch(n)
@@ -3635,6 +3692,11 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 			printBufferAssembler.Printf("SEX  R%X",n);
 		break;
 		case 0xf:
+            if (n > 6 && cpuType_ == SYSTEM00)
+            {
+                printBufferAssembler.Printf("Illegal code");
+                break;
+            }
 			switch(n)
 			{
 				case 0x0:
@@ -6422,7 +6484,7 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
                 return ERROR_PAR;
             
             if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "OFF")
-            { // KEY SWITCH
+            { // KEY OFF
                 *b1 = assembleCommand_[FEL1_COMMAND_0] | 2;
                 *b2 = 0x68;
                 return 2;
@@ -7810,8 +7872,8 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         }
         return ERROR_SYNTAX;
     }
-    if (assInput.command == "SWITCH")
-    { // SWITCH Vx, Vy, [I]
+    if (assInput.command == "SWAP")
+    { // SWAP Vx, Vy, [I]
         if (assembleCommand_[STIV_COMMAND_5] == -1)
             return ERROR_INST;
         if (assInput.parameterType[0] != CHIP8_VX)
@@ -8060,7 +8122,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "ADC") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x74; 
@@ -8068,7 +8130,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "ADCI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         *b1 = 0x7c;
 		return getByte(assInput, b2, allowX);
 	}
@@ -8172,7 +8234,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "BNQ")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         *b1 = 0x39;
 		return getByte(assInput, b2, allowX);
 	}
@@ -8183,7 +8245,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "BQ")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         *b1 = 0x31;
 		return getByte(assInput, b2, allowX);
 	}
@@ -8235,7 +8297,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{ 
 		if (assInput.numberOfParameters > 0)
         {
-            if (runningComputer_ == FRED)
+            if (runningComputer_ == FRED2)
             {
                 ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
                 *b1 = registerNumber;
@@ -8262,7 +8324,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 			return ERROR_PAR;
 
         int lowestInpValue = 1;
-        if (cpuType_ == CPU1801)
+        if (cpuType_ <= CPU1801)
             lowestInpValue = 0;
 
         if (assInput.parameterType[0] == ASS_HEX_VALUE)
@@ -8283,7 +8345,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "IRX") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x60; 
@@ -8291,7 +8353,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LBDF")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.parameterType[0] == ASS_SLOT)
 		{
 			*b1 = 0xc3;
@@ -8311,7 +8373,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LBNF")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.parameterType[0] == ASS_SLOT)
 		{
 			*b1 = 0xcb;
@@ -8331,7 +8393,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LBNQ")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.parameterType[0] == ASS_SLOT)
 		{
 			*b1 = 0xc9;
@@ -8351,7 +8413,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LBNZ")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.parameterType[0] == ASS_SLOT)
 		{
 			*b1 = 0xca;
@@ -8371,7 +8433,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LBQ")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.parameterType[0] == ASS_SLOT)
 		{
 			*b1 = 0xc1;
@@ -8391,7 +8453,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LBR")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.parameterType[0] == ASS_SLOT)
 		{
 			*b1 = 0xc0;
@@ -8411,7 +8473,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LBZ")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.parameterType[0] == ASS_SLOT)
 		{
 			*b1 = 0xc2;
@@ -8529,7 +8591,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LDXA") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x72; 
@@ -8537,7 +8599,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSDF") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xcf; 
@@ -8545,7 +8607,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSIE") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xcc; 
@@ -8553,7 +8615,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSKP") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xc8; 
@@ -8561,7 +8623,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "NLBR") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xc8; 
@@ -8569,7 +8631,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSNF") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xc7; 
@@ -8577,7 +8639,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSNQ") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xc5; 
@@ -8585,7 +8647,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSNZ") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xc6; 
@@ -8593,7 +8655,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSQ") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xcd; 
@@ -8601,7 +8663,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "LSZ") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xce; 
@@ -8609,7 +8671,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "MARK") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x79; 
@@ -8617,7 +8679,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "NOP") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0xc4; 
@@ -8641,7 +8703,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 			return ERROR_PAR;
 
         int lowestOutValue = 1;
-        if (cpuType_ == CPU1801)
+        if (cpuType_ <= CPU1801)
             lowestOutValue = 0;
         
 		if (assInput.parameterType[0] == ASS_HEX_VALUE)
@@ -8678,9 +8740,19 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 		*b1 = 0xa0 | registerNumber;
 		return ret;
 	}
+	if (assInput.command == "PNI")
+	{
+        if (cpuType_ != SYSTEM00)  return ERROR_CPU_1801;
+		if (assInput.numberOfParameters > 1)
+			return ERROR_PAR;
+
+		ret =  getRegisterNumber(assInput, &registerNumber, b7, allowX);
+		*b1 = 0xc0 | registerNumber;
+		return ret;
+	}
 	if (assInput.command == "REQ") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x7a; 
@@ -8709,7 +8781,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SDB") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x75; 
@@ -8717,7 +8789,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SDBI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		*b1 = 0x7d;
 		return getByte(assInput, b2, allowX);
 	}
@@ -8737,7 +8809,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SEQ") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x7b; 
@@ -8754,7 +8826,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SHL") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_TEMP_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_TEMP_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_TEMP_PAR;
 		*b1 = 0xfe; 
@@ -8762,7 +8834,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SHLC") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x7e; 
@@ -8770,7 +8842,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "RSHL") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x7e; 
@@ -8785,7 +8857,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SHRC") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x76; 
@@ -8793,7 +8865,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "RSHR") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x76; 
@@ -8822,7 +8894,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SMB") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x77; 
@@ -8830,7 +8902,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SMBI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		*b1 = 0x7f;
 		return getByte(assInput, b2, allowX);
 	}
@@ -8850,7 +8922,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "STXD") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
 		if (assInput.numberOfParameters > 0)
 			return ERROR_PAR;
 		*b1 = 0x73; 
@@ -8872,7 +8944,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0;
-		if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+		if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
         return 2;
 	}
@@ -8880,7 +8952,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x1;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8888,7 +8960,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x2;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8896,7 +8968,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x3;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8904,7 +8976,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x4;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8912,7 +8984,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x5;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8920,7 +8992,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x6;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8928,7 +9000,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x7;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8936,7 +9008,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x8;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8944,7 +9016,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0x9;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8952,7 +9024,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0xa;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8960,7 +9032,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0xb;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8968,7 +9040,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0xc;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
@@ -8976,13 +9048,13 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{
 		*b1 = 0x68;
 		*b2 = 0xd;
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		return 2;
 	}
 	if (assInput.command == "DBNZ")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 
@@ -8998,7 +9070,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "BCI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		ret = getByte(assInput, b3, allowX);
@@ -9010,7 +9082,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "BXI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		ret = getByte(assInput, b3, allowX);
@@ -9022,7 +9094,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "RLXA")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		if (assInput.numberOfParameters > 1)
@@ -9037,7 +9109,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DADC")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 		*b1 = 0x68;
@@ -9046,7 +9118,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DSAV")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 		*b1 = 0x68;
@@ -9055,7 +9127,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DSMB")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 		*b1 = 0x68;
@@ -9064,7 +9136,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DACI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 
@@ -9077,7 +9149,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DSBI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 
@@ -9090,7 +9162,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SCAL")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		if (assInput.numberOfParameters > 2)
@@ -9105,7 +9177,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "SRET")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		if (assInput.numberOfParameters > 1)
@@ -9120,7 +9192,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "RSXD")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		if (assInput.numberOfParameters > 1)
@@ -9135,7 +9207,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "RNX")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		if (assInput.numberOfParameters > 1)
@@ -9150,7 +9222,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "RLDI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		if (assInput.numberOfParameters > 2)
@@ -9165,7 +9237,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "RLDL") 
 	{ 
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 
 		if (assInput.numberOfParameters > 2)
@@ -9184,7 +9256,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DADD")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 
@@ -9197,7 +9269,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DSM")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 
@@ -9210,7 +9282,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DADI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 
@@ -9223,7 +9295,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "DSMI")
 	{
-        if (cpuType_ == CPU1801)  return ERROR_CPU_1801;
+        if (cpuType_ <= CPU1801)  return ERROR_CPU_1801;
         if (cpuType_ == CPU1802)  return ERROR_CPU_1802;
 		if (cpuType_ == CPU1804)  return ERROR_CPU_1804;
 
@@ -9344,7 +9416,7 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
 		buffer.Left(4)== "RB.0" || buffer.Left(4)== "RB.1" || buffer.Left(4)== "RA.0" || buffer.Left(4)== "R0.1" ||
 		buffer.Left(6)== "[V0V1]" || buffer.Left(4)== "V0V1" || buffer.Left(6)== "[V2V3]" || buffer.Left(4)== "V2V3" ||
 		buffer.Left(2)== "[I" || buffer.Left(3)== "V9]"|| buffer.Left(3)== "[I]" || buffer.Left(4)== "[>I]" ||
-        buffer.Left(6)== "SWITCH" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ")
+        buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ")
     {
         *type = ASS_STRING;
         return 0;
@@ -9988,7 +10060,7 @@ void DebugWindow::onTrapSet(wxCommandEvent&WXUNUSED(event))
 			}
 			else
 			{
-                if (cpuType_ == CPU1801)
+                if (cpuType_ <= CPU1801)
                     errorCode = "Not supported on CDP1801\n";
                 if (cpuType_ == CPU1802)
 					errorCode = "Not supported on CDP1802\n";
@@ -17399,7 +17471,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		break;
 
 		case COSMICOS:
-        case FRED:
+        case FRED2:
 			if ((setType == MAPPEDRAM) || (setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
@@ -18348,10 +18420,10 @@ void DebugWindow::updateTitle()
             p_CoinArcade->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
-        case FRED:
+        case FRED2:
             if (p_Fred->getSteps()==0)
                 title = title + " ** PAUSED **";
-            p_Fred->SetTitle("FRED" + title);
+            p_Fred->SetTitle("FRED 2" + title);
             p_Fred->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
@@ -19563,7 +19635,7 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
         if (nibble == 0)
             buffer.Printf(" SYS   I");
         if (nibble == 1)
-            buffer.Printf(" SWITCH V%01X, V%01X, [I]", vX, vY);
+            buffer.Printf(" SWAP  V%01X, V%01X, [I]", vX, vY);
         if (nibble == 2)
             buffer.Printf(" DRW   I, V%01X", vX);
         if (nibble == 3)

@@ -421,22 +421,23 @@ public:
 #define MICROTUTOR 8
 #define MS2000 9
 #define MCDS 10
-#define FRED 11
-#define COMX 12
-#define STUDIO 13
-#define ETI 14
-#define CIDELSA 15
-#define TMC600 16
-#define TMC1800 17
-#define TMC2000 18
-#define NANO 19
-#define PECOM 20
-#define VISICOM 21
-#define VICTORY 22
-#define VIPII 23
-#define COINARCADE 24
-#define STUDIOIV 25
-#define DEBUGGER 26
+#define FRED1 11
+#define FRED2 12
+#define COMX 13
+#define STUDIO 14
+#define ETI 15
+#define CIDELSA 16
+#define TMC600 17
+#define TMC1800 18
+#define TMC2000 19
+#define NANO 20
+#define PECOM 21
+#define VISICOM 22
+#define VICTORY 23
+#define VIPII 24
+#define COINARCADE 25
+#define STUDIOIV 26
+#define DEBUGGER 27
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -490,12 +491,13 @@ public:
 #define MEMBERTAB 5
 #define VELFTAB 6
 
-#define MICROTUTORTAB 0
-#define FREDTAB 1
-#define VIPTAB 2
-#define VIPIITAB 3
-#define MCDSTAB 4
-#define MS2000TAB 5
+#define FRED1TAB 0
+#define FRED2TAB 1
+#define MICROTUTORTAB 2
+#define VIPTAB 3
+#define VIPIITAB 4
+#define MCDSTAB 5
+#define MS2000TAB 6
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
@@ -798,8 +800,12 @@ public:
 #define CHIPFEL3 7
 #define CHIPSTIV 8
 
-#define CPU1801 1
-#define CPU1802 2
+#define CPU_OVERRIDE_DEFAULT 0
+#define CPU_OVERRIDE_CPU1801 1
+#define CPU_OVERRIDE_SYSTEM00 2
+#define SYSTEM00 1
+#define CPU1801 2
+#define CPU1802 3
 #define CPU1804 4
 #define CPU1805 5
 
@@ -936,7 +942,8 @@ public:
 	void onFunctionKeys(wxCommandEvent& event);
 	void onDefaultSettings(wxCommandEvent& event);
 	void setDefaultSettings();
-	void on1801(wxCommandEvent& event);
+    void onSystem00(wxCommandEvent& event);
+    void on1801(wxCommandEvent& event);
 	void on1802(wxCommandEvent& event);
 	void on1804(wxCommandEvent& event);
     void on1805(wxCommandEvent& event);

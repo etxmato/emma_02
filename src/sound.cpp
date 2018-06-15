@@ -587,7 +587,7 @@ void Sound::psaveAmplitudeChange(int q)
 						beepOff();
 				break;
 
-                case FRED:
+                case FRED2:
                     if (q)
                         toneElf2KOn();
                     else
@@ -882,7 +882,7 @@ void Sound::stopTape()
 		psaveOn_ = false;
 	}
 	p_Main->eventSetTapeState(TAPE_STOP);
-	if (computerType_ == FRED)
+	if (computerType_ == FRED2)
 		p_Computer->finishStopTape();
 	if (p_Vt100 != NULL)
 		p_Vt100->ResetIo();
@@ -900,7 +900,7 @@ void Sound::pauseTape()
 //        p_Main->turboOff();
         psaveOn_ = false;
     }
-    if (computerType_ == FRED)
+    if (computerType_ == FRED2)
         p_Main->eventSetTapeState(TAPE_PAUSE);
     else
         p_Main->eventSetTapeState(TAPE_STOP);

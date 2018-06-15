@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 26
-#define LAST_ELF_TYPE 11
+#define NO_COMPUTER 27
+#define LAST_ELF_TYPE 12
 
 #define MAINROM1 0
 
@@ -124,6 +124,7 @@ public:
 	bool stretchDot_;
 	bool realCassetteLoad_;
 	wxString turboClock_;
+    int overrideCpuType_;
 
     bool multiCart_;
 	bool disableSystemRom_;
@@ -262,7 +263,8 @@ public:
 	void onClearRam(wxCommandEvent& event);
 	void onBootAddress(wxCommandEvent& event);
 	long getBootAddress(wxString computerTypeStr, int computerType);
-	void onChoiceRam(wxCommandEvent&event);
+    void onChoiceRam(wxCommandEvent&event);
+    void onChoiceCpu(wxCommandEvent&event);
 
 	void onPsaveMenu(wxCommandEvent& event);
 	void onVtSetup(wxCommandEvent& event);

@@ -64,8 +64,8 @@ public:
     void setInterlace(bool status);
 
 protected:
-    Byte pbacking_[128][192];
-    Byte color_[128][192];
+    Byte pbacking_[384][192];
+    Byte color_[384][192];
     bool interlace_;
 
     bool graphicsOn_;
@@ -99,6 +99,7 @@ private:
     int endScreen_;
 
     int videoMode_;
+
 };
 
 class PixieFred : public Pixie
@@ -107,9 +108,9 @@ public:
     PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
 
     void drawScreen();
-    void setDisplayType(int displayType);
     void cyclePixieFred();
-   
+    void setDisplayType(int displayType);
+  
 private:
     int displayType_;
     int xInterlace_, yInterlace_, xNonInterlace_, yNonInterlace_;

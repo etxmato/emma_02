@@ -47,6 +47,7 @@ public:
 	void reDefineKeys(int *, int *);
 	void keyDown(int keycode);
 	void keyUp(int keycode);
+    void cycleKeyboard();
 
 	Byte ef(int flag);
     Byte ef1();
@@ -111,6 +112,9 @@ private:
     int keyDefGameHexA_[5];
     int keyDefGameHexB_[5];
 
+    wxKeyCode keyCode_;
+    int keyCycles_;
+   
     Byte ef1State_;
     Byte ef1StateTape_;
     Byte ef4State_;

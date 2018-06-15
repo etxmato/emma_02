@@ -69,7 +69,8 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
     EVT_CHECKBOX(XRCID("ControlWindowsPopupElf"), PopupDialog::onElfControlWindows)
 
     EVT_CHECKBOX(XRCID("ControlWindowsPopupVelf"), PopupDialog::onVelfControlWindows)
-    EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED"), PopupDialog::onFredControlWindows)
+    EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED1"), PopupDialog::onFred1ControlWindows)
+    EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED2"), PopupDialog::onFred2ControlWindows)
 
 	EVT_CHECKBOX(XRCID("ControlWindowsPopupMembership"), PopupDialog::onMembershipControlWindows)
 
@@ -413,11 +414,18 @@ void PopupDialog::onVelfControlWindows(wxCommandEvent&event)
         p_Main->setCheckBox("ControlWindowsVelf", event.IsChecked());
 }
 
-void PopupDialog::onFredControlWindows(wxCommandEvent&event)
+void PopupDialog::onFred1ControlWindows(wxCommandEvent&event)
 {
-    p_Main->onFredControlWindows(event);
+    p_Main->onFred1ControlWindows(event);
     if (p_Main->getGuiMode())
-        p_Main->setCheckBox("ControlWindowsFRED", event.IsChecked());
+        p_Main->setCheckBox("ControlWindowsFRED1", event.IsChecked());
+}
+
+void PopupDialog::onFred2ControlWindows(wxCommandEvent&event)
+{
+    p_Main->onFred2ControlWindows(event);
+    if (p_Main->getGuiMode())
+        p_Main->setCheckBox("ControlWindowsFRED2", event.IsChecked());
 }
 
 void PopupDialog::onMembershipControlWindows(wxCommandEvent&event)

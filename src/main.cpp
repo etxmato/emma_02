@@ -454,7 +454,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_MENU(XRCID("MI_ActivateMain"), Main::onActivateMainWindow)
 	EVT_MENU(XRCID("MI_FullScreen"), Main::onFullScreenMenu)
 	EVT_MENU(XRCID(GUIDEFAULT), Main::onDefaultSettings)
-	EVT_MENU(XRCID("CDP1801"), Main::on1801)
+    EVT_MENU(XRCID("SYSTEM00"), Main::onSystem00)
+    EVT_MENU(XRCID("CDP1801"), Main::on1801)
 	EVT_MENU(XRCID("CDP1802"), Main::on1802)
 	EVT_MENU(XRCID("CDP1804"), Main::on1804)
 	EVT_MENU(XRCID("CDP1805"), Main::on1805)
@@ -1192,7 +1193,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
             case 'F':
                 if (computer == "Fred")
                 {
-                    startComputer_ = FRED;
+                    startComputer_ = FRED2;
                     mode_.gui = false;
                     if (parser.Found("s", &software))
                     {
@@ -1897,6 +1898,8 @@ void Main::writeConfig()
 		configPointer->Write("/Main/Selected_Telmac_Tab", XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->GetSelection());
 
+        if (menubarPointer->IsChecked(XRCID("SYSTEM00")))
+            configPointer->Write("/Main/Cpu_Type", "SYSTEM00");
         if (menubarPointer->IsChecked(XRCID("CDP1801")))
             configPointer->Write("/Main/Cpu_Type", "CDP1801");
         if (menubarPointer->IsChecked(XRCID("CDP1802")))
@@ -2010,7 +2013,8 @@ void Main::writeConfig()
     writeMicrotutorDirConfig();
     writeStudioDirConfig();
     writeCoinArcadeDirConfig();
-    writeFredDirConfig();
+    writeFred1DirConfig();
+    writeFred2DirConfig();
     writeVisicomDirConfig();
     writeVictoryDirConfig();
     writeStudioIVDirConfig();
@@ -2037,7 +2041,8 @@ void Main::writeConfig()
     writeMicrotutorConfig();
     writeStudioConfig();
     writeCoinArcadeConfig();
-    writeFredConfig();
+    writeFred1Config();
+    writeFred2Config();
 	writeVisicomConfig();
     writeVictoryConfig();
     writeStudioIVConfig();
@@ -2064,7 +2069,8 @@ void Main::writeConfig()
     writeMicrotutorWindowConfig();
     writeStudioWindowConfig();
     writeCoinArcadeWindowConfig();
-    writeFredWindowConfig();
+    writeFred1WindowConfig();
+    writeFred2WindowConfig();
     writeVisicomWindowConfig();
     writeVictoryWindowConfig();
     writeStudioIVWindowConfig();
@@ -2221,8 +2227,11 @@ void Main::initConfig()
 
     borderX[VIDEOPIXIE] = 33;
 
-    setScreenInfo(FRED, 0, 2, colour, 2, borderX, borderY);
-    setComputerInfo(FRED, "FRED", "FRED", "");
+    setScreenInfo(FRED1, 0, 2, colour, 2, borderX, borderY);
+    setComputerInfo(FRED1, "FRED1", "FRED 1", "");
+    
+    setScreenInfo(FRED2, 0, 2, colour, 2, borderX, borderY);
+    setComputerInfo(FRED2, "FRED2", "FRED 2", "");
     
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
@@ -2481,7 +2490,8 @@ void Main::readConfig()
     readMicrotutorConfig();
     readStudioConfig();
     readCoinArcadeConfig();
-    readFredConfig();
+    readFred1Config();
+    readFred2Config();
 	readVisicomConfig();
     readVictoryConfig();
     readStudioIVConfig();
@@ -2508,7 +2518,8 @@ void Main::readConfig()
     readMicrotutorWindowConfig();
     readStudioWindowConfig();
     readCoinArcadeWindowConfig();
-    readFredWindowConfig();
+    readFred1WindowConfig();
+    readFred2WindowConfig();
     readVisicomWindowConfig();
     readVictoryWindowConfig();
     readStudioIVWindowConfig();
@@ -2576,8 +2587,10 @@ void Main::readConfig()
 		menubarPointer->SetFont(defaultFont);
 	}
     
-	if (cpuTypeString == "CDP1801")
-		cpuType_ = CPU1801;
+    if (cpuTypeString == "SYSTEM00")
+        cpuType_ = SYSTEM00;
+    if (cpuTypeString == "CDP1801")
+        cpuType_ = CPU1801;
 	if (cpuTypeString == "CDP1802")
 		cpuType_ = CPU1802;
 	if (cpuTypeString == "CDP1804")
@@ -2683,7 +2696,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelFRED", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelFRED2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3123,9 +3136,14 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeCoinArcadeConfig();
         break;
             
-        case FRED:
-            writeFredDirConfig();
-            writeFredConfig();
+        case FRED1:
+            writeFred1DirConfig();
+            writeFred1Config();
+        break;
+            
+        case FRED2:
+            writeFred2DirConfig();
+            writeFred2Config();
         break;
             
         case VISICOM:
@@ -3334,8 +3352,12 @@ void Main::loadComputerConfig(wxString fileName)
             readCoinArcadeConfig();
         break;
             
-        case FRED:
-            readFredConfig();
+        case FRED1:
+            readFred1Config();
+        break;
+            
+        case FRED2:
+            readFred2Config();
         break;
             
         case VISICOM:
@@ -3747,9 +3769,15 @@ void Main::setDefaultSettings()
 	readConfig();
 }
 
+void Main::onSystem00(wxCommandEvent&WXUNUSED(event))
+{
+	cpuType_ = SYSTEM00;
+    defaultCpuType_ = SYSTEM00;
+}
+
 void Main::on1801(wxCommandEvent&WXUNUSED(event))
 {
-	cpuType_ = CPU1801;
+    cpuType_ = CPU1801;
     defaultCpuType_ = CPU1801;
 }
 
@@ -4186,7 +4214,7 @@ void Main::fullScreenMenu()
 
 void Main::popUp()
 {
-	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == FRED || runningComputer_ == VICTORY || runningComputer_ == STUDIOIV || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
+	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == FRED2 || runningComputer_ == VICTORY || runningComputer_ == STUDIOIV || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
 		return;
 
 	if (popupDialog_ == NULL)
@@ -4287,9 +4315,9 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_CoinArcade->Move(conf[COINARCADE].mainX_, conf[COINARCADE].mainY_);
 		break;
             
-        case FRED:
+        case FRED2:
             p_Fred->moveWindows();
-            p_Fred->Move(conf[FRED].mainX_, conf[FRED].mainY_);
+            p_Fred->Move(conf[FRED2].mainX_, conf[FRED2].mainY_);
         break;
 
         case STUDIO:
@@ -4410,8 +4438,8 @@ void Main::nonFixedWindowPosition()
     conf[STUDIO].mainY_ = -1;
     conf[COINARCADE].mainX_ = -1;
     conf[COINARCADE].mainY_ = -1;
-    conf[FRED].mainX_ = -1;
-    conf[FRED].mainY_ = -1;
+    conf[FRED2].mainX_ = -1;
+    conf[FRED2].mainY_ = -1;
 	conf[VISICOM].mainX_ = -1;
 	conf[VISICOM].mainY_ = -1;
     conf[VICTORY].mainX_ = -1;
@@ -4452,8 +4480,8 @@ void Main::nonFixedWindowPosition()
     conf[VELF].pixieY_ = -1;
     conf[VELF].vtX_ = -1;
     conf[VELF].vtY_ = -1;
-    conf[FRED].pixieX_ = -1;
-    conf[FRED].pixieY_ = -1;
+    conf[FRED2].pixieX_ = -1;
+    conf[FRED2].pixieY_ = -1;
 	conf[MS2000].vtX_ = -1;
 	conf[MS2000].vtY_ = -1;
 	conf[MCDS].vtX_ = -1;
@@ -4498,8 +4526,8 @@ void Main::fixedWindowPosition()
 	conf[STUDIO].mainY_ = mainWindowY_;
     conf[COINARCADE].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[COINARCADE].mainY_ = mainWindowY_;
-    conf[FRED].mainX_ = mainWindowX_;
-    conf[FRED].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[FRED2].mainX_ = mainWindowX_;
+    conf[FRED2].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[VISICOM].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VISICOM].mainY_ = mainWindowY_;
 	conf[VICTORY].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -4540,8 +4568,8 @@ void Main::fixedWindowPosition()
     conf[VELF].pixieY_ = mainWindowY_;
 	conf[VELF].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
-    conf[FRED].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[FRED].pixieY_ = mainWindowY_;
+    conf[FRED2].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[FRED2].pixieY_ = mainWindowY_;
 	conf[MS2000].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[MS2000].vtY_ = mainWindowY_;
 	conf[MCDS].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
@@ -4679,8 +4707,8 @@ void Main::onStart(int computer)
             p_Computer = p_CoinArcade;
         break;
             
-        case FRED:
-            p_Fred = new Fred(computerInfo[FRED].name, wxPoint(conf[FRED].mainX_, conf[FRED].mainY_), wxSize(310,180), conf[FRED].clockSpeed_, elfConfiguration[FRED]);
+        case FRED2:
+            p_Fred = new Fred(computerInfo[FRED2].name, wxPoint(conf[FRED2].mainX_, conf[FRED2].mainY_), wxSize(310,180), conf[FRED2].clockSpeed_, elfConfiguration[FRED2]);
             p_Computer = p_Fred;
         break;
             
@@ -4768,7 +4796,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 9 || runningComputer_ == VIPII || runningComputer_ == FRED)
+    if (runningComputer_ < 9 || runningComputer_ == VIPII || runningComputer_ == FRED2)
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
@@ -4848,7 +4876,7 @@ void Main::stopComputer()
 				enableMemAccessGui(false);
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
-            case FRED:
+            case FRED2:
             case VIP:
 			case VIPII:
             case VELF:
@@ -4949,8 +4977,12 @@ void Main::onComputer(wxNotebookEvent&event)
 					rcaChoice_ = MICROTUTOR;
 				break;
 
-                case FREDTAB:
-                    rcaChoice_ = FRED;
+                case FRED1TAB:
+                    rcaChoice_ = FRED1;
+                break;
+                    
+                case FRED2TAB:
+                    rcaChoice_ = FRED2;
                 break;
                     
 				case VIPTAB:
@@ -5194,8 +5226,12 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
             rcaChoice_ = MICROTUTOR;
 		break;
 
-        case FREDTAB:
-            rcaChoice_ = FRED;
+        case FRED1TAB:
+            rcaChoice_ = FRED1;
+        break;
+            
+        case FRED2TAB:
+            rcaChoice_ = FRED2;
         break;
             
         case VIPTAB:
@@ -5321,9 +5357,14 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTORTAB);
 		break;
 
-        case FRED:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(FRED);
-            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FREDTAB);
+        case FRED1:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(FRED1);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED1TAB);
+        break;
+            
+        case FRED2:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(FRED2);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED2TAB);
         break;
             
 		case VIP:
@@ -5420,7 +5461,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status | (runningComputer_ == MCDS));
     XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status | (runningComputer_ == MS2000));
     XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
-    XRCCTRL(*this,"ColoursFRED", wxButton)->Enable(status | (runningComputer_ == FRED));
+    XRCCTRL(*this,"ColoursFRED2", wxButton)->Enable(status | (runningComputer_ == FRED2));
     XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status | (runningComputer_ == STUDIO));
     XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status | (runningComputer_ == VICTORY));
     XRCCTRL(*this,"ColoursStudioIV", wxButton)->Enable(status | (runningComputer_ == STUDIOIV));
@@ -5551,15 +5592,16 @@ void Main::enableGui(bool status)
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
-    if (runningComputer_ == FRED)
+    if (runningComputer_ == FRED2)
     {
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"RamSWFRED", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RamSWButtonFRED", wxButton)->Enable(status);
-        XRCCTRL(*this,"FullScreenF3FRED", wxButton)->Enable(!status);
-        XRCCTRL(*this,"ScreenDumpF5FRED", wxButton)->Enable(!status);
-		XRCCTRL(*this,"RamFRED", wxChoice)->Enable(status);
-		XRCCTRL(*this,"RamTextFRED", wxStaticText)->Enable(status);
+        XRCCTRL(*this,"RamSWFRED2", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonFRED2", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3FRED2", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5FRED2", wxButton)->Enable(!status);
+        XRCCTRL(*this,"RamFRED2", wxChoice)->Enable(status);
+        XRCCTRL(*this,"CpuFRED2", wxChoice)->Enable(status);
+		XRCCTRL(*this,"RamTextFRED2", wxStaticText)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
@@ -6251,7 +6293,7 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	switch (runningComputer_)
 	{
-        case FRED:
+        case FRED2:
 		case COSMICOS:
 		case ELF: 
 		case ELFII:
@@ -7601,7 +7643,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
-        case FRED:
+        case FRED2:
             keysFound = loadKeyDefinition("", "freddefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
@@ -7646,7 +7688,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
                 }
             break;
             
-            case FRED:
+            case FRED2:
             case VIP:
             case ELF:
             case ELFII:

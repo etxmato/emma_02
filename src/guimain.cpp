@@ -1327,7 +1327,7 @@ void GuiMain::onUseLocation(wxCommandEvent&event)
 
 void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 {
-    if (runningComputer_ == FRED)
+    if (runningComputer_ == FRED2)
         p_Fred->startLoad(true);
     else
         startLoad();
@@ -3329,7 +3329,7 @@ void GuiMain::enableLoadGui(bool status)
     }
 	if (!conf[runningComputer_].autoCassetteLoad_)
 	{
-		if (runningComputer_ == FRED)
+		if (runningComputer_ == FRED2)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
@@ -3348,7 +3348,7 @@ void GuiMain::setTapeState(int tapeState)
 	if (!mode_.gui)
 		return;
 
-    if (runningComputer_ == FRED)
+    if (runningComputer_ == FRED2)
     {
         if (tapeState == TAPE_PAUSE)
         {
@@ -3387,7 +3387,7 @@ void GuiMain::setTapeState(int tapeState)
 	}
 	else
 	{
-		if (runningComputer_ == FRED)
+		if (runningComputer_ == FRED2)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
@@ -3474,10 +3474,12 @@ void GuiMain::onLedTimer(wxCommandEvent&event)
 
 int GuiMain::getCpuType()
 {
-	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED)
-        cpuType_ = CPU1801;
-	else
-        cpuType_ = defaultCpuType_;
+    cpuType_ = defaultCpuType_;
+	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED2)
+    {
+        if (conf[runningComputer_].overrideCpuType_ != CPU_OVERRIDE_DEFAULT)
+            cpuType_ = conf[runningComputer_].overrideCpuType_;
+    }
     
     return cpuType_;
 };
@@ -3510,6 +3512,24 @@ void GuiMain::onChoiceRam(wxCommandEvent&event)
 	conf[selectedComputer_].ramType_ = event.GetSelection();
 }
                               
+void GuiMain::onChoiceCpu(wxCommandEvent&event)
+{
+    switch (event.GetSelection())
+    {
+        case CPU_OVERRIDE_DEFAULT:
+            conf[selectedComputer_].overrideCpuType_ = CPU_OVERRIDE_DEFAULT;
+        break;
+
+        case CPU_OVERRIDE_SYSTEM00:
+            conf[selectedComputer_].overrideCpuType_ = SYSTEM00;
+        break;
+            
+        case CPU_OVERRIDE_CPU1801:
+            conf[selectedComputer_].overrideCpuType_ = CPU1801;
+        break;
+    }
+}
+
 bool GuiMain::checkWavFile(wxString fileName)
 {
     wxFFile inFile;

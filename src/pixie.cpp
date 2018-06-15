@@ -90,7 +90,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     
  	graphicsX_ = 8*highRes_;
     videoWidth_ = 64*highRes_;
-    if (computerType == FRED)
+    if (computerType == FRED2)
         videoWidth_ = 64*highRes_*3;
 
 	backGroundInit_ = 1;
@@ -425,7 +425,7 @@ void Pixie::initPixie()
 	vidCycle_ = 0;
 	pixieEf_ = 1;
 
-	for (int x=0; x<128; x++) for (int y=0; y<192; y++)
+	for (int x=0; x<384; x++) for (int y=0; y<192; y++)
 	{
 		pbacking_[x][y] = 0;
 		color_[x][y] = 0;
@@ -646,8 +646,6 @@ void Pixie::cyclePixieStudioIV()
             if (changeScreenSize_)
             {
                 changeScreenSize();
-                if (!fullScreenSet_)
-                    p_Main->pixieBarSizeEvent();
                 changeScreenSize_ = false;
             }
             graphicsMode_ = 0;
@@ -707,8 +705,6 @@ void Pixie::cyclePixieCoinArcade()
             if (changeScreenSize_)
             {
                 changeScreenSize();
-                if (!fullScreenSet_)
-                    p_Main->pixieBarSizeEvent();
                 changeScreenSize_ = false;
             }
             graphicsMode_ = 0;
@@ -952,14 +948,14 @@ void Pixie::plot(int x, int y, int c, int color)
 void Pixie::plot(int x, int y, int width, int height, int c, int color)
 {
     wxPen penClr;
-    
+   
     if (pbacking_[x][y] == c)
         if (!c || (color_[x][y] == color))  return;
     
     color_[x][y] = color;
     pbacking_[x][y] = c;
-    
-    if (c)
+
+	if (c)
     {
         setColour(color);
         penClr = penColour_[color];
@@ -1114,8 +1110,6 @@ void PixieFred::cyclePixieFred()
             if (changeScreenSize_)
             {
                 changeScreenSize();
-                if (!fullScreenSet_)
-                    p_Main->pixieBarSizeEvent();
                 changeScreenSize_ = false;
             }
             graphicsMode_ = 0;

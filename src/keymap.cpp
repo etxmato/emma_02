@@ -173,7 +173,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             inButton2_ = p_Main->getDefaultInKey2(computerTypeStr_);
 		break;
 
-        case FRED:
+        case FRED2:
             keyDefGameHexA_[0] = 0xd;
             keyDefGameHexA_[1] = 8;
             keyDefGameHexA_[2] = 0xa;
@@ -186,9 +186,9 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             keyDefGameHexB_[4] = 1;
             
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog4"));
-            XRCCTRL(*this, "GameAuto", wxCheckBox)->Hide();
             XRCCTRL(*this, "GameAutoLine", wxStaticLine)->Hide();
-            autoGame_ = false;
+            autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", true);
+            XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
             player2defined_ = false;
             p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
             
@@ -340,6 +340,10 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
                 case VIP:
                 case VIPII:
                     p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                break;
+                    
+                case FRED2:
+                    p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getRamFile(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
                 break;
                     
                 case NANO:
@@ -863,7 +867,7 @@ void KeyMapDialog::onHexLocation(wxCommandEvent& WXUNUSED(event))
             keysFound = p_Main->loadKeyDefinition("", "elfonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         else
         {
-            if (computerTypeStr_ == "FRED")
+            if (computerTypeStr_ == "FRED2")
                 keysFound = p_Main->loadKeyDefinition("", "fredonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
                 keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
@@ -1072,7 +1076,7 @@ void KeyMapDialog::onHexChar(wxCommandEvent& WXUNUSED(event))
         if (computerTypeStr_ == "Elf" || computerTypeStr_ == "ElfII" || computerTypeStr_ == "SuperElf" || computerTypeStr_ == "Elf2K"|| computerTypeStr_ == "Cosmicos")
             keysFound = p_Main->loadKeyDefinition("", "elfoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         else
-            if (computerTypeStr_ == "FRED")
+            if (computerTypeStr_ == "FRED2")
                 keysFound = p_Main->loadKeyDefinition("", "fredoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
                 keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");

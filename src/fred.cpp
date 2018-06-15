@@ -59,7 +59,7 @@ FredScreen::~FredScreen()
 #else
     delete text_runButtonPointer;
     delete text_resetButtonPointer;
-    delete text_readButtonPointer;
+//    delete text_readButtonPointer;
 #endif
 
     delete readSwitchButton;
@@ -70,6 +70,9 @@ FredScreen::~FredScreen()
     {
         delete ledPointer[i];
     }
+    delete stopLedPointer;
+    delete readyLedPointer;
+    delete errorLedPointer;
 }
 
 void FredScreen::init()
@@ -99,8 +102,8 @@ void FredScreen::init()
     text_resetButtonPointer->SetToolTip("Reset");
     text_runButtonPointer = new wxButton(this, 1, "", wxPoint(85, 60), wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
     text_runButtonPointer->SetToolTip("Go - RUN");
-    text_readButtonPointer = new wxButton(this, 3, "", wxPoint(135, 60), wxSize(25, 25), 0, wxDefaultValidator, "RaedButton");
-    text_runButtonPointer->SetToolTip("Start READ");
+//    text_readButtonPointer = new wxButton(this, 3, "", wxPoint(135, 60), wxSize(25, 25), 0, wxDefaultValidator, "RaedButton");
+//    text_runButtonPointer->SetToolTip("Start READ");
 #endif
 
     for (int i=0; i<8; i++)
@@ -251,6 +254,7 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
     pulseCount_ = 0;
     tapeRecording_ = false;
+    tapeActivated_ = false;
 	tapeEnd_ = false;
 	zeroWaveCounter_ = -1;
     
@@ -258,14 +262,15 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     
     fredScreenPointer = new FredScreen(this, size);
     fredScreenPointer->init();
+    keyCode_ = WXK_NONE;
 }
 
 Fred::~Fred()
 {
-    p_Main->setPixiePos(FRED, pixiePointer->GetPosition());
+    p_Main->setPixiePos(FRED2, pixiePointer->GetPosition());
     pixiePointer->Destroy();
     
-	p_Main->setMainPos(FRED, GetPosition());
+	p_Main->setMainPos(FRED2, GetPosition());
     delete fredScreenPointer;
 }
 
@@ -284,8 +289,9 @@ void Fred::configureComputer()
 	efType_[1] = FREDEF1;
     efType_[2] = FREDEF2;
     efType_[4] = FREDEF4;
-    
-	p_Main->message("Configuring FRED");
+    cycleType_[KEYCYCLE] = KEYBRDCYCLE;
+
+	p_Main->message("Configuring FRED 2");
     p_Main->message("	Output 1: set I/O group\n");
     
     p_Main->message("	I/O group 1: hex keypad");
@@ -310,10 +316,10 @@ void Fred::configureComputer()
     p_Main->message("	EF 2: tape run/stop");
     p_Main->message("	EF 4: tape error\n");
     
-    p_Main->getDefaultHexKeys(FRED, "FRED", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(FRED2, "FRED2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
-    if (p_Main->getConfigBool("/FRED/GameAuto", true))
-        p_Main->loadKeyDefinition(p_Main->getRamFile(FRED), p_Main->getRamFile(FRED), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+    if (p_Main->getConfigBool("/FRED2/GameAuto", true))
+        p_Main->loadKeyDefinition(p_Main->getRamFile(FRED2), p_Main->getRamFile(FRED2), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 
     resetCpu();
 }
@@ -329,7 +335,7 @@ void Fred::reDefineKeys(int hexKeyDefA1[], int hexKeyDefA2[])
 
 void Fred::initComputer()
 {
-    Show(p_Main->getUseVelfControlWindows());
+    Show(p_Main->getUseControlWindows());
     setClear(0);
     setWait(0);
     
@@ -342,31 +348,49 @@ void Fred::initComputer()
 
 void Fred::keyDown(int keycode)
 {
-#if defined (__WXMAC__)
-//    if (ef1State_ == 0) // This is to avoid multiple key presses on OSX
-//        return;
-#endif
-
     for (int i=0; i<16; i++)
     {
         if (keycode == keyDefA1_[i])
         {
+            keyCycles_ = 15000;
+            keyCode_ = (wxKeyCode)keycode;
             ef1State_ = 0;
             keyValue_ = i;
 //            switches_ = ((switches_ << 4) & 0xf0) | i;
         }
         if (keycode == keyDefA2_[i])
         {
+            keyCycles_ = 15000;
+            keyCode_ = (wxKeyCode)keycode;
             ef1State_ = 0;
             keyValue_ = i;
 //            switches_ = ((switches_ << 4) & 0xf0) | i;
         }
     }
+    if (ef1State_ == 1)
+        keyCode_ = WXK_NONE;
 }
 
 void Fred::keyUp(int WXUNUSED(keycode))
 {
     ef1State_ = 1;
+}
+
+void Fred::cycleKeyboard()
+{
+    if (keyCycles_ > 0)
+    {
+        keyCycles_--;
+        return;
+    }
+    if (ef1State_ == 1 && keyCode_ != WXK_NONE)
+    {
+        if (wxGetKeyState(keyCode_))
+        {
+            ef1State_ = 0;
+            keyCycles_ = 15000;
+        }
+    }
 }
 
 Byte Fred::ef(int flag)
@@ -440,7 +464,7 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
 
 				case INP_MODE_KEYPAD:
 					ret = keyValue_;
-   //                 ef1State_ = 1;
+                    ef1State_ = 1;
 				break;
 
 				case INP_MODE_TAPE_PROGRAM:
@@ -521,21 +545,24 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
         break;
 
         case FREDIO3:
-            if ((value&1) != (tapeRunSwitch_&1) && !tapeRecording_)
+            if ((value&1) != (tapeRunSwitch_&1) && !tapeRecording_ && (value&4) != 4)
             {
                 if ((value&1) == 1)
                     startLoad(false);
                 else
                 {
-                    p_Computer->pauseTape();
-                    p_Main->turboOff();
+                    if (tapeActivated_)
+                    {
+                        p_Computer->pauseTape();
+                        p_Main->turboOff();
+                    }
                 }
             }
             
             if ((value&2) != (tapeRunSwitch_&2))
             {
                 if ((value&2) == 2)
-                    p_Computer->setVolume(p_Main->getVolume(FRED));
+                    p_Computer->setVolume(p_Main->getVolume(FRED2));
                 else
                 {
                     if ((value&4) != 4)
@@ -543,11 +570,11 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                 }
             }
             
-            if ((value&4) != (tapeRunSwitch_&4))
-            {
-                psaveAmplitudeChange((value>>2)&1);
-                zeroWaveCounter_ = 7;
-            }
+			if ((value&4) != (tapeRunSwitch_&4))
+			{
+				psaveAmplitudeChange((value>>2)&1);
+				zeroWaveCounter_ = 7;
+			}
 
             tapeRunSwitch_ = value;
         break;
@@ -562,6 +589,10 @@ void Fred::cycle(int type)
 			return;
 		break;
 
+        case KEYBRDCYCLE:
+            cycleKeyboard();
+        break;
+            
 		case PIXIECYCLE:
 			pixiePointer->cyclePixieFred();
 		break;
@@ -606,8 +637,7 @@ void Fred::onRunButton()
         showDataLeds(dmaOut());
     else
     {
-        if (scratchpadRegister_[0] == 0 && mainMemory_[0] == 0)
-            p_Computer->dmaOut(); // skip over IDL instruction
+        scratchpadRegister_[0]=p_Main->getBootAddress("ElfII", ELFII);
         
         fredScreenPointer->setReadyLed(0);
         fredScreenPointer->setStopLed(0);
@@ -622,8 +652,7 @@ void Fred::onRunButton()
 
 void Fred::autoBoot()
 {
-    if (scratchpadRegister_[0] == 0 && mainMemory_[0] == 0)
-        p_Computer->dmaOut(); // skip over IDL instruction
+    scratchpadRegister_[0]=p_Main->getBootAddress("FRED2", FRED2);
 
     fredScreenPointer->setReadyLed(0);
     fredScreenPointer->setStopLed(0);
@@ -687,7 +716,7 @@ void Fred::startLoad(bool button)
             tapeActivated_ = p_Main->startCassetteLoad();
     }
     
-    if (tapeActivated_)
+//    if (tapeActivated_)
         tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
@@ -700,14 +729,14 @@ void Fred::startComputer()
 {
     double zoom = p_Main->getZoom();
 //    double scale = p_Main->getScale();
-    pixiePointer = new PixieFred( "FRED", p_Main->getPixiePos(FRED), wxSize(64*3*zoom, 128*zoom), zoom, 1, FRED);
+    pixiePointer = new PixieFred( "FRED 2", p_Main->getPixiePos(FRED2), wxSize(64*3*zoom, 128*zoom), zoom, 1, FRED2);
     p_Video = pixiePointer;
 
     resetPressed_ = false;
 
 	p_Main->setSwName("");
     
-    ramMask_ = ((2<<p_Main->getRamType(FRED))<<10)-1;
+    ramMask_ = ((2<<p_Main->getRamType(FRED2))<<10)-1;
     
     defineMemoryType(0x0, ramMask_, RAM);
     for (int i=ramMask_+1; i<0xff00; i+=(ramMask_+1))
@@ -716,7 +745,7 @@ void Fred::startComputer()
     initRam(0x0, ramMask_);
     p_Main->assDefault("fred", 0, ramMask_);
 
-    readProgram(p_Main->getRamDir(FRED), p_Main->getRamFile(FRED), RAM, 0, NONAME);
+    readProgram(p_Main->getRamDir(FRED2), p_Main->getRamFile(FRED2), RAM, 0, NONAME);
     
     if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
     {
@@ -749,7 +778,7 @@ void Fred::startComputer()
 	cpuCycles_ = 0;
 	p_Main->startTime();
 
-    int ms = (int) p_Main->getLedTimeMs(FRED);
+    int ms = (int) p_Main->getLedTimeMs(FRED2);
     fredScreenPointer->setLedMs(ms);
     if (ms == 0)
         ledCycleSize_ = -1;
@@ -932,17 +961,7 @@ void Fred::resetFred()
 {
     resetCpu();
     resetPressed_ = false;
-    
-/*    ef4State_ = 1;
-    
-    stopTape();
-    p_Main->eventSetTapeState(TAPE_STOP);
-    tapeRecording_ = false;
-    tapeEnd_ = false;
-    zeroWaveCounter_ = -1;
-    tapeActivated_ = false;
-    startLoad(false);*/
-    
+        
     if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
     {
         chip8baseVar_ = 0x100;
@@ -1171,12 +1190,12 @@ void Fred::finishStopTape()
 
 void Fred::moveWindows()
 {
-    pixiePointer->Move(p_Main->getPixiePos(FRED));
+    pixiePointer->Move(p_Main->getPixiePos(FRED2));
 }
 
 void Fred::updateTitle(wxString Title)
 {
-    pixiePointer->SetTitle("FRED"+Title);
+    pixiePointer->SetTitle("FRED 2"+Title);
 }
 
 void Fred::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))

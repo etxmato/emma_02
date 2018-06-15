@@ -37,7 +37,8 @@ private:
 
     void onElfControlWindows(wxCommandEvent& event);
     void onVelfControlWindows(wxCommandEvent& event);
-    void onFredControlWindows(wxCommandEvent& event);
+    void onFred1ControlWindows(wxCommandEvent& event);
+    void onFred2ControlWindows(wxCommandEvent& event);
 
 	void onMembershipControlWindows(wxCommandEvent& event);
 
