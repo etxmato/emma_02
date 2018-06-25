@@ -46,7 +46,6 @@ BEGIN_EVENT_TABLE(GuiMicrotutor, GuiMembership)
 
 	EVT_TEXT(XRCID("SaveStartMicrotutor"), GuiMain::onSaveStart)
 	EVT_TEXT(XRCID("SaveEndMicrotutor"), GuiMain::onSaveEnd)
-    EVT_CHOICE(XRCID("CpuMicrotutor"), GuiMain::onChoiceCpu)
 
 END_EVENT_TABLE()
 
@@ -86,14 +85,12 @@ void GuiMicrotutor::readMicrotutorConfig()
 	defaultTimer.Printf("%d", 100);
 	conf[MICROTUTOR].ledTime_ = configPointer->Read("/Microtutor/Led_Update_Frequency", defaultTimer);
 	conf[MICROTUTOR].realCassetteLoad_ = false;
-    conf[MICROTUTOR].overrideCpuType_ = (int)configPointer->Read("/Microtutor/Override_Cpu_Type", 1l);
 
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomMicrotutor", wxComboBox)->SetValue(conf[MICROTUTOR].rom_[MAINROM1]);
 		XRCCTRL(*this, "BootAddressMicrotutor", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "AutoBootMicrotutor", wxCheckBox)->SetValue(elfConfiguration[MICROTUTOR].autoBoot);
-        XRCCTRL(*this, "CpuMicrotutor", wxChoice)->SetSelection(conf[MICROTUTOR].overrideCpuType_);
 		clockTextCtrl[MICROTUTOR]->ChangeValue(conf[MICROTUTOR].clock_);
 	}
 
@@ -122,7 +119,6 @@ void GuiMicrotutor::writeMicrotutorConfig()
 	configPointer->Write("/Microtutor/Led_Update_Frequency", conf[MICROTUTOR].ledTime_);
 
     configPointer->Write("/Microtutor/Clock_Speed", conf[MICROTUTOR].clock_);
-    configPointer->Write("/Microtutor/Override_Cpu_Type", conf[MICROTUTOR].overrideCpuType_);
 }
 
 void GuiMicrotutor::readMicrotutorWindowConfig()

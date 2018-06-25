@@ -124,7 +124,6 @@ public:
 	bool stretchDot_;
 	bool realCassetteLoad_;
 	wxString turboClock_;
-    int overrideCpuType_;
 
     bool multiCart_;
 	bool disableSystemRom_;

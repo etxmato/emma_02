@@ -500,7 +500,8 @@ Byte StudioIV::readMem(Word addr)
 		break;
 
         case COLOURRAM:
-            return colorMemory1864_[addr&0x3ff] & 0xf;
+            addr = (addr&0xf) +  ((addr&0x3c0) >> 2);
+            return colorMemory1864_[addr] & 0xf;
         break;
             
     }
@@ -524,9 +525,10 @@ void StudioIV::writeMem(Word addr, Byte value, bool writeRom)
 		break;
 
 		case COLOURRAM:
-            colorMemory1864_[addr & 0x3ff] = value & 0xf;
-            if ((addr & 0x3ff) >= memoryStart_ && (addr & 0x3ff) < (memoryStart_ + 256))
-                p_Main->updateDebugMemory(addr & 0x3ff);
+            addr = (addr&0xf) +  ((addr&0x3c0) >> 2);
+            colorMemory1864_[addr] = value & 0xf;
+            if ((addr) >= memoryStart_ && (addr) < (memoryStart_ + 256))
+                p_Main->updateDebugMemory(addr);
             if (addr >= memoryStart_ && addr < (memoryStart_ + 256))
                 p_Main->updateDebugMemory(addr);
             p_Main->updateAssTabCheck(addr);
@@ -538,6 +540,16 @@ void StudioIV::writeMem(Word addr, Byte value, bool writeRom)
 				mainMemory_[addr]=value;
 		break;
 	}
+}
+
+Byte StudioIV::read1864ColorDirect(Word addr)
+{
+    return colorMemory1864_[addr] & 0xf;
+}
+
+void StudioIV::write1864ColorDirect(Word addr, Byte value)
+{
+    colorMemory1864_[addr] = value & 0xf;
 }
 
 void StudioIV::cpuInstruction()

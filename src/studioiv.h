@@ -29,6 +29,8 @@ public:
 	Byte readMemDataType(Word address);
 	Byte readMem(Word addr);
 	void writeMem(Word addr, Byte value, bool writeRom);
+    Byte read1864ColorDirect(Word addr);
+    void write1864ColorDirect(Word addr, Byte value);
 	void cpuInstruction();
 	void onReset();
 

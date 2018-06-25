@@ -266,7 +266,7 @@ int opCode[] =
 	0x79, // M
 	0x38, 0xc8, 0xc4, // N
 	0xf1, 0xf9, 0x61, // O
-	0xb0, 0xa0, // P
+	0xb0, 0xa0, 0xc0, // P
 	0x7a, 0x70, 0x68, 0x68, 0x68, 0x7e, 0x76, 0x68, // R
 	0x78, 0x68, 0x68, 0x68, 0xf5, 0x75, 0x7d, 0xfd, 0xd0, 0x7b, 0xe0, 0xfe, 0x7e, 0xf6, 0x76, 0x38, 0xf7, 0x77, 0x7f, 0xff, 0x68, 0x68, 0x68, 0x68, 0x68, 0x50, 0x73, // S
 	0x68, 0x68, 0xf3, 0xfb // X
@@ -285,7 +285,7 @@ int opCode2[] =
 	0x30, // M
 	0x30, 0x30, 0x30, // N
 	0x30, 0x30, 0x30, // O
-	0x30, 0x30, // P
+	0x30, 0x30, 0xc0, // P
 	0x30, 0x30, 0xc0, 0x60, 0xb0, 0x30, 0x30, 0xa0, // R
 	0x30, 0x80, 0x05, 0x03, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x04, 0x02, 0x90, 0x07, 0x00, 0x30, 0x30, // S
 	0x0b, 0x0a, 0x30, 0x30 // X
@@ -304,7 +304,7 @@ int macro[] =
 	0, // M
 	0, 0, 0, // N
 	0, 0, 0, // O
-	0, 0, // P
+	0, 0, 0, // P
 	0, 0, 0, 0, 0, MEM_TYPE_OPCODE_RSHL, MEM_TYPE_OPCODE_RSHR, 0, // R
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, MEM_TYPE_OPCODE_SKP, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, // S
 	0, 0, 0, 0 // X
@@ -312,21 +312,21 @@ int macro[] =
 
 int minCpuType[] =
 {
-	CPU1802, CPU1802, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, // A
-	SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, CPU1804, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, CPU1804, SYSTEM00, // B
+	CPU1802, CPU1802, SYSTEM00, CPU1801, SYSTEM00, CPU1801, // A
+	SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, CPU1804, SYSTEM00, SYSTEM00, CPU1801, CPU1801, CPU1801, CPU1801, CPU1801, CPU1801, CPU1801, CPU1802, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, CPU1804, SYSTEM00, // B
 	CPU1804, CPU1804, // C
-	CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, SYSTEM00, SYSTEM00, CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, CPU1804, // D
+	CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, SYSTEM00, CPU1801, CPU1805, CPU1805, CPU1805, CPU1805, CPU1805, CPU1804, // D
 	CPU1804,
 	CPU1804, SYSTEM00, SYSTEM00, // G
 	SYSTEM00, SYSTEM00, SYSTEM00, SYSTEM00, // I
-	CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, SYSTEM00, CPU1804, SYSTEM00, SYSTEM00, SYSTEM00, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, // L
+	CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, SYSTEM00, CPU1804, CPU1801, SYSTEM00, SYSTEM00, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, CPU1802, // L
 	CPU1802, // M
-	SYSTEM00, CPU1802, CPU1802, // N
-	SYSTEM00, SYSTEM00, SYSTEM00, // O
-	SYSTEM00, SYSTEM00, // P
+	CPU1801, CPU1802, CPU1802, // N
+	SYSTEM00, CPU1801, SYSTEM00, // O
+	SYSTEM00, SYSTEM00, SYSTEM00, // P
 	CPU1802, SYSTEM00, CPU1804, CPU1804, CPU1804, CPU1802, CPU1802, CPU1804, // R
-	SYSTEM00, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, CPU1802, SYSTEM00, SYSTEM00, CPU1802, SYSTEM00, CPU1802, CPU1802, SYSTEM00, CPU1802, SYSTEM00, SYSTEM00, CPU1802, CPU1802, SYSTEM00, CPU1804, CPU1804, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, // S
-	CPU1804, CPU1804, SYSTEM00, SYSTEM00 // X
+	SYSTEM00, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, CPU1802, CPU1801, SYSTEM00, CPU1802, SYSTEM00, CPU1802, CPU1802, SYSTEM00, CPU1802, CPU1801, SYSTEM00, CPU1802, CPU1802, CPU1801, CPU1804, CPU1804, CPU1804, CPU1804, CPU1804, SYSTEM00, CPU1802, // S
+	CPU1804, CPU1804, SYSTEM00, CPU1801 // X
 };
 
 int numberOfBytes[] =
@@ -342,10 +342,50 @@ int numberOfBytes[] =
 	1,
 	1, 1, 1,
 	1, 2, 2, // O
-	1, 1,
+	1, 1, 1, // P
 	1, 1, 4, 2, 2, 1, 1, 2,// R
 	1, 4, 2, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 1, 1, // S
 	2, 2, 1, 2
+};
+
+int numberOfBytesSystem00[] =
+{
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 0x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 1x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 2x
+	2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0,  // 3x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 4x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 5x
+	0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,  // 6x
+	1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,  // 7x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 8x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 9x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Ax
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Bx
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Cx
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Dx
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Ex
+	1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // Fx
+};
+
+int numberOfBytes1801[] =
+{
+	1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 0x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 1x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 2x
+	2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 2, 2, 2, 2, 2, 2,  // 3x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 4x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 5x
+	0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1,  // 6x
+	1, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,  // 7x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 8x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // 9x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Ax
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Bx
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 7x
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Dx
+	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Ex
+	1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,  // Fx
 };
 
 int numberOfBytes1802[] =
@@ -365,7 +405,7 @@ int numberOfBytes1802[] =
 	3, 3, 3, 3, 1, 1, 1, 1, 1, 3, 3, 3, 1, 1, 1, 1,  // Cx
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Dx
 	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,  // Ex
-	1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // Fx
+	1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2,  // Fx
 };
 
 int numberOfBytes1806[] =
@@ -401,7 +441,7 @@ bool useRegister[] =
 	false,
 	false, false, false,
 	false, false, false,
-	true, true,
+	true, true, true,
 	false, false, true, true, false, false, true, // R
 	false, true, true, false, false, false, false, false, false, true, false, true, false, false, false, false, false, false, false, false, false, false, false, true, false, false, true, false,
 	false, false, false, false,
@@ -2912,7 +2952,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 	switch(i)
 	{
 		case 0x0:
-            if (runningComputer_ == FRED2 || cpuType_ == SYSTEM00)
+            if (cpuType_ == SYSTEM00)
                 printBufferAssembler.Printf("IDL  R%X", n);
             else
             {
@@ -8297,7 +8337,7 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	{ 
 		if (assInput.numberOfParameters > 0)
         {
-            if (runningComputer_ == FRED2)
+            if (runningComputer_ == FRED1)
             {
                 ret = getRegisterNumber(assInput, &registerNumber, b7, allowX);
                 *b1 = registerNumber;
@@ -12114,10 +12154,36 @@ int DebugWindow::markType(long *addrLong, int type)
 	{
 		case 0:
 			p_Computer->writeMemDataType(address, MEM_TYPE_OPCODE);
-			bytes =	numberOfBytes1802[p_Computer->readMem(address)];
-			if (bytes == 0)
-				bytes =	numberOfBytes1806[p_Computer->readMem(address+1)];
-			address++;
+			switch (cpuType_)
+			{
+				case SYSTEM00:
+					bytes =	numberOfBytesSystem00[p_Computer->readMem(address)];
+				break;
+
+				case CPU1801:
+					bytes =	numberOfBytes1801[p_Computer->readMem(address)];
+				break;
+
+				case CPU1802:
+					bytes =	numberOfBytes1802[p_Computer->readMem(address)];
+				break;
+
+				case CPU1804:
+				case CPU1805:
+					bytes =	numberOfBytes1802[p_Computer->readMem(address)];
+					if (bytes == 0)
+						bytes =	numberOfBytes1806[p_Computer->readMem(address+1)];
+				break;
+			}
+			if (bytes != 0)
+			{
+				p_Computer->writeMemDataType(address, MEM_TYPE_OPCODE);
+				address++;
+			}
+			else
+			{	assErrorDisplay(DirAssErrorCodes[ERROR_TEMP_CPU_1801-1]);
+				return 1;
+			}
 			for (int i=1; i<bytes; i++)
 			{
 				p_Computer->writeMemDataType(address++, MEM_TYPE_OPERAND);
@@ -12163,8 +12229,7 @@ int DebugWindow::markType(long *addrLong, int type)
 		break;
 		case 6:
 			if (p_Computer->readMem(address) != 0xF8 || (p_Computer->readMem(address+2)&0xF0) != 0xB0 || p_Computer->readMem(address+3) != 0xF8 || (p_Computer->readMem(address+5)&0xF0) != 0xA0)
-			{
-				assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
+			{	assErrorDisplay(DirAssErrorCodes[ERROR_MACRO_NOT_FOUND-ERROR_START-1]);
 				return 1;
 			}
 			p_Computer->writeMemDataType(address++, MEM_TYPE_OPCODE_LDV);
@@ -16582,7 +16647,7 @@ void DebugWindow::DebugDisplay1870ColourRam()
 
 void DebugWindow::DebugDisplay1864ColorRam()
 {
-	if (!(runningComputer_ == TMC2000 || runningComputer_ == VIP || runningComputer_ == VIPII || runningComputer_ ==  ETI ))
+	if (!(runningComputer_ == TMC2000 || runningComputer_ == VIP || runningComputer_ == VIPII || runningComputer_ ==  ETI  || runningComputer_ ==  STUDIOIV))
 	{
 		if (xmlLoaded_)
 			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("1864 Color RAM not used");
@@ -17471,6 +17536,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		break;
 
 		case COSMICOS:
+        case FRED1:
         case FRED2:
 			if ((setType == MAPPEDRAM) || (setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
@@ -17658,6 +17724,7 @@ Word DebugWindow::getAddressMask()
 			{
 				case ETI:
                 case VIP:
+                case STUDIOIV:
                     return 0xff;
 				break;
 				case VIPII:
@@ -18028,9 +18095,12 @@ Byte DebugWindow::debugReadMem(Word address)
 				case VIP:
 					return p_Vip->read1864ColorDirect(address);
 				break;
-				case VIPII:
-					return p_Vip2->read1864ColorDirect(address);
-				break;
+                case VIPII:
+                    return p_Vip2->read1864ColorDirect(address);
+                break;
+                case STUDIOIV:
+                    return p_StudioIV->read1864ColorDirect(address);
+                break;
 				default:
 					return 0;
 				break;
@@ -18253,6 +18323,9 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 				case VIPII:
 					p_Vip2->write1864ColorDirect(address, value);
 				break;
+                case STUDIOIV:
+                    p_StudioIV->write1864ColorDirect(address, value);
+                break;
 			}
 		break;
 
@@ -18418,6 +18491,13 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             p_CoinArcade->SetTitle("RCA Video Coin Arcade" + title);
             p_CoinArcade->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
+        case FRED1:
+            if (p_Fred->getSteps()==0)
+                title = title + " ** PAUSED **";
+            p_Fred->SetTitle("FRED 1" + title);
+            p_Fred->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
         case FRED2:

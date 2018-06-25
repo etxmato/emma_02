@@ -34,6 +34,51 @@
 #include "pixie.h"
 
 BEGIN_EVENT_TABLE(GuiFred, GuiVip)
+    EVT_TEXT(XRCID("RamSWFRED1"), GuiMain::onRamSWText)
+    EVT_COMBOBOX(XRCID("RamSWFRED1"), GuiMain::onRamSWText)
+    EVT_BUTTON(XRCID("RamSWButtonFRED1"), GuiMain::onRamSW)
+
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonFRED1"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileFRED1"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileFRED1"), GuiMain::onScreenDumpFileText)
+
+    EVT_BUTTON(XRCID("CasButtonFRED1"), GuiMain::onCassette)
+    EVT_BUTTON(XRCID("EjectCasFRED1"), GuiMain::onCassetteEject)
+    EVT_TEXT(XRCID("WavFileFRED1"), GuiMain::onCassetteText)
+
+    EVT_SPIN_UP(XRCID("ZoomSpinFRED1"), GuiMain::onZoomUp)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinFRED1"), GuiMain::onZoomDown)
+    EVT_TEXT(XRCID("ZoomValueFRED1"), GuiMain::onZoomValue)
+    EVT_BUTTON(XRCID("FullScreenF3FRED1"), GuiMain::onFullScreen)
+    EVT_BUTTON(XRCID("ScreenDumpF5FRED1"), GuiMain::onScreenDump)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeFRED1"), GuiMain::onVolume)
+    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeFRED1"), GuiMain::onVolume)
+    EVT_BUTTON(XRCID("KeyMapFRED1"), Main::onHexKeyDef)
+    EVT_BUTTON(XRCID("ColoursFRED1"), Main::onColoursDef)
+    EVT_TEXT(XRCID("BeepFrequencyFRED1"), GuiMain::onBeepFrequency)
+    EVT_CHOICE(XRCID("RamFRED1"), GuiMain::onChoiceRam)
+
+    EVT_BUTTON(XRCID("SaveButtonFRED1"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonFRED1"), GuiMain::onLoadButton)
+    EVT_TEXT(XRCID("SaveStartFRED1"), GuiMain::onSaveStart)
+    EVT_TEXT(XRCID("SaveEndFRED1"), GuiMain::onSaveEnd)
+    EVT_CHECKBOX(XRCID("ControlWindowsFRED1"), GuiFred::onFred2ControlWindows)
+    EVT_CHECKBOX(XRCID("AutoBootFRED1"), GuiFred::onAutoBoot)
+    EVT_CHECKBOX(XRCID("stopToneFRED1"), GuiFred::onStopTone)
+    EVT_CHECKBOX(XRCID("TapeStartFRED1"), GuiFred::onTapeStart)
+    EVT_CHECKBOX(XRCID("InterlaceFRED1"), GuiMain::onInterlace)
+
+    EVT_CHECKBOX(XRCID("TurboFRED1"), GuiMain::onTurbo)
+    EVT_TEXT(XRCID("TurboClockFRED1"), GuiMain::onTurboClock)
+    EVT_CHECKBOX(XRCID("AutoCasLoadFRED1"), GuiMain::onAutoLoad)
+    EVT_BUTTON(XRCID("CasLoadFRED1"), GuiMain::onCassetteLoad)
+    EVT_BUTTON(XRCID("CasSaveFRED1"), GuiMain::onCassetteSave)
+    EVT_BUTTON(XRCID("CasStopFRED1"), GuiMain::onCassetteStop)
+    EVT_BUTTON(XRCID("CasPauseFRED1"), GuiMain::onCassettePause)
+    EVT_BUTTON(XRCID("RealCasLoadFRED1"), GuiMain::onRealCas)
+
+    EVT_TEXT(XRCID("ShowAddressFRED1"), GuiMain::onLedTimer)
+    EVT_TEXT(XRCID("BootAddressFRED1"), GuiElf::onBootAddress)
 
     EVT_TEXT(XRCID("RamSWFRED2"), GuiMain::onRamSWText)
     EVT_COMBOBOX(XRCID("RamSWFRED2"), GuiMain::onRamSWText)
@@ -58,7 +103,6 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("ColoursFRED2"), Main::onColoursDef)
     EVT_TEXT(XRCID("BeepFrequencyFRED2"), GuiMain::onBeepFrequency)
     EVT_CHOICE(XRCID("RamFRED2"), GuiMain::onChoiceRam)
-    EVT_CHOICE(XRCID("CpuFRED2"), GuiMain::onChoiceCpu)
 
     EVT_BUTTON(XRCID("SaveButtonFRED2"), GuiMain::onSaveButton)
     EVT_BUTTON(XRCID("LoadButtonFRED2"), GuiMain::onLoadButton)
@@ -100,7 +144,7 @@ void GuiFred::readFred1Config()
     conf[FRED1].screenDumpFileDir_ = readConfigDir("/Dir/FRED1/Video_Dump_File", dataDir_ + "FRED1" + pathSeparator_);
     conf[FRED1].wavFileDir_ = readConfigDir("/Dir/FRED1/Wav_File", dataDir_ + "FRED1" + pathSeparator_);
 
-    conf[FRED1].ram_ = configPointer->Read("/FRED1/Main_Ram_File", "fel.bin");
+    conf[FRED1].ram_ = configPointer->Read("/FRED1/Main_Ram_File", "Space War.bin");
     conf[FRED1].screenDumpFile_ = configPointer->Read("/FRED1/Video_Dump_File", "screendump.png");
     conf[FRED1].wavFile_ = configPointer->Read("/FRED1/Wav_File", "");
 
@@ -122,14 +166,12 @@ void GuiFred::readFred1Config()
     configPointer->Read("/FRED1/Enable_Real_Cassette", &conf[FRED1].realCassetteLoad_, false);
     conf[FRED1].volume_ = (int)configPointer->Read("/FRED1/Volume", 25l);
     conf[FRED1].ramType_ = (int)configPointer->Read("/FRED1/Ram_Type", 0l);
-    conf[FRED1].overrideCpuType_ = (int)configPointer->Read("/FRED1/Override_Cpu_Type", 1l);
     configPointer->Read("/FRED1/Open_Control_Windows", &elfConfiguration[FRED1].useElfControlWindows, true);
-    configPointer->Read("/FRED1/Enable_Interlace", &conf[FRED1].interlace_, true);
+    configPointer->Read("/FRED1/Enable_Interlace", &conf[FRED1].interlace_, false);
 
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
     conf[FRED1].xScale_ = configPointer->Read("/FRED1/Window_Scale_Factor_X", defaultScale);
-//    conf[FRED1].realCassetteLoad_ = false;
     
     configPointer->Read("/FRED1/Enable_Auto_Boot", &elfConfiguration[FRED1].autoBoot, true);
     configPointer->Read("/FRED1/Enable_Stop_Tone", &elfConfiguration[FRED1].stopTone, true);
@@ -155,7 +197,6 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "VolumeFRED1", wxSlider)->SetValue(conf[FRED1].volume_);
         XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
         XRCCTRL(*this, "RamFRED1", wxChoice)->SetSelection(conf[FRED1].ramType_);
-        XRCCTRL(*this, "CpuFRED1", wxChoice)->SetSelection(conf[FRED1].overrideCpuType_);
         XRCCTRL(*this,"AddressText1FRED1", wxStaticText)->Enable(elfConfiguration[FRED1].useElfControlWindows);
         XRCCTRL(*this,"AddressText2FRED1", wxStaticText)->Enable(elfConfiguration[FRED1].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].useElfControlWindows);
@@ -194,7 +235,6 @@ void GuiFred::writeFred1Config()
     configPointer->Write("/FRED1/Enable_Real_Cassette", conf[FRED1].realCassetteLoad_);
     configPointer->Write("/FRED1/Volume", conf[FRED1].volume_);
     configPointer->Write("/FRED1/Ram_Type", conf[FRED1].ramType_);
-    configPointer->Write("/FRED1/Override_Cpu_Type", conf[FRED1].overrideCpuType_);
     configPointer->Write("/FRED1/Open_Control_Windows", elfConfiguration[FRED1].useElfControlWindows);
     configPointer->Write("/FRED1/Led_Update_Frequency", conf[FRED1].ledTime_);
     configPointer->Write("/FRED1/Enable_Auto_Boot", elfConfiguration[FRED1].autoBoot);
@@ -273,23 +313,21 @@ void GuiFred::readFred2Config()
     configPointer->Read("/FRED2/Enable_Real_Cassette", &conf[FRED2].realCassetteLoad_, false);
     conf[FRED2].volume_ = (int)configPointer->Read("/FRED2/Volume", 25l);
     conf[FRED2].ramType_ = (int)configPointer->Read("/FRED2/Ram_Type", 0l);
-    conf[FRED2].overrideCpuType_ = (int)configPointer->Read("/FRED2/Override_Cpu_Type", 1l);
     configPointer->Read("/FRED2/Open_Control_Windows", &elfConfiguration[FRED2].useElfControlWindows, true);
-    configPointer->Read("/FRED2/Enable_Interlace", &conf[FRED2].interlace_, true);
+    configPointer->Read("/FRED2/Enable_Interlace", &conf[FRED2].interlace_, false);
     
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
     conf[FRED2].xScale_ = configPointer->Read("/FRED2/Window_Scale_Factor_X", defaultScale);
-    //    conf[FRED2].realCassetteLoad_ = false;
     
     configPointer->Read("/FRED2/Enable_Auto_Boot", &elfConfiguration[FRED2].autoBoot, true);
     configPointer->Read("/FRED2/Enable_Stop_Tone", &elfConfiguration[FRED2].stopTone, true);
     configPointer->Read("/FRED2/Enable_Tape_Start", &elfConfiguration[FRED2].tapeStart, true);
     
     long value;
-    wxString bootAddress = configPointer->Read("/FRED2/Boot_Address", "0001");
+    wxString bootAddress = configPointer->Read("/FRED2/Boot_Address", "0000");
     if (!bootAddress.ToLong(&value, 16))
-        value = 0x1;
+        value = 0;
     conf[FRED2].bootAddress_ = value;
     
     if (mode_.gui)
@@ -306,7 +344,6 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "VolumeFRED2", wxSlider)->SetValue(conf[FRED2].volume_);
         XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_);
         XRCCTRL(*this, "RamFRED2", wxChoice)->SetSelection(conf[FRED2].ramType_);
-        XRCCTRL(*this, "CpuFRED2", wxChoice)->SetSelection(conf[FRED2].overrideCpuType_);
         XRCCTRL(*this,"AddressText1FRED2", wxStaticText)->Enable(elfConfiguration[FRED2].useElfControlWindows);
         XRCCTRL(*this,"AddressText2FRED2", wxStaticText)->Enable(elfConfiguration[FRED2].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].useElfControlWindows);
@@ -345,7 +382,6 @@ void GuiFred::writeFred2Config()
     configPointer->Write("/FRED2/Enable_Real_Cassette", conf[FRED2].realCassetteLoad_);
     configPointer->Write("/FRED2/Volume", conf[FRED2].volume_);
     configPointer->Write("/FRED2/Ram_Type", conf[FRED2].ramType_);
-    configPointer->Write("/FRED2/Override_Cpu_Type", conf[FRED2].overrideCpuType_);
     configPointer->Write("/FRED2/Open_Control_Windows", elfConfiguration[FRED2].useElfControlWindows);
     configPointer->Write("/FRED2/Led_Update_Frequency", conf[FRED2].ledTime_);
     configPointer->Write("/FRED2/Enable_Auto_Boot", elfConfiguration[FRED2].autoBoot);
@@ -393,22 +429,22 @@ void GuiFred::onFred2ControlWindows(wxCommandEvent&event)
 
 bool GuiFred::getUseControlWindows()
 {
-    return elfConfiguration[FRED2].useElfControlWindows;
+    return elfConfiguration[runningComputer_].useElfControlWindows;
 }
 
 void GuiFred::onAutoBoot(wxCommandEvent&event)
 {
-    elfConfiguration[FRED2].autoBoot = event.IsChecked();
+    elfConfiguration[runningComputer_].autoBoot = event.IsChecked();
 }
 
 void GuiFred::onStopTone(wxCommandEvent&event)
 {
-    elfConfiguration[FRED2].stopTone = event.IsChecked();
+    elfConfiguration[runningComputer_].stopTone = event.IsChecked();
 }
 
 void GuiFred::onTapeStart(wxCommandEvent&event)
 {
-    elfConfiguration[FRED2].tapeStart = event.IsChecked();
+    elfConfiguration[runningComputer_].tapeStart = event.IsChecked();
 }
 
 

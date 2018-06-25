@@ -1,0 +1,12 @@
+<HTML>
+<Title>Auto Boot Method</Title>
+<BODY>
+<h2>Auto Boot</h2>
+<p>
+Default the FRED 1 emulator will auto boot at address 1. When using autoboot the FRED 1 will also start in RUN Mode.
+</p>
+<p>
+To disable the auto boot deselect the 'Auto Boot' checkbox and change the address value to start at a different address.
+</p>
+</BODY>
+</HTML>

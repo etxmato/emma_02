@@ -171,7 +171,7 @@ void Cdp1802::dmaIn(Byte value)
 	}
 	if (cpuMode_ != RUN && cpuMode_ != LOAD)
     {
-        if (computerType_ != FRED2)
+        if (computerType_ != FRED1 && computerType_ != FRED2)
             return;
     }
 	writeMem(scratchpadRegister_[0], value, false);
@@ -203,7 +203,7 @@ Byte Cdp1802::dmaOut()
 Byte Cdp1802::pixieDmaOut(int *color)
 {
 	Byte ret;
-	ret = 255;
+    ret = 255;
 	if (traceDma_)
 	{
 		wxString traceText;
@@ -232,12 +232,16 @@ Byte Cdp1802::pixieDmaOut(int *color)
 		case VELF:
         case STUDIO:
         case COINARCADE:
+        case FRED1:
         case FRED2:
 		case ELF:
 		case ELFII:
 		case SUPERELF:
             *color = 0;
         break;
+		case STUDIOIV:
+			*color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
+		break;
 		default:
 			*color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
 		break;
@@ -1057,7 +1061,7 @@ void Cdp1802::cpuCycle()
 	switch(i)
 	{
  		case 0:
-            if (computerType_ == FRED2 || cpuType_ == SYSTEM00)
+            if (cpuType_ == SYSTEM00)
             {
                 idle_=1;
                 p_Computer->showDataLeds(readMem(scratchpadRegister_[n]));
@@ -1789,7 +1793,7 @@ void Cdp1802::cpuCycle()
                             tr = tr + "REQ";
                         }
                         switchQ(0);
-                        if (computerType_ != MS2000 && computerType_ != FRED2)
+                        if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED2)
                             psaveAmplitudeChange(0);
                     }
 				break;
@@ -1810,7 +1814,7 @@ void Cdp1802::cpuCycle()
                             tr = tr + "SEQ";
                         }
                         switchQ(1);
-                        if (computerType_ != MS2000 && computerType_ != FRED2)
+                        if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED2)
                             psaveAmplitudeChange(1);
                     }
 				break;
@@ -2961,6 +2965,7 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
 			case CIDELSA:
 			case STUDIO:
             case COINARCADE:
+            case FRED1:
             case FRED2:
 			case VISICOM:
 			case VICTORY:
@@ -3575,6 +3580,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address | bootstrap_;
                 break;
 
+                case FRED1:
                 case FRED2:
                     address = address & 0x7ff;
                 break;
@@ -3931,6 +3937,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address | bootstrap_;
                 break;
                 
+                case FRED1:
                 case FRED2:
                     address = address & 0x7ff;
                 break;

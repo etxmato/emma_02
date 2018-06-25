@@ -82,7 +82,6 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
     EVT_BUTTON(XRCID("KeyMapCoinArcade"), Main::onHexKeyDef)
     EVT_BUTTON(XRCID("ColoursCoinArcade"), Main::onColoursDef)
     EVT_TEXT(XRCID("BeepFrequencyCoinArcade"), GuiMain::onBeepFrequency)
-    EVT_CHOICE(XRCID("CpuCoinArcade"), GuiMain::onChoiceCpu)
 
 
 	EVT_TEXT(XRCID("MainRomVisicom"), GuiMain::onMainRom1Text)
@@ -325,7 +324,6 @@ void GuiStudio2::readCoinArcadeConfig()
     defaultScale.Printf("%i", 3);
     conf[COINARCADE].xScale_ = configPointer->Read("/CoinArcade/Window_Scale_Factor_X", defaultScale);
     conf[COINARCADE].realCassetteLoad_ = false;
-    conf[COINARCADE].overrideCpuType_ = (int)configPointer->Read("/CoinArcade/Override_Cpu_Type", 1l);
   
     if (mode_.gui)
     {
@@ -334,7 +332,6 @@ void GuiStudio2::readCoinArcadeConfig()
         XRCCTRL(*this, "ZoomValueCoinArcade", wxTextCtrl)->ChangeValue(conf[COINARCADE].zoom_);
         clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
         XRCCTRL(*this, "VolumeCoinArcade", wxSlider)->SetValue(conf[COINARCADE].volume_);
-        XRCCTRL(*this, "CpuCoinArcade", wxChoice)->SetSelection(conf[COINARCADE].overrideCpuType_);
     }
 }
 
@@ -355,7 +352,6 @@ void GuiStudio2::writeCoinArcadeConfig()
     configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_);
     configPointer->Write("/CoinArcade/Clock_Speed", conf[COINARCADE].clock_);
     configPointer->Write("/CoinArcade/Volume", conf[COINARCADE].volume_);
-    configPointer->Write("/CoinArcade/Override_Cpu_Type", conf[COINARCADE].overrideCpuType_);
 }
 
 void GuiStudio2::readCoinArcadeWindowConfig()

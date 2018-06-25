@@ -1,0 +1,83 @@
+<HTML>
+<Title>Cassette</Title>
+<BODY>
+<h2>Cassette Support (wave Files)</h2>
+<h3>Real Cassette</h3>
+<p>
+For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>
+</p>
+<h3>Wave Files</h3>
+<p>
+The easiest and fastest way to load or save a .wav file into the FRED 2 emulator is by making sure both options 'Turbo LOAD/SAVE' and 'Auto LOAD/SAVE' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.
+</p>
+<p>
+This chapter describes using the front panel buttons for loading.
+</p>
+<p>
+Note that we have not been able to load any of the saved wav files on a real FRED 2. If you have/need that option, please let me know and we can do some trouble shooting on this. Changing the wave file settings might impact the usability of the wav files on a real FRED 2, see also below.
+</p>
+<p>
+When using wav files created from real tapes make sure they are in 16 bit PCM format and preferably in mono. To create that specific format open the file in audacity and split the stereo track in mono, close one of the tracks and then export to a 16 bit PCM file. If the file does not load and/or indicates parity errors, try to use one or more of the following options:
+<ul>
+<li>After selecting the wave form, run a High pass filter at 2000 Hz with 6dB rolloff.
+<li>Normalize the selection to remove DC offset and set maximum amplitude to 0 to -4 dB.
+</ul>
+</p>
+<p>
+After using one of the options above likely the FRED 16 bit silence threshold should be increased (via the wave file settigns menu, see below). Change the value from 500 to around 2000 or even 3000.
+</p>
+<h4>Auto LOAD/SAVE</h4>
+<p>
+Default settings, to use this make sure 'Auto LOAD/SAVE' is checked.
+</p>
+<p>
+To load a .wav file into the FRED 2 first start the Emma 02 emulator select the FRED 2 tab and then use the 'Load' configuration from menu 'File / Configuration / Load'. Alternatively make sure 'Auto boot' is NOT selected before starting the FRED 2. Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Now start the FRED 2 emulator (start button on Cosmicos tab). On start-up the FRED 2 will activate the wav file until a 'stop' tone is found after which the emulator will stop the tape. Loading can be started by switching the 'READ' switch on the control panel. The cassette PLAY button should go green until loading is finalized.
+</p>
+<p>
+To save a .wav file from the FRED 2, select a .wav file in the Emma 02 window by selecting the 'Cassette' push button.
+</p>
+<p>
+For both save and load make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the FRED 2 emulator will hang (until you manually start a .wav file) or with a save the wav sound will not be written to any file.
+</p>
+<h4>Manual LOAD/SAVE</h4>
+<p>
+To use this make sure 'Auto LOAD/SAVE' is NOT checked. Otherwise handling is the same as for 'Auto LOAD/SAVE' except that PLAY and REC buttons need to be pressed manually. For full manual tape handling also deselect 'Detect Stop Tone'.
+</p>
+<h4>Turbo LOAD/SAVE</h4>
+<p>
+When Turbo LOAD/SAVE is selected the emulator will increase speed when a wav file is played to allow faster LOAD and SAVE possibility in the emulator. The speed of the Turbo LOAD/SAVE can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. On my vista desktop vista limits CPU usage to 50% max but on my windows 2000 laptop CPU usage gets up to 100% and can possibly hang the laptop for the duration of the LOAD or SAVE command.
+</p>
+<h4>Start Tape on Boot</h4>
+<p>
+When 'Start tape on Boot' is selected the tape will be started automatically on boot of the FRED 1. The tape should run until a stop tone is detected (unless 'Detect Stop Tone' is not selected). If no stop tone is available at the start of the tape deselect 'Start tape on Boot'.
+</p>
+<h4>Wave File Settings</h4>
+<p>
+Via the 'Settings' drop down menu select 'Wav File and Real Cassette Settings' to change the wave file settings used for saving or loading a '.wav' file. The following subchapters describe applicable settings in more detail. Settings for saving to a file are the 'Wave volume', 'Bit Rate' and 'Bits per sample', setting for loading a wav file are the 'Wav file conversion' and 'Reversed Polarity'. The 'Cassette conversion' and 'Input Channel' are only used for Real Cassette loading.
+</p>
+<h5>Wave volume</h5>
+<p>
+1 to 15 (where 15 is the loudest)
+</p>
+<h5>Bit Rate</h5>
+<p>
+11025, 22050, 44100 or 88200 (samples per second)
+</p>
+<h5>Bits per sample</h5>
+<p>
+8 or 16
+</p>
+<h5>FRED Threshold</h5>
+<p>
+Default set to 500 for 16 bit and 10 for 8 bit wav files. This value is used to detect silences in the FRED PM System tape format. If any file gives parity errors try increasing this value.
+</p>
+<h5>Wav file conversion</h5>
+<p>
+Not used for the FRED 2 tape emulator.
+</p>
+<h5>Reversed Polarity</h5>
+<p>
+Not used for the FRED 2 tape emulator.
+</p>
+</BODY>
+</HTML>

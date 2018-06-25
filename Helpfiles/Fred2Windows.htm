@@ -1,0 +1,29 @@
+
+
+<HTML>
+<Title>Control Windows</Title>
+<BODY>
+<h2>Control Windows</h2>
+<p>
+The FRED 2 control panel can be emulated by selecting the checkbox 'FRED 2 Window'
+</p>
+<p>
+Emulation of the leds can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'Leds' field. When 0 ms (or nothing) is specfied the leds will be updated in real time.
+</p>
+<h3>Front Panel</h3>
+<p>
+The front panel includes the following leds and switches:
+</p>
+<UL>
+<LI>Bit leds: 8 bit leds (0-7) showing the 8 bit data bus on IDLE Rx instructions and run switch press (see below).
+<LI>Stop led: Indicates that the FRED 2 CPU is not running.
+<LI>Ready led: Indicates that the FRED 2 is in IDLE state.
+<LI>Error led: On when a cassette parity error occurs.
+<LI>Reset button: If pressed resets the FRED 2. It will deactivate all I/O devices, set P=0 and R=0000. After reset stop and ready leds should both be on. Error led should be off. Note that when selecting 'Auto boot' a reset will auto boot the CPU directly.
+<LI>Run button: If pressed will start the FRED 2 in RUN mode starting instruction at R0. If the card switch is up the run switch will show the current value of address in R0 on the leds and increase R0 with one.
+<LI>Read button: Activates the cassette read direct mode.
+<LI>Card switch: not supported in the Emma 02 FRED 2 emulator.
+<LI>Off switch: Turns the FRED 2 power off.
+</UL>
+</BODY>
+</HTML>

@@ -109,6 +109,8 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case TMC2000:
         case NANO:
 		case ETI:
+		case FRED1:
+		case FRED2:
 			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu_Cas_Mem.xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
             XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
@@ -168,6 +170,8 @@ void PopupDialog::init()
 		case TMC2000:
 		case NANO:
 		case ETI:
+		case FRED1:
+		case FRED2:
 		case MICROTUTOR:
 			XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             setStartLocation(p_Main->getSaveStartString(computer_));

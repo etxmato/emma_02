@@ -225,9 +225,10 @@ BEGIN_EVENT_TABLE(Fred, wxFrame)
 	EVT_CLOSE (Fred::onClose)
 END_EVENT_TABLE()
 
-Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, int computerType)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
+    computerType_ = computerType;
     fredConfiguration = conf;
     fredClockSpeed_ = clock;
 
@@ -267,10 +268,10 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
 Fred::~Fred()
 {
-    p_Main->setPixiePos(FRED2, pixiePointer->GetPosition());
+    p_Main->setPixiePos(computerType_, pixiePointer->GetPosition());
     pixiePointer->Destroy();
     
-	p_Main->setMainPos(FRED2, GetPosition());
+	p_Main->setMainPos(computerType_, GetPosition());
     delete fredScreenPointer;
 }
 
@@ -291,7 +292,10 @@ void Fred::configureComputer()
     efType_[4] = FREDEF4;
     cycleType_[KEYCYCLE] = KEYBRDCYCLE;
 
-	p_Main->message("Configuring FRED 2");
+	if (computerType_ == FRED1)
+		p_Main->message("Configuring FRED 1");
+	else 
+		p_Main->message("Configuring FRED 2");
     p_Main->message("	Output 1: set I/O group\n");
     
     p_Main->message("	I/O group 1: hex keypad");
@@ -316,11 +320,20 @@ void Fred::configureComputer()
     p_Main->message("	EF 2: tape run/stop");
     p_Main->message("	EF 4: tape error\n");
     
-    p_Main->getDefaultHexKeys(FRED2, "FRED2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+	if (computerType_ == FRED1)
+	{
+    	p_Main->getDefaultHexKeys(computerType_, "FRED1", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
-    if (p_Main->getConfigBool("/FRED2/GameAuto", true))
-        p_Main->loadKeyDefinition(p_Main->getRamFile(FRED2), p_Main->getRamFile(FRED2), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+		 if (p_Main->getConfigBool("/FRED1/GameAuto", true))
+			p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+	}
+	else
+	{
+    	p_Main->getDefaultHexKeys(computerType_, "FRED2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
+		 if (p_Main->getConfigBool("/FRED2/GameAuto", true))
+			p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+	}
     resetCpu();
 }
 
@@ -562,7 +575,7 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
             if ((value&2) != (tapeRunSwitch_&2))
             {
                 if ((value&2) == 2)
-                    p_Computer->setVolume(p_Main->getVolume(FRED2));
+                    p_Computer->setVolume(p_Main->getVolume(computerType_));
                 else
                 {
                     if ((value&4) != 4)
@@ -652,7 +665,10 @@ void Fred::onRunButton()
 
 void Fred::autoBoot()
 {
-    scratchpadRegister_[0]=p_Main->getBootAddress("FRED2", FRED2);
+	if (computerType_ == FRED1)
+	    scratchpadRegister_[0]=p_Main->getBootAddress("FRED1", computerType_);
+	else
+	    scratchpadRegister_[0]=p_Main->getBootAddress("FRED2", computerType_);
 
     fredScreenPointer->setReadyLed(0);
     fredScreenPointer->setStopLed(0);
@@ -729,14 +745,14 @@ void Fred::startComputer()
 {
     double zoom = p_Main->getZoom();
 //    double scale = p_Main->getScale();
-    pixiePointer = new PixieFred( "FRED 2", p_Main->getPixiePos(FRED2), wxSize(64*3*zoom, 128*zoom), zoom, 1, FRED2);
+    pixiePointer = new PixieFred( "FRED 2", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
     p_Video = pixiePointer;
 
     resetPressed_ = false;
 
 	p_Main->setSwName("");
     
-    ramMask_ = ((2<<p_Main->getRamType(FRED2))<<10)-1;
+    ramMask_ = ((2<<p_Main->getRamType(computerType_))<<10)-1;
     
     defineMemoryType(0x0, ramMask_, RAM);
     for (int i=ramMask_+1; i<0xff00; i+=(ramMask_+1))
@@ -745,7 +761,7 @@ void Fred::startComputer()
     initRam(0x0, ramMask_);
     p_Main->assDefault("fred", 0, ramMask_);
 
-    readProgram(p_Main->getRamDir(FRED2), p_Main->getRamFile(FRED2), RAM, 0, NONAME);
+    readProgram(p_Main->getRamDir(computerType_), p_Main->getRamFile(computerType_), RAM, 0, NONAME);
     
     if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
     {
@@ -778,7 +794,7 @@ void Fred::startComputer()
 	cpuCycles_ = 0;
 	p_Main->startTime();
 
-    int ms = (int) p_Main->getLedTimeMs(FRED2);
+    int ms = (int) p_Main->getLedTimeMs(computerType_);
     fredScreenPointer->setLedMs(ms);
     if (ms == 0)
         ledCycleSize_ = -1;
@@ -1190,7 +1206,7 @@ void Fred::finishStopTape()
 
 void Fred::moveWindows()
 {
-    pixiePointer->Move(p_Main->getPixiePos(FRED2));
+    pixiePointer->Move(p_Main->getPixiePos(computerType_));
 }
 
 void Fred::updateTitle(wxString Title)

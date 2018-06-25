@@ -37,7 +37,7 @@ private:
 class Fred : public wxFrame, public Cdp1802
 {
 public:
-	Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+	Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf, int computerType);
 	~Fred();
 
     void onClose(wxCloseEvent&WXUNUSED(event));
