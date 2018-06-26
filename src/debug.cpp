@@ -2710,6 +2710,14 @@ void DebugWindow::addTrap()
 				printBuffer.Printf("PHI  R%X",n);
 		break;
 		case 0xc:
+            if (cpuType_ == SYSTEM00)
+            {
+                if (traps_[i][7] == 0xf0)
+                    printBuffer.Printf("PNI  Rx");
+                else
+                    printBuffer.Printf("PNI  R%X",n);
+                break;
+            }
 			printBuffer2.Printf("%04X", traps_[i][2]<<8|traps_[i][3]);
 			switch(n)
 			{
@@ -6586,6 +6594,22 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
                 }
                 return ERROR_INST;
             }
+            if (assInput.parameterValue[0] == 0xb)
+            {
+                if (assembleCommand_[LD_RB_MMM] != -1)
+                { // LD B, MMM
+                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+                        return ERROR_PAR;
+                    if (assInput.parameterType[1] != ASS_HEX_VALUE)
+                        return ERROR_12BIT;
+                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
+                        return ERROR_12BIT;
+                    *b1 = assembleCommand_[LD_RB_MMM] | ((assInput.parameterValue[1] >> 8) & 0xf);
+                    *b2 = assInput.parameterValue[1] & 0xff;
+                    return 2;
+                }
+                return ERROR_INST;
+            }
             if (assInput.parameterValue[0] == 0xb && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[RA]" && assInput.parameterType[2] == CHIP8_VX && assInput.numberOfParameters == 3)
             { // LD B, [RA], Vx
                 if (assembleCommand_[FEL1_COMMAND_7] == -1)
@@ -6693,34 +6717,6 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
 					*b2 = assInput.parameterValue[1] | 0xe0;
 					return 2;
 				}
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "RA")
-            { 
-                if (assembleCommand_[LD_RA_MMM] != -1)
-                { // LD RA, MMM
-                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                        return ERROR_PAR;
-                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
-                        return ERROR_12BIT;
-                    *b1 = assembleCommand_[LD_RA_MMM] | ((assInput.parameterValue[1] >> 8) & 0xf);
-                    *b2 = assInput.parameterValue[1] & 0xff;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "RB")
-            {
-                if (assembleCommand_[LD_RB_MMM] != -1)
-                { // LD RB, MMM
-                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                        return ERROR_PAR;
-                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
-                        return ERROR_12BIT;
-                    *b1 = assembleCommand_[LD_RB_MMM] | ((assInput.parameterValue[1] >> 8) & 0xf);
-                    *b2 = assInput.parameterValue[1] & 0xff;
-                    return 2;
-                }
                 return ERROR_INST;
             }
             if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "[RA]")
@@ -9452,7 +9448,7 @@ int DebugWindow::getRegisterNumber(AssInput assInput, long* registerNumber, Byte
 
 int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
 {
-    if (buffer.Left(4)== "[RA]" || buffer.Left(4)== "[RB]" || buffer.Left(2)== "RA" || buffer.Left(2)== "RB" || 
+    if (buffer.Left(4)== "[RA]" || buffer.Left(4)== "[RB]" || 
 		buffer.Left(4)== "RB.0" || buffer.Left(4)== "RB.1" || buffer.Left(4)== "RA.0" || buffer.Left(4)== "R0.1" ||
 		buffer.Left(6)== "[V0V1]" || buffer.Left(4)== "V0V1" || buffer.Left(6)== "[V2V3]" || buffer.Left(4)== "V2V3" ||
 		buffer.Left(2)== "[I" || buffer.Left(3)== "V9]"|| buffer.Left(3)== "[I]" || buffer.Left(4)== "[>I]" ||
@@ -12168,8 +12164,7 @@ int DebugWindow::markType(long *addrLong, int type)
 					bytes =	numberOfBytes1802[p_Computer->readMem(address)];
 				break;
 
-				case CPU1804:
-				case CPU1805:
+				default:
 					bytes =	numberOfBytes1802[p_Computer->readMem(address)];
 					if (bytes == 0)
 						bytes =	numberOfBytes1806[p_Computer->readMem(address+1)];
@@ -12181,7 +12176,7 @@ int DebugWindow::markType(long *addrLong, int type)
 				address++;
 			}
 			else
-			{	assErrorDisplay(DirAssErrorCodes[ERROR_TEMP_CPU_1801-1]);
+			{	assErrorDisplay(DirAssErrorCodes[ERROR_TEMP_CPU_1801-ERROR_START-1]);
 				return 1;
 			}
 			for (int i=1; i<bytes; i++)

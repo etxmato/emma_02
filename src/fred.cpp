@@ -744,8 +744,10 @@ void Fred::onCardButton()
 void Fred::startComputer()
 {
     double zoom = p_Main->getZoom();
-//    double scale = p_Main->getScale();
-    pixiePointer = new PixieFred( "FRED 2", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
+    if (computerType_ == FRED1)
+        pixiePointer = new PixieFred( "FRED 1", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
+    else
+        pixiePointer = new PixieFred( "FRED 2", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
     p_Video = pixiePointer;
 
     resetPressed_ = false;
@@ -1211,7 +1213,10 @@ void Fred::moveWindows()
 
 void Fred::updateTitle(wxString Title)
 {
-    pixiePointer->SetTitle("FRED 2"+Title);
+    if (computerType_ == FRED1)
+        pixiePointer->SetTitle("FRED 1"+Title);
+    else
+        pixiePointer->SetTitle("FRED 2"+Title);
 }
 
 void Fred::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))

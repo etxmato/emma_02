@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "550700557.347813"
+            timestampString = "551736715.248531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1017"
-            endingLineNumber = "1017"
+            startingLineNumber = "1019"
+            endingLineNumber = "1019"
             landmarkName = "Fred::cassetteFred(short val)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "550700557.347813"
+            timestampString = "551736715.248531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1063"
-            endingLineNumber = "1063"
+            startingLineNumber = "1065"
+            endingLineNumber = "1065"
             landmarkName = "Fred::cassetteFred(short val)"
             landmarkType = "7">
          </BreakpointContent>
@@ -298,11 +298,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "550700557.347813"
+            timestampString = "551736715.248531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1015"
-            endingLineNumber = "1015"
+            startingLineNumber = "1017"
+            endingLineNumber = "1017"
             landmarkName = "Fred::cassetteFred(short val)"
             landmarkType = "7">
          </BreakpointContent>
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "550700557.347813"
+            timestampString = "551736715.248531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1000"
-            endingLineNumber = "1000"
+            startingLineNumber = "1002"
+            endingLineNumber = "1002"
             landmarkName = "Fred::resetFred()"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "550700557.347813"
+            timestampString = "551736715.248531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1007"
-            endingLineNumber = "1007"
+            startingLineNumber = "1009"
+            endingLineNumber = "1009"
             landmarkName = "Fred::cassetteFred(short val)"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "550700557.347813"
+            timestampString = "551736715.248531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1012"
-            endingLineNumber = "1012"
+            startingLineNumber = "1014"
+            endingLineNumber = "1014"
             landmarkName = "Fred::cassetteFred(short val)"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/fred.cpp"
-            timestampString = "550700557.347813"
+            timestampString = "551736715.248531"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "999"
-            endingLineNumber = "999"
+            startingLineNumber = "1001"
+            endingLineNumber = "1001"
             landmarkName = "Fred::resetFred()"
             landmarkType = "7">
          </BreakpointContent>
@@ -458,11 +458,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/debug.cpp"
-            timestampString = "550558870.655672"
+            timestampString = "551732808.4779119"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2958"
-            endingLineNumber = "2958"
+            startingLineNumber = "2966"
+            endingLineNumber = "2966"
             landmarkName = "DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool showOpcode, bool textAssembler, Word start, Word end)"
             landmarkType = "7">
          </BreakpointContent>
@@ -526,6 +526,70 @@
             startingLineNumber = "243"
             endingLineNumber = "243"
             landmarkName = "Cdp1802::pixieDmaOut(int *color)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            timestampString = "551736468.9568059"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "10024"
+            endingLineNumber = "10024"
+            landmarkName = "DebugWindow::onTrapSet(wxCommandEvent&amp;WXUNUSED(event))"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            timestampString = "551733149.772598"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "3621"
+            endingLineNumber = "3621"
+            landmarkName = "DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool showOpcode, bool textAssembler, Word start, Word end)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            timestampString = "551733218.03836"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2715"
+            endingLineNumber = "2715"
+            landmarkName = "DebugWindow::addTrap()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            timestampString = "551736255.595955"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "6583"
+            endingLineNumber = "6583"
+            landmarkName = "DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

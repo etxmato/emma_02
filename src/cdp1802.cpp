@@ -1982,10 +1982,13 @@ void Cdp1802::cpuCycle()
                     }
                     
                 }
-                if (trace_)
+                else
                 {
-                    buffer.Printf("Illegal code");
-                    tr = tr + buffer;
+                    if (trace_)
+                    {
+                        buffer.Printf("Illegal code");
+                        tr = tr + buffer;
+                    }
                 }
                 break;
             }
