@@ -34,7 +34,6 @@
 #include "guimain.h"
 #include "fred.h"
 
-#define CHIP8_PC 5
 #define TAPE_MODE_PROGRAM 0x10
 #define TAPE_MODE_DIRECT 0x20
 #define TAPE_MODE_WRITE 0x40
@@ -44,6 +43,11 @@
 #define INP_MODE_TAPE_PROGRAM 2
 #define INP_MODE_TAPE_DIRECT 3
 #define INP_MODE_TAPE_RUN 4
+#define INP_MODE_KEY_DIRECT 5
+
+#define FRED_TAPE_FORMAT_AUTO 0
+#define FRED_TAPE_FORMAT_PM 1
+#define FRED_TAPE_FORMAT_56 2
 
 FredScreen::FredScreen(wxWindow *parent, const wxSize& size)
 : Panel(parent, size)
@@ -253,6 +257,11 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
 	silenceCount_ = 0;
 	bitNumber_ = -1;
 
+    pulseCountStopTone_ = 2000;
+    tapeFormat56_ = false;
+    tapeFormatFixed_ = false;
+    toneTime_ = 0;
+
     pulseCount_ = 0;
     tapeRecording_ = false;
     tapeActivated_ = false;
@@ -264,6 +273,9 @@ Fred::Fred(const wxString& title, const wxPoint& pos, const wxSize& size, double
     fredScreenPointer = new FredScreen(this, size);
     fredScreenPointer->init();
     keyCode_ = WXK_NONE;
+    keyValue_ = 0;
+    shiftPressed_ = 0;
+    nextNybble_ = 'H';
 }
 
 Fred::~Fred()
@@ -298,14 +310,14 @@ void Fred::configureComputer()
 		p_Main->message("Configuring FRED 2");
     p_Main->message("	Output 1: set I/O group\n");
     
-    p_Main->message("	I/O group 1: hex keypad");
+    p_Main->message("	I/O group 1: hex keypad & card");
     p_Main->message("	I/O group 2: TV");
     p_Main->message("	I/O group 3: tape");
     
     p_Main->message("");
     
-    p_Main->message("Configuring hex keypad support");
-    p_Main->message("	Output 2: 0 = keypad disabled, 1 = keypad enabled");
+    p_Main->message("Configuring hex keypad & card support");
+    p_Main->message("	Output 2: 1 = program mode, 2 = direct mode");
     p_Main->message("	Input 0: read byte");
     p_Main->message("	EF 1: data ready\n");
     
@@ -322,9 +334,9 @@ void Fred::configureComputer()
     
 	if (computerType_ == FRED1)
 	{
-    	p_Main->getDefaultHexKeys(computerType_, "FRED1", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+        p_Main->getDefaultHexKeys(computerType_, "FRED1", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
-		 if (p_Main->getConfigBool("/FRED1/GameAuto", true))
+        if (p_Main->getConfigBool("/FRED1/GameAuto", true))
 			p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 	}
 	else
@@ -361,32 +373,71 @@ void Fred::initComputer()
 
 void Fred::keyDown(int keycode)
 {
+    if (keycode == WXK_SHIFT)
+        shiftPressed_ = 0x10;
+    
     for (int i=0; i<16; i++)
     {
         if (keycode == keyDefA1_[i])
         {
-            keyCycles_ = 15000;
             keyCode_ = (wxKeyCode)keycode;
-            ef1State_ = 0;
-            keyValue_ = i;
-//            switches_ = ((switches_ << 4) & 0xf0) | i;
+            keyFound(i);
         }
         if (keycode == keyDefA2_[i])
         {
-            keyCycles_ = 15000;
             keyCode_ = (wxKeyCode)keycode;
-            ef1State_ = 0;
-            keyValue_ = i;
-//            switches_ = ((switches_ << 4) & 0xf0) | i;
+            keyFound(i);
         }
     }
     if (ef1State_ == 1)
         keyCode_ = WXK_NONE;
 }
 
-void Fred::keyUp(int WXUNUSED(keycode))
+void Fred::keyFound(int key)
 {
-    ef1State_ = 1;
+    if (fredConfiguration.keyboardType == FRED_HEX_PULSE_MODE)
+        keyCycles_ = 2000;
+    else
+        keyCycles_ = 20000;
+
+    if (fredConfiguration.keyboardType == FRED_HEX_MODE || fredConfiguration.keyboardType == FRED_HEX_PULSE_MODE )
+    {
+        if (inpMode_ == INP_MODE_KEY_DIRECT)
+            dmaIn(key | shiftPressed_);
+        else
+        {
+            keyValue_ = key | shiftPressed_;
+            ef1State_ = 0;
+        }
+    }
+    else
+    {
+        if (nextNybble_ == 'H')
+        {
+            nextNybble_ = 'L';
+            keyValue_ = key << 4;
+        }
+        else
+        {
+            nextNybble_ = 'H';
+            if (inpMode_ == INP_MODE_KEY_DIRECT)
+                dmaIn(keyValue_ | key);
+            else
+            {
+                keyValue_ = keyValue_ | key;
+                ef1State_ = 0;
+            }
+        }
+    }
+
+}
+
+void Fred::keyUp(int keycode)
+{
+    if (keycode == WXK_SHIFT)
+        shiftPressed_ = 0;
+    else
+        ef1State_ = 1;
 }
 
 void Fred::cycleKeyboard()
@@ -396,12 +447,25 @@ void Fred::cycleKeyboard()
         keyCycles_--;
         return;
     }
-    if (ef1State_ == 1 && keyCode_ != WXK_NONE)
+    if (fredConfiguration.keyboardType == FRED_HEX_PULSE_MODE)
     {
-        if (wxGetKeyState(keyCode_))
+        ef1State_ = 1;
+        keyCycles_ = 2000;
+    }
+    else
+    {
+        if (keyCode_ != WXK_NONE)
         {
-            ef1State_ = 0;
-            keyCycles_ = 15000;
+            if (wxGetKeyState(keyCode_))
+            {
+                ef1State_ = 0;
+                keyCycles_ = 20000;
+            }
+            else
+            {
+                ef1State_ = 1;
+                keyCycles_ = 20000;
+            }
         }
     }
 }
@@ -511,8 +575,8 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                 case IO_GRP_FRED_KEYPAD:
                     if (value  == 1)
                         inpMode_ = INP_MODE_KEYPAD;
-                    else
-                        inpMode_ = INP_MODE_NONE;
+                    if (value  == 2)
+                        inpMode_ = INP_MODE_KEY_DIRECT;
                 break;
                     
                 case IO_GRP_FRED_TV:
@@ -650,7 +714,10 @@ void Fred::onRunButton()
         showDataLeds(dmaOut());
     else
     {
-        scratchpadRegister_[0]=p_Main->getBootAddress("ElfII", ELFII);
+        if (computerType_ == FRED1)
+            dmaOut();
+        else
+            scratchpadRegister_[0]=p_Main->getBootAddress("FRED2", computerType_);
         
         fredScreenPointer->setReadyLed(0);
         fredScreenPointer->setStopLed(0);
@@ -666,7 +733,7 @@ void Fred::onRunButton()
 void Fred::autoBoot()
 {
 	if (computerType_ == FRED1)
-	    scratchpadRegister_[0]=p_Main->getBootAddress("FRED1", computerType_);
+        dmaOut();
 	else
 	    scratchpadRegister_[0]=p_Main->getBootAddress("FRED2", computerType_);
 
@@ -675,36 +742,6 @@ void Fred::autoBoot()
 
 	setClear(1);
     setWait(1);
-}
-
-void Fred::onReadButton()
-{
-    readSwitchOn_ = !readSwitchOn_;
-	tapeEnd_ = false;
-	if (inpMode_ == INP_MODE_TAPE_DIRECT)
-    {
-        inpMode_ = INP_MODE_NONE;
-		tapeRunSwitch_ = 0;
-        p_Computer->pauseTape();
-        p_Main->turboOff();
-
-        setClear(0);
-        setWait(1);
-        
-        fredScreenPointer->setReadyLed(1);
-        fredScreenPointer->setStopLed(1);
-    }
-	else
-	{
-		inpMode_ = INP_MODE_TAPE_DIRECT;
-        startLoad(false);
-        
-        setClear(0);
-        setWait(0);
-
-        fredScreenPointer->setReadyLed(1);
-        fredScreenPointer->setStopLed(0);
-	}
 }
 
 void Fred::startLoad(bool button)
@@ -719,6 +756,12 @@ void Fred::startLoad(bool button)
     polarity_ = 0;
     silenceCount_ = 0;
     bitNumber_ = -1;
+    
+    pulseCountStopTone_ = 2000;
+    tapeFormat56_ = false;
+    tapeFormatFixed_ = false;
+    toneTime_ = 0;
+    
     if (tapeActivated_)
     {
         p_Main->turboOn();
@@ -736,9 +779,75 @@ void Fred::startLoad(bool button)
         tapeRunSwitch_ = tapeRunSwitch_ | 1;
 }
 
+void Fred::onReadButton()
+{
+    readSwitchOn_ = !readSwitchOn_;
+    tapeEnd_ = false;
+    
+    updateCardReadStatus();
+}
+
 void Fred::onCardButton()
 {
     cardSwitchOn_ = !cardSwitchOn_;
+    
+
+    updateCardReadStatus();
+}
+
+void Fred::updateCardReadStatus()
+{
+    if (!readSwitchOn_)
+    {
+        if (inpMode_ == INP_MODE_TAPE_DIRECT)
+        {
+            inpMode_ = INP_MODE_NONE;
+            tapeRunSwitch_ = 0;
+            p_Computer->pauseTape();
+            p_Main->turboOff();
+        
+            setClear(0);
+            setWait(1);
+        
+            fredScreenPointer->setReadyLed(1);
+            fredScreenPointer->setStopLed(1);
+        }
+        if (inpMode_ == INP_MODE_KEY_DIRECT)
+            inpMode_ = INP_MODE_NONE;
+    }
+    
+    if (readSwitchOn_ && !cardSwitchOn_)
+    {
+        if (inpMode_ == INP_MODE_NONE)
+        {
+            inpMode_ = INP_MODE_TAPE_DIRECT;
+            startLoad(false);
+        
+            setClear(0);
+            setWait(0);
+        
+            fredScreenPointer->setReadyLed(1);
+            fredScreenPointer->setStopLed(0);
+        }
+        else
+        {
+            inpMode_ = INP_MODE_TAPE_DIRECT;
+            p_Main->turboOn();
+            p_Computer->restartTapeLoad();
+        }
+    }
+    
+    if (readSwitchOn_ && cardSwitchOn_)
+    {
+        if (inpMode_ == INP_MODE_TAPE_DIRECT)
+        {
+            tapeRunSwitch_ = 0;
+            p_Computer->pauseTape();
+            p_Main->turboOff();
+        }
+        
+        inpMode_ = INP_MODE_KEY_DIRECT;
+    }
 }
 
 void Fred::startComputer()
@@ -754,7 +863,7 @@ void Fred::startComputer()
 
 	p_Main->setSwName("");
     
-    ramMask_ = ((2<<p_Main->getRamType(computerType_))<<10)-1;
+    ramMask_ = ((1<<p_Main->getRamType(computerType_))<<10)-1;
     
     defineMemoryType(0x0, ramMask_, RAM);
     for (int i=ramMask_+1; i<0xff00; i+=(ramMask_+1))
@@ -771,6 +880,13 @@ void Fred::startComputer()
         chip8mainLoop_ = 0x13B;
         chip8type_ = CHIPFEL1;
     }
+    if (mainMemory_[0x6b] == 0x4f && mainMemory_[0x2a] == 0xe3 && mainMemory_[0x100] == 0x2c && mainMemory_[0x11b] == 0x18)
+    {
+        chip8baseVar_ = 0;
+        chip8mainLoop_ = 0x6b;
+        chip8type_ = CARDTRAN;
+    }
+    
     if (chip8type_ != CHIP_NONE)
         p_Main->defineFelCommands_(chip8type_);
 
@@ -986,6 +1102,12 @@ void Fred::resetFred()
         chip8mainLoop_ = 0x13B;
         chip8type_ = CHIPFEL1;
     }
+    if (mainMemory_[0x6b] == 0x4f && mainMemory_[0x2a] == 0xe3 && mainMemory_[0x100] == 0x2c && mainMemory_[0x11b] == 0x18)
+    {
+        chip8baseVar_ = 0;
+        chip8mainLoop_ = 0x6b;
+        chip8type_ = CARDTRAN;
+    }
     
     setClear(0);
     setWait(1);
@@ -1000,102 +1122,81 @@ void Fred::resetFred()
     
     pixiePointer->initPixie();
     ioGroup_ = 0;
+    
+    p_Main->setCurrentCardValue();
 }
 
 void Fred::cassetteFred(short val)
 {
     if ((tapeRunSwitch_&1) != 1)
-		return;
-
-	wxString message;
-
-	int difference;
-	if (val < lastSample_)
-		difference = lastSample_ - val;
-	else
-		difference = val - lastSample_;
-
-	if (difference < threshold16_)
-		silenceCount_++;
-	else
-		silenceCount_ = 0;
-
-	if (lastSample_ <= 0)
-	{
-		if (val > 0 && silenceCount_ == 0) 
-			pulseCount_++;
-	}
-	else
-	{
-		if (val < 0 && silenceCount_ == 0) 
-			pulseCount_++;
-	}
-
-    if (pulseCount_ > 4000 && silenceCount_ > 10 && fredConfiguration.stopTone)
-	{
-            p_Computer->pauseTape();
-            p_Main->turboOff();
-            tapeRunSwitch_ = tapeRunSwitch_ & 2;
-    }
-
-	if (pulseCount_ > 1 && silenceCount_ > 10)
+        return;
+    
+    int difference;
+    if (val < lastSample_)
+        difference = lastSample_ - val;
+    else
+        difference = val - lastSample_;
+    
+    if (difference < threshold16_)
+        silenceCount_++;
+    else
     {
-        if (bitNumber_ == 8)
-        {
-            if (pulseCount_ > 6 && (polarity_ & 1) != 1)
-			{
-                ef4State_ = 0;
-                fredScreenPointer->setErrorLed(1);
-     
-                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-                {
-	                message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
-                    p_Main->eventShowTextMessage(message);
-                }
-                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-                {
-	                message.Printf("Polarity issue");
-                    p_Main->eventShowTextMessage(message);
-                }
-                bitNumber_ = 0;
-                polarity_ = 0;
-                tapeInput_ = 0;
-                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-					dmaIn(tapeInput_);
-			}
-            else
-            {
-                if (inpMode_ == INP_MODE_TAPE_DIRECT)
-                    dmaIn(tapeInput_);
-				if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-				{
-					lastTapeInpt_ = tapeInput_;
-					ef1StateTape_ = 0;
-				}
-            }
-        }
-        else
-        {
-            if (bitNumber_ != -1)
-            {
-                if (pulseCount_ > 6)
-                    tapeInput_ = (1 << bitNumber_) | tapeInput_;
-            }
-            if (pulseCount_ > 6)
-                polarity_++;
-        }
-
-		if (bitNumber_ == 8)
-		{
-            polarity_ = 0;
-            tapeInput_ = 0;
-            bitNumber_ = -1;
-		}
-		else
-            bitNumber_++;
-
-		pulseCount_ = 0;
+        silenceCount_ = 0;
+        toneTime_++;
     }
+    
+    if (lastSample_ <= 0)
+    {
+        if (val > 0 && silenceCount_ == 0)
+            pulseCount_++;
+    }
+    else
+    {
+        if (val < 0 && silenceCount_ == 0)
+            pulseCount_++;
+    }
+    
+    if (pulseCount_ > pulseCountStopTone_ && silenceCount_ > 10 && fredConfiguration.stopTone)
+    {
+        p_Computer->pauseTape();
+        p_Main->turboOff();
+        tapeRunSwitch_ = tapeRunSwitch_ & 2;
+    }
+    
+    if (!tapeFormatFixed_)
+    {
+        switch (fredConfiguration.tapeFormat_)
+        {
+            case FRED_TAPE_FORMAT_PM:
+                tapeFormatFixed_ = true;
+            break;
+                
+            case FRED_TAPE_FORMAT_56:
+                pulseCountStopTone_ = 2000;
+                tapeFormatFixed_ = true;
+                tapeFormat56_ = true;
+            break;
+                
+            default:
+                if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+                { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                    pulseCountStopTone_ = 2000;
+                    tapeFormatFixed_ = true;
+                    tapeFormat56_ = true;
+                    if (computerType_ == FRED1)
+                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+                    else
+                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED2", "-> 5.2/6.2 Tone");
+                }
+            break;
+        }
+    }
+
+    if (tapeFormat56_)
+        cassetteFred56();
+    else
+        cassetteFredPm();
+
     lastSample_ = val;
 }
 
@@ -1103,8 +1204,6 @@ void Fred::cassetteFred(char val)
 {
     if ((tapeRunSwitch_&1) != 1)
         return;
-    
-    wxString message;
     
     int difference;
     if (val < lastSampleChar_)
@@ -1115,7 +1214,10 @@ void Fred::cassetteFred(char val)
     if (difference < threshold8_)
         silenceCount_++;
     else
+    {
         silenceCount_ = 0;
+        toneTime_++;
+    }
     
     if (lastSampleChar_ <= 0)
     {
@@ -1127,16 +1229,133 @@ void Fred::cassetteFred(char val)
         if (val < 0 && silenceCount_ == 0)
             pulseCount_++;
     }
-
-    if (pulseCount_ > 4000 && silenceCount_ > 10 && fredConfiguration.stopTone)
+    
+    if (pulseCount_ > pulseCountStopTone_ && silenceCount_ > 10 && fredConfiguration.stopTone)
     {
         p_Computer->pauseTape();
         p_Main->turboOff();
         tapeRunSwitch_ = tapeRunSwitch_ & 2;
     }
     
+    switch (fredConfiguration.tapeFormat_)
+    {
+        case FRED_TAPE_FORMAT_PM:
+            tapeFormatFixed_ = true;
+        break;
+            
+        case FRED_TAPE_FORMAT_56:
+            pulseCountStopTone_ = 2000;
+            tapeFormatFixed_ = true;
+            tapeFormat56_ = true;
+        break;
+            
+        default:
+            if (pulseCount_ > 50 && pulseCount_ < 200 && silenceCount_ > 10)
+            { // 5.2 & 6.2 tone format, if no tone is detected between 50 & 200 pulses at the start it is PM System format
+                pulseCountStopTone_ = 2000;
+                tapeFormatFixed_ = true;
+                tapeFormat56_ = true;
+                if (computerType_ == FRED1)
+                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
+                else
+                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED2", "-> 5.2/6.2 Tone");
+            }
+        break;
+    }
+    
+    if (tapeFormat56_)
+        cassetteFred56();
+    else
+        cassetteFredPm();
+    
+    lastSampleChar_ = val;
+}
+
+void Fred::cassetteFred56()
+{
+    float freq;
+    wxString message;
+    
+    if (pulseCount_ > 50 && silenceCount_ > 10)
+    {
+        tapeFormatFixed_ = true;
+        freq = (float) toneTime_ / (pulseCount_ - 1);
+        if (bitNumber_ == 8)
+        {
+            if (freq <= fredFreq_ && (polarity_ & 1) != 1)
+            {
+                ef4State_ = 0;
+                fredScreenPointer->setErrorLed(1);
+                
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                {
+                    message.Printf("Polarity issue at %04X", scratchpadRegister_[0]);
+                    p_Main->eventShowTextMessage(message);
+                }
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
+                    message.Printf("Polarity issue");
+                    p_Main->eventShowTextMessage(message);
+                }
+          //      bitNumber_ = 0;
+          //      polarity_ = 0;
+          //      tapeInput_ = 0;
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
+            }
+            else
+            {
+                if (inpMode_ == INP_MODE_TAPE_DIRECT)
+                    dmaIn(tapeInput_);
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
+                    lastTapeInpt_ = tapeInput_;
+                    ef1StateTape_ = 0;
+                }
+            }
+        }
+        else
+        {
+            if (bitNumber_ != -1)
+            {
+                if (freq <= fredFreq_)
+                    tapeInput_ = (1 << bitNumber_) | tapeInput_;
+            }
+            if (freq <= fredFreq_)
+                polarity_++;
+        }
+        
+        if (bitNumber_ == 8)
+        {
+            polarity_ = 0;
+            tapeInput_ = 0;
+            bitNumber_ = -1;
+        }
+        else
+            bitNumber_++;
+        
+        pulseCount_ = 0;
+        toneTime_ = 0;
+    }
+}
+
+void Fred::cassetteFredPm()
+{
+    wxString message;
+    
     if (pulseCount_ > 1 && silenceCount_ > 10)
     {
+        if (!tapeFormatFixed_)
+        {
+            if (fredConfiguration.tapeFormat_ == FRED_TAPE_FORMAT_AUTO)
+            {
+                if (computerType_ == FRED1)
+                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> PM System");
+                else
+                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED2", "-> PM SYSTEM");
+            }
+            tapeFormatFixed_ = true;
+        }
         if (bitNumber_ == 8)
         {
             if (pulseCount_ > 6 && (polarity_ & 1) != 1)
@@ -1160,16 +1379,15 @@ void Fred::cassetteFred(char val)
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                     dmaIn(tapeInput_);
             }
-            
             else
             {
                 if (inpMode_ == INP_MODE_TAPE_DIRECT)
                     dmaIn(tapeInput_);
-				if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
-				{
-					lastTapeInpt_ = tapeInput_;
-					ef1StateTape_ = 0;
-				}
+                if  (inpMode_ == INP_MODE_TAPE_PROGRAM)
+                {
+                    lastTapeInpt_ = tapeInput_;
+                    ef1StateTape_ = 0;
+                }
             }
         }
         else
@@ -1193,8 +1411,8 @@ void Fred::cassetteFred(char val)
             bitNumber_++;
         
         pulseCount_ = 0;
+        toneTime_ = 0;
     }
-    lastSampleChar_ = val;
 }
 
 void Fred::finishStopTape()
@@ -1259,4 +1477,23 @@ void Fred::checkFredFunction()
     }
 }
 
+void Fred::setKeyPadMode(int keyPadMode)
+{
+    fredConfiguration.keyboardType = keyPadMode;
+}
 
+void Fred::setTapeFormat(int tapeFormat)
+{
+    fredConfiguration.tapeFormat_ = tapeFormat;
+}
+
+void Fred::cardButton(int cardValue)
+{
+	if (inpMode_ == INP_MODE_KEY_DIRECT)
+		dmaIn(cardValue);
+	else 
+	{
+		keyValue_ = cardValue;
+		ef1State_ = 0;
+	}
+}

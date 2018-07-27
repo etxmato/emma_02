@@ -1,0 +1,46 @@
+The Sarnoff Collection at TCNJ, S.572.93, S.572.91, S.572.64, S.572.50, S.572.32, S.572.23,
+
+CARDTRAN definition
+
+Instruction       Code        Operation
+===========       ====        =========
+SKIP              0XXX        Skip
+INPUT [2AA]       10AA        Wait for 4 digit word input and put word -> M[2AA]
+JP 2AA            20AA        JumP to 2AA
+JZ DR, 2AA        21AA        Jump to 2AA if DR = 0
+JNZ DR, 2AA       22AA        Jump to 2AA if DR != 0
+LD DR, [2AA]      30AA        M[2AA] -> DR
+ADD [2AA], DR     40AA        M[2AA] + DR -> M[2AA], 000C -> DR
+SUB [2AA], DR     50AA        M[2AA] - DR -> M[2AA], 000B -> DR
+LD [2AA], DR      60AA        DR -> M[2AA]
+DISP0 [2AA]       70AA        Display word on M[2AA] on TV(0) display position
+DISP1 [2AA]       71AA        Display word on M[2AA] on TV(1) display position
+RSH [2AA]         80AA        Ring SHift M[2AA] right 1 digit
+LDD [2AA], DR     90AA        LSD of DR -> LSD of M[2AA]
+
+DR is a 4 digit variable stored at location 02E0/02E1
+AA is 2 digits
+
+Both DR and AA are decimal only, making the max value of AA 99. As each 'address' takes 2 bytes for an instruction or 4 digit word, the user area is max 200 bytes, i.e. 0200-02C7
+
+TV display:
+===========
+TV(0) TV(1)
+TV(2)
+
+CONTROL codes:
+==============
+F0 -  Load program mode @ M[200]. Cardtran interpreter will wait for for a 4 digit word which will be stored at location M[200] next word at M[202] etc. TV(2) position will show the 4 digiti instruction after 4 digits are received.
+F1 -  Execute CARDTRAN program at M[200]
+F2 -  Input AA, DDDD after which DDDD is stored at M[2AA]
+F3 -  Show value of DR on TV(2) display position
+F4 -  Input AA after which 4 digit word stored on M[2AA] is shown on TV(2) display position
+F5 -  Halt execution (except 70/71)
+F6 -  Resume execution
+F7 -  Execute next instruction only
+
+Example CARDTRAN code already:
+==============================
+
+This program wait for two four digit numbers, when the numbers are given it will multiply them and show a counter counting up to the result. At the end it will wait for two new numbers. If no input is given I think some random numbers are chosen.
+

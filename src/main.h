@@ -218,6 +218,7 @@ protected:
 #define SHOW_ADDRESS_POPUP 29
 #define SHOW_TEXT_MESSAGE 30
 #define DEBOUNCE_TIMER 31
+#define SET_STATIC_TEXT_VALUE 32
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -243,6 +244,10 @@ protected:
 #define OS_MINOR_8 2
 #define OS_MINOR_8_1 3
 #define OS_MINOR_10 0
+
+#define FRED_HEX_MODE 0
+#define FRED_BYTE_MODE 1
+#define FRED_HEX_PULSE_MODE 2
 
 class WindowInfo
 {
@@ -409,7 +414,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.26
-#define EMMA_SUB_VERSION 2
+#define EMMA_SUB_VERSION 11
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -799,6 +804,7 @@ public:
 #define CHIPFEL2 6
 #define CHIPFEL3 7
 #define CHIPSTIV 8
+#define CARDTRAN 9
 
 #define CPU_OVERRIDE_DEFAULT 0
 #define CPU_OVERRIDE_CPU1801 1
@@ -1047,9 +1053,12 @@ public:
 	void setTapeStateEvent(guiEvent& event);
 	void eventSetTapeState(int status);
 
-	void setTextValueEvent(guiEvent& event);
-	void eventSetTextValue(wxString info, wxString value);
-
+    void setTextValueEvent(guiEvent& event);
+    void eventSetTextValue(wxString info, wxString value);
+    
+    void setStaticTextValueEvent(guiEvent& event);
+    void eventSetStaticTextValue(wxString info, wxString value);
+    
 	void setCheckBoxEvent(guiEvent& event);
 	void eventSetCheckBox(wxString info, bool state);
 

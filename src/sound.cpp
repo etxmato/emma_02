@@ -1015,4 +1015,6 @@ void Sound::setPsaveSettings()
 	audioPointer->setTapeConfig(inputChannel_, playback);
     threshold8_ = p_Main->getPsaveData(8);
     threshold16_ = p_Main->getPsaveData(9);
+    fredFreq_ = (float) p_Main->getPsaveData(10)/10;
 }
+

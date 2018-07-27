@@ -33,10 +33,148 @@
 #include "guifred.h"
 #include "pixie.h"
 
+enum
+{
+	FRED1_GAME_NONE,
+    FRED1_GAME_21,
+    FRED1_GAME_21_II,
+    FRED1_GAME_ACEY_DUECY,
+    FRED1_GAME_BINARY,
+    FRED1_GAME_BOWLING,
+    FRED1_GAME_CALCULATE,
+    FRED1_GAME_CARDTRAN,
+    FRED1_GAME_DEDUCE,
+    FRED1_GAME_DRAW,
+    FRED1_GAME_ERASE,
+    FRED1_GAME_ESP,
+    FRED1_GAME_ESP_II,
+    FRED1_GAME_FLIP,
+    FRED1_GAME_FLIP_II,
+    FRED1_GAME_HILO,
+    FRED1_GAME_JACKPOT,
+    FRED1_GAME_LIFE,
+    FRED1_GAME_LUCKYPATH,
+    FRED1_GAME_MATCH,
+    FRED1_GAME_MATCH_II,
+    FRED1_GAME_MEMORY_TEST,
+    FRED1_GAME_MINIKRIEG,
+    FRED1_GAME_NIMNET,
+    FRED1_GAME_PATTERN_PUZZLE,
+    FRED1_GAME_SLIDE_PUZZLE_I,
+    FRED1_GAME_SLIDE_PUZZLE_II,
+	FRED1_GAME_SPACE_WAR,
+    FRED1_GAME_SPOOK,
+    FRED1_GAME_SPOT_SPEEDWAY_1,
+    FRED1_GAME_SPOT_SPEEDWAY_2,
+    FRED1_GAME_TIC_TAC_TOE,
+    FRED1_GAME_TARGET_1,
+	FRED1_GAME_END
+};
+
+wxString gameList[] =
+{
+    "",
+    "21 I.bin",
+    "21 II.bin",
+    "Acey Duecy.bin",
+    "Binary.bin",
+    "Bowling.bin",
+    "Calculate.bin",
+    "Cardtran.bin",
+    "Deduce.bin",
+    "Draw.bin",
+    "Erase.bin",
+    "ESP I.bin",
+    "ESP II.bin",
+    "Flip I.bin",
+    "Flip II.bin",
+    "Hi-Lo.bin",
+    "Jackpot.bin",
+    "Life.bin",
+    "Luckypath.bin",
+    "Match I.bin",
+    "Match II.bin",
+    "Memory Test.bin",
+    "Minikrieg.bin",
+    "Nimnet.bin",
+    "Pattern Puzzle I.bin",
+    "Slide Puzzle I.bin",
+    "Slide Puzzle II.bin",
+    "Space War.bin",
+    "Spook.bin",
+    "Spot Speedway 1.bin",
+    "Spot Speedway 2.bin",
+    "Target",
+    "Tic-Tac-Toe.bin",
+	""
+};
+
+int cardValue[FRED1_GAME_END+1][FRED1_CARDS] =
+{
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, // no game
+    { 0xbd, 0xcc, 0x78, 0x73, 0xb1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // 21 I
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // 21 II
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Acey Duecy
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Binary
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Bowling
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Calculate
+    { 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Cardtran
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Deduce
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Draw
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Erase
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // ESP I
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // ESP II
+    { 0, 0x6d, 0x97, 0x9e, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Flip
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Flip II
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Hi-Lo
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Jackpot
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Life
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Luckypath
+    { 0xff, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Match
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Match II
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Memory Test
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Minikrieg
+    { 0x1a1, 0xa2, 0xb1, 0xb2, 0xb3, 0xb4,  0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xe1, 0xe2, 0xe3, 0xe4, 0xf1, 0xf2, -1, -1 }, // Nimnet
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Pattern Puzzle
+    { 0, 0x31, 0x33, 0x35, -1, -1, 0x6, -1, -1, -1, -1, -1, 0x1, 0xff, -1, -1, -1, -1, 0xfa, -1, -1, -1, -1, -1 }, // Slide Puzzle I
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Slide Puzzle II
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Space War
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Spook
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Spot Speedway 1
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Spot Speedway 2
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Tic Tac Toe
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Target 1
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }  // no game
+};
+
 BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_TEXT(XRCID("RamSWFRED1"), GuiMain::onRamSWText)
     EVT_COMBOBOX(XRCID("RamSWFRED1"), GuiMain::onRamSWText)
     EVT_BUTTON(XRCID("RamSWButtonFRED1"), GuiMain::onRamSW)
+    EVT_BUTTON(XRCID("CardButtonFRED1_00"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_01"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_02"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_03"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_04"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_05"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_06"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_07"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_08"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_09"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_10"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_11"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_12"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_13"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_14"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_15"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_16"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_17"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_18"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_19"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_20"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_21"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_22"), GuiFred::onCardButton)
+    EVT_BUTTON(XRCID("CardButtonFRED1_23"), GuiFred::onCardButton)
 
     EVT_BUTTON(XRCID("ScreenDumpFileButtonFRED1"), GuiMain::onScreenDumpFile)
     EVT_TEXT(XRCID("ScreenDumpFileFRED1"), GuiMain::onScreenDumpFileText)
@@ -57,6 +195,8 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("ColoursFRED1"), Main::onColoursDef)
     EVT_TEXT(XRCID("BeepFrequencyFRED1"), GuiMain::onBeepFrequency)
     EVT_CHOICE(XRCID("RamFRED1"), GuiMain::onChoiceRam)
+    EVT_CHOICE(XRCID("KeyPadModeFRED1"), GuiFred::onChoiceKeyPadMode)
+    EVT_CHOICE(XRCID("TapeFormatFRED1"), GuiFred::onTapeFormat)
 
     EVT_BUTTON(XRCID("SaveButtonFRED1"), GuiMain::onSaveButton)
     EVT_BUTTON(XRCID("LoadButtonFRED1"), GuiMain::onLoadButton)
@@ -81,7 +221,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_TEXT(XRCID("BootAddressFRED1"), GuiElf::onBootAddress)
 
     EVT_TEXT(XRCID("RamSWFRED2"), GuiMain::onRamSWText)
-    EVT_COMBOBOX(XRCID("RamSWFRED2"), GuiMain::onRamSWText)
+    EVT_COMBOBOX(XRCID("RamSWFRED2"), GuiFred::onRamSWText)
     EVT_BUTTON(XRCID("RamSWButtonFRED2"), GuiMain::onRamSW)
 
     EVT_BUTTON(XRCID("ScreenDumpFileButtonFRED2"), GuiMain::onScreenDumpFile)
@@ -103,6 +243,8 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("ColoursFRED2"), Main::onColoursDef)
     EVT_TEXT(XRCID("BeepFrequencyFRED2"), GuiMain::onBeepFrequency)
     EVT_CHOICE(XRCID("RamFRED2"), GuiMain::onChoiceRam)
+    EVT_CHOICE(XRCID("KeyPadModeFRED2"), GuiFred::onChoiceKeyPadMode)
+    EVT_CHOICE(XRCID("TapeFormatFRED2"), GuiFred::onTapeFormat)
 
     EVT_BUTTON(XRCID("SaveButtonFRED2"), GuiMain::onSaveButton)
     EVT_BUTTON(XRCID("LoadButtonFRED2"), GuiMain::onLoadButton)
@@ -166,6 +308,8 @@ void GuiFred::readFred1Config()
     configPointer->Read("/FRED1/Enable_Real_Cassette", &conf[FRED1].realCassetteLoad_, false);
     conf[FRED1].volume_ = (int)configPointer->Read("/FRED1/Volume", 25l);
     conf[FRED1].ramType_ = (int)configPointer->Read("/FRED1/Ram_Type", 0l);
+    elfConfiguration[FRED1].keyboardType = (int)configPointer->Read("/FRED1/KeyPadMode", 0l);
+    elfConfiguration[FRED1].tapeFormat_ = (int)configPointer->Read("/FRED1/TapeFormat", 0l);
     configPointer->Read("/FRED1/Open_Control_Windows", &elfConfiguration[FRED1].useElfControlWindows, true);
     configPointer->Read("/FRED1/Enable_Interlace", &conf[FRED1].interlace_, false);
 
@@ -183,6 +327,8 @@ void GuiFred::readFred1Config()
         value = 0x1;
     conf[FRED1].bootAddress_ = value;
 
+    conf[FRED1].gameId_ = -1;
+    
     if (mode_.gui)
     {
         XRCCTRL(*this, "RamSWFRED1", wxComboBox)->SetValue(conf[FRED1].ram_);
@@ -197,6 +343,8 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "VolumeFRED1", wxSlider)->SetValue(conf[FRED1].volume_);
         XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
         XRCCTRL(*this, "RamFRED1", wxChoice)->SetSelection(conf[FRED1].ramType_);
+        XRCCTRL(*this, "KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+        XRCCTRL(*this, "TapeFormatFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].tapeFormat_);
         XRCCTRL(*this,"AddressText1FRED1", wxStaticText)->Enable(elfConfiguration[FRED1].useElfControlWindows);
         XRCCTRL(*this,"AddressText2FRED1", wxStaticText)->Enable(elfConfiguration[FRED1].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].useElfControlWindows);
@@ -209,6 +357,8 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "InterlaceFRED1", wxCheckBox)->SetValue(conf[FRED1].interlace_);
         XRCCTRL(*this, "BootAddressFRED1", wxTextCtrl)->SetValue(bootAddress);
     }
+    
+    setGameId(conf[FRED1].ram_);
 }
 
 void GuiFred::writeFred1DirConfig()
@@ -235,6 +385,8 @@ void GuiFred::writeFred1Config()
     configPointer->Write("/FRED1/Enable_Real_Cassette", conf[FRED1].realCassetteLoad_);
     configPointer->Write("/FRED1/Volume", conf[FRED1].volume_);
     configPointer->Write("/FRED1/Ram_Type", conf[FRED1].ramType_);
+    configPointer->Write("/FRED1/KeyPadMode", elfConfiguration[FRED1].keyboardType);
+    configPointer->Write("/FRED1/TapeFormat", elfConfiguration[FRED1].tapeFormat_);
     configPointer->Write("/FRED1/Open_Control_Windows", elfConfiguration[FRED1].useElfControlWindows);
     configPointer->Write("/FRED1/Led_Update_Frequency", conf[FRED1].ledTime_);
     configPointer->Write("/FRED1/Enable_Auto_Boot", elfConfiguration[FRED1].autoBoot);
@@ -313,6 +465,8 @@ void GuiFred::readFred2Config()
     configPointer->Read("/FRED2/Enable_Real_Cassette", &conf[FRED2].realCassetteLoad_, false);
     conf[FRED2].volume_ = (int)configPointer->Read("/FRED2/Volume", 25l);
     conf[FRED2].ramType_ = (int)configPointer->Read("/FRED2/Ram_Type", 0l);
+    elfConfiguration[FRED2].keyboardType = (int)configPointer->Read("/FRED2/KeyPadMode", 0l);
+    elfConfiguration[FRED2].tapeFormat_ = (int)configPointer->Read("/FRED2/TapeFormat", 0l);
     configPointer->Read("/FRED2/Open_Control_Windows", &elfConfiguration[FRED2].useElfControlWindows, true);
     configPointer->Read("/FRED2/Enable_Interlace", &conf[FRED2].interlace_, false);
     
@@ -344,6 +498,8 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "VolumeFRED2", wxSlider)->SetValue(conf[FRED2].volume_);
         XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_);
         XRCCTRL(*this, "RamFRED2", wxChoice)->SetSelection(conf[FRED2].ramType_);
+        XRCCTRL(*this, "KeyPadModeFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].keyboardType);
+        XRCCTRL(*this, "TapeFormatFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].tapeFormat_);
         XRCCTRL(*this,"AddressText1FRED2", wxStaticText)->Enable(elfConfiguration[FRED2].useElfControlWindows);
         XRCCTRL(*this,"AddressText2FRED2", wxStaticText)->Enable(elfConfiguration[FRED2].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].useElfControlWindows);
@@ -382,6 +538,8 @@ void GuiFred::writeFred2Config()
     configPointer->Write("/FRED2/Enable_Real_Cassette", conf[FRED2].realCassetteLoad_);
     configPointer->Write("/FRED2/Volume", conf[FRED2].volume_);
     configPointer->Write("/FRED2/Ram_Type", conf[FRED2].ramType_);
+    configPointer->Write("/FRED2/KeyPadMode", elfConfiguration[FRED2].keyboardType);
+    configPointer->Write("/FRED2/TapeFormat", elfConfiguration[FRED2].tapeFormat_);
     configPointer->Write("/FRED2/Open_Control_Windows", elfConfiguration[FRED2].useElfControlWindows);
     configPointer->Write("/FRED2/Led_Update_Frequency", conf[FRED2].ledTime_);
     configPointer->Write("/FRED2/Enable_Auto_Boot", elfConfiguration[FRED2].autoBoot);
@@ -429,23 +587,168 @@ void GuiFred::onFred2ControlWindows(wxCommandEvent&event)
 
 bool GuiFred::getUseControlWindows()
 {
-    return elfConfiguration[runningComputer_].useElfControlWindows;
+    return elfConfiguration[selectedComputer_].useElfControlWindows;
 }
 
 void GuiFred::onAutoBoot(wxCommandEvent&event)
 {
-    elfConfiguration[runningComputer_].autoBoot = event.IsChecked();
+    elfConfiguration[selectedComputer_].autoBoot = event.IsChecked();
 }
 
 void GuiFred::onStopTone(wxCommandEvent&event)
 {
-    elfConfiguration[runningComputer_].stopTone = event.IsChecked();
+    elfConfiguration[selectedComputer_].stopTone = event.IsChecked();
 }
 
 void GuiFred::onTapeStart(wxCommandEvent&event)
 {
-    elfConfiguration[runningComputer_].tapeStart = event.IsChecked();
+    elfConfiguration[selectedComputer_].tapeStart = event.IsChecked();
 }
 
+void GuiFred::onChoiceKeyPadMode(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].keyboardType = event.GetSelection();
+    
+    if (runningComputer_ == FRED1)
+        p_Fred->setKeyPadMode(elfConfiguration[FRED1].keyboardType);
+    
+    if (runningComputer_ == FRED2)
+        p_Fred->setKeyPadMode(elfConfiguration[FRED2].keyboardType);
+}
 
+void GuiFred::onTapeFormat(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].tapeFormat_ = event.GetSelection();
+    
+    if (runningComputer_ == FRED1)
+        p_Fred->setTapeFormat(elfConfiguration[FRED1].tapeFormat_);
+    
+    if (runningComputer_ == FRED2)
+        p_Fred->setTapeFormat(elfConfiguration[FRED2].tapeFormat_);
+}
 
+void GuiFred::onCardButton(wxCommandEvent&event)
+{
+    long id;
+    wxString idReference, buttonNumber;
+    
+    idReference = wxWindow::FindWindowById(event.GetId())->GetName();
+    buttonNumber = idReference.Right(2);
+
+    if (!buttonNumber.ToLong(&id, 10))
+        return;
+    
+    if (runningComputer_ == FRED1 && currentCardValue[id] != -1)
+        p_Fred->cardButton(currentCardValue[id]);
+}
+
+void GuiFred::setGameId(wxString gameName)
+{
+    conf[FRED1].gameId_ = 1;
+    
+    while (conf[FRED1].gameId_ != FRED1_GAME_END && gameList[conf[FRED1].gameId_] != gameName)
+        conf[FRED1].gameId_++;
+    
+    if (conf[FRED1].gameId_ == FRED1_GAME_END)
+        conf[FRED1].gameId_ = FRED1_GAME_NONE;
+    
+    if (mode_.gui)
+        setGame();
+}
+
+void GuiFred::setGame()
+{
+    wxString buttonText;
+    
+    XRCCTRL(*this,"CardTextFRED1", wxStaticText)->Hide();
+    for (int i=0; i<FRED1_CARDS; i++)
+    {
+    	buttonText.Printf("CardButtonFRED1_%02d",i);
+    	if (cardValue[conf[FRED1].gameId_][i] == -1)
+    		XRCCTRL(*this,buttonText, wxButton)->Hide();
+    	else
+    	{
+    		XRCCTRL(*this,buttonText, wxButton)->Show();
+    		XRCCTRL(*this,"CardTextFRED1", wxStaticText)->Show();
+    	}
+    }
+    
+    setCurrentCardValue();
+    
+    switch (conf[FRED1].gameId_)
+    {
+        case FRED1_GAME_21:
+        case FRED1_GAME_21_II:
+        case FRED1_GAME_ACEY_DUECY:
+        case FRED1_GAME_BOWLING:
+        case FRED1_GAME_CALCULATE:
+        case FRED1_GAME_DEDUCE:
+        case FRED1_GAME_DRAW:
+        case FRED1_GAME_ESP:
+        case FRED1_GAME_ESP_II:
+        case FRED1_GAME_FLIP:
+        case FRED1_GAME_FLIP_II:
+        case FRED1_GAME_HILO:
+        case FRED1_GAME_JACKPOT:
+        case FRED1_GAME_LIFE:
+        case FRED1_GAME_MATCH:
+        case FRED1_GAME_MATCH_II:
+        case FRED1_GAME_MINIKRIEG:
+        case FRED1_GAME_NIMNET:
+        case FRED1_GAME_PATTERN_PUZZLE:
+        case FRED1_GAME_SLIDE_PUZZLE_II:
+    	case FRED1_GAME_SPACE_WAR:
+        case FRED1_GAME_SPOOK:
+        case FRED1_GAME_SPOT_SPEEDWAY_1:
+        case FRED1_GAME_SPOT_SPEEDWAY_2:
+        case FRED1_GAME_TIC_TAC_TOE:
+        case FRED1_GAME_TARGET_1:
+            elfConfiguration[FRED1].autoBoot = true;
+    		XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+    		elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+    		XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+    	break;
+    	    	
+        case FRED1_GAME_LUCKYPATH:
+        case FRED1_GAME_SLIDE_PUZZLE_I:
+        case FRED1_GAME_CARDTRAN:
+        case FRED1_GAME_MEMORY_TEST:
+            elfConfiguration[FRED1].autoBoot = true;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_BYTE_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+        break;
+            
+        case FRED1_GAME_ERASE:
+            elfConfiguration[FRED1].autoBoot = true;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_PULSE_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+        break;
+
+        default:
+    	break;
+    }
+}
+
+void GuiFred::setCurrentCardValue()
+{
+    int last=FRED1_CARDS-1;
+    for (int i=(FRED1_CARDS-1); i>=0; i--)
+    {
+        currentCardValue[i] = cardValue[conf[FRED1].gameId_][i];
+        if (currentCardValue[i] == -1)
+            last--;
+    }
+    
+    if (cardValue[conf[FRED1].gameId_][0] != -1 && (cardValue[conf[FRED1].gameId_][0] & 0x100) == 0x100)
+    {
+        currentCardValue[0] = currentCardValue[0] & 0xff;
+        for (int i=last; i!=0; i--)
+        {
+            using std::swap;
+            int j = std::rand() % (last+1);
+            swap(currentCardValue[i], currentCardValue[j]);
+        }
+    }
+}

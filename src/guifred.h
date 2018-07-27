@@ -3,6 +3,8 @@
 
 #include "guivip.h"
 
+#define FRED1_CARDS 24
+
 class GuiFred: public GuiVip
 {
 public:
@@ -28,9 +30,17 @@ public:
     void onAutoBoot(wxCommandEvent&event);
     void onStopTone(wxCommandEvent&event);
     void onTapeStart(wxCommandEvent&event);
+    void onChoiceKeyPadMode(wxCommandEvent&event);
+    void onTapeFormat(wxCommandEvent&event);
+    void onCardButton(wxCommandEvent&event);
+    
+    void setGameId(wxString gameName);
+	void setGame();
+    void setCurrentCardValue();
 
 private:
-
+    int currentCardValue[FRED1_CARDS];
+    
 	DECLARE_EVENT_TABLE()
 };
 

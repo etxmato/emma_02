@@ -175,6 +175,16 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
 					event.Skip();
 			break;
 
+            case FRED1:
+            case FRED2:
+                if (p_Main->checkFunctionKey(event))
+                    return;
+                if (keycode != lastKey_)
+                    p_Computer->keyDown(event.GetKeyCode());
+                lastKey_ = keycode;
+                event.Skip();
+            break;
+                
 			default:
 				if (p_Main->checkFunctionKey(event))
 					return;
@@ -212,6 +222,13 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
 				if (!p_Computer->keyUpReleased(event.GetKeyCode()))
 					event.Skip();
 			break;
+                
+            case FRED1:
+            case FRED2:
+                lastKey_ = 0;
+                p_Computer->keyUp(event.GetKeyCode());
+                event.Skip();
+            break;
 
 			default:
 				p_Computer->keyUp(event.GetKeyCode());

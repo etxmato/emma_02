@@ -46,6 +46,7 @@ public:
     void initComputer();
 	void reDefineKeys(int *, int *);
 	void keyDown(int keycode);
+    void keyFound(int key);
 	void keyUp(int keycode);
     void cycleKeyboard();
 
@@ -62,9 +63,10 @@ public:
 	void onRunButton(wxCommandEvent&event);
     void onRunButton();
     void autoBoot();
-    void onReadButton();
     void startLoad(bool button);
+    void onReadButton();
     void onCardButton();
+    void updateCardReadStatus();
     
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
@@ -78,7 +80,9 @@ public:
     void sleepComputer(long ms);
     void resetFred();
 	
-	void cassetteFred(short val);
+    void cassetteFred(short val);
+    void cassetteFred56();
+    void cassetteFredPm();
 	void cassetteFred(char val);
     void finishStopTape();
     
@@ -88,7 +92,10 @@ public:
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void showDataLeds(Byte value);
     void checkFredFunction();
-    
+    void setKeyPadMode(int keyPadMode);
+    void setTapeFormat(int tapeFormat);
+    void cardButton(int cardValue);
+
 private:
     PixieFred *pixiePointer;
     class FredScreen *fredScreenPointer;
@@ -114,7 +121,9 @@ private:
 
     wxKeyCode keyCode_;
     int keyCycles_;
-   
+    char nextNybble_;
+    Byte shiftPressed_;
+ 
     Byte ef1State_;
     Byte ef1StateTape_;
     Byte ef4State_;
@@ -140,7 +149,12 @@ private:
     int bitNumber_;
     int silenceCount_;
 	bool tapeEnd_;
+    int toneTime_;
 
+    int pulseCountStopTone_;
+    bool tapeFormat56_;
+    bool tapeFormatFixed_;
+    
     DECLARE_EVENT_TABLE()
 };
 

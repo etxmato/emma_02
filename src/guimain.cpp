@@ -474,11 +474,17 @@ void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
 	conf[selectedComputer_].ram_ = FullPath.GetFullName();
 
 	XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].ram_);
+	
+	if (selectedComputer_ == FRED1)
+        p_Main->setGameId(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onRamSWText(wxCommandEvent& WXUNUSED(event))
 {
 	conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+
+	if (selectedComputer_ == FRED1 && conf[FRED1].gameId_ != -1)
+        p_Main->setGameId(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )

@@ -32,8 +32,6 @@
 #include "main.h"
 #include "coinarcade.h"
 
-#define CHIP8_PC 5
-
 CoinArcade::CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {

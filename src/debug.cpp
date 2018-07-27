@@ -52,6 +52,7 @@
 
 #define CHIP8_I 10
 #define CHIP8_PC 5
+#define CARDTRAN_PC 0xf
 #if defined (__linux__)
 #define EDIT_ROW 18
 #define NUMBER_OF_DEBUG_LINES 40
@@ -163,6 +164,8 @@ enum
     ERROR_RAM_CHIP_ADDRESS,
     ERROR_STUDIO_CHIP_ADDRESS_I,
     ERROR_STUDIOIV_ADDRESS_I,
+    ERROR_CARDTRAN_ADDRESS,
+    ERROR_CARDTRAN_DR,
     ERROR_COMX_NOT_RUNNING,
     WARNING_MISSING_SLOT_ADDRESS,
     ERROR_HEX,
@@ -241,6 +244,8 @@ wxString DirAssErrorCodes[] =
     "Specify address >= 800 and <= 8FF",
     "Specify address >= 100 and <= FFF",
     "Specify address >= 2700 and <= 27FF",
+    "Specify address >= 200 and <= 2C6",
+    "Parameter DR missing",
     "COMX-35 not running",
     "Warning: no slot specified",
     "Hexadecimal value expected",
@@ -1300,7 +1305,11 @@ void DebugWindow::cycleFredDebug()
             updateChip8Window();
     }
     
-    Word chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
+    Word chip8PC;
+    if (chip8Type_ == CARDTRAN)
+        chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
+    else
+        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
     
     if (programCounterAddress == p_Computer->getChip8MainLoop())
     {
@@ -1429,7 +1438,12 @@ void DebugWindow::cycleSt2Debug()
 
 bool DebugWindow::chip8BreakPointCheck()
 {
-	Word chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
+    Word chip8PC;
+    if (chip8Type_ == CARDTRAN)
+        chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
+    else
+        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
+    
 	if (chip8Steps_ != 0 && numberOfChip8BreakPoints_ > 0 && !performChip8Step_)
 	{
 		for (int i=0; i<numberOfChip8BreakPoints_; i++)
@@ -1686,7 +1700,10 @@ void DebugWindow::updateChip8Window()
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
-	scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_PC);
+    if (chip8Type_ == CARDTRAN)
+        scratchpadRegister = p_Computer->getScratchpadRegister(CARDTRAN_PC);
+    else
+        scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_PC);
 	if (scratchpadRegister != lastPC_)
 	{
         if (chip8Type_ == CHIPSTIV)
@@ -1696,20 +1713,23 @@ void DebugWindow::updateChip8Window()
 		pcTextPointer->ChangeValue(buffer);
 		lastPC_ = scratchpadRegister;
 	}
-    if (chip8Type_ == CHIPSTIV)
-        scratchpadRegister = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
-    else
-        scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_I);
-	if (scratchpadRegister != lastI_)
-	{
+    if (chip8Type_ != CARDTRAN)
+    {
         if (chip8Type_ == CHIPSTIV)
-            buffer.Printf("%04X", scratchpadRegister);
+            scratchpadRegister = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
         else
-            buffer.Printf("%03X", scratchpadRegister&0xfff);
-		iTextPointer->ChangeValue(buffer);
-		lastI_ = scratchpadRegister;
-	}
-	p_Computer->showChip8Registers();
+            scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_I);
+        if (scratchpadRegister != lastI_)
+        {
+            if (chip8Type_ == CHIPSTIV)
+                buffer.Printf("%04X", scratchpadRegister);
+            else
+                buffer.Printf("%03X", scratchpadRegister&0xfff);
+            iTextPointer->ChangeValue(buffer);
+            lastI_ = scratchpadRegister;
+        }
+        p_Computer->showChip8Registers();
+    }
 #if defined(__linux__)
 	if (!wxIsMainThread())
 		wxMutexGuiLeave();
@@ -2296,7 +2316,10 @@ void DebugWindow::addTrap()
 					printBuffer.Printf("BR   ");
 				break;
 				case 0x1:
-					printBuffer.Printf("BQ   ");
+                    if (cpuType_ == SYSTEM00)
+                        printBuffer.Printf("BNZ  ");
+                    else
+                        printBuffer.Printf("BQ   ");
 				break;
 				case 0x2:
 					printBuffer.Printf("BZ   ");
@@ -2944,7 +2967,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 	int i, n, i1805, n1805;
 	Word instructionAddress = *address;
 	Byte memType;
-
+    
 	i = p_Computer->readMem(*address);
 
 	printBufferAddress.Printf("%04X: ", *address);
@@ -3008,7 +3031,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 					*address = *address + 1;
 				break;
 				case 0x1:
-                    if (cpuType_ >= CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (cpuType_ == CPU1801)
                             printBufferAssembler.Printf("Illegal code");
@@ -3162,8 +3185,8 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                     break;
                         
                     case 8:
-                        printBufferAssembler.Printf("INP  %X",n-8);
-                        printBufferDetails.Printf("D=M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer()), accumulator);
+                        printBufferAssembler.Printf("INP");
+                        printBufferDetails.Printf("M(%04X)=%02X", p_Computer->getScratchpadRegister(p_Computer->getDataPointer()), p_Computer->readMem(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())));
                     break;
                         
                     default:
@@ -5604,6 +5627,22 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
     {
         if (assInput.seperator[0] != ",")
             return ERROR_COMMA;
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+        { // ADD 2AA, DR
+            if (assInput.numberOfParameters > 2 )
+                return ERROR_PAR;
+            if (assInput.parameterType[1] != ASS_STRING || assInput.parameterString[1] != "DR")
+                return ERROR_CARDTRAN_DR;
+            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
+            {
+                if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                    return ERROR_CARDTRAN_ADDRESS;
+                *b1 = 0x40;
+                *b2 = getCardtranAddress(assInput.parameterValue[0]);
+                return 2;
+            }
+            return ERROR_12BIT;
+        }
 		if (assembleCommand_[STIV_COMMAND_6] != -1)
 		{ 
 			if (assInput.numberOfParameters > 2)
@@ -6003,6 +6042,42 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         }
         return ERROR_SYNTAX;
     }
+    if (assInput.command == "DISP0")
+    {
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+        {
+            if (assInput.numberOfParameters > 1)
+                return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                return ERROR_CARDTRAN_ADDRESS;
+            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
+            { // INPUT [2AA]
+                *b1 = 0x70;
+                *b2 = getCardtranAddress(assInput.parameterValue[0]);
+                return 2;
+            }
+            return ERROR_CARDTRAN_ADDRESS;
+        }
+        return ERROR_INST;
+    }
+    if (assInput.command == "DISP1")
+    {
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+        {
+            if (assInput.numberOfParameters > 1)
+                return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                return ERROR_CARDTRAN_ADDRESS;
+            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
+            { // INPUT [2AA]
+                *b1 = 0x71;
+                *b2 = getCardtranAddress(assInput.parameterValue[0]);
+                return 2;
+            }
+            return ERROR_CARDTRAN_ADDRESS;
+        }
+        return ERROR_INST;
+    }
     if (assInput.command == "DRW")
     { 
         if (assembleCommand_[DRW_VX_VY_N] != -1)
@@ -6131,6 +6206,24 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         *b1 = assembleCommand_[FEL3_COMMAND_C];
         *b2 = 0x51;
         return 2;
+    }
+    if (assInput.command == "INPUT")
+    { 
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+		{ 
+			if (assInput.numberOfParameters > 1)
+				return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                return ERROR_CARDTRAN_ADDRESS;
+			if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
+			{ // INPUT [2AA]
+				*b1 = 0x10;
+				*b2 = getCardtranAddress(assInput.parameterValue[0]);
+				return 2;
+			}
+            return ERROR_CARDTRAN_ADDRESS;
+		}
+        return ERROR_INST;
     }
     if (assInput.command == "INP6")
     { 
@@ -6334,28 +6427,45 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         return ERROR_INST;
     }
     if (assInput.command == "JNZ")
-    { // JNZ Vx, kk
-        if (assembleCommand_[JNZ_VX_KK] == -1)
-            return ERROR_INST;
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[1] != ASS_HEX_VALUE)
-            return ERROR_8BIT;
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-            return ERROR_PAR;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-        {
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                return ERROR_8BIT;
-            
-            *b1 = assembleCommand_[JNZ_VX_KK] | assInput.parameterValue[0];
-            *b2 = assInput.parameterValue[1];
-            return 2;
-        }
-        return ERROR_8REG;
+    { 
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+		{ // JNZ DR, 2AA
+			if (assInput.numberOfParameters > 2 )
+				return ERROR_PAR;
+            if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "DR")
+                return ERROR_CARDTRAN_DR;
+            if (assInput.parameterType[1] == ASS_HEX_VALUE)
+			{
+                if (assInput.parameterValue[1] < 0x200 || assInput.parameterValue[1] > 0x2c6)
+                    return ERROR_CARDTRAN_ADDRESS;
+				*b1 = 0x22;
+				*b2 = getCardtranAddress(assInput.parameterValue[1]);
+				return 2;
+			}
+            return ERROR_12BIT;
+		}
+        if (assembleCommand_[JNZ_VX_KK] != -1)
+		{ // JNZ Vx, kk
+			if (assInput.parameterType[0] != CHIP8_VX)
+				return ERROR_REG_EXP;
+			if (assInput.parameterType[1] != ASS_HEX_VALUE)
+				return ERROR_8BIT;
+			if (assInput.seperator[0] != ",")
+				return ERROR_COMMA;
+			if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+				return ERROR_PAR;
+	        
+			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
+			{
+				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
+					return ERROR_8BIT;
+	            
+				*b1 = assembleCommand_[JNZ_VX_KK] | assInput.parameterValue[0];
+				*b2 = assInput.parameterValue[1];
+				return 2;
+			}
+		}
+        return ERROR_INST;
     }
     if (assInput.command == "JP")
     {
@@ -6397,6 +6507,20 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
 				return 2;
 			}
         }
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+		{ // JP 2AA
+			if (assInput.numberOfParameters > 1)
+				return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                return ERROR_CARDTRAN_ADDRESS;
+			if (assInput.parameterType[0] == ASS_HEX_VALUE)
+			{ 
+				*b1 = 0x20;
+				*b2 = getCardtranAddress(assInput.parameterValue[0]);
+				return 2;
+			}
+            return ERROR_CARDTRAN_ADDRESS;
+		}
         return ERROR_INST;
     }
     if (assInput.command == "JS")
@@ -6462,28 +6586,45 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         return ERROR_INST;
     }
     if (assInput.command == "JZ")
-    { // JZ Vx, kk
-        if (assembleCommand_[JZ_VX_KK] == -1)
-            return ERROR_INST;
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[1] != ASS_HEX_VALUE)
-            return ERROR_8BIT;
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-            return ERROR_PAR;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-        {
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                return ERROR_8BIT;
-            
-            *b1 = assembleCommand_[JZ_VX_KK] | assInput.parameterValue[0];
-            *b2 = assInput.parameterValue[1];
-            return 2;
-        }
-        return ERROR_8REG;
+    { 
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+		{ // JZ DR, 2AA
+			if (assInput.numberOfParameters > 2)
+				return ERROR_PAR;
+            if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "DR")
+                return ERROR_CARDTRAN_DR;
+            if (assInput.parameterType[1] == ASS_HEX_VALUE)
+			{
+                if (assInput.parameterValue[1] < 0x200 || assInput.parameterValue[1] > 0x2c6)
+                    return ERROR_CARDTRAN_ADDRESS;
+				*b1 = 0x21;
+				*b2 = getCardtranAddress(assInput.parameterValue[1]);
+				return 2;
+			}
+            return ERROR_12BIT;
+		}
+        if (assembleCommand_[JZ_VX_KK] != -1)
+		{ // JZ Vx, kk
+			if (assInput.parameterType[0] != CHIP8_VX)
+				return ERROR_REG_EXP;
+			if (assInput.parameterType[1] != ASS_HEX_VALUE)
+				return ERROR_8BIT;
+			if (assInput.seperator[0] != ",")
+				return ERROR_COMMA;
+			if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
+				return ERROR_PAR;
+	        
+			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
+			{
+				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
+					return ERROR_8BIT;
+	            
+				*b1 = assembleCommand_[JZ_VX_KK] | assInput.parameterValue[0];
+				*b2 = assInput.parameterValue[1];
+				return 2;
+			}
+		}
+        return ERROR_INST;
     }
     if (assInput.command == "KEY")
     {
@@ -6663,6 +6804,20 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         }
         if (assInput.parameterType[0] == ASS_STRING)
         {
+            if ((assInput.parameterType[1] == ASS_HEX_VALUE || assInput.parameterType[1] == ASS_HEX_VALUE_MEM) && assInput.parameterString[0] == "DR")
+			{
+				if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+				{ // LD DR,[2AA]
+					if (assInput.numberOfParameters > 2)
+						return ERROR_PAR;
+					if (assInput.parameterValue[1] < 0x200 || assInput.parameterValue[1] > 0x2c6)
+						return ERROR_CARDTRAN_ADDRESS;
+                    *b1 = 0x30;
+                    *b2 = getCardtranAddress(assInput.parameterValue[1]);
+                    return 2;
+				}
+                return ERROR_INST;
+			}
             if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "I")
             {
                 if (assembleCommand_[LD_I_MMMM] != -1)
@@ -7190,6 +7345,22 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
 				return 2;
 			}
         }
+        if ((assInput.parameterType[0] == ASS_HEX_VALUE_MEM  || assInput.parameterType[0] == ASS_HEX_VALUE) && assInput.parameterType[1] == ASS_STRING)
+        {
+            if (assInput.parameterString[1] == "DR")
+			{
+				if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+				{ // LD [2AA],DR
+					if (assInput.numberOfParameters > 2)
+						return ERROR_PAR;
+					if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+						return ERROR_CARDTRAN_ADDRESS;
+					*b1 = 0x60;
+					*b2 = getCardtranAddress(assInput.parameterValue[0]);
+					return 2;
+				}
+			}
+		}
         if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM && assInput.parameterType[1] == ASS_STRING)
         {
 			if (assembleCommand_[STIV_COMMAND_6] != -1)
@@ -7245,6 +7416,27 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
 			return ERROR_INST;
         }
         return ERROR_LD;
+    }
+    if (assInput.command == "LDD")
+    {
+        if (assInput.seperator[0] != ",")
+            return ERROR_COMMA;
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+        { // LDD 2AA, DR
+            if (assInput.numberOfParameters > 2 )
+                return ERROR_PAR;
+            if (assInput.parameterType[1] != ASS_STRING || assInput.parameterString[1] != "DR")
+                return ERROR_CARDTRAN_DR;
+            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
+            {
+                if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                    return ERROR_CARDTRAN_ADDRESS;
+                *b1 = 0x90;
+                *b2 = getCardtranAddress(assInput.parameterValue[0]);
+                return 2;
+            }
+            return ERROR_12BIT;
+        }
     }
     if (assInput.command == "NO")
     { // NO OP
@@ -7584,6 +7776,24 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
         }
         return ERROR_8REG;
     }
+    if (assInput.command == "RSH")
+    {
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+        {
+            if (assInput.numberOfParameters > 1)
+                return ERROR_PAR;
+            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                return ERROR_CARDTRAN_ADDRESS;
+            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
+            { // RSH [2AA]
+                *b1 = 0x80;
+                *b2 = getCardtranAddress(assInput.parameterValue[0]);
+                return 2;
+            }
+            return ERROR_CARDTRAN_ADDRESS;
+        }
+        return ERROR_INST;
+    }
     if (assInput.command == "SCR")
     { 
 		if (assembleCommand_[STIV_COMMAND_6] != -1)
@@ -7728,6 +7938,17 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
             *b2 = 0x80;
             return 2;
         }
+    }
+    if (assInput.command == "SKIP")
+    {
+        if (assInput.numberOfParameters == 0)
+        { // SKIP
+            if (assembleCommand_[CARDTRAN_COMMAND] == -1)
+                return ERROR_INST;
+            *b1 = 0;
+            *b2 = 0;
+            return 2;
+        }
         return ERROR_SYNTAX;
     }
     if (assInput.command == "SK3")
@@ -7820,6 +8041,22 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
     {
         if (assInput.seperator[0] != ",")
             return ERROR_COMMA;
+        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
+        { // SUB 2AA, DR
+            if (assInput.numberOfParameters > 2 )
+                return ERROR_PAR;
+            if (assInput.parameterType[1] != ASS_STRING || assInput.parameterString[1] != "DR")
+                return ERROR_CARDTRAN_DR;
+            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
+            {
+                if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
+                    return ERROR_CARDTRAN_ADDRESS;
+                *b1 = 0x50;
+                *b2 = getCardtranAddress(assInput.parameterValue[0]);
+                return 2;
+            }
+            return ERROR_12BIT;
+        }
 		if (assembleCommand_[STIV_COMMAND_6] != -1)
 		{ 
 			if (assInput.numberOfParameters > 2)
@@ -8120,6 +8357,14 @@ int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
     return ERROR_INST;
 }
 
+Byte DebugWindow::getCardtranAddress(long address)
+{
+	int value = (address-0x200)/2;
+	int highNibble = value / 10;
+	int lowNibble = value - (highNibble * 10);
+	return highNibble * 16 + lowNibble;
+}
+
 int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX)
 {
 	wxString command;
@@ -8356,11 +8601,17 @@ int DebugWindow::assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* 
 	}
 	if (assInput.command == "INP")
 	{
+        if (cpuType_ == SYSTEM00)
+        {
+            *b1 = 0x68;
+            return 1;
+        }
+        
 		if (assInput.numberOfParameters > 1)
 			return ERROR_PAR;
 
         int lowestInpValue = 1;
-        if (cpuType_ <= CPU1801)
+        if (cpuType_ == CPU1801)
             lowestInpValue = 0;
 
         if (assInput.parameterType[0] == ASS_HEX_VALUE)
@@ -9452,7 +9703,8 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
 		buffer.Left(4)== "RB.0" || buffer.Left(4)== "RB.1" || buffer.Left(4)== "RA.0" || buffer.Left(4)== "R0.1" ||
 		buffer.Left(6)== "[V0V1]" || buffer.Left(4)== "V0V1" || buffer.Left(6)== "[V2V3]" || buffer.Left(4)== "V2V3" ||
 		buffer.Left(2)== "[I" || buffer.Left(3)== "V9]"|| buffer.Left(3)== "[I]" || buffer.Left(4)== "[>I]" ||
-        buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ")
+        buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ" ||
+		buffer.Left(2)== "DR")
     {
         *type = ASS_STRING;
         return 0;
@@ -11528,6 +11780,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             case CHIPFEL2:
             case CHIPFEL3:
             case CHIPSTIV:
+            case CARDTRAN:
                 typeOpcode = MEM_TYPE_FEL2_1;
                 typeOperand1 = MEM_TYPE_FEL2_2;
                 count = assembleFel2(&debugIn, &b1, &b2);
@@ -12343,6 +12596,7 @@ int DebugWindow::markType(long *addrLong, int type)
                 case CHIPFEL2:
                 case CHIPFEL3:
                 case CHIPSTIV:
+                case CARDTRAN:
 					p_Computer->writeMemDataType(address, MEM_TYPE_FEL2_1);
 					switch (p_Computer->readMem(address))
 					{
@@ -18492,6 +18746,7 @@ void DebugWindow::updateTitle()
             if (p_Fred->getSteps()==0)
                 title = title + " ** PAUSED **";
             p_Fred->SetTitle("FRED 1" + title);
+            p_Fred->updateTitle(title);
             p_Fred->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
@@ -18499,6 +18754,7 @@ void DebugWindow::updateTitle()
             if (p_Fred->getSteps()==0)
                 title = title + " ** PAUSED **";
             p_Fred->SetTitle("FRED 2" + title);
+            p_Fred->updateTitle(title);
             p_Fred->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
@@ -18507,7 +18763,7 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             p_Studio2->SetTitle("Studio II" + title);
             p_Studio2->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
-            break;
+        break;
             
 		case VISICOM:
 			if (p_Visicom->getSteps()==0)
@@ -18528,7 +18784,7 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             p_StudioIV->SetTitle("Studio IV" + title);
             p_StudioIV->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
-            break;
+        break;
             
 		case VIP:
 			if (p_Vip->getSteps()==0)
@@ -19270,6 +19526,19 @@ void DebugWindow::defineFelCommands_(int chip8Type)
             defineFelCommand(0xe, LD_VX_27KK);
             defineFelCommand(0xf, LD_VX_KK);
         break;
+            
+        case CARDTRAN:
+            defineFelCommand(0, CARDTRAN_COMMAND);
+            defineFelCommand(1, CARDTRAN_COMMAND);
+            defineFelCommand(2, CARDTRAN_COMMAND);
+            defineFelCommand(3, CARDTRAN_COMMAND);
+            defineFelCommand(4, CARDTRAN_COMMAND);
+            defineFelCommand(5, CARDTRAN_COMMAND);
+            defineFelCommand(6, CARDTRAN_COMMAND);
+            defineFelCommand(7, CARDTRAN_COMMAND);
+            defineFelCommand(8, CARDTRAN_COMMAND);
+            defineFelCommand(9, CARDTRAN_COMMAND);
+        break;
     }
 }
 
@@ -19901,6 +20170,84 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
     if (dissassembleCommand_[command] == FEL3_COMMAND_E)
         buffer.Printf(" Illegal instruction");
     
+    if (dissassembleCommand_[command] == CARDTRAN_COMMAND)
+    {
+		address = 0x200 + (vY * 10 + nibble) * 2;
+        buffer.Printf(" Illegal instruction");
+
+		if (command == 0)
+			buffer.Printf(" SKIP");
+		else
+		{
+			if (vY < 0xa && nibble < 0xa)
+			{
+				switch (command)
+				{
+					case 1:
+						if (vX == 0)
+							buffer.Printf(" INPUT [%03X]", address);
+					break;
+
+					case 2:
+						switch (vX)
+						{
+							case 0:
+								buffer.Printf(" JP    %03X", address);
+							break;
+		                    
+							case 1:
+								buffer.Printf(" JZ    DR, %03X", address);
+							break;
+		                    
+							case 2:
+								buffer.Printf(" JNZ   DR, %03X", address);
+							break;
+						}
+					break;
+
+					case 3:
+						if (vX == 0)
+							buffer.Printf(" LD    DR, [%03X]", address);
+					break;
+
+					case 4:
+						if (vX == 0)
+							buffer.Printf(" ADD   [%03X], DR", address);
+					break;
+		                
+					case 5:
+						if (vX == 0)
+							buffer.Printf(" SUB   [%03X], DR", address);
+					break;
+		                
+					case 6:
+						if (vX == 0)
+							buffer.Printf(" LD    [%03X], DR", address);
+					break;
+
+					case 7:
+						if (vX == 0)
+							buffer.Printf(" DISP0 [%03X]", address);
+						if (vX == 1)
+							buffer.Printf(" DISP1 [%03X]", address);
+					break;
+
+					case 8:
+						if (vX == 0)
+							buffer.Printf(" RSH   [%03X]", address);
+					break;
+
+					case 9:
+						if (vX == 0)
+							buffer.Printf(" LDD   [%03X], DR", address);
+					break;     
+				}
+			}
+			else
+		        buffer.Printf(" Illegal instruction");
+		}
+    }
+    
     while (buffer.Len() < 21 && addressStr != "")
         buffer += " ";
     buffer = addressStr + buffer;
@@ -20188,7 +20535,7 @@ wxString DebugWindow::st2Disassemble(Word dis_address, bool includeDetails, bool
 					break;
 
 					case 0xac:
-						buffer.Printf(" LDMA   V%01X, [I]", vX);
+						buffer.Printf(" LDMA  V%01X, [I]", vX);
 						detailsBuffer.Printf("V%01X=%02X, I=%03X", vX, p_Computer->readMem(valueI), (valueI+1)&0xfff);
 					break;
 

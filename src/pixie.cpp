@@ -1066,16 +1066,16 @@ void PixieFred::setDisplayType(int displayType)
     if ((displayType & 0x2) == 0)
     {
         xInterlace_ = 6;
-        xNonInterlace_ = 4;
+        xNonInterlace_ = 3;
         if ((displayType & 0x1) == 0)
         {
             yInterlace_ = 8;
-            yNonInterlace_ = 6;
+            yNonInterlace_ = 4;
         }
         else
         {
             yInterlace_ = 4;
-            yNonInterlace_ = 3;
+            yNonInterlace_ = 2;
         }
     }
     else
@@ -1085,12 +1085,12 @@ void PixieFred::setDisplayType(int displayType)
         if ((displayType & 0x1) == 0)
         {
             yInterlace_ = 8;
-            yNonInterlace_ = 6;
+            yNonInterlace_ = 4;
         }
         else
         {
             yInterlace_ = 4;
-            yNonInterlace_ = 3;
+            yNonInterlace_ = 2;
         }
     }
 }

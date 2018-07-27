@@ -92,7 +92,7 @@ void Cdp1802::initCpu(int computerType)
 void Cdp1802::resetCpu()
 {
 	flipFlopQ_ = 0;
-	interruptEnable_ = 1;
+    interruptEnable_ = 1;
 	ci_ = 0;
 	xi_ = 0;
 	dataPointer_ = 0;
@@ -1488,10 +1488,10 @@ void Cdp1802::cpuCycle()
                     case 8:
                         i=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
                         writeMem(scratchpadRegister_[dataPointer_], i, false);
-                        accumulator_=i;
+//                      accumulator_=i; SYSTEM 00 doesn't load INP byte in D
                         if (trace_)
                         {
-                            buffer.Printf("INP  %X    D=M(%04X)=%02X",n-8,scratchpadRegister_[dataPointer_], i);
+                            buffer.Printf("INP       M(%04X)=%02X", scratchpadRegister_[dataPointer_], i);
                             tr = tr + buffer;
                         }
                     break;
@@ -1555,7 +1555,8 @@ void Cdp1802::cpuCycle()
 			}
 			i=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
 			writeMem(scratchpadRegister_[dataPointer_], i, false);
-			accumulator_=i;
+            if (cpuType_ != CPU1801)  // 1801 doesn't load INP x byte in D
+                accumulator_=i;
 			if (trace_)
 			{
                 buffer.Printf("INP  %X    D=M(%04X)=%02X",n-8,scratchpadRegister_[dataPointer_], i);

@@ -153,6 +153,8 @@ public:
 	wxString saveStartString_;
 	wxString saveEndString_;
 	wxString saveExecString_;
+	
+	int gameId_;
 };
 
 class ComputerInfo
@@ -507,7 +509,7 @@ protected:
 	wxString workingDir_;
 	wxString dataDir_;
 	wxString iniDir_;
-	int psaveData_[10];
+	int psaveData_[11];
     wxSize defaultGuiSize_;
 
 	bool debugMode_;

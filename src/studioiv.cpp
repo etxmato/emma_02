@@ -31,8 +31,6 @@
 #include "main.h"
 #include "studioiv.h"
 
-#define CHIP8_PC 5
-
 StudioIV::StudioIV(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {

@@ -46,7 +46,8 @@ PsaveDialog::PsaveDialog(wxWindow* parent)
     XRCCTRL(*this, "FREDThreshold8", wxTextCtrl)->SetValue(threshold);
     threshold.Printf("%d", p_Main->getPsaveData(9));
     XRCCTRL(*this, "FREDThreshold16", wxTextCtrl)->SetValue(threshold);
-
+    threshold.Printf("%1.1f", (float)p_Main->getPsaveData(10)/10);
+    XRCCTRL(*this, "FREDFreq", wxTextCtrl)->SetValue(threshold);
 }
 
 void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
@@ -77,6 +78,13 @@ void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         threshold = 300;
     p_Main->setPsaveData(9, (int)threshold);
 
+    stringThreshold = XRCCTRL(*this, "FREDFreq", wxTextCtrl)->GetValue();
+    if (stringThreshold == "")  stringThreshold = "5.8";
+    double freq;
+    if (!stringThreshold.ToDouble(&freq))
+        freq = 5.8;
+    p_Main->setPsaveData(10, freq*10);
+    
 	EndModal( wxID_OK );
 }
 

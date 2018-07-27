@@ -503,7 +503,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_GUI_MSG(SET_LOCATION, Main::setLocationEvent)
 	EVT_GUI_MSG(SET_SW_NAME, Main::setSwNameEvent)
 	EVT_GUI_MSG(SET_TAPE_STATE, Main::setTapeStateEvent)
-	EVT_GUI_MSG(SET_TEXT_VALUE, Main::setTextValueEvent)
+    EVT_GUI_MSG(SET_TEXT_VALUE, Main::setTextValueEvent)
+    EVT_GUI_MSG(SET_STATIC_TEXT_VALUE, Main::setStaticTextValueEvent)
 	EVT_GUI_MSG(SET_CHECK_BOX, Main::setCheckBoxEvent)
 	EVT_GUI_MSG(PRINT_DEFAULT, Main::printDefaultEvent)
 	EVT_GUI_MSG(PRINT_PARALLEL, Main::printParallelEvent)
@@ -2016,6 +2017,7 @@ void Main::writeConfig()
     configPointer->Write("/Main/Cassette_Conversion_Type", psaveData_[7]);
     configPointer->Write("/Main/Cassette_Fred_Threshold_8", psaveData_[8]);
     configPointer->Write("/Main/Cassette_Fred_Threshold_16", psaveData_[9]);
+    configPointer->Write("/Main/Cassette_Fred_Freq", psaveData_[10]);
 	configPointer->Write("/Main/Window_Positions_Fixed", mode_.window_position_fixed);
 
     writeDebugConfig();
@@ -2751,7 +2753,8 @@ void Main::readConfig()
 	psaveData_[6] = (int)configPointer->Read("/Main/Cassette_Reversed_Polarity", 0l);
     psaveData_[7] = (int)configPointer->Read("/Main/Cassette_Conversion_Type", 1l);
     psaveData_[8] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_8", 10l);
-    psaveData_[9] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_16", 300l);
+    psaveData_[9] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_16", 500l);
+    psaveData_[10] = (int)configPointer->Read("/Main/Cassette_Fred_Freq", 58l);
 }
 
 void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
@@ -6801,6 +6804,28 @@ void Main::eventSetTextValue(wxString info, wxString value)
     event.SetStringValue2(value);
 
 	GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setStaticTextValueEvent(guiEvent&event)
+{
+    wxString info = event.GetString();
+    wxString value = event.GetStringValue2();
+    
+    XRCCTRL(*this, info, wxStaticText)->SetLabel(value);
+}
+
+void Main::eventSetStaticTextValue(wxString info, wxString value)
+{
+    if (!mode_.gui)
+        return;
+    
+    guiEvent event(GUI_MSG, SET_STATIC_TEXT_VALUE);
+    event.SetEventObject( p_Main );
+    
+    event.SetString(info);
+    event.SetStringValue2(value);
+    
+    GetEventHandler()->AddPendingEvent(event);
 }
 
 void Main::setCheckBoxEvent(guiEvent&event)

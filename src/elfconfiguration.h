@@ -161,6 +161,8 @@ public:
     bitset<32> vt100SetUpFeature_;
     bitset<32> vtExternalSetUpFeature_;
 
+    int tapeFormat_;
+
 	ElfPortConfiguration elfPortConf;
 };
 

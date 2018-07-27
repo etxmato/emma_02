@@ -1396,11 +1396,12 @@ void KeyMapDialog::onSwitchPad(wxCommandEvent & WXUNUSED(event))
 	hexPadA_ = !hexPadA_;
 	if (hexPadBdefined_)
         gamePlayer1_ = !gamePlayer1_;
-	if (hexPadA_)
-		XRCCTRL(*this, "PadText", wxStaticText)->SetLabel("Hex Keypad Definition: A, Set 1");
-	else
-		XRCCTRL(*this, "PadText", wxStaticText)->SetLabel("Hex Keypad Definition: B, Set 1");
 
+    if (hexPadA_)
+        XRCCTRL(*this, "PadText", wxStaticText)->SetLabel("Hex Keypad Definition: A, Set 1");
+    else
+        XRCCTRL(*this, "PadText", wxStaticText)->SetLabel("Hex Keypad Definition: B, Set 1");
+    
 	updateButtons();
 	inKey_ = -1;
 	hexKey_ = -1;
@@ -1562,14 +1563,14 @@ void KeyMapDialog::onKeyDown(wxKeyEvent& event)
 void KeyMapDialog::connectKeyDownEvent(wxWindow* pclComponent) 
 { 
   if(pclComponent) 
-  { 
-    pclComponent->Connect(wxID_ANY, 
+  {
+      pclComponent->Connect(wxID_ANY,
                           wxEVT_KEY_DOWN, 
                           wxKeyEventHandler(KeyMapDialog::onKeyDown), 
                           (wxObject*) NULL, 
-                          this); 
+                          this);
 
-    wxWindowListNode* pclNode = pclComponent->GetChildren().GetFirst(); 
+    wxWindowListNode* pclNode = pclComponent->GetChildren().GetFirst();
     while(pclNode) 
     { 
       wxWindow* pclChild = pclNode->GetData(); 

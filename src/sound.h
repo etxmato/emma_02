@@ -83,6 +83,7 @@ protected:
     int computerType_;
     int threshold8_;
     int threshold16_;
+    float fredFreq_;
     
 private:
 	Blip_Buffer *soundBufferPointerLeft;
