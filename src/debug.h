@@ -60,6 +60,16 @@ public:
 #define MEM_LABEL_TYPE true
 #define FIND_BRANCH false
 
+class PseudoCodeDetails
+{
+public:
+    long command;
+    int length;
+    wxString subCommand;
+    wxString commandText;
+    wxString parameterText;
+};
+
 enum
 {
     DUMMY,
@@ -68,6 +78,7 @@ enum
     ADD8_VX_VY_N,
     BEEP_F_KK_N,
     CALL_MMM,
+    DRW_VX_KK,
     DRW_VX_VY_N,
     DRW_VX_L_N,
     JP_MMM,
@@ -76,6 +87,7 @@ enum
     JE_I_VX_KK,
     JNE_I_VX_KK,
     LD_B_VX_VY,
+    LD_M6AA_VX,
     LD_M8AA_VX,
     LD_RA_MMM,
     LD_RB_MMM,
@@ -85,10 +97,14 @@ enum
     LD_27KK_VX,
     RND_VX_KK,
     SE_VX_KK,
+    SE_VX_M6AA,
     SNE_VX_KK,
     SNE_VX_VY,
+    SNE_VX_M6AA,
     SNE_VX_M8AA,
+    SNE_X_KK,
     SUB_VX_VY_VZ,
+    SUB_VY_VX_VZ,
     SYS_MMM,
     SYS1_AA,
     TAPE_KK,
@@ -107,6 +123,8 @@ enum
     STIV_COMMAND_5,
     STIV_COMMAND_6,
     STIV_COMMAND_7,
+    FPL_COMMAND_C,
+    FPL_COMMAND_E,
     CARDTRAN_COMMAND,
     LAST_COMMAND
 };
@@ -386,14 +404,9 @@ public:
 	void onChip8PauseButton(wxCommandEvent&event);
 	void setChip8PauseState();
 	void onChip8StepButton(wxCommandEvent&event);
-    void chip8Trace(Word address);
-    void fredTrace(Word address);
-	wxString chip8Disassemble(Word address, bool includeDetails, bool showOpcode);
-    void defineFelCommands_(int chip8Type);
-    void defineFelCommand(int command, int type);
-    wxString fel2Disassemble(Word address, bool includeDetails, bool showOpcode);
-	void st2Trace(Word address);
-	wxString st2Disassemble(Word address, bool includeDetails, bool showOpcode);
+    void pseudoTrace(Word address);
+    void definePseudoCommands(int chip8Type);
+    wxString pseudoDisassemble(Word address, bool includeDetails, bool showOpcode);
 	void onChip8Trace(wxCommandEvent&event);
 	void onChip8ProtectedMode(wxCommandEvent&event);
 	void onChip8Log(wxCommandEvent&event);
@@ -473,10 +486,10 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-	int assembleChip(wxString *buffer, Byte* b1, Byte* b2);
-    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2);
+    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2);
 	AssInput getAssInput(wxString buffer);
-	int assembleSt2(wxString *buffer, Byte* b1, Byte* b2);
+	int checkParameterPseudo(AssInput assInput, Word* pseudoCode);
+    wxString getPseudoFile();
 	Byte getCardtranAddress(long address);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
 	int getByte(AssInput assInput, Byte* b2, bool allowX);
@@ -574,10 +587,13 @@ private:
     LabelInfo labelInfo_[65536];
 
 	int numberOfDebugLines_;
-    int dissassembleCommand_[16];
-    int assembleCommand_[LAST_COMMAND];
     int chip8Type_;
     
+	wxTextFile inFile;
+
+    size_t psuedoNumber_;
+    vector<PseudoCodeDetails> pseudoCodeDetails_;
+
 	DECLARE_EVENT_TABLE()
 };
 

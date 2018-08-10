@@ -53,6 +53,7 @@ public:
 	Byte ef(int flag);
     Byte ef1();
     Byte ef2();
+    Byte ef3();
     Byte ef4();
     Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
@@ -113,6 +114,15 @@ private:
     int keyDefA2_[16];
     int keyDefB2_[16];
     
+	int keyDefA_[5];
+	int keyDefB_[5];
+    int keyDefCoin_;
+    
+    Byte directionKey_;
+    Byte fireKeyA_;
+    Byte fireKeyB_;
+    Byte coinKey_;
+
     bool simDefA2_;
     bool simDefB2_;
     

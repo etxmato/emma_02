@@ -801,10 +801,13 @@ public:
 #define CHIPETI 3
 #define CHIPST2 4
 #define CHIPFEL1 5
-#define CHIPFEL2 6
-#define CHIPFEL3 7
-#define CHIPSTIV 8
-#define CARDTRAN 9
+#define CHIPGPL1 6
+#define CHIPGPL2 7
+#define CHIPFEL3 8
+#define CHIPFEL4 8
+#define CHIPFPL 9
+#define CHIPSTIV 10
+#define CARDTRAN 11
 
 #define CPU_OVERRIDE_DEFAULT 0
 #define CPU_OVERRIDE_CPU1801 1

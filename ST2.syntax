@@ -1,0 +1,99 @@
+ADD
+Vx , kk det=25 code=7xkk
+Vx , Vy det=8 code=8xy4
+/ADD
+AFOR
+Vx det=40 code=FxB6
+/AFOR
+AND
+Vx , Vy det=17 code=8xy2
+/AND
+CALL 
+hex=0000-0FFF code=2aaa
+/CALL
+DJNZ
+V0 , kk code=70kk
+/DJNZ
+JKP
+VB , kk code=DFkk
+n , kk code=Dnkk
+/JKP
+JP
+hex=0000-0FFF code=1aaa
+/JP
+JNZ
+Vx , kk code=3xkk
+/JNZ
+JZ
+Vx , kk code=4xkk
+/JZ
+LD
+B , [Vy] , Vx code=9xy8
+B , Vy , Vx det=4 code=9xy8
+I , hex=0000-0FFF code=Aaaa
+Vx , kk code=6xkk
+Vx , Vy det=26 code=8xy0
+Vx , [Vy] det=31 code=9xy2
+Vy , Vx det=30 code=9xy1
+[I] , kk , n det=33 code=Bnkk
+[I] , kk , empty + n det=33 code=Bnkk
+[Vy] , Vx det=32 code=9xy4
+[>I] , 0 det=24 code=02F2
+[I] , 0 det=24 code=02F2
+/LD
+LDM
+Vx , [I] det=35 code=FxA6
+[I] , Vx det=36 code=FxA9
+/LDM
+LDMA
+Vx , [I] det=37 code=FxAC
+[I] , Vx det=38 code=FxAF
+/LDMA
+OR
+Vx , Vy det=16 code=8xy1
+/OR
+RETURN
+code=C0
+/RETURN
+RND
+Vx , kk det=34 code=Cxkk
+/RND
+SLSB
+Vx det=39 code=FxB3
+/SLSB
+SHL
+Vx det=28 code=8xxE
+Vx , Vy det=28 code=8xyE
+/SHL
+SHR
+Vx det=27 code=8xx6
+Vx , Vy det=27 code=8xy6
+/SHR
+SNE
+Vx , kk code=5xkk
+Vx , Vy code=9xy0
+/SNE
+SP
+CLEAR code=E0
+MOVE code=E1
+VC , MOVE code=E2
+XOR , [I] code=E4
+DRW , JC , kk code=E8kk
+DRW , kk code=E8kk
+/SP
+SUB
+Vx , Vy det=10 code=8xy5
+/SUB
+SUBN
+Vx , Vy det=29 code=8xy7
+/SUBN
+SYS
+hex=0200-02ff code=F0aa
+hex=0000-0fff code=0aaa
+/SYS
+VIDEO
+ON code=0066
+/VIDEO
+XOR
+Vx , Vy det=18 code=8xy3
+/XOR

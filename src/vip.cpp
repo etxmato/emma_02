@@ -632,6 +632,9 @@ void Vip::startComputer()
 			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
 	}
 
+    if (chip8type_ != CHIP_NONE)
+        p_Main->definePseudoCommands(chip8type_);
+
 	double zoom = p_Main->getZoom();
 
 	useKeyboard_ = false;

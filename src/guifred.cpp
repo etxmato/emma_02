@@ -252,6 +252,7 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_TEXT(XRCID("SaveEndFRED2"), GuiMain::onSaveEnd)
     EVT_CHECKBOX(XRCID("ControlWindowsFRED2"), GuiFred::onFred2ControlWindows)
     EVT_CHECKBOX(XRCID("AutoBootFRED2"), GuiFred::onAutoBoot)
+    EVT_CHECKBOX(XRCID("CoinArcadeControlFRED2"), GuiFred::onCoinArcadeControl)
     EVT_CHECKBOX(XRCID("stopToneFRED2"), GuiFred::onStopTone)
     EVT_CHECKBOX(XRCID("TapeStartFRED2"), GuiFred::onTapeStart)
     EVT_CHECKBOX(XRCID("InterlaceFRED2"), GuiMain::onInterlace)
@@ -317,6 +318,7 @@ void GuiFred::readFred1Config()
     defaultScale.Printf("%i", 3);
     conf[FRED1].xScale_ = configPointer->Read("/FRED1/Window_Scale_Factor_X", defaultScale);
     
+	elfConfiguration[FRED1].coinArcadeControl_ = false;
     configPointer->Read("/FRED1/Enable_Auto_Boot", &elfConfiguration[FRED1].autoBoot, true);
     configPointer->Read("/FRED1/Enable_Stop_Tone", &elfConfiguration[FRED1].stopTone, true);
     configPointer->Read("/FRED1/Enable_Tape_Start", &elfConfiguration[FRED1].tapeStart, true);
@@ -464,7 +466,7 @@ void GuiFred::readFred2Config()
     configPointer->Read("/FRED2/Enable_Auto_Cassette", &conf[FRED2].autoCassetteLoad_, true);
     configPointer->Read("/FRED2/Enable_Real_Cassette", &conf[FRED2].realCassetteLoad_, false);
     conf[FRED2].volume_ = (int)configPointer->Read("/FRED2/Volume", 25l);
-    conf[FRED2].ramType_ = (int)configPointer->Read("/FRED2/Ram_Type", 0l);
+    conf[FRED2].ramType_ = (int)configPointer->Read("/FRED2/Ram_Type", 2l);
     elfConfiguration[FRED2].keyboardType = (int)configPointer->Read("/FRED2/KeyPadMode", 0l);
     elfConfiguration[FRED2].tapeFormat_ = (int)configPointer->Read("/FRED2/TapeFormat", 0l);
     configPointer->Read("/FRED2/Open_Control_Windows", &elfConfiguration[FRED2].useElfControlWindows, true);
@@ -474,6 +476,7 @@ void GuiFred::readFred2Config()
     defaultScale.Printf("%i", 3);
     conf[FRED2].xScale_ = configPointer->Read("/FRED2/Window_Scale_Factor_X", defaultScale);
     
+    configPointer->Read("/FRED1/Enable_CoinArcadeControl", &elfConfiguration[FRED2].coinArcadeControl_, true);
     configPointer->Read("/FRED2/Enable_Auto_Boot", &elfConfiguration[FRED2].autoBoot, true);
     configPointer->Read("/FRED2/Enable_Stop_Tone", &elfConfiguration[FRED2].stopTone, true);
     configPointer->Read("/FRED2/Enable_Tape_Start", &elfConfiguration[FRED2].tapeStart, true);
@@ -507,6 +510,7 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "ShowAddressFRED2", wxTextCtrl)->ChangeValue(conf[FRED2].ledTime_);
         XRCCTRL(*this,"ShowAddressFRED2", wxTextCtrl)->Enable(elfConfiguration[FRED2].useElfControlWindows);
         XRCCTRL(*this, "AutoBootFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].autoBoot);
+//        XRCCTRL(*this, "CoinArcadeControlFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].coinArcadeControl_);
         XRCCTRL(*this, "stopToneFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].stopTone);
         XRCCTRL(*this, "TapeStartFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].tapeStart);
         XRCCTRL(*this, "InterlaceFRED2", wxCheckBox)->SetValue(conf[FRED2].interlace_);
@@ -542,6 +546,7 @@ void GuiFred::writeFred2Config()
     configPointer->Write("/FRED2/TapeFormat", elfConfiguration[FRED2].tapeFormat_);
     configPointer->Write("/FRED2/Open_Control_Windows", elfConfiguration[FRED2].useElfControlWindows);
     configPointer->Write("/FRED2/Led_Update_Frequency", conf[FRED2].ledTime_);
+    configPointer->Write("/FRED2/Enable_CoinArcadeControl", elfConfiguration[FRED2].coinArcadeControl_);
     configPointer->Write("/FRED2/Enable_Auto_Boot", elfConfiguration[FRED2].autoBoot);
     configPointer->Write("/FRED2/Enable_Stop_Tone", elfConfiguration[FRED2].stopTone);
     configPointer->Write("/FRED2/Enable_Tape_Start", elfConfiguration[FRED2].tapeStart);
@@ -593,6 +598,11 @@ bool GuiFred::getUseControlWindows()
 void GuiFred::onAutoBoot(wxCommandEvent&event)
 {
     elfConfiguration[selectedComputer_].autoBoot = event.IsChecked();
+}
+
+void GuiFred::onCoinArcadeControl(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].coinArcadeControl_ = event.IsChecked();
 }
 
 void GuiFred::onStopTone(wxCommandEvent&event)

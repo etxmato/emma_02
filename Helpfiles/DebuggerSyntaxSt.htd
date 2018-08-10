@@ -41,7 +41,7 @@
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
 </TABLE>
-<h3>ST2 Syntax</h3>
+<h3>Syntax</h3>
 <TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
 <TD WIDTH="55">7xkk</TD>
@@ -224,7 +224,7 @@
 <TD WIDTH="250">Vx = Vy &lt;&lt; 1, VB = carry</TD>
 </TR>
 <TR>
-<TD WIDTH="55">8x.6</TD>
+<TD WIDTH="55">8xx6</TD>
 <TD WIDTH="40">SHR</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Vx = Vx &gt;&gt; 1, VB = carry</TD>
@@ -272,7 +272,7 @@
 <TD WIDTH="250">XOR graphic data at register I into sprite graphic buffer</TD>
 </TR>
 <TR>
-<TD WIDTH="55">E8</TD>
+<TD WIDTH="55">E8kk</TD>
 <TD WIDTH="40">SP</TD>
 <TD WIDTH="100">DRW, JC, kk<BR>DRW, kk</TD>
 <TD WIDTH="250">Draw sprite, jump to kk (same page) if a collision occurs</TD>

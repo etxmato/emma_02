@@ -1,0 +1,124 @@
+ADD
+Vx , kk det=25 code=5xkk
+Vx , Vy det=8 code=8xy4
+/ADD
+AND
+Vx , Vy det=17 code=8xy2
+/AND
+CALL 
+hex=0000-0FFF code=1aaa
+/CALL
+CLS
+code=0078
+/CLS
+DELAY
+Vx code=7x4B
+/DELAY
+DRW
+Vx , Vy , n code=9xyn
+/DRW
+INCA
+code=7F6F
+/INCA
+INP6
+Vx code=Ex8D
+/INP6
+JP
+hex=0000-0FFF code=Faaa
+/JP
+KEY
+OFF code=0268
+Vx code=Ex7A
+/KEY
+LD
+B , [RA] , Vx code=7x52
+B , [A] , Vx code=7x52
+RA , hex=0000-0FFF code=Aaaa
+A , hex=0000-0FFF code=Aaaa
+RB , hex=0000-0FFF code=Baaa
+B , hex=0000-0FFF code=Baaa
+RA.0 , Vx code=7x2A
+A.0 , Vx code=7x2A
+RA.1 , Vx code=7x30
+A.1 , Vx code=7x30
+RB.0 , Vx code=7x34
+B.0 , Vx code=7x34
+Vx , kk code=2xkk
+Vx , PAR code=6x7B
+Vx , RA.0 code=7x38
+Vx , A.0 code=7x38
+Vx , RA.1 code=7x3B
+Vx , A.1 code=7x3B
+Vx , [RA] code=7x1E
+Vx , [A] code=7x1E
+Vx , [RB] code=7x21
+Vx , [B] code=7x21
+[RA] , Vx code=7x24
+[A] , Vx code=7x24
+[RB] , Vx code=7x27
+[B] , Vx code=7x27
+/LD
+OR
+Vx , Vy det=16 code=8xy1
+/OR
+OUT4
+Vx code=Ex91
+/OUT4
+OUT6
+Vx code=Ex8F
+/OUT6
+PUSH
+code=022F
+/PUSH
+RETURN
+code=026E
+/RETURN
+RND
+Vx , kk det=34 code=4xkk
+/RND
+SHR
+Vx , Vy det=27 code=8xy6
+/SHR
+SHL4
+Vx code=7x3E
+/SHL4
+SHR4
+Vx code=7x41
+/SHR4
+SK3
+code=E.8A
+/SK3
+SKP
+Vx code=Ex80
+/SKP
+SKT
+code=E.87
+/SKT
+SNE
+Vx , kk code=3xkk
+Vx , Vy code=Cxy0
+/SNE
+SUB
+Vx , Vy det=10 code=8xy5
+/SUB
+SUBN
+Vx , Vy det=29 code=8xy7
+/SUBN
+SYS
+hex=0000-0fff code=0aaa
+/SYS
+TAPE
+kk code=6.kk
+READ code=E.93
+WRITE code=E.A0
+/TAPE
+TONE
+Vx , Vy code=Dxy0
+/TONE
+VIDEO
+ON code=025C
+OFF code=0240
+/VIDEO
+XOR
+Vx , Vy det=18 code=8xy3
+/XOR

@@ -1,0 +1,66 @@
+ADD
+Vz , Vx + Vy det=7 code=6xyz
+Vx , Vy det=7 code=6xyx
+/ADD
+BEEP
+F = kk , n code=Dnkk
+kk , n code=Dnkk
+/BEEP 
+CALL 
+hex=0000-0FFF code=1aaa
+/CALL
+CLS
+code=E010
+/CLS
+DRW
+Vx , kk code=Axkk
+Vx , Vy , n code=Bxyn
+/DRW 
+DRW0
+VF , Vx , Vy code=Cxy0
+/DRW
+DRW1
+Vx , Vy code=Cxy1
+/DRW1 
+DRW2
+Vx , Vy code=Cxy2
+/DRW2
+DRW4
+VE , Vx , Vy code=Cxy4
+/DRW4
+JP
+hex=0000-0FFF code=Faaa
+/JP 
+KEY
+Vx code=Ex.1
+OFF code=E.08
+/KEY
+LD
+mem=0600-06FF , Vx det=15 code=5xaa
+hex=0600-06FF , Vx det=15 code=5xaa
+B , Vy , Vx det=3 code=9xy.
+Vx , kk code=4xkk
+Vz , Vx + Vy code=6xyz
+Vz , Vx - Vy code=7xyz
+/LD
+RETURN
+code=E000
+/RETURN
+RND
+Vx , kk det=34 code=8xkk
+/RND
+SNE
+Vx , kk code=2xkk
+n , kk code=3nkk
+/SNE
+SUB
+Vz , Vx - Vy det=9 code=7xyz
+Vx , Vy det=9 code=7xyx
+/SUB
+SYS
+hex=0000-0fff code=0aaa
+/SYS
+VIDEO
+ON code=E.02
+OFF code=E.04
+/VIDEO

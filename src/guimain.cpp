@@ -335,7 +335,7 @@ void GuiMain::onMainRom1(wxCommandEvent& WXUNUSED(event))
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),

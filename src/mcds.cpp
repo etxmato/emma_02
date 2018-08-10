@@ -98,8 +98,7 @@ void Mcds::configureComputer()
 	efType_[2] = MS2000CASEF;
     
     p_Main->message("Configuring MCDS");
-    p_Main->message("	Output 1: set I/O group, input 1: read I/O group\n");
-
+    p_Main->message("	Output 1: set I/O group, input 1: read I/O group");
     p_Main->message("	I/O group 1: video terminal & printer");
     p_Main->message("	I/O group 2: tape");
  

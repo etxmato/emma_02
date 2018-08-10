@@ -308,8 +308,7 @@ void Fred::configureComputer()
 		p_Main->message("Configuring FRED 1");
 	else 
 		p_Main->message("Configuring FRED 2");
-    p_Main->message("	Output 1: set I/O group\n");
-    
+    p_Main->message("	Output 1: set I/O group");
     p_Main->message("	I/O group 1: hex keypad & card");
     p_Main->message("	I/O group 2: TV");
     p_Main->message("	I/O group 3: tape");
@@ -328,10 +327,25 @@ void Fred::configureComputer()
     p_Main->message("	Output 2: bit 4 = program mode, bit 5 = direct mode, bit 6 = write mode");
     p_Main->message("	Output 3: bit 0 = 1 - run tape, bit 1 = 1 - sound on, bit 2 = sound");
     p_Main->message("	Input 0: read byte");
-    p_Main->message("	EF 1: data ready");
-    p_Main->message("	EF 2: tape run/stop");
-    p_Main->message("	EF 4: tape error\n");
+    p_Main->message("	EF 1: data ready, EF 2: tape run/stop, EF 4: tape error\n");
     
+	if (fredConfiguration.coinArcadeControl_)
+	{
+	    efType_[3] = COINARCADEEF3;
+		inType_[6] = COINARCADEINPKEY6;
+
+		directionKey_ = 0;
+		fireKeyA_ = 1;
+		fireKeyB_ = 1;
+		coinKey_ = 1;
+    
+		p_Main->message("Configuring RCA Video Coin Arcade controls");
+		p_Main->message("	EF1: fire player A, EF3: fire player B, EF4: coin");
+	    p_Main->message("	input 6: direction keys & coin reset");
+
+		keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefA_, keyDefB_);
+	}
+
 	if (computerType_ == FRED1)
 	{
         p_Main->getDefaultHexKeys(computerType_, "FRED1", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
@@ -391,6 +405,43 @@ void Fred::keyDown(int keycode)
     }
     if (ef1State_ == 1)
         keyCode_ = WXK_NONE;
+
+	if (fredConfiguration.coinArcadeControl_)
+	{
+		if (keycode == keyDefCoin_)
+			coinKey_ = 0;
+	    
+		if (keycode == keyDefA_[KEY_UP])
+			directionKey_ |= 0x02;
+		if (keycode == keyDefA_[KEY_LEFT])
+			directionKey_ |= 0x01;
+		if (keycode == keyDefA_[KEY_RIGHT])
+			directionKey_ |= 0x04;
+		if (keycode == keyDefA_[KEY_DOWN])
+			directionKey_ |= 0x08;
+		if (keycode == keyDefA_[KEY_FIRE])
+			fireKeyA_ = 0;
+	    
+		if (keycode == keyDefB_[KEY_UP])
+			directionKey_ |= 0x20;
+		if (keycode == keyDefB_[KEY_LEFT])
+			directionKey_ |= 0x10;
+		if (keycode == keyDefB_[KEY_RIGHT])
+			directionKey_ |= 0x40;
+		if (keycode == keyDefB_[KEY_DOWN])
+			directionKey_ |= 0x80;
+		if (keycode == keyDefB_[KEY_FIRE])
+			fireKeyB_ = 0;
+
+		if (keycode == '1')
+			directionKey_ |= 0x01;
+		if (keycode == '2')
+			directionKey_ |= 0x02;
+		if (keycode == '3')
+			directionKey_ |= 0x04;
+		if (keycode == '4')
+			directionKey_ |= 0x08;
+	}
 }
 
 void Fred::keyFound(int key)
@@ -438,6 +489,40 @@ void Fred::keyUp(int keycode)
         shiftPressed_ = 0;
     else
         ef1State_ = 1;
+
+	if (fredConfiguration.coinArcadeControl_)
+	{
+		if (keycode == keyDefA_[KEY_UP])
+			directionKey_ &= 0xFD;
+		if (keycode == keyDefA_[KEY_LEFT])
+			directionKey_ &= 0xFE;
+		if (keycode == keyDefA_[KEY_RIGHT])
+			directionKey_ &= 0xFB;
+		if (keycode == keyDefA_[KEY_DOWN])
+			directionKey_ &= 0xF7;
+		if (keycode == keyDefA_[KEY_FIRE])
+			fireKeyA_ = 1;
+	    
+		if (keycode == keyDefB_[KEY_UP])
+			directionKey_ &= 0xDF;
+		if (keycode == keyDefB_[KEY_LEFT])
+			directionKey_ &= 0xEF;
+		if (keycode == keyDefB_[KEY_RIGHT])
+			directionKey_ &= 0xBF;
+		if (keycode == keyDefB_[KEY_DOWN])
+			directionKey_ &= 0x7F;
+		if (keycode == keyDefB_[KEY_FIRE])
+			fireKeyB_ = 1;
+
+		if (keycode == '1')
+			directionKey_ &= 0xFE;
+		if (keycode == '2')
+			directionKey_ &= 0xFD;
+		if (keycode == '3')
+			directionKey_ &= 0xFB;
+		if (keycode == '4')
+			directionKey_ &= 0xF7;
+	}
 }
 
 void Fred::cycleKeyboard()
@@ -486,6 +571,10 @@ Byte Fred::ef(int flag)
 			return ef2();
 		break;
 
+		case COINARCADEEF3:
+			return ef3();
+		break;
+
 		case FREDEF4:
 			return ef4();
 		break;
@@ -508,7 +597,10 @@ Byte Fred::ef1()
 		break;
 
         default:
-            return 1;
+			if (fredConfiguration.coinArcadeControl_)
+			    return fireKeyA_;
+			else
+	            return 1;
     }
 }
 
@@ -518,11 +610,22 @@ Byte Fred::ef2()
         return 0;
     else
         return 1;
+}    
+
+Byte Fred::ef3()
+{
+	if (fredConfiguration.coinArcadeControl_)
+	    return fireKeyB_;
+	else
+	    return 1;
 }
 
 Byte Fred::ef4()
 {
-    return ef4State_;
+	if (ef4State_ == 0 || coinKey_ == 0)
+		return 0;
+	else
+	    return 1;
 }
 
 Byte Fred::in(Byte port, Word WXUNUSED(address))
@@ -550,7 +653,12 @@ Byte Fred::in(Byte port, Word WXUNUSED(address))
 				break;
 			}
         break;
-    }
+
+	    case COINARCADEINPKEY6:
+            coinKey_ = 1;
+            ret = directionKey_;
+        break;        
+	}
 	inValues_[port] = ret;
 	return ret;
 }
@@ -880,6 +988,24 @@ void Fred::startComputer()
         chip8mainLoop_ = 0x13B;
         chip8type_ = CHIPFEL1;
     }
+    if (mainMemory_[2] == 0x8 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
+    {  // GPL I
+        chip8baseVar_ = 0x680;
+        chip8mainLoop_ = 0x2a;
+        chip8type_ = CHIPGPL1;
+    }
+    if (mainMemory_[2] == 0xa && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
+    {  // tag-bowling and GPL II
+        chip8baseVar_ = 0x880;
+        chip8mainLoop_ = 0x2a;
+        chip8type_ = CHIPGPL2;
+    }
+    if (mainMemory_[0x119] == 0x45 && mainMemory_[0x14b] == 0x18 && mainMemory_[0x200] == 0xe6 && mainMemory_[0x2a6] == 0x4b)
+    {  // Curses Foiled Again and FPL
+        chip8baseVar_ = 0x690;
+        chip8mainLoop_ = 0x119;
+        chip8type_ = CHIPFPL;
+    }
     if (mainMemory_[0x6b] == 0x4f && mainMemory_[0x2a] == 0xe3 && mainMemory_[0x100] == 0x2c && mainMemory_[0x11b] == 0x18)
     {
         chip8baseVar_ = 0;
@@ -888,7 +1014,7 @@ void Fred::startComputer()
     }
     
     if (chip8type_ != CHIP_NONE)
-        p_Main->defineFelCommands_(chip8type_);
+        p_Main->definePseudoCommands(chip8type_);
 
     fredScreenPointer->setErrorLed(0);
 
@@ -1101,6 +1227,24 @@ void Fred::resetFred()
         chip8baseVar_ = 0x100;
         chip8mainLoop_ = 0x13B;
         chip8type_ = CHIPFEL1;
+    }
+    if (mainMemory_[2] == 0x8 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
+    {  // GPL I
+        chip8baseVar_ = 0x680;
+        chip8mainLoop_ = 0x2a;
+        chip8type_ = CHIPGPL1;
+    }
+    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
+    {  // tag-bowling and GPL II
+        chip8baseVar_ = 0x880; // GPL II
+        chip8mainLoop_ = 0x2a;
+        chip8type_ = CHIPGPL2;
+    }
+    if (mainMemory_[0x119] == 0x45 && mainMemory_[0x14b] == 0x18 && mainMemory_[0x200] == 0xe6 && mainMemory_[0x2a6] == 0x4b)
+    {  // Curses Foiled Again and FPL
+        chip8baseVar_ = 0x690;
+        chip8mainLoop_ = 0x119;
+        chip8type_ = CHIPFPL;
     }
     if (mainMemory_[0x6b] == 0x4f && mainMemory_[0x2a] == 0xe3 && mainMemory_[0x100] == 0x2c && mainMemory_[0x11b] == 0x18)
     {

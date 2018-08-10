@@ -493,6 +493,7 @@ void Studio2::startComputer()
         p_Main->assDefault("studiocart_1", 0x400, 0x7FF);
         p_Main->assDefault("studiocart_2", 0xC00, 0xFFF);
 	}
+    p_Main->definePseudoCommands(chip8type_);
 
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);

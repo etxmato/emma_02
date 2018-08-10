@@ -446,7 +446,7 @@ void StudioIV::startComputer()
     chip8baseVar_ = 0x27E0;
     chip8mainLoop_ = 0x16;
     chip8type_ = CHIPSTIV;
-    p_Main->defineFelCommands_(chip8type_);
+    p_Main->definePseudoCommands(chip8type_);
     readSt2Program(STUDIOIV);
 
 	reDefineKeysA(keyDefA1_, keyDefA2_);

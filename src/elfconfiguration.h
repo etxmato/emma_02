@@ -162,6 +162,7 @@ public:
     bitset<32> vtExternalSetUpFeature_;
 
     int tapeFormat_;
+	bool coinArcadeControl_;
 
 	ElfPortConfiguration elfPortConf;
 };

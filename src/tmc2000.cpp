@@ -280,6 +280,9 @@ void Tmc2000::startComputer()
 	if (mainMemory_[0x100] ==  0 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
 		chip8type_ = CHIP8;
 
+    if (chip8type_ != CHIP_NONE)
+        p_Main->definePseudoCommands(chip8type_);
+
 	double zoom = p_Main->getZoom();
 
 	configurePixieTelmac();

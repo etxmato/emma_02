@@ -477,6 +477,9 @@ void Victory::startComputer()
 			readProgram(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM), ROM, 0x300, NONAME);
 	}
 
+    if (chip8type_ != CHIP_NONE)
+        p_Main->definePseudoCommands(chip8type_);
+
 //    if (testCartMemoryDefined_)
  //       readProgram(p_Main->getRomDir(VICTORY, MAINROM1), p_Main->getRomFile(VICTORY, MAINROM1), ROM, 0x2000, NONAME);
     

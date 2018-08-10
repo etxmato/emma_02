@@ -713,6 +713,9 @@ void Velf::startComputer()
 			readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);
 	}
 
+	if (chip8type_ != CHIP_NONE)
+        p_Main->definePseudoCommands(chip8type_);
+
     if (vipConfiguration.autoBoot)
         autoBoot();
     else

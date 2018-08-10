@@ -1,0 +1,60 @@
+ADD
+Vz , Vx + Vy det=7 code=6xyz
+Vx , Vy det=7 code=6xyx
+/ADD
+SUB
+Vz , Vx - Vy det=9 code=7xyz
+Vx , Vy det=9 code=7xyx
+/SUB
+ADD8
+Vx , Vy , Vz det=12 code=Bxyz
+/ADD8
+BEEP
+F = kk , n code=9nkk
+kk , n code=9nkk
+/BEEP 
+CALL 
+hex=0000-0FFF code=1aaa
+/CALL
+DRW
+Vx , Vy, n code=Axyn
+/DRW 
+JP
+hex=0000-0FFF code=Faaa
+/JP 
+LD
+B , Vy , Vx det=3 code=5xy.
+Vx , COIN code=Ex.0
+Vx , FIREA code=Ex.1
+Vx , FIREB code=Ex.2
+Vx , JOYA code=Ex.4
+Vx , JOYB code=Ex.8
+Vx , kk code=4xkk
+Vx , PAR code=C8y.
+Vz , Vx + Vy code=6xyz
+Vz , Vx - Vy code=7xyz
+mem=0800-08FF , Vx det=14 code=Dxaa
+hex=0800-08FF , Vx det=14 code=Dxaa
+/LD
+NO
+OP code=C4
+/NO
+RETURN
+code=C0
+/RETURN
+RND
+Vx , kk det=34 code=8xkk
+/RND
+SNE
+Vx , kk code=2xkk
+Vx , mem=0800-08FF det=2 code=3xaa
+Vx , hex=0800-08FF det=2 code=3xaa
+/SNE
+SYS
+hex=0000-0fff code=0aaa
+/SYS
+TONE
+F = kk code=C1kk
+kk code=c1kk
+OFF code=c2..
+/TONE

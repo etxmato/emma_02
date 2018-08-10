@@ -127,6 +127,9 @@ enum
 	ERROR_PAR,
 	ERROR_IO,
 	ERROR_COMMA,
+	ERROR_MINUS,
+	ERROR_PLUS,
+	ERROR_EQUAL,
     ERROR_SLASH,
     ERROR_DASH,
     ERROR_CPU_1802,
@@ -161,6 +164,7 @@ enum
     ERROR_CPU_ONLY_SYSTEM00,
     ERROR_STUDIO_CHIP_ADDRESS,
     ERROR_FEL2_CHIP_ADDRESS,
+    ERROR_FPL_CHIP_ADDRESS,
     ERROR_RAM_CHIP_ADDRESS,
     ERROR_STUDIO_CHIP_ADDRESS_I,
     ERROR_STUDIOIV_ADDRESS_I,
@@ -169,11 +173,13 @@ enum
     ERROR_COMX_NOT_RUNNING,
     WARNING_MISSING_SLOT_ADDRESS,
     ERROR_HEX,
+    ERROR_HEX_MEM,
     ERROR_HEX_TO_HIGH,
     ERROR_NO_COMPUTER_RUNNING,
     ERROR_INCORR_ADDRESS,
-    ERROR_INCORRECT_PAR,
+    ERROR_MISSING_PAR,
     ERROR_INCORRECT_REG,
+    ERROR_SYNTAX_FILE,
     ERROR_TEMP_PAR,
     ERROR_TEMP_CPU_1801,
     ERROR_LAST,
@@ -207,6 +213,9 @@ wxString DirAssErrorCodes[] =
 	"Too many parameters",
 	"I/O value not recognized",
 	"Comma expected after parameter",
+	"Minus expected after parameter",
+	"Plus expected after parameter",
+	"Equal sign expected after parameter",
     "Slash expected after parameter",
     "Dash expected after parameter",
 	"Not supported on CDP1802",
@@ -241,6 +250,7 @@ wxString DirAssErrorCodes[] =
     "Only supported on SYSTEM 00",
     "Specify address > 2FC and <= FFF",
     "Specify address > 1FF and <= FFF",
+    "Specify address >= 600 and <= 6FF",
     "Specify address >= 800 and <= 8FF",
     "Specify address >= 100 and <= FFF",
     "Specify address >= 2700 and <= 27FF",
@@ -249,11 +259,13 @@ wxString DirAssErrorCodes[] =
     "COMX-35 not running",
     "Warning: no slot specified",
     "Hexadecimal value expected",
+    "Hexadecimal address expected",
     "Hexadecimal value to high",
     "No computer running",
     "Incorrect address value",
-    "Incorrect parameter",
+    "Missing parameter",
     "Incorrect register value",
+	"Error in syntax file",
     "Too many parameters",
     "Not supported on CDP1801 or SYSTEM 00",
 };
@@ -1230,7 +1242,6 @@ void DebugWindow::updateAssTabCheck(Word address)
 		p_Main->updateAssTab();
 }
 
-
 void DebugWindow::cycleChip8Debug()
 {
 	if (p_Computer->getChip8Type() == CHIP_NONE)
@@ -1261,7 +1272,7 @@ void DebugWindow::cycleChip8Debug()
 			if (programCounterAddress == p_Computer->getChip8MainLoop())
 			{
 				if (additionalChip8Details_)
-					chip8DebugTrace(chip8Disassemble(chip8PC-2, true, false));
+					chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
 				if (chip8Steps_ == 1)
 				{
 					p_Computer->setSteps(0);
@@ -1272,7 +1283,7 @@ void DebugWindow::cycleChip8Debug()
 				{
 					if (chip8BreakPointCheck())  return;
 					if (chip8Trace_)
-						chip8Trace(chip8PC);
+						pseudoTrace(chip8PC);
 					chip8Steps_--;
 				}
 			}
@@ -1282,10 +1293,10 @@ void DebugWindow::cycleChip8Debug()
 			if (programCounterAddress == p_Computer->getChip8MainLoop())
 			{
 				if (additionalChip8Details_)
-					chip8DebugTrace(chip8Disassemble(chip8PC-2, true, false));
+					chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
 				if (chip8BreakPointCheck())  return;
 				if (chip8Trace_)
-					chip8Trace(chip8PC);
+					pseudoTrace(chip8PC);
 			}
 		}
 	}
@@ -1306,6 +1317,7 @@ void DebugWindow::cycleFredDebug()
     }
     
     Word chip8PC;
+    
     if (chip8Type_ == CARDTRAN)
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else
@@ -1319,7 +1331,7 @@ void DebugWindow::cycleFredDebug()
             case 0xC0:
             case 0xC4:
             case 0xCC:
-                if (p_Computer->getChip8Type() != CHIPFEL2)
+				if (p_Computer->getChip8Type() != CHIPGPL1 && p_Computer->getChip8Type() != CHIPGPL2)
                     p_Computer->writeMemDataType((chip8PC+1)&0xffff, MEM_TYPE_FEL2_2);
             break;
                 
@@ -1337,7 +1349,7 @@ void DebugWindow::cycleFredDebug()
             if (programCounterAddress == p_Computer->getChip8MainLoop())
             {
                 if (additionalChip8Details_)
-                    chip8DebugTrace(fel2Disassemble(chip8PC-2, true, false));
+                    chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
                 if (chip8Steps_ == 1)
                 {
                     p_Computer->setSteps(0);
@@ -1348,7 +1360,7 @@ void DebugWindow::cycleFredDebug()
                 {
                     if (chip8BreakPointCheck())  return;
                     if (chip8Trace_)
-                        fredTrace(chip8PC);
+                        pseudoTrace(chip8PC);
                     chip8Steps_--;
                 }
             }
@@ -1358,10 +1370,10 @@ void DebugWindow::cycleFredDebug()
             if (programCounterAddress == p_Computer->getChip8MainLoop())
             {
                 if (additionalChip8Details_)
-                    chip8DebugTrace(fel2Disassemble(chip8PC-2, true, false));
+                    chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
                 if (chip8BreakPointCheck())  return;
                 if (chip8Trace_)
-                    fredTrace(chip8PC);
+                    pseudoTrace(chip8PC);
             }
         }
     }
@@ -1406,7 +1418,7 @@ void DebugWindow::cycleSt2Debug()
 			if (programCounterAddress == p_Computer->getChip8MainLoop())
 			{
 				if (additionalChip8Details_)
-					chip8DebugTrace(chip8Disassemble(chip8PC-2, true, false));
+					chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
 				if (chip8Steps_ == 1)
 				{
 					p_Computer->setSteps(0);
@@ -1417,7 +1429,7 @@ void DebugWindow::cycleSt2Debug()
 				{
 					if (chip8BreakPointCheck())  return;
 					if (chip8Trace_)
-						st2Trace(chip8PC);
+						pseudoTrace(chip8PC);
 					chip8Steps_--;
 				}
 			}
@@ -1427,10 +1439,10 @@ void DebugWindow::cycleSt2Debug()
 			if (programCounterAddress == p_Computer->getChip8MainLoop())
 			{
 				if (additionalChip8Details_)
-					chip8DebugTrace(chip8Disassemble(chip8PC-2, true, false));
+					chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
 				if (chip8BreakPointCheck())  return;
 				if (chip8Trace_)
-					st2Trace(chip8PC);
+					pseudoTrace(chip8PC);
 			}
 		}
 	}
@@ -2956,8 +2968,16 @@ wxString DebugWindow::extractNextWord(wxString *buffer, wxString *seperator)
 	}
 
 	ret = buffer->Mid(0, end);
-	*seperator = buffer->Mid(end, 1);
-	*buffer = buffer->Mid(end + 1, buffer->Len()- end);
+    *buffer = buffer->Mid(end, buffer->Len()-end);
+    buffer->Trim(false);
+    
+    if (buffer->Left(1) != "/" && buffer->Left(1) != "," && buffer->Left(1) != "+" && buffer->Left(1) != "-" && buffer->Left(1) != "=")
+        *seperator = " ";
+    else
+    {
+        *seperator = buffer->Left(1);
+        *buffer = buffer->Right(buffer->Len()-1);
+    }
 	return ret;
 }
 
@@ -4182,4184 +4202,588 @@ AssInput DebugWindow::getAssInput(wxString buffer)
 	return result;
 }
 
-int DebugWindow::assembleSt2(wxString *buffer, Byte* b1, Byte* b2)
+int DebugWindow::assemblePseudo(wxString *buffer, Byte* b1, Byte* b2)
 {
-	AssInput assInput = getAssInput(*buffer);
-	if (assInput.errorCode != 0)  return assInput.errorCode;
-	if (assInput.commandSeperator != " ") return ERROR_COMMAND_SEP;
+    Word pseudoCode;
 
-	if (assInput.command == "ADD") 
-	{
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE && assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_8REG;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{ // ADD vx, kk
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			if (assInput.parameterValue[0] == 0)
-				return ERROR_NO_REG0;
-			*b1 = 0x70 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{ // ADD Vx, Vy
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x04;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "AFOR") 
-	{
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			if (assInput.parameterValue[0] == 0) return ERROR_NO_REG0;
-			*b1 = 0xF0 | assInput.parameterValue[0];
-			*b2 = 0xb6;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "AND") 
-	{ // AND Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x02;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "CALL") 
-	{
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-				return ERROR_12BIT;
-			*b1 = (assInput.parameterValue[0] >> 8) | 0x20;
-			*b2 = assInput.parameterValue[0] & 0xff;
-			return 2;
-		}
-		return ERROR_12BIT;
-	}
-	if (assInput.command == "DJNZ") 
-	{
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_8BIT;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] != 0)
-				return ERROR_ONLY_REG0;
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0x70;
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "JKP") 
-	{
-		if (assInput.parameterType[0] != CHIP8_VX && assInput.parameterType[0] != ASS_HEX_VALUE)
-			return ERROR_4REG;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_8BIT;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] == 0xf) 
-				return ERROR_NO_VALUE_F;
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xf)
-				return ERROR_4BIT;
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0xd0 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] != 0xb) 
-				return ERROR_ONLY_REGB;
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0xdf;
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "JP") 
-	{
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-				return ERROR_12BIT;
-			*b1 = (assInput.parameterValue[0] >> 8) | 0x10;
-			*b2 = assInput.parameterValue[0] & 0xff;
-			return 2;
-		}
-		return ERROR_12BIT;
-	}
-	if (assInput.command == "JNZ") 
-	{
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_8BIT;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0x30 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "JZ") 
-	{
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_8BIT;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0x40 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		return ERROR_8BIT;
-	}
-	if (assInput.command == "LD") 
-	{
-		if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0] == 0xb)
-		{ // LD B, [Vy], Vx or LD B, Vy, Vx
-			if (assInput.parameterType[1] != CHIP8_VX && assInput.parameterType[1] != CHIP8_VX_MEM)
-				return ERROR_REG_EXP;
-			if (assInput.parameterType[2] != CHIP8_VX)
-				return ERROR_REG_EXP;
-			if (assInput.seperator[0] != "," || assInput.seperator[1] != "," )
-				return ERROR_COMMA;
-			if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-
-			if ((assInput.parameterType[1] == CHIP8_VX_MEM || assInput.parameterType[1] == CHIP8_VX)  && assInput.parameterType[2] == CHIP8_VX)
-			{  
-				*b1 = 0x90 | assInput.parameterValue[2];
-				*b2 = assInput.parameterValue[1] << 4 | 0x8;
-				return 2;
-			}
-		}
-		if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[I]" && assInput.numberOfParameters > 2)
-		{ // LD [I], kk, n
-			if (assInput.parameterType[1] != ASS_HEX_VALUE)
-				return ERROR_8BIT;
-			if (assInput.seperator[0] != "," || assInput.seperator[1] != "," )
-				return ERROR_COMMA;
-
-			if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[2] == ASS_HEX_VALUE && assInput.numberOfParameters == 3)
-			{ 
-                if (assInput.parameterType[2] != ASS_HEX_VALUE)
-                    return ERROR_4BIT;
-                if (assInput.seperator[2] != " ")
-                    return ERROR_PAR;
-				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-					return ERROR_8BIT;
-				if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xf)
-					return ERROR_4BIT;
-				*b1 = 0xb0 | assInput.parameterValue[2];
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-            if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[3] == ASS_HEX_VALUE && assInput.numberOfParameters == 4 && assInput.seperator[2] == "+")
-            {//LD [I], kk, +n
-                if (assInput.parameterType[3] != ASS_HEX_VALUE)
-                    return ERROR_4BIT;
-                if (assInput.seperator[3] != " ")
-                    return ERROR_PAR;
-                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                    return ERROR_8BIT;
-                if (assInput.parameterValue[3] < 0 || assInput.parameterValue[3] > 0xf)
-                    return ERROR_4BIT;
-                *b1 = 0xb0 | assInput.parameterValue[3];
-                *b2 = assInput.parameterValue[1];
-                return 2;
-            }
-		}
-		if (assInput.parameterType[0] != CHIP8_VX && assInput.parameterType[0] != ASS_STRING && assInput.parameterType[0] != CHIP8_VX_MEM)
-			return ERROR_SYNTAX;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I")
-		{ // LD I, aaa
-			if (assInput.parameterType[1] != ASS_HEX_VALUE)
-				return ERROR_12BIT;
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
-				return ERROR_12BIT;
-			*b1 = 0xa0 | (assInput.parameterValue[1]>>8);
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{ 
-			if (assInput.parameterType[1] == ASS_HEX_VALUE)
-			{ // LD Vx, kk
-				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-					return ERROR_8BIT;
-				*b1 = 0x60 | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-			if (assInput.parameterType[1] == CHIP8_VX)
-			{ // LD Vx, Vy
-				*b1 = 0x80 | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[1] << 4) &0xf0;
-				return 2;
-			}
-			if (assInput.parameterType[1] == CHIP8_VX_MEM)
-			{ // LD [Vx], Vy
-				*b1 = 0x90 | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[1] << 4) | 0x2;
-				return 2;
-			}
-			return ERROR_8REG;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX_MEM && assInput.parameterType[1] == CHIP8_VX)
-		{ // LD [Vy], Vx
-			*b1 = 0x90 | assInput.parameterValue[1];
-			*b2 = (assInput.parameterValue[0] << 4) | 0x4;
-			return 2;
-		}
-		if (assInput.parameterType[0] == ASS_STRING && (assInput.parameterString[0] == "[>I]" || assInput.parameterString[0] == "[I]") && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{ // LD [>I], 0 or LD [I], 0
-			if (assInput.parameterValue[1] != 0)
-				return ERROR_ONLY_VALUE_0;
-			*b1 = 0x02;
-			*b2 = 0xf2;
-			return 2;
-		}
-		return ERROR_8REG;
-	} 
-	if (assInput.command == "LDM") 
-	{ // LDM Vx, [I] or LDM [I], Vx
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[I]")
-		{
-			if (assInput.parameterValue[0] == 0) 
-				return ERROR_NO_REG0;
-			*b1 = 0xf0 | assInput.parameterValue[0];
-			*b2 = 0xa6;
-			return 2;
-		}
-		if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[I]")
-		{
-			if (assInput.parameterValue[1] == 0) 
-				return ERROR_NO_REG0;
-			*b1 = 0xf0 | assInput.parameterValue[1];
-			*b2 = 0xa9;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "LDMA") 
-	{ // LDMA Vx, [I] or LDMA [I], Vx
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[I]")
-		{
-			if (assInput.parameterValue[0] == 0) 
-				return ERROR_NO_REG0;
-			*b1 = 0xf0 | assInput.parameterValue[0];
-			*b2 = 0xac;
-			return 2;
-		}
-		if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[I]")
-		{
-			if (assInput.parameterValue[1] == 0) 
-				return ERROR_NO_REG0;
-			*b1 = 0xf0 | assInput.parameterValue[1];
-			*b2 = 0xaf;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "OR") 
-	{ // OR Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x01;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "RETURN")
-	{ // RET
-		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
-
-		*b1 = 0xc0;
-		return 1;
-	} 
-	if (assInput.command == "RND") 
-	{ // RND Vx, kk
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_8BIT;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0xc0 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SLSB") 
-	{ // SLSB Vx
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			if (assInput.parameterValue[0] == 0) return ERROR_NO_REG0;
-			*b1 = 0xF0 | assInput.parameterValue[0];
-			*b2 = 0xb3;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "SHL") 
-	{ // SHL Vx or SHL Vx, Vy
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-		{
-			if (assInput.seperator[0] != " ")
-				return ERROR_REG_EXP;
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[0] << 4) | 0xe;
-			return 2;
-		}
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0xe;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SHR") 
-	{ // SHR Vx or SHR Vx, Vy
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-		{
-			if (assInput.seperator[0] != " ")
-				return ERROR_REG_EXP;
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[0] << 4) | 0x6;
-			return 2;
-		}
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x6;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SNE") 
-	{ // SNE Vx, kk or SNE Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE && assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_8REG;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0x50 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x90 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) & 0xf0;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SP") 
-	{ 
-		if (assInput.parameterType[0] != ASS_STRING && assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_SPRITE;
-		if (assInput.numberOfParameters == 1)
-		{ 
-			if (assInput.seperator[0] != " ")
-				return ERROR_SYNTAX;
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "CLEAR")
-			{ // SP CLEAR
-				*b1 = 0xe0;
-				return 1;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "MOVE")
-			{ // SP MOVE
-				*b1 = 0xe1;
-				return 1;
-			}
-			return ERROR_SPRITE;
-		}
-		if (assInput.parameterType[1] != ASS_STRING && assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_SPRITE;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.numberOfParameters == 2)
-		{ 
-			if (assInput.seperator[1] != " ")
-				return ERROR_SYNTAX;
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "MOVE")
-			{ // SP VC, Move
-				if (assInput.parameterValue[0] != 0xc) 
-					return ERROR_ONLY_REGC;
-				*b1 = 0xe2;
-				return 1;
-			}
-			if (assInput.parameterType[0] == ASS_STRING &&  assInput.parameterString[0] == "XOR" && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[I]")
-			{ // SP XOR, [I]
-				*b1 = 0xe4;
-				return 1;
-			}
-			if (assInput.parameterType[0] == ASS_STRING &&  assInput.parameterString[0] == "DRW" && assInput.parameterType[1] == ASS_HEX_VALUE)
-			{ // SP DRW, kk
-				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-					return ERROR_8BIT;
-				*b1 = 0xe8;
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-		}
-		if (assInput.parameterType[2] != ASS_HEX_VALUE || assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xff)
-			return ERROR_8BIT;
-		if (assInput.seperator[1] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_STRING &&  assInput.parameterString[0] == "DRW" && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "JC")
-		{ // SP DRW, JC, kk
-			*b1 = 0xe8;
-			*b2 = assInput.parameterValue[2];
-			return 2;
-		}
-		return ERROR_VIDEO;
-	} 
-	if (assInput.command == "SUB") 
-	{ // SUB Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x05;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SUBN") 
-	{ // SUBN Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x07;
-			return 2;
-		}
-		return ERROR_8REG;
-	}
-	if (assInput.command == "SYS") 
-	{ // SYS aaa
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-				return ERROR_12BIT;
-			*b1 = (assInput.parameterValue[0] >> 8) & 0xf;
-			if (*b1 == 2)
-				*b1 = 0xf0;
-			*b2 = assInput.parameterValue[0] & 0xff;
-			return 2;
-		}
-		return ERROR_12BIT;
-	}
-	if (assInput.command == "VIDEO")
-	{ 
-		if (assInput.parameterType[0] != ASS_STRING)
-			return ERROR_VIDEO;
-		if (assInput.numberOfParameters == 1)
-		{ 
-			if (assInput.seperator[0] != " ")
-				return ERROR_SYNTAX;
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "ON")
-			{ // VIDEO ON
-				*b1 = 0;
-				*b2 = 0x66;
-				return 2;
-			}
-		}
-		return ERROR_VIDEO;
-	}
-	if (assInput.command == "XOR") 
-	{ // XOR Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x03;
-			return 2;
-		}
-		return ERROR_8REG;
-	}
-	return ERROR_INST;
-}
-
-int DebugWindow::assembleChip(wxString *buffer, Byte* b1, Byte* b2)
-{
-	AssInput assInput = getAssInput(*buffer);
-	if (assInput.errorCode != 0)  return assInput.errorCode;
-	if (assInput.commandSeperator != " ") return ERROR_COMMAND_SEP;
-
-	if (assInput.command == "ADD") 
-	{
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" && assInput.parameterType[1] == CHIP8_VX)
-		{ // ADD I, Vx
-			*b1 = 0xf0 | assInput.parameterValue[1];
-			*b2 = 0x1e;
-			return 2;
-		}
-
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE && assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_8REG;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{ // ADD Vx, kk
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0x70 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{ // ADD Vx, Vy
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x04;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "AND") 
-	{ // ADD Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x02;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "CALL") 
-	{ // CALL aaa
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-				return ERROR_12BIT;
-			*b1 = (assInput.parameterValue[0] >> 8) | 0x20;
-            if (runningComputer_ == STUDIO || runningComputer_ == VICTORY)
-            {
-                if (assInput.parameterValue[0] < 0x2fc)
-                    return ERROR_STUDIO_CHIP_ADDRESS;
-                if ((*b1 & 0xf) >= 0xc)
-                    *b1 = *b1 & 0xfb;
-                *b1 -= 1;
-            }
-            *b2 = assInput.parameterValue[0] & 0xff;
-			return 2;
-		}
-		return ERROR_12BIT;
-	}
-	if (assInput.command == "CLS") 
-	{ // CLS
-		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
-
-		*b1 = 0x00;
-		*b2 = 0xe0;
-		return 2;
-	}
-	if (assInput.command == "DRW") 
-	{ // DRW Vx, Vy, n
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[2] != ASS_HEX_VALUE)
-			return ERROR_4BIT;
-		if (assInput.seperator[0] != "," || assInput.seperator[1] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xf)
-				return ERROR_4BIT;
-			*b1 = 0xd0 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "JP") 
-	{
-		if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.numberOfParameters == 1 && assInput.seperator[0] == " ")
-		{ // JP aaa
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-				return ERROR_12BIT;
-			*b1 = (assInput.parameterValue[0] >> 8) | 0x10;
-            if (runningComputer_ == STUDIO || runningComputer_ == VICTORY)
-            {
-                if (assInput.parameterValue[0] < 0x2fc)
-                    return ERROR_STUDIO_CHIP_ADDRESS;
-                if ((*b1 & 0xf) >= 0xc)
-                    *b1 = *b1 & 0xfb;
-                *b1 -= 1;
-            }
-			*b2 = assInput.parameterValue[0] & 0xff;
-			return 2;
-		}
-
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_12BIT;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{ // JP V0, aaa
-			if (p_Computer->getChip8Type() == CHIP8X)
-				return ERROR_NS_8X;
-			if (assInput.parameterValue[0] != 0)
-				return ERROR_ONLY_REG0;
-			*b1 = 0xb0 | (assInput.parameterValue[1]>>8);
-            if (runningComputer_ == STUDIO || runningComputer_ == VICTORY)
-            {
-                if (assInput.parameterValue[0] < 0x2fc)
-                    return ERROR_STUDIO_CHIP_ADDRESS;
-                if ((*b1 & 0xf) >= 0xc)
-                    *b1 = *b1 & 0xfb;
-                *b1 -= 1;
-            }
-            *b2 = assInput.parameterValue[1] & 0xff;
-			return 2;
-		}
-		return ERROR_12BIT;
-	}
-	if (assInput.command == "LD") 
-	{
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] == 0xb)
-			{ // LD B, Vx
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				*b1 = 0xf0 | assInput.parameterValue[1];
-				*b2 = 0x33;
-				return 2;
-			}
-			if (assInput.parameterValue[0] == 0xf)
-			{ // LD F, Vx
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				*b1 = 0xf0 | assInput.parameterValue[1];
-				*b2 = 0x29;
-				return 2;
-			}
-			return ERROR_LD;
-		}
-		if (assInput.parameterType[0] == ASS_STRING)
-		{
-			if (assInput.parameterString[0] == "DT")
-			{ // LD DT, Vx
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				*b1 = 0xf0 | assInput.parameterValue[1];
-				*b2 = 0x15;
-				return 2;
-			}
-			if (assInput.parameterString[0] == "I")
-			{ // LD I, aaa
-				if (assInput.parameterType[1] != ASS_HEX_VALUE || assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
-					return ERROR_12BIT;
-
-				*b1 = 0xa0 | (assInput.parameterValue[1]>>8);
-                if (runningComputer_ == STUDIO || runningComputer_ == VICTORY)
-                {
-                    if (assInput.parameterValue[0] < 0x100)
-                        return ERROR_STUDIO_CHIP_ADDRESS_I;
-                    if ((*b1 & 0xf) >= 0xc)
-                        *b1 = *b1 & 0xfb;
-                    else if ((*b1 & 0xf) >= 0x8)
-                        *b1 = *b1 | 0x4;
-                    *b1 -= 1;
-                }
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-			if (assInput.parameterString[0] == "ST")
-			{ // LD ST, Vx
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				*b1 = 0xf0 | assInput.parameterValue[1];
-				*b2 = 0x18;
-				return 2;
-			}
-			if (assInput.parameterString[0] == "[I]")
-			{ // LD [I], Vx
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				*b1 = 0xf0 | assInput.parameterValue[1];
-				*b2 = 0x55;
-				return 2;
-			}
-			if (assInput.parameterString[0] == "P")
-			{ // LD P, Vx
-				if (p_Computer->getChip8Type() != CHIPETI)
-					return ERROR_NS_8;
-				*b1 = 0xf0 | assInput.parameterValue[1];
-				*b2 = 0x00;
-				return 2;
-			}
-		}
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			if (assInput.parameterType[1] == ASS_HEX_VALUE)
-			{ // LD Vx, kk
-				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-					return ERROR_8BIT;
-				*b1 = 0x60 | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-			if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "DT")
-			{ // LD Vx, DT
-				*b1 = 0xf0 | assInput.parameterValue[0];
-				*b2 = 0x07;
-				return 2;
-			}
-			if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "K")
-			{ // LD Vx, K
-				*b1 = 0xf0 | assInput.parameterValue[0];
-				*b2 = 0x0a;
-				return 2;
-			}
-			if (assInput.parameterType[1] == CHIP8_VX)
-			{ // LD Vx Vy
-				*b1 = 0x80 | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[0] << 4) &0xf0;
-				return 2;
-			}
-			if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[I]")
-			{ // LD Vx, [I]
-				*b1 = 0xf0 | assInput.parameterValue[0];
-				*b2 = 0x65;
-				return 2;
-			}
-		}
-		return ERROR_LD;
-	}
-	if (assInput.command == "OR") 
-	{ // OR Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x01;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "RETURN")
-	{ // RET
-		if (assInput.numberOfParameters > 0)
-			return ERROR_PAR;
-
-		*b1 = 0x00;
-		*b2 = 0xee;
-		return 2;
-	}
-	if (assInput.command == "RND") 
-	{ // RND Vx,, kk
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE)
-			return ERROR_8BIT;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-
-			*b1 = 0xc0 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		return ERROR_8REG;
-	}
-	if (assInput.command == "SE") 
-	{ 
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE && assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_8REG;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{ // SE Vx, kk
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-
-			*b1 = 0x30 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{ // SE vx, Vy
-			*b1 = 0x50 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) & 0xf0;
-			return 2;
-		}
-		return ERROR_8REG;
-	}
-	if (assInput.command == "SHL") 
-	{ // SHL Vx or SHL Vx, Vy
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-		{
-			if (assInput.seperator[0] != " ")
-				return ERROR_REG_EXP;
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[0] << 4) | 0xe;
-			return 2;
-		}
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0xe;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SHR") 
-	{ // SHR Vx or SHR Vx, Vy
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-		{
-			if (assInput.seperator[0] != " ")
-				return ERROR_REG_EXP;
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[0] << 4) | 0x6;
-			return 2;
-		}
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x6;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SKP") 
-	{ // SKP Vx
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			*b1 = 0xe0 | assInput.parameterValue[0];
-			*b2 = 0x9e;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "SKNP") 
-	{ // SKNP
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			*b1 = 0xe0 | assInput.parameterValue[0];
-			*b2 = 0xa1;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "SNE") 
-	{
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != ASS_HEX_VALUE && assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_8REG;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-		{ // SNE Vx, kk
-			if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-				return ERROR_8BIT;
-			*b1 = 0x40 | assInput.parameterValue[0];
-			*b2 = assInput.parameterValue[1];
-			return 2;
-		}
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{ // SNE Vx, Vy
-			*b1 = 0x90 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) & 0xf0;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SUB") 
-	{ // SUB Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x05;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SUBN") 
-	{ // SUBN Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x07;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "SYS") 
-	{ // SYS aaa
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == ASS_HEX_VALUE)
-		{
-			if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-				return ERROR_12BIT;
-			*b1 = (assInput.parameterValue[0] >> 8) & 0xf;
-			*b2 = assInput.parameterValue[0] & 0xff;
-			return 2;
-		}
-		return ERROR_12BIT;
-	}
-	if (assInput.command == "XOR") 
-	{ // XOR Vx, Vy
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x80 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x03;
-			return 2;
-		}
-		return ERROR_SYNTAX;
-	}
-	if (assInput.command == "CLR" || assInput.command == "CLRL" || assInput.command == "CLRH")
-	{
-		if (p_Computer->getChip8Type() != CHIP8X)
-		{
-			if (p_Computer->getChip8Type() == CHIPETI)
-				return ERROR_NS_ETI;
-			else
-				return ERROR_NS_8;
-		}
-
-		if (assInput.numberOfParameters > 4)
-			return ERROR_PAR;
-
-		if (assInput.numberOfParameters == 1)
-		{
-			if (assInput.command == "CLRH" || assInput.command == "CLRL")
-				return ERROR_CLR;
-			if (assInput.seperator[0] != " ")
-				return ERROR_PAR;
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "BACK") 
-			{ // CLR BACK or CLR B
-				*b1 = 0x02;
-				*b2 = 0xa0;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0] == 0xb) 
-			{ // CLR BACK or CLR B
-				*b1 = 0x02;
-				*b2 = 0xa0;
-				return 2;
-			}
-			return ERROR_CLR;
-		}
-
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		
-		if (assInput.numberOfParameters == 2)
-		{ // CLR Vx, Vy or CLRH Vx, Vy
-			if (assInput.command == "CLRH")
-				return ERROR_CLR;
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.seperator[1] != " ")
-				return ERROR_PAR;
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-			{
-				*b1 = 0xB0 | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[1] << 4) & 0xf0;
-				return 2;
-			}
-			return ERROR_REG_EXP;
-		}
-
-		if (assInput.numberOfParameters == 3)
-		{
-			if (assInput.seperator[1] != ",")
-				return ERROR_COMMA;
-			if (assInput.seperator[2] != " ")
-				return ERROR_PAR;
-			
-			if (assInput.seperator[0] == ",")
-			{ // CLR Vx, Vy, n or CLRL Vx, Vy, n
-				if (assInput.command == "CLRL")
-					return ERROR_CLR;
-				if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_HEX_VALUE)
-				{
-					if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xf)
-						return ERROR_4BIT;
-					if (assInput.parameterValue[2] == 0)
-						return ERROR_NO_VALUE_0;
-					*b1 = 0xB0 | assInput.parameterValue[0];
-					*b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
-					return 2;
-				}
-				return ERROR_CLR;
-			}
-
-			if (assInput.seperator[0] == "/")
-			{ // CLR Vx/V(x+1), Vy or CLRH Vx/V(x+1), Vy
-				if (assInput.command == "CLRH")
-					return ERROR_CLR;
-				if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX)
-				{
-					if (assInput.parameterValue[0] != assInput.parameterValue[1] - 1)
-						return ERROR_2ND_REG;
-					*b1 = 0xB0 | assInput.parameterValue[0];
-					*b2 = (assInput.parameterValue[2] << 4) & 0xf0;
-					return 2;
-				}
-				return ERROR_REG_EXP;
-			}
-		}
-
-		if (assInput.numberOfParameters == 4)
-		{ // CLR Vx/V(x+1), Vy, n or CLRL Vx/V(x+1), Vy, n
-			if (assInput.command == "CLRL")
-				return ERROR_CLR;
-			if (assInput.seperator[0] != "/")
-				return ERROR_SLASH;
-			if (assInput.seperator[1] != "," || assInput.seperator[2] != ",")
-				return ERROR_COMMA;
-			
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.parameterType[3] == ASS_HEX_VALUE)
-			{
-				if (assInput.parameterValue[3] < 0 || assInput.parameterValue[3] > 0xf)
-					return ERROR_4BIT;
-				if (assInput.parameterValue[3] == 0)
-					return ERROR_NO_VALUE_0;
-				if (assInput.parameterValue[0] != assInput.parameterValue[1] - 1)
-					return ERROR_2ND_REG;
-				*b1 = 0xB0 | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[2] << 4) | assInput.parameterValue[3];
-				return 2;
-			}
-			return ERROR_CLR;
-		}
-		return ERROR_CLR;
-	}
-	if (assInput.command == "ADD8")
-	{ // ADD8 Vx, Vy
-		if (p_Computer->getChip8Type() != CHIP8X)
-		{
-			if (p_Computer->getChip8Type() == CHIPETI)
-				return ERROR_NS_ETI;
-			else
-				return ERROR_NS_8;
-		}
-
-		if (assInput.parameterType[0] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-		if (assInput.seperator[0] != ",")
-			return ERROR_COMMA;
-		if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-		{
-			*b1 = 0x50 | assInput.parameterValue[0];
-			*b2 = (assInput.parameterValue[1] << 4) | 0x01;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "SKP2") 
-	{ // SKP2 Vx
-		if (p_Computer->getChip8Type() != CHIP8X)
-		{
-			if (p_Computer->getChip8Type() == CHIPETI)
-				return ERROR_NS_ETI;
-			else
-				return ERROR_NS_8;
-		}
-
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			*b1 = 0xe0 | assInput.parameterValue[0];
-			*b2 = 0xf2;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "SKNP2") 
-	{ // SKNP2 Vx
-		if (p_Computer->getChip8Type() != CHIP8X)
-		{
-			if (p_Computer->getChip8Type() == CHIPETI)
-				return ERROR_NS_ETI;
-			else
-				return ERROR_NS_8;
-		}
-
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			*b1 = 0xe0 | assInput.parameterValue[0];
-			*b2 = 0xf5;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "OUT3")
-	{ // OUT3 Vx
-		if (p_Computer->getChip8Type() != CHIP8X)
-		{
-			if (p_Computer->getChip8Type() == CHIPETI)
-				return ERROR_NS_ETI;
-			else
-				return ERROR_NS_8;
-		}
-
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			*b1 = 0xf0 | assInput.parameterValue[0];
-			*b2 = 0xf8;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	if (assInput.command == "INP1")
-	{ // INP1 Vx
-		if (p_Computer->getChip8Type() != CHIP8X)
-		{
-			if (p_Computer->getChip8Type() == CHIPETI)
-				return ERROR_NS_ETI;
-			else
-				return ERROR_NS_8;
-		}
-
-		if (assInput.numberOfParameters > 1)
-			return ERROR_PAR;
-
-		if (assInput.parameterType[0] == CHIP8_VX)
-		{
-			*b1 = 0xf0 | assInput.parameterValue[0];
-			*b2 = 0xfb;
-			return 2;
-		}
-		return ERROR_REG_EXP;
-	}
-	return ERROR_INST;
-}
-
-int DebugWindow::assembleFel2(wxString *buffer, Byte* b1, Byte* b2)
-{
     AssInput assInput = getAssInput(*buffer);
     if (assInput.errorCode != 0)  return assInput.errorCode;
     if (assInput.commandSeperator != " ") return ERROR_COMMAND_SEP;
-    
-    if (assInput.command == "ADD")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-        { // ADD 2AA, DR
-            if (assInput.numberOfParameters > 2 )
-                return ERROR_PAR;
-            if (assInput.parameterType[1] != ASS_STRING || assInput.parameterString[1] != "DR")
-                return ERROR_CARDTRAN_DR;
-            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
-            {
-                if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                    return ERROR_CARDTRAN_ADDRESS;
-                *b1 = 0x40;
-                *b2 = getCardtranAddress(assInput.parameterValue[0]);
-                return 2;
-            }
-            return ERROR_12BIT;
-        }
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 2)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[V0V1]" && 
-			    assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[V2V3]")
-			{ // ADD [V0V1], [V2V3]
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0x54;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "V0V1" && 
-			    assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "V2V3")
-			{ // ADD V0V1, V2V3
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0x54;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" && 
-			    assInput.parameterType[1] == CHIP8_VX && assInput.parameterValue[1] == 9)
-			{ // ADD I, V9
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0x8e;
-				return 2;
-			}
-		}
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        { // ADD Vx, Vy
-            if (assembleCommand_[ADD_VX_VY_VZ] != -1)
-            {
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[ADD_VX_VY_VZ]  | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[0];
-                return 2;
-            }
-            if (assembleCommand_[FEL3_COMMAND_8] != -1)
-            {
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[FEL3_COMMAND_8]  | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4) | 4;
-                return 2;
-            }
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
-            {
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1] | 0x40;
-                return 2;
-            }
-            return ERROR_INST;
-        }
-        if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "+")
-        { // ADD Vz, Vx+Vy
-            if (assembleCommand_[ADD_VX_VY_VZ] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-                return ERROR_PAR;
-            *b1 = assembleCommand_[ADD_VX_VY_VZ]  | assInput.parameterValue[1];
-            *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
-            return 2;
-        }
-        if (assInput.parameterType[0] == CHIP8_VX)
-        {
-            if (assInput.parameterType[1] == ASS_HEX_VALUE)
-            { // ADD Vx, kk
-                if (assembleCommand_[ADD_VX_KK] == -1)
-                    return ERROR_INST;
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-                    return ERROR_8BIT;
-                *b1 = assembleCommand_[ADD_VX_KK] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1];
-                return 2;
-            }
-        }
-        if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I")
-        {
-            if (assInput.parameterType[1] == ASS_HEX_VALUE)
-            { // ADD I, kk
-                if (assembleCommand_[STIV_COMMAND_6] == -1)
-                    return ERROR_INST;
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                    return ERROR_8BIT;
-                *b1 = assembleCommand_[STIV_COMMAND_6] | 2;
-                *b2 = assInput.parameterValue[1];
-                return 2;
-            }
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "ADD8")
-    { // ADD8 Vx, Vy, Vz
-        if (assembleCommand_[ADD8_VX_VY_N] == -1)
-            return ERROR_INST;
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[1] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-            return ERROR_PAR;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX)
-        {
-            *b1 = assembleCommand_[ADD8_VX_VY_N] | assInput.parameterValue[0];
-            *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
-            return 2;
-        }
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == FEL_C)
-        {
-            *b1 = assembleCommand_[ADD8_VX_VY_N] | assInput.parameterValue[0];
-            *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
-            return 2;
-        }
-        return ERROR_REG_EXP;
-    }
-    if (assInput.command == "ADDN")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        { // ADDN Vx, Vy
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
+
+	wxString pseudoLine;
+	wxString commandSyntaxFile;
+
+    commandSyntaxFile = getPseudoFile();
+
+	if (inFile.Open(commandSyntaxFile))
+	{
+		for (pseudoLine=inFile.GetFirstLine(); !inFile.Eof(); pseudoLine=inFile.GetNextLine())
+		{
+			pseudoLine.Trim(false);
+			pseudoLine.Trim(true);
+
+		    if (assInput.command == pseudoLine)
 			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0xa0;
-				return 2;
+				int returnValue = checkParameterPseudo(assInput, &pseudoCode);
+				if (returnValue > ERROR_START)
+					return returnValue;
+
+                *b1 = (pseudoCode & 0xff00) >> 8;
+                *b2 = pseudoCode & 0xff;
+				return returnValue;
 			}
-            return ERROR_INST;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "AND")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        { // AND Vx, Vy
-            if (assembleCommand_[FEL3_COMMAND_8] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[FEL3_COMMAND_8]  | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[1] << 4) | 2;
-				return 2;
-			}
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0x20;
-				return 2;
-			}
-            return ERROR_INST;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "BEEP")
-    {
-        if (assembleCommand_[BEEP_F_KK_N] == -1)
-            return ERROR_INST;
-        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
-        { // BEEP kk, d
-            if (assInput.seperator[1] != " ")
-                return ERROR_PAR;
-            if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-                return ERROR_8BIT;
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
-                return ERROR_4BIT;
-            *b1 = assembleCommand_[BEEP_F_KK_N] | assInput.parameterValue[1];
-            *b2 = assInput.parameterValue[0];
-            return 2;
-        }
-        if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-            return ERROR_PAR;
-        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0]== 0xf && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[2] == ASS_HEX_VALUE)
-        { // BEEP F=kk, d
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                return ERROR_8BIT;
-            if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xf)
-                return ERROR_4BIT;
-            *b1 = assembleCommand_[BEEP_F_KK_N] | assInput.parameterValue[2];
-            *b2 = assInput.parameterValue[1];
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "CALL")
-    { 
-        if (assembleCommand_[CALL_MMM] != -1)
-		{ // CALL aaa
-		   if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_HEX_VALUE)
-			{
-				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-					return ERROR_12BIT;
-				if (assInput.parameterValue[0] <= 0x1ff)
-					return ERROR_FEL2_CHIP_ADDRESS;
-				*b1 = assembleCommand_[CALL_MMM] | (assInput.parameterValue[0] >> 8);
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-			return ERROR_12BIT;
-		}
-        if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.parameterType[0] == ASS_HEX_VALUE)
-			{ // CALL aaaa
-				if (assInput.numberOfParameters > 1)
-					return ERROR_PAR;
-				if ((assInput.parameterValue[0] >= 0x600 && assInput.parameterValue[0] <= 0x8ff) ||
-					(assInput.parameterValue[0] >= 0x1000 && assInput.parameterValue[0] <= 0x11ff))
-				{
-					*b1 = assembleCommand_[STIV_COMMAND_6] | ((assInput.parameterValue[0] >> 8) & 0xf);
-					*b2 = assInput.parameterValue[0] & 0xff;
-					return 2;
-				}
-				return ERROR_INCORR_ADDRESS;
-			}
-			if (assInput.parameterType[0] == ASS_STRING)
-			{ // CALL I, KK
-				if (assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if (assInput.parameterString[0] == "I" && assInput.parameterType[1] == ASS_HEX_VALUE)
-				{
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 9;
-					*b2 = assInput.parameterValue[1] & 0xff;
-					return 2;
-				}
-				return ERROR_REG;
-			}
-			return ERROR_INST;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "CHAR")
-    { 
-        if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
- 		    if (assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[I]")
-			{ // CHAR [I], V0, V1 or CHAR [I]
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x2c;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[V2V3]")
-			{ // CHAR [V2V3], V0, V1 or CHAR [V2V3]
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x2e;
-				return 2;
-			}
-			return ERROR_REG_EXP;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "CLR")
-    {
-		if (assembleCommand_[STIV_COMMAND_6] != -1 && assInput.numberOfParameters == 0)
-		{ 
-			*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-			*b2 = 0x88;
-			return 2;
-		}
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        { // CLR Vx, Vy
-            if (assembleCommand_[STIV_COMMAND_5] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_5]  | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0x50;
-				return 2;
-			}
-            return ERROR_INST;
-        }
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
-        { // CLR Vx, c
-            if (assembleCommand_[STIV_COMMAND_5] != -1)
-			{
-                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
-                    return ERROR_4BIT;
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_5]  | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0x60;
-				return 2;
-			}
-            return ERROR_INST;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "CLS")
-    { // CLS
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 0)
-				return ERROR_PAR;
-			
-			*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-			*b2 = 0x12;
-			return 2;
-		}
-		if (assembleCommand_[FEL1_COMMAND_0] != -1)
-		{ 
-			if (assInput.numberOfParameters > 0)
-				return ERROR_PAR;
-			
-			*b1 = assembleCommand_[FEL1_COMMAND_0];
-			*b2 = 0x78;
-			return 2;
 		}
 	}
-	if (assInput.command == "CP")
-    { 
-        if (assembleCommand_[STIV_COMMAND_6] != -1 && assInput.numberOfParameters == 1)
-		{
-            if (assInput.parameterType[0] == ASS_STRING && (assInput.parameterString[0] == "[I]" || assInput.parameterString[0] == "I"))
-			{ // CP [I]
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x90;
-				return 2;
-			}
-		}
-		if (assembleCommand_[STIV_COMMAND_5] != -1)
-		{
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-				return ERROR_PAR;
+	inFile.Close();
 
-			if (assInput.parameterType[0] == CHIP8_VX)
-			{ // CP Vx, Vy, [I]
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				if (assInput.parameterType[2] != ASS_STRING && (assInput.parameterString[2] == "I" || assInput.parameterString[2] == "[I]"))
-					return ERROR_REG_EXP;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1] | 0xC0;
-				return 2;
-			}
-			if (assInput.parameterType[1] == CHIP8_VX)
-			{ // CP [I], Vx, Vy
-				if (assInput.parameterType[2] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				if (assInput.parameterType[0] != ASS_STRING && (assInput.parameterString[0] == "I" || assInput.parameterString[0] == "[I]"))
-					return ERROR_REG_EXP;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-                *b2 = assInput.parameterValue[2] | 0xD0;
-				return 2;
-			}
-			return ERROR_REG_EXP;
-		}
-		return ERROR_INST;
-    }
-    if (assInput.command == "DECB")
-    { // DECB
-        if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
+	return ERROR_INST;
+}
 
-        if (assembleCommand_[FEL3_COMMAND_C] == -1)
-            return ERROR_INST;
-        *b1 = assembleCommand_[FEL3_COMMAND_C];
-        *b2 = 0x54;
-        return 2;
-    }
-    if (assInput.command == "DELAY")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-        { // DELAY Vx
-            if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[0] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[FEL1_COMMAND_7]  | assInput.parameterValue[0];
-            *b2 = 0x48;
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "DISP0")
-    {
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-        {
-            if (assInput.numberOfParameters > 1)
-                return ERROR_PAR;
-            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                return ERROR_CARDTRAN_ADDRESS;
-            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
-            { // INPUT [2AA]
-                *b1 = 0x70;
-                *b2 = getCardtranAddress(assInput.parameterValue[0]);
-                return 2;
-            }
-            return ERROR_CARDTRAN_ADDRESS;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "DISP1")
-    {
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-        {
-            if (assInput.numberOfParameters > 1)
-                return ERROR_PAR;
-            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                return ERROR_CARDTRAN_ADDRESS;
-            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
-            { // INPUT [2AA]
-                *b1 = 0x71;
-                *b2 = getCardtranAddress(assInput.parameterValue[0]);
-                return 2;
-            }
-            return ERROR_CARDTRAN_ADDRESS;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "DRW")
-    { 
-        if (assembleCommand_[DRW_VX_VY_N] != -1)
-        { // DRW Vx, Vy, n
-            if (assInput.parameterType[0] != CHIP8_VX)
-                return ERROR_REG_EXP;
-            if (assInput.parameterType[1] != CHIP8_VX)
-                return ERROR_REG_EXP;
-            if (assInput.parameterType[2] != ASS_HEX_VALUE)
-                return ERROR_4BIT;
-            if (assInput.seperator[0] != "," || assInput.seperator[1] != ",")
-                return ERROR_COMMA;
-            if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-                return ERROR_PAR;
-            
-            if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_HEX_VALUE)
-            {
-                if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xf)
-                    return ERROR_4BIT;
-                *b1 = assembleCommand_[DRW_VX_VY_N] | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
-                return 2;
-            }
-            return ERROR_SYNTAX;
-        }
-        if (assembleCommand_[DRW_VX_L_N] != -1)
-        { // DRW Vx, l , n
-            if (assInput.parameterType[0] != CHIP8_VX)
-                return ERROR_REG_EXP;
-            if (assInput.parameterType[1] != ASS_HEX_VALUE)
-                return ERROR_4BIT;
-            if (assInput.parameterType[2] != ASS_HEX_VALUE)
-                return ERROR_4BIT;
-            if (assInput.seperator[0] != "," || assInput.seperator[1] != ",")
-                return ERROR_COMMA;
-            if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-                return ERROR_PAR;
-            
-            if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterType[2] == ASS_HEX_VALUE)
-            {
-                if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xf)
-                    return ERROR_4BIT;
-                *b1 = assembleCommand_[DRW_VX_L_N] | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[2];
-                return 2;
-            }
-            return ERROR_SYNTAX;
-        }
-        if (assembleCommand_[STIV_COMMAND_4] != -1 && assInput.numberOfParameters == 3)
-        { // DRW I, Vx, n
-            if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "I")
-                return ERROR_REG;
-            if (assInput.parameterType[1] != CHIP8_VX)
-                return ERROR_REG_EXP;
-            if (assInput.parameterType[2] != ASS_HEX_VALUE)
-                return ERROR_4BIT;
-            if (assInput.seperator[0] != "," || assInput.seperator[1] != ",")
-                return ERROR_COMMA;
-            if (assInput.seperator[2] != " ")
-                return ERROR_PAR;
-            
-			if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xf)
-				return ERROR_4BIT;
-			*b1 = assembleCommand_[STIV_COMMAND_4] | assInput.parameterValue[1];
-			*b2 = assInput.parameterValue[2] | 0xe0;
-			return 2;
-        }
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-        { // DRW I, Vx
-            if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "I")
-                return ERROR_REG;
-            if (assInput.parameterType[1] != CHIP8_VX)
-                return ERROR_REG_EXP;
-            if (assInput.seperator[0] != ",")
-                return ERROR_COMMA;
-            if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                return ERROR_PAR;
-            
-			*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-			*b2 = 0x20;
-			return 2;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "DRWR")
-    { 
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-        { // DRWR I, Vx
-            if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "I")
-                return ERROR_REG;
-            if (assInput.parameterType[1] != CHIP8_VX)
-                return ERROR_REG_EXP;
-            if (assInput.seperator[0] != ",")
-                return ERROR_COMMA;
-            if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                return ERROR_PAR;
-            
-			*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-			*b2 = 0x70;
-			return 2;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "INCA")
-    { // INCA
-        if (assInput.numberOfParameters > 0)
-            return ERROR_PAR;
-        if (assembleCommand_[FEL3_COMMAND_C] != -1)
-        {
-            *b1 = assembleCommand_[FEL3_COMMAND_C];
-            *b2 = 0x50;
-            return 2;
-        }
-        if (assembleCommand_[FEL1_COMMAND_7] != -1)
-        {
-            *b1 = 0x7F;
-            *b2 = 0x6F;
-            return 2;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "INCB")
-    { // INCB
-        if (assembleCommand_[FEL3_COMMAND_C] == -1)
-            return ERROR_INST;
-        *b1 = assembleCommand_[FEL3_COMMAND_C];
-        *b2 = 0x51;
-        return 2;
-    }
-    if (assInput.command == "INPUT")
-    { 
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                return ERROR_CARDTRAN_ADDRESS;
-			if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
-			{ // INPUT [2AA]
-				*b1 = 0x10;
-				*b2 = getCardtranAddress(assInput.parameterValue[0]);
-				return 2;
-			}
-            return ERROR_CARDTRAN_ADDRESS;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "INP6")
-    { 
-        if (assembleCommand_[FEL1_COMMAND_E] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			if (assInput.parameterType[0] == CHIP8_VX)
-			{ // INP6 Vx
-				*b1 = assembleCommand_[FEL1_COMMAND_E] | assInput.parameterValue[0];
-				*b2 = 0x8d;
-				return 2;
-			}
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "JE")
-    { 
-        if (assembleCommand_[JE_I_VX_KK] != -1 && (assInput.parameterType[1] == ASS_HEX_VALUE || assInput.parameterType[2] == ASS_HEX_VALUE ))
-		{ // JE I, Vx, kk
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-			
-            if (assInput.numberOfParameters == 2 && assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-            { // JE Vx, kk
-                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                    return ERROR_8BIT;
-                
-                *b1 = assembleCommand_[JE_I_VX_KK] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1];
-                return 2;
-            }
-            if (assInput.parameterType[1] != CHIP8_VX)
-                return ERROR_REG_EXP;
-			if (assInput.numberOfParameters == 3 && assInput.seperator[2] == " " && assInput.seperator[1] == "," && assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_HEX_VALUE)
-			{ // JE I, Vx, kk
-				if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xff)
-					return ERROR_8BIT;
-				
-				*b1 = assembleCommand_[JE_I_VX_KK] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[2];
-				return 2;
-			}
-			return ERROR_8REG;
-		}
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-		{ // JE I, Vx, Vy
-			if (assInput.parameterType[1] != CHIP8_VX)
-				return ERROR_REG;
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-			
-			if (assInput.numberOfParameters == 3 && assInput.seperator[2] == " " && assInput.seperator[1] == "," &&
-                assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" &&
-                assInput.parameterType[2] == CHIP8_VX)
-			{ // JE I, Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[2] | 0x30;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 2 && assInput.parameterType[0] == CHIP8_VX)
-			{ // JE Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0x30;
-				return 2;
-			}
-			return ERROR_8REG;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "JG")
-    { 
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-		{
-			if (assInput.parameterType[1] != CHIP8_VX)
-				return ERROR_REG;
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-			
-			if (assInput.numberOfParameters == 3 && assInput.seperator[2] == " " && assInput.seperator[1] == "," &&
-                assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" &&
-                assInput.parameterType[2] == CHIP8_VX)
-			{ // JG I, Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[2] | 0xA0;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 2 && assInput.parameterType[0] == CHIP8_VX)
-			{ // JG Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0xA0;
-				return 2;
-			}
-			return ERROR_INST;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "JK")
-    { 
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-        { 
-			if (assInput.numberOfParameters == 2)
-			{ // JK I, Vy
-				if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "I")
-					return ERROR_REG;
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				if (assInput.seperator[0] != ",")
-					return ERROR_COMMA;
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_5];
-				*b2 =  assInput.parameterValue[1] | 0x80;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 1)
-			{ // JK Vy
-				if (assInput.parameterType[0] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				if (assInput.seperator[0] != " ")
-					return ERROR_PAR;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_5];
-				*b2 =  assInput.parameterValue[0] | 0x80;
-				return 2;
-			}
-			return ERROR_PAR;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "JNE")
-    { // JNE I, Vx, kk
-        if (assembleCommand_[JNE_I_VX_KK] == -1)
-            return ERROR_INST;
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.numberOfParameters > 3)
-            return ERROR_PAR;
-        
-        if (assInput.numberOfParameters == 2 && assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-        {
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                return ERROR_8BIT;
-            
-            *b1 = assembleCommand_[JNE_I_VX_KK] | assInput.parameterValue[0];
-            *b2 = assInput.parameterValue[1];
-            return 2;
-        }
-        if (assInput.numberOfParameters == 3 && assInput.seperator[2] == " " && assInput.seperator[1] == "," && assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_HEX_VALUE)
-        {
-            if (assInput.parameterValue[2] < 0 || assInput.parameterValue[2] > 0xff)
-                return ERROR_8BIT;
-            
-            *b1 = assembleCommand_[JNE_I_VX_KK] | assInput.parameterValue[1];
-            *b2 = assInput.parameterValue[2];
-            return 2;
-        }
-        return ERROR_8REG;
-    }
-    if (assInput.command == "JNK")
-    { 
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-        { 
-			if (assInput.numberOfParameters == 2)
-			{ // JNK I, Vy
-				if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "I")
-					return ERROR_REG;
-				if (assInput.parameterType[1] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				if (assInput.seperator[0] != ",")
-					return ERROR_COMMA;
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_5];
-				*b2 =  assInput.parameterValue[1] | 0x90;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 1)
-			{ // JNK Vy
-				if (assInput.parameterType[0] != CHIP8_VX)
-					return ERROR_REG_EXP;
-				if (assInput.seperator[0] != " ")
-					return ERROR_PAR;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_5];
-				*b2 =  assInput.parameterValue[0] | 0x90;
-				return 2;
-			}
-            return ERROR_PAR;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "JNZ")
-    { 
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-		{ // JNZ DR, 2AA
-			if (assInput.numberOfParameters > 2 )
-				return ERROR_PAR;
-            if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "DR")
-                return ERROR_CARDTRAN_DR;
-            if (assInput.parameterType[1] == ASS_HEX_VALUE)
-			{
-                if (assInput.parameterValue[1] < 0x200 || assInput.parameterValue[1] > 0x2c6)
-                    return ERROR_CARDTRAN_ADDRESS;
-				*b1 = 0x22;
-				*b2 = getCardtranAddress(assInput.parameterValue[1]);
-				return 2;
-			}
-            return ERROR_12BIT;
-		}
-        if (assembleCommand_[JNZ_VX_KK] != -1)
-		{ // JNZ Vx, kk
-			if (assInput.parameterType[0] != CHIP8_VX)
-				return ERROR_REG_EXP;
-			if (assInput.parameterType[1] != ASS_HEX_VALUE)
-				return ERROR_8BIT;
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-				return ERROR_PAR;
-	        
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-			{
-				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-					return ERROR_8BIT;
-	            
-				*b1 = assembleCommand_[JNZ_VX_KK] | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "JP")
-    {
-        if (assembleCommand_[JP_MMM] != -1)
-		{
-			if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.numberOfParameters == 1 && assInput.seperator[0] == " ")
-			{ // JP aaa
-				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-					return ERROR_12BIT;
-				if (assInput.parameterValue[0] < 0x1ff)
-					return ERROR_FEL2_CHIP_ADDRESS;
-				*b1 = assembleCommand_[JP_MMM] | (assInput.parameterValue[0] >> 8);
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-			return ERROR_12BIT;
-		}
-        if (assembleCommand_[STIV_COMMAND_6] != -1 && assInput.parameterType[0] == ASS_HEX_VALUE)
-		{
-			if (assInput.numberOfParameters == 1 && assInput.seperator[0] == " ")
-			{ // JP KK
-				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-					return ERROR_8BIT;
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 5;
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-			return ERROR_12BIT;
-		}
-        if (assembleCommand_[STIV_COMMAND_4] != -1)
-        {// JP I or JP
-            if (assInput.numberOfParameters > 1)
-                return ERROR_PAR;
-			
-			if (assInput.numberOfParameters == 0 || (assInput.numberOfParameters == 1 && assInput.parameterString[0] == "I" && assInput.parameterType[0] == ASS_STRING))
-			{
-				*b1 = assembleCommand_[STIV_COMMAND_4];
-				*b2 = 0xb0;
-				return 2;
-			}
-        }
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-		{ // JP 2AA
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                return ERROR_CARDTRAN_ADDRESS;
-			if (assInput.parameterType[0] == ASS_HEX_VALUE)
-			{ 
-				*b1 = 0x20;
-				*b2 = getCardtranAddress(assInput.parameterValue[0]);
-				return 2;
-			}
-            return ERROR_CARDTRAN_ADDRESS;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "JS")
-    { 
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-		{ // JS I, Vx, Vy
-			if (assInput.parameterType[1] != CHIP8_VX)
-				return ERROR_REG;
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-			
-			if (assInput.numberOfParameters == 3 && assInput.seperator[2] == " " && assInput.seperator[1] == "," &&
-                assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" &&
-                assInput.parameterType[2] == CHIP8_VX)
-			{ // JS I, Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[2] | 0xB0;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 2 && assInput.parameterType[0] == CHIP8_VX)
-			{ // JS Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0xB0;
-				return 2;
-			}
-			return ERROR_INST;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "JU")
-    { 
-		if (assInput.parameterType[1] != CHIP8_VX)
-			return ERROR_REG_EXP;
-        if (assembleCommand_[STIV_COMMAND_5] != -1)
-		{
-			if (assInput.parameterType[1] != CHIP8_VX)
-				return ERROR_REG;
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-			
-			if (assInput.numberOfParameters == 3 && assInput.seperator[2] == " " && assInput.seperator[1] == "," &&
-                assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" &&
-                assInput.parameterType[2] == CHIP8_VX)
-			{ // JU I, Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[2] | 0x40;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 2 && assInput.parameterType[0] == CHIP8_VX)
-			{ // JU Vx, Vy
-				*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0x40;
-				return 2;
-			}
-			return ERROR_PAR;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "JZ")
-    { 
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-		{ // JZ DR, 2AA
-			if (assInput.numberOfParameters > 2)
-				return ERROR_PAR;
-            if (assInput.parameterType[0] != ASS_STRING || assInput.parameterString[0] != "DR")
-                return ERROR_CARDTRAN_DR;
-            if (assInput.parameterType[1] == ASS_HEX_VALUE)
-			{
-                if (assInput.parameterValue[1] < 0x200 || assInput.parameterValue[1] > 0x2c6)
-                    return ERROR_CARDTRAN_ADDRESS;
-				*b1 = 0x21;
-				*b2 = getCardtranAddress(assInput.parameterValue[1]);
-				return 2;
-			}
-            return ERROR_12BIT;
-		}
-        if (assembleCommand_[JZ_VX_KK] != -1)
-		{ // JZ Vx, kk
-			if (assInput.parameterType[0] != CHIP8_VX)
-				return ERROR_REG_EXP;
-			if (assInput.parameterType[1] != ASS_HEX_VALUE)
-				return ERROR_8BIT;
-			if (assInput.seperator[0] != ",")
-				return ERROR_COMMA;
-			if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-				return ERROR_PAR;
-	        
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-			{
-				if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-					return ERROR_8BIT;
-	            
-				*b1 = assembleCommand_[JZ_VX_KK] | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "KEY")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-        { 
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
-			{ // KEY Vy
-				if (assInput.seperator[0] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_4]  ;
-				*b2 = assInput.parameterValue[0] | 0xf0;
-				return 2;
-			}
-            if (assembleCommand_[FEL1_COMMAND_0] != -1)
-			{ // KEY Vx
-				if (assInput.seperator[0] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[FEL1_COMMAND_E] | assInput.parameterValue[0];
-				*b2 = 0x7a;
-				return 2;
-			}
-            return ERROR_INST;
-        }
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "SWITCH")
-			{ // KEY SWITCH
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0x1c;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "WAIT")
-			{ // KEY WAIT
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0xaa;
-				return 2;
-			}
-            return ERROR_INCORRECT_PAR;
-		}
-        if (assembleCommand_[FEL1_COMMAND_0] != -1)
-        {
-            if (assInput.numberOfParameters > 1)
-                return ERROR_PAR;
-            
-            if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "OFF")
-            { // KEY OFF
-                *b1 = assembleCommand_[FEL1_COMMAND_0] | 2;
-                *b2 = 0x68;
-                return 2;
-            }
-            return ERROR_INCORRECT_PAR;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "KEYP")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-        { // KEYP Vy
-            if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[0] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[STIV_COMMAND_4]  ;
-            *b2 = assInput.parameterValue[0] | 0x70;
-            return 2;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "KEYR")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-        { // KEYR Vy
-            if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[0] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[STIV_COMMAND_4]  ;
-            *b2 = assInput.parameterValue[0] | 0x80;
-            return 2;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "LD")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.numberOfParameters > 3)
-            return ERROR_PAR;
-        
-        if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_REG)
-        {
-            if (assInput.parameterValue[0] == 0xa)
-            {
-                if (assembleCommand_[LD_RA_MMM] != -1)
-                { // LD A, MMM
-                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                        return ERROR_PAR;
-                    if (assInput.parameterType[1] != ASS_HEX_VALUE)
-                        return ERROR_12BIT;
-                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
-                        return ERROR_12BIT;
-                    *b1 = assembleCommand_[LD_RA_MMM] | ((assInput.parameterValue[1] >> 8) & 0xf);
-                    *b2 = assInput.parameterValue[1] & 0xff;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterValue[0] == 0xb)
-            {
-                if (assembleCommand_[LD_RB_MMM] != -1)
-                { // LD B, MMM
-                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                        return ERROR_PAR;
-                    if (assInput.parameterType[1] != ASS_HEX_VALUE)
-                        return ERROR_12BIT;
-                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
-                        return ERROR_12BIT;
-                    *b1 = assembleCommand_[LD_RB_MMM] | ((assInput.parameterValue[1] >> 8) & 0xf);
-                    *b2 = assInput.parameterValue[1] & 0xff;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterValue[0] == 0xb && assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[RA]" && assInput.parameterType[2] == CHIP8_VX && assInput.numberOfParameters == 3)
-            { // LD B, [RA], Vx
-                if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                    return ERROR_INST;
-                if (assInput.seperator[2] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[2];
-                *b2 = 0x52;
-                return 2;
-            }
-            if (assInput.parameterValue[0] == 0xb)
-            {
-                if (assembleCommand_[LD_B_VX_VY] != -1 && assInput.parameterType[0] == ASS_HEX_VALUE)
-                { // LD B, Vy, Vx
-                    if (assInput.seperator[2] != " ")
-                        return ERROR_PAR;
-                    if (assInput.parameterType[1] != CHIP8_VX)
-                        return ERROR_REG_EXP;
-                    if (assInput.parameterType[2] != CHIP8_VX)
-                        return ERROR_REG_EXP;
-                    *b1 = assembleCommand_[LD_B_VX_VY] | assInput.parameterValue[2];
-                    *b2 = ((assInput.parameterValue[1]<<4)&0xf0);
-                    return 2;
-                }
-                if (assembleCommand_[STIV_COMMAND_4] != -1 && assInput.parameterType[0] == ASS_HEX_VALUE)
-                { // LD B, Vy, Vx or LD B, [Vy], Vx
-                    if (assInput.seperator[2] != " ")
-                        return ERROR_PAR;
-                    if (assInput.parameterType[1] != CHIP8_VX && assInput.parameterType[1] != CHIP8_VX_MEM)
-                        return ERROR_REG_EXP;
-                    if (assInput.parameterType[2] != CHIP8_VX)
-                        return ERROR_REG_EXP;
-                    *b1 = assembleCommand_[STIV_COMMAND_4] | assInput.parameterValue[2];
-                    *b2 = assInput.parameterValue[1];
-                    return 2;
-                }
-                if (assembleCommand_[LD_RB_MMM] != -1)
-                { // LD B, MMM
-                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                        return ERROR_PAR;
-                    if (assInput.parameterType[1] != ASS_HEX_VALUE)
-                        return ERROR_12BIT;
-                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xfff)
-                        return ERROR_12BIT;
-                    *b1 = assembleCommand_[LD_RB_MMM] | ((assInput.parameterValue[1] >> 8) & 0xf);
-                    *b2 = assInput.parameterValue[1] & 0xff;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-        }
-        if (assInput.parameterType[0] == ASS_STRING)
-        {
-            if ((assInput.parameterType[1] == ASS_HEX_VALUE || assInput.parameterType[1] == ASS_HEX_VALUE_MEM) && assInput.parameterString[0] == "DR")
-			{
-				if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-				{ // LD DR,[2AA]
-					if (assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					if (assInput.parameterValue[1] < 0x200 || assInput.parameterValue[1] > 0x2c6)
-						return ERROR_CARDTRAN_ADDRESS;
-                    *b1 = 0x30;
-                    *b2 = getCardtranAddress(assInput.parameterValue[1]);
-                    return 2;
-				}
-                return ERROR_INST;
-			}
-            if (assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterString[0] == "I")
-            {
-                if (assembleCommand_[LD_I_MMMM] != -1)
-                { // LD I, MMMM
-                    if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                        return ERROR_PAR;
-                    if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0x3fff)
-                        return ERROR_INCORR_ADDRESS;
-                    *b1 = (assInput.parameterValue[1] >> 8) & 0xff;
-                    *b2 = assInput.parameterValue[1] & 0xff;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[0] == "I")
-            {
-				if (assInput.parameterString[1] == "[I]" && assInput.numberOfParameters == 2)
-				{ // LD I, [I]
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-					*b2 = 0x9e;
-					return 2;
-				}
-				if (assInput.parameterString[1] == "[I" && assInput.parameterType[2] == ASS_STRING && assInput.parameterString[2] == "V9]" &&  assInput.numberOfParameters == 3 && assInput.seperator[1] == "+")
-				{ // LD I, [I+V9]
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-					*b2 = 0x9c;
-					return 2;
-				}
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_HEX_VALUE_MEM && assInput.parameterString[0] == "I")
-            {
-                if (assembleCommand_[STIV_COMMAND_6] != -1)
-				{ // LD I, [27kk]
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					if (assInput.parameterValue[1] < 0x2700 || assInput.parameterValue[1] > 0x27ff)
-						return ERROR_STUDIOIV_ADDRESS_I;
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 3;
-					*b2 = assInput.parameterValue[1];
-					return 2;
-				}
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "I")
-            { 
-                if (assInput.numberOfParameters > 3)
-                    return ERROR_PAR;
-                if (assembleCommand_[STIV_COMMAND_6] != -1)
-				{ // LD I, Vy, Vy+1
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 3;
-					*b2 = assInput.parameterValue[1] | 0xe0;
-					return 2;
-				}
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "[RA]")
-            { // LD [RA], Vx
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[1];
-                    *b2 = 0x3B;
-                    return 2;
-                }
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[1];
-                    *b2 = 0x24;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "[RB]")
-            { // LD [RB], Vx
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[1];
-                    *b2 = 0x3E;
-                    return 2;
-                }
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[1];
-                    *b2 = 0x27;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RB.0")
-            { // LD RB.0, Vx
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[1];
-                    *b2 = 0x41;
-                    return 2;
-                }
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[1];
-                    *b2 = 0x34;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RB.1")
-            { // LD RB.1, Vx
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[1];
-                    *b2 = 0x44;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RA.0")
-            { // LD RA.0, Vx
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[1];
-                    *b2 = 0x4d;
-                    return 2;
-                }
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[1];
-                    *b2 = 0x2A;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterString[0] == "RA.1")
-            { // LD RA.0, Vx
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[1];
-                    *b2 = 0x30;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-        }
-        if (assInput.parameterType[0] == CHIP8_VX_MEM)
-		{
-            if (assInput.parameterType[0] == CHIP8_VX_MEM && assInput.parameterType[1] == CHIP8_VX && assInput.seperator[1] == " ")
-            { 
-                if (assembleCommand_[STIV_COMMAND_5] != -1)
-				{ // LD [Vx], Vy
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[1];
-					*b2 = 0xE0 | assInput.parameterValue[0];
-					return 2;
-				}
-				return ERROR_INST;
-            }
-		}
-        if (assInput.parameterType[0] == CHIP8_VX)
-        {
-            if (assInput.parameterType[1] == ASS_HEX_VALUE)
-            { 
-                if (assembleCommand_[LD_VX_KK] != -1)
-				{ // LD Vx, kk
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-						return ERROR_8BIT;
-					*b1 = assembleCommand_[LD_VX_KK] | assInput.parameterValue[0];
-					*b2 = assInput.parameterValue[1];
-					return 2;
-				}
-                if (assembleCommand_[LD_VX_27KK] != -1)
-				{ // LD Vx, 27kk
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					if (assInput.parameterValue[1] < 0x2700 || assInput.parameterValue[1] > 0x27ff)
-						return ERROR_STUDIOIV_ADDRESS_I;
-					*b1 = assembleCommand_[LD_VX_27KK] | assInput.parameterValue[0];
-					*b2 = assInput.parameterValue[1];
-					return 2;
-				}
-				return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_HEX_VALUE_MEM)
-            { 
-                if (assembleCommand_[LD_VX_27KK] != -1)
-				{ // LD Vx, [27kk]
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					if (assInput.parameterValue[1] < 0x2700 || assInput.parameterValue[1] > 0x27ff)
-						return ERROR_STUDIOIV_ADDRESS_I;
-					*b1 = assembleCommand_[LD_VX_27KK] | assInput.parameterValue[0];
-					*b2 = assInput.parameterValue[1];
-					return 2;
-				}
-				return ERROR_INST;
-            }
-            if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.seperator[1] == " ")
-            { 
-                if (assembleCommand_[FEL3_COMMAND_4] != -1)
-                { // LD Vx, Vy
-                    *b1 = assembleCommand_[FEL3_COMMAND_4] | assInput.parameterValue[0];
-                    *b2 = (assInput.parameterValue[1] << 4) + 1;
-                    return 2;
-                }
-                if (assembleCommand_[LD_VX_27KK] != -1)
-                { // LD Vx, Vy
-                    *b1 = assembleCommand_[LD_VX_27KK] | assInput.parameterValue[0];
-                    *b2 = assembleCommand_[LD_VX_27KK] | assInput.parameterValue[1];
-                    return 2;
-                }
-			}
-            if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE_MEM && assInput.seperator[1] == " ")
-            { 
-                if (assembleCommand_[LD_VX_27KK] != -1)
-				{ // LD Vx, [27kk] (LD Vx, 27Ey)
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					*b1 = assembleCommand_[LD_VX_27KK] | assInput.parameterValue[0];
-					*b2 = 0xE0 | assInput.parameterValue[1];
-					return 2;
-				}
-			}
-            if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == ASS_STRING)
-            { 
-                if (assembleCommand_[STIV_COMMAND_6] != -1)
-				{ // LD Vy, Vy+1, I
-					if (assInput.numberOfParameters > 3)
-						return ERROR_PAR;
-					if (assInput.parameterString[2] != "I" && assInput.parameterString[1] != "I")
-						return ERROR_REG;            
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 4;
-					*b2 = assInput.parameterValue[0] | 0xe0;
-					return 2;
-				}
-				return ERROR_INST;
-            }
-            if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX_MEM && assInput.seperator[1] == " ")
-            { 
-                if (assembleCommand_[STIV_COMMAND_5] != -1)
-				{ // LD Vx, [Vy]
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					*b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-					*b2 = 0xF0 | assInput.parameterValue[1];
-					return 2;
-				}
-				return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "+")
-            { // LD Vz, Vx+Vy
-                if (assembleCommand_[ADD_VX_VY_VZ] == -1)
-                    return ERROR_INST;
-                if (assInput.seperator[2] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[ADD_VX_VY_VZ] | assInput.parameterValue[1];
-                *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
-                return 2;
-            }
-            if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX)
-            { // LD Vz, Vx-Vy
-                if (assembleCommand_[SUB_VX_VY_VZ] == -1)
-                    return ERROR_INST;
-                if (assInput.seperator[1] != "-")
-                    return ERROR_DASH;
-                if (assInput.seperator[2] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[SUB_VX_VY_VZ] | assInput.parameterValue[1];
-                *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
-                return 2;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "I")
-            { 
-                if (assembleCommand_[STIV_COMMAND_6] != -1)
-				{ // LD Vy, I
-					if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 4;
-                    *b2 = assInput.parameterValue[0] | 0xe0;
-					return 2;
-				}
-			}
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[RA]")
-            { // LD Vx, [RA]
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[0];
-                    *b2 = 0x35;
-                    return 2;
-                }
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[0];
-                    *b2 = 0x1E;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[RB]")
-            { // LD Vx, [RB]
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[0];
-                    *b2 = 0x38;
-                    return 2;
-                }
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[0];
-                    *b2 = 0x21;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RB.0")
-            { // LD Vx, RB.0
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[0];
-                    *b2 = 0x47;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RB.1")
-            { // LD Vx, RB.1
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[0];
-                    *b2 = 0x4A;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RA.0")
-            { // LD Vx, RA.0
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL3_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_C] | assInput.parameterValue[0];
-                    *b2 = 0x56;
-                    return 2;
-                }
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[0];
-                    *b2 = 0x38;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "RA.1")
-            { // LD Vx, RA.0
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL1_COMMAND_7] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_7] | assInput.parameterValue[0];
-                    *b2 = 0x3B;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "R0.1")
-            { // LD Vx, R0.1
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL1_COMMAND_E] != -1)
-                {
-                    *b1 = assembleCommand_[FEL1_COMMAND_E] | assInput.parameterValue[1];
-                    *b2 = 0x9d;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "PAR")
-            { // LD Vx, PAR
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL2_COMMAND_C] != -1)
-                {
-                    *b1 = assembleCommand_[FEL2_COMMAND_C] | 0x8;
-                    *b2 = (assInput.parameterValue[0] << 4) &0xf0;
-                    return 2;
-                }
-                if (assembleCommand_[FEL3_COMMAND_6] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_6] | assInput.parameterValue[0];
-                    *b2 = 0x7b;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "COIN")
-            { // LD Vx, COIN
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL2_COMMAND_E] != -1)
-                {
-                    *b1 = assembleCommand_[FEL2_COMMAND_E] | assInput.parameterValue[0];
-                    *b2 = 0;
-                    return 2;
-                }
-                if (assembleCommand_[FEL3_COMMAND_6] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_6] | assInput.parameterValue[0];
-                    *b2 = 0x5d;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "FIREA")
-            { // LD Vx, COIN
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL2_COMMAND_E] != -1)
-                {
-                    *b1 = assembleCommand_[FEL2_COMMAND_E] | assInput.parameterValue[0];
-                    *b2 = 0x1;
-                    return 2;
-                }
-                if (assembleCommand_[FEL3_COMMAND_6] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_6] | assInput.parameterValue[0];
-                    *b2 = 0x63;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "FIREB")
-            { // LD Vx, COIN
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL2_COMMAND_E] != -1)
-                {
-                    *b1 = assembleCommand_[FEL2_COMMAND_E] | assInput.parameterValue[0];
-                    *b2 = 0x2;
-                    return 2;
-                }
-                if (assembleCommand_[FEL3_COMMAND_6] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_6] | assInput.parameterValue[0];
-                    *b2 = 0x67;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "JOYA")
-            { // LD Vx, COIN
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL2_COMMAND_E] != -1)
-                {
-                    *b1 = assembleCommand_[FEL2_COMMAND_E] | assInput.parameterValue[0];
-                    *b2 = 0x4;
-                    return 2;
-                }
-                if (assembleCommand_[FEL3_COMMAND_6] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_6] | assInput.parameterValue[0];
-                    *b2 = 0x6b;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-            if (assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "JOYB")
-            { // LD Vx, COIN
-                if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                    return ERROR_PAR;
-                if (assembleCommand_[FEL2_COMMAND_E] != -1)
-                {
-                    *b1 = assembleCommand_[FEL2_COMMAND_E] | assInput.parameterValue[0];
-                    *b2 = 0x8;
-                    return 2;
-                }
-                if (assembleCommand_[FEL3_COMMAND_6] != -1)
-                {
-                    *b1 = assembleCommand_[FEL3_COMMAND_6] | assInput.parameterValue[0];
-                    *b2 = 0x74;
-                    return 2;
-                }
-                return ERROR_INST;
-            }
-        }
-        if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM && assInput.parameterType[1] == CHIP8_VX)
-        { 
-            if (assembleCommand_[LD_M8AA_VX] != -1)
-			{ // LD [8aa], Vx
-				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if (assInput.parameterValue[0] < 0x800 || assInput.parameterValue[0] > 0x8ff)
-					return ERROR_RAM_CHIP_ADDRESS;
-				*b1 = assembleCommand_[LD_M8AA_VX] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-            if (assembleCommand_[LD_27KK_VX] != -1)
-			{ // LD [27kk], Vx
-				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_STUDIOIV_ADDRESS_I;
-				*b1 = assembleCommand_[LD_27KK_VX] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-        }
-        if ((assInput.parameterType[0] == ASS_HEX_VALUE_MEM  || assInput.parameterType[0] == ASS_HEX_VALUE) && assInput.parameterType[1] == ASS_STRING)
-        {
-            if (assInput.parameterString[1] == "DR")
-			{
-				if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-				{ // LD [2AA],DR
-					if (assInput.numberOfParameters > 2)
-						return ERROR_PAR;
-					if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-						return ERROR_CARDTRAN_ADDRESS;
-					*b1 = 0x60;
-					*b2 = getCardtranAddress(assInput.parameterValue[0]);
-					return 2;
-				}
-			}
-		}
-        if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM && assInput.parameterType[1] == ASS_STRING)
-        {
-			if (assembleCommand_[STIV_COMMAND_6] != -1)
-			{ // LD [27kk], I
-				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_STUDIOIV_ADDRESS_I;
-				if (assInput.parameterString[1] != "I")
-					return ERROR_REG;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 4;
-				*b2 = assInput.parameterValue[0];
-				return 2;
-			}
-            return ERROR_INST;
-        }
-        if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterType[1] == CHIP8_VX)
-        { 
-            if (assembleCommand_[LD_M8AA_VX] != -1)
-			{ // LD 8aa, Vx
-				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if (assInput.parameterValue[0] < 0x800 || assInput.parameterValue[0] > 0x8ff)
-					return ERROR_RAM_CHIP_ADDRESS;
-				*b1 = assembleCommand_[LD_M8AA_VX] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-            if (assembleCommand_[LD_27KK_VX] != -1)
-			{ // LD 27kk, Vx
-				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_STUDIOIV_ADDRESS_I;
-				*b1 = assembleCommand_[LD_27KK_VX] | assInput.parameterValue[1];
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-			if (assembleCommand_[STIV_COMMAND_6] != -1)
-			{ // 27kk, I
-				if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if (assInput.parameterValue[0] < 0x2700 || assInput.parameterValue[0] > 0x27ff)
-					return ERROR_STUDIOIV_ADDRESS_I;
-				if (assInput.parameterString[1] != "I")
-					return ERROR_REG;
-				
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 4;
-				*b2 = assInput.parameterValue[1];
-				return 2;
-			}
-			return ERROR_INST;
-        }
-        return ERROR_LD;
-    }
-    if (assInput.command == "LDD")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-        { // LDD 2AA, DR
-            if (assInput.numberOfParameters > 2 )
-                return ERROR_PAR;
-            if (assInput.parameterType[1] != ASS_STRING || assInput.parameterString[1] != "DR")
-                return ERROR_CARDTRAN_DR;
-            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
-            {
-                if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                    return ERROR_CARDTRAN_ADDRESS;
-                *b1 = 0x90;
-                *b2 = getCardtranAddress(assInput.parameterValue[0]);
-                return 2;
-            }
-            return ERROR_12BIT;
-        }
-    }
-    if (assInput.command == "NO")
-    { // NO OP
-        if (assembleCommand_[FEL2_COMMAND_C] != -1)
-        {
-            if (assInput.numberOfParameters > 1)
-                return ERROR_PAR;
-            
-            if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "OP")
-            {
-                *b1 = assembleCommand_[FEL2_COMMAND_C] | 4;
-                return 1;
-            }
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "OR")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        { // OR Vx, Vy
-            if (assembleCommand_[FEL3_COMMAND_8] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[FEL3_COMMAND_8]  | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[1] << 4) | 1;
-				return 2;
-			}
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0x10;
-				return 2;
-			}
-            return ERROR_INST;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "OUT4")
-    { 
-        if (assembleCommand_[FEL1_COMMAND_E] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			if (assInput.parameterType[0] == CHIP8_VX)
-			{ // OUT4 Vx
-				*b1 = assembleCommand_[FEL1_COMMAND_E] | assInput.parameterValue[0];
-				*b2 = 0x91;
-				return 2;
-			}
-		}
-        if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			if (assInput.parameterType[0] == CHIP8_VX)
-			{ // OUT4 Vy
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 0xE;
-				*b2 = assInput.parameterValue[0];
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0] <= 0xff)
-			{ // OUT4 KK
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 0xF;
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-			return ERROR_8BIT;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "OUT6")
-    { 
-        if (assembleCommand_[FEL1_COMMAND_E] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			if (assInput.parameterType[0] == CHIP8_VX)
-			{ // OUT6 Vx
-				*b1 = assembleCommand_[FEL1_COMMAND_E] | assInput.parameterValue[0];
-				*b2 = 0x8f;
-				return 2;
-			}
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "POP")
-    { 
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I")
-			{ // POP I
-				if (assInput.numberOfParameters > 1)
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 0xC;
-				*b2 = 0;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 0)
-			{ // POP
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0xa;
-				return 2;
-			}
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterValue[0] == 0 && assInput.parameterValue[1] == 9)
-			{ // POP V0-V9
-                if (assInput.seperator[0] != "-")
-                    return ERROR_DASH;
-				if (assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0xa;
-				return 2;
-			}
-			return ERROR_REG;
-		}
-		return ERROR_INST;
-    }
-    if (assInput.command == "PRINT")
-    { 
-        if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
- 		    if (assInput.numberOfParameters > 2)
-				return ERROR_PAR;
-			
-			if (assInput.numberOfParameters == 0)
-			{ // PRINT
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x48;
-				return 2;
-			}
-            if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[I]" && assInput.numberOfParameters == 1)
-            { // PRINT [I]
-                *b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-                *b2 = 0x56;
-                return 2;
-            }
-            if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I" && assInput.numberOfParameters == 1)
-            { // PRINT I
-                *b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-                *b2 = 0x56;
-                return 2;
-            }
-			if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0] == 0xd &&
-			    assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterValue[1] == 3 && assInput.numberOfParameters == 2) 
-			{ // PRINT D, 3
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x60;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0] == 0xd &&
-			    assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterValue[1] == 2 && assInput.numberOfParameters == 2) 
-			{ // PRINT D, 2
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x7c;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0] == 0xd &&
-			    assInput.parameterType[1] == ASS_HEX_VALUE && assInput.parameterValue[1] == 1 && assInput.numberOfParameters == 2) 
-			{ // PRINT D, 1
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x82;
-				return 2;
-			}
-			return ERROR_INCORRECT_PAR;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "PUSH")
-    { 
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I")
-			{ // PUSH I
-				if (assInput.numberOfParameters > 1)
-					return ERROR_PAR;
+int DebugWindow::checkParameterPseudo(AssInput assInput, Word* pseudoCode)
+{
+	int parameterNumber;
+	bool parameterFound=false;
+	wxString pseudoLine, parameter, lowStr, highStr, regNumberStr;
+	long high, low, regNumber;
+	Word hexValue = 0, registerX = 0, registerY = 0, registerZ = 0, nValue = 0, lValue = 0, kkValue = 0, ddValue = 0, tempValue;
+	int errorValue = ERROR_MISSING_PAR;
 
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 0xA;
-				*b2 = 0;
-				return 2;
-			}
-			if (assInput.numberOfParameters == 0)
-			{ // PUSH
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0;
-				return 2;
-			}
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.parameterValue[0] == 0 && assInput.parameterValue[1] == 9)
-			{ // PUSH V0-V9
-                if (assInput.seperator[0] != "-")
-                    return ERROR_DASH;
-				if (assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0;
-				return 2;
-			}
-			return ERROR_REG;
-		}
-		if (assembleCommand_[FEL1_COMMAND_0] != -1)
-		{ // PUSH	
-			if (assInput.numberOfParameters > 0)
-				return ERROR_PAR;
-			
-			*b1 = assembleCommand_[FEL1_COMMAND_0] | 2;
-			*b2 = 0x2f;
-			return 2;
-		}
-		return ERROR_INST;
-    }
-    if (assInput.command == "RESET")
-    { 
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "RAM")
-			{ // RESET RAM
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0;
-				return 2;
-			}
-            return ERROR_INCORRECT_PAR;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "RETURN")
-    { // RETURN
-		if (assembleCommand_[FEL1_COMMAND_0] != -1)
-		{ // RETURN
-			if (assInput.numberOfParameters > 0)
-				return ERROR_PAR;
-			
-			*b1 = assembleCommand_[FEL1_COMMAND_0] | 2;
-			*b2 = 0x6e;
-			return 2;
-		}
-        if (assembleCommand_[FEL2_COMMAND_C] != -1)
-        {
-            if (assInput.numberOfParameters > 0)
-                return ERROR_PAR;
-            
-            *b1 = assembleCommand_[FEL2_COMMAND_C];
-            return 1;
-        }
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ // RET
-			if (assInput.numberOfParameters > 0)
-				return ERROR_PAR;
-			
-			*b1 = assembleCommand_[STIV_COMMAND_6] | 0xB;
-			*b2 = 0;
-			return 2;
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "RND")
-    { 
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 3)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM &&
-			    assInput.parameterType[1] == CHIP8_VX &&
-				assInput.parameterType[2] == CHIP8_VX)
-			{ // RND [270B], V8, V9
-                if (assInput.parameterValue[0] != 0x270B)
-                    return ERROR_INCORR_ADDRESS;
-                if (assInput.parameterValue[1] != 8 || assInput.parameterValue[2] != 9)
-                    return ERROR_INCORRECT_REG;
-                if (assInput.seperator[0] != ",")
-                    return ERROR_COMMA;
- 				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0xbc;
-				return 2;
-			}
-			if (assInput.numberOfParameters > 2)
-				return ERROR_PAR;
-			if (assInput.parameterType[0] == CHIP8_VX &&
-				assInput.parameterType[1] == CHIP8_VX)
-			{ // RND V8, V9
-                if (assInput.parameterValue[0] != 8 || assInput.parameterValue[1] != 9)
-                    return ERROR_INCORRECT_REG;
-                if (assInput.seperator[0] != ",")
-                    return ERROR_COMMA;
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0xbc;
-				return 2;
-			}
-            if (assInput.parameterType[0] == ASS_HEX_VALUE_MEM &&
-			    assInput.parameterType[1] == CHIP8_VX)
-			{ // RND [270B], V9
-                if (assInput.parameterValue[1] != 9)
-                    return ERROR_INCORRECT_REG;
-                if (assInput.parameterValue[0] != 0x270B)
-                    return ERROR_INCORR_ADDRESS;
-                if (assInput.seperator[0] != ",")
-                    return ERROR_COMMA;
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-                *b2 = 0xb6;
-				return 2;
-			}
-			if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-			{ // RND V9
-                if (assInput.parameterValue[0] != 9)
-                    return ERROR_INCORRECT_REG;
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0xb6;
-				return 2;
-			}
-		}
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assembleCommand_[RND_VX_KK] == -1)
-            return ERROR_INST;
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[1] != ASS_HEX_VALUE)
-            return ERROR_8BIT;
-        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-            return ERROR_PAR;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-        { // RND Vx, kk
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                return ERROR_8BIT;
-            
-            *b1 = assembleCommand_[RND_VX_KK] | assInput.parameterValue[0];
-            *b2 = assInput.parameterValue[1];
-            return 2;
-        }
-        return ERROR_8REG;
-    }
-    if (assInput.command == "RSH")
-    {
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-        {
-            if (assInput.numberOfParameters > 1)
-                return ERROR_PAR;
-            if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                return ERROR_CARDTRAN_ADDRESS;
-            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
-            { // RSH [2AA]
-                *b1 = 0x80;
-                *b2 = getCardtranAddress(assInput.parameterValue[0]);
-                return 2;
-            }
-            return ERROR_CARDTRAN_ADDRESS;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "SCR")
-    { 
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "CLS")
-			{ // SCR CLS
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x12;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "FILL")
-			{ // SCR FILL
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 6;
-				*b2 = 0x26;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "XOR")
-			{ // SCR XOR
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0xb;
-				return 2;
-			}
-		}
-        return ERROR_INCORRECT_PAR;
-    }
-    if (assInput.command == "SE")
-    {
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-            return ERROR_PAR;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-        { // SE Vx, kk
-            if (assInput.parameterType[1] != ASS_HEX_VALUE_MEM && assInput.parameterType[1] != ASS_HEX_VALUE)
-                return ERROR_8REG;
-            if (assInput.parameterValue[1] > 0 && assInput.parameterValue[1] <= 0xff)
-            {
-                if (assembleCommand_[SE_VX_KK] == -1)
-                    return ERROR_INST;
-                *b1 = assembleCommand_[SE_VX_KK] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1];
-            }
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SHL")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
-        { // SHL Vx, n
-            if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_INST;
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
-                return ERROR_4BIT;
-            if (assInput.seperator[1] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-            *b2 = assInput.parameterValue[1] | 0x60;
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SHL4")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-        { // SHL4 Vx
-            if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[0] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[FEL1_COMMAND_7]  | assInput.parameterValue[0];
-            *b2 = 0x3E;
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SHR")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        { // SHR Vx, Vy
-            if (assembleCommand_[FEL3_COMMAND_8] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[FEL3_COMMAND_8]  | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[1] << 4) | 6;
-				return 2;
-			}
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0xc0;
-				return 2;
-			}
-            return ERROR_INST;
-        }
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE && assInput.numberOfParameters == 2)
-        { // SHR Vx, n
-            if (assembleCommand_[STIV_COMMAND_4] == -1)
-                return ERROR_INST;
-            if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xf)
-                return ERROR_4BIT;
-            if (assInput.seperator[1] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-            *b2 = assInput.parameterValue[1] | 0x90;
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SHR4")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-        { // SHR4 Vx
-            if (assembleCommand_[FEL1_COMMAND_7] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[0] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[FEL1_COMMAND_7]  | assInput.parameterValue[0];
-            *b2 = 0x41;
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SKP")
-    {
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.numberOfParameters == 1)
-        { // SKP Vx
-            if (assembleCommand_[FEL1_COMMAND_E] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[0] != " ")
-                return ERROR_PAR;
-            *b1 = assembleCommand_[FEL1_COMMAND_E]  | assInput.parameterValue[0];
-            *b2 = 0x80;
-            return 2;
-        }
-    }
-    if (assInput.command == "SKIP")
-    {
-        if (assInput.numberOfParameters == 0)
-        { // SKIP
-            if (assembleCommand_[CARDTRAN_COMMAND] == -1)
-                return ERROR_INST;
-            *b1 = 0;
-            *b2 = 0;
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SK3")
-    { // SK3
-        if (assembleCommand_[FEL1_COMMAND_E] == -1)
-            return ERROR_INST;
-        *b1 = assembleCommand_[FEL1_COMMAND_E];
-        *b2 = 0x8a;
-        return 2;
-    }
-    if (assInput.command == "SKT")
-    { // SKT
-        if (assembleCommand_[FEL1_COMMAND_E] == -1)
-            return ERROR_INST;
-        *b1 = assembleCommand_[FEL1_COMMAND_E];
-        *b2 = 0x87;
-        return 2;
-    }
-    if (assInput.command == "SNE")
-    {
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-            return ERROR_PAR;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE)
-        { // SNE Vx, kk
-            if (assInput.parameterValue[1] > 0 && assInput.parameterValue[1] <= 0xff)
-            {
-                if (assembleCommand_[SNE_VX_KK] == -1)
-                    return ERROR_INST;
-                *b1 = assembleCommand_[SNE_VX_KK] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1];
-            }
-            else
-            {// SNE Vx, 8aa
-                if (assembleCommand_[SNE_VX_M8AA] == -1)
-                    return ERROR_INST;
-                if (assInput.parameterValue[1] < 0x800 || assInput.parameterValue[1] > 0x8ff)
-                    return ERROR_RAM_CHIP_ADDRESS;
-                *b1 = assembleCommand_[SNE_VX_M8AA] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1] & 0xf0;
-            }
-            return 2;
-        }
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == ASS_HEX_VALUE_MEM)
-        { // SNE Vx, [8aa]
-            if (assembleCommand_[SNE_VX_M8AA] == -1)
-                return ERROR_INST;
-            if (assInput.parameterValue[1] < 0x800 || assInput.parameterValue[1] > 0x8ff)
-                return ERROR_RAM_CHIP_ADDRESS;
-            *b1 = assembleCommand_[SNE_VX_M8AA] | assInput.parameterValue[0];
-            *b2 = assInput.parameterValue[1] & 0xf0;
-            return 2;
-        }
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX)
-        { // SNE Vx, Vy
-            if (assembleCommand_[FEL3_COMMAND_4] != -1)
-            {
-                *b1 = assembleCommand_[FEL3_COMMAND_4] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1] << 4;
-                return 2;
-            }
-            if (assembleCommand_[SNE_VX_VY] != -1)
-            {
-                *b1 = assembleCommand_[SNE_VX_VY] | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1] << 4;
-                return 2;
-            }
-            return ERROR_INST;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "STOP")
-    { // STOP
-        if (assembleCommand_[STIV_COMMAND_4] != -1)
-        {
-            if (assInput.numberOfParameters > 0)
-                return ERROR_PAR;
-            
-            *b1 = assembleCommand_[STIV_COMMAND_4];
-            *b2 = 0xd0;
-            return 2;
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "SUB")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assembleCommand_[CARDTRAN_COMMAND] != -1)
-        { // SUB 2AA, DR
-            if (assInput.numberOfParameters > 2 )
-                return ERROR_PAR;
-            if (assInput.parameterType[1] != ASS_STRING || assInput.parameterString[1] != "DR")
-                return ERROR_CARDTRAN_DR;
-            if (assInput.parameterType[0] == ASS_HEX_VALUE || assInput.parameterType[0] == ASS_HEX_VALUE_MEM)
-            {
-                if (assInput.parameterValue[0] < 0x200 || assInput.parameterValue[0] > 0x2c6)
-                    return ERROR_CARDTRAN_ADDRESS;
-                *b1 = 0x50;
-                *b2 = getCardtranAddress(assInput.parameterValue[0]);
-                return 2;
-            }
-            return ERROR_12BIT;
-        }
-		if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.numberOfParameters > 2)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "[V0V1]" && 
-			    assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "[V2V3]")
-			{ // SUB [V0V1], [V2V3]
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0x5a;
-				return 2;
-			}
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "V0V1" && 
-			    assInput.parameterType[1] == ASS_STRING && assInput.parameterString[1] == "V2V3")
-			{ // SUB V0V1, V2V3
-				*b1 = assembleCommand_[STIV_COMMAND_6] | 7;
-				*b2 = 0x5a;
-				return 2;
-			}
-		}
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[1] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        {
-            if (assembleCommand_[SUB_VX_VY_VZ] != -1)
-            {// SUB Vx, Vy
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[SUB_VX_VY_VZ] | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4) | assInput.parameterValue[0];
-                return 2;
-            }
-            if (assembleCommand_[FEL3_COMMAND_8] != -1)
-            {// SUB Vy, Vx
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[FEL3_COMMAND_8]  | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4) | 5;
-                return 2;
-            }
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
-            {// SUB Vx, Vy
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-                *b2 = assInput.parameterValue[1] | 0x50;
-                return 2;
-            }
-            return ERROR_INST;
-        }
-        if (assInput.parameterType[1] == CHIP8_VX && assInput.parameterType[2] == CHIP8_VX && assInput.seperator[1] == "-")
-        { // SUB Vz, Vx-Vy
-            if (assembleCommand_[SUB_VX_VY_VZ] == -1)
-                return ERROR_INST;
-            if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-                return ERROR_PAR;
-            *b1 = assembleCommand_[SUB_VX_VY_VZ] | assInput.parameterValue[1];
-            *b2 = ((assInput.parameterValue[2]<<4)&0xf0)|assInput.parameterValue[0];
-            return 2;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SUBN")
-    {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[1] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        {
-            if (assembleCommand_[FEL3_COMMAND_8] != -1)
-            {// SUBN Vy, Vx
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[FEL3_COMMAND_8]  | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4) | 7;
-                return 2;
-            }
-            return ERROR_INST;
-        }
-        return ERROR_SYNTAX;
-    }
-    if (assInput.command == "SWAP")
-    { // SWAP Vx, Vy, [I]
-        if (assembleCommand_[STIV_COMMAND_5] == -1)
-            return ERROR_INST;
-        if (assInput.parameterType[0] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[1] != CHIP8_VX)
-            return ERROR_REG_EXP;
-        if (assInput.parameterType[2] != ASS_STRING && (assInput.parameterString[2] == "I" || assInput.parameterString[2] == "[I]"))
-            return ERROR_REG_EXP;
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.seperator[2] != " " || assInput.numberOfParameters > 3)
-            return ERROR_PAR;
-        
-        *b1 = assembleCommand_[STIV_COMMAND_5] | assInput.parameterValue[0];
-        *b2 = assInput.parameterValue[1] | 0x10;
-        return 2;
-    }
-    if (assInput.command == "SYS")
-    { 
-		if (assembleCommand_[SYS_MMM] != -1)
-		{ // SYS aaa
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_HEX_VALUE)
-			{
-				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-					return ERROR_12BIT;
-				*b1 = assembleCommand_[SYS_MMM] | ((assInput.parameterValue[0] >> 8) & 0xf);
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-			return ERROR_12BIT;
-		}
-		if (assembleCommand_[FEL1_COMMAND_0] != -1)
-		{ // SYS aaa
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_HEX_VALUE)
-			{
-				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xfff)
-					return ERROR_12BIT;
-				*b1 = assembleCommand_[FEL1_COMMAND_0] | ((assInput.parameterValue[0] >> 8) & 0xf);
-				*b2 = assInput.parameterValue[0] & 0xff;
-				return 2;
-			}
-			return ERROR_12BIT;
-		}
-		if (assembleCommand_[STIV_COMMAND_5] != -1)
-		{ // SYS I
-			if (assInput.numberOfParameters > 1)
-				return ERROR_PAR;
-			
-			if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "I")
-			{
-				*b1 = assembleCommand_[STIV_COMMAND_5];
-				*b2 = 0;
-				return 2;
-			}
-			return ERROR_REG;
-		}
-		return ERROR_INST;
-    }
-    if (assInput.command == "TAPE")
-    {
-        if (assembleCommand_[TAPE_KK] != -1 && assInput.parameterType[0] == ASS_HEX_VALUE)
+	parameterNumber = 0;
+	for (pseudoLine=inFile.GetNextLine(); !inFile.Eof(); pseudoLine=inFile.GetNextLine())
+	{
+		pseudoLine.Trim(false);
+		pseudoLine.Trim(true);
+
+		while (pseudoLine.Len() > 0)
 		{
-			if (assInput.numberOfParameters == 1)
-			{ // TAPE kk
-				if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-					return ERROR_8BIT;
-				*b1 = assembleCommand_[TAPE_KK];
-				*b2 = assInput.parameterValue[0];
-				return 2;
-			}
-			return ERROR_SYNTAX;
-		}
-        if (assembleCommand_[FEL1_COMMAND_E] != -1 && assInput.parameterType[0] == ASS_STRING)
-		{
-            if (assInput.numberOfParameters == 1 && assInput.parameterString[0] == "READ")
-            { // TAPE READ
-                *b1 = assembleCommand_[FEL1_COMMAND_E];
-                *b2 = 0x93;
-                return 2;
-            }
-            if (assInput.parameterType[0] == ASS_STRING && assInput.numberOfParameters == 1 && assInput.parameterString[0] == "WRITE")
-            { // TAPE WRITE
-                *b1 = assembleCommand_[FEL1_COMMAND_E];
-                *b2 = 0xa0;
-                return 2;
-            }
-		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "TONE")
-    {
-        if (assembleCommand_[FEL2_COMMAND_C] != -1)
-        {
-            if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.numberOfParameters == 1)
-            { // TONE kk
-                if (assInput.parameterValue[0] < 0 || assInput.parameterValue[0] > 0xff)
-                    return ERROR_8BIT;
-                *b1 = assembleCommand_[FEL2_COMMAND_C] | 1;
-                *b2 = assInput.parameterValue[0];
-                return 2;
-            }
-            if (assInput.parameterType[0] == ASS_STRING && assInput.numberOfParameters == 1 && assInput.parameterString[0] == "OFF")
-            { // TONE OFF
-                *b1 = assembleCommand_[FEL2_COMMAND_C] | 2;
-                *b2 = 0;
-                return 2;
-            }
-            if (assInput.seperator[1] != " " || assInput.numberOfParameters > 2)
-                return ERROR_PAR;
-            if (assInput.parameterType[0] == ASS_HEX_VALUE && assInput.parameterValue[0]== 0xf && assInput.parameterType[1] == ASS_HEX_VALUE)
-            { // TONE F=kk
-                if (assInput.parameterValue[1] < 0 || assInput.parameterValue[1] > 0xff)
-                    return ERROR_8BIT;
-                *b1 = assembleCommand_[FEL2_COMMAND_C] | 1;
-                *b2 = assInput.parameterValue[1];
-                return 2;
-            }
-        }
-        if (assembleCommand_[TONE_VX_VY] != -1)
-        {
-            if (assInput.seperator[0] != ",")
-                return ERROR_COMMA;
-            if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-            { // TONE Vx, Vy
-                if (assInput.seperator[1] != " ")
-                    return ERROR_PAR;
-                *b1 = assembleCommand_[TONE_VX_VY]  | assInput.parameterValue[0];
-                *b2 = (assInput.parameterValue[1] << 4);
-                return 2;
-            }
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "VIDEO")
-    { 
-        if (assembleCommand_[FEL1_COMMAND_0] != -1)
-        {
-            if (assInput.numberOfParameters > 1)
-                return ERROR_PAR;
-            
-            if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "ON")
-            {
-                *b1 = assembleCommand_[FEL1_COMMAND_0] | 2;
-				*b2 = 0x5c;
-                return 2;
-            }
-            if (assInput.parameterType[0] == ASS_STRING && assInput.parameterString[0] == "OFF")
-            {
-                *b1 = assembleCommand_[FEL1_COMMAND_0] | 2;
-				*b2 = 0x40;
-                return 2;
-            }
-        }
-        return ERROR_INST;
-    }
-    if (assInput.command == "WAIT")
-    { 
-        if (assembleCommand_[STIV_COMMAND_6] != -1)
-		{ 
-			if (assInput.parameterType[0] == ASS_STRING)
-			{ // WAIT I, KK
-				if (assInput.numberOfParameters > 2)
-					return ERROR_PAR;
-				if ((assInput.parameterString[0] == "I" || assInput.parameterString[0] == "[I]") && assInput.parameterType[1] == ASS_HEX_VALUE)
+			parameterFound=false;
+			parameter = extractWord(&pseudoLine);
+			if (parameter == "n")
+			{
+				if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
 				{
-					*b1 = assembleCommand_[STIV_COMMAND_6] | 0xD;
-					*b2 = assInput.parameterValue[0] & 0xff;
-					return 2;
+					if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xf)
+						errorValue = ERROR_4BIT;
+					else
+					{
+                        parameterFound = true;
+						nValue = assInput.parameterValue[parameterNumber];
+                        parameterNumber++;
+					}
 				}
-				return ERROR_REG;
+				else
+					errorValue = ERROR_HEX;
 			}
-			return ERROR_8BIT;
+            if (parameter == "l")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                {
+                    if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xf)
+                        errorValue = ERROR_4BIT;
+                    else
+                    {
+                        parameterFound = true;
+                        lValue = assInput.parameterValue[parameterNumber];
+                        parameterNumber++;
+                    }
+                }
+                else
+                errorValue = ERROR_HEX;
+            }
+			if (parameter == "kk")
+			{
+				if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+				{
+					if (assInput.parameterValue[parameterNumber] < 0 || assInput.parameterValue[parameterNumber] > 0xff)
+						errorValue = ERROR_8BIT;
+					else
+					{
+                        parameterFound = true;
+						kkValue = assInput.parameterValue[parameterNumber];
+                        parameterNumber++;
+					}
+				}
+				else
+					errorValue = ERROR_HEX;
+			}
+            if (parameter.Left(5) == "c-hex")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                {
+                    lowStr = parameter.Mid(6,4);
+                    highStr = parameter.Mid(11.4);
+                    
+                    lowStr.ToLong(&low, 16);
+                    highStr.ToLong(&high, 16);
+                    
+                    if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
+                        errorValue = ERROR_CARDTRAN_ADDRESS;
+                    else
+                    {
+                        parameterFound = true;
+                        ddValue = getCardtranAddress(assInput.parameterValue[parameterNumber]);
+                        parameterNumber++;
+                    }
+                }
+                else
+                    errorValue = ERROR_HEX;
+            }
+			if (parameter.Left(3) == "hex")
+			{
+				if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+				{
+					lowStr = parameter.Mid(4,4);
+					highStr = parameter.Mid(9.4);
+
+					lowStr.ToLong(&low, 16);
+					highStr.ToLong(&high, 16);
+
+					if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
+						errorValue = ERROR_INCORR_ADDRESS;
+					else
+					{
+                        parameterFound = true;
+						hexValue = assInput.parameterValue[parameterNumber];
+                        parameterNumber++;
+					}
+				}
+				else
+					errorValue = ERROR_HEX;
+			}
+            if (parameter.Left(5) == "s-hex")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                {
+                    lowStr = parameter.Mid(6,4);
+                    highStr = parameter.Mid(11.4);
+                    
+                    lowStr.ToLong(&low, 16);
+                    highStr.ToLong(&high, 16);
+                    
+                    if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
+                        errorValue = ERROR_INCORR_ADDRESS;
+                    else
+                    {
+                        parameterFound = true;
+                        hexValue = assInput.parameterValue[parameterNumber];
+                        if (hexValue >= 0xc00)
+                            hexValue = hexValue & 0xfbff;
+                        if (hexValue >= 0x300)
+                            hexValue -= 0x100;
+                        parameterNumber++;
+                    }
+                }
+                else
+                    errorValue = ERROR_HEX;
+            }
+            if (parameter.Left(5) == "c-mem")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE_MEM)
+                {
+                    lowStr = parameter.Mid(6,4);
+                    highStr = parameter.Mid(11.4);
+                    
+                    lowStr.ToLong(&low, 16);
+                    highStr.ToLong(&high, 16);
+                    
+                    if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
+                        errorValue = ERROR_CARDTRAN_ADDRESS;
+                    else
+                    {
+                        parameterFound = true;
+                        ddValue = getCardtranAddress(assInput.parameterValue[parameterNumber]);
+                        parameterNumber++;
+                    }
+                }
+                else
+                    errorValue = ERROR_HEX_MEM;
+            }
+			if (parameter.Left(3) == "mem")
+			{
+				if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE_MEM)
+				{
+					lowStr = parameter.Mid(4,4);
+					highStr = parameter.Mid(9.4);
+
+					lowStr.ToLong(&low, 16);
+					highStr.ToLong(&high, 16);
+
+					if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
+						errorValue = ERROR_INCORR_ADDRESS;
+					else
+					{
+						hexValue = assInput.parameterValue[parameterNumber];
+                        parameterFound = true;
+                        parameterNumber++;
+					}
+				}
+				else
+					errorValue = ERROR_HEX_MEM;
+			}
+			if (parameter == "Vx")
+			{
+				if (assInput.parameterType[parameterNumber] == CHIP8_VX)
+				{
+                    parameterFound = true;
+					registerX = assInput.parameterValue[parameterNumber];
+                    parameterNumber++;
+				}
+				else
+					errorValue = ERROR_REG_EXP;
+			}
+			if (parameter == "Vy")
+			{
+				if (assInput.parameterType[parameterNumber] == CHIP8_VX)
+				{
+                    parameterFound = true;
+					registerY = assInput.parameterValue[parameterNumber];
+                    parameterNumber++;
+				}
+				else
+					errorValue = ERROR_REG_EXP;
+			}
+			if (parameter == "Vz")
+			{
+				if (assInput.parameterType[parameterNumber] == CHIP8_VX)
+				{
+                    parameterFound = true;
+					registerZ = assInput.parameterValue[parameterNumber];
+                    parameterNumber++;
+				}
+				else
+					errorValue = ERROR_REG_EXP;
+			}
+            if (parameter == "[Vy]")
+            {
+                if (assInput.parameterType[parameterNumber] == CHIP8_VX_MEM)
+                {
+                    parameterFound = true;
+                    registerY = assInput.parameterValue[parameterNumber];
+                    parameterNumber++;
+                }
+                else
+                    errorValue = ERROR_REG_EXP;
+            }
+            if (parameter == "Vx1")
+            {
+                if (assInput.parameterType[parameterNumber] == CHIP8_VX)
+                {
+                    if (assInput.parameterValue[parameterNumber] == registerX+1)
+                    {
+                        parameterFound = true;
+                        parameterNumber++;
+                    }
+                    else
+                        errorValue = ERROR_INCORRECT_REG;
+                }
+                else
+                    errorValue = ERROR_REG_EXP;
+            }
+            if (parameter == "Vy1")
+            {
+                if (assInput.parameterType[parameterNumber] == CHIP8_VX)
+                {
+                    if (assInput.parameterValue[parameterNumber] == registerY+1)
+                    {
+                        parameterFound = true;
+                        parameterNumber++;
+                    }
+                    else
+                        errorValue = ERROR_INCORRECT_REG;
+                }
+                else
+                    errorValue = ERROR_REG_EXP;
+            }
+			if (parameter.Left(1) == "V" && parameter.Len() == 2)
+			{
+                regNumberStr = parameter.Right(1);
+                if (regNumberStr.ToLong(&regNumber, 16))
+                {
+                    if (assInput.parameterType[parameterNumber] == CHIP8_VX)
+                    {
+                        if (assInput.parameterValue[parameterNumber] != regNumber)
+                            errorValue = ERROR_INCORRECT_REG;
+                        else
+                        {
+                            parameterFound = true;
+                            parameterNumber++;
+                        }
+                    }
+                    else
+                        errorValue = ERROR_REG_EXP;
+                }
+			}
+            if (parameter.Len() == 1)
+            {
+                regNumberStr = parameter.Right(1);
+                if (regNumberStr.ToLong(&regNumber, 16))
+                {
+                    if (assInput.parameterType[parameterNumber] == ASS_HEX_VALUE)
+                    {
+                        if (assInput.parameterValue[parameterNumber] != regNumber)
+                            errorValue = ERROR_SYNTAX;
+                        else
+                        {
+                            parameterFound = true;
+                            parameterNumber++;
+                        }
+                    }
+                    else
+                        errorValue = ERROR_SYNTAX;
+                }
+            }
+            if (parameter == "RA")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_REG)
+                {
+                    if (assInput.parameterValue[parameterNumber] != 0xA)
+                        errorValue = ERROR_SYNTAX;
+                    else
+                    {
+                        parameterFound = true;
+                        parameterNumber++;
+                    }
+                }
+                else
+                    errorValue = ERROR_SYNTAX;
+            }
+            if (parameter == "RB")
+            {
+                if (assInput.parameterType[parameterNumber] == ASS_REG)
+                {
+                    if (assInput.parameterValue[parameterNumber] != 0xB)
+                        errorValue = ERROR_SYNTAX;
+                    else
+                    {
+                        parameterFound = true;
+                        parameterNumber++;
+                    }
+                }
+                else
+                    errorValue = ERROR_SYNTAX;
+            }
+            if (parameter == assInput.parameterString[parameterNumber] && assInput.parameterType[parameterNumber] == ASS_STRING)
+            {
+                parameterFound = true;
+                parameterNumber++;
+            }
+			if (parameter == "empty")
+			{
+				if (assInput.parameterString[parameterNumber] == "" && assInput.parameterType[parameterNumber] == ASS_STRING)
+				{
+					parameterFound = true;
+					parameterNumber++;
+				}
+			}
+			if (parameter == ',')
+			{
+				if (assInput.seperator[parameterNumber-1] == ",")
+					parameterFound = true;
+				else
+					errorValue = ERROR_COMMA;
+			}
+			if (parameter == '+')
+			{
+				if (assInput.seperator[parameterNumber-1] == "+")
+					parameterFound = true;
+				else
+					errorValue = ERROR_PLUS;
+			}
+			if (parameter == '-')
+			{
+				if (assInput.seperator[parameterNumber-1] == "-")
+					parameterFound = true;
+				else
+					errorValue = ERROR_MINUS;
+			}
+            if (parameter == '=')
+            {
+                if (assInput.seperator[parameterNumber-1] == "=")
+                    parameterFound = true;
+                else
+                    errorValue = ERROR_EQUAL;
+            }
+            if (parameter == '/')
+            {
+                if (assInput.seperator[parameterNumber-1] == "/")
+                    parameterFound = true;
+                else
+                    errorValue = ERROR_SLASH;
+            }
+            if (parameter.Left(3) == "det")
+                parameterFound = true;
+			if (parameter.Left(4) == "code")
+			{
+                if (parameterNumber == assInput.numberOfParameters)
+                {
+                    long command;
+                    wxString tempStr;
+                    wxString commandStr = parameter.Mid(5,1);
+                    commandStr.ToLong(&command, 16);
+                    
+                    commandStr = parameter.Mid(6,3);
+                    if (commandStr.Len() < 1)
+                        return ERROR_SYNTAX_FILE;
+                    
+                    int pseudoLength = 2;
+                    if (commandStr.Len() == 1)
+                        pseudoLength = 1;
+                    
+                    *pseudoCode = command << 12;
+                    for (int i=0; i<((pseudoLength*2)-1); i++)
+                    {
+                        if (commandStr.GetChar(i) == 'a')
+                        {
+                            if (i == 1)
+                                *pseudoCode |= hexValue & 0xff;
+                            else
+                                *pseudoCode |= hexValue & 0xfff;
+                            return pseudoLength;
+                        }
+                        if (commandStr.GetChar(i) == 's')
+                        {
+                            if (i == 1)
+                                *pseudoCode |= hexValue & 0xff;
+                            else
+                                *pseudoCode |= hexValue & 0xfff;
+                            return pseudoLength;
+                        }
+                        if (commandStr.GetChar(i) == 'k')
+                        {
+                            *pseudoCode |= kkValue & 0xff;
+                            return pseudoLength;
+                        }
+                        if (commandStr.GetChar(i) == 'd')
+                        {
+                            *pseudoCode |= ddValue & 0xff;
+                            return pseudoLength;
+                        }
+                        if (commandStr.GetChar(i) == 'n')
+                        {
+                            tempValue = nValue << ((2-i)*4);
+                            *pseudoCode |= tempValue;
+                        }
+                        if (commandStr.GetChar(i) == 'l')
+                        {
+                            tempValue = lValue << ((2-i)*4);
+                            *pseudoCode |= tempValue;
+                        }
+                        if (commandStr.GetChar(i) == 'x')
+                        {
+                            tempValue = registerX << ((2-i)*4);
+                            *pseudoCode |= tempValue;
+                        }
+                        if (commandStr.GetChar(i) == 'y')
+                        {
+                            tempValue = registerY << ((2-i)*4);
+                            *pseudoCode |= tempValue;
+                        }
+                        if (commandStr.GetChar(i) == 'z')
+                        {
+                            tempValue = registerZ << ((2-i)*4);
+                            *pseudoCode |= tempValue;
+                        }
+                        if (commandStr.GetChar(i) >= '0' && commandStr.GetChar(i) <= '9')
+                        {
+                            tempValue = commandStr.GetChar(i) - '0';
+                            tempValue = tempValue << ((2-i)*4);
+                            *pseudoCode |= tempValue;
+                        }
+                        if (commandStr.GetChar(i) >= 'A' && commandStr.GetChar(i) <= 'F')
+                        {
+                            tempValue = commandStr.GetChar(i) - 'A' + 10;
+                            tempValue = tempValue << ((2-i)*4);
+                            *pseudoCode |= tempValue;
+                        }
+                    }
+                    return pseudoLength;
+                }
+                else
+                    errorValue = ERROR_PAR;
+			}
+			if (!parameterFound)
+			{
+				if (!inFile.Eof())
+				{
+					pseudoLine=inFile.GetNextLine();
+					pseudoLine.Trim(false);
+					pseudoLine.Trim(true);
+
+					if (pseudoLine.GetChar(0) != '/')
+					{
+						parameterNumber = 0;
+					}
+					else
+						return errorValue;
+				}
+				else
+					return errorValue;
+			}
 		}
-        return ERROR_INST;
-    }
-    if (assInput.command == "XOR")
+	}
+	return ERROR_SYNTAX;
+}
+
+wxString DebugWindow::getPseudoFile()
+{
+    switch (p_Computer->getChip8Type())
     {
-        if (assInput.seperator[0] != ",")
-            return ERROR_COMMA;
-        if (assInput.parameterType[0] == CHIP8_VX && assInput.parameterType[1] == CHIP8_VX && assInput.numberOfParameters == 2)
-        { // XOR Vx, Vy
-            if (assembleCommand_[FEL3_COMMAND_8] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[FEL3_COMMAND_8]  | assInput.parameterValue[0];
-				*b2 = (assInput.parameterValue[1] << 4) | 3;
-				return 2;
-			}
-            if (assembleCommand_[STIV_COMMAND_4] != -1)
-			{
-				if (assInput.seperator[1] != " ")
-					return ERROR_PAR;
-				*b1 = assembleCommand_[STIV_COMMAND_4]  | assInput.parameterValue[0];
-				*b2 = assInput.parameterValue[1] | 0x30;
-				return 2;
-			}
-            return ERROR_INST;
-        }
-        return ERROR_SYNTAX;
+        case CHIP8:
+            if (runningComputer_ == STUDIO || runningComputer_ == VICTORY)
+                return applicationDirectory_ + "Chip8Studio.syntax";
+            else
+                return applicationDirectory_ + "Chip8.syntax";
+        break;
+            
+        case CHIP8X:
+            return applicationDirectory_ + "Chip8X.syntax";
+        break;
+            
+        case CHIPETI:
+            return applicationDirectory_ + "ChipEti.syntax";
+        break;
+            
+        case CHIPST2:
+            return applicationDirectory_ + "ST2.syntax";
+        break;
+            
+        case CHIPFEL1:
+            return applicationDirectory_ + "FEL.syntax";
+        break;
+            
+        case CHIPGPL1:
+            return applicationDirectory_ + "GPL I.syntax";
+        break;
+            
+        case CHIPGPL2:
+            return applicationDirectory_ + "GPL II.syntax";
+        break;
+            
+        case CHIPFEL3:
+            return applicationDirectory_ + "CB.syntax";
+        break;
+            
+        case CHIPSTIV:
+            return applicationDirectory_ + "ST4.syntax";
+        break;
+            
+        case CARDTRAN:
+            return applicationDirectory_ + "CARDTRAN.syntax";
+        break;
+            
+        case CHIPFPL:
+            return applicationDirectory_ + "FPL.syntax";
+        break;
+            
+        default:
+            return applicationDirectory_ + "ST2.syntax";
+        break;
     }
-    return ERROR_INST;
 }
 
 Byte DebugWindow::getCardtranAddress(long address)
 {
-	int value = (address-0x200)/2;
+	int value = (int)(address-0x200)/2;
 	int highNibble = value / 10;
 	int lowNibble = value - (highNibble * 10);
 	return highNibble * 16 + lowNibble;
@@ -9699,12 +6123,12 @@ int DebugWindow::getRegisterNumber(AssInput assInput, long* registerNumber, Byte
 
 int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
 {
-    if (buffer.Left(4)== "[RA]" || buffer.Left(4)== "[RB]" || 
-		buffer.Left(4)== "RB.0" || buffer.Left(4)== "RB.1" || buffer.Left(4)== "RA.0" || buffer.Left(4)== "R0.1" ||
+    if (buffer.Left(4)== "[RA]" || buffer.Left(4)== "[RB]" || buffer.Left(3)== "[A]" || buffer.Left(3)== "[B]" ||
+		buffer.Left(4)== "RB.0" || buffer.Left(4)== "RB.1" || buffer.Left(4)== "RA.0" || buffer.Left(4)== "RA.1" ||
 		buffer.Left(6)== "[V0V1]" || buffer.Left(4)== "V0V1" || buffer.Left(6)== "[V2V3]" || buffer.Left(4)== "V2V3" ||
 		buffer.Left(2)== "[I" || buffer.Left(3)== "V9]"|| buffer.Left(3)== "[I]" || buffer.Left(4)== "[>I]" ||
         buffer.Left(6)== "SWITCH" || buffer.Left(4)== "SWAP" || buffer.Left(2)== "ST" || buffer.Left(4)== "READ" ||
-		buffer.Left(2)== "DR")
+		buffer.Left(2)== "DR" || buffer.Left(3)== "RAM")
     {
         *type = ASS_STRING;
         return 0;
@@ -11294,7 +7718,7 @@ void DebugWindow::directAss()
 			break;
 
             case MEM_TYPE_FEL2_1:
-                code = fel2Disassemble(address, false, true);
+                code = pseudoDisassemble(address, false, true);
                 dcAss.DrawText(code.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
                 dcAss.SetTextForeground(colour.Find("STEEL BLUE"));
                 dcAss.DrawText(code.Right(code.Len()-6), 57, 1+line*LINE_SPACE);
@@ -11303,7 +7727,7 @@ void DebugWindow::directAss()
                     case 0xC0:
                     case 0xC4:
                     case 0xCC:
-                        if (p_Computer->getChip8Type() != CHIPFEL2)
+						if (p_Computer->getChip8Type() != CHIPGPL1 && p_Computer->getChip8Type() != CHIPGPL2)
                             address+=2;
                         else
                             address+=1;
@@ -11317,7 +7741,7 @@ void DebugWindow::directAss()
             break;
                 
             case MEM_TYPE_CHIP_8_1:
-				code = chip8Disassemble(address, false, true);
+				code = pseudoDisassemble(address, false, true);
 				dcAss.DrawText(code.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
 				dcAss.SetTextForeground(colour.Find("STEEL BLUE"));
 				dcAss.DrawText(code.Right(code.Len()-6), 57, 1+line*LINE_SPACE);
@@ -11326,7 +7750,7 @@ void DebugWindow::directAss()
 			break;
 
 			case MEM_TYPE_ST2_1:
-				code = st2Disassemble(address, false, true);
+				code = pseudoDisassemble(address, false, true);
 				dcAss.DrawText(code.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
 				dcAss.SetTextForeground(colour.Find("STEEL BLUE"));
 				dcAss.DrawText(code.Right(code.Len()-6), 57, 1+line*LINE_SPACE);
@@ -11773,23 +8197,25 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
             case CHIPST2:
                 typeOpcode = MEM_TYPE_ST2_1;
                 typeOperand1 = MEM_TYPE_ST2_2;
-                count = assembleSt2(&debugIn, &b1, &b2);
+                count = assemblePseudo(&debugIn, &b1, &b2);
             break;
-                
-            case CHIPFEL1:
-            case CHIPFEL2:
-            case CHIPFEL3:
+                                
             case CHIPSTIV:
             case CARDTRAN:
+            case CHIPFPL:
+            case CHIPGPL1:
+            case CHIPGPL2:
+            case CHIPFEL1:
+            case CHIPFEL3:
                 typeOpcode = MEM_TYPE_FEL2_1;
                 typeOperand1 = MEM_TYPE_FEL2_2;
-                count = assembleFel2(&debugIn, &b1, &b2);
+                count = assemblePseudo(&debugIn, &b1, &b2);
             break;
-                
-            default:
+
+			default:
                 typeOpcode = MEM_TYPE_CHIP_8_1;
                 typeOperand1 = MEM_TYPE_CHIP_8_2;
-                count = assembleChip(&debugIn, &b1, &b2);
+                count = assemblePseudo(&debugIn, &b1, &b2);
             break;
         }
     }
@@ -12593,7 +9019,9 @@ int DebugWindow::markType(long *addrLong, int type)
 				break;
 
                 case CHIPFEL1:
-                case CHIPFEL2:
+                case CHIPGPL1:
+                case CHIPGPL2:
+                case CHIPFPL:
                 case CHIPFEL3:
                 case CHIPSTIV:
                 case CARDTRAN:
@@ -12604,7 +9032,7 @@ int DebugWindow::markType(long *addrLong, int type)
 						case 0xC4:
 						case 0xCC:
 							address++;
-							if (p_Computer->getChip8Type() != CHIPFEL2)
+							if (p_Computer->getChip8Type() != CHIPGPL1 && p_Computer->getChip8Type() != CHIPGPL2)
 								p_Computer->writeMemDataType(address++, MEM_TYPE_FEL2_2);
 						break;
 						
@@ -13536,7 +9964,9 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 				switch (p_Computer->getChip8Type())
 				{
 					case CHIPFEL1:
-					case CHIPFEL2:
+					case CHIPGPL1:
+					case CHIPGPL2:
+					case CHIPFPL:
 					case CHIPFEL3:
 						chip8_instruction = p_Computer->readMem(addr)&0xf0;
 						switch (chip8_instruction)
@@ -13824,7 +10254,9 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 					switch (p_Computer->getChip8Type())
 					{
 						case CHIPFEL1:
-						case CHIPFEL2:
+						case CHIPGPL1:
+						case CHIPGPL2:
+						case CHIPFPL:
 						case CHIPFEL3:
 							chip8_instruction = p_Computer->readMem(addr)&0xf0;
 							switch (chip8_instruction)
@@ -14251,7 +10683,9 @@ void DebugWindow::deleteByte(Word insertAddress)
 				switch (p_Computer->getChip8Type())
 				{
 					case CHIPFEL1:
-					case CHIPFEL2:
+					case CHIPGPL1:
+					case CHIPGPL2:
+					case CHIPFPL:
 					case CHIPFEL3:
 						chip8_instruction = p_Computer->readMem(addr)&0xf0;
 						switch (chip8_instruction)
@@ -14519,7 +10953,9 @@ void DebugWindow::deleteByte(Word insertAddress)
 					switch (p_Computer->getChip8Type())
 					{
 						case CHIPFEL1:
-						case CHIPFEL2:
+						case CHIPGPL1:
+						case CHIPGPL2:
+						case CHIPFPL:
 						case CHIPFEL3:
 							chip8_instruction = p_Computer->readMem(addr)&0xf0;
 							switch (chip8_instruction)
@@ -15599,7 +12035,9 @@ void DebugWindow::onAssCopy(wxCommandEvent&WXUNUSED(event))
 				switch (p_Computer->getChip8Type())
 				{
 					case CHIPFEL1:
-					case CHIPFEL2:
+					case CHIPGPL1:
+					case CHIPGPL2:
+					case CHIPFPL:
 					case CHIPFEL3:
 						chip8_instruction = p_Computer->readMem(correctAddress)&0xf0;
 						switch (chip8_instruction)
@@ -15858,7 +12296,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                 break;
                     
                 case MEM_TYPE_CHIP_8_1:
-                    tempLine = chip8Disassemble(address, false, true);
+                    tempLine = pseudoDisassemble(address, false, true);
 
                     value = p_Computer->readMem(address++);
                     if (value >= 0xa0)
@@ -15879,7 +12317,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                 break;
                     
                 case MEM_TYPE_FEL2_1:
-                    tempLine = fel2Disassemble(address, false, true);
+                    tempLine = pseudoDisassemble(address, false, true);
                     
                     value = p_Computer->readMem(address++);
                     if (value >= 0xa0)
@@ -15892,7 +12330,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                         case 0xC0:
                         case 0xC4:
                         case 0xCC:
-                            if (p_Computer->getChip8Type() != CHIPFEL2)
+							if (p_Computer->getChip8Type() != CHIPGPL1 && p_Computer->getChip8Type() != CHIPGPL2)
                             {
                                 value = p_Computer->readMem(address++);
                                 if (value >= 0xa0)
@@ -15921,7 +12359,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                 break;
                     
                 case MEM_TYPE_ST2_1:
-                    tempLine = st2Disassemble(address, false, true);
+                    tempLine = pseudoDisassemble(address, false, true);
 
                     value = p_Computer->readMem(address++);
                     if (value >= 0xa0)
@@ -19051,1201 +15489,606 @@ void DebugWindow::onChip8Clear(wxCommandEvent& WXUNUSED(event))
 	chip8TraceWindowPointer->Clear();
 }
 
-void DebugWindow::chip8Trace(Word address)
-{	
-	chip8DebugTrace(chip8Disassemble(address, true, false));
+void DebugWindow::pseudoTrace(Word address)
+{
+    chip8DebugTrace(pseudoDisassemble(address, true, false));
 }
 
-void DebugWindow::fredTrace(Word address)
+void DebugWindow::definePseudoCommands(int chip8Type)
 {
-    chip8DebugTrace(fel2Disassemble(address, true, false));
-}
+    wxString commandSyntaxFile;
 
-wxString DebugWindow::chip8Disassemble(Word dis_address, bool includeDetails, bool showOpcode)
-{
-	Byte chip8_opcode1 = p_Computer->readMem(dis_address);
-	Byte chip8_opcode2 = p_Computer->readMem(dis_address + 1);
-	wxString buffer, detailsBuffer, addressStr;
-
-	buffer = "";
-	detailsBuffer = "";
-
-	//Instruction value
-	int vX = chip8_opcode1&0xf;
-	int vY = (chip8_opcode2>>4)&0xf;
-	Word address = ((chip8_opcode1 & 0xf) << 8) + chip8_opcode2;
-    if ((runningComputer_ == STUDIO || runningComputer_ == VICTORY)  && (chip8_opcode1 & 0xf0) != 0)
-        address += 0x100;
-
-    Byte nibble = chip8_opcode2&0xf;
-	Byte value = chip8_opcode2;
-
-	//Real time value
-	Word addressX = p_Computer->getChip8baseVar() + vX;
-	Word addressY = p_Computer->getChip8baseVar() + vY;
-	Byte valueX = p_Computer->readMem(addressX);
-	Byte valueY = p_Computer->readMem(addressY);
-    Word valueI = p_Computer->getScratchpadRegister(CHIP8_I);
-    
-	//Calculation variables
-	int resultValue;
-	wxString tempStr1;
-	long tempLong1, tempLong2;
-
-	if (showOpcode)
-		addressStr.Printf("%04X: %02X%02X  ", dis_address, chip8_opcode1, chip8_opcode2);
-	else
-		addressStr.Printf("%03X", dis_address&0xfff);
-
-	switch (chip8_opcode1 & 0xf0)
-	{
-		case 0:
-			if (p_Computer->getChip8Type() == CHIP8X && chip8_opcode1 == 0x02 && chip8_opcode2 == 0xA0)
-				buffer.Printf(" CLR   BACK");
-			else
-				switch (chip8_opcode2)
-				{
-					case 0xe0:
-						buffer.Printf(" CLS");
-					break;
-
-					case 0xee:
-						buffer.Printf(" RETURN");
-					break;
-
-					default:
-						buffer.Printf(" SYS   %03X", address);
-					break;
-				}
-		break;
-
-		case 0x10:
-            address = address | ((address & 0x800) >> 1);
-            buffer.Printf(" JP    %03X", address );
-		break;
-
-		case 0x20:
-            address = address | ((address & 0x800) >> 1);
-			buffer.Printf(" CALL  %03X", address );
-		break;
-
-		case 0x30:
-			buffer.Printf(" SE    V%01X, %02X", vX, value);
-		break;
-
-		case 0x40:
-			buffer.Printf(" SNE   V%01X, %02X", vX, value);
-		break;
-
-		case 0x50:
-			switch (chip8_opcode2 & 0xf)
-			{
-				case 0x0:
-					buffer.Printf(" SE    V%01X, V%01X", vX, vY);
-				break;
-
-				case 0x1:
-					if (p_Computer->getChip8Type() == CHIP8X)
-					{
-						tempStr1.Printf("%01X", (valueX>>4)&0x7);   
-						tempStr1.ToLong(&tempLong1, 8); 
-						tempStr1.Printf("%01X", (valueY>>4)&0x7);   
-						tempStr1.ToLong(&tempLong2, 8); 
-						resultValue = (int)((tempLong1 + tempLong2) & 0x7) << 4;
-						tempStr1.Printf("%01X", valueX&0x7);   
-						tempStr1.ToLong(&tempLong1, 8); 
-						tempStr1.Printf("%01X", valueY&0x7);   
-						tempStr1.ToLong(&tempLong2, 8); 
-						resultValue = resultValue + ((tempLong1 + tempLong2)&0x7);
-
-						buffer.Printf(" ADD8  V%01X, V%01X", vX, vY);
-						detailsBuffer.Printf("V%01X=%02X", vX, (resultValue)&0xff);
-					}
-					else
-						buffer.Printf(" Illegal instruction");
-				break;
-
-				default:
-					buffer.Printf(" Illegal instruction");
-				break;
-			}
-		break;
-
-		case 0x60:
-            buffer.Printf(" LD    V%01X, %02X", vX, value);
-		break;
-
-		case 0x70:
-			buffer.Printf(" ADD   V%01X, %02X", vX, value);
-			detailsBuffer.Printf("V%01X=%02X", vX, (valueX + value)&0xff);
-		break;
-
-		case 0x80:
-			switch (chip8_opcode2 & 0xf)
-			{
-				case 0x0:
-					buffer.Printf(" LD    V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueY);
-				break;
-
-				case 0x1:
-					buffer.Printf(" OR    V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueX | valueY);
-				break;
-
-				case 0x2:
-					buffer.Printf(" AND   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueX & valueY);
-				break;
-
-				case 0x3:
-					buffer.Printf(" XOR   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueX ^ valueY);
-				break;
-
-				case 0x4:
-					buffer.Printf(" ADD   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueX + valueY)&0xff);
-				break;
-
-				case 0x5:
-					buffer.Printf(" SUB   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueX - valueY)&0xff);
-				break;
-
-				case 0x6:
-					if (vX == vY)
-						buffer.Printf(" SHR   V%01X", vX);
-					else
-						buffer.Printf(" SHR   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueY>>1);
-				break;
-
-				case 0x7:
-					buffer.Printf(" SUBN  V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueY - valueX)&0xff);
-				break;
-
-				case 0xE:
-					if (vX == vY)
-						buffer.Printf(" SHL   V%01X", vX);
-					else
-						buffer.Printf(" SHL   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueY<<1)&0xff);
-				break;
-
-				default:
-					buffer.Printf(" Illegal instruction");
-				break;
-			}
-		break;
-
-		case 0x90:
-			if ((chip8_opcode2 & 0xf) == 0)
-				buffer.Printf(" SNE   V%01X, V%01X", vX, vY);
-			else
-				buffer.Printf(" Illegal instruction");
-		break;
-
-		case 0xA0:
-            address = address ^ ((address & 0x800) >> 1);
-            buffer.Printf(" LD    I, %03X", address );
-		break;
-
-		case 0xB0:
-			if (p_Computer->getChip8Type() == CHIP8X)
-			{
-				if ((chip8_opcode2 & 0xf) == 0)
-					buffer.Printf(" CLRL  V%01X/V%01X, V%01X", vX, (vX+1)&0xf, vY);
-				else
-					buffer.Printf(" CLRH  V%01X/V%01X, V%01X, %01X", vX, (vX+1)&0xf, vY, nibble);
-			}
-			else
-			{
-                address = address | ((address & 0x800) >> 1);
-				buffer.Printf(" JP    V0, %03X", address);
-                address = (address + p_Computer->readMem(p_Computer->getChip8baseVar()))&0xfff;
-                address = address | ((address & 0x800) >> 1);
-				detailsBuffer.Printf("JP %03X", address);
-			}
-		break;
-
-		case 0xC0:
-			if (additionalChip8Details_)
-			{
-				addressStr = "";
-				detailsBuffer.Printf("V%01X=%02X", vX, valueX);
-				additionalChip8Details_ = false;
-			}
-			else
-			{
-				buffer.Printf(" RND   V%01X, %02X", vX, value);
-				if (includeDetails)
-					additionalChip8Details_ = true;
-			}
-		break;
-
-		case 0xD0:
-			buffer.Printf(" DRW   V%01X, V%01X, %01X", vX, vY, nibble);
-		break;
-
-		case 0xE0:
-			switch (chip8_opcode2)
-			{
-				case 0x9E:
-					buffer.Printf(" SKP   V%01X", vX);
-				break;
-
-				case 0xA1:
-					buffer.Printf(" SKNP  V%01X", vX);
-				break;
-
-				case 0xF2:
-					if (p_Computer->getChip8Type() == CHIP8X)
-						buffer.Printf(" SKP2  V%01X", vX);
-					else
-						buffer.Printf(" Illegal instruction");
-				break;
-
-				case 0xF5:
-					if (p_Computer->getChip8Type() == CHIP8X)
-						buffer.Printf(" SKNP2 V%01X", vX);
-					else
-						buffer.Printf(" Illegal instruction");
-				break;
-
-				default:
-					buffer.Printf(" Illegal instruction");
-				break;
-			}
-		break;
-
-		case 0xF0:
-			switch (chip8_opcode2)
-			{
-				case 0x0:
-					if (runningComputer_ == ETI)
-					{
-						buffer.Printf(" LD    P, V%01X", vX);
-						detailsBuffer.Printf("P=%02X", valueX);
-					}
-					else
-						buffer.Printf(" Illegal instruction");
-				break;
-
-				case 0x07:
-					if (additionalChip8Details_)
-					{
-						addressStr = "";
-						detailsBuffer.Printf("V%01X=%02X", vX, valueX);
-						additionalChip8Details_ = false;
-					}
-					else
-					{
-						buffer.Printf(" LD    V%01X, DT", vX);
-						if (includeDetails)
-							additionalChip8Details_ = true;
-					}
-				break;
-
-				case 0x0A:
-					if (additionalChip8Details_)
-					{
-						addressStr = "";
-						detailsBuffer.Printf("V%01X=%02X", vX, valueX);
-						additionalChip8Details_ = false;
-					}
-					else
-					{
-						buffer.Printf(" LD    V%01X, K", vX);
-						if (includeDetails)
-							additionalChip8Details_ = true;
-					}
-				break;
-
-				case 0x15:
-					buffer.Printf(" LD    DT, V%01X", vX);
-					detailsBuffer.Printf("DT=%02X", valueX);
-				break;
-
-				case 0x18:
-					buffer.Printf(" LD    ST, V%01X", vX);
-					detailsBuffer.Printf("ST=%d ms", valueX*20);
-				break;
-
-				case 0x1E:
-					buffer.Printf(" ADD   I, V%01X", vX);
-					detailsBuffer.Printf("I=%03X", (valueI+valueX)&0xfff);
-				break;
-
-				case 0x29:
-					buffer.Printf(" LD    F, V%01X", vX);
-					detailsBuffer.Printf("I=%03X", chip8Sprite[valueX&0xf]);
-				break;
-
-				case 0x33:
-					buffer.Printf(" LD    B, V%01X", vX);
-					detailsBuffer.Printf("[%03X->%03X]='%03d'", valueI, (valueY+2)&0xfff, valueX);
-				break;
-
-				case 0x55:
-					buffer.Printf(" LD    [I], V%01X", vX);
-                    detailsBuffer.Printf("[%04X]=%02X", valueI, vX);
-				break;
-
-				case 0x65:
-					buffer.Printf(" LD    V%01X, [I]", vX);
-                    detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(valueI));
-				break;
-
-				case 0xF8:
-					if (p_Computer->getChip8Type() == CHIP8X)
-						buffer.Printf(" OUT3  V%01X", vX);
-					else
-						buffer.Printf(" Illegal instruction");
-				break;
-
-				case 0xFB:
-					if (p_Computer->getChip8Type() == CHIP8X)
-					{
-						if (additionalChip8Details_)
-						{
-							addressStr = "";
-							detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->getInValue(1));
-							additionalChip8Details_ = false;
-						}
-						else
-						{
-							buffer.Printf(" INP1  V%01X", vX);
-							if (includeDetails)
-								additionalChip8Details_ = true;
-						}
-					}
-					else
-						buffer.Printf(" Illegal instruction");
-				break;
-
-				default:
-					buffer.Printf(" Illegal instruction");
-				break;
-			}
-		break;
-	}	
-	while (buffer.Len() < 21 && addressStr != "")
-		buffer += " ";
-	buffer = addressStr + buffer;
-	if (includeDetails)
-		buffer = buffer + detailsBuffer;
-	return buffer;
-}
-
-void DebugWindow::defineFelCommands_(int chip8Type)
-{
     chip8Type_ = chip8Type;
     
-    for (int command = 0; command <16; command++)
-        dissassembleCommand_[command] = 0;
+    wxString pseudoLine, commandText, subCommand, command;
+    commandSyntaxFile = getPseudoFile();
     
-    for (int command = 0; command < LAST_COMMAND; command++)
-        assembleCommand_[command] = -1;
-
-    switch(chip8Type)
+    psuedoNumber_ = 0;
+    if (inFile.Open(commandSyntaxFile))
     {
-        case CHIPFEL1:
-            defineFelCommand(0, FEL1_COMMAND_0);
-            defineFelCommand(1, CALL_MMM);
-            defineFelCommand(2, LD_VX_KK);
-            defineFelCommand(3, SNE_VX_KK);
-            defineFelCommand(4, RND_VX_KK);
-            defineFelCommand(5, ADD_VX_KK);
-            defineFelCommand(6, TAPE_KK);
-            defineFelCommand(7, FEL1_COMMAND_7);
-            defineFelCommand(8, FEL3_COMMAND_8);
-            defineFelCommand(9, DRW_VX_VY_N);
-            defineFelCommand(0xa, LD_RA_MMM);
-            defineFelCommand(0xb, LD_RB_MMM);
-            defineFelCommand(0xc, SNE_VX_VY);
-            defineFelCommand(0xd, TONE_VX_VY);
-            defineFelCommand(0xe, FEL1_COMMAND_E);
-            defineFelCommand(0xf, JP_MMM);
-        break;
+        for (pseudoLine=inFile.GetFirstLine(); !inFile.Eof(); pseudoLine=inFile.GetNextLine())
+        {
+            pseudoLine.Trim(false);
+            pseudoLine.Trim(true);
 
-        case CHIPFEL2:
-            defineFelCommand(0, SYS_MMM);
-            defineFelCommand(1, CALL_MMM);
-            defineFelCommand(2, SNE_VX_KK);
-            defineFelCommand(3, SNE_VX_M8AA);
-            defineFelCommand(4, LD_VX_KK);
-            defineFelCommand(5, LD_B_VX_VY);
-            defineFelCommand(6, ADD_VX_VY_VZ);
-            defineFelCommand(7, SUB_VX_VY_VZ);
-            defineFelCommand(8, RND_VX_KK);
-            defineFelCommand(9, BEEP_F_KK_N);
-            defineFelCommand(0xa, DRW_VX_VY_N);
-            defineFelCommand(0xb, ADD8_VX_VY_N);
-            defineFelCommand(0xc, FEL2_COMMAND_C);
-            defineFelCommand(0xd, LD_M8AA_VX);
-            defineFelCommand(0xe, FEL2_COMMAND_E);
-            defineFelCommand(0xf, JP_MMM);
-        break;
-
-        case CHIPFEL3:
-            defineFelCommand(0, SYS_MMM);
-            defineFelCommand(1, CALL_MMM);
-            defineFelCommand(2, LD_VX_KK);
-            defineFelCommand(3, SNE_VX_KK);
-            defineFelCommand(4, FEL3_COMMAND_4);
-            defineFelCommand(5, ADD_VX_KK);
-            defineFelCommand(6, FEL3_COMMAND_6);
-            defineFelCommand(7, RND_VX_KK);
-            defineFelCommand(8, FEL3_COMMAND_8);
-            defineFelCommand(9, DRW_VX_L_N);
-            defineFelCommand(0xa, LD_RA_MMM);
-            defineFelCommand(0xb, LD_RB_MMM);
-            defineFelCommand(0xc, FEL3_COMMAND_C);
-            defineFelCommand(0xd, BEEP_F_KK_N);
-            defineFelCommand(0xe, FEL3_COMMAND_E);
-            defineFelCommand(0xf, JP_MMM);
-        break;
-        
-        case CHIPSTIV:
-            defineFelCommand(0, LD_I_MMMM);
-            defineFelCommand(1, LD_I_MMMM);
-            defineFelCommand(2, LD_I_MMMM);
-            defineFelCommand(3, LD_I_MMMM);
-            defineFelCommand(4, STIV_COMMAND_4);
-            defineFelCommand(5, STIV_COMMAND_5);
-            defineFelCommand(6, STIV_COMMAND_6);
-            defineFelCommand(7, ADD_VX_KK);
-            defineFelCommand(8, JZ_VX_KK);
-            defineFelCommand(9, JNZ_VX_KK);
-            defineFelCommand(0xa, JE_I_VX_KK);
-            defineFelCommand(0xb, JNE_I_VX_KK);
-            defineFelCommand(0xc, RND_VX_KK);
-            defineFelCommand(0xd, LD_27KK_VX);
-            defineFelCommand(0xe, LD_VX_27KK);
-            defineFelCommand(0xf, LD_VX_KK);
-        break;
-            
-        case CARDTRAN:
-            defineFelCommand(0, CARDTRAN_COMMAND);
-            defineFelCommand(1, CARDTRAN_COMMAND);
-            defineFelCommand(2, CARDTRAN_COMMAND);
-            defineFelCommand(3, CARDTRAN_COMMAND);
-            defineFelCommand(4, CARDTRAN_COMMAND);
-            defineFelCommand(5, CARDTRAN_COMMAND);
-            defineFelCommand(6, CARDTRAN_COMMAND);
-            defineFelCommand(7, CARDTRAN_COMMAND);
-            defineFelCommand(8, CARDTRAN_COMMAND);
-            defineFelCommand(9, CARDTRAN_COMMAND);
-        break;
+            if (pseudoLine.Len() > 0)
+            {
+                commandText = " " + pseudoLine;
+                while (commandText.Len() <= 6)
+                    commandText = commandText + " ";
+                
+                pseudoLine=inFile.GetNextLine();
+                while (pseudoLine.Left(1) != "/")
+                {
+                    psuedoNumber_++;
+                    pseudoCodeDetails_.resize(psuedoNumber_);
+                    
+                    pseudoCodeDetails_[psuedoNumber_-1].commandText = commandText;
+                    
+                    pseudoCodeDetails_[psuedoNumber_-1].length = 2;
+                    subCommand = pseudoLine.Right(4);
+                    if (subCommand.Mid(1,1) == "=")
+                    {
+                        pseudoCodeDetails_[psuedoNumber_-1].length = 1;
+                        subCommand = pseudoLine.Right(2);
+                        command = subCommand.Left(1);
+                        subCommand = pseudoLine.Right(1);
+                        pseudoCodeDetails_[psuedoNumber_-1].parameterText = pseudoLine.Left(pseudoLine.Len()-7);
+                    }
+                    else
+                    {
+                        command = subCommand.Left(1);
+                        subCommand = subCommand.Right(3);
+                        pseudoCodeDetails_[psuedoNumber_-1].parameterText = pseudoLine.Left(pseudoLine.Len()-9);
+                    }
+                    pseudoCodeDetails_[psuedoNumber_-1].parameterText.Trim(true);
+                    pseudoCodeDetails_[psuedoNumber_-1].parameterText.Trim(false);
+                    
+                    command.ToLong(&pseudoCodeDetails_[psuedoNumber_-1].command, 16);
+                    pseudoCodeDetails_[psuedoNumber_-1].subCommand = subCommand;
+                    
+                    pseudoLine=inFile.GetNextLine();
+                }
+            }
+        }
     }
 }
 
-void DebugWindow::defineFelCommand(int command, int type)
-{
-    dissassembleCommand_[command] = type;
-    assembleCommand_[type] = command << 4;
-}
-
-wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)
+wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, bool showOpcode)
 {
     Byte chip8_opcode1 = p_Computer->readMem(dis_address);
     Byte chip8_opcode2 = p_Computer->readMem(dis_address + 1);
-    wxString buffer, detailsBuffer, addressStr;
-    
+
+	wxString buffer, detailsBuffer, addressStr;
     buffer = "";
     detailsBuffer = "";
     
     //Instruction value
+    Byte command = chip8_opcode1 >> 4;
     int vX = chip8_opcode1&0xf;
-    int vY = (chip8_opcode2>>4)&0xf;
+	int vY;
+    if (chip8Type_ == CHIPSTIV)
+        vY = (chip8_opcode2)&0xf;
+	else
+		vY = (chip8_opcode2>>4)&0xf;
   
     Word address = ((chip8_opcode1 & 0xf) << 8) + chip8_opcode2;
-    Word address16bit = (chip8_opcode1 << 8) + chip8_opcode2;
+//    Word address16bit = (chip8_opcode1 << 8) + chip8_opcode2;
     
-    Byte nibble = chip8_opcode2&0xf;
-    Byte value = chip8_opcode2;
-
-    if (chip8Type_ == CHIPSTIV)
-    {
-        vY = (chip8_opcode2)&0xf;
-        nibble = (chip8_opcode2>>4)&0xf;
-    }
+    Byte nibble[3];
+    nibble[0] = chip8_opcode1&0xf;
+    nibble[1] = (chip8_opcode2>>4)&0xf;
+    nibble[2] = chip8_opcode2&0xf;
 
     //Real time value
     Word addressX = p_Computer->getChip8baseVar() + vX;
     Word addressY = p_Computer->getChip8baseVar() + vY;
     Byte valueX = p_Computer->readMem(addressX);
     Byte valueY = p_Computer->readMem(addressY);
-    Word valueI = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
-    
+
+	Word valueI;
+    if (chip8Type_ == CHIPSTIV)
+		valueI = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
+	else
+   		valueI = p_Computer->getScratchpadRegister(CHIP8_I);
+ 
     //Calculation variables
     wxString tempStr1;
+    long tempLong1, tempLong2, detailsNumber;
+	int resultValue, hexValueDigits;
+    Byte kkValue = 0, ddValue = 0, nValue = 0, lValue = 0, registerX = 0, registerY = 0, registerZ = 0;
+    char currentChar;
+    bool commandFound, parameterFound;
+	wxString parameterStr, parameter, regNumberStr, detailsStr;
     
-    if (showOpcode)
-        addressStr.Printf("%04X: %02X%02X  ", dis_address, chip8_opcode1, chip8_opcode2);
-    else
+    buffer = " Illegal instruction";
+    for (size_t pseudoNr=0; pseudoNr<psuedoNumber_; pseudoNr++)
     {
-        if (chip8Type_ == CHIPSTIV)
-            addressStr.Printf("%04X", dis_address);
-        else
-            addressStr.Printf("%03X", dis_address&0xfff);
-    }
-    
-    Byte command = chip8_opcode1 >> 4;
-    
-    if (dissassembleCommand_[command] == SYS_MMM)
-        buffer.Printf(" SYS   %03X", address);
-    
-    if (dissassembleCommand_[command] == CALL_MMM)
-        buffer.Printf(" CALL  %03X", address );
-
-    if (dissassembleCommand_[command] == TAPE_KK)
-        buffer.Printf(" TAPE  %02X", value);
-    
-    if (dissassembleCommand_[command] == SNE_VX_KK)
-        buffer.Printf(" SNE   V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == SE_VX_KK)
-        buffer.Printf(" SE    V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == SNE_VX_VY)
-        buffer.Printf(" SNE   V%01X, V%01X", vX, vY);
-    
-    if (dissassembleCommand_[command] == TONE_VX_VY)
-        buffer.Printf(" TONE  V%01X, V%01X", vX, vY);
-    
-    if (dissassembleCommand_[command] == SNE_VX_M8AA)
-    {
-        buffer.Printf(" SNE   V%01X, [8%02X]", vX, value);
-        detailsBuffer.Printf("[8%02X]=%02X", value, valueX);
-    }
-    
-    if (dissassembleCommand_[command] == LD_VX_KK)
-        buffer.Printf(" LD    V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == LD_VX_27KK)
-    {
-		if (nibble == 0xE)
-			buffer.Printf(" LD    V%01X, V%01X", vX, vY);
-		else
-			buffer.Printf(" LD    V%01X, [27%02X]", vX, value);
-    }
-    
-    if (dissassembleCommand_[command] == LD_27KK_VX)
-    {
-		if (nibble == 0xE)
-			buffer.Printf(" LD    V%01X, V%01X", vY, vX);
-		else
-			buffer.Printf(" LD    [27%02X], V%01X", value, vX);
-    }
-    
-    if (dissassembleCommand_[command] == LD_B_VX_VY)
-    {
-        buffer.Printf(" LD    B, V%01X, V%01X", vY, vX);
-        detailsBuffer.Printf("V%01X->V%01X='%03d'", vY, vY+2, valueX);
-    }
-    
-    if (dissassembleCommand_[command] == LD_I_MMMM)
-        buffer.Printf(" LD    I, %04X", address16bit);
-    
-    if (dissassembleCommand_[command] == LD_RA_MMM)
-        buffer.Printf(" LD    RA, %03X", address );
-    
-    if (dissassembleCommand_[command] == LD_RB_MMM)
-        buffer.Printf(" LD    RB, %03X", address );
-    
-    if (dissassembleCommand_[command] == ADD_VX_KK)
-        buffer.Printf(" ADD   V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == ADD_VX_VY_VZ)
-    {
-        if (nibble == vX)
-            buffer.Printf(" ADD   V%01X, V%01X", vX, vY);
-        else
-            buffer.Printf(" ADD   V%01X, V%01X+V%01X", nibble, vX, vY);
-        detailsBuffer.Printf("V%01X=%02X", nibble, (valueX + valueY)&0xff);
-    }
-
-    if (dissassembleCommand_[command] == SUB_VX_VY_VZ)
-    {
-        if (nibble == vX)
-            buffer.Printf(" SUB   V%01X, V%01X", vX, vY);
-        else
-            buffer.Printf(" SUB   V%01X, V%01X-V%01X", nibble, vX, vY);
-        detailsBuffer.Printf("V%01X=%02X", nibble, (valueX - valueY)&0xff);
-    }
-
-    if (dissassembleCommand_[command] == RND_VX_KK)
-        buffer.Printf(" RND   V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == BEEP_F_KK_N)
-        buffer.Printf(" BEEP  F=%02X, %01X", value, vX);
-
-    if (dissassembleCommand_[command] == DRW_VX_VY_N)
-        buffer.Printf(" DRW   V%01X, V%01X, %01X", vX, vY, nibble);
-
-    if (dissassembleCommand_[command] == DRW_VX_L_N)
-        buffer.Printf(" DRW   V%01X, %01X, %01X", vX, vY, nibble);
-    
-    if (dissassembleCommand_[command] == ADD8_VX_VY_N)
-    {
-        buffer.Printf(" ADD8  V%01X, V%01X, V%01X", vX, vY, nibble);
-        if ((valueX + valueY) & 0x8)
-            detailsBuffer.Printf("V%01X=%02X", nibble, 0xFF);
-        else
-            detailsBuffer.Printf("V%01X=%02X", vX, valueX + valueY);
-    }
-
-    if (dissassembleCommand_[command] == LD_M8AA_VX)
-    {
-        buffer.Printf(" LD    [8%02X], V%01X", value, vX);
-        detailsBuffer.Printf("[8%02X]=%02X", value, valueX);
-    }
-
-    if (dissassembleCommand_[command] == JP_MMM)
-    {
-        address = address | ((address & 0x800) >> 1);
-        buffer.Printf(" JP    %03X", address );
-    }
-    
-    if (dissassembleCommand_[command] == JNZ_VX_KK)
-        buffer.Printf(" JNZ   V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == JZ_VX_KK)
-        buffer.Printf(" JZ    V%01X, %02X", vX, value);
-
-    if (dissassembleCommand_[command] == JNE_I_VX_KK)
-        buffer.Printf(" JNE   I, V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == JE_I_VX_KK)
-        buffer.Printf(" JE    I, V%01X, %02X", vX, value);
-    
-    if (dissassembleCommand_[command] == FEL1_COMMAND_0)
-    {
-        buffer.Printf(" SYS   %03X", address);
-        if (address == 0x078)
-            buffer.Printf(" CLS");
-        if (address == 0x22F)
-            buffer.Printf(" PUSH");
-        if (address == 0x25C)
-            buffer.Printf(" VIDEO ON");
-        if (address == 0x240)
-            buffer.Printf(" VIDEO OFF");
-        if (address == 0x268)
-            buffer.Printf(" KEY   OFF");
-        if (address == 0x26E)
-            buffer.Printf(" RETURN");
-	}
-
-    if (dissassembleCommand_[command] == FEL1_COMMAND_7)
-    {
-        buffer.Printf(" Illegal instruction");
-        if (chip8_opcode2 == 0x1E)
-            buffer.Printf(" LD    V%01X, [RA]", vX);
-        if (chip8_opcode2 == 0x21)
-            buffer.Printf(" LD    V%01X, [RB]", vX);
-        if (chip8_opcode2 == 0x24)
-            buffer.Printf(" LD    [RA], V%01X", vX);
-        if (chip8_opcode2 == 0x27)
-            buffer.Printf(" LD    [RB], V%01X", vX);
-        if (chip8_opcode2 == 0x2A)
-            buffer.Printf(" LD    RA.0, V%01X", vX);
-        if (chip8_opcode2 == 0x30)
-            buffer.Printf(" LD    RA.1, V%01X", vX);
-        if (chip8_opcode2 == 0x34)
-            buffer.Printf(" LD    RB.0, V%01X", vX);
-        if (chip8_opcode2 == 0x38)
-            buffer.Printf(" LD    V%01X, RA.0", vX);
-        if (chip8_opcode2 == 0x3B)
-            buffer.Printf(" LD    V%01X, RA.1", vX);
-        if (chip8_opcode2 == 0x3E)
-            buffer.Printf(" SHL4  V%01X", vX);
-        if (chip8_opcode2 == 0x41)
-            buffer.Printf(" SHR4  V%01X", vX);
-        if (chip8_opcode2 == 0x48)
-            buffer.Printf(" DELAY V%01X", vX);
-        if (chip8_opcode2 == 0x52)
-            buffer.Printf(" LD    B, [RA], V%01X", vX);
-        if (chip8_opcode1 == 0x7F && chip8_opcode2 == 0x6F)
-            buffer.Printf(" INCA");
-    }
-   
-	if (dissassembleCommand_[command] == FEL1_COMMAND_E)
-    {
-        buffer.Printf(" Illegal instruction");
-        if (chip8_opcode2 == 0x7A)
-            buffer.Printf(" KEY   V%01X", vX);
-        if (chip8_opcode2 == 0x80)
-            buffer.Printf(" SKP   V%01X", vX);
-        if (chip8_opcode2 == 0x87)
-            buffer.Printf(" SKT");
-        if (chip8_opcode2 == 0x8A)
-            buffer.Printf(" SK3");
-        if (chip8_opcode2 == 0x8D)
-            buffer.Printf(" INP6  V%01X", vX);
-        if (chip8_opcode2 == 0x8F)
-            buffer.Printf(" OUT6  V%01X", vX);
-        if (chip8_opcode2 == 0x91)
-            buffer.Printf(" OUT4  V%01X", vX);
-        if (chip8_opcode2 == 0x93)
-            buffer.Printf(" TAPE  READ");
-        if (chip8_opcode2 == 0x9D)
-            buffer.Printf(" LD    V%01X, R0.1", vX);
-        if (chip8_opcode2 == 0xa0)
-            buffer.Printf(" TAPE  WRITE");
-	}
-
-    if (dissassembleCommand_[command] == FEL2_COMMAND_C)
-    {
-        if (chip8_opcode1 == 0xc0)
+		if (pseudoCodeDetails_[pseudoNr].command == command)
         {
-            if (showOpcode)
-                addressStr.Printf("%04X: %02X    ", dis_address, chip8_opcode1);
-            buffer.Printf(" RETURN");
-        }
-        if (chip8_opcode1&0x1)
-            buffer.Printf(" TONE  F=%02X", value);
-        if (chip8_opcode1&0x2)
-            buffer.Printf(" TONE  OFF");
-        if (chip8_opcode1&0x4)
-        {
-            if (showOpcode)
-                addressStr.Printf("%04X: %02X    ", dis_address, chip8_opcode1);
-            buffer.Printf(" NO    OP");
-        }
-        if (chip8_opcode1&0x8)
-            buffer.Printf(" LD    V%01X, PAR", vY);
-    }
-
-    if (dissassembleCommand_[command] == FEL2_COMMAND_E)
-    {
-        if ((chip8_opcode2&0xf) == 0)
-            buffer.Printf(" LD    V%01X, COIN", vX);
-        if (chip8_opcode2&0x1)
-            buffer.Printf(" LD    V%01X, FIREA", vX);
-        if (chip8_opcode2&0x2)
-            buffer.Printf(" LD    V%01X, FIREB", vX);
-        if (chip8_opcode2&0x4)
-            buffer.Printf(" LD    V%01X, JOYA", vX);
-        if (chip8_opcode2&0x8)
-            buffer.Printf(" LD    V%01X, JOYB", vX);
-    }
-
-    if (dissassembleCommand_[command] == FEL3_COMMAND_4)
-    {
-        if (chip8_opcode2&0x1)
-            buffer.Printf(" LD    V%01X, V%01X", vX, vY);
-        else
-            buffer.Printf(" SNE   V%01X, V%01X", vX, vY);
-    }
-
-    if (dissassembleCommand_[command] == FEL3_COMMAND_6)
-    {
-        buffer.Printf(" Illegal instruction");
-        if (chip8_opcode2 == 0x5d)
-            buffer.Printf(" LD    V%01X, COIN", vX);
-        if (chip8_opcode2 == 0x63)
-            buffer.Printf(" LD    V%01X, FIREA", vX);
-        if (chip8_opcode2 == 0x67)
-            buffer.Printf(" LD    V%01X, FIREB", vX);
-        if (chip8_opcode2 == 0x6b)
-            buffer.Printf(" LD    V%01X, JOYA", vX);
-        if (chip8_opcode2 == 0x74)
-            buffer.Printf(" LD    V%01X, JOYB", vX);
-        if (chip8_opcode2 == 0x7b)
-            buffer.Printf(" LD    V%01X, PAR", vX);
-    }
-    
-    if (dissassembleCommand_[command] == FEL3_COMMAND_8)
-    {
-        buffer.Printf(" Illegal instruction");
-        if (nibble == 1)
-            buffer.Printf(" OR    V%01X, V%01X", vX, vY);
-        if (nibble == 2)
-            buffer.Printf(" AND   V%01X, V%01X", vX, vY);
-        if (nibble == 3)
-            buffer.Printf(" XOR   V%01X, V%01X", vX, vY);
-        if (nibble == 4)
-            buffer.Printf(" ADD   V%01X, V%01X", vX, vY);
-        if (nibble == 5)
-            buffer.Printf(" SUB   V%01X, V%01X", vX, vY);
-        if (nibble == 6)
-            buffer.Printf(" SHR   V%01X, V%01X", vX, vY);
-        if (nibble == 7)
-            buffer.Printf(" SUBN  V%01X, V%01X", vX, vY);
-    }
-
-    if (dissassembleCommand_[command] == FEL3_COMMAND_C)
-    {
-        buffer.Printf(" Illegal instruction");
-        if (chip8_opcode2 == 0x35)
-            buffer.Printf(" LD    V%01X, [RA]", vX);
-        if (chip8_opcode2 == 0x38)
-            buffer.Printf(" LD    V%01X, [RB]", vX);
-        if (chip8_opcode2 == 0x3B)
-            buffer.Printf(" LD    [RA], V%01X", vX);
-        if (chip8_opcode2 == 0x3E)
-            buffer.Printf(" LD    [RB], V%01X", vX);
-        if (chip8_opcode2 == 0x41)
-            buffer.Printf(" LD    RB.0, V%01X", vX);
-        if (chip8_opcode2 == 0x44)
-            buffer.Printf(" LD    RB.1, V%01X", vX);
-        if (chip8_opcode2 == 0x47)
-            buffer.Printf(" LD    V%01X, RB.0", vX);
-        if (chip8_opcode2 == 0x4A)
-            buffer.Printf(" LD    V%01X, RB.1", vX);
-        if (chip8_opcode2 == 0x4D)
-            buffer.Printf(" LD    RA.0, V%01X", vX);
-        if (chip8_opcode2 == 0x50)
-            buffer.Printf(" INCA");
-        if (chip8_opcode2 == 0x51)
-            buffer.Printf(" INCB");
-        if (chip8_opcode2 == 0x54)
-            buffer.Printf(" DECB");
-        if (chip8_opcode2 == 0x56)
-            buffer.Printf(" LD    V%01X, RA.0", vX);
-    }
-
-    if (dissassembleCommand_[command] == STIV_COMMAND_4)
-    {
-        if (nibble == 0)
-		{
-            buffer.Printf(" LD    B, [V%01X], V%01X", vY, vX);
-			detailsBuffer.Printf("[V%01X]->[V%01X]='%03d'", valueY+0x2700, valueY+0x2702, valueX);
-		}
-		if (nibble == 1)
-        {
-            buffer.Printf(" OR    V%01X, V%01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X", vX, valueX | valueY);
-        }
-        if (nibble == 2)
-        {
-            buffer.Printf(" AND   V%01X, V%01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X", vX, valueX & valueY);
-        }
-        if (nibble == 3)
-        {
-            buffer.Printf(" XOR   V%01X, V%01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X", vX, valueX ^ valueY);
-        }
-        if (nibble == 4)
-        {
-            buffer.Printf(" ADD   V%01X, V%01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X", vX, (valueX + valueY)&0xff);
-        }
-        if (nibble == 5)
-        {
-            buffer.Printf(" SUB   V%01X, V%01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X", vX, (valueX - valueY)&0xff);
-        }
-        if (nibble == 6)
-        {
-            buffer.Printf(" SHL   V%01X, %01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX<<vY)&0xff, ((valueX<<vY)&0xff00)>>8);
-        }
-        if (nibble == 7)
-            buffer.Printf(" KEYP   V%01X", vY);
-        if (nibble == 8)
-            buffer.Printf(" KEYR   V%01X", vY);
-        if (nibble == 9)
-        {
-            buffer.Printf(" SHR   V%01X, %01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX>>vY)&0xff, ((valueX &(0xff >> (8-vY)))<<(8-vY)));
-        }
-        if (nibble == 0xA)
-        {
-            buffer.Printf(" ADDN  V%01X, V%01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X", vX, ((valueX + valueY)&0xf) | ((valueX&0xf0 + valueY&0xf0)));
-        }
-        if (nibble == 0xB)
-            buffer.Printf(" JP    I");
-        if (nibble == 0xC)
-        {
-            buffer.Printf(" SHR   V%01X, V%01X", vX, vY);
-            detailsBuffer.Printf("V%01X=%02X, V%01X=%02X", vX, (valueX>>3)&0xf, vY, (valueY>>2)&0xf);
-        }
-        if (nibble == 0xD)
-            buffer.Printf(" STOP");
-        if (nibble == 0xE)
-            buffer.Printf(" DRW   I, V%01X, %01X", vX, vY);
-        if (nibble == 0xF)
-            buffer.Printf(" KEY   V%01X", vY);
-    }
-    
-    if (dissassembleCommand_[command] == STIV_COMMAND_5)
-    {
-        if (nibble == 0)
-            buffer.Printf(" SYS   I");
-        if (nibble == 1)
-            buffer.Printf(" SWAP  V%01X, V%01X, [I]", vX, vY);
-        if (nibble == 2)
-            buffer.Printf(" DRW   I, V%01X", vX);
-        if (nibble == 3)
-            buffer.Printf(" JE    I, V%01X, V%01X", vX, vY);
-        if (nibble == 4)
-            buffer.Printf(" JU    I, V%01X, V%01X", vX, vY);
-        if (nibble == 5)
-            buffer.Printf(" CLR   V%01X, V%01X", vX, vY);
-        if (nibble == 6)
-            buffer.Printf(" CLR   V%01X, %01X", vX, nibble);
-        if (nibble == 7)
-            buffer.Printf(" DRWR  I, V%01X", vX);
-        if (nibble == 8)
-            buffer.Printf(" JK    I, V%01X", vY);
-        if (nibble == 9)
-            buffer.Printf(" JNK   I, V%01X", vY);
-        if (nibble == 0xA)
-            buffer.Printf(" JG    I, V%01X, V%01X", vX, vY);
-        if (nibble == 0xB)
-            buffer.Printf(" JS    I, V%01X, V%01X", vX, vY);
-        if (nibble == 0xC)
-            buffer.Printf(" CP    V%01X, V%01X, [I]", vX, vY);
-        if (nibble == 0xD)
-            buffer.Printf(" CP    [I], V%01X, V%01X", vX, vY);
-        if (nibble == 0xE)
-            buffer.Printf(" LD    [V%01X], V%01X", vY, vX);
-        if (nibble == 0xF)
-            buffer.Printf(" LD    V%01X, [V%01X]", vX, vY);
-    }
-    
-    if (dissassembleCommand_[command] == STIV_COMMAND_6)
-    {
-        if (chip8_opcode1 == 0x60)
-            buffer.Printf(" CALL  10%02X", value);
-        if (chip8_opcode1 == 0x61)
-            buffer.Printf(" CALL  11%02X", value);
-        if (chip8_opcode1 == 0x62)
-        {
-            buffer.Printf(" ADD   I, %02X", value);
-            detailsBuffer.Printf("I=%04X", (valueI&0xff00)+(((valueI&0xff)+value)&0xff));
-        }
-        if (chip8_opcode1 == 0x63)
-		{
-			if (nibble == 0xE)
-				buffer.Printf(" LD    I, V%01X, V%01X", vY, vY+1);
-			else
-				buffer.Printf(" LD    I, [27%02X]", value);
-		}
-        if (chip8_opcode1 == 0x64)
-		{
-			if (nibble == 0xE)
-				buffer.Printf(" LD    V%01X, V%01X, I", vY, vY+1);
-			else
-				buffer.Printf(" LD    [27%02X], I", value);
-		}
-        if (chip8_opcode1 == 0x65)
-            buffer.Printf(" JP    %02X", value);
-        if (chip8_opcode1 == 0x66)
-		{
-            buffer.Printf(" CALL  6%02X", value);
-			switch (chip8_opcode2)
-			{
-				case 0x0:
-					buffer.Printf(" PUSH  V0-V9");
-				break;
-
-				case 0xa:
-					buffer.Printf(" POP   V0-V9");
-				break;
-
-				case 0x12:
-					buffer.Printf(" SCR   CLS");
-				break;
-
-				case 0x26:
-					buffer.Printf(" SCR   FILL");
-				break;
-
-				case 0x2c:
-					buffer.Printf(" CHAR  [I], V0, V1");
-				break;
-				
-				case 0x2e:                
-					buffer.Printf(" CHAR  [V2V3],V0,V1");
-				break;
-				
-				case 0x48:
-					buffer.Printf(" PRINT");
-				break;
-
-				case 0x56:
-					buffer.Printf(" PRINT [I]");
-				break;
-
-				case 0x60:
-					buffer.Printf(" PRINT D, 3");
-				break;
-
-				case 0x7c:
-					buffer.Printf(" PRINT D, 2");
-				break;
-
-				case 0x82:
-					buffer.Printf(" PRINT D, 1");
-				break;
-
-				case 0x88:
-					buffer.Printf(" CLR");
-				break;
-
-				case 0x90:
-					buffer.Printf(" CP    [I]");
-				break;
-			}
-		}
-        if (chip8_opcode1 == 0x67)
-		{
-            buffer.Printf(" CALL  7%02X", value);
-			switch (chip8_opcode2)
-			{
-				case 0x0:
-					buffer.Printf(" RESET RAM");
-				break;
-
-				case 0xb:
-					buffer.Printf(" SCR   XOR");
-				break;
-
-				case 0x1c:
-					buffer.Printf(" KEY   SWITCH");
-				break;
-
-				case 0x54:
-					buffer.Printf(" ADD   [V0V1][V2V3]");
-				break;
-
-				case 0x5a:
-					buffer.Printf(" SUB   [V0V1][V2V3]");
-				break;
-				
-				case 0x2e:                
-					buffer.Printf(" CHAR  [V2V3],V0,V1");
-				break;
-				
-				case 0x8e:
-					buffer.Printf(" ADD   I, V9");
-				break;
-
-				case 0x9c:
-					buffer.Printf(" LD    I, [I+V9]");
-				break;
-
-				case 0x9e:
-					buffer.Printf(" LD    I, [I]");
-				break;
-
-				case 0xaa:
-					buffer.Printf(" KEY   WAIT");
-				break;
-
-				case 0xb6:
-					buffer.Printf(" RND   [270B], V9");
-				break;
-
-				case 0xbc:
-					buffer.Printf(" RND   [270B],V8,V9");
-				break;
-			}
-		}
-        if (chip8_opcode1 == 0x68)
-            buffer.Printf(" CALL  8%02X", value);
-        if (chip8_opcode1 == 0x69)
-            buffer.Printf(" CALL  I, %02X", value);
-        if (chip8_opcode1 == 0x6A)
-            buffer.Printf(" PUSH  I");
-        if (chip8_opcode1 == 0x6B)
-            buffer.Printf(" RETURN");
-        if (chip8_opcode1 == 0x6C)
-            buffer.Printf(" POP   I");
-        if (chip8_opcode1 == 0x6D)
-            buffer.Printf(" WAIT  [I], %02X", value);
-        if (chip8_opcode1 == 0x6E)
-            buffer.Printf(" OUT4  V%01X", vY);
-        if (chip8_opcode1 == 0x6F)
-            buffer.Printf(" OUT4  %01X", value);
-    }
-
-    if (dissassembleCommand_[command] == FEL3_COMMAND_E)
-        buffer.Printf(" Illegal instruction");
-    
-    if (dissassembleCommand_[command] == CARDTRAN_COMMAND)
-    {
-		address = 0x200 + (vY * 10 + nibble) * 2;
-        buffer.Printf(" Illegal instruction");
-
-		if (command == 0)
-			buffer.Printf(" SKIP");
-		else
-		{
-			if (vY < 0xa && nibble < 0xa)
-			{
-				switch (command)
+			hexValueDigits = 0;
+            commandFound = true;
+            
+            for (int i=0; i<((pseudoCodeDetails_[pseudoNr].length*2)-1); i++)
+            {
+                currentChar = pseudoCodeDetails_[pseudoNr].subCommand.GetChar(i);
+                
+                if (currentChar == 'a' && hexValueDigits == 0)
+                {
+                    if (i == 1)
+						hexValueDigits = 2;
+                    else
+						hexValueDigits = 3;
+                }
+                if (currentChar == 's' && i == 0)
+                {
+                    if (address >= 0x200)
+                        address += 0x100;
+                    address = address | ((address & 0x800) >> 1);
+                }
+                if (currentChar == 'k')
+                {
+                    kkValue = chip8_opcode2;
+                }
+                if (currentChar == 'd')
+                {
+                    ddValue = chip8_opcode2;
+                }
+                if (currentChar == 'n')
+                {
+                    nValue = nibble[i];
+                }
+                if (currentChar == 'l')
+                {
+                    lValue = nibble[i];
+                }
+                if (currentChar == 'x')
+                {
+                    registerX = nibble[i];
+                }
+                if (currentChar == 'y')
+                {
+                    registerY = nibble[i];
+                }
+                if (currentChar == 'z')
+                {
+                    registerZ = nibble[i];
+                }
+                if (currentChar >= '0' && currentChar <= '9')
+                {
+                    if ((currentChar - '0') != nibble[i])
+                        commandFound = false;
+                }
+                if (currentChar >= 'A' && currentChar <= 'F')
+                {
+                    if ((currentChar - 'A' + 10) != nibble[i])
+                        commandFound = false;
+                }
+            }
+            if (commandFound)
+            {
+                buffer = pseudoCodeDetails_[pseudoNr].commandText;
+                if (showOpcode)
+                {
+                    if (pseudoCodeDetails_[pseudoNr].length == 1)
+                        addressStr.Printf("%04X: %02X    ", dis_address, chip8_opcode1);
+                    else
+                        addressStr.Printf("%04X: %02X%02X  ", dis_address, chip8_opcode1, chip8_opcode2);
+                }
+				else
 				{
-					case 1:
-						if (vX == 0)
-							buffer.Printf(" INPUT [%03X]", address);
-					break;
+					if (chip8Type_ == CHIPSTIV)
+						addressStr.Printf("%04X", dis_address);
+					else
+						addressStr.Printf("%03X", dis_address&0xfff);
+				}
 
-					case 2:
-						switch (vX)
+				wxString pseudoLine = pseudoCodeDetails_[pseudoNr].parameterText;
+                
+				while (pseudoLine.Len() > 0)
+				{
+					parameter = extractWord(&pseudoLine);
+                    parameterFound = false;
+					if (parameter == "n")
+                    {
+						parameterStr.Printf("%01X", nValue);
+                        parameterFound = true;
+                    }
+					if (parameter == "l")
+                    {
+						parameterStr.Printf("%01X", lValue);
+                        parameterFound = true;
+                    }
+					if (parameter == "kk")
+                    {
+						parameterStr.Printf("%02X", kkValue);
+                        parameterFound = true;
+                    }
+					if (parameter.Left(5) == "c-hex")
+					{
+						address = 0x200 + ((ddValue & 0xf0 >> 4) * 10 + (ddValue & 0xf)) * 2;
+						parameterStr.Printf("%03X", address);
+                        parameterFound = true;
+					}
+					if (parameter.Left(3) == "hex")
+					{
+						if (hexValueDigits == 3)
+							parameterStr.Printf("%03X", address);
+						else
 						{
-							case 0:
-								buffer.Printf(" JP    %03X", address);
+							parameterStr.Printf("%02X", address&0xff);
+							parameterStr = parameter.Mid(5,1) + parameterStr;
+						}
+                        parameterFound = true;
+					}
+                    if (parameter.Left(5) == "s-hex")
+                    {
+                        parameterStr.Printf("%03X", address);
+                        parameterFound = true;
+                    }
+					if (parameter.Left(5) == "c-mem")
+					{
+						address = 0x200 + ((ddValue & 0xf0 >> 4) * 10 + (ddValue & 0xf)) * 2;
+						parameterStr.Printf("[%03X]", address);
+                        parameterFound = true;
+					}
+					if (parameter.Left(3) == "mem")
+					{
+						if (hexValueDigits == 3)
+							parameterStr.Printf("%03X", address);
+						else
+						{
+							parameterStr.Printf("%02X", address&0xff);
+							parameterStr = parameter.Mid(5,1) + parameterStr;
+						}
+                        parameterFound = true;
+					}
+					if (parameter == "Vx")
+					{
+                        parameterStr.Printf("V%01X", registerX);
+                        parameterFound = true;
+					}
+					if (parameter == "Vy")
+					{
+                        parameterStr.Printf("V%01X", registerY);
+                        parameterFound = true;
+					}
+					if (parameter == "Vz")
+					{
+                        parameterStr.Printf("V%01X", registerZ);
+                        parameterFound = true;
+					}
+					if (parameter == "[Vy]")
+					{
+                        parameterStr.Printf("[V%01X]", registerY);
+                        parameterFound = true;
+					}
+					if (parameter == "Vx1")
+					{
+                        parameterStr.Printf("V%01X", registerX+1);
+                        parameterFound = true;
+					}
+					if (parameter == "Vy1")
+					{
+                        parameterStr.Printf("V%01X", registerY+1);
+                        parameterFound = true;
+					}
+					if (parameter == "empty")
+					{
+                        parameterFound = true;
+					}
+					if (parameter == ',')
+					{
+                        parameterStr = ", ";
+                        parameterFound = true;
+					}
+					if (parameter == '+')
+					{
+                        parameterStr = "+";
+                        parameterFound = true;
+					}
+					if (parameter == '-')
+					{
+                        parameterStr = "-";
+                        parameterFound = true;
+					}
+					if (parameter == '=')
+					{
+                        parameterStr = "=";
+                        parameterFound = true;
+					}
+					if (parameter == '/')
+					{
+                        parameterStr = "/";
+                        parameterFound = true;
+					}
+					if (parameter.Left(3) == "det")
+					{
+                        parameterFound = true;
+                        parameterStr = "";
+						detailsStr = parameter.Right(parameter.Len()-4);
+						detailsStr.ToLong(&detailsNumber);
+
+						switch (detailsNumber)
+						{
+							case 1: // SN Vx, [6aa], // SNE Vx, [6aa]
+						        detailsBuffer.Printf("[6%02X]=%02X", chip8_opcode2, p_Computer->readMem(0x800+chip8_opcode2));
 							break;
-		                    
-							case 1:
-								buffer.Printf(" JZ    DR, %03X", address);
+
+							case 2: // SNE Vx, [8aa] 
+								detailsBuffer.Printf("[8%02X]=%02X", chip8_opcode2, p_Computer->readMem(0x800+chip8_opcode2));
 							break;
-		                    
-							case 2:
-								buffer.Printf(" JNZ   DR, %03X", address);
+
+							case 3: // LD B, Vy, Vx
+						        detailsBuffer.Printf("V%01X->V%01X='%03d'", vY, vY+2, valueX);
+							break;
+
+							case 4: // LD B, Vy, Vx (ST2)
+								detailsBuffer.Printf("[%03X->%03X]='%03d'", (valueY+0x800)&0xfff, (valueY+0x802)&0xfff, valueX);
+							break;
+
+							case 5: // LD B, Vx (Chip 8)
+    							detailsBuffer.Printf("[%03X->%03X]='%03d'", valueI, (valueY+2)&0xfff, valueX);
+							break;
+
+							case 6: // LD B, Vy, Vx (ST4)
+								detailsBuffer.Printf("[%03X->%03X]='%03d'", valueY+0x2700, valueY+0x2702, valueX);
+							break;
+
+							case 7: // ADD Vx, Vy+Vz 
+								detailsBuffer.Printf("V%01X=%02X", nibble[2], (valueX + valueY)&0xff);
+							break;
+
+							case 8: // ADD Vx, Vy 
+								detailsBuffer.Printf("V%01X=%02X", vX, (valueX + valueY)&0xff);
+							break;
+
+							case 9: // SUB Vz, Vx-Vy 
+								detailsBuffer.Printf("V%01X=%02X", nibble[2], (valueX - valueY)&0xff);
+							break;
+
+							case 10: // SUB Vx, Vy 
+								detailsBuffer.Printf("V%01X=%02X", vX, (valueX - valueY)&0xff);
+							break;
+ 
+							case 11: // SUB Vz, Vy-Vx 
+								detailsBuffer.Printf("V%01X=%02X", nibble[2], (valueY - valueX)&0xff);
+							break;
+
+							case 12: // ADD8 Vx, Vy, Vz 
+						        if ((valueX + valueY) & 0x8)
+									detailsBuffer.Printf("V%01X=%02X", nibble[2], 0xFF);
+								else
+									detailsBuffer.Printf("V%01X=%02X", vX, valueX + valueY);
+							break;
+
+							case 13: // ADD8 Vx, Vy (Chip 8X) 
+								tempStr1.Printf("%01X", (valueX>>4)&0x7);   
+								tempStr1.ToLong(&tempLong1, 8); 
+								tempStr1.Printf("%01X", (valueY>>4)&0x7);   
+								tempStr1.ToLong(&tempLong2, 8); 
+								resultValue = (int)((tempLong1 + tempLong2) & 0x7) << 4;
+								tempStr1.Printf("%01X", valueX&0x7);   
+								tempStr1.ToLong(&tempLong1, 8); 
+								tempStr1.Printf("%01X", valueY&0x7);   
+								tempStr1.ToLong(&tempLong2, 8); 
+								resultValue = resultValue + ((tempLong1 + tempLong2)&0x7);
+								detailsBuffer.Printf("V%01X=%02X", vX, (resultValue)&0xff);
+							break;
+
+							case 14: // LD [8aa], Vx
+						        detailsBuffer.Printf("[8%02X]=%02X", chip8_opcode2, valueX);
+							break;
+
+							case 15: // LD [6aa], Vx
+						        detailsBuffer.Printf("[6%02X]=%02X", chip8_opcode2, valueX);
+							break;
+
+							case 16: // OR Vx, Vx
+					            detailsBuffer.Printf("V%01X=%02X", vX, valueX | valueY);
+							break;
+									
+							case 17: // AND Vx, Vx
+								detailsBuffer.Printf("V%01X=%02X", vX, valueX & valueY);
+							break;
+
+							case 18: // XOR Vx, Vx
+								 detailsBuffer.Printf("V%01X=%02X", vX, valueX ^ valueY);
+							break;
+
+							case 19: // SHL Vx, n (ST4)
+								detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX<<nibble[2])&0xff, ((valueX<<nibble[2])&0xff00)>>8);
+							break;
+
+							case 20: // SHR Vx, n (ST4)
+								detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX>>nibble[2])&0xff, ((valueX &(0xff >> (8-nibble[2])))<<(8-nibble[2])));
+							break;
+
+							case 21: // ADDN Vx, Vy (ST4)
+							   detailsBuffer.Printf("V%01X=%02X", vX, ((valueX + valueY)&0xf) | ((valueX&0xf0 + valueY&0xf0)));
+							break;
+
+							case 22: // SHR Vx, Vy (ST4), Vx = (Vx SHR 3) AND 0xF, Vy =(Vy SHR 2) AND 0xF
+					            detailsBuffer.Printf("V%01X=%02X, V%01X=%02X", vX, (valueX>>3)&0xf, vY, (valueY>>2)&0xf);
+							break;
+
+							case 23: // ADD I, kk (ST4)
+					            detailsBuffer.Printf("I=%04X", (valueI&0xff00)+(((valueI&0xff)+chip8_opcode2)&0xff));
+							break;
+
+							case 24: // LD [>I], 0 (ST2)
+								detailsBuffer.Printf("[%03X->%03X]=0", valueI&0xf00, valueI);
+							break;
+
+							case 25: // ADD Vx, kk
+								detailsBuffer.Printf("V%01X=%02X", vX, (valueX + chip8_opcode2)&0xff);
+							break;
+
+							case 26: // LD Vx, Vy
+								detailsBuffer.Printf("V%01X=%02X", vX, valueY);
+							break;
+
+							case 27: // SHR Vx, Vy
+								detailsBuffer.Printf("V%01X=%02X", vX, valueY>>1);
+							break;
+
+							case 28: // SHL Vx, Vy
+								detailsBuffer.Printf("V%01X=%02X", vX, (valueY<<1)&0xff);
+							break;
+
+							case 29: // SUBN Vx, Vy
+								detailsBuffer.Printf("V%01X=%02X", vX, (valueY - valueX)&0xff);
+							break;
+
+							case 30: // LD Vy, Vx (ST2)
+								detailsBuffer.Printf("V%01X=%02X", vY, valueX);
+							break;
+
+							case 31: // LD Vx, [Vy] (ST2)
+								detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(0x800+valueY));
+							break;
+
+							case 32: // LD [Vy], Vx (ST2)
+								detailsBuffer.Printf("[8%02X]=%02X", valueY, valueX);
+							break;					
+
+							case 33: // LD I, kk, +n (ST2)
+								detailsBuffer.Printf("[%03X]=%02X, I=%03X", valueI, chip8_opcode2, (valueI+vX)&0xfff);
+							break;					
+
+							case 34: // RND vX, kk
+								if (additionalChip8Details_)
+								{
+									addressStr = "";
+									buffer = "";
+									detailsBuffer.Printf("V%01X=%02X", vX, valueX);
+									additionalChip8Details_ = false;
+								}
+								else
+								{
+									if (includeDetails)
+										additionalChip8Details_ = true;
+								}
+							break;
+
+							case 35: // LDM Vx, [I]
+								detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(valueI));
+							break;					
+
+							case 36: // LDM [I], Vx
+								detailsBuffer.Printf("[%03X]=%02X", valueI, valueX);
+							break;					
+
+							case 37: // LDMA Vx, [I]
+								detailsBuffer.Printf("V%01X=%02X, I=%03X", vX, p_Computer->readMem(valueI), (valueI+1)&0xfff);
+							break;					
+
+							case 38: // LDMA [I], Vx
+								detailsBuffer.Printf("[%03X]=%02X, I=%03X", valueI, chip8_opcode2, (valueI+1)&0xff);
+							break;					
+
+							case 39: // SLSB Vx
+								detailsBuffer.Printf("I=%03X", (valueI&0xf00) | valueX);
+							break;					
+
+							case 40: // AFOR Vx
+								detailsBuffer.Printf("V%01X=%02X", vX, (valueX&0xf) | (valueI&0xff));
+							break;					
+
+                            case 41: // JP V0, aaa
+                                address = (address + p_Computer->readMem(p_Computer->getChip8baseVar()))&0xfff;
+                                detailsBuffer.Printf("JP %03X", address);
+                            break;
+                                
+                            case 42: // LD P, Vx (ETI)
+                                detailsBuffer.Printf("P=%02X", valueX);
+                            break;
+    
+                            case 43: // LD Vx, DT (ETI)
+                                if (additionalChip8Details_)
+                                {
+                                    addressStr = "";
+                                    buffer = "";
+                                    detailsBuffer.Printf("V%01X=%02X", vX, valueX);
+                                    additionalChip8Details_ = false;
+                                }
+                                else
+                                {
+                                    if (includeDetails)
+                                        additionalChip8Details_ = true;
+                                }
+                            break;
+                                
+                            case 44: // LD Vx, K (ETI)
+                                if (additionalChip8Details_)
+                                {
+                                    addressStr = "";
+                                    buffer = "";
+                                    detailsBuffer.Printf("V%01X=%02X", vX, valueX);
+                                    additionalChip8Details_ = false;
+                                }
+                                else
+                                {
+                                    if (includeDetails)
+                                        additionalChip8Details_ = true;
+                                }
+                            break;
+ 
+                            case 45: // LD DT, Vx (ETI)
+                                detailsBuffer.Printf("DT=%02X", valueX);
+                            break;
+                                
+                            case 46: // LD ST, Vx (ETI)
+                                detailsBuffer.Printf("ST=%d ms", valueX*20);
+                            break;
+                                
+                            case 47: // ADD I, Vx (ETI)
+                                detailsBuffer.Printf("I=%03X", (valueI+valueX)&0xfff);
+                            break;
+                                
+                            case 48: // LD F, Vx (ETI)
+                                detailsBuffer.Printf("I=%03X", chip8Sprite[valueX&0xf]);
+                            break;
+                                
+                            case 49: // LD [I], Vx (ETI)
+                                detailsBuffer.Printf("[%04X]=%02X", valueI, vX);
+                            break;
+                                
+                            case 50: // LD Vx, [I] (ETI)
+                                detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(valueI));
+                            break;
+
+                            case 51: // INP1 Vx (Chip8X)
+                                if (additionalChip8Details_)
+                                {
+                                    addressStr = "";
+                                    buffer = "";
+                                    detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->getInValue(1));
+                                    additionalChip8Details_ = false;
+                                }
+                                else
+                                {
+                                    if (includeDetails)
+                                        additionalChip8Details_ = true;
+                                }
+                            break;
+                                
+                            default:
 							break;
 						}
-					break;
-
-					case 3:
-						if (vX == 0)
-							buffer.Printf(" LD    DR, [%03X]", address);
-					break;
-
-					case 4:
-						if (vX == 0)
-							buffer.Printf(" ADD   [%03X], DR", address);
-					break;
-		                
-					case 5:
-						if (vX == 0)
-							buffer.Printf(" SUB   [%03X], DR", address);
-					break;
-		                
-					case 6:
-						if (vX == 0)
-							buffer.Printf(" LD    [%03X], DR", address);
-					break;
-
-					case 7:
-						if (vX == 0)
-							buffer.Printf(" DISP0 [%03X]", address);
-						if (vX == 1)
-							buffer.Printf(" DISP1 [%03X]", address);
-					break;
-
-					case 8:
-						if (vX == 0)
-							buffer.Printf(" RSH   [%03X]", address);
-					break;
-
-					case 9:
-						if (vX == 0)
-							buffer.Printf(" LDD   [%03X], DR", address);
-					break;     
+					}
+                    if (!parameterFound)
+                        parameterStr = parameter;
+                    buffer += parameterStr;
 				}
-			}
-			else
-		        buffer.Printf(" Illegal instruction");
-		}
+                while (buffer.Len() < 21 && addressStr != "")
+                    buffer += " ";
+                buffer = addressStr + buffer;
+                if (includeDetails)
+                    buffer = buffer + detailsBuffer;
+                return buffer;
+            }
+        }
     }
     
     while (buffer.Len() < 21 && addressStr != "")
@@ -20254,319 +16097,6 @@ wxString DebugWindow::fel2Disassemble(Word dis_address, bool includeDetails, boo
     if (includeDetails)
         buffer = buffer + detailsBuffer;
     return buffer;
-}
-
-void DebugWindow::st2Trace(Word address)
-{	
-	chip8DebugTrace(st2Disassemble(address, true, false));
-}
-
-wxString DebugWindow::st2Disassemble(Word dis_address, bool includeDetails, bool showOpcode)
-{	
-	Byte chip8_opcode1 = p_Computer->readMem(dis_address);
-	Byte chip8_opcode2 = p_Computer->readMem(dis_address + 1);
-	wxString buffer, detailsBuffer, addressStr;
-
-	buffer = "";
-	detailsBuffer = "";
-
-	//Instruction value
-	int vX = chip8_opcode1&0xf;
-	int vY = (chip8_opcode2>>4)&0xf;
-	Word address = ((chip8_opcode1 & 0xf) << 8) + chip8_opcode2;
-//	Byte nibble = chip8_opcode2&0xf;
-	Byte value = chip8_opcode2;
-
-	//Real time value
-	Word addressX = p_Computer->getChip8baseVar() + vX;
-	Word addressY = p_Computer->getChip8baseVar() + vY;
-	Byte valueX = p_Computer->readMem(addressX);
-	Byte valueY = p_Computer->readMem(addressY);
-	Word valueI = p_Computer->getScratchpadRegister(CHIP8_I);
-
-	//Calculation variables
-//	int resultValue;
-	wxString tempStr1;
-//	long tempLong1, tempLong2;
-
-	if (showOpcode)
-		addressStr.Printf("%04X: %02X%02X  ", dis_address, chip8_opcode1, chip8_opcode2);
-	else
-		addressStr.Printf("%03X", dis_address&0xfff);
-
-	switch (chip8_opcode1 & 0xf0)
-	{
-		case 0:
-			switch (chip8_opcode2)
-			{
-				case 0x66:
-					buffer.Printf(" VIDEO ON");
-				break;
-
-				default:
-					if (chip8_opcode1 == 0x2 && chip8_opcode2 == 0xF2)
-					{
-						buffer.Printf(" LD    [>I], 0");
-						detailsBuffer.Printf("[%03X->%03X]=0", valueI&0xf00, valueI);
-					}
-					else
-					{
-						buffer.Printf(" SYS   %03X", address );
-					}
-				break;
-			}
-		break;
-
-		case 0x10:
-			buffer.Printf(" JP    %03X", address );
-		break;
-
-		case 0x20:
-			buffer.Printf(" CALL  %03X", address );
-		break;
-
-		case 0x30:
-			buffer.Printf(" JNZ   V%01X, %02X", vX, value);
-		break;
-
-		case 0x40:
-			buffer.Printf(" JZ    V%01X, %02X", vX, value);
-		break;
-
-		case 0x50:
-			buffer.Printf(" SNE   V%01X, %02X", vX, value);
-		break;
-
-		case 0x60:
-			buffer.Printf(" LD    V%01X, %02X", vX, value);
-		break;
-
-		case 0x70:
-			if (chip8_opcode1 == 0x70)
-				buffer.Printf(" DJNZ  V0, %02X", value);
-			else
-			{
-				buffer.Printf(" ADD   V%01X, %02X", vX, value);
-				detailsBuffer.Printf("V%01X=%02X", vX, (valueX + value)&0xff);
-			}
-		break;
-
-		case 0x80:
-			switch (chip8_opcode2 & 0xf)
-			{
-				case 0x0:
-					buffer.Printf(" LD    V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueY);
-				break;
-
-				case 0x1:
-					buffer.Printf(" OR    V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueX | valueY);
-				break;
-
-				case 0x2:
-					buffer.Printf(" AND   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueX & valueY);
-				break;
-
-				case 0x3:
-					buffer.Printf(" XOR   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueX ^ valueY);
-				break;
-
-				case 0x4:
-					buffer.Printf(" ADD   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueX + valueY)&0xff);
-				break;
-
-				case 0x5:
-					buffer.Printf(" SUB   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueX - valueY)&0xff);
-				break;
-
-				case 0x6:
-					if (vX == vY)
-						buffer.Printf(" SHR   V%01X", vX);
-					else
-						buffer.Printf(" SHR   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, valueY>>1);
-				break;
-
-				case 0x7:
-					buffer.Printf(" SUBN  V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueY - valueX)&0xff);
-				break;
-
-				case 0xE:
-					if (vX == vY)
-						buffer.Printf(" SHL   V%01X", vX);
-					else
-						buffer.Printf(" SHL   V%01X, V%01X", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, (valueY<<1)&0xff);
-				break;
-
-				default:
-					buffer.Printf(" Illegal instruction");
-				break;
-			}
-		break;
-
-		case 0x90:
-			switch (chip8_opcode2 & 0xf)
-			{
-				case 0x0:
-					buffer.Printf(" SNE   V%01X, V%01X", vX, vY);
-				break;
-
-				case 0x1:
-					buffer.Printf(" LD    V%01X, V%01X", vY, vX);
-					detailsBuffer.Printf("V%01X=%02X", vY, valueX);
-				break;
-
-				case 0x2:
-					buffer.Printf(" LD    V%01X, [V%01X]", vX, vY);
-					detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(0x800+valueY));
-				break;
-
-				case 0x4:
-					buffer.Printf(" LD    [V%01X], V%01X", vY, vX);
-					detailsBuffer.Printf("[8%02X]=%02X", valueY, valueX);
-				break;
-
-				case 0x8:
-					buffer.Printf(" LD    B, [V%01X], V%01X", vY, vX);
-					detailsBuffer.Printf("[%03X->%03X]='%03d'", (valueY+0x800)&0xfff, (valueY+0x802)&0xfff, valueX);
-				break;
-
-				default:
-					buffer.Printf(" Illegal instruction");
-				break;
-			}
-		break;
-
-		case 0xA0:
-			buffer.Printf(" LD    I, %03X", address);
-		break;
-
-		case 0xB0:
-			buffer.Printf(" LD    [I], %02X, +%01X", value, vX);
-			detailsBuffer.Printf("[%03X]=%02X, I=%03X", valueI, value, (valueI+vX)&0xfff);
-		break;
-
-		case 0xC0:
-			if (chip8_opcode1 == 0xc0)
-			{
-				if (showOpcode)
-					addressStr.Printf("%04X: %02X    ", dis_address, chip8_opcode1);
-				buffer.Printf(" RETURN");
-			}
-			else
-			{
-				if (additionalChip8Details_)
-				{
-					addressStr = "";
-					detailsBuffer.Printf("V%01X=%02X", vX, valueX);
-					additionalChip8Details_ = false;
-				}
-				else
-				{
-					buffer.Printf(" RND   V%01X, %02X", vX, value);
-					if (includeDetails)
-						additionalChip8Details_ = true;
-				}
-			}
-		break;
-
-		case 0xD0:
-			if (chip8_opcode1 == 0xDF)
-				buffer.Printf(" JKP   VB, %02X", value);
-			else
-				buffer.Printf(" JKP   %01X, %02X", vX, value);
-		break;
-
-		case 0xE0:
-			if (showOpcode && (chip8_opcode1 != 0xe8))
-				addressStr.Printf("%04X: %02X    ", dis_address, chip8_opcode1);
-			switch (chip8_opcode1)
-			{
-				case 0xE0:
-					buffer.Printf(" SP    CLEAR");
-				break;
-
-				case 0xE1:
-					buffer.Printf(" SP    MOVE");
-				break;
-
-				case 0xE2:
-					buffer.Printf(" SP    VC, MOVE");
-				break;
-
-				case 0xE4:
-					buffer.Printf(" SP    XOR, [I]");
-				break;
-
-				case 0xE8:
-					buffer.Printf(" SP    DRW, JC, %02X", value);
-				break;
-
-				default:
-					buffer.Printf(" Illegal instruction");
-				break;
-			}
-		break;
-
-		case 0xF0:
-			if (vX == 0)
-			{
-				buffer.Printf(" SYS   2%02X", chip8_opcode2);
-			}
-			else
-			{
-				switch (chip8_opcode2)
-				{
-					case 0xa6:
-						buffer.Printf(" LDM   V%01X, [I]", vX);
-						detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(valueI));
-					break;
-
-					case 0xa9:
-						buffer.Printf(" LDM   [I], V%01X", vX);
-						detailsBuffer.Printf("[%03X]=%02X", valueI, valueX);
-					break;
-
-					case 0xac:
-						buffer.Printf(" LDMA  V%01X, [I]", vX);
-						detailsBuffer.Printf("V%01X=%02X, I=%03X", vX, p_Computer->readMem(valueI), (valueI+1)&0xfff);
-					break;
-
-					case 0xaf:
-						buffer.Printf(" LDMA  [I], V%01X", vX);
-						detailsBuffer.Printf("[%03X]=%02X, I=%03X", valueI, value, (valueI+1)&0xff);
-					break;
-
-					case 0xb3:
-						buffer.Printf(" SLSB  V%01X", vX);
-						detailsBuffer.Printf("I=%03X", (valueI&0xf00) | valueX);
-					break;
-
-					case 0xb6:
-						buffer.Printf(" AFOR  V%01X", vX);
-						detailsBuffer.Printf("V%01X=%02X", vX, (valueX&0xf) | (valueI&0xff));
-					break;
-
-					default:
-						buffer.Printf(" Illegal instruction");
-					break;
-				}
-			}
-		break;
-	}	
-	while (buffer.Len() < 21 && addressStr != "")
-		buffer += " ";
-	buffer = addressStr + buffer;
-	if (includeDetails)
-		buffer = buffer + detailsBuffer;
-	return buffer;
 }
 
 void DebugWindow::onChip8Trace(wxCommandEvent& WXUNUSED(event))

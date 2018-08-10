@@ -6,10 +6,6 @@
 <h3>Definitions</h3>
 <TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
-<TD WIDTH="70">.</TD>
-<TD WIDTH="400">4 bit value but not used</TD>
-</TR>
-<TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
 </TR>
@@ -42,11 +38,15 @@
 <TD WIDTH="400">Memory value of address in register Vy within in page 27 (RAM)</TD>
 </TR>
 <TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
 </TABLE>
-<h3>ST4 Syntax</h3>
+<h3>Syntax</h3>
 <TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
 <TD WIDTH="55">6754</TD>
@@ -257,7 +257,7 @@ Byte 2: Vx+1 value</TD>
 </TR>
 <TR>
 <TD WIDTH="55">4.B.</TD>
-<TD WIDTH="40">JP I<br>JP</TD>
+<TD WIDTH="40">JP I</TD>
 <TD WIDTH="100"></TD>
 <TD WIDTH="250">Jump to address I</TD>
 </TR>
@@ -270,7 +270,7 @@ Byte 2: Vx+1 value</TD>
 <TR>
 <TD WIDTH="55">5x4y</TD>
 <TD WIDTH="40">JU</TD>
-<TD WIDTH="100">I, Vx, Vy<br>JU Vx, Vy</TD>
+<TD WIDTH="100">I, Vx, Vy<br>Vx, Vy</TD>
 <TD WIDTH="250">IF Vx!=Vy THEN jump to I</TD>
 </TR>
 <TR>

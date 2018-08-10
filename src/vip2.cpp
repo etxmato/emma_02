@@ -630,6 +630,9 @@ void VipII::startComputer()
 			readProgram(p_Main->getChip8Dir(VIPII), p_Main->getChip8SW(VIPII), NOCHANGE, 0x200, SHOWNAME);
 	}
 
+    if (chip8type_ != CHIP_NONE)
+        p_Main->definePseudoCommands(chip8type_);
+
 	double zoom = p_Main->getZoom();
 
 	configureKeyboard(); 

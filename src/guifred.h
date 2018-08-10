@@ -28,6 +28,7 @@ public:
 
     bool getUseControlWindows();
     void onAutoBoot(wxCommandEvent&event);
+	void onCoinArcadeControl(wxCommandEvent&event);
     void onStopTone(wxCommandEvent&event);
     void onTapeStart(wxCommandEvent&event);
     void onChoiceKeyPadMode(wxCommandEvent&event);

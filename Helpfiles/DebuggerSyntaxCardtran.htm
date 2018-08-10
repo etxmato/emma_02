@@ -3,25 +3,6 @@
 <title>CARDTRAN Syntax</title>
 <body>
 <h2>CARDTRAN Syntax</h2>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
-<TR>
-<TD WIDTH="70">aa</TD>
-<TD WIDTH="400">2 digits decimal value. This is used to indicate an address in hexadecimal range of 0200-02C7. Calculated by multiplying the value aa with 2 and adding hexadecimal value of 200</TD>
-</TR>
-<TR>
-<TD WIDTH="70">DR</TD>
-<TD WIDTH="400">4 digits decimal register for use in CARDTRAN program. Value is stored on address 02E0/02E1.</TD>
-</TR>
-<TR>
-<TD WIDTH="70">.</TD>
-<TD WIDTH="400">Not used, value doesn't matter</TD>
-</TR>
-<TR>
-<TD WIDTH="70">1..9</TD>
-<TD WIDTH="400">Decimal digits</TD>
-</TR>
-</TABLE>
 <h3>CARDTRAN Interpreter</h3>
 <p>
 Pseudo CARDTRAN command syntax described here is likely the first ever pseudo language developed for an 1802 like system. It runs on a FRED1 which uses the SYSTEM 00 prototype CPU which is a simplified 1801.
@@ -48,6 +29,25 @@ TV(2)
 <p>
 This program (included in the cardtran.bin file) will wait for two four digit numbers, when the numbers are given it will multiply them and show a counter counting up to the result. At the end it will wait for two new numbers. If no input is given I think some random numbers are chosen.
 </p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aa</TD>
+<TD WIDTH="400">2 digits decimal value. This is used to indicate an address in hexadecimal range of 0200-02C7. Calculated by multiplying the value aa with 2 and adding hexadecimal value of 200</TD>
+</TR>
+<TR>
+<TD WIDTH="70">DR</TD>
+<TD WIDTH="400">4 digits decimal register for use in CARDTRAN program. Value is stored on address 02E0/02E1.</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9</TD>
+<TD WIDTH="400">Decimal digits</TD>
+</TR>
+</TABLE>
 <h3>CARDTRAN Syntax</h3>
 <TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
@@ -77,7 +77,7 @@ This program (included in the cardtran.bin file) will wait for two four digit nu
 <TR>
 <TD WIDTH="55">22aa</TD>
 <TD WIDTH="40">JNZ</TD>
-<TD WIDTH="100">2aa</TD>
+<TD WIDTH="100">2aa<br>DR, 2aa</TD>
 <TD WIDTH="250">Jump to 2aa if DR != 0</TD>
 </TR>
 <TR>
@@ -89,7 +89,7 @@ This program (included in the cardtran.bin file) will wait for two four digit nu
 <TR>
 <TD WIDTH="55">21aa</TD>
 <TD WIDTH="40">JZ</TD>
-<TD WIDTH="100">2aa</TD>
+<TD WIDTH="100">2aa<br>DR, 2aa</TD>
 <TD WIDTH="250">Jump to 2aa if DR = 0</TD>
 </TR>
 <TR>

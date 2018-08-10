@@ -1,0 +1,233 @@
+
+<html>
+<title>FPL Syntax</title>
+<body>
+<h2>FPL Syntax</h2>
+<h3>Information</h3>
+<p>
+FPL is used in the FRED 2 game 'Curses Foiled Again' running on the FRED 2 machine.  
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">4 bit value but not used</TD>
+</TR>
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">z</TD>
+<TD WIDTH="400">Register number Vz (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[6aa]</TD>
+<TD WIDTH="400">Memory value of address aa within page 6 (RAM)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">F=</TD>
+<TD WIDTH="400">Tone frequency</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>FPL Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyx</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ddkk</TD>
+<TD WIDTH="40">BEEP</TD>
+<TD WIDTH="100">F=kk, d<br>kk, d</TD>
+<TD WIDTH="250">Tone beep with a frequency kk and duration d</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in E000 (which is the 'FPL' equivalent of RETURN)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E010</TD>
+<TD WIDTH="40">CLS</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Clear display</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Axkk</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Draw 8*8 graphics:
+<br>Draw on screen location kk (i.e. memory address 7kk). Pattern location will be fetched from memory [6aa] (and onwards) where aa is stored on 06[Vx|0x80]. </TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bxyn</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, Vy, n</TD>
+<TD WIDTH="250">Draw 8*8 graphics:
+<br>Draw on screen location Vy (i.e. memory address 7aa, where aa is stored in Vy). Pattern location will be fetched from [naa] (and onwards) where aa is stored in Vx. </TD>
+</TR> 
+<TR>
+<TD WIDTH="55">Cxy0</TD>
+<TD WIDTH="40">DRW0</TD>
+<TD WIDTH="100">VF, Vx, Vy</TD>
+<TD WIDTH="250">Draw 8*16 graphics and 'OR' bit pattern with what is already shown on screen:
+<br>Draw on screen position [Vx-1]+Vy, i.e. 7aa where aa = Vx-1 + Vy. Pattern location will be fetched from [6aa] (and onwards) where aa is stored in VF. </TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxy1</TD>
+<TD WIDTH="40">DRW1</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Draw 16*24 graphics:
+<br>Draw on screen location Vx (i.e. memory address 7aa, where aa is stored in Vx). Pattern location will be fetched from [5aa] (and onwards) where aa is stored on [6bb] where bb = 0x50 + highest nibble Vy. </TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxy2</TD>
+<TD WIDTH="40">DRW2</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Draw 16*24 graphics:
+<br>Draw on screen location Vx (i.e. memory address 7aa, where aa is stored in Vx). Pattern location will be fetched from [5aa] (and onwards) where aa is stored on [6bb] where bb = 0x54 + highest nibble Vy. </TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxy4</TD>
+<TD WIDTH="40">DRW4</TD>
+<TD WIDTH="100">VE, Vx, Vy</TD>
+<TD WIDTH="250">Draw 8*16 graphics and 'OR' bit pattern with what is already shown on screen:
+<br>Draw on screen position [Vx+2]+Vy, i.e. 7aa where aa = Vx+2 + Vy. Pattern location will be fetched from [6aa] (and onwards) where aa is stored in VE. </TD>
+</TR>
+<TR> 
+<TD WIDTH="55">E.08</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Switch hex keypad off</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex.1</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Check if key is pressed if so return key value in Vx otherwise Vx is not changed</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Faaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy.</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, Vy, Vx</TD>
+<TD WIDTH="250">Store BCD value of Vx in Vy, Vy+1 and Vy+2, Vy will point to last byte of the converted number</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Same as ADD: Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Same as SUB: Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">LD [6aa], Vx<br>LD 6aa, vx</TD>
+<TD WIDTH="250">Memory Location [6aa] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E000</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = random AND kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3nkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">n, kk</TD>
+<TD WIDTH="250">Skip next instruction if kk != memory location [6En]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xyz</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xyx</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.04</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Video display disabled</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.02</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">ON</TD>
+<TD WIDTH="250">Video display enabled</TD>
+</TR>
+</TABLE>
