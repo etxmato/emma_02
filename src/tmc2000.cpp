@@ -427,7 +427,7 @@ void Tmc2000::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleChip8Debug();
+		p_Main->cyclePseudoDebug();
 	}
 	else
 	{

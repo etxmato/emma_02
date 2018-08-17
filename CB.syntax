@@ -10,7 +10,7 @@ F = kk , n code=Dnkk
 kk , n code=Dnkk
 /BEEP 
 CALL 
-hex=0000-0FFF code=1aaa
+hex=0000-0FFF code=1jjj
 /CALL
 DECB
 code=C.54
@@ -25,7 +25,7 @@ INCB
 code=C.51
 /INCB
 JP
-hex=0000-0FFF code=Faaa
+hex=0000-0FFF code=Fjjj
 /JP 
 LD
 BP , RA , Vx code=Cx05
@@ -82,7 +82,7 @@ SUBN
 Vx , Vy det=29 code=8xy7
 /SUBN
 SYS
-hex=0000-0fff code=0aaa
+hex=0000-0fff code=0jjj
 /SYS
 XOR
 Vx , Vy det=18 code=8xy3

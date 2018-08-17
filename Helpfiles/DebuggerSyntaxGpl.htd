@@ -83,7 +83,7 @@ Two variants of the GPL pseudo language have been found, GPL I and GPL II. Both 
 <TD WIDTH="55">9dkk</TD>
 <TD WIDTH="40">BEEP</TD>
 <TD WIDTH="100">F=kk, d<br>kk, d</TD>
-<TD WIDTH="250">Tone beep with a frequency kk and duration d</TD>
+<TD WIDTH="250">Beep with a frequency kk and duration d</TD>
 </TR>
 <TR>
 <TD WIDTH="55">1aaa</TD>

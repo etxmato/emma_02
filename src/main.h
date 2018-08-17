@@ -804,10 +804,11 @@ public:
 #define CHIPGPL1 6
 #define CHIPGPL2 7
 #define CHIPFEL3 8
-#define CHIPFEL4 8
-#define CHIPFPL 9
-#define CHIPSTIV 10
-#define CARDTRAN 11
+#define CHIPFEL4 9
+#define CHIPFEL5 10
+#define CHIPFPL 11
+#define CHIPSTIV 12
+#define CARDTRAN 13
 
 #define CPU_OVERRIDE_DEFAULT 0
 #define CPU_OVERRIDE_CPU1801 1
@@ -826,15 +827,11 @@ public:
 #define MEM_TYPE_JUMP 1
 #define MEM_TYPE_OPCODE 2
 #define MEM_TYPE_OPERAND 3
-#define MEM_TYPE_ST2_1 4
-#define MEM_TYPE_ST2_2 5
-#define MEM_TYPE_CHIP_8_1 6
-#define MEM_TYPE_CHIP_8_2 7
+#define MEM_TYPE_PSEUDO_1 6
+#define MEM_TYPE_PSEUDO_2 7
 #define MEM_TYPE_UNDEFINED 8
 #define MEM_TYPE_JUMP_REV 9
 #define MEM_TYPE_TEXT 10
-#define MEM_TYPE_FEL2_1 11
-#define MEM_TYPE_FEL2_2 12
 #define MEM_TYPE_OPCODE_RSHR 170
 #define MEM_TYPE_OPCODE_RSHL 171
 #define MEM_TYPE_OPCODE_BPZ 172

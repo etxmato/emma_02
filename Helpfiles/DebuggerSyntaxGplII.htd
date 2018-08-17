@@ -4,7 +4,7 @@
 <h2>GPL II Syntax</h2>
 <h3>Information</h3>
 <p>
-GPL II is used in the FRED 2 game 'Tag-Bowling' running on the FRED 2 and RCA Video Coin Arcade machine.  
+GPL II is used in the FRED 2 game 'Tag-Bowling' and 'Katch' running on the FRED 2 and RCA Video Coin Arcade machine. Katch looks like an early version of Tag-Bowling.
 </p>
 <p>
 Two variants of the GPL pseudo language have been found, GPL I and GPL II. Both variants are very similar. GPL I will fit into 2K RAM, however GPL II is using screen location 0900-09FF and V0-F are stored on 0880-088F. Interrupt routines are different, I think they have slightly different code for the timers. Command syntax is more or less the same for both with differences in:
@@ -89,7 +89,7 @@ GPL II is used in the FRED 2 game 'Tag-Bowling' running on the FRED 2 and RCA Vi
 <TD WIDTH="55">9dkk</TD>
 <TD WIDTH="40">BEEP</TD>
 <TD WIDTH="100">F=kk, d<br>kk, d</TD>
-<TD WIDTH="250">Tone beep with a frequency kk and duration d</TD>
+<TD WIDTH="250">Beep with a frequency kk and duration d</TD>
 </TR>
 <TR>
 <TD WIDTH="55">1aaa</TD>

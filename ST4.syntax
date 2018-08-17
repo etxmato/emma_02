@@ -13,8 +13,11 @@ AND
 Vx , Vy det=17 code=4x2y
 /AND
 CALL 
-hex=0600-08FF code=6aaa
-hex=1000-11FF code=6aaa
+hex=0600-06FF code=66jj
+hex=0700-07FF code=67jj
+hex=0800-08FF code=68jj
+hex=1000-10FF code=60jj
+hex=1100-11FF code=61jj
 I , kk code=69kk
 /CALL
 CHAR
@@ -71,10 +74,10 @@ I , Vy code=5.9y
 Vy code=5.9y
 /JNK
 JNZ
-Vx , kk code=9xkk
+Vx , hex=0000-00FF code=9xbb
 /JNZ
 JP
-kk code=65kk
+hex=0000-00FF code=65bb
 I code=4.B.
 /JP
 JS
@@ -86,7 +89,7 @@ I , Vx , Vy code=5x4y
 Vx , Vy code=5x4y
 /JU
 JZ
-Vx , kk code=8xkk
+Vx , hex=0000-00FF code=8xbb
 /JZ
 KEY
 SWITCH code=671C
@@ -100,18 +103,18 @@ KEYR
 Vy code=4x8y
 /KEYR
 LD
-hex=2700-27FF , I code=64aa
 mem=2700-27FF , I code=64aa
-hex=2700-27FF , Vx code=Dxaa
+hex=2700-27FF , I code=64aa
 mem=2700-27FF , Vx code=Dxaa
+hex=2700-27FF , Vx code=Dxaa
 B , [Vy] , Vx code=4x0y
 B , Vy , Vx det=6 code=4x0y
 I , [I] code=679E
 I , [I + V9] code=679C
-I , hex=0000-0FFF code=0aaa
-I , hex=1000-1FFF code=1aaa
-I , hex=2000-2FFF code=2aaa
-I , hex=3000-3FFF code=3aaa
+I , hex=0000-0FFF code=0jjj
+I , hex=1000-1FFF code=1jjj
+I , hex=2000-2FFF code=2jjj
+I , hex=3000-3FFF code=3jjj
 I , mem=2700-27FF code=63aa
 I , Vy , Vy1 code=63Ey
 I , Vy code=63Ey

@@ -164,10 +164,8 @@ public:
 	void enableChip8DebugGui(bool status);
 	void enableDebugGui(bool status);
 	void updateAssTabCheck(Word address);
-    void cycleChip8Debug();
-    void cycleFredDebug();
+    void cyclePseudoDebug();
 	bool chip8BreakPointCheck();
-	void cycleSt2Debug();
 	void showInstructionTrace();
 	void cycleDebug();
 	void updateChip8Window(); 
@@ -594,6 +592,18 @@ private:
     size_t psuedoNumber_;
     vector<PseudoCodeDetails> pseudoCodeDetails_;
 
+    size_t singleByteCommandNumber_;
+    vector<Byte> singleByteCommand_;
+    
+    size_t jumpCommandNumber_;
+    vector<Byte> jumpCommand_;
+    vector<Byte> jumpMask_;
+    vector<Word> jumpOffset_;
+    
+    size_t branchCommandNumber_;
+    vector<Byte> branchCommand_;
+    vector<Byte> branchMask_;
+    
 	DECLARE_EVENT_TABLE()
 };
 

@@ -6,7 +6,7 @@ AND
 Vx , Vy det=17 code=8xy2
 /AND
 CALL 
-hex=0000-0FFF code=1aaa
+hex=0000-0FFF code=1jjj
 /CALL
 CLS
 code=0078
@@ -24,7 +24,7 @@ INP6
 Vx code=Ex8D
 /INP6
 JP
-hex=0000-0FFF code=Faaa
+hex=0000-0FFF code=Fjjj
 /JP
 KEY
 OFF code=0268
@@ -105,7 +105,7 @@ SUBN
 Vx , Vy det=29 code=8xy7
 /SUBN
 SYS
-hex=0000-0fff code=0aaa
+hex=0000-0fff code=0jjj
 /SYS
 TAPE
 kk code=6.kk

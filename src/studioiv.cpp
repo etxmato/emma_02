@@ -595,7 +595,7 @@ void StudioIV::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-        p_Main->cycleFredDebug();
+        p_Main->cyclePseudoDebug();
 	}
 	else
 	{

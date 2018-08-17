@@ -7,7 +7,7 @@ AND
 Vx , Vy det=17 code=8xy2
 /AND
 CALL 
-hex=0000-0FFF code=2aaa
+hex=0000-0FFF code=2jjj
 /CALL
 CLS
 code=0E00
@@ -16,18 +16,18 @@ DRW
 Vx , Vy , n code=Dxyn
 /DRW
 JP
-hex=0000-0FFF code=1aaa
-V0 , hex=0000-0FFF det=41 code=Baaa
+hex=0000-0FFF code=1jjj
+V0 , hex=0000-0FFF det=41 code=Bjjj
 /JP
 LD
 B , Vx det=5 code=Fx33
 DT , Vx det=45 code=Fx15
 F , Vx det=48 code=Fx29
 P , Vx det=42 code=Fx00
-I , hex=0000-0FFF code=Aaaa
+I , hex=0000-0FFF code=Ajjj
 ST , Vx det=46 code=Fx18
-Vx , DT det=43 code=Fx07
-Vx , K det=44 code=Fx0A
+Vx , DT det=34 code=Fx07
+Vx , K det=34 code=Fx0A
 Vx , kk code=6xkk
 Vx , Vy det=26 code=8xy0
 Vx , [I] det=50 code=Fx65
@@ -71,7 +71,7 @@ SUBN
 Vx , Vy det=29 code=8xy7
 /SUBN
 SYS
-hex=0000-0fff code=0aaa
+hex=0000-0fff code=0jjj
 /SYS
 XOR
 Vx , Vy det=18 code=8xy3

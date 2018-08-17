@@ -622,7 +622,7 @@ void Visicom::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleSt2Debug();
+		p_Main->cyclePseudoDebug();
 	}
 	else
 	{

@@ -14,6 +14,7 @@
 		991199441E92ECC30074ADAA /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
+		993B164A211EBD9C008A5656 /* Swords.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* Swords.syntax */; };
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
@@ -137,6 +138,7 @@
 		997C6D65209E415500A8704E /* guifred.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997C6D63209E415500A8704E /* guifred.cpp */; };
 		998AE1961F769A9500D6B0D1 /* Configurations in Resources */ = {isa = PBXBuildFile; fileRef = 9911BF351F477D6200B795BB /* Configurations */; };
 		998AE1971F769A9F00D6B0D1 /* data in Resources */ = {isa = PBXBuildFile; fileRef = 996B97391B24116B009827BF /* data */; };
+		9997F7BD212494FA0036A1FC /* Scramble.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9997F7BC212494FA0036A1FC /* Scramble.syntax */; };
 		999899A41F96A72600870480 /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 999899A31F96A72600870480 /* emma_02.htb */; };
 		9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
@@ -215,6 +217,7 @@
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
 		991C84F61E37E66A0084DAFB /* microtutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor.h; path = src/microtutor.h; sourceTree = "<group>"; };
+		993B1649211EBD9C008A5656 /* Swords.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Swords.syntax; sourceTree = "<group>"; };
 		9942DD6B1F3B4D3E00569242 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = src/base.cpp; sourceTree = "<group>"; };
 		9942DD6C1F3B4D3E00569242 /* base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = base.h; path = src/base.h; sourceTree = "<group>"; };
 		9942DD6E1F3B4D6B00569242 /* http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = http.cpp; path = src/http.cpp; sourceTree = "<group>"; };
@@ -445,6 +448,7 @@
 		997C6D61209E3FF000A8704E /* fred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = fred.h; path = src/fred.h; sourceTree = "<group>"; };
 		997C6D63209E415500A8704E /* guifred.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guifred.cpp; path = src/guifred.cpp; sourceTree = "<group>"; };
 		997C6D64209E415500A8704E /* guifred.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guifred.h; path = src/guifred.h; sourceTree = "<group>"; };
+		9997F7BC212494FA0036A1FC /* Scramble.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scramble.syntax; sourceTree = "<group>"; };
 		9998999D1F96A3E500870480 /* Helpfiles */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Helpfiles; sourceTree = "<group>"; };
 		999899A31F96A72600870480 /* emma_02.htb */ = {isa = PBXFileReference; lastKnownFileType = file; path = emma_02.htb; sourceTree = "<group>"; };
 		9999EAC41CBA8B8800A50336 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = /Library/Frameworks/SDL2.framework; sourceTree = "<absolute>"; };
@@ -552,11 +556,13 @@
 				9909A22E1F2144D200B17E58 /* Configuration.pjd */,
 				9909A22F1F2144D200B17E58 /* Datadir.pjd */,
 				99D92E72211AA0AD007D868E /* CARDTRAN.syntax */,
+				99F8CF02211A1567002F02C6 /* CB.syntax */,
+				9997F7BC212494FA0036A1FC /* Scramble.syntax */,
+				993B1649211EBD9C008A5656 /* Swords.syntax */,
 				99090B0E2118CFD7008B16DA /* FPL.syntax */,
 				99090B102118D720008B16DA /* GPL I.syntax */,
 				9960FF22211953CE00DB2EDD /* GPL II.syntax */,
 				99F8CF00211A155E002F02C6 /* FEL.syntax */,
-				99F8CF02211A1567002F02C6 /* CB.syntax */,
 				99D5FCD6211C938E001F4391 /* ST2.syntax */,
 				99D6218F211B402200E1A471 /* ST4.syntax */,
 				99D5FCD5211C938E001F4391 /* Chip8.syntax */,
@@ -966,8 +972,10 @@
 				99A502CB1E959040004218C8 /* splash.xrc in Resources */,
 				99D5FCD7211C938E001F4391 /* Chip8X.syntax in Resources */,
 				99F374751CADBBC2000DA615 /* LGPL.txt in Resources */,
+				9997F7BD212494FA0036A1FC /* Scramble.syntax in Resources */,
 				99792DE71B88A4200044FDBB /* configuration.xrc in Resources */,
 				99792DE11B88A3B10044FDBB /* about.xrc in Resources */,
+				993B164A211EBD9C008A5656 /* Swords.syntax in Resources */,
 				999DE99B20667EF2005B3A29 /* Linux build in Resources */,
 				99792DEB1B88FEFD0044FDBB /* datadir.xrc in Resources */,
 				99792E021B88FF580044FDBB /* menuCosmicos.xrc in Resources */,

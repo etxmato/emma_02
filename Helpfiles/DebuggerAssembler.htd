@@ -274,13 +274,13 @@ it will change to:
 </pre>
 Note that the branch has changed to FE and NOT FF as an extra byte could be deleted because the 3 byte long LBR is replace by a 2 byte long BR.
 </p>
-<h4>Chip 8 - Insert and Delete</h4>
+<h4>Chip 8, Chip 8X, Chip ETI, Chip Studio - Insert and Delete</h4>
 <p>
 If Chip 8 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
 <UL>
 <LI>CALL aaa
 <LI>JP aaa
-<LI>JP V0, aaa
+<LI>JP V0, aaa (not in Chip 8X)
 <LI>LD I,aaa
 <LI>SYS aaa
 </UL>
@@ -302,7 +302,7 @@ If ST2 code is used within the program configuration that code will also be corr
 </UL>
 </p>
 <p>
-Note: none of the jumps within a page will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the jump will be listed in the message area.
+Note: none of the short jumps within a page will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the jump will be listed in the message area.
 </p>
 <h4>ST4 - Insert and Delete</h4>
 <p>
@@ -322,13 +322,58 @@ If ST4 code is used within the program configuration that code will also be corr
 <LI>LD I, 4aaa
 </UL>
 </p>
-<h4>FEL - Insert and Delete</h4>
 <p>
-If FEL-2 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+Note that if a CALL will change to an addres outside 600-8FF or 1000-11FF address ranges, the command itself will change as the pseudo code will change to 65kk, 69kk, 0Fkk or 12kk. LD I instructions will change within a range of 0FFF, so LI I, 0aaa will not change outside 0aaa range.
+</p>
+<h4>CB, FEL - Insert and Delete</h4>
+<p>
+If CB or FEL code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
 <UL>
 <LI>CALL aaa
 <LI>JP aaa
 <LI>SYS aaa
+</UL>
+</p>
+<h4>GPL I, GPL II - Insert and Delete</h4>
+<p>
+If GPL I or GPL II code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>LD [6aa], Vx
+<LI>SE Vx, [6aa] (GPL I only)
+<LI>SNE Vx, [6aa]
+<LI>SYS aaa
+</UL>
+<p>
+Note: none of the short [6aa] references within page 6 will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the instruction will be listed in the message area.
+</p>
+<h4>FPL - Insert and Delete</h4>
+<p>
+If FPL code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>LD [6aa], Vx
+<LI>SYS aaa
+</UL>
+<p>
+Note: none of the short [6aa] references within page 6 will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the instruction will be listed in the message area.
+</p>
+<h4>Scramble, Swords - Insert and Delete</h4>
+<p>
+If Scramble or Swords code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL aaa
+<LI>JNZ V0, aaa
+<LI>JP aaa
+<LI>JP FIREA, kk
+<LI>JP FIREB, kk
+<LI>JP 'EF3', kk
+<LI>JP COIN, kk
+<LI>JZ V0, aaa
+<LI>SYS aaa
+
 </UL>
 </p>
 <h3>Copy data or code</h3>

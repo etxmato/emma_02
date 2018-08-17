@@ -1184,7 +1184,7 @@ void Fred::cpuInstruction()
         if (debugMode_)
 			p_Main->cycleDebug();
         if (chip8type_ != CHIP_NONE)
-            p_Main->cycleFredDebug();
+            p_Main->cyclePseudoDebug();
 	}
 	else
 	{

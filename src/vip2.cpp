@@ -828,7 +828,7 @@ void VipII::cpuInstruction()
 		if (debugMode_)
 			p_Main->cycleDebug();
 		if (vipMode_) 
-			p_Main->cycleChip8Debug();
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

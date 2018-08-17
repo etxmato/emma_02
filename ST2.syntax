@@ -9,28 +9,28 @@ AND
 Vx , Vy det=17 code=8xy2
 /AND
 CALL 
-hex=0000-0FFF code=2aaa
+hex=0000-0FFF code=2jjj
 /CALL
 DJNZ
-V0 , kk code=70kk
+V0 , hex=0000-00FF code=70bb
 /DJNZ
 JKP
-VB , kk code=DFkk
-n , kk code=Dnkk
+VB , hex=0000-00FF code=DFbb
+n , hex=0000-00FF code=Dnbb
 /JKP
 JP
-hex=0000-0FFF code=1aaa
+hex=0000-0FFF code=1jjj
 /JP
 JNZ
-Vx , kk code=3xkk
+Vx , hex=0000-00FF code=3xbb
 /JNZ
 JZ
-Vx , kk code=4xkk
+Vx , hex=0000-00FF code=4xbb
 /JZ
 LD
 B , [Vy] , Vx code=9xy8
 B , Vy , Vx det=4 code=9xy8
-I , hex=0000-0FFF code=Aaaa
+I , hex=0000-0FFF code=Ajjj
 Vx , kk code=6xkk
 Vx , Vy det=26 code=8xy0
 Vx , [Vy] det=31 code=9xy2
@@ -78,8 +78,8 @@ CLEAR code=E0
 MOVE code=E1
 VC , MOVE code=E2
 XOR , [I] code=E4
-DRW , JC , kk code=E8kk
-DRW , kk code=E8kk
+DRW , JC , hex=0000-00FF code=E8bb
+DRW , hex=0000-00FF code=E8bb
 /SP
 SUB
 Vx , Vy det=10 code=8xy5
@@ -88,8 +88,8 @@ SUBN
 Vx , Vy det=29 code=8xy7
 /SUBN
 SYS
-hex=0200-02ff code=F0aa
-hex=0000-0fff code=0aaa
+hex=0200-02ff code=F0bb
+hex=0000-0fff code=0jjj
 /SYS
 VIDEO
 ON code=0066

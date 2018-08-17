@@ -1,13 +1,13 @@
 ADD
-Vz , Vx + Vy det=7 code=6xyz
 Vx , Vy det=7 code=6xyx
+Vz , Vx + Vy det=7 code=6xyz
 /ADD
 BEEP
 F = kk , n code=Dnkk
 kk , n code=Dnkk
 /BEEP 
 CALL 
-hex=0000-0FFF code=1aaa
+hex=0000-0FFF code=1jjj
 /CALL
 CLS
 code=E010
@@ -29,15 +29,15 @@ DRW4
 VE , Vx , Vy code=Cxy4
 /DRW4
 JP
-hex=0000-0FFF code=Faaa
+hex=0000-0FFF code=Fjjj
 /JP 
 KEY
 Vx code=Ex.1
 OFF code=E.08
 /KEY
 LD
-mem=0600-06FF , Vx det=15 code=5xaa
-hex=0600-06FF , Vx det=15 code=5xaa
+mem=0600-06FF , Vx det=15 code=5xbb
+hex=0600-06FF , Vx det=15 code=5xbb
 B , Vy , Vx det=3 code=9xy.
 Vx , kk code=4xkk
 Vz , Vx + Vy code=6xyz
@@ -54,11 +54,11 @@ Vx , kk code=2xkk
 n , kk code=3nkk
 /SNE
 SUB
-Vz , Vx - Vy det=9 code=7xyz
 Vx , Vy det=9 code=7xyx
+Vz , Vx - Vy det=9 code=7xyz
 /SUB
 SYS
-hex=0000-0fff code=0aaa
+hex=0000-0fff code=0jjj
 /SYS
 VIDEO
 ON code=E.02

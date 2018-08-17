@@ -1,10 +1,10 @@
 ADD
-Vz , Vx + Vy det=7 code=6xyz
 Vx , Vy det=7 code=6xyx
+Vz , Vx + Vy det=7 code=6xyz
 /ADD
 SUB
-Vz , Vx - Vy det=9 code=7xyz
 Vx , Vy det=9 code=7xyx
+Vz , Vx - Vy det=9 code=7xyz
 /SUB
 ADD8
 Vx , Vy , Vz det=12 code=Bxyz
@@ -14,13 +14,13 @@ F = kk , n code=9nkk
 kk , n code=9nkk
 /BEEP 
 CALL 
-hex=0000-0FFF code=1aaa
+hex=0000-0FFF code=1jjj
 /CALL
 DRW
 Vx , Vy, n code=Axyn
 /DRW 
 JP
-hex=0000-0FFF code=Faaa
+hex=0000-0FFF code=Fjjj
 /JP 
 LD
 B , Vy , Vx det=3 code=5xy.
@@ -33,11 +33,12 @@ Vx , kk code=4xkk
 Vx , PAR code=C8y.
 Vz , Vx + Vy code=6xyz
 Vz , Vx - Vy code=7xyz
-mem=0800-08FF , Vx det=14 code=Dxaa
-hex=0800-08FF , Vx det=14 code=Dxaa
+mem=0800-08FF , Vx det=14 code=Dxbb
+hex=0800-08FF , Vx det=14 code=Dxbb
 /LD
 NO
 OP code=C4
+OP code=CC
 /NO
 RETURN
 code=C0
@@ -47,14 +48,14 @@ Vx , kk det=34 code=8xkk
 /RND
 SNE
 Vx , kk code=2xkk
-Vx , mem=0800-08FF det=2 code=3xaa
-Vx , hex=0800-08FF det=2 code=3xaa
+Vx , mem=0800-08FF det=2 code=3xbb
+Vx , hex=0800-08FF det=2 code=3xbb
 /SNE
 SYS
-hex=0000-0fff code=0aaa
+hex=0000-0fff code=0jjj
 /SYS
 TONE
 F = kk code=C1kk
-kk code=c1kk
-OFF code=c2..
+kk code=C1kk
+OFF code=C2..
 /TONE

@@ -832,10 +832,8 @@ void Studio2::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-        if (mainMemory_[0] == 0x90)
-            p_Main->cycleSt2Debug();
-        else
-            p_Main->cycleChip8Debug();
+
+        p_Main->cyclePseudoDebug();
 	}
 	else
 	{
