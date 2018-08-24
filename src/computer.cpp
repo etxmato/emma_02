@@ -1086,7 +1086,7 @@ Computer::Computer()
 	basicExecAddress_[BASICADDR_KEY_VT_INPUT] = -1;
 	chip8baseVar_ = 0xef0;
 	chip8mainLoop_ = 0x1b;
-	chip8type_ = CHIP_NONE;
+    pseudoLoaded_ = false;
     inKey1_ = -1;
     inKey2_ = -1;
 	for (int i = 0; i<16; i++)

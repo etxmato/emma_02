@@ -45,10 +45,6 @@ Victory::~Victory()
 
 void Victory::configureComputer()
 {
-	chip8baseVar_ = 0x8c0;
-	chip8mainLoop_ = 0x6b;
-	chip8type_ = CHIPST2;
-
 	outType_[2] = STUDIOOUT;
 	outType_[4] = VIPOUT4;
 	victoryKeyPort_ = 0;
@@ -452,11 +448,8 @@ void Victory::startComputer()
             multiCart_ = false;
     }
     
-    if (readMem(0) == 0x90)
+    if (pseudoType_ == "ST2")
 	{
-		chip8baseVar_ = 0x8c0;
-		chip8mainLoop_ = 0x6b;
-		chip8type_ = CHIPST2;
         if (!multiCart_)
         {
             readSt2Program(VICTORY);
@@ -470,15 +463,11 @@ void Victory::startComputer()
     }
 	else
 	{
-		chip8baseVar_ = 0x8f0;
-		chip8mainLoop_ = 0x1c;
-		chip8type_ = CHIP8;
 		if (!multiCart_)
 			readProgram(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM), ROM, 0x300, NONAME);
 	}
 
-    if (chip8type_ != CHIP_NONE)
-        p_Main->definePseudoCommands(chip8type_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
 
 //    if (testCartMemoryDefined_)
  //       readProgram(p_Main->getRomDir(VICTORY, MAINROM1), p_Main->getRomFile(VICTORY, MAINROM1), ROM, 0x2000, NONAME);
@@ -838,7 +827,8 @@ void Victory::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cyclePseudoDebug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

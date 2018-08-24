@@ -613,25 +613,19 @@ void VipII::startComputer()
 	}
 	
 	defineMemoryType(0xc000, 0xdfff, COLOURRAM);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
 
-	if (mainMemory_[0x100] ==  0 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
+    if (pseudoType_ == "CHIP8")
 	{
-		chip8type_ = CHIP8;
 		readProgram(p_Main->getChip8Dir(VIPII), p_Main->getChip8SW(VIPII), NOCHANGE, 0x200, SHOWNAME);
 	}
 	else
 	{
-		if (mainMemory_[0x100] ==  0x33 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
-		{
-			chip8type_ = CHIP8X;
+        if (pseudoType_ == "CHIP8X")
 			readProgram(p_Main->getChip8Dir(VIPII), p_Main->getChip8SW(VIPII), NOCHANGE, 0x300, SHOWNAME);
-		}
 		else
 			readProgram(p_Main->getChip8Dir(VIPII), p_Main->getChip8SW(VIPII), NOCHANGE, 0x200, SHOWNAME);
 	}
-
-    if (chip8type_ != CHIP_NONE)
-        p_Main->definePseudoCommands(chip8type_);
 
 	double zoom = p_Main->getZoom();
 
@@ -827,8 +821,11 @@ void VipII::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		if (vipMode_) 
-			p_Main->cyclePseudoDebug();
+		if (vipMode_)
+		{
+			if (pseudoLoaded_ && cycle0_ == 0)
+				p_Main->cyclePseudoDebug();
+		}
 	}
 	else
 	{

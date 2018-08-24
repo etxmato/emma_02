@@ -1153,7 +1153,7 @@ void DebugWindow::enableChip8DebugGui(bool status)
 		XRCCTRL(*this,text, wxStaticText)->Enable(status);
 	}
 	XRCCTRL(*this,"Chip8PCText", wxStaticText)->Enable(status);
-	iTextPointer->Enable(status&&!chip8ProtectedMode_);
+	XRCCTRL(*this,"Chip8I", wxTextCtrl)->Enable(status&&!chip8ProtectedMode_);
 	XRCCTRL(*this,"Chip8IText", wxStaticText)->Enable(status);
 	XRCCTRL(*this,"Chip8ProtectedMode", wxCheckBox)->Enable(status);
 
@@ -1248,7 +1248,7 @@ void DebugWindow::updateAssTabCheck(Word address)
 
 void DebugWindow::cyclePseudoDebug()
 {
-    if (p_Computer->getChip8Type() == CHIP_NONE)
+    if (!pseudoLoaded_)
         return;
     
     Byte programCounter = p_Computer->getProgramCounter();
@@ -1262,7 +1262,7 @@ void DebugWindow::cyclePseudoDebug()
     
     Word chip8PC;
     
-    if (chip8Type_ == CARDTRAN)
+    if (pseudoType_ == "CARDTRAN")
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else
         chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
@@ -1292,7 +1292,7 @@ void DebugWindow::cyclePseudoDebug()
             if (programCounterAddress == p_Computer->getChip8MainLoop())
             {
                 if (additionalChip8Details_)
-                    chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
+                    chip8DebugTrace(addDetails());
                 if (chip8Steps_ == 1)
                 {
                     p_Computer->setSteps(0);
@@ -1313,7 +1313,7 @@ void DebugWindow::cyclePseudoDebug()
             if (programCounterAddress == p_Computer->getChip8MainLoop())
             {
                 if (additionalChip8Details_)
-                    chip8DebugTrace(pseudoDisassemble(chip8PC-2, true, false));
+                    chip8DebugTrace(addDetails());
                 if (chip8BreakPointCheck())  return;
                 if (chip8Trace_)
                     pseudoTrace(chip8PC);
@@ -1325,7 +1325,7 @@ void DebugWindow::cyclePseudoDebug()
 bool DebugWindow::chip8BreakPointCheck()
 {
     Word chip8PC;
-    if (chip8Type_ == CARDTRAN)
+    if (pseudoType_ == "CARDTRAN")
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else
         chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
@@ -1586,32 +1586,33 @@ void DebugWindow::updateChip8Window()
 	if (!wxIsMainThread())
 		wxMutexGuiEnter();
 #endif
-    if (chip8Type_ == CARDTRAN)
+    if (pseudoType_ == "CARDTRAN")
         scratchpadRegister = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else
         scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_PC);
 	if (scratchpadRegister != lastPC_)
 	{
-        if (chip8Type_ == CHIPSTIV)
+        if (pseudoType_ == "STIV")
             buffer.Printf("%04X", scratchpadRegister);
         else
             buffer.Printf("%03X", scratchpadRegister&0xfff);
-		pcTextPointer->ChangeValue(buffer);
+        
+        p_Main->eventSetTextValue("Chip8PC", buffer);
 		lastPC_ = scratchpadRegister;
 	}
-    if (chip8Type_ != CARDTRAN)
+    if (pseudoType_ != "CARDTRAN")
     {
-        if (chip8Type_ == CHIPSTIV)
+        if (pseudoType_ == "STIV")
             scratchpadRegister = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
         else
             scratchpadRegister = p_Computer->getScratchpadRegister(CHIP8_I);
         if (scratchpadRegister != lastI_)
         {
-            if (chip8Type_ == CHIPSTIV)
+            if (pseudoType_ == "STIV")
                 buffer.Printf("%04X", scratchpadRegister);
             else
                 buffer.Printf("%03X", scratchpadRegister&0xfff);
-            iTextPointer->ChangeValue(buffer);
+            p_Main->eventSetTextValue("Chip8I", buffer);
             lastI_ = scratchpadRegister;
         }
         p_Computer->showChip8Registers();
@@ -4085,11 +4086,8 @@ int DebugWindow::assemblePseudo(wxString *buffer, Byte* b1, Byte* b2)
     if (assInput.commandSeperator != " ") return ERROR_COMMAND_SEP;
 
 	wxString pseudoLine;
-	wxString commandSyntaxFile;
 
-    commandSyntaxFile = getPseudoFile();
-
-	if (inFile.Open(commandSyntaxFile))
+	if (inFile.Open(commandSyntaxFile_))
 	{
 		for (pseudoLine=inFile.GetFirstLine(); !inFile.Eof(); pseudoLine=inFile.GetNextLine())
 		{
@@ -4666,71 +4664,6 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, Word* pseudoCode)
 		}
 	}
 	return ERROR_SYNTAX;
-}
-
-wxString DebugWindow::getPseudoFile()
-{
-    switch (p_Computer->getChip8Type())
-    {
-        case CHIP8:
-            if (runningComputer_ == STUDIO || runningComputer_ == VICTORY)
-                return applicationDirectory_ + "Chip8Studio.syntax";
-            else
-                return applicationDirectory_ + "Chip8.syntax";
-        break;
-            
-        case CHIP8X:
-            return applicationDirectory_ + "Chip8X.syntax";
-        break;
-            
-        case CHIPETI:
-            return applicationDirectory_ + "ChipEti.syntax";
-        break;
-            
-        case CHIPST2:
-            return applicationDirectory_ + "ST2.syntax";
-        break;
-            
-        case CHIPFEL1:
-            return applicationDirectory_ + "FEL.syntax";
-        break;
-            
-        case CHIPGPL1:
-            return applicationDirectory_ + "GPL I.syntax";
-        break;
-            
-        case CHIPGPL2:
-            return applicationDirectory_ + "GPL II.syntax";
-        break;
-            
-        case CHIPFEL3:
-            return applicationDirectory_ + "CB.syntax";
-        break;
-            
-        case CHIPFEL4:
-            return applicationDirectory_ + "Swords.syntax";
-        break;
-            
-        case CHIPFEL5:
-            return applicationDirectory_ + "Scramble.syntax";
-        break;
-            
-        case CHIPSTIV:
-            return applicationDirectory_ + "ST4.syntax";
-        break;
-            
-        case CARDTRAN:
-            return applicationDirectory_ + "CARDTRAN.syntax";
-        break;
-            
-        case CHIPFPL:
-            return applicationDirectory_ + "FPL.syntax";
-        break;
-            
-        default:
-            return applicationDirectory_ + "ST2.syntax";
-        break;
-    }
 }
 
 Byte DebugWindow::getCardtranAddress(long address)
@@ -6951,7 +6884,7 @@ void DebugWindow::chip8I(wxCommandEvent&WXUNUSED(event))
 	long value = get16BitValue("Chip8I");
 	if (value == -1)  return;
 
-    if (chip8Type_ == CHIPSTIV)
+    if (pseudoType_ == "STIV")
     {
         p_Computer->writeMem(0x27f6, (value&0xff00)>>8, false);
         p_Computer->writeMem(0x27f7, value&0xff, false);
@@ -8112,7 +8045,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
         }
     }
 
-    if (p_Computer->getChip8Type() != CHIP_NONE && (count == ERROR_INST || count == ERROR_TEMP_PAR || count == ERROR_TEMP_CPU_1801))
+    if (pseudoLoaded_ && (count == ERROR_INST || count == ERROR_TEMP_PAR || count == ERROR_TEMP_CPU_1801))
     {
         typeOpcode = MEM_TYPE_PSEUDO_1;
         typeOperand1 = MEM_TYPE_PSEUDO_2;
@@ -9575,16 +9508,23 @@ void DebugWindow::onInsert(wxCommandEvent&WXUNUSED(event))
 	}
 
 	if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_DATA || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_TEXT || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_PSEUDO_1)
-		insertByte(dirAssAddress_, 0, -1);
+    {
+        insertByte(dirAssAddress_, 0, -1, false);
+        if (pseudoType_ == "CARDTRAN")
+        {
+            if (dirAssAddress_ <= 0x2c7 && dirAssAddress_ >= 0x200)
+                insertByte(dirAssAddress_, 0, -1, true);
+        }
+    }
 	else
-		insertByte(dirAssAddress_, 0xc4, -1);
+		insertByte(dirAssAddress_, 0xc4, -1, false);
 	shortLongBranch();
 	correctionList();
 	directAss();
 	XRCCTRL(*this, "AssInputWindow", wxTextCtrl)->SetFocus();
 }
 
-void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAddress)
+void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAddress, bool secondCardtranInsert)
 {
 //	if (insertAddress > dirAssDataEndVector[workingRange_] || insertAddress < dirAssProgramStartVector[workingRange_])
 //		assErrorDisplay(DirAssErrorCodes[ERROR_DEBUG_ADDRESS-ERROR_START-1]);
@@ -9852,89 +9792,25 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
                         break;
                     }
                 }
+                if (secondCardtranInsert)
+                {
+                    for (size_t jumpCommandNum=0; jumpCommandNum<decimalBranchCommandNumber_; jumpCommandNum++)
+                    {
+                        if (chip8_instruction == decimalBranchCommand_[jumpCommandNum])
+                        {
+                            branchAddr = 0x201 + (((p_Computer->readMem(addr+1) & 0xf0) >> 4) * 10 + (p_Computer->readMem(addr+1) & 0xf)) * 2;
+                            if (branchAddr > insertAddress && branchAddr < endAddr)
+                            {
+                                branchAddr++;
+                                p_Computer->writeMem(addr+1, getCardtranAddress(branchAddr), true);
+                            }
+                            addr++;
+                            break;
+                        }
+                    }
+                }
             break;
                 
-/*				chip8_instruction = p_Computer->readMem(addr)&0xf0;
-				switch (chip8_instruction)
-				{
-					case 0:    // SYS aaa
-					case 0x10: // JP aaa
-					case 0x20: // CALL aaa
-					case 0xA0: // LD I,aaa
-						branchAddr = ((p_Computer->readMem(addr)&0xf) << 8) +  p_Computer->readMem(addr+1);
-						if (branchAddr>insertAddress && branchAddr < endAddr)
-						{
-							branchAddr++;
-							p_Computer->writeMem(addr, chip8_instruction | ((branchAddr&0xf00)>>8), true);
-							p_Computer->writeMem(addr+1, branchAddr&0xff, true);
-						}
-						addr++;
-					break;
-
-					case 0x30: // JNZ Vx, kk
-					case 0x40: // JZ Vx, kk
-					case 0xD0: // JKP n, kk  and  JKP VB, kk
-						if (insertAddress>addr)
-							branchAddr = ((addr+1)&0xff00)+p_Computer->readMem(addr+1);
-						else
-							branchAddr = (addr&0xff00)+p_Computer->readMem(addr+1);
-						if (branchAddr<=insertAddress)
-						{
-							if ((addr&0xff)==0xff && addr >= insertAddress)
-							{
-								branchAddressTableCorrection[addr] = true;
-							}
-						}
-						else
-						{
-							p_Computer->writeMem(addr+1, p_Computer->readMem(addr+1)+1, true);
-							if ((addr&0xff)==0xff)
-							{
-								branchAddressTableCorrection[addr] = true;
-							}
-							else
-							{
-								if ((branchAddr&0xff)==0xff)
-								{
-									branchAddressTableCorrection[addr] = true;
-								}
-							}
-						}
-					break;
-				}
-				switch (p_Computer->readMem(addr))
-				{
-					case 0x70: // DJNZ V0, kk
-					case 0xE8: // SP DRW, JC, kk  and  SP DRW, kk
-						if (insertAddress>addr)
-							branchAddr = ((addr+1)&0xff00)+p_Computer->readMem(addr+1);
-						else
-							branchAddr = (addr&0xff00)+p_Computer->readMem(addr+1);
-						if (branchAddr<=insertAddress)
-						{
-							if ((addr&0xff)==0xff && addr >= insertAddress)
-							{
-								branchAddressTableCorrection[addr] = true;
-							}
-						}
-						else
-						{
-							p_Computer->writeMem(addr+1, p_Computer->readMem(addr+1)+1, true);
-							if ((addr&0xff)==0xff)
-							{
-								branchAddressTableCorrection[addr] = true;
-							}
-							else
-							{
-								if ((branchAddr&0xff)==0xff)
-								{
-									branchAddressTableCorrection[addr] = true;
-								}
-							}
-						}
-					break;
-				}
-			break;*/
 		}
 	}
 
@@ -10065,7 +9941,7 @@ void DebugWindow::insertByte(Word insertAddress, Byte instruction, int branchAdd
 		{
 			branchAddress = branchAddressTable[i];
 			branchAddressTable[i] = 0;
-			insertByte(i, (p_Computer->readMem(i) & 0x0f) | 0xc0, branchAddress);
+			insertByte(i, (p_Computer->readMem(i) & 0x0f) | 0xc0, branchAddress, false);
 		}
 	}
 }
@@ -10157,14 +10033,14 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
     int checkAddres = setMemLabel(dirAssAddress_, true);
 	if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPCODE_LBR_SLOT || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPCODE_JUMP_SLOT || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_JUMP_REV || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_JUMP)
 	{
-		deleteByte(dirAssAddress_);
+		deleteByte(dirAssAddress_, false);
 		p_Computer->writeMemDataType(dirAssAddress_, MEM_TYPE_DATA);
-		deleteByte(dirAssAddress_);
+		deleteByte(dirAssAddress_, false);
         if (checkAddres != -1)
             checkAddres-=2;
         if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPCODE_LBR_SLOT)
         {
-			deleteByte(dirAssAddress_);
+			deleteByte(dirAssAddress_, false);
             if (checkAddres != -1)
                 checkAddres--;
         }
@@ -10173,10 +10049,10 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
 	{
 		if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPCODE || p_Computer->readMemDataType(dirAssAddress_) >= MEM_TYPE_OPCODE_RSHR)
 		{
-			deleteByte(dirAssAddress_);
+			deleteByte(dirAssAddress_, false);
 			while (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPERAND || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPERAND_LD_2 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPERAND_LD_3 || p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_OPERAND_LD_5)
             {
-				deleteByte(dirAssAddress_);
+				deleteByte(dirAssAddress_, false);
                 if (checkAddres != -1)
                     checkAddres--;
             }
@@ -10185,17 +10061,28 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
 		{
 			if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_PSEUDO_1)
 			{
-				deleteByte(dirAssAddress_);
+				deleteByte(dirAssAddress_, false);
 				if (p_Computer->readMemDataType(dirAssAddress_) == MEM_TYPE_PSEUDO_2)
                 {
-					deleteByte(dirAssAddress_);
+                    if (pseudoType_ == "CARDTRAN")
+                    {
+                        if (dirAssAddress_ <= 0x2c7 && dirAssAddress_ >= 0x200)
+                            deleteByte(dirAssAddress_, true);
+                    }
+                    else
+                        deleteByte(dirAssAddress_, false);
                     if (checkAddres != -1)
                         checkAddres--;
                 }
 			}
 			else
             {
-				deleteByte(dirAssAddress_);
+				deleteByte(dirAssAddress_, false);
+                if (pseudoType_ == "CARDTRAN")
+                {
+                    if (dirAssAddress_ <= 0x2c7 && dirAssAddress_ >= 0x200)
+                        deleteByte(dirAssAddress_, true);
+                }
                 if (checkAddres != -1)
                     checkAddres--;
             }
@@ -10218,7 +10105,7 @@ void DebugWindow::onDelete(wxCommandEvent&WXUNUSED(event))
 	XRCCTRL(*this, "AssInputWindow", wxTextCtrl)->SetFocus();
 }
 
-void DebugWindow::deleteByte(Word insertAddress)
+void DebugWindow::deleteByte(Word insertAddress, bool secondCardtranDelete)
 {
 //	if (insertAddress > dirAssDataEndVector[workingRange_] || insertAddress < dirAssProgramStartVector[workingRange_])
 //		assErrorDisplay(DirAssErrorCodes[ERROR_DEBUG_ADDRESS-ERROR_START-1]);
@@ -10449,76 +10336,24 @@ void DebugWindow::deleteByte(Word insertAddress)
                         break;
                     }
                 }
+                if (secondCardtranDelete)
+                {
+                    for (size_t jumpCommandNum=0; jumpCommandNum<decimalBranchCommandNumber_; jumpCommandNum++)
+                    {
+                        if (chip8_instruction == decimalBranchCommand_[jumpCommandNum])
+                        {
+                            branchAddr = 0x200 + (((p_Computer->readMem(addr+1) & 0xf0) >> 4) * 10 + (p_Computer->readMem(addr+1) & 0xf)) * 2;
+                            if (branchAddr > insertAddress && branchAddr < endAddr)
+                            {
+                                branchAddr--;
+                                p_Computer->writeMem(addr+1, getCardtranAddress(branchAddr), true);
+                            }
+                            addr++;
+                            break;
+                        }
+                    }
+                }
 			break;
-           /*
-			case MEM_TYPE_ST2_1:
-				chip8_instruction = p_Computer->readMem(addr)&0xf0;
-				switch (chip8_instruction)
-				{
-					case 0:
-					case 0x10:
-					case 0x20:
-					case 0xA0:
-						branchAddr = ((p_Computer->readMem(addr)&0xf) << 8) +  p_Computer->readMem(addr+1);
-						if (branchAddr>insertAddress && branchAddr < endAddr)
-						{
-							branchAddr--;
-							p_Computer->writeMem(addr, chip8_instruction | ((branchAddr&0xf00)>>8), true);
-							p_Computer->writeMem(addr+1, branchAddr&0xff, true);
-						}
-						addr++;
-					break;
-
-					case 0x30:
-					case 0x40:
-					case 0xD0:
-						if (insertAddress>addr)
-							branchAddr = ((addr+1)&0xff00)+p_Computer->readMem(addr+1);
-						else
-							branchAddr = ((addr+2)&0xff00)+p_Computer->readMem(addr+1);
-						if (branchAddr>insertAddress)
-						{
-							p_Computer->writeMem(addr+1, p_Computer->readMem(addr+1)-1, true);
-							if ((addr&0xff)==0xfe)
-							{
-								branchAddressTableCorrection[addr] = true;
-							}
-							else
-							{
-								if ((branchAddr&0xff)==0)
-								{
-									branchAddressTableCorrection[addr] = true;
-								}
-							}
-						}
-					break;
-				}
-				switch (p_Computer->readMem(addr))
-				{
-					case 0x70:
-					case 0xE8:
-						if (insertAddress>addr)
-							branchAddr = ((addr+1)&0xff00)+p_Computer->readMem(addr+1);
-						else
-							branchAddr = ((addr+2)&0xff00)+p_Computer->readMem(addr+1);
-						if (branchAddr>insertAddress)
-						{
-							p_Computer->writeMem(addr+1, p_Computer->readMem(addr+1)-1, true);
-							if ((addr&0xff)==0xfe)
-							{
-								branchAddressTableCorrection[addr] = true;
-							}
-							else
-							{
-								if ((branchAddr&0xff)==0)
-								{
-									branchAddressTableCorrection[addr] = true;
-								}
-							}
-						}
-					break;
-				}
-			break;*/
 		}
 	}
 
@@ -10650,7 +10485,7 @@ void DebugWindow::deleteByte(Word insertAddress)
 		{
 			branchAddress = branchAddressTable[i];
 			branchAddressTable[i] = 0;
-			insertByte(i, (p_Computer->readMem(i) & 0x0f) | 0xc0, branchAddress);
+			insertByte(i, (p_Computer->readMem(i) & 0x0f) | 0xc0, branchAddress, false);
 		}
 	}
 }
@@ -10673,7 +10508,7 @@ void DebugWindow::shortLongBranch()
 						p_Computer->writeMem(addr+1, p_Computer->readMem(addr+2), true);
 						p_Computer->writeMem(addr+2, 0xc4, true);
 						p_Computer->writeMemDataType(addr+2, MEM_TYPE_OPCODE);
-						deleteByte(addr+2);
+						deleteByte(addr+2, false);
 					}
 				break;
 			}
@@ -14951,23 +14786,98 @@ void DebugWindow::pseudoTrace(Word address)
     chip8DebugTrace(pseudoDisassemble(address, true, false));
 }
 
-void DebugWindow::definePseudoCommands(int chip8Type)
+wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* pseudoLoaded)
 {
-    wxString commandSyntaxFile;
+	wxTextFile defFile;
 
-    chip8Type_ = chip8Type;
-    
+	wxString definition, addressStr, valueStr;
+	long address, value, base, loop;
+
+	*pseudoLoaded = false;
+    *pseudoBaseVar = 0;
+    *pseudoMainLoop = 0;
+	commandSyntaxFile_ = applicationDirectory_ + "Chip8.syntax";
+
+    if (defFile.Open(applicationDirectory_ + "pseudo.def"))
+	{
+        for (wxString pseudoLine=defFile.GetFirstLine(); !defFile.Eof(); pseudoLine=defFile.GetNextLine())
+		{
+            pseudoLine.Trim(false);
+            pseudoLine.Trim(true);
+
+			pseudoType_ = pseudoLine;
+			if (!defFile.Eof())
+				pseudoLine=defFile.GetNextLine();
+
+            pseudoLine.Trim(false);
+            pseudoLine.Trim(true);
+
+			while (pseudoLine.GetChar(0) != '/' && !defFile.Eof())
+			{
+                definition = extractWord(&pseudoLine);
+				if (definition == "MEM")
+				{
+                    *pseudoLoaded = true;
+					while (pseudoLine.Len() > 0)
+					{
+		                addressStr = extractWord(&pseudoLine);
+		                valueStr = extractWord(&pseudoLine);
+
+						if (addressStr.ToLong(&address, 16) && valueStr.ToLong(&value, 16))
+						{
+							if (p_Computer->readMem(address) != value)
+								*pseudoLoaded = false;
+						}
+					}
+				}
+				if (definition == "BASE" && *pseudoLoaded)
+				{
+					addressStr = extractWord(&pseudoLine);
+					if (addressStr.ToLong(&base, 16))
+						*pseudoBaseVar = base;
+				}
+				if (definition == "LOOP" && *pseudoLoaded)
+				{
+		            addressStr = extractWord(&pseudoLine);
+					if (addressStr.ToLong(&loop, 16))
+						*pseudoMainLoop = loop;
+				}
+				if (definition == "FILE" && *pseudoLoaded)
+				{
+                    pseudoLine.Trim(false);
+                    pseudoLine.Trim(true);
+					commandSyntaxFile_ = applicationDirectory_ + pseudoLine;
+				}
+				pseudoLine=defFile.GetNextLine();
+	            pseudoLine.Trim(false);
+		        pseudoLine.Trim(true);
+			}
+			if (*pseudoLoaded)
+				break;
+		}
+	}
+	defFile.Close();
+
+    if (*pseudoLoaded)
+        p_Main->definePseudoCommands();
+    else
+        pseudoType_ = "";
+
+    pseudoLoaded_ = *pseudoLoaded;
+    return pseudoType_;
+}
+
+void DebugWindow::definePseudoCommands()
+{
     wxString pseudoLine, commandText, subCommand, command;
 	long commandLong;
 
-    commandSyntaxFile = getPseudoFile();
-    
     psuedoNumber_ = 0;
 	singleByteCommandNumber_ = 0;
     jumpCommandNumber_ = 0;
     branchCommandNumber_ = 0;
 
-    if (inFile.Open(commandSyntaxFile))
+    if (inFile.Open(commandSyntaxFile_))
     {
         for (pseudoLine=inFile.GetFirstLine(); !inFile.Eof(); pseudoLine=inFile.GetNextLine())
         {
@@ -15082,6 +14992,31 @@ void DebugWindow::definePseudoCommands(int chip8Type)
                             }
                         
                         }
+                        if (subCommand.GetChar(2) == 'd')
+                        {
+                            command = subCommand.Left(2);
+                            
+                            if (command.ToLong(&commandLong, 16))
+                            {
+                                bool commandFound = false;
+                                for (size_t i=0; i<decimalBranchCommandNumber_; i++)
+                                {
+                                    if (decimalBranchCommand_[i] == (Byte)commandLong)
+                                    {
+                                        commandFound = true;
+                                        break;
+                                    }
+                                    
+                                }
+                                if (!commandFound)
+                                {
+                                    decimalBranchCommandNumber_++;
+                                    decimalBranchCommand_.resize(decimalBranchCommandNumber_);
+                                    
+                                    decimalBranchCommand_[decimalBranchCommandNumber_-1] = (Byte)commandLong;
+                                }
+                            }
+                        }
 
                         command = subCommand.Left(1);
                         subCommand = subCommand.Right(3);
@@ -15113,13 +15048,35 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
     
     //Instruction value
     Byte command = chip8_opcode1 >> 4;
+    
     int vX = chip8_opcode1&0xf;
 	int vY;
-    if (chip8Type_ == CHIPSTIV)
+    int vZ = chip8_opcode2&0xf;
+
+    Word valueI, RegisterA, RegisterB;
+    
+    if (pseudoType_ == "STIV")
+    {
+        valueI = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
         vY = (chip8_opcode2)&0xf;
-	else
-		vY = (chip8_opcode2>>4)&0xf;
-  
+    }
+    else
+    {
+        valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
+        vY = (chip8_opcode2>>4)&0xf;
+    }
+    
+    if (pseudoType_ == "FEL")
+    {
+        RegisterA = (p_Computer->readMem(0x110)<<8)+p_Computer->readMem(0x111);
+        RegisterB = (p_Computer->readMem(0x112)<<8)+p_Computer->readMem(0x113);
+    }
+    else
+    {
+        RegisterA = p_Computer->getScratchpadRegister(0xA);
+        RegisterB = p_Computer->getScratchpadRegister(0xB);
+    }
+
     Word address = ((chip8_opcode1 & 0xf) << 8) + chip8_opcode2;
 //    Word address16bit = (chip8_opcode1 << 8) + chip8_opcode2;
     
@@ -15131,23 +15088,18 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
     //Real time value
     Word addressX = p_Computer->getChip8baseVar() + vX;
     Word addressY = p_Computer->getChip8baseVar() + vY;
-    Byte valueX = p_Computer->readMem(addressX);
+    Word addressZ = p_Computer->getChip8baseVar() + nibble[2];
+//    Byte valueX = p_Computer->readMem(addressX);
     Byte valueY = p_Computer->readMem(addressY);
 
-	Word valueI;
-    if (chip8Type_ == CHIPSTIV)
-		valueI = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
-	else
-   		valueI = p_Computer->getScratchpadRegister(CHIP8_I);
- 
+
     //Calculation variables
-    long tempLong1, tempLong2, detailsNumber;
-	int resultValue, hexValueDigits;
+	int hexValueDigits;
     Byte kkValue = 0, ddValue = 0, lValue = 0, nValue = 0, oValue = 0, pValue = 0, qValue = 0, registerX = 0, registerY = 0, registerZ = 0;
     char currentChar;
     bool commandFound, parameterFound;
     wxString tempStr1, tempStr2;
-	wxString parameterStr, parameter, regNumberStr, detailsStr;
+	wxString parameterStr, parameter, firstParameter, secondParameter, regNumberStr, detailsStr;
     
     buffer = " Illegal instruction";
 
@@ -15155,7 +15107,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
         addressStr.Printf("%04X: %02X%02X", dis_address, chip8_opcode1, chip8_opcode2);
     else
     {
-        if (chip8Type_ == CHIPSTIV)
+        if (pseudoType_ == "STIV")
             addressStr.Printf("%04X", dis_address);
         else
             addressStr.Printf("%03X", dis_address&0xfff);
@@ -15167,6 +15119,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
         {
 			hexValueDigits = 0;
             commandFound = true;
+            registerX = 0xff;
             
             for (int i=0; i<((pseudoCodeDetails_[pseudoNr].length*2)-1); i++)
             {
@@ -15221,7 +15174,13 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                 }
                 if (currentChar == 'x')
                 {
-                    registerX = nibble[i];
+                    if (registerX == 0xff)
+                        registerX = nibble[i];
+                    else
+                    {
+                        if (registerX != nibble[i])
+                            commandFound = false;
+                    }
                 }
                 if (currentChar == 'y')
                 {
@@ -15249,6 +15208,9 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                         addressStr.Printf("%04X: %02X  ", dis_address, chip8_opcode1);
 
 				wxString pseudoLine = pseudoCodeDetails_[pseudoNr].parameterText;
+                wxString pseudoLineCopy = pseudoLine;
+                firstParameter = extractWord(&pseudoLineCopy);
+                pseudoLine = pseudoCodeDetails_[pseudoNr].parameterText;
                 
 				while (pseudoLine.Len() > 0)
 				{
@@ -15419,257 +15381,150 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                         parameterStr = "/";
                         parameterFound = true;
 					}
-					if (parameter.Left(3) == "det")
-					{
+                    if (parameter.Left(3) == "str")
+                    {
                         parameterFound = true;
                         parameterStr = "";
-						detailsStr = parameter.Right(parameter.Len()-4);
-						detailsStr.ToLong(&detailsNumber);
-
-						switch (detailsNumber)
-						{
-							case 1: // SN Vx, [6aa], // SNE Vx, [6aa]
-						        detailsBuffer.Printf("[6%02X]=%02X", chip8_opcode2, p_Computer->readMem(0x600+chip8_opcode2));
-							break;
-
-							case 2: // SNE Vx, [8aa] 
-								detailsBuffer.Printf("[8%02X]=%02X", chip8_opcode2, p_Computer->readMem(0x800+chip8_opcode2));
-							break;
-
-							case 3: // LD B, Vy, Vx
-						        detailsBuffer.Printf("V%01X->V%01X='%03d'", vY, vY+2, valueX);
-							break;
-
-							case 4: // LD B, Vy, Vx (ST2)
-								detailsBuffer.Printf("[%03X->%03X]='%03d'", (valueY+0x800)&0xfff, (valueY+0x802)&0xfff, valueX);
-							break;
-
-							case 5: // LD B, Vx (Chip 8)
-    							detailsBuffer.Printf("[%03X->%03X]='%03d'", valueI, (valueY+2)&0xfff, valueX);
-							break;
-
-							case 6: // LD B, Vy, Vx (ST4)
-								detailsBuffer.Printf("[%03X->%03X]='%03d'", valueY+0x2700, valueY+0x2702, valueX);
-							break;
-
-							case 7: // ADD Vx, Vy+Vz 
-								detailsBuffer.Printf("V%01X=%02X", nibble[2], (valueX + valueY)&0xff);
-							break;
-
-							case 8: // ADD Vx, Vy 
-								detailsBuffer.Printf("V%01X=%02X", vX, (valueX + valueY)&0xff);
-							break;
-
-							case 9: // SUB Vz, Vx-Vy 
-								detailsBuffer.Printf("V%01X=%02X", nibble[2], (valueX - valueY)&0xff);
-							break;
-
-							case 10: // SUB Vx, Vy 
-								detailsBuffer.Printf("V%01X=%02X", vX, (valueX - valueY)&0xff);
-							break;
- 
-							case 11: // SUB Vz, Vy-Vx 
-								detailsBuffer.Printf("V%01X=%02X", nibble[2], (valueY - valueX)&0xff);
-							break;
-
-							case 12: // ADD8 Vx, Vy, Vz 
-						        if ((valueX + valueY) & 0x8)
-									detailsBuffer.Printf("V%01X=%02X", nibble[2], 0xFF);
-								else
-									detailsBuffer.Printf("V%01X=%02X", vX, valueX + valueY);
-							break;
-
-							case 13: // ADD8 Vx, Vy (Chip 8X) 
-								tempStr1.Printf("%01X", (valueX>>4)&0x7);   
-								tempStr1.ToLong(&tempLong1, 8); 
-								tempStr1.Printf("%01X", (valueY>>4)&0x7);   
-								tempStr1.ToLong(&tempLong2, 8); 
-								resultValue = (int)((tempLong1 + tempLong2) & 0x7) << 4;
-								tempStr1.Printf("%01X", valueX&0x7);   
-								tempStr1.ToLong(&tempLong1, 8); 
-								tempStr1.Printf("%01X", valueY&0x7);   
-								tempStr1.ToLong(&tempLong2, 8); 
-								resultValue = resultValue + ((tempLong1 + tempLong2)&0x7);
-								detailsBuffer.Printf("V%01X=%02X", vX, (resultValue)&0xff);
-							break;
-
-							case 14: // LD [8aa], Vx
-						        detailsBuffer.Printf("[8%02X]=%02X", chip8_opcode2, valueX);
-							break;
-
-							case 15: // LD [6aa], Vx
-						        detailsBuffer.Printf("[6%02X]=%02X", chip8_opcode2, valueX);
-							break;
-
-							case 16: // OR Vx, Vx
-					            detailsBuffer.Printf("V%01X=%02X", vX, valueX | valueY);
-							break;
-									
-							case 17: // AND Vx, Vx
-								detailsBuffer.Printf("V%01X=%02X", vX, valueX & valueY);
-							break;
-
-							case 18: // XOR Vx, Vx
-								 detailsBuffer.Printf("V%01X=%02X", vX, valueX ^ valueY);
-							break;
-
-							case 19: // SHL Vx, n (ST4)
-								detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX<<nibble[2])&0xff, ((valueX<<nibble[2])&0xff00)>>8);
-							break;
-
-							case 20: // SHR Vx, n (ST4)
-								detailsBuffer.Printf("V%01X=%02X, VB=%02X", vX, (valueX>>nibble[2])&0xff, ((valueX &(0xff >> (8-nibble[2])))<<(8-nibble[2])));
-							break;
-
-							case 21: // ADDN Vx, Vy (ST4)
-							   detailsBuffer.Printf("V%01X=%02X", vX, ((valueX + valueY)&0xf) | ((valueX&0xf0 + valueY&0xf0)));
-							break;
-
-							case 22: // SHR Vx, Vy (ST4), Vx = (Vx SHR 3) AND 0xF, Vy =(Vy SHR 2) AND 0xF
-					            detailsBuffer.Printf("V%01X=%02X, V%01X=%02X", vX, (valueX>>3)&0xf, vY, (valueY>>2)&0xf);
-							break;
-
-							case 23: // ADD I, kk (ST4)
-					            detailsBuffer.Printf("I=%04X", (valueI&0xff00)+(((valueI&0xff)+chip8_opcode2)&0xff));
-							break;
-
-							case 24: // LD [>I], 0 (ST2)
-								detailsBuffer.Printf("[%03X->%03X]=0", valueI&0xf00, valueI);
-							break;
-
-							case 25: // ADD Vx, kk
-								detailsBuffer.Printf("V%01X=%02X", vX, (valueX + chip8_opcode2)&0xff);
-							break;
-
-							case 26: // LD Vx, Vy
-								detailsBuffer.Printf("V%01X=%02X", vX, valueY);
-							break;
-
-							case 27: // SHR Vx, Vy
-								detailsBuffer.Printf("V%01X=%02X", vX, valueY>>1);
-							break;
-
-							case 28: // SHL Vx, Vy
-								detailsBuffer.Printf("V%01X=%02X", vX, (valueY<<1)&0xff);
-							break;
-
-							case 29: // SUBN Vx, Vy
-								detailsBuffer.Printf("V%01X=%02X", vX, (valueY - valueX)&0xff);
-							break;
-
-							case 30: // LD Vy, Vx (ST2)
-								detailsBuffer.Printf("V%01X=%02X", vY, valueX);
-							break;
-
-							case 31: // LD Vx, [Vy] (ST2)
-								detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(0x800+valueY));
-							break;
-
-							case 32: // LD [Vy], Vx (ST2)
-								detailsBuffer.Printf("[8%02X]=%02X", valueY, valueX);
-							break;					
-
-							case 33: // LD I, kk, +n (ST2)
-								detailsBuffer.Printf("[%03X]=%02X, I=%03X", valueI, chip8_opcode2, (valueI+vX)&0xfff);
-							break;					
-
-							case 34: // RND vX, kk; LD Vx, DT (ETI); LD Vx, K (ETI)
-								if (additionalChip8Details_)
-								{
-									addressStr = "";
-									buffer = "";
-									detailsBuffer.Printf("V%01X=%02X", vX, valueX);
-									additionalChip8Details_ = false;
-								}
-								else
-								{
-									if (includeDetails)
-										additionalChip8Details_ = true;
-								}
-							break;
-
-							case 35: // LDM Vx, [I]
-								detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(valueI));
-							break;					
-
-							case 36: // LDM [I], Vx
-								detailsBuffer.Printf("[%03X]=%02X", valueI, valueX);
-							break;					
-
-							case 37: // LDMA Vx, [I]
-								detailsBuffer.Printf("V%01X=%02X, I=%03X", vX, p_Computer->readMem(valueI), (valueI+1)&0xfff);
-							break;					
-
-							case 38: // LDMA [I], Vx
-								detailsBuffer.Printf("[%03X]=%02X, I=%03X", valueI, chip8_opcode2, (valueI+1)&0xff);
-							break;					
-
-							case 39: // SLSB Vx
-								detailsBuffer.Printf("I=%03X", (valueI&0xf00) | valueX);
-							break;					
-
-							case 40: // AFOR Vx
-								detailsBuffer.Printf("V%01X=%02X", vX, (valueX&0xf) | (valueI&0xff));
-							break;					
-
-                            case 41: // JP V0, aaa
-                                address = (address + p_Computer->readMem(p_Computer->getChip8baseVar()))&0xfff;
-                                detailsBuffer.Printf("JP %03X", address);
-                            break;
-                                
-                            case 42: // LD P, Vx (ETI)
-                                detailsBuffer.Printf("P=%02X", valueX);
-                            break;
-    
-                            case 43: //
-                            break;
-                                
-                            case 44: //
-                            break;
- 
-                            case 45: // LD DT, Vx (ETI)
-                                detailsBuffer.Printf("DT=%02X", valueX);
-                            break;
-                                
-                            case 46: // LD ST, Vx (ETI)
-                                detailsBuffer.Printf("ST=%d ms", valueX*20);
-                            break;
-                                
-                            case 47: // ADD I, Vx (ETI)
-                                detailsBuffer.Printf("I=%03X", (valueI+valueX)&0xfff);
-                            break;
-                                
-                            case 48: // LD F, Vx (ETI)
-                                detailsBuffer.Printf("I=%03X", chip8Sprite[valueX&0xf]);
-                            break;
-                                
-                            case 49: // LD [I], Vx (ETI)
-                                detailsBuffer.Printf("[%04X]=%02X", valueI, vX);
-                            break;
-                                
-                            case 50: // LD Vx, [I] (ETI)
-                                detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->readMem(valueI));
-                            break;
-
-                            case 51: // INP1 Vx (Chip8X)
-                                if (additionalChip8Details_)
-                                {
-                                    addressStr = "";
-                                    buffer = "";
-                                    detailsBuffer.Printf("V%01X=%02X", vX, p_Computer->getInValue(1));
-                                    additionalChip8Details_ = false;
-                                }
+                        if (includeDetails)
+                            additionalDetailsPrintStr_ = parameter.Right(parameter.Len()-4);
+                    }
+                    if (parameter.Left(3) == "det")
+                    {
+                        parameterFound = true;
+                        parameterStr = "";
+                        additionalChip8DetailsType_ = PSEUDO_DETAILS_X;
+                        additionalDetailsAddressV2_ = 0;
+                        if (includeDetails)
+                        {
+                            if (parameter.Right(2) == "VB")
+                            {
+                                additionalDetailsAddressV2_ = p_Computer->getChip8baseVar() + 0xB;
+                                additionalDetailsPrintStrV2_ = ", VB=%02X";
+                            }
+                            if (firstParameter == "Vx")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_.Printf("V%01X=", vX);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "Vy")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressY;
+                                additionalDetailsPrintStr_.Printf("V%01X=", vY);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "Vz")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressZ;
+                                additionalDetailsPrintStr_.Printf("V%01X=", vZ);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "[RA]")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_.Printf("[%03X]=", RegisterA);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "[RB]")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_.Printf("[%03X]=", RegisterB);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "[I]")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_.Printf("[%03X]=", valueI);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "mem=0600-06FF")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_.Printf("[6%02X]=", chip8_opcode2);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "mem=0800-08FF")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_.Printf("[8%02X]=", chip8_opcode2);
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "[Vy]")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                if (parameter.Right(3) == "ST2")
+                                    additionalDetailsPrintStr_.Printf("[%03X]=", 0x800+p_Computer->readMem(addressY));
                                 else
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", (p_Computer->readMem(addressY)<<8) + p_Computer->readMem(addressY+1));
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                            if (firstParameter == "ST")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_ = "ST=%d*20 ms";
+                            }
+                            if (firstParameter == "B")
+                            {
+                                secondParameter = extractWord(&pseudoLineCopy); // read ,
+                                secondParameter = extractWord(&pseudoLineCopy); // read second parameter
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                if (secondParameter == "Vx")
+                                    additionalDetailsPrintStr_.Printf("[%03X->%03X]=", valueI, (valueI+2)&0xfff);
+                                if (secondParameter == "Vy")
+                                    additionalDetailsPrintStr_.Printf("V%01X->V%01X=", vY, vY+2);
+                                if (secondParameter == "[RA]")
+                                    additionalDetailsPrintStr_.Printf("[%03X->%03X]=", RegisterA, RegisterA+2);
+                                if (secondParameter == "[Vy]")
                                 {
-                                    if (includeDetails)
-                                        additionalChip8Details_ = true;
+                                    if (parameter.Right(3) == "ST2")
+                                        additionalDetailsPrintStr_.Printf("[%03X->%03X]=", (valueY+0x800)&0xfff, (valueY+0x802)&0xfff);
+                                    else
+                                        additionalDetailsPrintStr_.Printf("[%04X->%04X]=", valueY+0x2700, valueY+0x2702);
                                 }
-                            break;
-                                
-                            default:
-							break;
-						}
-					}
+                                additionalDetailsPrintStr_ += "'%03d'";
+                            }
+                            if (firstParameter == "I")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsPrintStr_ = "I=";
+                                if (pseudoType_ == "STIV")
+                                    additionalDetailsPrintStr_ += "%04X";
+                                else
+                                    additionalDetailsPrintStr_ += "%03X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_I;
+                            }
+                            if (firstParameter == "[I]")
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = valueI;
+                                if (pseudoType_ == "STIV")
+                                    additionalDetailsPrintStr_.Printf("[%04X]=", valueI);
+                                else
+                                    additionalDetailsPrintStr_.Printf("[%03X]=", valueI);
+                                additionalDetailsPrintStr_ += "%02X";
+                                additionalChip8DetailsType_ = PSEUDO_DETAILS_MI;
+                            }
+                            if (!additionalChip8Details_)
+                            {
+                                additionalChip8Details_ = true;
+                                additionalDetailsAddress_ = addressX;
+                                additionalDetailsPrintStr_ = firstParameter + "=";
+                                additionalDetailsPrintStr_ += "%02X";
+                            }
+                        }
+                    }
+                  
                     if (!parameterFound)
                         parameterStr = parameter;
                     buffer += parameterStr;
@@ -15689,6 +15544,42 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
     buffer = addressStr + buffer;
     if (includeDetails)
         buffer = buffer + detailsBuffer;
+    return buffer;
+}
+
+wxString DebugWindow::addDetails()
+{
+    wxString buffer, v2String;
+    Word valueI;
+
+    switch (additionalChip8DetailsType_)
+    {
+        case PSEUDO_DETAILS_X:
+            buffer.Printf(additionalDetailsPrintStr_, p_Computer->readMem(additionalDetailsAddress_));
+            if (additionalDetailsAddressV2_ != 0)
+            {
+                v2String.Printf(additionalDetailsPrintStrV2_, p_Computer->readMem(additionalDetailsAddressV2_));
+                buffer += v2String;
+            }
+        break;
+      
+        case PSEUDO_DETAILS_I:
+            if (pseudoType_ == "STIV")
+                valueI = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
+            else
+                valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
+            buffer.Printf(additionalDetailsPrintStr_, valueI);
+        break;
+
+        case PSEUDO_DETAILS_MI:
+            if (pseudoType_ == "STIV")
+                valueI = (p_Computer->readMem(0x27f6)<<8)+p_Computer->readMem(0x27f7);
+            else
+                valueI = p_Computer->getScratchpadRegister(CHIP8_I) & 0xfff;
+            buffer.Printf(additionalDetailsPrintStr_, p_Computer->readMem(additionalDetailsAddress_));
+        break;
+    }
+    additionalChip8Details_ = false;
     return buffer;
 }
 

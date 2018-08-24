@@ -1,9 +1,9 @@
 ADD
-Vx , kk det=25 code=5xkk
-Vx , Vy det=8 code=8xy4
+Vx , kk det code=5xkk
+Vx , Vy det code=8xy4
 /ADD
 AND
-Vx , Vy det=17 code=8xy2
+Vx , Vy det code=8xy2
 /AND
 BEEP
 F = kk , n code=Dnkk
@@ -33,57 +33,57 @@ RA , hex=0000-0FFF code=Aaaa
 A , hex=0000-0FFF code=Aaaa
 RB , hex=0000-0FFF code=Baaa
 B , hex=0000-0FFF code=Baaa
-RA.0 , Vx code=Cx4D
-A.0 , Vx code=Cx4D
-RB.0 , Vx code=Cx41
-B.0 , Vx code=Cx41
-RB.1 , Vx code=Cx44
-B.1 , Vx code=Cx44
-Vx , COIN code=6x5D
-Vx , FIREA code=6x63
-Vx , FIREB code=6x67
-Vx , JOYA code=6x6B
-Vx , JOYB code=6x74
+RA.0 , Vx det code=Cx4D
+A.0 , Vx det code=Cx4D
+RB.0 , Vx det code=Cx41
+B.0 , Vx det code=Cx41
+RB.1 , Vx det code=Cx44
+B.1 , Vx det code=Cx44
+Vx , COIN det code=6x5D
+Vx , FIREA det code=6x63
+Vx , FIREB det code=6x67
+Vx , JOYA det code=6x6B
+Vx , JOYB det code=6x74
 Vx , kk code=2xkk
-Vx , PAR code=6x7B
-Vx , RA.0 code=Cx56
-Vx , A.0 code=Cx56
-Vx , RB.0 code=Cx47
-Vx , B.0 code=Cx47
-Vx , RB.1 code=Cx4A
-Vx , B.1 code=Cx4A
-Vx , Vy det=26 code=4xy1
-Vx , [RA] code=Cx35
-Vx , [A] code=Cx35
-Vx , [RB] code=Cx38
-Vx , [B] code=Cx38
-[RA] , Vx code=Cx3B
-[A] , Vx code=Cx3B
-[RB] , Vx code=Cx3E
-[B] , Vx code=Cx3E
+Vx , PAR det code=6x7B
+Vx , RA.0 det code=Cx56
+Vx , A.0 det code=Cx56
+Vx , RB.0 det code=Cx47
+Vx , B.0 det code=Cx47
+Vx , RB.1 det code=Cx4A
+Vx , B.1 det code=Cx4A
+Vx , Vy det code=4xy1
+Vx , [RA] det code=Cx35
+Vx , [A] det code=Cx35
+Vx , [RB] det code=Cx38
+Vx , [B] det code=Cx38
+[RA] , Vx det code=Cx3B
+[A] , Vx det code=Cx3B
+[RB] , Vx det code=Cx3E
+[B] , Vx det code=Cx3E
 /LD
 OR
-Vx , Vy det=16 code=8xy1
+Vx , Vy det code=8xy1
 /OR
 RND
-Vx , kk det=34 code=7xkk
+Vx , kk det code=7xkk
 /RND
 SHR
-Vx , Vy det=27 code=8xy6
+Vx , Vy det code=8xy6
 /SHR
 SNE
 Vx , kk code=3xkk
 Vx , Vy code=4xy0
 /SNE
 SUB
-Vx , Vy det=10 code=8xy5
+Vx , Vy det code=8xy5
 /SUB
 SUBN
-Vx , Vy det=29 code=8xy7
+Vx , Vy det code=8xy7
 /SUBN
 SYS
 hex=0000-0fff code=0jjj
 /SYS
 XOR
-Vx , Vy det=18 code=8xy3
+Vx , Vy det code=8xy3
 /XOR

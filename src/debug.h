@@ -60,6 +60,10 @@ public:
 #define MEM_LABEL_TYPE true
 #define FIND_BRANCH false
 
+#define PSEUDO_DETAILS_X 0
+#define PSEUDO_DETAILS_I 1
+#define PSEUDO_DETAILS_MI 2
+
 class PseudoCodeDetails
 {
 public:
@@ -311,9 +315,9 @@ public:
 	void checkLoadV();
 	void onInsert(wxCommandEvent&event);
 	bool branchChangeNeeded(int range, Word address, Word branchAddr);
-	void insertByte(Word address, Byte instruction, int branchAddress);
+	void insertByte(Word address, Byte instruction, int branchAddress, bool secondCardtranInsert);
 	void onDelete(wxCommandEvent&event);
-	void deleteByte(Word address);
+	void deleteByte(Word address, bool secondCardtranDelete);
 	void shortLongBranch();
 	void correctionList();
 	void changeBranch(Word address, Word branchAddr);
@@ -403,8 +407,10 @@ public:
 	void setChip8PauseState();
 	void onChip8StepButton(wxCommandEvent&event);
     void pseudoTrace(Word address);
-    void definePseudoCommands(int chip8Type);
+	wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* pseudoLoaded);
+    void definePseudoCommands();
     wxString pseudoDisassemble(Word address, bool includeDetails, bool showOpcode);
+    wxString addDetails();
 	void onChip8Trace(wxCommandEvent&event);
 	void onChip8ProtectedMode(wxCommandEvent&event);
 	void onChip8Log(wxCommandEvent&event);
@@ -430,8 +436,6 @@ protected:
 	wxListCtrl *trapWindowPointer;
 	wxTextCtrl *registerTextPointer[16];
 	wxTextCtrl *chip8varTextPointer[16];
-	wxTextCtrl *pcTextPointer;
-	wxTextCtrl *iTextPointer;
 	wxTextCtrl *chip8TraceWindowPointer;
 	wxTextCtrl *outTextPointer[8];
 	wxTextCtrl *inTextPointer[8];
@@ -456,6 +460,11 @@ protected:
 	long chip8Steps_;
 	bool performChip8Step_;
 	bool additionalChip8Details_;
+    int additionalChip8DetailsType_;
+    Word additionalDetailsAddress_;
+    Word additionalDetailsAddressV2_;
+    wxString additionalDetailsPrintStr_;
+    wxString additionalDetailsPrintStrV2_;
 
 	double percentageClock_;
 	bool saveDebugFile_;
@@ -487,7 +496,6 @@ private:
     int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2);
 	AssInput getAssInput(wxString buffer);
 	int checkParameterPseudo(AssInput assInput, Word* pseudoCode);
-    wxString getPseudoFile();
 	Byte getCardtranAddress(long address);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
 	int getByte(AssInput assInput, Byte* b2, bool allowX);
@@ -543,7 +551,8 @@ private:
 
 	bool spinning_;
 
-	int chip8type_;
+	wxString pseudoType_;
+    bool pseudoLoaded_;
 
 	bool showInstructionTrap_;
 	bool dataViewDump;
@@ -585,7 +594,6 @@ private:
     LabelInfo labelInfo_[65536];
 
 	int numberOfDebugLines_;
-    int chip8Type_;
     
 	wxTextFile inFile;
 
@@ -603,7 +611,11 @@ private:
     size_t branchCommandNumber_;
     vector<Byte> branchCommand_;
     vector<Byte> branchMask_;
+
+    size_t decimalBranchCommandNumber_;
+    vector<Byte> decimalBranchCommand_;    
     
+	wxString commandSyntaxFile_;
 	DECLARE_EVENT_TABLE()
 };
 

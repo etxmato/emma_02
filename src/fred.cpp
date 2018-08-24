@@ -978,43 +978,20 @@ void Fred::startComputer()
         defineMemoryType(i, i+ramMask_, MAPPEDRAM);
     
     initRam(0x0, ramMask_);
-    p_Main->assDefault("fred", 0, ramMask_);
 
     readProgram(p_Main->getRamDir(computerType_), p_Main->getRamFile(computerType_), RAM, 0, NONAME);
     
-    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+
+    if (pseudoType_ == "CARDTRAN")
     {
-        chip8baseVar_ = 0x100;
-        chip8mainLoop_ = 0x13B;
-        chip8type_ = CHIPFEL1;
+        p_Main->assDefault("interpreter-1", 0, 0x1ff);
+        p_Main->assDefault("cardtran", 0x200, 0x2c7);
+        p_Main->assDefault("interpreter-2", 0x2c8, 0x3ff);
+        p_Main->assDefault("ram", 0x400, ramMask_);
     }
-    if (mainMemory_[2] == 0x8 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {  // GPL I
-        chip8baseVar_ = 0x680;
-        chip8mainLoop_ = 0x2a;
-        chip8type_ = CHIPGPL1;
-    }
-    if (mainMemory_[2] == 0xa && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {  // tag-bowling and GPL II
-        chip8baseVar_ = 0x880;
-        chip8mainLoop_ = 0x2a;
-        chip8type_ = CHIPGPL2;
-    }
-    if (mainMemory_[0x119] == 0x45 && mainMemory_[0x14b] == 0x18 && mainMemory_[0x200] == 0xe6 && mainMemory_[0x2a6] == 0x4b)
-    {  // Curses Foiled Again and FPL
-        chip8baseVar_ = 0x690;
-        chip8mainLoop_ = 0x119;
-        chip8type_ = CHIPFPL;
-    }
-    if (mainMemory_[0x6b] == 0x4f && mainMemory_[0x2a] == 0xe3 && mainMemory_[0x100] == 0x2c && mainMemory_[0x11b] == 0x18)
-    {
-        chip8baseVar_ = 0;
-        chip8mainLoop_ = 0x6b;
-        chip8type_ = CARDTRAN;
-    }
-    
-    if (chip8type_ != CHIP_NONE)
-        p_Main->definePseudoCommands(chip8type_);
+    else
+        p_Main->assDefault("fred", 0, ramMask_);
 
     fredScreenPointer->setErrorLed(0);
 
@@ -1183,7 +1160,7 @@ void Fred::cpuInstruction()
 
         if (debugMode_)
 			p_Main->cycleDebug();
-        if (chip8type_ != CHIP_NONE)
+		if (pseudoLoaded_ && cycle0_ == 0)
             p_Main->cyclePseudoDebug();
 	}
 	else
@@ -1221,38 +1198,7 @@ void Fred::resetFred()
 {
     resetCpu();
     resetPressed_ = false;
-        
-    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xF8 && mainMemory_[0x100] == 0 && mainMemory_[0x210] == 0x52)
-    {
-        chip8baseVar_ = 0x100;
-        chip8mainLoop_ = 0x13B;
-        chip8type_ = CHIPFEL1;
-    }
-    if (mainMemory_[2] == 0x8 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {  // GPL I
-        chip8baseVar_ = 0x680;
-        chip8mainLoop_ = 0x2a;
-        chip8type_ = CHIPGPL1;
-    }
-    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {  // tag-bowling and GPL II
-        chip8baseVar_ = 0x880; // GPL II
-        chip8mainLoop_ = 0x2a;
-        chip8type_ = CHIPGPL2;
-    }
-    if (mainMemory_[0x119] == 0x45 && mainMemory_[0x14b] == 0x18 && mainMemory_[0x200] == 0xe6 && mainMemory_[0x2a6] == 0x4b)
-    {  // Curses Foiled Again and FPL
-        chip8baseVar_ = 0x690;
-        chip8mainLoop_ = 0x119;
-        chip8type_ = CHIPFPL;
-    }
-    if (mainMemory_[0x6b] == 0x4f && mainMemory_[0x2a] == 0xe3 && mainMemory_[0x100] == 0x2c && mainMemory_[0x11b] == 0x18)
-    {
-        chip8baseVar_ = 0;
-        chip8mainLoop_ = 0x6b;
-        chip8type_ = CARDTRAN;
-    }
-    
+            
     setClear(0);
     setWait(1);
     if (fredConfiguration.autoBoot)
@@ -1598,7 +1544,7 @@ void Fred::showDataLeds(Byte value)
 
 void Fred::checkFredFunction()
 {
-    if (scratchpadRegister_[programCounter_] == p_Computer->getChip8MainLoop() && chip8type_ == CHIPFEL1)
+    if (scratchpadRegister_[programCounter_] == p_Computer->getChip8MainLoop() && pseudoType_ == "FEL")
     {
         switch(scratchpadRegister_[5])
         {

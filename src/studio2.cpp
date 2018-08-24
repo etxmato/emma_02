@@ -467,11 +467,10 @@ void Studio2::startComputer()
             multiCart_ = false;
     }
     
-    if (readMem(0) == 0x90)
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+
+    if (pseudoType_ == "ST2")
     {
-        chip8baseVar_ = 0x8c0;
-        chip8mainLoop_ = 0x6b;
-        chip8type_ = CHIPST2;
         if (!multiCart_)
         {
             readSt2Program(STUDIO);
@@ -485,15 +484,11 @@ void Studio2::startComputer()
     }
     else
     {
-        chip8baseVar_ = 0x8f0;
-        chip8mainLoop_ = 0x1c;
-        chip8type_ = CHIP8;
         if (!multiCart_)
             readProgram(p_Main->getRomDir(STUDIO, CARTROM), p_Main->getRomFile(STUDIO, CARTROM), ROM, 0x300, NONAME);
         p_Main->assDefault("studiocart_1", 0x400, 0x7FF);
         p_Main->assDefault("studiocart_2", 0xC00, 0xFFF);
 	}
-    p_Main->definePseudoCommands(chip8type_);
 
     defineMemoryType(0x800, 0x9ff, RAM);
     initRam(0x800, 0x9ff);
@@ -782,18 +777,7 @@ void Studio2::cpuInstruction()
 			resetCpu();
 			resetPressed_ = false;
 
-			if (readMem(0) == 0x90)
-			{
-				chip8baseVar_ = 0x8c0;
-				chip8mainLoop_ = 0x6b;
-				chip8type_ = CHIPST2;
-			}
-			else
-			{
-				chip8baseVar_ = 0x8f0;
-				chip8mainLoop_ = 0x1c;
-				chip8type_ = CHIP8;
-			}
+            pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
 
             p_Main->getDefaultHexKeys(STUDIO, "Studio2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
             p_Main->getDefaultHexKeys(STUDIO, "Studio2", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
@@ -833,7 +817,8 @@ void Studio2::cpuInstruction()
 		if (debugMode_)
 			p_Main->cycleDebug();
 
-        p_Main->cyclePseudoDebug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+	        p_Main->cyclePseudoDebug();
 	}
 	else
 	{

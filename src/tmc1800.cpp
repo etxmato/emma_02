@@ -265,11 +265,7 @@ void Tmc1800::startComputer()
 
 	readProgram(p_Main->getRamDir(TMC1800), p_Main->getRamFile(TMC1800), NOCHANGE, 0, SHOWNAME);
 	readProgram(p_Main->getChip8Dir(TMC1800), p_Main->getChip8SW(TMC1800), NOCHANGE, 0x200, SHOWNAME);
-	if (mainMemory_[0x100] ==  0 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
-		chip8type_ = CHIP8;
-
-    if (chip8type_ != CHIP_NONE)
-        p_Main->definePseudoCommands(chip8type_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
 
 	double zoom = p_Main->getZoom();
 
@@ -391,7 +387,8 @@ void Tmc1800::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cyclePseudoDebug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

@@ -1,10 +1,10 @@
 ADD
 I , Vx code=Fx1E
-Vx , kk det=25 code=7xkk
-Vx , Vy det=8 code=8xy4
+Vx , kk det code=7xkk
+Vx , Vy det code=8xy4
 /ADD
 AND
-Vx , Vy det=17 code=8xy2
+Vx , Vy det code=8xy2
 /AND
 CALL 
 s-hex=0000-0FFF code=2sss
@@ -17,41 +17,41 @@ Vx , Vy , n code=Dxyn
 /DRW
 JP
 s-hex=0000-0FFF code=1sss
-V0 , s-hex=0000-0FFF det=41 code=Bsss
+V0 , s-hex=0000-0FFF code=Bsss
 /JP
 LD
-B , Vx det=5 code=Fx33
-DT , Vx code=Fx15
-F , Vx code=Fx29
+B , Vx det code=Fx33
+DT , Vx det code=Fx15
+F , Vx det code=Fx29
 I , s-hex=0000-0FFF code=Asss
-ST , Vx code=Fx18
-Vx , DT code=Fx07
-Vx , K code=Fx0A
+ST , Vx det code=Fx18
+Vx , DT det code=Fx07
+Vx , K det code=Fx0A
 Vx , kk code=6xkk
-Vx , Vy det=26 code=8xy0
-Vx , [I] code=Fx65
-[I] , Vx code=Fx55
+Vx , Vy det code=8xy0
+Vx , [I] det code=Fx65
+[I] , Vx det code=Fx55
 /LD
 OR
-Vx , Vy det=16 code=8xy1
+Vx , Vy det code=8xy1
 /OR
 RETURN
 code=00EE
 /RETURN
 RND
-Vx , kk det=34 code=Cxkk
+Vx , kk det code=Cxkk
 /RND
 SE
 Vx , kk code=3xkk
 Vx , Vy code=5xy0
 /SE
 SHL
-Vx det=28 code=8xxE
-Vx , Vy det=28 code=8xyE
+Vx det code=8xxE
+Vx , Vy det code=8xyE
 /SHL
 SHR
-Vx det=27 code=8xx6
-Vx , Vy det=27 code=8xy6
+Vx det code=8xx6
+Vx , Vy det code=8xy6
 /SHR
 SKP
 Vx code=Ex9E
@@ -64,14 +64,14 @@ Vx , kk code=4xkk
 Vx , Vy code=9xy0
 /SNE
 SUB
-Vx , Vy det=10 code=8xy5
+Vx , Vy det code=8xy5
 /SUB
 SUBN
-Vx , Vy det=29 code=8xy7
+Vx , Vy det code=8xy7
 /SUBN
 SYS
 s-hex=0000-0fff code=0sss
 /SYS
 XOR
-Vx , Vy det=18 code=8xy3
+Vx , Vy det code=8xy3
 /XOR

@@ -1,7 +1,11 @@
 ADD
-Vx , Vy det=7 code=5xyx
-Vz , Vx + Vy det=7 code=5xyz
+Vx , Vy det code=5xyx
+Vz , Vx + Vy det code=5xyz
 /ADD
+SUB
+Vx , Vy det code=6xyx
+Vz , Vx - Vy det code=6xyz
+/SUB
 TONE
 OFF code=C000
 kk code=C0kk
@@ -43,20 +47,16 @@ JZ
 V0 , hex=0000-0FFF code=0jjj
 /JZ
 KEY
-Vx , Vy , Vz code=4xyz
+Vx , Vy , Vz det code=4xyz
 /KEY
 LD
 Vx , kk code=7xkk
-Vz , Vx + Vy code=5xyz
-Vz , Vx - Vy code=6xyz
+Vz , Vx + Vy det code=5xyz
+Vz , Vx - Vy det code=6xyz
 /LD
 RETURN
 code=E0
 /RETURN
-SUB
-Vx , Vy det=9 code=6xyx
-Vz , Vx - Vy det=9 code=6xyz
-/SUB
 SYS
 hex=0000-0fff code=8jjj
 /SYS

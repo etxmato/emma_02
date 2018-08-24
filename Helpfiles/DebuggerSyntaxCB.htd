@@ -227,25 +227,25 @@ Note: E... is not defined.
 <TD WIDTH="55">Cx35</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">Vx, [RA]<br>Vx, [A]</TD>
-<TD WIDTH="250">Vx = [RA]</TD>
+<TD WIDTH="250">Vx = [RA], RA = RA + 1</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Cx38</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">Vx, [RB]<br>Vx, [B]</TD>
-<TD WIDTH="250">Vx = [RB]</TD>
+<TD WIDTH="250">Vx = [RB], RB = RB + 1</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Cx3B</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">[RA], Vx<br>[A], Vx</TD>
-<TD WIDTH="250">[RA] = Vx</TD>
+<TD WIDTH="250">[RA] = Vx, RA = RA + 1</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Cx3E</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">[RB], Vx<br>[B], Vx</TD>
-<TD WIDTH="250">[RB] = Vx</TD>
+<TD WIDTH="250">[RB] = Vx, RB = RB + 1</TD>
 </TR>
 <TR>
 <TD WIDTH="55">8xy1</TD>

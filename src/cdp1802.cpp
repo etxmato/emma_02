@@ -3003,12 +3003,8 @@ void Cdp1802::checkLoadedSoftware()
 	{
 		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF))
 		{
-			if ((mainMemory_[0x1c] == 0xd4) && (mainMemory_[0x1d] == 0x96) && (mainMemory_[0x1e] == 0xb7) && (mainMemory_[0x6f] == 0x05))
-			{
-				chip8baseVar_ = 0xef0;
-				chip8mainLoop_ = 0x1d;
-				chip8type_ = CHIP8;
-			}
+            pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+            
 			if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
 			{
 				loadedProgram_ = SUPERBASICV1;

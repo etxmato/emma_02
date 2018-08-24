@@ -1700,8 +1700,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(defaultFont);
 
 		wxString text;
-		pcTextPointer = XRCCTRL(*this,"Chip8PC", wxTextCtrl);
-		iTextPointer = XRCCTRL(*this,"Chip8I", wxTextCtrl);
 		chip8TraceWindowPointer = XRCCTRL(*this,"Chip8TraceWindow", wxTextCtrl);
 		for (int i=0; i<16; i++)
 		{
@@ -7203,7 +7201,8 @@ void Main::showChip8Register(int variable, int value)
 	wxString valueStr;
 	valueStr.Printf("%02X", value);
 
-	XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue(valueStr);
+    eventSetTextValue(idReference, valueStr);
+//	XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue(valueStr);
 }
 
 void Main::setFandMBasicGuiEvent(guiEvent&WXUNUSED(event))

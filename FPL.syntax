@@ -1,7 +1,11 @@
 ADD
-Vx , Vy det=7 code=6xyx
-Vz , Vx + Vy det=7 code=6xyz
+Vx , Vy det code=6xyx
+Vz , Vx + Vy det code=6xyz
 /ADD
+SUB
+Vx , Vy det code=7xyx
+Vz , Vx - Vy det code=7xyz
+/SUB
 BEEP
 F = kk , n code=Dnkk
 kk , n code=Dnkk
@@ -32,31 +36,27 @@ JP
 hex=0000-0FFF code=Fjjj
 /JP 
 KEY
-Vx code=Ex.1
+Vx det code=Ex.1
 OFF code=E.08
 /KEY
 LD
-mem=0600-06FF , Vx det=15 code=5xbb
-hex=0600-06FF , Vx det=15 code=5xbb
-B , Vy , Vx det=3 code=9xy.
+mem=0600-06FF , Vx det code=5xbb
+hex=0600-06FF , Vx code=5xbb
+B , Vy , Vx det code=9xy.
 Vx , kk code=4xkk
-Vz , Vx + Vy code=6xyz
-Vz , Vx - Vy code=7xyz
+Vz , Vx + Vy det code=6xyz
+Vz , Vx - Vy det code=7xyz
 /LD
 RETURN
 code=E000
 /RETURN
 RND
-Vx , kk det=34 code=8xkk
+Vx , kk det code=8xkk
 /RND
 SNE
 Vx , kk code=2xkk
 n , kk code=3nkk
 /SNE
-SUB
-Vx , Vy det=9 code=7xyx
-Vz , Vx - Vy det=9 code=7xyz
-/SUB
 SYS
 hex=0000-0fff code=0jjj
 /SYS

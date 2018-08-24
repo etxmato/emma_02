@@ -7,7 +7,7 @@
 Pseudo command syntax described here is the FPA-1 variant which we found in the Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials. So far I have not found any copy of the FPA-1 source or any SW using it. The 'Scramble' and 'Swords' syntax described in following chapters are however somewhat similar.
 </p>
 <p>
-FPA-1 programs code should be located between address 200-2FF, 300-3FF is available for TV patterns or additional FPA-1 code. The tV pattern table is located at 00F0-00FF and can be changed as needed. 15 FPA-1 variable V0-VE are available, V0 is used for carry flag and V1 for keyboard input byte.
+FPA-1 programs code should be located between address 200-2FF, 300-3FF is available for TV patterns or additional FPA-1 code. The TV pattern table is located at 00F0-00FF and can be changed as needed. 15 FPA-1 variable V0-VE are available, V0 is used for carry flag and V1 for keyboard input byte.
 </p>
 <h3>Definitions</h3>
 <TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >

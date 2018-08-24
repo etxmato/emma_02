@@ -56,10 +56,6 @@ Visicom::~Visicom()
 
 void Visicom::configureComputer()
 {
-	chip8baseVar_ = 0x10c0;
-	chip8mainLoop_ = 0x281;
-	chip8type_ = CHIPST2;
-
 	outType_[2] = STUDIOOUT;
 	studioKeyPort_ = 0;
 	efType_[3] = STUDIOEF3;
@@ -455,6 +451,8 @@ void Visicom::startComputer()
     initRam(0x1300, 0x13ff);
 	double zoom = p_Main->getZoom();
  
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    
 	configurePixieVisicom();
 	initPixie();
 	setZoom(zoom);
@@ -622,7 +620,8 @@ void Visicom::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cyclePseudoDebug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

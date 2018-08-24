@@ -1,13 +1,13 @@
 ADD
-Vx , Vy det=7 code=6xyx
-Vz , Vx + Vy det=7 code=6xyz
+Vx , Vy det code=6xyx
+Vz , Vx + Vy det code=6xyz
 /ADD
 SUB
-Vx , Vy det=9 code=7xyx
-Vz , Vx - Vy det=9 code=7xyz
+Vx , Vy det code=7xyx
+Vz , Vx - Vy det code=7xyz
 /SUB
 ADD8
-Vx , Vy , Vz det=12 code=Bxyz
+Vx , Vy , Vz det code=Bxyz
 /ADD8
 BEEP
 F = kk , n code=9nkk
@@ -23,18 +23,18 @@ JP
 hex=0000-0FFF code=Fjjj
 /JP 
 LD
-B , Vy , Vx det=3 code=5xy.
-Vx , COIN code=Ex.0
-Vx , FIREA code=Ex.1
-Vx , FIREB code=Ex.2
-Vx , JOYA code=Ex.4
-Vx , JOYB code=Ex.8
+B , Vy , Vx det code=5xy.
+Vx , COIN det code=Ex.0
+Vx , FIREA det code=Ex.1
+Vx , FIREB det code=Ex.2
+Vx , JOYA det code=Ex.4
+Vx , JOYB det code=Ex.8
 Vx , kk code=4xkk
-Vx , PAR code=C8y.
-Vz , Vx + Vy code=6xyz
-Vz , Vx - Vy code=7xyz
-mem=0800-08FF , Vx det=14 code=Dxbb
-hex=0800-08FF , Vx det=14 code=Dxbb
+Vx , PAR det code=C8y.
+Vz , Vx + Vy det code=6xyz
+Vz , Vx - Vy det code=7xyz
+mem=0800-08FF , Vx det code=Dxbb
+hex=0800-08FF , Vx code=Dxbb
 /LD
 NO
 OP code=C4
@@ -44,12 +44,12 @@ RETURN
 code=C0
 /RETURN
 RND
-Vx , kk det=34 code=8xkk
+Vx , kk det code=8xkk
 /RND
 SNE
 Vx , kk code=2xkk
-Vx , mem=0800-08FF det=2 code=3xbb
-Vx , hex=0800-08FF det=2 code=3xbb
+Vx , mem=0800-08FF code=3xbb
+Vx , hex=0800-08FF code=3xbb
 /SNE
 SYS
 hex=0000-0fff code=0jjj

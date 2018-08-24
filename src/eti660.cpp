@@ -44,10 +44,6 @@ Eti::~Eti()
 
 void Eti::configureComputer()
 {
-	chip8baseVar_ = 0x470;
-	chip8mainLoop_ = 0x200;
-	chip8type_ = CHIPETI;
-
 	outType_[2] = ETIPIAOUT;
 	inType_[2] = ETIPIAIN;
 	outType_[3] = ETICOLOURRAM;
@@ -449,6 +445,8 @@ void Eti::startComputer()
         readProgram(p_Main->getChip8Dir(ETI), p_Main->getChip8SW(ETI), NOCHANGE, 0x0600, SHOWNAME);
 	double zoom = p_Main->getZoom();
 
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+
 	configurePixieEti();
 	initPixie();
 	setZoom(zoom);
@@ -556,7 +554,8 @@ void Eti::cpuInstruction()
 	}
 	if (debugMode_)
 		p_Main->cycleDebug();
-	p_Main->cyclePseudoDebug();
+	if (pseudoLoaded_ && cycle0_ == 0)
+		p_Main->cyclePseudoDebug();
 }
 
 void Eti::onReset()

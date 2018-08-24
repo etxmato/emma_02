@@ -280,45 +280,7 @@ void CoinArcade::startComputer()
 
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
     
-    if (mainMemory_[2] == 0x8 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {  // GPL I
-        chip8baseVar_ = 0x680;
-        chip8mainLoop_ = 0x2a;
-        chip8type_ = CHIPGPL1;
-    }
-    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {  // tag-bowling, Katch and GPL II
-        chip8baseVar_ = 0x880; // GPL II
-        chip8mainLoop_ = 0x2a;
-        chip8type_ = CHIPGPL2;
-    }
-    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xf8 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xd4)
-    {  // Bowling
-        chip8baseVar_ = 0x800;
-        chip8mainLoop_ = 0x45;
-        chip8type_ = CHIPFEL3;
-    }
-    if (mainMemory_[0] == 0xd0 && mainMemory_[0x26] == 0x45 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xf4)
-    {  // Swords, Touche !!, En Garde !! and Mines 1
-        chip8baseVar_ = 0x800;
-        chip8mainLoop_ = 0x26;
-        chip8type_ = CHIPFEL4;
-    }
-    if (mainMemory_[0] == 0xd0 && mainMemory_[0x23] == 0x45 && mainMemory_[0x103] == 0x42 && mainMemory_[0x1ba] == 0xf4)
-    {  // Chase and Mines 2
-        chip8baseVar_ = 0x800;
-        chip8mainLoop_ = 0x26;
-        chip8type_ = CHIPFEL4;
-    }
-    if (mainMemory_[0] == 0xd0 && mainMemory_[0x24] == 0x45 && mainMemory_[0x103] == 0xf0 && mainMemory_[0x1ba] == 0xf8)
-    {  // Scramble-Split Second
-        chip8baseVar_ = 0x800;
-        chip8mainLoop_ = 0x24;
-        chip8type_ = CHIPFEL5;
-	}
-
-    if (chip8type_ != CHIP_NONE)
-        p_Main->definePseudoCommands(chip8type_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
 
     p_Main->assDefault("coinarcade", 0, 0x7FF);
 
@@ -460,43 +422,6 @@ void CoinArcade::cpuInstruction()
 			resetCpu();
 			resetPressed_ = false;
 
-			if (mainMemory_[2] == 0x8 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-			{  // GPL I
-				chip8baseVar_ = 0x680;
-				chip8mainLoop_ = 0x2a;
-				chip8type_ = CHIPGPL1;
-			}
-			if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-			{  // tag-bowling, Katch  and GPL II
-				chip8baseVar_ = 0x880; // GPL II
-				chip8mainLoop_ = 0x2a;
-				chip8type_ = CHIPGPL2;
-			}
-            if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xf8 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xd4)
-            {  // Bowling
-                chip8baseVar_ = 0x800;
-                chip8mainLoop_ = 0x45;
-                chip8type_ = CHIPFEL3;
-            }
-            if (mainMemory_[0] == 0xd0 && mainMemory_[0x26] == 0x45 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xf4)
-            {  // Swords, Touche !!, En Garde !! and Mines 1
-                chip8baseVar_ = 0x800;
-                chip8mainLoop_ = 0x26;
-                chip8type_ = CHIPFEL4;
-            }
-            if (mainMemory_[0] == 0xd0 && mainMemory_[0x23] == 0x45 && mainMemory_[0x103] == 0x42 && mainMemory_[0x1ba] == 0xf4)
-            {  // Chase and Mines 2
-                chip8baseVar_ = 0x800;
-                chip8mainLoop_ = 0x26;
-                chip8type_ = CHIPFEL4;
-            }
-			if (mainMemory_[0] == 0xd0 && mainMemory_[0x24] == 0x45 && mainMemory_[0x103] == 0xf0 && mainMemory_[0x1ba] == 0xf8)
-			{  // Scramble-Split Second
-				chip8baseVar_ = 0x800;
-				chip8mainLoop_ = 0x24;
-				chip8type_ = CHIPFEL5;
-			}
-
             setWait(1);
 			setClear(0);
 			setWait(1);
@@ -507,8 +432,8 @@ void CoinArcade::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-        if (chip8type_ != CHIP_NONE)
-            p_Main->cyclePseudoDebug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

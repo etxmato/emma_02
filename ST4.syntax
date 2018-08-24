@@ -1,16 +1,16 @@
 ADD
 [V0V1] , [V2V3] code=6754
 V0V1 , V2V3 code=6754
-I , kk det=23 code=62kk
+I , kk det code=62kk
 I , V9 code=678E
-Vx , kk det=25 code=7xkk
-Vx , Vy det=8 code=4x4y
+Vx , kk det code=7xkk
+Vx , Vy det=VB code=4x4y
 /ADD
 ADDN
-Vx , Vy det=21 det=21 code=4xAy
+Vx , Vy det code=4xAy
 /ADDN
 AND
-Vx , Vy det=17 code=4x2y
+Vx , Vy det code=4x2y
 /AND
 CALL 
 hex=0600-06FF code=66jj
@@ -93,22 +93,22 @@ Vx , hex=0000-00FF code=8xbb
 /JZ
 KEY
 SWITCH code=671C
-Vy code=4.Fy
+Vy det=VB code=4.Fy
 WAIT code=67AA
 /KEY
 KEYP
-Vy code=4x7y
+Vy det code=4x7y
 /KEYP
 KEYR
-Vy code=4x8y
+Vy det code=4x8y
 /KEYR
 LD
 mem=2700-27FF , I code=64aa
 hex=2700-27FF , I code=64aa
 mem=2700-27FF , Vx code=Dxaa
 hex=2700-27FF , Vx code=Dxaa
-B , [Vy] , Vx code=4x0y
-B , Vy , Vx det=6 code=4x0y
+B , [Vy] , Vx det=ST2 code=4x0y
+B , Vy , Vx det=ST2 code=4x0y
 I , [I] code=679E
 I , [I + V9] code=679C
 I , hex=0000-0FFF code=0jjj
@@ -118,17 +118,17 @@ I , hex=3000-3FFF code=3jjj
 I , mem=2700-27FF code=63aa
 I , Vy , Vy1 code=63Ey
 I , Vy code=63Ey
-Vx , mem=2700-27FF code=Exaa
+Vx , mem=2700-27FF det code=Exaa
 Vx , kk code=Fxkk
-Vx , [Vy] code=5xFy
-Vy , I code=64Ey
-Vx , Vy det=26 code=DxEy
-Vx , Vy det=26 code=ExEy
-[Vy] , Vx code=5xEy
+Vx , [Vy] det code=5xFy
+Vy , I det code=64Ey
+Vx , Vy det code=DxEy
+Vx , Vy det code=ExEy
+[Vy] , Vx det=ST4 code=5xEy
 Vy , Vy1 , I code=64Ey
 /LD
 OR
-Vx , Vy det=16 code=4x1y
+Vx , Vy det code=4x1y
 /OR
 OUT4
 kk code=6Fkk
@@ -163,7 +163,7 @@ mem=270B-270B V8 , V9 code=67BC
 V8 , V9 code=67BC
 mem=270B-270B V9 code=67B6
 V9 code=67B6
-Vx , kk det=34 code=Cxkk
+Vx , kk det code=Cxkk
 /RND
 SCR
 CLS code=6612
@@ -171,11 +171,11 @@ FILL code=6626
 XOR code=670B
 /SCR
 SHL
-Vx , n det=19 code=4x6n
+Vx , n det=VB code=4x6n
 /SHL
 SHR
-Vx , n det=20 code=4x9n
-Vx , Vy det=22 code=4xCy
+Vx , n det=VB code=4x9n
+Vx , Vy det code=4xCy
 /SHR
 STOP
 code=4.D.
@@ -183,7 +183,7 @@ code=4.D.
 SUB
 [V0V1] , [V2V3] code=675A
 V0V1 , V2V3 code=675A
-Vx , Vy det=10 code=4x5y
+Vx , Vy det=VB code=4x5y
 /SUB
 SWAP
 Vx , Vy , [I] code=5x1y
@@ -197,5 +197,5 @@ WAIT
 I , kk code=6Dkk
 /WAIT
 XOR
-Vx , Vy det=18 code=4x3y
+Vx , Vy det code=4x3y
 /XOR

@@ -20,6 +20,7 @@
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
 		9960FF23211953CE00DB2EDD /* GPL II.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL II.syntax */; };
 		99677914202E430B00108BB6 /* coinarcade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99677912202E430B00108BB6 /* coinarcade.cpp */; };
+		996C1615212F3F130061C30B /* pseudo.def in Resources */ = {isa = PBXBuildFile; fileRef = 996C1614212F3F130061C30B /* pseudo.def */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896D1C3B16D10061426E /* menuVelf.xrc */; };
 		997189701C3B19BC0061426E /* menuVip.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896F1C3B19BC0061426E /* menuVip.xrc */; };
@@ -233,6 +234,7 @@
 		99677912202E430B00108BB6 /* coinarcade.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coinarcade.cpp; path = src/coinarcade.cpp; sourceTree = "<group>"; };
 		99677913202E430B00108BB6 /* coinarcade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coinarcade.h; path = src/coinarcade.h; sourceTree = "<group>"; };
 		996B97391B24116B009827BF /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; path = data; sourceTree = "<group>"; };
+		996C1614212F3F130061C30B /* pseudo.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pseudo.def; sourceTree = "<group>"; };
 		996F46241AA643B300C88AA6 /* keymaptmc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = keymaptmc.cpp; path = src/keymaptmc.cpp; sourceTree = "<group>"; };
 		996F46251AA643B300C88AA6 /* keymaptmc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = keymaptmc.h; path = src/keymaptmc.h; sourceTree = "<group>"; };
 		996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.pkgproj"; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 				9909A22D1F2144D200B17E58 /* MenuMember.pjd */,
 				9909A22E1F2144D200B17E58 /* Configuration.pjd */,
 				9909A22F1F2144D200B17E58 /* Datadir.pjd */,
+				996C1614212F3F130061C30B /* pseudo.def */,
 				99D92E72211AA0AD007D868E /* CARDTRAN.syntax */,
 				99F8CF02211A1567002F02C6 /* CB.syntax */,
 				9997F7BC212494FA0036A1FC /* Scramble.syntax */,
@@ -979,6 +982,7 @@
 				999DE99B20667EF2005B3A29 /* Linux build in Resources */,
 				99792DEB1B88FEFD0044FDBB /* datadir.xrc in Resources */,
 				99792E021B88FF580044FDBB /* menuCosmicos.xrc in Resources */,
+				996C1615212F3F130061C30B /* pseudo.def in Resources */,
 				99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */,
 				99792DED1B88FF1E0044FDBB /* eprom.xrc in Resources */,
 				99792E061B88FF590044FDBB /* menuPecom.xrc in Resources */,

@@ -443,10 +443,7 @@ void StudioIV::startComputer()
     if (gameAuto_)
         p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
 
-    chip8baseVar_ = 0x27E0;
-    chip8mainLoop_ = 0x16;
-    chip8type_ = CHIPSTIV;
-    p_Main->definePseudoCommands(chip8type_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
     readSt2Program(STUDIOIV);
 
 	reDefineKeysA(keyDefA1_, keyDefA2_);
@@ -595,7 +592,8 @@ void StudioIV::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-        p_Main->cyclePseudoDebug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+	        p_Main->cyclePseudoDebug();
 	}
 	else
 	{

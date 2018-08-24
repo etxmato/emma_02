@@ -428,7 +428,7 @@ public:
 	bool getAudioInStatus() {return audioIn_;};
 	Word getChip8baseVar() {return chip8baseVar_;};
 	Word getChip8MainLoop() {return chip8mainLoop_;};
-	int getChip8Type() {return chip8type_;};
+	wxString getPseudoType() {return pseudoType_;};
 	void showChip8Registers();
 	virtual void writeMemDataType(Word address, Byte type);
 	virtual Byte readMemDataType(Word address);
@@ -484,7 +484,9 @@ protected:
 	Word chip8baseVar_;
 	Word chip8mainLoop_;
 
-	int chip8type_;
+	wxString pseudoType_;
+    bool pseudoLoaded_;
+
     int inKey1_;
     int inKey2_;
 
