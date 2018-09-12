@@ -38,6 +38,7 @@ public:
 
 	void onVipBaudR(wxCommandEvent& event);
 	void onVipBaudT(wxCommandEvent& event);
+    void onVipUart(wxCommandEvent& event);
 
 private:
     wxPoint position_;

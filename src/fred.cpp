@@ -981,7 +981,7 @@ void Fred::startComputer()
 
     readProgram(p_Main->getRamDir(computerType_), p_Main->getRamFile(computerType_), RAM, 0, NONAME);
     
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     if (pseudoType_ == "CARDTRAN")
     {
@@ -1212,6 +1212,9 @@ void Fred::resetFred()
     
     pixiePointer->initPixie();
     ioGroup_ = 0;
+    
+    if (fredConfiguration.tapeStart)
+        startLoad(false);
     
     p_Main->setCurrentCardValue();
 }
@@ -1544,7 +1547,7 @@ void Fred::showDataLeds(Byte value)
 
 void Fred::checkFredFunction()
 {
-    if (scratchpadRegister_[programCounter_] == p_Computer->getChip8MainLoop() && pseudoType_ == "FEL")
+    if (scratchpadRegister_[programCounter_] == p_Computer->getChip8MainLoop() && pseudoType_ == "FEL-1")
     {
         switch(scratchpadRegister_[5])
         {
@@ -1562,6 +1565,31 @@ void Fred::checkFredFunction()
                     p_Main->startCassetteSave();
                 
                 tapeRecording_ = true;
+            break;
+        }
+    }
+    else
+    {
+        switch(scratchpadRegister_[programCounter_])
+        {
+            case 0xae:
+                if ((mainMemory_[0x10] == 0x19) && (mainMemory_[0x6f] == 0xe3) && (mainMemory_[0x70] == 0x63) && (mainMemory_[0xec] == 0x6f))
+                    p_Main->stopCassette();
+            break;
+                
+            case 0x6f:
+                if ((mainMemory_[0x10] == 0x19) && (mainMemory_[0x6f] == 0xe3) && (mainMemory_[0x70] == 0x63) && (mainMemory_[0xec] == 0x6f))
+                {
+                    if (tapeActivated_)
+                    {
+                        p_Computer->stopTape();
+                        tapeActivated_ = false;
+                    }
+                    if (!tapeRecording_)
+                        p_Main->startCassetteSave();
+                
+                    tapeRecording_ = true;
+                }
             break;
         }
     }

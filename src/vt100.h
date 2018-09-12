@@ -49,8 +49,9 @@ public:
 	void uartOut(Byte value); 
 	void uartControl(Byte value); 
 	Byte uartIn(); 
-	Byte uartStatus(); 
-	void getKey(); 
+    Byte uartStatus();
+    Byte uartThreStatus();
+	void getKey();
 	void checkElfCommand();
 	void checkMcdsCommand();
 	void ResetVt();

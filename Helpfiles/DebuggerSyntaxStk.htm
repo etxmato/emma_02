@@ -1,0 +1,232 @@
+
+<html>
+<title>STK Syntax</title>
+<body>
+<h2>STK Syntax</h2>
+<h3>Information</h3>
+<p>
+At least 2 versions of STK were made, I have called them STK-1 and STK-2. Syntax of both is more or less the same except for the LD and LDW command which are switched around:
+</p>
+<UL>
+<LI>1x0y is LD [Vy], [Vx] on STK-1 but LDW [Vy], [Vx] on STK-2
+<LI>1x8y is LDW [Vy], [Vx] on STK-1 but LD [Vy], [Vx] on STK-2
+</UL>
+<p>
+STK can be used on a VIP with printer output and a hex keypad as input. This is the only pseudo language using 12 bit variables and 16 bit arithmetic functions.</p>
+<p>
+V0-F are stored on memory locations 0780-079F, where V0 is stored on 0780-0781 and VF on 079E-079F.
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[Vx]</TD>
+<TD WIDTH="400">Memory value of address in register Vx, in 'W' commands this is a 16 bit value where [Vx] is highest byte and [Vx+1] lowest</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[Vy]</TD>
+<TD WIDTH="400">Memory value of address in register Vy, in 'W' commands this is a 16 bit value where [Vy] is highest byte and [Vy+1] lowest</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">5xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">[Vx], kk</TD>
+<TD WIDTH="250">[Vx] = [Vx] + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9x0y</TD>
+<TD WIDTH="40">ADDW</TD>
+<TD WIDTH="100">[Vx], [Vy]</TD>
+<TD WIDTH="250">[Vx] = [Vx] + [Vy], both [Vx] and [Vy] are 16 bit values</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in RETURN</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9x4y</TD>
+<TD WIDTH="40">DIVW</TD>
+<TD WIDTH="100">[Vx], [Vy]</TD>
+<TD WIDTH="250">[Vx] = [Vx] / [Vy], [Vx] is a 16 bit values, [Vy] 8 bit</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Baaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex8.</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">[Vx]</TD>
+<TD WIDTH="250">Wait for a hex key, return value in [Vx] and send it to the printer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ax4y</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, [Vy], [Vx]</TD>
+<TD WIDTH="250">Store 4 digit BCD value on [Vx] in [Vy]->[Vy+3]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ax2y</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">H, [Vy], [Vx]</TD>
+<TD WIDTH="250">Store 16 bit hexadecimal of 4 digit BCD value of [Vx]->[Vx+3] in [Vy]->[Vy+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ax8y</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">N, [Vy], [Vx]</TD>
+<TD WIDTH="250">Store 4 nibbles of [Vx]->[Vx+1] in [Vy]->[Vy+3], i.e. [Vy] = [Vx].n1, [Vy+1] = [Vx].n0, [Vy+2] = [Vx+1].n1, [Vy+3] = [Vx+1].n0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">V0, aaa<br></TD>
+<TD WIDTH="250">V0 = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3x.y</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vy, Vx</TD>
+<TD WIDTH="250">Vy = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[Vx], kk</TD>
+<TD WIDTH="250">[Vx] = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1x0y (STK-1)<br>1x8y (STK-2)</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[Vy] , [Vx}</TD>
+<TD WIDTH="250">[Vx] = [Vy]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1x8y (STK-1)<br>1x0y (STK-2)</TD>
+<TD WIDTH="40">LDW</TD>
+<TD WIDTH="100">[Vy] , [Vx}</TD>
+<TD WIDTH="250">[Vx] = [Vy], both [Vx] and [Vy] are 16 bit values</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9x8y</TD>
+<TD WIDTH="40">MULW</TD>
+<TD WIDTH="100">[Vx], [Vy]</TD>
+<TD WIDTH="250">[Vx] = [Vx] * [Vy], [Vx] is a 16 bit values, [Vy] 8 bit</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex4.</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">[Vx]</TD>
+<TD WIDTH="250">Print character on [Vx]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex1.</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">A, [Vx]</TD>
+<TD WIDTH="250">Print ASCII value of lowest nibble on [Vx]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.0n</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">n</TD>
+<TD WIDTH="250">Print character n</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.2n</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">2n</TD>
+<TD WIDTH="250">Print character 2n</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.3n</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">3n</TD>
+<TD WIDTH="250">Print character 3n</TD>
+</TR>
+<TR>
+<TD WIDTH="55">A.0.</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4...</TD>
+<TD WIDTH="40">RESET</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Reset computer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxkk</TD>
+<TD WIDTH="40">SE</TD>
+<TD WIDTH="100">[Vx], kk</TD>
+<TD WIDTH="250">Skip next instruction if [Vx] = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dxkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">[Vx], kk</TD>
+<TD WIDTH="250">Skip next instruction if [Vx] != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xkk</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">[Vx], kk</TD>
+<TD WIDTH="250">[Vx] = [Vx] - kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9x2y</TD>
+<TD WIDTH="40">SUBW</TD>
+<TD WIDTH="100">[Vx], [Vy]</TD>
+<TD WIDTH="250">[Vx] = [Vx] - [Vy], both [Vx] and [Vy] are 16 bit values</TD>
+</TR>
+<TR>
+<TD WIDTH="55">F...</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Call CDP1801 at address following F... instruction, first byte needs to be 00, second is the address it will call.</TD>
+</TR>
+</TABLE>
+</body>
+</html>
+
+

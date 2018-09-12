@@ -447,6 +447,8 @@ void Victory::startComputer()
         else
             multiCart_ = false;
     }
+
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     
     if (pseudoType_ == "ST2")
 	{
@@ -466,8 +468,6 @@ void Victory::startComputer()
 		if (!multiCart_)
 			readProgram(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM), ROM, 0x300, NONAME);
 	}
-
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
 
 //    if (testCartMemoryDefined_)
  //       readProgram(p_Main->getRomDir(VICTORY, MAINROM1), p_Main->getRomFile(VICTORY, MAINROM1), ROM, 0x2000, NONAME);

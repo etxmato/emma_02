@@ -74,6 +74,7 @@ void VipII::configureComputer()
 	efType_[4] = VIPKEYEF4;
 
 	usePrinter_ = false;
+    
 /*	if (p_Main->getPrinterStatus(VIPII))
 	{
 		outType_[3] = VIPOUT3;
@@ -613,7 +614,7 @@ void VipII::startComputer()
 	}
 	
 	defineMemoryType(0xc000, 0xdfff, COLOURRAM);
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     if (pseudoType_ == "CHIP8")
 	{

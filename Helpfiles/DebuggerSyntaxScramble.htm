@@ -21,7 +21,15 @@ V0-F are stored on memory locations 0800-080F.
 <TD WIDTH="400">8 bit constant</TD>
 </TR>
 <TR>
+<TD WIDTH="70">d</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
 <TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">l</TD>
 <TD WIDTH="400">4 bit constant</TD>
 </TR>
 <TR>
@@ -137,28 +145,28 @@ V0-F are stored on memory locations 0800-080F.
 <TD WIDTH="250">Jump to aaa</TD>
 </TR>
 <TR>
-<TD WIDTH="55">F1aa</TD>
+<TD WIDTH="55">F1kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">FIREA, aa<br>'EF1', aa</TD>
-<TD WIDTH="250">If EF1 jump to address aa in current page (i.e JP on FIRE A)</TD>
+<TD WIDTH="100">FIREA, kk<br>'EF1', kk</TD>
+<TD WIDTH="250">If EF1 jump to address kk in current page (i.e JP on FIRE A)</TD>
 </TR>
 <TR>
-<TD WIDTH="55">F2aa</TD>
+<TD WIDTH="55">F2kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">'EF2', aa</TD>
-<TD WIDTH="250">If EF2 jump to address aa in current page</TD>
+<TD WIDTH="100">'EF2', kk</TD>
+<TD WIDTH="250">If EF2 jump to address kk in current page</TD>
 </TR>
 <TR>
-<TD WIDTH="55">F3aa</TD>
+<TD WIDTH="55">F3kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">FIREB, aa<br>'EF3', aa</TD>
-<TD WIDTH="250">If EF3 jump to address aa in current page (i.e JP on FIRE B)</TD>
+<TD WIDTH="100">FIREB, kk<br>'EF3', kk</TD>
+<TD WIDTH="250">If EF3 jump to address kk in current page (i.e JP on FIRE B)</TD>
 </TR>
 <TR>
-<TD WIDTH="55">F4aa</TD>
+<TD WIDTH="55">F4kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">COIN, aa<br>'EF4', aa</TD>
-<TD WIDTH="250">If EF4 jump to address aa in current page (i.e JP on COIN).</TD>
+<TD WIDTH="100">COIN, kk<br>'EF4', kk</TD>
+<TD WIDTH="250">If EF4 jump to address kk in current page (i.e JP on COIN).</TD>
 </TR>
 <TR>
 <TD WIDTH="55">4xyz</TD>

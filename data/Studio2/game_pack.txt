@@ -1,0 +1,33 @@
+The Sarnoff Collection at TCNJ, S.572.33, S.572.46
+
+game_pack.st2
+=============
+
+On start-up press:
+1 = Doodle
+2 = Curling
+3 = ?
+4 = ?
+5 = Pong variant
+6 = Addition
+7 = Freeway
+8 = ?
+9 = ?
+
+Drawing:
+2 = up, 4 = left, 6 = right, 8 = down, 5 = draw, 0 = erase
+
+Curling:
+Press 0 on keypad A or B depending which players turn it is. Keep 0 pressed long enough to reach one of the symbols
+
+Pong:
+Press 0 on keypad A or B to push 'pad' up, when you release 0 the pad will return to bottom of screen.
+
+Addition:
+Add up the digits and press the correct number. Quicker = more points.
+
+Freeway:
+Press 5 to start the car. Control the car using the arrow keys:
+5: increase speed
+4: left
+6: right

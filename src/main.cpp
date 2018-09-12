@@ -810,7 +810,7 @@ bool Emu1802::OnInit()
 {
 	if (!wxApp::OnInit())
         return false;
-
+    
 	wxSystemOptions::SetOption("msw.window.no-clip-children", 1);
     
     int ubuntuOffsetX;
@@ -2814,7 +2814,7 @@ bool Main::checkUpdateEmma()
 	wxString version;
 	version.Printf("%1.2f", EMMA_VERSION);
 
-	latestVersion_ = downloadString("http://www.emma02.hobby-site.com/Emma_02_version.txt");
+	latestVersion_ = downloadString("https://www.emma02.hobby-site.com/Emma_02_version.txt");
 	
 	if (latestVersion_ == "")
 		return false;
@@ -2867,31 +2867,31 @@ bool Main::updateEmma()
 		if (linuxDistro.Id == "Ubuntu")
 		{
 			if (wxIsPlatform64Bit())
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=11"); // 64 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=11"); // 64 Bit
 			else
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=12"); // 32 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=12"); // 32 Bit
 		}
 		else
 		{
 			if (wxIsPlatform64Bit())
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=13"); // 64 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=13"); // 64 Bit
 			else
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=14"); // 32 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=14"); // 32 Bit
 		}
 		return true;
 #elif defined(__WXMAC__)
-		::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=15"); 
+		::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
 		return true;
 #else
 		if (windowInfo.operatingSystem == OS_WINDOWS_XP || windowInfo.operatingSystem == OS_WINDOWS_2000)
 		{
-			::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=1");
+			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=1");
 			return true;
 		}
 		if (wxIsPlatform64Bit())
-			::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=17");
+			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17");
 		else
-			::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=16");
+			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16");
 		return true;
 #endif
 	}
@@ -3466,7 +3466,7 @@ void Main::onClose(wxCloseEvent&event)
 
 void Main::onAbout(wxCommandEvent&WXUNUSED(event))
 {
-	MyAboutDialog myAboutDialog(this);
+    MyAboutDialog myAboutDialog(this);
  	myAboutDialog.ShowModal();
 }
 
@@ -4664,6 +4664,7 @@ void Main::onStart(int computer)
 	if (!fullScreenFloat_)
 		zoom = (int) zoom;
 
+    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
 	switch (runningComputer_)
 	{
 		case COMX:
@@ -7193,13 +7194,16 @@ void Main::updateDebugMemory(Word address)
 	}
 }
 
-void Main::showChip8Register(int variable, int value)
+void Main::showChip8Register(int variable, int value, bool chip8register12bit)
 {
 	wxString idReference;
 	idReference.Printf("V%01X", variable);
 
 	wxString valueStr;
-	valueStr.Printf("%02X", value);
+    if (chip8register12bit)
+        valueStr.Printf("%03X", value&0xfff);
+    else
+        valueStr.Printf("%02X", value);
 
     eventSetTextValue(idReference, valueStr);
 //	XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue(valueStr);

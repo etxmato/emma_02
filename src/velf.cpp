@@ -697,7 +697,7 @@ void Velf::startComputer()
 	p_Main->assDefault("mycode", 0, 0xFFF);
 
 	readProgram(p_Main->getRamDir(VELF), p_Main->getRamFile(VELF), NOCHANGE, 0, SHOWNAME);
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     if (pseudoType_ == "CHIP8")
 		readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);

@@ -245,7 +245,7 @@ void Nano::startComputer()
 	readProgram(p_Main->getRamDir(NANO), p_Main->getRamFile(NANO), NOCHANGE, 0, SHOWNAME);
 	readProgram(p_Main->getChip8Dir(NANO), p_Main->getChip8SW(NANO), NOCHANGE, 0x200, SHOWNAME);
 
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
 	double zoom = p_Main->getZoom();
 

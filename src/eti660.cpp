@@ -445,7 +445,7 @@ void Eti::startComputer()
         readProgram(p_Main->getChip8Dir(ETI), p_Main->getChip8SW(ETI), NOCHANGE, 0x0600, SHOWNAME);
 	double zoom = p_Main->getZoom();
 
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
 	configurePixieEti();
 	initPixie();

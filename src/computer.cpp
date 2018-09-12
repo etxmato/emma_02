@@ -1645,13 +1645,18 @@ void Computer::showChip8Registers()
 
 	for (int i=0; i<16; i++)
 	{
-		newValue = p_Computer->readMem(reg);
+        if (chip8register12bit_)
+        {
+            newValue = (p_Computer->readMem(reg++) << 8);
+            newValue += p_Computer->readMem(reg++);
+        }
+        else
+            newValue = p_Computer->readMem(reg++);
 		if (newValue != chip8Register[i])
 		{
-			p_Main->showChip8Register(i, newValue);
+			p_Main->showChip8Register(i, newValue, chip8register12bit_);
 			chip8Register[i] = newValue;
 		}
-		reg++;
 	}
 }
 

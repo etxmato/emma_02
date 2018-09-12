@@ -475,8 +475,11 @@ void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
 
 	XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].ram_);
 	
-	if (selectedComputer_ == FRED1)
+	if (selectedComputer_ == FRED1 || selectedComputer_ == FRED2)
         p_Main->setGameId(conf[selectedComputer_].ram_);
+
+	if (selectedComputer_ == FRED2)
+        p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onRamSWText(wxCommandEvent& WXUNUSED(event))
@@ -485,6 +488,9 @@ void GuiMain::onRamSWText(wxCommandEvent& WXUNUSED(event))
 
 	if (selectedComputer_ == FRED1 && conf[FRED1].gameId_ != -1)
         p_Main->setGameId(conf[selectedComputer_].ram_);
+
+	if (selectedComputer_ == FRED2 && conf[FRED2].gameId_ != -1)
+        p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )

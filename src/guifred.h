@@ -35,12 +35,16 @@ public:
     void onTapeFormat(wxCommandEvent&event);
     void onCardButton(wxCommandEvent&event);
     
+    void checkGameFred2(wxString gameName);
     void setGameId(wxString gameName);
 	void setGame();
     void setCurrentCardValue();
 
+    void downloadWavFiles(int computer);
+    
 private:
     int currentCardValue[FRED1_CARDS];
+	bool guiStartup_;
     
 	DECLARE_EVENT_TABLE()
 };

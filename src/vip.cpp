@@ -115,7 +115,8 @@ void Vip::configureComputer()
         else
             vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
 		p_Vt100 = vtPointer;
-		vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
+        
+        vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(true);
 	}
 
@@ -619,7 +620,7 @@ void Vip::startComputer()
     
     addressLatch_ = 0;
 
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     if (pseudoType_ == "CHIP8")
 		readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);

@@ -265,7 +265,7 @@ void Tmc1800::startComputer()
 
 	readProgram(p_Main->getRamDir(TMC1800), p_Main->getRamFile(TMC1800), NOCHANGE, 0, SHOWNAME);
 	readProgram(p_Main->getChip8Dir(TMC1800), p_Main->getChip8SW(TMC1800), NOCHANGE, 0x200, SHOWNAME);
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
 	double zoom = p_Main->getZoom();
 

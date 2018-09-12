@@ -32,6 +32,8 @@
 #include "main.h"
 #include "guifred.h"
 #include "pixie.h"
+#include "http.h"
+#include "wx/wfstream.h"
 
 enum
 {
@@ -39,11 +41,15 @@ enum
     FRED1_GAME_21,
     FRED1_GAME_21_II,
     FRED1_GAME_ACEY_DUECY,
+    FRED1_GAME_ADD_DRILL,
     FRED1_GAME_BINARY,
     FRED1_GAME_BOWLING,
     FRED1_GAME_CALCULATE,
     FRED1_GAME_CARDTRAN,
+    FRED1_GAME_CLUE,
     FRED1_GAME_DEDUCE,
+    FRED1_GAME_DEDUCE_LEDS,
+    FRED1_GAME_DEMO,
     FRED1_GAME_DRAW,
     FRED1_GAME_ERASE,
     FRED1_GAME_ESP,
@@ -77,11 +83,15 @@ wxString gameList[] =
     "21 I.bin",
     "21 II.bin",
     "Acey Duecy.bin",
+    "Add Drill.bin",
     "Binary.bin",
     "Bowling.bin",
     "Calculate.bin",
     "Cardtran.bin",
+    "Clue.bin",
     "Deduce.bin",
+    "Deduce-leds.bin",
+    "Demo.bin",
     "Draw.bin",
     "Erase.bin",
     "ESP I.bin",
@@ -115,11 +125,15 @@ int cardValue[FRED1_GAME_END+1][FRED1_CARDS] =
     { 0xbd, 0xcc, 0x78, 0x73, 0xb1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // 21 I
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // 21 II
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Acey Duecy
+    { 0xFe, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1  }, // Add Drill
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Binary
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Bowling
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Calculate
     { 0xf0, 0xf1, 0xf2, 0xf3, 0xf4, 0xf5, 0xf6, 0xf7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Cardtran
+    { 0, 1, 2, 3, 4, 5, 6, 7, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Clue
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Deduce
+    { 0, 0x11, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Deduce-leds
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Demo
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Draw
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Erase
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // ESP I
@@ -330,7 +344,8 @@ void GuiFred::readFred1Config()
     conf[FRED1].bootAddress_ = value;
 
     conf[FRED1].gameId_ = -1;
-    
+    guiStartup_ = true;
+
     if (mode_.gui)
     {
         XRCCTRL(*this, "RamSWFRED1", wxComboBox)->SetValue(conf[FRED1].ram_);
@@ -361,6 +376,7 @@ void GuiFred::readFred1Config()
     }
     
     setGameId(conf[FRED1].ram_);
+	guiStartup_ = false;
 }
 
 void GuiFred::writeFred1DirConfig()
@@ -487,6 +503,8 @@ void GuiFred::readFred2Config()
         value = 0;
     conf[FRED2].bootAddress_ = value;
     
+    conf[FRED2].gameId_ = -1;
+
     if (mode_.gui)
     {
         XRCCTRL(*this, "RamSWFRED2", wxComboBox)->SetValue(conf[FRED2].ram_);
@@ -516,6 +534,9 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "InterlaceFRED2", wxCheckBox)->SetValue(conf[FRED2].interlace_);
         XRCCTRL(*this, "BootAddressFRED2", wxTextCtrl)->SetValue(bootAddress);
     }
+
+    conf[FRED2].gameId_ = 1;
+//    checkGameFred2(conf[FRED2].ram_);
 }
 
 void GuiFred::writeFred2DirConfig()
@@ -652,6 +673,23 @@ void GuiFred::onCardButton(wxCommandEvent&event)
         p_Fred->cardButton(currentCardValue[id]);
 }
 
+void GuiFred::checkGameFred2(wxString gameName)
+{
+    if (gameName == "Fred Demo.bin")
+	{
+        elfConfiguration[FRED2].autoBoot = false;
+        XRCCTRL(*this,"AutoBootFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].autoBoot);
+        elfConfiguration[FRED2].keyboardType = FRED_HEX_MODE;
+        XRCCTRL(*this,"KeyPadModeFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].keyboardType);
+        conf[FRED2].turbo_ = false;
+        XRCCTRL(*this, "TurboFRED2", wxCheckBox)->SetValue(conf[FRED2].turbo_);
+        turboGui("FRED2");
+        conf[FRED2].wavFile_ = "Fred Demo.wav";
+        XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_);
+        downloadWavFiles(FRED2);
+	}
+}
+
 void GuiFred::setGameId(wxString gameName)
 {
     conf[FRED1].gameId_ = 1;
@@ -685,12 +723,14 @@ void GuiFred::setGame()
     
     setCurrentCardValue();
     
+	if (guiStartup_)
+		return;
+
     switch (conf[FRED1].gameId_)
     {
         case FRED1_GAME_21:
         case FRED1_GAME_21_II:
         case FRED1_GAME_ACEY_DUECY:
-        case FRED1_GAME_BOWLING:
         case FRED1_GAME_CALCULATE:
         case FRED1_GAME_DEDUCE:
         case FRED1_GAME_DRAW:
@@ -736,8 +776,91 @@ void GuiFred::setGame()
             XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
         break;
 
+        case FRED1_GAME_ADD_DRILL:
+            elfConfiguration[FRED1].autoBoot = false;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+            conf[FRED1].turbo_ = false;
+            XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
+            turboGui("FRED1");
+            conf[FRED1].wavFile_ = "Add Drill.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            downloadWavFiles(FRED1);
+        break;
+
+        case FRED1_GAME_DEMO:
+            elfConfiguration[FRED1].autoBoot = false;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+            conf[FRED1].turbo_ = false;
+            XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
+            turboGui("FRED1");
+            conf[FRED1].wavFile_ = "Demo.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            downloadWavFiles(FRED1);
+        break;
+
+        case FRED1_GAME_BOWLING:
+            elfConfiguration[FRED1].autoBoot = true;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+            conf[FRED1].turbo_ = false;
+            XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
+            turboGui("FRED1");
+            conf[FRED1].wavFile_ = "Bowling.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            downloadWavFiles(FRED1);
+        break;
+
+        case FRED1_GAME_DEDUCE_LEDS:
+            elfConfiguration[FRED1].autoBoot = false;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+            conf[FRED1].turbo_ = false;
+            XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
+            turboGui("FRED1");
+            conf[FRED1].wavFile_ = "Deduce-leds.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            downloadWavFiles(FRED1);
+        break;
+        
+        case FRED1_GAME_CLUE:
+            elfConfiguration[FRED1].autoBoot = false;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+            conf[FRED1].turbo_ = false;
+            XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
+            turboGui("FRED1");
+            conf[FRED1].wavFile_ = "Clue.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            downloadWavFiles(FRED1);
+        break;
+        
         default:
     	break;
+    }
+}
+
+void GuiFred::downloadWavFiles(int computer)
+{
+    if (wxFile::Exists(conf[computer].wavFileDir_ + conf[computer].wavFile_))
+        return;
+    
+    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_, "Download file?", wxICON_EXCLAMATION | wxYES_NO);
+    if (answer == wxYES)
+    {
+        wxString fileName = conf[computer].wavFileDir_ + conf[computer].wavFile_;
+        wxFileOutputStream html_stream(fileName);
+
+        wxCurlHTTP http("https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_);
+    
+        if (!http.Get(html_stream))
+            wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );
     }
 }
 

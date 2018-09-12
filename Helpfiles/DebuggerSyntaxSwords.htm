@@ -5,7 +5,7 @@
 <h2>Swords Syntax</h2>
 <h3>Information</h3>
 <p>
-Pseudo command syntax described here is a variant used in the games 'Swords', 'Touche !!', 'En Garde !!', 'Chase', 'Mines 1' and 'Mines 2'. All running on the RCA Video Coin Arcade machine. I'm not sure what RCA called this, maybe FEL-x, FPA-x or xPL? 
+Pseudo command syntax described here is a variant used in the games 'Swords', 'Touche !!', 'En Garde !!', 'Chase', 'Mines 1', 'Mines 2' and 'Kaleidoscope'. All running on the RCA Video Coin Arcade machine. I'm not sure what RCA called this, maybe FEL-x, FPA-x or xPL? 
 </p>
 <p>
 V0-F are stored on memory locations 0800-080F.
@@ -69,7 +69,7 @@ V0-F are stored on memory locations 0800-080F.
 <TR>
 <TD WIDTH="55">9xyz</TD>
 <TD WIDTH="40">AND</TD>
-<TD WIDTH="100">Vz, Vx&Vy</TD>
+<TD WIDTH="100">Vz, Vx&amp;Vy</TD>
 <TD WIDTH="250">Vz = Vx AND Vy</TD>
 </TR>
 <TR>
@@ -137,28 +137,28 @@ V0-F are stored on memory locations 0800-080F.
 <TD WIDTH="250">Jump to aaa if V0 != 0</TD>
 </TR>
 <TR>
-<TD WIDTH="55">31aa</TD>
+<TD WIDTH="55">31kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">FIREA, aa<br>'EF1', aa</TD>
-<TD WIDTH="250">If EF1 jump to address aa in current page (i.e JP on FIRE A)</TD>
+<TD WIDTH="100">FIREA, kk<br>'EF1', kk</TD>
+<TD WIDTH="250">If EF1 jump to address kk in current page (i.e JP on FIRE A)</TD>
 </TR>
 <TR>
-<TD WIDTH="55">32aa</TD>
+<TD WIDTH="55">32kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">'EF2', aa</TD>
-<TD WIDTH="250">If EF2 jump to address aa in current page</TD>
+<TD WIDTH="100">'EF2', kk</TD>
+<TD WIDTH="250">If EF2 jump to address kk in current page</TD>
 </TR>
 <TR>
-<TD WIDTH="55">33aa</TD>
+<TD WIDTH="55">33kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">FIREB, aa<br>'EF3', aa</TD>
-<TD WIDTH="250">If EF3 jump to address aa in current page (i.e JP on FIRE B)</TD>
+<TD WIDTH="100">FIREB, kk<br>'EF3', kk</TD>
+<TD WIDTH="250">If EF3 jump to address kk in current page (i.e JP on FIRE B)</TD>
 </TR>
 <TR>
-<TD WIDTH="55">34aa</TD>
+<TD WIDTH="55">34kk</TD>
 <TD WIDTH="40">JP</TD>
-<TD WIDTH="100">COIN, aa<br>'EF4', aa</TD>
-<TD WIDTH="250">If EF4 jump to address aa in current page (i.e JP on COIN).</TD>
+<TD WIDTH="100">COIN, kk<br>'EF4', kk</TD>
+<TD WIDTH="250">If EF4 jump to address kk in current page (i.e JP on COIN).</TD>
 </TR>
 <TR>
 <TD WIDTH="55">C.yz</TD>

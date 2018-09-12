@@ -24,6 +24,10 @@ Note: E... is not defined.
 <TD WIDTH="400">8 bit constant</TD>
 </TR>
 <TR>
+<TD WIDTH="70">d</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
 <TD WIDTH="70">n</TD>
 <TD WIDTH="400">4 bit constant</TD>
 </TR>
@@ -90,7 +94,7 @@ Note: E... is not defined.
 <TD WIDTH="55">1aaa</TD>
 <TD WIDTH="40">CALL</TD>
 <TD WIDTH="100">aaa</TD>
-<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in SYS 100 (which is the 'CB' equivalent of RETURN)</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in 0100 (which is the 'Coin Bowling' equivalent of RETURN)</TD>
 </TR>
 <TR>
 <TD WIDTH="55">C.54</TD>
@@ -219,12 +223,6 @@ Note: E... is not defined.
 <TD WIDTH="250">Vx = RB.1</TD>
 </TR>
 <TR>
-<TD WIDTH="55">4xy1</TD>
-<TD WIDTH="40">LD</TD>
-<TD WIDTH="100">Vx, Vy</TD>
-<TD WIDTH="250">Vx = Vy</TD>
-</TR>
-<TR>
 <TD WIDTH="55">Cx35</TD>
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">Vx, [RA]<br>Vx, [A]</TD>
@@ -235,6 +233,12 @@ Note: E... is not defined.
 <TD WIDTH="40">LD</TD>
 <TD WIDTH="100">Vx, [RB]<br>Vx, [B]</TD>
 <TD WIDTH="250">Vx = [RB], RB = RB + 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xy1</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vy, Vx</TD>
+<TD WIDTH="250">Vy = Vx</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Cx3B</TD>
@@ -253,6 +257,12 @@ Note: E... is not defined.
 <TD WIDTH="40">OR</TD>
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Vx = Vx OR Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0100</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine</TD>
 </TR>
 <TR>
 <TD WIDTH="55">7xkk</TD>

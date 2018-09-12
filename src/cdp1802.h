@@ -85,7 +85,7 @@ public:
 	void setCycle0() {cycle0_ = 1;};
 	long getCpuCycles() {return cpuCycles_;};
 	long getSteps(){return steps_;};
-	void setSteps(long steps){steps_ = steps;};
+	void setSteps(long steps);
 	void setTraceStatus(bool trace) {trace_ = trace;};
 	void setDmaTraceStatus(bool traceDma) {traceDma_ = traceDma;};
 	void setIntTraceStatus(bool traceInt) {traceInt_ = traceInt;};

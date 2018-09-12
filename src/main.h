@@ -1105,7 +1105,7 @@ public:
     
 	void updateDebugMemory(Word address);
 
-	void showChip8Register(int variable, int value);
+	void showChip8Register(int variable, int value, bool chip8register12bit);
 
 	void setFandMBasicGuiEvent(guiEvent& event);
 	void eventSetFandMBasicGui();

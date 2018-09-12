@@ -483,6 +483,7 @@ protected:
 	Word memoryStart_;
 	Word chip8baseVar_;
 	Word chip8mainLoop_;
+    bool chip8register12bit_;
 
 	wxString pseudoType_;
     bool pseudoLoaded_;

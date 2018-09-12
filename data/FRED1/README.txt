@@ -1,4 +1,4 @@
-The Sarnoff Collection at TCNJ, S.572.96, S.572.94, S.572.75, S.572.66, S.572.61, , S.572.38, S.572.26
+The Sarnoff Collection at TCNJ, S.572.96, S.572.94, S.572.75, S.572.66, S.572.61, S.572.38, S.572.26
 
 1K Memory Test.bin
 ==================
@@ -30,7 +30,7 @@ Two playing card values appear in the upper left corner. $25 appears in the uppe
 Add Drill.bin
 =============
 
-This SW needs spoken text and tones recorded on original tapes
+This SW needs spoken text and tones recorded on original tape and included in Add Drill.wav. Start card will be requested which card '0' (code 0xFE). Press the start card 2 times and after the tone a 3rd time. Then type the sum of the 'add' question when one pops up.
 
 Animate demo.bin
 ================
@@ -46,6 +46,8 @@ Bowling.bin
 ===========
  
 Two players, X & O. 5 Frames, 2 balls/frame. Enter any number to roll ball. F1, F2 etc. indicates frame number. X1, X2, O1, O2 indicates player and ball number. New game = reset/run.
+
+This game used sounds on tape when a ball is rolled, the sounds on the tape were recordings from a bowling ball hitting targets; repeated multiple times. The file included here is 'Bowling.wav' which includes the rolling ball once. This file can be used in Emma 02 as Emma 02 will restart the tape after every 'play' which means it is synced better than when using the file with the repeated sounds.
 
 Calculate.bin
 =============
@@ -64,7 +66,7 @@ Cartoon.bin
 Clue.bin
 ========
 
-As described in manual: http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_Weisbecker_Robbi.pdf
+As described in manual: http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_Weisbecker_Robbi.pdf. This game uses the spoken text and tones recorded on original tape and included in Clue.wav
 
 Deduce.bin
 ==========
@@ -74,12 +76,12 @@ The computer will choose a 4 digit random number which you must guess within 15 
 Deduce-leds.bin
 ===============
 
-As described in manual: http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_Weisbecker_Robbi.pdf
+As described in manual: http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_Weisbecker_Robbi.pdf. Instructions are included in the Deduce-leds.wav file as was on the original tape. Card 0 in Emma 02 is 'No  my light is not on', card '1' is 'Yes my light is on'
 
 Demo.bin
 ========
 
-Demo using spoken text and tones recorded on original tapes
+Demo using spoken text and tones recorded on original tape and included in Demo.wav
 
 Digit Display.bin
 =================
@@ -90,6 +92,9 @@ Display.bin
 ===========
 
 As described in manual: http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_Weisbecker_Robbi.pdf
+
+Dot Jot.bin
+===========
 
 Draw.bin
 ========
@@ -185,7 +190,7 @@ Keys:
 B: Down
 8: Left
 D: right
-Move spot to symbols, press 'A' to lock a symbol and move it with the keys, some directions don't work. 'C' drops the symbol and you can move to another.
+Move spot to symbols, press 'A' to lock a symbol and move it with the keys, some directions don't work. 'C' drops the symbol and you can move to another. 'F' is fight adjacent symbol from other player.
 
 What the aim of the game is I don't know, maybe this is some strategic game?
 

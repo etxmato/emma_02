@@ -468,7 +468,7 @@ void MainElf::checkElfFunction()
 
 void MainElf::activateElfOsChip8()
 {
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     
     Word address = scratchpadRegister_[0xA];
     

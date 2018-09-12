@@ -3003,7 +3003,7 @@ void Cdp1802::checkLoadedSoftware()
 	{
 		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF))
 		{
-            pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+            pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
             
 			if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
 			{
@@ -3403,6 +3403,11 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, Word* la
 		return false;
 	}
 }
+
+void Cdp1802::setSteps(long steps)
+{
+    steps_ = steps;
+};
 
 void Cdp1802::setDebugMode (bool debugModeNew, bool debugChip8ModeNew, bool trace, bool traceDma, bool traceInt, bool traceChip8Int)
 {

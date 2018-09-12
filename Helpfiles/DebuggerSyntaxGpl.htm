@@ -1,16 +1,16 @@
 
 <html>
-<title>GPL I Syntax</title>
+<title>GPL 1 Syntax</title>
 <body>
-<h2>GPL I Syntax</h2>
+<h2>GPL 1 Syntax</h2>
 <h3>Information</h3>
 <p>
-Two variants of the GPL pseudo language have been found, GPL I and GPL II. Both variants are very similar. GPL I will fit into 2K RAM using screen location 0700-07FF and V0-F are stored on 0680-068F whereas GPL II needs more memory. Interrupt routines are different, I think they have slightly different code for the timers. Command syntax is more or less the same for both with differences in:
+Three variants of the GPL pseudo language have been found, GPL 1, GPL 2 and GPL 4. GPL 1 and 2 variants are very similar. GPL 1 will fit into 2K RAM, however GPL 2 is using screen location 0900-09FF and V0-F are stored on 0880-088F. Interrupt routines are different, I think they have slightly different code for the timers. Command syntax is more or less the same for both with differences in:
 <UL>
-<LI>SUB Vz, Vy-Vx on GPL I and SUB Vz, Vx-Vy on GPL II
-<LI>SE Vx, [6aa] on GPL I and SNE Vx, kk on GPL II
-<LI>SNE Vx, [6aa] on GPL I and SNE Vx, [8aa] on GPL II
-<LI>LD [6aa], Vx on GPL I and LD [8aa], Vx on GPL II
+<LI>SUB Vz, Vy-Vx on GPL 1 and SUB Vz, Vx-Vy on GPL 2
+<LI>SE Vx, [6aa] on GPL 1 and SNE Vx, kk on GPL 2
+<LI>SNE Vx, [6aa] on GPL 1 and SNE Vx, [8aa] on GPL 2
+<LI>LD [6aa], Vx on GPL 1 and LD [8aa], Vx on GPL 2
 </UL>
 </p>
 <h3>Definitions</h3>
@@ -22,6 +22,10 @@ Two variants of the GPL pseudo language have been found, GPL I and GPL II. Both 
 <TR>
 <TD WIDTH="70">kk</TD>
 <TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">d</TD>
+<TD WIDTH="400">4 bit constant</TD>
 </TR>
 <TR>
 <TD WIDTH="70">n</TD>
@@ -78,7 +82,7 @@ Two variants of the GPL pseudo language have been found, GPL I and GPL II. Both 
 <TD WIDTH="55">Bxyx</TD>
 <TD WIDTH="40">ADD8</TD>
 <TD WIDTH="100">Vx, Vy, Vz</TD>
-<TD WIDTH="250">If (Vx+Vy)&0x7 = 8 THEN Vz = 0xFF ELSE Vx = Vx+Vy</TD>
+<TD WIDTH="250">If (Vx+Vy)&amp;0x7 = 8 THEN Vz = 0xFF ELSE Vx = Vx+Vy</TD>
 </TR>
 <TR>
 <TD WIDTH="55">9dkk</TD>

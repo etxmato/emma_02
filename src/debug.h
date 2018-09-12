@@ -407,7 +407,7 @@ public:
 	void setChip8PauseState();
 	void onChip8StepButton(wxCommandEvent&event);
     void pseudoTrace(Word address);
-	wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* pseudoLoaded);
+	wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* chip8register12bit, bool* pseudoLoaded);
     void definePseudoCommands();
     wxString pseudoDisassemble(Word address, bool includeDetails, bool showOpcode);
     wxString addDetails();

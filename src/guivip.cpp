@@ -35,6 +35,8 @@
 
 #include "psave.h"
 
+DEFINE_EVENT_TYPE(ON_UART_VIP)
+
 BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 
 	EVT_TEXT(XRCID("MainRomVip"), GuiMain::onMainRom1Text)
@@ -114,6 +116,8 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 
 	EVT_CHOICE(XRCID("VTBaudTChoiceVip"), GuiVip::onVipBaudT)
 	EVT_CHOICE(XRCID("VTBaudRChoiceVip"), GuiVip::onVipBaudR)
+
+    EVT_COMMAND(wxID_ANY, ON_UART_VIP, GuiVip::onVipUart)
 
 END_EVENT_TABLE()
 
@@ -205,7 +209,7 @@ void GuiVip::readVipConfig()
 	configPointer->Read("/Vip/VtQ", &elfConfiguration[VIP].vtQ, true);
 	elfConfiguration[VIP].bellFrequency_ = (int)configPointer->Read("/Vip/Bell_Frequency", 800);
 
-    elfConfiguration[VIP].useUart = false;
+    configPointer->Read("/Vip/Uart", &elfConfiguration[VIP].useUart, false);
 	elfConfiguration[VIP].vtType = (int)configPointer->Read("/Vip/VT_Type", 0l);
     elfConfiguration[VIP].vt52SetUpFeature_ = configPointer->Read("/Vip/VT52Setup", 0x00004092l);
     elfConfiguration[VIP].vt100SetUpFeature_ = configPointer->Read("/Vip/VT100Setup", 0x0000ca52l);
@@ -288,6 +292,7 @@ void GuiVip::writeVipConfig()
 	configPointer->Write("/Vip/VtEf", elfConfiguration[VIP].vtEf);
 	configPointer->Write("/Vip/VtQ", elfConfiguration[VIP].vtQ);
 	configPointer->Write("/Vip/Bell_Frequency", elfConfiguration[VIP].bellFrequency_);
+    configPointer->Write("/Vip/Uart", elfConfiguration[VIP].useUart);
 	configPointer->Write("/Vip/VT_Type", elfConfiguration[VIP].vtType);
 
     long value = elfConfiguration[VIP].vt52SetUpFeature_.to_ulong();
@@ -441,4 +446,11 @@ void GuiVip::onVipBaudT(wxCommandEvent&event)
 		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudR);
 	}
 }
+
+void GuiVip::onVipUart(wxCommandEvent&WXUNUSED(event))
+{
+    XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudR);
+    XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
+}
+
 

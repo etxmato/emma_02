@@ -451,7 +451,7 @@ void Visicom::startComputer()
     initRam(0x1300, 0x13ff);
 	double zoom = p_Main->getZoom();
  
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &pseudoLoaded_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     
 	configurePixieVisicom();
 	initPixie();

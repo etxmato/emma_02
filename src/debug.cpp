@@ -85,7 +85,7 @@ enum
 	ASS_REG,            //5
 	ASS_SLOT,           //6
     FEL_C,              //7
-    DUMMY8,
+    CHIP8_VX_MEM_1,     //8
     DUMMY9,
     DUMMY10,
     DUMMY11,
@@ -1301,11 +1301,14 @@ void DebugWindow::cyclePseudoDebug()
                 }
                 if (chip8Steps_ != 0)
                 {
-                    if (chip8BreakPointCheck())  return;
+                    p_Computer->setSteps(-1);
+//                    if (chip8BreakPointCheck())  return;
                     if (chip8Trace_)
                         pseudoTrace(chip8PC);
                     chip8Steps_--;
                 }
+                if (chip8Steps_ == 0)
+                    p_Computer->setSteps(0);
             }
         }
         else
@@ -1337,7 +1340,7 @@ bool DebugWindow::chip8BreakPointCheck()
 			if (chip8BreakPoints_[i] == chip8PC && chip8BreakPointsSelected_[i])
 			{
 				chip8DebugTrace("Hit Breakpoint");
-				p_Computer->setSteps(0);
+	//			p_Computer->setSteps(0);
 				chip8Steps_ = 0;
 				setChip8PauseState();
 				return true;
@@ -4351,17 +4354,17 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, Word* pseudoCode)
 				else
 					errorValue = ERROR_REG_EXP;
 			}
-			if (parameter == "Vy")
-			{
-				if (assInput.parameterType[parameterNumber] == CHIP8_VX)
-				{
+            if (parameter == "Vy")
+            {
+                if (assInput.parameterType[parameterNumber] == CHIP8_VX)
+                {
                     parameterFound = true;
-					registerY = assInput.parameterValue[parameterNumber];
+                    registerY = assInput.parameterValue[parameterNumber];
                     parameterNumber++;
-				}
-				else
-					errorValue = ERROR_REG_EXP;
-			}
+                }
+                else
+                errorValue = ERROR_REG_EXP;
+            }
 			if (parameter == "Vz")
 			{
 				if (assInput.parameterType[parameterNumber] == CHIP8_VX)
@@ -4373,9 +4376,42 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, Word* pseudoCode)
 				else
 					errorValue = ERROR_REG_EXP;
 			}
+            if (parameter == "[Vx]")
+            {
+                if (assInput.parameterType[parameterNumber] == CHIP8_VX_MEM)
+                {
+                    parameterFound = true;
+                    registerX = assInput.parameterValue[parameterNumber];
+                    parameterNumber++;
+                }
+                else
+                    errorValue = ERROR_REG_EXP;
+            }
+            if (parameter == "[Vx.1]")
+            {
+                if (assInput.parameterType[parameterNumber] == CHIP8_VX_MEM_1)
+                {
+                    parameterFound = true;
+                    registerX = assInput.parameterValue[parameterNumber];
+                    parameterNumber++;
+                }
+                else
+                    errorValue = ERROR_REG_EXP;
+            }
             if (parameter == "[Vy]")
             {
                 if (assInput.parameterType[parameterNumber] == CHIP8_VX_MEM)
+                {
+                    parameterFound = true;
+                    registerY = assInput.parameterValue[parameterNumber];
+                    parameterNumber++;
+                }
+                else
+                    errorValue = ERROR_REG_EXP;
+            }
+            if (parameter == "[Vy.1]")
+            {
+                if (assInput.parameterType[parameterNumber] == CHIP8_VX_MEM_1)
                 {
                     parameterFound = true;
                     registerY = assInput.parameterValue[parameterNumber];
@@ -6048,6 +6084,16 @@ int DebugWindow::translateChipParameter(wxString buffer, long* value, int* type)
 		*type = ASS_SLOT;
 		return 0;
 	}
+    if (buffer.Left(2) == "[V" && buffer.Right(3)== ".1]")
+    {
+        buffer = buffer.Mid(2, 1);
+        if (!buffer.ToLong(value, 16))
+        return ERROR_REG;
+        if (*value < 0 || *value > 15)
+        return ERROR_REG;
+        *type = CHIP8_VX_MEM_1;
+        return 0;
+    }
 	if (buffer.Left(2) == "[V" && buffer.Right(1)== "]")
 	{
 		buffer = buffer.Mid(2, 1);
@@ -14772,7 +14818,7 @@ void DebugWindow::onChip8StepButton(wxCommandEvent&WXUNUSED(event))
 
 	chip8Steps_++;
 	setChip8PauseState();
-	p_Computer->setSteps(-1);
+//	p_Computer->setSteps(-1);
 	performChip8Step_ = true;
 }
 
@@ -14786,7 +14832,7 @@ void DebugWindow::pseudoTrace(Word address)
     chip8DebugTrace(pseudoDisassemble(address, true, false));
 }
 
-wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* pseudoLoaded)
+wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* chip8register12bit, bool* pseudoLoaded)
 {
 	wxTextFile defFile;
 
@@ -14796,6 +14842,7 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
 	*pseudoLoaded = false;
     *pseudoBaseVar = 0;
     *pseudoMainLoop = 0;
+    *chip8register12bit = false;
 	commandSyntaxFile_ = applicationDirectory_ + "Chip8.syntax";
 
     if (defFile.Open(applicationDirectory_ + "pseudo.def"))
@@ -14848,6 +14895,14 @@ wxString DebugWindow::getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainL
                     pseudoLine.Trim(true);
 					commandSyntaxFile_ = applicationDirectory_ + pseudoLine;
 				}
+                if (definition == "12BIT" && *pseudoLoaded)
+                    *chip8register12bit = true;
+                if (definition == "DISPLAY" && *pseudoLoaded)
+                {
+                    pseudoLine.Trim(false);
+                    pseudoLine.Trim(true);
+                    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoLine);
+                }
 				pseudoLine=defFile.GetNextLine();
 	            pseudoLine.Trim(false);
 		        pseudoLine.Trim(true);
@@ -15317,11 +15372,11 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 						}
                         parameterFound = true;
 					}
-					if (parameter == "Vx")
-					{
+                    if (parameter == "Vx")
+                    {
                         parameterStr.Printf("V%01X", registerX);
                         parameterFound = true;
-					}
+                    }
 					if (parameter == "Vy")
 					{
                         parameterStr.Printf("V%01X", registerY);
@@ -15332,11 +15387,26 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                         parameterStr.Printf("V%01X", registerZ);
                         parameterFound = true;
 					}
+                    if (parameter == "[Vx]")
+                    {
+                        parameterStr.Printf("[V%01X]", registerX);
+                        parameterFound = true;
+                    }
+                    if (parameter == "[Vx.1]")
+                    {
+                        parameterStr.Printf("[V%01X.1]", registerX);
+                        parameterFound = true;
+                    }
 					if (parameter == "[Vy]")
 					{
                         parameterStr.Printf("[V%01X]", registerY);
                         parameterFound = true;
 					}
+                    if (parameter == "[Vy.1]")
+                    {
+                        parameterStr.Printf("[V%01X.1]", registerY);
+                        parameterFound = true;
+                    }
 					if (parameter == "Vx1")
 					{
                         parameterStr.Printf("V%01X", registerX+1);
