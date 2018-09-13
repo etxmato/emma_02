@@ -1340,7 +1340,7 @@ bool DebugWindow::chip8BreakPointCheck()
 			if (chip8BreakPoints_[i] == chip8PC && chip8BreakPointsSelected_[i])
 			{
 				chip8DebugTrace("Hit Breakpoint");
-	//			p_Computer->setSteps(0);
+				p_Computer->setSteps(0);
 				chip8Steps_ = 0;
 				setChip8PauseState();
 				return true;

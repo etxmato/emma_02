@@ -472,6 +472,7 @@ protected:
     wxString chipTraceString_;
 
     wxString dirAssNewDir_;
+    bool pseudoLoaded_;
 
 private:
 	wxMemoryDC dcLine, dcChar, dcAss;
@@ -552,7 +553,6 @@ private:
 	bool spinning_;
 
 	wxString pseudoType_;
-    bool pseudoLoaded_;
 
 	bool showInstructionTrap_;
 	bool dataViewDump;

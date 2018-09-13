@@ -5312,6 +5312,8 @@ void Main::onDebuggerChoiceBook(wxChoicebookEvent&event)
 
 		case CHIP8TAB:
 			debuggerChoice_ = CHIP8TAB;
+            if (computerRunning_ && pseudoLoaded_)
+                updateChip8Window();
 		break;
 
 		case MEMORYTAB:
