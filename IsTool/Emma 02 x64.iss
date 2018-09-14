@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.26.11
+AppVerName=Emma 02 - V1.27
 AppVersion=1.26
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.26.11
+OutputBaseFilename=Emma_02_x64_setup_v1.27
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -38,6 +38,8 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Source: vcredist_x64.exe; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
 Source: ..\x64\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
+Source: ..\*.def; DestDir: {app}; Components: MAIN
+Source: ..\*.syntax; DestDir: {app}; Components: MAIN
 Source: ..\about.xrc; DestDir: {app}; Components: MAIN
 Source: ..\cassette.xrc; DestDir: {app}; Components: MAIN
 Source: ..\colour.xrc; DestDir: {app}; Components: MAIN
@@ -190,14 +192,7 @@ Source: ..\data\Chip-8\Chip-8 Hires\*.*; DestDir: {app}\data\Chip-8\Chip-8 Hires
 Source: ..\data\Chip-8\Chip-8 Hybrids\*.*; DestDir: {app}\data\Chip-8\Chip-8 Hybrids; Components: MAIN
 Source: ..\data\Chip-8\Chip-8X\*.*; DestDir: {app}\data\Chip-8\Chip-8X; Components: MAIN
 Source: ..\data\Chip-8\Chip-10\*.*; DestDir: {app}\data\Chip-8\Chip-10; Components: MAIN
-Source: ..\data\Vip\vip.rom; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\vip.32.rom; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\fpb.bin; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\fpb_color.bin; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\*.ram; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\*.bin; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\chip8.stepper.hex; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\chip10.hex; DestDir: {app}\data\Vip; Components: MAIN
+Source: ..\data\Vip\*.*; DestDir: {app}\data\Vip; Components: MAIN
 Source: ..\data\VipII\vip.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\vip.32.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\fpb.rom; DestDir: {app}\data\VipII; Components: MAIN

@@ -461,7 +461,7 @@ void GuiFred::readFred2Config()
     conf[FRED2].screenDumpFileDir_ = readConfigDir("/Dir/FRED2/Video_Dump_File", dataDir_ + "FRED2" + pathSeparator_);
     conf[FRED2].wavFileDir_ = readConfigDir("/Dir/FRED2/Wav_File", dataDir_ + "FRED2" + pathSeparator_);
     
-    conf[FRED2].ram_ = configPointer->Read("/FRED2/Main_Ram_File", "fel.bin");
+    conf[FRED2].ram_ = configPointer->Read("/FRED2/Main_Ram_File", "Curses Foiled Again.bin");
     conf[FRED2].screenDumpFile_ = configPointer->Read("/FRED2/Video_Dump_File", "screendump.png");
     conf[FRED2].wavFile_ = configPointer->Read("/FRED2/Wav_File", "");
     
@@ -498,7 +498,7 @@ void GuiFred::readFred2Config()
     configPointer->Read("/FRED2/Enable_Tape_Start", &elfConfiguration[FRED2].tapeStart, true);
     
     long value;
-    wxString bootAddress = configPointer->Read("/FRED2/Boot_Address", "0000");
+    wxString bootAddress = configPointer->Read("/FRED2/Boot_Address", "0001");
     if (!bootAddress.ToLong(&value, 16))
         value = 0;
     conf[FRED2].bootAddress_ = value;
@@ -880,7 +880,7 @@ void GuiFred::setCurrentCardValue()
         for (int i=last; i!=0; i--)
         {
             using std::swap;
-            int j = std::rand() % (last+1);
+            int j = rand() % (last+1);
             swap(currentCardValue[i], currentCardValue[j]);
         }
     }

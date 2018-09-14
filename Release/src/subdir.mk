@@ -33,6 +33,7 @@ CPP_SRCS += \
 ../src/eti660.cpp \
 ../src/expansion.cpp \
 ../src/fdc.cpp \
+../src/fred.cpp \
 ../src/functionkey.cpp \
 ../src/guicidelsa.cpp \
 ../src/guicomx.cpp \
@@ -42,6 +43,7 @@ CPP_SRCS += \
 ../src/guielf2k.cpp \
 ../src/guieprom.cpp \
 ../src/guieti660.cpp \
+../src/guifred.cpp \
 ../src/guimain.cpp \
 ../src/guimcds.cpp \
 ../src/guimembership.cpp \
@@ -92,6 +94,7 @@ CPP_SRCS += \
 ../src/sound.cpp \
 ../src/splash.cpp \
 ../src/studio2.cpp \
+../src/studioiv.cpp \
 ../src/super.cpp \
 ../src/til311.cpp \
 ../src/til313.cpp \
@@ -153,6 +156,7 @@ OBJS += \
 ./src/eti660.o \
 ./src/expansion.o \
 ./src/fdc.o \
+./src/fred.o \
 ./src/functionkey.o \
 ./src/guicidelsa.o \
 ./src/guicomx.o \
@@ -162,6 +166,7 @@ OBJS += \
 ./src/guielf2k.o \
 ./src/guieprom.o \
 ./src/guieti660.o \
+./src/guifred.o \
 ./src/guimain.o \
 ./src/guimcds.o \
 ./src/guimembership.o \
@@ -212,6 +217,7 @@ OBJS += \
 ./src/sound.o \
 ./src/splash.o \
 ./src/studio2.o \
+./src/studioiv.o \
 ./src/super.o \
 ./src/til311.o \
 ./src/til313.o \
@@ -265,6 +271,7 @@ CPP_DEPS += \
 ./src/eti660.d \
 ./src/expansion.d \
 ./src/fdc.d \
+./src/fred.d \
 ./src/functionkey.d \
 ./src/guicidelsa.d \
 ./src/guicomx.d \
@@ -274,6 +281,7 @@ CPP_DEPS += \
 ./src/guielf2k.d \
 ./src/guieprom.d \
 ./src/guieti660.d \
+./src/guifred.d \
 ./src/guimain.d \
 ./src/guimcds.d \
 ./src/guimembership.d \
@@ -324,6 +332,7 @@ CPP_DEPS += \
 ./src/sound.d \
 ./src/splash.d \
 ./src/studio2.d \
+./src/studioiv.d \
 ./src/super.d \
 ./src/til311.d \
 ./src/til313.d \
