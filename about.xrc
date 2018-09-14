@@ -379,7 +379,7 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>The Sarnoff Collection at TCNJ, S.572.11 - ST3CTA Tester 3</label>
+                                            <label>The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, FRED 2, VIP and Studio II, III and IV SW. See readme and/or txt files for details</label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
@@ -406,7 +406,7 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Bowling, Chase, Mines, Swords, Fighter VIII and Tag-Bowling and Box 919: FEL languange</label>
+                                            <label>Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 2, VIP and Studio II and III SW. See readme and/or txt files for details</label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
