@@ -145,6 +145,7 @@ public:
 	virtual void inDown();
     virtual void inSetState(bool state);
     virtual void clearSetState(bool state);
+    virtual void waitSetState(bool state);
     virtual void runUp();
     virtual void runDown();
 	virtual void runSetState(bool state);
@@ -232,6 +233,7 @@ protected:
     SwitchButton *readSwitchButton;
     SwitchButton *cardSwitchButton;
     SwitchButton *clearSwitchButton;
+    SwitchButton *waitSwitchButton;
     SwitchButton *velfSwitchButton;
 	SwitchButton *dataSwitchButton[8];
 	SwitchButton *efSwitchButton[4];
@@ -371,6 +373,7 @@ public:
 	virtual void onSingleStep(wxCommandEvent& event);
     virtual void onMpButton();
     virtual void onMpButton(wxCommandEvent& event);
+    virtual void onWaitButton();
     virtual void onClearButton();
     virtual void onClearButtonPress() {};
     virtual void onClearButtonRelease() {};

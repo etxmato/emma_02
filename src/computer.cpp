@@ -937,6 +937,12 @@ void Panel::clearSetState(bool state)
     clearSwitchButton->setState(dc, state);
 }
 
+void Panel::waitSetState(bool state)
+{
+    wxClientDC dc(this);
+    waitSwitchButton->setState(dc, state);
+}
+
 void Panel::runUp()
 {
 #if wxCHECK_VERSION(2, 9, 0)
@@ -1502,6 +1508,10 @@ void Computer::onMpButton()
 }
 
 void Computer::onMpButton(wxCommandEvent&WXUNUSED(event))
+{
+}
+
+void Computer::onWaitButton()
 {
 }
 

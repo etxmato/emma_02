@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Emma 02
+Version=1.0
+Exec=emma_02
+Comment=RCA 1802  Emulator
+Icon=emma02
+Type=Application
+Terminal=false
+StartupNotify=true
+Encoding=UTF-8
+Categories=Development;

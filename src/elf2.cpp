@@ -1490,6 +1490,7 @@ void Elf2::cpuInstruction()
 		if (cpuMode_ == LOAD)
 		{
 			showData(readMem(address_));
+            ledCycleValue_ = 1;
 		}
 	}
 }

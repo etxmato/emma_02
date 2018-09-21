@@ -1758,6 +1758,7 @@ void Super::cpuInstruction()
 		if (cpuMode_ == LOAD)
 		{
 			showData(readMem(address_));
+            ledCycleValue_ = 1;
 		}
 	}
 }

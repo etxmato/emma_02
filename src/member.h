@@ -39,7 +39,7 @@ public:
 	bool keyDownPressed(int keycode);
 	bool keyUpReleased(int keycode);
 
-	void onRun();
+    void onRun();
 	void onInButtonPress();
 	void onInButtonPress(Byte value);
 	void onInButtonRelease();
@@ -59,7 +59,8 @@ public:
 	void switchQ(int value);
 	int getMpButtonState();
 	void onMpButton();
-	void onLoadButton();
+    void onWaitButton();
+    void onClearButton();
 	void dataSwitch(int i);
 
 	void startComputer();
@@ -91,9 +92,9 @@ private:
     int ledCycleValue_;
     int ledCycleSize_;
 
-    int runButtonState_;
+    int waitButtonState_;
+    int clearButtonState_;
 	int mpButtonState_;
-	int loadButtonState_;
 	int dataSwitchState_[8];
 	int ef4SwitchState;
 	bool inPressed_;

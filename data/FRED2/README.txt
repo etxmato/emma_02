@@ -27,8 +27,8 @@ deduce.bin
 ==========
 Created by Paul Robson who wrote this based on notes from J. Weisbecker.
 
-FEL.bin
-=======
+FEL-1.bin
+=========
 FEL binary created by Paul Robson who reproduced it with courtesy of the Hagley Museum and Library from
 documents on "FRED" developments at RCA, dated 1974-75; "Fred Folder 1", Acc. 2464, Box 919 described as
 the "Billie Joe Call" Collection, accession no. 2464.54.  Hagley Museum & Library, Wilmington, DE 19807
@@ -39,8 +39,8 @@ From: Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's 
 
 Simple FEL-1 example program
 
-FPL.bin
-=======
+FPL-2.bin
+=========
 From: The Sarnoff Collection at TCNJ, S.572.87
 
 One of the RCA pseudo languages, one game using this language is Curses Foiled Again.
@@ -98,22 +98,23 @@ make sound and find which button you pushed.
 It can be programmed to do any number of different things.
 Ask to see a demonstration of other FRED programs. beep
 
-GPL I.bin
-=========
+GPL-A (2K RAM).bin
+==================
 From: The Sarnoff Collection at TCNJ, S.572.87, S.572.71
 
-Two variants of the GPL pseudo language have been found, GPL I and GPL II. Both variants are very similar. GPL I will fit into 2K RAM using screen location 0700-07FF and V0-F are stored on 0680-068F whereas GPL II needs more memory. Interrupt routines are different, I think they have slightly different code for the timers. Command syntax is more or less the same for both with differences in:
+Two variants of the GPL-A pseudo language have been found, one for 2K RAM and the other running in a 2K ROM. Both variants are very similar. 
+The RAM version is using screen location 0700-07FF and V0-F are stored on 0680-068F whereas the ROM version needs more memory. Interrupt routines are different, I think they have slightly different code for the timers. Command syntax is more or less the same for both with differences in:
 
 SUB Vz, Vy-Vx on GPL I and SUB Vz, Vx-Vy on GPL II
 SE Vx, [6aa] on GPL I and SNE Vx, kk on GPL II
 SNE Vx, [6aa] on GPL I and SNE Vx, [8aa] on GPL II
 LD [6aa], Vx on GPL I and LD [8aa], Vx on GPL II
 
-GPL II.bin
-==========
+GPL-A (2K ROM).bin
+==================
 From: The Sarnoff Collection at TCNJ, S.572.87, S.572.71
 
-GPL II is used in the games 'Tag-Bowling' and 'Katch' running on the FRED 2 and RCA Video Coin Arcade machine. Katch looks like an early version of Tag-Bowling.
+GPL-A (2K ROM) is used in the games 'Tag-Bowling' and 'Katch' running on the FRED 2 and RCA Video Coin Arcade machine. Katch looks like an early version of Tag-Bowling.
 
 jackpot.bin
 ===========
@@ -141,8 +142,12 @@ This is a FRED2 game even if the same exact copy runs on the RCA Video Coin Arca
 
 Tape Software [AUD_2464_09_B41_ID33_02].bin
 ===========================================
+From: Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials -Accession 2464 -Box Number AVD B41
+
 Save/load software, to load a program from tape press 0, code will be loaded at address 0x100. To save memory to tape press C (memory 0x100-0x7FF will be saved to tape).
 
 XMAS Music & Show [AUD_2464_09_B41_ID30].bin
 ============================================
+From: Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials -Accession 2464 -Box Number AVD B41
+
 Christmas demo
