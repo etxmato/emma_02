@@ -374,7 +374,7 @@ void Fred::reDefineKeys(int hexKeyDefA1[], int hexKeyDefA2[])
 
 void Fred::initComputer()
 {
-    Show(p_Main->getUseControlWindows());
+    Show(p_Main->getUseFredControlWindows());
     setClear(0);
     setWait(0);
     

@@ -617,7 +617,7 @@ void GuiFred::onFred2ControlWindows(wxCommandEvent&event)
         p_Fred->Show(elfConfiguration[FRED2].useElfControlWindows);
 }
 
-bool GuiFred::getUseControlWindows()
+bool GuiFred::getUseFredControlWindows()
 {
     return elfConfiguration[selectedComputer_].useElfControlWindows;
 }

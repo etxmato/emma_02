@@ -26,7 +26,7 @@ public:
     void writeFred2WindowConfig();
     void onFred2ControlWindows(wxCommandEvent&event);
 
-    bool getUseControlWindows();
+    bool getUseFredControlWindows();
     void onAutoBoot(wxCommandEvent&event);
 	void onCoinArcadeControl(wxCommandEvent&event);
     void onStopTone(wxCommandEvent&event);

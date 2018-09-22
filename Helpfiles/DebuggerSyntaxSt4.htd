@@ -351,19 +351,19 @@ Following bytes contain jump table for the pressed keys, first two bytes key 0, 
 <TR>
 <TD WIDTH="55">1aaa</TD>
 <TD WIDTH="40">LD</TD>
-<TD WIDTH="100">I, 0aaa</TD>
+<TD WIDTH="100">I, 1aaa</TD>
 <TD WIDTH="250">Load I with address 1000 to 1FFF</TD>
 </TR>
 <TR>
 <TD WIDTH="55">2aaa</TD>
 <TD WIDTH="40">LD</TD>
-<TD WIDTH="100">I, 0aaa</TD>
+<TD WIDTH="100">I, 2aaa</TD>
 <TD WIDTH="250">Load I with address 2000 to 2FFF</TD>
 </TR>
 <TR>
 <TD WIDTH="55">3aaa</TD>
 <TD WIDTH="40">LD</TD>
-<TD WIDTH="100">I, 0aaa</TD>
+<TD WIDTH="100">I, 3aaa</TD>
 <TD WIDTH="250">Load I with address 3000 to 3FFF</TD>
 </TR>
 <TR>

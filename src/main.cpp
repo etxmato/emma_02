@@ -4238,7 +4238,7 @@ void Main::fullScreenMenu()
 
 void Main::popUp()
 {
-	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == FRED1 || runningComputer_ == FRED2 || runningComputer_ == VICTORY || runningComputer_ == STUDIOIV || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
+	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == VICTORY || runningComputer_ == STUDIOIV || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
 		return;
 
 	if (popupDialog_ == NULL)

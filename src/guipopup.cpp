@@ -69,8 +69,7 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
     EVT_CHECKBOX(XRCID("ControlWindowsPopupElf"), PopupDialog::onElfControlWindows)
 
     EVT_CHECKBOX(XRCID("ControlWindowsPopupVelf"), PopupDialog::onVelfControlWindows)
-    EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED1"), PopupDialog::onFred1ControlWindows)
-    EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED2"), PopupDialog::onFred2ControlWindows)
+    EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED"), PopupDialog::onFredControlWindows)
 
 	EVT_CHECKBOX(XRCID("ControlWindowsPopupMembership"), PopupDialog::onMembershipControlWindows)
 
@@ -109,8 +108,6 @@ PopupDialog::PopupDialog(wxWindow* parent)
         case TMC2000:
         case NANO:
 		case ETI:
-		case FRED1:
-		case FRED2:
 			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu_Cas_Mem.xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
             XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
@@ -131,7 +128,14 @@ PopupDialog::PopupDialog(wxWindow* parent)
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupVip"));
             XRCCTRL(*this, "PopupVip", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
-            
+      
+        case FRED1:
+        case FRED2:
+            wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuFred.xrc");
+            wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupFred"));
+            XRCCTRL(*this, "PopupFred", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
+        break;
+
         default:
 			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menu"+computerStr_+".xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, "Popup"+computerStr_);
@@ -166,12 +170,18 @@ void PopupDialog::init()
 			setEndLocation(p_Main->getSaveEndString(computer_));
 		break;
 
+        case FRED1:
+        case FRED2:
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+            XRCCTRL(*this, "ControlWindowsPopupFRED", wxCheckBox)->SetValue(p_Main->getUseFredControlWindows());
+            setStartLocation(p_Main->getSaveStartString(computer_));
+            setEndLocation(p_Main->getSaveEndString(computer_));
+        break;
+            
 		case TMC1800:
 		case TMC2000:
 		case NANO:
 		case ETI:
-		case FRED1:
-		case FRED2:
 		case MICROTUTOR:
 			XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             setStartLocation(p_Main->getSaveStartString(computer_));
@@ -418,18 +428,20 @@ void PopupDialog::onVelfControlWindows(wxCommandEvent&event)
         p_Main->setCheckBox("ControlWindowsVelf", event.IsChecked());
 }
 
-void PopupDialog::onFred1ControlWindows(wxCommandEvent&event)
+void PopupDialog::onFredControlWindows(wxCommandEvent&event)
 {
+    if (computer_ == FRED1)
+    {
     p_Main->onFred1ControlWindows(event);
     if (p_Main->getGuiMode())
         p_Main->setCheckBox("ControlWindowsFRED1", event.IsChecked());
-}
-
-void PopupDialog::onFred2ControlWindows(wxCommandEvent&event)
-{
-    p_Main->onFred2ControlWindows(event);
-    if (p_Main->getGuiMode())
-        p_Main->setCheckBox("ControlWindowsFRED2", event.IsChecked());
+    }
+    else
+    {
+        p_Main->onFred2ControlWindows(event);
+        if (p_Main->getGuiMode())
+            p_Main->setCheckBox("ControlWindowsFRED2", event.IsChecked());
+    }
 }
 
 void PopupDialog::onMembershipControlWindows(wxCommandEvent&event)
