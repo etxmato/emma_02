@@ -42,6 +42,7 @@ enum
     FRED1_GAME_21_II,
     FRED1_GAME_ACEY_DUECY,
     FRED1_GAME_ADD_DRILL,
+    FRED1_GAME_ANIMATE,
     FRED1_GAME_BINARY,
     FRED1_GAME_BOWLING,
     FRED1_GAME_CALCULATE,
@@ -66,6 +67,7 @@ enum
     FRED1_GAME_MINIKRIEG,
     FRED1_GAME_NIMNET,
     FRED1_GAME_PATTERN_PUZZLE,
+    FRED1_GAME_PROG_APT,
     FRED1_GAME_SLIDE_PUZZLE_I,
     FRED1_GAME_SLIDE_PUZZLE_II,
 	FRED1_GAME_SPACE_WAR,
@@ -84,6 +86,7 @@ wxString gameList[] =
     "21 II.bin",
     "Acey Duecy.bin",
     "Add Drill.bin",
+    "Animate Demo.bin",
     "Binary.bin",
     "Bowling.bin",
     "Calculate.bin",
@@ -108,6 +111,7 @@ wxString gameList[] =
     "Minikrieg.bin",
     "Nimnet.bin",
     "Pattern Puzzle I.bin",
+    "Prog. Apt. Test.bin",
     "Slide Puzzle I.bin",
     "Slide Puzzle II.bin",
     "Space War.bin",
@@ -126,6 +130,7 @@ int cardValue[FRED1_GAME_END+1][FRED1_CARDS] =
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // 21 II
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Acey Duecy
     { 0xFe, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1  }, // Add Drill
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1  }, // Animate Demo
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Binary
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Bowling
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Calculate
@@ -150,6 +155,7 @@ int cardValue[FRED1_GAME_END+1][FRED1_CARDS] =
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Minikrieg
     { 0x1a1, 0xa2, 0xb1, 0xb2, 0xb3, 0xb4,  0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xd1, 0xd2, 0xd3, 0xd4, 0xd5, 0xe1, 0xe2, 0xe3, 0xe4, 0xf1, 0xf2, -1, -1 }, // Nimnet
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Pattern Puzzle
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Prog. Apt. Test
     { 0, 0x31, 0x33, 0x35, -1, -1, 0x6, -1, -1, -1, -1, -1, 0x1, 0xff, -1, -1, -1, -1, 0xfa, -1, -1, -1, -1, -1 }, // Slide Puzzle I
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Slide Puzzle II
     { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 }, // Space War
@@ -841,6 +847,32 @@ void GuiFred::setGame()
             downloadWavFiles(FRED1);
         break;
         
+        case FRED1_GAME_PROG_APT:
+            elfConfiguration[FRED1].autoBoot = false;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+            conf[FRED1].turbo_ = false;
+            XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
+            turboGui("FRED1");
+            conf[FRED1].wavFile_ = "Prog. Apt. Test.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            downloadWavFiles(FRED1);
+        break;
+
+        case FRED1_GAME_ANIMATE:
+            elfConfiguration[FRED1].autoBoot = true;
+            XRCCTRL(*this,"AutoBootFRED1", wxCheckBox)->SetValue(elfConfiguration[FRED1].autoBoot);
+            elfConfiguration[FRED1].keyboardType = FRED_HEX_MODE;
+            XRCCTRL(*this,"KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
+            conf[FRED1].turbo_ = false;
+            XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
+            turboGui("FRED1");
+            conf[FRED1].wavFile_ = "Animate Demo Data.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            downloadWavFiles(FRED1);
+        break;
+            
         default:
     	break;
     }

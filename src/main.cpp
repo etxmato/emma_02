@@ -2390,11 +2390,11 @@ void Main::initConfig()
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 286+60; // was 156+20
+	int clockTextCorrectionComxX = 256+60; 
 	int clockTextCorrectionComxY = 117;
-	int clockFloatCorrectionComxX = 235+60; // was 220+60
+	int clockFloatCorrectionComxX = 220+60; 
 	int clockFloatCorrectionComxY = 120;
-	int mhzTextCorrectionComxX = 186+60; // was 171+60
+	int mhzTextCorrectionComxX = 171+60; 
 	int mhzTextCorrectionComxY = 117;
     int stopCorrectionComxX = 143+60;
     int stopCorrectionComxY = 121;
@@ -2403,11 +2403,11 @@ void Main::initConfig()
 	int floatHeight = 21;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 285+60; // was 155+20
+	int clockTextCorrectionX = 255+60; 
 	int clockTextCorrectionY = 146;
-	int clockFloatCorrectionX = 232+60; // was 217+20
+	int clockFloatCorrectionX = 217+60; 
 	int clockFloatCorrectionY = 149;
-	int mhzTextCorrectionX = 185+60; // was 170+20
+	int mhzTextCorrectionX = 170+60; 
     int mhzTextCorrectionY = 146;
     int stopCorrectionX = 142+60;
     int stopCorrectionY = 150;
