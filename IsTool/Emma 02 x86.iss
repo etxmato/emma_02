@@ -52,6 +52,7 @@ Source: ..\main.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menu_Cas_Mem.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuComx.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuCosmicos.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuFred.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuElf.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuElf2K.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuMembership.xrc; DestDir: {app}; Components: MAIN

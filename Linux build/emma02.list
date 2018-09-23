@@ -57,6 +57,7 @@ f 644 root sys ${datadir}/emma_02/menuComx.xrc ../menuComx.xrc
 f 644 root sys ${datadir}/emma_02/menuCosmicos.xrc ../menuCosmicos.xrc
 f 644 root sys ${datadir}/emma_02/menuElf.xrc ../menuElf.xrc
 f 644 root sys ${datadir}/emma_02/menuElf2K.xrc ../menuElf2K.xrc
+f 644 root sys ${datadir}/emma_02/menuFred.xrc ../menuFred.xrc
 f 644 root sys ${datadir}/emma_02/menuMS2000.xrc ../menuMS2000.xrc
 f 644 root sys ${datadir}/emma_02/menuMcds.xrc ../menuMcds.xrc
 f 644 root sys ${datadir}/emma_02/menuMembership.xrc ../menuMembership.xrc
