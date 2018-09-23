@@ -277,8 +277,7 @@ void Tmc2000::startComputer()
 
 	readProgram(p_Main->getRamDir(TMC2000), p_Main->getRamFile(TMC2000), NOCHANGE, 0, SHOWNAME);
 	readProgram(p_Main->getChip8Dir(TMC2000), p_Main->getChip8SW(TMC2000), NOCHANGE, 0x200, SHOWNAME);
-	if (mainMemory_[0x100] ==  0 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
-		chip8type_ = CHIP8;
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
 	double zoom = p_Main->getZoom();
 
@@ -424,7 +423,8 @@ void Tmc2000::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleChip8Debug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

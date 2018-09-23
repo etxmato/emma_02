@@ -697,21 +697,18 @@ void Velf::startComputer()
 	p_Main->assDefault("mycode", 0, 0xFFF);
 
 	readProgram(p_Main->getRamDir(VELF), p_Main->getRamFile(VELF), NOCHANGE, 0, SHOWNAME);
-	if (mainMemory_[0x100] ==  0 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
-	{
-		chip8type_ = CHIP8;
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+
+    if (pseudoType_ == "CHIP8")
 		readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);
-	}
 	else
 	{
-		if (mainMemory_[0x100] ==  0x33 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
-		{
-			chip8type_ = CHIP8X;
+        if (pseudoType_ == "CHIP8X")
 			readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x300, SHOWNAME);
-		}
 		else
 			readProgram(p_Main->getChip8Dir(VELF), p_Main->getChip8SW(VELF), NOCHANGE, 0x200, SHOWNAME);
 	}
+
 
     if (vipConfiguration.autoBoot)
         autoBoot();
@@ -872,7 +869,8 @@ void Velf::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleChip8Debug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

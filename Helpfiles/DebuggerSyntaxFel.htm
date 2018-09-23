@@ -1,0 +1,360 @@
+
+<html>
+<title>FEL Syntax</title>
+<body>
+<h2>FEL Syntax</h2>
+<h3>Information</h3>
+<p>
+Pseudo command syntax described here is a variant used in the FRED2 computer. Used in the 'Fred demo',
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">l</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">z</TD>
+<TD WIDTH="400">Register number Vz (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[8aa]</TD>
+<TD WIDTH="400">Memory value of address aa within page 8 (RAM)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[Vy]</TD>
+<TD WIDTH="400">Memory value of address in register Vy within in page 8 (RAM)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">F=</TD>
+<TD WIDTH="400">Tone frequency</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">5xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy4</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy2</TD>
+<TD WIDTH="40">AND</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx AND Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in 026E (which is the 'FEL-1' equivalent of RETURN)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0078</TD>
+<TD WIDTH="40">CLS</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Clear display</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x4B</TD>
+<TD WIDTH="40">DELAY</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx Delay (Tape On, Speaker off)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xyl</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, Vy, l</TD>
+<TD WIDTH="250">Draw pattern, x = pattern address in page 3, y = tv cell address, l number of lines</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7F6F</TD>
+<TD WIDTH="40">INCA</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">RA = RA + 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex8D</TD>
+<TD WIDTH="40">INP6</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = INP 6</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Faaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0268</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Switch hex keypad off</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex7A</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Wait for key press and return in Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x52</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, [RA], Vx<br>B, [A], Vx</TD>
+<TD WIDTH="250">Convert Vx to 3 digit decimal at A, A+1, A+2</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Aaaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA, aaa<br>A, aaa</TD>
+<TD WIDTH="250">RA = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Baaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RB, aaa<br>B, aaa</TD>
+<TD WIDTH="250">RB = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x2A</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA.0, Vx<br>A.0, Vx</TD>
+<TD WIDTH="250">RA.0 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x30</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA.1, Vx<br>A.1, Vx</TD>
+<TD WIDTH="250">RA.1 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x34</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RB.0, Vx<br>B.0, Vx</TD>
+<TD WIDTH="250">RB.0 = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x38</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, RA.0<br>Vx, A.0</TD>
+<TD WIDTH="250">Vx = RA.0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x3B</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, RA.1<br>Vx, A.1</TD>
+<TD WIDTH="250">Vx = RA.1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x1E</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [RA]<br>Vx, [A]</TD>
+<TD WIDTH="250">Vx = [RA]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x21</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [RB]<br>Vx, [B]</TD>
+<TD WIDTH="250">Vx = [RB]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x24</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RA], Vx<br>[A], Vx</TD>
+<TD WIDTH="250">[RA] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x27</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RB], Vx<br>[B], Vx</TD>
+<TD WIDTH="250">[RB] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy1</TD>
+<TD WIDTH="40">OR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx OR Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex91</TD>
+<TD WIDTH="40">OUT4</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">OUT 4 with Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex8F</TD>
+<TD WIDTH="40">OUT6</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">OUT 6 with Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">022F</TD>
+<TD WIDTH="40">PUSH</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Push V0-VF, A, B to 01E0-EF, F0-F3</TD>
+</TR>
+<TR>
+<TD WIDTH="55">026E</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return fron subroutine CALL</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = random AND kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy SHR, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x3E</TD>
+<TD WIDTH="40">SHL4</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx SHL 4</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7x41</TD>
+<TD WIDTH="40">SHR4</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx SHR 4</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.8A</TD>
+<TD WIDTH="40">SK3</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Skip next instruction if EF3 = 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex80</TD>
+<TD WIDTH="40">SKP</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Read key if available if not skip next instruction</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.87</TD>
+<TD WIDTH="40">SKT</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Skip next instruction if tape is stopped</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxy0</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx != Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy5</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy7</TD>
+<TD WIDTH="40">SUBN</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy - Vx, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6.kk</TD>
+<TD WIDTH="40">TAPE</TD>
+<TD WIDTH="100">kk</TD>
+<TD WIDTH="250">Tape Controller - kk = code to write</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.93</TD>
+<TD WIDTH="40">TAPE</TD>
+<TD WIDTH="100">READ</TD>
+<TD WIDTH="250">Read tape to [RA] and onwards</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E.A0</TD>
+<TD WIDTH="40">TAPE</TD>
+<TD WIDTH="100">WRITE</TD>
+<TD WIDTH="250">Write to tape from [RA] to 06FF</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dxy0</TD>
+<TD WIDTH="40">TONE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx Tone, Vy Delay (Tape on spk off)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">025C</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">ON</TD>
+<TD WIDTH="250">Video display enabled</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0240</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">OFF</TD>
+<TD WIDTH="250">Video display disabled</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy3</TD>
+<TD WIDTH="40">XOR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx XOR Vy</TD>
+</TR>
+</TABLE>
+</body>
+</html>
+

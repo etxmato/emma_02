@@ -149,9 +149,16 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
 		break;
 
+        case VIP:
+            XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
+            XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart");
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
+            XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+        break;
+            
 		case COSMICOS:
 		case MEMBER:
-        case VIP:
         case VELF:
 			XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
 			XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
@@ -194,6 +201,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     wxString box;
     wxCommandEvent uartElf2KEvent(ON_UART_ELF2K, 808);
     wxCommandEvent uartMS2000Event(ON_UART_MS2000, 809);
+    wxCommandEvent uartVipEvent(ON_UART_VIP, 810);
     
 	for (int i=0; i<17; i++)
 	{
@@ -249,8 +257,19 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             }
 		break;
 
-		case COSMICOS:
         case VIP:
+            elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
+            
+            if (originalUartValue_ != elfConfiguration_.useUart)
+            {
+                uartElf2KEvent.SetEventObject(this);
+                wxPostEvent(p_Main, uartVipEvent);
+            }
+            elfConfiguration_.vtEf = XRCCTRL(*this, "VtEf", wxCheckBox)->GetValue();
+            elfConfiguration_.vtQ = !XRCCTRL(*this, "VtQ", wxCheckBox)->GetValue();
+        break;
+
+		case COSMICOS:
         case VELF:
 		case MEMBER:
 			elfConfiguration_.vtEf = XRCCTRL(*this, "VtEf", wxCheckBox)->GetValue();

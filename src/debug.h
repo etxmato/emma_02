@@ -60,31 +60,62 @@ public:
 #define MEM_LABEL_TYPE true
 #define FIND_BRANCH false
 
+#define PSEUDO_DETAILS_X 0
+#define PSEUDO_DETAILS_I 1
+#define PSEUDO_DETAILS_MI 2
+
+class PseudoCodeDetails
+{
+public:
+    long command;
+    int length;
+    wxString subCommand;
+    wxString commandText;
+    wxString parameterText;
+};
+
 enum
 {
+    DUMMY,
     ADD_VX_VY_VZ,
     ADD_VX_KK,
     ADD8_VX_VY_N,
     BEEP_F_KK_N,
     CALL_MMM,
+    DRW_VX_KK,
     DRW_VX_VY_N,
     DRW_VX_L_N,
     JP_MMM,
+    JZ_VX_KK,
+    JNZ_VX_KK,
+    JE_I_VX_KK,
+    JNE_I_VX_KK,
     LD_B_VX_VY,
+    LD_M6AA_VX,
     LD_M8AA_VX,
     LD_RA_MMM,
     LD_RB_MMM,
+    LD_I_MMMM,
     LD_VX_KK,
+    LD_VX_27KK,
+    LD_27KK_VX,
     RND_VX_KK,
+    SE_VX_KK,
+    SE_VX_M6AA,
     SNE_VX_KK,
     SNE_VX_VY,
+    SNE_VX_M6AA,
     SNE_VX_M8AA,
+    SNE_X_KK,
     SUB_VX_VY_VZ,
+    SUB_VY_VX_VZ,
     SYS_MMM,
     SYS1_AA,
     TAPE_KK,
     TONE_VX_VY,
+    FEL1_COMMAND_0,
     FEL1_COMMAND_7,
+    FEL1_COMMAND_E,
     FEL2_COMMAND_C,
     FEL2_COMMAND_E,
     FEL3_COMMAND_4,
@@ -92,6 +123,13 @@ enum
     FEL3_COMMAND_8,
     FEL3_COMMAND_C,
     FEL3_COMMAND_E,
+    STIV_COMMAND_4,
+    STIV_COMMAND_5,
+    STIV_COMMAND_6,
+    STIV_COMMAND_7,
+    FPL_COMMAND_C,
+    FPL_COMMAND_E,
+    CARDTRAN_COMMAND,
     LAST_COMMAND
 };
 
@@ -130,10 +168,8 @@ public:
 	void enableChip8DebugGui(bool status);
 	void enableDebugGui(bool status);
 	void updateAssTabCheck(Word address);
-    void cycleChip8Debug();
-    void cycleFredDebug();
+    void cyclePseudoDebug();
 	bool chip8BreakPointCheck();
-	void cycleSt2Debug();
 	void showInstructionTrace();
 	void cycleDebug();
 	void updateChip8Window(); 
@@ -279,9 +315,9 @@ public:
 	void checkLoadV();
 	void onInsert(wxCommandEvent&event);
 	bool branchChangeNeeded(int range, Word address, Word branchAddr);
-	void insertByte(Word address, Byte instruction, int branchAddress);
+	void insertByte(Word address, Byte instruction, int branchAddress, bool secondCardtranInsert);
 	void onDelete(wxCommandEvent&event);
-	void deleteByte(Word address);
+	void deleteByte(Word address, bool secondCardtranDelete);
 	void shortLongBranch();
 	void correctionList();
 	void changeBranch(Word address, Word branchAddr);
@@ -370,14 +406,11 @@ public:
 	void onChip8PauseButton(wxCommandEvent&event);
 	void setChip8PauseState();
 	void onChip8StepButton(wxCommandEvent&event);
-    void chip8Trace(Word address);
-    void fredTrace(Word address);
-	wxString chip8Disassemble(Word address, bool includeDetails, bool showOpcode);
-    void defineFelCommands_(int chip8Type);
-    void defineFelCommand(int command, int type);
-    wxString fel2Disassemble(Word address, bool includeDetails, bool showOpcode);
-	void st2Trace(Word address);
-	wxString st2Disassemble(Word address, bool includeDetails, bool showOpcode);
+    void pseudoTrace(Word address);
+	wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* chip8register12bit, bool* pseudoLoaded);
+    void definePseudoCommands();
+    wxString pseudoDisassemble(Word address, bool includeDetails, bool showOpcode);
+    wxString addDetails();
 	void onChip8Trace(wxCommandEvent&event);
 	void onChip8ProtectedMode(wxCommandEvent&event);
 	void onChip8Log(wxCommandEvent&event);
@@ -403,8 +436,6 @@ protected:
 	wxListCtrl *trapWindowPointer;
 	wxTextCtrl *registerTextPointer[16];
 	wxTextCtrl *chip8varTextPointer[16];
-	wxTextCtrl *pcTextPointer;
-	wxTextCtrl *iTextPointer;
 	wxTextCtrl *chip8TraceWindowPointer;
 	wxTextCtrl *outTextPointer[8];
 	wxTextCtrl *inTextPointer[8];
@@ -429,6 +460,11 @@ protected:
 	long chip8Steps_;
 	bool performChip8Step_;
 	bool additionalChip8Details_;
+    int additionalChip8DetailsType_;
+    Word additionalDetailsAddress_;
+    Word additionalDetailsAddressV2_;
+    wxString additionalDetailsPrintStr_;
+    wxString additionalDetailsPrintStrV2_;
 
 	double percentageClock_;
 	bool saveDebugFile_;
@@ -436,6 +472,7 @@ protected:
     wxString chipTraceString_;
 
     wxString dirAssNewDir_;
+    bool pseudoLoaded_;
 
 private:
 	wxMemoryDC dcLine, dcChar, dcAss;
@@ -457,10 +494,10 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-	int assembleChip(wxString *buffer, Byte* b1, Byte* b2);
-    int assembleFel2(wxString *buffer, Byte* b1, Byte* b2);
+    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2);
 	AssInput getAssInput(wxString buffer);
-	int assembleSt2(wxString *buffer, Byte* b1, Byte* b2);
+	int checkParameterPseudo(AssInput assInput, Word* pseudoCode);
+	Byte getCardtranAddress(long address);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
 	int getByte(AssInput assInput, Byte* b2, bool allowX);
 	int getSlot(AssInput assInput, Byte* b2);
@@ -515,7 +552,7 @@ private:
 
 	bool spinning_;
 
-	int chip8type_;
+	wxString pseudoType_;
 
 	bool showInstructionTrap_;
 	bool dataViewDump;
@@ -557,10 +594,28 @@ private:
     LabelInfo labelInfo_[65536];
 
 	int numberOfDebugLines_;
-    int dissassembleCommand_[16];
-    int assembleCommand_[LAST_COMMAND];
-
     
+	wxTextFile inFile;
+
+    size_t psuedoNumber_;
+    vector<PseudoCodeDetails> pseudoCodeDetails_;
+
+    size_t singleByteCommandNumber_;
+    vector<Byte> singleByteCommand_;
+    
+    size_t jumpCommandNumber_;
+    vector<Byte> jumpCommand_;
+    vector<Byte> jumpMask_;
+    vector<Word> jumpOffset_;
+    
+    size_t branchCommandNumber_;
+    vector<Byte> branchCommand_;
+    vector<Byte> branchMask_;
+
+    size_t decimalBranchCommandNumber_;
+    vector<Byte> decimalBranchCommand_;    
+    
+	wxString commandSyntaxFile_;
 	DECLARE_EVENT_TABLE()
 };
 

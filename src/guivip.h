@@ -19,7 +19,7 @@ public:
 	void onTempo(wxScrollEvent&event);
 	void onSound(wxCommandEvent&event);
 	void onRamSWVip(wxCommandEvent&event);
-	void onRamSWText(wxCommandEvent&event);
+	void onRamSWTextVip(wxCommandEvent&event);
 	void onVipRam(wxSpinEvent& event);
 	void onVipVp570(wxSpinEvent& event);
 	void onVipVp580(wxCommandEvent& event);
@@ -38,6 +38,7 @@ public:
 
 	void onVipBaudR(wxCommandEvent& event);
 	void onVipBaudT(wxCommandEvent& event);
+    void onVipUart(wxCommandEvent& event);
 
 private:
     wxPoint position_;

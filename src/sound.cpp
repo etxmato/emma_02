@@ -587,12 +587,20 @@ void Sound::psaveAmplitudeChange(int q)
 						beepOff();
 				break;
 
+                case FRED1:
+                case FRED2:
+                    if (q)
+                        toneElf2KOn();
+                    else
+                        toneElf2KOff();
+                break;
+
                 case TMC1800:
 					if (q)
                         beepOn();
                     else
                         beepOff();
-                    break;
+                break;
                     
                 case VISICOM:
                 case STUDIO:
@@ -600,11 +608,12 @@ void Sound::psaveAmplitudeChange(int q)
                         beepOnStudio();
                     else
                         beepOff();
-                    break;
+                break;
                     
 				case TMC2000:
 				case ETI:
-				case VICTORY:
+                case VICTORY:
+                case STUDIOIV:
                 case VIPII:
 					if (q)
 						tone1864On();
@@ -681,6 +690,13 @@ void Sound::psaveAmplitudeChange(int q)
 	}
 }
 
+void Sound::psaveAmplitudeZero()
+{
+    tapeSynthPointer->update(soundTime_, 0);
+    psaveSynthPointer[0]->update(soundTime_, 0);
+    psaveSynthPointer[1]->update(soundTime_, 0);
+}
+
 void Sound::playSaveLoad()
 {
 	if (!psaveOn_ && !ploadOn_ && !wavOn_)
@@ -709,10 +725,13 @@ void Sound::playSaveLoad()
         if (ploadOn_)
         {
             long in = ploadWavePointer->read(ploadSamples, sample_count, gain_);
-            soundBufferPointerLeft->mix_samples(ploadSamples, in);
-            soundBufferPointerRight->mix_samples(ploadSamples, in);
-            if (ploadWavePointer->eof())
-                stopTape();
+			if (ploadOn_)
+			{
+				soundBufferPointerLeft->mix_samples(ploadSamples, in);
+				soundBufferPointerRight->mix_samples(ploadSamples, in);
+				if (ploadWavePointer->eof())
+					stopTape();
+			}
         }
         
         if (wavOn_)
@@ -748,7 +767,7 @@ void Sound::convertTo8Bit(const short* in, int count, unsigned char* out)
 		out[i]= (unsigned char) ((in[i] >> 8) ^ 0x80);
 }
 
-void Sound::ploadStartTape(wxString fileName)
+bool Sound::ploadStartTape(wxString fileName)
 {
     long sampleRate;
     
@@ -762,17 +781,20 @@ void Sound::ploadStartTape(wxString fileName)
             p_Main->message("Cassette sound error: out of memory");
             delete ploadWavePointer;
             p_Main->eventSetTapeState(TAPE_STOP);
+            return false;
         }
         else
         {
             ploadOn_ = true;
             p_Main->turboOn();
+            return true;
         }
     }
     else
     {
         delete ploadWavePointer;
         p_Main->eventSetTapeState(TAPE_STOP);
+        return false;
     }
 }
 
@@ -800,7 +822,7 @@ void Sound::startWavSound(wxString fileName)
 void Sound::psaveStartTape(wxString fileName)
 {
 	long sampleRate;
-
+    
 	sampleRate = 22050;
 	switch (psaveBitRate_)
 	{
@@ -861,8 +883,8 @@ void Sound::stopTape()
 		psaveOn_ = false;
 	}
 	p_Main->eventSetTapeState(TAPE_STOP);
-//	if (computerType_ == PECOM)
-//		p_Computer->finishStopTape();
+	if (computerType_ == FRED1 || computerType_ == FRED2 )
+		p_Computer->finishStopTape();
 	if (p_Vt100 != NULL)
 		p_Vt100->ResetIo();
 }
@@ -879,7 +901,11 @@ void Sound::pauseTape()
 //        p_Main->turboOff();
         psaveOn_ = false;
     }
-    p_Main->eventSetTapeState(TAPE_STOP);
+    if (computerType_ == FRED1 || computerType_ == FRED2)
+        p_Main->eventSetTapeState(TAPE_PAUSE);
+    else
+        p_Main->eventSetTapeState(TAPE_STOP);
+    p_Computer->resetGaugeValue();
 }
 
 void Sound::restartTapeSave()
@@ -987,4 +1013,8 @@ void Sound::setPsaveSettings()
 	p_Computer->setTapePolarity(p_Main->getPsaveData(6));
 	p_Computer->setConversionType(p_Main->getPsaveData(3), p_Main->getPsaveData(7));
 	audioPointer->setTapeConfig(inputChannel_, playback);
+    threshold8_ = p_Main->getPsaveData(8);
+    threshold16_ = p_Main->getPsaveData(9);
+    fredFreq_ = (float) p_Main->getPsaveData(10)/10;
 }
+

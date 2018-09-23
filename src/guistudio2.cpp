@@ -33,7 +33,7 @@
 #include "guistudio2.h"
 #include "pixie.h"
 
-BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
+BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
 
 	EVT_TEXT(XRCID("MainRomStudio2"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomStudio2"), GuiMain::onMainRom1Text)
@@ -111,8 +111,9 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
     EVT_CHECKBOX(XRCID("DisableSystemRomVictory"), GuiStudio2::onDisableSystemRomVictory)
     EVT_SPINCTRL(XRCID("MsbVictory"), GuiStudio2::onMsbVictory)
     EVT_SPINCTRL(XRCID("LsbVictory"), GuiStudio2::onLsbVictory)
+    EVT_CHOICE(XRCID("VidModeVictory"), GuiStudio2::onVictoryVideoMode)
 
-
+	
 	EVT_TEXT(XRCID("MainRomVictory"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomVictory"), GuiMain::onMainRom1Text)
 	EVT_BUTTON(XRCID("RomButtonVictory"), GuiMain::onMainRom1)
@@ -135,10 +136,34 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiVip)
 	EVT_BUTTON(XRCID("KeyMapVictory"), Main::onHexKeyDef)
 	EVT_BUTTON(XRCID("ColoursVictory"), Main::onColoursDef)
 
+	
+    EVT_TEXT(XRCID("MainRomStudioIV"), GuiMain::onMainRom1Text)
+    EVT_COMBOBOX(XRCID("MainRomStudioIV"), GuiMain::onMainRom1Text)
+    EVT_BUTTON(XRCID("RomButtonStudioIV"), GuiMain::onMainRom1)
+
+    EVT_TEXT(XRCID("CartRomStudioIV"), GuiMain::onCartRomText)
+    EVT_COMBOBOX(XRCID("CartRomStudioIV"), GuiMain::onCartRomText)
+    EVT_BUTTON(XRCID("CartRomButtonStudioIV"), GuiMain::onCartRom)
+
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonStudioIV"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
+
+    EVT_SPIN_UP(XRCID("ZoomSpinStudioIV"), GuiMain::onZoomUp)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinStudioIV"), GuiMain::onZoomDown)
+    EVT_TEXT(XRCID("ZoomValueStudioIV"), GuiMain::onZoomValue)
+    EVT_BUTTON(XRCID("FullScreenF3StudioIV"), GuiMain::onFullScreen)
+    EVT_BUTTON(XRCID("ScreenDumpF5StudioIV"), GuiMain::onScreenDump)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeStudioIV"), GuiMain::onVolume)
+    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeStudioIV"), GuiMain::onVolume)
+    EVT_BUTTON(XRCID("KeyMapStudioIV"), Main::onHexKeyDef)
+    EVT_BUTTON(XRCID("ColoursStudioIV"), Main::onColoursDef)
+    EVT_CHOICE(XRCID("VidModeStudioIV"), GuiStudio2::onStudioIVVideoMode)
+
 END_EVENT_TABLE()
 
 GuiStudio2::GuiStudio2(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiVip(title, pos, size, mode, dataDir, iniDir)
+: GuiFred(title, pos, size, mode, dataDir, iniDir)
 {
 }
 
@@ -299,12 +324,7 @@ void GuiStudio2::readCoinArcadeConfig()
     defaultScale.Printf("%i", 3);
     conf[COINARCADE].xScale_ = configPointer->Read("/CoinArcade/Window_Scale_Factor_X", defaultScale);
     conf[COINARCADE].realCassetteLoad_ = false;
-    
-    configPointer->Read("/CoinArcade/MultiCart", &conf[COINARCADE].multiCart_, false);
-    configPointer->Read("/CoinArcade/DisableSystemRom", &conf[COINARCADE].disableSystemRom_, true);
-    conf[COINARCADE].lsb_ = (Byte)configPointer->Read("/CoinArcade/Lsb", 0l);
-    conf[COINARCADE].msb_ = (Byte)configPointer->Read("/CoinArcade/Msb", 0l);
-    
+  
     if (mode_.gui)
     {
         XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
@@ -312,9 +332,6 @@ void GuiStudio2::readCoinArcadeConfig()
         XRCCTRL(*this, "ZoomValueCoinArcade", wxTextCtrl)->ChangeValue(conf[COINARCADE].zoom_);
         clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
         XRCCTRL(*this, "VolumeCoinArcade", wxSlider)->SetValue(conf[COINARCADE].volume_);
-        
-        XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->Enable(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_);
-        XRCCTRL(*this, "RomButtonCoinArcade", wxButton)->Enable(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_);
     }
 }
 
@@ -335,10 +352,6 @@ void GuiStudio2::writeCoinArcadeConfig()
     configPointer->Write("/CoinArcade/Zoom", conf[COINARCADE].zoom_);
     configPointer->Write("/CoinArcade/Clock_Speed", conf[COINARCADE].clock_);
     configPointer->Write("/CoinArcade/Volume", conf[COINARCADE].volume_);
-    configPointer->Write("/CoinArcade/MultiCart", conf[COINARCADE].multiCart_);
-    configPointer->Write("/CoinArcade/DisableSystemRom", conf[COINARCADE].disableSystemRom_);
-    configPointer->Write("/CoinArcade/Lsb", conf[COINARCADE].lsb_);
-    configPointer->Write("/CoinArcade/Msb", conf[COINARCADE].msb_);
 }
 
 void GuiStudio2::readCoinArcadeWindowConfig()
@@ -465,6 +478,7 @@ void GuiStudio2::readVictoryConfig()
     configPointer->Read("/Victory/DisableSystemRom", &conf[VICTORY].disableSystemRom_, true);
     conf[VICTORY].lsb_ = (Byte)configPointer->Read("/Victory/Lsb", 0l);
     conf[VICTORY].msb_ = (Byte)configPointer->Read("/Victory/Msb", 0l);
+    conf[VICTORY].videoMode_ = (int)configPointer->Read("/Victory/Video_Mode", 0l);
     
     if (mode_.gui)
 	{
@@ -482,6 +496,7 @@ void GuiStudio2::readVictoryConfig()
 		XRCCTRL(*this, "DisableSystemRomVictory", wxCheckBox)->Enable(conf[VICTORY].multiCart_);
 		XRCCTRL(*this, "MainRomVictory", wxComboBox)->Enable(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_);
 		XRCCTRL(*this, "RomButtonVictory", wxButton)->Enable(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_);
+        XRCCTRL(*this, "VidModeVictory", wxChoice)->SetSelection(conf[VICTORY].videoMode_);
 	}
 }
 
@@ -507,6 +522,7 @@ void GuiStudio2::writeVictoryConfig()
     configPointer->Write("/Victory/DisableSystemRom", conf[VICTORY].disableSystemRom_);
     configPointer->Write("/Victory/Lsb", conf[VICTORY].lsb_);
     configPointer->Write("/Victory/Msb", conf[VICTORY].msb_);
+    configPointer->Write("/Victory/Video_Mode", conf[VICTORY].videoMode_);
 }
 
 void GuiStudio2::readVictoryWindowConfig()
@@ -557,3 +573,111 @@ void GuiStudio2::onLsbVictory(wxSpinEvent&event)
 		p_Computer->setMultiCartLsb(conf[VICTORY].lsb_);
 }
 
+void GuiStudio2::onVictoryVideoMode(wxCommandEvent&event)
+{
+    conf[VICTORY].videoMode_ = event.GetSelection();
+    if (mode_.gui)
+    {
+        if (conf[VICTORY].videoMode_ == PAL)
+            conf[VICTORY].rom_[MAINROM1] = "victory.rom";
+        else
+            conf[VICTORY].rom_[MAINROM1] = "studio3.rom";
+        XRCCTRL(*this, "MainRomVictory", wxComboBox)->SetValue(conf[VICTORY].rom_[MAINROM1]);
+    }
+}
+
+void GuiStudio2::readStudioIVConfig()
+{
+    selectedComputer_ = STUDIOIV;
+    
+    conf[STUDIOIV].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "StudioIV" + pathSeparator_;
+    conf[STUDIOIV].mainDir_ = readConfigDir("/Dir/StudioIV/Main", dataDir_ + "StudioIV" + pathSeparator_);
+    
+    conf[STUDIOIV].romDir_[MAINROM1] = readConfigDir("/Dir/StudioIV/Main_Rom_File", dataDir_ + "StudioIV"  + pathSeparator_);
+    conf[STUDIOIV].romDir_[CARTROM] = readConfigDir("/Dir/StudioIV/St2_File", dataDir_ + "StudioIV" + pathSeparator_);
+    conf[STUDIOIV].screenDumpFileDir_ = readConfigDir("/Dir/StudioIV/Video_Dump_File", dataDir_ + "StudioIV" + pathSeparator_);
+    
+    conf[STUDIOIV].rom_[MAINROM1] = configPointer->Read("/StudioIV/Main_Rom_File", "Studio IV V3 PAL.bin");
+    conf[STUDIOIV].rom_[CARTROM] = configPointer->Read("/StudioIV/St2_File", "");
+    conf[STUDIOIV].screenDumpFile_ = configPointer->Read("/StudioIV/Video_Dump_File", "screendump.png");
+    
+    wxString defaultZoom;
+    defaultZoom.Printf("%2.2f", 2.0);
+    conf[STUDIOIV].zoom_ = configPointer->Read("/StudioIV/Zoom", defaultZoom);
+    wxString defaultClock;
+    defaultClock.Printf("%1.2f", 3.58);
+    conf[STUDIOIV].clock_ = configPointer->Read("/StudioIV/Clock_Speed", defaultClock);
+    conf[STUDIOIV].volume_ = (int)configPointer->Read("/StudioIV/Volume", 25l);
+    
+    wxString defaultScale;
+    defaultScale.Printf("%i", 4);
+    conf[STUDIOIV].xScale_ = configPointer->Read("/StudioIV/Window_Scale_Factor_X", defaultScale);
+    conf[STUDIOIV].realCassetteLoad_ = false;
+    
+    conf[STUDIOIV].videoMode_ = (int)configPointer->Read("/StudioIV/Video_Mode", 0l);
+
+    if (mode_.gui)
+    {
+        XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
+        XRCCTRL(*this, "CartRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[CARTROM]);
+        XRCCTRL(*this, "ScreenDumpFileStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].screenDumpFile_);
+        XRCCTRL(*this, "ZoomValueStudioIV", wxTextCtrl)->ChangeValue(conf[STUDIOIV].zoom_);
+        clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);
+        XRCCTRL(*this, "VolumeStudioIV", wxSlider)->SetValue(conf[STUDIOIV].volume_);
+        
+        XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);
+    }
+}
+
+void GuiStudio2::writeStudioIVDirConfig()
+{
+    writeConfigDir("/Dir/StudioIV/Main", conf[STUDIOIV].mainDir_);
+    writeConfigDir("/Dir/StudioIV/Main_Rom_File", conf[STUDIOIV].romDir_[MAINROM1]);
+    writeConfigDir("/Dir/StudioIV/St2_File", conf[STUDIOIV].romDir_[CARTROM]);
+    writeConfigDir("/Dir/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFileDir_);
+}
+
+void GuiStudio2::writeStudioIVConfig()
+{
+    configPointer->Write("/StudioIV/Main_Rom_File",conf[STUDIOIV].rom_[MAINROM1]);
+    configPointer->Write("/StudioIV/St2_File", conf[STUDIOIV].rom_[CARTROM]);
+    configPointer->Write("/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFile_);
+    
+    configPointer->Write("/StudioIV/Zoom", conf[STUDIOIV].zoom_);
+    configPointer->Write("/StudioIV/Clock_Speed", conf[STUDIOIV].clock_);
+    configPointer->Write("/StudioIV/Volume", conf[STUDIOIV].volume_);
+    
+    configPointer->Write("/StudioIV/Video_Mode", conf[STUDIOIV].videoMode_);
+}
+
+void GuiStudio2::readStudioIVWindowConfig()
+{
+    conf[STUDIOIV].mainX_ = (int)configPointer->Read("/StudioIV/Window_Position_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[STUDIOIV].mainY_ = (int)configPointer->Read("/StudioIV/Window_Position_Y", mainWindowY_);
+}
+
+void GuiStudio2::writeStudioIVWindowConfig()
+{
+    if (conf[STUDIOIV].mainX_ > 0)
+        configPointer->Write("/StudioIV/Window_Position_X", conf[STUDIOIV].mainX_);
+    if (conf[STUDIOIV].mainY_ > 0)
+        configPointer->Write("/StudioIV/Window_Position_Y", conf[STUDIOIV].mainY_);
+}
+
+void GuiStudio2::onStudioIVVideoMode(wxCommandEvent&event)
+{
+    conf[STUDIOIV].videoMode_ = event.GetSelection();
+    if (mode_.gui)
+    {
+        if (conf[STUDIOIV].videoMode_ == PAL)
+            conf[STUDIOIV].rom_[MAINROM1] = "Studio IV V3 PAL.bin";
+        else
+            conf[STUDIOIV].rom_[MAINROM1] = "Studio IV V3 NTSC.bin";
+        XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
+    }
+}
+
+int GuiStudio2::getStudioVideoMode(int computer)
+{
+    return conf[computer].videoMode_;
+}

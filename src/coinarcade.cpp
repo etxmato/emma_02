@@ -32,8 +32,6 @@
 #include "main.h"
 #include "coinarcade.h"
 
-#define CHIP8_PC 5
-
 CoinArcade::CoinArcade(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
@@ -205,7 +203,7 @@ Byte CoinArcade::in(Byte port, Word WXUNUSED(address))
 		break;
 
         case COINARCADEINPPAR5:
-            ret = 0;    // COIN_ARCADE_PARAMETER_SWITCH = 0; 8 is test mode?
+            ret = 0x1;    // COIN_ARCADE_PARAMETER_SWITCH = 0; 8 is test mode?
         break;
             
         case COINARCADEINPKEY6:
@@ -282,20 +280,7 @@ void CoinArcade::startComputer()
 
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
     
-    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-    {  // tag-bowling
-        chip8baseVar_ = 0x880;
-        chip8mainLoop_ = 0x2a;
-        chip8type_ = CHIPFEL2;
-    }
-    if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xf8 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xd4)
-    {  // Bowling
-        chip8baseVar_ = 0x800;
-        chip8mainLoop_ = 0x45;
-        chip8type_ = CHIPFEL3;
-    }
-    if (chip8type_ != CHIP_NONE)
-        p_Main->defineFelCommands_(chip8type_);
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     p_Main->assDefault("coinarcade", 0, 0x7FF);
 
@@ -437,19 +422,6 @@ void CoinArcade::cpuInstruction()
 			resetCpu();
 			resetPressed_ = false;
 
-            if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0x45 && mainMemory_[0x100] == 0xe6 && mainMemory_[0x1f2] == 0x6e)
-            {  // tag-bowling
-                chip8baseVar_ = 0x880;
-                chip8mainLoop_ = 0x2a;
-                chip8type_ = CHIPFEL2;
-            }
-            if (mainMemory_[0] == 0 && mainMemory_[0x2a] == 0xf8 && mainMemory_[0x100] == 0x42 && mainMemory_[0x1b7] == 0xd4)
-            {  // Bowling
-                chip8baseVar_ = 0x800;
-                chip8mainLoop_ = 0x45;
-                chip8type_ = CHIPFEL3;
-            }
-
             setWait(1);
 			setClear(0);
 			setWait(1);
@@ -460,8 +432,8 @@ void CoinArcade::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-        if (chip8type_ != CHIP_NONE)
-            p_Main->cycleFredDebug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

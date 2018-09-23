@@ -111,7 +111,9 @@ public:
 	bool useUart;
 	int baudR;
 	int baudT;
-	bool autoBoot;
+    bool autoBoot;
+    bool stopTone;
+    bool tapeStart;
 	bool rtc;
 	bool nvr;
 	bool useSwitch;
@@ -139,22 +141,28 @@ public:
 	bool useElfControlWindows;
 	bool showAddress;
 
-	bool bootRam;
+    bool bootStrap;
+    bool bootRam;
 	bool clearRam;
 	bool clearRtc;
 
-	int ioType;
+    int ioType;
+    int frontType;
 
     bool giantBoardMapping;
     
     bool forceUpperCase;
 	int qSound_;
+    int tilType;
 
 	bool vtEf;
 	bool vtQ;
 	bitset<32> vt52SetUpFeature_;
     bitset<32> vt100SetUpFeature_;
     bitset<32> vtExternalSetUpFeature_;
+
+    int tapeFormat_;
+	bool coinArcadeControl_;
 
 	ElfPortConfiguration elfPortConf;
 };

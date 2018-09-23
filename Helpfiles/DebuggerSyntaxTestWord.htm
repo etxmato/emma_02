@@ -1,0 +1,205 @@
+
+<html>
+<title>Test-Word Syntax</title>
+<body>
+<h2>Test-Word Syntax</h2>
+<h3>Information</h3>
+<p>
+Test-Word can be used on a VIP with printer output and a keyboard as input.</p>
+<p>
+V0-F are stored on memory locations 0FD0.
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[aaa]</TD>
+<TD WIDTH="400">Memory value of address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">7xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy4</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy2</TD>
+<TD WIDTH="40">AND</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx AND Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in 00A7 (which is the 'Test-Word' equivalent of RETURN)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bx..</TD>
+<TD WIDTH="40">INP</TD>
+<TD WIDTH="100">WORD</TD>
+<TD WIDTH="250">Input word (ASCII text until space / 0x20) from keyboard and store at address with high byte from 300+Vx and low byte from 380+Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Aaaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">RA, aaa<br>A, aaa</TD>
+<TD WIDTH="250">RA = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vk, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy0</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vy, Vx</TD>
+<TD WIDTH="250">Vy = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx00</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RA], Vx<br>[A], Vx</TD>
+<TD WIDTH="250">[RA] = Vx, RA = RA + 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fxkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[RA], kk<br>[A], kk</TD>
+<TD WIDTH="250">[RA] = kk, RA = RA + 1</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy1</TD>
+<TD WIDTH="40">OR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx OR Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">D.kk</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">kk</TD>
+<TD WIDTH="250">Send byte kk to the printer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dx00</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">WORD</TD>
+<TD WIDTH="250">Print word (ASCII text until space / 0x20) from address with high byte from 300+Vx and low byte from 380+Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Eaaa</TD>
+<TD WIDTH="40">PRINT</TD>
+<TD WIDTH="100">WORDS</TD>
+<TD WIDTH="250">Print words from pointers stored at address aaa, stopping at code 0xff. Words (ASCII text until space / 0x20) are stored at address with high byte from 300+pointer and low byte from 380+pointer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00A7</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = random AND kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy SHR, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3xkk</TD>
+<TD WIDTH="40">SE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xy.</TD>
+<TD WIDTH="40">SE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx = Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy.</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx != Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy5</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy7</TD>
+<TD WIDTH="40">SUBN</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy - Vx, V0 is carry / not borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy3</TD>
+<TD WIDTH="40">XOR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx XOR Vy</TD>
+</TR>
+</TABLE>
+</body>
+</html>
+
+

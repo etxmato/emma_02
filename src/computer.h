@@ -113,6 +113,12 @@ public:
 	void ledTimeout();
 	void setLedMs(long ms);
 
+    void setReadyLed(int status);
+    void updateReadyLed(wxDC& dc);
+    void setStopLed(int status);
+    void updateStopLed(wxDC& dc);
+    void setErrorLed(int status);
+    void updateErrorLed(wxDC& dc);
 	void setQLed(int status);
 	void updateQLed(wxDC& dc);
 	void setResetLed(int status);
@@ -131,12 +137,15 @@ public:
 	void updateDataTil313(wxDC& dc);
 	void showSeg(int number, Byte value);
 	void updateSeg(wxDC& dc, int number);
-	void showAddress(Word address);
-	void updateAddress(wxDC& dc);
+    void showAddress(Word address);
+    void showAddressTil313(Word address);
+    void updateAddress(wxDC& dc);
+    void updateAddressTil313(wxDC& dc);
 	virtual void inUp();
 	virtual void inDown();
     virtual void inSetState(bool state);
     virtual void clearSetState(bool state);
+    virtual void waitSetState(bool state);
     virtual void runUp();
     virtual void runDown();
 	virtual void runSetState(bool state);
@@ -189,7 +198,8 @@ protected:
 	wxButton *decButtonPointer;
 	wxButton *retButtonPointer;
 	wxButton *push_inButtonPointer;
-	wxButton *text_resetButtonPointer;
+    wxButton *text_readButtonPointer;
+    wxButton *text_resetButtonPointer;
 	wxButton *text_loadButtonPointer;
 	wxButton *text_runButtonPointer;
 	wxButton *text_mpButtonPointer;
@@ -199,6 +209,7 @@ protected:
 	HexButton *osx_monitorButtonPointer;
 	HexButton *osx_stepButtonPointer;
 	HexButton *osx_push_inButtonPointer;
+    HexButton *osx_text_readButtonPointer;
     HexButton *osx_text_resetButtonPointer;
     HexButton *osx_text_loadButtonPointer;
     HexButton *osx_text_runButtonPointer;
@@ -219,7 +230,10 @@ protected:
 	SwitchButton *mpSwitchButton;
 	SwitchButton *ramSwitchButton;
     SwitchButton *inSwitchButton;
+    SwitchButton *readSwitchButton;
+    SwitchButton *cardSwitchButton;
     SwitchButton *clearSwitchButton;
+    SwitchButton *waitSwitchButton;
     SwitchButton *velfSwitchButton;
 	SwitchButton *dataSwitchButton[8];
 	SwitchButton *efSwitchButton[4];
@@ -235,21 +249,30 @@ protected:
 
 	Til311 *addressPointer[4];
 	Til311 *dataPointer[2];
+    Til313 *addressTil313Pointer[4];
 	Til313 *dataTil313Pointer[2];
 	Til313full *segPointer[8];
 
+    int tilType_;
+    
 	Word addressStatus;
 	Byte dataStatus;
 	Byte dataTil313Status;
 	Byte segStatus[8];
 
+    Led *readyLedPointer;
+    Led *stopLedPointer;
+    Led *errorLedPointer;
 	Led *qLedPointer;
 	Led *resetLedPointer;
 	Led *pauseLedPointer;
 	Led *runLedPointer;
 	Led *loadLedPointer;
-	Led *ledPointer[8];
+    Led *ledPointer[8];
 
+    int readyLedStatus;
+    int stopLedStatus;
+    int errorLedStatus;
 	int qLedStatus;
 	int resetLedStatus;
 	int pauseLedStatus;
@@ -257,13 +280,17 @@ protected:
 	int loadLedStatus;
 	int ledStatus[8];
 
+    bool updateReadyLed_;
+    bool updateStopLed_;
+    bool updateErrorLed_;
 	bool updateQLed_;
 	bool updateResetLed_;
 	bool updatePauseLed_;
 	bool updateRunLed_;
 	bool updateLoadLed_;
 	bool updateLed_[8];
-	bool updateAddress_;
+    bool updateAddress_;
+    bool updateAddressTil313_;
 	bool updateData_;
 	bool updateDataTil313_;
 	bool updateSeg_[8];
@@ -326,10 +353,14 @@ public:
 	virtual void realCassette(short val);
 	virtual void cassette(short val);
 	virtual void cassette(char val);
+	virtual void cassetteFred(short val);
+	virtual void cassetteFred(char val);
 	virtual void keyClear();
 	virtual void startComputer();
 	virtual void initComputer();
 	virtual void configureComputer();
+    virtual void onReadButton();
+    virtual void onCardButton();
     virtual void onRunButton();
     virtual void onRunButtonPress() {};
     virtual void onRunButtonRelease() {};
@@ -342,6 +373,7 @@ public:
 	virtual void onSingleStep(wxCommandEvent& event);
     virtual void onMpButton();
     virtual void onMpButton(wxCommandEvent& event);
+    virtual void onWaitButton();
     virtual void onClearButton();
     virtual void onClearButtonPress() {};
     virtual void onClearButtonRelease() {};
@@ -393,12 +425,13 @@ public:
 	virtual void onNumberKeyUp(wxCommandEvent& event);
 	virtual void ledTimeout();
 	virtual void setLedMs(long ms);
+    virtual void showDataLeds(Byte value);
 	virtual Byte getKey(Byte vtOut);
 	virtual void activateMainWindow();
 	bool getAudioInStatus() {return audioIn_;};
 	Word getChip8baseVar() {return chip8baseVar_;};
 	Word getChip8MainLoop() {return chip8mainLoop_;};
-	int getChip8Type() {return chip8type_;};
+	wxString getPseudoType() {return pseudoType_;};
 	void showChip8Registers();
 	virtual void writeMemDataType(Word address, Byte type);
 	virtual Byte readMemDataType(Word address);
@@ -453,8 +486,11 @@ protected:
 	Word memoryStart_;
 	Word chip8baseVar_;
 	Word chip8mainLoop_;
+    bool chip8register12bit_;
 
-	int chip8type_;
+	wxString pseudoType_;
+    bool pseudoLoaded_;
+
     int inKey1_;
     int inKey2_;
 

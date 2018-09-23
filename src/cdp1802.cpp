@@ -92,7 +92,7 @@ void Cdp1802::initCpu(int computerType)
 void Cdp1802::resetCpu()
 {
 	flipFlopQ_ = 0;
-	interruptEnable_ = 1;
+    interruptEnable_ = 1;
 	ci_ = 0;
 	xi_ = 0;
 	dataPointer_ = 0;
@@ -135,7 +135,7 @@ void Cdp1802::setMode()
 	if (clear_ == 0 && wait_==1)
 	{
 		cpuMode_ = RESET;
-        if (cpuType_ != CPU1801)
+        if (cpuType_ > CPU1801)
             resetCpu();
 	}
 	if (clear_ == 1 && wait_==1) cpuMode_ = RUN;
@@ -169,12 +169,16 @@ void Cdp1802::dmaIn(Byte value)
 		traceText.Printf("----  DMA in    R0=%04X", scratchpadRegister_[0]);
 		p_Main->debugTrace(traceText);
 	}
-	if (cpuMode_ != RUN && cpuMode_ != LOAD) return;
+	if (cpuMode_ != RUN && cpuMode_ != LOAD)
+    {
+        if (computerType_ != FRED1 && computerType_ != FRED2)
+            return;
+    }
 	writeMem(scratchpadRegister_[0], value, false);
 	address_ = scratchpadRegister_[0]++;
 	idle_=0;
 	cpuCycles_++;
-	machineCycle();
+//	machineCycle(); // Using this will crash Elfs when tying in keys with Q sound on 'Hardware'
 }
 
 Byte Cdp1802::dmaOut()
@@ -199,7 +203,7 @@ Byte Cdp1802::dmaOut()
 Byte Cdp1802::pixieDmaOut(int *color)
 {
 	Byte ret;
-	ret = 255;
+    ret = 255;
 	if (traceDma_)
 	{
 		wxString traceText;
@@ -219,7 +223,7 @@ Byte Cdp1802::pixieDmaOut(int *color)
 			else
 				*color = colorMemory1864_[scratchpadRegister_[0] & colourMask_] & 0x7;
 		break;
-		case VICTORY:
+        case VICTORY:
             if (colourMask_ == 0)
                 *color = 7;
             else
@@ -228,11 +232,16 @@ Byte Cdp1802::pixieDmaOut(int *color)
 		case VELF:
         case STUDIO:
         case COINARCADE:
+        case FRED1:
+        case FRED2:
 		case ELF:
 		case ELFII:
 		case SUPERELF:
             *color = 0;
         break;
+		case STUDIOIV:
+			*color = colorMemory1864_[(scratchpadRegister_[0]&0xf) +  ((scratchpadRegister_[0]&0x3c0) >> 2)] & 0x7;
+		break;
 		default:
 			*color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
 		break;
@@ -1052,34 +1061,47 @@ void Cdp1802::cpuCycle()
 	switch(i)
 	{
  		case 0:
-			if (n == 0)
-			{
-				idle_=1;
-				if (trace_)
-				{
-					tr = tr + "IDL";
-				}
-			}
-			else
-			{
-                if (cpuType_ == CPU1801)
+            if (cpuType_ == SYSTEM00)
+            {
+                idle_=1;
+                p_Computer->showDataLeds(readMem(scratchpadRegister_[n]));
+                if (trace_)
                 {
+                    buffer.Printf("IDL  R%X",n);
+                    tr = tr + buffer;
+                }
+            }
+            else
+            {
+                if (n == 0)
+                {
+                    idle_=1;
                     if (trace_)
                     {
-                        buffer.Printf("Illegal code");
-                        tr = tr + buffer;
+                        tr = tr + "IDL";
                     }
                 }
                 else
                 {
-                    accumulator_=readMem(scratchpadRegister_[n]);
-                    if (trace_)
+                    if (cpuType_ == CPU1801)
                     {
-                        buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
-                        tr = tr + buffer;
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        accumulator_=readMem(scratchpadRegister_[n]);
+                        if (trace_)
+                        {
+                            buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
+                            tr = tr + buffer;
+                        }
                     }
                 }
-			}
+            }
 		break;
 
 		case 1:
@@ -1101,6 +1123,15 @@ void Cdp1802::cpuCycle()
 		break;
 
 		case 3:
+            if (n > 7 && cpuType_ == SYSTEM00)
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    tr = tr + buffer;
+                }
+                break;
+            }
 			switch(n)
 			{
 				case 0:
@@ -1115,12 +1146,33 @@ void Cdp1802::cpuCycle()
 					}
 				break;
 				case 1:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
-                        if (trace_)
+                        if (cpuType_ == CPU1801)
                         {
-                            buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            if (trace_)
+                            {
+                                buffer.Printf("Illegal code");
+                                tr = tr + buffer;
+                            }
+                        }
+                        else
+                        {
+                            p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                            i=readMem(scratchpadRegister_[programCounter_]);
+                            p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                            if (accumulator_)
+                            {
+                                scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+                            }
+                            else
+                                scratchpadRegister_[programCounter_]++;
+                            if (trace_)
+                            {
+                                buffer.Printf("BNZ  %02X",i);
+                                tr = tr + buffer;
+                            }
+
                         }
                     }
                     else
@@ -1249,18 +1301,18 @@ void Cdp1802::cpuCycle()
 					}
 				break;
 				case 8:
-					scratchpadRegister_[programCounter_]++;
-					if (trace_)
-					{
-						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_SKP)
-							buffer.Printf("SKP");
-						else
-							buffer.Printf("NBR");
-						tr = tr + buffer;
-					}
+                    scratchpadRegister_[programCounter_]++;
+                    if (trace_)
+                    {
+                        if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_SKP)
+                            buffer.Printf("SKP");
+                        else
+                            buffer.Printf("NBR");
+                        tr = tr + buffer;
+                    }
 				break;
 				case 9:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1287,20 +1339,20 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 10:
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                    i=readMem(scratchpadRegister_[programCounter_]);
                     p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
-					if (accumulator_)
-					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
-					}
-					else
-						scratchpadRegister_[programCounter_]++;
-					if (trace_)
-					{
-						buffer.Printf("BNZ  %02X",i);
-						tr = tr + buffer;
-					}
+                    if (accumulator_)
+                    {
+                        scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+                    }
+                    else
+                        scratchpadRegister_[programCounter_]++;
+                    if (trace_)
+                    {
+                        buffer.Printf("BNZ  %02X",i);
+                        tr = tr + buffer;
+                    }
 				break;
 				case 11:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
@@ -1413,6 +1465,47 @@ void Cdp1802::cpuCycle()
 			}
 		break;
 		case 6:
+            if (cpuType_ == SYSTEM00)
+            {
+                switch (n)
+                {
+                    case 1:
+                    case 2:
+                    case 3:
+                    case 4:
+                    case 5:
+                    case 6:
+                    case 7:
+                        tmp = readMem(scratchpadRegister_[dataPointer_]++);
+                        out(n, scratchpadRegister_[dataPointer_]-1, tmp);
+                        if (trace_)
+                        {
+                            buffer.Printf("OUT  %X    [%02X]",n,tmp);
+                            tr = tr + buffer;
+                        }
+                    break;
+                        
+                    case 8:
+                        i=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
+                        writeMem(scratchpadRegister_[dataPointer_], i, false);
+//                      accumulator_=i; SYSTEM 00 doesn't load INP byte in D
+                        if (trace_)
+                        {
+                            buffer.Printf("INP       M(%04X)=%02X", scratchpadRegister_[dataPointer_], i);
+                            tr = tr + buffer;
+                        }
+                    break;
+                        
+                    default:
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    break;
+                }
+                break;
+            }
 			if (n == 0 && cpuType_ != CPU1801)
 			{
 				scratchpadRegister_[dataPointer_]++;
@@ -1462,7 +1555,8 @@ void Cdp1802::cpuCycle()
 			}
 			i=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
 			writeMem(scratchpadRegister_[dataPointer_], i, false);
-			accumulator_=i;
+            if (cpuType_ != CPU1801)  // 1801 doesn't load INP x byte in D
+                accumulator_=i;
 			if (trace_)
 			{
                 buffer.Printf("INP  %X    D=M(%04X)=%02X",n-8,scratchpadRegister_[dataPointer_], i);
@@ -1484,18 +1578,29 @@ void Cdp1802::cpuCycle()
 					}
 				break;
 				case 1:
-					i=readMem(scratchpadRegister_[dataPointer_]++);
-					programCounter_=i & 15;
-					dataPointer_=i>>4;
-					interruptEnable_=0;
-					if (trace_)
-					{
-						buffer.Printf("DIS       P=R%X, X=R%X", programCounter_, dataPointer_);
-						tr = tr + buffer;
-					}
+                    if (cpuType_ == SYSTEM00)
+                    {
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            tr = tr + buffer;
+                        }
+                    }
+                    else
+                    {
+                        i=readMem(scratchpadRegister_[dataPointer_]++);
+                        programCounter_=i & 15;
+                        dataPointer_=i>>4;
+                        interruptEnable_=0;
+                        if (trace_)
+                        {
+                            buffer.Printf("DIS       P=R%X, X=R%X", programCounter_, dataPointer_);
+                            tr = tr + buffer;
+                        }
+                    }
 				break;
 				case 2:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1514,7 +1619,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 3:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1533,7 +1638,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 4:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1562,7 +1667,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 5:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1591,7 +1696,7 @@ void Cdp1802::cpuCycle()
                     }
  				break;
 				case 6:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1615,7 +1720,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 7:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1652,7 +1757,7 @@ void Cdp1802::cpuCycle()
 					}
 				break;
 				case 9:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1673,7 +1778,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 10:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1689,12 +1794,12 @@ void Cdp1802::cpuCycle()
                             tr = tr + "REQ";
                         }
                         switchQ(0);
-                        if (computerType_ != MS2000)
+                        if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED2)
                             psaveAmplitudeChange(0);
                     }
 				break;
 				case 11:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1710,12 +1815,12 @@ void Cdp1802::cpuCycle()
                             tr = tr + "SEQ";
                         }
                         switchQ(1);
-                        if (computerType_ != MS2000)
+                        if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED2)
                             psaveAmplitudeChange(1);
                     }
 				break;
 				case 12:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1746,7 +1851,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 13:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1777,7 +1882,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 14:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1801,7 +1906,7 @@ void Cdp1802::cpuCycle()
                     }
 				break;
 				case 15:
-                    if (cpuType_ == CPU1801)
+                    if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
@@ -1866,16 +1971,28 @@ void Cdp1802::cpuCycle()
 			}
 		break;
 		case 12:
-            if (cpuType_ == CPU1801)
+            if (cpuType_ <= CPU1801)
             {
-                if (trace_)
+                if (cpuType_ == SYSTEM00)
                 {
-                    buffer.Printf("Illegal code");
-                    tr = tr + buffer;
+                    scratchpadRegister_[n]= (scratchpadRegister_[n] & 0xfff0) | (accumulator_&0xf);
+                    if (trace_)
+                    {
+                        buffer.Printf("PNI  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
+                        tr = tr + buffer;
+                    }
+                    
                 }
+                else
+                {
+                    if (trace_)
+                    {
+                        buffer.Printf("Illegal code");
+                        tr = tr + buffer;
+                    }
+                }
+                break;
             }
-            else
-            {
 			h=readMem(scratchpadRegister_[programCounter_]);
 			l=readMem((Word) (scratchpadRegister_[programCounter_]+1));
 			cpuCycles_ += 1;
@@ -2062,7 +2179,6 @@ void Cdp1802::cpuCycle()
 				break;
 			}
 			machineCycle();
-            }
 		break;
 		case 13:
 			programCounter_=n;
@@ -2082,6 +2198,15 @@ void Cdp1802::cpuCycle()
 			}
 		break;
 		case 15:
+            if (n > 6 && cpuType_ == SYSTEM00)
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    tr = tr + buffer;
+                }
+                break;
+            }
 			switch(n)
 			{
 				case 0:
@@ -2844,8 +2969,11 @@ void Cdp1802::setAddress(bool showFilename, Word start, Word end)
 			case CIDELSA:
 			case STUDIO:
             case COINARCADE:
+            case FRED1:
+            case FRED2:
 			case VISICOM:
 			case VICTORY:
+            case STUDIOIV:
 			break;
 
 			default:
@@ -2875,12 +3003,8 @@ void Cdp1802::checkLoadedSoftware()
 	{
 		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF))
 		{
-			if ((mainMemory_[0x1c] == 0xd4) && (mainMemory_[0x1d] == 0x96) && (mainMemory_[0x1e] == 0xb7) && (mainMemory_[0x6f] == 0x05))
-			{
-				chip8baseVar_ = 0xef0;
-				chip8mainLoop_ = 0x1d;
-				chip8type_ = CHIP8;
-			}
+            pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+            
 			if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
 			{
 				loadedProgram_ = SUPERBASICV1;
@@ -3129,11 +3253,11 @@ void Cdp1802::readSt2Program(int computerType)
 			if (inFile.Open(fileName, _(_("rb"))))
 			{
 				inFile.Read(&st2Header, 256);
-                if (st2Header.offsets[0] == 0)
+                if (st2Header.offsets[0] == 0 && st2Header.offsets[4] == 0x24)
                     allocTestCartMemory();
 				for (int i=1; i<st2Header.numBlocks; i++)
 				{
-                    if (st2Header.offsets[0] == 0)
+                    if (st2Header.offsets[0] == 0 && st2Header.offsets[4] == 0x24)
                     {
                         inFile.Read((&testCartRom_[st2Header.offsets[i-1] << 8]),256);
                         defineMemoryType(st2Header.offsets[i-1] << 8, TESTCARTRIDGEROM);
@@ -3182,7 +3306,7 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end
                 p_Main->updateTitle();
 			}
 
-			if (buffer[0] == ':')
+			if (buffer[0] == ':' || (buffer[0] == 0x0d && buffer[1] == 0x0a && buffer[2] == ':'))
 				return readIntelFile(fileName, memoryType, end, showFilename);
 			else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
 				return readLstFile(fileName, memoryType, end, showFilename);
@@ -3279,6 +3403,11 @@ bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, Word* la
 		return false;
 	}
 }
+
+void Cdp1802::setSteps(long steps)
+{
+    steps_ = steps;
+};
 
 void Cdp1802::setDebugMode (bool debugModeNew, bool debugChip8ModeNew, bool trace, bool traceDma, bool traceInt, bool traceChip8Int)
 {
@@ -3455,7 +3584,12 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case COSMICOS:
                     address = address | bootstrap_;
                 break;
-                
+
+                case FRED1:
+                case FRED2:
+                    address = address & 0x7ff;
+                break;
+       
                 case STUDIO:
                 case COINARCADE:
                 case VICTORY:
@@ -3808,6 +3942,11 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address | bootstrap_;
                 break;
                 
+                case FRED1:
+                case FRED2:
+                    address = address & 0x7ff;
+                break;
+                    
                 case STUDIO:
                 case COINARCADE:
                 case VICTORY:

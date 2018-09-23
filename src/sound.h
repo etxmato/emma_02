@@ -46,10 +46,11 @@ public:
 
 	void playSound();
 	void playSoundBuffer();
-	void psaveAmplitudeChange(int q);
+    void psaveAmplitudeChange(int q);
+    void psaveAmplitudeZero();
 	void playSaveLoad();
 	void convertTo8Bit(const short* in, int count, unsigned char* out);
-    void ploadStartTape(wxString fileName);
+    bool ploadStartTape(wxString fileName);
     void startWavSound(wxString fileName);
     void readWav(Uint8* inputBuffer, short* outBuffer, size_t remaining, float gain);
     int LoadAndConvertSound(wxString filename, SDL_AudioSpec *spec);
@@ -80,7 +81,10 @@ protected:
 	double soundClock_;
 	double percentageClock_;
     int computerType_;
-
+    int threshold8_;
+    int threshold16_;
+    float fredFreq_;
+    
 private:
 	Blip_Buffer *soundBufferPointerLeft;
 	Blip_Buffer *soundBufferPointerRight;

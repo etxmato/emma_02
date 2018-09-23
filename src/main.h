@@ -218,6 +218,7 @@ protected:
 #define SHOW_ADDRESS_POPUP 29
 #define SHOW_TEXT_MESSAGE 30
 #define DEBOUNCE_TIMER 31
+#define SET_STATIC_TEXT_VALUE 32
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -243,6 +244,10 @@ protected:
 #define OS_MINOR_8 2
 #define OS_MINOR_8_1 3
 #define OS_MINOR_10 0
+
+#define FRED_HEX_MODE 0
+#define FRED_BYTE_MODE 1
+#define FRED_HEX_PULSE_MODE 2
 
 class WindowInfo
 {
@@ -389,7 +394,9 @@ public:
 #include "cosmicos.h"
 #include "super.h"
 #include "studio2.h"
+#include "studioiv.h"
 #include "coinarcade.h"
+#include "fred.h"
 #include "visicom.h"
 #include "victory.h"
 #include "vip.h"
@@ -406,7 +413,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.26
+#define EMMA_VERSION 1.27
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -419,20 +426,23 @@ public:
 #define MICROTUTOR 8
 #define MS2000 9
 #define MCDS 10
-#define COMX 11
-#define STUDIO 12
-#define ETI 13
-#define CIDELSA 14
-#define TMC600 15
-#define TMC1800 16
-#define TMC2000 17
-#define NANO 18
-#define PECOM 19
-#define VISICOM 20
-#define VICTORY 21
-#define VIPII 22
-#define COINARCADE 23
-#define DEBUGGER 24
+#define FRED1 11
+#define FRED2 12
+#define COMX 13
+#define STUDIO 14
+#define ETI 15
+#define CIDELSA 16
+#define TMC600 17
+#define TMC1800 18
+#define TMC2000 19
+#define NANO 20
+#define PECOM 21
+#define VISICOM 22
+#define VICTORY 23
+#define VIPII 24
+#define COINARCADE 25
+#define STUDIOIV 26
+#define DEBUGGER 27
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -486,16 +496,19 @@ public:
 #define MEMBERTAB 5
 #define VELFTAB 6
 
-#define MICROTUTORTAB 0
-#define VIPTAB 1
-#define VIPIITAB 2
-#define MCDSTAB 3
-#define MS2000TAB 4
+#define FRED1TAB 0
+#define FRED2TAB 1
+#define MICROTUTORTAB 2
+#define VIPTAB 3
+#define VIPIITAB 4
+#define MCDSTAB 5
+#define MS2000TAB 6
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
 #define VICTORYTAB 2
-#define VISICOMTAB 3
+#define STUDIOIVTAB 3
+#define VISICOMTAB 4
 
 #define TMC600TAB 0
 #define TMC1800TAB 1
@@ -778,6 +791,7 @@ public:
 #define TAPE_STOP 0
 #define TAPE_PLAY 1
 #define TAPE_RECORD 2
+#define TAPE_PAUSE 3
 
 #define PRINT_BUFFER_SIZE 1000
 
@@ -787,11 +801,21 @@ public:
 #define CHIPETI 3
 #define CHIPST2 4
 #define CHIPFEL1 5
-#define CHIPFEL2 6
-#define CHIPFEL3 7
+#define CHIPGPL1 6
+#define CHIPGPL2 7
+#define CHIPFEL3 8
+#define CHIPFEL4 9
+#define CHIPFEL5 10
+#define CHIPFPL 11
+#define CHIPSTIV 12
+#define CARDTRAN 13
 
-#define CPU1801 1
-#define CPU1802 2
+#define CPU_OVERRIDE_DEFAULT 0
+#define CPU_OVERRIDE_CPU1801 1
+#define CPU_OVERRIDE_SYSTEM00 2
+#define SYSTEM00 1
+#define CPU1801 2
+#define CPU1802 3
 #define CPU1804 4
 #define CPU1805 5
 
@@ -803,32 +827,28 @@ public:
 #define MEM_TYPE_JUMP 1
 #define MEM_TYPE_OPCODE 2
 #define MEM_TYPE_OPERAND 3
-#define MEM_TYPE_ST2_1 4
-#define MEM_TYPE_ST2_2 5
-#define MEM_TYPE_CHIP_8_1 6
-#define MEM_TYPE_CHIP_8_2 7
+#define MEM_TYPE_PSEUDO_1 6
+#define MEM_TYPE_PSEUDO_2 7
 #define MEM_TYPE_UNDEFINED 8
 #define MEM_TYPE_JUMP_REV 9
 #define MEM_TYPE_TEXT 10
-#define MEM_TYPE_FEL2_1 11
-#define MEM_TYPE_FEL2_2 12
-#define MEM_TYPE_OPCODE_RSHR 70
-#define MEM_TYPE_OPCODE_RSHL 71
-#define MEM_TYPE_OPCODE_BPZ 72
-#define MEM_TYPE_OPCODE_BGE 73
-#define MEM_TYPE_OPCODE_BM 74
-#define MEM_TYPE_OPCODE_BL 75
-#define MEM_TYPE_OPCODE_LSKP 76
-#define MEM_TYPE_OPCODE_RLDL 77
-#define MEM_TYPE_OPCODE_SKP 78
-#define MEM_TYPE_OPCODE_LBR_SLOT 79
-#define MEM_TYPE_OPCODE_JUMP_SLOT 80
-#define MEM_TYPE_OPCODE_LDV 81
-#define MEM_TYPE_OPCODE_LDL 82
-#define MEM_TYPE_OPERAND_LD_2 83
-#define MEM_TYPE_OPERAND_LD_3 84
-#define MEM_TYPE_OPERAND_LD_5 85
-#define MEM_TYPE_OPCODE_LDL_SLOT 86
+#define MEM_TYPE_OPCODE_RSHR 170
+#define MEM_TYPE_OPCODE_RSHL 171
+#define MEM_TYPE_OPCODE_BPZ 172
+#define MEM_TYPE_OPCODE_BGE 173
+#define MEM_TYPE_OPCODE_BM 174
+#define MEM_TYPE_OPCODE_BL 175
+#define MEM_TYPE_OPCODE_LSKP 176
+#define MEM_TYPE_OPCODE_RLDL 177
+#define MEM_TYPE_OPCODE_SKP 178
+#define MEM_TYPE_OPCODE_LBR_SLOT 179
+#define MEM_TYPE_OPCODE_JUMP_SLOT 180
+#define MEM_TYPE_OPCODE_LDV 181
+#define MEM_TYPE_OPCODE_LDL 182
+#define MEM_TYPE_OPERAND_LD_2 183
+#define MEM_TYPE_OPERAND_LD_3 184
+#define MEM_TYPE_OPERAND_LD_5 185
+#define MEM_TYPE_OPCODE_LDL_SLOT 186
 
 #define LABEL_TYPE_NONE 0
 #define LABEL_TYPE_BRANCH 1
@@ -839,8 +859,15 @@ public:
 #define IO_TYPE_N1 1
 #define IO_TYPE_N2 2
 
+#define FRONT_TYPE_B 0
+#define FRONT_TYPE_C 1
+#define FRONT_TYPE_I 2
+
 #define VIDEO 0
 #define PIXIE 1
+
+#define TIL311 0
+#define TIL313 1
 
 #if defined(__WXMAC__)
 #define IMAGES_FOLDER "images_osx"
@@ -921,7 +948,8 @@ public:
 	void onFunctionKeys(wxCommandEvent& event);
 	void onDefaultSettings(wxCommandEvent& event);
 	void setDefaultSettings();
-	void on1801(wxCommandEvent& event);
+    void onSystem00(wxCommandEvent& event);
+    void on1801(wxCommandEvent& event);
 	void on1802(wxCommandEvent& event);
 	void on1804(wxCommandEvent& event);
     void on1805(wxCommandEvent& event);
@@ -972,7 +1000,8 @@ public:
 
 	void stopComputer();
     void killComputer(wxCommandEvent&WXUNUSED(event));
-	void enableGui(bool status);
+    void enableColorbutton(bool status);
+    void enableGui(bool status);
 	void message(wxString buffer);
 	void messageNoReturn(wxString buffer);
 	void messageInt(int value);
@@ -1024,9 +1053,12 @@ public:
 	void setTapeStateEvent(guiEvent& event);
 	void eventSetTapeState(int status);
 
-	void setTextValueEvent(guiEvent& event);
-	void eventSetTextValue(wxString info, wxString value);
-
+    void setTextValueEvent(guiEvent& event);
+    void eventSetTextValue(wxString info, wxString value);
+    
+    void setStaticTextValueEvent(guiEvent& event);
+    void eventSetStaticTextValue(wxString info, wxString value);
+    
 	void setCheckBoxEvent(guiEvent& event);
 	void eventSetCheckBox(wxString info, bool state);
 
@@ -1073,7 +1105,7 @@ public:
     
 	void updateDebugMemory(Word address);
 
-	void showChip8Register(int variable, int value);
+	void showChip8Register(int variable, int value, bool chip8register12bit);
 
 	void setFandMBasicGuiEvent(guiEvent& event);
 	void eventSetFandMBasicGui();

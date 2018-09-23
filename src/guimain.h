@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 24
-#define LAST_ELF_TYPE 10
+#define NO_COMPUTER 27
+#define LAST_ELF_TYPE 12
 
 #define MAINROM1 0
 
@@ -153,6 +153,8 @@ public:
 	wxString saveStartString_;
 	wxString saveEndString_;
 	wxString saveExecString_;
+	
+	int gameId_;
 };
 
 class ComputerInfo
@@ -244,6 +246,7 @@ public:
 	void onCassetteLoad(wxCommandEvent& event);
 	void onCassetteSave(wxCommandEvent& event);
 	void onCassetteStop(wxCommandEvent& event);
+	void onCassettePause(wxCommandEvent& event);
 	void onKeyboard(wxCommandEvent& event);
 	void onPsave(wxString fileName);
 	void onDataSaveButton(wxCommandEvent& event);
@@ -261,7 +264,8 @@ public:
 	void onClearRam(wxCommandEvent& event);
 	void onBootAddress(wxCommandEvent& event);
 	long getBootAddress(wxString computerTypeStr, int computerType);
-	void onChoiceRam(wxCommandEvent&event);
+    void onChoiceRam(wxCommandEvent&event);
+    void onChoiceCpu(wxCommandEvent&event);
 
 	void onPsaveMenu(wxCommandEvent& event);
 	void onVtSetup(wxCommandEvent& event);
@@ -285,6 +289,7 @@ public:
 	wxString getSelectedComputerText() {return computerInfo[selectedComputer_].name;};
 	int getSelectedComputerId() {return selectedComputer_;};
 	int getRunningComputerId() {return runningComputer_;};
+	int getVolume(int computerType) {return conf[computerType].volume_;};
 	int getVideoMode(int computerType) {return conf[computerType].videoMode_;};
 	bool getInterlace(int computerType) {return conf[computerType].interlace_;};
 	bool getStretchDot(int computerType) {return conf[computerType].stretchDot_;};
@@ -376,8 +381,8 @@ public:
 	void setDataDir(wxString dataDir) {dataDir_ = dataDir;};
 
 	int pload();
-	void startCassetteLoad();
-	void startLoad();
+	bool startCassetteLoad();
+	bool startLoad();
 	void stopCassette();
 	void startCassetteSave();
     void startSave();
@@ -437,8 +442,10 @@ protected:
 	Tmc2000 *p_Tmc2000;
     Studio2 *p_Studio2;
     CoinArcade *p_CoinArcade;
+    Fred *p_Fred;
 	Visicom *p_Visicom;
-	Victory *p_Victory;
+    Victory *p_Victory;
+    StudioIV *p_StudioIV;
 	Eti *p_Eti;
 	Cidelsa *p_Cidelsa;
 	Comx *p_Comx;
@@ -502,7 +509,7 @@ protected:
 	wxString workingDir_;
 	wxString dataDir_;
 	wxString iniDir_;
-	int psaveData_[LAST_ELF_TYPE+1];
+	int psaveData_[11];
     wxSize defaultGuiSize_;
 
 	bool debugMode_;
@@ -544,6 +551,8 @@ private:
 	wxBitmap realCasOnBitmap;
 	wxBitmap printerOffBitmap;
     wxBitmap printerOnBitmap;
+    wxBitmap pauseOffBitmap;
+    wxBitmap pauseOnBitmap;
 
     wxPoint position_[LAST_ELF_TYPE+1];
 

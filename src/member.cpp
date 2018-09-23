@@ -58,8 +58,8 @@ MemberScreen::~MemberScreen()
 	delete mainBitmapPointer;
 
 	delete mpSwitchButton;
-	delete loadSwitchButton;
-	delete runSwitchButton;
+	delete waitSwitchButton;
+    delete clearSwitchButton;
 	delete inSwitchButton;
 
 	for (int i=0; i<8; i++)
@@ -70,7 +70,7 @@ MemberScreen::~MemberScreen()
  	delete qLedPointer;
 }
 
-void MemberScreen::init()
+void MemberScreen::init(int front)
 {
 	keyStart_ = 0;
 	keyEnd_ = 0;
@@ -79,20 +79,55 @@ void MemberScreen::init()
 
 	wxClientDC dc(this);
 
-	mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership.png", wxBITMAP_TYPE_PNG);
+    switch (front)
+    {
+        case FRONT_TYPE_B:
+            mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership.png", wxBITMAP_TYPE_PNG);
+            waitSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
+            clearSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 95, 212, "");
+            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 18, 212, "");
+            
+            for (int i=0; i<8; i++)
+            {
+                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 197+34*(7-i), 212, "");
+                ledPointer[i] = new Led(dc, 197+34*(7-i), 136, MEMBERLED);
+                updateLed_[i] = true;
+            }
+            qLedPointer = new Led(dc, 20, 136, MEMBERLEDGREEN);
+        break;
+        case FRONT_TYPE_C:
+            mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership2.png", wxBITMAP_TYPE_PNG);
+            waitSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
+            clearSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 93, 210, "");
+            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
+            
+            for (int i=0; i<8; i++)
+            {
+                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
+                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, MEMBERLED);
+                updateLed_[i] = true;
+            }
+            qLedPointer = new Led(dc, 25, 136, MEMBERLEDGREEN);
+        break;
+        case FRONT_TYPE_I:
+            mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership3.png", wxBITMAP_TYPE_PNG);
+            waitSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
+            clearSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 93, 210, "");
+            mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 127, 210, "");
+            inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 25, 210, "");
+            
+            for (int i=0; i<8; i++)
+            {
+                dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 194+34*(7-i), 210, "");
+                ledPointer[i] = new Led(dc, 194+34*(7-i), 136, MEMBERLED);
+                updateLed_[i] = true;
+            }
+            qLedPointer = new Led(dc, 25, 136, MEMBERLEDGREEN);
+        break;
+    }
 
-	runSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 57, 212, "");
-	mpSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 128, 212, "");
-	loadSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 95, 212, "");
-	inSwitchButton = new SwitchButton(dc, PUSH_BUTTON, wxColour(255, 255, 255), BUTTON_UP, 18, 212, "");
-
-	for (int i=0; i<8; i++)
-	{
-		dataSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 197+34*(7-i), 212, "");
-		ledPointer[i] = new Led(dc, 197+34*(7-i), 136, MEMBERLED);
-		updateLed_[i] = true;
-	}
-	qLedPointer = new Led(dc, 20, 136, MEMBERLEDGREEN);
 	updateQLed_ = true;
 	this->connectKeyEvent(this);
 }
@@ -107,9 +142,9 @@ void MemberScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 		ledPointer[i]->onPaint(dc);
 	}
 	qLedPointer->onPaint(dc);
-	runSwitchButton->onPaint(dc);
+	waitSwitchButton->onPaint(dc);
+    clearSwitchButton->onPaint(dc);
 	mpSwitchButton->onPaint(dc);
-	loadSwitchButton->onPaint(dc);
 	inSwitchButton->onPaint(dc);
 	for (int i=0; i<8; i++)
 	{
@@ -137,12 +172,12 @@ void MemberScreen::onMouseRelease(wxMouseEvent&event)
 
 	if (inSwitchButton->onMouseRelease(dc, x, y))
 		p_Computer->onInButtonRelease();
-	if (runSwitchButton->onMouseRelease(dc, x, y))
-		p_Computer->onRun();
+	if (waitSwitchButton->onMouseRelease(dc, x, y))
+		p_Computer->onWaitButton();
+    if (clearSwitchButton->onMouseRelease(dc, x, y))
+        p_Computer->onClearButton();
 	if (mpSwitchButton->onMouseRelease(dc, x, y))
 		p_Computer->onMpButton();
-	if (loadSwitchButton->onMouseRelease(dc, x, y))
-		p_Computer->onLoadButton();
 	for (int i=0; i<8; i++)
 	{
 		if (dataSwitchButton[i]->onMouseRelease(dc, x, y))
@@ -167,7 +202,7 @@ Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& 
 	this->SetClientSize(size);
 
 	memberScreenPointer = new MemberScreen(this, size);
-	memberScreenPointer->init();
+	memberScreenPointer->init(elfConfiguration.frontType);
 }
 
 Membership::~Membership()
@@ -295,7 +330,8 @@ void Membership::configureComputer()
 void Membership::initComputer()
 {
 	Show(p_Main->getUseElfControlWindows(MEMBER));
-	runButtonState_ = 0;
+    waitButtonState_ = 0;
+	clearButtonState_ = 0;
 	for (int i=0; i<8; i++)
 	{
 		dataSwitchState_[i]=0;
@@ -303,7 +339,9 @@ void Membership::initComputer()
 	ef4SwitchState = 0;
 	inPressed_ = false;
 	mpButtonState_ = 0;
-	loadButtonState_ = 1;
+
+    setClear(0);
+    setWait(0);
 }
 
 Byte Membership::ef(int flag)
@@ -456,9 +494,12 @@ void Membership::cycleLed()
 
 void Membership::autoBoot()
 {
-	memberScreenPointer->runSetState(BUTTON_UP);
-	runButtonState_ = 1;
-	setClear(runButtonState_);
+    memberScreenPointer->waitSetState(BUTTON_UP);
+    memberScreenPointer->clearSetState(BUTTON_UP);
+    waitButtonState_ = 1;
+    clearButtonState_ = 1;
+    setClear(clearButtonState_);
+    setWait(waitButtonState_);
 }
 
 void Membership::switchQ(int value)
@@ -480,18 +521,30 @@ int Membership::getMpButtonState()
 
 void Membership::onRun()
 {
-	if (runButtonState_)
-	{
-		memberScreenPointer->runSetState(BUTTON_DOWN);
-		runButtonState_ = 0;
-	}
+    if (clearButtonState_)
+    {
+        memberScreenPointer->clearSetState(BUTTON_DOWN);
+        clearButtonState_ = 0;
+    }
+    else
+    {
+        memberScreenPointer->clearSetState(BUTTON_UP);
+        clearButtonState_ = 1;
+        p_Main->startTime();
+    }
+    setClear(clearButtonState_);
+    p_Main->eventUpdateTitle();
+    
+}
+
+void Membership::onClearButton()
+{
+	if (clearButtonState_)
+		clearButtonState_ = 0;
 	else
-	{
-		memberScreenPointer->runSetState(BUTTON_UP);
-		runButtonState_ = 1;
-		p_Main->startTime();
-	}
-	setClear(runButtonState_);
+		clearButtonState_ = 1;
+
+    setClear(clearButtonState_);
 	p_Main->eventUpdateTitle();
 }
 
@@ -507,17 +560,14 @@ void Membership::onMpButton()
 	}
 }
 
-void Membership::onLoadButton()
+void Membership::onWaitButton()
 {
-	if (loadButtonState_)
-	{
-		loadButtonState_ = 0;
-	}
+	if (waitButtonState_)
+		waitButtonState_ = 0;
 	else
-	{
-		loadButtonState_ = 1;
-	}
-	setWait(loadButtonState_);
+		waitButtonState_ = 1;
+
+    setWait(waitButtonState_);
 }
 
 void Membership::dataSwitch(int i)
@@ -605,6 +655,7 @@ void Membership::startComputer()
 
 	p_Main->setSwName("");
 	p_Main->updateTitle();
+    
 	address_ = 0;
 
 	cpuCycles_ = 0;
@@ -767,6 +818,7 @@ void Membership::cpuInstruction()
 		if (cpuMode_ == LOAD)
 		{
 			showData(readMem(address_));
+            ledCycleValue_ = 1;
 			threadPointer->Sleep(1);
 		}
 	}

@@ -15,18 +15,16 @@ When a computer emulation is running the left half of the Direct Assembler tab w
 <LI>Subroutine calls (in <FONT COLOR="#C833A1">light purple</FONT> and reversed in <FONT COLOR="RED">red</FONT>)
 <LI>Text (in <FONT COLOR="SALMON">salmon</FONT>
 <LI>Macro's (in black/<FONT COLOR="FOREST GREEN">green</FONT> or black/<FONT COLOR="#C833A1">light purple</FONT>)
-<LI>Chip 8 code (in <FONT COLOR="STEEL BLUE">steel blue</FONT>)
-<LI>ST2 code (in <FONT COLOR="STEEL BLUE">steel blue</FONT>)
-<LI>FEL-2 code (in <FONT COLOR="STEEL BLUE">steel blue</FONT>)
+<LI>Pseudo code, like Chip 8, ST2, ST4, FEL (in <FONT COLOR="STEEL BLUE">steel blue</FONT>)
 <LI>Undefined, i.e. no ROM or RAM (in <FONT COLOR="RED">red</FONT>)
 </UL>
 </p>
 <p>
-The above types are all possible within one session, except Chip 8 and ST2 code is only possible on machines running a dedicated interpreter. Emma 02 will show the correct type if:
+The above types are all possible within one session, except pseudo code is only possible on machines running a dedicated interpreter. Emma 02 will show the correct type if:
 <OL>
 <LI>The code was typed into the Direct Assembler
 <LI>The specified location was 'marked' as a specific type (see chapter 'Marking specific types')
-<LI>The specified location was 'executed' as RCA 180x, Chip 8 or ST2 code
+<LI>The specified location was 'executed' as RCA 180x or pseudo code
 </OL>
 </p>
 <p>
@@ -40,17 +38,18 @@ If nothing is specified or no code is executed memory is shown in 'Data' or 'Und
 To use the assembler type in any 1802, 1804 or 1805 code in the command line (in the middle of the right half of the 'Direct Assembler' tab). For command syntax see chapter <a href="DebuggerSyntax180x.htm">180x Syntax</a>, this should be similar or even the same as the 180x data sheets. 
 </p>
 <p>
-To use the Chip-8 or ST2 assembler press the 'Chip-8' button. For command syntax see chapters <a href="DebuggerSyntaxChip.htm">Chip-8 Syntax</a> and/or <a href="DebuggerSyntaxSt.htm">ST2 Syntax</a>. The Chip-8 and ST2 assembler can only be activated if a machine is started that includes a Chip-8 or ST2 interpreter.</p>
-<p>
-The Current working address is indicated in <B>bold</B> and between <B>&gt; &lt;</B>. To change the working address see chapter 'Move working address'. Note that all data values should be given as hexadecimal values unless preceded by a + in which case the value should be decimal, i.e LDI +100 is the same as LDI 64.
+To use the Pseudo code assembler a machine should be started that includes a Chip-8, ST2, ST4 or FEL interpreter. For command syntax see chapters <a href="DebuggerSyntaxChip.htm">Chip-8 Syntax</a>, <a href="DebuggerSyntaxSt.htm">ST2 Syntax</a>, <a href="DebuggerSyntaxSt4.htm">ST4 Syntax</a> and/or <a href="DebuggerSyntaxFel2.htm">FEL Syntax</a>
 </p>
 <p>
-Next to 180x, Chip-8 and ST2 code the following options are also available from the command line:
+The Current working address is indicated in <B>bold</B> and between <B>&gt; &lt;</B>. To change the working address see chapter 'Move working address'. Note that all data values should be given as hexadecimal values unless preceded by a & in which case the value should be decimal, i.e LDI &100 is the same as LDI 64.
+</p>
+<p>
+Next to 180x, Chip-8, ST2, ST4 and FEL code the following options are also available from the command line:
 <UL>
-<LI># ww xx yy zz
-<br>Data input, where ww, xx, yy, zz are hexadecimal vales and will be stored on the current and following working address. At least one (ww) value should be specified and max 4 values can be handled in one command. I.e. # 10, will store value 10, # 20 30, will store 20 and on the following address 30.
+<LI>#ww xx yy zz
+<br>Data input, where ww, xx, yy, zz are hexadecimal vales and will be stored on the current and following working address. At least one (ww) value should be specified. I.e. #10, will store value 10, #20 30, will store 20 and on the following address 30. Spaces between bytes are optional.
 <LI>'text
-<br>Store ASCII text, all text after ' will be stored in ASCII code at the current working address.
+<br>Store ASCII text, all text after ' will be stored in ASCII code at the current working address. When using this on the Studio IV characters are stored with Studio IV charcater numbering.
 <LI>"text
 <br>Only valuable for the COMX to store ASCII text in 'high color', all text after " will be stored in ASCII code (range 80 to FF) at the current working address.
 <LI>:address
@@ -62,7 +61,7 @@ Next to 180x, Chip-8 and ST2 code the following options are also available from 
 All code shown in the left side of the Direct Assembler tab is disassembled in real time. Any part of memory can also be disassembled to an assembler (.asm or .txt) file by pressing the 'Dis' button. The first two text boxes on the right of the 'Dis' button will be used as start and end address.
 </p>
 <p>
-Code will be disassmbled based on 'execution' by the CPU. So only code that has been executed is marked as 180x code and will be disassembled. Main advantage of this is that 'data' will be shown as bytes instead of 180x code. This does mean that for a complete disassembly all code should first be executed as much as possible. Parts of code that are 'less easy' to execute can however be marked as code manually; see also chapter 'Marking Specific types'. 
+Code will be disassmbled based on 'execution' by the CPU. So only code that has been executed is marked as 180x code and will be disassembled. Main advantage of this is that 'data' will be shown as bytes instead of 180x code. This does mean that for a complete disassembly all code should first be executed as much as possible. Parts of code that are 'less easy' to execute can however be marked as code manually; see also chapter 'Marking Specific types'. Executed 'pseudo' code will be shown as 'DB' in the output file with the pseudo code shown as comments.
 </p>
 <p>
 Next to marking code it is also possible to:
@@ -113,9 +112,7 @@ The following choices are available:
 <LI>LDL: LDL Macro, see also chapter 'LDL, LDV and RLDL instructions'
 <LI>LDV: LDV Macro, see also chapter 'LDL, LDV and RLDL instructions'
 <LI>Switch: Switch to other mnemonic, see also chapter 'Switch mnemonic'
-<LI>Chip 8: Chip 8 code
-<LI>ST2: ST2 code
-<LI>FEL-2: FEL-2 code
+<LI>Pseudo: Chip 8, ST2, ST4 or FEL code
 </UL>
 </p>
 <h3>Move working address</h3>
@@ -278,13 +275,13 @@ it will change to:
 </pre>
 Note that the branch has changed to FE and NOT FF as an extra byte could be deleted because the 3 byte long LBR is replace by a 2 byte long BR.
 </p>
-<h4>Chip 8 - Insert and Delete</h4>
+<h4>Chip 8, Chip 8X, Chip ETI, Chip Studio - Insert and Delete</h4>
 <p>
 If Chip 8 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
 <UL>
 <LI>CALL aaa
 <LI>JP aaa
-<LI>JP V0, aaa
+<LI>JP V0, aaa (not in Chip 8X)
 <LI>LD I,aaa
 <LI>SYS aaa
 </UL>
@@ -306,15 +303,79 @@ If ST2 code is used within the program configuration that code will also be corr
 </UL>
 </p>
 <p>
-Note: none of the jumps within a page will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the jump will be listed in the message area.
+Note: none of the short jumps within a page will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the jump will be listed in the message area.
 </p>
-<h4>FEL-2 - Insert and Delete</h4>
+<h4>ST4 - Insert and Delete</h4>
 <p>
-If FEL-2 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+If ST4 code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL 6kk
+<LI>CALL 7kk
+<LI>CALL 8kk
+<LI>CALL 10kk
+<LI>CALL 11kk
+<LI>JP kk
+<LI>JNZ Vx, kk
+<LI>JZ Vx, kk
+<LI>LD I, 0aaa
+<LI>LD I, 2aaa
+<LI>LD I, 3aaa
+<LI>LD I, 4aaa
+</UL>
+</p>
+<p>
+Note that if a CALL will change to an addres outside 600-8FF or 1000-11FF address ranges, the command itself will change as the pseudo code will change to 65kk, 69kk, 0Fkk or 12kk. LD I instructions will change within a range of 0FFF, so LI I, 0aaa will not change outside 0aaa range.
+</p>
+<h4>Coin Bowling, FEL - Insert and Delete</h4>
+<p>
+If Coin Bowling, Computer Bowlinfg or FEL code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
 <UL>
 <LI>CALL aaa
 <LI>JP aaa
+<LI>JNK Vx, kk (Computer Bowling only)
 <LI>SYS aaa
+</UL>
+</p>
+<h4>GPL I, GPL II - Insert and Delete</h4>
+<p>
+If GPL I or GPL II code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>LD [6aa], Vx
+<LI>SE Vx, [6aa] (GPL I only)
+<LI>SNE Vx, [6aa]
+<LI>SYS aaa
+</UL>
+<p>
+Note: none of the short [6aa] references within page 6 will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the instruction will be listed in the message area.
+</p>
+<h4>FPL - Insert and Delete</h4>
+<p>
+If FPL code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL aaa
+<LI>JP aaa
+<LI>LD [6aa], Vx
+<LI>SYS aaa
+</UL>
+<p>
+Note: none of the short [6aa] references within page 6 will be corrected if the insert or delete causes them to go outside of the page. Instead the address of the instruction will be listed in the message area.
+</p>
+<h4>Scramble, Swords - Insert and Delete</h4>
+<p>
+If Scramble or Swords code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+<UL>
+<LI>CALL aaa
+<LI>JNZ V0, aaa
+<LI>JP aaa
+<LI>JP FIREA, kk
+<LI>JP FIREB, kk
+<LI>JP 'EF3', kk
+<LI>JP COIN, kk
+<LI>JZ V0, aaa
+<LI>SYS aaa
+
 </UL>
 </p>
 <h3>Copy data or code</h3>

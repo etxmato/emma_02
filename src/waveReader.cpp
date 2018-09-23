@@ -103,7 +103,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 	char amplitudeByte = 0;
 	short amplitudeWord = 0;
 
-	size_t in = inFile_.Read(buffer, remaining*frameSize_); 
+	size_t in = inFile_.Read(buffer, remaining*frameSize_);
 	if (in == wxInvalidOffset)
 	{
 		in = 0;
@@ -124,6 +124,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 			bufferPointer += frameSize_;
 		}
 		p_Computer->cassette(amplitudeWord);
+		p_Computer->cassetteFred(amplitudeWord);
 	}
 	else
 	{
@@ -134,6 +135,7 @@ long WaveReader::read(sample_t* outBuffer, size_t remaining, float gain)
 			bufferPointer += frameSize_;
 		}
 		p_Computer->cassette(amplitudeByte);
+		p_Computer->cassetteFred(amplitudeByte);
 	}
 	return remaining;
 }

@@ -383,7 +383,10 @@ END_EVENT_TABLE()
 Panel::Panel(wxWindow *parent, const wxSize& size)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
-	updateQLed_ = false;
+    updateQLed_ = false;
+    updateReadyLed_ = false;
+    updateStopLed_ = false;
+    updateErrorLed_ = false;
 	updateResetLed_ = false;
 	updatePauseLed_ = false;
 	updateRunLed_ = false;
@@ -395,12 +398,16 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 		segStatus[i] = 0;
 		updateSeg_[i] = false;
 	}
-	updateAddress_ = false;
+    updateAddress_ = false;
+    updateAddressTil313_ = false;
 	updateData_ = false;
 	updateDataTil313_ = false;
 
 	qLedStatus = 0;
-	resetLedStatus = 0;
+    readyLedStatus = 0;
+    stopLedStatus = 0;
+    errorLedStatus = 0;
+    resetLedStatus = 0;
 	pauseLedStatus = 0;
 	runLedStatus = 0;
 	loadLedStatus = 0;
@@ -556,7 +563,10 @@ void Panel::onMouseRelease(wxMouseEvent& WXUNUSED(event))
 void Panel::ledTimeout()
 {
     wxClientDC dc(this);
-	updateQLed(dc);
+    updateReadyLed(dc);
+    updateStopLed(dc);
+    updateErrorLed(dc);
+    updateQLed(dc);
 	updateResetLed(dc);
 	updatePauseLed(dc);
 	updateRunLed(dc);
@@ -568,12 +578,82 @@ void Panel::ledTimeout()
 	}
 	updateData(dc);
 	updateDataTil313(dc);
-	updateAddress(dc);
+    updateAddress(dc);
+    updateAddressTil313(dc);
 }
 
 void Panel::setLedMs(long ms)
 {
 	ms_ = ms;
+}
+
+void Panel::updateReadyLed(wxDC& dc)
+{
+    if (updateReadyLed_)
+    {
+        readyLedPointer->setStatus(dc, readyLedStatus);
+        updateReadyLed_ = false;
+    }
+}
+
+void Panel::setReadyLed(int status)
+{
+    if (readyLedStatus != status)
+    {
+        readyLedStatus = status;
+        updateReadyLed_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateReadyLed(dc);
+        }
+    }
+}
+
+void Panel::setStopLed(int status)
+{
+    if (stopLedStatus != status)
+    {
+        stopLedStatus = status;
+        updateStopLed_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateStopLed(dc);
+        }
+    }
+}
+
+void Panel::updateStopLed(wxDC& dc)
+{
+    if (updateStopLed_)
+    {
+        stopLedPointer->setStatus(dc, stopLedStatus);
+        updateStopLed_ = false;
+    }
+}
+
+void Panel::setErrorLed(int status)
+{
+	if (errorLedStatus != status)
+	{
+		errorLedStatus = status;
+		updateErrorLed_ = true;
+		if (ms_ == 0)
+		{
+			wxClientDC dc(this);
+			updateErrorLed(dc);
+		}
+	}
+}
+
+void Panel::updateErrorLed(wxDC& dc)
+{
+	if (updateErrorLed_)
+	{
+		errorLedPointer->setStatus(dc, errorLedStatus);
+		updateErrorLed_ = false;
+	}
 }
 
 void Panel::setQLed(int status)
@@ -787,16 +867,30 @@ void Panel::updateSeg(wxDC& dc, int number)
 
 void Panel::showAddress(Word address)
 {
-	if (addressStatus != address)
-	{
-		addressStatus = address;
-		updateAddress_ = true;
-		if (ms_ == 0)
-		{
-			wxClientDC dc(this);
-			updateAddress(dc);
-		}
-	}
+    if (addressStatus != address)
+    {
+        addressStatus = address;
+        updateAddress_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateAddress(dc);
+        }
+    }
+}
+
+void Panel::showAddressTil313(Word address)
+{
+    if (addressStatus != address)
+    {
+        addressStatus = address;
+        updateAddressTil313_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateAddressTil313(dc);
+        }
+    }
 }
 
 void Panel::updateAddress(wxDC& dc)
@@ -809,6 +903,18 @@ void Panel::updateAddress(wxDC& dc)
 		addressPointer[3]->update(dc, addressStatus&15);
 		updateAddress_ = false;
 	}
+}
+
+void Panel::updateAddressTil313(wxDC& dc)
+{
+    if (updateAddressTil313_)
+    {
+        addressTil313Pointer[0]->update(dc, addressStatus>>12);
+        addressTil313Pointer[1]->update(dc,(addressStatus>>8)&15);
+        addressTil313Pointer[2]->update(dc,(addressStatus>>4)&15);
+        addressTil313Pointer[3]->update(dc, addressStatus&15);
+        updateAddressTil313_ = false;
+    }
 }
 
 void Panel::inUp()
@@ -829,6 +935,12 @@ void Panel::clearSetState(bool state)
 {
     wxClientDC dc(this);
     clearSwitchButton->setState(dc, state);
+}
+
+void Panel::waitSetState(bool state)
+{
+    wxClientDC dc(this);
+    waitSwitchButton->setState(dc, state);
 }
 
 void Panel::runUp()
@@ -980,7 +1092,7 @@ Computer::Computer()
 	basicExecAddress_[BASICADDR_KEY_VT_INPUT] = -1;
 	chip8baseVar_ = 0xef0;
 	chip8mainLoop_ = 0x1b;
-	chip8type_ = CHIP_NONE;
+    pseudoLoaded_ = false;
     inKey1_ = -1;
     inKey2_ = -1;
 	for (int i = 0; i<16; i++)
@@ -1267,6 +1379,14 @@ void Computer::cassette(char val)
 	lastTapeInput_ = val;
 }
 
+void Computer::cassetteFred(short WXUNUSED(val))
+{
+}
+
+void Computer::cassetteFred(char WXUNUSED(val))
+{
+}
+
 void Computer::realCassette(short val)
 {
 	if (conversionType_ == 0)
@@ -1331,6 +1451,14 @@ void Computer::onRunButton()
 {
 }
 
+void Computer::onReadButton()
+{
+}
+
+void Computer::onCardButton()
+{
+}
+
 void Computer::onRunButton(wxCommandEvent&WXUNUSED(event))
 {
 }
@@ -1380,6 +1508,10 @@ void Computer::onMpButton()
 }
 
 void Computer::onMpButton(wxCommandEvent&WXUNUSED(event))
+{
+}
+
+void Computer::onWaitButton()
 {
 }
 
@@ -1503,6 +1635,10 @@ void Computer::setLedMs(long WXUNUSED(ms))
 {
 }
 
+void Computer::showDataLeds(Byte WXUNUSED(value))
+{
+}
+
 Byte Computer::getKey(Byte WXUNUSED(vtOut))
 {
 	return 0;
@@ -1519,13 +1655,18 @@ void Computer::showChip8Registers()
 
 	for (int i=0; i<16; i++)
 	{
-		newValue = p_Computer->readMem(reg);
+        if (chip8register12bit_)
+        {
+            newValue = (p_Computer->readMem(reg++) << 8);
+            newValue += p_Computer->readMem(reg++);
+        }
+        else
+            newValue = p_Computer->readMem(reg++);
 		if (newValue != chip8Register[i])
 		{
-			p_Main->showChip8Register(i, newValue);
+			p_Main->showChip8Register(i, newValue, chip8register12bit_);
 			chip8Register[i] = newValue;
 		}
-		reg++;
 	}
 }
 

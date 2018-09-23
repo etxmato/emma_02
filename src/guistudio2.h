@@ -1,9 +1,9 @@
 #ifndef GUISTUDIO2_H
 #define GUISTUDIO2_H
 
-#include "guivip.h"
+#include "guifred.h"
 
-class GuiStudio2: public GuiVip
+class GuiStudio2: public GuiFred
 {
 public:
 
@@ -41,7 +41,17 @@ public:
 	void onDisableSystemRomVictory(wxCommandEvent&event);
 	void onMsbVictory(wxSpinEvent&event);
 	void onLsbVictory(wxSpinEvent&event);
+    void onVictoryVideoMode(wxCommandEvent&event);
 
+    void readStudioIVConfig();
+    void writeStudioIVDirConfig();
+    void writeStudioIVConfig();
+    void readStudioIVWindowConfig();
+    void writeStudioIVWindowConfig();
+    void onStudioIVVideoMode(wxCommandEvent&event);
+    
+    int getStudioVideoMode(int computer);
+    
 	void onSt2Rom(wxCommandEvent& event);
 	void onSt2RomEject(wxCommandEvent& event);
 

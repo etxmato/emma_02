@@ -101,9 +101,12 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 	playBlackBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_black.png", wxBITMAP_TYPE_PNG);
 	playGreenBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/play_green.png", wxBITMAP_TYPE_PNG);
 
-	recOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_off.png", wxBITMAP_TYPE_PNG);
-	recOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_on.png", wxBITMAP_TYPE_PNG);
-
+    recOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_off.png", wxBITMAP_TYPE_PNG);
+    recOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/rec_on.png", wxBITMAP_TYPE_PNG);
+    
+    pauseOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_off.png", wxBITMAP_TYPE_PNG);
+    pauseOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/pause_on.png", wxBITMAP_TYPE_PNG);
+    
 	realCasOnBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_on.png", wxBITMAP_TYPE_PNG);
 	realCasOffBitmap = wxBitmap(applicationDirectory_ + IMAGES_FOLDER + "/real_cas_off.png", wxBITMAP_TYPE_PNG);
 
@@ -332,7 +335,7 @@ void GuiMain::onMainRom1(wxCommandEvent& WXUNUSED(event))
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -471,11 +474,23 @@ void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
 	conf[selectedComputer_].ram_ = FullPath.GetFullName();
 
 	XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].ram_);
+	
+	if (selectedComputer_ == FRED1 || selectedComputer_ == FRED2)
+        p_Main->setGameId(conf[selectedComputer_].ram_);
+
+	if (selectedComputer_ == FRED2)
+        p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onRamSWText(wxCommandEvent& WXUNUSED(event))
 {
 	conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
+
+	if (selectedComputer_ == FRED1 && conf[FRED1].gameId_ != -1)
+        p_Main->setGameId(conf[selectedComputer_].ram_);
+
+	if (selectedComputer_ == FRED2 && conf[FRED2].gameId_ != -1)
+        p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
 void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )
@@ -1324,7 +1339,10 @@ void GuiMain::onUseLocation(wxCommandEvent&event)
 
 void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 {
-	startLoad();
+    if (runningComputer_ == FRED1 ||runningComputer_ == FRED2)
+        p_Fred->startLoad(true);
+    else
+        startLoad();
 }
 
 void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
@@ -1335,6 +1353,11 @@ void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
 void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
 {
 	p_Computer->stopSaveLoad();
+}
+
+void GuiMain::onCassettePause(wxCommandEvent& WXUNUSED(event))
+{
+	p_Computer->pauseTape();
 }
 
 void GuiMain::onKeyboard(wxCommandEvent&event)
@@ -2683,10 +2706,12 @@ int GuiMain::pload()
 	}
 }
 
-void GuiMain::startCassetteLoad()
+bool GuiMain::startCassetteLoad()
 {
 	if (conf[runningComputer_].autoCassetteLoad_)
-		startLoad();
+		return startLoad();
+    else
+        return false;
 }
 
 void GuiMain::onRealCas(wxCommandEvent&WXUNUSED(event))
@@ -2826,7 +2851,7 @@ void GuiMain::setPrinterState(int computerType)
 	}
 }
 
-void GuiMain::startLoad()
+bool GuiMain::startLoad()
 {
 	wxString filePath, fileName;
 
@@ -2839,9 +2864,10 @@ void GuiMain::startLoad()
 		if (wxFile::Exists(filePath))
 		{
 			p_Main->eventSetTapeState(TAPE_PLAY);
-			p_Computer->ploadStartTape(filePath);
+			return p_Computer->ploadStartTape(filePath);
 		}
 	}
+    return false;
 }
 
 void GuiMain::stopCassette()
@@ -3315,6 +3341,8 @@ void GuiMain::enableLoadGui(bool status)
     }
 	if (!conf[runningComputer_].autoCassetteLoad_)
 	{
+		if (runningComputer_ == FRED1 || runningComputer_ == FRED2)
+			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
@@ -3332,12 +3360,23 @@ void GuiMain::setTapeState(int tapeState)
 	if (!mode_.gui)
 		return;
 
+    if (runningComputer_ == FRED1 || runningComputer_ == FRED2)
+    {
+        if (tapeState == TAPE_PAUSE)
+        {
+            XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOnBitmap);
+            tapeState = TAPE_STOP;
+        }
+        else
+            XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
+    }
+    
 	XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
 	XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
-	if (tapeState != TAPE_STOP)
+    if (tapeState != TAPE_STOP)
 	{
 		XRCCTRL(*this, "TurboClock"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(false);
 		XRCCTRL(*this, "TurboMhzText"+computerInfo[runningComputer_].gui, wxStaticText)->Enable(false);
@@ -3360,6 +3399,8 @@ void GuiMain::setTapeState(int tapeState)
 	}
 	else
 	{
+		if (runningComputer_ == FRED1 || runningComputer_ == FRED2)
+			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
@@ -3445,10 +3486,11 @@ void GuiMain::onLedTimer(wxCommandEvent&event)
 
 int GuiMain::getCpuType()
 {
-	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE)
+    cpuType_ = defaultCpuType_;
+    if (runningComputer_ == FRED1)
+    	cpuType_ = SYSTEM00;
+	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED2)
         cpuType_ = CPU1801;
-	else
-        cpuType_ = defaultCpuType_;
     
     return cpuType_;
 };

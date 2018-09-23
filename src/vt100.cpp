@@ -2627,6 +2627,11 @@ Byte Vt100::uartStatus()
 	return uartStatus_.to_ulong();
 }
 
+Byte Vt100::uartThreStatus()
+{
+    return uartStatus_[UART_THRE];
+}
+
 void Vt100::getKey()
 {
     if (terminalLoad_ || terminalSave_)

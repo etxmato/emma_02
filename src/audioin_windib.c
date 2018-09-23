@@ -166,7 +166,7 @@ int WINDIB_OpenAudioIn(SDL_AudioSpec *requested, SDL_AudioSpec *result)
 		SDL_DestroySemaphore(writesem); writesem=NULL;
 		return(-1);
 	}
-	free(nSpec);
+//	free(nSpec); // This crashed real tape recording but I think was needed to solve another crash.... 
 
 	if(result)
 	{

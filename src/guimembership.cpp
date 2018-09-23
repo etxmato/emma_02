@@ -74,7 +74,8 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_CHOICE(XRCID("RamMembership"), GuiMembership::onRam)
 	EVT_CHECKBOX(XRCID("NvrMembership"), GuiMembership::onNvrMembership)
 
-	EVT_CHOICE(XRCID("IoMembership"), GuiMembership::onIo)
+    EVT_CHOICE(XRCID("IoMembership"), GuiMembership::onIo)
+    EVT_CHOICE(XRCID("FrontMembership"), GuiMembership::onFront)
 
     EVT_BUTTON(XRCID("CasLoadMembership"), GuiMain::onTerminalLoad)
     EVT_BUTTON(XRCID("CasSaveMembership"), GuiMain::onTerminalSave)
@@ -156,7 +157,8 @@ void GuiMembership::readMembershipConfig()
     configPointer->Read("/Membership/Enable_Vt_Stretch_Dot", &conf[MEMBER].stretchDot_, false);
     configPointer->Read("/Membership/Enable_Vt_External", &elfConfiguration[MEMBER].vtExternal, false);
 	configPointer->Read("/Membership/Use_Non_Volatile_Ram", &elfConfiguration[MEMBER].nvr, true);
-	elfConfiguration[MEMBER].ioType = (int)configPointer->Read("/Membership/IO_Type", IO_TYPE_N2);
+    elfConfiguration[MEMBER].ioType = (int)configPointer->Read("/Membership/IO_Type", IO_TYPE_N2);
+    elfConfiguration[MEMBER].frontType = (int)configPointer->Read("/Membership/Front_Type", FRONT_TYPE_I);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
@@ -206,7 +208,8 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
 		XRCCTRL(*this, "RamMembership", wxChoice)->SetSelection(conf[MEMBER].ramType_);
-		XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);
+        XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);
+        XRCCTRL(*this, "FrontMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].frontType);
 		XRCCTRL(*this, "VolumeMembership", wxSlider)->SetValue(conf[MEMBER].volume_);
 		clockTextCtrl[MEMBER]->ChangeValue(conf[MEMBER].clock_);
 		XRCCTRL(*this, "NvrMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].nvr);
@@ -277,7 +280,8 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Use_Non_Volatile_Ram", elfConfiguration[MEMBER].nvr);
 	configPointer->Write("/Membership/Led_Update_Frequency", conf[MEMBER].ledTime_);
 	configPointer->Write("/Membership/Enable_Auto_Cassette", conf[MEMBER].autoCassetteLoad_);
-	configPointer->Write("/Membership/IO_Type", elfConfiguration[MEMBER].ioType);
+    configPointer->Write("/Membership/IO_Type", elfConfiguration[MEMBER].ioType);
+    configPointer->Write("/Membership/Front_Type", elfConfiguration[MEMBER].frontType);
 
     configPointer->Write("/Membership/Clock_Speed", conf[MEMBER].clock_);
     configPointer->Write("/Membership/Beep_Frequency", conf[MEMBER].beepFrequency_);
@@ -372,7 +376,12 @@ void GuiMembership::onRam(wxCommandEvent&event)
 
 void GuiMembership::onIo(wxCommandEvent&event)
 {
-	elfConfiguration[MEMBER].ioType = event.GetSelection();
+    elfConfiguration[MEMBER].ioType = event.GetSelection();
+}
+
+void GuiMembership::onFront(wxCommandEvent&event)
+{
+    elfConfiguration[MEMBER].frontType = event.GetSelection();
 }
 
 void GuiMembership::onRomEvent(wxCommandEvent&WXUNUSED(event))

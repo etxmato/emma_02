@@ -6,6 +6,8 @@
 #include "keyboard.h"
 #include "elfconfiguration.h"
 
+DECLARE_EVENT_TYPE(ON_UART_VIP, 810)
+
 class Vip : public Cdp1802, public Pixie
 {
 public:

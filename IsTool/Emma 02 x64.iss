@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.26
+AppVerName=Emma 02 - V1.27
 AppVersion=1.26
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.26
+OutputBaseFilename=Emma_02_x64_setup_v1.27
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -38,6 +38,8 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Source: vcredist_x64.exe; DestDir: {tmp}; Flags: deleteafterinstall; Components: MAIN
 Source: ..\x64\Release\Emma 02.exe; DestDir: {app}; Components: MAIN; Tasks: ; Languages: 
 Source: ..\emma_02.htb; DestDir: {app}; Components: MAIN
+Source: ..\*.def; DestDir: {app}; Components: MAIN
+Source: ..\*.syntax; DestDir: {app}; Components: MAIN
 Source: ..\about.xrc; DestDir: {app}; Components: MAIN
 Source: ..\cassette.xrc; DestDir: {app}; Components: MAIN
 Source: ..\colour.xrc; DestDir: {app}; Components: MAIN
@@ -52,6 +54,7 @@ Source: ..\main.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menu_Cas_Mem.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuComx.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuCosmicos.xrc; DestDir: {app}; Components: MAIN
+Source: ..\menuFred.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuElf.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuElf2K.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuMembership.xrc; DestDir: {app}; Components: MAIN
@@ -81,6 +84,8 @@ Source: ..\Configurations Windows\CoinArcade\*.*; DestDir: {app}\Configurations\
 Source: ..\Configurations Windows\Elf\*.*; DestDir: {app}\Configurations\Elf; Components: MAIN
 Source: ..\Configurations Windows\Elf2K\*.*; DestDir: {app}\Configurations\Elf2K; Components: MAIN
 Source: ..\Configurations Windows\Eti\*.*; DestDir: {app}\Configurations\Eti; Components: MAIN
+Source: ..\Configurations Windows\FRED1\*.*; DestDir: {app}\Configurations\FRED1; Components: MAIN
+Source: ..\Configurations Windows\FRED2\*.*; DestDir: {app}\Configurations\FRED2; Components: MAIN
 Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
 Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
 Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
@@ -88,6 +93,7 @@ Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS20
 Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
 Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
 Source: ..\Configurations Windows\Studio2\*.*; DestDir: {app}\Configurations\Studio2; Components: MAIN
+Source: ..\Configurations Windows\StudioIV\*.*; DestDir: {app}\Configurations\StudioIV; Components: MAIN
 Source: ..\Configurations Windows\TMC600\*.*; DestDir: {app}\Configurations\TMC600; Components: MAIN
 Source: ..\Configurations Windows\TMC1800\*.*; DestDir: {app}\Configurations\TMC1800; Components: MAIN
 Source: ..\Configurations Windows\TMC2000\*.*; DestDir: {app}\Configurations\TMC2000; Components: MAIN
@@ -157,6 +163,8 @@ Source: ..\data\Comx\Disks\plotter.img; DestDir: {app}\data\Comx\Disks; Componen
 Source: ..\data\Comx\Disks\plotter-2.img; DestDir: {app}\data\Comx\Disks; Components: MAIN
 Source: ..\data\Comx\F&M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F&M EPROM Switchboard; Components: MAIN
 Source: ..\data\CoinArcade\*.*; DestDir: {app}\data\CoinArcade; Components: MAIN
+Source: ..\data\FRED1\*.*; DestDir: {app}\data\FRED1; Components: MAIN
+Source: ..\data\FRED2\*.*; DestDir: {app}\data\FRED2; Components: MAIN
 Source: ..\data\Studio2\studio2.rom; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.bin; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.rom; DestDir: {app}\data\Studio2; Components: MAIN
@@ -164,9 +172,11 @@ Source: ..\data\Studio2\*.st2; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.txt; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.pdf; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.zip; DestDir: {app}\data\Studio2; Components: MAIN
+Source: ..\data\StudioIV\*.*; DestDir: {app}\data\StudioIV; Components: MAIN
 Source: ..\data\Visicom\visicom.rom; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Visicom\*.st2; DestDir: {app}\data\Visicom; Components: MAIN
 Source: ..\data\Victory\victory.rom; DestDir: {app}\data\Victory; Components: MAIN
+Source: ..\data\Victory\studio3.rom; DestDir: {app}\data\Victory; Components: MAIN
 Source: ..\data\Victory\*.bin; DestDir: {app}\data\Victory; Components: MAIN
 Source: ..\data\Victory\*.st2; DestDir: {app}\data\Victory; Components: MAIN
 Source: ..\data\Victory\*.txt; DestDir: {app}\data\Victory; Components: MAIN
@@ -183,14 +193,7 @@ Source: ..\data\Chip-8\Chip-8 Hires\*.*; DestDir: {app}\data\Chip-8\Chip-8 Hires
 Source: ..\data\Chip-8\Chip-8 Hybrids\*.*; DestDir: {app}\data\Chip-8\Chip-8 Hybrids; Components: MAIN
 Source: ..\data\Chip-8\Chip-8X\*.*; DestDir: {app}\data\Chip-8\Chip-8X; Components: MAIN
 Source: ..\data\Chip-8\Chip-10\*.*; DestDir: {app}\data\Chip-8\Chip-10; Components: MAIN
-Source: ..\data\Vip\vip.rom; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\vip.32.rom; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\fpb.bin; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\fpb_color.bin; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\*.ram; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\*.bin; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\chip8.stepper.hex; DestDir: {app}\data\Vip; Components: MAIN
-Source: ..\data\Vip\chip10.hex; DestDir: {app}\data\Vip; Components: MAIN
+Source: ..\data\Vip\*.*; DestDir: {app}\data\Vip; Components: MAIN
 Source: ..\data\VipII\vip.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\vip.32.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\fpb.rom; DestDir: {app}\data\VipII; Components: MAIN
@@ -307,6 +310,7 @@ Source: ..\data\Elf\giantboard.hex; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\giantboard.v2.hex; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\tapeloader.txt; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\emma 02.cos; DestDir: {app}\data\Elf\; Components: MAIN
+Source: ..\data\Elf\SUPRMON-v1.1-2708.hex; DestDir: {app}\data\Elf\; Components: MAIN
 Source: ..\data\Elf\TinyosTS\*.*; DestDir: {app}\data\Elf\TinyosTS; Components: MAIN
 Source: ..\data\Elf\Biosio\BIOSIO93.ROM; DestDir: {app}\data\Elf\Biosio; Components: MAIN
 Source: ..\data\Elf\Biosio\BIOSIOV9.ROM; DestDir: {app}\data\Elf\Biosio; Components: MAIN

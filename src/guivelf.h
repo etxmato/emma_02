@@ -17,7 +17,6 @@ public:
     void writeVelfWindowConfig();
 
 	void onRamSWVelf(wxCommandEvent&event);
-	void onRamSWText(wxCommandEvent&event);
 	void onLatch(wxCommandEvent&event);
 
 	int getLatch() {return latch_;};

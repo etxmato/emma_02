@@ -40,8 +40,14 @@ PsaveDialog::PsaveDialog(wxWindow* parent)
 	XRCCTRL(*this, "Channel", wxChoice)->SetSelection(p_Main->getPsaveData(4));
 	XRCCTRL(*this, "ConversionTypeCassette", wxChoice)->SetSelection(p_Main->getPsaveData(7));
 	XRCCTRL(*this, "Playback", wxCheckBox)->SetValue(p_Main->getPsaveData(5) != 0);
-	XRCCTRL(*this, "ReversedPolarity", wxCheckBox)->SetValue(p_Main->getPsaveData(6) != 0);
-
+    XRCCTRL(*this, "ReversedPolarity", wxCheckBox)->SetValue(p_Main->getPsaveData(6) != 0);
+    wxString threshold;
+    threshold.Printf("%d", p_Main->getPsaveData(8));
+    XRCCTRL(*this, "FREDThreshold8", wxTextCtrl)->SetValue(threshold);
+    threshold.Printf("%d", p_Main->getPsaveData(9));
+    XRCCTRL(*this, "FREDThreshold16", wxTextCtrl)->SetValue(threshold);
+    threshold.Printf("%1.1f", (float)p_Main->getPsaveData(10)/10);
+    XRCCTRL(*this, "FREDFreq", wxTextCtrl)->SetValue(threshold);
 }
 
 void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
@@ -56,8 +62,29 @@ void PsaveDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	p_Main->setPsaveData(4, XRCCTRL(*this, "Channel", wxChoice)->GetSelection());
 	p_Main->setPsaveData(7, XRCCTRL(*this, "ConversionTypeCassette", wxChoice)->GetSelection());
 	p_Main->setPsaveData(5, XRCCTRL(*this, "Playback", wxCheckBox)->GetValue());
-	p_Main->setPsaveData(6, XRCCTRL(*this, "ReversedPolarity", wxCheckBox)->GetValue());
+    p_Main->setPsaveData(6, XRCCTRL(*this, "ReversedPolarity", wxCheckBox)->GetValue());
+    
+    wxString stringThreshold = XRCCTRL(*this, "FREDThreshold8", wxTextCtrl)->GetValue();
+    if (stringThreshold == "")  stringThreshold = "10";
+    long threshold;
+    if (!stringThreshold.ToLong(&threshold, 10))
+        threshold = 10;
+    
+    p_Main->setPsaveData(8, (int)threshold);
 
+    stringThreshold = XRCCTRL(*this, "FREDThreshold16", wxTextCtrl)->GetValue();
+    if (stringThreshold == "")  stringThreshold = "300";
+    if (!stringThreshold.ToLong(&threshold, 10))
+        threshold = 300;
+    p_Main->setPsaveData(9, (int)threshold);
+
+    stringThreshold = XRCCTRL(*this, "FREDFreq", wxTextCtrl)->GetValue();
+    if (stringThreshold == "")  stringThreshold = "5.8";
+    double freq;
+    if (!stringThreshold.ToDouble(&freq))
+        freq = 5.8;
+    p_Main->setPsaveData(10, freq*10);
+    
 	EndModal( wxID_OK );
 }
 

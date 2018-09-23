@@ -1,7 +1,7 @@
 <html>
-<title>Chip-8 and 8X Syntax</title>
+<title>Chip-8, 8X and ETI Syntax</title>
 <body>
-<h2>Chip-8 and 8X Syntax</h2>
+<h2>Chip-8, 8X Syntax and ETI syntax</h2>
 <h3>Definitions</h3>
 <TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
@@ -45,7 +45,7 @@
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
 </TABLE>
-<h3>Chip-8 Syntax</h3>
+<h3>Syntax</h3>
 <TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
 <TR>
 <TD WIDTH="55">Fx1E</TD>
@@ -175,7 +175,7 @@
 </TR>
 <TR>
 <TD WIDTH="55">00EE</TD>
-<TD WIDTH="40">RET</TD>
+<TD WIDTH="40">RETURN</TD>
 <TD WIDTH="100"></TD>
 <TD WIDTH="250">Return from subroutine (16 levels)</TD>
 </TR>
@@ -299,13 +299,13 @@ All of the instruction from Chip-8, except 'Baaa: JP V0, aaa' are valid for Chip
 </TR>
 <TR>
 <TD WIDTH="55">FxFB</TD>
-<TD WIDTH="40">INP<BR>INP1</TD>
+<TD WIDTH="40">INP1</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Input port 1 to Vx (waits for EF4=1)</TD>
 </TR>
 <TR>
 <TD WIDTH="55">FxF8</TD>
-<TD WIDTH="40">OUT<BR>OUT3</TD>
+<TD WIDTH="40">OUT3</TD>
 <TD WIDTH="100">Vx</TD>
 <TD WIDTH="250">Vx to output port 3 (used for simple sound)</TD>
 </TR>

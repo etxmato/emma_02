@@ -252,6 +252,9 @@ void GuiVipII::pixieBarSize(wxCommandEvent&WXUNUSED(event))
 
 void GuiVipII::pixieBarSizeEvent()
 {
+	if (runningComputer_ != VIPII)
+		return;
+
 	wxCommandEvent event(STATUS_BAR_PIXIE, 810);
 	event.SetEventObject(this);
 	wxPostEvent(this, event);

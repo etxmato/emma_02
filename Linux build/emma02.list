@@ -10,8 +10,8 @@ $srcdir=.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README
-%description Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
-%version 1.26
+%description Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VELF, FRED 1, FRED 2, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, RCA Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+%version 1.27
 %requires glibc
 %requires libcurl
 %requires SDL
@@ -23,6 +23,25 @@ $srcdir=.
 %system all
 f 755 root sys ${bindir}/emma_02 ../Release/emma_02
 # Application files
+f 644 root sys ${datadir}/emma_02/pseudo.def ../pseudo.def
+f 644 root sys ${datadir}/emma_02/CARDTRAN.syntax ../CARDTRAN.syntax
+f 644 root sys ${datadir}/emma_02/Chip8.syntax ../Chip8.syntax
+f 644 root sys ${datadir}/emma_02/Chip8Studio.syntax ../Chip8Studio.syntax
+f 644 root sys ${datadir}/emma_02/Chip8X.syntax ../Chip8X.syntax
+f 644 root sys ${datadir}/emma_02/ChipEti.syntax ../ChipEti.syntax
+f 644 root sys ${datadir}/emma_02/FEL-1.syntax ../FEL-1.syntax
+f 644 root sys ${datadir}/emma_02/FPL-2.syntax ../FPL-2.syntax
+f 644 root sys ${datadir}/emma_02/FPL-4.syntax ../FPL-4.syntax
+f 644 root sys ${datadir}/emma_02/GPL-2.syntax ../GPL-2.syntax
+f 644 root sys ${datadir}/emma_02/GPL-3.syntax ../GPL-3.syntax
+f 644 root sys ${datadir}/emma_02/GPL-4.syntax ../GPL-4.syntax
+f 644 root sys ${datadir}/emma_02/GPL-A_RAM.syntax ../GPL-A_RAM.syntax
+f 644 root sys ${datadir}/emma_02/GPL-A_ROM.syntax ../GPL-A_ROM.syntax
+f 644 root sys ${datadir}/emma_02/ST2.syntax ../ST2.syntax
+f 644 root sys ${datadir}/emma_02/ST4.syntax ../ST4.syntax
+f 644 root sys ${datadir}/emma_02/STK-1.syntax ../STK-1.syntax
+f 644 root sys ${datadir}/emma_02/STK-2.syntax ../STK-2.syntax
+f 644 root sys ${datadir}/emma_02/Test_Word.syntax ../Test_Word.syntax
 f 644 root sys ${datadir}/emma_02/about.xrc ../about.xrc
 f 644 root sys ${datadir}/emma_02/cassette.xrc ../cassette.xrc
 f 644 root sys ${datadir}/emma_02/colour.xrc ../colour.xrc
@@ -38,6 +57,7 @@ f 644 root sys ${datadir}/emma_02/menuComx.xrc ../menuComx.xrc
 f 644 root sys ${datadir}/emma_02/menuCosmicos.xrc ../menuCosmicos.xrc
 f 644 root sys ${datadir}/emma_02/menuElf.xrc ../menuElf.xrc
 f 644 root sys ${datadir}/emma_02/menuElf2K.xrc ../menuElf2K.xrc
+f 644 root sys ${datadir}/emma_02/menuFred.xrc ../menuFred.xrc
 f 644 root sys ${datadir}/emma_02/menuMS2000.xrc ../menuMS2000.xrc
 f 644 root sys ${datadir}/emma_02/menuMcds.xrc ../menuMcds.xrc
 f 644 root sys ${datadir}/emma_02/menuMembership.xrc ../menuMembership.xrc
@@ -59,6 +79,6 @@ f 644 root sys ${datadir}/emma_02/data.tar data.tar
 f 644 root sys ${datadir}/emma_02/images ../images/*.*
 f 644 root sys ${datadir}/emma_02/images_linux ../images_linux/*.*
 f 644 root sys ${datadir}/emma_02/extract_files extract_files
-f 644 root sys ${datadir}/applications/emma02.desktop emma02.desktop
+f 644 root sys ${datadir}/applications/emma_02.desktop emma_02.desktop
 f 644 root sys ${datadir}/pixmaps/emma02.xpm emma02.xpm
 %postinstall <${datadir}/emma_02/extract_files

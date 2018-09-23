@@ -454,7 +454,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_MENU(XRCID("MI_ActivateMain"), Main::onActivateMainWindow)
 	EVT_MENU(XRCID("MI_FullScreen"), Main::onFullScreenMenu)
 	EVT_MENU(XRCID(GUIDEFAULT), Main::onDefaultSettings)
-	EVT_MENU(XRCID("CDP1801"), Main::on1801)
+    EVT_MENU(XRCID("SYSTEM00"), Main::onSystem00)
+    EVT_MENU(XRCID("CDP1801"), Main::on1801)
 	EVT_MENU(XRCID("CDP1802"), Main::on1802)
 	EVT_MENU(XRCID("CDP1804"), Main::on1804)
 	EVT_MENU(XRCID("CDP1805"), Main::on1805)
@@ -502,7 +503,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_GUI_MSG(SET_LOCATION, Main::setLocationEvent)
 	EVT_GUI_MSG(SET_SW_NAME, Main::setSwNameEvent)
 	EVT_GUI_MSG(SET_TAPE_STATE, Main::setTapeStateEvent)
-	EVT_GUI_MSG(SET_TEXT_VALUE, Main::setTextValueEvent)
+    EVT_GUI_MSG(SET_TEXT_VALUE, Main::setTextValueEvent)
+    EVT_GUI_MSG(SET_STATIC_TEXT_VALUE, Main::setStaticTextValueEvent)
 	EVT_GUI_MSG(SET_CHECK_BOX, Main::setCheckBoxEvent)
 	EVT_GUI_MSG(PRINT_DEFAULT, Main::printDefaultEvent)
 	EVT_GUI_MSG(PRINT_PARALLEL, Main::printParallelEvent)
@@ -516,7 +518,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_GUI_MSG(SHOW_ADDRESS_POPUP, Main::ShowAddressPopupEvent)
 	EVT_GUI_MSG(SHOW_FILE_SELECTOR, Main::showFileSelectorEvent)
 	EVT_GUI_MSG(SET_FM_GUI, Main::setFandMBasicGuiEvent)
-	EVT_GUI_MSG(SET_SAVE_START, Main::setSaveStartEvent) 
+	EVT_GUI_MSG(SET_SAVE_START, Main::setSaveStartEvent)
 	EVT_GUI_MSG(SET_SAVE_END, Main::setSaveEndEvent) 
 	EVT_GUI_MSG(ENABLE_MEM_ACCESS, Main::enableMemAccesEvent) 
 	EVT_GUI_MSG(SET_VIDEO_FULLSCREEN, Main::setVideoFullScreenEvent)
@@ -808,7 +810,7 @@ bool Emu1802::OnInit()
 {
 	if (!wxApp::OnInit())
         return false;
-
+    
 	wxSystemOptions::SetOption("msw.window.no-clip-children", 1);
     
     int ubuntuOffsetX;
@@ -1189,6 +1191,54 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 				return false;
 			break;
 
+            case 'F':
+                if (computer == "Fred1")
+                {
+                    startComputer_ = FRED1;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                    {
+                        mode_.load = true;
+                        getSoftware(computer, "Software_File", software);
+                    }
+                    if (parser.Found("r", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on FRED 1 emulator");
+                        return false;
+                    }
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on FRED 1 emulator");
+                        return false;
+                    }
+                    return true;
+                }
+            
+                if (computer == "Fred2")
+                {
+                    startComputer_ = FRED2;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                    {
+                        mode_.load = true;
+                        getSoftware(computer, "Software_File", software);
+                    }
+                    if (parser.Found("r", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on FRED 2 emulator");
+                        return false;
+                    }
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on FRED 2 emulator");
+                        return false;
+                    }
+                    return true;
+                }
+                wxMessageOutput::Get()->Printf("Incorrect computer name specified");
+                return false;
+            break;
+                
 			case 'M':
 				if (computer == "Membership")
 				{
@@ -1372,7 +1422,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 			break;
 
 			case 'S':
-				if (computer == "Studio")
+				if (computer == "Studio" || computer == "Studio2" || computer == "StudioII")
 				{
 					startComputer_ = STUDIO;
 					computer = "Studio2";
@@ -1388,6 +1438,37 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 					}
 					return true;
 				}
+                if (computer == "StudioIII" || computer == "Studio3")
+                {
+                    startComputer_ = VICTORY;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("r", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on RCA Studio III emulator");
+                        return false;
+                    }
+                    return true;
+                }
+                if (computer == "StudioIV" || computer == "Studio4")
+                {
+                    startComputer_ = STUDIOIV;
+                    computer = "StudioIV";
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("r", &software))
+                        getSoftware(computer, "St2_File", software);
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on RCA Studio IV emulator");
+                        return false;
+                    }
+                    return true;
+                }
 				wxMessageOutput::Get()->Printf("Incorrect computer name specified");
 				return false;
 			break;
@@ -1619,8 +1700,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetFont(defaultFont);
 
 		wxString text;
-		pcTextPointer = XRCCTRL(*this,"Chip8PC", wxTextCtrl);
-		iTextPointer = XRCCTRL(*this,"Chip8I", wxTextCtrl);
 		chip8TraceWindowPointer = XRCCTRL(*this,"Chip8TraceWindow", wxTextCtrl);
 		for (int i=0; i<16; i++)
 		{
@@ -1840,6 +1919,8 @@ void Main::writeConfig()
 		configPointer->Write("/Main/Selected_Telmac_Tab", XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->GetSelection());
 
+        if (menubarPointer->IsChecked(XRCID("SYSTEM00")))
+            configPointer->Write("/Main/Cpu_Type", "SYSTEM00");
         if (menubarPointer->IsChecked(XRCID("CDP1801")))
             configPointer->Write("/Main/Cpu_Type", "CDP1801");
         if (menubarPointer->IsChecked(XRCID("CDP1802")))
@@ -1931,7 +2012,10 @@ void Main::writeConfig()
 	configPointer->Write("/Main/Cassette_Input_Channel", psaveData_[4]);
 	configPointer->Write("/Main/Cassette_Playback_Input", psaveData_[5]);
 	configPointer->Write("/Main/Cassette_Reversed_Polarity", psaveData_[6]);
-	configPointer->Write("/Main/Cassette_Conversion_Type", psaveData_[7]);
+    configPointer->Write("/Main/Cassette_Conversion_Type", psaveData_[7]);
+    configPointer->Write("/Main/Cassette_Fred_Threshold_8", psaveData_[8]);
+    configPointer->Write("/Main/Cassette_Fred_Threshold_16", psaveData_[9]);
+    configPointer->Write("/Main/Cassette_Fred_Freq", psaveData_[10]);
 	configPointer->Write("/Main/Window_Positions_Fixed", mode_.window_position_fixed);
 
     writeDebugConfig();
@@ -1951,8 +2035,11 @@ void Main::writeConfig()
     writeMicrotutorDirConfig();
     writeStudioDirConfig();
     writeCoinArcadeDirConfig();
+    writeFred1DirConfig();
+    writeFred2DirConfig();
     writeVisicomDirConfig();
     writeVictoryDirConfig();
+    writeStudioIVDirConfig();
     writeCidelsaDirConfig();
     writeTelmacDirConfig();
     writeTMC2000DirConfig();
@@ -1976,8 +2063,11 @@ void Main::writeConfig()
     writeMicrotutorConfig();
     writeStudioConfig();
     writeCoinArcadeConfig();
+    writeFred1Config();
+    writeFred2Config();
 	writeVisicomConfig();
-	writeVictoryConfig();
+    writeVictoryConfig();
+    writeStudioIVConfig();
 	writeCidelsaConfig();
 	writeTelmacConfig();
 	writeTMC2000Config();
@@ -2001,8 +2091,11 @@ void Main::writeConfig()
     writeMicrotutorWindowConfig();
     writeStudioWindowConfig();
     writeCoinArcadeWindowConfig();
+    writeFred1WindowConfig();
+    writeFred2WindowConfig();
     writeVisicomWindowConfig();
     writeVictoryWindowConfig();
+    writeStudioIVWindowConfig();
     writeCidelsaWindowConfig();
     writeTelmacWindowConfig();
     writeTMC2000WindowConfig();
@@ -2154,6 +2247,14 @@ void Main::initConfig()
 	setScreenInfo(VELF, 0, 5, colour, 2, borderX, borderY);
 	setComputerInfo(VELF, "Velf", "VELF", "");
 
+    borderX[VIDEOPIXIE] = 33;
+
+    setScreenInfo(FRED1, 0, 2, colour, 2, borderX, borderY);
+    setComputerInfo(FRED1, "FRED1", "FRED 1", "");
+    
+    setScreenInfo(FRED2, 0, 2, colour, 2, borderX, borderY);
+    setComputerInfo(FRED2, "FRED2", "FRED 2", "");
+    
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
 
@@ -2236,6 +2337,26 @@ void Main::initConfig()
 	setScreenInfo(VICTORY, 0, 24, colour, 2, borderX, borderY);
 	setComputerInfo(VICTORY, "Victory", "Studio III / Victory MPT-02", "");
 
+    colour[0] = "#141414"; // Black
+    colour[1] = "#ff4040"; // Red
+    colour[2] = "#4040ff"; // Blue
+    colour[3] = "#ff40ff"; // Pink
+    colour[4] = "#40ff40"; // Green
+    colour[5] = "#ffff40"; // Yellow
+    colour[6] = "#40ffff"; // Cyan
+    colour[7] = "#ffffff"; // white
+    colour[8] = "#000000";
+    colour[9] = "#a00000";
+    colour[10] = "#0000a0";
+    colour[11] = "#a000a0";
+    colour[12] = "#00a000";
+    colour[13] = "#d0d000";
+    colour[14] = "#00d0d0";
+    colour[15] = "#fbfbfb";
+
+    setScreenInfo(STUDIOIV, 0, 16, colour, 2, borderX, borderY);
+    setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "");
+    
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)
 	wxFont defaultFont(11, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
@@ -2269,11 +2390,11 @@ void Main::initConfig()
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 256+60;
+	int clockTextCorrectionComxX = 256+60; 
 	int clockTextCorrectionComxY = 117;
-	int clockFloatCorrectionComxX = 220+60;
+	int clockFloatCorrectionComxX = 220+60; 
 	int clockFloatCorrectionComxY = 120;
-	int mhzTextCorrectionComxX = 171+60;
+	int mhzTextCorrectionComxX = 171+60; 
 	int mhzTextCorrectionComxY = 117;
     int stopCorrectionComxX = 143+60;
     int stopCorrectionComxY = 121;
@@ -2282,11 +2403,11 @@ void Main::initConfig()
 	int floatHeight = 21;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 255+60;
+	int clockTextCorrectionX = 255+60; 
 	int clockTextCorrectionY = 146;
-	int clockFloatCorrectionX = 217+60;
+	int clockFloatCorrectionX = 217+60; 
 	int clockFloatCorrectionY = 149;
-	int mhzTextCorrectionX = 170+60;
+	int mhzTextCorrectionX = 170+60; 
     int mhzTextCorrectionY = 146;
     int stopCorrectionX = 142+60;
     int stopCorrectionY = 150;
@@ -2336,7 +2457,7 @@ void Main::initConfig()
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionComxX, defaultGuiSize_.y - startCorrectionComxY), wxSize(80, startHeight));
                 break;
                     
-			default:
+                default:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionX, defaultGuiSize_.y - clockTextCorrectionY));
                     clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(45, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionX, defaultGuiSize_.y - mhzTextCorrectionY));
@@ -2391,8 +2512,11 @@ void Main::readConfig()
     readMicrotutorConfig();
     readStudioConfig();
     readCoinArcadeConfig();
+    readFred1Config();
+    readFred2Config();
 	readVisicomConfig();
-	readVictoryConfig();	
+    readVictoryConfig();
+    readStudioIVConfig();
 	readCidelsaConfig();
 	readTelmacConfig();
 	readTMC1800Config();
@@ -2416,8 +2540,11 @@ void Main::readConfig()
     readMicrotutorWindowConfig();
     readStudioWindowConfig();
     readCoinArcadeWindowConfig();
+    readFred1WindowConfig();
+    readFred2WindowConfig();
     readVisicomWindowConfig();
     readVictoryWindowConfig();
+    readStudioIVWindowConfig();
     readCidelsaWindowConfig();
     readTelmacWindowConfig();
     readTMC1800WindowConfig();
@@ -2482,8 +2609,10 @@ void Main::readConfig()
 		menubarPointer->SetFont(defaultFont);
 	}
     
-	if (cpuTypeString == "CDP1801")
-		cpuType_ = CPU1801;
+    if (cpuTypeString == "SYSTEM00")
+        cpuType_ = SYSTEM00;
+    if (cpuTypeString == "CDP1801")
+        cpuType_ = CPU1801;
 	if (cpuTypeString == "CDP1802")
 		cpuType_ = CPU1802;
 	if (cpuTypeString == "CDP1804")
@@ -2582,21 +2711,24 @@ void Main::readConfig()
 		if (windowInfo.operatingSystem != OS_WINDOWS_2000 )
 		{
 			XRCCTRL(*this, "PanelElf2K", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelCosmicos", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelCoinArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelElf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelElfII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelSuperElf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));            
+            XRCCTRL(*this, "PanelFRED2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMS2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCoinArcade", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelStudio2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelVisicom", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-			XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelVictory", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelStudioIV", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC600", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC1800", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
 			XRCCTRL(*this, "PanelTMC2000", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -2617,7 +2749,10 @@ void Main::readConfig()
 	psaveData_[4] = (int)configPointer->Read("/Main/Cassette_Input_Channel", 0l);
 	psaveData_[5] = (int)configPointer->Read("/Main/Cassette_Playback_Input", 0l);
 	psaveData_[6] = (int)configPointer->Read("/Main/Cassette_Reversed_Polarity", 0l);
-	psaveData_[7] = (int)configPointer->Read("/Main/Cassette_Conversion_Type", 1l);
+    psaveData_[7] = (int)configPointer->Read("/Main/Cassette_Conversion_Type", 1l);
+    psaveData_[8] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_8", 10l);
+    psaveData_[9] = (int)configPointer->Read("/Main/Cassette_Fred_Threshold_16", 500l);
+    psaveData_[10] = (int)configPointer->Read("/Main/Cassette_Fred_Freq", 58l);
 }
 
 void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
@@ -2679,7 +2814,7 @@ bool Main::checkUpdateEmma()
 	wxString version;
 	version.Printf("%1.2f", EMMA_VERSION);
 
-	latestVersion_ = downloadString("http://www.emma02.hobby-site.com/Emma_02_version.txt");
+	latestVersion_ = downloadString("https://www.emma02.hobby-site.com/Emma_02_version.txt");
 	
 	if (latestVersion_ == "")
 		return false;
@@ -2732,31 +2867,31 @@ bool Main::updateEmma()
 		if (linuxDistro.Id == "Ubuntu")
 		{
 			if (wxIsPlatform64Bit())
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=11"); // 64 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=11"); // 64 Bit
 			else
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=12"); // 32 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=12"); // 32 Bit
 		}
 		else
 		{
 			if (wxIsPlatform64Bit())
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=13"); // 64 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=13"); // 64 Bit
 			else
-				::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=14"); // 32 Bit
+				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=14"); // 32 Bit
 		}
 		return true;
 #elif defined(__WXMAC__)
-		::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=15"); 
+		::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
 		return true;
 #else
 		if (windowInfo.operatingSystem == OS_WINDOWS_XP || windowInfo.operatingSystem == OS_WINDOWS_2000)
 		{
-			::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=1");
+			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=1");
 			return true;
 		}
 		if (wxIsPlatform64Bit())
-			::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=17");
+			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17");
 		else
-			::wxLaunchDefaultBrowser("http://www.emma02.hobby-site.com/ccount/click.php?id=16");
+			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=16");
 		return true;
 #endif
 	}
@@ -3025,6 +3160,16 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeCoinArcadeConfig();
         break;
             
+        case FRED1:
+            writeFred1DirConfig();
+            writeFred1Config();
+        break;
+            
+        case FRED2:
+            writeFred2DirConfig();
+            writeFred2Config();
+        break;
+            
         case VISICOM:
             writeVisicomDirConfig();
             writeVisicomConfig();
@@ -3033,6 +3178,11 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
         case VICTORY:
             writeVictoryDirConfig();
             writeVictoryConfig();
+        break;
+            
+        case STUDIOIV:
+            writeStudioIVDirConfig();
+            writeStudioIVConfig();
         break;
             
         case VIP:
@@ -3226,12 +3376,24 @@ void Main::loadComputerConfig(wxString fileName)
             readCoinArcadeConfig();
         break;
             
+        case FRED1:
+            readFred1Config();
+        break;
+            
+        case FRED2:
+            readFred2Config();
+        break;
+            
         case VISICOM:
             readVisicomConfig();
         break;
             
         case VICTORY:
             readVictoryConfig();
+        break;
+            
+        case STUDIOIV:
+            readStudioIVConfig();
         break;
             
         case VIP:
@@ -3304,7 +3466,7 @@ void Main::onClose(wxCloseEvent&event)
 
 void Main::onAbout(wxCommandEvent&WXUNUSED(event))
 {
-	MyAboutDialog myAboutDialog(this);
+    MyAboutDialog myAboutDialog(this);
  	myAboutDialog.ShowModal();
 }
 
@@ -3631,9 +3793,15 @@ void Main::setDefaultSettings()
 	readConfig();
 }
 
+void Main::onSystem00(wxCommandEvent&WXUNUSED(event))
+{
+	cpuType_ = SYSTEM00;
+    defaultCpuType_ = SYSTEM00;
+}
+
 void Main::on1801(wxCommandEvent&WXUNUSED(event))
 {
-	cpuType_ = CPU1801;
+    cpuType_ = CPU1801;
     defaultCpuType_ = CPU1801;
 }
 
@@ -4070,7 +4238,7 @@ void Main::fullScreenMenu()
 
 void Main::popUp()
 {
-	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == VICTORY || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
+	if (runningComputer_ == STUDIO || runningComputer_ == COINARCADE || runningComputer_ == VICTORY || runningComputer_ == STUDIOIV || runningComputer_ == VISICOM || runningComputer_ == CIDELSA)
 		return;
 
 	if (popupDialog_ == NULL)
@@ -4170,6 +4338,16 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 		case COINARCADE:
 			p_CoinArcade->Move(conf[COINARCADE].mainX_, conf[COINARCADE].mainY_);
 		break;
+            
+        case FRED1:
+            p_Fred->moveWindows();
+            p_Fred->Move(conf[FRED1].mainX_, conf[FRED1].mainY_);
+        break;
+
+        case FRED2:
+            p_Fred->moveWindows();
+            p_Fred->Move(conf[FRED2].mainX_, conf[FRED2].mainY_);
+        break;
 
         case STUDIO:
             p_Studio2->Move(conf[STUDIO].mainX_, conf[STUDIO].mainY_);
@@ -4183,6 +4361,10 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Victory->Move(conf[VICTORY].mainX_, conf[VICTORY].mainY_);
 		break;
 
+        case STUDIOIV:
+            p_StudioIV->Move(conf[STUDIOIV].mainX_, conf[STUDIOIV].mainY_);
+        break;
+            
 		case VIP:
 			p_Vip->moveWindows();
 			p_Vip->Move(conf[VIP].mainX_, conf[VIP].mainY_);
@@ -4285,10 +4467,16 @@ void Main::nonFixedWindowPosition()
     conf[STUDIO].mainY_ = -1;
     conf[COINARCADE].mainX_ = -1;
     conf[COINARCADE].mainY_ = -1;
+    conf[FRED1].mainX_ = -1;
+    conf[FRED1].mainY_ = -1;
+    conf[FRED2].mainX_ = -1;
+    conf[FRED2].mainY_ = -1;
 	conf[VISICOM].mainX_ = -1;
 	conf[VISICOM].mainY_ = -1;
-	conf[VICTORY].mainX_ = -1;
-	conf[VICTORY].mainY_ = -1;
+    conf[VICTORY].mainX_ = -1;
+    conf[VICTORY].mainY_ = -1;
+    conf[STUDIOIV].mainX_ = -1;
+    conf[STUDIOIV].mainY_ = -1;
 	conf[MEMBER].mainX_ = -1;
 	conf[MEMBER].mainY_ = -1;
 	conf[MICROTUTOR].mainX_ = -1;
@@ -4323,6 +4511,10 @@ void Main::nonFixedWindowPosition()
     conf[VELF].pixieY_ = -1;
     conf[VELF].vtX_ = -1;
     conf[VELF].vtY_ = -1;
+    conf[FRED1].pixieX_ = -1;
+    conf[FRED1].pixieY_ = -1;
+    conf[FRED2].pixieX_ = -1;
+    conf[FRED2].pixieY_ = -1;
 	conf[MS2000].vtX_ = -1;
 	conf[MS2000].vtY_ = -1;
 	conf[MCDS].vtX_ = -1;
@@ -4367,10 +4559,16 @@ void Main::fixedWindowPosition()
 	conf[STUDIO].mainY_ = mainWindowY_;
     conf[COINARCADE].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[COINARCADE].mainY_ = mainWindowY_;
+    conf[FRED1].mainX_ = mainWindowX_;
+    conf[FRED1].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[FRED2].mainX_ = mainWindowX_;
+    conf[FRED2].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[VISICOM].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VISICOM].mainY_ = mainWindowY_;
 	conf[VICTORY].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VICTORY].mainY_ = mainWindowY_;
+    conf[STUDIOIV].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[STUDIOIV].mainY_ = mainWindowY_;
 	conf[MEMBER].mainX_ = mainWindowX_;
 	conf[MEMBER].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
 	conf[MICROTUTOR].mainX_ = mainWindowX_;
@@ -4405,6 +4603,10 @@ void Main::fixedWindowPosition()
     conf[VELF].pixieY_ = mainWindowY_;
 	conf[VELF].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
+    conf[FRED1].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[FRED1].pixieY_ = mainWindowY_;
+    conf[FRED2].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[FRED2].pixieY_ = mainWindowY_;
 	conf[MS2000].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[MS2000].vtY_ = mainWindowY_;
 	conf[MCDS].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
@@ -4434,6 +4636,7 @@ void Main::onStart(int computer)
 	int comxy;
 	int stereo = 1;
 	int toneChannels = 1;
+    int x, y;
 
 	updateAssPage_ = true;
 	updateMemoryPage_ = true;
@@ -4461,6 +4664,7 @@ void Main::onStart(int computer)
 	if (!fullScreenFloat_)
 		zoom = (int) zoom;
 
+    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
 	switch (runningComputer_)
 	{
 		case COMX:
@@ -4475,7 +4679,17 @@ void Main::onStart(int computer)
 		break;
 
 		case MEMBER:
-			p_Membership = new Membership(computerInfo[MEMBER].name, wxPoint(conf[MEMBER].mainX_, conf[MEMBER].mainY_), wxSize(483, 297), conf[MEMBER].clockSpeed_, elfConfiguration[MEMBER]);
+            switch (elfConfiguration[MEMBER].frontType)
+            {
+                case FRONT_TYPE_C:
+                case FRONT_TYPE_I:
+                    x = 480; y = 299;
+                break;
+                default:
+                    x = 483; y = 297;
+                break;
+            }
+			p_Membership = new Membership(computerInfo[MEMBER].name, wxPoint(conf[MEMBER].mainX_, conf[MEMBER].mainY_), wxSize(x, y), conf[MEMBER].clockSpeed_, elfConfiguration[MEMBER]);
 			p_Computer = p_Membership;
 		break;
 
@@ -4531,6 +4745,16 @@ void Main::onStart(int computer)
             p_Computer = p_CoinArcade;
         break;
             
+        case FRED1:
+            p_Fred = new Fred(computerInfo[FRED1].name, wxPoint(conf[FRED1].mainX_, conf[FRED1].mainY_), wxSize(310,180), conf[FRED1].clockSpeed_, elfConfiguration[FRED1], FRED1);
+            p_Computer = p_Fred;
+        break;
+            
+        case FRED2:
+            p_Fred = new Fred(computerInfo[FRED2].name, wxPoint(conf[FRED2].mainX_, conf[FRED2].mainY_), wxSize(310,180), conf[FRED2].clockSpeed_, elfConfiguration[FRED2], FRED2);
+            p_Computer = p_Fred;
+        break;
+            
 		case VISICOM:
 			p_Visicom = new Visicom(computerInfo[VISICOM].name, wxPoint(conf[VISICOM].mainX_, conf[VISICOM].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VISICOM);
 			p_Video = p_Visicom;
@@ -4543,6 +4767,12 @@ void Main::onStart(int computer)
 			p_Computer = p_Victory;
 		break;
 
+        case STUDIOIV:
+            p_StudioIV = new StudioIV(computerInfo[STUDIOIV].name, wxPoint(conf[STUDIOIV].mainX_, conf[STUDIOIV].mainY_), wxSize(64*zoom*xScale, 192*zoom), zoom, xScale, STUDIOIV);
+            p_Video = p_StudioIV;
+            p_Computer = p_StudioIV;
+        break;
+            
 		case VIP:
 			p_Vip = new Vip(computerInfo[VIP].name, wxPoint(conf[VIP].mainX_, conf[VIP].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, VIP, conf[VIP].clockSpeed_, conf[VIP].tempo_, elfConfiguration[VIP]);
 			p_Video = p_Vip;
@@ -4609,7 +4839,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 9 || runningComputer_ == VIPII)
+    if (runningComputer_ < 9 || runningComputer_ ==VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED2)
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
@@ -4689,7 +4919,9 @@ void Main::stopComputer()
 				enableMemAccessGui(false);
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
-			case VIP:
+            case FRED1:
+            case FRED2:
+            case VIP:
 			case VIPII:
             case VELF:
 			case COSMICOS:
@@ -4789,6 +5021,14 @@ void Main::onComputer(wxNotebookEvent&event)
 					rcaChoice_ = MICROTUTOR;
 				break;
 
+                case FRED1TAB:
+                    rcaChoice_ = FRED1;
+                break;
+                    
+                case FRED2TAB:
+                    rcaChoice_ = FRED2;
+                break;
+                    
 				case VIPTAB:
 					rcaChoice_ = VIP;
 				break;
@@ -4819,14 +5059,18 @@ void Main::onComputer(wxNotebookEvent&event)
                     studioChoice_ = STUDIO;
                 break;
                     
-				case VISICOMTAB:
-					studioChoice_ = VISICOM;
-				break;
-
 				case VICTORYTAB:
 					studioChoice_ = VICTORY;
 				break;
 
+                case STUDIOIVTAB:
+                    studioChoice_ = STUDIOIV;
+                break;
+                    
+                case VISICOMTAB:
+                    studioChoice_ = VISICOM;
+                break;
+                    
 				default:
 					studioChoice_ = STUDIO;
 				break;
@@ -4924,14 +5168,18 @@ void Main::onStudioChoiceBook(wxChoicebookEvent&event)
             studioChoice_ = STUDIO;
         break;
             
-		case VISICOMTAB:
-			studioChoice_ = VISICOM;
-		break;
-
 		case VICTORYTAB:
 			studioChoice_ = VICTORY;
 		break;
-	}
+
+        case STUDIOIVTAB:
+            studioChoice_ = STUDIOIV;
+        break;
+
+        case VISICOMTAB:
+            studioChoice_ = VISICOM;
+        break;
+    }
 	selectedComputer_ = studioChoice_;
     setConfigurationMenu();
 }
@@ -5018,24 +5266,32 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
 
 	switch (event.GetSelection())
 	{
-	case MICROTUTORTAB:
-		rcaChoice_ = MICROTUTOR;
+        case MICROTUTORTAB:
+            rcaChoice_ = MICROTUTOR;
 		break;
 
-	case VIPTAB:
-		rcaChoice_ = VIP;
+        case FRED1TAB:
+            rcaChoice_ = FRED1;
+        break;
+            
+        case FRED2TAB:
+            rcaChoice_ = FRED2;
+        break;
+            
+        case VIPTAB:
+            rcaChoice_ = VIP;
+        break;
+
+        case VIPIITAB:
+            rcaChoice_ = VIPII;
 		break;
 
-	case VIPIITAB:
-		rcaChoice_ = VIPII;
+        case MCDSTAB:
+            rcaChoice_ = MCDS;
 		break;
 
-	case MCDSTAB:
-		rcaChoice_ = MCDS;
-		break;
-
-	case MS2000TAB:
-		rcaChoice_ = MS2000;
+        case MS2000TAB:
+            rcaChoice_ = MS2000;
 		break;
 	}
 	selectedComputer_ = rcaChoice_;
@@ -5056,6 +5312,8 @@ void Main::onDebuggerChoiceBook(wxChoicebookEvent&event)
 
 		case CHIP8TAB:
 			debuggerChoice_ = CHIP8TAB;
+            if (computerRunning_ && pseudoLoaded_)
+                updateChip8Window();
 		break;
 
 		case MEMORYTAB:
@@ -5145,6 +5403,16 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTORTAB);
 		break;
 
+        case FRED1:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(FRED1);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED1TAB);
+        break;
+            
+        case FRED2:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(FRED2);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED2TAB);
+        break;
+            
 		case VIP:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(VIPTAB);
@@ -5185,6 +5453,11 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(VICTORYTAB);
 		break;
 
+        case STUDIOIV:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(STUDIOTAB);
+            XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(STUDIOIVTAB);
+        break;
+            
 		case CIDELSA:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(CIDELSATAB);
 		break;
@@ -5219,6 +5492,36 @@ void Main::setNoteBook()
 	}
 }
 
+void Main::enableColorbutton(bool status)
+{
+    XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status | (runningComputer_ == COMX));
+    XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status | (runningComputer_ == ELF2K));
+    XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status | (runningComputer_ == COSMICOS));
+    XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status | (runningComputer_ == ELF));
+    XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status | (runningComputer_ == ELFII));
+    XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
+    XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
+    XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
+    XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status | (runningComputer_ == VIP));
+    XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status | (runningComputer_ == VIPII));
+    XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status | (runningComputer_ == MCDS));
+    XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status | (runningComputer_ == MS2000));
+    XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
+    XRCCTRL(*this,"ColoursFRED1", wxButton)->Enable(status | (runningComputer_ == FRED1));
+    XRCCTRL(*this,"ColoursFRED2", wxButton)->Enable(status | (runningComputer_ == FRED2));
+    XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status | (runningComputer_ == STUDIO));
+    XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status | (runningComputer_ == VICTORY));
+    XRCCTRL(*this,"ColoursStudioIV", wxButton)->Enable(status | (runningComputer_ == STUDIOIV));
+    XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status | (runningComputer_ == VISICOM));
+    XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status | (runningComputer_ == CIDELSA));
+    XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status | (runningComputer_ == TMC600));
+    XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status | (runningComputer_ == TMC1800));
+    XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status | (runningComputer_ == TMC2000));
+    XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status | (runningComputer_ == NANO));
+    XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status | (runningComputer_ == PECOM));
+    XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status | (runningComputer_ == ETI));
+}
+
 void Main::enableGui(bool status)
 {
 	if (!mode_.gui)
@@ -5246,33 +5549,12 @@ void Main::enableGui(bool status)
     menubarPointer->Enable(XRCID("KeyboardUs"), status);
     menubarPointer->Enable(XRCID("KeyboardUserDefined"), status);
 
+    enableColorbutton(status);
 	if (runningComputer_ == COMX)
 	{
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false); 
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"EpromComx", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomComx", wxComboBox)->Enable(status&!conf[COMX].sbActive_);
 		XRCCTRL(*this,"RomButtonComx", wxButton)->Enable(status&!conf[COMX].sbActive_);
@@ -5307,28 +5589,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomCidelsa", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonCidelsa", wxButton)->Enable(status);
 		XRCCTRL(*this,"ScreenDumpF5Cidelsa", wxButton)->Enable(!status);
@@ -5339,26 +5599,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"PrintButtonTMC600", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5TMC600", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3TMC600", wxButton)->Enable(!status);
@@ -5391,27 +5631,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"PrintButtonPecom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Pecom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3Pecom", wxButton)->Enable(!status);
@@ -5420,31 +5639,33 @@ void Main::enableGui(bool status)
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
+    if (runningComputer_ == FRED1)
+    {
+        enableChip8DebugGui(!status);
+        XRCCTRL(*this,"RamSWFRED1", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonFRED1", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3FRED1", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5FRED1", wxButton)->Enable(!status);
+        XRCCTRL(*this,"RamFRED1", wxChoice)->Enable(status);
+		XRCCTRL(*this,"RamTextFRED1", wxStaticText)->Enable(status);
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
+    }
+    if (runningComputer_ == FRED2)
+    {
+        enableChip8DebugGui(!status);
+        XRCCTRL(*this,"RamSWFRED2", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonFRED2", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3FRED2", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5FRED2", wxButton)->Enable(!status);
+        XRCCTRL(*this,"RamFRED2", wxChoice)->Enable(status);
+		XRCCTRL(*this,"RamTextFRED2", wxStaticText)->Enable(status);
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
+    }
 	if (runningComputer_ == VIP)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"HighResVip", wxCheckBox)->Enable(status);
 		XRCCTRL(*this,"MainRomVip", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVip", wxButton)->Enable(status);
@@ -5498,28 +5719,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == VIPII)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomVipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"MainRom2VipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVipII", wxButton)->Enable(status);
@@ -5537,28 +5736,6 @@ void Main::enableGui(bool status)
     if (runningComputer_ == VELF)
     {
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
         XRCCTRL(*this,"MainRomVelf", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonVelf", wxButton)->Enable(status);
         XRCCTRL(*this,"RamSWVelf", wxComboBox)->Enable(status);
@@ -5600,28 +5777,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == STUDIO)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomStudio2", wxComboBox)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"RomButtonStudio2", wxButton)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"CartRomStudio2", wxComboBox)->Enable(status);
@@ -5633,63 +5788,20 @@ void Main::enableGui(bool status)
     if (runningComputer_ == COINARCADE)
     {
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
-        XRCCTRL(*this,"MainRomCoinArcade", wxComboBox)->Enable(status&(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_));
-        XRCCTRL(*this,"RomButtonCoinArcade", wxButton)->Enable(status&(!conf[COINARCADE].disableSystemRom_ | !conf[COINARCADE].multiCart_));
+        XRCCTRL(*this,"MainRomCoinArcade", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButtonCoinArcade", wxButton)->Enable(status);
         XRCCTRL(*this,"FullScreenF3CoinArcade", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5CoinArcade", wxButton)->Enable(!status);
     }
 	if (runningComputer_ == VISICOM)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomVisicom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"CartRomVisicom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"CartRomButtonVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"FullScreenF3Visicom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Visicom", wxButton)->Enable(!status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 	}
 	if (runningComputer_ == VICTORY)
 	{
@@ -5701,28 +5813,19 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"FullScreenF3Victory", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5Victory", wxButton)->Enable(!status);
         XRCCTRL(*this,"MultiCartVictory", wxCheckBox)->Enable(status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
+        XRCCTRL(*this,"VidModeStudioIV", wxChoice)->Enable(status);
 	}
+    if (runningComputer_ == STUDIOIV)
+    {
+        enableChip8DebugGui(!status);
+        XRCCTRL(*this,"MainRomStudioIV", wxComboBox)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
+        XRCCTRL(*this,"RomButtonStudioIV", wxButton)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
+        XRCCTRL(*this,"CartRomStudioIV", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"CartRomButtonStudioIV", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3StudioIV", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5StudioIV", wxButton)->Enable(!status);
+        XRCCTRL(*this,"VidModeStudioIV", wxChoice)->Enable(status);
+    }
 	if (runningComputer_ == TMC2000)
 	{
 		enableChip8DebugGui(!status);
@@ -5737,56 +5840,12 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"RamTMC2000", wxChoice)->Enable(status);
 		XRCCTRL(*this,"RamTextTMC2000", wxStaticText)->Enable(status);
 		XRCCTRL(*this,"ScreenDumpF5TMC2000", wxButton)->Enable(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
 	if (runningComputer_ == TMC1800)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomTMC1800", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWTMC1800", wxComboBox)->Enable(status);
@@ -5804,28 +5863,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == ETI)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomEti", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonEti", wxButton)->Enable(status);
 		XRCCTRL(*this,"Chip8SWEti", wxTextCtrl)->Enable(status);
@@ -5841,28 +5878,6 @@ void Main::enableGui(bool status)
 	if (runningComputer_ == NANO)
 	{
 		enableChip8DebugGui(!status);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomNano", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonNano", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWNano", wxComboBox)->Enable(status);
@@ -5883,26 +5898,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		wxString elfTypeStr;
 		switch (runningComputer_)
 		{
@@ -6001,6 +5996,9 @@ void Main::enableGui(bool status)
             XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
 		XRCCTRL(*this,"CharRom"+elfTypeStr, wxComboBox)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
+        
+        XRCCTRL(*this,"TilType"+elfTypeStr,wxChoice)->Enable(status);
+        XRCCTRL(*this,"TilText"+elfTypeStr,wxStaticText)->Enable(status);
 		enableMemAccessGui(!status);
 	}
 	if (runningComputer_ == ELF2K)
@@ -6008,28 +6006,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomElf2K", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonElf2K", wxButton)->Enable(status);
 		XRCCTRL(*this,"IDE_ButtonElf2K", wxButton)->Enable(status);
@@ -6071,28 +6047,6 @@ void Main::enableGui(bool status)
     {
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
         XRCCTRL(*this,"MainRomMS2000", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonMS2000", wxButton)->Enable(status);
         enableMemAccessGui(!status);
@@ -6119,28 +6073,6 @@ void Main::enableGui(bool status)
 	{
 		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVipII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVelf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursCosmicos", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->Enable(status);
         XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->Enable(status);
         XRCCTRL(*this, "MainRom3MCDS", wxComboBox)->Enable(status);
@@ -6172,28 +6104,6 @@ void Main::enableGui(bool status)
         chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomCosmicos", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamCosmicos", wxSpinCtrl)->Enable(status);
@@ -6228,28 +6138,6 @@ void Main::enableGui(bool status)
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status);
-        XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursCosmicos", wxButton)->Enable(status);
 		XRCCTRL(*this,"MainRomMembership", wxComboBox)->Enable(status);
 		if (conf[MEMBER].ramType_ == 5 || conf[MEMBER].ramType_ == 6)
 			XRCCTRL(*this, "RomMembership", wxButton)->Enable(false);
@@ -6258,7 +6146,8 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"RomButtonMembership", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamMembership", wxChoice)->Enable(status);
 		XRCCTRL(*this, "RamTextMembership", wxStaticText)->Enable(status);
-		XRCCTRL(*this, "IoMembership", wxChoice)->Enable(status);
+        XRCCTRL(*this, "IoMembership", wxChoice)->Enable(status);
+        XRCCTRL(*this, "FrontMembership", wxChoice)->Enable(status);
 		XRCCTRL(*this, "IoTextMembership", wxStaticText)->Enable(status);
 		enableLoadGui(!status);
 		enableMemAccessGui(!status);
@@ -6283,47 +6172,11 @@ void Main::enableGui(bool status)
 	{
 		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursComx", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVip", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVipII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVelf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMS2000", wxButton)->Enable(status);
-		XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElfII", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursElf2K", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursSuperElf", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursStudio2", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVisicom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursVictory", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursCidelsa", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC600", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC1800", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursTMC2000", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursNano", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursPecom", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursEti", wxButton)->Enable(status);
-		XRCCTRL(*this, "ColoursMembership", wxButton)->Enable(status);
 		XRCCTRL(*this, "MainRomMicrotutor", wxComboBox)->Enable(status);
 		XRCCTRL(*this, "RomButtonMicrotutor", wxButton)->Enable(status);
 		enableMemAccessGui(!status);
 	}
 	enableDebugGui(!status);
-
-/*	if (status == true)
-	{
-		XRCCTRL(*this,"AssProgramSlot",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssProgramStart",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssCodeEnd",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssProgramEnd",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssRangeNumber",wxStaticText)->SetLabel("0:");
-		XRCCTRL(*this,"AssFileName",wxTextCtrl)->ChangeValue("");
-		XRCCTRL(*this,"AssStore",wxButton)->Enable(false);
-		XRCCTRL(*this, "AssStore", wxButton)->SetForegroundColour(*wxBLACK);
-	}*/
-
-//	assNew(0);
 
 	if (status)
 	{
@@ -6498,7 +6351,9 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	switch (runningComputer_)
 	{
-		case COSMICOS: 
+        case FRED1:
+        case FRED2:
+		case COSMICOS:
 		case ELF: 
 		case ELFII:
 		case SUPERELF:
@@ -6952,6 +6807,28 @@ void Main::eventSetTextValue(wxString info, wxString value)
 	GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::setStaticTextValueEvent(guiEvent&event)
+{
+    wxString info = event.GetString();
+    wxString value = event.GetStringValue2();
+    
+    XRCCTRL(*this, info, wxStaticText)->SetLabel(value);
+}
+
+void Main::eventSetStaticTextValue(wxString info, wxString value)
+{
+    if (!mode_.gui)
+        return;
+    
+    guiEvent event(GUI_MSG, SET_STATIC_TEXT_VALUE);
+    event.SetEventObject( p_Main );
+    
+    event.SetString(info);
+    event.SetStringValue2(value);
+    
+    GetEventHandler()->AddPendingEvent(event);
+}
+
 void Main::setCheckBoxEvent(guiEvent&event)
 {
     wxString info = event.GetString();
@@ -7319,15 +7196,19 @@ void Main::updateDebugMemory(Word address)
 	}
 }
 
-void Main::showChip8Register(int variable, int value)
+void Main::showChip8Register(int variable, int value, bool chip8register12bit)
 {
 	wxString idReference;
 	idReference.Printf("V%01X", variable);
 
 	wxString valueStr;
-	valueStr.Printf("%02X", value);
+    if (chip8register12bit)
+        valueStr.Printf("%03X", value&0xfff);
+    else
+        valueStr.Printf("%02X", value);
 
-	XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue(valueStr);
+    eventSetTextValue(idReference, valueStr);
+//	XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue(valueStr);
 }
 
 void Main::setFandMBasicGuiEvent(guiEvent&WXUNUSED(event))
@@ -7823,7 +7704,8 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
     {
         case STUDIO:
         case COINARCADE:
-		case VICTORY:
+        case VICTORY:
+        case STUDIOIV:
 			keysFound = loadKeyDefinition("", "studiodefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
         break;
             
@@ -7846,6 +7728,11 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
+        case FRED1:
+        case FRED2:
+            keysFound = loadKeyDefinition("", "freddefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        break;
+
         case VIPII:
         case VELF:
             keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
@@ -7863,6 +7750,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case STUDIO:
             case COINARCADE:
             case VICTORY:
+            case STUDIOIV:
             case VISICOM:
                 if (player == "A")
                 {
@@ -7886,6 +7774,8 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
                 }
             break;
             
+            case FRED1:
+            case FRED2:
             case VIP:
             case ELF:
             case ELFII:

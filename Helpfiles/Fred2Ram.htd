@@ -1,0 +1,18 @@
+<HTML>
+<Title>RAM Files and Size</Title>
+<BODY>
+<h2>RAM Files and Size</h2>
+<p>
+The FRED 2 emulator can be started with a specific RAM file loaded, specified in the 'RAM' field. Default FRED 2 RAM location is the FRED 2 directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'RAM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+Note that RAM files in binary format, normally using extension .bin, will be loaded at address 0. Intel hex and RCS Elf emulator hex format include storage locations and as such will be loaded in the specified address location.
+</p>
+<p>
+Additional RAM files can be loaded after starting the emulator by using the 'LOAD' button.
+</p>
+<p>
+To specify the onboard RAM size of the emulated FRED 2 (between 1 and 32 Kb) use the 'RAM' spin button.
+</p>
+</BODY>
+</HTML>

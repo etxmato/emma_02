@@ -1,0 +1,173 @@
+
+<html>
+<title>FPA-1 Syntax</title>
+<body>
+<h2>FPA-1 Syntax</h2>
+<h3>Information</h3>
+<p>
+Pseudo command syntax described here is the FPA-1 variant which we found in the Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials. So far I have not found any copy of the FPA-1 source or any SW using it. 
+</p>
+<p>
+FPA-1 programs code should be located between address 200-2FF, 300-3FF is available for TV patterns or additional FPA-1 code. The TV pattern table is located at 00F0-00FF and can be changed as needed. 15 FPA-1 variable V0-VE are available, V0 is used for carry flag and V1 for keyboard input byte.
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">l</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">z</TD>
+<TD WIDTH="400">Register number Vz (y = 0 to F)</TD>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">5xyz</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xyx</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa. The subroutine must end in E0 (which is the 'FPA-1' equivalent of RETURN). Note only 1 level call is allowed</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Daaa</TD>
+<TD WIDTH="40">DELAY</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Wait aaa/60 seconds</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bxkk</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Draw pattern in Vx (00-0F) on screen position kk. Pattern number selects one of sixteen 7-byte patterns from a table. 7-byte pattern is drawn on screen position kk.
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxkk</TD>
+<TD WIDTH="40">DRW2</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Draw 8-byte pattern starting in page 3 address Vx on screen position kk. 
+</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">JZ</TD>
+<TD WIDTH="100">V0, aaa</TD>
+<TD WIDTH="250">Jump to aaa if V0 = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">JNZ</TD>
+<TD WIDTH="100">V0, aaa</TD>
+<TD WIDTH="250">Jump to aaa if V0 != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3aaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4aaa</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Input byte into V1 if ready, otherwise jump to 0aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy.</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, Vy, Vx</TD>
+<TD WIDTH="250">Store BCD value of Vx in Vy, Vy+1 and Vy+2, Vy will point to last byte of the converted number</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx+Vy</TD>
+<TD WIDTH="250">Same as ADD: Vz = Vx + Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Same as SUB: Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">E0</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from CALL by restoring R9 to PC (R5)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xln</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx, l, n</TD>
+<TD WIDTH="250">Vx = random number between (or equal to) l and n, l and n are 4 bit max.</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyz</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vz, Vx-Vy</TD>
+<TD WIDTH="250">Vz = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xyx</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, V0 = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">An</TD>
+<TD WIDTH="40">VIDEO</TD>
+<TD WIDTH="100">ON</TD>
+<TD WIDTH="250">Video display enabled & clear display, resolution 32x32 if n=4, 16x64 if n=8</TD>
+</TR>
+</TABLE>
+</body>
+</html>
+
+

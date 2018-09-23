@@ -1106,6 +1106,7 @@ void Cosmicos::cpuInstruction()
 		if (cpuMode_ == LOAD)
 		{
 			showData(readMem(address_));
+            ledCycleValue_ = 1;
 //			threadPointer->Sleep(1);
 		}
 	}

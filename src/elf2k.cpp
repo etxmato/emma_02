@@ -275,6 +275,11 @@ void Elf2K::checkHexKey(int keycode)
 
 void Elf2K::onHexKeyDown(int hexkey)
 {
+#if defined (__WXMAC__)
+    if (ef3State_ == 0) // This is to avoid multiple key presses on OSX
+        return;
+#endif
+    
 	ef3State_ = 0;
 	switches_ = ((switches_ << 4) & 0xf0) | hexkey;
 }
@@ -948,6 +953,7 @@ void Elf2K::cpuInstruction()
 		if (cpuMode_ == LOAD)
 		{
 			showData(readMem(address_));
+            ledCycleValue_ = 1;
 			threadPointer->Sleep(1);
 		}
 	}

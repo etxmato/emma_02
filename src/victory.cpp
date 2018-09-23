@@ -45,10 +45,6 @@ Victory::~Victory()
 
 void Victory::configureComputer()
 {
-	chip8baseVar_ = 0x8c0;
-	chip8mainLoop_ = 0x6b;
-	chip8type_ = CHIPST2;
-
 	outType_[2] = STUDIOOUT;
 	outType_[4] = VIPOUT4;
 	victoryKeyPort_ = 0;
@@ -58,7 +54,7 @@ void Victory::configureComputer()
 	for (int j=0; j<2; j++) for (int i=0; i<10; i++)
 		victoryKeyState_[j][i] = 0;
 
-	p_Main->message("Configuring Victory MPT-02");
+	p_Main->message("Configuring Studio III / Victory MPT-02");
 	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
 
 	p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
@@ -451,12 +447,11 @@ void Victory::startComputer()
         else
             multiCart_ = false;
     }
+
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     
-    if (readMem(0) == 0x90)
+    if (pseudoType_ == "ST2")
 	{
-		chip8baseVar_ = 0x8c0;
-		chip8mainLoop_ = 0x6b;
-		chip8type_ = CHIPST2;
         if (!multiCart_)
         {
             readSt2Program(VICTORY);
@@ -470,9 +465,6 @@ void Victory::startComputer()
     }
 	else
 	{
-		chip8baseVar_ = 0x8f0;
-		chip8mainLoop_ = 0x1c;
-		chip8type_ = CHIP8;
 		if (!multiCart_)
 			readProgram(p_Main->getRomDir(VICTORY, CARTROM), p_Main->getRomFile(VICTORY, CARTROM), ROM, 0x300, NONAME);
 	}
@@ -684,7 +676,7 @@ Byte Victory::readMem(Word addr)
 		break;
 
         case CARTRIDGEROM:
-            addr = (addr & 0x3ff) | 0x400;
+  //          addr = (addr & 0x3ff) | 0x400;
         break;
             
         case TESTCARTRIDGEROM:
@@ -835,7 +827,8 @@ void Victory::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleSt2Debug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

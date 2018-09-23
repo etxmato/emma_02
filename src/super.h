@@ -14,7 +14,7 @@
 class SuperScreen : public Panel
 {
 public:
-	SuperScreen(wxWindow *parent, const wxSize& size);
+	SuperScreen(wxWindow *parent, const wxSize& size, int tilType);
 	~SuperScreen();
 
 	void init();

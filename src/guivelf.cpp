@@ -338,11 +338,6 @@ void GuiVelf::onRamSWVelf(wxCommandEvent&event)
 	onRamSW(event);
 }
 
-void GuiVelf::onRamSWText(wxCommandEvent& WXUNUSED(event))
-{
-	conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSWVelf", wxComboBox)->GetValue();
-}
-
 void GuiVelf::onLatch(wxCommandEvent&event)
 {
 	latch_ = event.IsChecked();

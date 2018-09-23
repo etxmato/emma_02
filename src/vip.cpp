@@ -115,7 +115,8 @@ void Vip::configureComputer()
         else
             vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
 		p_Vt100 = vtPointer;
-		vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
+        
+        vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(true);
 	}
 
@@ -616,21 +617,22 @@ void Vip::startComputer()
 
 	ramMask_ |= 0xfff;
 	readProgram(p_Main->getRamDir(VIP), p_Main->getRamFile(VIP), NOCHANGE, 0, SHOWNAME);
-	if (mainMemory_[0x100] ==  0 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
-	{
-		chip8type_ = CHIP8;
+    
+    addressLatch_ = 0;
+
+    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+
+    if (pseudoType_ == "CHIP8")
 		readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
-	}
 	else
 	{
-		if (mainMemory_[0x100] ==  0x33 && mainMemory_[0x1b] == 0x96 && mainMemory_[0x1c] == 0xb7)
-		{
-			chip8type_ = CHIP8X;
+        if (pseudoType_ == "CHIP8X")
 			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x300, SHOWNAME);
-		}
 		else
 			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
 	}
+
+    addressLatch_ = setLatch_;
 
 	double zoom = p_Main->getZoom();
 
@@ -890,7 +892,8 @@ void Vip::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleChip8Debug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{

@@ -1,0 +1,133 @@
+<html>
+<title>CARDTRAN Syntax</title>
+<body>
+<h2>CARDTRAN Syntax</h2>
+<h3>CARDTRAN Interpreter</h3>
+<p>
+Pseudo CARDTRAN command syntax described here is likely the first ever pseudo language developed for an 1802 like system. It runs on a FRED1 which uses the SYSTEM 00 prototype CPU which is a simplified 1801.
+</p>
+<p>
+TV Display is divided in 3 areas, TV(0) and TV(1) which can be used by the CARDTRAN program and TV(2) which is used by the interpreter:
+</p>
+<PRE>
+TV(0)  TV(1)
+TV(2)
+</PRE>
+<h3>CONTROL codes</h3>
+<dl>
+<dt>F0</dt><dd>Load program mode @ M[200]. Cardtran interpreter will wait for for a 4 digit word which will be stored at location M[200] next word at M[202] etc. TV(2) position will show the 4 digiti instruction after 4 digits are received.</dd>
+<dt>F1</dt><dd>Execute CARDTRAN program at M[200]</dd>
+<dt>F2</dt><dd>Input aa, DDDD after which DDDD is stored at M[2aa]</dd>
+<dt>F3</dt><dd>Show value of DR on TV(2) display position</dd>
+<dt>F4</dt><dd>Input aa after which 4 digit word stored on M[2aa] is shown on TV(2) display position</dd>
+<dt>F5</dt><dd>Halt execution (except 70/71)</dd>
+<dt>F6</dt><dd>Resume execution</dd>
+<dt>F7</dt><dd>Execute next instruction only</dd>
+</dl>
+<h3>Example CARDTRAN code</h3>
+<p>
+This program (included in the cardtran.bin file) will wait for two four digit numbers, when the numbers are given it will multiply them and show a counter counting up to the result. At the end it will wait for two new numbers. If no input is given I think some random numbers are chosen.
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aa</TD>
+<TD WIDTH="400">2 digits hexadecimal value. This is used to indicate an address in hexadecimal range of 0200-02C7. Note that the original CARDTRAN code uses a 2 digit decimal value to indicate a decimal 'line' number refering to the 0200-02C7 address range by multiplying the value aa with 2 and adding hexadecimal value of 200</TD>
+</TR>
+<TR>
+<TD WIDTH="70">DR</TD>
+<TD WIDTH="400">4 digits decimal register for use in CARDTRAN program. Value is stored on address 02E0/02E1.</TD>
+</TR>
+<TR>
+<TD WIDTH="70">.</TD>
+<TD WIDTH="400">Not used, value doesn't matter</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9</TD>
+<TD WIDTH="400">Decimal digits</TD>
+</TR>
+</TABLE>
+<h3>CARDTRAN Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">40aa</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">[2aa], DR<br>2aa, DR</TD>
+<TD WIDTH="250">M[2aa] + DR -> M[2aa], 000C -> DR</TD>
+</TR>
+<TR>
+<TD WIDTH="55">70aa</TD>
+<TD WIDTH="40">DISP0</TD>
+<TD WIDTH="100">[2aa]<br>2aa</TD>
+<TD WIDTH="250">Display word on M[2aa] on TV(0) display position</TD>
+</TR>
+<TR>
+<TD WIDTH="55">71aa</TD>
+<TD WIDTH="40">DISP1</TD>
+<TD WIDTH="100">[2aa]<br>2aa</TD>
+<TD WIDTH="250">Display word on M[2aa] on TV(1) display position</TD>
+</TR>
+<TR>
+<TD WIDTH="55">10aa</TD>
+<TD WIDTH="40">INPUT</TD>
+<TD WIDTH="100">[2aa]<br>2aa</TD>
+<TD WIDTH="250">Wait for 4 digit word input and store word -> M[2aa]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">22aa</TD>
+<TD WIDTH="40">JNZ</TD>
+<TD WIDTH="100">2aa<br>DR, 2aa</TD>
+<TD WIDTH="250">Jump to 2aa if DR != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">20aa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">2aa</TD>
+<TD WIDTH="250">JumP to 2aa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">21aa</TD>
+<TD WIDTH="40">JZ</TD>
+<TD WIDTH="100">2aa<br>DR, 2aa</TD>
+<TD WIDTH="250">Jump to 2aa if DR = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">60aa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[2aa], DR<br>2aa, DR</TD>
+<TD WIDTH="250">DR -> M[2aa]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">30aa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">DR, [2aa]<br>DR, 2aa</TD>
+<TD WIDTH="250">M[2aa] -> DR</TD>
+</TR>
+<TR>
+<TD WIDTH="55">90aa</TD>
+<TD WIDTH="40">LDD</TD>
+<TD WIDTH="100">[2aa], DR<br>2aa, DR</TD>
+<TD WIDTH="250">LSD of DR -> LSD of M[2aa]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0...</TD>
+<TD WIDTH="40">SKIP</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Skip</TD>
+</TR>
+<TR>
+<TD WIDTH="55">50aa</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">[2aa], DR<br>2aa, DR</TD>
+<TD WIDTH="250">M[2aa] - DR -> M[2aa], 000B -> DR</TD>
+</TR>
+<TR>
+<TD WIDTH="55">80aa</TD>
+<TD WIDTH="40">RSH</TD>
+<TD WIDTH="100">[2aa]<br>2aa</TD>
+<TD WIDTH="250">Ring SHift M[2aa] right 1 digit</TD>
+</TR>
+</TABLE>
+</body>
+</html>
+

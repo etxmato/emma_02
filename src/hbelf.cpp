@@ -47,9 +47,10 @@
 
 #include "hbelf.h"
 
-ElfScreen::ElfScreen(wxWindow *parent, const wxSize& size)
+ElfScreen::ElfScreen(wxWindow *parent, const wxSize& size, int tilType)
 : Panel(parent, size)
 {
+    tilType_ = tilType;
 }
 
 ElfScreen::~ElfScreen()
@@ -69,12 +70,22 @@ ElfScreen::~ElfScreen()
 	for (int i=0; i<4; i++)
 	{
 		delete efSwitchButton[i];
-		delete addressPointer[i];
 	}
-	for (int i=0; i<2; i++)
-	{
-		delete dataPointer[i];
-	}
+    if (tilType_ == TIL311)
+    {
+        for (int i=0; i<4; i++)
+            delete addressPointer[i];
+        for (int i=0; i<2; i++)
+            delete dataPointer[i];
+    }
+    else
+    {
+        for (int i=0; i<4; i++)
+            delete addressTil313Pointer[i];
+        for (int i=0; i<2; i++)
+            delete dataTil313Pointer[i];
+    }
+    
  	delete qLedPointer;
 }
 
@@ -105,16 +116,37 @@ void ElfScreen::init()
 	for (int i=0; i<4; i++)
 	{
 		efSwitchButton[i] = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(0x31, 0x31, 0x30), BUTTON_DOWN, 138+30*(3-i), 422, "");
-		addressPointer[i] = new Til311();
-		addressPointer[i]->init(dc, 18+i*40, 226);
 	}
-	updateAddress_ = true;
+    for (int i=0; i<4; i++)
+    {
+        if (tilType_ == TIL311)
+        {
+            addressPointer[i] = new Til311();
+            addressPointer[i]->init(dc, 18+i*40, 226);
+            updateAddress_ = true;
+        }
+        else
+        {
+            addressTil313Pointer[i] = new Til313();
+            addressTil313Pointer[i]->init(dc, 18+i*40, 226);
+            updateAddressTil313_ = true;
+        }
+    }
 	for (int i=0; i<2; i++)
 	{
-		dataPointer[i] = new Til311();
-		dataPointer[i]->init(dc, 218+i*40, 226);
+        if (tilType_ == TIL311)
+        {
+            dataPointer[i] = new Til311();
+            dataPointer[i]->init(dc, 218+i*40, 226);
+            updateData_ = true;
+        }
+        else
+        {
+            dataTil313Pointer[i] = new Til313();
+            dataTil313Pointer[i]->init(dc, 218+i*40, 226);
+            updateDataTil313_ = true;
+        }
 	}
-	updateData_ = true;
 	this->connectKeyEvent(this);
 }
 
@@ -123,15 +155,24 @@ void ElfScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
-	for (int i=0; i<4; i++)
-	{
-		addressPointer[i]->onPaint(dc);
-		efSwitchButton[i]->onPaint(dc);
+    for (int i=0; i<4; i++)
+    {
+        efSwitchButton[i]->onPaint(dc);
+    }
+    if (tilType_ == TIL311)
+    {
+        for (int i=0; i<4; i++)
+            addressPointer[i]->onPaint(dc);
+        for (int i=0; i<2; i++)
+            dataPointer[i]->onPaint(dc);
 	}
-	for (int i=0; i<2; i++)
-	{
-		dataPointer[i]->onPaint(dc);
-	}
+    else
+    {
+        for (int i=0; i<4; i++)
+            addressTil313Pointer[i]->onPaint(dc);
+        for (int i=0; i<2; i++)
+            dataTil313Pointer[i]->onPaint(dc);
+    }
 	qLedPointer->onPaint(dc);
 
 	inSwitchButton->onPaint(dc);
@@ -203,7 +244,7 @@ Elf::Elf(const wxString& title, const wxPoint& pos, const wxSize& size, double c
 
 	this->SetClientSize(size);
 
-	elfScreenPointer = new ElfScreen(this, size);
+	elfScreenPointer = new ElfScreen(this, size, elfConfiguration.tilType);
 	elfScreenPointer->init();
     
     runningGame_ = "";
@@ -347,6 +388,11 @@ void Elf::onInButtonRelease()
 
 void Elf::onHexKeyDown(int keycode)
 {
+#if defined (__WXMAC__)
+    if (ef3State_ == 0) // This is to avoid multiple key presses on OSX
+        return;
+#endif
+    
 //	if (!elfConfiguration.useHexKeyboard)
 //		return;
 	for (int i=0; i<16; i++)
@@ -793,7 +839,10 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
 
 void Elf::showData(Byte val)
 {
-	elfScreenPointer->showData(val);
+    if (elfConfiguration.tilType == TIL311)
+        elfScreenPointer->showData(val);
+    else
+        elfScreenPointer->showDataTil313(val);
 }
 
 void Elf::cycle(int type)
@@ -885,7 +934,12 @@ void Elf::autoBoot()
 	runButtonState_ = 1;
 	setClear(runButtonState_);
 	if (cpuMode_ == RESET)  
-		elfScreenPointer->showAddress(0);
+    {
+        if (elfConfiguration.tilType == TIL311)
+            elfScreenPointer->showAddress(0);
+        else
+            elfScreenPointer->showAddressTil313(0);
+    }
 }
 
 void Elf::switchQ(int value)
@@ -920,7 +974,12 @@ void Elf::onRun()
 	setClear(runButtonState_);
 	p_Main->eventUpdateTitle();
 	if (cpuMode_ == RESET)  	
-		elfScreenPointer->showAddress(0);
+    {
+        if (elfConfiguration.tilType == TIL311)
+            elfScreenPointer->showAddress(0);
+        else
+            elfScreenPointer->showAddressTil313(0);
+    }
 }
 
 void Elf::onMpButton()
@@ -947,7 +1006,12 @@ void Elf::onLoadButton()
 	}
 	setWait(loadButtonState_);
 	if (cpuMode_ == RESET)  
-		elfScreenPointer->showAddress(0);
+    {
+        if (elfConfiguration.tilType == TIL311)
+            elfScreenPointer->showAddress(0);
+        else
+            elfScreenPointer->showAddressTil313(0);
+    }
 }
 
 void Elf::dataSwitch(int i)
@@ -1046,7 +1110,11 @@ void Elf::startComputer()
 	p_Main->setSwName("");
 	p_Main->updateTitle();
 	address_ = 0;
-	elfScreenPointer->showAddress(address_);
+
+    if (elfConfiguration.tilType == TIL311)
+        elfScreenPointer->showAddress(0);
+    else
+        elfScreenPointer->showAddressTil313(0);
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
@@ -1196,7 +1264,10 @@ Byte Elf::readMemDataType(Word address)
 Byte Elf::readMem(Word addr)
 {
 	address_ = addr;
-	elfScreenPointer->showAddress(address_);
+    if (elfConfiguration.tilType == TIL311)
+        elfScreenPointer->showAddress(0);
+    else
+        elfScreenPointer->showAddressTil313(0);
 
 	switch (memoryType_[addr/256])
 	{
@@ -1294,7 +1365,10 @@ Byte Elf::readMem(Word addr)
 void Elf::writeMem(Word addr, Byte value, bool writeRom)
 {
 	address_ = addr;
-	elfScreenPointer->showAddress(address_);
+    if (elfConfiguration.tilType == TIL311)
+        elfScreenPointer->showAddress(0);
+    else
+        elfScreenPointer->showAddressTil313(0);
 
 	if (emsMemoryDefined_)
 	{
@@ -1445,7 +1519,8 @@ void Elf::cpuInstruction()
 		}
 		if (debugMode_)
 			p_Main->cycleDebug();
-		p_Main->cycleChip8Debug();
+		if (pseudoLoaded_ && cycle0_ == 0)
+			p_Main->cyclePseudoDebug();
 	}
 	else
 	{
@@ -1456,6 +1531,7 @@ void Elf::cpuInstruction()
 		if (cpuMode_ == LOAD)
 		{
 			showData(readMem(address_));
+            ledCycleValue_ = 1;
 			threadPointer->Sleep(1);
 		}
 	}
