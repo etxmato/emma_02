@@ -667,6 +667,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guivip2k.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\hbelf.cpp"
 				>
 			</File>
@@ -880,6 +884,10 @@
 			</File>
 			<File
 				RelativePath=".\src\vip2.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vip2k.cpp"
 				>
 			</File>
 			<File
@@ -1135,6 +1143,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guivip2k.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\hbelf.h"
 				>
 			</File>
@@ -1352,6 +1364,10 @@
 			</File>
 			<File
 				RelativePath=".\src\vip2.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\vip2k.h"
 				>
 			</File>
 			<File

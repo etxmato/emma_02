@@ -595,3 +595,48 @@ wxString Memory::getMultiCartGame()
     return game;
 }
 
+Byte Memory::readSequencerRom(Word address)
+{
+    return sequencerMemory_[address];
+}
+
+Byte Memory::readSequencer(Word address)
+{
+    Word sequencerAddress = (((address & 0x8) >> 1) & (address & 0x4)) ^ 0x4;
+    sequencerAddress |= (address & 0x3);
+    sequencerAddress |= ((address & 0x3e0) >> 2);
+    sequencerAddress |= ((address & 0x7000) >> 4);
+    
+//    wxString traceText;
+//    traceText.Printf("----  Sequencer = %04X - %04X", sequencerAddress, address);
+//    p_Main->debugTrace(traceText);
+
+    return sequencerMemory_[sequencerAddress];
+}
+
+Word Memory::readSequencerAddress(Word address)
+{
+    Word sequencerAddress = (((address & 0x8) >> 1) & (address & 0x4)) ^ 0x4;
+    sequencerAddress |= (address & 0x3);
+    sequencerAddress |= ((address & 0x3e0) >> 2);
+    sequencerAddress |= ((address & 0x7000) >> 4);
+    
+    //    wxString traceText;
+    //    traceText.Printf("----  Sequencer = %04X - %04X", sequencerAddress, address);
+    //    p_Main->debugTrace(traceText);
+    
+    return sequencerAddress;
+}
+
+void Memory::writeSequencer(Word address, Byte value)
+{
+    Word sequencerAddress = (((address & 0x8) >> 1) & (address & 0x4)) ^ 0x4;
+    sequencerAddress |= (address & 0x3);
+    sequencerAddress |= ((address & 0x3e0) >> 2);
+    sequencerAddress |= ((address & 0x7000) >> 4);
+    
+    sequencerMemory_[sequencerAddress] = value;
+}
+
+
+

@@ -1798,3 +1798,4 @@ void Computer::setMultiCartMsb(Byte WXUNUSED(msb))
 void Computer::setDisableSystemRom(bool WXUNUSED(disableSystemRom))
 {
 }
+

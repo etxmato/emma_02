@@ -193,6 +193,13 @@
 #define FREDEF1 193
 #define FREDEF2 194
 #define FREDEF4 195
+#define VIP2KCOL1 196
+#define VIP2KCOL2 197
+#define VIP2KCOL3 198
+#define VIP2KCOL4 199
+#define VIP2KCOL5 200
+#define VIP2KEF2 201
+#define VIP2KEF3 202
 
 #define COMPUTERCYCLE 0
 #define VIDEOCYCLE 1

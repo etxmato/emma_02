@@ -861,7 +861,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT52:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VELF)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -901,7 +901,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT100:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VELF)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -1283,6 +1283,9 @@ void GuiMain::onCassetteEject(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onCassetteText(wxCommandEvent&event)
 {
 	conf[selectedComputer_].wavFile_ = event.GetString();
+    
+    if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER)
+        return;
     
     if (conf[selectedComputer_].wavFile_ != "")
     {
@@ -2972,7 +2975,7 @@ void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::startAutoTerminalLoad()
 {
-	if (runningComputer_ != MEMBER)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3033,7 +3036,7 @@ void GuiMain::stopTerminal()
 
 void GuiMain::startAutoTerminalSave()
 {
-	if (runningComputer_ != MEMBER)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3270,7 +3273,7 @@ void GuiMain::enableMemAccessGui(bool status)
 	}
 	if (!mode_.gui)
 		return;
-	if ((runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP) || superBasic || disableAll)
+	if ((runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
 	{
 		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);

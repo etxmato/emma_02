@@ -241,6 +241,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 		break;
 
         case VIP:
+        case VIP2K:
 			wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog1"));
             XRCCTRL(*this, "InButton", wxButton)->Hide();
             XRCCTRL(*this, "InButtonText", wxStaticText)->Hide();
@@ -340,7 +341,8 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
                 case VELF:
                 case VIP:
                 case VIPII:
-                    p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                case VIP2K:
+                   p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
                 break;
                     
                 case FRED1:

@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559255153.7164299"
+            filePath = "src/pixie.cpp"
+            timestampString = "562798633.42808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "253"
-            endingLineNumber = "253"
-            landmarkName = "Membership::onInButtonPress(Byte value)"
+            startingLineNumber = "748"
+            endingLineNumber = "748"
+            landmarkName = "Pixie::executeSequencer(Byte sequencerValue)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559255321.433159"
+            filePath = "src/pixie.cpp"
+            timestampString = "562798633.428142"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "265"
-            endingLineNumber = "265"
-            landmarkName = "Membership::onInButtonRelease()"
+            startingLineNumber = "447"
+            endingLineNumber = "447"
+            landmarkName = "Pixie::initiateColour(bool colour)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559256444.552554"
+            filePath = "src/vip2k.cpp"
+            timestampString = "562798633.428196"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "815"
-            endingLineNumber = "815"
-            landmarkName = "Membership::cpuInstruction()"
+            startingLineNumber = "839"
+            endingLineNumber = "839"
+            landmarkName = "Vip2K::checkVipFunction()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,109 +57,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559257723.775364"
+            filePath = "src/vip2k.cpp"
+            timestampString = "562798633.428508"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "820"
-            endingLineNumber = "820"
-            landmarkName = "Membership::cpuInstruction()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/cdp1802.cpp"
-            timestampString = "559255842.562055"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "105"
-            endingLineNumber = "105"
-            landmarkName = "Cdp1802::resetCpu()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/cdp1802.cpp"
-            timestampString = "559255848.074697"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "179"
-            endingLineNumber = "179"
-            landmarkName = "Cdp1802::dmaIn(Byte value)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559256653.786934"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "524"
-            endingLineNumber = "524"
-            landmarkName = "Membership::onRun()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559256666.173298"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "499"
-            endingLineNumber = "499"
-            landmarkName = "Membership::autoBoot()"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559256715.572515"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "82"
-            endingLineNumber = "82"
-            landmarkName = "MemberScreen::init(int front)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/computer.cpp"
-            timestampString = "559256771.991865"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "943"
-            endingLineNumber = "943"
-            landmarkName = "Panel::waitSetState(bool state)"
+            startingLineNumber = "832"
+            endingLineNumber = "832"
+            landmarkName = "Vip2K::checkVipFunction()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -170,12 +74,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
-            timestampString = "559257054.100337"
+            timestampString = "562798633.4287421"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3483"
-            endingLineNumber = "3483"
-            landmarkName = "GuiMain::onLedTimer(wxCommandEvent&amp;event)"
+            startingLineNumber = "3051"
+            endingLineNumber = "3051"
+            landmarkName = "GuiMain::startTerminalSave()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -185,13 +89,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559257723.775364"
+            filePath = "src/vt100.cpp"
+            timestampString = "562797582.260569"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "982"
-            endingLineNumber = "982"
-            landmarkName = "Membership::setLedMs(long ms)"
+            startingLineNumber = "1318"
+            endingLineNumber = "1318"
+            landmarkName = "Vt100::Display(int byt, bool forceDisplay)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -201,13 +105,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/member.cpp"
-            timestampString = "559257236.45366"
+            filePath = "src/vip2k.cpp"
+            timestampString = "562798633.428816"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "484"
-            endingLineNumber = "484"
-            landmarkName = "Membership::cycleLed()"
+            startingLineNumber = "110"
+            endingLineNumber = "110"
+            landmarkName = "Vip2K::keyDown(int keycode)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,13 +121,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/guipopup.cpp"
-            timestampString = "559340601.241851"
+            filePath = "src/vip2k.cpp"
+            timestampString = "562798633.429039"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "PopupDialog::PopupDialog(wxWindow* parent)"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
+            landmarkName = "Vip2K::keyUp(int keycode)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

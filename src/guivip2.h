@@ -1,11 +1,11 @@
 #ifndef GUIVIPII_H
 #define GUIVIPII_H
 
-#include "guivelf.h"
+#include "guivip2k.h"
 
 DECLARE_EVENT_TYPE(STATUS_BAR_PIXIE, 810)
 
-class GuiVipII: public GuiVelf
+class GuiVipII: public GuiVip2K
 {
 public:
 

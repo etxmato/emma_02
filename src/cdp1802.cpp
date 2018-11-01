@@ -216,8 +216,9 @@ Byte Cdp1802::pixieDmaOut(int *color)
 		case ETI:
 			*color = colorMemory1864_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
 		break;
-		case VIP:
+        case VIP:
 		case VIPII:
+        case VIP2K:
 			if (colourMask_ == 0)
 				*color = 7;
 			else
@@ -3080,7 +3081,7 @@ void Cdp1802::checkLoadedSoftware()
 			if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
 				loadedProgram_ = ASCIIMON;
 		}
-		if (computerType_ == VIP || computerType_ == VELF)
+		if (computerType_ == VIP || computerType_ == VELF || computerType_ == VIP2K)
 		{
 			if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
 			{
@@ -3490,6 +3491,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 break;
                     
                 case VIP:
+                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3551,6 +3553,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 break;
                     
                 case VIP:
+                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3598,6 +3601,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 break;
                 
                 case VIP:
+                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3854,6 +3858,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
 
                 case VIP:
+                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3912,6 +3917,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
                     
                 case VIP:
+                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3955,6 +3961,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
                 
                 case VIP:
+                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else

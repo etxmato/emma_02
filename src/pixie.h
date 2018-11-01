@@ -27,7 +27,8 @@ public:
     void configurePixieFred();
     void configurePixieCoinArcade();
     void configurePixieVisicom();
-	void configurePixieVip();
+    void configurePixieVip();
+    void configurePixieVip2K();
 	void configurePixieVelf();
 	void configurePixieVipII();
 	void configurePixieTmc1800();
@@ -46,11 +47,13 @@ public:
     void outPixieStudioIV(int value);
     void switchVideoMode(int videoMode);
     void cyclePixie();
+    void cyclePixieVip2K();
+    void executeSequencer(Byte sequencerValue);
     void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
 	void cyclePixieTelmac();
     void dmaEnable();
-
+    
 	void copyScreen();
 	virtual void drawScreen();
 	void plot(int x, int y, int c, int color);
@@ -99,7 +102,10 @@ private:
     int endScreen_;
 
     int videoMode_;
-
+    
+    Word sequencerAddress_;
+    int scanLine_;
+    int scanByte_;
 };
 
 class PixieFred : public Pixie

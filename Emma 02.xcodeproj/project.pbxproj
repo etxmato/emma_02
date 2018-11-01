@@ -13,6 +13,8 @@
 		99090B112118D720008B16DA /* GPL-A_RAM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99090B102118D720008B16DA /* GPL-A_RAM.syntax */; };
 		9909A2141F21444B00B17E58 /* menuMcds.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9909A2131F21444B00B17E58 /* menuMcds.xrc */; };
 		991199441E92ECC30074ADAA /* splash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991199421E92ECC30074ADAA /* splash.cpp */; };
+		991B061021694C0A0061D86C /* vip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B060E21694C0A0061D86C /* vip2k.cpp */; };
+		991B061321694CDD0061D86C /* guivip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B061121694CDD0061D86C /* guivip2k.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
 		9935652B21446B7000A329C6 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
@@ -221,6 +223,10 @@
 		991199431E92ECC30074ADAA /* splash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = splash.h; path = src/splash.h; sourceTree = "<group>"; };
 		9911BF341F477D5000B795BB /* Configurations Windows */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Configurations Windows"; sourceTree = "<group>"; };
 		9911BF351F477D6200B795BB /* Configurations */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Configurations; sourceTree = "<group>"; };
+		991B060E21694C0A0061D86C /* vip2k.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = vip2k.cpp; path = src/vip2k.cpp; sourceTree = "<group>"; };
+		991B060F21694C0A0061D86C /* vip2k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = vip2k.h; path = src/vip2k.h; sourceTree = "<group>"; };
+		991B061121694CDD0061D86C /* guivip2k.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guivip2k.cpp; path = src/guivip2k.cpp; sourceTree = "<group>"; };
+		991B061221694CDD0061D86C /* guivip2k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivip2k.h; path = src/guivip2k.h; sourceTree = "<group>"; };
 		991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guimicrotutor.cpp; path = src/guimicrotutor.cpp; sourceTree = "<group>"; };
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
@@ -771,6 +777,8 @@
 				997647491A61D5EE00FB9B33 /* guivip.h */,
 				997647181A61D5EE00FB9B33 /* guivip2.cpp */,
 				9976475D1A61D5EE00FB9B33 /* guivip2.h */,
+				991B061121694CDD0061D86C /* guivip2k.cpp */,
+				991B061221694CDD0061D86C /* guivip2k.h */,
 				9942DD6E1F3B4D6B00569242 /* http.cpp */,
 				9942DD6F1F3B4D6B00569242 /* http.h */,
 				9976473A1A61D5EE00FB9B33 /* hbelf.cpp */,
@@ -880,6 +888,8 @@
 				997647581A61D5EE00FB9B33 /* vip.h */,
 				997647421A61D5EE00FB9B33 /* vip2.cpp */,
 				997647591A61D5EE00FB9B33 /* vip2.h */,
+				991B060E21694C0A0061D86C /* vip2k.cpp */,
+				991B060F21694C0A0061D86C /* vip2k.h */,
 				997647101A61D5EE00FB9B33 /* vip2statusbar.cpp */,
 				997647271A61D5EE00FB9B33 /* vip2statusbar.h */,
 				9976470B1A61D5EE00FB9B33 /* visicom.cpp */,
@@ -1037,6 +1047,7 @@
 				9976480C1A61D5EF00FB9B33 /* Blip_Buffer.cpp in Sources */,
 				997647C11A61D5EE00FB9B33 /* studio2.cpp in Sources */,
 				997647C91A61D5EF00FB9B33 /* cosmicoshex.cpp in Sources */,
+				991B061021694C0A0061D86C /* vip2k.cpp in Sources */,
 				997647D41A61D5EF00FB9B33 /* guielf2k.cpp in Sources */,
 				99BCC77B1A6471B500F5226F /* encrypt.cpp in Sources */,
 				997648041A61D5EF00FB9B33 /* guieprom.cpp in Sources */,
@@ -1081,6 +1092,7 @@
 				997648031A61D5EF00FB9B33 /* datadir.cpp in Sources */,
 				9976480A1A61D5EF00FB9B33 /* ps2.cpp in Sources */,
 				997C6D62209E3FF000A8704E /* fred.cpp in Sources */,
+				991B061321694CDD0061D86C /* guivip2k.cpp in Sources */,
 				997647EB1A61D5EF00FB9B33 /* mc6847.cpp in Sources */,
 				997648021A61D5EF00FB9B33 /* guitmc2000.cpp in Sources */,
 				99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */,

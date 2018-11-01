@@ -1593,6 +1593,21 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 					}
 					return true;
 				}
+                if (computer == "Vip2K")
+                {
+                    startComputer_ = VIP2K;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                        getSoftware(computer, "Ram_Software", software);
+                    if (parser.Found("ch", &software))
+                        getSoftware(computer, "Chip_8_Software", software);
+                    if (parser.Found("r", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on Cosmac VIP2K emulator");
+                        return false;
+                    }
+                    return true;
+                }
                 if (computer == "Velf")
                 {
                     startComputer_ = VELF;
@@ -2027,6 +2042,7 @@ void Main::writeConfig()
 	writeCosmicosDirConfig();
     writeVipDirConfig();
     writeVipIIDirConfig();
+    writeVip2KDirConfig();
     writeVelfDirConfig();
 	writeElfDirConfig(ELF, "Elf");
 	writeElfDirConfig(ELFII, "ElfII");
@@ -2054,7 +2070,8 @@ void Main::writeConfig()
 	writeMcdsConfig();
 	writeCosmicosConfig();
 	writeVipConfig();
-	writeVipIIConfig();
+    writeVipIIConfig();
+    writeVip2KConfig();
     writeVelfConfig();
 	writeElfConfig(ELF, "Elf");
 	writeElfConfig(ELFII, "ElfII");
@@ -2083,6 +2100,7 @@ void Main::writeConfig()
 	writeCosmicosWindowConfig();
     writeVipWindowConfig();
    	writeVipIIWindowConfig();
+   	writeVip2KWindowConfig();
    	writeVelfWindowConfig();
 	writeElfWindowConfig(ELF, "Elf");
 	writeElfWindowConfig(ELFII, "ElfII");
@@ -2247,7 +2265,14 @@ void Main::initConfig()
 	setScreenInfo(VELF, 0, 5, colour, 2, borderX, borderY);
 	setComputerInfo(VELF, "Velf", "VELF", "");
 
+    borderX[VIDEOPIXIE] = 0;
+    borderY[VIDEOPIXIE] = 4;
+
+    setScreenInfo(VIP2K, 0, 5, colour, 2, borderX, borderY);
+    setComputerInfo(VIP2K, "Vip2K", "Cosmac VIP2K", "");
+    
     borderX[VIDEOPIXIE] = 33;
+    borderY[VIDEOPIXIE] = 33;  //Pixie
 
     setScreenInfo(FRED1, 0, 2, colour, 2, borderX, borderY);
     setComputerInfo(FRED1, "FRED1", "FRED 1", "");
@@ -2504,6 +2529,7 @@ void Main::readConfig()
 	readCosmicosConfig();
 	readVipConfig();		
 	readVipIIConfig();		
+    readVip2KConfig();
     readVelfConfig();
 	readElfConfig(ELF, "Elf");
 	readElfConfig(ELFII, "ElfII");
@@ -2532,6 +2558,7 @@ void Main::readConfig()
 	readCosmicosWindowConfig();
     readVipWindowConfig();
     readVipIIWindowConfig();
+    readVip2KWindowConfig();
     readVelfWindowConfig();
     readElfWindowConfig(ELF, "Elf");
     readElfWindowConfig(ELFII, "ElfII");
@@ -3195,6 +3222,11 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeVipIIConfig();
         break;
             
+        case VIP2K:
+            writeVip2KDirConfig();
+            writeVip2KConfig();
+        break;
+            
         case VELF:
             writeVelfDirConfig();
             writeVelfConfig();
@@ -3402,6 +3434,10 @@ void Main::loadComputerConfig(wxString fileName)
             
         case VIPII:
             readVipIIConfig();
+        break;
+            
+        case VIP2K:
+            readVip2KConfig();
         break;
             
         case VELF:
@@ -4123,6 +4159,7 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
 				case ELFII:
 				case SUPERELF:
                 case VIP:
+                case VIP2K:
                 case VELF:
 					if (conf[runningComputer_].printerOn_)
 						p_Main->onF4();
@@ -4374,6 +4411,11 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
             p_Vip2->Move(conf[VIPII].mainX_, conf[VIPII].mainY_);
         break;
             
+        case VIP2K:
+            p_Vip2K->moveWindows();
+            p_Vip2K->Move(conf[VIP2K].mainX_, conf[VIP2K].mainY_);
+        break;
+            
         case VELF:
 			p_Velf->moveWindows();
 			p_Velf->Move(conf[VELF].mainX_, conf[VELF].mainY_);
@@ -4451,6 +4493,8 @@ void Main::nonFixedWindowPosition()
 	conf[VIP].mainY_ = -1;
 	conf[VIPII].mainX_ = -1;
 	conf[VIPII].mainY_ = -1;
+    conf[VIP2K].mainX_ = -1;
+    conf[VIP2K].mainY_ = -1;
     conf[VELF].mainX_ = -1;
     conf[VELF].mainY_ = -1;
 	conf[TMC1800].mainX_ = -1;
@@ -4521,6 +4565,8 @@ void Main::nonFixedWindowPosition()
 	conf[MCDS].vtY_ = -1;
 	conf[VIP].vtX_ = -1;
     conf[VIP].vtY_ = -1;
+    conf[VIP2K].vtX_ = -1;
+    conf[VIP2K].vtY_ = -1;
 	ledModuleX_ = -1;
 	ledModuleY_ = -1;
 	switchX_ = -1;
@@ -4543,6 +4589,8 @@ void Main::fixedWindowPosition()
 	conf[VIP].mainY_ = mainWindowY_;
 	conf[VIPII].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VIPII].mainY_ = mainWindowY_;
+    conf[VIP2K].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[VIP2K].mainY_ = mainWindowY_;
     conf[VELF].mainX_ = mainWindowX_;
     conf[VELF].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[TMC1800].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -4613,6 +4661,8 @@ void Main::fixedWindowPosition()
 	conf[MCDS].vtY_ = mainWindowY_;
 	conf[VIP].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[VIP].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
+    conf[VIP2K].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
+    conf[VIP2K].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
 	ledModuleX_ = mainWindowX_+346+windowInfo.xBorder2;
 	ledModuleY_ = mainWindowY_+windowInfo.mainwY+229+windowInfo.yBorder2;
 	switchX_ = mainWindowX_+507+windowInfo.xBorder2;
@@ -4791,6 +4841,12 @@ void Main::onStart(int computer)
 			p_Computer = p_Vip2;
 		break;
 
+        case VIP2K:
+            p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(200, 192), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, conf[VIP2K].tempo_, elfConfiguration[VIP2K]);
+            p_Video = p_Vip2K;
+            p_Computer = p_Vip2K;
+        break;
+            
         case VELF:
             p_Velf = new Velf(computerInfo[VELF].name, wxPoint(conf[VELF].mainX_, conf[VELF].mainY_), wxSize(310, 180), conf[VELF].clockSpeed_, elfConfiguration[VELF]);
             p_Computer = p_Velf;
@@ -4839,7 +4895,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 9 || runningComputer_ ==VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED2)
+    if (runningComputer_ < 10 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED2)
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
@@ -4922,6 +4978,7 @@ void Main::stopComputer()
             case FRED1:
             case FRED2:
             case VIP:
+            case VIP2K:
 			case VIPII:
             case VELF:
 			case COSMICOS:
@@ -5037,6 +5094,10 @@ void Main::onComputer(wxNotebookEvent&event)
 					rcaChoice_ = VIPII;
 				break;
 
+                case VIP2KTAB:
+                    rcaChoice_ = VIP2K;
+                break;
+                    
 				case MCDSTAB:
 					rcaChoice_ = MCDS;
 				break;
@@ -5286,6 +5347,10 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
             rcaChoice_ = VIPII;
 		break;
 
+        case VIP2KTAB:
+            rcaChoice_ = VIP2K;
+        break;
+            
         case MCDSTAB:
             rcaChoice_ = MCDS;
 		break;
@@ -5418,6 +5483,11 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(VIPTAB);
 		break;
 
+        case VIP2K:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(VIP2KTAB);
+        break;
+            
 		case VIPII:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(VIPIITAB);
@@ -5504,6 +5574,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
     XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status | (runningComputer_ == VIP));
     XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status | (runningComputer_ == VIPII));
+    XRCCTRL(*this,"ColoursVip2K", wxButton)->Enable(status | (runningComputer_ == VIP2K));
     XRCCTRL(*this,"ColoursMCDS", wxButton)->Enable(status | (runningComputer_ == MCDS));
     XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status | (runningComputer_ == MS2000));
     XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
@@ -5733,6 +5804,33 @@ void Main::enableGui(bool status)
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
+    if (runningComputer_ == VIP2K)
+    {
+//        enableChip8DebugGui(!status);
+        XRCCTRL(*this,"MainRomVip2K", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButtonVip2K", wxButton)->Enable(status);
+        XRCCTRL(*this,"RamSWVip2K", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonVip2K", wxButton)->Enable(status);
+//        XRCCTRL(*this,"Chip8SWVip2K", wxTextCtrl)->Enable(status);
+//        XRCCTRL(*this,"Chip8SWButtonVip2K", wxButton)->Enable(status);
+//        XRCCTRL(*this,"EjectChip8SWVip2K", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3Vip2K", wxButton)->Enable(!status);
+        XRCCTRL(*this, "VTTypeVip2K", wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTTypeVip2K",wxChoice)->GetSelection() != VTNONE)
+        {
+            if (elfConfiguration[VIP2K].useUart)
+            {
+                XRCCTRL(*this, "VTBaudRTextVip2K", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->Enable(status);
+            }
+            XRCCTRL(*this, "VTBaudTChoiceVip2K", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextVip2K", wxStaticText)->Enable(status);
+            XRCCTRL(*this,"VtSetupVip2K", wxButton)->Enable(status);
+        }
+        
+        XRCCTRL(*this,"ScreenDumpF5Vip2K", wxButton)->Enable(!status);
+        enableLoadGui(!status);
+    }
     if (runningComputer_ == VELF)
     {
         enableChip8DebugGui(!status);
@@ -6360,6 +6458,7 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 		case COMX:
 		case VIP: 
         case VIPII:
+        case VIP2K:
         case VELF:
 		case TMC600:
 		case TMC1800:
@@ -7714,6 +7813,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         break;
             
         case VIP:
+        case VIP2K:
             if (p_Main->getVipVp590() || p_Main->getVipVp580())
                 keysFound = loadKeyDefinition("", "vipdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
@@ -7777,6 +7877,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case FRED1:
             case FRED2:
             case VIP:
+            case VIP2K:
             case ELF:
             case ELFII:
             case SUPERELF:

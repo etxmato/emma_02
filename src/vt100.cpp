@@ -101,6 +101,9 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 			computerTypeStr_ = "Vip";
             colourIndex_ = 12;
 		break;
+        case VIP2K:
+            computerTypeStr_ = "Vip2K";
+        break;
         case VELF:
             computerTypeStr_ = "Velf";
         break;

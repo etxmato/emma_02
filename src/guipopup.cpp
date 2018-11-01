@@ -124,6 +124,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
 
 		case VIP:
         case VIPII:
+        case VIP2K:
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuVip.xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupVip"));
             XRCCTRL(*this, "PopupVip", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
@@ -190,6 +191,7 @@ void PopupDialog::init()
             
         case VIP:
         case VIPII:
+        case VIP2K:
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             setStartLocation(p_Main->getSaveStartString(computer_));
             setEndLocation(p_Main->getSaveEndString(computer_));

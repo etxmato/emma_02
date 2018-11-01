@@ -6228,6 +6228,11 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
             memoryStr = "Intel 8275 video Ram";
             fileName = "i8275ramdump";
         break;
+              
+        case VIP2KSEQUENCER:
+            memoryStr = "VIP2K Sequencer ROM";
+            fileName = "vip2ksequencer";
+        break;
 	}
 
 	fileName = wxFileSelector( "Select the " + memoryStr + " dump file to save",
@@ -6259,10 +6264,21 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 	if (ext == "bin")
 	{
 		outputFile.Create(fileName);
-		for (long address = 0; address <= getAddressMask(); address++)
+		if (memoryDisplay_ == VIP2KSEQUENCER)
 		{
-			value = debugReadMem(address);
-			outputFile.Write(&value, 1);
+			for (long address = 0; address <= 0x7ff; address++)
+			{
+				value = p_Computer->readSequencerRom(address);
+				outputFile.Write(&value, 1);
+			}
+		}
+		else 
+		{
+			for (long address = 0; address <= getAddressMask(); address++)
+			{
+				value = debugReadMem(address);
+				outputFile.Write(&value, 1);
+			}
 		}
 		outputFile.Close();
 	}
@@ -6270,17 +6286,33 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 	{
 		outputTextFile.Create(fileName);
 		addr = 0;
-		while(addr <= getAddressMask())
+		if (memoryDisplay_ == VIP2KSEQUENCER)
 		{
-			line.Printf("%04X:", (unsigned int)addr);
-			for (int i=0; i<16; i++)
+			while(addr <= 0x7ff)
 			{
-				strValue.Printf(" %02X", debugReadMem(addr+i));
-				line = line + strValue;
+				line.Printf("%04X:", (unsigned int)addr);
+				for (int i=0; i<16; i++)
+				{
+					strValue.Printf(" %02X", p_Computer->readSequencerRom(addr+i));
+					line = line + strValue;
+				}
+				outputTextFile.AddLine(line);
+				addr += 16;
 			}
-
-			outputTextFile.AddLine(line);
-			addr += 16;
+		}
+		else 
+		{
+			while(addr <= getAddressMask())
+			{
+				line.Printf("%04X:", (unsigned int)addr);
+				for (int i=0; i<16; i++)
+				{
+					strValue.Printf(" %02X", debugReadMem(addr+i));
+					line = line + strValue;
+				}
+				outputTextFile.AddLine(line);
+				addr += 16;
+			}
 		}
 		outputTextFile.Write();
 		outputTextFile.Close();
@@ -12555,7 +12587,63 @@ void DebugWindow::DebugDisplayMap()
 		XRCCTRL(*this, idReference, wxStaticBitmap)->SetBitmap(line);
 	}
 }
+  
+void DebugWindow::DebugDisplayVip2kSequencer()
+{
+    if (runningComputer_ != VIP2K)
+    {
+        if (xmlLoaded_)
+            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("VIP2K not running");
+        return;
+    }
 
+	long start = get16BitValue("DebugDisplayPage");
+	if (start == -1)  return;
+	XRCCTRL(*this, "DebugDisplayPage", HexEdit)->saveNumber((int)start);
+
+	wxString idReference, value;
+
+	Word ramMask = getAddressMask();
+	while (start > ramMask)  
+		start -=  (ramMask + 1);
+
+	memoryStart_ = (unsigned int)start;
+	p_Computer->setDebugMemoryStart(start);
+
+	XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("");
+
+	for (int x=0; x<16; x++)
+	{
+		idReference.Printf("TOP_HEADER%01X", x);
+		value.Printf("  %01X", (unsigned int)(start+x)&0xf);
+		XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
+	}
+	for (int y=0; y<16; y++)
+	{
+		idReference.Printf("MEM_HEADER%01X", y);
+		XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(*wxBLACK);
+
+		value.Printf("%04X", (unsigned int)start);
+		XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
+
+		ShowCharacters(start, y);
+		for (int x=0; x<16; x++)
+		{
+			idReference.Printf("MEM%01X%01X", y, x);
+			value.Printf("%02X", debugReadMem(start));
+
+			XRCCTRL(*this, idReference, MemEdit)->SetForegroundColour(*wxBLACK);
+
+			XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue("");
+			XRCCTRL(*this, idReference, MemEdit)->ChangeValue(value);
+
+			start++;
+			while (start > ramMask)  
+			start -=  (ramMask + 1);
+		}
+	}
+}
+ 
 void DebugWindow::DebugDisplay1870VideoRam()
 {
     if (!(runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM))
@@ -12672,7 +12760,7 @@ void DebugWindow::DebugDisplay1870ColourRam()
 
 void DebugWindow::DebugDisplay1864ColorRam()
 {
-	if (!(runningComputer_ == TMC2000 || runningComputer_ == VIP || runningComputer_ == VIPII || runningComputer_ ==  ETI  || runningComputer_ ==  STUDIOIV))
+	if (!(runningComputer_ == TMC2000 || runningComputer_ == VIP ||  runningComputer_ == VIP2K || runningComputer_ == VIPII || runningComputer_ ==  ETI  || runningComputer_ ==  STUDIOIV))
 	{
 		if (xmlLoaded_)
 			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("1864 Color RAM not used");
@@ -13181,6 +13269,7 @@ void DebugWindow::DebugDisplayVtRam()
 		case ELF2K:
 		case COSMICOS:
         case VIP:
+        case VIP2K:
         case VELF:
 		case MEMBER:
 		case SUPERELF:
@@ -13352,6 +13441,7 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
         case I_8275_RAM:
 		case V_6847:
 		case V_6847_RAM:
+		case VIP2KSEQUENCER:
 			address = get16BitValue("DebugDisplayPage");
 			if (address == -1)  return;
 
@@ -13515,6 +13605,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		break;
 
 		case VIP:
+        case VIP2K:
 			if ((setType == RAM) || (setType == ROM) || (setType == COLOURRAM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == VP570RAM))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
@@ -13667,6 +13758,10 @@ void DebugWindow::memoryDisplay()
 		case V_6847_RAM:
 			DebugDisplay6847VideoRam();
 		break;
+		
+		case VIP2KSEQUENCER:
+			DebugDisplayVip2kSequencer();
+		break;
 	}
 }
 
@@ -13749,6 +13844,7 @@ Word DebugWindow::getAddressMask()
 			{
 				case ETI:
                 case VIP:
+                case VIP2K:
                 case STUDIOIV:
                     return 0xff;
 				break;
@@ -13763,6 +13859,10 @@ Word DebugWindow::getAddressMask()
 
         case I_8275:
             return 0x1fff;
+        break;
+            
+        case VIP2KSEQUENCER:
+            return 0x7fff;
         break;
             
         case I_8275_RAM:
@@ -14118,8 +14218,8 @@ Byte DebugWindow::debugReadMem(Word address)
 					return p_Eti->read1864ColorDirect(address);
 				break;
 				case VIP:
-					return p_Vip->read1864ColorDirect(address);
-				break;
+                    return p_Vip->read1864ColorDirect(address);
+                break;
                 case VIPII:
                     return p_Vip2->read1864ColorDirect(address);
                 break;
@@ -14249,6 +14349,10 @@ Byte DebugWindow::debugReadMem(Word address)
 			}
 		break;
 
+		case VIP2KSEQUENCER:
+			return p_Vip2K->readSequencer(address);
+		break;
+		
 		default:
 			return 0;
 		break;
@@ -14343,8 +14447,8 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Tmc2000->write1864ColorDirect(address, value);
 				break;
 				case VIP:
-					p_Vip->write1864ColorDirect(address, value);
-				break;
+                    p_Vip->write1864ColorDirect(address, value);
+                break;
 				case VIPII:
 					p_Vip2->write1864ColorDirect(address, value);
 				break;
@@ -14449,6 +14553,10 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 					p_Super->writeDirect6847(address, value);
 				break;
 			}
+		break;
+		
+		case VIP2KSEQUENCER:
+			return p_Vip2K->writeSequencer(address, value);
 		break;
 	}
 }
@@ -14572,6 +14680,16 @@ void DebugWindow::updateTitle()
 			p_Vip->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
+        case VIP2K:
+            if (p_Vip2K->getSteps()==0)
+                title = title + " ** PAUSED **";
+            if (p_Vip2K->getClear()==0)
+                title = title + " ** CPU STOPPED **";
+            p_Vip2K->SetTitle("Cosmac VIP2K" + title);
+            p_Vip2K->updateTitle(title);
+            p_Vip2K->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
 		case VIPII:
 			if (p_Vip2->getSteps()==0)
 				title = title + " ** PAUSED **";
