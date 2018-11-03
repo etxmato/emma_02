@@ -496,16 +496,16 @@ public:
 #define ELFIITAB 3
 #define SUPERELFTAB 4
 #define MEMBERTAB 5
-#define VELFTAB 6
+#define VIP2KTAB 6
+#define VELFTAB 7
 
 #define FRED1TAB 0
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
 #define VIPTAB 3
 #define VIPIITAB 4
-#define VIP2KTAB 5
-#define MCDSTAB 6
-#define MS2000TAB 7
+#define MCDSTAB 5
+#define MS2000TAB 6
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1

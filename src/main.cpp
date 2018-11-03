@@ -528,7 +528,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_GUI_MSG(UPDATE_TITLE, Main::setUpdateTitle)
     EVT_GUI_MSG(SHOW_MESSAGE, Main::showMessageEvent)
 	EVT_GUI_MSG(SHOW_TEXT_MESSAGE, Main::showTextMessageEvent)
-	EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
+    EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
 
 	EVT_COMMAND(wxID_ANY, KILL_COMPUTER, Main::killComputer)
 
@@ -2269,7 +2269,7 @@ void Main::initConfig()
     borderY[VIDEOPIXIE] = 4;
 
     setScreenInfo(VIP2K, 0, 5, colour, 2, borderX, borderY);
-    setComputerInfo(VIP2K, "Vip2K", "Cosmac VIP2K", "");
+    setComputerInfo(VIP2K, "Vip2K", "VIP2K Membership Card", "");
     
     borderX[VIDEOPIXIE] = 33;
     borderY[VIDEOPIXIE] = 33;  //Pixie
@@ -4842,7 +4842,7 @@ void Main::onStart(int computer)
 		break;
 
         case VIP2K:
-            p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(200, 192), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, conf[VIP2K].tempo_, elfConfiguration[VIP2K]);
+            p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(200, 192), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, elfConfiguration[VIP2K]);
             p_Video = p_Vip2K;
             p_Computer = p_Vip2K;
         break;
@@ -5064,6 +5064,10 @@ void Main::onComputer(wxNotebookEvent&event)
 					elfChoice_ = MEMBER;
 				break;
                     
+                case VIP2KTAB:
+                    elfChoice_ = VIP2K;
+                break;
+                    
 				case VELFTAB:
                     elfChoice_ = VELF;
                 break;
@@ -5094,10 +5098,6 @@ void Main::onComputer(wxNotebookEvent&event)
 					rcaChoice_ = VIPII;
 				break;
 
-                case VIP2KTAB:
-                    rcaChoice_ = VIP2K;
-                break;
-                    
 				case MCDSTAB:
 					rcaChoice_ = MCDS;
 				break;
@@ -5285,32 +5285,36 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
 
 	switch (event.GetSelection())
 	{
-	case ELF2KTAB:
-		elfChoice_ = ELF2K;
+        case ELF2KTAB:
+            elfChoice_ = ELF2K;
 		break;
 
-	case COSMICOSTAB:
-		elfChoice_ = COSMICOS;
+        case COSMICOSTAB:
+            elfChoice_ = COSMICOS;
 		break;
 
-	case ELFTAB:
-		elfChoice_ = ELF;
+        case ELFTAB:
+            elfChoice_ = ELF;
 		break;
 
-	case ELFIITAB:
-		elfChoice_ = ELFII;
+        case ELFIITAB:
+            elfChoice_ = ELFII;
 		break;
 
-	case SUPERELFTAB:
-		elfChoice_ = SUPERELF;
+        case SUPERELFTAB:
+            elfChoice_ = SUPERELF;
 		break;
 
-	case MEMBERTAB:
-		elfChoice_ = MEMBER;
+        case MEMBERTAB:
+            elfChoice_ = MEMBER;
 		break;
 
-	case VELFTAB:
-		elfChoice_ = VELF;
+        case VIP2KTAB:
+            elfChoice_ = VIP2K;
+        break;
+            
+        case VELFTAB:
+            elfChoice_ = VELF;
 		break;
 	}
 	selectedComputer_ = elfChoice_;
@@ -5347,10 +5351,6 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
             rcaChoice_ = VIPII;
 		break;
 
-        case VIP2KTAB:
-            rcaChoice_ = VIP2K;
-        break;
-            
         case MCDSTAB:
             rcaChoice_ = MCDS;
 		break;
@@ -5463,18 +5463,23 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(MEMBERTAB);
 		break;
 
+        case VIP2K:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
+            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(VIP2KTAB);
+        break;
+            
 		case MICROTUTOR:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTORTAB);
 		break;
 
         case FRED1:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(FRED1);
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
             XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED1TAB);
         break;
             
         case FRED2:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(FRED2);
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
             XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED2TAB);
         break;
             
@@ -5483,11 +5488,6 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(VIPTAB);
 		break;
 
-        case VIP2K:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
-            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(VIP2KTAB);
-        break;
-            
 		case VIPII:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(VIPIITAB);
@@ -7520,10 +7520,10 @@ void Main::setDebounceTimer(guiEvent&WXUNUSED(event))
 
 void Main::eventDebounceTimer()
 {
-	guiEvent event(GUI_MSG, DEBOUNCE_TIMER);
-	event.SetEventObject(p_Main);
-
-	GetEventHandler()->AddPendingEvent(event);
+    guiEvent event(GUI_MSG, DEBOUNCE_TIMER);
+    event.SetEventObject(p_Main);
+    
+    GetEventHandler()->AddPendingEvent(event);
 }
 
 wxString Main::getMultiCartGame(Byte findMsb, Byte findLsb)

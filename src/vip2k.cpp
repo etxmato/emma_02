@@ -29,7 +29,7 @@
 #include "main.h"
 #include "vip2k.h"
 
-Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, int tempo, ElfConfiguration conf)
+Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf)
 :Pixie(title, pos, size, zoom, zoomfactor, computerType)
 {
 	vipConfiguration = conf;
@@ -518,18 +518,18 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
         break;
             
 		case PIXIEIN:
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xb00)
+            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xb00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4900)
                 p_Main->stopAutoTerminal();
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xc00)
+            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xc00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4A00)
                 p_Main->stopAutoTerminal();
             ret = inPixie();
 		break;
 
         case PIXIEOUT:
             outPixie();
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xb00)
+            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xb00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4A00)
                 p_Main->startAutoTerminalLoad();
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xa00)
+            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xa00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4900)
                 p_Main->startAutoTerminalSave();
         break;
             

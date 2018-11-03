@@ -693,7 +693,7 @@ void Pixie::executeSequencer(Byte sequencerValue)
 
     if ((sequencerValue & 0x2) == 0)
     {
-        if (scanLine_ >= 64)
+        if (scanLine_ >= 64 && scanLine_ < 256)
         {
             v = p_Computer->pixieDmaOut();
             
