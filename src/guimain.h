@@ -121,7 +121,7 @@ public:
 	bool diagActive_;
 	int diagOn_;
 	bool videoLog_;
-	bool stretchDot_;
+    bool stretchDot_;
 	bool realCassetteLoad_;
 	wxString turboClock_;
 
@@ -389,8 +389,8 @@ public:
 	void onTerminalSave(wxCommandEvent&event);
 	void onTerminalLoad(wxCommandEvent&event);
 	void onTerminalStop(wxCommandEvent&event);
-    void startAutoTerminalLoad();
-    void startTerminalLoad();
+    void startAutoTerminalLoad(bool binaryFile);
+    void startTerminalLoad(bool binaryFile);
     void stopAutoTerminal();
     void stopTerminal();
     void startAutoTerminalSave();

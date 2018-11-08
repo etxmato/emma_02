@@ -73,7 +73,7 @@ void Vip2K::configureComputer()
 		p_Vt100 = vtPointer;
         
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
-		vtPointer->Show(true);
+		vtPointer->Show(vipConfiguration.vtShow);
 	}
 
     if (vipConfiguration.vtExternal)
@@ -518,18 +518,20 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
         break;
             
 		case PIXIEIN:
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xb00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4900)
+            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xb00 || (scratchpadRegister_[programCounter_]&0xff00) == 0x4900)
                 p_Main->stopAutoTerminal();
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xc00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4A00)
+            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xc00 || (scratchpadRegister_[programCounter_]&0xff00) == 0x4A00)
                 p_Main->stopAutoTerminal();
             ret = inPixie();
 		break;
 
         case PIXIEOUT:
             outPixie();
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xb00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4A00)
-                p_Main->startAutoTerminalLoad();
-            if ((scratchpadRegister_[programCounter_]&0xff00) ==0xa00 || (scratchpadRegister_[programCounter_]&0xff00) ==0x4900)
+            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xb00)
+                p_Main->startAutoTerminalLoad(false);
+            if ((scratchpadRegister_[programCounter_]&0xff00) == 0x4A00)
+                p_Main->startAutoTerminalLoad(true);
+            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xa00 || (scratchpadRegister_[programCounter_]&0xff00) == 0x4900)
                 p_Main->startAutoTerminalSave();
         break;
             
@@ -809,10 +811,10 @@ void Vip2K::terminalSave(wxString fileName)
         vtPointer->terminalSaveVt(fileName);
 }
 
-void Vip2K::terminalLoad(wxString fileName)
+void Vip2K::terminalLoad(wxString fileName, bool binaryFile)
 {
     if (vipConfiguration.vtType != VTNONE)
-        vtPointer->terminalLoadVt(fileName);
+        vtPointer->terminalLoadVt(fileName, binaryFile);
 }
 
 void Vip2K::terminalStop()
@@ -829,18 +831,5 @@ void Vip2K::terminalStop()
 
 void Vip2K::checkVipFunction()
 {
-/*    switch (scratchpadRegister_[programCounter_])
-    {
-        case 0xBC4:    // LOAD L
-            p_Main->startAutoTerminalLoad();
-        break;
-            
-        case 0xACB:    // SAVE S
-            p_Main->startAutoTerminalSave();
-        break;
-            
-        case 0xB5B:    // STOP SAVE S
-            p_Main->stopAutoTerminal();
-        break;
-    }*/
+    
 }

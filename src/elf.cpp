@@ -413,11 +413,11 @@ void MainElf::checkElfFunction()
 			switch (scratchpadRegister_[programCounter_])
 			{
 				case 0xf4e:		// LOAD L
-					p_Main->startAutoTerminalLoad();
+					p_Main->startAutoTerminalLoad(false);
 				break;
 
                 case 0x1300:	// LOAD I
-                    p_Main->startAutoTerminalLoad();
+                    p_Main->startAutoTerminalLoad(false);
                 break;
                     
                 case 0x102D:	// SAVE S
@@ -441,11 +441,11 @@ void MainElf::checkElfFunction()
 			switch (scratchpadRegister_[programCounter_])
 			{
 				case 0x8f4e:	// LOAD L
-					p_Main->startAutoTerminalLoad();
+					p_Main->startAutoTerminalLoad(false);
 				break;
 
                 case 0x9300:	// LOAD I
-                    p_Main->startAutoTerminalLoad();
+                    p_Main->startAutoTerminalLoad(false);
                 break;
                     
 				case 0x902D:	// SAVE S

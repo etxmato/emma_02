@@ -119,6 +119,7 @@ public:
 	bool useSwitch;
 	bool useHex;
 	bool useTape;
+    bool vtShow;
 
 	int keyboardType;
 	bool useHexKeyboard;

@@ -67,8 +67,8 @@ public:
     void setInterlace(bool status);
 
 protected:
-    Byte pbacking_[384][192];
-    Byte color_[384][192];
+    Byte pbacking_[384][208];
+    Byte color_[384][208];
     bool interlace_;
 
     bool graphicsOn_;
@@ -106,6 +106,7 @@ private:
     Word sequencerAddress_;
     int scanLine_;
     int scanByte_;
+    int viewableLines_;
 };
 
 class PixieFred : public Pixie

@@ -770,53 +770,70 @@ void Vt100::cycleVt()
             {
                 if (vtOut_ == 0)
                 {
-                    if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
+                    if (binaryFile_)
                     {
-                        bool eof=false;
-                        size_t numberOfBytes;
-                        int seek = -2;
-                            
-                        numberOfBytes = inputTerminalFile.Read(saveBuffer, 3);
-
-                        if (inputTerminalFile.Eof())
+                        if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
                         {
-                            switch(numberOfBytes)
+                            size_t numberOfBytes;
+                            numberOfBytes = inputTerminalFile.Read(saveBuffer, 1);
+                        
+                            if (numberOfBytes == 1)
                             {
-                                case 0:
-                                    eof = true;
-                                break;
-                                        
-                                case 1:
-                                    if (saveBuffer[0] == 0xa)
-                                    {
-                                        saveBuffer[0] = 0xd;
-                                        eof = true;
-                                    }
-                                    seek = 0;
-                                break;
-                                        
-                                case 2:
-                                    if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa)
-                                        eof = true;
-                                    seek = -1;
-                                break;
+                                vtOut_ = saveBuffer[0];
+                                previousByte_ = vtOut_;
                             }
                         }
-                            
-                        if (saveBuffer[0] == 0xa && previousByte_ != 0xd)
-                            saveBuffer[0] = 0xd;
-                            
-                        if (eof)
+                    }
+                    else
+                    {
+                        if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
                         {
-                            terminalLoad_ = false;
-                            inputTerminalFile.Close();
-                            p_Main->stopTerminal();
-                        }
-                        else
-                        {
-                            inputTerminalFile.Seek(seek, wxFromCurrent);
-                            vtOut_ = saveBuffer[0];
-                            previousByte_ = vtOut_;
+                            bool eof=false;
+                            size_t numberOfBytes;
+                            int seek = -2;
+                            
+                            numberOfBytes = inputTerminalFile.Read(saveBuffer, 3);
+
+                            if (inputTerminalFile.Eof())
+                            {
+                                switch(numberOfBytes)
+                                {
+                                    case 0:
+                                        eof = true;
+                                    break;
+                                        
+                                    case 1:
+                                        if (saveBuffer[0] == 0xa)
+                                        {
+                                            saveBuffer[0] = 0xd;
+                                            eof = true;
+                                        }
+                                        seek = 0;
+                                    break;
+                                        
+                                    case 2:
+                                        if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa)
+                                            eof = true;
+                                        seek = -1;
+                                    break;
+                                }
+                            }
+                            
+                            if (saveBuffer[0] == 0xa && previousByte_ != 0xd)
+                                saveBuffer[0] = 0xd;
+                            
+                            if (eof)
+                            {
+                                terminalLoad_ = false;
+                                inputTerminalFile.Close();
+                                p_Main->stopTerminal();
+                            }
+                            else
+                            {
+                                inputTerminalFile.Seek(seek, wxFromCurrent);
+                                vtOut_ = saveBuffer[0];
+                                previousByte_ = vtOut_;
+                            }
                         }
                     }
                 }
@@ -2815,13 +2832,14 @@ void Vt100::terminalSaveVt(wxString fileName)
     }
 }
 
-void Vt100::terminalLoadVt(wxString fileName)
+void Vt100::terminalLoadVt(wxString fileName, bool binaryFile)
 {
     if (!fileName.empty())
     {
         if (inputTerminalFile.Open(fileName, _("rb")))
         {
             terminalLoad_ = true;
+            binaryFile_ = binaryFile;
 			p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
         }

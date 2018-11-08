@@ -43,7 +43,7 @@ public:
 	void sleepComputer(long ms);
 
     void terminalSave(wxString fileName);
-    void terminalLoad(wxString fileName);
+    void terminalLoad(wxString fileName, bool binaryFile);
     void terminalStop();
     
 private:

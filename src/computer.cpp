@@ -1775,7 +1775,7 @@ void Computer::terminalSave(wxString WXUNUSED(fileName))
 {
 }
 
-void Computer::terminalLoad(wxString WXUNUSED(fileName))
+void Computer::terminalLoad(wxString WXUNUSED(fileName), bool WXUNUSED(binaryFile))
 {
 }
 

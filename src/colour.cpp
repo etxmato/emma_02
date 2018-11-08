@@ -177,9 +177,14 @@ ColourDialog::ColourDialog(wxWindow* parent)
 		scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "4");
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
 	}
-    if ( computerType_ == VIP2K || computerType_ == FRED1 || computerType_ == FRED2)
+    if (computerType_ == FRED1 || computerType_ == FRED2)
     {
         scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "1");
+        XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
+    }
+    if (computerType_ == VIP2K)
+    {
+        scaleString = p_Main->getConfigItem(computerTypeStr_+"/Window_Scale_Factor_X", "1.5");
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue(scaleString);
     }
 

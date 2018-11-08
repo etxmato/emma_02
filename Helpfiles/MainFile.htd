@@ -222,6 +222,10 @@ Directory including the Cosmac Vip ROM file, Chip 8/8X/10 interpreter files and 
 <p>
 Directory including the Cosmac Vip ROM file, FP Basic, Chip 8/8X/10 interpreter files. For Chip 8/8x software see Chip 8 directory.
 </p>
+<h3>VIP2K</h3>
+<p>
+Directory including VIP2K Membership Card software and the video sequencer state machine ROM.
+</p>
 <h3>Visicom</h3>
 <p>
 Directory including the Visicom COM-1000 ROM file.

@@ -93,6 +93,7 @@ BEGIN_EVENT_TABLE(GuiVip2K, GuiVelf)
 	EVT_BUTTON(XRCID("VtSetupVip2K"), GuiMain::onVtSetup)
 	EVT_CHECKBOX(XRCID("StretchDotVip2K"), GuiMain::onStretchDot)
 
+    EVT_CHECKBOX(XRCID("VtShowVip2K"), GuiVip2K::onVtShow)
 	EVT_CHOICE(XRCID("VTBaudTChoiceVip2K"), GuiVip2K::onVipBaudT)
 	EVT_CHOICE(XRCID("VTBaudRChoiceVip2K"), GuiVip2K::onVipBaudR)
 
@@ -135,12 +136,11 @@ void GuiVip2K::readVip2KConfig()
 	conf[VIP2K].wavFileDir_ = readConfigDir("/Dir/Vip2K/Wav_File", dataDir_ + "Vip2K" + pathSeparator_);
 	elfConfiguration[VIP2K].vtWavFileDir_ = readConfigDir("/Dir/Vip2K/Vt_Wav_File", dataDir_ + "Vip2K" + pathSeparator_);
 
-	conf[VIP2K].rom_[MAINROM1] = configPointer->Read("/Vip2K/Main_Rom_File", "vip2k11.hex");
+	conf[VIP2K].rom_[MAINROM1] = configPointer->Read("/Vip2K/Main_Rom_File", "vip2k12.hex");
 	conf[VIP2K].rom_[MAINROM2] = configPointer->Read("/Vip2K/Sequencer_Rom_File", "vip-2716.hex");
 	conf[VIP2K].ram_ = configPointer->Read("/Vip2K/Ram_Software", "");
 	conf[VIP2K].chip8SW_ = configPointer->Read("/Vip2K/Chip_8_Software", "");
-	conf[VIP2K].wavFile_ = configPointer->Read("/Vip2K/Wav_File", "");
-	elfConfiguration[VIP2K].vtWavFile_ = configPointer->Read("/Vip2K/Vt_Wav_File", "");
+	elfConfiguration[VIP2K].vtWavFile_ = configPointer->Read("/Vip2K/Vt_Wav_File", "file.hex");
     elfConfiguration[VIP2K].serialPort_ = configPointer->Read("/Vip2K/VtSerialPortChoice", "");
 
 	conf[VIP2K].printFile_ = configPointer->Read("/Vip2K/Print_File", "printerout.txt");
@@ -153,7 +153,7 @@ void GuiVip2K::readVip2KConfig()
 	defaultZoom.Printf("%2.2f", 1.0);
 	conf[VIP2K].zoomVt_ = configPointer->Read("/Vip2K/Vt_Zoom", defaultZoom);
 	wxString defaultScale;
-	defaultScale.Printf("%i", 3);
+	defaultScale.Printf("%1.1f", 1.5);
 	conf[VIP2K].xScale_ = configPointer->Read("/Vip2K/Window_Scale_Factor_X", defaultScale);
 
 	configPointer->Read("/Vip2K/Enable_Vt_Stretch_Dot", &conf[VIP2K].stretchDot_, false);
@@ -175,13 +175,14 @@ void GuiVip2K::readVip2KConfig()
 	elfConfiguration[VIP2K].bellFrequency_ = (int)configPointer->Read("/Vip2K/Bell_Frequency", 800);
 
     configPointer->Read("/Vip2K/Uart", &elfConfiguration[VIP2K].useUart, false);
-	elfConfiguration[VIP2K].vtType = (int)configPointer->Read("/Vip2K/VT_Type", 0l);
+	elfConfiguration[VIP2K].vtType = (int)configPointer->Read("/Vip2K/VT_Type", 2l);
     elfConfiguration[VIP2K].vt52SetUpFeature_ = configPointer->Read("/Vip2K/VT52Setup", 0x00004092l);
     elfConfiguration[VIP2K].vt100SetUpFeature_ = configPointer->Read("/Vip2K/VT100Setup", 0x0000ca52l);
     elfConfiguration[VIP2K].vtExternalSetUpFeature_ = configPointer->Read("/Vip2K/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Vip2K/Vt_Baud", 5l);
     elfConfiguration[VIP2K].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 1l);
     elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 1l);
+    configPointer->Read("/Vip2K/ShowVtWindow", &elfConfiguration[VIP2K].vtShow, false);
 
 	setVtType("Vip2K", VIP2K, elfConfiguration[VIP2K].vtType, false);
 
@@ -195,16 +196,17 @@ void GuiVip2K::readVip2KConfig()
 		XRCCTRL(*this, "Chip8SWVip2K", wxTextCtrl)->SetValue(conf[VIP2K].chip8SW_);
 		XRCCTRL(*this, "VtCharRomVip2K", wxComboBox)->SetValue(conf[VIP2K].vtCharRom_);
 		XRCCTRL(*this, "ScreenDumpFileVip2K", wxComboBox)->SetValue(conf[VIP2K].screenDumpFile_);
-		XRCCTRL(*this, "WavFileVip2K", wxTextCtrl)->SetValue(conf[VIP2K].wavFile_);
+		XRCCTRL(*this, "WavFileVip2K", wxTextCtrl)->SetValue(elfConfiguration[VIP2K].vtWavFile_);
 
 		XRCCTRL(*this, "VTTypeVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].vtType);
 
 		XRCCTRL(*this, "VTBaudTChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
 		XRCCTRL(*this, "ZoomValueVtVip2K", wxTextCtrl)->ChangeValue(conf[VIP2K].zoomVt_);
+        XRCCTRL(*this, "VtShowVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].vtShow);
 
 		XRCCTRL(*this, "ZoomValueVip2K", wxTextCtrl)->ChangeValue(conf[VIP2K].zoom_);
-		XRCCTRL(*this, "AutoCasLoadVip2K", wxCheckBox)->SetValue(conf[VIP2K].autoCassetteLoad_);
+        XRCCTRL(*this, "AutoCasLoadVip2K", wxCheckBox)->SetValue(conf[VIP2K].autoCassetteLoad_);
 		XRCCTRL(*this, "VolumeVip2K", wxSlider)->SetValue(conf[VIP2K].volume_);
 		clockTextCtrl[VIP2K]->ChangeValue(conf[VIP2K].clock_);
 	}
@@ -233,7 +235,6 @@ void GuiVip2K::writeVip2KConfig()
 	configPointer->Write("/Vip2K/Chip_8_Software", conf[VIP2K].chip8SW_);
 	configPointer->Write("/Vip2K/Print_File", conf[VIP2K].printFile_);
 	configPointer->Write("/Vip2K/Video_Dump_File", conf[VIP2K].screenDumpFile_);
-	configPointer->Write("/Vip2K/Wav_File", conf[VIP2K].wavFile_);
 	configPointer->Write("/Vip2K/Vt_Wav_File", elfConfiguration[VIP2K].vtWavFile_);
     configPointer->Write("/Vip2K/VtSerialPortChoice", elfConfiguration[VIP2K].serialPort_);
 
@@ -242,6 +243,7 @@ void GuiVip2K::writeVip2KConfig()
 	configPointer->Write("/Vip2K/Bell_Frequency", elfConfiguration[VIP2K].bellFrequency_);
     configPointer->Write("/Vip2K/Uart", elfConfiguration[VIP2K].useUart);
 	configPointer->Write("/Vip2K/VT_Type", elfConfiguration[VIP2K].vtType);
+    configPointer->Write("/Vip2K/ShowVtWindow", elfConfiguration[VIP2K].vtShow);
 
     long value = elfConfiguration[VIP2K].vt52SetUpFeature_.to_ulong();
     configPointer->Write("/Vip2K/VT52Setup", value);
@@ -305,6 +307,11 @@ void GuiVip2K::onVipUart(wxCommandEvent&WXUNUSED(event))
 {
     XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudR);
     XRCCTRL(*this, "VTBaudTChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
+}
+
+void GuiVip2K::onVtShow(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].vtShow = event.IsChecked();
 }
 
 

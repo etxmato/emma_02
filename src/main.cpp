@@ -2266,7 +2266,7 @@ void Main::initConfig()
 	setComputerInfo(VELF, "Velf", "VELF", "");
 
     borderX[VIDEOPIXIE] = 0;
-    borderY[VIDEOPIXIE] = 4;
+    borderY[VIDEOPIXIE] = 0;
 
     setScreenInfo(VIP2K, 0, 5, colour, 2, borderX, borderY);
     setComputerInfo(VIP2K, "Vip2K", "VIP2K Membership Card", "");
@@ -4159,7 +4159,6 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
 				case ELFII:
 				case SUPERELF:
                 case VIP:
-                case VIP2K:
                 case VELF:
 					if (conf[runningComputer_].printerOn_)
 						p_Main->onF4();
@@ -4842,7 +4841,7 @@ void Main::onStart(int computer)
 		break;
 
         case VIP2K:
-            p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(200, 192), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, elfConfiguration[VIP2K]);
+            p_Vip2K = new Vip2K(computerInfo[VIP2K].name, wxPoint(conf[VIP2K].mainX_, conf[VIP2K].mainY_), wxSize(198*xScale, 203), zoom, xScale, VIP2K, conf[VIP2K].clockSpeed_, elfConfiguration[VIP2K]);
             p_Video = p_Vip2K;
             p_Computer = p_Vip2K;
         break;
@@ -5806,7 +5805,7 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == VIP2K)
     {
-//        enableChip8DebugGui(!status);
+        XRCCTRL(*this,"VtShowVip2K", wxCheckBox)->Enable(status);
         XRCCTRL(*this,"MainRomVip2K", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonVip2K", wxButton)->Enable(status);
         XRCCTRL(*this,"RamSWVip2K", wxComboBox)->Enable(status);

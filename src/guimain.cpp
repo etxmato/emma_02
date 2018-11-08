@@ -2970,19 +2970,19 @@ void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 {
-    startTerminalLoad();
+    startTerminalLoad(false);
 }
 
-void GuiMain::startAutoTerminalLoad()
+void GuiMain::startAutoTerminalLoad(bool binaryFile)
 {
 	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
-		startTerminalLoad();
+		startTerminalLoad(binaryFile);
 }
 
-void GuiMain::startTerminalLoad()
+void GuiMain::startTerminalLoad(bool binaryFile)
 {
     if (terminalSave_ || terminalLoad_)
         return;
@@ -3000,7 +3000,7 @@ void GuiMain::startTerminalLoad()
         if (wxFile::Exists(filePath))
         {
             p_Main->eventSetTapeState(TAPE_PLAY);
-            p_Computer->terminalLoad(filePath);
+            p_Computer->terminalLoad(filePath, binaryFile);
         }
     }
 }
