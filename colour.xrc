@@ -13463,7 +13463,7 @@
     <object class="wxDialog" name="ColourDialogVip2K">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-        <title>Video Setup Cosmac VIP2K</title>
+        <title>Video Setup VIP2K Membership Card</title>
         <centered>1</centered>
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

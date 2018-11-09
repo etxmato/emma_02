@@ -1603,7 +1603,7 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                         getSoftware(computer, "Chip_8_Software", software);
                     if (parser.Found("r", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on Cosmac VIP2K emulator");
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on VIP2K Membership Card emulator");
                         return false;
                     }
                     return true;

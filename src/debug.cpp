@@ -14685,7 +14685,7 @@ void DebugWindow::updateTitle()
                 title = title + " ** PAUSED **";
             if (p_Vip2K->getClear()==0)
                 title = title + " ** CPU STOPPED **";
-            p_Vip2K->SetTitle("Cosmac VIP2K" + title);
+            p_Vip2K->SetTitle("VIP2K Membership Card" + title);
             p_Vip2K->updateTitle(title);
             p_Vip2K->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;

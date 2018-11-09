@@ -58,7 +58,7 @@ void Vip2K::configureComputer()
 	efType_[2] = VIP2KEF2;
 	efType_[3] = VIP2KEF3;
 
-	p_Main->message("Configuring Cosmac VIP2K");
+	p_Main->message("Configuring VIP2K Membership Card");
     
     p_Main->message("	Input 1-5: keyboard input keycol 1-5");
     p_Main->message("	EF 2: CTL, EF 3: SHIFT\n");
@@ -784,9 +784,9 @@ void Vip2K::moveWindows()
 void Vip2K::updateTitle(wxString Title)
 {
     if (vipConfiguration.vtType == VT52)
-        vtPointer->SetTitle("Cosmac VIP2K - VT 52" + Title);
+        vtPointer->SetTitle("VIP2K Membership Card - VT 52" + Title);
     if (vipConfiguration.vtType == VT100)
-        vtPointer->SetTitle("Cosmac VIP2K - VT 100" + Title);
+        vtPointer->SetTitle("VIP2K Membership Card - VT 100" + Title);
 }
 
 void Vip2K::onReset()
