@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/pixie.cpp"
-            timestampString = "563403912.6135679"
+            timestampString = "563478200.940105"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "764"
-            endingLineNumber = "764"
+            startingLineNumber = "760"
+            endingLineNumber = "760"
             landmarkName = "Pixie::executeSequencer(Byte sequencerValue)"
             landmarkType = "7">
          </BreakpointContent>
@@ -26,7 +26,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/pixie.cpp"
-            timestampString = "563403912.6139359"
+            timestampString = "563478200.9406919"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "448"
@@ -250,11 +250,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/pixie.cpp"
-            timestampString = "563403912.614338"
+            timestampString = "563478200.941088"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "706"
-            endingLineNumber = "706"
+            startingLineNumber = "753"
+            endingLineNumber = "753"
             landmarkName = "Pixie::executeSequencer(Byte sequencerValue)"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,11 +266,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/pixie.cpp"
-            timestampString = "563403912.614567"
+            timestampString = "563478200.9413511"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "707"
-            endingLineNumber = "707"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
             landmarkName = "Pixie::executeSequencer(Byte sequencerValue)"
             landmarkType = "7">
          </BreakpointContent>
@@ -282,27 +282,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/pixie.cpp"
-            timestampString = "563403912.614789"
+            timestampString = "563478200.9415931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "757"
-            endingLineNumber = "757"
-            landmarkName = "Pixie::executeSequencer(Byte sequencerValue)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/pixie.cpp"
-            timestampString = "563403912.615012"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "697"
-            endingLineNumber = "697"
+            startingLineNumber = "755"
+            endingLineNumber = "755"
             landmarkName = "Pixie::executeSequencer(Byte sequencerValue)"
             landmarkType = "7">
          </BreakpointContent>

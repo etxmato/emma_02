@@ -95,7 +95,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     if (computerType == VIP2K)
     {
-        videoHeight_ = 203;
+        videoHeight_ = 200;
         videoWidth_ = 198;
         studioIVFactor_ = true;
     }
@@ -695,23 +695,19 @@ void Pixie::executeSequencer(Byte sequencerValue)
     if ((sequencerValue & 0x2) == 0)
     {
         v = p_Computer->pixieDmaOut();
-
+        
         if (scanByte_ == 0)
             viewableLines_++;
-
-        if (scanLine_ >= 64 && scanLine_ < (videoHeight_+64))
+        
+        if (scanLine_ >= 66 && scanLine_ < (videoHeight_+66))
         {
-            
-            if (v == 0xaa)
-                v = 0xaa;
-            
             switch (scanByte_)
             {
                 case 30:
                     v <<= 5;
                     for (int i=0; i<3; i++)
                     {
-                        plot(i, scanLine_-64,(v & 128) ? 1 : 0, 0);
+                        plot(i, scanLine_-66,(v & 128) ? 1 : 0, 0);
                         v <<= 1;
                     }
                 break;
@@ -719,7 +715,7 @@ void Pixie::executeSequencer(Byte sequencerValue)
                 case 31:
                     for (int i=3; i<11; i++)
                     {
-                        plot(i, scanLine_-64,(v & 128) ? 1 : 0, 0);
+                        plot(i, scanLine_-66,(v & 128) ? 1 : 0, 0);
                         v <<= 1;
                     }
                 break;
@@ -727,7 +723,7 @@ void Pixie::executeSequencer(Byte sequencerValue)
                 case 23:
                     for (int i=195; i<198; i++)
                     {
-                        plot(i, scanLine_-64,(v & 128) ? 1 : 0, 0);
+                        plot(i, scanLine_-66,(v & 128) ? 1 : 0, 0);
                         v <<= 1;
                     }
                 break;
@@ -736,7 +732,7 @@ void Pixie::executeSequencer(Byte sequencerValue)
                     x = scanByte_*8 + 11;
                     for (int i=0; i<8; i++)
                     {
-                        plot(x+i, scanLine_-64,(v & 128) ? 1 : 0, 0);
+                        plot(x+i, scanLine_-66,(v & 128) ? 1 : 0, 0);
                         v <<= 1;
                     }
                break;
@@ -752,9 +748,9 @@ void Pixie::executeSequencer(Byte sequencerValue)
     if (sequencerValue & 0x40)
     {
     	sequencerAddress_ &= 0x4000;
-        viewableLines_--;
+        viewableLines_+=5;
         
-        if (videoHeight_ != viewableLines_ && viewableLines_ > 0)
+        if (videoHeight_ != viewableLines_ && viewableLines_ > 100)
         {
             videoHeight_ = viewableLines_;
             this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
