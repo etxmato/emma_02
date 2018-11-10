@@ -273,7 +273,7 @@ void Pixie::configurePixieVip2K()
     colourMask_ = 0;
         
     p_Main->message("Configuring VIP2K Video");
-    p_Main->message("	Input 6: enable graphics, input 7: disable graphics, EF 1: in frame indicator");
+    p_Main->message("	Input 6: enable graphics, input 7: disable graphics, EF 1: DMA indicator");
     p_Main->message("	Output 6: enable graphics, ouptut 7: disable graphics\n");
     
     sequencerAddress_ = 0;
