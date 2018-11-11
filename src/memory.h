@@ -32,10 +32,11 @@ public:
 	virtual Byte readMem(Word addr) = 0;
 	virtual void writeMem(Word addr, Byte value, bool writeRom) = 0;
     
-    virtual Byte readSequencerRom(Word address);
-    virtual Byte readSequencer(Word address);
-    virtual Word readSequencerAddress(Word address);
-    virtual void writeSequencer(Word address, Byte value);
+    Byte readSequencerRom(Word address);
+    void writeSequencerRom(Word address, Byte value);
+    Byte readSequencer(Word address);
+    Word readSequencerAddress(Word address);
+    void writeSequencer(Word address, Byte value);
     
 
 	Byte getRam(long address) {return mainMemory_[address];};

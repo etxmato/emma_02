@@ -13862,7 +13862,7 @@ Word DebugWindow::getAddressMask()
         break;
             
         case VIP2KSEQUENCER:
-            return 0x7fff;
+            return 0x7ff;
         break;
             
         case I_8275_RAM:
@@ -14350,7 +14350,7 @@ Byte DebugWindow::debugReadMem(Word address)
 		break;
 
 		case VIP2KSEQUENCER:
-			return p_Vip2K->readSequencer(address);
+			return p_Vip2K->readSequencerRom(address);
 		break;
 		
 		default:
@@ -14556,7 +14556,7 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 		break;
 		
 		case VIP2KSEQUENCER:
-			return p_Vip2K->writeSequencer(address, value);
+			return p_Vip2K->writeSequencerRom(address, value);
 		break;
 	}
 }

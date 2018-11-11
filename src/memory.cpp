@@ -600,6 +600,11 @@ Byte Memory::readSequencerRom(Word address)
     return sequencerMemory_[address];
 }
 
+void Memory::writeSequencerRom(Word address, Byte value)
+{
+    sequencerMemory_[address] = value;
+}
+
 Byte Memory::readSequencer(Word address)
 {
     Word sequencerAddress = (((address & 0x8) >> 1) & (address & 0x4)) ^ 0x4;

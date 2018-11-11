@@ -454,7 +454,7 @@ void Pixie::initPixie()
 	vidCycle_ = 0;
 	pixieEf_ = 1;
 
-	for (int x=0; x<384; x++) for (int y=0; y<200; y++)
+	for (int x=0; x<384; x++) for (int y=0; y<208; y++)
 	{
 		pbacking_[x][y] = 0;
 		color_[x][y] = 0;
