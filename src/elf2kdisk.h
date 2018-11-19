@@ -10,7 +10,7 @@ public:
 	Elf2KDisk();
 	~Elf2KDisk() {};
 
-	void configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration elfPortConf);
+	void configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration elfPortConf, bool use8275);
     void initializeIde(wxString ideFile);
 	Byte inDisk();
 	Byte readDiskStatus() {return 255;};
@@ -59,6 +59,8 @@ private:
 
 	bool rtc_;
 	bool uart_;
+    bool use8275_;
+    bool ideChecked_;
 
 	bitset<8> modemControlRegister_;
 	bitset<8> modemStatusRegister_;

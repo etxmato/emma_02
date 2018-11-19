@@ -92,9 +92,8 @@ void Vip2K::initComputer()
 	cassetteEf_ = 0;
 
 	for (int i=1; i<6; i++)
-	{
 		vipKeyState_[i] = 0xff;
-	}
+
     shiftEf_ = 1;
     ctlEf_ = 1;
 
@@ -105,8 +104,14 @@ void Vip2K::initComputer()
 	vipRunState_ = RESETSTATE;
 }
 
+void Vip2K::charEvent(int keycode)
+{
+}
+
 void Vip2K::keyDown(int keycode)
 {
+ //   for (int i=1; i<6; i++)
+  //      vipKeyState_[i] = 0xff;
     switch (keycode)
     {
         case '1':
@@ -494,45 +499,65 @@ Byte Vip2K::ef(int flag)
 Byte Vip2K::in(Byte port, Word WXUNUSED(address))
 {
 	Byte ret=255;
+    Word address;
 
 	switch(inType_[port])
 	{
         case VIP2KCOL1:
             ret = vipKeyState_[1];
+            if ((scratchpadRegister_[3] & 0xf000) == 0)
+                vipKeyState_[1] = 0xff;
         break;
             
         case VIP2KCOL2:
             ret = vipKeyState_[2];
+            if ((scratchpadRegister_[3] & 0xf000) == 0)
+                vipKeyState_[2] = 0xff;
         break;
             
         case VIP2KCOL3:
             ret = vipKeyState_[3];
+            if ((scratchpadRegister_[3] & 0xf000) == 0)
+                vipKeyState_[3] = 0xff;
         break;
     
         case VIP2KCOL4:
             ret = vipKeyState_[4];
-        break;
+            if ((scratchpadRegister_[3] & 0xf000) == 0)
+                vipKeyState_[4] = 0xff;
+       break;
             
         case VIP2KCOL5:
             ret = vipKeyState_[5];
+            if ((scratchpadRegister_[3] & 0xf000) == 0)
+                vipKeyState_[5] = 0xff;
         break;
             
 		case PIXIEIN:
-            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xb00 || (scratchpadRegister_[programCounter_]&0xff00) == 0x4900)
-                p_Main->stopAutoTerminal();
-            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xc00 || (scratchpadRegister_[programCounter_]&0xff00) == 0x4A00)
-                p_Main->stopAutoTerminal();
+            p_Main->stopAutoTerminal();
             ret = inPixie();
 		break;
 
         case PIXIEOUT:
             outPixie();
-            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xb00)
-                p_Main->startAutoTerminalLoad(false);
-            if ((scratchpadRegister_[programCounter_]&0xff00) == 0x4A00)
-                p_Main->startAutoTerminalLoad(true);
-            if ((scratchpadRegister_[programCounter_]&0xff00) == 0xa00 || (scratchpadRegister_[programCounter_]&0xff00) == 0x4900)
-                p_Main->startAutoTerminalSave();
+            if (programCounter_ == 3)
+            {
+                if (mainMemory_[scratchpadRegister_[7]+0xb] == 0x4c && mainMemory_[scratchpadRegister_[7]+0xc] == 0x4f && mainMemory_[scratchpadRegister_[7]+0xd] == 0x41 && mainMemory_[scratchpadRegister_[7]+0xe] == 0x44)
+                    p_Main->startAutoTerminalLoad(false);
+                if (mainMemory_[scratchpadRegister_[7]+0xb] == 0x53 && mainMemory_[scratchpadRegister_[7]+0xc] == 0x41 && mainMemory_[scratchpadRegister_[7]+0xd] == 0x56 && mainMemory_[scratchpadRegister_[7]+0xe] == 0x45)
+                    p_Main->startAutoTerminalSave();
+             
+                address = scratchpadRegister_[programCounter_];
+                    
+                while (mainMemory_[address] != 0xD4)
+                    address--;
+                    
+                if (mainMemory_[address+0xe] == 0x4c && mainMemory_[address+0xf] == 0x4f && mainMemory_[address+0x10] == 0x41 && mainMemory_[address+0x11] == 0x44)
+                    p_Main->startAutoTerminalLoad(true);
+                    
+                if (mainMemory_[address+0xe] == 0x53 && mainMemory_[address+0xf] == 0x41 && mainMemory_[address+0x10] == 0x56 && mainMemory_[address+0x11] == 0x45)
+                    p_Main->startAutoTerminalSave();
+            }
         break;
             
 		default:

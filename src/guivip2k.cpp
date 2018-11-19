@@ -136,7 +136,7 @@ void GuiVip2K::readVip2KConfig()
 	conf[VIP2K].wavFileDir_ = readConfigDir("/Dir/Vip2K/Wav_File", dataDir_ + "Vip2K" + pathSeparator_);
 	elfConfiguration[VIP2K].vtWavFileDir_ = readConfigDir("/Dir/Vip2K/Vt_Wav_File", dataDir_ + "Vip2K" + pathSeparator_);
 
-	conf[VIP2K].rom_[MAINROM1] = configPointer->Read("/Vip2K/Main_Rom_File", "vip2k13.hex");
+	conf[VIP2K].rom_[MAINROM1] = configPointer->Read("/Vip2K/Main_Rom_File", "vip2k13a.hex");
 	conf[VIP2K].rom_[MAINROM2] = configPointer->Read("/Vip2K/Sequencer_Rom_File", "vip-2716.hex");
 	conf[VIP2K].ram_ = configPointer->Read("/Vip2K/Ram_Software", "");
 	conf[VIP2K].chip8SW_ = configPointer->Read("/Vip2K/Chip_8_Software", "");

@@ -48,7 +48,10 @@ END_EVENT_TABLE()
 GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size) 
 {
-	configPointer = wxConfigBase::Get();
+    terminalSave_ = false;
+    terminalLoad_ = false;
+
+    configPointer = wxConfigBase::Get();
 	dataDir_ = dataDir;
 	iniDir_ = iniDir;
 	mode_ = mode;
@@ -3724,4 +3727,16 @@ void GuiMain::hideSplashScreen()
         break;
     }
 }
+
+bool GuiMain::repairIde()
+{
+    p_Main->eventShowMessageBox("IDE image is not compatible with intel 8275\nRisk of image corruption - repair it?",
+                                "Confirm Repair", wxICON_EXCLAMATION | wxYES_NO);
+    
+    if (messageBoxAnswer_ == wxYES)
+        return true;
+    else
+        return false;
+}
+
 

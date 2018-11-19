@@ -2423,7 +2423,7 @@ void Main::initConfig()
 	int mhzTextCorrectionComxY = 117;
     int stopCorrectionComxX = 143+60;
     int stopCorrectionComxY = 121;
-    int startCorrectionComxX = 143-23;
+    int startCorrectionComxX = 143-22;
     int startCorrectionComxY = 121;
 	int floatHeight = 21;
 	int startHeight = 25;
@@ -2436,7 +2436,7 @@ void Main::initConfig()
     int mhzTextCorrectionY = 146;
     int stopCorrectionX = 142+60;
     int stopCorrectionY = 150;
-    int startCorrectionX = 142-23;
+    int startCorrectionX = 142-22;
     int startCorrectionY = 150;
 #endif
 #if defined(__linux__)
@@ -2858,10 +2858,10 @@ bool Main::checkUpdateEmma()
 
 	double latestVersionDouble;
 	double versionDouble;
-
-	if (latestVersion_.ToDouble(&latestVersionDouble))
+    
+	if (version.ToDouble(&versionDouble))
 	{
-		version.ToDouble(&versionDouble);
+        latestVersion_.ToDouble(&latestVersionDouble);
 	}
 	else
 	{

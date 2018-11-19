@@ -1040,7 +1040,7 @@ void Elf2K::configureElfExtensions()
 
 	if (p_Main->getIdeFile(ELF2K) != "")
 	{
-		configureDisk(p_Main->getIdeDir(ELF2K) + p_Main->getIdeFile(ELF2K), p_Main->getIdeDir(ELF2K) + "disk2.ide", elfConfiguration.rtc, elfConfiguration.useUart, elfConfiguration.elfPortConf);
+		configureDisk(p_Main->getIdeDir(ELF2K) + p_Main->getIdeFile(ELF2K), p_Main->getIdeDir(ELF2K) + "disk2.ide", elfConfiguration.rtc, elfConfiguration.useUart, elfConfiguration.elfPortConf, elfConfiguration.use8275);
 	}
 
 	if (elfConfiguration.usePs2gpio)
@@ -1316,6 +1316,11 @@ void Elf2K::dataAvailable(bool data)
 void Elf2K::thrStatus(bool data)
 {
 	thrStatusUart(data);
+}
+
+void Elf2K::sleepComputer(long ms)
+{
+    threadPointer->Sleep(ms);
 }
 
 void Elf2K::setLedMs(long ms)

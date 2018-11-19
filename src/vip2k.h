@@ -17,7 +17,8 @@ public:
 	void configureComputer();
 	void configureKeyboard();
 	void initComputer();
-	void keyDown(int keycode);
+    void charEvent(int keycode);
+    void keyDown(int keycode);
 	void keyUp(int keycode);
 
 	void onRun();

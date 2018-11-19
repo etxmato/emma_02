@@ -1962,6 +1962,11 @@ void Cdp1802::cpuCycle()
 				buffer.Printf("PLO  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
 				tr = tr + buffer;
 			}
+//            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
+//            {
+//                buffer.Printf("%04X: PLO  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
+//                p_Main->eventShowTextMessage(buffer);
+//            }
 		break;
 		case 11:
 			scratchpadRegister_[n]= (scratchpadRegister_[n] & 0x00ff) |(accumulator_<<8);
@@ -1970,6 +1975,11 @@ void Cdp1802::cpuCycle()
 				buffer.Printf("PHI  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
 				tr = tr + buffer;
 			}
+//            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
+//            {
+//                buffer.Printf("%04X: PHI  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
+//                p_Main->eventShowTextMessage(buffer);
+//            }
 		break;
 		case 12:
             if (cpuType_ <= CPU1801)

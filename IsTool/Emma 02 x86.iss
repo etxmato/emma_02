@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.27.5
+AppVerName=Emma 02 - V1.28
 AppVersion=1.27
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.27.5
+OutputBaseFilename=Emma_02_x86_setup_v1.28
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -236,13 +236,14 @@ Source: ..\data\Membership\*.hex; DestDir: {app}\data\Membership; Components: MA
 Source: ..\data\Membership\*.txt; DestDir: {app}\data\Membership; Components: MAIN
 Source: ..\data\Microtutor\*.bin; DestDir: {app}\data\Microtutor; Components: MAIN
 Source: ..\data\Elf2K\v87a.bin; DestDir: {app}\data\Elf2K; Components: MAIN
-Source: ..\data\Elf2K\v88.bin; DestDir: {app}\data\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\v88b.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\intel8275.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\vt52.a.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\vt52.b.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\vt100.bin; DestDir: {app}\data\Elf2K; Components: MAIN
-Source: ..\data\Elf2K\elfos2k_0_2_8.hex; DestDir: {app}\data\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\elfos2k_0_2_8b.hex; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\LOAD-8275.hex; DestDir: {app}\data\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\MINIMON-8275.hex; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\elf2k-installation.ide; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\clock2.hex; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\Clock\*.*; DestDir: {app}\data\Elf2K\Clock\; Components: MAIN

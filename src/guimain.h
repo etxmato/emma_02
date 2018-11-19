@@ -431,6 +431,8 @@ public:
     bool showSplashScreen();
     void hideSplashScreen();
     
+    bool repairIde();
+    
 protected:
 	Mode mode_;
 

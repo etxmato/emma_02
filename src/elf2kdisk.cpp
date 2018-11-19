@@ -86,7 +86,7 @@ Elf2KDisk::Elf2KDisk()
 {
 }
 
-void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration portConf)
+void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration portConf, bool use8275)
 {
 //	int input, status, selectOutput, writeOutput;
 	wxString runningComp = p_Main->getRunningComputerStr();
@@ -95,6 +95,8 @@ void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bo
 
 	rtc_ = rtc;
 	uart_ = uart;
+    use8275_ = use8275;
+    ideChecked_ = false;
 
 //	input = p_Main->getConfigItem(runningComp +"/IdeInput", 3l);
 //	status = p_Main->getConfigItem(runningComp +"/IdeStatus", 2l);
@@ -390,7 +392,7 @@ void Elf2KDisk::writeSector()
 	offset = getOffset();
 	if (offset < 0)
 	{
-		printf("seek error\n");
+		p_Main->message("IDE Seek error\n");
 		return;
 	}
 	drive = (headDevice_ & 16) ? 1 : 0;
@@ -404,6 +406,7 @@ void Elf2KDisk::writeSector()
 	{
 		error_ |= 1;
 		status_ |= 1;
+        p_Main->message("IDE File open error\n");
 		return;
 	}
 	diskFile.Seek(offset, wxFromStart);
@@ -420,7 +423,10 @@ void Elf2KDisk::readSector()
 
 	offset = getOffset();
 	if (offset < 0)
-		return;
+    {
+        p_Main->message("IDE Seek error\n");
+        return;
+    }
 	drive = (headDevice_ & 16) ? 1 : 0;
 	if (!driveCreated_[drive])
 	{
@@ -432,10 +438,26 @@ void Elf2KDisk::readSector()
 	{
 		error_ |= 1;
 		status_ |= 1;
+        p_Main->message("IDE File open error\n");
 		return;
 	}
 	diskFile.Seek(offset, wxFromStart);
 	diskFile.Read(sectorBuffer_, 512);
+    
+    if (offset == 0 && use8275_ && !ideChecked_)
+    {
+        ideChecked_ = true;
+        if (sectorBuffer_[0x3a] == 0xf8 && sectorBuffer_[0x3c] == 0xb0)
+        {
+            if (p_Main->repairIde())
+            {
+                sectorBuffer_[0x3a] = 0xc0;
+                sectorBuffer_[0x3b] = 0x03;
+                sectorBuffer_[0x3c] = 0x0;
+                writeSector();
+            }
+        }
+    }
 	diskFile.Close();
 }
 
