@@ -104,14 +104,8 @@ void Vip2K::initComputer()
 	vipRunState_ = RESETSTATE;
 }
 
-void Vip2K::charEvent(int keycode)
-{
-}
-
 void Vip2K::keyDown(int keycode)
 {
- //   for (int i=1; i<6; i++)
-  //      vipKeyState_[i] = 0xff;
     switch (keycode)
     {
         case '1':
@@ -632,10 +626,26 @@ void Vip2K::startComputer()
 
 	p_Main->setSwName("");
 
-    readProgram(p_Main->getRomDir(VIP2K, MAINROM2), p_Main->getRomFile(VIP2K, MAINROM2), ROM, 0, NONAME);
-    
-    for (int i=0; i<2048; i++)
-    	sequencerMemory_[i] = mainMemory_[i];
+    if (readProgram(p_Main->getRomDir(VIP2K, MAINROM2), p_Main->getRomFile(VIP2K, MAINROM2), ROM, 0, NONAME))
+	{
+		for (int i=0; i<2048; i++)
+    		sequencerMemory_[i] = mainMemory_[i];
+	}
+	else
+	{
+		for (int i=0; i<2048; i+=8)
+		{
+    		sequencerMemory_[i] = 0xb7;
+    		sequencerMemory_[i+1] = 0xb7;
+    		sequencerMemory_[i+2] = 0xa6;
+    		sequencerMemory_[i+3] = 0xb7;
+    		sequencerMemory_[i+4] = 0xb6;
+    		sequencerMemory_[i+5] = 0xb7;
+    		sequencerMemory_[i+6] = 0xb6;
+    		sequencerMemory_[i+7] = 0xb7;
+    		sequencerMemory_[i+8] = 0xb6;
+		}
+	}
     
     readProgram(p_Main->getRomDir(VIP2K, MAINROM1), p_Main->getRomFile(VIP2K, MAINROM1), ROM, 0, NONAME);
     

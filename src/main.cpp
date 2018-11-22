@@ -57,6 +57,7 @@
 #include "printer.h"
 #include "about.h"
 #include "guipopup.h"
+#include "splash.h"
 
 #if defined(__WXMSW__) && (_DEBUG) && (WIN32)
 #include <vld.h>
@@ -3516,14 +3517,19 @@ void Main::onReInstallConfig(wxCommandEvent&WXUNUSED(event))
 {
     int answer = wxMessageBox("This will overwrite files in the configuration directory:\n"+iniDir_ + "Configurations" + pathSeparator_+"\n\nContinue to install default configuration files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
+    {
         reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_, pathSeparator_);
+    }
 }
 
 void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
 {
     int answer = wxMessageBox("This will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
+    {
         reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+        completedSplashScreen_ = new CompletedSplashScreen(this);
+    }
 }
 
 void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep)

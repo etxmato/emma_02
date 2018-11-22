@@ -3501,7 +3501,6 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 break;
                     
                 case VIP:
-                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3563,7 +3562,6 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 break;
                     
                 case VIP:
-                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3611,7 +3609,6 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 break;
                 
                 case VIP:
-                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3868,7 +3865,6 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
 
                 case VIP:
-                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3927,7 +3923,6 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
                     
                 case VIP:
-                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else
@@ -3971,7 +3966,6 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
                 
                 case VIP:
-                case VIP2K:
                     if (address < setLatch_)
                         address = (address | addressLatch_);
                     else

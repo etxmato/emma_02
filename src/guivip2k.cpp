@@ -76,8 +76,8 @@ BEGIN_EVENT_TABLE(GuiVip2K, GuiVelf)
 	EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeVip2K"), GuiMain::onVolume)
 	EVT_BUTTON(XRCID("ColoursVip2K"), Main::onColoursDef)
 
+    EVT_TEXT(XRCID("SaveStartVip2K"), GuiMain::onSaveStart)
 	EVT_TEXT(XRCID("SaveEndVip2K"), GuiMain::onSaveEnd)
-	EVT_TEXT(XRCID("SaveExecVip2K"), GuiMain::onSaveExec)
 
 	EVT_BUTTON(XRCID("SaveButtonVip2K"), GuiMain::onSaveButton)
 	EVT_BUTTON(XRCID("LoadButtonVip2K"), GuiMain::onLoadButton)

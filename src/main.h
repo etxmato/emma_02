@@ -1186,7 +1186,8 @@ private:
 	bool memoryChanged_[16][16];
 
 	int functionKey_[13];
-    
+    CompletedSplashScreen *completedSplashScreen_;
+
 	DECLARE_EVENT_TABLE()
 };
 
