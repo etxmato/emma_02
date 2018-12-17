@@ -484,6 +484,11 @@ void i8275::cycle8275()
 	}
 
 	if (dmaCycleValue8275_ < 0)  return;
+//    if (p_Computer->getProgramCounter() == 0)
+//    {
+//        p_Main->eventShowTextMessage("DMA request while R0 is Program Counter");
+//        return;
+//    }
 	dmaCycleValue8275_--;
 	if (dmaCycleValue8275_ <= 0)
 	{

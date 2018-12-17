@@ -48,7 +48,10 @@ END_EVENT_TABLE()
 GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size) 
 {
-	configPointer = wxConfigBase::Get();
+    terminalSave_ = false;
+    terminalLoad_ = false;
+
+    configPointer = wxConfigBase::Get();
 	dataDir_ = dataDir;
 	iniDir_ = iniDir;
 	mode_ = mode;
@@ -861,7 +864,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT52:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VELF)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -901,7 +904,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT100:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VELF)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -1283,6 +1286,9 @@ void GuiMain::onCassetteEject(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onCassetteText(wxCommandEvent&event)
 {
 	conf[selectedComputer_].wavFile_ = event.GetString();
+    
+    if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER)
+        return;
     
     if (conf[selectedComputer_].wavFile_ != "")
     {
@@ -2967,19 +2973,19 @@ void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 {
-    startTerminalLoad();
+    startTerminalLoad(false);
 }
 
-void GuiMain::startAutoTerminalLoad()
+void GuiMain::startAutoTerminalLoad(bool binaryFile)
 {
-	if (runningComputer_ != MEMBER)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
-		startTerminalLoad();
+		startTerminalLoad(binaryFile);
 }
 
-void GuiMain::startTerminalLoad()
+void GuiMain::startTerminalLoad(bool binaryFile)
 {
     if (terminalSave_ || terminalLoad_)
         return;
@@ -2997,7 +3003,7 @@ void GuiMain::startTerminalLoad()
         if (wxFile::Exists(filePath))
         {
             p_Main->eventSetTapeState(TAPE_PLAY);
-            p_Computer->terminalLoad(filePath);
+            p_Computer->terminalLoad(filePath, binaryFile);
         }
     }
 }
@@ -3033,7 +3039,7 @@ void GuiMain::stopTerminal()
 
 void GuiMain::startAutoTerminalSave()
 {
-	if (runningComputer_ != MEMBER)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3270,7 +3276,7 @@ void GuiMain::enableMemAccessGui(bool status)
 	}
 	if (!mode_.gui)
 		return;
-	if ((runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP) || superBasic || disableAll)
+	if ((runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
 	{
 		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);
@@ -3721,4 +3727,16 @@ void GuiMain::hideSplashScreen()
         break;
     }
 }
+
+bool GuiMain::repairIde()
+{
+    p_Main->eventShowMessageBox("IDE image is not compatible with intel 8275\nRisk of image corruption - repair it?",
+                                "Confirm Repair", wxICON_EXCLAMATION | wxYES_NO);
+    
+    if (messageBoxAnswer_ == wxYES)
+        return true;
+    else
+        return false;
+}
+
 

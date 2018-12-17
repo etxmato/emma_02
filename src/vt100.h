@@ -58,7 +58,7 @@ public:
 	void ResetIo();
 	void setForceUCVt(bool status);
     void terminalSaveVt(wxString fileName);
-    void terminalLoadVt(wxString fileName);
+    void terminalLoadVt(wxString fileNamee, bool binaryFile);
     void terminalStopVt();
     void startElfRun(bool load, bool overRide);
     void startMcdsRun(bool load);
@@ -221,6 +221,7 @@ private:
 
     bool terminalSave_;
     bool terminalLoad_;
+    bool binaryFile_;
     wxFile outputTerminalFile;
     wxFFile inputTerminalFile;
     wxString terminalInputFileLine_;

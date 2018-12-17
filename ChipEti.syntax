@@ -30,8 +30,8 @@ Vx , DT det code=Fx07
 Vx , K det code=Fx0A
 Vx , kk code=6xkk
 Vx , Vy det code=8xy0
-Vx , [I] det code=Fx65
-[I] , Vx det code=Fx55
+Vx , [I] code=Fx65
+[I] , Vx code=Fx55
 /LD
 OR
 Vx , Vy det code=8xy1
@@ -44,7 +44,7 @@ Vx , kk det code=Cxkk
 /RND
 SE
 Vx , kk code=3xkk
-Vx , Vy code=5xy0
+Vx , Vy code=5xy.
 /SE
 SHL
 Vx det code=8xxE
@@ -62,7 +62,7 @@ Vx code=ExA1
 /SKNP
 SNE
 Vx , kk code=4xkk
-Vx , Vy code=9xy0
+Vx , Vy code=9xy.
 /SNE
 SUB
 Vx , Vy det code=8xy5

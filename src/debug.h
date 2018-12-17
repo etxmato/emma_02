@@ -53,6 +53,7 @@ public:
 #define CDP_1864 10
 #define I_8275 11
 #define I_8275_RAM 12
+#define VIP2KSEQUENCER 13
 
 #define TEXT_ASSEMBLER true
 #define DIRECT_ASSEMBLER false
@@ -380,6 +381,7 @@ public:
 	void setMemoryType(int id, int setType);
 	void memoryDisplay();
 	Word getAddressMask();
+	void DebugDisplayVip2kSequencer();
     void DebugDisplay1870VideoRam();
     void DebugDisplay1870ColourRam();
 	void DebugDisplay1864ColorRam();

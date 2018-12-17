@@ -401,6 +401,7 @@ public:
 #include "victory.h"
 #include "vip.h"
 #include "vip2.h"
+#include "vip2k.h"
 #include "velf.h"
 #include "pecom.h"
 #include "tmc600.h"
@@ -413,7 +414,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.27
+#define EMMA_VERSION 1.29
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -422,27 +423,28 @@ public:
 #define COSMICOS 4
 #define MEMBER 5
 #define VIP 6
-#define VELF 7
-#define MICROTUTOR 8
-#define MS2000 9
-#define MCDS 10
-#define FRED1 11
-#define FRED2 12
-#define COMX 13
-#define STUDIO 14
-#define ETI 15
-#define CIDELSA 16
-#define TMC600 17
-#define TMC1800 18
-#define TMC2000 19
-#define NANO 20
-#define PECOM 21
-#define VISICOM 22
-#define VICTORY 23
-#define VIPII 24
-#define COINARCADE 25
-#define STUDIOIV 26
-#define DEBUGGER 27
+#define VIP2K 7
+#define VELF 8
+#define MICROTUTOR 9
+#define MS2000 10
+#define MCDS 11
+#define FRED1 12
+#define FRED2 13
+#define COMX 14
+#define STUDIO 15
+#define ETI 16
+#define CIDELSA 17
+#define TMC600 18
+#define TMC1800 19
+#define TMC2000 20
+#define NANO 21
+#define PECOM 22
+#define VISICOM 23
+#define VICTORY 24
+#define VIPII 25
+#define COINARCADE 26
+#define STUDIOIV 27
+#define DEBUGGER 28
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -494,15 +496,16 @@ public:
 #define ELFIITAB 3
 #define SUPERELFTAB 4
 #define MEMBERTAB 5
-#define VELFTAB 6
+#define VIP2KTAB 6
+#define VELFTAB 7
 
 #define FRED1TAB 0
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
 #define VIPTAB 3
 #define VIPIITAB 4
-#define MCDSTAB 5
-#define MS2000TAB 6
+#define MS2000TAB 5
+#define MCDSTAB 6
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
@@ -1183,7 +1186,8 @@ private:
 	bool memoryChanged_[16][16];
 
 	int functionKey_[13];
-    
+    CompletedSplashScreen *completedSplashScreen_;
+
 	DECLARE_EVENT_TABLE()
 };
 

@@ -216,8 +216,9 @@ Byte Cdp1802::pixieDmaOut(int *color)
 		case ETI:
 			*color = colorMemory1864_[((scratchpadRegister_[0] >> 1) & 0xf8) + (scratchpadRegister_[0] & 0x7)] & 0x7;
 		break;
-		case VIP:
+        case VIP:
 		case VIPII:
+        case VIP2K:
 			if (colourMask_ == 0)
 				*color = 7;
 			else
@@ -389,7 +390,7 @@ void Cdp1802::pixieInterrupt()
 		programCounter_=1;
 		interruptEnable_=0;
 		cpuCycles_++;
-  //      machineCycle(); - I put this in to get correct timeing for something; however this messes up the Pixie screens on at least the Elfs.
+  //      machineCycle(); //- I put this in to get correct timeing for something; however this messes up the Pixie screens on at least the Elfs.
     }
 	idle_=0;
 }
@@ -1961,6 +1962,11 @@ void Cdp1802::cpuCycle()
 				buffer.Printf("PLO  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
 				tr = tr + buffer;
 			}
+//            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
+//            {
+//                buffer.Printf("%04X: PLO  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
+//                p_Main->eventShowTextMessage(buffer);
+//            }
 		break;
 		case 11:
 			scratchpadRegister_[n]= (scratchpadRegister_[n] & 0x00ff) |(accumulator_<<8);
@@ -1969,6 +1975,11 @@ void Cdp1802::cpuCycle()
 				buffer.Printf("PHI  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
 				tr = tr + buffer;
 			}
+//            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
+//            {
+//                buffer.Printf("%04X: PHI  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
+//                p_Main->eventShowTextMessage(buffer);
+//            }
 		break;
 		case 12:
             if (cpuType_ <= CPU1801)
@@ -3080,7 +3091,7 @@ void Cdp1802::checkLoadedSoftware()
 			if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
 				loadedProgram_ = ASCIIMON;
 		}
-		if (computerType_ == VIP || computerType_ == VELF)
+		if (computerType_ == VIP || computerType_ == VELF || computerType_ == VIP2K)
 		{
 			if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
 			{

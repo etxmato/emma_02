@@ -27,7 +27,8 @@ public:
     void configurePixieFred();
     void configurePixieCoinArcade();
     void configurePixieVisicom();
-	void configurePixieVip();
+    void configurePixieVip();
+    void configurePixieVip2K();
 	void configurePixieVelf();
 	void configurePixieVipII();
 	void configurePixieTmc1800();
@@ -46,11 +47,13 @@ public:
     void outPixieStudioIV(int value);
     void switchVideoMode(int videoMode);
     void cyclePixie();
+    void cyclePixieVip2K();
+    void executeSequencer(Byte sequencerValue);
     void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
 	void cyclePixieTelmac();
     void dmaEnable();
-
+    
 	void copyScreen();
 	virtual void drawScreen();
 	void plot(int x, int y, int c, int color);
@@ -64,8 +67,8 @@ public:
     void setInterlace(bool status);
 
 protected:
-    Byte pbacking_[384][192];
-    Byte color_[384][192];
+    Byte pbacking_[384][208];
+    Byte color_[384][208];
     bool interlace_;
 
     bool graphicsOn_;
@@ -99,7 +102,11 @@ private:
     int endScreen_;
 
     int videoMode_;
-
+    
+    Word sequencerAddress_;
+    int scanLine_;
+    int scanByte_;
+    int viewableLines_;
 };
 
 class PixieFred : public Pixie

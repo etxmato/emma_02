@@ -50,7 +50,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	runningComputer_ = p_Main->getRunningComputerStr();
     interlace_ = p_Main->getInterlace(computerType_);
 
-    if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY))
+    if ((computerType_ == TMC2000) || (computerType_ == NANO) || (computerType_ == COSMICOS) || (computerType_ == ETI) || (computerType_ == VICTORY) || (computerType_ == VIP2K))
         videoHeight_ = 192;
     else
         videoHeight_ = 128;
@@ -93,6 +93,13 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     if (computerType == FRED1 || computerType == FRED2)
         videoWidth_ = 64*highRes_*3;
 
+    if (computerType == VIP2K)
+    {
+        videoHeight_ = 200;
+        videoWidth_ = 198;
+        studioIVFactor_ = true;
+    }
+    
 	backGroundInit_ = 1;
 	backGround_ = 1;
 
@@ -251,6 +258,28 @@ void Pixie::configurePixieVip()
 		p_Main->message("Configuring CDP 1861");
 		p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
 	}
+}
+
+void Pixie::configurePixieVip2K()
+{
+    p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
+    p_Computer->setInType(6, PIXIEIN);
+    p_Computer->setInType(7, PIXIEOUT);
+    p_Computer->setOutType(6, PIXIEIN);
+    p_Computer->setOutType(7, PIXIEOUT);
+    p_Computer->setEfType(1, PIXIEEF);
+    
+    backGroundInit_ = 1;
+    colourMask_ = 0;
+        
+    p_Main->message("Configuring VIP2K Video");
+    p_Main->message("	Input 6: enable graphics, input 7: disable graphics, EF 1: DMA indicator");
+    p_Main->message("	Output 6: enable graphics, ouptut 7: disable graphics\n");
+    
+    sequencerAddress_ = 0;
+    scanLine_ = 0;
+    viewableLines_ = 0;
+	scanByte_ = 0;
 }
 
 void Pixie::configurePixieVelf()
@@ -425,7 +454,7 @@ void Pixie::initPixie()
 	vidCycle_ = 0;
 	pixieEf_ = 1;
 
-	for (int x=0; x<384; x++) for (int y=0; y<192; y++)
+	for (int x=0; x<384; x++) for (int y=0; y<208; y++)
 	{
 		pbacking_[x][y] = 0;
 		color_[x][y] = 0;
@@ -457,14 +486,18 @@ Byte Pixie::inPixie()
 {
 	graphicsOn_ = true;
 	reBlit_ = true;
+	if (computerType_ == VIP2K)
+		sequencerAddress_ |= 0x4000;
 	return 0;
 }
 
 void Pixie::outPixie()
 {
 	graphicsOn_ = false;
-	if (computerType_ == ETI || computerType_ == STUDIOIV)
+	if (computerType_ == ETI || computerType_ == STUDIOIV || computerType_ == VIP2K)
 		videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+	if (computerType_ == VIP2K)
+		sequencerAddress_ &= 0x3fff;
 }
 
 void Pixie::switchVideoMode(int videoMode)
@@ -629,6 +662,126 @@ void Pixie::cyclePixie()
 	graphicsNext_ += 1;
 	if (graphicsNext_ > (5+graphicsX_))
 		graphicsNext_ = 0;
+}
+
+void Pixie::cyclePixieVip2K()
+{
+    int continue_loop = true;
+    
+    while (continue_loop)
+    {
+        executeSequencer(p_Computer->readSequencer(sequencerAddress_));
+        scanByte_++;
+    
+        if ((scanByte_&1) == 0)
+            sequencerAddress_++;
+
+        if (scanByte_ == 30)
+            scanLine_++;
+        
+        if (scanByte_ >= 32)
+            scanByte_ = 0;
+
+        if ((p_Computer->readSequencer(sequencerAddress_) & 0x2) != 0)
+            continue_loop = false;
+    }
+}
+
+void Pixie::executeSequencer(Byte sequencerValue)
+{
+    Byte v;
+    int x;
+
+    if ((sequencerValue & 0x2) == 0)
+    {
+        v = p_Computer->pixieDmaOut();
+        
+        if (scanByte_ == 0)
+            viewableLines_++;
+        
+        if (scanLine_ >= 66 && scanLine_ < (videoHeight_+66))
+        {
+            switch (scanByte_)
+            {
+                case 30:
+                    v <<= 5;
+                    for (int i=0; i<3; i++)
+                    {
+                        plot(i, scanLine_-66,(v & 128) ? 1 : 0, 0);
+                        v <<= 1;
+                    }
+                break;
+                    
+                case 31:
+                    for (int i=3; i<11; i++)
+                    {
+                        plot(i, scanLine_-66,(v & 128) ? 1 : 0, 0);
+                        v <<= 1;
+                    }
+                break;
+                    
+                case 23:
+                    for (int i=195; i<198; i++)
+                    {
+                        plot(i, scanLine_-66,(v & 128) ? 1 : 0, 0);
+                        v <<= 1;
+                    }
+                break;
+
+                default:
+                    x = scanByte_*8 + 11;
+                    for (int i=0; i<8; i++)
+                    {
+                        plot(x+i, scanLine_-66,(v & 128) ? 1 : 0, 0);
+                        v <<= 1;
+                    }
+               break;
+            }
+        }
+    }
+    
+    if (sequencerValue & 0x80)
+    	sequencerAddress_ |= 0x2000;
+    else
+    	sequencerAddress_ &= 0x5fff;
+    	
+    if (sequencerValue & 0x40)
+    {
+    	sequencerAddress_ &= 0x4000;
+        viewableLines_+=5;
+        
+        if (videoHeight_ != viewableLines_ && viewableLines_ > 100)
+        {
+            videoHeight_ = viewableLines_;
+            this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+            changeScreenSize_ = true;
+        }
+
+        if (changeScreenSize_)
+        {
+        	changeScreenSize();
+            changeScreenSize_ = false;
+		}
+
+    	scanLine_ = 0;
+        viewableLines_ = 0;
+        copyScreen();
+        videoSyncCount_++;
+    }
+ 
+    pixieEf_ = (sequencerValue & 0x20) >> 5;
+    
+	if ((sequencerValue & 0x4) == 0)
+    {
+    	if (vidInt_ == 0)
+    	{
+    		p_Computer->pixieInterrupt();
+        	vidInt_ = 1;
+            p_Computer->setCycle0();
+        }
+    }
+    else
+        vidInt_ = 0;
 }
 
 void Pixie::cyclePixieStudioIV()

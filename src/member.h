@@ -83,7 +83,7 @@ public:
     void setGreenLed(int status);
 
     void terminalSave(wxString fileName);
-    void terminalLoad(wxString fileName);
+    void terminalLoad(wxString fileName, bool binaryFile);
     void terminalStop();
 
 private:

@@ -30,7 +30,14 @@ public:
 	void initRam(long start, long end);
 	
 	virtual Byte readMem(Word addr) = 0;
-	virtual void writeMem(Word addr, Byte value, bool writeRom) = 0; 
+	virtual void writeMem(Word addr, Byte value, bool writeRom) = 0;
+    
+    Byte readSequencerRom(Word address);
+    void writeSequencerRom(Word address, Byte value);
+    Byte readSequencer(Word address);
+    Word readSequencerAddress(Word address);
+    void writeSequencer(Word address, Byte value);
+    
 
 	Byte getRam(long address) {return mainMemory_[address];};
 	void setRam(long address, Byte value) {mainMemory_[address] = value;};
@@ -70,7 +77,8 @@ protected:
 	Byte mc6845ram_[2048];
 	Byte mc6845CharRom_[2048];
     Byte diagRomReplacement_[4096];
-
+	Byte sequencerMemory_[2048];
+	
 	Byte* expansionRom_;
 	Byte* expansionRomDataType_;
 	Byte* expansionRomLabelType_;

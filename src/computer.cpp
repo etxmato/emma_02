@@ -1775,7 +1775,7 @@ void Computer::terminalSave(wxString WXUNUSED(fileName))
 {
 }
 
-void Computer::terminalLoad(wxString WXUNUSED(fileName))
+void Computer::terminalLoad(wxString WXUNUSED(fileName), bool WXUNUSED(binaryFile))
 {
 }
 
@@ -1798,3 +1798,4 @@ void Computer::setMultiCartMsb(Byte WXUNUSED(msb))
 void Computer::setDisableSystemRom(bool WXUNUSED(disableSystemRom))
 {
 }
+

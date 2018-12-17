@@ -126,6 +126,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     LoadAndCompare(TMC2000, "TMC2000");
     LoadAndCompare(NANO, "Nano");
     LoadAndCompare(VIP, "Vip");
+    LoadAndCompare(VIP2K, "Vip2K");
     LoadAndCompare(VELF, "Velf");
     LoadAndCompare(FRED1, "FRED1");
     LoadAndCompare(FRED2, "FRED2");

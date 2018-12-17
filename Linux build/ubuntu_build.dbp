@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.27
+Version: 1.29
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -10,12 +10,12 @@ Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libwxgtk3.0-0v5, libwxbase3.0-
 Description: Emma 02, the RCA 1802 Emulator
  Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos,
  Cosmac Elf, Netronics ELF II, Quest Super Elf,
- Membership Card, VELF, FRED 1, FRED 2, Microtutor,
- Cosmac VIP, Cosmac VIP II, MCDS, MS2000,
- RCA Video Coin Arcade, RCA Studio II, RCA Studio III,
- Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa,
- Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano,
- Pecom 32, Pecom 64 and ETI 660
+ Membership Card, VIP2K Membership Card, VELF,
+ FRED 1, FRED 2, Microtutor, Cosmac VIP, Cosmac VIP II,
+ MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II,
+ RCA Studio III, Studio IV, Victory MPT-02, Visicom
+ COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac
+ 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
 
 <</CTRL>>
 <<FILES>>
@@ -77,6 +77,7 @@ Description: Emma 02, the RCA 1802 Emulator
 /home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8X.syntax* -> Chip8X.syntax -> /usr/share/emma_02
 /home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ChipEti.syntax* -> ChipEti.syntax -> /usr/share/emma_02
 /home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuFred.xrc -> menuFred.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8Vip2K.syntax* -> Chip8Vip2K.syntax -> /usr/share/emma_02
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>
@@ -94,11 +95,11 @@ Description: Emma 02, the RCA 1802 Emulator
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.27) xenial; urgency=medium
+emma-02 (1.29) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Sat, 23 Sep 2018 12:00:00 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Mon, 17 Dec 2018 12:00:00 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>

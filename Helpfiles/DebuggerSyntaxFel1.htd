@@ -240,7 +240,7 @@ The FEL-1 Pseudo command syntax described here is used in the 'Fred demo' runnin
 <TD WIDTH="55">026E</TD>
 <TD WIDTH="40">RETURN</TD>
 <TD WIDTH="100"></TD>
-<TD WIDTH="250">Return fron subroutine CALL</TD>
+<TD WIDTH="250">Return from subroutine CALL</TD>
 </TR>
 <TR>
 <TD WIDTH="55">4xkk</TD>
@@ -336,7 +336,7 @@ The FEL-1 Pseudo command syntax described here is used in the 'Fred demo' runnin
 <TD WIDTH="55">Dxy0</TD>
 <TD WIDTH="40">TONE</TD>
 <TD WIDTH="100">Vx, Vy</TD>
-<TD WIDTH="250">Vx Tone, Vy Delay (Tape on spk off)</TD>
+<TD WIDTH="250">Vx Tone, Vy Delay (Tape on speaker off)</TD>
 </TR>
 <TR>
 <TD WIDTH="55">025C</TD>

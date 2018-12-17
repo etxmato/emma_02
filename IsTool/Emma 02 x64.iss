@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.27
-AppVersion=1.26
+AppVerName=Emma 02 - V1.29
+AppVersion=1.27
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.27
+OutputBaseFilename=Emma_02_x64_setup_v1.29
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -100,6 +100,7 @@ Source: ..\Configurations Windows\TMC2000\*.*; DestDir: {app}\Configurations\TMC
 Source: ..\Configurations Windows\Velf\*.*; DestDir: {app}\Configurations\Velf; Components: MAIN
 Source: ..\Configurations Windows\Victory\*.*; DestDir: {app}\Configurations\Victory; Components: MAIN
 Source: ..\Configurations Windows\Vip\*.*; DestDir: {app}\Configurations\Vip; Components: MAIN
+Source: ..\Configurations Windows\Vip2K\*.*; DestDir: {app}\Configurations\Vip2K; Components: MAIN
 Source: ..\Configurations Windows\VipII\*.*; DestDir: {app}\Configurations\VipII; Components: MAIN
 Source: ..\Configurations Windows\Visicom\*.*; DestDir: {app}\Configurations\Visicom; Components: MAIN
 Source: ..\data\keydefinition.txt; DestDir: {app}\data; Components: MAIN
@@ -194,6 +195,7 @@ Source: ..\data\Chip-8\Chip-8 Hybrids\*.*; DestDir: {app}\data\Chip-8\Chip-8 Hyb
 Source: ..\data\Chip-8\Chip-8X\*.*; DestDir: {app}\data\Chip-8\Chip-8X; Components: MAIN
 Source: ..\data\Chip-8\Chip-10\*.*; DestDir: {app}\data\Chip-8\Chip-10; Components: MAIN
 Source: ..\data\Vip\*.*; DestDir: {app}\data\Vip; Components: MAIN
+Source: ..\data\Vip2K\*.*; DestDir: {app}\data\Vip2K; Components: MAIN
 Source: ..\data\VipII\vip.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\vip.32.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\fpb.rom; DestDir: {app}\data\VipII; Components: MAIN
@@ -236,13 +238,14 @@ Source: ..\data\Membership\*.hex; DestDir: {app}\data\Membership; Components: MA
 Source: ..\data\Membership\*.txt; DestDir: {app}\data\Membership; Components: MAIN
 Source: ..\data\Microtutor\*.bin; DestDir: {app}\data\Microtutor; Components: MAIN
 Source: ..\data\Elf2K\v87a.bin; DestDir: {app}\data\Elf2K; Components: MAIN
-Source: ..\data\Elf2K\v88.bin; DestDir: {app}\data\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\v88b.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\intel8275.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\vt52.a.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\vt52.b.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\vt100.bin; DestDir: {app}\data\Elf2K; Components: MAIN
-Source: ..\data\Elf2K\elfos2k_0_2_8.hex; DestDir: {app}\data\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\elfos2k_0_2_8b.hex; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\LOAD-8275.hex; DestDir: {app}\data\Elf2K; Components: MAIN
+Source: ..\data\Elf2K\MINIMON-8275.hex; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\elf2k-installation.ide; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\clock2.hex; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\Clock\*.*; DestDir: {app}\data\Elf2K\Clock\; Components: MAIN

@@ -37,7 +37,7 @@
 
 DEFINE_EVENT_TYPE(STATUS_BAR_PIXIE)
 
-BEGIN_EVENT_TABLE(GuiVipII, GuiVelf)
+BEGIN_EVENT_TABLE(GuiVipII, GuiVip2K)
 
 	EVT_TEXT(XRCID("MainRomVipII"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomVipII"), GuiMain::onMainRom1Text)
@@ -97,7 +97,7 @@ BEGIN_EVENT_TABLE(GuiVipII, GuiVelf)
 END_EVENT_TABLE()
 
 GuiVipII::GuiVipII(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiVelf(title, pos, size, mode, dataDir, iniDir)
+: GuiVip2K(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[VIPII].loadFileNameFull_ = "";
 	conf[VIPII].loadFileName_ = "";

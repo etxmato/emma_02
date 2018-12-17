@@ -177,6 +177,7 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
 
             case FRED1:
             case FRED2:
+            case VIP2K:
                 if (p_Main->checkFunctionKey(event))
                     return;
                 if (keycode != lastKey_)
@@ -225,6 +226,7 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
                 
             case FRED1:
             case FRED2:
+            case VIP2K:
                 lastKey_ = 0;
                 p_Computer->keyUp(event.GetKeyCode());
                 event.Skip();

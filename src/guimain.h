@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 27
-#define LAST_ELF_TYPE 12
+#define NO_COMPUTER 28
+#define LAST_ELF_TYPE 13
 
 #define MAINROM1 0
 
@@ -121,7 +121,7 @@ public:
 	bool diagActive_;
 	int diagOn_;
 	bool videoLog_;
-	bool stretchDot_;
+    bool stretchDot_;
 	bool realCassetteLoad_;
 	wxString turboClock_;
 
@@ -389,8 +389,8 @@ public:
 	void onTerminalSave(wxCommandEvent&event);
 	void onTerminalLoad(wxCommandEvent&event);
 	void onTerminalStop(wxCommandEvent&event);
-    void startAutoTerminalLoad();
-    void startTerminalLoad();
+    void startAutoTerminalLoad(bool binaryFile);
+    void startTerminalLoad(bool binaryFile);
     void stopAutoTerminal();
     void stopTerminal();
     void startAutoTerminalSave();
@@ -431,11 +431,14 @@ public:
     bool showSplashScreen();
     void hideSplashScreen();
     
+    bool repairIde();
+    
 protected:
 	Mode mode_;
 
 	Vip *p_Vip;
 	VipII *p_Vip2;
+    Vip2K *p_Vip2K;
     Velf *p_Velf;
 	Nano *p_Nano;
 	Tmc1800 *p_Tmc1800;

@@ -19,4 +19,21 @@ private:
     DECLARE_EVENT_TABLE()
 };
 
+class CompletedSplashScreen : public wxDialog
+{
+public:
+    CompletedSplashScreen(wxWindow *parent);
+    ~CompletedSplashScreen();
+    
+private:
+    void onClose(wxCloseEvent&event);
+    void onTimer(wxTimerEvent&event);
+    
+    wxTimer *timerPointer;
+    
+    bool vt100_;
+    
+    DECLARE_EVENT_TABLE()
+};
+
 #endif  // SPLASH_H

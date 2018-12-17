@@ -134,3 +134,34 @@ void SplashScreen::onTimer(wxTimerEvent&WXUNUSED(event))
 {
     Show(false);
 }
+
+BEGIN_EVENT_TABLE(CompletedSplashScreen, wxDialog)
+    EVT_TIMER(1000, CompletedSplashScreen::onTimer)
+    EVT_CLOSE (CompletedSplashScreen::onClose)
+END_EVENT_TABLE()
+
+CompletedSplashScreen::CompletedSplashScreen(wxWindow *parent)
+{
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"splash.xrc");
+    wxXmlResource::Get()->LoadDialog(this, parent, "COMPLETED");
+    Show(true);
+    
+    timerPointer = new wxTimer(this, 1000);
+    timerPointer->Start(6000, wxTIMER_ONE_SHOT);
+}
+
+CompletedSplashScreen::~CompletedSplashScreen()
+{
+    timerPointer->Stop();
+    delete timerPointer;
+}
+
+void CompletedSplashScreen::onClose(wxCloseEvent&WXUNUSED(event))
+{
+    Show(false);
+}
+
+void CompletedSplashScreen::onTimer(wxTimerEvent&WXUNUSED(event))
+{
+    Show(false);
+}
