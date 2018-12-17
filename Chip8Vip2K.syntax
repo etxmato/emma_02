@@ -7,7 +7,7 @@ AND
 Vx , Vy det code=8xy2
 /AND
 CALL 
-s-hex=0000-0FFF code=2sss
+hex=0000-0FFF code=2jjj
 /CALL
 CLS
 code=0E00
@@ -16,21 +16,21 @@ DRW
 Vx , Vy , n code=Dxyn
 /DRW
 JP
-s-hex=0000-0FFF code=1sss
-V0 , s-hex=0000-0FFF code=Bsss
+hex=0000-0FFF code=1jjj
+V0 , hex=0000-0FFF code=Bjjj
 /JP
 LD
 B , Vx det code=Fx33
 DT , Vx det code=Fx15
 F , Vx det code=Fx29
-I , s-hex=0000-0FFF code=Asss
+I , hex=0000-0FFF code=Ajjj
 ST , Vx det code=Fx18
 Vx , DT det code=Fx07
 Vx , K det code=Fx0A
 Vx , kk code=6xkk
 Vx , Vy det code=8xy0
-Vx , [I] det code=Fx65
-[I] , Vx det code=Fx55
+Vx , [I] code=Fx65
+[I] , Vx code=Fx55
 /LD
 OR
 Vx , Vy det code=8xy1
@@ -43,7 +43,7 @@ Vx , kk det code=Cxkk
 /RND
 SE
 Vx , kk code=3xkk
-Vx , Vy code=5xy0
+Vx , Vy code=5xy.
 /SE
 SHL
 Vx det code=8xxE
@@ -61,7 +61,7 @@ Vx code=ExA1
 /SKNP
 SNE
 Vx , kk code=4xkk
-Vx , Vy code=9xy0
+Vx , Vy code=9xy.
 /SNE
 SUB
 Vx , Vy det code=8xy5
@@ -70,7 +70,7 @@ SUBN
 Vx , Vy det code=8xy7
 /SUBN
 SYS
-s-hex=0000-0fff code=0sss
+hex=0000-0fff code=0jjj
 /SYS
 XOR
 Vx , Vy det code=8xy3

@@ -1331,7 +1331,7 @@ bool DebugWindow::chip8BreakPointCheck()
     if (pseudoType_ == "CARDTRAN")
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else
-        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC);
+        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC) & 0xfff;
     
 	if (chip8Steps_ != 0 && numberOfChip8BreakPoints_ > 0 && !performChip8Step_)
 	{

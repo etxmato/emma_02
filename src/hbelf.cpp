@@ -1265,9 +1265,9 @@ Byte Elf::readMem(Word addr)
 {
 	address_ = addr;
     if (elfConfiguration.tilType == TIL311)
-        elfScreenPointer->showAddress(0);
+        elfScreenPointer->showAddress(address_);
     else
-        elfScreenPointer->showAddressTil313(0);
+        elfScreenPointer->showAddressTil313(address_);
 
 	switch (memoryType_[addr/256])
 	{
@@ -1366,9 +1366,9 @@ void Elf::writeMem(Word addr, Byte value, bool writeRom)
 {
 	address_ = addr;
     if (elfConfiguration.tilType == TIL311)
-        elfScreenPointer->showAddress(0);
+        elfScreenPointer->showAddress(address_);
     else
-        elfScreenPointer->showAddressTil313(0);
+        elfScreenPointer->showAddressTil313(address_);
 
 	if (emsMemoryDefined_)
 	{

@@ -390,7 +390,7 @@ void Cdp1802::pixieInterrupt()
 		programCounter_=1;
 		interruptEnable_=0;
 		cpuCycles_++;
-  //      machineCycle(); - I put this in to get correct timeing for something; however this messes up the Pixie screens on at least the Elfs.
+  //      machineCycle(); //- I put this in to get correct timeing for something; however this messes up the Pixie screens on at least the Elfs.
     }
 	idle_=0;
 }

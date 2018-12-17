@@ -777,7 +777,7 @@ void Pixie::executeSequencer(Byte sequencerValue)
     	{
     		p_Computer->pixieInterrupt();
         	vidInt_ = 1;
-        	p_Computer->setCycle0();
+            p_Computer->setCycle0();
         }
     }
     else

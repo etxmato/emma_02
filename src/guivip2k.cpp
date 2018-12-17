@@ -133,14 +133,15 @@ void GuiVip2K::readVip2KConfig()
 	conf[VIP2K].chip8SWDir_ = readConfigDir("/Dir/Vip2K/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[VIP2K].printFileDir_ = readConfigDir("/Dir/Vip2K/Print_File", dataDir_ + "Vip2K" + pathSeparator_);
 	conf[VIP2K].screenDumpFileDir_ = readConfigDir("/Dir/Vip2K/Video_Dump_File", dataDir_ + "Vip2K" + pathSeparator_);
-	conf[VIP2K].wavFileDir_ = readConfigDir("/Dir/Vip2K/Wav_File", dataDir_ + "Vip2K" + pathSeparator_);
+	conf[VIP2K].wavFileDir_ = readConfigDir("/Dir/Vip2K/Wav_File", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games" + pathSeparator_);
 	elfConfiguration[VIP2K].vtWavFileDir_ = readConfigDir("/Dir/Vip2K/Vt_Wav_File", dataDir_ + "Vip2K" + pathSeparator_);
 
-	conf[VIP2K].rom_[MAINROM1] = configPointer->Read("/Vip2K/Main_Rom_File", "vip2k13a.hex");
+	conf[VIP2K].rom_[MAINROM1] = configPointer->Read("/Vip2K/Main_Rom_File", "vip2k14.hex");
 	conf[VIP2K].rom_[MAINROM2] = configPointer->Read("/Vip2K/Sequencer_Rom_File", "vip-2716.hex");
 	conf[VIP2K].ram_ = configPointer->Read("/Vip2K/Ram_Software", "");
 	conf[VIP2K].chip8SW_ = configPointer->Read("/Vip2K/Chip_8_Software", "");
-	elfConfiguration[VIP2K].vtWavFile_ = configPointer->Read("/Vip2K/Vt_Wav_File", "file.hex");
+    conf[VIP2K].wavFile_ = configPointer->Read("/Vip2K/Terminal_File", "Private Eye [TCNJ S.572.37].hex");
+	elfConfiguration[VIP2K].vtWavFile_ = configPointer->Read("/Vip2K/Vt_Wav_File", "");
     elfConfiguration[VIP2K].serialPort_ = configPointer->Read("/Vip2K/VtSerialPortChoice", "");
 
 	conf[VIP2K].printFile_ = configPointer->Read("/Vip2K/Print_File", "printerout.txt");
@@ -196,7 +197,7 @@ void GuiVip2K::readVip2KConfig()
 		XRCCTRL(*this, "Chip8SWVip2K", wxTextCtrl)->SetValue(conf[VIP2K].chip8SW_);
 		XRCCTRL(*this, "VtCharRomVip2K", wxComboBox)->SetValue(conf[VIP2K].vtCharRom_);
 		XRCCTRL(*this, "ScreenDumpFileVip2K", wxComboBox)->SetValue(conf[VIP2K].screenDumpFile_);
-		XRCCTRL(*this, "WavFileVip2K", wxTextCtrl)->SetValue(elfConfiguration[VIP2K].vtWavFile_);
+		XRCCTRL(*this, "WavFileVip2K", wxTextCtrl)->SetValue(conf[VIP2K].wavFile_);
 
 		XRCCTRL(*this, "VTTypeVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].vtType);
 
@@ -235,6 +236,7 @@ void GuiVip2K::writeVip2KConfig()
 	configPointer->Write("/Vip2K/Chip_8_Software", conf[VIP2K].chip8SW_);
 	configPointer->Write("/Vip2K/Print_File", conf[VIP2K].printFile_);
 	configPointer->Write("/Vip2K/Video_Dump_File", conf[VIP2K].screenDumpFile_);
+    configPointer->Write("/Vip2K/Terminal_File", conf[VIP2K].wavFile_);
 	configPointer->Write("/Vip2K/Vt_Wav_File", elfConfiguration[VIP2K].vtWavFile_);
     configPointer->Write("/Vip2K/VtSerialPortChoice", elfConfiguration[VIP2K].serialPort_);
 

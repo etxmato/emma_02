@@ -414,7 +414,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.28
+#define EMMA_VERSION 1.29
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -504,8 +504,8 @@ public:
 #define MICROTUTORTAB 2
 #define VIPTAB 3
 #define VIPIITAB 4
-#define MCDSTAB 5
-#define MS2000TAB 6
+#define MS2000TAB 5
+#define MCDSTAB 6
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1

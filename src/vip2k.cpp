@@ -216,6 +216,7 @@ void Vip2K::keyDown(int keycode)
             vipKeyState_[2] &= 0xbf;
         break;
             
+        case WXK_UP:
         case 'I':
             vipKeyState_[3] &= 0xbf;
         break;
@@ -232,10 +233,12 @@ void Vip2K::keyDown(int keycode)
             vipKeyState_[1] &= 0xdf;
         break;
             
+        case WXK_LEFT:
         case 'J':
             vipKeyState_[2] &= 0xdf;
         break;
             
+        case WXK_RIGHT:
         case 'K':
             vipKeyState_[3] &= 0xdf;
         break;
@@ -252,6 +255,7 @@ void Vip2K::keyDown(int keycode)
             vipKeyState_[1] &= 0xef;
         break;
             
+        case WXK_DOWN:
         case 'M':
             vipKeyState_[2] &= 0xef;
         break;
@@ -280,9 +284,11 @@ void Vip2K::keyDown(int keycode)
 
 void Vip2K::keyUp(int keycode)
 {
+    for (int i=1; i<6; i++)
+        vipKeyState_[i] = 0xff;
     switch (keycode)
     {
-        case '1':
+/*        case '1':
             vipKeyState_[5] |= 1;
         break;
             
@@ -390,6 +396,7 @@ void Vip2K::keyUp(int keycode)
             vipKeyState_[2] |= 0x40;
         break;
             
+        case WXK_UP:
         case 'I':
             vipKeyState_[3] |= 0x40;
         break;
@@ -406,6 +413,7 @@ void Vip2K::keyUp(int keycode)
             vipKeyState_[1] |= 0x20;
         break;
             
+        case WXK_LEFT:
         case 'J':
             vipKeyState_[2] |= 0x20;
         break;
@@ -414,6 +422,7 @@ void Vip2K::keyUp(int keycode)
             vipKeyState_[3] |= 0x20;
         break;
             
+        case WXK_RIGHT:
         case 'L':
             vipKeyState_[4] |= 0x20;
         break;
@@ -426,6 +435,7 @@ void Vip2K::keyUp(int keycode)
             vipKeyState_[1] |= 0x10;
         break;
             
+        case WXK_DOWN:
         case 'M':
             vipKeyState_[2] |= 0x10;
         break;
@@ -440,7 +450,7 @@ void Vip2K::keyUp(int keycode)
             
         case WXK_BACK:
             vipKeyState_[5] |= 0x10;
-        break;
+        break;*/
             
         case WXK_SHIFT:
             shiftEf_ = 1;
@@ -758,9 +768,11 @@ void Vip2K::cpuInstruction()
 		if (steps_ != 0)
 		{
 			cycle0_=0;
-			machineCycle();
+            machineCycle();
+//            machineCycle();
 			if (cycle0_ == 0) machineCycle();
 			if (cycle0_ == 0 && steps_ != 0)
+//            if (steps_ != 0)
 			{
 				cpuCycle();
 				cpuCycles_ += 2;
