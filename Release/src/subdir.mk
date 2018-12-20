@@ -383,18 +383,4 @@ src/%.o: ../src/%.c
 	@echo 'Finished building: $<'
 	@echo ' '
 
-src/guivip2k.o: /media/psf/Home/workspace/emma_02/src/guivip2k.cpp
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D__WXGTK__ -I/usr/include/SDL -I../images -O3 -Wall -c -fmessage-length=0 `wx-config --cxxflags --debug=no` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
-src/vip2k.o: /media/psf/Home/workspace/emma_02/src/vip2k.cpp
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C++ Compiler'
-	g++ -D__WXGTK__ -I/usr/include/SDL -I../images -O3 -Wall -c -fmessage-length=0 `wx-config --cxxflags --debug=no` -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)" -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
 
