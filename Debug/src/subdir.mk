@@ -59,6 +59,7 @@ CPP_SRCS += \
 ../src/guivelf.cpp \
 ../src/guivip.cpp \
 ../src/guivip2.cpp \
+../src/guivip2k.cpp \
 ../src/hbelf.cpp \
 ../src/http.cpp \
 ../src/i8275.cpp \

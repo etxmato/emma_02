@@ -20,6 +20,7 @@ public:
 	void onVipBaudT(wxCommandEvent& event);
     void onVipUart(wxCommandEvent& event);
     void onVtShow(wxCommandEvent&event);
+    void onAutoKeyDef(wxCommandEvent&event);
 
 private:
     wxPoint position_;

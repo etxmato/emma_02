@@ -97,6 +97,8 @@ BEGIN_EVENT_TABLE(GuiVip2K, GuiVelf)
 	EVT_CHOICE(XRCID("VTBaudTChoiceVip2K"), GuiVip2K::onVipBaudT)
 	EVT_CHOICE(XRCID("VTBaudRChoiceVip2K"), GuiVip2K::onVipBaudR)
 
+    EVT_CHECKBOX(XRCID("AutoKeyDefVip2K"), GuiVip2K::onAutoKeyDef)
+
     EVT_COMMAND(wxID_ANY, ON_UART_VIP2K, GuiVip2K::onVipUart)
 
 END_EVENT_TABLE()
@@ -184,6 +186,7 @@ void GuiVip2K::readVip2KConfig()
     elfConfiguration[VIP2K].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 1l);
     elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 1l);
     configPointer->Read("/Vip2K/ShowVtWindow", &elfConfiguration[VIP2K].vtShow, false);
+    configPointer->Read("/Vip2K/AutoKeyDef", &elfConfiguration[VIP2K].autoKeyDef, true);
 
 	setVtType("Vip2K", VIP2K, elfConfiguration[VIP2K].vtType, false);
 
@@ -205,6 +208,7 @@ void GuiVip2K::readVip2KConfig()
 		XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
 		XRCCTRL(*this, "ZoomValueVtVip2K", wxTextCtrl)->ChangeValue(conf[VIP2K].zoomVt_);
         XRCCTRL(*this, "VtShowVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].vtShow);
+        XRCCTRL(*this, "AutoKeyDefVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].autoKeyDef);
 
 		XRCCTRL(*this, "ZoomValueVip2K", wxTextCtrl)->ChangeValue(conf[VIP2K].zoom_);
         XRCCTRL(*this, "AutoCasLoadVip2K", wxCheckBox)->SetValue(conf[VIP2K].autoCassetteLoad_);
@@ -246,6 +250,7 @@ void GuiVip2K::writeVip2KConfig()
     configPointer->Write("/Vip2K/Uart", elfConfiguration[VIP2K].useUart);
 	configPointer->Write("/Vip2K/VT_Type", elfConfiguration[VIP2K].vtType);
     configPointer->Write("/Vip2K/ShowVtWindow", elfConfiguration[VIP2K].vtShow);
+    configPointer->Write("/Vip2K/AutoKeyDef", elfConfiguration[VIP2K].autoKeyDef);
 
     long value = elfConfiguration[VIP2K].vt52SetUpFeature_.to_ulong();
     configPointer->Write("/Vip2K/VT52Setup", value);
@@ -314,6 +319,14 @@ void GuiVip2K::onVipUart(wxCommandEvent&WXUNUSED(event))
 void GuiVip2K::onVtShow(wxCommandEvent&event)
 {
     elfConfiguration[selectedComputer_].vtShow = event.IsChecked();
+}
+
+void GuiVip2K::onAutoKeyDef(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].autoKeyDef = event.IsChecked();
+    
+    if (computerRunning_)
+        p_Computer->setAutoKeyDef(elfConfiguration[selectedComputer_].autoKeyDef);
 }
 
 

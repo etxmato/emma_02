@@ -889,10 +889,10 @@ void Membership::terminalSave(wxString fileName)
         vtPointer->terminalSaveVt(fileName);
 }
 
-void Membership::terminalLoad(wxString fileName, bool binaryFile)
+void Membership::terminalLoad(wxString filePath, wxString fileName, bool binaryFile)
 {
     if (elfConfiguration.vtType != VTNONE)
-        vtPointer->terminalLoadVt(fileName, binaryFile);
+        vtPointer->terminalLoadVt(filePath, binaryFile);
 }
 
 void Membership::terminalStop()

@@ -3003,7 +3003,7 @@ void GuiMain::startTerminalLoad(bool binaryFile)
         if (wxFile::Exists(filePath))
         {
             p_Main->eventSetTapeState(TAPE_PLAY);
-            p_Computer->terminalLoad(filePath, binaryFile);
+            p_Computer->terminalLoad(filePath, fileName, binaryFile);
         }
     }
 }

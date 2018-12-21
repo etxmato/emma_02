@@ -443,7 +443,7 @@ public:
 	void readDebugFile(wxString dir, wxString name, wxString number, Word start);
 
     virtual void terminalSave(wxString fileName);
-    virtual void terminalLoad(wxString fileName, bool binaryFile);
+    virtual void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
     virtual void terminalStop();
     
 	virtual void deleteAllBackup(wxString dir, bool sub);
@@ -458,7 +458,8 @@ public:
 
     virtual void setMultiCartLsb(Byte lsb);
 	virtual void setMultiCartMsb(Byte msb); 
-	virtual void setDisableSystemRom(bool disableSystemRom);
+    virtual void setDisableSystemRom(bool disableSystemRom);
+    virtual void setAutoKeyDef(bool autoKeyDef);
     virtual int getDmaCounter() {return 0;};
 
 protected:

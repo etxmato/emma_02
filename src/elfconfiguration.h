@@ -120,6 +120,7 @@ public:
 	bool useHex;
 	bool useTape;
     bool vtShow;
+    bool autoKeyDef;
 
 	int keyboardType;
 	bool useHexKeyboard;

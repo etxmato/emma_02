@@ -81,7 +81,7 @@ void Vip2K::configureComputer()
         p_Serial = new Serial(VIP2K, clock_, vipConfiguration);
         p_Serial->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
     }
-
+    
 	resetCpu();
 }
 
@@ -288,170 +288,6 @@ void Vip2K::keyUp(int keycode)
         vipKeyState_[i] = 0xff;
     switch (keycode)
     {
-/*        case '1':
-            vipKeyState_[5] |= 1;
-        break;
-            
-        case '2':
-            vipKeyState_[4] |= 1;
-        break;
-            
-        case '3':
-            vipKeyState_[3] |= 1;
-        break;
-            
-        case '4':
-            vipKeyState_[2] |= 1;
-        break;
-            
-        case '5':
-            vipKeyState_[1] |= 1;
-        break;
-            
-        case 'Q':
-            vipKeyState_[5] |= 2;
-        break;
-            
-        case 'W':
-            vipKeyState_[4] |= 2;
-        break;
-            
-        case 'E':
-            vipKeyState_[3] |= 2;
-        break;
-            
-        case 'R':
-            vipKeyState_[2] |= 2;
-        break;
-            
-        case 'T':
-            vipKeyState_[1] |= 2;
-        break;
-            
-        case 'A':
-            vipKeyState_[5] |= 4;
-        break;
-            
-        case 'S':
-            vipKeyState_[4] |= 4;
-        break;
-            
-        case 'D':
-            vipKeyState_[3] |= 4;
-        break;
-            
-        case 'F':
-            vipKeyState_[2] |= 4;
-        break;
-            
-        case 'G':
-            vipKeyState_[1] |= 4;
-        break;
-            
-        case 'Z':
-            vipKeyState_[5] |= 8;
-        break;
-            
-        case 'X':
-            vipKeyState_[4] |= 8;
-        break;
-            
-        case 'C':
-            vipKeyState_[3] |= 8;
-        break;
-            
-        case 'V':
-            vipKeyState_[2] |= 8;
-        break;
-            
-        case 'B':
-            vipKeyState_[1] |= 8;
-        break;
-            
-        case '6':
-            vipKeyState_[1] |= 0x80;
-        break;
-            
-        case '7':
-            vipKeyState_[2] |= 0x80;
-        break;
-            
-        case '8':
-            vipKeyState_[3] |= 0x80;
-        break;
-            
-        case '9':
-            vipKeyState_[4] |= 0x80;
-        break;
-            
-        case '0':
-            vipKeyState_[5] |= 0x80;
-        break;
-            
-        case 'Y':
-            vipKeyState_[1] |= 0x40;
-        break;
-            
-        case 'U':
-            vipKeyState_[2] |= 0x40;
-        break;
-            
-        case WXK_UP:
-        case 'I':
-            vipKeyState_[3] |= 0x40;
-        break;
-            
-        case 'O':
-            vipKeyState_[4] |= 0x40;
-        break;
-            
-        case 'P':
-            vipKeyState_[5] |= 0x40;
-        break;
-            
-        case 'H':
-            vipKeyState_[1] |= 0x20;
-        break;
-            
-        case WXK_LEFT:
-        case 'J':
-            vipKeyState_[2] |= 0x20;
-        break;
-            
-        case 'K':
-            vipKeyState_[3] |= 0x20;
-        break;
-            
-        case WXK_RIGHT:
-        case 'L':
-            vipKeyState_[4] |= 0x20;
-        break;
-            
-        case WXK_RETURN:
-            vipKeyState_[5] |= 0x20;
-        break;
-            
-        case 'N':
-            vipKeyState_[1] |= 0x10;
-        break;
-            
-        case WXK_DOWN:
-        case 'M':
-            vipKeyState_[2] |= 0x10;
-        break;
-            
-        case '.':
-            vipKeyState_[3] |= 0x10;
-        break;
-            
-        case WXK_SPACE:
-            vipKeyState_[4] |= 0x10;
-        break;
-            
-        case WXK_BACK:
-            vipKeyState_[5] |= 0x10;
-        break;*/
-            
         case WXK_SHIFT:
             shiftEf_ = 1;
         break;
@@ -858,16 +694,62 @@ void Vip2K::terminalSave(wxString fileName)
         vtPointer->terminalSaveVt(fileName);
 }
 
-void Vip2K::terminalLoad(wxString fileName, bool binaryFile)
+void Vip2K::terminalLoad(wxString filePath, wxString fileName, bool binaryFile)
 {
     if (vipConfiguration.vtType != VTNONE)
-        vtPointer->terminalLoadVt(fileName, binaryFile);
+        vtPointer->terminalLoadVt(filePath, binaryFile);
+    
+    fileName = fileName.Left(fileName.Len()-3)+"ch8";
+    
+    if (vipConfiguration.autoKeyDef == false)
+        return;
+    
+    if (p_Main->loadKeyDefinition("", fileName, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt"))
+    {
+        Word keyboardMapRAM = 0xFF00;
+        Word keyboardMapROM = 0x7640;
+        bool stop = false;
+        
+        while (!stop)
+        {
+            if (mainMemory_[keyboardMapROM] != 0)
+                mainMemory_[keyboardMapRAM++] = mainMemory_[keyboardMapROM++];
+            else
+            {
+                keyboardMapROM++;
+                if (mainMemory_[keyboardMapROM] == 0)
+                    stop = true;
+                else
+                {
+                    int repeats = mainMemory_[keyboardMapROM++];
+                    for (int i=0; i<repeats; i++)
+                    {
+                        mainMemory_[keyboardMapRAM++] = mainMemory_[keyboardMapROM];
+                    }
+                    keyboardMapROM++;
+                }
+            }
+        }
+    
+        mainMemory_[0xFF11] = keyDefGameHexA_[0];
+        mainMemory_[0xFF0A] = keyDefGameHexA_[1];
+        mainMemory_[0xFF12] = keyDefGameHexA_[2];
+        mainMemory_[0xFF0B] = keyDefGameHexA_[3];
+        mainMemory_[0xFF1B] = keyDefGameHexA_[4];
+    }
+}
+
+void Vip2K::setAutoKeyDef(bool autoKeyDef)
+{
+    vipConfiguration.autoKeyDef = autoKeyDef;
 }
 
 void Vip2K::terminalStop()
 {
     if (vipConfiguration.vtType != VTNONE)
         vtPointer->terminalStopVt();
+    
+    
     for (int i=1; i<6; i++)
     {
         vipKeyState_[i] = 0xff;

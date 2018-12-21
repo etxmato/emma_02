@@ -43,8 +43,10 @@ public:
 	void sleepComputer(long ms);
 
     void terminalSave(wxString fileName);
-    void terminalLoad(wxString fileName, bool binaryFile);
+    void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
     void terminalStop();
+    
+    void setAutoKeyDef(bool autoKeyDef);
     
 private:
 	ElfConfiguration vipConfiguration;
