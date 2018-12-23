@@ -822,13 +822,14 @@ bool Emu1802::OnInit()
 
 #if defined(__linux__)
 	ubuntuOffsetX = 36;
+    wxString xrcFile = applicationDirectory_ + "main.xrc";
 #elif (__WXMAC__)
 	ubuntuOffsetX = 30;
+    wxString xrcFile = applicationDirectory_ + "main.xrc";
 #else
 	ubuntuOffsetX = 0;
+    wxString xrcFile = applicationDirectory_ + "main_win.xrc";
 #endif
-
-	wxString xrcFile = applicationDirectory_ + "main.xrc";
 
 #if wxCHECK_VERSION(2, 9, 0)
 	if (!wxXmlResource::Get()->LoadFile(xrcFile))
