@@ -3416,7 +3416,7 @@
                 <string name="proxy-Bitmap (disabled)">""</string>
                 <string name="proxy-Bitmap (focused)">"images_osx/eject.png"</string>
                 <string name="proxy-Bitmap (hover)">""</string>
-                <string name="proxy-Bitmap (selected)">"image_osxs/eject.png"</string>
+                <string name="proxy-Bitmap (selected)">"images_osx/eject.png"</string>
                 <long name="proxy-Border">3</long>
                 <string name="proxy-Class">"wxBitmapButton"</string>
                 <string name="proxy-Custom arguments">""</string>

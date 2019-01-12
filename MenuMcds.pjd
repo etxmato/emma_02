@@ -107,7 +107,7 @@
     <string name="whitespace_after_return_type">" "</string>
     <long name="working_mode">3</long>
     <string name="xrc_encoding">"utf-8"</string>
-    <string name="xrc_filename">"menuMcds.xrc"</string>
+    <string name="xrc_filename">"menuMCDS.xrc"</string>
     <bool name="xrc_generate_id_tags">0</bool>
     <bool name="xrc_retain_relative_paths">1</bool>
     <bool name="xrc_use_name_property">0</bool>

@@ -349,6 +349,7 @@ public:
     void onAssTextChange(wxCommandEvent&event);
 	bool findWorkingRang();
     void paintDebugBackground();
+    void changeNumberOfDebugLines(int height);
 
 	void onDebugDisplayPage(wxCommandEvent&event); 
 	void onDebugDisplayPageSpinUp(wxSpinEvent&event);
@@ -449,7 +450,7 @@ protected:
 	wxTextCtrl *pTextPointer;
 	wxTextCtrl *xTextPointer;
 	wxTextCtrl *tTextPointer;
-
+    
 	bool traceChip8Int_;
 	bool traceInt_;
 	bool traceDma_;

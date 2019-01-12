@@ -2751,10 +2751,12 @@ void GuiMain::setRealCas(int computerType)
 	if (conf[computerType].realCassetteLoad_)
 	{
 		conf[computerType].autoCassetteLoad_ = false;
+#if defined(__WXMSW__)
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOnBitmap);
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOnBitmap);
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOnBitmap);
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Disable real cassette loading");
+#endif
 		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(false);
 		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->SetValue(false);
 		turboGui(computerInfo[computerType].gui);
@@ -2768,10 +2770,12 @@ void GuiMain::setRealCas(int computerType)
 	}
 	else
 	{
+#if defined(__WXMSW__)
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
 		XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable real cassette loading");
+#endif
 		XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
 		XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
 		if (computerRunning_ && (computerType == runningComputer_))
@@ -2830,10 +2834,12 @@ void GuiMain::setRealCasOff(int computerType)
 	if (!mode_.gui)
 		return;
 
+#if defined(__WXMSW__)
 	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapLabel(realCasOffBitmap);
 	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapCurrent(realCasOffBitmap);
 	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetBitmapFocus(realCasOffBitmap);
 	XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->SetToolTip("Enable real cassette loading");
+#endif
 	XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
 	XRCCTRL(*this, "AutoCasLoad"+computerInfo[computerType].gui, wxCheckBox)->Enable(useTape);
 	if (computerRunning_ && (computerType == runningComputer_))
@@ -3304,7 +3310,9 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 	XRCCTRL(*this, "Turbo"+computerInfo[computerType].gui, wxCheckBox)->Enable(status&!conf[computerType].realCassetteLoad_);
 	XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
 	XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
+#if defined(__WXMSW__)
     XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
+#endif
 //	XRCCTRL(*this, "Volume"+computerInfo[computerType].gui, wxSlider)->Enable(status);
 //	XRCCTRL(*this, "VolumeText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 }

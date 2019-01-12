@@ -914,6 +914,7 @@ public:
     wxSize getPosition(wxString control, wxSize size);
     wxSize getDefaultGuiSize();
     void windowSizeChanged(wxSizeEvent& event);
+    void adjustGuiSize();
 	void pageSetup();
 	void onClose(wxCloseEvent&event );
 

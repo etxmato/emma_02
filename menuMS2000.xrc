@@ -502,7 +502,7 @@
                             <size>26,27</size>
                             <tooltip>Eject cassette file</tooltip>
                             <bitmap>images_osx/eject.png</bitmap>
-                            <selected>image_osxs/eject.png</selected>
+                            <selected>images_osx/eject.png</selected>
                             <focus>images_osx/eject.png</focus>
                         </object>
                     </object>

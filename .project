@@ -24,26 +24,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/guivip2k.cpp</name>
-			<type>1</type>
-			<location>/media/psf/Home/workspace/emma_02/src/guivip2k.cpp</location>
-		</link>
-		<link>
-			<name>src/guivip2k.h</name>
-			<type>1</type>
-			<location>/media/psf/Home/workspace/emma_02/src/guivip2k.h</location>
-		</link>
-		<link>
-			<name>src/vip2k.cpp</name>
-			<type>1</type>
-			<location>/media/psf/Home/workspace/emma_02/src/vip2k.cpp</location>
-		</link>
-		<link>
-			<name>src/vip2k.h</name>
-			<type>1</type>
-			<location>/media/psf/Home/workspace/emma_02/src/vip2k.h</location>
-		</link>
-	</linkedResources>
 </projectDescription>

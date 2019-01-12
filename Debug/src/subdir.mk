@@ -112,6 +112,7 @@ CPP_SRCS += \
 ../src/video.cpp \
 ../src/vip.cpp \
 ../src/vip2.cpp \
+../src/vip2k.cpp \
 ../src/vip2statusbar.cpp \
 ../src/visicom.cpp \
 ../src/vt100.cpp \
@@ -183,6 +184,7 @@ OBJS += \
 ./src/guivelf.o \
 ./src/guivip.o \
 ./src/guivip2.o \
+./src/guivip2k.o \
 ./src/hbelf.o \
 ./src/http.o \
 ./src/i8275.o \
@@ -235,6 +237,7 @@ OBJS += \
 ./src/video.o \
 ./src/vip.o \
 ./src/vip2.o \
+./src/vip2k.o \
 ./src/vip2statusbar.o \
 ./src/visicom.o \
 ./src/vt100.o \
@@ -298,6 +301,7 @@ CPP_DEPS += \
 ./src/guivelf.d \
 ./src/guivip.d \
 ./src/guivip2.d \
+./src/guivip2k.d \
 ./src/hbelf.d \
 ./src/http.d \
 ./src/i8275.d \
@@ -350,6 +354,7 @@ CPP_DEPS += \
 ./src/video.d \
 ./src/vip.d \
 ./src/vip2.d \
+./src/vip2k.d \
 ./src/vip2statusbar.d \
 ./src/visicom.d \
 ./src/vt100.d \

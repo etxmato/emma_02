@@ -55,21 +55,18 @@
 #define CARDTRAN_PC 0xf
 #if defined (__linux__)
 #define EDIT_ROW 18
-#define NUMBER_OF_DEBUG_LINES 40
 #define LINE_SPACE 13
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 8
 #endif
 #if defined (__WXMSW__)
-#define EDIT_ROW 16
-#define NUMBER_OF_DEBUG_LINES 33
+#define EDIT_ROW 17
 #define LINE_SPACE 11
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 8
 #endif
 #if defined (__WXMAC__)
 #define EDIT_ROW 16
-#define NUMBER_OF_DEBUG_LINES 35
 #define LINE_SPACE 11
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 8
@@ -1025,7 +1022,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	shownRange_ = -1;
 	lastAssError_ = "";
 
-	numberOfDebugLines_ = (int)configPointer->Read("/Main/NumberOfDebugLines", NUMBER_OF_DEBUG_LINES);
+    numberOfDebugLines_ = EDIT_ROW;
 
     assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
 }
@@ -1050,7 +1047,7 @@ void DebugWindow::readDebugConfig()
 	dirAssConfigFileDir_ = readConfigDir("/Dir/Main/DebugConfig", dataDir_);
 	debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
 
-	numberOfDebugLines_ = (int)configPointer->Read("/Main/NumberOfDebugLines", NUMBER_OF_DEBUG_LINES);
+    numberOfDebugLines_ = EDIT_ROW;
 
 	if (!mode_.gui)
 		return;
@@ -1073,8 +1070,6 @@ void DebugWindow::writeDebugConfig()
 
 	writeConfigDir("/Dir/Main/DebugConfig", dirAssConfigFileDir_);
 	writeConfigDir("/Dir/Main/Debug", debugDir_);
-
-	configPointer->Write("/Main/NumberOfDebugLines", numberOfDebugLines_);
 }
 
 void DebugWindow::enableDebugGuiMemory ()
@@ -12087,7 +12082,22 @@ void DebugWindow::paintDebugBackground()
     dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
     
     dcDebugBackground.SelectObject(wxNullBitmap);
-    XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetBitmap(*assBmp);
+    if (xmlLoaded_)
+        XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetBitmap(*assBmp);
+}
+
+void DebugWindow::changeNumberOfDebugLines(int height)
+{
+    wxMemoryDC dcDebugBackground;
+    dcDebugBackground.SelectObject(wxNullBitmap);
+    delete assBmp;
+
+    numberOfDebugLines_ = (int) (height / LINE_SPACE);
+    
+    assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
+
+    paintDebugBackground();
+    directAss();
 }
 
 void DebugWindow::onDebugDisplayPage(wxCommandEvent&WXUNUSED(event))

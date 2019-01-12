@@ -84,6 +84,8 @@ wxString guiSizers[] =
     "ElfBottomRight",
     "ElfBottomLeft",
     "AssBottomRight",
+    "MemoryDumpBottomRight",
+    "MemoryDumpBottomLeft",
     "End"
 };
 
@@ -430,7 +432,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 
 	EVT_CLOSE(Main::onClose)
 
-#if defined(__linux__)
+#if defined(__linux__) || defined(__WXMAC__)
     EVT_SIZE(Main::windowSizeChanged)
 #endif
 	EVT_MENU(wxID_EXIT, Main::onQuit)
@@ -825,10 +827,10 @@ bool Emu1802::OnInit()
     wxString xrcFile = applicationDirectory_ + "main.xrc";
 #elif (__WXMAC__)
 	ubuntuOffsetX = 30;
-    wxString xrcFile = applicationDirectory_ + "main.xrc";
+    wxString xrcFile = applicationDirectory_ + "main_mac.xrc";
 #else
 	ubuntuOffsetX = 0;
-    wxString xrcFile = applicationDirectory_ + "main_win.xrc";
+    wxString xrcFile = applicationDirectory_ + "main.xrc";
 #endif
 
 #if wxCHECK_VERSION(2, 9, 0)
@@ -1752,7 +1754,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		chip8BreakPointWindowPointer = XRCCTRL(*this,"Chip8BreakPointWindow", wxListCtrl);
 		tregWindowPointer = XRCCTRL(*this,"TregWindow", wxListCtrl);
 		trapWindowPointer = XRCCTRL(*this,"TrapWindow", wxListCtrl);
-	}
+    }
 
 	initConfig();
 	readConfig();
@@ -1765,7 +1767,12 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
     
     if (mode_.gui)
+    {
         buildConfigMenu();
+#if defined (__WXMSW__)
+        adjustGuiSize();
+#endif
+    }
 
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
@@ -1892,12 +1899,10 @@ wxSize Main::getDefaultGuiSize()
 #if defined (__linux__)
     size.y += 140;
 #else
-    size.y += 110;
+    size.y += 114;
 #endif
-//#if defined (__linux__)
-//    size.y += 28;
-//#endif
-    return size;
+
+	return size;
 }
 
 void Main::pageSetup()
@@ -2417,22 +2422,22 @@ void Main::initConfig()
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 256+60; 
+	int clockTextCorrectionComxX = 255+62; 
 	int clockTextCorrectionComxY = 117;
-	int clockFloatCorrectionComxX = 220+60; 
+	int clockFloatCorrectionComxX = 217+62; 
 	int clockFloatCorrectionComxY = 120;
-	int mhzTextCorrectionComxX = 171+60; 
+	int mhzTextCorrectionComxX = 170+60; 
 	int mhzTextCorrectionComxY = 117;
-    int stopCorrectionComxX = 143+60;
+    int stopCorrectionComxX = 142+60;
     int stopCorrectionComxY = 121;
-    int startCorrectionComxX = 143-22;
+    int startCorrectionComxX = 142-22;
     int startCorrectionComxY = 121;
 	int floatHeight = 21;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 255+60; 
+	int clockTextCorrectionX = 255+62; 
 	int clockTextCorrectionY = 146;
-	int clockFloatCorrectionX = 217+60; 
+	int clockFloatCorrectionX = 217+62; 
 	int clockFloatCorrectionY = 149;
 	int mhzTextCorrectionX = 170+60; 
     int mhzTextCorrectionY = 146;
@@ -2478,7 +2483,7 @@ void Main::initConfig()
                 case CIDELSA:
                 case ETI:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionComxX, defaultGuiSize_.y - clockTextCorrectionComxY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(45, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(47, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionComxX, defaultGuiSize_.y - mhzTextCorrectionComxY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionComxX, defaultGuiSize_.y - stopCorrectionComxY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionComxX, defaultGuiSize_.y - startCorrectionComxY), wxSize(80, startHeight));
@@ -2486,7 +2491,7 @@ void Main::initConfig()
                     
                 default:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionX, defaultGuiSize_.y - clockTextCorrectionY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(45, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(47, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionX, defaultGuiSize_.y - mhzTextCorrectionY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionX, defaultGuiSize_.y - stopCorrectionY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionX, defaultGuiSize_.y - startCorrectionY), wxSize(80, startHeight));
@@ -2718,7 +2723,7 @@ void Main::readConfig()
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Studio_Tab", 0l));
         
         long elfChoiceBookTab = configPointer->Read("/Main/Selected_Cosmac_Tab", 0l);
-        if (elfChoiceBookTab > 6)
+        if (elfChoiceBookTab > VELF)
             elfChoiceBookTab = 0;
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(elfChoiceBookTab);
 		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Rca_Tab", 0l));
@@ -2784,19 +2789,73 @@ void Main::readConfig()
     psaveData_[10] = (int)configPointer->Read("/Main/Cassette_Fred_Freq", 58l);
 }
 
-void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
+void Main::windowSizeChanged(wxSizeEvent& event)
+{
+    adjustGuiSize();
+    event.Skip();
+}
+
+void Main::adjustGuiSize()
 {
     wxSize mainWindowSize = this->GetClientSize();
-    if (mainWindowSize.x > 1000)
-    	mainWindowSize.x = 1000;
-    if (mainWindowSize.y > 1000)
-    	mainWindowSize.y = 1000;
-    XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-8, mainWindowSize.y-156);
+    int borderSizeX, borderSizeY, borderSizeY2;
+    
+    if (mainWindowSize.x > 2000)
+        mainWindowSize.x = 2000;
+    if (mainWindowSize.y > 2000)
+        mainWindowSize.y = 2000;
+#if defined(__linux__)
+    borderSizeX = 8;
+    borderSizeY = 8;
+    borderSizeY2 = 70;
+#endif
+#if defined (__WXMSW__)
+    borderSizeX = 10;
+    borderSizeY = 10;
+    borderSizeY2 = 56;
+#endif
+#if defined(__WXMAC__)
+    borderSizeX = 21;
+    borderSizeY = 8;
+    borderSizeY2 = 72;
+#endif
+    
+    if (xmlLoaded_)
+    {
+        XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        
+        wxPoint position, positionBreakPointWindow, positionBreakPointWindowText;
+        
+        position = XRCCTRL(*this, "Message_Window", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        
+        position = XRCCTRL(*this, "TraceWindow", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        positionBreakPointWindow = XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->GetPosition();
+        positionBreakPointWindowText = XRCCTRL(*this, "BreakPointWindowText", wxStaticText)->GetPosition();
+        XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        positionBreakPointWindow.x += (position.x/3);
+        positionBreakPointWindowText.x = positionBreakPointWindow.x;
+        XRCCTRL(*this, "TregWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
+        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
+        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        positionBreakPointWindow.x += (position.x/3);
+        positionBreakPointWindowText.x = positionBreakPointWindow.x;
+        XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
+        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
+        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        
+        position = XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        positionBreakPointWindow = XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->GetPosition();
+        XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->SetSize(position.x-6, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        
+        changeNumberOfDebugLines(mainWindowSize.y - borderSizeY2);
+    }
 }
 
 void Main::onHelp(wxCommandEvent& WXUNUSED(event))

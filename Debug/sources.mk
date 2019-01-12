@@ -28,4 +28,5 @@ Win32/Release/Emma\ 02 \
 src \
 x64/Debug/Emma\ 02 \
 x64/Release/Emma\ 02 \
+. \
 
