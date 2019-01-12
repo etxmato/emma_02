@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resource version="2.3.0.1" xmlns="http://www.wxwidgets.org/wxxrc">
-    <object class="wxDialog" name="PopupTMC600">
+    <object class="wxDialog" name="PopupMCDS">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <size>400,300</size>
-        <title>TMC-600 Menu</title>
+        <title>MCDS Menu</title>
         <centered>1</centered>
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -30,11 +30,11 @@
                 <border>2</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
-                    <object platform="win" class="sizeritem">
+                    <object platform="win|mac" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <object platform="win" class="wxButton" name="CasButton">
-                            <size>75,25</size>
+                        <object platform="win|mac" class="wxButton" name="CasButton">
+                            <size>-1,25</size>
                             <tooltip>Browse for cassette file</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -43,10 +43,10 @@
                             <label>Cassette</label>
                         </object>
                     </object>
-                    <object platform="unix|mac" class="sizeritem">
+                    <object platform="unix" class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
-                        <object platform="unix|mac" class="wxButton" name="CasButton">
+                        <object platform="unix" class="wxButton" name="CasButton">
                             <tooltip>Browse for cassette file</tooltip>
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -145,7 +145,7 @@
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxBOTTOM</flag>
-                                        <border>1</border>
+                                        <border>0</border>
                                         <object class="wxTextCtrl" name="SaveStart" subclass="HexEdit">
                                             <size>50,-1</size>
                                             <tooltip>Specify machine code start address in hexadecimal</tooltip>
@@ -164,10 +164,10 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_TOP</flag>
-                                        <border>1</border>
+                                        <flag>wxALIGN_TOP|wxTOP</flag>
+                                        <border>0</border>
                                         <object class="wxButton" name="LoadButton">
-                                            <tooltip>Load .tmc600 file into TMC600 emulator memory</tooltip>
+                                            <tooltip>Load .hex/.rca file into MCDS emulator memory</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -176,10 +176,10 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_TOP</flag>
-                                        <border>1</border>
+                                        <flag>wxALIGN_TOP|wxTOP</flag>
+                                        <border>0</border>
                                         <object class="wxButton" name="RunButton">
-                                            <tooltip>Load .tmc600 file into TMC-600 emulator memory and RUN software</tooltip>
+                                            <tooltip>Load .hex/.rca file into MCDS emulator memory and RUN software</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -227,10 +227,10 @@
                                 <object class="wxBoxSizer">
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_TOP</flag>
-                                        <border>1</border>
+                                        <flag>wxALIGN_TOP|wxTOP</flag>
+                                        <border>0</border>
                                         <object class="wxButton" name="SaveButton">
-                                            <tooltip>Save TMC-600 emulator memory to .tmc600 file</tooltip>
+                                            <tooltip>Save MCDS emulator memory to .rca file</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -239,10 +239,10 @@
                                         </object>
                                     </object>
                                     <object class="sizeritem">
-                                        <flag>wxALIGN_TOP</flag>
-                                        <border>1</border>
+                                        <flag>wxALIGN_TOP|wxTOP</flag>
+                                        <border>0</border>
                                         <object class="wxButton" name="DsaveButton">
-                                            <tooltip>Save TMC-600 emulator data memory to .tmc600 file</tooltip>
+                                            <tooltip>Save MCDS emulator data memory to .rca file</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
@@ -265,148 +265,25 @@
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
-                                <border>1</border>
-                                <object class="wxTextCtrl" name="SaveExec" subclass="HexEdit">
-                                    <size>50,-1</size>
-                                    <tooltip>Specify machine code execution address in hexadecimal</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <maxlength>4</maxlength>
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP</flag>
+                                        <border>0</border>
+                                        <object class="wxTextCtrl" name="SaveExec" subclass="HexEdit">
+                                            <size>50,-1</size>
+                                            <tooltip>Specify machine code execution address in hexadecimal</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <maxlength>4</maxlength>
+                                        </object>
+                                    </object>
                                 </object>
                             </object>
-                        </object>
-                    </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
-                <border>4</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                        <border>5</border>
-                        <object class="wxStaticText" name="AdiInputTextPopup">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <enabled>0</enabled>
-                            <label>A/DI Input</label>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                        <border>4</border>
-                        <object class="wxSpinCtrl" name="AdiChannelPopup">
-                            <size>50,-1</size>
-                            <tooltip>Select A/DI channel 0 to 14</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <style>wxSP_ARROW_KEYS</style>
-                            <enabled>0</enabled>
-                            <value>0</value>
-                            <min>0</min>
-                            <max>14</max>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxSpinCtrl" name="AdiVoltPopup">
-                            <size>70,-1</size>
-                            <tooltip>A/DI input -99 to 999 mV</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <style>wxSP_ARROW_KEYS</style>
-                            <enabled>0</enabled>
-                            <value>0</value>
-                            <min>-100</min>
-                            <max>1000</max>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                        <border>5</border>
-                        <object class="wxStaticText" name="AdiVoltTextPopup">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <enabled>0</enabled>
-                            <label>mV</label>
-                        </object>
-                    </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
-                <border>4</border>
-                <object class="wxBoxSizer">
-                    <orient>wxHORIZONTAL</orient>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                        <border>4</border>
-                        <object class="wxStaticText" name="AdsInputTextPopup">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <enabled>0</enabled>
-                            <label>A/DS Input</label>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                        <border>4</border>
-                        <object class="wxSpinCtrl" name="AdsChannelPopup">
-                            <size>50,-1</size>
-                            <tooltip>Select A/DS channel 0 to 15</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <style>wxSP_ARROW_KEYS</style>
-                            <enabled>0</enabled>
-                            <value>0</value>
-                            <min>0</min>
-                            <max>15</max>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                        <border>0</border>
-                        <object class="wxSpinCtrl" name="AdsVoltPopup">
-                            <size>70,-1</size>
-                            <tooltip>A/DS Input 0 to 5100 mV</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <style>wxSP_ARROW_KEYS</style>
-                            <enabled>0</enabled>
-                            <value>0</value>
-                            <min>0</min>
-                            <max>5100</max>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                        <border>5</border>
-                        <object class="wxStaticText" name="AdsVoltTextPopup">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <enabled>0</enabled>
-                            <label>mV</label>
                         </object>
                     </object>
                 </object>
