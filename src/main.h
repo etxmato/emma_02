@@ -1136,6 +1136,8 @@ public:
 	void setDebounceTimer(guiEvent& event);
 	void eventDebounceTimer();
 
+    void guiSizeTimeout(wxTimerEvent& event);
+    
     wxString getMultiCartGame(Byte msb, Byte lsb);
     bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
     int getDefaultInKey1(wxString computerStr);

@@ -432,9 +432,9 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 
 	EVT_CLOSE(Main::onClose)
 
-#if defined(__linux__) || defined(__WXMAC__)
+//#if defined(__linux__) || defined(__WXMAC__)
     EVT_SIZE(Main::windowSizeChanged)
-#endif
+//#endif
 	EVT_MENU(wxID_EXIT, Main::onQuit)
 	EVT_MENU(wxID_ABOUT, Main::onAbout)
 	EVT_MENU(XRCID("MI_DataDir"), Main::onDataDir)
@@ -496,6 +496,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
+    EVT_TIMER(908, Main::guiSizeTimeout)
 
 	EVT_KEY_DOWN(Main::onKeyDown)
 	EVT_KEY_UP(Main::onKeyUp)
@@ -1765,14 +1766,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     updateCheckPointer = new wxTimer(this, 905);
     traceTimeoutPointer = new wxTimer(this, 906);
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
-    
+    guiSizeTimeoutPointer = new wxTimer(this, 908);
+    guiSizeTimerStarted_ = false;
+
     if (mode_.gui)
-    {
         buildConfigMenu();
-#if defined (__WXMSW__)
-        adjustGuiSize();
-#endif
-    }
 
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
@@ -1841,6 +1839,7 @@ Main::~Main()
 	delete updateCheckPointer;
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
+    delete guiSizeTimeoutPointer;
     delete help_;
 	if (configPointer == NULL || !saveOnExit_)
 		return;
@@ -2789,11 +2788,24 @@ void Main::readConfig()
     psaveData_[10] = (int)configPointer->Read("/Main/Cassette_Fred_Freq", 58l);
 }
 
+#if defined(__WXMSW__)
+void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
+{
+    if (xmlLoaded_ && !guiSizeTimerStarted_)
+    {
+        guiSizeTimeoutPointer->Start(20, wxTIMER_ONE_SHOT);
+        guiSizeTimerStarted_ = true;
+    }
+
+}
+#else
 void Main::windowSizeChanged(wxSizeEvent& event)
 {
     adjustGuiSize();
     event.Skip();
 }
+#endif
+
 
 void Main::adjustGuiSize()
 {
@@ -7589,6 +7601,12 @@ void Main::eventDebounceTimer()
     event.SetEventObject(p_Main);
     
     GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))
+{
+    adjustGuiSize();
+    guiSizeTimerStarted_ = false;
 }
 
 wxString Main::getMultiCartGame(Byte findMsb, Byte findLsb)

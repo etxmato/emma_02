@@ -54,7 +54,7 @@
 #define CHIP8_PC 5
 #define CARDTRAN_PC 0xf
 #if defined (__linux__)
-#define EDIT_ROW 18
+#define EDIT_ROW 16
 #define LINE_SPACE 13
 #define ASS_WIDTH 268
 #define CHAR_WIDTH 8

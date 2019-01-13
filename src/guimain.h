@@ -506,7 +506,7 @@ protected:
     wxString keyboardType_;
     wxString keyboardTypeMenuItem_;
 
-	bool useExitKey_;
+    bool useExitKey_;
 
 	WindowInfo windowInfo;
 	wxString workingDir_;
@@ -533,6 +533,8 @@ protected:
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;
+    wxTimer *guiSizeTimeoutPointer;
+    bool guiSizeTimerStarted_;
 
 	bool slotLedUpdate_;
 
