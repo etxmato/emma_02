@@ -1791,6 +1791,16 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 }
                 configPointer->Write(computerInfo[confComputer].gui + "/SoftwareDirInstalled", true);
             }
+            wxDir compDir(dataDir + computerInfo[confComputer].gui);
+            if (!compDir.HasFiles())
+            {
+                int answer = wxMessageBox("1802 Software directory " + computerInfo[confComputer].gui + " is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+                if (answer == wxYES)
+                {
+                    p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_,  dataDir + computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
+                }
+                configPointer->Write(computerInfo[confComputer].gui + "/SoftwareDirInstalled", true);
+            }
         }
     }
     
@@ -3622,6 +3632,42 @@ void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathS
         copyTree(&source, &destination, pathSep);
         cont = dir.GetNext(&filename);
     }
+}
+
+void Main::reInstallOnNotFound(int computerType, wxString fileTypeString)
+{
+    int answer = wxMessageBox(fileTypeString + " file for the " + computerInfo[computerType].name + " is missing,\nre-install all " + computerInfo[computerType].name + " default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+    if (answer == wxYES)
+    {
+        p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[computerType].gui + pathSeparator_,  dataDir_ + computerInfo[computerType].gui + pathSeparator_, pathSeparator_);
+    }
+}
+
+void Main::checkAndReInstallMainRom(int computerType)
+{
+    if (p_Main->getRomFile(computerType, MAINROM1) == "")
+        return;
+    
+    if (!wxFile::Exists(p_Main->getRomDir(computerType, MAINROM1) + p_Main->getRomFile(computerType, MAINROM1)))
+        p_Main->reInstallOnNotFound(computerType, "ROM");
+}
+
+void Main::checkAndReInstallFile(int computerType, wxString fileTypeString, int fileType)
+{
+    if (p_Main->getRomFile(computerType, fileType) == "")
+        return;
+    
+    if (!wxFile::Exists(p_Main->getRomDir(computerType, fileType) + p_Main->getRomFile(computerType, fileType)))
+        p_Main->reInstallOnNotFound(computerType, fileTypeString);
+}
+
+void Main::checkAndReInstallCharFile(int computerType, wxString fileTypeString, int fileType)
+{
+    if (p_Main->getRomFile(computerType, fileType) == "")
+        return;
+    
+    if (!wxFile::Exists(p_Main->getCharRomDir(computerType) + p_Main->getCharRomFile(computerType)))
+        p_Main->reInstallOnNotFound(computerType, fileTypeString);
 }
 
 bool Main::copyTree( wxFileName* source, wxFileName* destination, wxString pathSep)

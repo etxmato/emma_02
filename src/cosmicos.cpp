@@ -902,6 +902,7 @@ void Cosmicos::startComputer()
             p_Main->assDefault("mycode", 0, 0xFFF);
 	}
 	
+    p_Main->checkAndReInstallMainRom(COSMICOS);
 	readProgram(p_Main->getRomDir(COSMICOS, MAINROM1), p_Main->getRomFile(COSMICOS, MAINROM1), ROM, 0xc000, NONAME);
 	loadRam();
 

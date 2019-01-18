@@ -582,6 +582,7 @@ void Vip::startComputer()
 
 	ramMask_ = (p_Main->getRamType(VIP) * 0x400) - 1;
 
+    p_Main->checkAndReInstallMainRom(VIP);
 	if (wxFile::Exists(p_Main->getRomDir(VIP, MAINROM1)+"cosmac.ram"))
 		readFile(p_Main->getRomDir(VIP, MAINROM1)+"cosmac.ram", RAM, ramMask_-0xff, 0x10000, NONAME);
 	if (p_Main->getLatch())

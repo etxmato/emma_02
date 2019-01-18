@@ -928,6 +928,10 @@ public:
     void onReInstallConfig(wxCommandEvent& event);
     void onReInstallData(wxCommandEvent& event);
     void reInstall(wxString source, wxString destination, wxString pathSep);
+    void reInstallOnNotFound(int computerType, wxString fileTypeString);
+    void checkAndReInstallMainRom(int computerType);
+    void checkAndReInstallFile(int computerType, wxString fileTypeString, int fileType);
+    void checkAndReInstallCharFile(int computerType, wxString fileTypeString, int fileType);
     bool copyTree( wxFileName* source, wxFileName* destination, wxString pathSep);
     void onConfiguration(wxCommandEvent& event);
     void onDeleteConfiguration(wxCommandEvent& event);

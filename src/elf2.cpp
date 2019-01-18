@@ -1018,6 +1018,9 @@ void Elf2::startComputer()
     initRam(ramStart_, ramEnd);
 
     p_Main->assDefault("mycode", ramStart_&0xff00, ((ramEnd&0xff00)|0xff)&0xfff);
+    
+    if (p_Main->getLoadromMode(ELFII, 0) == ROM)
+        p_Main->checkAndReInstallFile(ELFII, "ROM 1", MAINROM1);
 
     if (ramEnd == 0xff)
     {

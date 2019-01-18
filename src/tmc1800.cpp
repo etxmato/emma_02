@@ -237,6 +237,7 @@ void Tmc1800::startComputer()
 
 	p_Main->setSwName("");
 
+    p_Main->checkAndReInstallMainRom(TMC1800);
 	readProgram(p_Main->getRomDir(TMC1800, MAINROM1), p_Main->getRomFile(TMC1800, MAINROM1), ROM, 0x8000, NONAME);
 
 	switch(p_Main->getRamType(TMC1800))

@@ -419,6 +419,7 @@ void StudioIV::startComputer()
 
 	p_Main->setSwName("");
 
+    p_Main->checkAndReInstallMainRom(STUDIOIV);
     readProgram(p_Main->getRomDir(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, MAINROM1), ROM, 0, NONAME);
     
     p_Main->assDefault("studioivrom", 0x000, 0x7FF);

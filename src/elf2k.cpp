@@ -769,6 +769,7 @@ void Elf2K::startComputer()
  
     p_Main->assDefault("mycode", 0, 0xFFF);
 
+    p_Main->checkAndReInstallMainRom(ELF2K);
 	readProgram(p_Main->getRomDir(ELF2K, MAINROM1), p_Main->getRomFile(ELF2K, MAINROM1), ROM, 0x8000, NONAME);
 	loadRam();
 	loadRtc();

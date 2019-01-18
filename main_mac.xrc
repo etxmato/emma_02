@@ -635,7 +635,7 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                            <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                             <border>2</border>
                                                             <object class="wxButton" name="ScreenDumpFileButtonComx">
                                                                 <tooltip>Browse for video dump file</tooltip>
@@ -1704,7 +1704,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
                                                                         <object class="wxButton" name="ScreenDumpFileButtonElf2K">
                                                                             <tooltip>Browse for video dump file</tooltip>
@@ -2595,7 +2595,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
                                                                         <object class="wxButton" name="ScreenDumpFileButtonCosmicos">
                                                                             <tooltip>Browse for video dump file</tooltip>
@@ -19496,7 +19496,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
                                                                         <object class="wxButton" name="ScreenDumpFileButtonTMC600">
                                                                             <tooltip>Browse for video dump file</tooltip>
@@ -21041,7 +21041,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
                                                                         <object class="wxButton" name="ScreenDumpFileButtonTMC2000">
                                                                             <tooltip>Browse for video dump file</tooltip>
@@ -21650,7 +21650,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
                                                                         <object class="wxButton" name="ScreenDumpFileButtonNano">
                                                                             <tooltip>Browse for video dump file</tooltip>
@@ -22240,7 +22240,7 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                            <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                             <border>2</border>
                                                             <object class="wxButton" name="ScreenDumpFileButtonPecom">
                                                                 <tooltip>Browse for video dump file</tooltip>
@@ -22906,7 +22906,7 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                            <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                             <border>2</border>
                                                             <object class="wxButton" name="ScreenDumpFileButtonEti">
                                                                 <tooltip>Browse for video dump file</tooltip>

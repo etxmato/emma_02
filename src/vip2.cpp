@@ -586,6 +586,8 @@ void VipII::startComputer()
 
 	p_Main->setSwName("");
 
+    p_Main->checkAndReInstallFile(VIPII, "ROM 1", MAINROM1);
+    p_Main->checkAndReInstallFile(VIPII, "ROM 2", MAINROM2);
 	readProgram(p_Main->getRomDir(VIPII, MAINROM2), p_Main->getRomFile(VIPII, MAINROM2), ROM, 0x8000, NONAME);
 
 	runPressedAtStartup_ = p_Main->runPressed();

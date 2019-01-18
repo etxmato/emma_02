@@ -458,7 +458,8 @@ void Cidelsa::startComputer()
 	p_Main->setSwName("");
 	p_Main->updateTitle();
 
-	readProgramCidelsa(p_Main->getRomDir(CIDELSA, MAINROM1), p_Main->getRomFile(CIDELSA, MAINROM1), ROM, 0, SHOWNAME);
+    p_Main->checkAndReInstallMainRom(CIDELSA);
+    readProgramCidelsa(p_Main->getRomDir(CIDELSA, MAINROM1), p_Main->getRomFile(CIDELSA, MAINROM1), ROM, 0, SHOWNAME);
 
 	defineMemoryType(0xf400, 0xf7ff, CRAM1870);
 	defineMemoryType(0xf800, 0xffff, PRAM1870);

@@ -641,6 +641,7 @@ void Membership::startComputer()
 	p_Main->enableDebugGuiMemory();
 
 	loadRam();
+    p_Main->checkAndReInstallMainRom(MEMBER);
     readProgram(p_Main->getRomDir(MEMBER, MAINROM1), p_Main->getRomFile(MEMBER, MAINROM1), p_Main->getLoadromModeMembership(), loadStart, NONAME);
     
 	configureElfExtensions();

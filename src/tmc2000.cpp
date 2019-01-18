@@ -249,6 +249,7 @@ void Tmc2000::startComputer()
 
 	p_Main->setSwName("");
 
+    p_Main->checkAndReInstallMainRom(TMC2000);
 	readProgram(p_Main->getRomDir(TMC2000, MAINROM1), p_Main->getRomFile(TMC2000, MAINROM1), ROM, 0x8000, NONAME);
 
 	switch(p_Main->getRamType(TMC2000))

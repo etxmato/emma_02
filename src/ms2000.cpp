@@ -409,6 +409,7 @@ void Ms2000::startComputer()
 
     p_Main->assDefault("mycode", 0, 0xFFF);
     
+    p_Main->checkAndReInstallMainRom(MS2000);
 	readProgram(p_Main->getRomDir(MS2000, MAINROM1), p_Main->getRomFile(MS2000, MAINROM1), ROM, 0x8000, NONAME);
     
     if (p_Vt100 != NULL)

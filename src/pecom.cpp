@@ -697,8 +697,8 @@ void Pecom::startComputer()
 	p_Main->setSwName("");
 	p_Main->updateTitle();
 
+    p_Main->checkAndReInstallMainRom(PECOM);
 	readProgramPecom(p_Main->getRomDir(PECOM, MAINROM1), p_Main->getRomFile(PECOM, MAINROM1), ROM, 0x8000, NONAME);
-
     
     if (mainMemory_[0x80bd] == 0x90 && mainMemory_[0x80be] == 0x05)
     {

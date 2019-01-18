@@ -415,6 +415,7 @@ void Eti::startComputer()
 	p_Main->setSwName("");
 	p_Main->updateTitle();
 
+    p_Main->checkAndReInstallMainRom(ETI);
 	readProgram(p_Main->getRomDir(ETI, MAINROM1), p_Main->getRomFile(ETI, MAINROM1), ROM, 0, NONAME);
 
 	if (p_Main->getRamType(ETI) == 0)

@@ -1237,6 +1237,9 @@ void Super::startComputer()
     initRam(ramStart_, ramEnd);
 
     p_Main->assDefault("mycode", ramStart_&0xff00, ((ramEnd&0xff00)|0xff)&0xfff);
+    
+    if (p_Main->getLoadromMode(SUPERELF, 0) == ROM)
+        p_Main->checkAndReInstallMainRom(SUPERELF);
 
 	for (int i=ramMask_ + 1 + ramStart_; i<0x10000; i+=(ramMask_+1))
 		defineMemoryType(i, i+(ramEnd - ramStart_), MAPPEDRAM);

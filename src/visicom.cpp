@@ -441,6 +441,7 @@ void Visicom::startComputer()
 		defineMemoryType(i+0x100, MAPPEDRAM);
 		defineMemoryType(i+0x300, MAPPEDRAM);
 	}
+    p_Main->checkAndReInstallMainRom(VISICOM);
 	readProgram(p_Main->getRomDir(VISICOM, MAINROM1), p_Main->getRomFile(VISICOM, MAINROM1), ROM, 0, NONAME);
 	readSt2Program(VISICOM);
 	defineMemoryType(0x800, 0xfff, CARTRIDGEROM);

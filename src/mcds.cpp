@@ -321,8 +321,11 @@ void Mcds::startComputer()
     
     p_Main->assDefault("mycode", 0, 0xFFF);
 
+    p_Main->checkAndReInstallFile(MCDS, "UT ROM", MAINROM1);
     readProgram(p_Main->getRomDir(MCDS, MAINROM1), p_Main->getRomFile(MCDS, MAINROM1), ROM, 0x8000, NONAME);
+    p_Main->checkAndReInstallFile(MCDS, "ASM ROM", MAINROM2);
     readProgram(p_Main->getRomDir(MCDS, MAINROM2), p_Main->getRomFile(MCDS, MAINROM2), ROM, 0x9000, NONAME);
+    p_Main->checkAndReInstallFile(MCDS, "BAS ROM", MAINROM3);
     readProgram(p_Main->getRomDir(MCDS, MAINROM3), p_Main->getRomFile(MCDS, MAINROM3), ROM, 0xB000, NONAME);
 
     if (p_Vt100 != NULL)

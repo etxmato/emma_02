@@ -1022,7 +1022,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	shownRange_ = -1;
 	lastAssError_ = "";
 
-    numberOfDebugLines_ = EDIT_ROW;
+    numberOfDebugLines_ = 32;
 
     assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
 }

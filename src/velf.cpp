@@ -690,6 +690,8 @@ void Velf::startComputer()
 
     if (wxFile::Exists(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram"))
 		readFile(p_Main->getRomDir(VIP, MAINROM1) + "cosmac.ram", RAM, 0xf00, 0x10000, NONAME);
+
+    p_Main->checkAndReInstallMainRom(VELF);
 	readProgram(p_Main->getRomDir(VELF, MAINROM1), p_Main->getRomFile(VELF, MAINROM1), ROM, 0x8000, &lastAddress, NONAME);
 
 	defineMemoryType(0x0, 0x7FFF, RAM);

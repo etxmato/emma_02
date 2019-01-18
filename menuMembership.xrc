@@ -28,35 +28,22 @@
                 <border>2</border>
                 <object class="wxBoxSizer">
                     <orient>wxHORIZONTAL</orient>
-                    <object platform="win" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>3</border>
-                        <object platform="win" class="wxButton" name="TerminalCasButton">
-                            <size>75,25</size>
-                            <tooltip>Browse for terminal file</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>File</label>
-                        </object>
-                    </object>
-                    <object platform="mac|unix" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>3</border>
-                        <object platform="mac|unix" class="wxButton" name="TerminalCasButton">
-                            <tooltip>Browse for terminal file</tooltip>
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>File</label>
-                        </object>
-                    </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_VERTICAL</flag>
+                        <border>3</border>
+                        <object class="wxButton" name="TerminalCasButton">
+                            <tooltip>Browse for terminal file</tooltip>
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>File</label>
+                        </object>
+                    </object>
+                    <object platform="mac" class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL</flag>
                         <border>4</border>
-                        <object class="wxTextCtrl" name="WavFile">
+                        <object platform="mac" class="wxTextCtrl" name="WavFile">
                             <size>153,-1</size>
                             <tooltip>Specify cassette file</tooltip>
                             <font>
@@ -65,25 +52,16 @@
                             </font>
                         </object>
                     </object>
-                    <object platform="win" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>3</border>
-                        <object platform="win" class="wxBitmapButton" name="EjectCas">
-                            <size>26,25</size>
-                            <tooltip>Eject cassette file</tooltip>
-                            <bitmap>images/eject.png</bitmap>
-                            <selected>images/eject.png</selected>
-                            <focus>images/eject.png</focus>
-                        </object>
-                    </object>
-                    <object platform="unix" class="sizeritem">
-                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                        <border>3</border>
-                        <object platform="unix" class="wxBitmapButton" name="EjectCas">
-                            <tooltip>Eject cassette file</tooltip>
-                            <bitmap>images/eject.png</bitmap>
-                            <selected>images/eject.png</selected>
-                            <focus>images/eject.png</focus>
+                    <object platform="unix|win" class="sizeritem">
+                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                        <border>1</border>
+                        <object platform="unix|win" class="wxTextCtrl" name="WavFile">
+                            <size>153,-1</size>
+                            <tooltip>Specify cassette file</tooltip>
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
                         </object>
                     </object>
                     <object platform="mac" class="sizeritem">
@@ -93,6 +71,16 @@
                             <size>26,27</size>
                             <tooltip>Eject cassette file</tooltip>
                             <bitmap>images_osx/eject.png</bitmap>
+                            <selected>images/eject.png</selected>
+                            <focus>images/eject.png</focus>
+                        </object>
+                    </object>
+                    <object platform="unix|win" class="sizeritem">
+                        <flag>wxGROW</flag>
+                        <border>3</border>
+                        <object platform="unix|win" class="wxBitmapButton" name="EjectCas">
+                            <tooltip>Eject cassette file</tooltip>
+                            <bitmap>images/eject.png</bitmap>
                             <selected>images/eject.png</selected>
                             <focus>images/eject.png</focus>
                         </object>

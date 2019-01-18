@@ -114,7 +114,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             computerTypeStr_ = "MS2000";
         break;
     }
-	readCharRomFile(p_Main->getVtCharRomDir(computerType_), p_Main->getVtCharRomFile(computerType_));
+	readCharRomFile(computerType_, p_Main->getVtCharRomDir(computerType_), p_Main->getVtCharRomFile(computerType_));
 	stretchDot_ = p_Main->getStretchDot(computerType_);
     serialLog_ = elfConfiguration_.serialLog;
     uart_ = elfConfiguration_.useUart;
@@ -2860,7 +2860,7 @@ void Vt100::terminalStopVt()
     }
 }
 
-bool Vt100::readCharRomFile(wxString romDir, wxString romFile)
+bool Vt100::readCharRomFile(int computer, wxString romDir, wxString romFile)
 {
 	wxFFile inFile;
 	size_t length;
@@ -2879,7 +2879,10 @@ bool Vt100::readCharRomFile(wxString romDir, wxString romFile)
 
 	wxString fileName = romDir + romFile;
 
-	if (inFile.Open(fileName, "rb"))
+    if (!wxFile::Exists(fileName))
+        p_Main->reInstallOnNotFound(computer, "VT Font");
+
+    if (inFile.Open(fileName, "rb"))
 	{
 		length = inFile.Read(buffer, 4096);
 		for (size_t i=0; i<length; i++)

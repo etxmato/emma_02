@@ -799,6 +799,8 @@ void Comx::startComputer()
 	fAndMBasicRunning_ = false;
 
 	allocComxExpansionMemory();
+    
+    p_Main->checkAndReInstallMainRom(COMX);
 	readProgram(p_Main->getRomDir(COMX, MAINROM1), p_Main->getRomFile(COMX, MAINROM1), ROM, 0, NONAME);
 
 	if (p_Main->isDiagActive(COMX))
