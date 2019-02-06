@@ -1738,6 +1738,8 @@ void Computer::readDebugFile(wxString dir, wxString name, wxString number, Word 
                 while (!zip.Eof())
                 {
                     nextByte = zip.GetC();
+     //               if (nextByte >= 70 && nextByte <=86)
+       //                 nextByte += 100;
                     if (nextByte != 0xff)
                         p_Computer->writeMemDataType(startAddress, nextByte);
                     startAddress++;

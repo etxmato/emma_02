@@ -4041,6 +4041,11 @@ Byte Cdp1802::readMemLabelType(Word address)
 				if (((address & 0xff) >= 0xd0) && ((address & 0xff) <= 0xdf))
 					return expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0xfff)];
 			}
+            if (expansionSlot_ == networkSlot_)
+            {
+                if (((address & 0xff) >= 0xd0) && ((address & 0xff) <= 0xdf))
+                    return expansionRomLabelType_[(expansionSlot_ * 0x2000) + (address & 0xfff)];
+            }
 			return mainMemoryLabelType_[address];
         break;
             

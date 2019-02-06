@@ -42,7 +42,6 @@ protected:
 	int printerSlot_;
 	int columnSlot_;
 	int diagSlot_;
-	int networkSlot_;
 	bool useExpansionRam_;
 	int expansionRamSlot_;
 	int comxExpansionType_[4];

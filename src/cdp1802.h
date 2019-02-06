@@ -127,6 +127,7 @@ protected:
 	int epromSlot_;
 	int superSlot_;
     int fdcSlot_;
+    int networkSlot_;
 
     ElfConfiguration elfConfiguration;
   

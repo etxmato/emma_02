@@ -931,6 +931,7 @@ public:
     void reInstallOnNotFound(int computerType, wxString fileTypeString);
     void checkAndReInstallMainRom(int computerType);
     void checkAndReInstallFile(int computerType, wxString fileTypeString, int fileType);
+    void checkAndReInstallFile(wxString fileAndPath, int computerType, wxString fileTypeString);
     void checkAndReInstallCharFile(int computerType, wxString fileTypeString, int fileType);
     bool copyTree( wxFileName* source, wxFileName* destination, wxString pathSep);
     void onConfiguration(wxCommandEvent& event);

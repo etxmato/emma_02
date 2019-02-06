@@ -86,6 +86,8 @@ void Expansion::configureCard(int slot)
 	wxString print_buffer;
 	Byte value;
 	wxString slotString = "";
+    wxFileName FullPath;
+    wxString FileName;
 
 	useExpansionRam_ = p_Main->getUseExpansionRam();
 	expansionRamSlot_ = p_Main->getExpansionRamSlot();
@@ -111,6 +113,10 @@ void Expansion::configureCard(int slot)
 
 		wxString slotStr;
 		slotStr.Printf("%d",slot+1);
+        
+        wxString cartRom;
+        
+        p_Main->checkAndReInstallFile(COMX, "CARD " + slotStr, slot + CARTROM1);
 		readProgram(p_Main->getRomDir(COMX, slot+2), p_Main->getRomFile(COMX, slot + CARTROM1), COMXEXPBOX, 0xC000, NONAME);
 
 		comxExpansionType_ [slot] = expansionRom_[(slot*0x2000)+1];
@@ -222,7 +228,12 @@ void Expansion::configureCard(int slot)
 					p_Main->message(print_buffer);
 //					p_Main->message("	Output 1: Select EPROM bank (bit 5, 6 and 7)\n");
 
-					readProgram(p_Main->getRomDir(COMX, slot+2), "network.sv32.part.bin", ROM, 0xF000, NONAME);
+                    FullPath = wxFileName(p_Main->getRomDir(COMX, slot+2) + p_Main->getRomFile(COMX, slot+2), wxPATH_NATIVE);
+                    FileName = FullPath.GetName();
+                    FileName = FileName.Left(FileName.Len() - 1);
+
+                    readProgram(p_Main->getRomDir(COMX, slot+2), FileName + "2." + FullPath.GetExt(), ROM, 0xE800, NONAME);
+                    defineMemoryType(0x0d00, 0x0dff, COPYFLOPROM);
 				}
 			break;
 
@@ -243,14 +254,19 @@ void Expansion::configureCard(int slot)
 					}
 
 					epromBank_ = 4;
+                    p_Main->checkAndReInstallFile(p_Main->getEpromRomDirectory(4) + p_Main->getEpromRom(4), COMX, "F&M EPROM 4");
 					readEpromFile(p_Main->getEpromRomDirectory(4), p_Main->getEpromRom(4), 0xC000);
 					epromBank_ = 3;
+                    p_Main->checkAndReInstallFile(p_Main->getEpromRomDirectory(3) + p_Main->getEpromRom(3), COMX, "F&M EPROM 3");
 					readEpromFile(p_Main->getEpromRomDirectory(3), p_Main->getEpromRom(3), 0xC000);
 					epromBank_ = 2;
+                    p_Main->checkAndReInstallFile(p_Main->getEpromRomDirectory(2) + p_Main->getEpromRom(2), COMX, "F&M EPROM 2");
 					readEpromFile(p_Main->getEpromRomDirectory(2), p_Main->getEpromRom(2), 0xC000);
 					epromBank_ = 1;
+                    p_Main->checkAndReInstallFile(p_Main->getEpromRomDirectory(1) + p_Main->getEpromRom(1), COMX, "F&M EPROM 1");
 					readEpromFile(p_Main->getEpromRomDirectory(1), p_Main->getEpromRom(1), 0xC000);
 					epromBank_ = 0;
+                    p_Main->checkAndReInstallFile(p_Main->getEpromRomDirectory(0) + p_Main->getEpromRom(0), COMX, "F&M EPROM 0");
 					readEpromFile(p_Main->getEpromRomDirectory(0), p_Main->getEpromRom(0), 0xC000);
 				}
 			break;
@@ -284,20 +300,28 @@ void Expansion::configureCard(int slot)
 
 					ramSwitched_ = 0;
 					epromBank_ = 7;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(10) + p_Main->getSbRom(10), COMX, "SB EPROM BANK 7");
 					readEpromFile(p_Main->getSbRomDirectory(10), p_Main->getSbRom(10), 0xC000);
 					epromBank_ = 6;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(9) + p_Main->getSbRom(9), COMX, "SB EPROM BANK 6");
 					readEpromFile(p_Main->getSbRomDirectory(9), p_Main->getSbRom(9), 0xC000);
 					epromBank_ = 5;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(8) + p_Main->getSbRom(8), COMX, "SB EPROM BANK 5");
 					readEpromFile(p_Main->getSbRomDirectory(8), p_Main->getSbRom(8), 0xC000);
 					epromBank_ = 4;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(7) + p_Main->getSbRom(7), COMX, "SB EPROM BANK 4");
 					readEpromFile(p_Main->getSbRomDirectory(7), p_Main->getSbRom(7), 0xC000);
 					epromBank_ = 3;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(6) + p_Main->getSbRom(6), COMX, "SB EPROM BANK 3");
 					readEpromFile(p_Main->getSbRomDirectory(6), p_Main->getSbRom(6), 0xC000);
 					epromBank_ = 2;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(5) + p_Main->getSbRom(5), COMX, "SB EPROM BANK 2");
 					readEpromFile(p_Main->getSbRomDirectory(5), p_Main->getSbRom(5), 0xC000);
 					epromBank_ = 1;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(4) + p_Main->getSbRom(4), COMX, "SB EPROM BANK 1");
 					readEpromFile(p_Main->getSbRomDirectory(4), p_Main->getSbRom(4), 0xC000);
 					epromBank_ = 0;
+                    p_Main->checkAndReInstallFile(p_Main->getSbRomDirectory(3) + p_Main->getSbRom(3), COMX, "SB EPROM BANK 0");
 					readEpromFile(p_Main->getSbRomDirectory(3), p_Main->getSbRom(3), 0xC000);
 				}
 			break;
@@ -338,6 +362,7 @@ Byte Expansion::expansionIn2()
 {
 	switch(comxExpansionType_[expansionSlot_])
 	{
+        case NETWORK:
 		case COMXFLOP:
 			return in1770();
 		break;
@@ -400,7 +425,8 @@ void Expansion::expansionOut(Byte value)
 {
 	switch(comxExpansionType_[expansionSlot_])
 	{
-		case COMXFLOP:
+        case NETWORK:
+        case COMXFLOP:
 			out1770(value);
 		break;
 

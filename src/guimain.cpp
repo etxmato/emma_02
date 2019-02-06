@@ -2722,6 +2722,9 @@ bool GuiMain::startCassetteLoad()
 
 void GuiMain::onRealCas(wxCommandEvent&WXUNUSED(event))
 {
+	if (computerRunning_)
+		p_Computer->pauseTape();
+
 	if (computerRunning_ && !conf[selectedComputer_].realCassetteLoad_ && !p_Computer->getAudioInStatus())
 		(void)wxMessageBox( "SDL audio input initialization or start\n"
 							"failed, real cassette loading not possible" ,

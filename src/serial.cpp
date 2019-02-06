@@ -504,7 +504,11 @@ void Serial::cycleVt()
 					vtCount_ = -1;
 					rs232_ = rs232_ & 0x7f;
 					if (serialOpen_)
+                    {
 						sp_nonblocking_write(port, &rs232_, 1);
+                        while (sp_output_waiting(port) > 0)
+                            ;
+                    }
 				}
 			}
 		}

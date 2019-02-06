@@ -3661,6 +3661,15 @@ void Main::checkAndReInstallFile(int computerType, wxString fileTypeString, int 
         p_Main->reInstallOnNotFound(computerType, fileTypeString);
 }
 
+void Main::checkAndReInstallFile(wxString fileAndPath, int computerType, wxString fileTypeString)
+{
+    if (fileAndPath == "")
+        return;
+    
+    if (!wxFile::Exists(fileAndPath))
+        p_Main->reInstallOnNotFound(computerType, fileTypeString);
+}
+
 void Main::checkAndReInstallCharFile(int computerType, wxString fileTypeString, int fileType)
 {
     if (p_Main->getRomFile(computerType, fileType) == "")

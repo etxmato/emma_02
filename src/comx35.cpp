@@ -209,6 +209,7 @@ Byte Comx::ef4()
 	switch(comxExpansionType_[expansionSlot_])
 	{
 		case COMXFLOP:
+        case NETWORK:
 			if ((registerSelect_&0x10) == 0x10)
 				return ef1770();
 		break;
@@ -245,7 +246,8 @@ Byte Comx::ef4()
 			else
 				return cassetteEf_;
 		break;
-	}
+
+    }
 	return cassetteEf_;
 }
 
@@ -806,11 +808,15 @@ void Comx::startComputer()
 	if (p_Main->isDiagActive(COMX))
 	{
 		diagRomActive_ = true;
+        p_Main->checkAndReInstallFile(COMX, "EXP ROM", EXPROM);
 		readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), DIAGROM, 0, NONAME);
 	}
     else
+    {
+        p_Main->checkAndReInstallFile(COMX, "EXP ROM", EXPROM);
         readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), COMXEXPROM, 0xE000, NONAME);
-
+    }
+    
 	if (p_Main->isDiagOn(COMX) == 1)
 		diagRomActive_ = true;
 	else
@@ -1062,12 +1068,17 @@ Byte Comx::readMemDataType(Word address)
 		break;
 
 		case COPYFLOPROM:
-			if (expansionSlot_ == fdcSlot_)
-			{
-				if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
-					return expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)];
-			}
-			return mainMemoryDataType_[address];
+            if (expansionSlot_ == fdcSlot_)
+            {
+                if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
+                    return expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)];
+            }
+            if (expansionSlot_ == networkSlot_)
+            {
+                if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
+                    return expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)];
+            }
+            return mainMemoryDataType_[address];
 		break;
 	}			
 	return MEM_TYPE_UNDEFINED;
@@ -1239,8 +1250,8 @@ Byte Comx::readMem(Word address)
 			{
 				if (expansionSlot_ == fdcSlot_)
 					return expansionRom_[(fdcSlot_*0x2000) + (address & 0xfff)];
-				else
-					return 0xff;
+                if (expansionSlot_ == networkSlot_)
+                    return expansionRom_[(networkSlot_*0x2000) + (address & 0xfff)];
 			}
 			return mainMemory_[address];
 		break;
@@ -1264,7 +1275,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 		case UNDEFINED:
 		case COMXEXPROM:
 		case COPYCOMXEXPROM:
-		case COPYFLOPROM:
+        case COPYFLOPROM:
 		case ROM:
 			if (writeRom)
 				mainMemory_[address]=value;
