@@ -114,7 +114,8 @@ PopupDialog::PopupDialog(wxWindow* parent)
             XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
             
-		case MICROTUTOR:
+        case MICROTUTOR:
+        case MICROTUTOR2:
 			wxXmlResource::Get()->Load(p_Main->getApplicationDir() + p_Main->getPathSep() + "menu_Cas_Mem.xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
 			XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText() + " Menu");
@@ -192,7 +193,8 @@ void PopupDialog::init()
 		case TMC2000:
 		case NANO:
 		case ETI:
-		case MICROTUTOR:
+        case MICROTUTOR:
+        case MICROTUTOR2:
 			XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             setStartLocation(p_Main->getSaveStartString(computer_));
             setEndLocation(p_Main->getSaveEndString(computer_));
@@ -559,7 +561,7 @@ void PopupDialog::onCassette(wxCommandEvent&event)
 
 void PopupDialog::onCassetteText(wxCommandEvent&event)
 {
-	if (computer_ == MICROTUTOR)
+	if (computer_ == MICROTUTOR || computer_ == MICROTUTOR2)
 		return;
 
  	p_Main->onCassetteText(event);

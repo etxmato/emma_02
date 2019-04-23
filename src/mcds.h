@@ -62,6 +62,7 @@ private:
 	int cycleSize_;
     bool saveStarted_;
     bool loadStarted_;
+    wxString tapeNumber_;
     
     int mcdsRunState_;
 };

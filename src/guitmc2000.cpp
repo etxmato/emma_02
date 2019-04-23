@@ -147,13 +147,13 @@ void GuiTMC2000::readTMC2000Config()
 	conf[TMC2000].ramDir_ = readConfigDir("/Dir/TMC2000/Ram_Software", dataDir_ + "TMC2000"  + pathSeparator_);
 	conf[TMC2000].chip8SWDir_ = readConfigDir("/Dir/TMC2000/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[TMC2000].screenDumpFileDir_ = readConfigDir("/Dir/TMC2000/Video_Dump_File", dataDir_ + "TMC2000" + pathSeparator_);
-	conf[TMC2000].wavFileDir_ = readConfigDir("/Dir/TMC2000/Wav_File", dataDir_ + "TMC2000" + pathSeparator_);
+	conf[TMC2000].wavFileDir_[0] = readConfigDir("/Dir/TMC2000/Wav_File", dataDir_ + "TMC2000" + pathSeparator_);
 
 	conf[TMC2000].rom_[MAINROM1] = configPointer->Read("/TMC2000/Main_Rom_File", "telmac2000.rom");
 	conf[TMC2000].ram_ = configPointer->Read("/TMC2000/Ram_Software", "chip8.ram");
 	conf[TMC2000].chip8SW_ = configPointer->Read("/TMC2000/Chip_8_Software", "Pong (1 player).ch8");
 	conf[TMC2000].screenDumpFile_ = configPointer->Read("/TMC2000/Video_Dump_File", "screendump.png");
-	conf[TMC2000].wavFile_ = configPointer->Read("/TMC2000/Wav_File", "");
+	conf[TMC2000].wavFile_[0] = configPointer->Read("/TMC2000/Wav_File", "");
 
 	conf[TMC2000].turboClock_ = configPointer->Read("/TMC2000/Turbo_Clock_Speed", "15");
 	conf[TMC2000].volume_ = (int)configPointer->Read("/TMC2000/Volume", 25l);
@@ -182,7 +182,7 @@ void GuiTMC2000::readTMC2000Config()
 		XRCCTRL(*this, "RamSWTMC2000", wxComboBox)->SetValue(conf[TMC2000].ram_);
 		XRCCTRL(*this, "Chip8SWTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].chip8SW_);
 		XRCCTRL(*this, "ScreenDumpFileTMC2000", wxComboBox)->SetValue(conf[TMC2000].screenDumpFile_);
-		XRCCTRL(*this, "WavFileTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].wavFile_);
+		XRCCTRL(*this, "WavFileTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].wavFile_[0]);
 
 		XRCCTRL(*this, "ZoomValueTMC2000", wxTextCtrl)->ChangeValue(conf[TMC2000].zoom_);
 		XRCCTRL(*this, "TurboTMC2000", wxCheckBox)->SetValue(conf[TMC2000].turbo_);
@@ -205,7 +205,7 @@ void GuiTMC2000::writeTMC2000DirConfig()
 	writeConfigDir("/Dir/TMC2000/Ram_Software", conf[TMC2000].ramDir_);
 	writeConfigDir("/Dir/TMC2000/Chip_8_Software", conf[TMC2000].chip8SWDir_);
 	writeConfigDir("/Dir/TMC2000/Video_Dump_File", conf[TMC2000].screenDumpFileDir_);
-	writeConfigDir("/Dir/TMC2000/Wav_File", conf[TMC2000].wavFileDir_);
+	writeConfigDir("/Dir/TMC2000/Wav_File", conf[TMC2000].wavFileDir_[0]);
 }
 
 void GuiTMC2000::writeTMC2000Config()
@@ -214,7 +214,7 @@ void GuiTMC2000::writeTMC2000Config()
 	configPointer->Write("/TMC2000/Ram_Software", conf[TMC2000].ram_);
 	configPointer->Write("/TMC2000/Chip_8_Software", conf[TMC2000].chip8SW_);
 	configPointer->Write("/TMC2000/Video_Dump_File", conf[TMC2000].screenDumpFile_);
-	configPointer->Write("/TMC2000/Wav_File", conf[TMC2000].wavFile_);
+	configPointer->Write("/TMC2000/Wav_File", conf[TMC2000].wavFile_[0]);
 
 	configPointer->Write("/TMC2000/Zoom", conf[TMC2000].zoom_);
 
@@ -255,13 +255,13 @@ void GuiTMC2000::readTMC1800Config()
 	conf[TMC1800].ramDir_ = readConfigDir("/Dir/TMC1800/Ram_Software", dataDir_ + "TMC1800"  + pathSeparator_);
 	conf[TMC1800].chip8SWDir_ = readConfigDir("/Dir/TMC1800/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[TMC1800].screenDumpFileDir_ = configPointer->Read("/TMC1800/ScreenDumpFileDir", dataDir_ + "TMC1800" + pathSeparator_);
-	conf[TMC1800].wavFileDir_ = readConfigDir("/Dir/TMC1800/Wav_File", dataDir_ + "TMC1800" + pathSeparator_);
+	conf[TMC1800].wavFileDir_[0] = readConfigDir("/Dir/TMC1800/Wav_File", dataDir_ + "TMC1800" + pathSeparator_);
 
 	conf[TMC1800].rom_[MAINROM1] = configPointer->Read("/TMC1800/Main_Rom_File", "telmac1800.rom");
 	conf[TMC1800].ram_ = configPointer->Read("/TMC1800/Ram_Software", "chip8.ram");
 	conf[TMC1800].chip8SW_ = configPointer->Read("/TMC1800/Chip_8_Software", "Pong (1 player).ch8");
 	conf[TMC1800].screenDumpFile_ = configPointer->Read("/TMC1800/Video_Dump_File", "screendump.png");
-	conf[TMC1800].wavFile_ = configPointer->Read("/TMC1800/Wav_File", "");
+	conf[TMC1800].wavFile_[0] = configPointer->Read("/TMC1800/Wav_File", "");
 
 	conf[TMC1800].turboClock_ = configPointer->Read("/TMC1800/Turbo_Clock_Speed", "15");
 	conf[TMC1800].volume_ = (int)configPointer->Read("/TMC1800/Volume", 25l);
@@ -291,7 +291,7 @@ void GuiTMC2000::readTMC1800Config()
 		XRCCTRL(*this, "RamSWTMC1800", wxComboBox)->SetValue(conf[TMC1800].ram_);
 		XRCCTRL(*this, "Chip8SWTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].chip8SW_);
 		XRCCTRL(*this, "ScreenDumpFileTMC1800", wxComboBox)->SetValue(conf[TMC1800].screenDumpFile_);
-		XRCCTRL(*this, "WavFileTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].wavFile_);
+		XRCCTRL(*this, "WavFileTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].wavFile_[0]);
 
 		XRCCTRL(*this, "ZoomValueTMC1800", wxTextCtrl)->ChangeValue(conf[TMC1800].zoom_);
 		XRCCTRL(*this, "TurboTMC1800", wxCheckBox)->SetValue(conf[TMC1800].turbo_);
@@ -319,7 +319,7 @@ void GuiTMC2000::writeTMC1800DirConfig()
 	writeConfigDir("/Dir/TMC1800/Ram_Software", conf[TMC1800].ramDir_);
 	writeConfigDir("/Dir/TMC1800/Chip_8_Software", conf[TMC1800].chip8SWDir_);
 	writeConfigDir("/Dir/TMC1800/Video_Dump_File", conf[TMC1800].screenDumpFileDir_);
-	writeConfigDir("/Dir/TMC1800/Wav_File", conf[TMC1800].wavFileDir_);
+	writeConfigDir("/Dir/TMC1800/Wav_File", conf[TMC1800].wavFileDir_[0]);
 }
 
 void GuiTMC2000::writeTMC1800Config()
@@ -328,7 +328,7 @@ void GuiTMC2000::writeTMC1800Config()
 	configPointer->Write("/TMC1800/Ram_Software", conf[TMC1800].ram_);
 	configPointer->Write("/TMC1800/Chip_8_Software", conf[TMC1800].chip8SW_);
 	configPointer->Write("/TMC1800/Video_Dump_File", conf[TMC1800].screenDumpFile_);
-	configPointer->Write("/TMC1800/Wav_File", conf[TMC1800].wavFile_);
+	configPointer->Write("/TMC1800/Wav_File", conf[TMC1800].wavFile_[0]);
 
 	configPointer->Write("/TMC1800/Zoom", conf[TMC1800].zoom_);
 

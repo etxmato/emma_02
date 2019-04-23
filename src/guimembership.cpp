@@ -117,7 +117,7 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].vtCharRomDir_ = readConfigDir("/Dir/Membership/Vt_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
 	conf[MEMBER].ramDir_ = readConfigDir("/Dir/Membership/Software_File", dataDir_ + "Membership" + pathSeparator_);
 	conf[MEMBER].screenDumpFileDir_ = readConfigDir("/Dir/Membership/Video_Dump_File", dataDir_ + "Membership" + pathSeparator_);
-    conf[MEMBER].wavFileDir_ = readConfigDir("/Dir/Membership/Terminal_File", dataDir_ + "Membership" + pathSeparator_);
+    conf[MEMBER].wavFileDir_[0] = readConfigDir("/Dir/Membership/Terminal_File", dataDir_ + "Membership" + pathSeparator_);
 	elfConfiguration[MEMBER].vtWavFileDir_ = readConfigDir("/Dir/Membership/Vt_Wav_File", dataDir_ + "Membership" + pathSeparator_);
 
 	elfConfiguration[MEMBER].vtType = (int)configPointer->Read("/Membership/VT_Type", 2l);
@@ -141,7 +141,7 @@ void GuiMembership::readMembershipConfig()
 
 	conf[MEMBER].rom_[MAINROM1] = configPointer->Read("/Membership/Main_Rom_File", "monitor_0000h.bin");
 	conf[MEMBER].screenDumpFile_ = configPointer->Read("/Membership/Video_Dump_File", "screendump.png");
-    conf[MEMBER].wavFile_ = configPointer->Read("/Membership/Terminal_File", "");
+    conf[MEMBER].wavFile_[0] = configPointer->Read("/Membership/Terminal_File", "");
 	elfConfiguration[MEMBER].vtWavFile_ = configPointer->Read("/Membership/Vt_Wav_File", "");
     elfConfiguration[MEMBER].serialPort_ = configPointer->Read("/Membership/VtSerialPortChoice", "");
 
@@ -188,7 +188,7 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "MainRomMembership", wxComboBox)->SetValue(conf[MEMBER].rom_[MAINROM1]);
 		XRCCTRL(*this, "VtCharRomMembership", wxComboBox)->SetValue(conf[MEMBER].vtCharRom_);
 		XRCCTRL(*this, "ScreenDumpFileMembership", wxComboBox)->SetValue(conf[MEMBER].screenDumpFile_);
-        XRCCTRL(*this, "WavFileMembership", wxTextCtrl)->SetValue(conf[MEMBER].wavFile_);
+        XRCCTRL(*this, "WavFileMembership", wxTextCtrl)->SetValue(conf[MEMBER].wavFile_[0]);
 		XRCCTRL(*this, "AutoCasLoadMembership", wxCheckBox)->SetValue(conf[MEMBER].autoCassetteLoad_);
 
         if (elfConfiguration[MEMBER].vtExternal)
@@ -233,7 +233,7 @@ void GuiMembership::writeMembershipDirConfig()
     writeConfigDir("/Dir/Membership/Software_File", conf[MEMBER].ramDir_);
     writeConfigDir("/Dir/Membership/Vt_Font_Rom_File", conf[MEMBER].vtCharRomDir_);
     writeConfigDir("/Dir/Membership/Video_Dump_File", conf[MEMBER].screenDumpFileDir_);
-    writeConfigDir("/Dir/Membership/Terminal_File", conf[MEMBER].wavFileDir_);
+    writeConfigDir("/Dir/Membership/Terminal_File", conf[MEMBER].wavFileDir_[0]);
 	writeConfigDir("/Dir/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFileDir_);
 }
 
@@ -244,7 +244,7 @@ void GuiMembership::writeMembershipConfig()
 	configPointer->Write("/Membership/Main_Rom_File", conf[MEMBER].rom_[MAINROM1]);
 	configPointer->Write("/Membership/Vt_Font_Rom_File", conf[MEMBER].vtCharRom_);
 	configPointer->Write("/Membership/Video_Dump_File", conf[MEMBER].screenDumpFile_);
-    configPointer->Write("/Membership/Terminal_File", conf[MEMBER].wavFile_);
+    configPointer->Write("/Membership/Terminal_File", conf[MEMBER].wavFile_[0]);
     configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
     configPointer->Write("/Membership/VtSerialPortChoice", elfConfiguration[MEMBER].serialPort_);
 

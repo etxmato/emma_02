@@ -1287,6 +1287,27 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 					}
 					return true;
 				}
+                if (computer == "Microtutor2" || computer == "MicrotutorII")
+                {
+                    startComputer_ = MICROTUTOR2;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                    {
+                        mode_.load = true;
+                        getSoftware(computer, "Software_File", software);
+                    }
+                    if (parser.Found("r", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on Microtutor II emulator");
+                        return false;
+                    }
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on Microtutor II emulator");
+                        return false;
+                    }
+                    return true;
+                }
 				if (computer == "Ms2000" || computer == "MS2000")
                 {
                     startComputer_ = MS2000;
@@ -2065,6 +2086,7 @@ void Main::writeConfig()
 	writeElfDirConfig(SUPERELF, "SuperElf");
     writeMembershipDirConfig();
     writeMicrotutorDirConfig();
+    writeMicrotutor2DirConfig();
     writeStudioDirConfig();
     writeCoinArcadeDirConfig();
     writeFred1DirConfig();
@@ -2094,6 +2116,7 @@ void Main::writeConfig()
 	writeElfConfig(SUPERELF, "SuperElf");
     writeMembershipConfig();
     writeMicrotutorConfig();
+    writeMicrotutor2Config();
     writeStudioConfig();
     writeCoinArcadeConfig();
     writeFred1Config();
@@ -2123,6 +2146,7 @@ void Main::writeConfig()
 	writeElfWindowConfig(SUPERELF, "SuperElf");
     writeMembershipWindowConfig();
     writeMicrotutorWindowConfig();
+    writeMicrotutor2WindowConfig();
     writeStudioWindowConfig();
     writeCoinArcadeWindowConfig();
     writeFred1WindowConfig();
@@ -2220,6 +2244,9 @@ void Main::initConfig()
 
     setScreenInfo(MICROTUTOR, 0, 5, colour, 2, borderX, borderY);
     setComputerInfo(MICROTUTOR, "Microtutor", "RCA Microtutor", "");
+    
+    setScreenInfo(MICROTUTOR2, 0, 5, colour, 2, borderX, borderY);
+    setComputerInfo(MICROTUTOR2, "Microtutor2", "RCA Microtutor II", "");
     
     colour[5] = "#000000";	// background mc6847
 	colour[6] = "#00ff00";	// text green
@@ -2552,6 +2579,7 @@ void Main::readConfig()
 	readElfConfig(SUPERELF, "SuperElf");
 	readMembershipConfig();
     readMicrotutorConfig();
+    readMicrotutor2Config();
     readStudioConfig();
     readCoinArcadeConfig();
     readFred1Config();
@@ -2581,6 +2609,7 @@ void Main::readConfig()
     readElfWindowConfig(SUPERELF, "SuperElf");
     readMembershipWindowConfig();
     readMicrotutorWindowConfig();
+    readMicrotutor2WindowConfig();
     readStudioWindowConfig();
     readCoinArcadeWindowConfig();
     readFred1WindowConfig();
@@ -2761,7 +2790,8 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));            
+            XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3325,6 +3355,11 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeMicrotutorConfig();
         break;
             
+        case MICROTUTOR2:
+            writeMicrotutor2DirConfig();
+            writeMicrotutor2Config();
+        break;
+            
         case ELF2K:
             writeElf2KDirConfig();
             writeElf2KConfig();
@@ -3535,6 +3570,10 @@ void Main::loadComputerConfig(wxString fileName)
             
         case MICROTUTOR:
             readMicrotutorConfig();
+        break;
+            
+        case MICROTUTOR2:
+            readMicrotutor2Config();
         break;
             
         case ELF2K:
@@ -4562,6 +4601,10 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Microtutor->Move(conf[MICROTUTOR].mainX_, conf[MICROTUTOR].mainY_);
 		break;
 
+        case MICROTUTOR2:
+            p_Microtutor2->Move(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_);
+        break;
+            
 		case ELF2K:
 			p_Elf2K->moveWindows();
 			p_Elf2K->Move(conf[ELF2K].mainX_, conf[ELF2K].mainY_);
@@ -4655,8 +4698,10 @@ void Main::nonFixedWindowPosition()
     conf[STUDIOIV].mainY_ = -1;
 	conf[MEMBER].mainX_ = -1;
 	conf[MEMBER].mainY_ = -1;
-	conf[MICROTUTOR].mainX_ = -1;
-	conf[MICROTUTOR].mainY_ = -1;
+    conf[MICROTUTOR].mainX_ = -1;
+    conf[MICROTUTOR].mainY_ = -1;
+    conf[MICROTUTOR2].mainX_ = -1;
+    conf[MICROTUTOR2].mainY_ = -1;
 
 	for (int i=0; i<5; i++)
 	{
@@ -4751,8 +4796,10 @@ void Main::fixedWindowPosition()
     conf[STUDIOIV].mainY_ = mainWindowY_;
 	conf[MEMBER].mainX_ = mainWindowX_;
 	conf[MEMBER].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
-	conf[MICROTUTOR].mainX_ = mainWindowX_;
-	conf[MICROTUTOR].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
+    conf[MICROTUTOR].mainX_ = mainWindowX_;
+    conf[MICROTUTOR].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
+    conf[MICROTUTOR2].mainX_ = mainWindowX_;
+    conf[MICROTUTOR2].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
 
 	for (int i=0; i<5; i++)
 	{
@@ -4880,6 +4927,11 @@ void Main::onStart(int computer)
 			p_Computer = p_Microtutor;
 		break;
 
+        case MICROTUTOR2:
+            p_Microtutor2 = new Microtutor2(computerInfo[MICROTUTOR2].name, wxPoint(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_), wxSize(333, 160), conf[MICROTUTOR2].clockSpeed_, elfConfiguration[MICROTUTOR2]);
+            p_Computer = p_Microtutor2;
+        break;
+            
 		case ELF:
 			p_Elf = new Elf(computerInfo[ELF].name, wxPoint(conf[ELF].mainX_, conf[ELF].mainY_), wxSize(346, 464), conf[ELF].clockSpeed_, elfConfiguration[ELF]);
 			p_Computer = p_Elf;
@@ -5027,7 +5079,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 10 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED2)
+    if (runningComputer_ < 11 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED2 )
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
@@ -5214,6 +5266,10 @@ void Main::onComputer(wxNotebookEvent&event)
 					rcaChoice_ = MICROTUTOR;
 				break;
 
+                case MICROTUTOR2TAB:
+                    rcaChoice_ = MICROTUTOR2;
+                break;
+                    
                 case FRED1TAB:
                     rcaChoice_ = FRED1;
                 break;
@@ -5467,6 +5523,10 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
             rcaChoice_ = MICROTUTOR;
 		break;
 
+        case MICROTUTOR2TAB:
+            rcaChoice_ = MICROTUTOR2;
+        break;
+            
         case FRED1TAB:
             rcaChoice_ = FRED1;
         break;
@@ -5605,6 +5665,11 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTORTAB);
 		break;
 
+        case MICROTUTOR2:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTOR2TAB);
+        break;
+            
         case FRED1:
             XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
             XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED1TAB);
@@ -5729,6 +5794,7 @@ void Main::enableGui(bool status)
 {
 	if (!mode_.gui)
 		return;
+    
 	wxMenuBar *menubarPointer = GetMenuBar();
 
 	menubarPointer->Enable(XRCID(GUIDEFAULT), status);
@@ -5755,6 +5821,8 @@ void Main::enableGui(bool status)
     enableColorbutton(status);
 	if (runningComputer_ == COMX)
 	{
+        p_Main->scrtValues(status, true, 4, 0x2e14, 5, 0x31EB);
+
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false); 
@@ -5789,7 +5857,7 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == CIDELSA)
 	{
-		chip8ProtectedMode_= false;
+        chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
 		XRCCTRL(*this,"MainRomCidelsa", wxComboBox)->Enable(status);
@@ -5799,7 +5867,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == TMC600)
 	{
-		chip8ProtectedMode_= false;
+        p_Main->scrtValues(status, true, 4, 0x16BC, 5, 0x16DD);
+
+        chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
 		XRCCTRL(*this,"PrintButtonTMC600", wxButton)->Enable(!status);
@@ -5830,7 +5900,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == PECOM)
 	{
-		chip8ProtectedMode_= false;
+        p_Main->scrtValues(status, true, 4, 0xAFE8, 5, 0xA5F2);
+
+        chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
@@ -5844,6 +5916,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == FRED1)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
         enableChip8DebugGui(!status);
         XRCCTRL(*this,"RamSWFRED1", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RamSWButtonFRED1", wxButton)->Enable(status);
@@ -5856,6 +5930,8 @@ void Main::enableGui(bool status)
     }
     if (runningComputer_ == FRED2)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
         enableChip8DebugGui(!status);
         XRCCTRL(*this,"RamSWFRED2", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RamSWButtonFRED2", wxButton)->Enable(status);
@@ -5868,7 +5944,7 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == VIP)
 	{
-		enableChip8DebugGui(!status);
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"HighResVip", wxCheckBox)->Enable(status);
 		XRCCTRL(*this,"MainRomVip", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVip", wxButton)->Enable(status);
@@ -5921,7 +5997,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == VIPII)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, true, 4, 0x28EF, 5, 0x23E7);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomVipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"MainRom2VipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVipII", wxButton)->Enable(status);
@@ -6006,7 +6084,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == STUDIO)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomStudio2", wxComboBox)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"RomButtonStudio2", wxButton)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"CartRomStudio2", wxComboBox)->Enable(status);
@@ -6017,6 +6097,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == COINARCADE)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+ 
         enableChip8DebugGui(!status);
         XRCCTRL(*this,"MainRomCoinArcade", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonCoinArcade", wxButton)->Enable(status);
@@ -6025,7 +6107,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == VISICOM)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomVisicom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"CartRomVisicom", wxComboBox)->Enable(status);
@@ -6035,7 +6119,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == VICTORY)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomVictory", wxComboBox)->Enable(status&(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_));
 		XRCCTRL(*this,"RomButtonVictory", wxButton)->Enable(status&(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_));
 		XRCCTRL(*this,"CartRomVictory", wxComboBox)->Enable(status);
@@ -6047,6 +6133,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == STUDIOIV)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
         enableChip8DebugGui(!status);
         XRCCTRL(*this,"MainRomStudioIV", wxComboBox)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
         XRCCTRL(*this,"RomButtonStudioIV", wxButton)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
@@ -6058,7 +6146,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == TMC2000)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomTMC2000", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWTMC2000", wxComboBox)->Enable(status);
@@ -6075,7 +6165,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == TMC1800)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomTMC1800", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWTMC1800", wxComboBox)->Enable(status);
@@ -6092,7 +6184,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == ETI)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomEti", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonEti", wxButton)->Enable(status);
 		XRCCTRL(*this,"Chip8SWEti", wxTextCtrl)->Enable(status);
@@ -6107,7 +6201,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == NANO)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomNano", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonNano", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWNano", wxComboBox)->Enable(status);
@@ -6233,6 +6329,8 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == ELF2K)
 	{
+        p_Main->scrtValues(status, true, 4, 0xFA7B, 5, 0xFA8D);
+
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
@@ -6275,6 +6373,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == MS2000)
     {
+        p_Main->scrtValues(status, true, 4, 0x8364, 5, 0x8374);
+
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         XRCCTRL(*this,"MainRomMS2000", wxComboBox)->Enable(status);
@@ -6301,7 +6401,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == MCDS)
 	{
-		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
+        p_Main->scrtValues(status, true, 4, 0x8364, 5, 0x8374);
+
+        XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
 		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->Enable(status);
         XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->Enable(status);
@@ -6402,10 +6504,29 @@ void Main::enableGui(bool status)
 	{
 		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-		XRCCTRL(*this, "MainRomMicrotutor", wxComboBox)->Enable(status);
-		XRCCTRL(*this, "RomButtonMicrotutor", wxButton)->Enable(status);
+		XRCCTRL(*this, "RamSWMicrotutor", wxComboBox)->Enable(status);
+		XRCCTRL(*this, "RamSWButtonMicrotutor", wxButton)->Enable(status);
 		enableMemAccessGui(!status);
 	}
+    if (runningComputer_ == MICROTUTOR2)
+    {
+        XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
+        XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
+        XRCCTRL(*this, "RamButtonMMicrotutor2", wxButton)->Enable(status);
+        XRCCTRL(*this, "MainRamMMicrotutor2", wxComboBox)->Enable(status);
+        if (elfConfiguration[runningComputer_].utilityMemory)
+        {
+            XRCCTRL(*this, "RamButtonEMicrotutor2", wxButton)->Enable(status);
+            XRCCTRL(*this, "MainRamEMicrotutor2", wxComboBox)->Enable(status);
+        }
+        else
+        {
+            XRCCTRL(*this, "RamButtonEMicrotutor2", wxButton)->Enable(false);
+            XRCCTRL(*this, "MainRamEMicrotutor2", wxComboBox)->Enable(false);
+        }
+        XRCCTRL(*this,"RamMicrotutor2", wxChoice)->Enable(status);
+        enableMemAccessGui(!status);
+    }
 	enableDebugGui(!status);
 
 	if (status)
@@ -7002,18 +7123,20 @@ void Main::eventSetSwName(wxString swName)
 void Main::setTapeStateEvent(guiEvent&event)
 {
     int tapeState = event.GetInt();
+    wxString tapeNumber = event.GetString();
 
-	setTapeState(tapeState);
+	setTapeState(tapeState, tapeNumber);
 }
 
-void Main::eventSetTapeState(int tapeState)
+void Main::eventSetTapeState(int tapeState, wxString tapeNumber)
 {
     guiEvent event(GUI_MSG, SET_TAPE_STATE);
     event.SetEventObject( p_Main );
-
+    
     event.SetInt(tapeState);
+    event.SetString(tapeNumber);
 
-	GetEventHandler()->AddPendingEvent(event);
+    GetEventHandler()->AddPendingEvent(event);
 }
 
 void Main::setTextValueEvent(guiEvent&event)

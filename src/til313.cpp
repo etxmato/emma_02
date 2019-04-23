@@ -30,7 +30,8 @@ Til313::Til313()
 	x_ = 0;
 	y_ = 0;
 
-	til313BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313.png", wxBITMAP_TYPE_PNG);
+    til313BitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313.png", wxBITMAP_TYPE_PNG);
+    
 	dcMemory.SelectObject(*til313BitmapPointer);
 }
 
@@ -63,4 +64,68 @@ void Til313::update(wxDC& dc, int NewNumber)
 	dc.Blit(x_, y_, 25 , 33, &dcMemory, ox, oy);
 
 	displayedNumber_ = NewNumber;
+}
+
+Til313Italic::Til313Italic(bool upsideDown)
+{
+    displayedNumber_ = 0;
+    x_ = 0;
+    y_ = 0;
+    
+    if (upsideDown)
+    {
+        til313BitmapPointer_led_off = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_upside_down_led_off.png", wxBITMAP_TYPE_PNG);
+        til313BitmapPointer_led_on = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_upside_down_led_on.png", wxBITMAP_TYPE_PNG);
+    }
+    else
+    {
+        til313BitmapPointer_led_off = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_led_off.png", wxBITMAP_TYPE_PNG);
+        til313BitmapPointer_led_on = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/til313_led_on.png", wxBITMAP_TYPE_PNG);
+    }
+
+    dcMemory.SelectObject(*til313BitmapPointer_led_off);
+}
+
+Til313Italic::~Til313Italic()
+{
+    delete til313BitmapPointer_led_off;
+    delete til313BitmapPointer_led_on;
+}
+
+void Til313Italic::init(wxDC& dc, int x, int y)
+{
+    x_ = x;
+    y_ = y;
+    
+    dc.Blit(x_, y_, 28 , 36, &dcMemory, 0, 0);
+}
+
+void Til313Italic::onPaint(wxDC& dc)
+{
+    int ox = (displayedNumber_ & 3) * 29;
+    int oy = ((displayedNumber_>>2) & 3) * 37;
+    dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
+}
+
+void Til313Italic::update(wxDC& dc, int NewNumber)
+{
+    if (displayedNumber_ == NewNumber)  return;
+    
+    int ox = (NewNumber & 3) * 29;
+    int oy = ((NewNumber>>2) & 3) * 37;
+    dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
+    
+    displayedNumber_ = NewNumber;
+}
+
+void Til313Italic::dp(wxDC& dc, bool status)
+{
+    if (status)
+        dcMemory.SelectObject(*til313BitmapPointer_led_on);
+    else
+        dcMemory.SelectObject(*til313BitmapPointer_led_off);
+    
+    int ox = (displayedNumber_ & 3) * 29;
+    int oy = ((displayedNumber_>>2) & 3) * 37;
+    dc.Blit(x_, y_, 28 , 36, &dcMemory, ox, oy);
 }

@@ -1020,17 +1020,17 @@ void Pecom::checkPecomFunction()
                 
             case 0x953F:	// PSAVE
             case 0x9542:	// DSAVE
-                p_Main->startCassetteSave();
+                p_Main->startCassetteSave(0);
             break;
                 
             case 0x9324:	// PLOAD
                 p_Main->setSwName ("");
                 p_Main->eventUpdateTitle();
-                p_Main->startCassetteLoad();
+                p_Main->startCassetteLoad(0);
             break;
                 
             case 0x9327:	// DLOAD
-                p_Main->startCassetteLoad();
+                p_Main->startCassetteLoad(0);
             break;
                 
             case 0x009f:
@@ -1076,7 +1076,7 @@ void Pecom::checkPecomFunction()
 		case 0xCAAB:	// ED, SAVE
 		case 0xCACF:	// ED, BSAVE
 		case 0x8532:	// M+, W-SAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x8E8B:	// PLOAD
@@ -1084,11 +1084,11 @@ void Pecom::checkPecomFunction()
 		case 0x860B:	// M+, W-LOAD
 			p_Main->setSwName ("");
             p_Main->eventUpdateTitle();
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x8E8E:	// DLOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 //        case 0x009f:

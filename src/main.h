@@ -387,6 +387,7 @@ public:
 #include "hbelf.h"
 #include "member.h"
 #include "microtutor.h"
+#include "microtutor2.h"
 #include "elf2.h"
 #include "elf2k.h"
 #include "ms2000.h"
@@ -426,25 +427,26 @@ public:
 #define VIP2K 7
 #define VELF 8
 #define MICROTUTOR 9
-#define MS2000 10
-#define MCDS 11
-#define FRED1 12
-#define FRED2 13
-#define COMX 14
-#define STUDIO 15
-#define ETI 16
-#define CIDELSA 17
-#define TMC600 18
-#define TMC1800 19
-#define TMC2000 20
-#define NANO 21
-#define PECOM 22
-#define VISICOM 23
-#define VICTORY 24
-#define VIPII 25
-#define COINARCADE 26
-#define STUDIOIV 27
-#define DEBUGGER 28
+#define MICROTUTOR2 10
+#define MS2000 11
+#define MCDS 12
+#define FRED1 13
+#define FRED2 14
+#define COMX 15
+#define STUDIO 16
+#define ETI 17
+#define CIDELSA 18
+#define TMC600 19
+#define TMC1800 20
+#define TMC2000 21
+#define NANO 22
+#define PECOM 23
+#define VISICOM 24
+#define VICTORY 25
+#define VIPII 26
+#define COINARCADE 27
+#define STUDIOIV 28
+#define DEBUGGER 29
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -502,10 +504,11 @@ public:
 #define FRED1TAB 0
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
-#define VIPTAB 3
-#define VIPIITAB 4
-#define MS2000TAB 5
-#define MCDSTAB 6
+#define MICROTUTOR2TAB 3
+#define VIPTAB 4
+#define VIPIITAB 5
+#define MS2000TAB 6
+#define MCDSTAB 7
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
@@ -1060,8 +1063,8 @@ public:
     void eventSetSwName(wxString swName);
     
 	void setTapeStateEvent(guiEvent& event);
-	void eventSetTapeState(int status);
-
+    void eventSetTapeState(int status, wxString tapeNumber);
+    
     void setTextValueEvent(guiEvent& event);
     void eventSetTextValue(wxString info, wxString value);
     

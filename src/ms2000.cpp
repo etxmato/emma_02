@@ -313,7 +313,7 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                         if (!saveStarted_)
                         {
                             saveStarted_ = true;
-                            p_Main->startCassetteSave();
+                            p_Main->startCassetteSave(0);
                         }
                         else
                             restartTapeSave();
@@ -325,7 +325,7 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                         if (!loadStarted_)
                         {
                             loadStarted_ = true;
-                            p_Main->startCassetteLoad();
+                            p_Main->startCassetteLoad(0);
                         }
                         else
                             restartTapeLoad();

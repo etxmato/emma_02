@@ -580,7 +580,7 @@ void Eti::checkEtiFunction()
 				p_Main->eventSaveEnd(endSave_);
 
 			}
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x0160:	// LOAD
@@ -590,7 +590,7 @@ void Eti::checkEtiFunction()
 				writeMem(0x401, 0, false);
 				p_Main->eventSaveStart(0x600);
 			}
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 	}
 }

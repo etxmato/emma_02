@@ -673,7 +673,13 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_TEXT(XRCID("DebugCopyEnd"), DebugWindow::onDebugCopyEnd)
 	EVT_TEXT(XRCID("DebugCopyTo"), DebugWindow::onDebugCopyTo)
 
-	EVT_TEXT(XRCID("MEM00"), DebugWindow::onEditMemory)
+    EVT_CHECKBOX(XRCID("DebugSCRT"), DebugWindow::onDebugScrt)
+    EVT_TEXT(XRCID("DebugCallReg"), DebugWindow::onDebugCallReg)
+    EVT_TEXT(XRCID("DebugCallAddress"), DebugWindow::onDebugCallAddress)
+    EVT_TEXT(XRCID("DebugRetReg"), DebugWindow::onDebugRetReg)
+    EVT_TEXT(XRCID("DebugRetAddress"), DebugWindow::onDebugRetAddress)
+
+    EVT_TEXT(XRCID("MEM00"), DebugWindow::onEditMemory)
 	EVT_TEXT(XRCID("MEM01"), DebugWindow::onEditMemory)
 	EVT_TEXT(XRCID("MEM02"), DebugWindow::onEditMemory)
 	EVT_TEXT(XRCID("MEM03"), DebugWindow::onEditMemory)
@@ -1381,6 +1387,7 @@ void DebugWindow::cycleDebug()
 				p_Computer->setSteps(0);
 				debugTrace("Hit Breakpoint");
 				setPauseState();
+                i = numberOfBreakPoints_;
 			}
 		}
 	}
@@ -1435,6 +1442,7 @@ void DebugWindow::cycleDebug()
 					p_Computer->setSteps(0);
 					debugTrace("Instruction Trap");
 					setPauseState();
+                    i = numberOfTraps_;
 				}
 			}
 		}
@@ -1496,7 +1504,8 @@ void DebugWindow::cycleDebug()
 
 	if (p_Computer->getSteps() > 0)
 	{
-		p_Computer->setSteps(p_Computer->getSteps()-1);
+        if (!p_Computer->getSkipTraceMode())
+            p_Computer->setSteps(p_Computer->getSteps()-1);
 
 		if (p_Computer->getSteps() == 0)
 			setPauseState();
@@ -11028,6 +11037,128 @@ void DebugWindow::assDefault(wxString fileName, Word start, Word end)
     onAssStore();
 }
 
+void DebugWindow::scrtValues(bool status, bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress)
+{
+    if (status)
+        saveScrtValues("");
+    else
+        setScrtValues(Scrt, CallReg, CallAddress, RetReg, RetAddress, "");
+
+}
+
+void DebugWindow::setScrtValues(bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress, wxString Game)
+{
+    if (!mode_.gui)
+        return;
+
+    configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugScrt", &conf[runningComputer_].scrtMode_, Scrt);
+    XRCCTRL(*this,"DebugSCRT", wxCheckBox)->SetValue(conf[runningComputer_].scrtMode_);
+
+    XRCCTRL(*this,"DebugSCRT",wxCheckBox)->Enable(true);
+    if (conf[runningComputer_].scrtMode_)
+    {
+        XRCCTRL(*this,"DebugCallText",wxStaticText)->Enable(true);
+        XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->Enable(true);
+        XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->Enable(true);
+        XRCCTRL(*this,"DebugRetText",wxStaticText)->Enable(true);
+        XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->Enable(true);
+        XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->Enable(true);
+    }
+    
+    wxString valueString;
+    
+    conf[runningComputer_].debugCallReg_ = configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugCallReg" + Game, CallReg);
+    if (conf[runningComputer_].debugCallReg_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%01X", (Byte)conf[runningComputer_].debugCallReg_);
+    XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->ChangeValue(valueString);
+    
+    conf[runningComputer_].debugCallAddress_ = configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugCallAddress" + Game, CallAddress);
+    if (conf[runningComputer_].debugCallAddress_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%04X", (Word)conf[runningComputer_].debugCallAddress_);
+    XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->ChangeValue(valueString);
+    
+    conf[runningComputer_].debugRetReg_ = configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugRetReg" + Game, RetReg);
+    if (conf[runningComputer_].debugRetReg_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%01X", (Byte)conf[runningComputer_].debugRetReg_);
+    
+    XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->ChangeValue(valueString);
+    conf[runningComputer_].debugRetAddress_ = configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugRetAddress" + Game, RetAddress);
+    if (conf[runningComputer_].debugRetAddress_ == -1)
+        valueString = "";
+    else
+        valueString.Printf("%04X", (Word)conf[runningComputer_].debugRetAddress_);
+    XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->ChangeValue(valueString);
+}
+
+void DebugWindow::saveScrtValues(wxString Game)
+{
+    if (!mode_.gui)
+        return;
+    
+    configPointer->Write("/" + computerInfo[runningComputer_].gui + "/DebugScrt", conf[runningComputer_].scrtMode_);
+    configPointer->Write("/" + computerInfo[runningComputer_].gui + "/DebugCallReg" + Game, conf[runningComputer_].debugCallReg_);
+    configPointer->Write("/" + computerInfo[runningComputer_].gui + "/DebugCallAddress" + Game, conf[runningComputer_].debugCallAddress_);
+    configPointer->Write("/" + computerInfo[runningComputer_].gui + "/DebugRetReg" + Game, conf[runningComputer_].debugRetReg_);
+    configPointer->Write("/" + computerInfo[runningComputer_].gui + "/DebugRetAddress" + Game, conf[runningComputer_].debugRetAddress_);
+
+    XRCCTRL(*this,"DebugSCRT",wxCheckBox)->Enable(false);
+    XRCCTRL(*this,"DebugCallText",wxStaticText)->Enable(false);
+    XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->Enable(false);
+    XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->Enable(false);
+    XRCCTRL(*this,"DebugRetText",wxStaticText)->Enable(false);
+    XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->Enable(false);
+    XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->Enable(false);
+}
+
+void DebugWindow::onDebugScrt(wxCommandEvent&event)
+{
+    conf[runningComputer_].scrtMode_ = event.IsChecked();
+    
+    if (computerRunning_)
+    {
+        XRCCTRL(*this,"DebugCallText",wxStaticText)->Enable(conf[runningComputer_].scrtMode_);
+        XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->Enable(conf[runningComputer_].scrtMode_);
+        XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->Enable(conf[runningComputer_].scrtMode_);
+        XRCCTRL(*this,"DebugRetText",wxStaticText)->Enable(conf[runningComputer_].scrtMode_);
+        XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->Enable(conf[runningComputer_].scrtMode_);
+        XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->Enable(conf[runningComputer_].scrtMode_);
+    }
+}
+
+void DebugWindow::onDebugCallReg(wxCommandEvent& WXUNUSED(event))
+{
+    long value = get8BitValue("DebugCallReg");
+    
+    conf[runningComputer_].debugCallReg_ = value;
+}
+
+void DebugWindow::onDebugCallAddress(wxCommandEvent& WXUNUSED(event))
+{
+    long value = get16BitValue("DebugCallAddress");
+    
+    conf[runningComputer_].debugCallAddress_ = value;
+}
+
+void DebugWindow::onDebugRetReg(wxCommandEvent& WXUNUSED(event))
+{
+    long value = get8BitValue("DebugRetReg");
+    
+    conf[runningComputer_].debugRetReg_ = value;
+}
+
+void DebugWindow::onDebugRetAddress(wxCommandEvent& WXUNUSED(event))
+{
+    long value = get16BitValue("DebugRetAddress");
+    
+    conf[runningComputer_].debugRetAddress_ = value;
+}
+
 void DebugWindow::onAssStore(wxCommandEvent&WXUNUSED(event))
 {
     if (!computerRunning_)
@@ -13650,7 +13781,8 @@ void DebugWindow::setMemoryType(int id, int setType)
 		case TMC1800:
 		case NANO:
 		case MEMBER:
-		case MICROTUTOR:
+        case MICROTUTOR:
+        case MICROTUTOR2:
 		case ETI:
 			if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
@@ -14814,6 +14946,15 @@ void DebugWindow::updateTitle()
 			p_Microtutor->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
+        case MICROTUTOR2:
+            if (p_Microtutor2->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Microtutor2->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Microtutor2->SetTitle("Microtutor II" + title);
+            p_Microtutor2->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
 		case ELF:
 			if (p_Elf->getSteps()==0)
 				title = title + " ** PAUSED **";

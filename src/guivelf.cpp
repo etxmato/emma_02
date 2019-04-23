@@ -137,13 +137,13 @@ void GuiVelf::readVelfConfig()
 	conf[VELF].chip8SWDir_ = readConfigDir("/Dir/Velf/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[VELF].printFileDir_ = readConfigDir("/Dir/Velf/Print_File", dataDir_ + "Velf" + pathSeparator_);
 	conf[VELF].screenDumpFileDir_ = readConfigDir("/Dir/Velf/Video_Dump_File", dataDir_ + "Velf" + pathSeparator_);
-	conf[VELF].wavFileDir_ = readConfigDir("/Dir/Velf/Wav_File", dataDir_ + "Velf" + pathSeparator_);
+	conf[VELF].wavFileDir_[0] = readConfigDir("/Dir/Velf/Wav_File", dataDir_ + "Velf" + pathSeparator_);
 	elfConfiguration[VELF].vtWavFileDir_ = readConfigDir("/Dir/Velf/Vt_Wav_File", dataDir_ + "Velf" + pathSeparator_);
 
 	conf[VELF].rom_[MAINROM1] = configPointer->Read("/Velf/Main_Rom_File", "VELFbios-v3.1.bin");
 	conf[VELF].ram_ = configPointer->Read("/Velf/Ram_Software", "");
 	conf[VELF].chip8SW_ = configPointer->Read("/Velf/Chip_8_Software", "");
-	conf[VELF].wavFile_ = configPointer->Read("/Velf/Wav_File", "");
+	conf[VELF].wavFile_[0] = configPointer->Read("/Velf/Wav_File", "");
 	elfConfiguration[VELF].vtWavFile_ = configPointer->Read("/Velf/Vt_Wav_File", "");
     elfConfiguration[VELF].serialPort_ = configPointer->Read("/Velf/VtSerialPortChoice", "");
 
@@ -213,7 +213,7 @@ void GuiVelf::readVelfConfig()
 		XRCCTRL(*this, "PrintFileVelf", wxTextCtrl)->SetValue(conf[VELF].printFile_);
 		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->SetValue(conf[VELF].vtCharRom_);
 		XRCCTRL(*this, "ScreenDumpFileVelf", wxComboBox)->SetValue(conf[VELF].screenDumpFile_);
-		XRCCTRL(*this, "WavFileVelf", wxTextCtrl)->SetValue(conf[VELF].wavFile_);
+		XRCCTRL(*this, "WavFileVelf", wxTextCtrl)->SetValue(conf[VELF].wavFile_[0]);
 
 		XRCCTRL(*this, "VTTypeVelf", wxChoice)->SetSelection(elfConfiguration[VELF].vtType);
 
@@ -254,7 +254,7 @@ void GuiVelf::writeVelfDirConfig()
 	writeConfigDir("/Dir/Velf/Print_File", conf[VELF].printFileDir_);
 	writeConfigDir("/Dir/Velf/Vt_Font_Rom_File", conf[VELF].vtCharRomDir_);
 	writeConfigDir("/Dir/Velf/Video_Dump_File", conf[VELF].screenDumpFileDir_);
-	writeConfigDir("/Dir/Velf/Wav_File", conf[VELF].wavFileDir_);
+	writeConfigDir("/Dir/Velf/Wav_File", conf[VELF].wavFileDir_[0]);
 	writeConfigDir("/Dir/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFileDir_);
 }
 
@@ -266,7 +266,7 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Chip_8_Software", conf[VELF].chip8SW_);
 	configPointer->Write("/Velf/Print_File", conf[VELF].printFile_);
 	configPointer->Write("/Velf/Video_Dump_File", conf[VELF].screenDumpFile_);
-	configPointer->Write("/Velf/Wav_File", conf[VELF].wavFile_);
+	configPointer->Write("/Velf/Wav_File", conf[VELF].wavFile_[0]);
 	configPointer->Write("/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFile_);
     configPointer->Write("/Velf/VtSerialPortChoice", elfConfiguration[VELF].serialPort_);
 

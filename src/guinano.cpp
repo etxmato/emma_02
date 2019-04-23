@@ -103,13 +103,13 @@ void GuiNano::readNanoConfig()
 	conf[NANO].ramDir_ = readConfigDir("/Dir/Nano/Ram_Software", dataDir_ + "Nano"  + pathSeparator_);
 	conf[NANO].chip8SWDir_ = readConfigDir("/Dir/Nano/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[NANO].screenDumpFileDir_ = readConfigDir("/Dir/Nano/Video_Dump_File", dataDir_ + "Nano" + pathSeparator_);
-	conf[NANO].wavFileDir_ = readConfigDir("/Dir/Nano/Wav_File", dataDir_ + "Nano" + pathSeparator_);
+	conf[NANO].wavFileDir_[0] = readConfigDir("/Dir/Nano/Wav_File", dataDir_ + "Nano" + pathSeparator_);
 
 	conf[NANO].rom_[MAINROM1] = configPointer->Read("/Nano/Main_Rom_File", "nano.rom");
 	conf[NANO].ram_ = configPointer->Read("/Nano/Ram_Software", "chip8.ram");
 	conf[NANO].chip8SW_ = configPointer->Read("/Nano/Chip_8_Software", "Breakout (Brix hack) [David Winter, 1997].ch8");
 	conf[NANO].screenDumpFile_ = configPointer->Read("/Nano/Video_Dump_File", "screendump.png");
-	conf[NANO].wavFile_ = configPointer->Read("/Nano/Wav_File", "");
+	conf[NANO].wavFile_[0] = configPointer->Read("/Nano/Wav_File", "");
 
 	conf[NANO].turboClock_ = configPointer->Read("/Nano/Turbo_Clock_Speed", "15");
 	conf[NANO].volume_ = (int)configPointer->Read("/Nano/Volume", 25l);
@@ -137,7 +137,7 @@ void GuiNano::readNanoConfig()
 		XRCCTRL(*this, "RamSWNano", wxComboBox)->SetValue(conf[NANO].ram_);
 		XRCCTRL(*this, "Chip8SWNano", wxTextCtrl)->SetValue(conf[NANO].chip8SW_);
 		XRCCTRL(*this, "ScreenDumpFileNano", wxComboBox)->SetValue(conf[NANO].screenDumpFile_);
-		XRCCTRL(*this, "WavFileNano", wxTextCtrl)->SetValue(conf[NANO].wavFile_);
+		XRCCTRL(*this, "WavFileNano", wxTextCtrl)->SetValue(conf[NANO].wavFile_[0]);
 
 		XRCCTRL(*this, "ZoomValueNano", wxTextCtrl)->ChangeValue(conf[NANO].zoom_);
 
@@ -161,7 +161,7 @@ void GuiNano::writeNanoDirConfig()
 	writeConfigDir("/Dir/Nano/Ram_Software", conf[NANO].ramDir_);
 	writeConfigDir("/Dir/Nano/Chip_8_Software", conf[NANO].chip8SWDir_);
 	writeConfigDir("/Dir/Nano/Video_Dump_File", conf[NANO].screenDumpFileDir_);
-	writeConfigDir("/Dir/Nano/Wav_File", conf[NANO].wavFileDir_);
+	writeConfigDir("/Dir/Nano/Wav_File", conf[NANO].wavFileDir_[0]);
 }
 
 void GuiNano::writeNanoConfig()
@@ -170,7 +170,7 @@ void GuiNano::writeNanoConfig()
 	configPointer->Write("/Nano/Ram_Software", conf[NANO].ram_);
 	configPointer->Write("/Nano/Chip_8_Software", conf[NANO].chip8SW_);
 	configPointer->Write("/Nano/Video_Dump_File", conf[NANO].screenDumpFile_);
-	configPointer->Write("/Nano/Wav_File", conf[NANO].wavFile_);
+	configPointer->Write("/Nano/Wav_File", conf[NANO].wavFile_[0]);
 
 	configPointer->Write("/Nano/Zoom", conf[NANO].zoom_);
 

@@ -4,7 +4,7 @@
 #include "guimicrotutor.h"
 #include "elfconfiguration.h"
 
-class GuiCosmicos: public GuiMicrotutor
+class GuiCosmicos: public GuiMicrotutor2
 {
 public:
 

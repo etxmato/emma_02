@@ -751,11 +751,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\microtutor2.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ms2000.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\src\nano.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\network.cpp"
 				>
 			</File>
 			<File
@@ -1227,11 +1235,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\microtutor2.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\ms2000.h"
 				>
 			</File>
 			<File
 				RelativePath=".\src\nano.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\network.h"
 				>
 			</File>
 			<File

@@ -305,11 +305,11 @@ void GuiFred::readFred1Config()
     
     conf[FRED1].ramDir_ = readConfigDir("/Dir/FRED1/Main_Ram_File", dataDir_ + "FRED1"  + pathSeparator_);
     conf[FRED1].screenDumpFileDir_ = readConfigDir("/Dir/FRED1/Video_Dump_File", dataDir_ + "FRED1" + pathSeparator_);
-    conf[FRED1].wavFileDir_ = readConfigDir("/Dir/FRED1/Wav_File", dataDir_ + "FRED1" + pathSeparator_);
+    conf[FRED1].wavFileDir_[0] = readConfigDir("/Dir/FRED1/Wav_File", dataDir_ + "FRED1" + pathSeparator_);
 
     conf[FRED1].ram_ = configPointer->Read("/FRED1/Main_Ram_File", "Space War.bin");
     conf[FRED1].screenDumpFile_ = configPointer->Read("/FRED1/Video_Dump_File", "screendump.png");
-    conf[FRED1].wavFile_ = configPointer->Read("/FRED1/Wav_File", "");
+    conf[FRED1].wavFile_[0] = configPointer->Read("/FRED1/Wav_File", "");
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
@@ -364,7 +364,7 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "AutoCasLoadFRED1", wxCheckBox)->SetValue(conf[FRED1].autoCassetteLoad_);
         
         XRCCTRL(*this, "VolumeFRED1", wxSlider)->SetValue(conf[FRED1].volume_);
-        XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+        XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
         XRCCTRL(*this, "RamFRED1", wxChoice)->SetSelection(conf[FRED1].ramType_);
         XRCCTRL(*this, "KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
         XRCCTRL(*this, "TapeFormatFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].tapeFormat_);
@@ -390,7 +390,7 @@ void GuiFred::writeFred1DirConfig()
     writeConfigDir("/Dir/FRED1/Main", conf[FRED1].mainDir_);
     writeConfigDir("/Dir/FRED1/Main_Ram_File", conf[FRED1].ramDir_);
     writeConfigDir("/Dir/FRED1/Video_Dump_File", conf[FRED1].screenDumpFileDir_);
-    writeConfigDir("/Dir/FRED1/Wav_File", conf[FRED1].wavFileDir_);
+    writeConfigDir("/Dir/FRED1/Wav_File", conf[FRED1].wavFileDir_[0]);
 }
 
 void GuiFred::writeFred1Config()
@@ -399,7 +399,7 @@ void GuiFred::writeFred1Config()
 
     configPointer->Write("/FRED1/Main_Ram_File", conf[FRED1].ram_);
     configPointer->Write("/FRED1/Video_Dump_File", conf[FRED1].screenDumpFile_);
-    configPointer->Write("/FRED1/Wav_File", conf[FRED1].wavFile_);
+    configPointer->Write("/FRED1/Wav_File", conf[FRED1].wavFile_[0]);
 
     configPointer->Write("/FRED1/Zoom", conf[FRED1].zoom_);
     configPointer->Write("/FRED1/Clock_Speed", conf[FRED1].clock_);
@@ -465,11 +465,11 @@ void GuiFred::readFred2Config()
     
     conf[FRED2].ramDir_ = readConfigDir("/Dir/FRED2/Main_Ram_File", dataDir_ + "FRED2"  + pathSeparator_);
     conf[FRED2].screenDumpFileDir_ = readConfigDir("/Dir/FRED2/Video_Dump_File", dataDir_ + "FRED2" + pathSeparator_);
-    conf[FRED2].wavFileDir_ = readConfigDir("/Dir/FRED2/Wav_File", dataDir_ + "FRED2" + pathSeparator_);
+    conf[FRED2].wavFileDir_[0] = readConfigDir("/Dir/FRED2/Wav_File", dataDir_ + "FRED2" + pathSeparator_);
     
     conf[FRED2].ram_ = configPointer->Read("/FRED2/Main_Ram_File", "Curses Foiled Again.bin");
     conf[FRED2].screenDumpFile_ = configPointer->Read("/FRED2/Video_Dump_File", "screendump.png");
-    conf[FRED2].wavFile_ = configPointer->Read("/FRED2/Wav_File", "");
+    conf[FRED2].wavFile_[0] = configPointer->Read("/FRED2/Wav_File", "");
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
@@ -523,7 +523,7 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "AutoCasLoadFRED2", wxCheckBox)->SetValue(conf[FRED2].autoCassetteLoad_);
         
         XRCCTRL(*this, "VolumeFRED2", wxSlider)->SetValue(conf[FRED2].volume_);
-        XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_);
+        XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_[0]);
         XRCCTRL(*this, "RamFRED2", wxChoice)->SetSelection(conf[FRED2].ramType_);
         XRCCTRL(*this, "KeyPadModeFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].keyboardType);
         XRCCTRL(*this, "TapeFormatFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].tapeFormat_);
@@ -550,7 +550,7 @@ void GuiFred::writeFred2DirConfig()
     writeConfigDir("/Dir/FRED2/Main", conf[FRED2].mainDir_);
     writeConfigDir("/Dir/FRED2/Main_Ram_File", conf[FRED2].ramDir_);
     writeConfigDir("/Dir/FRED2/Video_Dump_File", conf[FRED2].screenDumpFileDir_);
-    writeConfigDir("/Dir/FRED2/Wav_File", conf[FRED2].wavFileDir_);
+    writeConfigDir("/Dir/FRED2/Wav_File", conf[FRED2].wavFileDir_[0]);
 }
 
 void GuiFred::writeFred2Config()
@@ -559,7 +559,7 @@ void GuiFred::writeFred2Config()
     
     configPointer->Write("/FRED2/Main_Ram_File", conf[FRED2].ram_);
     configPointer->Write("/FRED2/Video_Dump_File", conf[FRED2].screenDumpFile_);
-    configPointer->Write("/FRED2/Wav_File", conf[FRED2].wavFile_);
+    configPointer->Write("/FRED2/Wav_File", conf[FRED2].wavFile_[0]);
     
     configPointer->Write("/FRED2/Zoom", conf[FRED2].zoom_);
     configPointer->Write("/FRED2/Clock_Speed", conf[FRED2].clock_);
@@ -690,8 +690,8 @@ void GuiFred::checkGameFred2(wxString gameName)
         conf[FRED2].turbo_ = false;
         XRCCTRL(*this, "TurboFRED2", wxCheckBox)->SetValue(conf[FRED2].turbo_);
         turboGui("FRED2");
-        conf[FRED2].wavFile_ = "Fred Demo.wav";
-        XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_);
+        conf[FRED2].wavFile_[0] = "Fred Demo.wav";
+        XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_[0]);
         downloadWavFiles(FRED2);
 	}
 }
@@ -790,8 +790,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Add Drill.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Add Drill.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -803,8 +803,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Demo.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Demo.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -816,8 +816,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Bowling.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Bowling.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -829,8 +829,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Deduce-leds.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Deduce-leds.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
         
@@ -842,8 +842,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Clue.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Clue.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
         
@@ -855,8 +855,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Prog. Apt. Test.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Prog. Apt. Test.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -868,8 +868,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Animate Demo Data.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Animate Demo Data.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
             
@@ -880,16 +880,16 @@ void GuiFred::setGame()
 
 void GuiFred::downloadWavFiles(int computer)
 {
-    if (wxFile::Exists(conf[computer].wavFileDir_ + conf[computer].wavFile_))
+    if (wxFile::Exists(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0]))
         return;
     
-    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_, "Download file?", wxICON_EXCLAMATION | wxYES_NO);
+    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_[0], "Download file?", wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
     {
-        wxString fileName = conf[computer].wavFileDir_ + conf[computer].wavFile_;
+        wxString fileName = conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0];
         wxFileOutputStream html_stream(fileName);
 
-        wxCurlHTTP http("https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_);
+        wxCurlHTTP http("https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_[0]);
     
         if (!http.Get(html_stream))
             wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );

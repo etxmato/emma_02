@@ -207,7 +207,22 @@ Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& 
 
 Membership::~Membership()
 {
-	saveRam();
+    switch (loadedProgram_)
+    {
+        case NOPROGRAM:
+            p_Main->saveScrtValues("");
+        break;
+            
+        case MONITOR_CHUCK_LOW:
+            p_Main->saveScrtValues("MONITOR_CHUCK_LOW");
+        break;
+            
+        case MONITOR_CHUCK_HIGH:
+            p_Main->saveScrtValues("MONITOR_CHUCK_HIGH");
+        break;
+    }
+
+    saveRam();
 	if (elfConfiguration.vtType != VTNONE)
 	{
 		p_Main->setVtPos(MEMBER, vtPointer->GetPosition());

@@ -101,6 +101,7 @@ public:
 	Byte get1805Counter() {return counter_;};
 	Byte get1805Ch() {return ch_;};
 	Byte is1805CtrRunning() {return ctrRunning_;};
+    bool getSkipTraceMode() {return skipTrace_;};
 
 	void writeMemLabelType(Word address, Byte type);
 	Byte readMemLabelType(Word address);
@@ -119,6 +120,7 @@ protected:
 	// 1802 CPU Registers
 	Word scratchpadRegister_[16];
 	Byte programCounter_;
+    Byte scrtProgramCounter_;
 
 	int expansionSlot_;
 	int ramBank_;
@@ -158,6 +160,7 @@ private:
 	int wait_;
 	Byte idle_;
 	bool trace_;
+    bool skipTrace_;
 	bool traceDma_;
 	bool traceInt_;
 	bool traceChip8Int_;

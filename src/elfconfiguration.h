@@ -113,6 +113,7 @@ public:
 	int baudT;
     bool autoBoot;
     bool stopTone;
+    bool utilityMemory;
     bool tapeStart;
 	bool rtc;
 	bool nvr;

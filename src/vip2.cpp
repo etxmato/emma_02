@@ -411,12 +411,12 @@ void VipII::out(Byte port, Word WXUNUSED(address), Byte value)
 		case VIPIIOUT7:
 			if (value == 1)
 			{
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 				return;
 			}
 			if (value == 2)
 			{
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 				return;
 			}
 			p_Main->stopCassette();
@@ -874,11 +874,11 @@ void VipII::checkVipFunction()
 		break;
 
 		case 0x8091:	// SAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x80c2:	// LOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x409f:

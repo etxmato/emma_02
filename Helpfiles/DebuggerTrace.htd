@@ -16,7 +16,7 @@ Active debug mode will be indicated in the emulated computer window title. Note 
 There are 4 trace possibilities:<br>
 - All Instructions: to show all 1802 instructions executed by the emulated computer; except DMA and interrupt instructions. To start or stop this trace, press the 'Trace' button.<br>
 - DMA: to show when the emulated computer executes a DMA instruction. To start or stop this trace, press the 'DMA' button.<br>
-- Interrupt: to show when the emulated computer executes an interrupt instruction. To start or stop this trace, press the 'INT' button.
+- Interrupt: to show when the emulated computer executes an interrupt instruction. To start or stop this trace, press the 'INT' button.<br>
 - Specific Instructions: to show specific 1802 input instructions executed by the emulated computer. To start or stop this trace, press the 'Instr.' button. After this the 'Instr. Trap:' listbox will change to 'Instr. Trace:' and all instruction listed will be traced. Additional instructions can be added via the 'Instr. Trap' button, see also chapter 'Instruction Traps' below.
 </p>
 <p>
@@ -34,6 +34,13 @@ In pause mode the 'Step' button can be used to get the emulated computer to exec
 </p>
 <p>
 If needed the trace and emulated computer can be slowed down by sliding the 'Speed' slider to the left. Normal speed will be restored when Debug mode is switched off even if the slider is not fully to the right.
+</p>
+<h3>SCRT</h3>
+<p>
+When activated the SCRT function will hide tracing of 'SCRT'. This means when the debugger comes acrross a SEP R4 instruction for a subroutine 'CALL' it will show 'SEP R4 CALL address' in the trace window with 'address' being the subroutine address. It will then hide the 1802 code tracing for the CALL handling, i.e. when the PC is R4. The subroutine itself will of course be shown and when ended with a SEP R5 the debugger will show 'SEP R5 RETURN' to indicate the end of the subroutine. Again the 1802 code tracing for the RETURN handling, i.e. when the PC is R5, will not be shown.
+</p>
+<p>
+Where possible the debugger will set the CALL register and address as well as the RETURN register and address on start-up of an emulated computer. This can be changed in runtime by changing the SCRT values after 'Call:' and 'Return:', the first value is the register, the second the address. For all machines the registers used will be R4 and R5.
 </p>
 <h3>Register, flag and I/O port values</h3>
 <p>

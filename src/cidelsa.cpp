@@ -49,7 +49,26 @@ Cidelsa::Cidelsa(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
 Cidelsa::~Cidelsa()
 {
-	p_Main->setMainPos(CIDELSA, GetPosition());
+    switch (cidelsaGame_)
+    {
+        case ALTAIR:
+            p_Main->saveScrtValues("Altair");
+        break;
+            
+        case DESTROYER2:
+            p_Main->saveScrtValues("Destroyer2");
+        break;
+            
+        case DESTROYER1:
+            p_Main->saveScrtValues("Destroyer1");
+        break;
+            
+        case DRACO:
+            p_Main->saveScrtValues("Draco");
+        break;
+    }
+
+    p_Main->setMainPos(CIDELSA, GetPosition());
 }
 
 bool Cidelsa::keyDownExtended(int keycode, wxKeyEvent&WXUNUSED(event))
@@ -473,6 +492,7 @@ void Cidelsa::startComputer()
             initRam(0x3000, 0x30ff);
             initRam(0x5000, 0x50ff);
             p_Main->assDefault("altairrom", 0, 0x2FFF);
+            p_Main->setScrtValues(true, 4, 0x94, 5, 0xa6, "Altair");
 		break;
 
 		case 0x77:
@@ -480,6 +500,7 @@ void Cidelsa::startComputer()
 			defineMemoryType(0x2000, 0x20ff, RAM);
             initRam(0x2000, 0x20ff);
             p_Main->assDefault("destroyer_1_rom", 0, 0x1FFF);
+            p_Main->setScrtValues(true, 4, 0x2b, 5, 0x3c, "Destroyer1");
 		break;
 
 		case 0:
@@ -487,6 +508,7 @@ void Cidelsa::startComputer()
 			defineMemoryType(0x3000, 0x30ff, RAM);
             initRam(0x3000, 0x30ff);
             p_Main->assDefault("destroyer_2_rom", 0, 0x1FFF);
+            p_Main->setScrtValues(true, 4, 0x2b, 5, 0x3c, "Destroyer2");
 		break;
 
 		case 0xfb:
@@ -494,6 +516,7 @@ void Cidelsa::startComputer()
 			defineMemoryType(0x8000, 0x83ff, RAM);
             p_Main->assDefault("dracorom", 0, 0x3FFF);
             initRam(0x8000, 0x83ff);
+            p_Main->setScrtValues(true, 4, 0x54, 5, 0x202, "Draco");
 		break;
 	}
 

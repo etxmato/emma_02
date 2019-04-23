@@ -38,6 +38,17 @@ Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
 Vip2K::~Vip2K()
 {
+    switch (loadedProgram_)
+    {
+        case NOPROGRAM:
+        case FPBBOOT:
+            p_Main->saveScrtValues("");
+            break;
+            
+        case FPBBASIC:
+            p_Main->saveScrtValues("FPBBASIC");
+            break;
+    }
 	if (vipConfiguration.vtType != VTNONE)
 	{
 		p_Main->setVtPos(VIP2K, vtPointer->GetPosition());

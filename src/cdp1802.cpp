@@ -87,6 +87,7 @@ void Cdp1802::initCpu(int computerType)
 	traceDma_ = false;
 	traceInt_ = false;
 	traceChip8Int_ = false;
+    skipTrace_ = false;
 }
 
 void Cdp1802::resetCpu()
@@ -980,6 +981,8 @@ void Cdp1802::cpuCycle()
 	int w;
 	Byte df1;
 	Byte tmp;
+    bool stopHiddenTrace = false;
+    bool startHiddenTrace = false;
 
 	if (cpuMode_ != RUN) return;
 	if (idle_) return;
@@ -2192,13 +2195,38 @@ void Cdp1802::cpuCycle()
 			machineCycle();
 		break;
 		case 13:
-			programCounter_=n;
-            p_Computer->writeMemLabelType(scratchpadRegister_[programCounter_], LABEL_TYPE_SUB);
 			if (trace_)
 			{
 				buffer.Printf("SEP  R%X",n);
 				tr = tr + buffer;
+                
+                if (p_Main->getDebugScrtMode(computerType_))
+                {
+                    if (n == scrtProgramCounter_ && skipTrace_)
+                    {
+                        if (programCounter_ == p_Main->getDebugRetReg(computerType_) && scratchpadRegister_[p_Main->getDebugRetReg(computerType_)] == p_Main->getDebugRetAddress(computerType_))
+                            stopHiddenTrace = true;
+                        if (programCounter_ == p_Main->getDebugCallReg(computerType_) && scratchpadRegister_[p_Main->getDebugCallReg(computerType_)] == p_Main->getDebugCallAddress(computerType_))
+                            stopHiddenTrace = true;
+                    }
+                    if (n == p_Main->getDebugCallReg(computerType_) && scratchpadRegister_[n] == p_Main->getDebugCallAddress(computerType_))
+                    {
+                        scrtProgramCounter_ = programCounter_;
+                        startHiddenTrace = true;
+                        buffer.Printf("   CALL %02X%02X", readMem(scratchpadRegister_[programCounter_]), readMem(scratchpadRegister_[programCounter_]+1));
+                        tr = tr + buffer;
+                    }
+                    if (n == p_Main->getDebugRetReg(computerType_) && scratchpadRegister_[n] == p_Main->getDebugRetAddress(computerType_))
+                    {
+                        scrtProgramCounter_ = programCounter_;
+                        startHiddenTrace = true;
+                        buffer.Printf("   RETURN");
+                        tr = tr + buffer;
+                    }
+                }
 			}
+            programCounter_=n;
+            p_Computer->writeMemLabelType(scratchpadRegister_[programCounter_], LABEL_TYPE_SUB);
 		break;
 		case 14:
 			dataPointer_=n;
@@ -2437,7 +2465,12 @@ void Cdp1802::cpuCycle()
 			}
 		break;
 	}
-	if (trace_) p_Main->debugTrace(tr);
+	if (trace_ && !skipTrace_)
+        p_Main->debugTrace(tr);
+    if (stopHiddenTrace)
+        skipTrace_ = false;
+    if (startHiddenTrace)
+        skipTrace_ = true;
 }
 
 bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool showFilename)
@@ -3012,109 +3045,180 @@ void Cdp1802::checkLoadedSoftware()
 {
 	if (loadedProgram_ == NOPROGRAM)
 	{
-		if ((computerType_ == ELFII) || (computerType_ == SUPERELF) || (computerType_ == ELF))
-		{
-            pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
-            
-			if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
-			{
-				loadedProgram_ = SUPERBASICV1;
-				basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB1;
-				basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB1;
-				basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB1;
-				basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB1;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x1d) && (mainMemory_[2] == 0x39) && (mainMemory_[3] == 0xc0))
-			{
-				loadedProgram_ = SUPERBASICV3;
-				basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB3;
-				basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB3;
-				basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB3;
-				basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB3;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x18) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
-			{
-				loadedProgram_ = SUPERBASICV5;
-				basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB5;
-				basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB5;
-				basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB5;
-				basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB5;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x2f) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
-			{
-				loadedProgram_ = SUPERBASICV6;
-				basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB6;
-				basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB6;
-				basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB6;
-				basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB6;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x52))
-			{
-				loadedProgram_ = RCABASIC3;
-				basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA3;
-				basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
-				basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x55))
-			{
-				loadedProgram_ = RCABASIC4;
-				basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA4;
-				basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
-				basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0xc000] == 0x90) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xb5) && (mainMemory_[0xc003] == 0xfc))
-			{
-				loadedProgram_ = MINIMON;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0xc000] == 0xc4) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xf8) && (mainMemory_[0xc003] == 0xc0))
-			{
-				loadedProgram_ = GOLDMON;
-				p_Main->eventEnableMemAccess(true);
-			}
-			if ((mainMemory_[0x100] == 0xc4) && (mainMemory_[0x101] == 0x30) && (mainMemory_[0x102] == 0xb0))
-			{
-				loadedProgram_ = TINYBASIC;
-				p_Main->eventEnableMemAccess(true);
-			}
-		}
-		if (computerType_ == COSMICOS)
-		{
-			if ((mainMemory_[0xc0f7] == 0x22) && (mainMemory_[0xc0f8] == 0x73) && (mainMemory_[0xc0f9] == 0x3e) && (mainMemory_[0xc0fa] == 0))
-				loadedProgram_ = HEXMON;
-			if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
-				loadedProgram_ = ASCIIMON;
-		}
-		if (computerType_ == VIP || computerType_ == VELF || computerType_ == VIP2K)
-		{
-			if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
-			{
-				loadedProgram_ = FPBBASIC;
-				p_Main->eventEnableMemAccess(true);
-			}
-			else
-			{
-				if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-				loadedProgram_ = FPBBOOT;
-			}
-		}
-		if (computerType_ == MEMBER)
-		{
-			if ((mainMemory_[0x2f] == 0xd3) && (mainMemory_[0x30] == 0xbf) && (mainMemory_[0x31] == 0xe2) && (mainMemory_[0x32] == 0x86))
-			{
-				loadedProgram_ = MONITOR_CHUCK_LOW;
-			}
-			if ((mainMemory_[0x802f] == 0xd3) && (mainMemory_[0x8030] == 0xbf) && (mainMemory_[0x8031] == 0xe2) && (mainMemory_[0x8032] == 0x86))
-			{
-				loadedProgram_ = MONITOR_CHUCK_HIGH;
-			}
-		}
+        switch (computerType_)
+        {
+            case ELFII:
+            case SUPERELF:
+            case ELF:
+                pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+                
+                if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x25) && (mainMemory_[2] == 0xf4))
+                {
+                    loadedProgram_ = SUPERBASICV1;
+                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB1;
+                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB1;
+                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB1;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB1;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(true, 4, 0x185F, 5, 0x1871, "SUPERBASICV1");
+                }
+                if ((mainMemory_[0] == 0xc0) && (mainMemory_[1] == 0x1d) && (mainMemory_[2] == 0x39) && (mainMemory_[3] == 0xc0))
+                {
+                    loadedProgram_ = SUPERBASICV3;
+                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB3;
+                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB3;
+                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB3;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB3;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(true, 4, 0x1FD6, 5, 0x813, "SUPERBASICV3");
+                }
+                if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x18) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
+                {
+                    loadedProgram_ = SUPERBASICV5;
+                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB5;
+                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB5;
+                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB5;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB5;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(true, 4, 0x312B, 5, 0x7F1, "SUPERBASICV5");
+                }
+                if ((mainMemory_[0x100] == 0xc0) && (mainMemory_[0x101] == 0x2f) && (mainMemory_[0x102] == 0x00) && (mainMemory_[0x103] == 0xc0))
+                {
+                    loadedProgram_ = SUPERBASICV6;
+                    basicExecAddress_[BASICADDR_KEY] = BASICADDR_KEY_SB6;
+                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_SB6;
+                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_SB6;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_SB6;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(true, 4, 0x22BC, 5, 0x21F2, "SUPERBASICV6");
+                }
+                if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x52))
+                {
+                    loadedProgram_ = RCABASIC3;
+                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA3;
+                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC3");
+                }
+                if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x55))
+                {
+                    loadedProgram_ = RCABASIC4;
+                    basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA4;
+                    basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(true, 4, 0x41E8, 5, 0x37F2, "RCABASIC4");
+                }
+                if ((mainMemory_[0xc000] == 0x90) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xb5) && (mainMemory_[0xc003] == 0xfc))
+                {
+                    loadedProgram_ = MINIMON;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(false, -1, -1, -1, -1, "MINIMON");
+                }
+                if ((mainMemory_[0xc000] == 0xc4) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xf8) && (mainMemory_[0xc003] == 0xc0))
+                {
+                    loadedProgram_ = GOLDMON;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "GOLDMON");
+                }
+                if ((mainMemory_[0x100] == 0xc4) && (mainMemory_[0x101] == 0x30) && (mainMemory_[0x102] == 0xb0))
+                {
+                    loadedProgram_ = TINYBASIC;
+                    p_Main->eventEnableMemAccess(true);
+                    p_Main->setScrtValues(false, -1, -1, -1, -1, "TINYBASIC");
+                }
+                if (loadedProgram_ == NOPROGRAM)
+                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+            break;
+                
+            case COSMICOS:
+                if ((mainMemory_[0xc0f7] == 0x22) && (mainMemory_[0xc0f8] == 0x73) && (mainMemory_[0xc0f9] == 0x3e) && (mainMemory_[0xc0fa] == 0))
+                {
+                    loadedProgram_ = HEXMON;
+                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                }
+                if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
+                {
+                    loadedProgram_ = ASCIIMON;
+                    p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "ASCIIMON");
+                }
+                if (loadedProgram_ == NOPROGRAM)
+                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+            break;
+                
+            case VIP:
+                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+                {
+                    loadedProgram_ = FPBBASIC;
+                    p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
+                    p_Main->eventEnableMemAccess(true);
+                }
+                else
+                {
+                    if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
+                    {
+                        loadedProgram_ = FPBBOOT;
+                        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                    }
+                }
+                if (loadedProgram_ == NOPROGRAM)
+                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+            break;
+
+            case VELF:
+                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+                {
+                    loadedProgram_ = FPBBASIC;
+                    p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
+                    p_Main->eventEnableMemAccess(true);
+                }
+                else
+                {
+                    if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
+                    {
+                        loadedProgram_ = FPBBOOT;
+                        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                    }
+                }
+                if (loadedProgram_ == NOPROGRAM)
+                    p_Main->setScrtValues(true, 4, 0x8224, 5, 0x8236, "");
+            break;
+                
+            case VIP2K:
+                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+                {
+                    loadedProgram_ = FPBBASIC;
+                    p_Main->setScrtValues(true, 4, 0x39E8, 5, 0x2FF2, "FPBBASIC");
+                    p_Main->eventEnableMemAccess(true);
+                }
+                else
+                {
+                    if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
+                    {
+                        loadedProgram_ = FPBBOOT;
+                        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                    }
+                }
+                if (loadedProgram_ == NOPROGRAM)
+                    p_Main->setScrtValues(true, 4, 0x9DA, 5, 0x9EC, "");
+            break;
+                
+            case MEMBER:
+                if ((mainMemory_[0x2f] == 0xd3) && (mainMemory_[0x30] == 0xbf) && (mainMemory_[0x31] == 0xe2) && (mainMemory_[0x32] == 0x86))
+                {
+                    loadedProgram_ = MONITOR_CHUCK_LOW;
+                    p_Main->setScrtValues(true, 4, 0x30, 5, 0x42, "MONITOR_CHUCK_LOW");
+                }
+                if ((mainMemory_[0x802f] == 0xd3) && (mainMemory_[0x8030] == 0xbf) && (mainMemory_[0x8031] == 0xe2) && (mainMemory_[0x8032] == 0x86))
+                {
+                    loadedProgram_ = MONITOR_CHUCK_HIGH;
+                    p_Main->setScrtValues(true, 4, 0x8030, 5, 0x8042, "MONITOR_CHUCK_LOW");
+                }
+                if (loadedProgram_ == NOPROGRAM)
+                    p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+            break;
+        }
 	}
 	if (loadedOs_ == NOOS)
 	{
@@ -3123,6 +3227,7 @@ void Cdp1802::checkLoadedSoftware()
 			if ((mainMemory_[0xf900] == 0xf8) && (mainMemory_[0xf901] == 0xf9) && (mainMemory_[0xf902] == 0xb6))
 			{
 				loadedOs_ = ELFOS;
+                p_Main->setScrtValues(true, 4, 0xFA7B, 5, 0xFA8D, "ElfOs");
 			}
 		}
 	}

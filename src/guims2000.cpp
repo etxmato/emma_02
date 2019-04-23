@@ -143,7 +143,7 @@ void GuiMS2000::readMS2000Config()
     conf[MS2000].keyFileDir_ = readConfigDir("/Dir/MS2000/Key_File", dataDir_ + "MS2000" + pathSeparator_);
     conf[MS2000].printFileDir_ = readConfigDir("Dir/MS2000/Print_File", dataDir_ + "MS2000" + pathSeparator_);
 	conf[MS2000].screenDumpFileDir_ = readConfigDir("/Dir/MS2000/Video_Dump_File", dataDir_ + "MS2000" + pathSeparator_);
-    conf[MS2000].wavFileDir_ = readConfigDir("/Dir/MS2000/Wav_File", dataDir_ + "MS2000" + pathSeparator_);
+    conf[MS2000].wavFileDir_[0] = readConfigDir("/Dir/MS2000/Wav_File", dataDir_ + "MS2000" + pathSeparator_);
     
 	conf[MS2000].rom_[MAINROM1] = configPointer->Read("/MS2000/Main_Rom_File", "ut71.bin");
     floppyMs2000_[0] = configPointer->Read("/MS2000/FDC0_File", "microdos.img");
@@ -153,7 +153,7 @@ void GuiMS2000::readMS2000Config()
     conf[MS2000].keyFile_ = configPointer->Read("/MS2000/Key_File", "");
     conf[MS2000].printFile_ = configPointer->Read("/MS2000/Print_File", "printerout.txt");
     conf[MS2000].screenDumpFile_ = configPointer->Read("/MS2000/Video_Dump_File", "screendump.png");
-    conf[MS2000].wavFile_ = configPointer->Read("/MS2000/Wav_File", "");
+    conf[MS2000].wavFile_[0] = configPointer->Read("/MS2000/Wav_File", "");
     conf[MS2000].volume_ = (int)configPointer->Read("/MS2000/Volume", 25l);
     
 	getConfigBool("/MS2000/SerialLog", false);
@@ -306,7 +306,7 @@ void GuiMS2000::readMS2000Config()
         XRCCTRL(*this, "MS2000BootRam", wxCheckBox)->SetValue(elfConfiguration[MS2000].bootRam);
         
 		XRCCTRL(*this, "StretchDotMS2000", wxCheckBox)->SetValue(conf[MS2000].stretchDot_);
-        XRCCTRL(*this, "WavFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].wavFile_);
+        XRCCTRL(*this, "WavFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].wavFile_[0]);
         XRCCTRL(*this, "VolumeMS2000", wxSlider)->SetValue(conf[MS2000].volume_);
         
         clockTextCtrl[MS2000]->ChangeValue(conf[MS2000].clock_);
@@ -329,7 +329,7 @@ void GuiMS2000::writeMS2000DirConfig()
     writeConfigDir("/Dir/MS2000/Key_File", conf[MS2000].keyFileDir_);
     writeConfigDir("/Dir/MS2000/Print_File", conf[MS2000].printFileDir_);
     writeConfigDir("/Dir/MS2000/Video_Dump_File", conf[MS2000].screenDumpFileDir_);
-    writeConfigDir("/Dir/MS2000/Wav_File", conf[MS2000].wavFileDir_);
+    writeConfigDir("/Dir/MS2000/Wav_File", conf[MS2000].wavFileDir_[0]);
 }
 
 void GuiMS2000::writeMS2000Config()
@@ -345,7 +345,7 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/Key_File", conf[MS2000].keyFile_);
     configPointer->Write("/MS2000/Print_File", conf[MS2000].printFile_);
     configPointer->Write("/MS2000/Video_Dump_File", conf[MS2000].screenDumpFile_);
-    configPointer->Write("/MS2000/Wav_File", conf[MS2000].wavFile_);
+    configPointer->Write("/MS2000/Wav_File", conf[MS2000].wavFile_[0]);
     configPointer->Write("/MS2000/VtSerialPortChoice", elfConfiguration[MS2000].serialPort_);
   
 	configPointer->Write("/MS2000/Bell_Frequency", elfConfiguration[MS2000].bellFrequency_);

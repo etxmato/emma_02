@@ -45,7 +45,7 @@
 #define VT100OUT 45
 #define ELFINEF 46
 #define VTINEF 47
-
+#define NETWORKCYCLE 48
 #define COMXCYCLE 49
 #define V1870CYCLE 50
 #define FDCCYCLE 51

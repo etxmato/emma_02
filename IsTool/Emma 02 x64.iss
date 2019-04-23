@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.29.1
+AppVerName=Emma 02 - V1.29.3
 AppVersion=1.27
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.29.1
+OutputBaseFilename=Emma_02_x64_setup_v1.29.3
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -89,6 +89,7 @@ Source: ..\Configurations Windows\FRED2\*.*; DestDir: {app}\Configurations\FRED2
 Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
 Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
 Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
+Source: ..\Configurations Windows\Microtutor2\*.*; DestDir: {app}\Configurations\Microtutor2; Components: MAIN
 Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
 Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
 Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
@@ -237,6 +238,7 @@ Source: ..\data\Membership\*.rom; DestDir: {app}\data\Membership; Components: MA
 Source: ..\data\Membership\*.hex; DestDir: {app}\data\Membership; Components: MAIN
 Source: ..\data\Membership\*.txt; DestDir: {app}\data\Membership; Components: MAIN
 Source: ..\data\Microtutor\*.bin; DestDir: {app}\data\Microtutor; Components: MAIN
+Source: ..\data\Microtutor2\*.bin; DestDir: {app}\data\Microtutor2; Components: MAIN
 Source: ..\data\Elf2K\v87a.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\v88b.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\intel8275.bin; DestDir: {app}\data\Elf2K; Components: MAIN

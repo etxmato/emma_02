@@ -717,7 +717,7 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                             tapeActivated_ = false;
                         }
                         if (!tapeRecording_)
-                            p_Main->startCassetteSave();
+                            p_Main->startCassetteSave(0);
                         
                         tapeRecording_ = true;
                     }
@@ -878,9 +878,9 @@ void Fred::startLoad(bool button)
     else
     {
         if (button)
-            tapeActivated_ = p_Main->startLoad();
+            tapeActivated_ = p_Main->startLoad(0);
         else
-            tapeActivated_ = p_Main->startCassetteLoad();
+            tapeActivated_ = p_Main->startCassetteLoad(0);
     }
     
 //    if (tapeActivated_)
@@ -1027,7 +1027,7 @@ void Fred::startComputer()
 
     if (fredConfiguration.tapeStart)
     {
-        tapeActivated_ =  p_Main->startCassetteLoad();
+        tapeActivated_ =  p_Main->startCassetteLoad(0);
         if (tapeActivated_)
             tapeRunSwitch_ = tapeRunSwitch_ | 1;
     }
@@ -1562,7 +1562,7 @@ void Fred::checkFredFunction()
                     tapeActivated_ = false;
                 }
                 if (!tapeRecording_)
-                    p_Main->startCassetteSave();
+                    p_Main->startCassetteSave(0);
                 
                 tapeRecording_ = true;
             break;
@@ -1586,7 +1586,7 @@ void Fred::checkFredFunction()
                         tapeActivated_ = false;
                     }
                     if (!tapeRecording_)
-                        p_Main->startCassetteSave();
+                        p_Main->startCassetteSave(0);
                 
                     tapeRecording_ = true;
                 }

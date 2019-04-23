@@ -37,7 +37,6 @@ VelfScreen::VelfScreen(wxWindow *parent, const wxSize& size)
 VelfScreen::~VelfScreen()
 {
 //    delete mainBitmapPointer;
-    
     delete runSwitchButton;
     delete mpSwitchButton;
     delete velfSwitchButton;
@@ -208,7 +207,19 @@ Velf::Velf(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
 Velf::~Velf()
 {
-	p_Printer->closeFrames();
+    switch (loadedProgram_)
+    {
+        case NOPROGRAM:
+        case FPBBOOT:
+            p_Main->saveScrtValues("");
+            break;
+            
+        case FPBBASIC:
+            p_Main->saveScrtValues("FPBBASIC");
+            break;
+    }
+
+    p_Printer->closeFrames();
 	delete p_Printer;
 
     p_Main->setPixiePos(VELF, pixiePointer->GetPosition());
@@ -576,12 +587,12 @@ void Velf::out(Byte port, Word WXUNUSED(address), Byte value)
 		case VIPIIOUT7:
 			if (value == 1)
 			{
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 				return;
 			}
 			if (value == 2)
 			{
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 				return;
 			}
 			p_Main->stopCassette();
@@ -922,11 +933,11 @@ void Velf::checkVelfFunction()
         break;
             
         case 0x8091:	// SAVE
-            p_Main->startCassetteSave();
+            p_Main->startCassetteSave(0);
         break;
             
         case 0x80c2:	// LOAD
-            p_Main->startCassetteLoad();
+            p_Main->startCassetteLoad(0);
         break;
     }
 }

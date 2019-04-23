@@ -50,11 +50,11 @@ public:
     void psaveAmplitudeZero();
 	void playSaveLoad();
 	void convertTo8Bit(const short* in, int count, unsigned char* out);
-    bool ploadStartTape(wxString fileName);
+    bool ploadStartTape(wxString fileName, wxString tapeNumber);
     void startWavSound(wxString fileName);
     void readWav(Uint8* inputBuffer, short* outBuffer, size_t remaining, float gain);
     int LoadAndConvertSound(wxString filename, SDL_AudioSpec *spec);
-	void psaveStartTape(wxString fileName);
+	void psaveStartTape(wxString fileName, wxString tapeNumber);
     void stopTape();
     void pauseTape();
     void restartTapeSave();
@@ -113,6 +113,7 @@ private:
 	int noiseAmplitude_;
 
 	bool stopTheTape_;
+    wxString tapeNumber_;
 	bool psaveOn_;
     bool ploadOn_;
     bool wavOn_;

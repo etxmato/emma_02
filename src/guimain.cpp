@@ -1223,7 +1223,7 @@ void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
  	wxString fileName;
 
 	fileName = wxFileSelector( "Select the WAV file to save/load",
-                               conf[selectedComputer_].wavFileDir_, conf[selectedComputer_].wavFile_,
+                               conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
                                "wav",
                                wxString::Format
                               (
@@ -1240,11 +1240,40 @@ void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 		return;
 
 	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFile_ = FullPath.GetFullName();
+	conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+	conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
 
 	if (mode_.gui)
-		XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_);
+		XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
+}
+
+void GuiMain::onCassette1(wxCommandEvent& WXUNUSED(event))
+{
+    wxString fileName;
+    
+    fileName = wxFileSelector( "Select the WAV file to save/load",
+                              conf[selectedComputer_].wavFileDir_[1], conf[selectedComputer_].wavFile_[1],
+                              "wav",
+                              wxString::Format
+                              (
+                               "WAV File (*.wav)|*.wav|All files (%s)|%s",
+                               wxFileSelectorDefaultWildcardStr,
+                               wxFileSelectorDefaultWildcardStr
+                               ),
+                              wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                              this
+                              );
+    
+    
+    if (!fileName)
+        return;
+    
+    wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+    conf[selectedComputer_].wavFileDir_[1] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+    conf[selectedComputer_].wavFile_[1] = FullPath.GetFullName();
+    
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile1"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[1]);
 }
 
 void GuiMain::onTerminalFile(wxCommandEvent& WXUNUSED(event))
@@ -1252,7 +1281,7 @@ void GuiMain::onTerminalFile(wxCommandEvent& WXUNUSED(event))
 	wxString fileName;
 
 	fileName = wxFileSelector("Select the terminal file to save/load",
-		conf[selectedComputer_].wavFileDir_, conf[selectedComputer_].wavFile_,
+		conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
 		"hex",
 		wxString::Format
 		(
@@ -1269,31 +1298,49 @@ void GuiMain::onTerminalFile(wxCommandEvent& WXUNUSED(event))
 		return;
 
 	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].wavFile_ = FullPath.GetFullName();
+	conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME | wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+	conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
 
 	if (mode_.gui)
-		XRCCTRL(*this, "WavFile" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_);
+		XRCCTRL(*this, "WavFile" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
 }
 
 void GuiMain::onCassetteEject(wxCommandEvent& WXUNUSED(event) )
 {
-	conf[selectedComputer_].wavFile_ = "";
+	conf[selectedComputer_].wavFile_[0] = "";
 	if (mode_.gui)
-		XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_);
+		XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
+}
+
+void GuiMain::onCassette1Eject(wxCommandEvent& WXUNUSED(event) )
+{
+    conf[selectedComputer_].wavFile_[1] = "";
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile1"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[1]);
 }
 
 void GuiMain::onCassetteText(wxCommandEvent&event)
 {
-	conf[selectedComputer_].wavFile_ = event.GetString();
+	conf[selectedComputer_].wavFile_[0] = event.GetString();
     
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER)
         return;
     
-    if (conf[selectedComputer_].wavFile_ != "")
+    if (conf[selectedComputer_].wavFile_[0] != "")
     {
-        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_ + conf[selectedComputer_].wavFile_))
-            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_ + conf[selectedComputer_].wavFile_);
+        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]))
+            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]);
+    }
+}
+
+void GuiMain::onCassette1Text(wxCommandEvent&event)
+{
+    conf[selectedComputer_].wavFile_[1] = event.GetString();
+    
+    if (conf[selectedComputer_].wavFile_[1] != "")
+    {
+        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]))
+            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]);
     }
 }
 
@@ -1348,12 +1395,25 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
     if (runningComputer_ == FRED1 ||runningComputer_ == FRED2)
         p_Fred->startLoad(true);
     else
-        startLoad();
+        startLoad(0);
+}
+
+void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
+{
+    if (runningComputer_ == FRED1 ||runningComputer_ == FRED2)
+        p_Fred->startLoad(true);
+    else
+        startLoad(1);
 }
 
 void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
 {
-	startSave();
+	startSave(0);
+}
+
+void GuiMain::onCassetteSave1(wxCommandEvent& WXUNUSED(event))
+{
+    startSave(1);
 }
 
 void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
@@ -2712,10 +2772,10 @@ int GuiMain::pload()
 	}
 }
 
-bool GuiMain::startCassetteLoad()
+bool GuiMain::startCassetteLoad(int tapeNumber)
 {
 	if (conf[runningComputer_].autoCassetteLoad_)
-		return startLoad();
+		return startLoad(tapeNumber);
     else
         return false;
 }
@@ -2866,20 +2926,21 @@ void GuiMain::setPrinterState(int computerType)
 	}
 }
 
-bool GuiMain::startLoad()
+bool GuiMain::startLoad(int tapeNumber)
 {
-	wxString filePath, fileName;
+    wxString filePath, fileName, tapeString;
+    tapeString.Printf("%d", tapeNumber);
 
-	filePath = conf[runningComputer_].wavFileDir_;
-	fileName = conf[runningComputer_].wavFile_;
+	filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+	fileName = conf[runningComputer_].wavFile_[tapeNumber];
 	filePath.operator += (fileName);
 
 	if (fileName.Len() != 0)
 	{
 		if (wxFile::Exists(filePath))
 		{
-			p_Main->eventSetTapeState(TAPE_PLAY);
-			return p_Computer->ploadStartTape(filePath);
+			p_Main->eventSetTapeState(TAPE_PLAY, tapeString);
+			return p_Computer->ploadStartTape(filePath, tapeString);
 		}
 	}
     return false;
@@ -2891,24 +2952,25 @@ void GuiMain::stopCassette()
 		p_Computer->stopTape();
 }
 
-void GuiMain::startCassetteSave()
+void GuiMain::startCassetteSave(int tapeNumber)
 {
 	if (conf[runningComputer_].autoCassetteLoad_)
-		startSave();
+		startSave(tapeNumber);
 }
 
-void GuiMain::startSave()
+void GuiMain::startSave(int tapeNumber)
 {
-	wxString filePath, fileName;
+	wxString filePath, fileName, tapeString;
+    tapeString.Printf("%d", tapeNumber);
 
-	filePath = conf[runningComputer_].wavFileDir_;
-	fileName = conf[runningComputer_].wavFile_;
+	filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+	fileName = conf[runningComputer_].wavFile_[tapeNumber];
 	filePath.operator += (fileName);
 
 	if (fileName.Len() == 0)
 	{
 		fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
-                       conf[runningComputer_].wavFileDir_, fileName,
+                       conf[runningComputer_].wavFileDir_[tapeNumber], fileName,
                        "wav",
                        wxString::Format
                       (
@@ -2926,13 +2988,13 @@ void GuiMain::startSave()
 		}
 
 		wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-		conf[runningComputer_].wavFile_ = FullPath.GetFullName();
-		conf[runningComputer_].wavFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+		conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
+		conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-		p_Main->eventSetTextValue("WavFile"+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_);
+		p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
 
-		filePath = conf[runningComputer_].wavFileDir_;
-		filePath.operator += (conf[runningComputer_].wavFile_);
+		filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+		filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
 	}
 	if (wxFile::Exists(filePath))
 	{
@@ -2942,7 +3004,7 @@ void GuiMain::startSave()
 		if (messageBoxAnswer_ == wxNO)
 		{
 			fileName = p_Main->eventShowFileSelector( "Select the WAV file to save/load",
-                           conf[runningComputer_].wavFileDir_, fileName,
+                           conf[runningComputer_].wavFileDir_[tapeNumber], fileName,
                            "wav",
                            wxString::Format
                           (
@@ -2960,19 +3022,19 @@ void GuiMain::startSave()
 			}
 
 			wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-			conf[runningComputer_].wavFile_ = FullPath.GetFullName();
-			conf[runningComputer_].wavFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+			conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
+			conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-			p_Main->eventSetTextValue("WavFile"+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_);
+			p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
 
-			filePath = conf[runningComputer_].wavFileDir_;
-			filePath.operator += (conf[runningComputer_].wavFile_);
+			filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
+			filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
 		}
 		if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
 			p_Computer->keyClear();
 	}
-	p_Main->eventSetTapeState(TAPE_RECORD);
-	p_Computer->psaveStartTape(filePath);
+	p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
+	p_Computer->psaveStartTape(filePath, tapeString);
 }
 
 void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))
@@ -3003,15 +3065,15 @@ void GuiMain::startTerminalLoad(bool binaryFile)
     
     wxString filePath, fileName;
     
-    filePath = conf[runningComputer_].wavFileDir_;
-    fileName = conf[runningComputer_].wavFile_;
+    filePath = conf[runningComputer_].wavFileDir_[0];
+    fileName = conf[runningComputer_].wavFile_[0];
     filePath.operator += (fileName);
     
     if (fileName.Len() != 0)
     {
         if (wxFile::Exists(filePath))
         {
-            p_Main->eventSetTapeState(TAPE_PLAY);
+            p_Main->eventSetTapeState(TAPE_PLAY, "");
             p_Computer->terminalLoad(filePath, fileName, binaryFile);
         }
     }
@@ -3043,7 +3105,7 @@ void GuiMain::stopTerminal()
     terminalSave_ = false;
     terminalLoad_ = false;
     
-    p_Main->eventSetTapeState(TAPE_STOP);
+    p_Main->eventSetTapeState(TAPE_STOP, "");
 }
 
 void GuiMain::startAutoTerminalSave()
@@ -3064,14 +3126,14 @@ void GuiMain::startTerminalSave()
 
     wxString filePath, fileName;
     
-    filePath = conf[runningComputer_].wavFileDir_;
-    fileName = conf[runningComputer_].wavFile_;
+    filePath = conf[runningComputer_].wavFileDir_[0];
+    fileName = conf[runningComputer_].wavFile_[0];
     filePath.operator += (fileName);
     
     if (fileName.Len() == 0)
     {
         fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
-                                                 conf[runningComputer_].wavFileDir_, fileName,
+                                                 conf[runningComputer_].wavFileDir_[0], fileName,
                                                  "hex|txt",
                                                  wxString::Format
                                                  (
@@ -3085,13 +3147,13 @@ void GuiMain::startTerminalSave()
             return;
         
         wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-        conf[runningComputer_].wavFile_ = FullPath.GetFullName();
-        conf[runningComputer_].wavFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        conf[runningComputer_].wavFile_[0] = FullPath.GetFullName();
+        conf[runningComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
         
-        p_Main->eventSetTextValue("WavFile"+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_);
+        p_Main->eventSetTextValue("WavFile"+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[0]);
         
-        filePath = conf[runningComputer_].wavFileDir_;
-        filePath.operator += (conf[runningComputer_].wavFile_);
+        filePath = conf[runningComputer_].wavFileDir_[0];
+        filePath.operator += (conf[runningComputer_].wavFile_[0]);
     }
     if (wxFile::Exists(filePath))
     {
@@ -3101,7 +3163,7 @@ void GuiMain::startTerminalSave()
         if (messageBoxAnswer_ == wxNO)
         {
             fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
-                                                     conf[runningComputer_].wavFileDir_, fileName,
+                                                     conf[runningComputer_].wavFileDir_[0], fileName,
                                                      "hex|txt",
                                                      wxString::Format
                                                      (
@@ -3115,18 +3177,18 @@ void GuiMain::startTerminalSave()
                 return;
             
             wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-            conf[runningComputer_].wavFile_ = FullPath.GetFullName();
-            conf[runningComputer_].wavFileDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+            conf[runningComputer_].wavFile_[0] = FullPath.GetFullName();
+            conf[runningComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
             
-            p_Main->eventSetTextValue("WavFile"+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_);
+            p_Main->eventSetTextValue("WavFile"+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[0]);
             
-            filePath = conf[runningComputer_].wavFileDir_;
-            filePath.operator += (conf[runningComputer_].wavFile_);
+            filePath = conf[runningComputer_].wavFileDir_[0];
+            filePath.operator += (conf[runningComputer_].wavFile_[0]);
         }
  //       if (messageBoxAnswer_ == wxYES)
  //           wxRemoveFile(filePath);
     }
-    p_Main->eventSetTapeState(TAPE_RECORD);
+    p_Main->eventSetTapeState(TAPE_RECORD, "");
     p_Computer->terminalSave(filePath);
 }
 
@@ -3371,8 +3433,11 @@ void GuiMain::enableLoadGui(bool status)
 	tapeState_ = TAPE_STOP;
 }
 
-void GuiMain::setTapeState(int tapeState)
+void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 {
+    if (tapeNumber == "0")
+        tapeNumber = "";
+    
 	tapeState_ = tapeState;
 	if (!mode_.gui)
 		return;
@@ -3388,9 +3453,9 @@ void GuiMain::setTapeState(int tapeState)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
     }
     
-	XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
-	XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
-	XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+	XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+	XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
+	XRCCTRL(*this, "EjectCas"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
 	XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
     if (tapeState != TAPE_STOP)

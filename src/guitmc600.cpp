@@ -143,7 +143,7 @@ void GuiTelmac::readTelmacConfig()
 	conf[TMC600].keyFileDir_ = readConfigDir("/Dir/TMC600/Key_File", dataDir_ + "TMC600" + pathSeparator_);
 	conf[TMC600].printFileDir_ = readConfigDir("/Dir/TMC600/Print_File", dataDir_ + "TMC600" + pathSeparator_);
 	conf[TMC600].screenDumpFileDir_ = readConfigDir("/Dir/TMC600/Video_Dump_File", dataDir_ + "TMC600" + pathSeparator_);
-	conf[TMC600].wavFileDir_ = readConfigDir("/Dir/TMC600/Wav_File", dataDir_ + "TMC600" + pathSeparator_); 
+	conf[TMC600].wavFileDir_[0] = readConfigDir("/Dir/TMC600/Wav_File", dataDir_ + "TMC600" + pathSeparator_); 
 
 	conf[TMC600].rom_[MAINROM1] = configPointer->Read("/TMC600/Main_Rom_File", "tmc.24.3.bin");
 	conf[TMC600].rom_[EXPROM] = configPointer->Read("/TMC600/Expansion_Rom_File", "151182.bin");
@@ -151,7 +151,7 @@ void GuiTelmac::readTelmacConfig()
 	conf[TMC600].keyFile_ = configPointer->Read("/TMC600/Key_File", "");
 	conf[TMC600].printFile_ = configPointer->Read("/TMC600/Print_File", "printerout.txt");
 	conf[TMC600].screenDumpFile_ = configPointer->Read("/TMC600/Video_Dump_File", "screendump.png");
-	conf[TMC600].wavFile_ = configPointer->Read("/TMC600/Wav_File", "");
+	conf[TMC600].wavFile_[0] = configPointer->Read("/TMC600/Wav_File", "");
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -181,7 +181,7 @@ void GuiTelmac::readTelmacConfig()
 		XRCCTRL(*this, "KeyFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].keyFile_);
 		XRCCTRL(*this, "PrintFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].printFile_);
 		XRCCTRL(*this, "ScreenDumpFileTMC600", wxComboBox)->SetValue(conf[TMC600].screenDumpFile_);
-		XRCCTRL(*this, "WavFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].wavFile_);
+		XRCCTRL(*this, "WavFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].wavFile_[0]);
 
 		XRCCTRL(*this, "ZoomValueTMC600", wxTextCtrl)->ChangeValue(conf[TMC600].zoom_);
 		XRCCTRL(*this, "VolumeTMC600", wxSlider)->SetValue(conf[TMC600].volume_);
@@ -210,7 +210,7 @@ void GuiTelmac::writeTelmacDirConfig()
 	writeConfigDir("/Dir/TMC600/Key_File", conf[TMC600].keyFileDir_);
 	writeConfigDir("/Dir/TMC600/Print_File", conf[TMC600].printFileDir_);
 	writeConfigDir("/Dir/TMC600/Video_Dump_File", conf[TMC600].screenDumpFileDir_);
-	writeConfigDir("/Dir/TMC600/Wav_File", conf[TMC600].wavFileDir_);
+	writeConfigDir("/Dir/TMC600/Wav_File", conf[TMC600].wavFileDir_[0]);
 }
 
 void GuiTelmac::writeTelmacConfig()
@@ -221,7 +221,7 @@ void GuiTelmac::writeTelmacConfig()
 	configPointer->Write("/TMC600/Key_File", conf[TMC600].keyFile_);
 	configPointer->Write("/TMC600/Print_File", conf[TMC600].printFile_);
 	configPointer->Write("/TMC600/Video_Dump_File", conf[TMC600].screenDumpFile_);
-	configPointer->Write("/TMC600/Wav_File", conf[TMC600].wavFile_);
+	configPointer->Write("/TMC600/Wav_File", conf[TMC600].wavFile_[0]);
 
 	configPointer->Write("/TMC600/Zoom", conf[TMC600].zoom_);
 	configPointer->Write("/TMC600/Volume", conf[TMC600].volume_);

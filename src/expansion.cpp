@@ -223,10 +223,13 @@ void Expansion::configureCard(int slot)
 				if (networkSlot_ == 0xff)
 				{
 					networkSlot_ = slot;
+                    configureNetwork(2, 35, 16, 128, COMX, clock_);
+                    resetNetwork();
 
 					print_buffer = "Configuring Network Card" + slotString;
 					p_Main->message(print_buffer);
-//					p_Main->message("	Output 1: Select EPROM bank (bit 5, 6 and 7)\n");
+                    p_Main->message("    Q = 0, Output 2: load transmitter, Q = 0, input 2: read receiver");
+                    p_Main->message("    Q = 1, Output 2: load control, Q = 1, input 2: read status");
 
                     FullPath = wxFileName(p_Main->getRomDir(COMX, slot+2) + p_Main->getRomFile(COMX, slot+2), wxPATH_NATIVE);
                     FileName = FullPath.GetName();
@@ -363,6 +366,9 @@ Byte Expansion::expansionIn2()
 	switch(comxExpansionType_[expansionSlot_])
 	{
         case NETWORK:
+            return inNetwork();
+        break;
+            
 		case COMXFLOP:
 			return in1770();
 		break;
@@ -426,6 +432,9 @@ void Expansion::expansionOut(Byte value)
 	switch(comxExpansionType_[expansionSlot_])
 	{
         case NETWORK:
+            outNetwork(value);
+        break;
+            
         case COMXFLOP:
 			out1770(value);
 		break;

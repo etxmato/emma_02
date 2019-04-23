@@ -16,7 +16,7 @@ class MainElf : public Cdp1802, public Fdc, public Ide, public Keyboard, public 
 {			
 public:
 	MainElf();
-	~MainElf() {};
+	~MainElf();
 
 	void checkElfFunction();
     void activateElfOsChip8();

@@ -33,6 +33,55 @@ MainElf::MainElf()
     p_Main->stopTerminal();
 }
 
+MainElf::~MainElf()
+{
+    switch (loadedProgram_)
+    {
+        case NOPROGRAM:
+            if (loadedOs_ == ELFOS)
+                p_Main->saveScrtValues("ElfOs");
+            else
+                p_Main->saveScrtValues("");
+        break;
+
+        case MINIMON:
+            p_Main->saveScrtValues("MINIMON");
+        break;
+            
+        case GOLDMON:
+            p_Main->saveScrtValues("GOLDMON");
+        break;
+            
+        case TINYBASIC:
+            p_Main->saveScrtValues("TINYBASIC");
+        break;
+            
+        case SUPERBASICV1:
+            p_Main->saveScrtValues("SUPERBASICV1");
+        break;
+            
+        case SUPERBASICV3:
+            p_Main->saveScrtValues("SUPERBASICV3");
+        break;
+            
+        case SUPERBASICV5:
+            p_Main->saveScrtValues("SUPERBASICV5");
+        break;
+            
+        case SUPERBASICV6:
+            p_Main->saveScrtValues("SUPERBASICV6");
+        break;
+            
+        case RCABASIC3:
+            p_Main->saveScrtValues("RCABASIC3");
+        break;
+            
+        case RCABASIC4:
+            p_Main->saveScrtValues("RCABASIC4");
+        break;
+    }
+}
+
 void MainElf::checkElfFunction()
 {
     if (romMapperDefined_)
@@ -47,7 +96,7 @@ void MainElf::checkElfFunction()
                 
             case 0x09FD:	// SAVE
                 if ((mainMemory_[0x9fa] == 0xc0) && (mainMemory_[0x9fb] == 0x0a) && (mainMemory_[0x9fc] == 0x29))
-                    p_Main->startCassetteSave();
+                    p_Main->startCassetteSave(0);
             break;
                 
             case 0x09FA:	// LOAD
@@ -55,7 +104,7 @@ void MainElf::checkElfFunction()
                 {
                     p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-                    p_Main->startCassetteLoad();
+                    p_Main->startCassetteLoad(0);
                 }
             break;
                 
@@ -73,10 +122,10 @@ void MainElf::checkElfFunction()
 			p_Main->stopCassette();
 
 		if (scratchpadRegister_[programCounter_] == baseGiantBoard_ + 0x8d)
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 
 		if (scratchpadRegister_[programCounter_] == baseGiantBoard_ + 0xcd)
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 	}
 
 	if (baseQuestLoader_ != 0x10000)
@@ -166,14 +215,14 @@ void MainElf::checkElfFunction()
 
 				case BASICADDR_PSAVE_SB1:
 				case BASICADDR_DSAVE_SB1:
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case BASICADDR_PLOAD_SB1:
 				case BASICADDR_DLOAD_SB1:
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 
 		/*		case BASICADDR_ROUTINE1_SB1: 
@@ -198,14 +247,14 @@ void MainElf::checkElfFunction()
 
 				case BASICADDR_PSAVE_SB3:
 				case BASICADDR_DSAVE_SB3:
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case BASICADDR_PLOAD_SB3:
 				case BASICADDR_DLOAD_SB3:
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 
 		/*		case BASICADDR_ROUTINE1_SB3: 
@@ -242,14 +291,14 @@ void MainElf::checkElfFunction()
 
 				case BASICADDR_PSAVE_SB5:
 				case BASICADDR_DSAVE_SB5:
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case BASICADDR_PLOAD_SB5:
 				case BASICADDR_DLOAD_SB5:
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 
 		/*		case BASICADDR_ROUTINE1_SB5: 
@@ -274,14 +323,14 @@ void MainElf::checkElfFunction()
 
 				case BASICADDR_PSAVE_SB6:
 				case BASICADDR_DSAVE_SB6:
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case BASICADDR_PLOAD_SB6:
 				case BASICADDR_DLOAD_SB6:
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 
      //           case BASICADDR_ROUTINE1_SB6:
@@ -340,13 +389,13 @@ void MainElf::checkElfFunction()
                         break;
 
                     case 0x09FD:	// SAVE
-                        p_Main->startCassetteSave();
+                        p_Main->startCassetteSave(0);
                         break;
 
                     case 0x09FA:	// LOAD
                         p_Main->setSwName ("");
                         p_Main->eventUpdateTitle();
-                        p_Main->startCassetteLoad();
+                        p_Main->startCassetteLoad(0);
                         break;
                 }
             }
@@ -374,13 +423,13 @@ void MainElf::checkElfFunction()
 				break;
 
 				case 0xc20c:	// SAVE
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case 0xc28d:	// LOAD
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 			}
 		break;
@@ -397,14 +446,14 @@ void MainElf::checkElfFunction()
 
 				case 0xc571:	// SAVE ASCII MON
 				case 0xd20c:	// SAVE
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case 0xc643:	// LOAD ASCII MON
 				case 0xd28d:	// LOAD GOLD
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 			}
 		break;

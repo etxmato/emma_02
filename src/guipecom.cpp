@@ -117,13 +117,13 @@ void GuiPecom::readPecomConfig()
 	conf[PECOM].keyFileDir_ = readConfigDir("/Dir/Pecom/Key_File", dataDir_ + "Pecom" + pathSeparator_);
 	conf[PECOM].printFileDir_ = readConfigDir("/Dir/Pecom/Print_File", dataDir_ + "Pecom" + pathSeparator_); 
 	conf[PECOM].screenDumpFileDir_ = readConfigDir("/Dir/Pecom/Video_Dump_File", dataDir_ + "Pecom" + pathSeparator_); 
-	conf[PECOM].wavFileDir_ = readConfigDir("/Dir/Pecom/Wav_File", dataDir_ + "Pecom" + pathSeparator_); 
+	conf[PECOM].wavFileDir_[0] = readConfigDir("/Dir/Pecom/Wav_File", dataDir_ + "Pecom" + pathSeparator_); 
 
 	conf[PECOM].rom_[MAINROM1] = configPointer->Read("/Pecom/Main_Rom_File", "pecom64.v4.bin");
 	conf[PECOM].keyFile_ = configPointer->Read("/Pecom/Key_File", "");
 	conf[PECOM].printFile_ = configPointer->Read("/Pecom/Print_File", "printerout.txt");
 	conf[PECOM].screenDumpFile_ = configPointer->Read("/Pecom/Video_Dump_File", "screendump.png");
-	conf[PECOM].wavFile_ = configPointer->Read("/Pecom/Wav_File", "");
+	conf[PECOM].wavFile_[0] = configPointer->Read("/Pecom/Wav_File", "");
 
 	conf[PECOM].volume_ = (int)configPointer->Read("/Pecom/Volume", 25l);
 	conf[PECOM].turboClock_ = configPointer->Read("/Pecom/Turbo_Clock_Speed", "15"); 
@@ -149,7 +149,7 @@ void GuiPecom::readPecomConfig()
 		XRCCTRL(*this, "KeyFilePecom", wxTextCtrl)->SetValue(conf[PECOM].keyFile_);
 		XRCCTRL(*this, "PrintFilePecom", wxTextCtrl)->SetValue(conf[PECOM].printFile_);
 		XRCCTRL(*this, "ScreenDumpFilePecom", wxComboBox)->SetValue(conf[PECOM].screenDumpFile_);
-		XRCCTRL(*this, "WavFilePecom", wxTextCtrl)->SetValue(conf[PECOM].wavFile_);
+		XRCCTRL(*this, "WavFilePecom", wxTextCtrl)->SetValue(conf[PECOM].wavFile_[0]);
 
 		XRCCTRL(*this, "ZoomValuePecom", wxTextCtrl)->ChangeValue(conf[PECOM].zoom_);
 		XRCCTRL(*this, "VolumePecom", wxSlider)->SetValue(conf[PECOM].volume_);
@@ -174,7 +174,7 @@ void GuiPecom::writePecomDirConfig()
 	writeConfigDir("/Dir/Pecom/Key_File", conf[PECOM].keyFileDir_);
 	writeConfigDir("/Dir/Pecom/Print_File", conf[PECOM].printFileDir_);
 	writeConfigDir("/Dir/Pecom/Video_Dump_File", conf[PECOM].screenDumpFileDir_);
-	writeConfigDir("/Dir/Pecom/Wav_File", conf[PECOM].wavFileDir_);
+	writeConfigDir("/Dir/Pecom/Wav_File", conf[PECOM].wavFileDir_[0]);
 }
 
 void GuiPecom::writePecomConfig()
@@ -183,7 +183,7 @@ void GuiPecom::writePecomConfig()
 	configPointer->Write("/Pecom/Key_File", conf[PECOM].keyFile_);
 	configPointer->Write("/Pecom/Print_File", conf[PECOM].printFile_);
 	configPointer->Write("/Pecom/Video_Dump_File", conf[PECOM].screenDumpFile_);
-	configPointer->Write("/Pecom/Wav_File", conf[PECOM].wavFile_);
+	configPointer->Write("/Pecom/Wav_File", conf[PECOM].wavFile_[0]);
 
 	configPointer->Write("/Pecom/Zoom", conf[PECOM].zoom_);
 	configPointer->Write("/Pecom/Volume", conf[PECOM].volume_);

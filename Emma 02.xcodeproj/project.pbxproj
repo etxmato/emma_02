@@ -155,6 +155,7 @@
 		99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99ABC2981E56538800850E94 /* menuMS2000.xrc */; };
 		99AD77891F2BDDA900487F8F /* images in Resources */ = {isa = PBXBuildFile; fileRef = 9973DDFC1A69B7B300B57557 /* images */; };
 		99BC74FC1DCFDB5C0000D8A9 /* upd765.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */; };
+		99BC8688225697B000056D0E /* microtutor2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BC8686225697B000056D0E /* microtutor2.cpp */; };
 		99BCC77B1A6471B500F5226F /* encrypt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BCC77A1A6471B500F5226F /* encrypt.cpp */; };
 		99BDBDC81E7F3ECA00DB0FB8 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */; };
 		99BE531F1F1556F5006BD353 /* guidiag.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE531E1F1556F5006BD353 /* guidiag.cpp */; };
@@ -174,6 +175,7 @@
 		99DA24F11B7D3618003B8560 /* configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DA24F01B7D3618003B8560 /* configuration.cpp */; };
 		99E4FECF1FF3BD40001A10B7 /* serial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E4FECE1FF3BD40001A10B7 /* serial.cpp */; };
 		99E940F91FF1746900E69E8B /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99E940F81FF1746900E69E8B /* libcurl.4.dylib */; };
+		99F263CE220CD4ED00EA87B5 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F263CC220CD4EC00EA87B5 /* network.cpp */; };
 		99F3746B1CADBB93000DA615 /* copyright.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746A1CADBB93000DA615 /* copyright.rtf */; };
 		99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */; };
 		99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746D1CADBBC2000DA615 /* Quest_license.txt */; };
@@ -485,6 +487,8 @@
 		99B5DE4F1F4A228400674C05 /* images_linux */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_linux; sourceTree = "<group>"; };
 		99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = upd765.cpp; path = src/upd765.cpp; sourceTree = "<group>"; };
 		99BC74FB1DCFDB5C0000D8A9 /* upd765.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upd765.h; path = src/upd765.h; sourceTree = "<group>"; };
+		99BC8686225697B000056D0E /* microtutor2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor2.cpp; path = src/microtutor2.cpp; sourceTree = "<group>"; };
+		99BC8687225697B000056D0E /* microtutor2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor2.h; path = src/microtutor2.h; sourceTree = "<group>"; };
 		99BCC7791A64719900F5226F /* encrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = encrypt.h; path = src/encrypt.h; sourceTree = "<group>"; };
 		99BCC77A1A6471B500F5226F /* encrypt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = encrypt.cpp; path = src/encrypt.cpp; sourceTree = "<group>"; };
 		99BDBDC71E7F3ECA00DB0FB8 /* debug.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = debug.cpp; path = src/debug.cpp; sourceTree = "<group>"; };
@@ -516,6 +520,8 @@
 		99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc9.vcproj"; sourceTree = "<group>"; };
 		99E6EA971F40EC300030F125 /* IsTool */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IsTool; sourceTree = "<group>"; };
 		99E940F81FF1746900E69E8B /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../usr/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		99F263CC220CD4EC00EA87B5 /* network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = network.cpp; path = src/network.cpp; sourceTree = "<group>"; };
+		99F263CD220CD4ED00EA87B5 /* network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = network.h; path = src/network.h; sourceTree = "<group>"; };
 		99F3746A1CADBB93000DA615 /* copyright.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = copyright.rtf; sourceTree = "<group>"; };
 		99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Quest_CC_Lic.jpg; sourceTree = "<group>"; };
 		99F3746D1CADBBC2000DA615 /* Quest_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Quest_license.txt; sourceTree = "<group>"; };
@@ -826,10 +832,14 @@
 				9976475F1A61D5EE00FB9B33 /* memory.h */,
 				991C84F51E37E66A0084DAFB /* microtutor.cpp */,
 				991C84F61E37E66A0084DAFB /* microtutor.h */,
+				99BC8686225697B000056D0E /* microtutor2.cpp */,
+				99BC8687225697B000056D0E /* microtutor2.h */,
 				990416761DCDFE9000487FD7 /* ms2000.cpp */,
 				990416771DCDFE9000487FD7 /* ms2000.h */,
 				9976474D1A61D5EE00FB9B33 /* nano.cpp */,
 				997647601A61D5EE00FB9B33 /* nano.h */,
+				99F263CC220CD4EC00EA87B5 /* network.cpp */,
+				99F263CD220CD4ED00EA87B5 /* network.h */,
 				9976473E1A61D5EE00FB9B33 /* pecom.cpp */,
 				997647611A61D5EE00FB9B33 /* pecom.h */,
 				9976474E1A61D5EE00FB9B33 /* pixie.cpp */,
@@ -868,9 +878,9 @@
 				997647681A61D5EE00FB9B33 /* til311.cpp */,
 				997647B01A61D5EE00FB9B33 /* til311.h */,
 				997647411A61D5EE00FB9B33 /* til313.cpp */,
+				997647B11A61D5EE00FB9B33 /* til313.h */,
 				997647261A61D5EE00FB9B33 /* til313.full.cpp */,
 				9976479E1A61D5EE00FB9B33 /* til313.full.h */,
-				997647B11A61D5EE00FB9B33 /* til313.h */,
 				997647371A61D5EE00FB9B33 /* tmc600.cpp */,
 				997647691A61D5EE00FB9B33 /* tmc600.h */,
 				997647291A61D5EE00FB9B33 /* tmc1800.cpp */,
@@ -1061,6 +1071,7 @@
 				997648041A61D5EF00FB9B33 /* guieprom.cpp in Sources */,
 				997647B91A61D5EE00FB9B33 /* expansion.cpp in Sources */,
 				997647F41A61D5EF00FB9B33 /* led.cpp in Sources */,
+				99F263CE220CD4ED00EA87B5 /* network.cpp in Sources */,
 				997647BB1A61D5EE00FB9B33 /* colour.cpp in Sources */,
 				997648071A61D5EF00FB9B33 /* keyboard.cpp in Sources */,
 				997647CE1A61D5EF00FB9B33 /* video.cpp in Sources */,
@@ -1149,6 +1160,7 @@
 				996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */,
 				997647CD1A61D5EF00FB9B33 /* guivip2.cpp in Sources */,
 				997647F31A61D5EF00FB9B33 /* i8275.cpp in Sources */,
+				99BC8688225697B000056D0E /* microtutor2.cpp in Sources */,
 				997647DC1A61D5EF00FB9B33 /* ledmodule.cpp in Sources */,
 				997647D91A61D5EF00FB9B33 /* tmc1800.cpp in Sources */,
 				997648051A61D5EF00FB9B33 /* guinano.cpp in Sources */,

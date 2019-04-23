@@ -402,6 +402,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
     updateAddressTil313_ = false;
 	updateData_ = false;
 	updateDataTil313_ = false;
+    updateDataTil313Italic_ = false;
 
 	qLedStatus = 0;
     readyLedStatus = 0;
@@ -413,7 +414,9 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	loadLedStatus = 0;
 	addressStatus = 0;
 	dataStatus = 0;
-	dataTil313Status = 0;
+    dataTil313Status = 0;
+    dataTil313StatusItalic = 0;
+    dpStatus = false;
 	ms_ = 100;
 
 	functionKeyReleaseTwo_ = false;
@@ -577,7 +580,9 @@ void Panel::ledTimeout()
 		updateSeg(dc, i);
 	}
 	updateData(dc);
-	updateDataTil313(dc);
+    updateDataTil313(dc);
+    updateDataTil313Italic(dc);
+    updateDp313Italic(dc);
     updateAddress(dc);
     updateAddressTil313(dc);
 }
@@ -840,6 +845,53 @@ void Panel::updateDataTil313(wxDC& dc)
 		dataTil313Pointer[1]->update(dc, dataTil313Status&15);
 		updateDataTil313_ = false;
 	}
+}
+
+void Panel::showDataTil313Italic(Byte value)
+{
+    if (dataTil313StatusItalic != value)
+    {
+        dataTil313StatusItalic = value;
+        updateDataTil313Italic_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateDataTil313Italic(dc);
+        }
+    }
+}
+
+void Panel::updateDataTil313Italic(wxDC& dc)
+{
+    if (updateDataTil313Italic_)
+    {
+        dataTil313PointerItalic[0]->update(dc,(dataTil313StatusItalic>>4)&15);
+        dataTil313PointerItalic[1]->update(dc, dataTil313StatusItalic&15);
+        updateDataTil313Italic_ = false;
+    }
+}
+
+void Panel::showDp313Italic(bool status)
+{
+    if (dpStatus != status)
+    {
+        dpStatus = status;
+        updateDp313_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateDp313Italic(dc);
+        }
+    }
+}
+
+void Panel::updateDp313Italic(wxDC& dc)
+{
+    if (updateDp313_)
+    {
+        dataTil313PointerItalic[1]->dp(dc, dpStatus);
+        updateDp313_ = false;
+    }
 }
 
 void Panel::showSeg(int number, Byte value)

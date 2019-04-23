@@ -50,6 +50,10 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_BUTTON(XRCID("EjectCasMCDS"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileMCDS"), GuiMain::onCassetteText)
 
+    EVT_BUTTON(XRCID("CasButton1MCDS"), GuiMain::onCassette1)
+    EVT_BUTTON(XRCID("EjectCas1MCDS"), GuiMain::onCassette1Eject)
+    EVT_TEXT(XRCID("WavFile1MCDS"), GuiMain::onCassette1Text)
+
     EVT_TEXT(XRCID("VtCharRomMCDS"), GuiMain::onVtCharRomText)
 	EVT_COMBOBOX(XRCID("VtCharRomMCDS"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("VtCharRomButtonMCDS"), GuiMain::onVtCharRom)
@@ -100,6 +104,9 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_BUTTON(XRCID("CasSaveMCDS"), GuiMain::onCassetteSave)
     EVT_BUTTON(XRCID("CasStopMCDS"), GuiMain::onCassetteStop)
     EVT_BUTTON(XRCID("RealCasLoadMCDS"), GuiMain::onRealCas)
+
+    EVT_BUTTON(XRCID("CasLoad1MCDS"), GuiMain::onCassetteLoad1)
+    EVT_BUTTON(XRCID("CasSave1MCDS"), GuiMain::onCassetteSave1)
 
 	EVT_CHOICE(XRCID("VTBaudTChoiceMCDS"), GuiMcds::onMcdsBaudT)
 
@@ -152,8 +159,9 @@ void GuiMcds::readMcdsConfig()
     conf[MCDS].keyFileDir_ = readConfigDir("/Dir/Mcds/Key_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].printFileDir_ = readConfigDir("Dir/Mcds/Print_File", dataDir_ + "MCDS" + pathSeparator_);
 	conf[MCDS].screenDumpFileDir_ = readConfigDir("/Dir/Mcds/Video_Dump_File", dataDir_ + "MCDS" + pathSeparator_);
-    conf[MCDS].wavFileDir_ = readConfigDir("/Dir/Mcds/Wav_File", dataDir_ + "MCDS" + pathSeparator_);
-    
+    conf[MCDS].wavFileDir_[0] = readConfigDir("/Dir/Mcds/Wav_File", dataDir_ + "MCDS" + pathSeparator_);
+    conf[MCDS].wavFileDir_[1] = readConfigDir("/Dir/Mcds/Wav_File1", dataDir_ + "MCDS" + pathSeparator_);
+
 	conf[MCDS].rom_[MAINROM1] = configPointer->Read("/Mcds/Main_Rom_File1", "ut62_rev2.bin");
 	conf[MCDS].rom_[MAINROM2] = configPointer->Read("/Mcds/Main_Rom_File2", "edit_asm.bin");
 	conf[MCDS].rom_[MAINROM3] = configPointer->Read("/Mcds/Main_Rom_File3", "basic_3.bin");
@@ -164,7 +172,8 @@ void GuiMcds::readMcdsConfig()
     conf[MCDS].keyFile_ = configPointer->Read("/Mcds/Key_File", "");
     conf[MCDS].printFile_ = configPointer->Read("/Mcds/Print_File", "printerout.txt");
     conf[MCDS].screenDumpFile_ = configPointer->Read("/Mcds/Video_Dump_File", "screendump.png");
-    conf[MCDS].wavFile_ = configPointer->Read("/Mcds/Wav_File", "");
+    conf[MCDS].wavFile_[0] = configPointer->Read("/Mcds/Wav_File", "");
+    conf[MCDS].wavFile_[1] = configPointer->Read("/Mcds/Wav_File1", "");
     conf[MCDS].volume_ = (int)configPointer->Read("/Mcds/Volume", 25l);
     
 	getConfigBool("/Mcds/SerialLog", false);
@@ -242,7 +251,8 @@ void GuiMcds::readMcdsConfig()
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
 		XRCCTRL(*this, "StretchDotMCDS", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
-        XRCCTRL(*this, "WavFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].wavFile_);
+        XRCCTRL(*this, "WavFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].wavFile_[0]);
+        XRCCTRL(*this, "WavFile1MCDS", wxTextCtrl)->SetValue(conf[MCDS].wavFile_[1]);
         XRCCTRL(*this, "VolumeMCDS", wxSlider)->SetValue(conf[MCDS].volume_);
         
         clockTextCtrl[MCDS]->ChangeValue(conf[MCDS].clock_);
@@ -269,7 +279,8 @@ void GuiMcds::writeMcdsDirConfig()
     writeConfigDir("/Dir/Mcds/Key_File", conf[MCDS].keyFileDir_);
     writeConfigDir("/Dir/Mcds/Print_File", conf[MCDS].printFileDir_);
     writeConfigDir("/Dir/Mcds/Video_Dump_File", conf[MCDS].screenDumpFileDir_);
-    writeConfigDir("/Dir/Mcds/Wav_File", conf[MCDS].wavFileDir_);
+    writeConfigDir("/Dir/Mcds/Wav_File", conf[MCDS].wavFileDir_[0]);
+    writeConfigDir("/Dir/Mcds/Wav_File1", conf[MCDS].wavFileDir_[1]);
 }
 
 void GuiMcds::writeMcdsConfig()
@@ -287,7 +298,8 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/Key_File", conf[MCDS].keyFile_);
     configPointer->Write("/Mcds/Print_File", conf[MCDS].printFile_);
     configPointer->Write("/Mcds/Video_Dump_File", conf[MCDS].screenDumpFile_);
-    configPointer->Write("/Mcds/Wav_File", conf[MCDS].wavFile_);
+    configPointer->Write("/Mcds/Wav_File", conf[MCDS].wavFile_[0]);
+    configPointer->Write("/Mcds/Wav_File1", conf[MCDS].wavFile_[1]);
     configPointer->Write("/Mcds/VtSerialPortChoice", elfConfiguration[MCDS].serialPort_);
 
 	configPointer->Write("/Mcds/Bell_Frequency", elfConfiguration[MCDS].bellFrequency_);

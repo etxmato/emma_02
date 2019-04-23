@@ -986,21 +986,21 @@ void Tmc600::checkTelmacFunction()
 
 
 		case 0x0506:	// PSAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x0500:	// PLOAD
 			p_Main->setSwName ("");
             p_Main->eventUpdateTitle();
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x0509:	// DSAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x0503:	// DLOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 	}
 }
