@@ -247,7 +247,7 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Main->startCassetteSave(0);
                         }
                         else
-                            restartTapeSave();
+                            restartTapeSave(TAPE_RECORD);
                     }
                     
                     if (value == 0x81)
@@ -259,7 +259,7 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Main->startCassetteSave(1);
                         }
                         else
-                            restartTapeSave();
+                            restartTapeSave(TAPE_RECORD1);
                     }
                     
                     // 0x40 = TAPE 0, 0x80 = TAPE 1
@@ -272,7 +272,7 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Main->startCassetteLoad(0);
                         }
                         else
-                            restartTapeLoad();
+                            restartTapeLoad(TAPE_PLAY);
                     }
 
                     if (value == 0x80)
@@ -284,7 +284,7 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Main->startCassetteLoad(1);
                         }
                         else
-                            restartTapeLoad();
+                            restartTapeLoad(TAPE_PLAY1);
                     }
 
                     if (value == 0)

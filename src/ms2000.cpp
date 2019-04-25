@@ -316,7 +316,7 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Main->startCassetteSave(0);
                         }
                         else
-                            restartTapeSave();
+                            restartTapeSave(TAPE_RECORD);
                     }
                     
                     // 0x40 = TAPE 0, 0x80 = TAPE 1
@@ -328,7 +328,7 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Main->startCassetteLoad(0);
                         }
                         else
-                            restartTapeLoad();
+                            restartTapeLoad(TAPE_PLAY);
                     }
 
                     if (value == 0)

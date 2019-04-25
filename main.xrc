@@ -16501,7 +16501,7 @@
                                                                 <border>5</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>8</rows>
+                                                                    <rows>9</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -16774,12 +16774,12 @@
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
                                                                         <object class="wxButton" name="CasButtonMCDS">
-                                                                            <tooltip>Browse for cassette file</tooltip>
+                                                                            <tooltip>Browse for cassette file 0</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Cassette</label>
+                                                                            <label>Cassette 0</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -16793,7 +16793,7 @@
                                                                                 <option>20</option>
                                                                                 <object class="wxTextCtrl" name="WavFileMCDS">
                                                                                     <size>146,-1</size>
-                                                                                    <tooltip>Specify cassette file</tooltip>
+                                                                                    <tooltip>Specify cassette file 0</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -16804,7 +16804,49 @@
                                                                                 <flag>wxGROW</flag>
                                                                                 <border>3</border>
                                                                                 <object class="wxBitmapButton" name="EjectCasMCDS">
-                                                                                    <tooltip>Eject cassette file</tooltip>
+                                                                                    <tooltip>Eject cassette file 0</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
+                                                                                    <selected>images/eject.png</selected>
+                                                                                    <focus>images/eject.png</focus>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="CasButton1MCDS">
+                                                                            <tooltip>Browse for cassette file 1</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Cassette 1</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                                <border>1</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="WavFile1MCDS">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify cassette file 1</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxGROW</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="EjectCas1MCDS">
+                                                                                    <tooltip>Eject cassette file 1</tooltip>
                                                                                     <bitmap>images/eject.png</bitmap>
                                                                                     <selected>images/eject.png</selected>
                                                                                     <focus>images/eject.png</focus>
@@ -17373,11 +17415,42 @@
                                                                             <checked>1</checked>
                                                                         </object>
                                                                     </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxGROW</flag>
+                                                                        <border>2</border>
+                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadMCDS">
+                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                            <style>wxBU_AUTODRAW</style>
+                                                                            <bitmap>images/real_cas_off.png</bitmap>
+                                                                            <selected>images/real_cas_off.png</selected>
+                                                                            <focus>images/real_cas_off.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="TextCassetteMCDS">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxALIGN_RIGHT</style>
+                                                                            <enabled>0</enabled>
+                                                                            <label>Cassette 0:</label>
+                                                                        </object>
+                                                                    </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxGROW|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
                                                                         <object class="wxBitmapButton" name="CasSaveMCDS">
-                                                                            <tooltip>Start recording to cassette file</tooltip>
+                                                                            <tooltip>Start recording to cassette file 0</tooltip>
                                                                             <enabled>0</enabled>
                                                                             <bitmap>images/rec_off.png</bitmap>
                                                                             <selected>images/rec_off.png</selected>
@@ -17388,7 +17461,7 @@
                                                                         <flag>wxGROW|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
                                                                         <object class="wxBitmapButton" name="CasLoadMCDS">
-                                                                            <tooltip>Play cassette file</tooltip>
+                                                                            <tooltip>Play cassette file 0</tooltip>
                                                                             <enabled>0</enabled>
                                                                             <bitmap>images/play_black.png</bitmap>
                                                                             <selected>images/play_black.png</selected>
@@ -17399,22 +17472,57 @@
                                                                         <flag>wxGROW|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
                                                                         <object class="wxBitmapButton" name="CasStopMCDS">
-                                                                            <tooltip>Stop cassette file</tooltip>
+                                                                            <tooltip>Stop cassette files</tooltip>
                                                                             <enabled>0</enabled>
                                                                             <bitmap>images/stop.png</bitmap>
                                                                             <selected>images/stop.png</selected>
                                                                             <focus>images/stop.png</focus>
                                                                         </object>
                                                                     </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxGROW</flag>
-                                                                        <border>2</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadMCDS">
-                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
-                                                                            <style>wxBU_AUTODRAW</style>
-                                                                            <bitmap>images/real_cas_off.png</bitmap>
-                                                                            <selected>images/real_cas_off.png</selected>
-                                                                            <focus>images/real_cas_off.png</focus>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="TextCassette1MCDS">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxALIGN_RIGHT</style>
+                                                                            <enabled>0</enabled>
+                                                                            <label>1:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSave1MCDS">
+                                                                            <tooltip>Start recording to cassette file 1</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/rec_off.png</bitmap>
+                                                                            <selected>images/rec_off.png</selected>
+                                                                            <focus>images/rec_off.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoad1MCDS">
+                                                                            <tooltip>Play cassette file 1</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/play_black.png</bitmap>
+                                                                            <selected>images/play_black.png</selected>
+                                                                            <focus>images/play_black.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStop1MCDS">
+                                                                            <tooltip>Stop cassette files</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/stop.png</bitmap>
+                                                                            <selected>images/stop.png</selected>
+                                                                            <focus>images/stop.png</focus>
                                                                         </object>
                                                                     </object>
                                                                 </object>

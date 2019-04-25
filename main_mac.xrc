@@ -17364,32 +17364,7 @@
                                                                             </font>
                                                                             <style>wxALIGN_RIGHT</style>
                                                                             <enabled>0</enabled>
-                                                                            <label>Cassette:</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasStopMCDS">
-                                                                            <size>26,27</size>
-                                                                            <tooltip>Stop cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images_osx/stop.png</bitmap>
-                                                                            <selected>images_osx/stop.png</selected>
-                                                                            <focus>images_osx/stop.png</focus>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxStaticText" name="TextCassette0MCDS">
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxALIGN_RIGHT</style>
-                                                                            <enabled>0</enabled>
-                                                                            <label>0:</label>
+                                                                            <label>Cassette 0:</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -17397,7 +17372,7 @@
                                                                         <border>0</border>
                                                                         <object class="wxBitmapButton" name="CasSaveMCDS">
                                                                             <size>26,27</size>
-                                                                            <tooltip>Start recording to cassette file</tooltip>
+                                                                            <tooltip>Start recording to cassette file 0</tooltip>
                                                                             <enabled>0</enabled>
                                                                             <bitmap>images_osx/rec_off.png</bitmap>
                                                                             <selected>images_osx/rec_off.png</selected>
@@ -17409,11 +17384,23 @@
                                                                         <border>0</border>
                                                                         <object class="wxBitmapButton" name="CasLoadMCDS">
                                                                             <size>26,27</size>
-                                                                            <tooltip>Play cassette file</tooltip>
+                                                                            <tooltip>Play cassette file 0</tooltip>
                                                                             <enabled>0</enabled>
                                                                             <bitmap>images_osx/play_black.png</bitmap>
                                                                             <selected>images_osx/play_black.png</selected>
                                                                             <focus>images_osx/play_black.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStopMCDS">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Stop cassette files</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/stop.png</bitmap>
+                                                                            <selected>images_osx/stop.png</selected>
+                                                                            <focus>images_osx/stop.png</focus>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -17434,7 +17421,7 @@
                                                                         <border>0</border>
                                                                         <object class="wxBitmapButton" name="CasSave1MCDS">
                                                                             <size>26,27</size>
-                                                                            <tooltip>Start recording to cassette file</tooltip>
+                                                                            <tooltip>Start recording to cassette file 1</tooltip>
                                                                             <enabled>0</enabled>
                                                                             <bitmap>images_osx/rec_off.png</bitmap>
                                                                             <selected>images_osx/rec_off.png</selected>
@@ -17446,11 +17433,23 @@
                                                                         <border>0</border>
                                                                         <object class="wxBitmapButton" name="CasLoad1MCDS">
                                                                             <size>26,27</size>
-                                                                            <tooltip>Play cassette file</tooltip>
+                                                                            <tooltip>Play cassette file 1</tooltip>
                                                                             <enabled>0</enabled>
                                                                             <bitmap>images_osx/play_black.png</bitmap>
                                                                             <selected>images_osx/play_black.png</selected>
                                                                             <focus>images_osx/play_black.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStop1MCDS">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Stop cassette files</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/stop.png</bitmap>
+                                                                            <selected>images_osx/stop.png</selected>
+                                                                            <focus>images_osx/stop.png</focus>
                                                                         </object>
                                                                     </object>
                                                                 </object>

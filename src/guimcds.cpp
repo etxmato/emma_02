@@ -107,6 +107,7 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
 
     EVT_BUTTON(XRCID("CasLoad1MCDS"), GuiMain::onCassetteLoad1)
     EVT_BUTTON(XRCID("CasSave1MCDS"), GuiMain::onCassetteSave1)
+    EVT_BUTTON(XRCID("CasStop1MCDS"), GuiMain::onCassetteStop)
 
 	EVT_CHOICE(XRCID("VTBaudTChoiceMCDS"), GuiMcds::onMcdsBaudT)
 

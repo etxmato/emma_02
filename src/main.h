@@ -798,6 +798,8 @@ public:
 #define TAPE_PLAY 1
 #define TAPE_RECORD 2
 #define TAPE_PAUSE 3
+#define TAPE_PLAY1 4
+#define TAPE_RECORD1 5
 
 #define PRINT_BUFFER_SIZE 1000
 

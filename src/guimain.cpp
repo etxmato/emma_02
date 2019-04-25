@@ -1351,6 +1351,12 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
 	{
 		XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+        
+        if (runningComputer_ == MCDS)
+        {
+            XRCCTRL(*this, "CasLoad1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+            XRCCTRL(*this, "CasSave1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+        }
 	}
 }
 
@@ -2829,6 +2835,11 @@ void GuiMain::setRealCas(int computerType)
 		{
 			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
 			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == MCDS)
+            {
+                XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            }
 		}
 	}
 	else
@@ -2845,6 +2856,11 @@ void GuiMain::setRealCas(int computerType)
 		{
 			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
 			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == MCDS)
+            {
+                XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            }
 		}
 	}
 	if (computerRunning_ && (computerType == runningComputer_))
@@ -2872,6 +2888,11 @@ void GuiMain::setRealCas2(int computerType)
 		{
 			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(false);
 			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == MCDS)
+            {
+                XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(false);
+                XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            }
 		}
 	}
 	else
@@ -2882,6 +2903,11 @@ void GuiMain::setRealCas2(int computerType)
 		{
 			XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
 			XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            if (runningComputer_ == MCDS)
+            {
+                XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+                XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            }
 		}
 	}
 }
@@ -2909,6 +2935,11 @@ void GuiMain::setRealCasOff(int computerType)
 	{
 		XRCCTRL(*this, "CasLoad"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        if (runningComputer_ == MCDS)
+        {
+            XRCCTRL(*this, "CasLoad1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+            XRCCTRL(*this, "CasSave1"+computerInfo[computerType].gui, wxButton)->Enable(!conf[computerType].autoCassetteLoad_);
+        }
 	}
 }
 
@@ -2939,7 +2970,10 @@ bool GuiMain::startLoad(int tapeNumber)
 	{
 		if (wxFile::Exists(filePath))
 		{
-			p_Main->eventSetTapeState(TAPE_PLAY, tapeString);
+            if (tapeNumber == 0)
+                p_Main->eventSetTapeState(TAPE_PLAY, tapeString);
+            else
+                p_Main->eventSetTapeState(TAPE_PLAY1, tapeString);
 			return p_Computer->ploadStartTape(filePath, tapeString);
 		}
 	}
@@ -3033,7 +3067,11 @@ void GuiMain::startSave(int tapeNumber)
 		if ((runningComputer_ == COMX) || (runningComputer_ == ETI))
 			p_Computer->keyClear();
 	}
-	p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
+    
+    if (tapeNumber == 0)
+        p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
+    else
+        p_Main->eventSetTapeState(TAPE_RECORD1, tapeString);
 	p_Computer->psaveStartTape(filePath, tapeString);
 }
 
@@ -3425,11 +3463,21 @@ void GuiMain::enableLoadGui(bool status)
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        if (runningComputer_ == MCDS)
+        {
+            XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
+            XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+            XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        }
 	}
 	if (tapeState_ == TAPE_RECORD)
 		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
 	if (tapeState_ == TAPE_PLAY)
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+    if (tapeState_ == TAPE_RECORD1)
+        XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+    if (tapeState_ == TAPE_PLAY1)
+        XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
 	tapeState_ = TAPE_STOP;
 }
 
@@ -3478,6 +3526,14 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 			XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
 		else
 			XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+        if (tapeState == TAPE_RECORD1)
+            XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
+        else
+            XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+        if (tapeState == TAPE_PLAY1)
+            XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
+        else
+            XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
 	}
 	else
 	{
@@ -3486,6 +3542,12 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
 		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+        if (runningComputer_ == MCDS)
+        {
+            XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
+            XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
+            XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+        }
 	}
 }
 

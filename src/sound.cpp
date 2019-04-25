@@ -911,18 +911,18 @@ void Sound::pauseTape()
     p_Computer->resetGaugeValue();
 }
 
-void Sound::restartTapeSave()
+void Sound::restartTapeSave(int tapeState)
 {
 //    p_Main->turboOn();
     psaveOn_ = true;
-    p_Main->eventSetTapeState(TAPE_RECORD, tapeNumber_);
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 
-void Sound::restartTapeLoad()
+void Sound::restartTapeLoad(int tapeState)
 {
 //    p_Main->turboOn();
     ploadOn_ = true;
-    p_Main->eventSetTapeState(TAPE_PLAY, tapeNumber_);
+    p_Main->eventSetTapeState(tapeState, tapeNumber_);
 }
 
 void Sound::stopPausedLoad()

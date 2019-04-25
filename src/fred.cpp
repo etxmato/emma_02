@@ -873,7 +873,7 @@ void Fred::startLoad(bool button)
     if (tapeActivated_)
     {
         p_Main->turboOn();
-        p_Computer->restartTapeLoad();
+        p_Computer->restartTapeLoad(TAPE_PLAY);
     }
     else
     {
@@ -941,7 +941,7 @@ void Fred::updateCardReadStatus()
         {
             inpMode_ = INP_MODE_TAPE_DIRECT;
             p_Main->turboOn();
-            p_Computer->restartTapeLoad();
+            p_Computer->restartTapeLoad(TAPE_PLAY);
         }
     }
     

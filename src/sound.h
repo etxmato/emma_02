@@ -57,8 +57,8 @@ public:
 	void psaveStartTape(wxString fileName, wxString tapeNumber);
     void stopTape();
     void pauseTape();
-    void restartTapeSave();
-    void restartTapeLoad();
+    void restartTapeSave(int tapeState);
+    void restartTapeLoad(int tapeState);
     void stopPausedLoad();
     void stopPausedSave();
     void stopSaveLoad();
