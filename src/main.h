@@ -431,7 +431,7 @@ public:
 #define MS2000 11
 #define MCDS 12
 #define FRED1 13
-#define FRED2 14
+#define FRED1_5 14
 #define COMX 15
 #define STUDIO 16
 #define ETI 17

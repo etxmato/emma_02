@@ -478,10 +478,10 @@ void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
 
 	XRCCTRL(*this, "RamSW"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].ram_);
 	
-	if (selectedComputer_ == FRED1 || selectedComputer_ == FRED2)
+	if (selectedComputer_ == FRED1 || selectedComputer_ == FRED1_5)
         p_Main->setGameId(conf[selectedComputer_].ram_);
 
-	if (selectedComputer_ == FRED2)
+	if (selectedComputer_ == FRED1_5)
         p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
@@ -492,7 +492,7 @@ void GuiMain::onRamSWText(wxCommandEvent& WXUNUSED(event))
 	if (selectedComputer_ == FRED1 && conf[FRED1].gameId_ != -1)
         p_Main->setGameId(conf[selectedComputer_].ram_);
 
-	if (selectedComputer_ == FRED2 && conf[FRED2].gameId_ != -1)
+	if (selectedComputer_ == FRED1_5 && conf[FRED1_5].gameId_ != -1)
         p_Main->checkGameFred2(conf[selectedComputer_].ram_);
 }
 
@@ -1398,7 +1398,7 @@ void GuiMain::onUseLocation(wxCommandEvent&event)
 
 void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 {
-    if (runningComputer_ == FRED1 ||runningComputer_ == FRED2)
+    if (runningComputer_ == FRED1 ||runningComputer_ == FRED1_5)
         p_Fred->startLoad(true);
     else
         startLoad(0);
@@ -1406,7 +1406,7 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
 {
-    if (runningComputer_ == FRED1 ||runningComputer_ == FRED2)
+    if (runningComputer_ == FRED1 ||runningComputer_ == FRED1_5)
         p_Fred->startLoad(true);
     else
         startLoad(1);
@@ -3458,7 +3458,7 @@ void GuiMain::enableLoadGui(bool status)
     }
 	if (!conf[runningComputer_].autoCassetteLoad_)
 	{
-		if (runningComputer_ == FRED1 || runningComputer_ == FRED2)
+		if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
@@ -3490,7 +3490,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 	if (!mode_.gui)
 		return;
 
-    if (runningComputer_ == FRED1 || runningComputer_ == FRED2)
+    if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
     {
         if (tapeState == TAPE_PAUSE)
         {
@@ -3537,7 +3537,7 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 	}
 	else
 	{
-		if (runningComputer_ == FRED1 || runningComputer_ == FRED2)
+		if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
@@ -3633,7 +3633,7 @@ int GuiMain::getCpuType()
     cpuType_ = defaultCpuType_;
     if (runningComputer_ == FRED1)
     	cpuType_ = SYSTEM00;
-	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED2)
+	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED1_5)
         cpuType_ = CPU1801;
     
     return cpuType_;

@@ -80,8 +80,10 @@ CPP_SRCS += \
 ../src/member.cpp \
 ../src/memory.cpp \
 ../src/microtutor.cpp \
+../src/microtutor2.cpp \
 ../src/ms2000.cpp \
 ../src/nano.cpp \
+../src/network.cpp \
 ../src/pecom.cpp \
 ../src/pixie.cpp \
 ../src/portext.cpp \
@@ -205,8 +207,10 @@ OBJS += \
 ./src/member.o \
 ./src/memory.o \
 ./src/microtutor.o \
+./src/microtutor2.o \
 ./src/ms2000.o \
 ./src/nano.o \
+./src/network.o \
 ./src/pecom.o \
 ./src/pixie.o \
 ./src/portext.o \
@@ -322,8 +326,10 @@ CPP_DEPS += \
 ./src/member.d \
 ./src/memory.d \
 ./src/microtutor.d \
+./src/microtutor2.d \
 ./src/ms2000.d \
 ./src/nano.d \
+./src/network.d \
 ./src/pecom.d \
 ./src/pixie.d \
 ./src/portext.d \

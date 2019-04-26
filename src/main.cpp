@@ -1219,9 +1219,9 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     return true;
                 }
             
-                if (computer == "Fred2")
+                if (computer == "Fred15" || computer == "Fred1.5")
                 {
-                    startComputer_ = FRED2;
+                    startComputer_ = FRED1_5;
                     mode_.gui = false;
                     if (parser.Found("s", &software))
                     {
@@ -1230,12 +1230,12 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     if (parser.Found("r", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on FRED 2 emulator");
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on FRED 1.5 emulator");
                         return false;
                     }
                     if (parser.Found("ch", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -ch is not supported on FRED 2 emulator");
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on FRED 1.5 emulator");
                         return false;
                     }
                     return true;
@@ -2320,8 +2320,8 @@ void Main::initConfig()
     setScreenInfo(FRED1, 0, 2, colour, 2, borderX, borderY);
     setComputerInfo(FRED1, "FRED1", "FRED 1", "");
     
-    setScreenInfo(FRED2, 0, 2, colour, 2, borderX, borderY);
-    setComputerInfo(FRED2, "FRED2", "FRED 2", "");
+    setScreenInfo(FRED1_5, 0, 2, colour, 2, borderX, borderY);
+    setComputerInfo(FRED1_5, "FRED1_5", "FRED 1.5", "");
     
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
@@ -2792,7 +2792,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelFRED2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelFRED1_5", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3305,7 +3305,7 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeFred1Config();
         break;
             
-        case FRED2:
+        case FRED1_5:
             writeFred2DirConfig();
             writeFred2Config();
         break;
@@ -3530,7 +3530,7 @@ void Main::loadComputerConfig(wxString fileName)
             readFred1Config();
         break;
             
-        case FRED2:
+        case FRED1_5:
             readFred2Config();
         break;
             
@@ -4552,9 +4552,9 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
             p_Fred->Move(conf[FRED1].mainX_, conf[FRED1].mainY_);
         break;
 
-        case FRED2:
+        case FRED1_5:
             p_Fred->moveWindows();
-            p_Fred->Move(conf[FRED2].mainX_, conf[FRED2].mainY_);
+            p_Fred->Move(conf[FRED1_5].mainX_, conf[FRED1_5].mainY_);
         break;
 
         case STUDIO:
@@ -4688,8 +4688,8 @@ void Main::nonFixedWindowPosition()
     conf[COINARCADE].mainY_ = -1;
     conf[FRED1].mainX_ = -1;
     conf[FRED1].mainY_ = -1;
-    conf[FRED2].mainX_ = -1;
-    conf[FRED2].mainY_ = -1;
+    conf[FRED1_5].mainX_ = -1;
+    conf[FRED1_5].mainY_ = -1;
 	conf[VISICOM].mainX_ = -1;
 	conf[VISICOM].mainY_ = -1;
     conf[VICTORY].mainX_ = -1;
@@ -4734,8 +4734,8 @@ void Main::nonFixedWindowPosition()
     conf[VELF].vtY_ = -1;
     conf[FRED1].pixieX_ = -1;
     conf[FRED1].pixieY_ = -1;
-    conf[FRED2].pixieX_ = -1;
-    conf[FRED2].pixieY_ = -1;
+    conf[FRED1_5].pixieX_ = -1;
+    conf[FRED1_5].pixieY_ = -1;
 	conf[MS2000].vtX_ = -1;
 	conf[MS2000].vtY_ = -1;
 	conf[MCDS].vtX_ = -1;
@@ -4786,8 +4786,8 @@ void Main::fixedWindowPosition()
     conf[COINARCADE].mainY_ = mainWindowY_;
     conf[FRED1].mainX_ = mainWindowX_;
     conf[FRED1].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[FRED2].mainX_ = mainWindowX_;
-    conf[FRED2].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[FRED1_5].mainX_ = mainWindowX_;
+    conf[FRED1_5].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[VISICOM].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VISICOM].mainY_ = mainWindowY_;
 	conf[VICTORY].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -4832,8 +4832,8 @@ void Main::fixedWindowPosition()
 	conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
     conf[FRED1].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[FRED1].pixieY_ = mainWindowY_;
-    conf[FRED2].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[FRED2].pixieY_ = mainWindowY_;
+    conf[FRED1_5].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[FRED1_5].pixieY_ = mainWindowY_;
 	conf[MS2000].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[MS2000].vtY_ = mainWindowY_;
 	conf[MCDS].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
@@ -4984,8 +4984,8 @@ void Main::onStart(int computer)
             p_Computer = p_Fred;
         break;
             
-        case FRED2:
-            p_Fred = new Fred(computerInfo[FRED2].name, wxPoint(conf[FRED2].mainX_, conf[FRED2].mainY_), wxSize(310,180), conf[FRED2].clockSpeed_, elfConfiguration[FRED2], FRED2);
+        case FRED1_5:
+            p_Fred = new Fred(computerInfo[FRED1_5].name, wxPoint(conf[FRED1_5].mainX_, conf[FRED1_5].mainY_), wxSize(310,180), conf[FRED1_5].clockSpeed_, elfConfiguration[FRED1_5], FRED1_5);
             p_Computer = p_Fred;
         break;
             
@@ -5079,7 +5079,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 11 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED2 )
+    if (runningComputer_ < 11 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED1_5 )
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
@@ -5160,7 +5160,7 @@ void Main::stopComputer()
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
             case FRED1:
-            case FRED2:
+            case FRED1_5:
             case VIP:
             case VIP2K:
 			case VIPII:
@@ -5275,7 +5275,7 @@ void Main::onComputer(wxNotebookEvent&event)
                 break;
                     
                 case FRED2TAB:
-                    rcaChoice_ = FRED2;
+                    rcaChoice_ = FRED1_5;
                 break;
                     
 				case VIPTAB:
@@ -5532,7 +5532,7 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
         break;
             
         case FRED2TAB:
-            rcaChoice_ = FRED2;
+            rcaChoice_ = FRED1_5;
         break;
             
         case VIPTAB:
@@ -5675,7 +5675,7 @@ void Main::setNoteBook()
             XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED1TAB);
         break;
             
-        case FRED2:
+        case FRED1_5:
             XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
             XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED2TAB);
         break;
@@ -5776,7 +5776,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status | (runningComputer_ == MS2000));
     XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
     XRCCTRL(*this,"ColoursFRED1", wxButton)->Enable(status | (runningComputer_ == FRED1));
-    XRCCTRL(*this,"ColoursFRED2", wxButton)->Enable(status | (runningComputer_ == FRED2));
+    XRCCTRL(*this,"ColoursFRED1_5", wxButton)->Enable(status | (runningComputer_ == FRED1_5));
     XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status | (runningComputer_ == STUDIO));
     XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status | (runningComputer_ == VICTORY));
     XRCCTRL(*this,"ColoursStudioIV", wxButton)->Enable(status | (runningComputer_ == STUDIOIV));
@@ -5928,17 +5928,17 @@ void Main::enableGui(bool status)
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
-    if (runningComputer_ == FRED2)
+    if (runningComputer_ == FRED1_5)
     {
         p_Main->scrtValues(status, false, -1, -1, -1, -1);
 
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"RamSWFRED2", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RamSWButtonFRED2", wxButton)->Enable(status);
-        XRCCTRL(*this,"FullScreenF3FRED2", wxButton)->Enable(!status);
-        XRCCTRL(*this,"ScreenDumpF5FRED2", wxButton)->Enable(!status);
-        XRCCTRL(*this,"RamFRED2", wxChoice)->Enable(status);
-		XRCCTRL(*this,"RamTextFRED2", wxStaticText)->Enable(status);
+        XRCCTRL(*this,"RamSWFRED1_5", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonFRED1_5", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3FRED1_5", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5FRED1_5", wxButton)->Enable(!status);
+        XRCCTRL(*this,"RamFRED1_5", wxChoice)->Enable(status);
+		XRCCTRL(*this,"RamTextFRED1_5", wxStaticText)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
@@ -6703,7 +6703,7 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 	switch (runningComputer_)
 	{
         case FRED1:
-        case FRED2:
+        case FRED1_5:
 		case COSMICOS:
 		case ELF: 
 		case ELFII:
@@ -8090,7 +8090,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         break;
 
         case FRED1:
-        case FRED2:
+        case FRED1_5:
             keysFound = loadKeyDefinition("", "freddefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
@@ -8136,7 +8136,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             break;
             
             case FRED1:
-            case FRED2:
+            case FRED1_5:
             case VIP:
             case VIP2K:
             case ELF:

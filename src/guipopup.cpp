@@ -132,7 +132,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
         break;
       
         case FRED1:
-        case FRED2:
+        case FRED1_5:
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuFred.xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupFred"));
             XRCCTRL(*this, "PopupFred", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
@@ -182,7 +182,7 @@ void PopupDialog::init()
 		break;
 
         case FRED1:
-        case FRED2:
+        case FRED1_5:
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             XRCCTRL(*this, "ControlWindowsPopupFRED", wxCheckBox)->SetValue(p_Main->getUseFredControlWindows());
             setStartLocation(p_Main->getSaveStartString(computer_));
@@ -454,7 +454,7 @@ void PopupDialog::onFredControlWindows(wxCommandEvent&event)
     {
         p_Main->onFred2ControlWindows(event);
         if (p_Main->getGuiMode())
-            p_Main->setCheckBox("ControlWindowsFRED2", event.IsChecked());
+            p_Main->setCheckBox("ControlWindowsFRED1_5", event.IsChecked());
     }
 }
 

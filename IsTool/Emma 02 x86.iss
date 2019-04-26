@@ -82,7 +82,7 @@ Source: ..\Configurations Windows\Elf\*.*; DestDir: {app}\Configurations\Elf; Co
 Source: ..\Configurations Windows\Elf2K\*.*; DestDir: {app}\Configurations\Elf2K; Components: MAIN
 Source: ..\Configurations Windows\Eti\*.*; DestDir: {app}\Configurations\Eti; Components: MAIN
 Source: ..\Configurations Windows\FRED1\*.*; DestDir: {app}\Configurations\FRED1; Components: MAIN
-Source: ..\Configurations Windows\FRED2\*.*; DestDir: {app}\Configurations\FRED2; Components: MAIN
+Source: ..\Configurations Windows\FRED1_5\*.*; DestDir: {app}\Configurations\FRED1_5; Components: MAIN
 Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
 Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
 Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
@@ -163,7 +163,7 @@ Source: ..\data\Comx\Disks\plotter-2.img; DestDir: {app}\data\Comx\Disks; Compon
 Source: ..\data\Comx\F&M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F&M EPROM Switchboard; Components: MAIN
 Source: ..\data\CoinArcade\*.*; DestDir: {app}\data\CoinArcade; Components: MAIN
 Source: ..\data\FRED1\*.*; DestDir: {app}\data\FRED1; Components: MAIN
-Source: ..\data\FRED2\*.*; DestDir: {app}\data\FRED2; Components: MAIN
+Source: ..\data\FRED1_5\*.*; DestDir: {app}\data\FRED1_5; Components: MAIN
 Source: ..\data\Studio2\studio2.rom; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.bin; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.rom; DestDir: {app}\data\Studio2; Components: MAIN

@@ -13795,7 +13795,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 
 		case COSMICOS:
         case FRED1:
-        case FRED2:
+        case FRED1_5:
 			if ((setType == MAPPEDRAM) || (setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
 				p_Computer->defineMemoryType(id*256, setType);
 			else
@@ -14776,10 +14776,10 @@ void DebugWindow::updateTitle()
             p_Fred->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
-        case FRED2:
+        case FRED1_5:
             if (p_Fred->getSteps()==0)
                 title = title + " ** PAUSED **";
-            p_Fred->SetTitle("FRED 2" + title);
+            p_Fred->SetTitle("FRED 1.5" + title);
             p_Fred->updateTitle(title);
             p_Fred->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;

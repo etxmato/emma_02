@@ -11964,8 +11964,8 @@
                                     </object>
                                 </object>
                                 <object class="choicebookpage">
-                                    <label>FRED 2</label>
-                                    <object class="wxPanel" name="PanelFRED2">
+                                    <label>FRED 1.5</label>
+                                    <object class="wxPanel" name="PanelFRED1_5">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                             <size>-1</size>
@@ -11994,8 +11994,8 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxButton" name="RamSWButtonFRED2">
-                                                                            <tooltip>Browse for FRED 2 RAM file</tooltip>
+                                                                        <object class="wxButton" name="RamSWButtonFRED1_5">
+                                                                            <tooltip>Browse for FRED 1.5 RAM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12007,9 +12007,9 @@
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <option>20</option>
-                                                                        <object class="wxComboBox" name="RamSWFRED2">
+                                                                        <object class="wxComboBox" name="RamSWFRED1_5">
                                                                             <size>172,-1</size>
-                                                                            <tooltip>Specify FRED 2 RAM file</tooltip>
+                                                                            <tooltip>Specify FRED 1.5 RAM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12040,7 +12040,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxButton" name="ScreenDumpFileButtonFRED2">
+                                                                        <object class="wxButton" name="ScreenDumpFileButtonFRED1_5">
                                                                             <tooltip>Browse for video dump file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12059,7 +12059,7 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
                                                                                 <option>20</option>
-                                                                                <object class="wxComboBox" name="ScreenDumpFileFRED2">
+                                                                                <object class="wxComboBox" name="ScreenDumpFileFRED1_5">
                                                                                     <size>146,-1</size>
                                                                                     <tooltip>Specify video dump file</tooltip>
                                                                                     <font>
@@ -12079,7 +12079,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxBitmapButton" name="ScreenDumpF5FRED2">
+                                                                                <object class="wxBitmapButton" name="ScreenDumpF5FRED1_5">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Save video dump to file (F5)</tooltip>
                                                                                     <enabled>0</enabled>
@@ -12091,7 +12091,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="CasButtonFRED2">
+                                                                        <object class="wxButton" name="CasButtonFRED1_5">
                                                                             <tooltip>Browse for cassette file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12110,7 +12110,7 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>4</border>
                                                                                 <option>20</option>
-                                                                                <object class="wxTextCtrl" name="WavFileFRED2">
+                                                                                <object class="wxTextCtrl" name="WavFileFRED1_5">
                                                                                     <size>146,-1</size>
                                                                                     <tooltip>Specify cassette file</tooltip>
                                                                                     <font>
@@ -12122,7 +12122,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxBitmapButton" name="EjectCasFRED2">
+                                                                                <object class="wxBitmapButton" name="EjectCasFRED1_5">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Eject cassette file</tooltip>
                                                                                     <bitmap>images_osx/eject.png</bitmap>
@@ -12135,7 +12135,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxButton" name="KeyMapFRED2">
+                                                                        <object class="wxButton" name="KeyMapFRED1_5">
                                                                             <tooltip>Open key map window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12152,7 +12152,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                                 <border>4</border>
-                                                                                <object class="wxStaticText" name="KeyPadModeTextFRED2">
+                                                                                <object class="wxStaticText" name="KeyPadModeTextFRED1_5">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -12163,7 +12163,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxChoice" name="KeyPadModeFRED2">
+                                                                                <object class="wxChoice" name="KeyPadModeFRED1_5">
                                                                                     <tooltip>Keypad mode</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12188,7 +12188,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="RamTextFRED2">
+                                                                        <object class="wxStaticText" name="RamTextFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12199,8 +12199,8 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxChoice" name="RamFRED2">
-                                                                            <tooltip>FRED 2 RAM size 1, 2, 4, 8, 16, 32 KB</tooltip>
+                                                                        <object class="wxChoice" name="RamFRED1_5">
+                                                                            <tooltip>FRED 1.5 RAM size 1, 2, 4, 8, 16, 32 KB</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12233,7 +12233,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="ZoomTextFRED2">
+                                                                        <object class="wxStaticText" name="ZoomTextFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12244,9 +12244,9 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>1</border>
-                                                                        <object class="wxTextCtrl" name="ZoomValueFRED2" subclass="FloatEdit">
+                                                                        <object class="wxTextCtrl" name="ZoomValueFRED1_5" subclass="FloatEdit">
                                                                             <size>50,-1</size>
-                                                                            <tooltip>Select FRED 2 screen size</tooltip>
+                                                                            <tooltip>Select FRED 1.5 screen size</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12256,9 +12256,9 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>5</border>
-                                                                        <object class="wxSpinButton" name="ZoomSpinFRED2">
+                                                                        <object class="wxSpinButton" name="ZoomSpinFRED1_5">
                                                                             <size>-1,23</size>
-                                                                            <tooltip>Select FRED 2 screen size</tooltip>
+                                                                            <tooltip>Select FRED 1.5 screen size</tooltip>
                                                                             <style>wxSP_VERTICAL|wxSP_WRAP</style>
                                                                             <value>0</value>
                                                                             <min>0</min>
@@ -12268,7 +12268,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxBitmapButton" name="FullScreenF3FRED2">
+                                                                        <object class="wxBitmapButton" name="FullScreenF3FRED1_5">
                                                                             <size>26,27</size>
                                                                             <tooltip>Activate full screen mode (F3)</tooltip>
                                                                             <enabled>0</enabled>
@@ -12278,7 +12278,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxButton" name="ColoursFRED2">
+                                                                        <object class="wxButton" name="ColoursFRED1_5">
                                                                             <tooltip>Open video setup window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12297,7 +12297,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="VolumeTextFRED2">
+                                                                        <object class="wxStaticText" name="VolumeTextFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12308,7 +12308,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_TOP|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxSlider" name="VolumeFRED2">
+                                                                        <object class="wxSlider" name="VolumeFRED1_5">
                                                                             <size>100,-1</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
                                                                             <style>wxSL_HORIZONTAL</style>
@@ -12320,7 +12320,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticBitmap" name="VuFRED2">
+                                                                        <object class="wxStaticBitmap" name="VuFRED1_5">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
                                                                             <bitmap>images/vu.png</bitmap>
@@ -12336,7 +12336,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="BeepFrequencyTextFRED2">
+                                                                        <object class="wxStaticText" name="BeepFrequencyTextFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12348,7 +12348,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxTextCtrl" name="BeepFrequencyFRED2" subclass="IntEdit">
+                                                                        <object class="wxTextCtrl" name="BeepFrequencyFRED1_5" subclass="IntEdit">
                                                                             <size>40,23</size>
                                                                             <tooltip>Specify oscilator frequency speed in Hz</tooltip>
                                                                             <font>
@@ -12361,7 +12361,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="BeepFrequencyTextHzFRED2">
+                                                                        <object class="wxStaticText" name="BeepFrequencyTextHzFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12393,8 +12393,8 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxButton" name="LoadButtonFRED2">
-                                                                                    <tooltip>Load .hex file into FRED 2 emulator memory</tooltip>
+                                                                                <object class="wxButton" name="LoadButtonFRED1_5">
+                                                                                    <tooltip>Load .hex file into FRED 1.5 emulator memory</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -12406,7 +12406,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxStaticText" name="TextStartFRED2">
+                                                                                <object class="wxStaticText" name="TextStartFRED1_5">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -12419,7 +12419,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxTextCtrl" name="SaveStartFRED2" subclass="HexEdit">
+                                                                                <object class="wxTextCtrl" name="SaveStartFRED1_5" subclass="HexEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Specify start address in hexadecimal</tooltip>
                                                                                     <font>
@@ -12433,8 +12433,8 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxButton" name="SaveButtonFRED2">
-                                                                                    <tooltip>Save FRED 2 emulator memory to .hex file</tooltip>
+                                                                                <object class="wxButton" name="SaveButtonFRED1_5">
+                                                                                    <tooltip>Save FRED 1.5 emulator memory to .hex file</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -12446,7 +12446,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxStaticText" name="TextEndFRED2">
+                                                                                <object class="wxStaticText" name="TextEndFRED1_5">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -12459,7 +12459,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxTextCtrl" name="SaveEndFRED2" subclass="HexEdit">
+                                                                                <object class="wxTextCtrl" name="SaveEndFRED1_5" subclass="HexEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Specify end address in hexadecimal</tooltip>
                                                                                     <font>
@@ -12482,7 +12482,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="TurboFRED2">
+                                                                        <object class="wxCheckBox" name="TurboFRED1_5">
                                                                             <tooltip>Enable turbo mode for cassette file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12495,7 +12495,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxTextCtrl" name="TurboClockFRED2" subclass="IntEdit">
+                                                                        <object class="wxTextCtrl" name="TurboClockFRED1_5" subclass="IntEdit">
                                                                             <size>35,-1</size>
                                                                             <tooltip>Specify turbo clock speed in MHz</tooltip>
                                                                             <font>
@@ -12507,7 +12507,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="TurboMhzTextFRED2">
+                                                                        <object class="wxStaticText" name="TurboMhzTextFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12525,7 +12525,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="AutoCasLoadFRED2">
+                                                                        <object class="wxCheckBox" name="AutoCasLoadFRED1_5">
                                                                             <tooltip>Enable auto mode for cassette file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12538,7 +12538,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasSaveFRED2">
+                                                                        <object class="wxBitmapButton" name="CasSaveFRED1_5">
                                                                             <size>26,27</size>
                                                                             <tooltip>Start recording to cassette file</tooltip>
                                                                             <enabled>0</enabled>
@@ -12550,7 +12550,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasLoadFRED2">
+                                                                        <object class="wxBitmapButton" name="CasLoadFRED1_5">
                                                                             <size>26,27</size>
                                                                             <tooltip>Play cassette file</tooltip>
                                                                             <enabled>0</enabled>
@@ -12562,7 +12562,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasPauseFRED2">
+                                                                        <object class="wxBitmapButton" name="CasPauseFRED1_5">
                                                                             <size>26,27</size>
                                                                             <tooltip>Pause cassette file</tooltip>
                                                                             <enabled>0</enabled>
@@ -12574,7 +12574,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasStopFRED2">
+                                                                        <object class="wxBitmapButton" name="CasStopFRED1_5">
                                                                             <size>26,27</size>
                                                                             <tooltip>Stop cassette file</tooltip>
                                                                             <enabled>0</enabled>
@@ -12586,7 +12586,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxBitmapButton" name="RealCasLoadFRED2">
+                                                                        <object class="wxBitmapButton" name="RealCasLoadFRED1_5">
                                                                             <size>26,27</size>
                                                                             <tooltip>Disable / Enable real cassette loading</tooltip>
                                                                             <style>wxBU_AUTODRAW</style>
@@ -12606,7 +12606,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="stopToneFRED2">
+                                                                        <object class="wxCheckBox" name="stopToneFRED1_5">
                                                                             <tooltip>Stop tape when stop tone is detected</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12619,7 +12619,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxCheckBox" name="TapeStartFRED2">
+                                                                        <object class="wxCheckBox" name="TapeStartFRED1_5">
                                                                             <tooltip>Automatically start playing tape on boot</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12639,7 +12639,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="TapeFormatTextFRED2">
+                                                                        <object class="wxStaticText" name="TapeFormatTextFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12650,8 +12650,8 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>1</border>
-                                                                        <object class="wxChoice" name="TapeFormatFRED2">
-                                                                            <tooltip>Set FRED 2 tape format</tooltip>
+                                                                        <object class="wxChoice" name="TapeFormatFRED1_5">
+                                                                            <tooltip>Set FRED 1.5 tape format</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12667,7 +12667,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="CurrentTapeFormatTextFRED2">
+                                                                        <object class="wxStaticText" name="CurrentTapeFormatTextFRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12685,13 +12685,13 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="ControlWindowsFRED2">
-                                                                            <tooltip>Show FRED control window</tooltip>
+                                                                        <object class="wxCheckBox" name="ControlWindowsFRED1_5">
+                                                                            <tooltip>Show FRED 1.5 control window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>FRED 2 Window</label>
+                                                                            <label>FRED 1.5 Window</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -12703,7 +12703,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxStaticText" name="AddressText1FRED2">
+                                                                        <object class="wxStaticText" name="AddressText1FRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12714,7 +12714,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxTextCtrl" name="ShowAddressFRED2" subclass="IntEdit">
+                                                                        <object class="wxTextCtrl" name="ShowAddressFRED1_5" subclass="IntEdit">
                                                                             <size>45,-1</size>
                                                                             <tooltip>Led updates in run mode every X ms</tooltip>
                                                                             <font>
@@ -12727,7 +12727,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxStaticText" name="AddressText2FRED2">
+                                                                        <object class="wxStaticText" name="AddressText2FRED1_5">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -12745,7 +12745,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="AutoBootFRED2">
+                                                                        <object class="wxCheckBox" name="AutoBootFRED1_5">
                                                                             <tooltip>Enable auto boot at address 0</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -12758,7 +12758,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxTextCtrl" name="BootAddressFRED2" subclass="HexEdit">
+                                                                        <object class="wxTextCtrl" name="BootAddressFRED1_5" subclass="HexEdit">
                                                                             <size>50,-1</size>
                                                                             <tooltip>Specify auto boot address in hexadecimal</tooltip>
                                                                             <font>
@@ -12776,7 +12776,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxCheckBox" name="InterlaceFRED2">
+                                                                        <object class="wxCheckBox" name="InterlaceFRED1_5">
                                                                             <tooltip>Enable interlace mode</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
