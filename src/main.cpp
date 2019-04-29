@@ -1799,6 +1799,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
+        if (confComputer == FRED1_5)
+        {
+            if (wxDir::Exists(dataDir + "FRED2") && !wxDir::Exists(dataDir + computerInfo[confComputer].gui))
+                wxRenameFile(dataDir + "FRED2", dataDir + computerInfo[confComputer].gui);
+        }
         configPointer->Read(computerInfo[confComputer].gui + "/SoftwareDirInstalled", &softwareDirInstalled, false);
         if (!softwareDirInstalled)
         {
@@ -3083,6 +3088,11 @@ void Main::buildConfigMenu()
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
+        if (confComputer == FRED1_5)
+        {
+            if (wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "FRED2") && !wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
+                wxRenameFile(iniDir_ + "Configurations" + pathSeparator_ + "FRED2", iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui);
+        }
         if (!wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
         {
             wxDir::Make(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui);

@@ -3526,14 +3526,17 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 			XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
 		else
 			XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
-        if (tapeState == TAPE_RECORD1)
-            XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
-        else
-            XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
-        if (tapeState == TAPE_PLAY1)
-            XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
-        else
-            XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+        if (runningComputer_ == MCDS)
+        {
+            if (tapeState == TAPE_RECORD1)
+                XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOnBitmap);
+            else
+                XRCCTRL(*this, "CasSave1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(recOffBitmap);
+            if (tapeState == TAPE_PLAY1)
+                XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playGreenBitmap);
+            else
+                XRCCTRL(*this, "CasLoad1"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(playBlackBitmap);
+        }
 	}
 	else
 	{

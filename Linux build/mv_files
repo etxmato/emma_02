@@ -1,0 +1,3 @@
+#!/bin/sh 
+mv /usr/share/emma_02/data/FRED2 /usr/share/emma_02/data/FRED1_5
+mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5

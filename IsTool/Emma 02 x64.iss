@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.29.3
+AppVerName=Emma 02 - V1.30
 AppVersion=1.27
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.29.3
+OutputBaseFilename=Emma_02_x64_setup_v1.30
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -369,12 +369,27 @@ procedure CurStepChanged(CurStep: TSetupStep);
   IntVersion: Integer;
   UserDir: String;
   OldUserDir: String;
+  fredDirOld: String;
+  fredDirNew: String;
   MajorVersion: Cardinal;
   MinorVersion: Cardinal;
 
   begin
     if (CurStep = ssInstall) then
     begin
+      fredDirOld :=  ExpandConstant('{app}') + '\data\FRED2';
+      fredDirNew :=  ExpandConstant('{app}') + '\data\FRED1_5';
+      if DirExists(fredDirOld) then
+      begin
+        RenameFile(fredDirOld, fredDirNew);
+      end;
+
+      fredDirOld :=  ExpandConstant('{app}') + '\Configurations\FRED2';
+      fredDirNew :=  ExpandConstant('{app}') + '\Configurations\FRED1_5';
+      if DirExists(fredDirOld) then
+      begin
+        RenameFile(fredDirOld, fredDirNew);
+      end;
 
       if RegQueryStringValue(HKLM32, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\1802 Emulator_is1', 'UninstallString', Uninstall) then
       begin

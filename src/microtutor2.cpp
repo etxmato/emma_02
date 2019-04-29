@@ -297,7 +297,8 @@ void Microtutor2::configureComputer()
     
 	p_Main->message("Configuring Microtutor II");
 	p_Main->message("	Output 4: display output, input 4: data input");
-    p_Main->message("   Output 4 & input 4: switch in E slot");
+    if (microtutorConfiguration.utilityMemory)
+        p_Main->message("	Output 4 & input 4: switch in E slot");
     p_Main->message("	EF 4: 0 when in button pressed");
     p_Main->message("");
 

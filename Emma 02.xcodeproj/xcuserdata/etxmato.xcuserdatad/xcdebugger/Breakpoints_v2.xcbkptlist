@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/microtutor2.cpp"
-            timestampString = "577571496.8885469"
+            timestampString = "578089169.068096"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "242"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/computer.cpp"
-            timestampString = "577229528.408957"
+            timestampString = "578087493.940942"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "804"
-            endingLineNumber = "804"
+            startingLineNumber = "809"
+            endingLineNumber = "809"
             landmarkName = "Panel::showData(Byte value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/microtutor2.cpp"
-            timestampString = "577571496.888921"
+            timestampString = "578089169.068524"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "390"
-            endingLineNumber = "390"
+            startingLineNumber = "391"
+            endingLineNumber = "391"
             landmarkName = "Microtutor2::switchQ(int value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/microtutor2.cpp"
-            timestampString = "577571496.889177"
+            timestampString = "578089169.068807"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "530"
-            endingLineNumber = "530"
+            startingLineNumber = "531"
+            endingLineNumber = "531"
             landmarkName = "Microtutor2::readMem(Word addr)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
-            timestampString = "578003605.367291"
+            timestampString = "578262030.191397"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3530"
-            endingLineNumber = "3530"
+            startingLineNumber = "3532"
+            endingLineNumber = "3532"
             landmarkName = "GuiMain::setTapeState(int tapeState, wxString tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
-            timestampString = "578003605.3673559"
+            timestampString = "578262030.1914589"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3534"
-            endingLineNumber = "3534"
+            startingLineNumber = "3536"
+            endingLineNumber = "3536"
             landmarkName = "GuiMain::setTapeState(int tapeState, wxString tapeNumber)"
             landmarkType = "7">
          </BreakpointContent>

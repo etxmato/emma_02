@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.29
+Version: 1.30
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -82,7 +82,10 @@ Description: Emma 02, the RCA 1802 Emulator
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>
-0
+1
+#!/bin/sh 
+mv /usr/share/emma_02/data/FRED2 /usr/share/emma_02/data/FRED1_5
+mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5
 <</PREINST>>
 <<POSTINST>>
 0
@@ -96,11 +99,11 @@ Description: Emma 02, the RCA 1802 Emulator
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.29) xenial; urgency=medium
+emma-02 (1.30) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Mon, 17 Dec 2018 12:00:00 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Mon, 29 Apr 2019 12:00:00 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
