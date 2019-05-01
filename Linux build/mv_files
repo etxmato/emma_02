@@ -1,3 +1,10 @@
 #!/bin/sh 
-mv /usr/share/emma_02/data/FRED2 /usr/share/emma_02/data/FRED1_5
-mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5
+if test -d /usr/share/emma_02/data/FRED2
+then
+   mv /usr/share/emma_02/data/FRED2 /usr/share/emma_02/data/FRED1_5
+fi
+if test -d /usr/share/emma_02/Configurations/FRED2
+then
+  mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5
+fi
+

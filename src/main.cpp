@@ -3091,7 +3091,15 @@ void Main::buildConfigMenu()
         if (confComputer == FRED1_5)
         {
             if (wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "FRED2") && !wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
+            {
                 wxRenameFile(iniDir_ + "Configurations" + pathSeparator_ + "FRED2", iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui);
+                reInstall(applicationDirectory_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_, pathSeparator_);
+                
+                int selectedComputer = selectedComputer_;
+                selectedComputer_ = FRED1_5;
+                loadComputerConfig("default.ini");
+                selectedComputer_ = selectedComputer;
+            }
         }
         if (!wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
         {
