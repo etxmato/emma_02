@@ -278,6 +278,7 @@ void CoinArcade::startComputer()
         defineMemoryType(i+0x100, MAPPEDRAM);
 	}
 
+    p_Main->checkAndReInstallMainRom(COINARCADE);
     readProgram(p_Main->getRomDir(COINARCADE, MAINROM1), p_Main->getRomFile(COINARCADE, MAINROM1), ROM, 0, NONAME);
     
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);

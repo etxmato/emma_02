@@ -86,7 +86,7 @@ Elf2Screen::~Elf2Screen()
     {
         for (int i=0; i<2; i++)
         {
-            delete dataTil313Pointer[i];
+            delete dataTil313PointerItalic[i];
         }
     }
 }
@@ -141,9 +141,9 @@ void Elf2Screen::init()
         }
         else
         {
-            dataTil313Pointer[i] = new Til313();
-            dataTil313Pointer[i]->init(dc, 370+i*28,180);
-            updateDataTil313_ = true;
+            dataTil313PointerItalic[i] = new Til313Italic(false);
+            dataTil313PointerItalic[i]->init(dc, 370+i*28,180);
+            updateDataTil313Italic_ = true;
         }
 	}
 	this->connectKeyEvent(this);
@@ -165,7 +165,7 @@ void Elf2Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     {
         for (int i=0; i<2; i++)
         {
-            dataTil313Pointer[i]->onPaint(dc);
+            dataTil313PointerItalic[i]->onPaint(dc);
         }
     }
 	qLedPointer->onPaint(dc);
@@ -795,7 +795,7 @@ void Elf2::showData(Byte val)
     if (elfConfiguration.tilType == TIL311)
         elf2ScreenPointer->showData(val);
     else
-        elf2ScreenPointer->showDataTil313(val);
+        elf2ScreenPointer->showDataTil313Italic(val);
 }
 
 void Elf2::cycle(int type)
@@ -1018,6 +1018,9 @@ void Elf2::startComputer()
     initRam(ramStart_, ramEnd);
 
     p_Main->assDefault("mycode", ramStart_&0xff00, ((ramEnd&0xff00)|0xff)&0xfff);
+    
+    if (p_Main->getLoadromMode(ELFII, 0) == ROM)
+        p_Main->checkAndReInstallFile(ELFII, "ROM 1", MAINROM1);
 
     if (ramEnd == 0xff)
     {

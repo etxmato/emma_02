@@ -237,6 +237,7 @@ void Tmc1800::startComputer()
 
 	p_Main->setSwName("");
 
+    p_Main->checkAndReInstallMainRom(TMC1800);
 	readProgram(p_Main->getRomDir(TMC1800, MAINROM1), p_Main->getRomFile(TMC1800, MAINROM1), ROM, 0x8000, NONAME);
 
 	switch(p_Main->getRamType(TMC1800))
@@ -421,11 +422,11 @@ void Tmc1800::checkTMC1800Function()
 		break;
 
 		case 0x8091:	// SAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x80c2:	// LOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 	}
 }

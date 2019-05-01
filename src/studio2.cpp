@@ -446,6 +446,7 @@ void Studio2::startComputer()
         defineMemoryType(i+0x100, MAPPEDRAM);
 	}
 
+    p_Main->checkAndReInstallMainRom(STUDIO);
     readProgram(p_Main->getRomDir(STUDIO, MAINROM1), p_Main->getRomFile(STUDIO, MAINROM1), ROM, 0, NONAME);
     
     if (multiCart_)

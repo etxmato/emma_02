@@ -240,54 +240,54 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_TEXT(XRCID("ShowAddressFRED1"), GuiMain::onLedTimer)
     EVT_TEXT(XRCID("BootAddressFRED1"), GuiElf::onBootAddress)
 
-    EVT_TEXT(XRCID("RamSWFRED2"), GuiMain::onRamSWText)
-    EVT_COMBOBOX(XRCID("RamSWFRED2"), GuiFred::onRamSWText)
-    EVT_BUTTON(XRCID("RamSWButtonFRED2"), GuiMain::onRamSW)
+    EVT_TEXT(XRCID("RamSWFRED1_5"), GuiMain::onRamSWText)
+    EVT_COMBOBOX(XRCID("RamSWFRED1_5"), GuiFred::onRamSWText)
+    EVT_BUTTON(XRCID("RamSWButtonFRED1_5"), GuiMain::onRamSW)
 
-    EVT_BUTTON(XRCID("ScreenDumpFileButtonFRED2"), GuiMain::onScreenDumpFile)
-    EVT_TEXT(XRCID("ScreenDumpFileFRED2"), GuiMain::onScreenDumpFileText)
-    EVT_COMBOBOX(XRCID("ScreenDumpFileFRED2"), GuiMain::onScreenDumpFileText)
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonFRED1_5"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileFRED1_5"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileFRED1_5"), GuiMain::onScreenDumpFileText)
 
-    EVT_BUTTON(XRCID("CasButtonFRED2"), GuiMain::onCassette)
-    EVT_BUTTON(XRCID("EjectCasFRED2"), GuiMain::onCassetteEject)
-    EVT_TEXT(XRCID("WavFileFRED2"), GuiMain::onCassetteText)
+    EVT_BUTTON(XRCID("CasButtonFRED1_5"), GuiMain::onCassette)
+    EVT_BUTTON(XRCID("EjectCasFRED1_5"), GuiMain::onCassetteEject)
+    EVT_TEXT(XRCID("WavFileFRED1_5"), GuiMain::onCassetteText)
 
-    EVT_SPIN_UP(XRCID("ZoomSpinFRED2"), GuiMain::onZoomUp)
-    EVT_SPIN_DOWN(XRCID("ZoomSpinFRED2"), GuiMain::onZoomDown)
-    EVT_TEXT(XRCID("ZoomValueFRED2"), GuiMain::onZoomValue)
-    EVT_BUTTON(XRCID("FullScreenF3FRED2"), GuiMain::onFullScreen)
-    EVT_BUTTON(XRCID("ScreenDumpF5FRED2"), GuiMain::onScreenDump)
-    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeFRED2"), GuiMain::onVolume)
-    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeFRED2"), GuiMain::onVolume)
-    EVT_BUTTON(XRCID("KeyMapFRED2"), Main::onHexKeyDef)
-    EVT_BUTTON(XRCID("ColoursFRED2"), Main::onColoursDef)
-    EVT_TEXT(XRCID("BeepFrequencyFRED2"), GuiMain::onBeepFrequency)
-    EVT_CHOICE(XRCID("RamFRED2"), GuiMain::onChoiceRam)
-    EVT_CHOICE(XRCID("KeyPadModeFRED2"), GuiFred::onChoiceKeyPadMode)
-    EVT_CHOICE(XRCID("TapeFormatFRED2"), GuiFred::onTapeFormat)
+    EVT_SPIN_UP(XRCID("ZoomSpinFRED1_5"), GuiMain::onZoomUp)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinFRED1_5"), GuiMain::onZoomDown)
+    EVT_TEXT(XRCID("ZoomValueFRED1_5"), GuiMain::onZoomValue)
+    EVT_BUTTON(XRCID("FullScreenF3FRED1_5"), GuiMain::onFullScreen)
+    EVT_BUTTON(XRCID("ScreenDumpF5FRED1_5"), GuiMain::onScreenDump)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeFRED1_5"), GuiMain::onVolume)
+    EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeFRED1_5"), GuiMain::onVolume)
+    EVT_BUTTON(XRCID("KeyMapFRED1_5"), Main::onHexKeyDef)
+    EVT_BUTTON(XRCID("ColoursFRED1_5"), Main::onColoursDef)
+    EVT_TEXT(XRCID("BeepFrequencyFRED1_5"), GuiMain::onBeepFrequency)
+    EVT_CHOICE(XRCID("RamFRED1_5"), GuiMain::onChoiceRam)
+    EVT_CHOICE(XRCID("KeyPadModeFRED1_5"), GuiFred::onChoiceKeyPadMode)
+    EVT_CHOICE(XRCID("TapeFormatFRED1_5"), GuiFred::onTapeFormat)
 
-    EVT_BUTTON(XRCID("SaveButtonFRED2"), GuiMain::onSaveButton)
-    EVT_BUTTON(XRCID("LoadButtonFRED2"), GuiMain::onLoadButton)
-    EVT_TEXT(XRCID("SaveStartFRED2"), GuiMain::onSaveStart)
-    EVT_TEXT(XRCID("SaveEndFRED2"), GuiMain::onSaveEnd)
-    EVT_CHECKBOX(XRCID("ControlWindowsFRED2"), GuiFred::onFred2ControlWindows)
-    EVT_CHECKBOX(XRCID("AutoBootFRED2"), GuiFred::onAutoBoot)
-    EVT_CHECKBOX(XRCID("CoinArcadeControlFRED2"), GuiFred::onCoinArcadeControl)
-    EVT_CHECKBOX(XRCID("stopToneFRED2"), GuiFred::onStopTone)
-    EVT_CHECKBOX(XRCID("TapeStartFRED2"), GuiFred::onTapeStart)
-    EVT_CHECKBOX(XRCID("InterlaceFRED2"), GuiMain::onInterlace)
+    EVT_BUTTON(XRCID("SaveButtonFRED1_5"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonFRED1_5"), GuiMain::onLoadButton)
+    EVT_TEXT(XRCID("SaveStartFRED1_5"), GuiMain::onSaveStart)
+    EVT_TEXT(XRCID("SaveEndFRED1_5"), GuiMain::onSaveEnd)
+    EVT_CHECKBOX(XRCID("ControlWindowsFRED1_5"), GuiFred::onFred2ControlWindows)
+    EVT_CHECKBOX(XRCID("AutoBootFRED1_5"), GuiFred::onAutoBoot)
+    EVT_CHECKBOX(XRCID("CoinArcadeControlFRED1_5"), GuiFred::onCoinArcadeControl)
+    EVT_CHECKBOX(XRCID("stopToneFRED1_5"), GuiFred::onStopTone)
+    EVT_CHECKBOX(XRCID("TapeStartFRED1_5"), GuiFred::onTapeStart)
+    EVT_CHECKBOX(XRCID("InterlaceFRED1_5"), GuiMain::onInterlace)
 
-    EVT_CHECKBOX(XRCID("TurboFRED2"), GuiMain::onTurbo)
-    EVT_TEXT(XRCID("TurboClockFRED2"), GuiMain::onTurboClock)
-    EVT_CHECKBOX(XRCID("AutoCasLoadFRED2"), GuiMain::onAutoLoad)
-    EVT_BUTTON(XRCID("CasLoadFRED2"), GuiMain::onCassetteLoad)
-    EVT_BUTTON(XRCID("CasSaveFRED2"), GuiMain::onCassetteSave)
-    EVT_BUTTON(XRCID("CasStopFRED2"), GuiMain::onCassetteStop)
-    EVT_BUTTON(XRCID("CasPauseFRED2"), GuiMain::onCassettePause)
-    EVT_BUTTON(XRCID("RealCasLoadFRED2"), GuiMain::onRealCas)
+    EVT_CHECKBOX(XRCID("TurboFRED1_5"), GuiMain::onTurbo)
+    EVT_TEXT(XRCID("TurboClockFRED1_5"), GuiMain::onTurboClock)
+    EVT_CHECKBOX(XRCID("AutoCasLoadFRED1_5"), GuiMain::onAutoLoad)
+    EVT_BUTTON(XRCID("CasLoadFRED1_5"), GuiMain::onCassetteLoad)
+    EVT_BUTTON(XRCID("CasSaveFRED1_5"), GuiMain::onCassetteSave)
+    EVT_BUTTON(XRCID("CasStopFRED1_5"), GuiMain::onCassetteStop)
+    EVT_BUTTON(XRCID("CasPauseFRED1_5"), GuiMain::onCassettePause)
+    EVT_BUTTON(XRCID("RealCasLoadFRED1_5"), GuiMain::onRealCas)
 
-    EVT_TEXT(XRCID("ShowAddressFRED2"), GuiMain::onLedTimer)
-    EVT_TEXT(XRCID("BootAddressFRED2"), GuiElf::onBootAddress)
+    EVT_TEXT(XRCID("ShowAddressFRED1_5"), GuiMain::onLedTimer)
+    EVT_TEXT(XRCID("BootAddressFRED1_5"), GuiElf::onBootAddress)
 
 END_EVENT_TABLE()
 
@@ -305,11 +305,11 @@ void GuiFred::readFred1Config()
     
     conf[FRED1].ramDir_ = readConfigDir("/Dir/FRED1/Main_Ram_File", dataDir_ + "FRED1"  + pathSeparator_);
     conf[FRED1].screenDumpFileDir_ = readConfigDir("/Dir/FRED1/Video_Dump_File", dataDir_ + "FRED1" + pathSeparator_);
-    conf[FRED1].wavFileDir_ = readConfigDir("/Dir/FRED1/Wav_File", dataDir_ + "FRED1" + pathSeparator_);
+    conf[FRED1].wavFileDir_[0] = readConfigDir("/Dir/FRED1/Wav_File", dataDir_ + "FRED1" + pathSeparator_);
 
     conf[FRED1].ram_ = configPointer->Read("/FRED1/Main_Ram_File", "Space War.bin");
     conf[FRED1].screenDumpFile_ = configPointer->Read("/FRED1/Video_Dump_File", "screendump.png");
-    conf[FRED1].wavFile_ = configPointer->Read("/FRED1/Wav_File", "");
+    conf[FRED1].wavFile_[0] = configPointer->Read("/FRED1/Wav_File", "");
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
@@ -364,7 +364,7 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "AutoCasLoadFRED1", wxCheckBox)->SetValue(conf[FRED1].autoCassetteLoad_);
         
         XRCCTRL(*this, "VolumeFRED1", wxSlider)->SetValue(conf[FRED1].volume_);
-        XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+        XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
         XRCCTRL(*this, "RamFRED1", wxChoice)->SetSelection(conf[FRED1].ramType_);
         XRCCTRL(*this, "KeyPadModeFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].keyboardType);
         XRCCTRL(*this, "TapeFormatFRED1", wxChoice)->SetSelection(elfConfiguration[FRED1].tapeFormat_);
@@ -390,7 +390,7 @@ void GuiFred::writeFred1DirConfig()
     writeConfigDir("/Dir/FRED1/Main", conf[FRED1].mainDir_);
     writeConfigDir("/Dir/FRED1/Main_Ram_File", conf[FRED1].ramDir_);
     writeConfigDir("/Dir/FRED1/Video_Dump_File", conf[FRED1].screenDumpFileDir_);
-    writeConfigDir("/Dir/FRED1/Wav_File", conf[FRED1].wavFileDir_);
+    writeConfigDir("/Dir/FRED1/Wav_File", conf[FRED1].wavFileDir_[0]);
 }
 
 void GuiFred::writeFred1Config()
@@ -399,7 +399,7 @@ void GuiFred::writeFred1Config()
 
     configPointer->Write("/FRED1/Main_Ram_File", conf[FRED1].ram_);
     configPointer->Write("/FRED1/Video_Dump_File", conf[FRED1].screenDumpFile_);
-    configPointer->Write("/FRED1/Wav_File", conf[FRED1].wavFile_);
+    configPointer->Write("/FRED1/Wav_File", conf[FRED1].wavFile_[0]);
 
     configPointer->Write("/FRED1/Zoom", conf[FRED1].zoom_);
     configPointer->Write("/FRED1/Clock_Speed", conf[FRED1].clock_);
@@ -458,163 +458,163 @@ void GuiFred::onFred1ControlWindows(wxCommandEvent&event)
 
 void GuiFred::readFred2Config()
 {
-    selectedComputer_ = FRED2;
+    selectedComputer_ = FRED1_5;
     
-    conf[FRED2].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED2" + pathSeparator_;
-    conf[FRED2].mainDir_ = readConfigDir("/Dir/FRED2/Main", dataDir_ + "FRED2" + pathSeparator_);
+    conf[FRED1_5].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_;
+    conf[FRED1_5].mainDir_ = readConfigDir("/Dir/FRED1_5/Main", dataDir_ + "FRED1_5" + pathSeparator_);
     
-    conf[FRED2].ramDir_ = readConfigDir("/Dir/FRED2/Main_Ram_File", dataDir_ + "FRED2"  + pathSeparator_);
-    conf[FRED2].screenDumpFileDir_ = readConfigDir("/Dir/FRED2/Video_Dump_File", dataDir_ + "FRED2" + pathSeparator_);
-    conf[FRED2].wavFileDir_ = readConfigDir("/Dir/FRED2/Wav_File", dataDir_ + "FRED2" + pathSeparator_);
+    conf[FRED1_5].ramDir_ = readConfigDir("/Dir/FRED1_5/Main_Ram_File", dataDir_ + "FRED1_5"  + pathSeparator_);
+    conf[FRED1_5].screenDumpFileDir_ = readConfigDir("/Dir/FRED1_5/Video_Dump_File", dataDir_ + "FRED1_5" + pathSeparator_);
+    conf[FRED1_5].wavFileDir_[0] = readConfigDir("/Dir/FRED1_5/Wav_File", dataDir_ + "FRED1_5" + pathSeparator_);
     
-    conf[FRED2].ram_ = configPointer->Read("/FRED2/Main_Ram_File", "Curses Foiled Again.bin");
-    conf[FRED2].screenDumpFile_ = configPointer->Read("/FRED2/Video_Dump_File", "screendump.png");
-    conf[FRED2].wavFile_ = configPointer->Read("/FRED2/Wav_File", "");
+    conf[FRED1_5].ram_ = configPointer->Read("/FRED1_5/Main_Ram_File", "Curses Foiled Again.bin");
+    conf[FRED1_5].screenDumpFile_ = configPointer->Read("/FRED1_5/Video_Dump_File", "screendump.png");
+    conf[FRED1_5].wavFile_[0] = configPointer->Read("/FRED1_5/Wav_File", "");
     
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
-    conf[FRED2].zoom_ = configPointer->Read("/FRED2/Zoom", defaultZoom);
+    conf[FRED1_5].zoom_ = configPointer->Read("/FRED1_5/Zoom", defaultZoom);
     wxString defaultClock;
     defaultClock.Printf("%1.2f", 1.0);
-    conf[FRED2].clock_ = configPointer->Read("/FRED2/Clock_Speed", defaultClock);
+    conf[FRED1_5].clock_ = configPointer->Read("/FRED1_5/Clock_Speed", defaultClock);
     
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
-    conf[FRED2].ledTime_ = configPointer->Read("/FRED2/Led_Update_Frequency", defaultTimer);
+    conf[FRED1_5].ledTime_ = configPointer->Read("/FRED1_5/Led_Update_Frequency", defaultTimer);
     
-    conf[FRED2].beepFrequency_ = 640;
-    conf[FRED2].turboClock_ = configPointer->Read("/FRED2/Turbo_Clock_Speed", "15");
-    configPointer->Read("/FRED2/Enable_Turbo_Cassette", &conf[FRED2].turbo_, true);
-    configPointer->Read("/FRED2/Enable_Auto_Cassette", &conf[FRED2].autoCassetteLoad_, true);
-    configPointer->Read("/FRED2/Enable_Real_Cassette", &conf[FRED2].realCassetteLoad_, false);
-    conf[FRED2].volume_ = (int)configPointer->Read("/FRED2/Volume", 25l);
-    conf[FRED2].ramType_ = (int)configPointer->Read("/FRED2/Ram_Type", 2l);
-    elfConfiguration[FRED2].keyboardType = (int)configPointer->Read("/FRED2/KeyPadMode", 0l);
-    elfConfiguration[FRED2].tapeFormat_ = (int)configPointer->Read("/FRED2/TapeFormat", 0l);
-    configPointer->Read("/FRED2/Open_Control_Windows", &elfConfiguration[FRED2].useElfControlWindows, true);
-    configPointer->Read("/FRED2/Enable_Interlace", &conf[FRED2].interlace_, false);
+    conf[FRED1_5].beepFrequency_ = 640;
+    conf[FRED1_5].turboClock_ = configPointer->Read("/FRED1_5/Turbo_Clock_Speed", "15");
+    configPointer->Read("/FRED1_5/Enable_Turbo_Cassette", &conf[FRED1_5].turbo_, true);
+    configPointer->Read("/FRED1_5/Enable_Auto_Cassette", &conf[FRED1_5].autoCassetteLoad_, true);
+    configPointer->Read("/FRED1_5/Enable_Real_Cassette", &conf[FRED1_5].realCassetteLoad_, false);
+    conf[FRED1_5].volume_ = (int)configPointer->Read("/FRED1_5/Volume", 25l);
+    conf[FRED1_5].ramType_ = (int)configPointer->Read("/FRED1_5/Ram_Type", 2l);
+    elfConfiguration[FRED1_5].keyboardType = (int)configPointer->Read("/FRED1_5/KeyPadMode", 0l);
+    elfConfiguration[FRED1_5].tapeFormat_ = (int)configPointer->Read("/FRED1_5/TapeFormat", 0l);
+    configPointer->Read("/FRED1_5/Open_Control_Windows", &elfConfiguration[FRED1_5].useElfControlWindows, true);
+    configPointer->Read("/FRED1_5/Enable_Interlace", &conf[FRED1_5].interlace_, false);
     
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[FRED2].xScale_ = configPointer->Read("/FRED2/Window_Scale_Factor_X", defaultScale);
+    conf[FRED1_5].xScale_ = configPointer->Read("/FRED1_5/Window_Scale_Factor_X", defaultScale);
     
-    configPointer->Read("/FRED1/Enable_CoinArcadeControl", &elfConfiguration[FRED2].coinArcadeControl_, true);
-    configPointer->Read("/FRED2/Enable_Auto_Boot", &elfConfiguration[FRED2].autoBoot, true);
-    configPointer->Read("/FRED2/Enable_Stop_Tone", &elfConfiguration[FRED2].stopTone, true);
-    configPointer->Read("/FRED2/Enable_Tape_Start", &elfConfiguration[FRED2].tapeStart, true);
+    configPointer->Read("/FRED1/Enable_CoinArcadeControl", &elfConfiguration[FRED1_5].coinArcadeControl_, true);
+    configPointer->Read("/FRED1_5/Enable_Auto_Boot", &elfConfiguration[FRED1_5].autoBoot, true);
+    configPointer->Read("/FRED1_5/Enable_Stop_Tone", &elfConfiguration[FRED1_5].stopTone, true);
+    configPointer->Read("/FRED1_5/Enable_Tape_Start", &elfConfiguration[FRED1_5].tapeStart, true);
     
     long value;
-    wxString bootAddress = configPointer->Read("/FRED2/Boot_Address", "0001");
+    wxString bootAddress = configPointer->Read("/FRED1_5/Boot_Address", "0001");
     if (!bootAddress.ToLong(&value, 16))
         value = 0;
-    conf[FRED2].bootAddress_ = value;
+    conf[FRED1_5].bootAddress_ = value;
     
-    conf[FRED2].gameId_ = -1;
+    conf[FRED1_5].gameId_ = -1;
 
     if (mode_.gui)
     {
-        XRCCTRL(*this, "RamSWFRED2", wxComboBox)->SetValue(conf[FRED2].ram_);
-        XRCCTRL(*this, "ScreenDumpFileFRED2", wxComboBox)->SetValue(conf[FRED2].screenDumpFile_);
-        XRCCTRL(*this, "ZoomValueFRED2", wxTextCtrl)->ChangeValue(conf[FRED2].zoom_);
-        clockTextCtrl[FRED2]->ChangeValue(conf[FRED2].clock_);
-        XRCCTRL(*this, "TurboClockFRED2", wxTextCtrl)->SetValue(conf[FRED2].turboClock_);
-        XRCCTRL(*this, "TurboFRED2", wxCheckBox)->SetValue(conf[FRED2].turbo_);
-        turboGui("FRED2");
-        XRCCTRL(*this, "AutoCasLoadFRED2", wxCheckBox)->SetValue(conf[FRED2].autoCassetteLoad_);
+        XRCCTRL(*this, "RamSWFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].ram_);
+        XRCCTRL(*this, "ScreenDumpFileFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].screenDumpFile_);
+        XRCCTRL(*this, "ZoomValueFRED1_5", wxTextCtrl)->ChangeValue(conf[FRED1_5].zoom_);
+        clockTextCtrl[FRED1_5]->ChangeValue(conf[FRED1_5].clock_);
+        XRCCTRL(*this, "TurboClockFRED1_5", wxTextCtrl)->SetValue(conf[FRED1_5].turboClock_);
+        XRCCTRL(*this, "TurboFRED1_5", wxCheckBox)->SetValue(conf[FRED1_5].turbo_);
+        turboGui("FRED1_5");
+        XRCCTRL(*this, "AutoCasLoadFRED1_5", wxCheckBox)->SetValue(conf[FRED1_5].autoCassetteLoad_);
         
-        XRCCTRL(*this, "VolumeFRED2", wxSlider)->SetValue(conf[FRED2].volume_);
-        XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_);
-        XRCCTRL(*this, "RamFRED2", wxChoice)->SetSelection(conf[FRED2].ramType_);
-        XRCCTRL(*this, "KeyPadModeFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].keyboardType);
-        XRCCTRL(*this, "TapeFormatFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].tapeFormat_);
-        XRCCTRL(*this,"AddressText1FRED2", wxStaticText)->Enable(elfConfiguration[FRED2].useElfControlWindows);
-        XRCCTRL(*this,"AddressText2FRED2", wxStaticText)->Enable(elfConfiguration[FRED2].useElfControlWindows);
-        XRCCTRL(*this, "ControlWindowsFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].useElfControlWindows);
-        XRCCTRL(*this, "ControlWindowsFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].useElfControlWindows);
-        XRCCTRL(*this, "ShowAddressFRED2", wxTextCtrl)->ChangeValue(conf[FRED2].ledTime_);
-        XRCCTRL(*this,"ShowAddressFRED2", wxTextCtrl)->Enable(elfConfiguration[FRED2].useElfControlWindows);
-        XRCCTRL(*this, "AutoBootFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].autoBoot);
-//        XRCCTRL(*this, "CoinArcadeControlFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].coinArcadeControl_);
-        XRCCTRL(*this, "stopToneFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].stopTone);
-        XRCCTRL(*this, "TapeStartFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].tapeStart);
-        XRCCTRL(*this, "InterlaceFRED2", wxCheckBox)->SetValue(conf[FRED2].interlace_);
-        XRCCTRL(*this, "BootAddressFRED2", wxTextCtrl)->SetValue(bootAddress);
+        XRCCTRL(*this, "VolumeFRED1_5", wxSlider)->SetValue(conf[FRED1_5].volume_);
+        XRCCTRL(*this, "WavFileFRED1_5", wxTextCtrl)->SetValue(conf[FRED1_5].wavFile_[0]);
+        XRCCTRL(*this, "RamFRED1_5", wxChoice)->SetSelection(conf[FRED1_5].ramType_);
+        XRCCTRL(*this, "KeyPadModeFRED1_5", wxChoice)->SetSelection(elfConfiguration[FRED1_5].keyboardType);
+        XRCCTRL(*this, "TapeFormatFRED1_5", wxChoice)->SetSelection(elfConfiguration[FRED1_5].tapeFormat_);
+        XRCCTRL(*this,"AddressText1FRED1_5", wxStaticText)->Enable(elfConfiguration[FRED1_5].useElfControlWindows);
+        XRCCTRL(*this,"AddressText2FRED1_5", wxStaticText)->Enable(elfConfiguration[FRED1_5].useElfControlWindows);
+        XRCCTRL(*this, "ControlWindowsFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].useElfControlWindows);
+        XRCCTRL(*this, "ControlWindowsFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].useElfControlWindows);
+        XRCCTRL(*this, "ShowAddressFRED1_5", wxTextCtrl)->ChangeValue(conf[FRED1_5].ledTime_);
+        XRCCTRL(*this,"ShowAddressFRED1_5", wxTextCtrl)->Enable(elfConfiguration[FRED1_5].useElfControlWindows);
+        XRCCTRL(*this, "AutoBootFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].autoBoot);
+//        XRCCTRL(*this, "CoinArcadeControlFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].coinArcadeControl_);
+        XRCCTRL(*this, "stopToneFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].stopTone);
+        XRCCTRL(*this, "TapeStartFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].tapeStart);
+        XRCCTRL(*this, "InterlaceFRED1_5", wxCheckBox)->SetValue(conf[FRED1_5].interlace_);
+        XRCCTRL(*this, "BootAddressFRED1_5", wxTextCtrl)->SetValue(bootAddress);
     }
 
-    conf[FRED2].gameId_ = 1;
-//    checkGameFred2(conf[FRED2].ram_);
+    conf[FRED1_5].gameId_ = 1;
+//    checkGameFred2(conf[FRED1_5].ram_);
 }
 
 void GuiFred::writeFred2DirConfig()
 {
-    writeConfigDir("/Dir/FRED2/Main", conf[FRED2].mainDir_);
-    writeConfigDir("/Dir/FRED2/Main_Ram_File", conf[FRED2].ramDir_);
-    writeConfigDir("/Dir/FRED2/Video_Dump_File", conf[FRED2].screenDumpFileDir_);
-    writeConfigDir("/Dir/FRED2/Wav_File", conf[FRED2].wavFileDir_);
+    writeConfigDir("/Dir/FRED1_5/Main", conf[FRED1_5].mainDir_);
+    writeConfigDir("/Dir/FRED1_5/Main_Ram_File", conf[FRED1_5].ramDir_);
+    writeConfigDir("/Dir/FRED1_5/Video_Dump_File", conf[FRED1_5].screenDumpFileDir_);
+    writeConfigDir("/Dir/FRED1_5/Wav_File", conf[FRED1_5].wavFileDir_[0]);
 }
 
 void GuiFred::writeFred2Config()
 {
     wxString buffer;
     
-    configPointer->Write("/FRED2/Main_Ram_File", conf[FRED2].ram_);
-    configPointer->Write("/FRED2/Video_Dump_File", conf[FRED2].screenDumpFile_);
-    configPointer->Write("/FRED2/Wav_File", conf[FRED2].wavFile_);
+    configPointer->Write("/FRED1_5/Main_Ram_File", conf[FRED1_5].ram_);
+    configPointer->Write("/FRED1_5/Video_Dump_File", conf[FRED1_5].screenDumpFile_);
+    configPointer->Write("/FRED1_5/Wav_File", conf[FRED1_5].wavFile_[0]);
     
-    configPointer->Write("/FRED2/Zoom", conf[FRED2].zoom_);
-    configPointer->Write("/FRED2/Clock_Speed", conf[FRED2].clock_);
-    configPointer->Write("/FRED2/Turbo_Clock_Speed", conf[FRED2].turboClock_);
-    configPointer->Write("/FRED2/Enable_Turbo_Cassette", conf[FRED2].turbo_);
-    configPointer->Write("/FRED2/Enable_Auto_Cassette", conf[FRED2].autoCassetteLoad_);
-    configPointer->Write("/FRED2/Enable_Real_Cassette", conf[FRED2].realCassetteLoad_);
-    configPointer->Write("/FRED2/Volume", conf[FRED2].volume_);
-    configPointer->Write("/FRED2/Ram_Type", conf[FRED2].ramType_);
-    configPointer->Write("/FRED2/KeyPadMode", elfConfiguration[FRED2].keyboardType);
-    configPointer->Write("/FRED2/TapeFormat", elfConfiguration[FRED2].tapeFormat_);
-    configPointer->Write("/FRED2/Open_Control_Windows", elfConfiguration[FRED2].useElfControlWindows);
-    configPointer->Write("/FRED2/Led_Update_Frequency", conf[FRED2].ledTime_);
-    configPointer->Write("/FRED2/Enable_CoinArcadeControl", elfConfiguration[FRED2].coinArcadeControl_);
-    configPointer->Write("/FRED2/Enable_Auto_Boot", elfConfiguration[FRED2].autoBoot);
-    configPointer->Write("/FRED2/Enable_Stop_Tone", elfConfiguration[FRED2].stopTone);
-    configPointer->Write("/FRED2/Enable_Tape_Start", elfConfiguration[FRED2].tapeStart);
-    configPointer->Write("/FRED2/Enable_Interlace", conf[FRED2].interlace_);
-    buffer.Printf("%04X", (unsigned int)conf[FRED2].bootAddress_);
-    configPointer->Write("/FRED2/Boot_Address", buffer);
+    configPointer->Write("/FRED1_5/Zoom", conf[FRED1_5].zoom_);
+    configPointer->Write("/FRED1_5/Clock_Speed", conf[FRED1_5].clock_);
+    configPointer->Write("/FRED1_5/Turbo_Clock_Speed", conf[FRED1_5].turboClock_);
+    configPointer->Write("/FRED1_5/Enable_Turbo_Cassette", conf[FRED1_5].turbo_);
+    configPointer->Write("/FRED1_5/Enable_Auto_Cassette", conf[FRED1_5].autoCassetteLoad_);
+    configPointer->Write("/FRED1_5/Enable_Real_Cassette", conf[FRED1_5].realCassetteLoad_);
+    configPointer->Write("/FRED1_5/Volume", conf[FRED1_5].volume_);
+    configPointer->Write("/FRED1_5/Ram_Type", conf[FRED1_5].ramType_);
+    configPointer->Write("/FRED1_5/KeyPadMode", elfConfiguration[FRED1_5].keyboardType);
+    configPointer->Write("/FRED1_5/TapeFormat", elfConfiguration[FRED1_5].tapeFormat_);
+    configPointer->Write("/FRED1_5/Open_Control_Windows", elfConfiguration[FRED1_5].useElfControlWindows);
+    configPointer->Write("/FRED1_5/Led_Update_Frequency", conf[FRED1_5].ledTime_);
+    configPointer->Write("/FRED1_5/Enable_CoinArcadeControl", elfConfiguration[FRED1_5].coinArcadeControl_);
+    configPointer->Write("/FRED1_5/Enable_Auto_Boot", elfConfiguration[FRED1_5].autoBoot);
+    configPointer->Write("/FRED1_5/Enable_Stop_Tone", elfConfiguration[FRED1_5].stopTone);
+    configPointer->Write("/FRED1_5/Enable_Tape_Start", elfConfiguration[FRED1_5].tapeStart);
+    configPointer->Write("/FRED1_5/Enable_Interlace", conf[FRED1_5].interlace_);
+    buffer.Printf("%04X", (unsigned int)conf[FRED1_5].bootAddress_);
+    configPointer->Write("/FRED1_5/Boot_Address", buffer);
 }
 
 void GuiFred::readFred2WindowConfig()
 {
-    conf[FRED2].pixieX_ = (int)configPointer->Read("/FRED2/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
-    conf[FRED2].pixieY_ = (int)configPointer->Read("/FRED2/Window_Position_Pixie_Y", mainWindowY_);
-    conf[FRED2].mainX_ = (int)configPointer->Read("/FRED2/Window_Position_X",  mainWindowX_);
-    conf[FRED2].mainY_ = (int)configPointer->Read("/FRED2/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
+    conf[FRED1_5].pixieX_ = (int)configPointer->Read("/FRED1_5/Window_Position_Pixie_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[FRED1_5].pixieY_ = (int)configPointer->Read("/FRED1_5/Window_Position_Pixie_Y", mainWindowY_);
+    conf[FRED1_5].mainX_ = (int)configPointer->Read("/FRED1_5/Window_Position_X",  mainWindowX_);
+    conf[FRED1_5].mainY_ = (int)configPointer->Read("/FRED1_5/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
 }
 
 void GuiFred::writeFred2WindowConfig()
 {
-    if (conf[FRED2].pixieX_ > 0)
-        configPointer->Write("/FRED2/Window_Position_Pixie_X", conf[FRED2].pixieX_);
-    if (conf[FRED2].pixieY_ > 0)
-        configPointer->Write("/FRED2/Window_Position_Pixie_Y", conf[FRED2].pixieY_);
-    if (conf[FRED2].mainX_ > 0)
-        configPointer->Write("/FRED2/Window_Position_X", conf[FRED2].mainX_);
-    if (conf[FRED2].mainY_ > 0)
-        configPointer->Write("/FRED2/Window_Position_Y", conf[FRED2].mainY_);
+    if (conf[FRED1_5].pixieX_ > 0)
+        configPointer->Write("/FRED1_5/Window_Position_Pixie_X", conf[FRED1_5].pixieX_);
+    if (conf[FRED1_5].pixieY_ > 0)
+        configPointer->Write("/FRED1_5/Window_Position_Pixie_Y", conf[FRED1_5].pixieY_);
+    if (conf[FRED1_5].mainX_ > 0)
+        configPointer->Write("/FRED1_5/Window_Position_X", conf[FRED1_5].mainX_);
+    if (conf[FRED1_5].mainY_ > 0)
+        configPointer->Write("/FRED1_5/Window_Position_Y", conf[FRED1_5].mainY_);
 }
 
 void GuiFred::onFred2ControlWindows(wxCommandEvent&event)
 {
-    elfConfiguration[FRED2].useElfControlWindows = event.IsChecked();
+    elfConfiguration[FRED1_5].useElfControlWindows = event.IsChecked();
     
     if (mode_.gui)
     {
-        XRCCTRL(*this,"ShowAddressFRED2",wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
-        XRCCTRL(*this,"AddressText1FRED2",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
-        XRCCTRL(*this,"AddressText2FRED2",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
+        XRCCTRL(*this,"ShowAddressFRED1_5",wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
+        XRCCTRL(*this,"AddressText1FRED1_5",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
+        XRCCTRL(*this,"AddressText2FRED1_5",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows);
     }
     
-    if (runningComputer_ == FRED2)
-        p_Fred->Show(elfConfiguration[FRED2].useElfControlWindows);
+    if (runningComputer_ == FRED1_5)
+        p_Fred->Show(elfConfiguration[FRED1_5].useElfControlWindows);
 }
 
 bool GuiFred::getUseFredControlWindows()
@@ -649,8 +649,8 @@ void GuiFred::onChoiceKeyPadMode(wxCommandEvent&event)
     if (runningComputer_ == FRED1)
         p_Fred->setKeyPadMode(elfConfiguration[FRED1].keyboardType);
     
-    if (runningComputer_ == FRED2)
-        p_Fred->setKeyPadMode(elfConfiguration[FRED2].keyboardType);
+    if (runningComputer_ == FRED1_5)
+        p_Fred->setKeyPadMode(elfConfiguration[FRED1_5].keyboardType);
 }
 
 void GuiFred::onTapeFormat(wxCommandEvent&event)
@@ -660,8 +660,8 @@ void GuiFred::onTapeFormat(wxCommandEvent&event)
     if (runningComputer_ == FRED1)
         p_Fred->setTapeFormat(elfConfiguration[FRED1].tapeFormat_);
     
-    if (runningComputer_ == FRED2)
-        p_Fred->setTapeFormat(elfConfiguration[FRED2].tapeFormat_);
+    if (runningComputer_ == FRED1_5)
+        p_Fred->setTapeFormat(elfConfiguration[FRED1_5].tapeFormat_);
 }
 
 void GuiFred::onCardButton(wxCommandEvent&event)
@@ -683,16 +683,16 @@ void GuiFred::checkGameFred2(wxString gameName)
 {
     if (gameName == "Fred Demo.bin")
 	{
-        elfConfiguration[FRED2].autoBoot = false;
-        XRCCTRL(*this,"AutoBootFRED2", wxCheckBox)->SetValue(elfConfiguration[FRED2].autoBoot);
-        elfConfiguration[FRED2].keyboardType = FRED_HEX_MODE;
-        XRCCTRL(*this,"KeyPadModeFRED2", wxChoice)->SetSelection(elfConfiguration[FRED2].keyboardType);
-        conf[FRED2].turbo_ = false;
-        XRCCTRL(*this, "TurboFRED2", wxCheckBox)->SetValue(conf[FRED2].turbo_);
-        turboGui("FRED2");
-        conf[FRED2].wavFile_ = "Fred Demo.wav";
-        XRCCTRL(*this, "WavFileFRED2", wxTextCtrl)->SetValue(conf[FRED2].wavFile_);
-        downloadWavFiles(FRED2);
+        elfConfiguration[FRED1_5].autoBoot = false;
+        XRCCTRL(*this,"AutoBootFRED1_5", wxCheckBox)->SetValue(elfConfiguration[FRED1_5].autoBoot);
+        elfConfiguration[FRED1_5].keyboardType = FRED_HEX_MODE;
+        XRCCTRL(*this,"KeyPadModeFRED1_5", wxChoice)->SetSelection(elfConfiguration[FRED1_5].keyboardType);
+        conf[FRED1_5].turbo_ = false;
+        XRCCTRL(*this, "TurboFRED1_5", wxCheckBox)->SetValue(conf[FRED1_5].turbo_);
+        turboGui("FRED1_5");
+        conf[FRED1_5].wavFile_[0] = "Fred Demo.wav";
+        XRCCTRL(*this, "WavFileFRED1_5", wxTextCtrl)->SetValue(conf[FRED1_5].wavFile_[0]);
+        downloadWavFiles(FRED1_5);
 	}
 }
 
@@ -790,8 +790,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Add Drill.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Add Drill.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -803,8 +803,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Demo.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Demo.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -816,8 +816,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Bowling.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Bowling.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -829,8 +829,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Deduce-leds.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Deduce-leds.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
         
@@ -842,8 +842,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Clue.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Clue.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
         
@@ -855,8 +855,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Prog. Apt. Test.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Prog. Apt. Test.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
 
@@ -868,8 +868,8 @@ void GuiFred::setGame()
             conf[FRED1].turbo_ = false;
             XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
             turboGui("FRED1");
-            conf[FRED1].wavFile_ = "Animate Demo Data.wav";
-            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_);
+            conf[FRED1].wavFile_[0] = "Animate Demo Data.wav";
+            XRCCTRL(*this, "WavFileFRED1", wxTextCtrl)->SetValue(conf[FRED1].wavFile_[0]);
             downloadWavFiles(FRED1);
         break;
             
@@ -880,16 +880,16 @@ void GuiFred::setGame()
 
 void GuiFred::downloadWavFiles(int computer)
 {
-    if (wxFile::Exists(conf[computer].wavFileDir_ + conf[computer].wavFile_))
+    if (wxFile::Exists(conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0]))
         return;
     
-    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_, "Download file?", wxICON_EXCLAMATION | wxYES_NO);
+    int answer = wxMessageBox("Additional wav file required: " + conf[computer].wavFile_[0], "Download file?", wxICON_EXCLAMATION | wxYES_NO);
     if (answer == wxYES)
     {
-        wxString fileName = conf[computer].wavFileDir_ + conf[computer].wavFile_;
+        wxString fileName = conf[computer].wavFileDir_[0] + conf[computer].wavFile_[0];
         wxFileOutputStream html_stream(fileName);
 
-        wxCurlHTTP http("https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_);
+        wxCurlHTTP http("https://www.emma02.hobby-site.com/wave/" + conf[computer].wavFile_[0]);
     
         if (!http.Get(html_stream))
             wxMessageBox( "Download failed", "Emma 02", wxICON_ERROR | wxOK );

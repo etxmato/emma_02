@@ -322,6 +322,17 @@ Cosmicos::Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size
 
 Cosmicos::~Cosmicos()
 {
+    switch (loadedProgram_)
+    {
+        case HEXMON:
+        case NOPROGRAM:
+            p_Main->saveScrtValues("");
+        break;
+            
+        case ASCIIMON:
+            p_Main->saveScrtValues("ASCIIMON");
+        break;
+    }
 	saveRam();
 	if (cosmicosConfiguration.usePixie)
 	{
@@ -902,6 +913,7 @@ void Cosmicos::startComputer()
             p_Main->assDefault("mycode", 0, 0xFFF);
 	}
 	
+    p_Main->checkAndReInstallMainRom(COSMICOS);
 	readProgram(p_Main->getRomDir(COSMICOS, MAINROM1), p_Main->getRomFile(COSMICOS, MAINROM1), ROM, 0xc000, NONAME);
 	loadRam();
 
@@ -1251,13 +1263,13 @@ void Cosmicos::checkCosmicosFunction()
 				break;
 
 				case 0xc2f0:	// SAVE
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case 0xc37d:	// LOAD
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 			}
 		break;
@@ -1271,13 +1283,13 @@ void Cosmicos::checkCosmicosFunction()
 				break;
 
 				case 0xc571:	// SAVE ASCII MON
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				break;
 
 				case 0xc643:	// LOAD ASCII MON
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				break;
 			}
 		break;

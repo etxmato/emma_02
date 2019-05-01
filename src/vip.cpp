@@ -43,6 +43,17 @@ Vip::Vip(const wxString& title, const wxPoint& pos, const wxSize& size, double z
 
 Vip::~Vip()
 {
+    switch (loadedProgram_)
+    {
+        case NOPROGRAM:
+        case FPBBOOT:
+            p_Main->saveScrtValues("");
+        break;
+            
+        case FPBBASIC:
+            p_Main->saveScrtValues("FPBBASIC");
+        break;
+    }
 	p_Printer->closeFrames();
 	delete p_Printer;
 	if (vipConfiguration.vtType != VTNONE)
@@ -427,12 +438,12 @@ void Vip::out(Byte port, Word WXUNUSED(address), Byte value)
 		case VIPIIOUT7:
 			if (value == 1)
 			{
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 				return;
 			}
 			if (value == 2)
 			{
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 				return;
 			}
 			p_Main->stopCassette();
@@ -582,6 +593,7 @@ void Vip::startComputer()
 
 	ramMask_ = (p_Main->getRamType(VIP) * 0x400) - 1;
 
+    p_Main->checkAndReInstallMainRom(VIP);
 	if (wxFile::Exists(p_Main->getRomDir(VIP, MAINROM1)+"cosmac.ram"))
 		readFile(p_Main->getRomDir(VIP, MAINROM1)+"cosmac.ram", RAM, ramMask_-0xff, 0x10000, NONAME);
 	if (p_Main->getLatch())
@@ -943,20 +955,20 @@ void Vip::checkVipFunction()
 
 		case 0x87:	// FPB bootloader SAVE
 			if (loadedProgram_ == FPBBOOT || loadedProgram_ == FPBBASIC)
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 		break;
 
 		case 0x8091:	// SAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x2d:	// FPB bootloader LOAD
 			if (loadedProgram_ == FPBBOOT || loadedProgram_ == FPBBASIC)
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x80c2:	// LOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x1038:	// READY

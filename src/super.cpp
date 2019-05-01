@@ -96,9 +96,9 @@ SuperScreen::~SuperScreen()
     else
     {
         for (int i=0; i<4; i++)
-            delete addressTil313Pointer[i];
+            delete addressTil313PointerItalic[i];
         for (int i=0; i<2; i++)
-            delete dataTil313Pointer[i];
+            delete dataTil313PointerItalic[i];
     }
 	delete qLedPointer;
 }
@@ -181,9 +181,9 @@ void SuperScreen::init()
         }
         else
         {
-            addressTil313Pointer[i] = new Til313();
-            addressTil313Pointer[i]->init(dc, 304+i*28, 140);
-            updateAddressTil313_ = true;
+            addressTil313PointerItalic[i] = new Til313Italic(false);
+            addressTil313PointerItalic[i]->init(dc, 304+i*28, 140);
+            updateAddressTil313Italic_ = true;
         }
 	}
 	for (int i=0; i<2; i++)
@@ -196,9 +196,9 @@ void SuperScreen::init()
         }
         else
         {
-            dataTil313Pointer[i] = new Til313();
-            dataTil313Pointer[i]->init(dc, 434+i*28,140);
-            updateDataTil313_ = true;
+            dataTil313PointerItalic[i] = new Til313Italic(false);
+            dataTil313PointerItalic[i]->init(dc, 434+i*28,140);
+            updateDataTil313Italic_ = true;
         }
 	}
 
@@ -223,12 +223,12 @@ void SuperScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     }
     else
     {
-        addressTil313Pointer[3]->onPaint(dc);
-        addressTil313Pointer[2]->onPaint(dc);
-        addressTil313Pointer[1]->onPaint(dc);
-        addressTil313Pointer[0]->onPaint(dc);
-        dataTil313Pointer[1]->onPaint(dc);
-        dataTil313Pointer[0]->onPaint(dc);
+        addressTil313PointerItalic[3]->onPaint(dc);
+        addressTil313PointerItalic[2]->onPaint(dc);
+        addressTil313PointerItalic[1]->onPaint(dc);
+        addressTil313PointerItalic[0]->onPaint(dc);
+        dataTil313PointerItalic[1]->onPaint(dc);
+        dataTil313PointerItalic[0]->onPaint(dc);
     }
 	qLedPointer->onPaint(dc);
 	for (int i=0; i<8; i++)
@@ -887,7 +887,7 @@ void Super::showData(Byte val)
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showData(val);
     else
-        superScreenPointer->showDataTil313(val);
+        superScreenPointer->showDataTil313Italic(val);
 }
 
 void Super::cycle(int type)
@@ -1061,7 +1061,7 @@ void Super::onRun()
             if (elfConfiguration.tilType == TIL311)
                 superScreenPointer->showAddress(0);
             else
-                superScreenPointer->showAddressTil313(0);
+                superScreenPointer->showAddressTil313Italic(0);
         }
 		singleStep_ = 0;
 		mpButtonState_ = 0;
@@ -1122,7 +1122,7 @@ void Super::onLoadButton()
         if (elfConfiguration.tilType == TIL311)
             superScreenPointer->showAddress(0);
         else
-            superScreenPointer->showAddressTil313(0);
+            superScreenPointer->showAddressTil313Italic(0);
     }
     lastMode_ = cpuMode_;
     setClear(0);
@@ -1154,7 +1154,7 @@ void Super::onResetButton()
         if (elfConfiguration.tilType == TIL311)
             superScreenPointer->showAddress(0);
         else
-            superScreenPointer->showAddressTil313(0);
+            superScreenPointer->showAddressTil313Italic(0);
     }
     singleStep_ = 0;
     mpButtonState_ = 0;
@@ -1237,6 +1237,9 @@ void Super::startComputer()
     initRam(ramStart_, ramEnd);
 
     p_Main->assDefault("mycode", ramStart_&0xff00, ((ramEnd&0xff00)|0xff)&0xfff);
+    
+    if (p_Main->getLoadromMode(SUPERELF, 0) == ROM)
+        p_Main->checkAndReInstallMainRom(SUPERELF);
 
 	for (int i=ramMask_ + 1 + ramStart_; i<0x10000; i+=(ramMask_+1))
 		defineMemoryType(i, i+(ramEnd - ramStart_), MAPPEDRAM);
@@ -1304,7 +1307,7 @@ void Super::startComputer()
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
     else
-        superScreenPointer->showAddressTil313(address_);
+        superScreenPointer->showAddressTil313Italic(address_);
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
@@ -1464,7 +1467,7 @@ Byte Super::readMem(Word addr)
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
     else
-        superScreenPointer->showAddressTil313(address_);
+        superScreenPointer->showAddressTil313Italic(address_);
 
 	switch (memoryType_[addr/256])
 	{
@@ -1569,7 +1572,7 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
     else
-        superScreenPointer->showAddressTil313(address_);
+        superScreenPointer->showAddressTil313Italic(address_);
 
 	if (emsMemoryDefined_)
 	{

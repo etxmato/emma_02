@@ -50,6 +50,7 @@ private:
 	void onTelmacAdiChannelText(wxCommandEvent& event);
 	void onTelmacAdiVoltText(wxCommandEvent& event);
 
+	void onTerminalFile(wxCommandEvent& event);
 	void onCassette(wxCommandEvent& event);
 	void onCassetteText(wxCommandEvent& event);
 	void onCassetteEject(wxCommandEvent& event);

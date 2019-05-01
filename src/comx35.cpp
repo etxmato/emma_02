@@ -57,7 +57,7 @@ Comx::Comx(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
 Comx::~Comx()
 {
-	saveRam();
+    saveRam();
 
 	int numberOfSlots = 4;
 
@@ -208,7 +208,11 @@ Byte Comx::ef4()
 {
 	switch(comxExpansionType_[expansionSlot_])
 	{
-		case COMXFLOP:
+        case NETWORK:
+            return efNetwork();
+        break;
+            
+        case COMXFLOP:
 			if ((registerSelect_&0x10) == 0x10)
 				return ef1770();
 		break;
@@ -245,7 +249,8 @@ Byte Comx::ef4()
 			else
 				return cassetteEf_;
 		break;
-	}
+
+    }
 	return cassetteEf_;
 }
 
@@ -581,6 +586,10 @@ void Comx::cycle(int type)
 			cycleFdc();
 		break;
 
+        case NETWORKCYCLE:
+            cycleNetwork();
+        break;
+            
 //		case THERMALCYCLE:
 //			p_PrinterThermal->cycleThermal();
 //		break;
@@ -799,16 +808,22 @@ void Comx::startComputer()
 	fAndMBasicRunning_ = false;
 
 	allocComxExpansionMemory();
+    
+    p_Main->checkAndReInstallMainRom(COMX);
 	readProgram(p_Main->getRomDir(COMX, MAINROM1), p_Main->getRomFile(COMX, MAINROM1), ROM, 0, NONAME);
 
 	if (p_Main->isDiagActive(COMX))
 	{
 		diagRomActive_ = true;
+        p_Main->checkAndReInstallFile(COMX, "EXP ROM", EXPROM);
 		readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), DIAGROM, 0, NONAME);
 	}
     else
+    {
+        p_Main->checkAndReInstallFile(COMX, "EXP ROM", EXPROM);
         readProgram(p_Main->getRomDir(COMX, EXPROM), p_Main->getRomFile(COMX, EXPROM), COMXEXPROM, 0xE000, NONAME);
-
+    }
+    
 	if (p_Main->isDiagOn(COMX) == 1)
 		diagRomActive_ = true;
 	else
@@ -850,7 +865,7 @@ void Comx::startComputer()
 	defineMemoryType(0xf800, 0xffff, PRAM1870);
 
     p_Main->assDefault("mycode", 0x4400, 0x53FF);
-    
+
 	reDrawBar();
 	updateExpansionLed(true);
 	p_Main->enableDebugGuiMemory();
@@ -978,11 +993,22 @@ void Comx::writeMemDataType(Word address, Byte type)
 		case COPYFLOPROM: 
 			if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
 			{
-				if (expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)] != type)
-				{
-					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-					expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)] = type;
-				}
+                if (expansionSlot_ == fdcSlot_)
+                {
+                    if (expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)] != type)
+                    {
+                        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                        expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)] = type;
+                    }
+                }
+                if (expansionSlot_ == networkSlot_)
+                {
+                    if (mainMemoryDataType_[address + 0xE000] != type)
+                    {
+                        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                        mainMemoryDataType_[address + 0xE000] = type;
+                    }
+                }
 			}
 			else
 			{
@@ -1060,12 +1086,17 @@ Byte Comx::readMemDataType(Word address)
 		break;
 
 		case COPYFLOPROM:
-			if (expansionSlot_ == fdcSlot_)
-			{
-				if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
-					return expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)];
-			}
-			return mainMemoryDataType_[address];
+            if (expansionSlot_ == fdcSlot_)
+            {
+                if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
+                    return expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)];
+            }
+            if (expansionSlot_ == networkSlot_)
+            {
+                if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
+                    return mainMemoryDataType_[address + 0xE000];
+            }
+            return mainMemoryDataType_[address];
 		break;
 	}			
 	return MEM_TYPE_UNDEFINED;
@@ -1237,8 +1268,8 @@ Byte Comx::readMem(Word address)
 			{
 				if (expansionSlot_ == fdcSlot_)
 					return expansionRom_[(fdcSlot_*0x2000) + (address & 0xfff)];
-				else
-					return 0xff;
+                if (expansionSlot_ == networkSlot_)
+                    return mainMemory_[address + 0xE000];
 			}
 			return mainMemory_[address];
 		break;
@@ -1262,7 +1293,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 		case UNDEFINED:
 		case COMXEXPROM:
 		case COPYCOMXEXPROM:
-		case COPYFLOPROM:
+        case COPYFLOPROM:
 		case ROM:
 			if (writeRom)
 				mainMemory_[address]=value;
@@ -1805,32 +1836,32 @@ void Comx::checkComxFunction()
 
 		case 0x1672:	// PSAVE
 		case 0x1675:	// DSAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x4dc3:	// BSAVE
 			if (fAndMBasicRunning_)
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 		break;
 
 		case 0xbf00:	// TURBO PSAVE V1.00
 			if ((mainMemory_[0xbfd0] == 0x54) &&(mainMemory_[0xbfd1] == 0x41) &&(mainMemory_[0xbf02] == 0xc3) &&(mainMemory_[0xbfac] == 0x91))
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 		break;
 
 		case 0xbee7:	// TURBO PSAVE V2.00
 			if ((mainMemory_[0xbfe3] == 0x54) &&(mainMemory_[0xbfe4] == 0x41) &&(mainMemory_[0xbe93] == 0x4c) &&(mainMemory_[0xbe94] == 0x4f))
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 		break;
 
 		case 0xbae7:	// TOS PSAVE V3.00
 			if ((mainMemory_[0xbd52] == 0x54) &&(mainMemory_[0xbd53] == 0x4f) &&(mainMemory_[0xb934] == 0x3a) &&(mainMemory_[0xb935] == 0xb6))
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 		break;
 
 		case 0xbce1:	// TOS DSAVE V3.00
 			if ((mainMemory_[0xbd52] == 0x54) &&(mainMemory_[0xbd53] == 0x4f) &&(mainMemory_[0xb934] == 0x3a) &&(mainMemory_[0xb935] == 0xb6))
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 		break;
 
 		case 0xcbe2:	// TURBO PSAVE @c800
@@ -1838,20 +1869,20 @@ void Comx::checkComxFunction()
 		case 0xccb1:	// TURBO DSAVE @c820
 		case 0xceb1:	// TURBO DSAVE+ @c820
 			if (expansionSlot_ == printerSlot_)
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 			if (expansionSlot_ == epromSlot_)
 			{
 				if (expansionEprom_[(epromBank_*0x2000) + 0x804] == 0x50 && expansionEprom_[(epromBank_*0x2000) + 0x805] == 0x53 && expansionEprom_[(epromBank_*0x2000) + 0x806] == 0x41 && expansionEprom_[(epromBank_*0x2000) + 0x807] == 0x56)
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 				if (expansionSuper_[(epromBank_*0x2000) + 0x804] == 0x50 && expansionSuper_[(epromBank_*0x2000) + 0x805] == 0x53 && expansionSuper_[(epromBank_*0x2000) + 0x806] == 0x41 && expansionSuper_[(epromBank_*0x2000) + 0x807] == 0x56)
-					p_Main->startCassetteSave();
+					p_Main->startCassetteSave(0);
 			}
 		break;
 
 		case 0xdea0:	// USB TSAVE
 		case 0xdea3:	// USB DTSAVE 
 			if (expansionSlot_ == superSlot_ && epromBank_ == 3)
-				p_Main->startCassetteSave();
+				p_Main->startCassetteSave(0);
 		break;
 
 		case 0xdea6: 	// USB TLOAD
@@ -1860,23 +1891,23 @@ void Comx::checkComxFunction()
 			{
 				p_Main->setSwName ("");
                 p_Main->eventUpdateTitle();
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 			}
 		break;
 
 		case 0x0e00:	// PLOAD
 			p_Main->setSwName ("");
             p_Main->eventUpdateTitle();
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x0e03:	// DLOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x4daa:	// BLOAD
 			if (fAndMBasicRunning_)
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 		break;
 
 		case 0xbf70:	// TURBO PLOAD V1.00
@@ -1884,7 +1915,7 @@ void Comx::checkComxFunction()
 			{
 				p_Main->setSwName ("");
                 p_Main->eventUpdateTitle();
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 			}
 		break;
 
@@ -1893,7 +1924,7 @@ void Comx::checkComxFunction()
 			{
 				p_Main->setSwName ("");
                 p_Main->eventUpdateTitle();
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 			}
 		break;
 
@@ -1902,13 +1933,13 @@ void Comx::checkComxFunction()
 			{
 				p_Main->setSwName ("");
                 p_Main->eventUpdateTitle();
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 			}
 		break;
 
 		case 0xbcf4:	// TOS DLOAD V3.00
 			if ((mainMemory_[0xbd52] == 0x54) &&(mainMemory_[0xbd53] == 0x4f) &&(mainMemory_[0xb934] == 0x3a) &&(mainMemory_[0xb935] == 0xb6))
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 		break;
 
 		case 0xcc41:	// TURBO PLOAD @c810
@@ -1917,7 +1948,7 @@ void Comx::checkComxFunction()
 			{
 				p_Main->setSwName ("");
                 p_Main->eventUpdateTitle();
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 			}
 			if (expansionSlot_ == epromSlot_)
 			{
@@ -1925,13 +1956,13 @@ void Comx::checkComxFunction()
 				{
 					p_Main->setSwName("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				}
 				if (expansionSuper_[(epromBank_*0x2000) + 0x804] == 0x50 && expansionSuper_[(epromBank_*0x2000) + 0x805] == 0x53 && expansionSuper_[(epromBank_*0x2000) + 0x806] == 0x41 && expansionSuper_[(epromBank_*0x2000) + 0x807] == 0x56)
 				{
 					p_Main->setSwName ("");
                     p_Main->eventUpdateTitle();
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				}
 			}
 		break;
@@ -1939,13 +1970,13 @@ void Comx::checkComxFunction()
 		case 0xcd00:	// TURBO DLOAD @c830
 		case 0xcf00:	// TURBO DLOAD+ @c830
 			if (expansionSlot_ == printerSlot_)
-				p_Main->startCassetteLoad();
+				p_Main->startCassetteLoad(0);
 			if (expansionSlot_ == epromSlot_)
 			{
 				if (expansionEprom_[(epromBank_*0x2000) + 0x804] == 0x50 && expansionEprom_[(epromBank_*0x2000) + 0x805] == 0x53 && expansionEprom_[(epromBank_*0x2000) + 0x806] == 0x41 && expansionEprom_[(epromBank_*0x2000) + 0x807] == 0x56)
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 				if (expansionSuper_[(epromBank_*0x2000) + 0x804] == 0x50 && expansionSuper_[(epromBank_*0x2000) + 0x805] == 0x53 && expansionSuper_[(epromBank_*0x2000) + 0x806] == 0x41 && expansionSuper_[(epromBank_*0x2000) + 0x807] == 0x56)
-					p_Main->startCassetteLoad();
+					p_Main->startCassetteLoad(0);
 			}
 		break;
 

@@ -84,6 +84,8 @@ wxString guiSizers[] =
     "ElfBottomRight",
     "ElfBottomLeft",
     "AssBottomRight",
+    "MemoryDumpBottomRight",
+    "MemoryDumpBottomLeft",
     "End"
 };
 
@@ -430,9 +432,9 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 
 	EVT_CLOSE(Main::onClose)
 
-#if defined(__linux__)
+//#if defined(__linux__) || defined(__WXMAC__)
     EVT_SIZE(Main::windowSizeChanged)
-#endif
+//#endif
 	EVT_MENU(wxID_EXIT, Main::onQuit)
 	EVT_MENU(wxID_ABOUT, Main::onAbout)
 	EVT_MENU(XRCID("MI_DataDir"), Main::onDataDir)
@@ -494,6 +496,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
+    EVT_TIMER(908, Main::guiSizeTimeout)
 
 	EVT_KEY_DOWN(Main::onKeyDown)
 	EVT_KEY_UP(Main::onKeyUp)
@@ -822,13 +825,14 @@ bool Emu1802::OnInit()
 
 #if defined(__linux__)
 	ubuntuOffsetX = 36;
+    wxString xrcFile = applicationDirectory_ + "main.xrc";
 #elif (__WXMAC__)
 	ubuntuOffsetX = 30;
+    wxString xrcFile = applicationDirectory_ + "main_mac.xrc";
 #else
 	ubuntuOffsetX = 0;
+    wxString xrcFile = applicationDirectory_ + "main.xrc";
 #endif
-
-	wxString xrcFile = applicationDirectory_ + "main.xrc";
 
 #if wxCHECK_VERSION(2, 9, 0)
 	if (!wxXmlResource::Get()->LoadFile(xrcFile))
@@ -1215,9 +1219,9 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     return true;
                 }
             
-                if (computer == "Fred2")
+                if (computer == "Fred15" || computer == "Fred1.5")
                 {
-                    startComputer_ = FRED2;
+                    startComputer_ = FRED1_5;
                     mode_.gui = false;
                     if (parser.Found("s", &software))
                     {
@@ -1226,12 +1230,12 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     if (parser.Found("r", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on FRED 2 emulator");
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on FRED 1.5 emulator");
                         return false;
                     }
                     if (parser.Found("ch", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -ch is not supported on FRED 2 emulator");
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on FRED 1.5 emulator");
                         return false;
                     }
                     return true;
@@ -1283,6 +1287,27 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 					}
 					return true;
 				}
+                if (computer == "Microtutor2" || computer == "MicrotutorII")
+                {
+                    startComputer_ = MICROTUTOR2;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                    {
+                        mode_.load = true;
+                        getSoftware(computer, "Software_File", software);
+                    }
+                    if (parser.Found("r", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on Microtutor II emulator");
+                        return false;
+                    }
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on Microtutor II emulator");
+                        return false;
+                    }
+                    return true;
+                }
 				if (computer == "Ms2000" || computer == "MS2000")
                 {
                     startComputer_ = MS2000;
@@ -1751,7 +1776,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		chip8BreakPointWindowPointer = XRCCTRL(*this,"Chip8BreakPointWindow", wxListCtrl);
 		tregWindowPointer = XRCCTRL(*this,"TregWindow", wxListCtrl);
 		trapWindowPointer = XRCCTRL(*this,"TrapWindow", wxListCtrl);
-	}
+    }
 
 	initConfig();
 	readConfig();
@@ -1762,7 +1787,9 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     updateCheckPointer = new wxTimer(this, 905);
     traceTimeoutPointer = new wxTimer(this, 906);
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
-    
+    guiSizeTimeoutPointer = new wxTimer(this, 908);
+    guiSizeTimerStarted_ = false;
+
     if (mode_.gui)
         buildConfigMenu();
 
@@ -1772,6 +1799,11 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
+        if (confComputer == FRED1_5)
+        {
+            if (wxDir::Exists(dataDir + "FRED2") && !wxDir::Exists(dataDir + computerInfo[confComputer].gui))
+                wxRenameFile(dataDir + "FRED2", dataDir + computerInfo[confComputer].gui);
+        }
         configPointer->Read(computerInfo[confComputer].gui + "/SoftwareDirInstalled", &softwareDirInstalled, false);
         if (!softwareDirInstalled)
         {
@@ -1781,6 +1813,16 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
                 if (answer == wxYES)
                 {
                     wxDir::Make(dataDir + computerInfo[confComputer].gui);
+                    p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_,  dataDir + computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
+                }
+                configPointer->Write(computerInfo[confComputer].gui + "/SoftwareDirInstalled", true);
+            }
+            wxDir compDir(dataDir + computerInfo[confComputer].gui);
+            if (!compDir.HasFiles())
+            {
+                int answer = wxMessageBox("1802 Software directory " + computerInfo[confComputer].gui + " is empty, install default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+                if (answer == wxYES)
+                {
                     p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_,  dataDir + computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
                 }
                 configPointer->Write(computerInfo[confComputer].gui + "/SoftwareDirInstalled", true);
@@ -1833,6 +1875,7 @@ Main::~Main()
 	delete updateCheckPointer;
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
+    delete guiSizeTimeoutPointer;
     delete help_;
 	if (configPointer == NULL || !saveOnExit_)
 		return;
@@ -1891,12 +1934,10 @@ wxSize Main::getDefaultGuiSize()
 #if defined (__linux__)
     size.y += 140;
 #else
-    size.y += 110;
+    size.y += 114;
 #endif
-//#if defined (__linux__)
-//    size.y += 28;
-//#endif
-    return size;
+
+	return size;
 }
 
 void Main::pageSetup()
@@ -2050,6 +2091,7 @@ void Main::writeConfig()
 	writeElfDirConfig(SUPERELF, "SuperElf");
     writeMembershipDirConfig();
     writeMicrotutorDirConfig();
+    writeMicrotutor2DirConfig();
     writeStudioDirConfig();
     writeCoinArcadeDirConfig();
     writeFred1DirConfig();
@@ -2079,6 +2121,7 @@ void Main::writeConfig()
 	writeElfConfig(SUPERELF, "SuperElf");
     writeMembershipConfig();
     writeMicrotutorConfig();
+    writeMicrotutor2Config();
     writeStudioConfig();
     writeCoinArcadeConfig();
     writeFred1Config();
@@ -2108,6 +2151,7 @@ void Main::writeConfig()
 	writeElfWindowConfig(SUPERELF, "SuperElf");
     writeMembershipWindowConfig();
     writeMicrotutorWindowConfig();
+    writeMicrotutor2WindowConfig();
     writeStudioWindowConfig();
     writeCoinArcadeWindowConfig();
     writeFred1WindowConfig();
@@ -2206,6 +2250,9 @@ void Main::initConfig()
     setScreenInfo(MICROTUTOR, 0, 5, colour, 2, borderX, borderY);
     setComputerInfo(MICROTUTOR, "Microtutor", "RCA Microtutor", "");
     
+    setScreenInfo(MICROTUTOR2, 0, 5, colour, 2, borderX, borderY);
+    setComputerInfo(MICROTUTOR2, "Microtutor2", "RCA Microtutor II", "");
+    
     colour[5] = "#000000";	// background mc6847
 	colour[6] = "#00ff00";	// text green
 	colour[7] = "#ffc418";	// text orange
@@ -2278,8 +2325,8 @@ void Main::initConfig()
     setScreenInfo(FRED1, 0, 2, colour, 2, borderX, borderY);
     setComputerInfo(FRED1, "FRED1", "FRED 1", "");
     
-    setScreenInfo(FRED2, 0, 2, colour, 2, borderX, borderY);
-    setComputerInfo(FRED2, "FRED2", "FRED 2", "");
+    setScreenInfo(FRED1_5, 0, 2, colour, 2, borderX, borderY);
+    setComputerInfo(FRED1_5, "FRED1_5", "FRED 1.5", "");
     
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
@@ -2416,22 +2463,22 @@ void Main::initConfig()
     int startCorrectionY = 136;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 256+60; 
+	int clockTextCorrectionComxX = 255+62; 
 	int clockTextCorrectionComxY = 117;
-	int clockFloatCorrectionComxX = 220+60; 
+	int clockFloatCorrectionComxX = 217+62; 
 	int clockFloatCorrectionComxY = 120;
-	int mhzTextCorrectionComxX = 171+60; 
+	int mhzTextCorrectionComxX = 170+60; 
 	int mhzTextCorrectionComxY = 117;
-    int stopCorrectionComxX = 143+60;
+    int stopCorrectionComxX = 142+60;
     int stopCorrectionComxY = 121;
-    int startCorrectionComxX = 143-22;
+    int startCorrectionComxX = 142-22;
     int startCorrectionComxY = 121;
 	int floatHeight = 21;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 255+60; 
+	int clockTextCorrectionX = 255+62; 
 	int clockTextCorrectionY = 146;
-	int clockFloatCorrectionX = 217+60; 
+	int clockFloatCorrectionX = 217+62; 
 	int clockFloatCorrectionY = 149;
 	int mhzTextCorrectionX = 170+60; 
     int mhzTextCorrectionY = 146;
@@ -2477,7 +2524,7 @@ void Main::initConfig()
                 case CIDELSA:
                 case ETI:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionComxX, defaultGuiSize_.y - clockTextCorrectionComxY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(45, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(47, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionComxX, defaultGuiSize_.y - mhzTextCorrectionComxY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionComxX, defaultGuiSize_.y - stopCorrectionComxY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionComxX, defaultGuiSize_.y - startCorrectionComxY), wxSize(80, startHeight));
@@ -2485,7 +2532,7 @@ void Main::initConfig()
                     
                 default:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionX, defaultGuiSize_.y - clockTextCorrectionY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(45, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(47, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionX, defaultGuiSize_.y - mhzTextCorrectionY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionX, defaultGuiSize_.y - stopCorrectionY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionX, defaultGuiSize_.y - startCorrectionY), wxSize(80, startHeight));
@@ -2537,6 +2584,7 @@ void Main::readConfig()
 	readElfConfig(SUPERELF, "SuperElf");
 	readMembershipConfig();
     readMicrotutorConfig();
+    readMicrotutor2Config();
     readStudioConfig();
     readCoinArcadeConfig();
     readFred1Config();
@@ -2566,6 +2614,7 @@ void Main::readConfig()
     readElfWindowConfig(SUPERELF, "SuperElf");
     readMembershipWindowConfig();
     readMicrotutorWindowConfig();
+    readMicrotutor2WindowConfig();
     readStudioWindowConfig();
     readCoinArcadeWindowConfig();
     readFred1WindowConfig();
@@ -2717,7 +2766,7 @@ void Main::readConfig()
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Studio_Tab", 0l));
         
         long elfChoiceBookTab = configPointer->Read("/Main/Selected_Cosmac_Tab", 0l);
-        if (elfChoiceBookTab > 6)
+        if (elfChoiceBookTab > VELF)
             elfChoiceBookTab = 0;
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(elfChoiceBookTab);
 		XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Rca_Tab", 0l));
@@ -2746,8 +2795,9 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));            
-            XRCCTRL(*this, "PanelFRED2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelFRED1_5", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVip", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVipII", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMCDS", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -2783,19 +2833,86 @@ void Main::readConfig()
     psaveData_[10] = (int)configPointer->Read("/Main/Cassette_Fred_Freq", 58l);
 }
 
+#if defined(__WXMSW__)
 void Main::windowSizeChanged(wxSizeEvent& WXUNUSED(event))
 {
+    if (xmlLoaded_ && !guiSizeTimerStarted_)
+    {
+        guiSizeTimeoutPointer->Start(20, wxTIMER_ONE_SHOT);
+        guiSizeTimerStarted_ = true;
+    }
+
+}
+#else
+void Main::windowSizeChanged(wxSizeEvent& event)
+{
+    adjustGuiSize();
+    event.Skip();
+}
+#endif
+
+
+void Main::adjustGuiSize()
+{
     wxSize mainWindowSize = this->GetClientSize();
-    if (mainWindowSize.x > 1000)
-    	mainWindowSize.x = 1000;
-    if (mainWindowSize.y > 1000)
-    	mainWindowSize.y = 1000;
-    XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-8, mainWindowSize.y-8);
-    XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-8, mainWindowSize.y-156);
+    int borderSizeX, borderSizeY, borderSizeY2;
+    
+    if (mainWindowSize.x > 2000)
+        mainWindowSize.x = 2000;
+    if (mainWindowSize.y > 2000)
+        mainWindowSize.y = 2000;
+#if defined(__linux__)
+    borderSizeX = 8;
+    borderSizeY = 8;
+    borderSizeY2 = 70;
+#endif
+#if defined (__WXMSW__)
+    borderSizeX = 10;
+    borderSizeY = 10;
+    borderSizeY2 = 56;
+#endif
+#if defined(__WXMAC__)
+    borderSizeX = 21;
+    borderSizeY = 8;
+    borderSizeY2 = 72;
+#endif
+    
+    if (xmlLoaded_)
+    {
+        XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        
+        wxPoint position, positionBreakPointWindow, positionBreakPointWindowText;
+        
+        position = XRCCTRL(*this, "Message_Window", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "Message_Window", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        
+        position = XRCCTRL(*this, "TraceWindow", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        positionBreakPointWindow = XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->GetPosition();
+        positionBreakPointWindowText = XRCCTRL(*this, "BreakPointWindowText", wxStaticText)->GetPosition();
+        XRCCTRL(*this, "BreakPointWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        positionBreakPointWindow.x += (position.x/3);
+        positionBreakPointWindowText.x = positionBreakPointWindow.x;
+        XRCCTRL(*this, "TregWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
+        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
+        XRCCTRL(*this, "TregWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        positionBreakPointWindow.x += (position.x/3);
+        positionBreakPointWindowText.x = positionBreakPointWindow.x;
+        XRCCTRL(*this, "TrapWindowText", wxStaticText)->SetPosition(positionBreakPointWindowText);
+        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetPosition(positionBreakPointWindow);
+        XRCCTRL(*this, "TrapWindow", wxListCtrl)->SetSize((position.x-6)/3, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        
+        position = XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->GetPosition();
+        XRCCTRL(*this, "Chip8TraceWindow", wxTextCtrl)->SetSize(mainWindowSize.x-position.x-borderSizeX, mainWindowSize.y-position.y-borderSizeY2);
+        positionBreakPointWindow = XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->GetPosition();
+        XRCCTRL(*this, "Chip8BreakPointWindow", wxListCtrl)->SetSize(position.x-6, mainWindowSize.y-positionBreakPointWindow.y-borderSizeY2);
+        
+        changeNumberOfDebugLines(mainWindowSize.y - borderSizeY2);
+    }
 }
 
 void Main::onHelp(wxCommandEvent& WXUNUSED(event))
@@ -2971,6 +3088,19 @@ void Main::buildConfigMenu()
         int confComputer = computer;
         if (confComputer == 2)
             confComputer = 0;
+        if (confComputer == FRED1_5)
+        {
+            if (wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "FRED2") && !wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
+            {
+                wxRenameFile(iniDir_ + "Configurations" + pathSeparator_ + "FRED2", iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui);
+                reInstall(applicationDirectory_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_ + "FRED1_5" + pathSeparator_, pathSeparator_);
+                
+                int selectedComputer = selectedComputer_;
+                selectedComputer_ = FRED1_5;
+                loadComputerConfig("default.ini");
+                selectedComputer_ = selectedComputer;
+            }
+        }
         if (!wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
         {
             wxDir::Make(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui);
@@ -3193,7 +3323,7 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeFred1Config();
         break;
             
-        case FRED2:
+        case FRED1_5:
             writeFred2DirConfig();
             writeFred2Config();
         break;
@@ -3241,6 +3371,11 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
         case MICROTUTOR:
             writeMicrotutorDirConfig();
             writeMicrotutorConfig();
+        break;
+            
+        case MICROTUTOR2:
+            writeMicrotutor2DirConfig();
+            writeMicrotutor2Config();
         break;
             
         case ELF2K:
@@ -3413,7 +3548,7 @@ void Main::loadComputerConfig(wxString fileName)
             readFred1Config();
         break;
             
-        case FRED2:
+        case FRED1_5:
             readFred2Config();
         break;
             
@@ -3453,6 +3588,10 @@ void Main::loadComputerConfig(wxString fileName)
             
         case MICROTUTOR:
             readMicrotutorConfig();
+        break;
+            
+        case MICROTUTOR2:
+            readMicrotutor2Config();
         break;
             
         case ELF2K:
@@ -3550,6 +3689,51 @@ void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathS
         copyTree(&source, &destination, pathSep);
         cont = dir.GetNext(&filename);
     }
+}
+
+void Main::reInstallOnNotFound(int computerType, wxString fileTypeString)
+{
+    int answer = wxMessageBox(fileTypeString + " file for the " + computerInfo[computerType].name + " is missing,\nre-install all " + computerInfo[computerType].name + " default files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+    if (answer == wxYES)
+    {
+        p_Main->reInstall(applicationDirectory_ + "data" + pathSeparator_ + computerInfo[computerType].gui + pathSeparator_,  dataDir_ + computerInfo[computerType].gui + pathSeparator_, pathSeparator_);
+    }
+}
+
+void Main::checkAndReInstallMainRom(int computerType)
+{
+    if (p_Main->getRomFile(computerType, MAINROM1) == "")
+        return;
+    
+    if (!wxFile::Exists(p_Main->getRomDir(computerType, MAINROM1) + p_Main->getRomFile(computerType, MAINROM1)))
+        p_Main->reInstallOnNotFound(computerType, "ROM");
+}
+
+void Main::checkAndReInstallFile(int computerType, wxString fileTypeString, int fileType)
+{
+    if (p_Main->getRomFile(computerType, fileType) == "")
+        return;
+    
+    if (!wxFile::Exists(p_Main->getRomDir(computerType, fileType) + p_Main->getRomFile(computerType, fileType)))
+        p_Main->reInstallOnNotFound(computerType, fileTypeString);
+}
+
+void Main::checkAndReInstallFile(wxString fileAndPath, int computerType, wxString fileTypeString)
+{
+    if (fileAndPath == "")
+        return;
+    
+    if (!wxFile::Exists(fileAndPath))
+        p_Main->reInstallOnNotFound(computerType, fileTypeString);
+}
+
+void Main::checkAndReInstallCharFile(int computerType, wxString fileTypeString, int fileType)
+{
+    if (p_Main->getRomFile(computerType, fileType) == "")
+        return;
+    
+    if (!wxFile::Exists(p_Main->getCharRomDir(computerType) + p_Main->getCharRomFile(computerType)))
+        p_Main->reInstallOnNotFound(computerType, fileTypeString);
 }
 
 bool Main::copyTree( wxFileName* source, wxFileName* destination, wxString pathSep)
@@ -4386,9 +4570,9 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
             p_Fred->Move(conf[FRED1].mainX_, conf[FRED1].mainY_);
         break;
 
-        case FRED2:
+        case FRED1_5:
             p_Fred->moveWindows();
-            p_Fred->Move(conf[FRED2].mainX_, conf[FRED2].mainY_);
+            p_Fred->Move(conf[FRED1_5].mainX_, conf[FRED1_5].mainY_);
         break;
 
         case STUDIO:
@@ -4435,6 +4619,10 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Microtutor->Move(conf[MICROTUTOR].mainX_, conf[MICROTUTOR].mainY_);
 		break;
 
+        case MICROTUTOR2:
+            p_Microtutor2->Move(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_);
+        break;
+            
 		case ELF2K:
 			p_Elf2K->moveWindows();
 			p_Elf2K->Move(conf[ELF2K].mainX_, conf[ELF2K].mainY_);
@@ -4518,8 +4706,8 @@ void Main::nonFixedWindowPosition()
     conf[COINARCADE].mainY_ = -1;
     conf[FRED1].mainX_ = -1;
     conf[FRED1].mainY_ = -1;
-    conf[FRED2].mainX_ = -1;
-    conf[FRED2].mainY_ = -1;
+    conf[FRED1_5].mainX_ = -1;
+    conf[FRED1_5].mainY_ = -1;
 	conf[VISICOM].mainX_ = -1;
 	conf[VISICOM].mainY_ = -1;
     conf[VICTORY].mainX_ = -1;
@@ -4528,8 +4716,10 @@ void Main::nonFixedWindowPosition()
     conf[STUDIOIV].mainY_ = -1;
 	conf[MEMBER].mainX_ = -1;
 	conf[MEMBER].mainY_ = -1;
-	conf[MICROTUTOR].mainX_ = -1;
-	conf[MICROTUTOR].mainY_ = -1;
+    conf[MICROTUTOR].mainX_ = -1;
+    conf[MICROTUTOR].mainY_ = -1;
+    conf[MICROTUTOR2].mainX_ = -1;
+    conf[MICROTUTOR2].mainY_ = -1;
 
 	for (int i=0; i<5; i++)
 	{
@@ -4562,8 +4752,8 @@ void Main::nonFixedWindowPosition()
     conf[VELF].vtY_ = -1;
     conf[FRED1].pixieX_ = -1;
     conf[FRED1].pixieY_ = -1;
-    conf[FRED2].pixieX_ = -1;
-    conf[FRED2].pixieY_ = -1;
+    conf[FRED1_5].pixieX_ = -1;
+    conf[FRED1_5].pixieY_ = -1;
 	conf[MS2000].vtX_ = -1;
 	conf[MS2000].vtY_ = -1;
 	conf[MCDS].vtX_ = -1;
@@ -4614,8 +4804,8 @@ void Main::fixedWindowPosition()
     conf[COINARCADE].mainY_ = mainWindowY_;
     conf[FRED1].mainX_ = mainWindowX_;
     conf[FRED1].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[FRED2].mainX_ = mainWindowX_;
-    conf[FRED2].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[FRED1_5].mainX_ = mainWindowX_;
+    conf[FRED1_5].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[VISICOM].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[VISICOM].mainY_ = mainWindowY_;
 	conf[VICTORY].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -4624,8 +4814,10 @@ void Main::fixedWindowPosition()
     conf[STUDIOIV].mainY_ = mainWindowY_;
 	conf[MEMBER].mainX_ = mainWindowX_;
 	conf[MEMBER].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
-	conf[MICROTUTOR].mainX_ = mainWindowX_;
-	conf[MICROTUTOR].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
+    conf[MICROTUTOR].mainX_ = mainWindowX_;
+    conf[MICROTUTOR].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
+    conf[MICROTUTOR2].mainX_ = mainWindowX_;
+    conf[MICROTUTOR2].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
 
 	for (int i=0; i<5; i++)
 	{
@@ -4658,8 +4850,8 @@ void Main::fixedWindowPosition()
 	conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
     conf[FRED1].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[FRED1].pixieY_ = mainWindowY_;
-    conf[FRED2].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[FRED2].pixieY_ = mainWindowY_;
+    conf[FRED1_5].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[FRED1_5].pixieY_ = mainWindowY_;
 	conf[MS2000].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
 	conf[MS2000].vtY_ = mainWindowY_;
 	conf[MCDS].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
@@ -4753,6 +4945,11 @@ void Main::onStart(int computer)
 			p_Computer = p_Microtutor;
 		break;
 
+        case MICROTUTOR2:
+            p_Microtutor2 = new Microtutor2(computerInfo[MICROTUTOR2].name, wxPoint(conf[MICROTUTOR2].mainX_, conf[MICROTUTOR2].mainY_), wxSize(333, 160), conf[MICROTUTOR2].clockSpeed_, elfConfiguration[MICROTUTOR2]);
+            p_Computer = p_Microtutor2;
+        break;
+            
 		case ELF:
 			p_Elf = new Elf(computerInfo[ELF].name, wxPoint(conf[ELF].mainX_, conf[ELF].mainY_), wxSize(346, 464), conf[ELF].clockSpeed_, elfConfiguration[ELF]);
 			p_Computer = p_Elf;
@@ -4805,8 +5002,8 @@ void Main::onStart(int computer)
             p_Computer = p_Fred;
         break;
             
-        case FRED2:
-            p_Fred = new Fred(computerInfo[FRED2].name, wxPoint(conf[FRED2].mainX_, conf[FRED2].mainY_), wxSize(310,180), conf[FRED2].clockSpeed_, elfConfiguration[FRED2], FRED2);
+        case FRED1_5:
+            p_Fred = new Fred(computerInfo[FRED1_5].name, wxPoint(conf[FRED1_5].mainX_, conf[FRED1_5].mainY_), wxSize(310,180), conf[FRED1_5].clockSpeed_, elfConfiguration[FRED1_5], FRED1_5);
             p_Computer = p_Fred;
         break;
             
@@ -4900,7 +5097,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 10 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED2)
+    if (runningComputer_ < 11 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED1_5 )
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
@@ -4981,7 +5178,7 @@ void Main::stopComputer()
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
             case FRED1:
-            case FRED2:
+            case FRED1_5:
             case VIP:
             case VIP2K:
 			case VIPII:
@@ -5087,12 +5284,16 @@ void Main::onComputer(wxNotebookEvent&event)
 					rcaChoice_ = MICROTUTOR;
 				break;
 
+                case MICROTUTOR2TAB:
+                    rcaChoice_ = MICROTUTOR2;
+                break;
+                    
                 case FRED1TAB:
                     rcaChoice_ = FRED1;
                 break;
                     
                 case FRED2TAB:
-                    rcaChoice_ = FRED2;
+                    rcaChoice_ = FRED1_5;
                 break;
                     
 				case VIPTAB:
@@ -5340,12 +5541,16 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
             rcaChoice_ = MICROTUTOR;
 		break;
 
+        case MICROTUTOR2TAB:
+            rcaChoice_ = MICROTUTOR2;
+        break;
+            
         case FRED1TAB:
             rcaChoice_ = FRED1;
         break;
             
         case FRED2TAB:
-            rcaChoice_ = FRED2;
+            rcaChoice_ = FRED1_5;
         break;
             
         case VIPTAB:
@@ -5478,12 +5683,17 @@ void Main::setNoteBook()
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTORTAB);
 		break;
 
+        case MICROTUTOR2:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTOR2TAB);
+        break;
+            
         case FRED1:
             XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
             XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED1TAB);
         break;
             
-        case FRED2:
+        case FRED1_5:
             XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
             XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(FRED2TAB);
         break;
@@ -5584,7 +5794,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursMS2000", wxButton)->Enable(status | (runningComputer_ == MS2000));
     XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status | (runningComputer_ == COINARCADE));
     XRCCTRL(*this,"ColoursFRED1", wxButton)->Enable(status | (runningComputer_ == FRED1));
-    XRCCTRL(*this,"ColoursFRED2", wxButton)->Enable(status | (runningComputer_ == FRED2));
+    XRCCTRL(*this,"ColoursFRED1_5", wxButton)->Enable(status | (runningComputer_ == FRED1_5));
     XRCCTRL(*this,"ColoursStudio2", wxButton)->Enable(status | (runningComputer_ == STUDIO));
     XRCCTRL(*this,"ColoursVictory", wxButton)->Enable(status | (runningComputer_ == VICTORY));
     XRCCTRL(*this,"ColoursStudioIV", wxButton)->Enable(status | (runningComputer_ == STUDIOIV));
@@ -5602,6 +5812,7 @@ void Main::enableGui(bool status)
 {
 	if (!mode_.gui)
 		return;
+    
 	wxMenuBar *menubarPointer = GetMenuBar();
 
 	menubarPointer->Enable(XRCID(GUIDEFAULT), status);
@@ -5628,6 +5839,8 @@ void Main::enableGui(bool status)
     enableColorbutton(status);
 	if (runningComputer_ == COMX)
 	{
+        p_Main->scrtValues(status, true, 4, 0x2e14, 5, 0x31EB);
+
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false); 
@@ -5662,7 +5875,7 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == CIDELSA)
 	{
-		chip8ProtectedMode_= false;
+        chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
 		XRCCTRL(*this,"MainRomCidelsa", wxComboBox)->Enable(status);
@@ -5672,7 +5885,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == TMC600)
 	{
-		chip8ProtectedMode_= false;
+        p_Main->scrtValues(status, true, 4, 0x16BC, 5, 0x16DD);
+
+        chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
 		XRCCTRL(*this,"PrintButtonTMC600", wxButton)->Enable(!status);
@@ -5703,7 +5918,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == PECOM)
 	{
-		chip8ProtectedMode_= false;
+        p_Main->scrtValues(status, true, 4, 0xAFE8, 5, 0xA5F2);
+
+        chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         XRCCTRL(*this,"ColoursCoinArcade", wxButton)->Enable(status);
@@ -5717,6 +5934,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == FRED1)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
         enableChip8DebugGui(!status);
         XRCCTRL(*this,"RamSWFRED1", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RamSWButtonFRED1", wxButton)->Enable(status);
@@ -5727,21 +5946,23 @@ void Main::enableGui(bool status)
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
-    if (runningComputer_ == FRED2)
+    if (runningComputer_ == FRED1_5)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"RamSWFRED2", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RamSWButtonFRED2", wxButton)->Enable(status);
-        XRCCTRL(*this,"FullScreenF3FRED2", wxButton)->Enable(!status);
-        XRCCTRL(*this,"ScreenDumpF5FRED2", wxButton)->Enable(!status);
-        XRCCTRL(*this,"RamFRED2", wxChoice)->Enable(status);
-		XRCCTRL(*this,"RamTextFRED2", wxStaticText)->Enable(status);
+        XRCCTRL(*this,"RamSWFRED1_5", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonFRED1_5", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3FRED1_5", wxButton)->Enable(!status);
+        XRCCTRL(*this,"ScreenDumpF5FRED1_5", wxButton)->Enable(!status);
+        XRCCTRL(*this,"RamFRED1_5", wxChoice)->Enable(status);
+		XRCCTRL(*this,"RamTextFRED1_5", wxStaticText)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
 	if (runningComputer_ == VIP)
 	{
-		enableChip8DebugGui(!status);
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"HighResVip", wxCheckBox)->Enable(status);
 		XRCCTRL(*this,"MainRomVip", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVip", wxButton)->Enable(status);
@@ -5794,7 +6015,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == VIPII)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, true, 4, 0x28EF, 5, 0x23E7);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomVipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"MainRom2VipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVipII", wxButton)->Enable(status);
@@ -5879,7 +6102,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == STUDIO)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomStudio2", wxComboBox)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"RomButtonStudio2", wxButton)->Enable(status&(!conf[STUDIO].disableSystemRom_ | !conf[STUDIO].multiCart_));
 		XRCCTRL(*this,"CartRomStudio2", wxComboBox)->Enable(status);
@@ -5890,6 +6115,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == COINARCADE)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+ 
         enableChip8DebugGui(!status);
         XRCCTRL(*this,"MainRomCoinArcade", wxComboBox)->Enable(status);
         XRCCTRL(*this,"RomButtonCoinArcade", wxButton)->Enable(status);
@@ -5898,7 +6125,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == VISICOM)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomVisicom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVisicom", wxButton)->Enable(status);
 		XRCCTRL(*this,"CartRomVisicom", wxComboBox)->Enable(status);
@@ -5908,7 +6137,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == VICTORY)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomVictory", wxComboBox)->Enable(status&(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_));
 		XRCCTRL(*this,"RomButtonVictory", wxButton)->Enable(status&(!conf[VICTORY].disableSystemRom_ | !conf[VICTORY].multiCart_));
 		XRCCTRL(*this,"CartRomVictory", wxComboBox)->Enable(status);
@@ -5920,6 +6151,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == STUDIOIV)
     {
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
         enableChip8DebugGui(!status);
         XRCCTRL(*this,"MainRomStudioIV", wxComboBox)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
         XRCCTRL(*this,"RomButtonStudioIV", wxButton)->Enable(status&(!conf[STUDIOIV].disableSystemRom_ | !conf[STUDIOIV].multiCart_));
@@ -5931,7 +6164,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == TMC2000)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomTMC2000", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonTMC2000", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWTMC2000", wxComboBox)->Enable(status);
@@ -5948,7 +6183,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == TMC1800)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomTMC1800", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonTMC1800", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWTMC1800", wxComboBox)->Enable(status);
@@ -5965,7 +6202,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == ETI)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomEti", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonEti", wxButton)->Enable(status);
 		XRCCTRL(*this,"Chip8SWEti", wxTextCtrl)->Enable(status);
@@ -5980,7 +6219,9 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == NANO)
 	{
-		enableChip8DebugGui(!status);
+        p_Main->scrtValues(status, false, -1, -1, -1, -1);
+
+        enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomNano", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonNano", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWNano", wxComboBox)->Enable(status);
@@ -6106,6 +6347,8 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == ELF2K)
 	{
+        p_Main->scrtValues(status, true, 4, 0xFA7B, 5, 0xFA8D);
+
 		chip8ProtectedMode_= false;
 		XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
@@ -6148,6 +6391,8 @@ void Main::enableGui(bool status)
 	}
     if (runningComputer_ == MS2000)
     {
+        p_Main->scrtValues(status, true, 4, 0x8364, 5, 0x8374);
+
         XRCCTRL(*this,"Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this,"Chip8DebugMode", wxCheckBox)->SetValue(false);
         XRCCTRL(*this,"MainRomMS2000", wxComboBox)->Enable(status);
@@ -6174,7 +6419,9 @@ void Main::enableGui(bool status)
     }
 	if (runningComputer_ == MCDS)
 	{
-		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
+        p_Main->scrtValues(status, true, 4, 0x8364, 5, 0x8374);
+
+        XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
 		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->Enable(status);
         XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->Enable(status);
@@ -6275,10 +6522,29 @@ void Main::enableGui(bool status)
 	{
 		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
 		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-		XRCCTRL(*this, "MainRomMicrotutor", wxComboBox)->Enable(status);
-		XRCCTRL(*this, "RomButtonMicrotutor", wxButton)->Enable(status);
+		XRCCTRL(*this, "RamSWMicrotutor", wxComboBox)->Enable(status);
+		XRCCTRL(*this, "RamSWButtonMicrotutor", wxButton)->Enable(status);
 		enableMemAccessGui(!status);
 	}
+    if (runningComputer_ == MICROTUTOR2)
+    {
+        XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
+        XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
+        XRCCTRL(*this, "RamButtonMMicrotutor2", wxButton)->Enable(status);
+        XRCCTRL(*this, "MainRamMMicrotutor2", wxComboBox)->Enable(status);
+        if (elfConfiguration[runningComputer_].utilityMemory)
+        {
+            XRCCTRL(*this, "RamButtonEMicrotutor2", wxButton)->Enable(status);
+            XRCCTRL(*this, "MainRamEMicrotutor2", wxComboBox)->Enable(status);
+        }
+        else
+        {
+            XRCCTRL(*this, "RamButtonEMicrotutor2", wxButton)->Enable(false);
+            XRCCTRL(*this, "MainRamEMicrotutor2", wxComboBox)->Enable(false);
+        }
+        XRCCTRL(*this,"RamMicrotutor2", wxChoice)->Enable(status);
+        enableMemAccessGui(!status);
+    }
 	enableDebugGui(!status);
 
 	if (status)
@@ -6455,7 +6721,7 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 	switch (runningComputer_)
 	{
         case FRED1:
-        case FRED2:
+        case FRED1_5:
 		case COSMICOS:
 		case ELF: 
 		case ELFII:
@@ -6875,18 +7141,20 @@ void Main::eventSetSwName(wxString swName)
 void Main::setTapeStateEvent(guiEvent&event)
 {
     int tapeState = event.GetInt();
+    wxString tapeNumber = event.GetString();
 
-	setTapeState(tapeState);
+	setTapeState(tapeState, tapeNumber);
 }
 
-void Main::eventSetTapeState(int tapeState)
+void Main::eventSetTapeState(int tapeState, wxString tapeNumber)
 {
     guiEvent event(GUI_MSG, SET_TAPE_STATE);
     event.SetEventObject( p_Main );
-
+    
     event.SetInt(tapeState);
+    event.SetString(tapeNumber);
 
-	GetEventHandler()->AddPendingEvent(event);
+    GetEventHandler()->AddPendingEvent(event);
 }
 
 void Main::setTextValueEvent(guiEvent&event)
@@ -7531,6 +7799,12 @@ void Main::eventDebounceTimer()
     GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))
+{
+    adjustGuiSize();
+    guiSizeTimerStarted_ = false;
+}
+
 wxString Main::getMultiCartGame(Byte findMsb, Byte findLsb)
 {
 	wxTextFile multiCartDefinitionFile;
@@ -7834,7 +8108,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         break;
 
         case FRED1:
-        case FRED2:
+        case FRED1_5:
             keysFound = loadKeyDefinition("", "freddefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
@@ -7880,7 +8154,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             break;
             
             case FRED1:
-            case FRED2:
+            case FRED1_5:
             case VIP:
             case VIP2K:
             case ELF:

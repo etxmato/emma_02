@@ -207,7 +207,22 @@ Membership::Membership(const wxString& title, const wxPoint& pos, const wxSize& 
 
 Membership::~Membership()
 {
-	saveRam();
+    switch (loadedProgram_)
+    {
+        case NOPROGRAM:
+            p_Main->saveScrtValues("");
+        break;
+            
+        case MONITOR_CHUCK_LOW:
+            p_Main->saveScrtValues("MONITOR_CHUCK_LOW");
+        break;
+            
+        case MONITOR_CHUCK_HIGH:
+            p_Main->saveScrtValues("MONITOR_CHUCK_HIGH");
+        break;
+    }
+
+    saveRam();
 	if (elfConfiguration.vtType != VTNONE)
 	{
 		p_Main->setVtPos(MEMBER, vtPointer->GetPosition());
@@ -641,6 +656,7 @@ void Membership::startComputer()
 	p_Main->enableDebugGuiMemory();
 
 	loadRam();
+    p_Main->checkAndReInstallMainRom(MEMBER);
     readProgram(p_Main->getRomDir(MEMBER, MAINROM1), p_Main->getRomFile(MEMBER, MAINROM1), p_Main->getLoadromModeMembership(), loadStart, NONAME);
     
 	configureElfExtensions();
@@ -889,10 +905,10 @@ void Membership::terminalSave(wxString fileName)
         vtPointer->terminalSaveVt(fileName);
 }
 
-void Membership::terminalLoad(wxString fileName, bool binaryFile)
+void Membership::terminalLoad(wxString filePath, wxString fileName, bool binaryFile)
 {
     if (elfConfiguration.vtType != VTNONE)
-        vtPointer->terminalLoadVt(fileName, binaryFile);
+        vtPointer->terminalLoadVt(filePath, binaryFile);
 }
 
 void Membership::terminalStop()

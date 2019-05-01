@@ -90,7 +90,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     
  	graphicsX_ = 8*highRes_;
     videoWidth_ = 64*highRes_;
-    if (computerType == FRED1 || computerType == FRED2)
+    if (computerType == FRED1 || computerType == FRED1_5)
         videoWidth_ = 64*highRes_*3;
 
     if (computerType == VIP2K)

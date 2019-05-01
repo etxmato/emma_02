@@ -249,6 +249,7 @@ void Tmc2000::startComputer()
 
 	p_Main->setSwName("");
 
+    p_Main->checkAndReInstallMainRom(TMC2000);
 	readProgram(p_Main->getRomDir(TMC2000, MAINROM1), p_Main->getRomFile(TMC2000, MAINROM1), ROM, 0x8000, NONAME);
 
 	switch(p_Main->getRamType(TMC2000))
@@ -457,11 +458,11 @@ void Tmc2000::checkTMC2000Function()
 		break;
 
 		case 0x8091:	// SAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x80c2:	// LOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 	}
 }

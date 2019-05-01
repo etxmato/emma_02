@@ -332,6 +332,14 @@ public:
 	void onAssNew(wxCommandEvent&event);
     void assNew(int range);
     void assDefault(wxString fileName, Word start, Word end);
+    void scrtValues(bool status, bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress);
+    void setScrtValues(bool Scrt, long CallReg, long CallAddress, long RetReg, long RetAddress, wxString Game);
+    void saveScrtValues(wxString Game);
+    void onDebugScrt(wxCommandEvent&event);
+    void onDebugCallReg(wxCommandEvent&event);
+    void onDebugCallAddress(wxCommandEvent&event);
+    void onDebugRetReg(wxCommandEvent&event);
+    void onDebugRetAddress(wxCommandEvent&event);
     void onAssStore(wxCommandEvent&event);
     void onAssStore();
     void onAssDir(wxCommandEvent&event);
@@ -349,6 +357,7 @@ public:
     void onAssTextChange(wxCommandEvent&event);
 	bool findWorkingRang();
     void paintDebugBackground();
+    void changeNumberOfDebugLines(int height);
 
 	void onDebugDisplayPage(wxCommandEvent&event); 
 	void onDebugDisplayPageSpinUp(wxSpinEvent&event);
@@ -426,6 +435,12 @@ public:
 	void onPercentageClock(wxScrollEvent&event);
 	void onChip8PercentageClock(wxScrollEvent&event);
 
+    bool getDebugScrtMode(int computerType) {return conf[computerType].scrtMode_;};
+    Byte getDebugCallReg(int computerType) {return conf[computerType].debugCallReg_;};
+    Word getDebugCallAddress(int computerType) {return conf[computerType].debugCallAddress_;};
+    Byte getDebugRetReg(int computerType) {return conf[computerType].debugRetReg_;};
+    Word getDebugRetAddress(int computerType) {return conf[computerType].debugRetAddress_;};
+
 protected:
 	void trace();
 
@@ -449,7 +464,7 @@ protected:
 	wxTextCtrl *pTextPointer;
 	wxTextCtrl *xTextPointer;
 	wxTextCtrl *tTextPointer;
-
+    
 	bool traceChip8Int_;
 	bool traceInt_;
 	bool traceDma_;

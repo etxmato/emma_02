@@ -62,7 +62,7 @@ public:
     void terminalStopVt();
     void startElfRun(bool load, bool overRide);
     void startMcdsRun(bool load);
-    bool readCharRomFile(wxString romDir, wxString FileRef);
+    bool readCharRomFile(int computerType, wxString romDir, wxString FileRef);
 	void setFullScreen(bool fullScreenSet);
 	void onF3();
 	void scrollLine();

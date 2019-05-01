@@ -758,8 +758,12 @@ void Tmc600::startComputer()
 	p_Main->setSwName("");
 	p_Main->updateTitle();
 
-	readProgramTmc600(p_Main->getRomDir(TMC600, MAINROM1), p_Main->getRomFile(TMC600, MAINROM1), ROM, 0, NONAME);
-	readProgram(p_Main->getRomDir(TMC600, EXPROM), p_Main->getRomFile(TMC600, EXPROM), ROM, 0x4000, NONAME);
+    p_Main->checkAndReInstallMainRom(TMC600);
+    readProgramTmc600(p_Main->getRomDir(TMC600, MAINROM1), p_Main->getRomFile(TMC600, MAINROM1), ROM, 0, NONAME);
+
+    p_Main->checkAndReInstallFile(TMC600, "EXP ROM", EXPROM);
+    readProgram(p_Main->getRomDir(TMC600, EXPROM), p_Main->getRomFile(TMC600, EXPROM), ROM, 0x4000, NONAME);
+    
 	if ((mainMemory_[0x4017] == 0x31) && (mainMemory_[0x4018] == 0x35) && (mainMemory_[0x4019] == 0x31) && (mainMemory_[0x401A] == 0x31) && (mainMemory_[0x401B] == 0x38) && (mainMemory_[0x401C] == 0x32))
 	{
 		inType_[4] = TELMACIN;
@@ -769,6 +773,7 @@ void Tmc600::startComputer()
 		p_Main->message("	@F400-@F40F: AD/S Input (channel 0 to F)\n");
 		p_Main->enableIoGui();
 	}
+    p_Main->checkAndReInstallCharFile(TMC600, "Character", EXPROM);
 	readChargenFile(p_Main->getCharRomDir(TMC600), p_Main->getCharRomFile(TMC600));
 
 	defineMemoryType(0xf400, 0xf7ff, CRAM1870);
@@ -981,21 +986,21 @@ void Tmc600::checkTelmacFunction()
 
 
 		case 0x0506:	// PSAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x0500:	// PLOAD
 			p_Main->setSwName ("");
             p_Main->eventUpdateTitle();
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 
 		case 0x0509:	// DSAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x0503:	// DLOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 	}
 }

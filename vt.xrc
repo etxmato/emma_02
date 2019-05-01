@@ -540,10 +540,10 @@
                                     <label>Wav</label>
                                 </object>
                             </object>
-                            <object class="sizeritem">
+                            <object platform="mac" class="sizeritem">
                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                 <border>0</border>
-                                <object class="wxTextCtrl" name="VtSetupWavFile">
+                                <object platform="mac" class="wxTextCtrl" name="VtSetupWavFile">
                                     <size>146,-1</size>
                                     <tooltip>Specify wav file</tooltip>
                                     <font>
@@ -552,25 +552,16 @@
                                     </font>
                                 </object>
                             </object>
-                            <object platform="win" class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object platform="win" class="wxBitmapButton" name="VtSetupWavEject">
-                                    <size>26,25</size>
-                                    <tooltip>Eject wav file</tooltip>
-                                    <bitmap>images/eject.png</bitmap>
-                                    <selected>images/eject.png</selected>
-                                    <focus>images/eject.png</focus>
-                                </object>
-                            </object>
-                            <object platform="unix" class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object platform="unix" class="wxBitmapButton" name="VtSetupWavEject">
-                                    <tooltip>Eject wav file</tooltip>
-                                    <bitmap>images/eject.png</bitmap>
-                                    <selected>images/eject.png</selected>
-                                    <focus>images/eject.png</focus>
+                            <object platform="unix|win" class="sizeritem">
+                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                <border>1</border>
+                                <object platform="unix|win" class="wxTextCtrl" name="VtSetupWavFile">
+                                    <size>146,-1</size>
+                                    <tooltip>Specify wav file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
                                 </object>
                             </object>
                             <object platform="mac" class="sizeritem">
@@ -582,6 +573,16 @@
                                     <bitmap>images_osx/eject.png</bitmap>
                                     <selected>images_osx/eject.png</selected>
                                     <focus>images_osx/eject.png</focus>
+                                </object>
+                            </object>
+                            <object platform="unix|win" class="sizeritem">
+                                <flag>wxGROW|wxALL</flag>
+                                <border>0</border>
+                                <object platform="unix|win" class="wxBitmapButton" name="VtSetupWavEject">
+                                    <tooltip>Eject wav file</tooltip>
+                                    <bitmap>images/eject.png</bitmap>
+                                    <selected>images/eject.png</selected>
+                                    <focus>images/eject.png</focus>
                                 </object>
                             </object>
                         </object>

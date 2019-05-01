@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.29
+Version: 1.30
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -11,11 +11,12 @@ Description: Emma 02, the RCA 1802 Emulator
  Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos,
  Cosmac Elf, Netronics ELF II, Quest Super Elf,
  Membership Card, VIP2K Membership Card, VELF,
- FRED 1, FRED 2, Microtutor, Cosmac VIP, Cosmac VIP II,
- MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II,
- RCA Studio III, Studio IV, Victory MPT-02, Visicom
- COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac
- 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+ FRED 1, FRED 1.5, Microtutor, Microtutor II, Cosmac VIP,
+ Cosmac VIP II, MCDS, MS2000, RCA Video Coin Arcade,
+ RCA Studio II, RCA Studio III, Studio IV, Victory MPT-02,
+ Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800,
+ Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and
+ ETI 660
 
 <</CTRL>>
 <<FILES>>
@@ -81,7 +82,16 @@ Description: Emma 02, the RCA 1802 Emulator
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>
-0
+1
+#!/bin/sh 
+if test -d /usr/share/emma_02/data/FRED2
+then
+   mv /usr/share/emma_02/data/FRED2 /usr/share/emma_02/data/FRED1_5
+fi
+if test -d /usr/share/emma_02/Configurations/FRED2
+then
+  mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5
+fi
 <</PREINST>>
 <<POSTINST>>
 0
@@ -95,11 +105,11 @@ Description: Emma 02, the RCA 1802 Emulator
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.29) xenial; urgency=medium
+emma-02 (1.30) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Mon, 17 Dec 2018 12:00:00 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Wed, 1 May 2019 12:00:00 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>

@@ -197,7 +197,7 @@ void GuiComx::readComxConfig()
 	conf[COMX].keyFileDir_ = readConfigDir("/Dir/Comx/Key_File", dataDir_ + "Comx" + pathSeparator_);
 	conf[COMX].printFileDir_ = readConfigDir("/Dir/Comx/Print_File", dataDir_ + "Comx" + pathSeparator_);
 	conf[COMX].screenDumpFileDir_ = readConfigDir("/Dir/Comx/Video_Dump_File", dataDir_ + "Comx" + pathSeparator_);
-	conf[COMX].wavFileDir_ = readConfigDir("/Dir/Comx/Wav_File", dataDir_ + "Comx" + pathSeparator_);
+	conf[COMX].wavFileDir_[0] = readConfigDir("/Dir/Comx/Wav_File", dataDir_ + "Comx" + pathSeparator_);
 
 	conf[COMX].rom_[CARTROM1] = configPointer->Read("/Comx/Card_1_Rom_File", "fdc.bin");
 	conf[COMX].rom_[CARTROM2] = configPointer->Read("/Comx/Card_2_Rom_File", "f&m.printer.1.2.bin");
@@ -209,7 +209,7 @@ void GuiComx::readComxConfig()
 	conf[COMX].keyFile_ = configPointer->Read("/Comx/Key_File", "");
 	conf[COMX].printFile_ = configPointer->Read("/Comx/Print_File", "printerout.txt");
 	conf[COMX].screenDumpFile_ = configPointer->Read("/Comx/Video_Dump_File", "screendump.png");
-	conf[COMX].wavFile_ = configPointer->Read("/Comx/Wav_File", "");
+	conf[COMX].wavFile_[0] = configPointer->Read("/Comx/Wav_File", "");
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 2.0);
@@ -329,7 +329,7 @@ void GuiComx::readComxConfig()
 		XRCCTRL(*this, "Disk2FileComx", wxTextCtrl)->Enable(diskRomLoaded_);
 		XRCCTRL(*this, "EjectDisk2Comx", wxButton)->Enable(diskRomLoaded_ );
 
-		XRCCTRL(*this, "WavFileComx", wxTextCtrl)->SetValue(conf[COMX].wavFile_);
+		XRCCTRL(*this, "WavFileComx", wxTextCtrl)->SetValue(conf[COMX].wavFile_[0]);
 		XRCCTRL(*this, "VidModeComx", wxChoice)->SetSelection(conf[COMX].videoMode_);
 		if (conf[COMX].videoMode_ == PAL)
 			clockTextCtrl[COMX]->ChangeValue(comxPalClock_);
@@ -461,7 +461,7 @@ void GuiComx::writeComxDirConfig()
     writeConfigDir("/Dir/Comx/Key_File", conf[COMX].keyFileDir_);
     writeConfigDir("/Dir/Comx/Print_File", conf[COMX].printFileDir_);
     writeConfigDir("/Dir/Comx/Video_Dump_File", conf[COMX].screenDumpFileDir_);
-    writeConfigDir("/Dir/Comx/Wav_File", conf[COMX].wavFileDir_);
+    writeConfigDir("/Dir/Comx/Wav_File", conf[COMX].wavFileDir_[0]);
 	writeConfigDir("/Dir/Comx/DIAG_ROM_0", DiagPalRomDir_[0]);
 	writeConfigDir("/Dir/Comx/DIAG_ROM_1", DiagPalRomDir_[1]);
 	writeConfigDir("/Dir/Comx/DIAG_NTSC_ROM_0", DiagNtscRomDir_[0]);
@@ -498,7 +498,7 @@ void GuiComx::writeComxConfig()
 	configPointer->Write("/Comx/Key_File", conf[COMX].keyFile_);
 	configPointer->Write("/Comx/Print_File", conf[COMX].printFile_);
 	configPointer->Write("/Comx/Video_Dump_File", conf[COMX].screenDumpFile_);
-	configPointer->Write("/Comx/Wav_File", conf[COMX].wavFile_);
+	configPointer->Write("/Comx/Wav_File", conf[COMX].wavFile_[0]);
 
 	configPointer->Write("/Comx/Clock_Speed_When_Using_Pal", comxPalClock_);
 	configPointer->Write("/Comx/Clock_Speed_When_Using_Ntsc", comxNtscClock_);

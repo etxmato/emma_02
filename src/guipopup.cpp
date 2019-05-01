@@ -30,6 +30,7 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
 	EVT_BUTTON(XRCID("Disk2Button"), PopupDialog::onComxDisk2)
 	EVT_TEXT(XRCID("Disk2File"), PopupDialog::onComxDiskText2)
 	EVT_BUTTON(XRCID("EjectDisk2"), PopupDialog::onComxDiskEject2)
+	EVT_BUTTON(XRCID("TerminalCasButton"), PopupDialog::onTerminalFile)
 	EVT_BUTTON(XRCID("CasButton"), PopupDialog::onCassette)
 	EVT_TEXT(XRCID("WavFile"), PopupDialog::onCassetteText)
 	EVT_BUTTON(XRCID("EjectCas"), PopupDialog::onCassetteEject)
@@ -113,7 +114,8 @@ PopupDialog::PopupDialog(wxWindow* parent)
             XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
             
-		case MICROTUTOR:
+        case MICROTUTOR:
+        case MICROTUTOR2:
 			wxXmlResource::Get()->Load(p_Main->getApplicationDir() + p_Main->getPathSep() + "menu_Cas_Mem.xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, wxT("Popup_Cas_Mem"));
 			XRCCTRL(*this, "Popup_Cas_Mem", wxDialog)->SetLabel(p_Main->getSelectedComputerText() + " Menu");
@@ -124,17 +126,25 @@ PopupDialog::PopupDialog(wxWindow* parent)
 
 		case VIP:
         case VIPII:
-        case VIP2K:
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuVip.xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupVip"));
             XRCCTRL(*this, "PopupVip", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
         break;
       
         case FRED1:
-        case FRED2:
+        case FRED1_5:
             wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuFred.xrc");
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("PopupFred"));
             XRCCTRL(*this, "PopupFred", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
+        break;
+
+        case VIP2K:
+        case MEMBER:
+			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuMembership.xrc");
+			wxXmlResource::Get()->LoadDialog(this, parent, "PopupMembership");
+            XRCCTRL(*this, "PopupMembership", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
+			if (computer_ == VIP2K)
+				XRCCTRL(*this, "ControlWindowsPopupMembership", wxCheckBox)->Hide();
         break;
 
         default:
@@ -172,7 +182,7 @@ void PopupDialog::init()
 		break;
 
         case FRED1:
-        case FRED2:
+        case FRED1_5:
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             XRCCTRL(*this, "ControlWindowsPopupFRED", wxCheckBox)->SetValue(p_Main->getUseFredControlWindows());
             setStartLocation(p_Main->getSaveStartString(computer_));
@@ -183,7 +193,8 @@ void PopupDialog::init()
 		case TMC2000:
 		case NANO:
 		case ETI:
-		case MICROTUTOR:
+        case MICROTUTOR:
+        case MICROTUTOR2:
 			XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             setStartLocation(p_Main->getSaveStartString(computer_));
             setEndLocation(p_Main->getSaveEndString(computer_));
@@ -191,7 +202,6 @@ void PopupDialog::init()
             
         case VIP:
         case VIPII:
-        case VIP2K:
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             setStartLocation(p_Main->getSaveStartString(computer_));
             setEndLocation(p_Main->getSaveEndString(computer_));
@@ -224,6 +234,8 @@ void PopupDialog::init()
 		break;
 
 		case MEMBER:
+		case VIP2K:
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getVtWaveFile(computer_));
 			XRCCTRL(*this, "ControlWindowsPopupMembership", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
 			setStartLocation(p_Main->getSaveStartString(computer_));
 			setEndLocation(p_Main->getSaveEndString(computer_));
@@ -442,7 +454,7 @@ void PopupDialog::onFredControlWindows(wxCommandEvent&event)
     {
         p_Main->onFred2ControlWindows(event);
         if (p_Main->getGuiMode())
-            p_Main->setCheckBox("ControlWindowsFRED2", event.IsChecked());
+            p_Main->setCheckBox("ControlWindowsFRED1_5", event.IsChecked());
     }
 }
 
@@ -535,6 +547,12 @@ void PopupDialog::onTelmacAdiVoltText(wxCommandEvent&event)
 		p_Main->setSpinCtrl("AdiVolt", XRCCTRL(*this, "AdiVoltPopup", wxSpinCtrl)->GetValue()); 
 }
 
+void PopupDialog::onTerminalFile(wxCommandEvent&event)
+{
+ 	p_Main->onTerminalFile(event);
+	XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+}
+
 void PopupDialog::onCassette(wxCommandEvent&event)
 {
  	p_Main->onCassette(event);
@@ -543,7 +561,7 @@ void PopupDialog::onCassette(wxCommandEvent&event)
 
 void PopupDialog::onCassetteText(wxCommandEvent&event)
 {
-	if (computer_ == MICROTUTOR)
+	if (computer_ == MICROTUTOR || computer_ == MICROTUTOR2)
 		return;
 
  	p_Main->onCassetteText(event);

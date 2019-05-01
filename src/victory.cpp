@@ -427,6 +427,7 @@ void Victory::startComputer()
 		defineMemoryType(i+0x100, MAPPEDRAM);
 	}
 
+    p_Main->checkAndReInstallMainRom(VICTORY);
     readProgram(p_Main->getRomDir(VICTORY, MAINROM1), p_Main->getRomFile(VICTORY, MAINROM1), ROM, 0, NONAME);
 
     if (multiCart_)

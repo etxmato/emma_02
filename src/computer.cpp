@@ -400,8 +400,11 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	}
     updateAddress_ = false;
     updateAddressTil313_ = false;
+    updateAddressTil313Italic_ = false;
 	updateData_ = false;
 	updateDataTil313_ = false;
+    updateDataTil313Italic_ = false;
+    updateDp313_ = false;
 
 	qLedStatus = 0;
     readyLedStatus = 0;
@@ -411,9 +414,13 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	pauseLedStatus = 0;
 	runLedStatus = 0;
 	loadLedStatus = 0;
-	addressStatus = 0;
+    addressStatus = 0;
+    addressTil313Status = 0;
+    addressTil313StatusItalic = 0;
 	dataStatus = 0;
-	dataTil313Status = 0;
+    dataTil313Status = 0;
+    dataTil313StatusItalic = 0;
+    dpStatus = false;
 	ms_ = 100;
 
 	functionKeyReleaseTwo_ = false;
@@ -577,9 +584,12 @@ void Panel::ledTimeout()
 		updateSeg(dc, i);
 	}
 	updateData(dc);
-	updateDataTil313(dc);
+    updateDataTil313(dc);
+    updateDataTil313Italic(dc);
+    updateDp313Italic(dc);
     updateAddress(dc);
     updateAddressTil313(dc);
+    updateAddressTil313Italic(dc);
 }
 
 void Panel::setLedMs(long ms)
@@ -842,6 +852,53 @@ void Panel::updateDataTil313(wxDC& dc)
 	}
 }
 
+void Panel::showDataTil313Italic(Byte value)
+{
+    if (dataTil313StatusItalic != value)
+    {
+        dataTil313StatusItalic = value;
+        updateDataTil313Italic_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateDataTil313Italic(dc);
+        }
+    }
+}
+
+void Panel::updateDataTil313Italic(wxDC& dc)
+{
+    if (updateDataTil313Italic_)
+    {
+        dataTil313PointerItalic[0]->update(dc,(dataTil313StatusItalic>>4)&15);
+        dataTil313PointerItalic[1]->update(dc, dataTil313StatusItalic&15);
+        updateDataTil313Italic_ = false;
+    }
+}
+
+void Panel::showDp313Italic(bool status)
+{
+    if (dpStatus != status)
+    {
+        dpStatus = status;
+        updateDp313_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateDp313Italic(dc);
+        }
+    }
+}
+
+void Panel::updateDp313Italic(wxDC& dc)
+{
+    if (updateDp313_)
+    {
+        dataTil313PointerItalic[1]->dp(dc, dpStatus);
+        updateDp313_ = false;
+    }
+}
+
 void Panel::showSeg(int number, Byte value)
 {
 	if (segStatus[number] != value)
@@ -881,14 +938,28 @@ void Panel::showAddress(Word address)
 
 void Panel::showAddressTil313(Word address)
 {
-    if (addressStatus != address)
+    if (addressTil313Status != address)
     {
-        addressStatus = address;
+        addressTil313Status = address;
         updateAddressTil313_ = true;
         if (ms_ == 0)
         {
             wxClientDC dc(this);
             updateAddressTil313(dc);
+        }
+    }
+}
+
+void Panel::showAddressTil313Italic(Word address)
+{
+    if (addressTil313StatusItalic != address)
+    {
+        addressTil313StatusItalic = address;
+        updateAddressTil313Italic_ = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateAddressTil313Italic(dc);
         }
     }
 }
@@ -909,11 +980,23 @@ void Panel::updateAddressTil313(wxDC& dc)
 {
     if (updateAddressTil313_)
     {
-        addressTil313Pointer[0]->update(dc, addressStatus>>12);
-        addressTil313Pointer[1]->update(dc,(addressStatus>>8)&15);
-        addressTil313Pointer[2]->update(dc,(addressStatus>>4)&15);
-        addressTil313Pointer[3]->update(dc, addressStatus&15);
+        addressTil313Pointer[0]->update(dc, addressTil313Status>>12);
+        addressTil313Pointer[1]->update(dc,(addressTil313Status>>8)&15);
+        addressTil313Pointer[2]->update(dc,(addressTil313Status>>4)&15);
+        addressTil313Pointer[3]->update(dc, addressTil313Status&15);
         updateAddressTil313_ = false;
+    }
+}
+
+void Panel::updateAddressTil313Italic(wxDC& dc)
+{
+    if (updateAddressTil313Italic_)
+    {
+        addressTil313PointerItalic[0]->update(dc, addressTil313StatusItalic>>12);
+        addressTil313PointerItalic[1]->update(dc,(addressTil313StatusItalic>>8)&15);
+        addressTil313PointerItalic[2]->update(dc,(addressTil313StatusItalic>>4)&15);
+        addressTil313PointerItalic[3]->update(dc, addressTil313StatusItalic&15);
+        updateAddressTil313Italic_ = false;
     }
 }
 
@@ -1738,6 +1821,8 @@ void Computer::readDebugFile(wxString dir, wxString name, wxString number, Word 
                 while (!zip.Eof())
                 {
                     nextByte = zip.GetC();
+     //               if (nextByte >= 70 && nextByte <=86)
+       //                 nextByte += 100;
                     if (nextByte != 0xff)
                         p_Computer->writeMemDataType(startAddress, nextByte);
                     startAddress++;
@@ -1775,7 +1860,7 @@ void Computer::terminalSave(wxString WXUNUSED(fileName))
 {
 }
 
-void Computer::terminalLoad(wxString WXUNUSED(fileName), bool WXUNUSED(binaryFile))
+void Computer::terminalLoad(wxString WXUNUSED(fileName), wxString WXUNUSED(fileName), bool WXUNUSED(binaryFile))
 {
 }
 
@@ -1796,6 +1881,10 @@ void Computer::setMultiCartMsb(Byte WXUNUSED(msb))
 }
 
 void Computer::setDisableSystemRom(bool WXUNUSED(disableSystemRom))
+{
+}
+
+void Computer::setAutoKeyDef(bool WXUNUSED(autoKeyDef))
 {
 }
 

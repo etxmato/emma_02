@@ -368,7 +368,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].keyFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Key_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].printFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Print_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].screenDumpFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Video_Dump_File", dataDir_ + "Elf" + pathSeparator_);
-	conf[elfType].wavFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Wav_File", dataDir_ + "Elf" + pathSeparator_);
+	conf[elfType].wavFileDir_[0] = readConfigDir("/Dir/"+elfTypeStr+"/Wav_File", dataDir_ + "Elf" + pathSeparator_);
 	elfConfiguration[elfType].vtWavFileDir_ = readConfigDir("/Dir/" + elfTypeStr + "/Vt_Wav_File", dataDir_ + "Elf" + pathSeparator_);
 
 	conf[elfType].videoMode_ = (int)configPointer->Read(elfTypeStr+"/Video_Type", 0l);
@@ -379,7 +379,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].keyFile_ = configPointer->Read(elfTypeStr+"/Key_File", "");
 	conf[elfType].printFile_ = configPointer->Read(elfTypeStr+"/Print_File", "printerout.txt");
 	conf[elfType].screenDumpFile_ = configPointer->Read(elfTypeStr+"/Video_Dump_File", "screendump.png");
-	conf[elfType].wavFile_ = configPointer->Read(elfTypeStr+"/Wav_File", "");
+	conf[elfType].wavFile_[0] = configPointer->Read(elfTypeStr+"/Wav_File", "");
 	elfConfiguration[elfType].vtWavFile_ = configPointer->Read(elfTypeStr + "/Vt_Wav_File", "");
     elfConfiguration[elfType].serialPort_ = configPointer->Read(elfTypeStr + "/VtSerialPortChoice", "");
 
@@ -477,7 +477,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "KeyFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].keyFile_);
 		XRCCTRL(*this, "PrintFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].printFile_);
 		XRCCTRL(*this, "ScreenDumpFile"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].screenDumpFile_);
-		XRCCTRL(*this, "WavFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].wavFile_);
+		XRCCTRL(*this, "WavFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].wavFile_[0]);
 
 		XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].qSound_);
 		XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].vtType);
@@ -644,7 +644,7 @@ void GuiElf::writeElfDirConfig(int elfType, wxString elfTypeStr)
 	writeConfigDir("/Dir/" + elfTypeStr + "/Key_File", conf[elfType].keyFileDir_);
     writeConfigDir("/Dir/" + elfTypeStr + "/Print_File", conf[elfType].printFileDir_);
 	writeConfigDir("/Dir/" + elfTypeStr + "/Video_Dump_File", conf[elfType].screenDumpFileDir_);
-	writeConfigDir("/Dir/" + elfTypeStr + "/Wav_File", conf[elfType].wavFileDir_);
+	writeConfigDir("/Dir/" + elfTypeStr + "/Wav_File", conf[elfType].wavFileDir_[0]);
 	writeConfigDir("/Dir/" + elfTypeStr + "/Vt_Wav_File", elfConfiguration[elfType].vtWavFileDir_);
 }
 	
@@ -662,7 +662,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Key_File", conf[elfType].keyFile_);
 	configPointer->Write(elfTypeStr+"/Print_File", conf[elfType].printFile_);
 	configPointer->Write(elfTypeStr+"/Video_Dump_File", conf[elfType].screenDumpFile_);
-	configPointer->Write(elfTypeStr+"/Wav_File", conf[elfType].wavFile_);
+	configPointer->Write(elfTypeStr+"/Wav_File", conf[elfType].wavFile_[0]);
 	configPointer->Write(elfTypeStr+"/Vt_Wav_File", elfConfiguration[elfType].vtWavFile_);
     configPointer->Write(elfTypeStr+"/VtSerialPortChoice", elfConfiguration[elfType].serialPort_);
 

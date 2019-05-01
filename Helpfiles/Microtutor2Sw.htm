@@ -1,0 +1,19 @@
+
+<HTML>
+<Title>Pre SW Load</Title>
+<BODY>
+<h2>Pre SW Load</h2>
+<p>
+To run the Microtutor II emulator with SW loaded before the emulator starts select the SW file in the 'RAM - M' field. To change the location use the 'RAM - M' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+The selected file will be loaded at RAM address 0 (if the file is binary, other formats like intel hex will be loaded at the specified locations). 
+</p>
+<p>
+When the 'Utility Memory Concept' is activated also a file can be loaded via 'RAM - E'. This file will be loaded in the Microtutor II 'E' slot. The E slot will be activated at address 0 after the first OUT or INP 4 instruction at which time slot M will switch to address 8000. See the Microtutor II manual for more details.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>

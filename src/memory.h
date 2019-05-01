@@ -20,7 +20,7 @@ public:
     void clearDebugMemory();
 	void allocPagerMemory();
 	void allocRomMapperMemory(wxFileOffset length);
-	void allocComxExpansionMemory();
+    void allocComxExpansionMemory();
     void allocEmsMemory();
     size_t allocMultiCartMemory(size_t memorySize);
     void allocTestCartMemory();

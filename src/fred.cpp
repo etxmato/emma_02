@@ -307,7 +307,7 @@ void Fred::configureComputer()
 	if (computerType_ == FRED1)
 		p_Main->message("Configuring FRED 1");
 	else 
-		p_Main->message("Configuring FRED 2");
+		p_Main->message("Configuring FRED 1.5");
     p_Main->message("	Output 1: set I/O group");
     p_Main->message("	I/O group 1: hex keypad & card");
     p_Main->message("	I/O group 2: TV");
@@ -355,9 +355,9 @@ void Fred::configureComputer()
 	}
 	else
 	{
-    	p_Main->getDefaultHexKeys(computerType_, "FRED2", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    	p_Main->getDefaultHexKeys(computerType_, "FRED1_5", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 
-		 if (p_Main->getConfigBool("/FRED2/GameAuto", true))
+		 if (p_Main->getConfigBool("/FRED1_5/GameAuto", true))
 			p_Main->loadKeyDefinition(p_Main->getRamFile(computerType_), p_Main->getRamFile(computerType_), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 	}
     resetCpu();
@@ -717,7 +717,7 @@ void Fred::out(Byte port, Word WXUNUSED(address), Byte value)
                             tapeActivated_ = false;
                         }
                         if (!tapeRecording_)
-                            p_Main->startCassetteSave();
+                            p_Main->startCassetteSave(0);
                         
                         tapeRecording_ = true;
                     }
@@ -825,7 +825,7 @@ void Fred::onRunButton()
         if (computerType_ == FRED1)
             dmaOut();
         else
-            scratchpadRegister_[0]=p_Main->getBootAddress("FRED2", computerType_);
+            scratchpadRegister_[0]=p_Main->getBootAddress("FRED1_5", computerType_);
         
         fredScreenPointer->setReadyLed(0);
         fredScreenPointer->setStopLed(0);
@@ -843,7 +843,7 @@ void Fred::autoBoot()
 	if (computerType_ == FRED1)
         dmaOut();
 	else
-	    scratchpadRegister_[0]=p_Main->getBootAddress("FRED2", computerType_);
+	    scratchpadRegister_[0]=p_Main->getBootAddress("FRED1_5", computerType_);
 
     fredScreenPointer->setReadyLed(0);
     fredScreenPointer->setStopLed(0);
@@ -873,14 +873,14 @@ void Fred::startLoad(bool button)
     if (tapeActivated_)
     {
         p_Main->turboOn();
-        p_Computer->restartTapeLoad();
+        p_Computer->restartTapeLoad(TAPE_PLAY);
     }
     else
     {
         if (button)
-            tapeActivated_ = p_Main->startLoad();
+            tapeActivated_ = p_Main->startLoad(0);
         else
-            tapeActivated_ = p_Main->startCassetteLoad();
+            tapeActivated_ = p_Main->startCassetteLoad(0);
     }
     
 //    if (tapeActivated_)
@@ -941,7 +941,7 @@ void Fred::updateCardReadStatus()
         {
             inpMode_ = INP_MODE_TAPE_DIRECT;
             p_Main->turboOn();
-            p_Computer->restartTapeLoad();
+            p_Computer->restartTapeLoad(TAPE_PLAY);
         }
     }
     
@@ -964,7 +964,7 @@ void Fred::startComputer()
     if (computerType_ == FRED1)
         pixiePointer = new PixieFred( "FRED 1", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
     else
-        pixiePointer = new PixieFred( "FRED 2", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
+        pixiePointer = new PixieFred( "FRED 1.5", p_Main->getPixiePos(computerType_), wxSize(64*3*zoom, 128*zoom), zoom, 1, computerType_);
     p_Video = pixiePointer;
 
     resetPressed_ = false;
@@ -1027,7 +1027,7 @@ void Fred::startComputer()
 
     if (fredConfiguration.tapeStart)
     {
-        tapeActivated_ =  p_Main->startCassetteLoad();
+        tapeActivated_ =  p_Main->startCassetteLoad(0);
         if (tapeActivated_)
             tapeRunSwitch_ = tapeRunSwitch_ | 1;
     }
@@ -1279,7 +1279,7 @@ void Fred::cassetteFred(short val)
                     if (computerType_ == FRED1)
                         p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
                     else
-                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED2", "-> 5.2/6.2 Tone");
+                        p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
                 }
             break;
         }
@@ -1351,7 +1351,7 @@ void Fred::cassetteFred(char val)
                 if (computerType_ == FRED1)
                     p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> 5.2/6.2 Tone");
                 else
-                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED2", "-> 5.2/6.2 Tone");
+                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> 5.2/6.2 Tone");
             }
         break;
     }
@@ -1445,7 +1445,7 @@ void Fred::cassetteFredPm()
                 if (computerType_ == FRED1)
                     p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1", "-> PM System");
                 else
-                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED2", "-> PM SYSTEM");
+                    p_Main->eventSetStaticTextValue("CurrentTapeFormatTextFRED1_5", "-> PM SYSTEM");
             }
             tapeFormatFixed_ = true;
         }
@@ -1527,7 +1527,7 @@ void Fred::updateTitle(wxString Title)
     if (computerType_ == FRED1)
         pixiePointer->SetTitle("FRED 1"+Title);
     else
-        pixiePointer->SetTitle("FRED 2"+Title);
+        pixiePointer->SetTitle("FRED 1.5"+Title);
 }
 
 void Fred::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
@@ -1562,7 +1562,7 @@ void Fred::checkFredFunction()
                     tapeActivated_ = false;
                 }
                 if (!tapeRecording_)
-                    p_Main->startCassetteSave();
+                    p_Main->startCassetteSave(0);
                 
                 tapeRecording_ = true;
             break;
@@ -1586,7 +1586,7 @@ void Fred::checkFredFunction()
                         tapeActivated_ = false;
                     }
                     if (!tapeRecording_)
-                        p_Main->startCassetteSave();
+                        p_Main->startCassetteSave(0);
                 
                     tapeRecording_ = true;
                 }

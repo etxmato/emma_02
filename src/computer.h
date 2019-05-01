@@ -135,12 +135,18 @@ public:
 	void updateData(wxDC& dc);
 	void showDataTil313(Byte value);
 	void updateDataTil313(wxDC& dc);
+    void showDataTil313Italic(Byte value);
+    void updateDataTil313Italic(wxDC& dc);
+    void showDp313Italic(bool status);
+    void updateDp313Italic(wxDC& dc);
 	void showSeg(int number, Byte value);
 	void updateSeg(wxDC& dc, int number);
     void showAddress(Word address);
     void showAddressTil313(Word address);
+    void showAddressTil313Italic(Word address);
     void updateAddress(wxDC& dc);
     void updateAddressTil313(wxDC& dc);
+    void updateAddressTil313Italic(wxDC& dc);
 	virtual void inUp();
 	virtual void inDown();
     virtual void inSetState(bool state);
@@ -250,15 +256,21 @@ protected:
 	Til311 *addressPointer[4];
 	Til311 *dataPointer[2];
     Til313 *addressTil313Pointer[4];
-	Til313 *dataTil313Pointer[2];
+    Til313 *dataTil313Pointer[2];
+    Til313Italic *dataTil313PointerItalic[2];
+    Til313Italic *addressTil313PointerItalic[4];
 	Til313full *segPointer[8];
 
     int tilType_;
     
-	Word addressStatus;
+    Word addressStatus;
+    Word addressTil313Status;
+    Word addressTil313StatusItalic;
 	Byte dataStatus;
-	Byte dataTil313Status;
+    Byte dataTil313Status;
+    Byte dataTil313StatusItalic;
 	Byte segStatus[8];
+    bool dpStatus;
 
     Led *readyLedPointer;
     Led *stopLedPointer;
@@ -291,8 +303,11 @@ protected:
 	bool updateLed_[8];
     bool updateAddress_;
     bool updateAddressTil313_;
+    bool updateAddressTil313Italic_;
 	bool updateData_;
-	bool updateDataTil313_;
+    bool updateDataTil313_;
+    bool updateDataTil313Italic_;
+    bool updateDp313_;
 	bool updateSeg_[8];
 
 	long ms_;
@@ -443,7 +458,7 @@ public:
 	void readDebugFile(wxString dir, wxString name, wxString number, Word start);
 
     virtual void terminalSave(wxString fileName);
-    virtual void terminalLoad(wxString fileName, bool binaryFile);
+    virtual void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
     virtual void terminalStop();
     
 	virtual void deleteAllBackup(wxString dir, bool sub);
@@ -458,7 +473,8 @@ public:
 
     virtual void setMultiCartLsb(Byte lsb);
 	virtual void setMultiCartMsb(Byte msb); 
-	virtual void setDisableSystemRom(bool disableSystemRom);
+    virtual void setDisableSystemRom(bool disableSystemRom);
+    virtual void setAutoKeyDef(bool autoKeyDef);
     virtual int getDmaCounter() {return 0;};
 
 protected:

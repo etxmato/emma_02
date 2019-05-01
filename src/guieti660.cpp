@@ -95,12 +95,12 @@ void GuiEti::readEtiConfig()
 	conf[ETI].ramDir_ = readConfigDir("/Dir/Eti/Software_File", dataDir_ + "Eti"  + pathSeparator_);
 	conf[ETI].chip8SWDir_ = readConfigDir("/Dir/Eti/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 ETI660 Hybrids"  + pathSeparator_);
 	conf[ETI].screenDumpFileDir_ = readConfigDir("/Dir/Eti/Video_Dump_File", dataDir_ + "Eti" + pathSeparator_);
-	conf[ETI].wavFileDir_ = readConfigDir("/Dir/Eti/Wav_File", dataDir_ + "Eti" + pathSeparator_);
+	conf[ETI].wavFileDir_[0] = readConfigDir("/Dir/Eti/Wav_File", dataDir_ + "Eti" + pathSeparator_);
 
 	conf[ETI].rom_[MAINROM1] = configPointer->Read("/Eti/Main_Rom_File", "eti-660.bin");
 	conf[ETI].ram_ = configPointer->Read("/TMC2000/Ram_Software", "chip8.ram");
 	conf[ETI].chip8SW_ = configPointer->Read("/Eti/Chip_8_Software", "Wipeout (ETI660 hybrid) [W.F. Kreykes, 1982].ch8");
-	conf[ETI].wavFile_ = configPointer->Read("/Eti/Wav_File", "");
+	conf[ETI].wavFile_[0] = configPointer->Read("/Eti/Wav_File", "");
 	conf[ETI].screenDumpFile_ = configPointer->Read("/Eti/Video_Dump_File", "screendump.png");
 
 	conf[ETI].turboClock_ = configPointer->Read("/Eti/Turbo_Clock_Speed", "15");
@@ -128,7 +128,7 @@ void GuiEti::readEtiConfig()
 		XRCCTRL(*this, "MainRomEti", wxComboBox)->SetValue(conf[ETI].rom_[MAINROM1]);
 		XRCCTRL(*this, "Chip8SWEti", wxTextCtrl)->SetValue(conf[ETI].chip8SW_);
 		XRCCTRL(*this, "ScreenDumpFileEti", wxComboBox)->SetValue(conf[ETI].screenDumpFile_);
-		XRCCTRL(*this, "WavFileEti", wxTextCtrl)->SetValue(conf[ETI].wavFile_);
+		XRCCTRL(*this, "WavFileEti", wxTextCtrl)->SetValue(conf[ETI].wavFile_[0]);
 
 		XRCCTRL(*this, "ZoomValueEti", wxTextCtrl)->ChangeValue(conf[ETI].zoom_);
 
@@ -151,7 +151,7 @@ void GuiEti::writeEtiDirConfig()
 	writeConfigDir("/Dir/Eti/Software_File", conf[ETI].ramDir_);
 	writeConfigDir("/Dir/Eti/Chip_8_Software", conf[ETI].chip8SWDir_);
 	writeConfigDir("/Dir/Eti/Video_Dump_File", conf[ETI].screenDumpFileDir_);
-	writeConfigDir("/Dir/Eti/Wav_File", conf[ETI].wavFileDir_);
+	writeConfigDir("/Dir/Eti/Wav_File", conf[ETI].wavFileDir_[0]);
 }
 
 void GuiEti::writeEtiConfig()
@@ -159,7 +159,7 @@ void GuiEti::writeEtiConfig()
 	configPointer->Write("/Eti/Main_Rom_File", conf[ETI].rom_[MAINROM1]);
 	configPointer->Write("/Eti/Chip_8_Software", conf[ETI].chip8SW_);
 	configPointer->Write("/Eti/Video_Dump_File", conf[ETI].screenDumpFile_);
-	configPointer->Write("/Eti/Wav_File", conf[ETI].wavFile_);
+	configPointer->Write("/Eti/Wav_File", conf[ETI].wavFile_[0]);
 
 	configPointer->Write("/Eti/Zoom", conf[ETI].zoom_);
 

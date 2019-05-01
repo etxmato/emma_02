@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.29
+AppVerName=Emma 02 - V1.30
 AppVersion=1.27
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.29
+OutputBaseFilename=Emma_02_x86_setup_v1.30
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -82,10 +82,11 @@ Source: ..\Configurations Windows\Elf\*.*; DestDir: {app}\Configurations\Elf; Co
 Source: ..\Configurations Windows\Elf2K\*.*; DestDir: {app}\Configurations\Elf2K; Components: MAIN
 Source: ..\Configurations Windows\Eti\*.*; DestDir: {app}\Configurations\Eti; Components: MAIN
 Source: ..\Configurations Windows\FRED1\*.*; DestDir: {app}\Configurations\FRED1; Components: MAIN
-Source: ..\Configurations Windows\FRED2\*.*; DestDir: {app}\Configurations\FRED2; Components: MAIN
+Source: ..\Configurations Windows\FRED1_5\*.*; DestDir: {app}\Configurations\FRED1_5; Components: MAIN
 Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
 Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
 Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
+Source: ..\Configurations Windows\Microtutor2\*.*; DestDir: {app}\Configurations\Microtutor2; Components: MAIN
 Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
 Source: ..\Configurations Windows\Nano\*.*; DestDir: {app}\Configurations\Nano; Components: MAIN
 Source: ..\Configurations Windows\Pecom\*.*; DestDir: {app}\Configurations\Pecom; Components: MAIN
@@ -162,7 +163,7 @@ Source: ..\data\Comx\Disks\plotter-2.img; DestDir: {app}\data\Comx\Disks; Compon
 Source: ..\data\Comx\F&M EPROM Switchboard\*.*; DestDir: {app}\data\Comx\F&M EPROM Switchboard; Components: MAIN
 Source: ..\data\CoinArcade\*.*; DestDir: {app}\data\CoinArcade; Components: MAIN
 Source: ..\data\FRED1\*.*; DestDir: {app}\data\FRED1; Components: MAIN
-Source: ..\data\FRED2\*.*; DestDir: {app}\data\FRED2; Components: MAIN
+Source: ..\data\FRED1_5\*.*; DestDir: {app}\data\FRED1_5; Components: MAIN
 Source: ..\data\Studio2\studio2.rom; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.bin; DestDir: {app}\data\Studio2; Components: MAIN
 Source: ..\data\Studio2\*.rom; DestDir: {app}\data\Studio2; Components: MAIN
@@ -366,10 +367,26 @@ procedure CurStepChanged(CurStep: TSetupStep);
     IntVersion: Integer;
     UserDir: String;
     OldUserDir: String;
+    fredDirOld: String;
+    fredDirNew: String;
     MajorVersion: Cardinal;
     MinorVersion: Cardinal;
   begin
     if (CurStep = ssInstall) then begin
+
+      fredDirOld :=  ExpandConstant('{app}') + '\data\FRED2';
+      fredDirNew :=  ExpandConstant('{app}') + '\data\FRED1_5';
+      if DirExists(fredDirOld) then
+      begin
+        RenameFile(fredDirOld, fredDirNew);
+      end;
+
+      fredDirOld :=  ExpandConstant('{app}') + '\Configurations\FRED2';
+      fredDirNew :=  ExpandConstant('{app}') + '\Configurations\FRED1_5';
+      if DirExists(fredDirOld) then
+      begin
+        RenameFile(fredDirOld, fredDirNew);
+      end;
 
       if RegQueryStringValue(HKLM, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\1802 Emulator_is1', 'UninstallString', Uninstall) then begin
         StrVersion := '0';

@@ -313,10 +313,10 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                         if (!saveStarted_)
                         {
                             saveStarted_ = true;
-                            p_Main->startCassetteSave();
+                            p_Main->startCassetteSave(0);
                         }
                         else
-                            restartTapeSave();
+                            restartTapeSave(TAPE_RECORD);
                     }
                     
                     // 0x40 = TAPE 0, 0x80 = TAPE 1
@@ -325,10 +325,10 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
                         if (!loadStarted_)
                         {
                             loadStarted_ = true;
-                            p_Main->startCassetteLoad();
+                            p_Main->startCassetteLoad(0);
                         }
                         else
-                            restartTapeLoad();
+                            restartTapeLoad(TAPE_PLAY);
                     }
 
                     if (value == 0)
@@ -409,6 +409,7 @@ void Ms2000::startComputer()
 
     p_Main->assDefault("mycode", 0, 0xFFF);
     
+    p_Main->checkAndReInstallMainRom(MS2000);
 	readProgram(p_Main->getRomDir(MS2000, MAINROM1), p_Main->getRomFile(MS2000, MAINROM1), ROM, 0x8000, NONAME);
     
     if (p_Vt100 != NULL)

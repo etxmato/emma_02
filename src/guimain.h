@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 28
-#define LAST_ELF_TYPE 13
+#define NO_COMPUTER 29
+#define LAST_ELF_TYPE 14
 
 #define MAINROM1 0
 
@@ -56,8 +56,8 @@ public:
 	wxString ram_;
 	wxString chip8SWDir_;
 	wxString chip8SW_;
-	wxString wavFileDir_;
-	wxString wavFile_;
+	wxString wavFileDir_[2];
+	wxString wavFile_[2];
 	wxString charRomDir_;
 	wxString charRom_;
 	wxString vtCharRomDir_;
@@ -154,6 +154,12 @@ public:
 	wxString saveEndString_;
 	wxString saveExecString_;
 	
+    bool scrtMode_;
+    long debugCallReg_;
+    long debugCallAddress_;
+    long debugRetReg_;
+    long debugRetAddress_;
+
 	int gameId_;
 };
 
@@ -234,9 +240,12 @@ public:
 	void onDp(wxCommandEvent& event);
 	void onVolume(wxScrollEvent&event);
 	void onCassette(wxCommandEvent& event);
+    void onCassette1(wxCommandEvent& event);
 	void onTerminalFile(wxCommandEvent& event);
-	void onCassetteEject(wxCommandEvent& event);
-	void onCassetteText(wxCommandEvent& event);
+    void onCassetteEject(wxCommandEvent& event);
+    void onCassette1Eject(wxCommandEvent& event);
+    void onCassetteText(wxCommandEvent& event);
+    void onCassette1Text(wxCommandEvent& event);
 	void onAutoLoad(wxCommandEvent& event);
 	void onRealCas(wxCommandEvent& event);
 	void onWavFile(wxCommandEvent& event);
@@ -246,6 +255,8 @@ public:
 	void onCassetteLoad(wxCommandEvent& event);
 	void onCassetteSave(wxCommandEvent& event);
 	void onCassetteStop(wxCommandEvent& event);
+    void onCassetteLoad1(wxCommandEvent& event);
+    void onCassetteSave1(wxCommandEvent& event);
 	void onCassettePause(wxCommandEvent& event);
 	void onKeyboard(wxCommandEvent& event);
 	void onPsave(wxString fileName);
@@ -280,7 +291,7 @@ public:
 	wxString getIdeDir(int computerType) {return conf[computerType].ideDir_;};
 	wxString getCharRomDir(int computerType) {return conf[computerType].charRomDir_;};
 	wxString getVtCharRomDir(int computerType) {return conf[computerType].vtCharRomDir_;};
-	wxString getWaveDir(int computerType) {return conf[computerType].wavFileDir_;};
+	wxString getWaveDir(int computerType) {return conf[computerType].wavFileDir_[0];};
 	bool getAutCassetteLoad() {return conf[runningComputer_].autoCassetteLoad_;};
 	bool getPrinterStatus(int computerType) {return conf[computerType].printerOn_;};
 
@@ -314,7 +325,7 @@ public:
 	wxString getIdeFile(int computerType) {return conf[computerType].ide_;};
 	wxString getCharRomFile(int computerType) {return conf[computerType].charRom_;};
 	wxString getVtCharRomFile(int computerType) {return conf[computerType].vtCharRom_;};
-	wxString getWaveFile(int computerType) {return conf[computerType].wavFile_;};
+	wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
 	wxString getKeyFile();
 	wxString getKeyFileDir();
 	wxString getScreenDumpFile();
@@ -381,11 +392,11 @@ public:
 	void setDataDir(wxString dataDir) {dataDir_ = dataDir;};
 
 	int pload();
-	bool startCassetteLoad();
-	bool startLoad();
+    bool startCassetteLoad(int tapeNumber);
+    bool startLoad(int tapeNumber);
 	void stopCassette();
-	void startCassetteSave();
-    void startSave();
+	void startCassetteSave(int tapeNumber);
+    void startSave(int tapeNumber);
 	void onTerminalSave(wxCommandEvent&event);
 	void onTerminalLoad(wxCommandEvent&event);
 	void onTerminalStop(wxCommandEvent&event);
@@ -402,7 +413,7 @@ public:
 	void enableMemAccessGui(bool status);
 	void enableTapeGui(bool status, int computerType);
 	void enableLoadGui(bool status);
-	void setTapeState(int tapeState);
+    void setTapeState(int tapeState, wxString tapeNumber);
 	void turboGui(wxString computerString);
 	void setComputerInfo(int id, wxString gui, wxString name, wxString ploadExtension);
 	void setScreenInfo(int id, int start, int end, wxString colour[]);
@@ -461,7 +472,8 @@ protected:
 	Mcds *p_Mcds;
 	Cosmicos *p_Cosmicos;
 	Membership *p_Membership;
-	Microtutor *p_Microtutor;
+    Microtutor *p_Microtutor;
+    Microtutor2 *p_Microtutor2;
 	Elf *p_Elf;
 	wxConfigBase *regPointer;
     wxMenu *configurationMenu;
@@ -506,7 +518,7 @@ protected:
     wxString keyboardType_;
     wxString keyboardTypeMenuItem_;
 
-	bool useExitKey_;
+    bool useExitKey_;
 
 	WindowInfo windowInfo;
 	wxString workingDir_;
@@ -533,6 +545,8 @@ protected:
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;
+    wxTimer *guiSizeTimeoutPointer;
+    bool guiSizeTimerStarted_;
 
 	bool slotLedUpdate_;
 

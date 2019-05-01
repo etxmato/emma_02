@@ -152,13 +152,13 @@ void GuiVip::readVipConfig()
 	conf[VIP].chip8SWDir_ = readConfigDir("/Dir/Vip/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[VIP].printFileDir_ = readConfigDir("/Dir/Vip/Print_File", dataDir_ + "Vip" + pathSeparator_);
 	conf[VIP].screenDumpFileDir_ = readConfigDir("/Dir/Vip/Video_Dump_File", dataDir_ + "Vip" + pathSeparator_);
-	conf[VIP].wavFileDir_ = readConfigDir("/Dir/Vip/Wav_File", dataDir_ + "Vip" + pathSeparator_);
+	conf[VIP].wavFileDir_[0] = readConfigDir("/Dir/Vip/Wav_File", dataDir_ + "Vip" + pathSeparator_);
 	elfConfiguration[VIP].vtWavFileDir_ = readConfigDir("/Dir/Vip/Vt_Wav_File", dataDir_ + "Vip" + pathSeparator_);
 
 	conf[VIP].rom_[MAINROM1] = configPointer->Read("/Vip/Main_Rom_File", "vip.rom");
 	conf[VIP].ram_ = configPointer->Read("/Vip/Ram_Software", "fpb_color.bin");
 	conf[VIP].chip8SW_ = configPointer->Read("/Vip/Chip_8_Software", "");
-	conf[VIP].wavFile_ = configPointer->Read("/Vip/Wav_File", "");
+	conf[VIP].wavFile_[0] = configPointer->Read("/Vip/Wav_File", "");
 	elfConfiguration[VIP].vtWavFile_ = configPointer->Read("/Vip/Vt_Wav_File", "");
     elfConfiguration[VIP].serialPort_ = configPointer->Read("/Vip/VtSerialPortChoice", "");
 
@@ -229,7 +229,7 @@ void GuiVip::readVipConfig()
 		XRCCTRL(*this, "PrintFileVip", wxTextCtrl)->SetValue(conf[VIP].printFile_);
 		XRCCTRL(*this, "VtCharRomVip", wxComboBox)->SetValue(conf[VIP].vtCharRom_);
 		XRCCTRL(*this, "ScreenDumpFileVip", wxComboBox)->SetValue(conf[VIP].screenDumpFile_);
-		XRCCTRL(*this, "WavFileVip", wxTextCtrl)->SetValue(conf[VIP].wavFile_);
+		XRCCTRL(*this, "WavFileVip", wxTextCtrl)->SetValue(conf[VIP].wavFile_[0]);
 
 		XRCCTRL(*this, "VTTypeVip", wxChoice)->SetSelection(elfConfiguration[VIP].vtType);
 
@@ -273,7 +273,7 @@ void GuiVip::writeVipDirConfig()
 	writeConfigDir("/Dir/Vip/Print_File", conf[VIP].printFileDir_);
 	writeConfigDir("/Dir/Vip/Vt_Font_Rom_File", conf[VIP].vtCharRomDir_);
 	writeConfigDir("/Dir/Vip/Video_Dump_File", conf[VIP].screenDumpFileDir_);
-	writeConfigDir("/Dir/Vip/Wav_File", conf[VIP].wavFileDir_);
+	writeConfigDir("/Dir/Vip/Wav_File", conf[VIP].wavFileDir_[0]);
 	writeConfigDir("/Dir/Vip/Vt_Wav_File", elfConfiguration[VIP].vtWavFileDir_);
 }
 
@@ -285,7 +285,7 @@ void GuiVip::writeVipConfig()
 	configPointer->Write("/Vip/Chip_8_Software", conf[VIP].chip8SW_);
 	configPointer->Write("/Vip/Print_File", conf[VIP].printFile_);
 	configPointer->Write("/Vip/Video_Dump_File", conf[VIP].screenDumpFile_);
-	configPointer->Write("/Vip/Wav_File", conf[VIP].wavFile_);
+	configPointer->Write("/Vip/Wav_File", conf[VIP].wavFile_[0]);
 	configPointer->Write("/Vip/Vt_Wav_File", elfConfiguration[VIP].vtWavFile_);
     configPointer->Write("/Vip/VtSerialPortChoice", elfConfiguration[VIP].serialPort_);
 

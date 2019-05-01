@@ -131,13 +131,13 @@ void GuiVipII::readVipIIConfig()
 	conf[VIPII].ramDir_ = readConfigDir("/Dir/VipII/Software_File", dataDir_ + "VipII"  + pathSeparator_);
 	conf[VIPII].chip8SWDir_ = readConfigDir("/Dir/VipII/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[VIPII].screenDumpFileDir_ = readConfigDir("/Dir/VipII/Video_Dump_File", dataDir_ + "VipII" + pathSeparator_);
-	conf[VIPII].wavFileDir_ = readConfigDir("/Dir/VipII/Wav_File", dataDir_ + "VipII" + pathSeparator_);
+	conf[VIPII].wavFileDir_[0] = readConfigDir("/Dir/VipII/Wav_File", dataDir_ + "VipII" + pathSeparator_);
 
 	conf[VIPII].rom_[MAINROM1] = configPointer->Read("/VipII/Main_Rom_1_File", "fpb.rom");
 	conf[VIPII].rom_[MAINROM2] = configPointer->Read("/VipII/Main_Rom_2_File", "vip.rom");
 	conf[VIPII].ram_ = configPointer->Read("/VipII/Ram_Software", "");
 	conf[VIPII].chip8SW_ = configPointer->Read("/VipII/Chip_8_Software", "");
-	conf[VIPII].wavFile_ = configPointer->Read("/VipII/Wav_File", "");
+	conf[VIPII].wavFile_[0] = configPointer->Read("/VipII/Wav_File", "");
 	conf[VIPII].screenDumpFile_ = configPointer->Read("/VipII/Video_Dump_File", "screendump.png");
 	conf[VIPII].turboClock_ = configPointer->Read("/VipII/Turbo_Clock_Speed", "15");
 	conf[VIPII].useLoadLocation_ = false;
@@ -173,7 +173,7 @@ void GuiVipII::readVipIIConfig()
 		XRCCTRL(*this, "RamSWVipII", wxComboBox)->SetValue(conf[VIPII].ram_);
 		XRCCTRL(*this, "Chip8SWVipII", wxTextCtrl)->SetValue(conf[VIPII].chip8SW_);
 		XRCCTRL(*this, "ScreenDumpFileVipII", wxComboBox)->SetValue(conf[VIPII].screenDumpFile_);
-		XRCCTRL(*this, "WavFileVipII", wxTextCtrl)->SetValue(conf[VIPII].wavFile_);
+		XRCCTRL(*this, "WavFileVipII", wxTextCtrl)->SetValue(conf[VIPII].wavFile_[0]);
 
 		XRCCTRL(*this, "ZoomValueVipII", wxTextCtrl)->ChangeValue(conf[VIPII].zoom_);
 		XRCCTRL(*this, "TurboVipII", wxCheckBox)->SetValue(conf[VIPII].turbo_);
@@ -194,7 +194,7 @@ void GuiVipII::writeVipIIDirConfig()
 	writeConfigDir("/Dir/VipII/Software_File", conf[VIPII].ramDir_);
 	writeConfigDir("/Dir/VipII/Chip_8_Software", conf[VIPII].chip8SWDir_);
 	writeConfigDir("/Dir/VipII/Video_Dump_File", conf[VIPII].screenDumpFileDir_);
-	writeConfigDir("/Dir/VipII/Wav_File", conf[VIPII].wavFileDir_);
+	writeConfigDir("/Dir/VipII/Wav_File", conf[VIPII].wavFileDir_[0]);
 }
 
 void GuiVipII::writeVipIIConfig()
@@ -204,7 +204,7 @@ void GuiVipII::writeVipIIConfig()
 	configPointer->Write("/VipII/Ram_Software", conf[VIPII].ram_);
 	configPointer->Write("/VipII/Chip_8_Software", conf[VIPII].chip8SW_);
 	configPointer->Write("/VipII/Video_Dump_File", conf[VIPII].screenDumpFile_);
-	configPointer->Write("/VipII/Wav_File", conf[VIPII].wavFile_);
+	configPointer->Write("/VipII/Wav_File", conf[VIPII].wavFile_[0]);
 
 	configPointer->Write("/VipII/Zoom", conf[VIPII].zoom_);
 

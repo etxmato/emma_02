@@ -113,6 +113,7 @@ public:
 	int baudT;
     bool autoBoot;
     bool stopTone;
+    bool utilityMemory;
     bool tapeStart;
 	bool rtc;
 	bool nvr;
@@ -120,6 +121,7 @@ public:
 	bool useHex;
 	bool useTape;
     bool vtShow;
+    bool autoKeyDef;
 
 	int keyboardType;
 	bool useHexKeyboard;

@@ -585,10 +585,11 @@
                     <string name="proxy-Implementation filename">""</string>
                     <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf,
 Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Memberhip
-Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, 
-RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02,
-Visicom, COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac
-2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
+Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, Cosmac VIP, 
+Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, 
+RCA Studio III, Victory MPT-02, Visicom, COM-100, Cidelsa, Telmac 
+TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, 
+Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMAC__"</string>
@@ -659,7 +660,7 @@ Visicom, COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, Microtutor, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
+                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMSW__,__UNIX__"</string>
@@ -2358,7 +2359,7 @@ Copyright (C) 2004 by Spare Time Gizmos "</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, FRED 2, VIP and Studio II, III and IV SW. See readme and/or txt files for details"</string>
+                    <string name="proxy-Label">"The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II, III and IV SW. See readme and/or txt files for details"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -2511,7 +2512,7 @@ Copyright (C) 2004 by Spare Time Gizmos "</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 2, VIP and Studio II and III SW. See readme and/or txt files for details"</string>
+                    <string name="proxy-Label">"Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials - Accession 2464 -Box Number AVD B41: Chip 8, Coin Arcade, FRED 1, FRED 1.5, VIP and Studio II and III SW. See readme and/or txt files for details"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"&lt;Any platform&gt;"</string>

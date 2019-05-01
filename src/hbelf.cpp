@@ -81,9 +81,9 @@ ElfScreen::~ElfScreen()
     else
     {
         for (int i=0; i<4; i++)
-            delete addressTil313Pointer[i];
+            delete addressTil313PointerItalic[i];
         for (int i=0; i<2; i++)
-            delete dataTil313Pointer[i];
+            delete dataTil313PointerItalic[i];
     }
     
  	delete qLedPointer;
@@ -127,9 +127,9 @@ void ElfScreen::init()
         }
         else
         {
-            addressTil313Pointer[i] = new Til313();
-            addressTil313Pointer[i]->init(dc, 18+i*40, 226);
-            updateAddressTil313_ = true;
+            addressTil313PointerItalic[i] = new Til313Italic(false);
+            addressTil313PointerItalic[i]->init(dc, 18+i*40, 226);
+            updateAddressTil313Italic_ = true;
         }
     }
 	for (int i=0; i<2; i++)
@@ -142,9 +142,9 @@ void ElfScreen::init()
         }
         else
         {
-            dataTil313Pointer[i] = new Til313();
-            dataTil313Pointer[i]->init(dc, 218+i*40, 226);
-            updateDataTil313_ = true;
+            dataTil313PointerItalic[i] = new Til313Italic(false);
+            dataTil313PointerItalic[i]->init(dc, 218+i*40, 226);
+            updateDataTil313Italic_ = true;
         }
 	}
 	this->connectKeyEvent(this);
@@ -169,9 +169,9 @@ void ElfScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     else
     {
         for (int i=0; i<4; i++)
-            addressTil313Pointer[i]->onPaint(dc);
+            addressTil313PointerItalic[i]->onPaint(dc);
         for (int i=0; i<2; i++)
-            dataTil313Pointer[i]->onPaint(dc);
+            dataTil313PointerItalic[i]->onPaint(dc);
     }
 	qLedPointer->onPaint(dc);
 
@@ -842,7 +842,7 @@ void Elf::showData(Byte val)
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showData(val);
     else
-        elfScreenPointer->showDataTil313(val);
+        elfScreenPointer->showDataTil313Italic(val);
 }
 
 void Elf::cycle(int type)
@@ -938,7 +938,7 @@ void Elf::autoBoot()
         if (elfConfiguration.tilType == TIL311)
             elfScreenPointer->showAddress(0);
         else
-            elfScreenPointer->showAddressTil313(0);
+            elfScreenPointer->showAddressTil313Italic(0);
     }
 }
 
@@ -978,7 +978,7 @@ void Elf::onRun()
         if (elfConfiguration.tilType == TIL311)
             elfScreenPointer->showAddress(0);
         else
-            elfScreenPointer->showAddressTil313(0);
+            elfScreenPointer->showAddressTil313Italic(0);
     }
 }
 
@@ -1010,7 +1010,7 @@ void Elf::onLoadButton()
         if (elfConfiguration.tilType == TIL311)
             elfScreenPointer->showAddress(0);
         else
-            elfScreenPointer->showAddressTil313(0);
+            elfScreenPointer->showAddressTil313Italic(0);
     }
 }
 
@@ -1059,6 +1059,9 @@ void Elf::startComputer()
     initRam(ramStart_, ramEnd);
 
     p_Main->assDefault("mycode", ramStart_&0xff00, ((ramEnd&0xff00)|0xff)&0xfff);
+    
+    if (p_Main->getLoadromMode(ELF, 0) == ROM)
+        p_Main->checkAndReInstallFile(ELF, "ROM 1", MAINROM1);
 
 	for (int i=ramMask_ + 1 + ramStart_; i<0x10000; i+=(ramMask_+1))
 		defineMemoryType(i, i+(ramEnd - ramStart_), MAPPEDRAM);
@@ -1114,7 +1117,7 @@ void Elf::startComputer()
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(0);
     else
-        elfScreenPointer->showAddressTil313(0);
+        elfScreenPointer->showAddressTil313Italic(0);
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
@@ -1267,7 +1270,7 @@ Byte Elf::readMem(Word addr)
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address_);
     else
-        elfScreenPointer->showAddressTil313(address_);
+        elfScreenPointer->showAddressTil313Italic(address_);
 
 	switch (memoryType_[addr/256])
 	{
@@ -1368,7 +1371,7 @@ void Elf::writeMem(Word addr, Byte value, bool writeRom)
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address_);
     else
-        elfScreenPointer->showAddressTil313(address_);
+        elfScreenPointer->showAddressTil313Italic(address_);
 
 	if (emsMemoryDefined_)
 	{

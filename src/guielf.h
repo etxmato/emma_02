@@ -51,6 +51,7 @@ public:
 	bool getUseSwitch(int elfType) {return elfConfiguration[elfType].useSwitch;};
 	bool getUseHex(int elfType) {return elfConfiguration[elfType].useHex;};
 	bool getUseTape(int elfType) {return elfConfiguration[elfType].useTape;};
+	wxString getVtWaveFile(int elfType) {return elfConfiguration[elfType].vtWavFile_;};
 
 	wxPoint getLedModulePos();
 	void setLedModulePos(wxPoint position);

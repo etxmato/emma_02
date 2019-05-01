@@ -307,8 +307,8 @@ void Microtutor::configureComputer()
     p_Main->message("	EF 4: 0 when in button pressed");
     p_Main->message("");
 
-	inKey1_ = p_Main->getDefaultInKey1("Membership");
-	inKey2_ = p_Main->getDefaultInKey2("Membership");
+	inKey1_ = p_Main->getDefaultInKey1("Microtutor");
+	inKey2_ = p_Main->getDefaultInKey2("Microtutor");
 
 	resetCpu();
 }
@@ -421,7 +421,7 @@ void Microtutor::startComputer()
 
 	p_Main->assDefault("mycode", 0, 0xA0);
 
-	readProgram(p_Main->getRomDir(MICROTUTOR, MAINROM1), p_Main->getRomFile(MICROTUTOR, MAINROM1), RAM, 0, NONAME);
+	readProgram(p_Main->getRamDir(MICROTUTOR), p_Main->getRamFile(MICROTUTOR), RAM, 0, NONAME);
 
 	if (microtutorConfiguration.autoBoot)
 	{
@@ -448,15 +448,38 @@ void Microtutor::startComputer()
 
 void Microtutor::writeMemDataType(Word address, Byte type)
 {
-    if (mainMemoryDataType_[address] != type)
+    switch (memoryType_[address/256])
     {
-        p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
-        mainMemoryDataType_[address] = type;
+        case RAM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
+        break;
+ 
+        case MAPPEDRAM:
+            if (mainMemoryDataType_[address & 0xff] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address & 0xff] = type;
+            }
+        break;
     }
 }
 
 Byte Microtutor::readMemDataType(Word address)
 {
+    switch (memoryType_[address/256])
+    {
+        case RAM:
+            return mainMemoryDataType_[address];
+        break;
+            
+        case MAPPEDRAM:
+            return mainMemoryDataType_[address & 0xff];
+        break;
+    }
     return mainMemoryDataType_[address];
 }
 
@@ -471,8 +494,11 @@ Byte Microtutor::readMem(Word addr)
 		break;
 
 		case RAM:
+            return mainMemory_[addr];
+        break;
+            
 		case MAPPEDRAM:
-			return mainMemory_[addr];
+			return mainMemory_[addr & 0xff];
 		break;
 
 		default:
@@ -493,12 +519,13 @@ void Microtutor::writeMem(Word addr, Byte value, bool writeRom)
 		break;
 
 		case MAPPEDRAM:
-				if (mainMemory_[addr]==value)
-					return;
-				mainMemory_[addr]=value;
-				if (address_ >= memoryStart_ && address_<(memoryStart_ +256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(address_);
+            address_ &= 0xff;
+            if (mainMemory_[address_]==value)
+                return;
+            mainMemory_[address_]=value;
+            if (address_ >= memoryStart_ && address_<(memoryStart_ +256))
+                p_Main->updateDebugMemory(addr);
+            p_Main->updateAssTabCheck(address_);
 		break;
 
 		case RAM:

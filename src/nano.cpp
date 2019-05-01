@@ -236,6 +236,7 @@ void Nano::cycle(int type)
 void Nano::startComputer()
 {
 	resetPressed_ = false;
+    p_Main->checkAndReInstallMainRom(NANO);
 	readProgram(p_Main->getRomDir(NANO, MAINROM1), p_Main->getRomFile(NANO, MAINROM1), ROM, 0x8000, NONAME);
 
 	defineMemoryType(0x0, 0xfff, RAM);
@@ -389,11 +390,11 @@ void Nano::checkNanoFunction()
 		break;
 
 		case 0x8091:	// SAVE
-			p_Main->startCassetteSave();
+			p_Main->startCassetteSave(0);
 		break;
 
 		case 0x80c4:	// LOAD
-			p_Main->startCassetteLoad();
+			p_Main->startCassetteLoad(0);
 		break;
 	}
 }

@@ -174,7 +174,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 		break;
 
         case FRED1:
-        case FRED2:
+        case FRED1_5:
             keyDefGameHexA_[0] = 0xd;
             keyDefGameHexA_[1] = 8;
             keyDefGameHexA_[2] = 0xa;
@@ -346,7 +346,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
                 break;
                     
                 case FRED1:
-                case FRED2:
+                case FRED1_5:
                     p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getRamFile(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
                 break;
                     
@@ -871,7 +871,7 @@ void KeyMapDialog::onHexLocation(wxCommandEvent& WXUNUSED(event))
             keysFound = p_Main->loadKeyDefinition("", "elfonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         else
         {
-            if (computerTypeStr_ == "FRED1" || computerTypeStr_ == "FRED2")
+            if (computerTypeStr_ == "FRED1" || computerTypeStr_ == "FRED1_5")
                 keysFound = p_Main->loadKeyDefinition("", "fredonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
                 keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
@@ -1080,7 +1080,7 @@ void KeyMapDialog::onHexChar(wxCommandEvent& WXUNUSED(event))
         if (computerTypeStr_ == "Elf" || computerTypeStr_ == "ElfII" || computerTypeStr_ == "SuperElf" || computerTypeStr_ == "Elf2K"|| computerTypeStr_ == "Cosmicos")
             keysFound = p_Main->loadKeyDefinition("", "elfoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         else
-            if (computerTypeStr_ == "FRED1" || computerTypeStr_ == "FRED2")
+            if (computerTypeStr_ == "FRED1" || computerTypeStr_ == "FRED1_5")
                 keysFound = p_Main->loadKeyDefinition("", "fredoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
                 keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");

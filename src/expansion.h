@@ -2,11 +2,12 @@
 #define EXPBOX_H
 
 #include "fdc.h"
+#include "network.h"
 #include "joycard.h"
 #include "usb.h"
 #include "v1870.h"
 
-class Expansion: public V1870, public Fdc, public Joycard, public Usbcard
+class Expansion: public V1870, public Fdc, public Joycard, public Usbcard, public Network
 {
 public:
 	Expansion (const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock);
@@ -42,7 +43,6 @@ protected:
 	int printerSlot_;
 	int columnSlot_;
 	int diagSlot_;
-	int networkSlot_;
 	bool useExpansionRam_;
 	int expansionRamSlot_;
 	int comxExpansionType_[4];

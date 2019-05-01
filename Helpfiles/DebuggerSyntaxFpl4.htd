@@ -7,7 +7,7 @@
 I expect FPL-4 stands for Fred Programming Language, version 4.
 </p>
 <p>
-FPL-4 is used in the game 'Computer Bowling' running on the FRED 2 machine.
+FPL-4 is used in the game 'Computer Bowling' running on the FRED 1.5 machine.
 </p>
 <p>
 V0-F are stored on memory locations 0100-011F.

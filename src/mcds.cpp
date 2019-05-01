@@ -238,27 +238,53 @@ void Mcds::out(Byte port, Word WXUNUSED(address), Byte value)
             {
                 case IO_GRP_TAPE:
                     // 0x41 = TAPE 0, 0x81 = TAPE 1
-                    if (value == 0x41 || value == 0x81)
+                    if (value == 0x41)
                     {
+                        tapeNumber_ = "";
                         if (!saveStarted_)
                         {
                             saveStarted_ = true;
-                            p_Main->startCassetteSave();
+                            p_Main->startCassetteSave(0);
                         }
                         else
-                            restartTapeSave();
+                            restartTapeSave(TAPE_RECORD);
+                    }
+                    
+                    if (value == 0x81)
+                    {
+                        tapeNumber_ = "1";
+                        if (!saveStarted_)
+                        {
+                            saveStarted_ = true;
+                            p_Main->startCassetteSave(1);
+                        }
+                        else
+                            restartTapeSave(TAPE_RECORD1);
                     }
                     
                     // 0x40 = TAPE 0, 0x80 = TAPE 1
-                    if (value == 0x40 || value == 0x80)
+                    if (value == 0x40)
                     {
+                        tapeNumber_ = "";
                         if (!loadStarted_)
                         {
                             loadStarted_ = true;
-                            p_Main->startCassetteLoad();
+                            p_Main->startCassetteLoad(0);
                         }
                         else
-                            restartTapeLoad();
+                            restartTapeLoad(TAPE_PLAY);
+                    }
+
+                    if (value == 0x80)
+                    {
+                        tapeNumber_ = "1";
+                        if (!loadStarted_)
+                        {
+                            loadStarted_ = true;
+                            p_Main->startCassetteLoad(1);
+                        }
+                        else
+                            restartTapeLoad(TAPE_PLAY1);
                     }
 
                     if (value == 0)
@@ -321,8 +347,11 @@ void Mcds::startComputer()
     
     p_Main->assDefault("mycode", 0, 0xFFF);
 
+    p_Main->checkAndReInstallFile(MCDS, "UT ROM", MAINROM1);
     readProgram(p_Main->getRomDir(MCDS, MAINROM1), p_Main->getRomFile(MCDS, MAINROM1), ROM, 0x8000, NONAME);
+    p_Main->checkAndReInstallFile(MCDS, "ASM ROM", MAINROM2);
     readProgram(p_Main->getRomDir(MCDS, MAINROM2), p_Main->getRomFile(MCDS, MAINROM2), ROM, 0x9000, NONAME);
+    p_Main->checkAndReInstallFile(MCDS, "BAS ROM", MAINROM3);
     readProgram(p_Main->getRomDir(MCDS, MAINROM3), p_Main->getRomFile(MCDS, MAINROM3), ROM, 0xB000, NONAME);
 
     if (p_Vt100 != NULL)
