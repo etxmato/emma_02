@@ -5,6 +5,25 @@
 <p>
 This emulator will emulate the RCA Microboard Computer Development System (MCDS). All information to build this emulator was provided by Herb Johnson his findings can be found on his <a href="http://www.retrotechnology.com/memship/cosmac_dev_sys.html">RCA Microboard Computer Development System</a> site.
 </p>
+    <p>
+On start-up the MCDS will run UT62, command summary for the UT62:</p>
+    <ul>
+        <li>A: Assembler</li>
+        <li>B: BASIC</li>
+        <li>C: Read &amp; display from tape</li>
+        <li>D: Memory Display</li>
+        <li>E: Tape Editor</li>
+        <li>F: Memory Fill</li>
+        <li>I: Memory Insert</li>
+        <li>J: Rewind</li>
+        <li>M: Memory Move</li>
+        <li>P: Program Run</li>
+        <li>R: Read from tape</li>
+        <li>S: Memory Substitute</li>
+        <li>W: Write to tape</li>         
+    </ul>
+    <p>
+    Manuals for the Netronics <a href="https://groups.io/g/cosmacelf/files/Netronics%20Software%20and%20Documentation/Netronics%20Assembler.pdf">Assembler</a> and <a href="https://groups.io/g/cosmacelf/files/Netronics%20Software%20and%20Documentation/Netronics%20Text%20Editor.pdf">Tape Editor</a> are available and similar to the MCDS version.</p>
 <p>
 This chapter includes:
 </p>

@@ -8,7 +8,7 @@
 
 DECLARE_EVENT_TYPE(ON_UART_VIP2K, 811)
 
-class Vip2K : public Cdp1802, public Pixie
+class Vip2K : public Cdp1802, public PixieVip2K
 {
 public:
 	Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf);

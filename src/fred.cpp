@@ -779,7 +779,7 @@ void Fred::cycle(int type)
         break;
             
 		case PIXIECYCLE:
-			pixiePointer->cyclePixieFred();
+			pixiePointer->cyclePixie();
 		break;
 
         case LEDCYCLE:
@@ -1005,7 +1005,7 @@ void Fred::startComputer()
         fredScreenPointer->setStopLed(1);
     }
 
-    pixiePointer->configurePixieFred();
+    pixiePointer->configurePixie();
 	pixiePointer->initPixie();
 	pixiePointer->setZoom(zoom);
 	pixiePointer->Show(true);

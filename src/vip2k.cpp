@@ -30,7 +30,7 @@
 #include "vip2k.h"
 
 Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:PixieVip2K(title, pos, size, zoom, zoomfactor, computerType)
 {
 	vipConfiguration = conf;
 	clock_ = clock;
@@ -464,7 +464,7 @@ void Vip2K::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			cyclePixieVip2K();
+			cyclePixie();
 		break;
 
         case VT100CYCLE:
@@ -527,7 +527,7 @@ void Vip2K::startComputer()
 
 	double zoom = p_Main->getZoom();
 
-    configurePixieVip2K();
+    configurePixie();
 	initPixie();
 	setZoom(zoom);
 	Show(true);

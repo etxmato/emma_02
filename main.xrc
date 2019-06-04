@@ -9040,7 +9040,8 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>vip-2716.hex</item>
+                                                                                <item>2716-ntsc.hex</item>
+                                                                                <item>2716-pal.hex</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
