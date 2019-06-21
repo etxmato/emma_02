@@ -317,7 +317,6 @@ void Membership::configureComputer()
 			break;
 		}
 	}
-	efType_[4] = ELFINEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring Membership Card");
@@ -361,6 +360,11 @@ void Membership::initComputer()
 
 Byte Membership::ef(int flag)
 {
+    if (flag == 4)
+    {
+        if (inPressed_ == true)
+            return 0;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -375,35 +379,9 @@ Byte Membership::ef(int flag)
             return p_Serial->ef();
         break;
             
-		case ELFINEF:
-			return ef4();
-		break;
-
-		case VTINEF:
-			if (inPressed_ == true)
-				return 0;
-			else
-				return vtPointer->ef();
-		break;
-
-		case VTINEFSERIAL:
-			if (inPressed_ == true)
-				return 0;
-			else
-				return p_Serial->ef();
-		break;
-
 		default:
 			return 1;
 	}
-}
-
-Byte Membership::ef4()
-{
-	if (inPressed_ == true)
-		return 0;
-	else
-		return 1;
 }
 
 Byte Membership::in(Byte port, Word WXUNUSED(address))

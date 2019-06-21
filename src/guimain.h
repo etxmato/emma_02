@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 29
-#define LAST_ELF_TYPE 14
+#define NO_COMPUTER 30
+#define LAST_ELF_TYPE 15
 
 #define MAINROM1 0
 
@@ -451,6 +451,7 @@ protected:
 	VipII *p_Vip2;
     Vip2K *p_Vip2K;
     Velf *p_Velf;
+    Cdp18s020 *p_Cdp18s020;
 	Nano *p_Nano;
 	Tmc1800 *p_Tmc1800;
 	Tmc2000 *p_Tmc2000;

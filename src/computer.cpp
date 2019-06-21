@@ -391,10 +391,13 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	updatePauseLed_ = false;
 	updateRunLed_ = false;
 	updateLoadLed_ = false;
-	for (int i=0; i<8; i++)
+	for (int i=0; i<24; i++)
 	{
 		ledStatus[i] = 0;
 		updateLed_[i] = false;
+    }
+    for (int i=0; i<8; i++)
+    {
 		segStatus[i] = 0;
 		updateSeg_[i] = false;
 	}
@@ -578,11 +581,10 @@ void Panel::ledTimeout()
 	updatePauseLed(dc);
 	updateRunLed(dc);
 	updateLoadLed(dc);
-	for (int i=0; i<8; i++)
-	{
+	for (int i=0; i<24; i++)
 		updateLed(dc, i);
+    for (int i=0; i<8; i++)
 		updateSeg(dc, i);
-	}
 	updateData(dc);
     updateDataTil313(dc);
     updateDataTil313Italic(dc);
@@ -1534,6 +1536,10 @@ void Computer::onRunButton()
 {
 }
 
+void Computer::onRunPButton()
+{
+}
+
 void Computer::onReadButton()
 {
 }
@@ -1543,6 +1549,10 @@ void Computer::onCardButton()
 }
 
 void Computer::onRunButton(wxCommandEvent&WXUNUSED(event))
+{
+}
+
+void Computer::onRunPButton(wxCommandEvent&WXUNUSED(event))
 {
 }
 
@@ -1707,6 +1717,10 @@ void Computer::onNumberKeyDown(wxCommandEvent& WXUNUSED(event))
 }
 
 void Computer::onNumberKeyUp(wxCommandEvent& WXUNUSED(event))
+{
+}
+
+void Computer::onNumberKeyUp()
 {
 }
 

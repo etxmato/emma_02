@@ -269,7 +269,8 @@ void SuperScreen::onMouseRelease(wxMouseEvent&event)
 	osx_stepButtonPointer->onMouseRelease(dc, x, y);
 	osx_text_mpButtonPointer->onMouseRelease(dc, x, y);
 	for (int i = 0; i<16; i++)
-		osx_buttonPointer[i]->onMouseRelease(dc, x, y);
+		if (osx_buttonPointer[i]->onMouseRelease(dc, x, y))
+            p_Computer->onNumberKeyUp();
 #endif
 }
 
@@ -509,11 +510,7 @@ void Super::configureComputer()
 	efType_[3] = EF3UNDEFINED;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
-//	int efPort;
 	wxString printBuffer;
-
-//	int input = p_Main->getConfigItem("/SuperElf/HexInput", 4l);
-//	int output = p_Main->getConfigItem("/SuperElf/HexOutput", 4l);
 
 	p_Main->message("Configuring Super Elf");
 	printBuffer.Printf("	Output %d: display output, input %d: data input", elfConfiguration.elfPortConf.hexOutput, elfConfiguration.elfPortConf.hexInput);
@@ -524,39 +521,31 @@ void Super::configureComputer()
 
     if (elfConfiguration.useRomMapper)
     {
-//        output = p_Main->getConfigItem("/SuperElf/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: rom mapper", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, ROMMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useEms)
     {
-//        output = p_Main->getConfigItem("/SuperElf/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: EMS-512KB", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
 	if (elfConfiguration.useTape)
 	{
-//		efPort = p_Main->getConfigItem("/SuperElf/TapeEf", 2l);
-//		efPort = p_Main->getConfigItem("/SuperElf/TapeEf", 3l);
 		efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
 		printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
 		p_Main->message(printBuffer);
 	}
 	if (elfConfiguration.useHexKeyboardEf3)
 	{
-//		efPort = p_Main->getConfigItem("/SuperElf/HexEf", 3l);
-		efType_[elfConfiguration.elfPortConf.hexEf] = SUPEREF3;
 		printBuffer.Printf("	EF %d: 0 when hex button pressed", elfConfiguration.elfPortConf.hexEf);
 		p_Main->message(printBuffer);
 	}
-	if (efType_[4] == 0)
-	{
-		efType_[4] = ELFINEF;
-		p_Main->message("	EF 4: 0 when in button pressed");
-	}
-	p_Main->message("");
+
+    p_Main->message("	EF 4: 0 when in button pressed");
+
+    p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("SuperElf");
     inKey2_ = p_Main->getDefaultInKey2("SuperElf");
@@ -567,6 +556,11 @@ void Super::configureComputer()
 		p_Main->loadKeyDefinition(p_Main->getRomFile(SUPERELF, MAINROM1), p_Main->getRomFile(SUPERELF, MAINROM2), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         
 	resetCpu();
+}
+
+void Super::switchHexEf(bool state)
+{
+    elfConfiguration.useHexKeyboardEf3 = state;
 }
 
 void Super::setPrinterEf()
@@ -607,6 +601,16 @@ void Super::initComputer()
 
 Byte Super::ef(int flag)
 {
+    if (flag == 4)
+    {
+        if (ef4State_ == 0)
+            return ef4State_;
+    }
+    if (elfConfiguration.useHexKeyboardEf3)
+    {
+        if (flag == elfConfiguration.elfPortConf.hexEf)
+            return ef3State_;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -653,24 +657,6 @@ Byte Super::ef(int flag)
 			return cassetteEf_;
 		break;
 
-		case ELFINEF:
-			return ef4();
-		break;
-
-		case VTINEF:
-			if (ef4State_ == 0)
-				return 0;
-			else
-				return vtPointer->ef();
-		break;
-
-		case VTINEFSERIAL:
-			if (ef4State_ == 0)
-				return 0;
-			else
-				return p_Serial->ef();
-		break;
-
 		case EF1UNDEFINED:
 			return elfConfiguration.elfPortConf.ef1default;
 		break;
@@ -683,7 +669,6 @@ Byte Super::ef(int flag)
 			return elfConfiguration.elfPortConf.ef3default;
 		break;
 
-		case SUPEREF3:
 		case ELFPRINTEREF:
 			return ef3State_;
 		break;
@@ -691,11 +676,6 @@ Byte Super::ef(int flag)
 		default:
 			return 1;
 	}
-}
-
-Byte Super::ef4()
-{
-	return ef4State_;
 }
 
 Byte Super::in(Byte port, Word WXUNUSED(address))
@@ -1177,6 +1157,11 @@ void Super::onNumberKeyDown(int i)
 void Super::onNumberKeyUp(wxCommandEvent&WXUNUSED(event))
 {
 	ef3State_ = 1;
+}
+
+void Super::onNumberKeyUp()
+{
+    ef3State_ = 1;
 }
 
 void Super::onHexKeyDown(int keycode)

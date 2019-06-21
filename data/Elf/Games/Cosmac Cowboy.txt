@@ -1,0 +1,1 @@
+Press any key to fire, try to hit the moving target. Looks like there are some small bugs in this game. The 'load' from wav file did not give any errors but of course bugs could be caused by load errors anyway,

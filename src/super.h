@@ -46,6 +46,7 @@ public:
 	void onHexKeyUp(int keycode);
 
     void configureComputer();
+    void switchHexEf(bool state);
     void setPrinterEf();
     void reLoadKeyDefinition(wxString fileName);
 	void reDefineKeysA(int *, int *);
@@ -81,7 +82,8 @@ public:
     void onResetButton();
 	void onNumberKeyDown(wxCommandEvent& event);
 	void onNumberKeyDown(int i);
-	void onNumberKeyUp(wxCommandEvent& event);
+    void onNumberKeyUp(wxCommandEvent& event);
+    void onNumberKeyUp();
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);

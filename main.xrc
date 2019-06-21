@@ -4299,21 +4299,40 @@
                                                                                 <item>PS2 Interrupt</item>
                                                                                 <item>Ascii</item>
                                                                                 <item>Ascii (+Hex)</item>
-                                                                                <item>Hex (+EF)</item>
                                                                                 <item>Hex</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxButton" name="KeyMapElf">
-                                                                            <tooltip>Open key map window</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Key Map</label>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="KeyMapElf">
+                                                                                    <tooltip>Open key map window</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Key Map</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxCheckBox" name="HexEfElf">
+                                                                                    <tooltip>Enable EF Hex keyboard</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>EF</label>
+                                                                                    <checked>0</checked>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -5803,21 +5822,40 @@
                                                                                 <item>PS2 Interrupt</item>
                                                                                 <item>Ascii</item>
                                                                                 <item>Ascii (+Hex)</item>
-                                                                                <item>Hex (+EF)</item>
                                                                                 <item>Hex</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxButton" name="KeyMapElfII">
-                                                                            <tooltip>Open key map window</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Key Map</label>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="KeyMapElfII">
+                                                                                    <tooltip>Open key map window</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Key Map</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxCheckBox" name="HexEfElfII">
+                                                                                    <tooltip>Enable EF Hex keyboard</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>EF</label>
+                                                                                    <checked>0</checked>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -6462,7 +6500,7 @@
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                         <border>3</border>
                                                                         <object class="wxCheckBox" name="PortExtElfII">
                                                                             <tooltip>Enable extended ports support</tooltip>
@@ -6475,8 +6513,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>3</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
                                                                         <object class="wxCheckBox" name="UpperCaseElfII">
                                                                             <tooltip>Force keyboard in uppercase</tooltip>
                                                                             <font>
@@ -6488,8 +6526,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>3</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
                                                                         <object class="wxCheckBox" name="GiantElfII">
                                                                             <tooltip>Enable Giant Board ROM mapping</tooltip>
                                                                             <font>
@@ -6497,6 +6535,19 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <label>Giant</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxCheckBox" name="EFButtonsElfII">
+                                                                            <tooltip>Enable EF3/EF push buttons</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>EF Buttons</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -7300,21 +7351,40 @@
                                                                                 <item>PS2 Interrupt</item>
                                                                                 <item>Ascii</item>
                                                                                 <item>Ascii (+Hex)</item>
-                                                                                <item>Hex (+EF)</item>
                                                                                 <item>Hex</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxButton" name="KeyMapSuperElf">
-                                                                            <tooltip>Open key map window</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Key Map</label>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="KeyMapSuperElf">
+                                                                                    <tooltip>Open key map window</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Key Map</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxCheckBox" name="HexEfSuperElf">
+                                                                                    <tooltip>Enable EF Hex keyboard</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>EF</label>
+                                                                                    <checked>0</checked>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">

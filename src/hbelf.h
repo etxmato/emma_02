@@ -49,13 +49,13 @@ public:
 	void onHexKeyUp(int keycode);
 
     void configureComputer();
+    void switchHexEf(bool state);
     void setPrinterEf();
     void reLoadKeyDefinition(wxString fileName);
 	void reDefineKeysA(int *, int *);
 	void reDefineKeysB(int *, int *);
 	void initComputer();
 	Byte ef(int flag);
-	Byte ef4();
 	Byte in(Byte port, Word address);
 	Byte getData();
 	void out(Byte port, Word address, Byte value);
@@ -107,6 +107,7 @@ public:
 	void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void onNumberKeyDown(int i);
+    void onNumberKeyUp();
 
 private:
 	class ElfScreen *elfScreenPointer;

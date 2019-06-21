@@ -199,7 +199,8 @@ void Elf2Screen::onMouseRelease(wxMouseEvent&event)
     if (osx_push_inButtonPointer->onMouseRelease(dc, x, y))
         p_Computer->onInButtonRelease();
     for (int i = 0; i<16; i++)
-        osx_buttonPointer[i]->onMouseRelease(dc, x, y);
+        if (osx_buttonPointer[i]->onMouseRelease(dc, x, y))
+            p_Computer->onNumberKeyUp();
 #endif
 }
 
@@ -412,14 +413,7 @@ void Elf2::configureComputer()
 	efType_[3] = EF3UNDEFINED;
 
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
-//	int efPort;
 	wxString printBuffer;
-
-//	inType_[7] = RCADISKIN;
-//	outType_[7] = RCADISKOUT;
-
-//	int input = p_Main->getConfigItem("/ElfII/HexInput", 4l);
-//	int output = p_Main->getConfigItem("/ElfII/HexOutput", 4l);
 
 	p_Main->message("Configuring Elf II");
 	printBuffer.Printf("	Output %d: display output, input %d: data input", elfConfiguration.elfPortConf.hexOutput, elfConfiguration.elfPortConf.hexInput);
@@ -430,38 +424,35 @@ void Elf2::configureComputer()
 
     if (elfConfiguration.useRomMapper)
     {
-//        output = p_Main->getConfigItem("/ElfII/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: rom mapper", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, ROMMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useEms)
     {
-//        output = p_Main->getConfigItem("/ElfII/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: EMS-512KB", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useTape)
     {
-//        efPort = p_Main->getConfigItem("/ElfII/TapeEf", 2l);
         efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
         printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
         p_Main->message(printBuffer);
     }
 	if (elfConfiguration.useHexKeyboardEf3)
 	{
-//		efPort = p_Main->getConfigItem("/ElfII/HexEf", 3l);
-		efType_[elfConfiguration.elfPortConf.hexEf] = ELF2EF3;
 		printBuffer.Printf("	EF %d: 0 when hex button pressed", elfConfiguration.elfPortConf.hexEf);
 		p_Main->message(printBuffer);
 	}
 
-	if (efType_[4] == 0)
-	{
-		efType_[4] = ELFINEF;
-		p_Main->message("	EF 4: 0 when in button pressed");
-	}
+    if (elfConfiguration.efButtons)
+    {
+        p_Main->message("	EF 3: 0 when right EF button pressed");
+        p_Main->message("	EF 4: 0 when left EF button pressed");
+    }
+    p_Main->message("	EF 4: 0 when in button pressed");
+
 	p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("ElfII");
@@ -472,6 +463,11 @@ void Elf2::configureComputer()
 		p_Main->loadKeyDefinition(p_Main->getRomFile(ELFII, MAINROM1), p_Main->getRomFile(ELFII, MAINROM2), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 	
 	resetCpu();
+}
+
+void Elf2::switchHexEf(bool state)
+{
+    elfConfiguration.useHexKeyboardEf3 = state;
 }
 
 void Elf2::setPrinterEf()
@@ -505,12 +501,33 @@ void Elf2::initComputer()
 	loadButtonState_ = 1;
 	ef3State_ = 1;
 	ef4State_ = 1;
+    ef3Button_ = 1;
+    ef4Button_ = 1;
 	switches_ = 0;
 	elfRunState_ = RESETSTATE;
 }
 
 Byte Elf2::ef(int flag)
 {
+    switch (flag)
+    {
+        case 3:
+            if (ef3Button_ == 0 && elfConfiguration.efButtons)
+                return ef3Button_;
+        break;
+
+        case 4:
+            if (ef4Button_ == 0 && elfConfiguration.efButtons)
+                return ef4Button_;
+            if (ef4State_ == 0)
+                return ef4State_;
+        break;
+    }
+    if (elfConfiguration.useHexKeyboardEf3)
+    {
+        if (flag == elfConfiguration.elfPortConf.hexEf)
+            return ef3State_;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -553,31 +570,12 @@ Byte Elf2::ef(int flag)
 			return i8275Pointer->ef8275();
 		break;
 
-		case ELFINEF:
-			return ef4();
-		break;
-
 		case ELF2EF2:
 			return cassetteEf_;
 		break;
 
-		case ELF2EF3:
 		case ELFPRINTEREF:
-			return ef3State_;
-		break;
-
-		case VTINEF:
-			if (ef4State_ == 0)
-				return 0;
-			else
-				return vtPointer->ef();
-		break;
-
-		case VTINEFSERIAL:
-			if (ef4State_ == 0)
-				return 0;
-			else
-				return p_Serial->ef();
+            return ef3State_;
 		break;
 
 		case EF1UNDEFINED:
@@ -595,11 +593,6 @@ Byte Elf2::ef(int flag)
 		default:
 			return 1;
 	}
-}
-
-Byte Elf2::ef4()
-{
-	return ef4State_;
 }
 
 Byte Elf2::in(Byte port, Word WXUNUSED(address))
@@ -960,8 +953,26 @@ void Elf2::onNumberKeyUp(wxCommandEvent&WXUNUSED(event))
 	ef3State_ = 1;
 }
 
+void Elf2::onNumberKeyUp()
+{
+    ef3State_ = 1;
+}
+
 void Elf2::onHexKeyDown(int keycode)
 {
+    if (elfConfiguration.efButtons)
+    {
+        if (keycode == keyDefA2_[keyDefGameHexA_[2]])
+        {
+            ef3Button_ = 0;
+            return;
+        }
+        if (keycode == keyDefA2_[keyDefGameHexA_[1]])
+        {
+            ef4Button_ = 0;
+            return;
+        }
+    }
 #if defined (__WXMAC__)
     if (ef3State_ == 0) // This is to avoid multiple key presses on OSX
         return;
@@ -984,6 +995,19 @@ void Elf2::onHexKeyDown(int keycode)
 
 void Elf2::onHexKeyUp(int keycode)
 {
+    if (elfConfiguration.efButtons)
+    {
+        if (keycode == keyDefA2_[keyDefGameHexA_[2]])
+        {
+            ef3Button_ = 1;
+            return;
+        }
+        if (keycode == keyDefA2_[keyDefGameHexA_[1]])
+        {
+            ef4Button_ = 1;
+            return;
+        }
+    }
     if (elfConfiguration.useHexKeyboard)
     {
         for (int i=0; i<5; i++)

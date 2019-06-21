@@ -58,7 +58,9 @@ public:
 	void ResetIo();
 	void setForceUCVt(bool status);
     void terminalSaveVt(wxString fileName);
+    void terminalSaveCdp18s020Vt(wxString fileName);
     void terminalLoadVt(wxString fileNamee, bool binaryFile);
+    void terminalLoadCdp18s020Vt(wxString fileNamee, bool binaryFile);
     void terminalStopVt();
     void startElfRun(bool load, bool overRide);
     void startMcdsRun(bool load);
@@ -197,6 +199,7 @@ private:
 	int reverseEf_;
 	bool serialLog_;
 	int reverseQ_;
+    int lastByte_;
 
 	bool load_;
     size_t elfRunCommand_;
@@ -221,6 +224,7 @@ private:
 
     bool terminalSave_;
     bool terminalLoad_;
+    bool terminalFileCdp18s020_;
     bool binaryFile_;
     wxFile outputTerminalFile;
     wxFFile inputTerminalFile;

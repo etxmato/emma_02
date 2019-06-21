@@ -1148,6 +1148,24 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     return true;
                 }
+                if (computer == "Cdp18s020" || computer == "CDP18S020")
+                {
+                    startComputer_ = CDP18S020;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                        getSoftware(computer, "Ram_Software", software);
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on CDP18S020 emulator");
+                        return false;
+                    }
+                    if (parser.Found("r", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on CDP18S020 emulator");
+                        return false;
+                    }
+                    return true;
+                }
 				wxMessageOutput::Get()->Printf("Incorrect computer name specified");
 				return false;
 			break;
@@ -2086,6 +2104,7 @@ void Main::writeConfig()
     writeVipIIDirConfig();
     writeVip2KDirConfig();
     writeVelfDirConfig();
+    writeCdp18s020DirConfig();
 	writeElfDirConfig(ELF, "Elf");
 	writeElfDirConfig(ELFII, "ElfII");
 	writeElfDirConfig(SUPERELF, "SuperElf");
@@ -2116,6 +2135,7 @@ void Main::writeConfig()
     writeVipIIConfig();
     writeVip2KConfig();
     writeVelfConfig();
+    writeCdp18s020Config();
 	writeElfConfig(ELF, "Elf");
 	writeElfConfig(ELFII, "ElfII");
 	writeElfConfig(SUPERELF, "SuperElf");
@@ -2145,7 +2165,8 @@ void Main::writeConfig()
     writeVipWindowConfig();
    	writeVipIIWindowConfig();
    	writeVip2KWindowConfig();
-   	writeVelfWindowConfig();
+    writeVelfWindowConfig();
+    writeCdp18s020WindowConfig();
 	writeElfWindowConfig(ELF, "Elf");
 	writeElfWindowConfig(ELFII, "ElfII");
 	writeElfWindowConfig(SUPERELF, "SuperElf");
@@ -2240,7 +2261,9 @@ void Main::initConfig()
 	setComputerInfo(MCDS, "MCDS", "MCDS", "rca");
 	setScreenInfo(MEMBER, 0, 5, colour, 1, borderX, borderY);
 	setComputerInfo(MEMBER, "Membership", "Membership Card", "");
-
+    setScreenInfo(CDP18S020, 0, 5, colour, 1, borderX, borderY);
+    setComputerInfo(CDP18S020, "Cdp18s020", "CDP18S020 Evaluation Kit", "");
+    
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
 
@@ -2310,9 +2333,9 @@ void Main::initConfig()
 	setScreenInfo(TMC1800, 0, 2, colour, 2, borderX, borderY);
 	setComputerInfo(TMC1800, "TMC1800", "Telmac 1800", "");
 
-	setScreenInfo(VELF, 0, 5, colour, 2, borderX, borderY);
-	setComputerInfo(VELF, "Velf", "VELF", "");
-
+    setScreenInfo(VELF, 0, 5, colour, 2, borderX, borderY);
+    setComputerInfo(VELF, "Velf", "VELF", "");
+    
     borderX[VIDEOPIXIE] = 0;
     borderY[VIDEOPIXIE] = 0;
 
@@ -2579,6 +2602,7 @@ void Main::readConfig()
 	readVipIIConfig();		
     readVip2KConfig();
     readVelfConfig();
+    readCdp18s020Config();
 	readElfConfig(ELF, "Elf");
 	readElfConfig(ELFII, "ElfII");
 	readElfConfig(SUPERELF, "SuperElf");
@@ -2609,6 +2633,7 @@ void Main::readConfig()
     readVipIIWindowConfig();
     readVip2KWindowConfig();
     readVelfWindowConfig();
+    readCdp18s020WindowConfig();
     readElfWindowConfig(ELF, "Elf");
     readElfWindowConfig(ELFII, "ElfII");
     readElfWindowConfig(SUPERELF, "SuperElf");
@@ -2794,6 +2819,7 @@ void Main::readConfig()
 			XRCCTRL(*this, "PanelSuperElf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCdp18s020", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3363,6 +3389,11 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeVelfConfig();
         break;
             
+        case CDP18S020:
+            writeCdp18s020DirConfig();
+            writeCdp18s020Config();
+        break;
+            
         case MEMBER:
             writeMembershipDirConfig();
             writeMembershipConfig();
@@ -3578,6 +3609,10 @@ void Main::loadComputerConfig(wxString fileName)
             
         case VELF:
             readVelfConfig();
+        break;
+            
+        case CDP18S020:
+            readCdp18s020Config();
         break;
             
         case MEMBER:
@@ -4610,6 +4645,11 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Velf->Move(conf[VELF].mainX_, conf[VELF].mainY_);
 		break;
             
+        case CDP18S020:
+            p_Cdp18s020->moveWindows();
+            p_Cdp18s020->Move(conf[CDP18S020].mainX_, conf[CDP18S020].mainY_);
+        break;
+            
 		case MEMBER:
 			p_Membership->moveWindows();
 			p_Membership->Move(conf[MEMBER].mainX_, conf[MEMBER].mainY_);
@@ -4690,6 +4730,8 @@ void Main::nonFixedWindowPosition()
     conf[VIP2K].mainY_ = -1;
     conf[VELF].mainX_ = -1;
     conf[VELF].mainY_ = -1;
+    conf[CDP18S020].mainX_ = -1;
+    conf[CDP18S020].mainY_ = -1;
 	conf[TMC1800].mainX_ = -1;
 	conf[TMC1800].mainY_ = -1;
 	conf[TMC2000].mainX_ = -1;
@@ -4750,6 +4792,8 @@ void Main::nonFixedWindowPosition()
     conf[VELF].pixieY_ = -1;
     conf[VELF].vtX_ = -1;
     conf[VELF].vtY_ = -1;
+    conf[CDP18S020].vtX_ = -1;
+    conf[CDP18S020].vtY_ = -1;
     conf[FRED1].pixieX_ = -1;
     conf[FRED1].pixieY_ = -1;
     conf[FRED1_5].pixieX_ = -1;
@@ -4788,6 +4832,8 @@ void Main::fixedWindowPosition()
     conf[VIP2K].mainY_ = mainWindowY_;
     conf[VELF].mainX_ = mainWindowX_;
     conf[VELF].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[CDP18S020].mainX_ = mainWindowX_;
+    conf[CDP18S020].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[TMC1800].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[TMC1800].mainY_ = mainWindowY_;
 	conf[TMC2000].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -4846,8 +4892,10 @@ void Main::fixedWindowPosition()
 	conf[ELF].keypadY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[VELF].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[VELF].pixieY_ = mainWindowY_;
-	conf[VELF].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
-	conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
+    conf[VELF].vtX_ = mainWindowX_ + windowInfo.mainwX + windowInfo.xBorder;
+    conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
+    conf[CDP18S020].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[CDP18S020].vtY_ = mainWindowY_;
     conf[FRED1].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[FRED1].pixieY_ = mainWindowY_;
     conf[FRED1_5].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -5054,6 +5102,11 @@ void Main::onStart(int computer)
             p_Computer = p_Velf;
         break;
             
+        case CDP18S020:
+            p_Cdp18s020 = new Cdp18s020(computerInfo[CDP18S020].name, wxPoint(conf[CDP18S020].mainX_, conf[CDP18S020].mainY_), wxSize(310, 180), conf[CDP18S020].clockSpeed_, elfConfiguration[CDP18S020]);
+            p_Computer = p_Cdp18s020;
+        break;
+            
 		case TMC1800:
 			p_Tmc1800 = new Tmc1800(computerInfo[TMC1800].name, wxPoint(conf[TMC1800].mainX_, conf[TMC1800].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, TMC1800);
 			p_Video = p_Tmc1800;
@@ -5097,7 +5150,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 11 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED1_5 )
+    if (runningComputer_ < 12 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED1_5 )
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;
@@ -5294,6 +5347,10 @@ void Main::onComputer(wxNotebookEvent&event)
                     
                 case FRED2TAB:
                     rcaChoice_ = FRED1_5;
+                break;
+                    
+                case CDP18S020TAB:
+                    rcaChoice_ = CDP18S020;
                 break;
                     
 				case VIPTAB:
@@ -5553,6 +5610,10 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
             rcaChoice_ = FRED1_5;
         break;
             
+        case CDP18S020TAB:
+            rcaChoice_ = CDP18S020;
+        break;
+            
         case VIPTAB:
             rcaChoice_ = VIP;
         break;
@@ -5646,6 +5707,11 @@ void Main::setNoteBook()
 		case VELF:
             XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
             XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(VELFTAB);
+        break;
+            
+        case CDP18S020:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
+            XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(CDP18S020TAB);
         break;
             
         case COSMICOS:
@@ -5787,6 +5853,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
+    XRCCTRL(*this,"ColoursCdp18s020", wxButton)->Enable(status | (runningComputer_ == CDP18S020));
     XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status | (runningComputer_ == VIP));
     XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status | (runningComputer_ == VIPII));
     XRCCTRL(*this,"ColoursVip2K", wxButton)->Enable(status | (runningComputer_ == VIP2K));
@@ -6100,6 +6167,31 @@ void Main::enableGui(bool status)
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }
+    if (runningComputer_ == CDP18S020)
+    {
+        enableChip8DebugGui(!status);
+        XRCCTRL(*this,"MainRomCdp18s020", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButtonCdp18s020", wxButton)->Enable(status);
+        XRCCTRL(*this,"RamSWCdp18s020", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonCdp18s020", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3Cdp18s020", wxButton)->Enable(!status);
+        XRCCTRL(*this, "VTTypeCdp18s020", wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTTypeCdp18s020",wxChoice)->GetSelection() != VTNONE)
+        {
+            if (elfConfiguration[CDP18S020].useUart)
+            {
+                XRCCTRL(*this, "VTBaudRTextCdp18s020", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceCdp18s020", wxChoice)->Enable(status);
+            }
+            XRCCTRL(*this, "VTBaudTChoiceCdp18s020", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextCdp18s020", wxStaticText)->Enable(status);
+            XRCCTRL(*this,"VtSetupCdp18s020", wxButton)->Enable(status);
+        }
+        
+        XRCCTRL(*this,"ScreenDumpF5Cdp18s020", wxButton)->Enable(!status);
+        XRCCTRL(*this,"RamCdp18s020", wxChoice)->Enable(status);
+        enableLoadGui(!status);
+    }
 	if (runningComputer_ == STUDIO)
 	{
         p_Main->scrtValues(status, false, -1, -1, -1, -1);
@@ -6256,6 +6348,7 @@ void Main::enableGui(bool status)
 				XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status);
 				elfTypeStr = "ElfII";
                 XRCCTRL(*this,"Giant"+elfTypeStr, wxCheckBox)->Enable(status);
+                XRCCTRL(*this,"EFButtons"+elfTypeStr, wxCheckBox)->Enable(status);
 			break;
 			case SUPERELF:
 				XRCCTRL(*this,"ColoursElf", wxButton)->Enable(status);

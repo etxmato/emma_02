@@ -248,7 +248,6 @@ void Velf::configureComputer()
 	outType_[7] = VIPIIOUT7;
     inType_[4] = ELFIN;
 	efType_[3] = VIPKEYEF;
-    efType_[4] = ELFINEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring VELF");
@@ -469,6 +468,11 @@ void Velf::dataSwitch(int i)
 
 Byte Velf::ef(int flag)
 {
+    if (flag == 4)
+    {
+        if (ef4State_ == 0)
+            return ef4State_;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -486,10 +490,6 @@ Byte Velf::ef(int flag)
 		case VIPKEYEF:
 			return ef3();
 		break;
-
-        case ELFINEF:
-            return ef4();
-        break;
 
         case VT100EF:
             if (isLoading() || realCassetteLoad_)
@@ -513,11 +513,6 @@ Byte Velf::ef(int flag)
 Byte Velf::ef3()
 {
 	return (vipKeyState_[0][vipKeyPort_]) ? 0 : 1;
-}
-
-Byte Velf::ef4()
-{
-    return ef4State_;
 }
 
 Byte Velf::in(Byte port, Word WXUNUSED(address))

@@ -443,11 +443,7 @@ void Elf::configureComputer()
 	efType_[2] = EF2UNDEFINED;
 	efType_[3] = EF3UNDEFINED;
 
-//	int efPort;
 	wxString printBuffer;
-
-//	int input = p_Main->getConfigItem("/Elf/HexInput", 4l);
-//	int output = p_Main->getConfigItem("/Elf/HexOutput", 4l);
 
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 	p_Main->message("Configuring Elf");
@@ -459,38 +455,31 @@ void Elf::configureComputer()
 
     if (elfConfiguration.useRomMapper)
     {
-//      output = p_Main->getConfigItem("/Elf/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: rom mapper", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, ROMMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useEms)
     {
-//      output = p_Main->getConfigItem("/Elf/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: EMS-512KB", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
 	if (elfConfiguration.useTape)
 	{
-//		efPort = p_Main->getConfigItem("/Elf/TapeEf", 2l);
 		efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
 		printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
 		p_Main->message(printBuffer);
 	}
     if (elfConfiguration.useHexKeyboardEf3)
     {
-//        efPort = p_Main->getConfigItem("/Elf/HexEf", 3l);
-        efType_[elfConfiguration.elfPortConf.hexEf] = ELFEF3;
         printBuffer.Printf("	EF %d: 0 when hex button pressed", elfConfiguration.elfPortConf.hexEf);
         p_Main->message(printBuffer);
     }
-	if (efType_[4] == 0)
-	{
-		efType_[4] = ELFINEF;
-		p_Main->message("	EF 4: 0 when in button pressed");
-	}
-	p_Main->message("");
+
+    p_Main->message("	EF 4: 0 when in button pressed");
+
+    p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("Elf");
     inKey2_ = p_Main->getDefaultInKey2("Elf");
@@ -500,6 +489,11 @@ void Elf::configureComputer()
 		p_Main->loadKeyDefinition(p_Main->getRomFile(ELF, MAINROM1), p_Main->getRomFile(ELF, MAINROM2), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 	
 	resetCpu();
+}
+
+void Elf::switchHexEf(bool state)
+{
+    elfConfiguration.useHexKeyboardEf3 = state;
 }
 
 void Elf::setPrinterEf()
@@ -552,6 +546,16 @@ void Elf::initComputer()
 
 Byte Elf::ef(int flag)
 {
+    if (flag == 4)
+    {
+        if (inPressed_ == true)
+            return 0;
+    }
+    if (elfConfiguration.useHexKeyboardEf3)
+    {
+        if (flag == elfConfiguration.elfPortConf.hexEf)
+            return ef3State_;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -594,29 +598,10 @@ Byte Elf::ef(int flag)
 			return i8275Pointer->ef8275();
 		break;
 
-		case ELFINEF:
-			return ef4();
-		break;
-
-		case VTINEF:
-			if (inPressed_ == true)
-				return 0;
-			else
-				return vtPointer->ef();
-		break;
-
-		case VTINEFSERIAL:
-			if (inPressed_ == true)
-				return 0;
-			else
-				return p_Serial->ef();
-		break;
-
 		case ELF2EF2:
 			return cassetteEf_;
 		break;
 
-		case ELFEF3:
 		case ELFPRINTEREF:
 			return ef3State_;
 		break;
@@ -636,14 +621,6 @@ Byte Elf::ef(int flag)
 		default:
 			return 1;
 	}
-}
-
-Byte Elf::ef4()
-{
-	if (inPressed_ == true)
-		return 0;
-	else
-		return 1;
 }
 
 Byte Elf::in(Byte port, Word WXUNUSED(address))
@@ -1864,4 +1841,10 @@ void Elf::onNumberKeyDown(int i)
     if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
         keypadPointer->onNumberKeyDown(i);
 }
+
+void Elf::onNumberKeyUp()
+{
+    ef3State_ = 1;
+}
+
 

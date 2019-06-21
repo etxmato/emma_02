@@ -41,7 +41,6 @@ public:
 
 	Byte ef(int flag);
     Byte ef3();
-    Byte ef4();
 	Byte in(Byte port, Word address);
     Byte getData();
 	void out(Byte port, Word address, Byte value);

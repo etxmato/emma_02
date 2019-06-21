@@ -1,0 +1,15 @@
+Same game as the VIP Dogfight game with keys:
+key     Direction of your plane
+2:       Up
+8:       Down
+4:       left
+6:       right
+
+Press 5 to fire.
+
+The Dog fight.hex and Dog fight.bin files include:
+000 - 1FF Elf II Chip 8 Interpreter (part 1)
+200 - 5FF Dog Fight chip 8 code, start from giantboard with 00-IN, 00-IN, 00-IN, IN
+600 - DFF Probably data that happened to be in memory at time of 'save'
+E00 - E6D Elf II Chip 8 Interpreter (part 2)
+F00 - FFF Used for screen memory so code/data in file is never used

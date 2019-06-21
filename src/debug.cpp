@@ -12498,6 +12498,10 @@ void DebugWindow::DebugDisplayMap()
 					value.Printf ("PR");
 				break;
 
+                case REGSTORAGE:
+                    value.Printf ("S");
+                break;
+                    
 				case COMXEXPBOX:
 					XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(wxColour(0x80, 0x80, 0xff));
 					switch (p_Computer->getExpansionMemoryType(p_Comx->getComxExpansionSlot(), (y&1)*16+x))
@@ -13412,6 +13416,7 @@ void DebugWindow::DebugDisplayVtRam()
         case VIP:
         case VIP2K:
         case VELF:
+        case CDP18S020:
 		case MEMBER:
 		case SUPERELF:
 			if (elfConfiguration[runningComputer_].vtType == VTNONE)
@@ -13543,6 +13548,8 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
 				setMemoryType((int)id, UNDEFINED);
             else if (strValue == "TC")
                 setMemoryType((int)id, TESTCARTRIDGEROM);
+            else if (strValue == "S")
+                setMemoryType((int)id, REGSTORAGE);
 			else
 			{
 				(void)wxMessageBox( 	"Please use one of the following codes:\n"
@@ -13560,7 +13567,8 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
 										"CE = COMX Expansion ROM copy\n"
 										"CF = COMX Floppy disk ROM copy\n"
                                         "TC = Test Cartridge ROM\n"
-										"C. = Victory or Vip Colour RAM access\n"
+                                        "C. = Victory or Vip Colour RAM access\n"
+                                        "S  = CDP18S020 Register Storage\n"
 										"\nNote: some options are only allowed\n"
 										"in specific cases.\n",
 											"Emma 02", wxICON_ERROR | wxOK );
@@ -13766,6 +13774,16 @@ void DebugWindow::setMemoryType(int id, int setType)
 			}
 		break;
 
+        case CDP18S020:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == REGSTORAGE))
+                p_Computer->defineMemoryType(id*256, setType);
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), ROM (R), REGISER STORAGE (S) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+                                   "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+            
         case VELF:
             if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
                 p_Computer->defineMemoryType(id*256, setType);
@@ -14840,6 +14858,16 @@ void DebugWindow::updateTitle()
 			p_Vip2->SetTitle("Cosmac VIP II" + title);
 			p_Vip2->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
+
+        case CDP18S020:
+            if (p_Cdp18s020->getSteps()==0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s020->getClear()==0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s020->SetTitle("CDP18S020" + title);
+            p_Cdp18s020->updateTitle(title);
+            p_Cdp18s020->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
 
         case VELF:
             if (p_Velf->getSteps()==0)

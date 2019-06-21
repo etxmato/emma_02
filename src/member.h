@@ -47,7 +47,6 @@ public:
 	void configureComputer();
 	void initComputer();
 	Byte ef(int flag);
-	Byte ef4();
 	Byte in(Byte port, Word address);
 	Byte getData();
 	void out(Byte port, Word address, Byte value);

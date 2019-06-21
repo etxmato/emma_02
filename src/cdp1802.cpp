@@ -231,7 +231,7 @@ Byte Cdp1802::pixieDmaOut(int *color)
             else
                 *color = colorMemory1864_[((scratchpadRegister_[0] >> 2) & 0x38) + (scratchpadRegister_[0] & 0x7)] & 0x7;
 		break;
-		case VELF:
+        case VELF:
         case STUDIO:
         case COINARCADE:
         case FRED1:
@@ -3589,6 +3589,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
 
+                case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
                         address = (address | addressLatch_);
@@ -3650,6 +3651,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
                 
+                case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
                         address = (address | addressLatch_);
@@ -3951,6 +3953,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
+                case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
                         address = (address | addressLatch_);
@@ -4010,6 +4013,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
+                case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
                         address = (address | addressLatch_);

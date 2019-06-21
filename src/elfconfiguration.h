@@ -153,7 +153,8 @@ public:
     int frontType;
 
     bool giantBoardMapping;
-    
+    bool efButtons;
+
     bool forceUpperCase;
 	int qSound_;
     int tilType;

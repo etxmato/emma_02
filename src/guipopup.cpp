@@ -70,6 +70,7 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
     EVT_CHECKBOX(XRCID("ControlWindowsPopupElf"), PopupDialog::onElfControlWindows)
 
     EVT_CHECKBOX(XRCID("ControlWindowsPopupVelf"), PopupDialog::onVelfControlWindows)
+    EVT_CHECKBOX(XRCID("ControlWindowsPopupCdp18s020"), PopupDialog::onCdp18s020ControlWindows)
     EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED"), PopupDialog::onFredControlWindows)
 
 	EVT_CHECKBOX(XRCID("ControlWindowsPopupMembership"), PopupDialog::onMembershipControlWindows)
@@ -211,6 +212,13 @@ void PopupDialog::init()
         case VELF:
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
             XRCCTRL(*this, "ControlWindowsPopupVelf", wxCheckBox)->SetValue(p_Main->getUseVelfControlWindows());
+            setStartLocation(p_Main->getSaveStartString(computer_));
+            setEndLocation(p_Main->getSaveEndString(computer_));
+        break;
+            
+        case CDP18S020:
+            XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
+            XRCCTRL(*this, "ControlWindowsPopupCdp18s020", wxCheckBox)->SetValue(p_Main->getUseCdp18s020ControlWindows());
             setStartLocation(p_Main->getSaveStartString(computer_));
             setEndLocation(p_Main->getSaveEndString(computer_));
         break;
@@ -440,6 +448,13 @@ void PopupDialog::onVelfControlWindows(wxCommandEvent&event)
     p_Main->onVelfControlWindows(event);
     if (p_Main->getGuiMode())
         p_Main->setCheckBox("ControlWindowsVelf", event.IsChecked());
+}
+
+void PopupDialog::onCdp18s020ControlWindows(wxCommandEvent&event)
+{
+    p_Main->onCdp18s020ControlWindows(event);
+    if (p_Main->getGuiMode())
+        p_Main->setCheckBox("ControlWindowsCdp18s020", event.IsChecked());
 }
 
 void PopupDialog::onFredControlWindows(wxCommandEvent&event)

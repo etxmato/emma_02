@@ -35,7 +35,7 @@
 
 #include "psave.h"
 
-BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
+BEGIN_EVENT_TABLE(GuiVelf, GuiCdp18s020)
 
 	EVT_TEXT(XRCID("MainRomVelf"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomVelf"), GuiMain::onMainRom1Text)
@@ -107,7 +107,7 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
 END_EVENT_TABLE()
 
 GuiVelf::GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiTMC2000(title, pos, size, mode, dataDir, iniDir)
+: GuiCdp18s020(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[VELF].loadFileNameFull_ = "";
 	conf[VELF].loadFileName_ = "";

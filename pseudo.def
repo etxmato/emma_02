@@ -94,8 +94,8 @@ CHIP8
  MEM 1C D4 1D 96 100 45 6F 05
  BASE EF0
  LOOP 1D
- FILE Chip8.syntax
- DISPLAY Chip-8
+ FILE Chip8Elf.syntax
+ DISPLAY Chip-8 Elf
 /CHIP8
 CHIP8
  VIP variant

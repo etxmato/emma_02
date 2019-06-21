@@ -26,6 +26,7 @@ f 755 root sys ${bindir}/emma_02 ../Release/emma_02
 f 644 root sys ${datadir}/emma_02/pseudo.def ../pseudo.def
 f 644 root sys ${datadir}/emma_02/CARDTRAN.syntax ../CARDTRAN.syntax
 f 644 root sys ${datadir}/emma_02/Chip8.syntax ../Chip8.syntax
+f 644 root sys ${datadir}/emma_02/Chip8.syntax ../Chip8Elf.syntax
 f 644 root sys ${datadir}/emma_02/Chip8Studio.syntax ../Chip8Studio.syntax
 f 644 root sys ${datadir}/emma_02/Chip8Vip2K.syntax ../Chip8Vip2K.syntax
 f 644 root sys ${datadir}/emma_02/Chip8X.syntax ../Chip8X.syntax

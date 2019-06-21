@@ -224,8 +224,8 @@ void FredScreen::releaseButtonOnScreen(HexButton* buttonPoint)
 }
 
 BEGIN_EVENT_TABLE(Fred, wxFrame)
-	EVT_BUTTON(1, Cosmicos::onRunButton)
-	EVT_BUTTON(2, Cosmicos::onResetButton)
+	EVT_BUTTON(1, Fred::onRunButton)
+	EVT_BUTTON(2, Fred::onResetButton)
 	EVT_CLOSE (Fred::onClose)
 END_EVENT_TABLE()
 

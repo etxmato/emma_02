@@ -1,9 +1,9 @@
 #ifndef GUIVELF_H
 #define GUIVELF_H
 
-#include "guitmc2000.h"
+#include "guicdp18s020.h"
 
-class GuiVelf: public GuiTMC2000
+class GuiVelf: public GuiCdp18s020
 {
 public:
 
