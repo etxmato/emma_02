@@ -26,6 +26,7 @@ public:
     void onCdp18s020ControlWindows(wxCommandEvent& event);
     bool getUseCdp18s020ControlWindows();
     void onAutoBoot(wxCommandEvent& event);
+    void onAutoBootType(wxCommandEvent& event);
 
 private:
     wxPoint position_;

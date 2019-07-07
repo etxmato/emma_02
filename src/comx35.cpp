@@ -1104,7 +1104,6 @@ Byte Comx::readMemDataType(Word address)
 
 Byte Comx::readMem(Word address)
 {
-	address_ = address;
 	wxDateTime systemNow;
 	wxDateTime now;
 	wxTimeSpan timeDiff;
@@ -1280,9 +1279,13 @@ Byte Comx::readMem(Word address)
 	}
 }
 
+Byte Comx::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
 void Comx::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = address;
 	wxDateTime systemNow;
 	wxDateTime now;
 	wxTimeSpan timeDiff;
@@ -1554,6 +1557,11 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 			p_Main->updateAssTabCheck(address);
 		break;
 	}
+}
+
+void Comx::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Comx::cpuInstruction()
@@ -2084,15 +2092,15 @@ bool Comx::isFAndMBasicRunning()
 	return fAndMBasicRunning_;
 }
 
-void Comx::setDosFileName(int addr)
+void Comx::setDosFileName(int address)
 {
 	wxString name;
 	name = "";
-	addr = 0xbc03;
-	while ((mainMemory_[addr] != 0xff) && (addr < 0xbc15))
+	address = 0xbc03;
+	while ((mainMemory_[address] != 0xff) && (address < 0xbc15))
 	{
-		name = name + (char)mainMemory_[addr];
-		addr++;
+		name = name + (char)mainMemory_[address];
+		address++;
 	}
 	if (name[0] == 0 && name[1] == 0)
 		return;

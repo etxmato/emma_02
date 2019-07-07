@@ -13559,7 +13559,7 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>utv.bin</item>
+                                                                                <item>ut4.bin</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -14349,6 +14349,34 @@
                                                                             </font>
                                                                             <label>Auto Boot</label>
                                                                             <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxChoice" name="AutoBootTypeCdp18s020">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>Utility</item>
+                                                                                <item>Program</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxTextCtrl" name="BootAddressCdp18s020" subclass="HexEdit">
+                                                                            <size>50,-1</size>
+                                                                            <tooltip>Specify auto boot address in hexadecimal</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <maxlength>4</maxlength>
                                                                         </object>
                                                                     </object>
                                                                 </object>

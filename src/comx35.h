@@ -27,6 +27,8 @@ public:
 	Byte readMemDataType(Word address);
 	Byte readMem(Word address);
 	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
 
 	void charEvent(int keycode);
@@ -42,7 +44,7 @@ public:
 	void onReset();
 	bool isFAndMBasicRunning();
 	bool isComputerRunning();
-	void setDosFileName(int addr);
+	void setDosFileName(int address);
 	void saveRam();
 	void loadRam();
     void switchQ(int value);

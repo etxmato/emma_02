@@ -17,7 +17,7 @@ public:
 	void outDisk(Byte value);
 	void selectDiskRegister(Byte value);
 	void cycleDisk();
-	void writeRtc(int addr, Byte value);
+	void writeRtc(int address, Byte value);
 	void dataAvailableUart(bool data); 
 	void thrStatusUart(bool data); 
 

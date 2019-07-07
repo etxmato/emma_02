@@ -789,49 +789,58 @@ Byte Velf::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Velf::readMem(Word addr)
+Byte Velf::readMem(Word address)
 {
-
-	if ((addr & 0x8000) == 0x8000)
+	if ((address & 0x8000) == 0x8000)
 		addressLatch_ = 0;
 
-	if (addr < 0x8000)
-		addr = (addr | addressLatch_);
+	if (address < 0x8000)
+		address = (address | addressLatch_);
 
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			return mainMemory_[addr];
+			return mainMemory_[address];
 		break;
 
 		case UNDEFINED:
 			return 255;
 		break;
 	}
-	return mainMemory_[addr];
+	return mainMemory_[address];
 }
 
-void Velf::writeMem(Word addr, Byte value, bool writeRom)
+Byte Velf::readMemDebug(Word address)
 {
-	switch (memoryType_[addr/256])
+    return readMem(address);
+}
+
+void Velf::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
             if (!getMpButtonState())
             {
-                mainMemory_[addr]=value;
-                if (addr >= memoryStart_ && addr<(memoryStart_+256))
-                    p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(addr);
+                mainMemory_[address]=value;
+                if (address >= memoryStart_ && address<(memoryStart_+256))
+                    p_Main->updateDebugMemory(address);
+				p_Main->updateAssTabCheck(address);
 			}
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
+}
+
+void Velf::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Velf::cpuInstruction()

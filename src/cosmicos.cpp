@@ -985,61 +985,71 @@ Byte Cosmicos::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Cosmicos::readMem(Word addr)
+Byte Cosmicos::readMem(Word address)
 {
-	address_ = addr | bootstrap_;
-
-	switch (memoryType_[addr / 256])
-	{
-		case UNDEFINED:
-			return 255;
-		break;
-
-		case ROM:
-		case RAM:
-		case MAPPEDRAM:
-			return mainMemory_[addr | bootstrap_];
-		break;
-
-		default:
-			return 255;
-		break;
-	}
+	address_ = address | bootstrap_;
+    return readMemDebug(address_);
 }
 
-void Cosmicos::writeMem(Word addr, Byte value, bool writeRom)
+Byte Cosmicos::readMemDebug(Word address)
 {
-	address_ = addr | bootstrap_;
+    address = address | bootstrap_;
+    switch (memoryType_[address / 256])
+    {
+        case UNDEFINED:
+            return 255;
+        break;
+            
+        case ROM:
+        case RAM:
+        case MAPPEDRAM:
+            return mainMemory_[address];
+        break;
+            
+        default:
+            return 255;
+        break;
+    }
+}
 
-	switch (memoryType_[addr/256])
-	{
-		case UNDEFINED:
-		case ROM:
-			if (writeRom)
-				mainMemory_[addr]=value;
-		break;
+void Cosmicos::writeMem(Word address, Byte value, bool writeRom)
+{
+	address_ = address | bootstrap_;
+    writeMemDebug(address_, value, writeRom);
+}
 
-		case MAPPEDRAM:
-			if (mpButtonState_ == 0)
-			{
-				if (mainMemory_[addr | bootstrap_]==value)
-					return;
-				mainMemory_[addr | bootstrap_]=value;
-				if (address_ >= (memoryStart_ | bootstrap_) && address_<((memoryStart_ | bootstrap_ ) +256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(address_);
-			}
-		break;
-
-		case RAM:
-			if (mainMemory_[address_]==value)
-				return;
-			mainMemory_[address_]=value;
-			if (address_ >= (memoryStart_ | bootstrap_) && address_<((memoryStart_ | bootstrap_ ) +256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(address_);
-		break;
-	}
+void Cosmicos::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    address = address | bootstrap_;
+    switch (memoryType_[address/256])
+    {
+        case UNDEFINED:
+        case ROM:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+            
+        case MAPPEDRAM:
+            if (mpButtonState_ == 0)
+            {
+                if (mainMemory_[address | bootstrap_]==value)
+                    return;
+                mainMemory_[address | bootstrap_]=value;
+                if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+                    p_Main->updateDebugMemory(address);
+                p_Main->updateAssTabCheck(address);
+            }
+        break;
+            
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+    }
 }
 
 void Cosmicos::cpuInstruction()

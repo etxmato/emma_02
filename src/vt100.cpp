@@ -108,7 +108,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             computerTypeStr_ = "Velf";
         break;
         case CDP18S020:
-            computerTypeStr_ = "CDP18S020";
+            computerTypeStr_ = "Cdp18s020";
         break;
 		case MCDS:
 			computerTypeStr_ = "MCDS";

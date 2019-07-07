@@ -1437,27 +1437,37 @@ Byte Super::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Super::readMem(Word addr)
+Byte Super::readMem(Word address)
 {
-    if ((addr & 0x8000) == 0x8000)
+    if ((address & 0x8000) == 0x8000)
         bootstrap_ = 0;
 
-    addr = addr | bootstrap_;
-	Byte minimon[] = { 0xf8, 0xff, 0xa1, 0xe1, 0x6c, 0x64, 0xa3, 0x21,
-                   0x6c, 0x64, 0x3f, 0x07, 0x37, 0x0c, 0x3a, 0x11,
-                   0xd3, 0xe3, 0xf6, 0x33, 0x17, 0x7b, 0x6c, 0x64,
-                   0x23, 0x3f, 0x13, 0x37, 0x1b, 0x13, 0x30, 0x13 };
-
-	address_ = addr;
+    address_ = address | bootstrap_;
+    
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
     else
         superScreenPointer->showAddressTil313Italic(address_);
+    
+    return readMemDebug(address_);
+}
 
-	switch (memoryType_[addr/256])
+Byte Super::readMemDebug(Word address)
+{
+    if ((address & 0x8000) == 0x8000)
+        bootstrap_ = 0;
+    
+    address = address | bootstrap_;
+    
+    Byte minimon[] = { 0xf8, 0xff, 0xa1, 0xe1, 0x6c, 0x64, 0xa3, 0x21,
+        0x6c, 0x64, 0x3f, 0x07, 0x37, 0x0c, 0x3a, 0x11,
+        0xd3, 0xe3, 0xf6, 0x33, 0x17, 0x7b, 0x6c, 0x64,
+        0x23, 0x3f, 0x13, 0x37, 0x1b, 0x13, 0x30, 0x13 };
+    
+	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
-			switch (emsMemoryType_[((addr & 0x3fff) |(emsPage_ << 14))/256])
+			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
 			{
 				case UNDEFINED:
 					return 255;
@@ -1465,7 +1475,7 @@ Byte Super::readMem(Word addr)
 
 				case ROM:
 				case RAM:
-					return emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))];
+					return emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
 				break;
 
 				default:
@@ -1477,7 +1487,7 @@ Byte Super::readMem(Word addr)
         case ROMMAPPER:
             if (emsPage_ <= maxNumberOfPages_)
             {
-                switch (romMapperMemoryType_[((addr & 0x7fff) |(emsPage_ << 15))/256])
+                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
                 {
                     case UNDEFINED:
                         return 255;
@@ -1485,7 +1495,7 @@ Byte Super::readMem(Word addr)
                         
                     case ROM:
                     case RAM:
-                        return expansionRom_[(long) ((addr & 0x7fff) |(emsPage_ << 15))];
+                        return expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
                     break;
                         
                     default:
@@ -1502,31 +1512,31 @@ Byte Super::readMem(Word addr)
 		break;
 
 		case ROM:
-			if (addr <32 && monitor_) return minimon[addr];
-			return mainMemory_[addr];
+			if (address <32 && monitor_) return minimon[address];
+			return mainMemory_[address];
 		break;
 
 		case MAPPEDRAM:
 		case RAM:
-			if (addr <32 && monitor_) return minimon[addr];
-			addr = (addr & ramMask_) + ramStart_;
-			return mainMemory_[addr];
+			if (address <32 && monitor_) return minimon[address];
+			address = (address & ramMask_) + ramStart_;
+			return mainMemory_[address];
 		break;
 
 		case MC6847RAM:
-			return mc6847Pointer->read6847(addr);
+			return mc6847Pointer->read6847(address);
 		break;
 
 		case MC6845RAM:
-			return mc6845Pointer->read6845(addr & 0x7ff);
+			return mc6845Pointer->read6845(address & 0x7ff);
 		break;
 
 		case MC6845REGISTERS:
-			return mc6845Pointer->readData6845(addr);
+			return mc6845Pointer->readData6845(address);
 		break;
 
 		case PAGER:
-			switch (pagerMemoryType_[((getPager(addr>>12) << 12) |(addr &0xfff))/256])
+			switch (pagerMemoryType_[((getPager(address>>12) << 12) |(address &0xfff))/256])
 			{
 				case UNDEFINED:
 					return 255;
@@ -1534,8 +1544,8 @@ Byte Super::readMem(Word addr)
 
 				case ROM:
 				case RAM:
-					if (addr <32 && monitor_) return minimon[addr];
-					return mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)];
+					if (address <32 && monitor_) return minimon[address];
+					return mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)];
 				break;
 
 				default:
@@ -1550,41 +1560,48 @@ Byte Super::readMem(Word addr)
 	}
 }
 
-void Super::writeMem(Word addr, Byte value, bool writeRom)
+void Super::writeMem(Word address, Byte value, bool writeRom)
 {
-    addr = addr | bootstrap_;
-	address_ = addr;
+    address_ = address | bootstrap_;
+    
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
     else
         superScreenPointer->showAddressTil313Italic(address_);
+    
+    writeMemDebug(address_, value, writeRom);
+}
 
+void Super::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    address = address | bootstrap_;
+    
 	if (emsMemoryDefined_)
 	{
-		if (addr>=0xc000 && addr <=0xffff)
+		if (address>=0xc000 && address <=0xffff)
 		{
 			emsPage_ = value & 0x1f;
 		}
 	}
 
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
-			switch (emsMemoryType_[((addr & 0x3fff) |(emsPage_ << 14))/256])
+			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
 			{
 				case UNDEFINED:
 				case ROM:
 					if (writeRom)
-						emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))] = value;
+						emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = value;
 				break;
 
 				case RAM:
                     if (!getMpButtonState())
                     {
-                        emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))] = value;
-                        if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                            p_Main->updateDebugMemory(addr);
-                        p_Main->updateAssTabCheck(addr);
+                        emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = value;
+                        if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                            p_Main->updateDebugMemory(address);
+                        p_Main->updateAssTabCheck(address);
                     }
 				break;
 			}
@@ -1593,21 +1610,21 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
         case ROMMAPPER:
             if (emsPage_ <= maxNumberOfPages_)
             {
-                switch (romMapperMemoryType_[((addr & 0x7fff) |(emsPage_ << 15))/256])
+                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
                 {
                     case UNDEFINED:
                     case ROM:
                         if (writeRom)
-                            expansionRom_[(long) ((addr & 0x7fff) |(emsPage_ << 15))] = value;
+                            expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = value;
                     break;
                         
                     case RAM:
                         if (!getMpButtonState())
                         {
-                            expansionRom_[(long) ((addr & 0x7fff) |(emsPage_ << 15))] = value;
-                            if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                                p_Main->updateDebugMemory(addr);
-							p_Main->updateAssTabCheck(addr);
+                            expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = value;
+                            if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                                p_Main->updateDebugMemory(address);
+							p_Main->updateAssTabCheck(address);
 						}
                     break;
                 }
@@ -1615,42 +1632,42 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
         break;
             
 		case MC6847RAM:
-			mc6847Pointer->write(addr, value);
-			mainMemory_[addr] = value;
-			if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-				p_Main->updateDebugMemory(addr);
+			mc6847Pointer->write(address, value);
+			mainMemory_[address] = value;
+			if (address >= memoryStart_ && address<(memoryStart_ + 256))
+				p_Main->updateDebugMemory(address);
 		break;
 
 		case MC6845RAM:
-			mc6845Pointer->write6845(addr & 0x7ff, value);
+			mc6845Pointer->write6845(address & 0x7ff, value);
 		break;
 
 		case MC6845REGISTERS:
-			mc6845Pointer->writeRegister6845(addr, value);
+			mc6845Pointer->writeRegister6845(address, value);
 		break;
 
 		case UNDEFINED:
 		case ROM:
-			if (addr < 32 && monitor_) return;
+			if (address < 32 && monitor_) return;
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case MAPPEDRAM:
 		case RAM:
             if (!getMpButtonState())
             {
-                if (mainMemory_[addr]==value)
+                if (mainMemory_[address]==value)
                     return;
-                if (addr < 32 && monitor_) return;
-                addr = (addr & ramMask_) + ramStart_;
-                mainMemory_[addr]=value;
-                if (addr >= (memoryStart_& ramMask_) && addr<((memoryStart_& ramMask_) + 256))
-                    p_Main->updateDebugMemory(addr);
-                p_Main->updateAssTabCheck(addr);
+                if (address < 32 && monitor_) return;
+                address = (address & ramMask_) + ramStart_;
+                mainMemory_[address]=value;
+                if (address >= (memoryStart_& ramMask_) && address<((memoryStart_& ramMask_) + 256))
+                    p_Main->updateDebugMemory(address);
+                p_Main->updateAssTabCheck(address);
 /*			if (loadedOs_ == ELFOS)
 			{
-				if (addr == 0x7cb1)
+				if (address == 0x7cb1)
 				{
 					Word saveStart = (mainMemory_[0x7cae] << 8) + mainMemory_[0x7caf] ;
 					Word saveEnd = saveStart + (mainMemory_[0x7cb0] << 8) + mainMemory_[0x7cb1];
@@ -1661,23 +1678,23 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 		break;
 
 		case PAGER:
-			switch (pagerMemoryType_[((getPager(addr>>12) << 12) |(addr &0xfff))/256])
+			switch (pagerMemoryType_[((getPager(address>>12) << 12) |(address &0xfff))/256])
 			{
 				case UNDEFINED:
 				case ROM:
-					if (addr < 32 && monitor_) return;
+					if (address < 32 && monitor_) return;
 					if (writeRom)
-						mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)] = value;
+						mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
 				break;
 
 				case RAM:
                     if (!getMpButtonState())
                     {
-                        if (addr < 32 && monitor_) return;
-                        mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)] = value;
-                        if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                            p_Main->updateDebugMemory(addr);
-                        p_Main->updateAssTabCheck(addr);
+                        if (address < 32 && monitor_) return;
+                        mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
+                        if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                            p_Main->updateDebugMemory(address);
+                        p_Main->updateAssTabCheck(address);
                     }
 				break;
 			}
@@ -1915,73 +1932,73 @@ void Super::sleepComputer(long ms)
 	threadPointer->Sleep(ms);
 }
 
-Byte Super::read8275CharRom(Word addr)
+Byte Super::read8275CharRom(Word address)
 {
 	if (elfConfiguration.use8275)
-		return i8275Pointer->read8275CharRom(addr);
+		return i8275Pointer->read8275CharRom(address);
 	else
 		return 0;
 }
 
-void Super::write8275CharRom(Word addr, Byte value)
+void Super::write8275CharRom(Word address, Byte value)
 {
 	if (elfConfiguration.use8275)
-		i8275Pointer->write8275CharRom(addr, value);
+		i8275Pointer->write8275CharRom(address, value);
 }
 
-Byte Super::read8275VideoRam(Word addr)
+Byte Super::read8275VideoRam(Word address)
 {
     if (elfConfiguration.use8275)
-        return i8275Pointer->read8275VideoRam(addr);
+        return i8275Pointer->read8275VideoRam(address);
     else
         return 0;
 }
 
-void Super::write8275VideoRam(Word addr, Byte value)
+void Super::write8275VideoRam(Word address, Byte value)
 {
     if (elfConfiguration.use8275)
-        i8275Pointer->write8275VideoRam(addr, value);
+        i8275Pointer->write8275VideoRam(address, value);
 }
 
-Byte Super::read6845CharRom(Word addr)
+Byte Super::read6845CharRom(Word address)
 {
 	if (elfConfiguration.use6845||elfConfiguration.useS100)
-		return mc6845Pointer->read6845CharRom(addr);
+		return mc6845Pointer->read6845CharRom(address);
 	else
 		return 0;
 }
 
-void Super::write6845CharRom(Word addr, Byte value)
+void Super::write6845CharRom(Word address, Byte value)
 {
-	mc6845Pointer->write6845CharRom(addr, value);
+	mc6845Pointer->write6845CharRom(address, value);
 }
 
-Byte Super::read6847CharRom(Word addr)
+Byte Super::read6847CharRom(Word address)
 {
 	if (elfConfiguration.use6847)
-		return mc6847Pointer->read6847CharRom(addr);
+		return mc6847Pointer->read6847CharRom(address);
 	else
 		return 0;
 }
 
-void Super::write6847CharRom(Word addr, Byte value)
+void Super::write6847CharRom(Word address, Byte value)
 {
 	if (elfConfiguration.use6847)
-		mc6847Pointer->write6847CharRom(addr, value);
+		mc6847Pointer->write6847CharRom(address, value);
 }
 
-int Super::readDirect6847(Word addr)
+int Super::readDirect6847(Word address)
 {
 	if (elfConfiguration.use6847)
-		return mc6847Pointer->readDirect6847(addr); 
+		return mc6847Pointer->readDirect6847(address);
 	else
 		return 0;
 }
 
-void Super::writeDirect6847(Word addr, int value)
+void Super::writeDirect6847(Word address, int value)
 {
 	if (elfConfiguration.use6847)
-		mc6847Pointer->writeDirect6847(addr, value); 
+		mc6847Pointer->writeDirect6847(address, value);
 }
 
 Word Super::get6847RamMask()

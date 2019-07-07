@@ -775,8 +775,8 @@ Byte Pecom::readMemDataType(Word address)
 
 Byte Pecom::readMem(Word address)
 {
-	address_ = address | addressLatch_;
-	switch (memoryType_[address_/256])
+	address = address | addressLatch_;
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
@@ -784,25 +784,25 @@ Byte Pecom::readMem(Word address)
 
 		case PRAM1870:
 			if (videoRAM_)
-				return readPram(address_);
+				return readPram(address);
 			else
-				return mainMemory_[address_];
+				return mainMemory_[address];
 		break;
 
 		case CRAM1870:
 			if (videoRAM_)
-				return readCram(address_);
+				return readCram(address);
 			else
-				return mainMemory_[address_];
+				return mainMemory_[address];
 		break;
 
 		case ROM:
 		case RAM:
-			return mainMemory_[address_];
+			return mainMemory_[address];
 		break;
 
 		case MAPPEDRAM:
-			return mainMemory_[address_ & 0x3fff];
+			return mainMemory_[address & 0x3fff];
 		break;
 
 		default:
@@ -811,9 +811,13 @@ Byte Pecom::readMem(Word address)
 	}
 }
 
+Byte Pecom::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
 void Pecom::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = address;
 	if (writeRom)
 	{
 		mainMemory_[address]=value;
@@ -871,6 +875,11 @@ void Pecom::writeMem(Word address, Byte value, bool writeRom)
 			p_Main->updateAssTabCheck(address);
 		break;
 	}
+}
+
+void Pecom::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Pecom::cpuInstruction()

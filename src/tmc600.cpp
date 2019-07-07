@@ -842,7 +842,6 @@ Byte Tmc600::readMemDataType(Word address)
 
 Byte Tmc600::readMem(Word address)
 {
-	address_ = address;
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -873,9 +872,13 @@ Byte Tmc600::readMem(Word address)
 	}
 }
 
+Byte Tmc600::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
 void Tmc600::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = address;
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -897,6 +900,11 @@ void Tmc600::writeMem(Word address, Byte value, bool writeRom)
 			p_Main->updateAssTabCheck(address);
 		break;
 	}
+}
+
+void Tmc600::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Tmc600::cpuInstruction()

@@ -170,7 +170,10 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 #if defined (__linux__)
     linuxExtension = "_linux";
 #endif
-        
+    
+    buttonSizeX_ = 30;
+    buttonSizeY_ = 30;
+
 	switch (type)
 	{
         case VERTICAL_BUTTON:
@@ -223,7 +226,14 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
 		break;
 
-		default:
+        case DIP_SWITCH_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/dip_switch_on.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/dip_switch_off.png", wxBITMAP_TYPE_PNG);
+            buttonSizeX_ = 8;
+            buttonSizeY_ = 20;
+        break;
+
+        default:
 			upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
 			downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
 		break;
@@ -309,7 +319,7 @@ bool SwitchButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
 	if (type_ < PUSH_BUTTON)
 		return false;
 
-	if ((x >= x_) &&(x <= (x_+30)) &&(y >= y_) &&(y <= (y_+30)))
+	if ((x >= x_) &&(x <= (x_+buttonSizeX_)) &&(y >= y_) &&(y <= (y_+buttonSizeY_)))
 	{
 		state_ = !state_;
 		if (state_ == BUTTON_UP)
@@ -330,7 +340,7 @@ bool SwitchButton::onMouseRelease(wxDC& dc, wxCoord x, wxCoord y)
     if (type_ > PUSH_BUTTON)
         return false;
 
-    if ((x >= x_) &&(x <= (x_+30)) &&(y >= y_) &&(y <= (y_+30)))
+    if ((x >= x_) &&(x <= (x_+buttonSizeX_)) &&(y >= y_) &&(y <= (y_+buttonSizeY_)))
 	{
 		state_ = !state_;
 		if (state_ == BUTTON_UP)
@@ -395,6 +405,11 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	{
 		ledStatus[i] = 0;
 		updateLed_[i] = false;
+    }
+    for (int i=0; i<4; i++)
+    {
+        stateLedStatus[i] = 0;
+        updateStateLed_[i] = false;
     }
     for (int i=0; i<8; i++)
     {
@@ -581,8 +596,10 @@ void Panel::ledTimeout()
 	updatePauseLed(dc);
 	updateRunLed(dc);
 	updateLoadLed(dc);
-	for (int i=0; i<24; i++)
-		updateLed(dc, i);
+    for (int i=0; i<24; i++)
+        updateLed(dc, i);
+    for (int i=0; i<4; i++)
+        updateStateLed(dc, i);
     for (int i=0; i<8; i++)
 		updateSeg(dc, i);
 	updateData(dc);
@@ -804,6 +821,29 @@ void Panel::updateLed(wxDC& dc, int i)
 		ledPointer[i]->setStatus(dc, ledStatus[i]);
 		updateLed_[i] = false;
 	}
+}
+
+void Panel::setStateLed(int i, int status)
+{
+    if (stateLedStatus[i] != status)
+    {
+        stateLedStatus[i] = status;
+        updateStateLed_[i] = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateStateLed(dc, i);
+        }
+    }
+}
+
+void Panel::updateStateLed(wxDC& dc, int i)
+{
+    if (updateStateLed_[i])
+    {
+        stateLedPointer[i]->setStatus(dc, stateLedStatus[i]);
+        updateStateLed_[i] = false;
+    }
 }
 
 void Panel::showData(Byte value)
@@ -1597,6 +1637,10 @@ void Computer::onSingleStep(wxCommandEvent&WXUNUSED(event))
 }
 
 void Computer::onMpButton()
+{
+}
+
+void Computer::onMpButton(int WXUNUSED(buttonNumber))
 {
 }
 

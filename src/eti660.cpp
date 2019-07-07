@@ -488,31 +488,41 @@ Byte Eti::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Eti::readMem(Word addr)
+Byte Eti::readMem(Word address)
 {
-	address_ = addr & ramMask_;
+	address = address & ramMask_;
 
-	if (memoryType_[address_/256] == UNDEFINED) return 255;
-	return mainMemory_[address_];
+	if (memoryType_[address/256] == UNDEFINED) return 255;
+	return mainMemory_[address];
 }
 
-void Eti::writeMem(Word addr, Byte value, bool writeRom)
+Byte Eti::readMemDebug(Word address)
 {
-	address_ = addr & ramMask_;
-	if (mainMemory_[address_]==value)
+    return readMem(address);
+}
+
+void Eti::writeMem(Word address, Byte value, bool writeRom)
+{
+	address = address & ramMask_;
+	if (mainMemory_[address]==value)
 		return;
 
 	if (!writeRom)
-		if (memoryType_[address_/256] != RAM)  return;
+		if (memoryType_[address/256] != RAM)  return;
 
-	if (address_ > endSave_)
-		endSave_ = address_;
+	if (address > endSave_)
+		endSave_ = address;
 
-	mainMemory_[address_]=value;
+	mainMemory_[address]=value;
 	if (writeRom)
 		return;
-	if ((addr & ramMask_) >= (memoryStart_& ramMask_) && (addr & ramMask_) < ((memoryStart_& ramMask_) + 256))
-		p_Main->updateDebugMemory(address_);
+	if (address >= (memoryStart_& ramMask_) && address < ((memoryStart_& ramMask_) + 256))
+		p_Main->updateDebugMemory(address);
+}
+
+void Eti::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 Byte Eti::read1864ColorDirect(Word addr)

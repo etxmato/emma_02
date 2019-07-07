@@ -32,6 +32,8 @@ public:
 	Byte readMemDataType(Word address);
 	Byte readMem(Word address);
 	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
 	void onReset();
 	void printOutPecom(int q);

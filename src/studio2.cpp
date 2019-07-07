@@ -644,104 +644,110 @@ Byte Studio2::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Studio2::readMem(Word addr)
+Byte Studio2::readMem(Word address)
 {
-	address_ = addr;
-
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
         case MULTICART:
-			if ((addr < 0x400) && !disableSystemRom_)
-				return mainMemory_[addr];
+			if ((address < 0x400) && !disableSystemRom_)
+				return mainMemory_[address];
 			else
-				return multiCartRom_[(addr+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+				return multiCartRom_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
         break;
             
         case MAPPEDMULTICART:
-            addr = addr & 0xfff;
-            if ((addr < 0x400) && !disableSystemRom_)
-                return mainMemory_[addr];
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemory_[address];
             else
-                return multiCartRom_[(addr+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+                return multiCartRom_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
         break;
             
         case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
+			address = (address & 0x1ff) | 0x800;
 		break;
  
         case CARTRIDGEROM:
-//            addr = (addr & 0x3ff) | 0x400;
+//            address = (address & 0x3ff) | 0x400;
         break;
             
         case MAPPEDROM:
-            addr = (addr & 0x3ff);
+            address = (address & 0x3ff);
         break;
 	}
-    return mainMemory_[addr];
+    return mainMemory_[address];
 }
 
-void Studio2::writeMem(Word addr, Byte value, bool writeRom)
+Byte Studio2::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void Studio2::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
         case MULTICART:
 			if (writeRom)
 			{
-				if ((addr < 0x400) && !disableSystemRom_)
-					mainMemory_[addr] = value;
+				if ((address < 0x400) && !disableSystemRom_)
+					mainMemory_[address] = value;
 				else
-					multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+					multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
 			}
         break;
             
         case MAPPEDMULTICART:
-            addr = addr & 0xfff;
+            address = address & 0xfff;
             if (writeRom)
             {
-                if ((addr < 0x400) && !disableSystemRom_)
-                    mainMemory_[addr] = value;
+                if ((address < 0x400) && !disableSystemRom_)
+                    mainMemory_[address] = value;
                 else
-                    multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+                    multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
             }
         break;
             
 		case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
-			if (mainMemory_[addr]==value)
+			address = (address & 0x1ff) | 0x800;
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 //			else
 //			{
-//				if (addr >= 0x400 && addr < 0x800)
+//				if (address >= 0x400 && address < 0x800)
 //				{
 //					p_Main->eventShowMessage(scratchpadRegister_[5]);
 //				}
 //			}
 		break;
 	}
+}
+
+void Studio2::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Studio2::cpuInstruction()

@@ -92,6 +92,8 @@ BEGIN_EVENT_TABLE(GuiCdp18s020, GuiTMC2000)
     EVT_BUTTON(XRCID("EjectCasCdp18s020"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileCdp18s020"), GuiMain::onCassetteText)
 
+    EVT_CHOICE(XRCID("AutoBootTypeCdp18s020"), GuiCdp18s020::onAutoBootType)
+
 END_EVENT_TABLE()
 
 GuiCdp18s020::GuiCdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
@@ -130,8 +132,8 @@ void GuiCdp18s020::readCdp18s020Config()
 
 	conf[CDP18S020].rom_[MAINROM1] = configPointer->Read("/Cdp18s020/Main_Rom_File", "ut4.bin");
 	conf[CDP18S020].ram_ = configPointer->Read("/Cdp18s020/Ram_Software", "Cosmac Tiny Basic.bin");
-    conf[CDP18S020].wavFile_[0] = configPointer->Read("/Cdp18s020/Terminal_File", "");
-	elfConfiguration[CDP18S020].vtWavFile_ = configPointer->Read("/Cdp18s020/Vt_Wav_File", "Cosmac Tiny Basic.txt");
+    conf[CDP18S020].wavFile_[0] = configPointer->Read("/Cdp18s020/Terminal_File", "Cosmac Tiny Basic.txt");
+	elfConfiguration[CDP18S020].vtWavFile_ = configPointer->Read("/Cdp18s020/Vt_Wav_File", "");
     elfConfiguration[CDP18S020].serialPort_ = configPointer->Read("/Cdp18s020/VtSerialPortChoice", "");
 
 	conf[CDP18S020].screenDumpFile_ = configPointer->Read("/Cdp18s020/Video_Dump_File", "screendump.png");
@@ -162,7 +164,6 @@ void GuiCdp18s020::readCdp18s020Config()
     setRealCas(CDP18S020);
 
     conf[CDP18S020].volume_ = (int)configPointer->Read("/Cdp18s020/Volume", 25l);
-	conf[CDP18S020].beepFrequency_ = (int)configPointer->Read("/Cdp18s020/Beep_Frequency", 650);
 
 	wxString defaultClock;
 	defaultClock.Printf("%1.1f", 2.0);
@@ -188,7 +189,12 @@ void GuiCdp18s020::readCdp18s020Config()
 	conf[CDP18S020].vtCharRom_ = configPointer->Read("/Cdp18s020/Vt_Font_Rom_File", "vt100.bin");
 
     configPointer->Read("/Cdp18s020/Enable_Auto_Boot", &elfConfiguration[CDP18S020].autoBoot, true);
-    conf[CDP18S020].ramType_ = (int)configPointer->Read("/Cdp18s020/Ram_Type", 0l);
+    conf[CDP18S020].ramType_ = (int)configPointer->Read("/Cdp18s020/Ram_Type", 4l);
+    elfConfiguration[CDP18S020].autoBootType = (int)configPointer->Read("/Cdp18s020/AutoBootType", 0l);
+    if (elfConfiguration[CDP18S020].autoBootType == 0)
+        conf[CDP18S020].bootAddress_ = 0x8000;
+    else
+        conf[CDP18S020].bootAddress_ = 0;
 
     if (mode_.gui)
 	{
@@ -212,13 +218,12 @@ void GuiCdp18s020::readCdp18s020Config()
 		XRCCTRL(*this, "LatchCdp18s020", wxCheckBox)->SetValue(latch_);
 		XRCCTRL(*this, "VolumeCdp18s020", wxSlider)->SetValue(conf[CDP18S020].volume_);
 		clockTextCtrl[CDP18S020]->ChangeValue(conf[CDP18S020].clock_);
-		wxString beepFrequency;
-		beepFrequency.Printf("%d", conf[CDP18S020].beepFrequency_);
         XRCCTRL(*this, "ShowAddressCdp18s020", wxTextCtrl)->ChangeValue(conf[CDP18S020].ledTime_);
         XRCCTRL(*this,"ShowAddressCdp18s020", wxTextCtrl)->Enable(elfConfiguration[CDP18S020].useElfControlWindows);
         XRCCTRL(*this, "AutoBootCdp18s020", wxCheckBox)->SetValue(elfConfiguration[CDP18S020].autoBoot);
 
         XRCCTRL(*this, "RamCdp18s020", wxChoice)->SetSelection(conf[CDP18S020].ramType_);
+        XRCCTRL(*this, "AutoBootTypeCdp18s020", wxChoice)->SetSelection(elfConfiguration[CDP18S020].autoBootType);
     }
 }
 
@@ -273,8 +278,8 @@ void GuiCdp18s020::writeCdp18s020Config()
     configPointer->Write("/Cdp18s020/Led_Update_Frequency", conf[CDP18S020].ledTime_);
 
 	configPointer->Write("/Cdp18s020/Clock_Speed", conf[CDP18S020].clock_);
-	configPointer->Write("/Cdp18s020/Beep_Frequency", conf[CDP18S020].beepFrequency_);
     configPointer->Write("/Cdp18s020/Ram_Type", conf[CDP18S020].ramType_);
+    configPointer->Write("/Cdp18s020/AutoBootType", elfConfiguration[CDP18S020].autoBootType);
 }
 
 void GuiCdp18s020::readCdp18s020WindowConfig()
@@ -345,6 +350,15 @@ bool GuiCdp18s020::getUseCdp18s020ControlWindows()
 void GuiCdp18s020::onAutoBoot(wxCommandEvent&event)
 {
     elfConfiguration[CDP18S020].autoBoot = event.IsChecked();
+}
+
+void GuiCdp18s020::onAutoBootType(wxCommandEvent&event)
+{
+    elfConfiguration[CDP18S020].autoBootType = event.GetSelection();
+    if (elfConfiguration[CDP18S020].autoBootType == 0)
+        conf[CDP18S020].bootAddress_ = 0x8000;
+    else
+        conf[CDP18S020].bootAddress_ = 0;
 }
 
 

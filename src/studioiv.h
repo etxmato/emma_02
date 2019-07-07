@@ -27,10 +27,12 @@ public:
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
-    Byte read1864ColorDirect(Word addr);
-    void write1864ColorDirect(Word addr, Byte value);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
+    Byte read1864ColorDirect(Word address);
+    void write1864ColorDirect(Word address, Byte value);
 	void cpuInstruction();
 	void onReset();
 

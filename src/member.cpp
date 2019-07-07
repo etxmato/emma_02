@@ -706,22 +706,26 @@ Byte Membership::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Membership::readMem(Word addr)
+Byte Membership::readMem(Word address)
 {
-	address_ = addr;
+	address_ = address;
+    return readMemDebug(address_);
+}
 
-	switch (memoryType_[addr/256])
+Byte Membership::readMemDebug(Word address)
+{
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
 		case RAM:
-			return mainMemory_[addr ];
+			return mainMemory_[address ];
 		break;
             
         case ROM:
-            return mainMemory_[addr ];
+            return mainMemory_[address ];
         break;
 
 		default:
@@ -730,28 +734,32 @@ Byte Membership::readMem(Word addr)
 	}
 }
 
-void Membership::writeMem(Word addr, Byte value, bool writeRom)
+void Membership::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = addr;
+	address_ = address;
+    writeMemDebug(address_, value, writeRom);
+}
 
-	switch (memoryType_[addr/256])
+void Membership::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 		case ROM:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case RAM:
 			if (!getMpButtonState())
 			{
-                if (mainMemory_[addr]==value)
+                if (mainMemory_[address]==value)
 					return;
 
-                mainMemory_[addr]=value;
-				if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(addr);
+                mainMemory_[address]=value;
+				if (address >= memoryStart_ && address<(memoryStart_ + 256))
+					p_Main->updateDebugMemory(address);
+				p_Main->updateAssTabCheck(address);
 			}
 		break;
 	}

@@ -112,6 +112,7 @@ public:
 	int baudR;
 	int baudT;
     bool autoBoot;
+    bool autoBootType;
     bool stopTone;
     bool utilityMemory;
     bool tapeStart;

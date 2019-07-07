@@ -39,6 +39,9 @@ public:
     void onRunPButton();
     void onRun();
     void autoBoot();
+    
+    void onMpButton(int buttonNumber);
+    void onSingleStep();
 
 	Byte ef(int flag);
 	Byte in(Byte port, Word address);
@@ -52,8 +55,10 @@ public:
     void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
 	void moveWindows();
 	void updateTitle(wxString Title);
@@ -75,8 +80,10 @@ private:
 
     int ledCycleValue_;
     int ledCycleSize_;
+    int setLedCycleSize_;
 
     Byte ef4State_;
+    bool mpButtonState_[4];
     
     double cdp18s020ClockSpeed_;
     class Cdp18s020Screen *cdp18s020ScreenPointer;

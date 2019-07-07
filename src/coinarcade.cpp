@@ -350,53 +350,59 @@ Byte CoinArcade::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte CoinArcade::readMem(Word addr)
+Byte CoinArcade::readMem(Word address)
 {
-	address_ = addr;
-
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
         case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
+			address = (address & 0x1ff) | 0x800;
 		break;
  	}
-    return mainMemory_[addr];
+    return mainMemory_[address];
 }
 
-void CoinArcade::writeMem(Word addr, Byte value, bool writeRom)
+Byte CoinArcade::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void CoinArcade::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
             
 		case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
-			if (mainMemory_[addr]==value)
+			address = (address & 0x1ff) | 0x800;
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
+}
+
+void CoinArcade::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void CoinArcade::cpuInstruction()

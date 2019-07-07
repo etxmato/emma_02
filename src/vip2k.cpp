@@ -569,15 +569,13 @@ Byte Vip2K::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Vip2K::readMem(Word addr)
+Byte Vip2K::readMem(Word address)
 {
-    address_ = addr;
-
-    switch (memoryType_[addr/256])
+    switch (memoryType_[address/256])
 	{
 		case RAM:
         case ROM:
-			return mainMemory_[addr];
+			return mainMemory_[address];
 		break;
 
         default:
@@ -586,26 +584,34 @@ Byte Vip2K::readMem(Word addr)
 	}
 }
 
-void Vip2K::writeMem(Word addr, Byte value, bool writeRom)
+Byte Vip2K::readMemDebug(Word address)
 {
-    address_ = addr;
+    return readMem(address);
+}
 
-    switch (memoryType_[addr/256])
+void Vip2K::writeMem(Word address, Byte value, bool writeRom)
+{
+    switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-            if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                p_Main->updateDebugMemory(addr);
-            p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+            if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
+}
+
+void Vip2K::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Vip2K::cpuInstruction()

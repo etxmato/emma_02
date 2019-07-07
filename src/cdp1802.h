@@ -15,6 +15,20 @@ using namespace std;
 #define RUN 3
 #define UNDEFINDEDMODE 5
 
+#define FETCH_STATE_1 0
+#define FETCH_STATE_2 1
+#define EXECUTE_2_STATE 2
+#define EXECUTE_1_STATE 3 // This should always be 1 lower than EXECUTE_2_STATE_1805
+#define EXECUTE_2_STATE_1805 4
+#define EXECUTE_3_STATE_1805 5
+#define EXECUTE_4_STATE_1805 6
+#define EXECUTE_5_STATE_1805 7
+#define EXECUTE_6_STATE_1805 8
+#define EXECUTE_7_STATE_1805 9
+#define EXECUTE_8_STATE_1805 10
+#define DMA_STATE 11
+#define INTERRUPT_STATE 12
+
 class Cdp1802 : public IoDevice, public Memory, public Sound
 {
 public:
@@ -31,7 +45,13 @@ public:
 	int getClear() {return clear_;};
 	void setWait(int value);
 	int getWait() {return wait_;};
-	void cpuCycle();
+    void cpuCycle();
+    void cpuCycleFetch();
+    void cpuCycleFetch2();
+    void cpuCycleExecute();
+    void cpuCycleFinalize();
+    void inst1805();
+    void cpuCycleExecute1805();
 	void dmaIn(Byte value);
 	Byte dmaOut();
 	Byte pixieDmaOut(int *color);
@@ -108,7 +128,8 @@ public:
 
 protected:
 	Byte cycle0_;
-	Byte cpuMode_;
+    Byte cpuMode_;
+    Byte cpuState_;
 
 	// Debug data
 	long steps_;
@@ -121,6 +142,16 @@ protected:
 	Word scratchpadRegister_[16];
 	Byte programCounter_;
     Byte scrtProgramCounter_;
+
+    Byte idle_;
+    int cpuType_;
+    bool singleStateStep_;
+
+    Byte bus_;
+    Byte instructionCode_;
+    wxString traceBuffer_;
+    bool stopHiddenTrace_;
+    bool startHiddenTrace_;
 
 	int expansionSlot_;
 	int ramBank_;
@@ -144,27 +175,25 @@ protected:
 private:
 	void setMode();
 	void decCounter();
-	void inst1805(wxString *tr);
 	int colourMask_;
 	bool readyToReceiveData[4];
 
 	// 1802 CPU Registers
-	Byte dataFlag_;
+    Byte dataFlag_;
 	Byte dataPointer_;
-	Byte registerT_;
+    Byte registerB_;
+    Byte registerT_;
 	Byte interruptEnable_;
 	Byte efFlags_;
 	Byte accumulator_;
 
 	int clear_;
 	int wait_;
-	Byte idle_;
 	bool trace_;
     bool skipTrace_;
 	bool traceDma_;
 	bool traceInt_;
 	bool traceChip8Int_;
-	int cpuType_;
 
 	// 1805 stuff
 	Byte tq_;

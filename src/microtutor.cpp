@@ -483,22 +483,20 @@ Byte Microtutor::readMemDataType(Word address)
     return mainMemoryDataType_[address];
 }
 
-Byte Microtutor::readMem(Word addr)
+Byte Microtutor::readMem(Word address)
 {
-	address_ = addr;
-
-	switch (memoryType_[addr / 256])
+	switch (memoryType_[address / 256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
 		case RAM:
-            return mainMemory_[addr];
+            return mainMemory_[address];
         break;
             
 		case MAPPEDRAM:
-			return mainMemory_[addr & 0xff];
+			return mainMemory_[address & 0xff];
 		break;
 
 		default:
@@ -507,36 +505,44 @@ Byte Microtutor::readMem(Word addr)
 	}
 }
 
-void Microtutor::writeMem(Word addr, Byte value, bool writeRom)
+Byte Microtutor::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void Microtutor::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case MAPPEDRAM:
-            address_ &= 0xff;
-            if (mainMemory_[address_]==value)
+            address &= 0xff;
+            if (mainMemory_[address]==value)
                 return;
-            mainMemory_[address_]=value;
-            if (address_ >= memoryStart_ && address_<(memoryStart_ +256))
-                p_Main->updateDebugMemory(addr);
-            p_Main->updateAssTabCheck(address_);
+            mainMemory_[address]=value;
+            if (address >= memoryStart_ && address<(memoryStart_ +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
 		break;
 
 		case RAM:
-			if (mainMemory_[address_]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[address_]=value;
-			if (address_ >= memoryStart_ && address_<(memoryStart_  +256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(address_);
+			mainMemory_[address]=value;
+			if (address >= memoryStart_ && address<(memoryStart_  +256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 	}
+}
+
+void Microtutor::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Microtutor::cpuInstruction()
@@ -576,18 +582,6 @@ void Microtutor::cpuInstruction()
 		if (debugMode_)
 			p_Main->cycleDebug();
 	}
-//	else
-//	{
-//		machineCycle();
-//		machineCycle();
-//		cpuCycles_ = 0;
-//		p_Main->startTime();
-//		if (cpuMode_ == LOAD)
-//		{
-//			showData(readMem(address_));
-//			threadPointer->Sleep(1);
-//		}
-//	}
 }
 
 void Microtutor::onReset()

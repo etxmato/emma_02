@@ -88,6 +88,7 @@ void Cdp1802::initCpu(int computerType)
 	traceInt_ = false;
 	traceChip8Int_ = false;
     skipTrace_ = false;
+    singleStateStep_ = false;
 }
 
 void Cdp1802::resetCpu()
@@ -105,6 +106,7 @@ void Cdp1802::resetCpu()
 	idle_ = 0;
 	address_ = 0;
 	colourMask_ = 0;
+    bus_ = 0;
 	if (p_Video != NULL)
 		p_Video->reset();
 }
@@ -396,19 +398,17 @@ void Cdp1802::pixieInterrupt()
 	idle_=0;
 }
 
-void Cdp1802::inst1805(wxString *tr)
+void Cdp1802::inst1805()
 {
 	wxString buffer;
 
-	Byte i, h, l, n, memValue, df1;
-	int  a,b;
-	int w;
-	w = 0;
-	i=readMem(scratchpadRegister_[programCounter_]);
-	n = i & 15;
-	i = i>>4;
-	p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-	scratchpadRegister_[programCounter_]++;
+    Byte i, n, df1;
+	int tempWord;
+	tempWord = 0;
+
+    n = instructionCode_ & 15;
+	i = instructionCode_>>4;
+    
 	switch(i)
 	{
 		case 0:
@@ -422,7 +422,7 @@ void Cdp1802::inst1805(wxString *tr)
  					if (trace_)
 					{
 						buffer.Printf("STPC");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 1: // 1804
@@ -432,7 +432,7 @@ void Cdp1802::inst1805(wxString *tr)
 					{
 						buffer.Printf("DTC       CNTR=%02X", counter_);
  	//		      					   XXX       R
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 2: // 1804
@@ -443,7 +443,7 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("SPM2");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 3: // 1804
@@ -454,7 +454,7 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("SCM2");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 4: // 1804
@@ -465,7 +465,7 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("SPM1");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 5: // 1804
@@ -476,12 +476,13 @@ void Cdp1802::inst1805(wxString *tr)
                     if (trace_)
 					{
 						buffer.Printf("SCM1");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 6: // 1804
 					cpuCycles_ += 1;
-					ch_ = accumulator_;
+                    bus_ = accumulator_;
+					ch_ = bus_;
 					if (!ctrRunning_)
 					{
   						counter_ = accumulator_;
@@ -489,7 +490,7 @@ void Cdp1802::inst1805(wxString *tr)
 						if (trace_)
 						{
 							buffer.Printf("LDC       CH/CNTR=%02X", ch_);
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
 					}
 					else
@@ -497,7 +498,7 @@ void Cdp1802::inst1805(wxString *tr)
 						if (trace_)
 						{
 							buffer.Printf("LDC       CH=%02X", ch_);
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
 					}
 				break;
@@ -509,16 +510,17 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("STM");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 8: // 1804
 					cpuCycles_ += 1;
-					accumulator_ = counter_;
+                    bus_ = counter_;
+					accumulator_ = bus_;
 					if (trace_)
 					{
 						buffer.Printf("GEC       D=%02X", accumulator_);
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 9: // 1804
@@ -527,7 +529,7 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("ETQ");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 0xa: // 1804
@@ -536,7 +538,7 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("XIE");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 0xb: // 1804
@@ -545,7 +547,7 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("XID");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 0xc: // 1804
@@ -554,7 +556,7 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("CIE");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 0xd: // 1804
@@ -563,35 +565,43 @@ void Cdp1802::inst1805(wxString *tr)
 					if (trace_)
 					{
 						buffer.Printf("CID");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				default:
 					if (trace_)
 					{
 						buffer.Printf("Illegal code");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 			}
+            bus_ = 0;
+            address_=scratchpadRegister_[n];
 		break;
 
 		case 2:
 			if (cpuType_ == CPU1805)
 			{
 				cpuCycles_ += 3;
-				p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-				h=readMem(scratchpadRegister_[programCounter_]);
-				l=readMem((Word) (scratchpadRegister_[programCounter_]+1));
-				w= (h<<8)|l;
-				if (--scratchpadRegister_[n] != 0) 
-					scratchpadRegister_[programCounter_] = w;
+                if (!singleStateStep_)
+                {
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                    registerB_=readMemDebug(scratchpadRegister_[programCounter_]);
+                    bus_=readMem((Word) (scratchpadRegister_[programCounter_]+1));
+                    scratchpadRegister_[n]--;
+                }
+                else
+                    bus_=readMem((Word) (scratchpadRegister_[programCounter_]));
+
+                if (scratchpadRegister_[n] != 0)
+					scratchpadRegister_[programCounter_] = (registerB_<<8) | bus_;
 				else 
 					scratchpadRegister_[programCounter_]+=2;
 				if (trace_)
 				{
-					buffer.Printf("DBNZ R%X,%02X%02X R%X=%04X", n, h, l, n,scratchpadRegister_[n]);
-					*tr = *tr + buffer;
+					buffer.Printf("DBNZ R%X,%02X%02X R%X=%04X", n, registerB_, bus_, n,scratchpadRegister_[n]);
+					traceBuffer_ = traceBuffer_ + buffer;
 				}
 			}
 			else
@@ -599,8 +609,9 @@ void Cdp1802::inst1805(wxString *tr)
 				if (trace_)
 				{
 					buffer.Printf("Illegal code");
-					*tr = *tr + buffer;
+					traceBuffer_ = traceBuffer_ + buffer;
 				}
+                bus_ = 0;
 			}
 		break;
 
@@ -609,55 +620,61 @@ void Cdp1802::inst1805(wxString *tr)
 			{
 				case 0xe: // 1804
 					cpuCycles_ += 1;
-					i=readMem(scratchpadRegister_[programCounter_]);
+					bus_=readMem(scratchpadRegister_[programCounter_]);
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 					if (ci_)
                     {
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
                         ci_ = 0;
                     }
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("BCI  %02X",i);
-						*tr = *tr + buffer;
+						buffer.Printf("BCI  %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 0xf: // 1804
 					cpuCycles_ += 1;
-					i=readMem(scratchpadRegister_[programCounter_]);
+					bus_=readMem(scratchpadRegister_[programCounter_]);
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 					if (xi_)
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("BXI  %02X",i);
-						*tr = *tr + buffer;
+						buffer.Printf("BXI  %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				default:
 					if (trace_)
 					{
 						buffer.Printf("Illegal code");
-						*tr = *tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
+                    bus_ = 0;
 				break;
 			}
  		break;
 
 		case 6: // 1804
 			cpuCycles_ += 3;
-			w = readMem(scratchpadRegister_[dataPointer_]++) << 8;
-			w |= readMem(scratchpadRegister_[dataPointer_]++);
-			scratchpadRegister_[n] = w;
+            if (!singleStateStep_)
+            {
+                registerT_ = readMemDebug(scratchpadRegister_[dataPointer_]++);
+                registerB_ = readMemDebug(scratchpadRegister_[dataPointer_]++);
+            }
+			scratchpadRegister_[n] = (registerT_ << 8) | registerB_;
 			if (trace_)
 			{
  				buffer.Printf("RLXA R%X   R%X=%04X", n, n, scratchpadRegister_[n]);
- 				*tr = *tr + buffer;
+ 				traceBuffer_ = traceBuffer_ + buffer;
  			}
+            bus_ = 0;
+            address_=scratchpadRegister_[n];
   		break;
 
 		case 7:
@@ -667,113 +684,178 @@ void Cdp1802::inst1805(wxString *tr)
 				{
 					case 4:
 						cpuCycles_ += 2;
-						w = readMem(scratchpadRegister_[dataPointer_]);
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						a += b + dataFlag_;
-						dataFlag_ = (a > 99) ? 1 : 0;
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
-						if (trace_)  {
+                        
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
+                            tempWord = accumulator_ + bus_ + dataFlag_;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        tempWord = accumulator_ + (dataFlag_ << 8);
+                        if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
+                            tempWord += 6;
+                        if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
+                        {
+                            dataFlag_=1;
+                            tempWord += 0x60;
+                        }
+                        accumulator_ = tempWord & 255;
+
+                        if (trace_)
+                        {
 							buffer.Printf("DADC      D=%02X", accumulator_);
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
+                        address_=scratchpadRegister_[0xd];
 					break;
 					case 6:
 						cpuCycles_ += 4;
-						writeMem(--scratchpadRegister_[dataPointer_], registerT_, false);
-						writeMem(--scratchpadRegister_[dataPointer_], accumulator_, false);
-						df1= (dataFlag_) ? 128 : 0;
-						dataFlag_ = (accumulator_ & 1) ? 1 : 0;
-						accumulator_ = (accumulator_ >> 1) | df1;
-						writeMem(--scratchpadRegister_[dataPointer_], accumulator_, false);
-						if (trace_)  
+                        
+                        if (!singleStateStep_)
+                        {
+                            writeMemDebug(--scratchpadRegister_[dataPointer_], registerT_, false);
+                            writeMemDebug(--scratchpadRegister_[dataPointer_], accumulator_, false);
+                            df1= (dataFlag_) ? 128 : 0;
+                            dataFlag_ = (accumulator_ & 1) ? 1 : 0;
+                            accumulator_ = (accumulator_ >> 1) | df1;
+                            scratchpadRegister_[dataPointer_]--;
+                        }
+						writeMemDebug(scratchpadRegister_[dataPointer_], accumulator_, false);
+						if (trace_)
 						{
       						buffer.Printf("DSAV      D=%02X", accumulator_);
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_=accumulator_;
+                        address_=scratchpadRegister_[dataPointer_];
 					break;
 					case 7:
 						cpuCycles_ += 2;
-						w = readMem(scratchpadRegister_[dataPointer_]);
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						df1 = (dataFlag_)?0:1;
-						a = b - a - df1;
-						if (a < 0)
-						{
-							dataFlag_ = 0;
-							a += 100;
-						}
-						else
-						{
-							dataFlag_ = 1;
-						}
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
+                        
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
+                            bus_ += (~dataFlag_&0x1);
+                            tempWord = accumulator_+((~bus_)&0xff)+1;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        accumulator_ -= (~dataFlag_&0x1);
+                        if (dataFlag_ == 1)
+                        {
+                            if ((accumulator_ & 0xf) > ((~bus_)&0xf))
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                        }
+                        else
+                        {
+                            if ((accumulator_ & 0xf) < ((~bus_)&0xf))
+                            {
+                                accumulator_ = ~accumulator_;
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                            }
+                            else
+                                accumulator_ = ~accumulator_;
+                        }
+                        if ((accumulator_ & 0xf) > 9)
+                            accumulator_ += 6;
+                        if ((accumulator_ & 0xf0) > 0x90 )
+                        {
+                            accumulator_ += 0x60;
+                        }
+
 						if (trace_)  
 						{
 							buffer.Printf("DSMB      D=%02X", accumulator_);
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
+                        address_=scratchpadRegister_[programCounter_];
 					break;
 					case 0xc:
 						cpuCycles_ += 2;
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-						memValue = readMem(scratchpadRegister_[programCounter_]++);
-						w = memValue;
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 : w&0xf;
-						a += b + dataFlag_;
-						dataFlag_ = (a > 99) ? 1 : 0;
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
+                    
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
+                            tempWord = accumulator_ + bus_ + dataFlag_;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        tempWord = accumulator_ + (dataFlag_ << 8);
+                        if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
+                            tempWord += 6;
+                        if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
+                        {
+                            dataFlag_=1;
+                            tempWord += 0x60;
+                        }
+                        accumulator_ = tempWord & 255;
+
 						if (trace_)  
 						{
-							buffer.Printf("DACI %02X   D=%02X", memValue, accumulator_);
-							*tr = *tr + buffer;
+							buffer.Printf("DACI %02X   D=%02X", bus_, accumulator_);
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
+                        address_=scratchpadRegister_[programCounter_];
 					break;
 					case 0xf:
 						cpuCycles_ += 2;
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-						memValue = readMem(scratchpadRegister_[programCounter_]++);
-						w = memValue;
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						df1 = (dataFlag_)?0:1;
-						a = b - a - df1;
-						if (a < 0)
-						{
-							dataFlag_ = 0;
-							a += 100;
-						}
-						else
-						{
-							dataFlag_ = 1;
-						}
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
+                        
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
+                            bus_ += (~dataFlag_&0x1);
+                            tempWord = accumulator_+((~bus_)&0xff)+1;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        accumulator_ -= (~dataFlag_&0x1);
+                        if (dataFlag_ == 1)
+                        {
+                            if ((accumulator_ & 0xf) > ((~bus_)&0xf))
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                        }
+                        else
+                        {
+                            if ((accumulator_ & 0xf) < ((~bus_)&0xf))
+                            {
+                                accumulator_ = ~accumulator_;
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                            }
+                            else
+                                accumulator_ = ~accumulator_;
+                        }
+                        if ((accumulator_ & 0xf) > 9)
+                            accumulator_ += 6;
+                        if ((accumulator_ & 0xf0) > 0x90 )
+                        {
+                            accumulator_ += 0x60;
+                        }
+
 						if (trace_)  
 						{
-							buffer.Printf("DSBI %02X   D=%02X", memValue, accumulator_);
-							*tr = *tr + buffer;
+							buffer.Printf("DSBI %02X   D=%02X", bus_, accumulator_);
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
+                        address_=scratchpadRegister_[programCounter_];
 					break;
 					default:
 						if (trace_)
 						{
 							buffer.Printf("Illegal code");
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
 					break;
 				}
 			}
@@ -782,75 +864,114 @@ void Cdp1802::inst1805(wxString *tr)
 				if (trace_)
 				{
 					buffer.Printf("Illegal code");
-					*tr = *tr + buffer;
+					traceBuffer_ = traceBuffer_ + buffer;
 				}
+                bus_ = 0;
 			}
 		break;
 
 		case 8: // 1804
 			cpuCycles_ += 8;
-			writeMem(scratchpadRegister_[dataPointer_]--,(Byte) (scratchpadRegister_[n] & 0xff), false);
-			writeMem(scratchpadRegister_[dataPointer_]--,(Byte) (scratchpadRegister_[n] >> 8), false);
-			scratchpadRegister_[n] = scratchpadRegister_[programCounter_];
-			w = readMem(scratchpadRegister_[n]++) << 8;
-			w |= readMem(scratchpadRegister_[n]++);
-			scratchpadRegister_[programCounter_] = w;
+            if (!singleStateStep_)
+            {
+                registerT_=scratchpadRegister_[n] & 0xff;
+                registerB_=scratchpadRegister_[n] >> 8;
+                writeMemDebug(scratchpadRegister_[dataPointer_]--,registerT_, false);
+                writeMemDebug(scratchpadRegister_[dataPointer_]--,registerB_, false);
+                registerT_=scratchpadRegister_[programCounter_] & 0xff;
+                registerB_=scratchpadRegister_[programCounter_] >> 8;
+                scratchpadRegister_[n] = (registerB_ << 8) + registerT_;
+                registerB_=readMemDebug(scratchpadRegister_[programCounter_]++);
+                registerT_=registerB_;
+                registerB_=readMemDebug(scratchpadRegister_[programCounter_]);
+            }
+            scratchpadRegister_[programCounter_] = (registerT_ << 8) + registerB_;
 			if (trace_)
 			{
  				buffer.Printf("SCAL R%X,%04X", n, scratchpadRegister_[programCounter_]);
- 				*tr = *tr + buffer;
+ 				traceBuffer_ = traceBuffer_ + buffer;
  			}
+            address_=scratchpadRegister_[programCounter_];
+            bus_ = 0;
   		break;
 
 		case 9: // 1804
 			cpuCycles_ += 6;
-			scratchpadRegister_[programCounter_] = scratchpadRegister_[n];
-			w = readMem(++scratchpadRegister_[dataPointer_]) << 8;
-			w |= readMem(++scratchpadRegister_[dataPointer_]);
-			scratchpadRegister_[n] = w;
+            if (!singleStateStep_)
+            {
+                registerT_=scratchpadRegister_[n] & 0xff;
+                registerB_=scratchpadRegister_[n] >> 8;
+                scratchpadRegister_[dataPointer_]++;
+                scratchpadRegister_[programCounter_] = (registerB_ << 8) + registerT_;
+                registerB_ = readMemDebug(scratchpadRegister_[dataPointer_]++);
+                registerT_=registerB_;
+                registerB_ = readMemDebug(scratchpadRegister_[dataPointer_]);
+            }
+			scratchpadRegister_[n] = (registerT_ << 8) + registerB_;
 			if (trace_)
 			{
  				buffer.Printf("SRET R%X   R%X(P)=%04X", n, programCounter_, scratchpadRegister_[programCounter_]);
- 				*tr = *tr + buffer;
+ 				traceBuffer_ = traceBuffer_ + buffer;
  			}
-  		break;
+            address_=scratchpadRegister_[n];
+            bus_ = 0;
+ 		break;
 
 		case 0xa: // 1804
 			cpuCycles_ += 3;
-			writeMem(scratchpadRegister_[dataPointer_]--,(Byte) (scratchpadRegister_[n] & 0xff), false);
-			writeMem(scratchpadRegister_[dataPointer_]--,(Byte) (scratchpadRegister_[n] >> 8), false);
+            if (!singleStateStep_)
+            {
+                registerT_=scratchpadRegister_[n] & 0xff;
+                registerB_=scratchpadRegister_[n] >> 8;
+                writeMemDebug(scratchpadRegister_[dataPointer_]--,registerT_, false);
+            }
+            bus_ = registerB_;
+			writeMem(scratchpadRegister_[dataPointer_]--, bus_, false);
 			if (trace_)
 			{
  				buffer.Printf("RSXD R%X",n);
- 				*tr = *tr + buffer;
+ 				traceBuffer_ = traceBuffer_ + buffer;
  			}
   		break;
 
 		case 0xb: // 1804
 			cpuCycles_ += 2;
-			scratchpadRegister_[dataPointer_] = scratchpadRegister_[n];
+            if (!singleStateStep_)
+            {
+                registerT_=scratchpadRegister_[n] & 0xff;
+                registerB_=scratchpadRegister_[n] >> 8;
+            }
+			scratchpadRegister_[dataPointer_] = (registerB_ << 8) + registerT_;
 			if (trace_)
 			{
  				buffer.Printf("RNX  R%X   R%X=%04X", n, dataPointer_, scratchpadRegister_[dataPointer_]);
-				*tr = *tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
  			}
-  		break;
+            address_=scratchpadRegister_[dataPointer_];
+            bus_ = 0;
+ 		break;
 
 		case 0xc:  // 1804
 			cpuCycles_ += 3;
-			p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-			w = readMem(scratchpadRegister_[programCounter_]++) << 8;
-			p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-			w |= readMem(scratchpadRegister_[programCounter_]++);
-			scratchpadRegister_[n] = w;
+            p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+            if (!singleStateStep_)
+            {
+                registerB_=readMemDebug(scratchpadRegister_[programCounter_]++);
+                p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                registerT_=registerB_;
+                registerB_=readMemDebug(scratchpadRegister_[programCounter_]++);
+            }
+			scratchpadRegister_[n] = (registerT_ << 8) + registerB_;
 			if (trace_)
 			{
 				if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-3) == MEM_TYPE_OPCODE_RLDL)
- 					buffer.Printf("RLDL R%X,%04X", n, w);
+ 					buffer.Printf("RLDL R%X,%04X", n, scratchpadRegister_[n]);
 				else
- 					buffer.Printf("RLDI R%X,%04X", n, w);
- 				*tr = *tr + buffer;
+ 					buffer.Printf("RLDI R%X,%04X", n, scratchpadRegister_[n]);
+ 				traceBuffer_ = traceBuffer_ + buffer;
  			}
+            address_=scratchpadRegister_[n];
+            bus_ = 0;
   		break;
 
 		case 0xf:
@@ -860,98 +981,155 @@ void Cdp1802::inst1805(wxString *tr)
 				{
 					case 4:
 						cpuCycles_ += 2;
-						w = readMem(scratchpadRegister_[dataPointer_]);
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						a += b;
-						dataFlag_ = (a > 99) ? 1 : 0;
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
+                        
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
+                            tempWord = accumulator_ + bus_;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        tempWord = accumulator_ + (dataFlag_ << 8);
+                        if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
+                            tempWord += 6;
+                        if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
+                        {
+                            dataFlag_=1;
+                            tempWord += 0x60;
+                        }
+                        accumulator_ = tempWord & 255;
+
 						if (trace_)
 						{
 							buffer.Printf("DADD      D=%02X", accumulator_);
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
+                        address_=scratchpadRegister_[programCounter_];
 					break;
 					case 7:
 						cpuCycles_ += 2;
-						w = readMem(scratchpadRegister_[dataPointer_]);
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						a = b - a;
-						if (a < 0)
-						{
-							dataFlag_ = 0;
-							a += 100;
-						}
-						else
-						{
-							dataFlag_ = 1;
-						}
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
+                        
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
+                            tempWord = accumulator_+((~bus_)&0xff)+1;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        accumulator_ -= (~dataFlag_&0x1);
+                        if (dataFlag_ == 1)
+                        {
+                            if ((accumulator_ & 0xf) > ((~bus_)&0xf))
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                        }
+                        else
+                        {
+                            if ((accumulator_ & 0xf) < ((~bus_)&0xf))
+                            {
+                                accumulator_ = ~accumulator_;
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                            }
+                            else
+                                accumulator_ = ~accumulator_;
+                        }
+                        if ((accumulator_ & 0xf) > 9)
+                            accumulator_ += 6;
+                        if ((accumulator_ & 0xf0) > 0x90 )
+                        {
+                            accumulator_ += 0x60;
+                        }
+
 						if (trace_)
 						{
 							buffer.Printf("DSM       D=%02X", accumulator_);
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
+                        address_=scratchpadRegister_[programCounter_];
 					break;
 					case 0xc:
 						cpuCycles_ += 2;
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-						memValue = readMem(scratchpadRegister_[programCounter_]++);
-						w = memValue;
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						a += b;
-						dataFlag_ = (a > 99) ? 1 : 0;
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
+                        
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
+                            tempWord = accumulator_ + bus_;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        tempWord = accumulator_ + (dataFlag_ << 8);
+                        if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
+                            tempWord += 6;
+                        if ((tempWord & 0xf0) > 0x90 || (tempWord & 0x100) == 0x100)
+                        {
+                            dataFlag_=1;
+                            tempWord += 0x60;
+                        }
+                        accumulator_ = tempWord & 255;
+
 						if (trace_)
 						{
-							buffer.Printf("DADI %02X   D=%02X", memValue, accumulator_);
-							*tr = *tr + buffer;
+							buffer.Printf("DADI %02X   D=%02X", bus_, accumulator_);
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_=0;
+                        address_=scratchpadRegister_[programCounter_];
 					break;
 					case 0xf:
 						cpuCycles_ += 2;
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-						memValue = readMem(scratchpadRegister_[programCounter_]++);
-						w = memValue;
-						a = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						a += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						w = accumulator_;
-						b = (((w >> 4) > 9) ? 9 : w >> 4) *10;
-						b += ((w & 0xf) > 9) ? 9 :(w & 0xf);
-						a = b - a;
-						if (a < 0)
-						{
-							dataFlag_ = 0;
-							a += 100;
-						}
-						else
-						{
-							dataFlag_ = 1;
-						}
-						accumulator_ = (((a / 10)%10) << 4) | a % 10;
+                        
+                        if (!singleStateStep_)
+                        {
+                            bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
+                            tempWord = accumulator_+((~bus_)&0xff)+1;
+                            dataFlag_ = (tempWord >> 8) & 0x1;
+                            accumulator_ = tempWord & 255;
+                        }
+                        
+                        accumulator_ -= (~dataFlag_&0x1);
+                        if (dataFlag_ == 1)
+                        {
+                            if ((accumulator_ & 0xf) > ((~bus_)&0xf))
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                        }
+                        else
+                        {
+                            if ((accumulator_ & 0xf) < ((~bus_)&0xf))
+                            {
+                                accumulator_ = ~accumulator_;
+                                accumulator_ = (accumulator_ & 0xf0) + (((accumulator_ & 0x0f) + 0xa) & 0x0f);
+                            }
+                            else
+                                accumulator_ = ~accumulator_;
+                        }
+                        if ((accumulator_ & 0xf) > 9)
+                            accumulator_ += 6;
+                        if ((accumulator_ & 0xf0) > 0x90 )
+                        {
+                            accumulator_ += 0x60;
+                        }
+
 						if (trace_)
 						{
-							buffer.Printf("DSMI %02X   D=%02X", memValue, accumulator_);
-							*tr = *tr + buffer;
+							buffer.Printf("DSMI %02X   D=%02X", bus_, accumulator_);
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_=0;
+                        address_=scratchpadRegister_[programCounter_];
 					break;
 					default:
 						if (trace_)
 						{
 							buffer.Printf("Illegal code");
-							*tr = *tr + buffer;
+							traceBuffer_ = traceBuffer_ + buffer;
 						}
+                        bus_ = 0;
 					break;
 				}
 			}
@@ -960,119 +1138,439 @@ void Cdp1802::inst1805(wxString *tr)
 				if (trace_)
 				{
 					buffer.Printf("Illegal code");
-					*tr = *tr + buffer;
+					traceBuffer_ = traceBuffer_ + buffer;
 				}
+                bus_ = 0;
 			}
 		break;
 		default:
 			if (trace_)
 			{
 				buffer.Printf("Illegal code");
-				*tr = *tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
+            bus_ = 0;
 		break;
 	}
 }
 
+void Cdp1802::cpuCycleExecute1805()
+{
+    wxString buffer;
+    
+    Byte i, n, df1;
+    int tempWord;
+    
+    n = instructionCode_ & 15;
+    i = instructionCode_>>4;
+    bus_ = 0;
+
+    switch(i)
+    {
+        case 2:
+            if (cpuType_ == CPU1805)
+            {
+                switch (cpuState_)
+                {
+                    case EXECUTE_3_STATE_1805:
+                        bus_=0;
+                        address_=scratchpadRegister_[n];
+                        scratchpadRegister_[n]--;
+                    break;
+                    case EXECUTE_2_STATE_1805:
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        registerB_=bus_;
+                    break;
+                }
+            }
+            else
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    traceBuffer_ = traceBuffer_ + buffer;
+                }
+                cpuState_ = EXECUTE_1_STATE;
+            }
+        break;
+            
+        case 6: // 1804
+            switch (cpuState_)
+            {
+                case EXECUTE_3_STATE_1805:
+                    bus_=readMem(scratchpadRegister_[dataPointer_]++);
+                    registerB_=bus_;
+                break;
+                case EXECUTE_2_STATE_1805:
+                    registerT_=registerB_;
+                    bus_=readMem(scratchpadRegister_[dataPointer_]++);
+                    registerB_=bus_;
+                break;
+            }
+        break;
+            
+        case 7:
+            if (cpuType_ == CPU1805)
+            {
+                switch(n)
+                {
+                    case 4:
+                        bus_=readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord = accumulator_ + bus_ + dataFlag_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 6:
+                        switch (cpuState_)
+                        {
+                            case EXECUTE_4_STATE_1805:
+                                scratchpadRegister_[dataPointer_]--;
+                                bus_=0;
+                            break;
+                            case EXECUTE_3_STATE_1805:
+                                writeMem(scratchpadRegister_[dataPointer_]--, registerT_, false);
+                                bus_=registerT_;
+                            break;
+                            case EXECUTE_2_STATE_1805:
+                                bus_=accumulator_;
+                                writeMem(scratchpadRegister_[dataPointer_]--, accumulator_, false);
+                                df1= (dataFlag_) ? 128 : 0;
+                                dataFlag_ = (accumulator_ & 1) ? 1 : 0;
+                                accumulator_ = (accumulator_ >> 1) | df1;
+                            break;
+                        }
+                    break;
+                    case 7:
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        bus_ += (~dataFlag_&0x1);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xc:
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord = accumulator_ + bus_ + dataFlag_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xf:
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        bus_ += (~dataFlag_&0x1);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    default:
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            traceBuffer_ = traceBuffer_ + buffer;
+                        }
+                        cpuState_ = EXECUTE_1_STATE;
+                   break;
+                }
+            }
+            else
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    traceBuffer_ = traceBuffer_ + buffer;
+                }
+                cpuState_ = EXECUTE_1_STATE;
+            }
+            break;
+            
+        case 8: // 1804
+            switch (cpuState_)
+            {
+                case EXECUTE_8_STATE_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[n];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+                break;
+                case EXECUTE_7_STATE_1805:
+                    writeMem(scratchpadRegister_[dataPointer_]--,registerT_, false);
+                    bus_=registerT_;
+                break;
+                case EXECUTE_6_STATE_1805:
+                    writeMem(scratchpadRegister_[dataPointer_]--,registerB_, false);
+                    bus_=registerB_;
+                break;
+                case EXECUTE_5_STATE_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[programCounter_];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+               break;
+                case EXECUTE_4_STATE_1805:
+                    bus_=0;
+                    scratchpadRegister_[n] = (registerB_ << 8) + registerT_;
+                    address_=scratchpadRegister_[n];
+               break;
+                case EXECUTE_3_STATE_1805:
+                    registerB_=readMem(scratchpadRegister_[programCounter_]++);
+                    bus_=registerB_;
+                break;
+                case EXECUTE_2_STATE_1805:
+                    registerT_=registerB_;
+                    registerB_=readMem(scratchpadRegister_[programCounter_]);
+                    bus_=registerB_;
+                break;
+            }
+        break;
+            
+        case 9: // 1804
+            switch (cpuState_)
+            {
+                case EXECUTE_6_STATE_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[n];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+                break;
+                case EXECUTE_5_STATE_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[dataPointer_];
+                    scratchpadRegister_[dataPointer_]++;
+                break;
+                case EXECUTE_4_STATE_1805:
+                    bus_=0;
+                    scratchpadRegister_[programCounter_] = (registerB_ << 8) + registerT_;
+                    address_=scratchpadRegister_[programCounter_];
+                break;
+                case EXECUTE_3_STATE_1805:
+                    registerB_ = readMem(scratchpadRegister_[dataPointer_]++);
+                    bus_=registerB_;
+                break;
+                case EXECUTE_2_STATE_1805:
+                    registerT_=registerB_;
+                    registerB_ = readMem(scratchpadRegister_[dataPointer_]);
+                    bus_=registerB_;
+                break;
+            }
+        break;
+            
+        case 0xa: // 1804
+            switch (cpuState_)
+            {
+                case EXECUTE_3_STATE_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[n];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+                break;
+                case EXECUTE_2_STATE_1805:
+                    writeMem(scratchpadRegister_[dataPointer_]--,registerT_, false);
+                    bus_=registerT_;
+                break;
+            }
+        break;
+            
+        case 0xb: // 1804
+            bus_=0;
+            address_=scratchpadRegister_[n];
+            registerT_=address_ & 0xff;
+            registerB_=address_ >> 8;
+       break;
+            
+        case 0xc:  // 1804
+            switch (cpuState_)
+            {
+                case EXECUTE_3_STATE_1805:
+                    registerB_=readMem(scratchpadRegister_[programCounter_]++);
+                    bus_=registerB_;
+                break;
+                case EXECUTE_2_STATE_1805:
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                    registerT_=registerB_;
+                    registerB_=readMem(scratchpadRegister_[programCounter_]++);
+                    bus_=registerB_;
+                break;
+            }
+        break;
+            
+        case 0xf:
+            if (cpuType_ == CPU1805)
+            {
+                switch(n)
+                {
+                    case 4:
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord = accumulator_ + bus_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 7:
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xc:
+                        bus_ = readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord = accumulator_ + bus_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xf:
+                        bus_ = readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    default:
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            traceBuffer_ = traceBuffer_ + buffer;
+                        }
+                        cpuState_ = EXECUTE_1_STATE;
+                    break;
+                }
+            }
+            else
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    traceBuffer_ = traceBuffer_ + buffer;
+                }
+                cpuState_ = EXECUTE_1_STATE;
+            }
+        break;
+        default:
+            if (trace_)
+            {
+                buffer.Printf("Illegal code");
+                traceBuffer_ = traceBuffer_ + buffer;
+                cpuState_ = EXECUTE_1_STATE;
+            }
+        break;
+    }
+}
+
 void Cdp1802::cpuCycle()
 {
-	wxString tr, buffer;
-	Byte i,h,l,n;
-	int w;
-	Byte df1;
-	Byte tmp;
-    bool stopHiddenTrace = false;
-    bool startHiddenTrace = false;
-
 	if (cpuMode_ != RUN) return;
 	if (idle_) return;
-	if (trace_)
-	{
-		tr.Printf("%04X: ",scratchpadRegister_[programCounter_]);
-	}
     
-	i=readMem(scratchpadRegister_[programCounter_]);
-	if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]) >= MEM_TYPE_OPCODE_RSHR)
-	{
-		switch (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]))
-		{
-			case MEM_TYPE_OPCODE_RSHR:
-				if (i != 0x76)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_RSHL:
-				if (i != 0x7E)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_BPZ:
-				if (i != 0x33)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_BGE:
-				if (i != 0x33)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_BM:
-				if (i != 0x3b)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_BL:
-				if (i != 0x3b)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_LSKP:
-				if (i != 0xc8)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_SKP:
-				if (i != 0x38)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_LBR_SLOT:
-				if ((i&0xf0) != 0xC0)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_LDV:
-			case MEM_TYPE_OPCODE_LDL:
-			case MEM_TYPE_OPCODE_LDL_SLOT:
-				if (i != 0xF8)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPERAND_LD_2:
-				if ((i&0xf0) != 0xB0)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPERAND_LD_3:
-				if (i != 0xF8)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPERAND_LD_5:
-				if ((i&0xf0) != 0xA0)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-			case MEM_TYPE_OPCODE_RLDL:
-				if (i != 68 && (readMem(scratchpadRegister_[programCounter_]+1)&0xf0) != 0xc0)
-					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-			break;
-		}
-	}
-	else
-		p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-	n = i & 15;
-	i = i>>4;
+    cpuCycleFetch();
+    cpuCycleExecute();
+    cpuCycleFinalize();
+}
+    
+void Cdp1802::cpuCycleFetch()
+{
+    if (trace_)
+    {
+        traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
+    }
+    
+    instructionCode_=readMem(scratchpadRegister_[programCounter_]);
+    if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]) >= MEM_TYPE_OPCODE_RSHR)
+    {
+        switch (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]))
+        {
+            case MEM_TYPE_OPCODE_RSHR:
+                if (instructionCode_ != 0x76)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_RSHL:
+                if (instructionCode_ != 0x7E)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_BPZ:
+                if (instructionCode_ != 0x33)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_BGE:
+                if (instructionCode_ != 0x33)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_BM:
+                if (instructionCode_ != 0x3b)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_BL:
+                if (instructionCode_ != 0x3b)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_LSKP:
+                if (instructionCode_ != 0xc8)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_SKP:
+                if (instructionCode_ != 0x38)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_LBR_SLOT:
+                if ((instructionCode_&0xf0) != 0xC0)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_LDV:
+            case MEM_TYPE_OPCODE_LDL:
+            case MEM_TYPE_OPCODE_LDL_SLOT:
+                if (instructionCode_ != 0xF8)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPERAND_LD_2:
+                if ((instructionCode_&0xf0) != 0xB0)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPERAND_LD_3:
+                if (instructionCode_ != 0xF8)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPERAND_LD_5:
+                if ((instructionCode_&0xf0) != 0xA0)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+            case MEM_TYPE_OPCODE_RLDL:
+                if (instructionCode_ != 68 && (readMem(scratchpadRegister_[programCounter_]+1)&0xf0) != 0xc0)
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+                break;
+        }
+    }
+    else
+        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+    
+    scratchpadRegister_[programCounter_]++;
+}
 
-	scratchpadRegister_[programCounter_]++;
+void Cdp1802::cpuCycleFetch2()
+{
+    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+    instructionCode_ = readMem(scratchpadRegister_[programCounter_]++);
+}
+
+void Cdp1802::cpuCycleExecute()
+{
+    wxString buffer;
+    Byte i, h,l,n;
+    int tempWord;
+    Byte df1;
+
+    stopHiddenTrace_ = false;
+    startHiddenTrace_ = false;
+    
+	n = instructionCode_ & 15;
+	i = instructionCode_>>4;
+
 	switch(i)
 	{
  		case 0:
             if (cpuType_ == SYSTEM00)
             {
                 idle_=1;
-                p_Computer->showDataLeds(readMem(scratchpadRegister_[n]));
+                bus_=readMem(scratchpadRegister_[n]);
+                p_Computer->showDataLeds(bus_);
                 if (trace_)
                 {
                     buffer.Printf("IDL  R%X",n);
-                    tr = tr + buffer;
+                    traceBuffer_ = traceBuffer_ + buffer;
                 }
             }
             else
@@ -1080,28 +1578,31 @@ void Cdp1802::cpuCycle()
                 if (n == 0)
                 {
                     idle_=1;
+                    bus_=readMem(scratchpadRegister_[0]);
                     if (trace_)
                     {
-                        tr = tr + "IDL";
+                        traceBuffer_ = traceBuffer_ + "IDL";
                     }
                 }
                 else
                 {
                     if (cpuType_ == CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
-                        accumulator_=readMem(scratchpadRegister_[n]);
+                        bus_=readMem(scratchpadRegister_[n]);
+                        accumulator_=bus_;
                         if (trace_)
                         {
                             buffer.Printf("LDN  R%X   D=%02X",n,accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                 }
@@ -1109,30 +1610,35 @@ void Cdp1802::cpuCycle()
 		break;
 
 		case 1:
-			scratchpadRegister_[n]++;
+            address_=scratchpadRegister_[n];
+            scratchpadRegister_[n]++;
+            bus_=0;
 			if (trace_)
 			{
 				buffer.Printf("INC  R%X   R%X=%04X",n,n,scratchpadRegister_[n]);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
 		break;
 
 		case 2:
-			scratchpadRegister_[n]--;
+            address_=scratchpadRegister_[n];
+            scratchpadRegister_[n]--;
+            bus_=0;
 			if (trace_)
 			{
 				buffer.Printf("DEC  R%X   R%X=%04X",n,n,scratchpadRegister_[n]);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
 		break;
 
 		case 3:
             if (n > 7 && cpuType_ == SYSTEM00)
             {
+                bus_=0;
                 if (trace_)
                 {
                     buffer.Printf("Illegal code");
-                    tr = tr + buffer;
+                    traceBuffer_ = traceBuffer_ + buffer;
                 }
                 break;
             }
@@ -1140,13 +1646,13 @@ void Cdp1802::cpuCycle()
 			{
 				case 0:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-					scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+					scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     if (trace_)
 					{
-						buffer.Printf("BR   %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("BR   %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 1:
@@ -1154,27 +1660,28 @@ void Cdp1802::cpuCycle()
                     {
                         if (cpuType_ == CPU1801)
                         {
+                            bus_=0;
                             if (trace_)
                             {
                                 buffer.Printf("Illegal code");
-                                tr = tr + buffer;
+                                traceBuffer_ = traceBuffer_ + buffer;
                             }
                         }
                         else
                         {
                             p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                            i=readMem(scratchpadRegister_[programCounter_]);
-                            p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                            bus_=readMem(scratchpadRegister_[programCounter_]);
+                            p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                             if (accumulator_)
                             {
-                                scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+                                scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
                             }
                             else
                                 scratchpadRegister_[programCounter_]++;
                             if (trace_)
                             {
-                                buffer.Printf("BNZ  %02X",i);
-                                tr = tr + buffer;
+                                buffer.Printf("BNZ  %02X",bus_);
+                                traceBuffer_ = traceBuffer_ + buffer;
                             }
 
                         }
@@ -1182,129 +1689,130 @@ void Cdp1802::cpuCycle()
                     else
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        i=readMem(scratchpadRegister_[programCounter_]);
-                        p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                        bus_=readMem(scratchpadRegister_[programCounter_]);
+                        p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                         if (flipFlopQ_)
                         {
-                            scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+                            scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
                         }
                         else scratchpadRegister_[programCounter_]++;
                         if (trace_)
                         {
-                            buffer.Printf("BQ   %02X",i);
-                            tr = tr + buffer;
+                            buffer.Printf("BQ   %02X",bus_);
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
 				case 2:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					if (!accumulator_)
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("BZ   %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("BZ   %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 3:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					if (dataFlag_)
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
 						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BPZ)
-								buffer.Printf("BPZ  %02X",i);
+								buffer.Printf("BPZ  %02X",bus_);
 						else
 						{
 							if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BGE)
-								buffer.Printf("BGE  %02X",i);
+								buffer.Printf("BGE  %02X",bus_);
 							else
-								buffer.Printf("BDF  %02X",i);
+								buffer.Printf("BDF  %02X",bus_);
 						}
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 4:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[0] = true;
 					if (!(efFlags_ & 1))
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("B1   %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("B1   %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 5:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[1] = true;
 					if (!(efFlags_ & 2))
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("B2   %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("B2   %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 6:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[2] = true;
 					if (!(efFlags_ & 4))
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("B3   %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("B3   %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 7:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[3] = true;
 					if (!(efFlags_ & 8))
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("B4   %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("B4   %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 8:
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
                     scratchpadRegister_[programCounter_]++;
                     if (trace_)
                     {
@@ -1312,160 +1820,163 @@ void Cdp1802::cpuCycle()
                             buffer.Printf("SKP");
                         else
                             buffer.Printf("NBR");
-                        tr = tr + buffer;
+                        traceBuffer_ = traceBuffer_ + buffer;
                     }
 				break;
 				case 9:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        i=readMem(scratchpadRegister_[programCounter_]);
-                        p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                        bus_=readMem(scratchpadRegister_[programCounter_]);
+                        p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                         if (!flipFlopQ_)
                         {
-                            scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+                            scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
                         }
                         else
                             scratchpadRegister_[programCounter_]++;
                         if (trace_)
                         {
-                            buffer.Printf("BNQ  %02X",i);
-                            tr = tr + buffer;
+                            buffer.Printf("BNQ  %02X",bus_);
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
-				case 10:
+				case 0xa:
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                    i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
                     if (accumulator_)
                     {
-                        scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+                        scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
                     }
                     else
                         scratchpadRegister_[programCounter_]++;
                     if (trace_)
                     {
-                        buffer.Printf("BNZ  %02X",i);
-                        tr = tr + buffer;
+                        buffer.Printf("BNZ  %02X",bus_);
+                        traceBuffer_ = traceBuffer_ + buffer;
                     }
 				break;
-				case 11:
+				case 0xb:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					if (!dataFlag_)
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
 						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BM)
-								buffer.Printf("BM   %02X",i);
+								buffer.Printf("BM   %02X",bus_);
 						else
 						{
 							if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BL)
-								buffer.Printf("BL   %02X",i);
+								buffer.Printf("BL   %02X",bus_);
 							else
-								buffer.Printf("BNF  %02X",i);
+								buffer.Printf("BNF  %02X",bus_);
 						}
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 12:
+				case 0xc:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[0] = true;
 					if (efFlags_ & 1)
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("BN1  %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("BN1  %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 13:
+				case 0xd:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[1] = true;
 					if (efFlags_ & 2)
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("BN2  %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("BN2  %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 14:
+				case 0xe:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[2] = true;
 					if (efFlags_ & 4)
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("BN3  %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("BN3  %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 15:
+				case 0xf:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]);
-                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | i, LABEL_TYPE_BRANCH);
+                    bus_=readMem(scratchpadRegister_[programCounter_]);
+                    p_Computer->writeMemLabelType((scratchpadRegister_[programCounter_]&0xff00) | bus_, LABEL_TYPE_BRANCH);
 					readyToReceiveData[3] = true;
 					if (efFlags_ & 8)
 					{
-						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | i;
+						scratchpadRegister_[programCounter_]= (scratchpadRegister_[programCounter_]&0xff00) | bus_;
 					}
 					else
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						buffer.Printf("BN4  %02X",i);
-						tr = tr + buffer;
+						buffer.Printf("BN4  %02X",bus_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 			}
 		break;
 		case 4:
-			accumulator_=readMem(scratchpadRegister_[n]++);
+            bus_=readMem(scratchpadRegister_[n]++);
+			accumulator_=bus_;
 			if (trace_)
 			{
 				buffer.Printf("LDA  R%X   D=M(%04X)=%02X",n,scratchpadRegister_[n]-1,accumulator_);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
 		break;
 		case 5:
+            bus_=accumulator_;
 			writeMem(scratchpadRegister_[n], accumulator_, false);
 			if (trace_)
 			{
 				buffer.Printf("STR  R%X   M(%04X)=%02X",n,scratchpadRegister_[n],accumulator_);
- 				tr = tr + buffer;
+ 				traceBuffer_ = traceBuffer_ + buffer;
 			}
 		break;
 		case 6:
@@ -1480,31 +1991,32 @@ void Cdp1802::cpuCycle()
                     case 5:
                     case 6:
                     case 7:
-                        tmp = readMem(scratchpadRegister_[dataPointer_]++);
-                        out(n, scratchpadRegister_[dataPointer_]-1, tmp);
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]++);
+                        out(n, scratchpadRegister_[dataPointer_]-1, bus_);
                         if (trace_)
                         {
-                            buffer.Printf("OUT  %X    [%02X]",n,tmp);
-                            tr = tr + buffer;
+                            buffer.Printf("OUT  %X    [%02X]",n,bus_);
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     break;
                         
                     case 8:
-                        i=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
-                        writeMem(scratchpadRegister_[dataPointer_], i, false);
-//                      accumulator_=i; SYSTEM 00 doesn't load INP byte in D
+                        bus_=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
+                        writeMem(scratchpadRegister_[dataPointer_], bus_, false);
+//                      SYSTEM 00 doesn't load INP byte in D
                         if (trace_)
                         {
-                            buffer.Printf("INP       M(%04X)=%02X", scratchpadRegister_[dataPointer_], i);
-                            tr = tr + buffer;
+                            buffer.Printf("INP       M(%04X)=%02X", scratchpadRegister_[dataPointer_], bus_);
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     break;
                         
                     default:
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     break;
                 }
@@ -1512,23 +2024,25 @@ void Cdp1802::cpuCycle()
             }
 			if (n == 0 && cpuType_ != CPU1801)
 			{
+                bus_=readMem(scratchpadRegister_[dataPointer_]);
 				scratchpadRegister_[dataPointer_]++;
 				if (trace_)
 				{
 					buffer.Printf("IRX       R%X=%04X",dataPointer_,scratchpadRegister_[dataPointer_]);
-					tr = tr + buffer;
+					traceBuffer_ = traceBuffer_ + buffer;
 				}
 				break;
 			}
 			if (n == 8 && (cpuType_ == CPU1805 || cpuType_ == CPU1804))
 			{
-				inst1805(&tr);
+                cpuCycleFetch2();
+				inst1805();
 				break;
 			}
 			if (n <= 7)
 			{
-				tmp = readMem(scratchpadRegister_[dataPointer_]++);
-				out(n, scratchpadRegister_[dataPointer_]-1, tmp);
+				bus_ = readMem(scratchpadRegister_[dataPointer_]++);
+				out(n, scratchpadRegister_[dataPointer_]-1, bus_);
 				if (trace_)
 				{
 					switch (computerType_)
@@ -1539,173 +2053,183 @@ void Cdp1802::cpuCycle()
 							if (n>3)
 								buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
 							else
-								buffer.Printf("OUT  %X    [%02X]",n,tmp);
+								buffer.Printf("OUT  %X    [%02X]",n,bus_);
 						break;
 
 						case TMC600:
 							if (n==5 && (p_Computer->getOutValue(7) != 0x20) && (p_Computer->getOutValue(7) != 0x30))
 								buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
 							else
-								buffer.Printf("OUT  %X    [%02X]",n,tmp);
+								buffer.Printf("OUT  %X    [%02X]",n,bus_);
 						break;
 
 						default:
-							buffer.Printf("OUT  %X    [%02X]",n,tmp);
+							buffer.Printf("OUT  %X    [%02X]",n,bus_);
 						break;
 					}
-					tr = tr + buffer;
+					traceBuffer_ = traceBuffer_ + buffer;
 				}
 				break;
 			}
-			i=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
-			writeMem(scratchpadRegister_[dataPointer_], i, false);
+			bus_=in((Byte)(n-8), scratchpadRegister_[dataPointer_]);
+			writeMem(scratchpadRegister_[dataPointer_], bus_, false);
             if (cpuType_ != CPU1801)  // 1801 doesn't load INP x byte in D
-                accumulator_=i;
+                accumulator_=bus_;
 			if (trace_)
 			{
-                buffer.Printf("INP  %X    D=M(%04X)=%02X",n-8,scratchpadRegister_[dataPointer_], i);
-				tr = tr + buffer;
+                buffer.Printf("INP  %X    D=M(%04X)=%02X",n-8,scratchpadRegister_[dataPointer_], bus_);
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
 		break;
 		case 7:
 			switch(n)
 			{
  				case 0:
-					i=readMem(scratchpadRegister_[dataPointer_]++);
-					programCounter_=i & 15;
-					dataPointer_= (i>>4);
+					bus_=readMem(scratchpadRegister_[dataPointer_]++);
+					programCounter_=bus_ & 15;
+					dataPointer_= (bus_>>4);
 					interruptEnable_=1;
 					if (trace_)
 					{
 						buffer.Printf("RET       P=R%X, X=R%X", programCounter_, dataPointer_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 1:
                     if (cpuType_ == SYSTEM00)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
-                        i=readMem(scratchpadRegister_[dataPointer_]++);
-                        programCounter_=i & 15;
-                        dataPointer_=i>>4;
+                        bus_=readMem(scratchpadRegister_[dataPointer_]++);
+                        programCounter_=bus_ & 15;
+                        dataPointer_=bus_>>4;
                         interruptEnable_=0;
                         if (trace_)
                         {
                             buffer.Printf("DIS       P=R%X, X=R%X", programCounter_, dataPointer_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
 				case 2:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
-                        accumulator_ = readMem(scratchpadRegister_[dataPointer_]++);
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]++);
+                        accumulator_ = bus_;
                         if (trace_)
                         {
                             buffer.Printf("LDXA      D=M(%04X)=%02X", scratchpadRegister_[dataPointer_]-1, accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
 				case 3:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
                         writeMem(scratchpadRegister_[dataPointer_]--, accumulator_, false);
+                        bus_=accumulator_;
                         if (trace_)
                         {
                             buffer.Printf("STXD      M(%04X)=%02X",scratchpadRegister_[dataPointer_]+1,accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
 				case 4:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
-                        w=accumulator_ + readMem(scratchpadRegister_[dataPointer_]) + dataFlag_;
-                        if (w>255)
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord=accumulator_ + bus_ + dataFlag_;
+                        if (tempWord>255)
                         {
-                            accumulator_ = w & 255;
+                            accumulator_ = tempWord & 255;
                             dataFlag_=1;
                         }
                         else
                         {
-                            accumulator_=w;
+                            accumulator_=tempWord;
                             dataFlag_=0;
                         }
                         if (trace_)
                         {
                             buffer.Printf("ADC       D=%02X", accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
 				case 5:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
-                        w=readMem(scratchpadRegister_[dataPointer_]) +((~accumulator_)&0xff) + dataFlag_;
-                        if (w>255)
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord=bus_ +((~accumulator_)&0xff) + dataFlag_;
+                        if (tempWord>255)
                         {
-                            accumulator_ = w&255;
+                            accumulator_ = tempWord&255;
                             dataFlag_=1;
                         }
                         else
                         {
-                            accumulator_=w&255;
+                            accumulator_=tempWord&255;
                             dataFlag_=0;
                         }
                         if (trace_)
                         {
                             buffer.Printf("SDB       D=%02X", accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
  				break;
 				case 6:
+                    bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
@@ -1719,75 +2243,82 @@ void Cdp1802::cpuCycle()
                                 buffer.Printf("RSHR      D=%02X", accumulator_);
                             else
                                 buffer.Printf("SHRC      D=%02X", accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
-                    }
+                        address_=scratchpadRegister_[dataPointer_];
+                   }
 				break;
 				case 7:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
-                        w=accumulator_ +((~readMem(scratchpadRegister_[dataPointer_]))&0xff) + dataFlag_;
-                        if (w>255)
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord=accumulator_ +((~bus_)&0xff) + dataFlag_;
+                        if (tempWord>255)
                         {
-                            accumulator_ = w & 0xff;
+                            accumulator_ = tempWord & 0xff;
                             dataFlag_=1;
                         }
                         else
                         {
-                            accumulator_=w&255;
+                            accumulator_=tempWord&255;
                             dataFlag_=0;
                         }
                         if (trace_)
                         {
                             buffer.Printf("SMB       D=%02X", accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
 				case 8:
+                    bus_ = registerT_;
 					writeMem(scratchpadRegister_[dataPointer_], registerT_, false);
 					if (trace_)
 					{
 						buffer.Printf("SAV       M(%04X)=%02X",scratchpadRegister_[dataPointer_], registerT_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 9:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
                         registerT_= (dataPointer_<<4) | programCounter_;
+                        bus_ = registerT_;
                         writeMem(scratchpadRegister_[2]--, registerT_, false);
                         dataPointer_=programCounter_;
                         if (trace_)
                         {
                             buffer.Printf("MARK");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
-				case 10:
+				case 0xa:
+                    bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
@@ -1795,20 +2326,22 @@ void Cdp1802::cpuCycle()
                         flipFlopQ_=0;
                         if (trace_)
                         {
-                            tr = tr + "REQ";
+                            traceBuffer_ = traceBuffer_ + "REQ";
                         }
+                        address_=scratchpadRegister_[programCounter_];
                         switchQ(0);
                         if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED1_5)
                             psaveAmplitudeChange(0);
                     }
 				break;
-				case 11:
+				case 0xb:
+                    bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
@@ -1816,82 +2349,86 @@ void Cdp1802::cpuCycle()
                         flipFlopQ_=1;
                         if (trace_)
                         {
-                            tr = tr + "SEQ";
+                            traceBuffer_ = traceBuffer_ + "SEQ";
                         }
+                        address_=scratchpadRegister_[programCounter_];
                         switchQ(1);
                         if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED1_5)
                             psaveAmplitudeChange(1);
                     }
 				break;
-				case 12:
+				case 0xc:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        i=readMem(scratchpadRegister_[programCounter_]++);
-                        w=accumulator_ + i + dataFlag_;
-                        if (w>255)
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord=accumulator_ + bus_ + dataFlag_;
+                        if (tempWord>255)
                         {
-                            accumulator_ = w & 255;
+                            accumulator_ = tempWord & 255;
                             dataFlag_=1;
                         }
                         else
                         {
-                            accumulator_=w;
+                            accumulator_=tempWord;
                             dataFlag_=0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("ADCI %02X   D=%02X", i, accumulator_);
-                            tr = tr + buffer;
+                            buffer.Printf("ADCI %02X   D=%02X", bus_, accumulator_);
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
-				case 13:
+				case 0xd:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        i=readMem(scratchpadRegister_[programCounter_]++);
-                        w=i +((~accumulator_)&0xff) + dataFlag_;
-                        if (w>255)
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord=bus_ +((~accumulator_)&0xff) + dataFlag_;
+                        if (tempWord>255)
                         {
-                            accumulator_ = w & 0xff;
+                            accumulator_ = tempWord & 0xff;
                             dataFlag_=1;
                         }
                         else
                         {
-                            accumulator_=w&255;
+                            accumulator_=tempWord&255;
                             dataFlag_=0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("SDBI %02X   D=%02X", i, accumulator_);
-                            tr = tr + buffer;
+                            buffer.Printf("SDBI %02X   D=%02X", bus_, accumulator_);
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
-				case 14:
+				case 0xe:
+                    bus_=0;
                     if (cpuType_ <= CPU1801)
                     {
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
@@ -1905,112 +2442,127 @@ void Cdp1802::cpuCycle()
                                 buffer.Printf("RSHL      D=%02X", accumulator_);
                             else
                                 buffer.Printf("SHLC      D=%02X", accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
+                        address_=scratchpadRegister_[programCounter_];
                     }
 				break;
-				case 15:
+				case 0xf:
                     if (cpuType_ <= CPU1801)
                     {
+                        bus_=0;
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
                     {
                         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        i= (~readMem(scratchpadRegister_[programCounter_]++)) & 0xff;
-                        w=accumulator_ + i + dataFlag_;
-                        if (w>255)
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+            //            bus_= (~readMem(scratchpadRegister_[programCounter_]++)) & 0xff;
+                        tempWord=accumulator_ + (~bus_ & 0xff) + dataFlag_;
+                        if (tempWord>255)
                         {
-                            accumulator_ = w & 0xff;
+                            accumulator_ = tempWord & 0xff;
                             dataFlag_=1;
                         }
                         else
                         {
-                            accumulator_=w&255;
+                            accumulator_=tempWord&255;
                             dataFlag_=0;
                         }
                         if (trace_)
                         {
-                            buffer.Printf("SMBI %02X   D=%02X", i, accumulator_);
-                            tr = tr + buffer;
+                            buffer.Printf("SMBI %02X   D=%02X", bus_, accumulator_);
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
 				break;
             }
 		break;
 		case 8:
-			accumulator_= (scratchpadRegister_[n] & 255);
+			bus_= (scratchpadRegister_[n] & 255);
+            accumulator_=bus_;
 			if (trace_)
 			{
 				buffer.Printf("GLO  R%X   D=%02X", n, accumulator_);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
+            address_=scratchpadRegister_[n];
 		break;
 		case 9:
-			accumulator_= (scratchpadRegister_[n] >> 8);
+			bus_= (scratchpadRegister_[n] >> 8);
+            accumulator_=bus_;
 			if (trace_)
 			{
 				buffer.Printf("GHI  R%X   D=%02X",n,accumulator_);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
+            address_=scratchpadRegister_[n];
 		break;
-		case 10:
+		case 0xa:
+            bus_=accumulator_;
 			scratchpadRegister_[n]= (scratchpadRegister_[n] & 0xff00) | accumulator_;
 			if (trace_)
 			{
 				buffer.Printf("PLO  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
+            address_=scratchpadRegister_[n];
 //            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
 //            {
 //                buffer.Printf("%04X: PLO  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
 //                p_Main->eventShowTextMessage(buffer);
 //            }
 		break;
-		case 11:
+		case 0xb:
+            bus_=accumulator_;
 			scratchpadRegister_[n]= (scratchpadRegister_[n] & 0x00ff) |(accumulator_<<8);
 			if (trace_)
 			{
 				buffer.Printf("PHI  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
+            address_=scratchpadRegister_[n];
 //            if ((scratchpadRegister_[programCounter_]&0xff00) != 0xA900 && n == 0)
 //            {
 //                buffer.Printf("%04X: PHI  R%X   R%X=%04X ",scratchpadRegister_[programCounter_], n,n,scratchpadRegister_[n]);
 //                p_Main->eventShowTextMessage(buffer);
 //            }
 		break;
-		case 12:
+		case 0xc:
             if (cpuType_ <= CPU1801)
             {
                 if (cpuType_ == SYSTEM00)
                 {
+                    bus_=accumulator_;
                     scratchpadRegister_[n]= (scratchpadRegister_[n] & 0xfff0) | (accumulator_&0xf);
                     if (trace_)
                     {
                         buffer.Printf("PNI  R%X   R%X=%04X ",n,n,scratchpadRegister_[n]);
-                        tr = tr + buffer;
+                        traceBuffer_ = traceBuffer_ + buffer;
                     }
                     
                 }
                 else
                 {
+                    bus_=0;
                     if (trace_)
                     {
                         buffer.Printf("Illegal code");
-                        tr = tr + buffer;
+                        traceBuffer_ = traceBuffer_ + buffer;
                     }
                 }
                 break;
             }
-			h=readMem(scratchpadRegister_[programCounter_]);
-			l=readMem((Word) (scratchpadRegister_[programCounter_]+1));
-			cpuCycles_ += 1;
-			w= (h<<8)|l;
+            
+            cpuCycles_ ++;
+			h=readMemDebug(scratchpadRegister_[programCounter_]);
+			l=readMemDebug((Word) (scratchpadRegister_[programCounter_]+1));
+            address_=scratchpadRegister_[programCounter_]+1;
+			tempWord= (h<<8)|l;
 			switch(n)
 			{
 				case 0:
@@ -2019,12 +2571,13 @@ void Cdp1802::cpuCycle()
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_]+1, MEM_TYPE_OPERAND);
 					}
-					scratchpadRegister_[programCounter_]=w;
-                    p_Computer->writeMemLabelType(w, LABEL_TYPE_JUMP);
+                    bus_=l;
+					scratchpadRegister_[programCounter_]=tempWord;
+                    p_Computer->writeMemLabelType(tempWord, LABEL_TYPE_JUMP);
 					if (trace_)
 					{
 						buffer.Printf("LBR  %02X%02X",h,l);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 1:
@@ -2033,13 +2586,14 @@ void Cdp1802::cpuCycle()
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_]+1, MEM_TYPE_OPERAND);
 					}
-					if (flipFlopQ_) scratchpadRegister_[programCounter_]=w;
+                    bus_=l;
+					if (flipFlopQ_) scratchpadRegister_[programCounter_]=tempWord;
 					else scratchpadRegister_[programCounter_]+=2;
-                    p_Computer->writeMemLabelType(w, LABEL_TYPE_JUMP);
+                    p_Computer->writeMemLabelType(tempWord, LABEL_TYPE_JUMP);
 					if (trace_)
 					{
 						buffer.Printf("LBQ  %02X%02X",h,l);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 2:
@@ -2048,13 +2602,14 @@ void Cdp1802::cpuCycle()
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_]+1, MEM_TYPE_OPERAND);
 					}
-					if (!accumulator_) scratchpadRegister_[programCounter_]=w;
+                    bus_=l;
+					if (!accumulator_) scratchpadRegister_[programCounter_]=tempWord;
 					else scratchpadRegister_[programCounter_]+=2;
-                    p_Computer->writeMemLabelType(w, LABEL_TYPE_JUMP);
+                    p_Computer->writeMemLabelType(tempWord, LABEL_TYPE_JUMP);
 					if (trace_)
 					{
 						buffer.Printf("LBZ  %02X%02X",h,l);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 3:
@@ -2063,47 +2618,69 @@ void Cdp1802::cpuCycle()
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_]+1, MEM_TYPE_OPERAND);
 					}
-					if (dataFlag_) scratchpadRegister_[programCounter_]=w;
+                    bus_=l;
+					if (dataFlag_) scratchpadRegister_[programCounter_]=tempWord;
 					else scratchpadRegister_[programCounter_]+=2;
-                    p_Computer->writeMemLabelType(w, LABEL_TYPE_JUMP);
+                    p_Computer->writeMemLabelType(tempWord, LABEL_TYPE_JUMP);
 					if (trace_)
 					{
 						buffer.Printf("LBDF %02X%02X",h,l);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 4:
+                    bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("NOP");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
+                    address_--;
 				break;
 				case 5:
-					if (!flipFlopQ_) scratchpadRegister_[programCounter_]+=2;
+                    if (!flipFlopQ_)
+                    {
+                        scratchpadRegister_[programCounter_]+=2;
+                        bus_=1;
+                    }
+                    else
+                        bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("LSNQ");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 6:
-					if (accumulator_) scratchpadRegister_[programCounter_]+=2;
+                    if (accumulator_)
+                    {
+                        scratchpadRegister_[programCounter_]+=2;
+                        bus_=1;
+                    }
+                    else
+                        bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("LSNZ");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 7:
-					if (!dataFlag_) scratchpadRegister_[programCounter_]+=2;
+                    if (!dataFlag_)
+                    {
+                        scratchpadRegister_[programCounter_]+=2;
+                        bus_=1;
+                    }
+                    else
+                        bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("LSNF");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 8:
+                    bus_=l;
 					scratchpadRegister_[programCounter_]+=2;
 					if (trace_)
 					{
@@ -2111,7 +2688,7 @@ void Cdp1802::cpuCycle()
 							buffer.Printf("LSKP");
 						else
 							buffer.Printf("NLBR");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 9:
@@ -2120,314 +2697,358 @@ void Cdp1802::cpuCycle()
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_]+1, MEM_TYPE_OPERAND);
 					}
-					if (!flipFlopQ_) scratchpadRegister_[programCounter_]=w;
+                    bus_=l;
+					if (!flipFlopQ_) scratchpadRegister_[programCounter_]=tempWord;
 					else scratchpadRegister_[programCounter_]+=2;
-                    p_Computer->writeMemLabelType(w, LABEL_TYPE_JUMP);
+                    p_Computer->writeMemLabelType(tempWord, LABEL_TYPE_JUMP);
 					if (trace_)
 					{
 						buffer.Printf("LBNQ %02X%02X",h,l);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 10:
+				case 0xa:
 					if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) != MEM_TYPE_OPCODE_LBR_SLOT)
 					{
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_]+1, MEM_TYPE_OPERAND);
 					}
-					if (accumulator_) scratchpadRegister_[programCounter_]=w;
+                    bus_=l;
+					if (accumulator_) scratchpadRegister_[programCounter_]=tempWord;
 					else scratchpadRegister_[programCounter_]+=2;
-                    p_Computer->writeMemLabelType(w, LABEL_TYPE_JUMP);
+                    p_Computer->writeMemLabelType(tempWord, LABEL_TYPE_JUMP);
 					if (trace_)
 					{
 						buffer.Printf("LBNZ %02X%02X",h,l);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 11:
+				case 0xb:
 					if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) != MEM_TYPE_OPCODE_LBR_SLOT)
 					{
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
 						p_Computer->writeMemDataType(scratchpadRegister_[programCounter_]+1, MEM_TYPE_OPERAND);
 					}
-					if (!dataFlag_) scratchpadRegister_[programCounter_]=w;
+                    bus_=l;
+					if (!dataFlag_) scratchpadRegister_[programCounter_]=tempWord;
 					else scratchpadRegister_[programCounter_]+=2;
-                    p_Computer->writeMemLabelType(w, LABEL_TYPE_JUMP);
+                    p_Computer->writeMemLabelType(tempWord, LABEL_TYPE_JUMP);
 					if (trace_)
 					{
 						buffer.Printf("LBNF %02X%02X",h,l);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 12:
-					if (interruptEnable_) scratchpadRegister_[programCounter_]+=2;
+				case 0xc:
+                    if (interruptEnable_)
+                    {
+                        scratchpadRegister_[programCounter_]+=2;
+                        bus_=1;
+                    }
+                    else
+                        bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("LSIE");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 13:
-					if (flipFlopQ_) scratchpadRegister_[programCounter_]+=2;
+				case 0xd:
+                    if (flipFlopQ_)
+                    {
+                        scratchpadRegister_[programCounter_]+=2;
+                        bus_=1;
+                    }
+                    else
+                        bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("LSQ");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 14:
-					if (!accumulator_) scratchpadRegister_[programCounter_]+=2;
+				case 0xe:
+                    if (!accumulator_)
+                    {
+                        scratchpadRegister_[programCounter_]+=2;
+                        bus_=1;
+                    }
+                    else
+                        bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("LSZ");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
-				case 15:
-					if (dataFlag_) scratchpadRegister_[programCounter_]+=2;
+				case 0xf:
+                    if (dataFlag_)
+                    {
+                        scratchpadRegister_[programCounter_]+=2;
+                        bus_=1;
+                    }
+                    else
+                        bus_=h;
 					if (trace_)
 					{
 						buffer.Printf("LSDF");
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 			}
-			machineCycle();
+            if (computerType_ != CDP18S020)
+                machineCycle();
 		break;
-		case 13:
+		case 0xd:
 			if (trace_)
 			{
 				buffer.Printf("SEP  R%X",n);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
                 
                 if (p_Main->getDebugScrtMode(computerType_))
                 {
                     if (n == scrtProgramCounter_ && skipTrace_)
                     {
                         if (programCounter_ == p_Main->getDebugRetReg(computerType_) && scratchpadRegister_[p_Main->getDebugRetReg(computerType_)] == p_Main->getDebugRetAddress(computerType_))
-                            stopHiddenTrace = true;
+                            stopHiddenTrace_ = true;
                         if (programCounter_ == p_Main->getDebugCallReg(computerType_) && scratchpadRegister_[p_Main->getDebugCallReg(computerType_)] == p_Main->getDebugCallAddress(computerType_))
-                            stopHiddenTrace = true;
+                            stopHiddenTrace_ = true;
                     }
                     if (n == p_Main->getDebugCallReg(computerType_) && scratchpadRegister_[n] == p_Main->getDebugCallAddress(computerType_))
                     {
                         scrtProgramCounter_ = programCounter_;
-                        startHiddenTrace = true;
+                        startHiddenTrace_ = true;
                         buffer.Printf("   CALL %02X%02X", readMem(scratchpadRegister_[programCounter_]), readMem(scratchpadRegister_[programCounter_]+1));
-                        tr = tr + buffer;
+                        traceBuffer_ = traceBuffer_ + buffer;
                     }
                     if (n == p_Main->getDebugRetReg(computerType_) && scratchpadRegister_[n] == p_Main->getDebugRetAddress(computerType_))
                     {
                         scrtProgramCounter_ = programCounter_;
-                        startHiddenTrace = true;
+                        startHiddenTrace_ = true;
                         buffer.Printf("   RETURN");
-                        tr = tr + buffer;
+                        traceBuffer_ = traceBuffer_ + buffer;
                     }
                 }
 			}
+            bus_=n+16*n;
             programCounter_=n;
+            address_=scratchpadRegister_[n];
             p_Computer->writeMemLabelType(scratchpadRegister_[programCounter_], LABEL_TYPE_SUB);
 		break;
-		case 14:
+		case 0xe:
+            bus_=n+16*n;
 			dataPointer_=n;
 			if (trace_)
 			{
 				buffer.Printf("SEX  R%X",n);
-				tr = tr + buffer;
+				traceBuffer_ = traceBuffer_ + buffer;
 			}
+            address_=scratchpadRegister_[n];
 		break;
-		case 15:
+		case 0xf:
             if (n > 6 && cpuType_ == SYSTEM00)
             {
+                bus_=0;
                 if (trace_)
                 {
                     buffer.Printf("Illegal code");
-                    tr = tr + buffer;
+                    traceBuffer_ = traceBuffer_ + buffer;
                 }
                 break;
             }
 			switch(n)
 			{
 				case 0:
-					accumulator_=readMem(scratchpadRegister_[dataPointer_]);
+					bus_=readMem(scratchpadRegister_[dataPointer_]);
+                    accumulator_=bus_;
 					if (trace_)
 					{
 						buffer.Printf("LDX       D=M(%04X)=%02X",scratchpadRegister_[dataPointer_],accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 1:
-					accumulator_=readMem(scratchpadRegister_[dataPointer_]) | accumulator_;
+                    bus_=readMem(scratchpadRegister_[dataPointer_]);
+					accumulator_=bus_ | accumulator_;
 					if (trace_)
 					{
 						buffer.Printf("OR        D=%02X",accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 2:
-					accumulator_=readMem(scratchpadRegister_[dataPointer_]) & accumulator_;
+                    bus_=readMem(scratchpadRegister_[dataPointer_]);
+					accumulator_=bus_ & accumulator_;
 					if (trace_) {
 						buffer.Printf("AND       D=%02X",accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 3:
-					accumulator_=readMem(scratchpadRegister_[dataPointer_]) ^ accumulator_;
+                    bus_=readMem(scratchpadRegister_[dataPointer_]);
+					accumulator_=bus_ ^ accumulator_;
 					if (trace_)
 					{
 						buffer.Printf("XOR       D=%02X",accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 4:
-					w=accumulator_ + readMem(scratchpadRegister_[dataPointer_]);
-					if (w>255)
+                    bus_=readMem(scratchpadRegister_[dataPointer_]);
+					tempWord=accumulator_ + bus_;
+					if (tempWord>255)
 					{
-						accumulator_ = w & 255;
+						accumulator_ = tempWord & 255;
 						dataFlag_=1;
 					}
 					else
 					{
-						accumulator_=w;
+						accumulator_=tempWord;
 						dataFlag_=0;
 					}
 					if (trace_)
 					{
 						buffer.Printf("ADD       D=%02X",accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 5:
-					w=readMem(scratchpadRegister_[dataPointer_]) +((~accumulator_)&0xff)+1;
-					if (w>255)
+                    bus_=readMem(scratchpadRegister_[dataPointer_]);
+					tempWord=bus_ +((~accumulator_)&0xff)+1;
+					if (tempWord>255)
 					{
-						accumulator_ = w & 0xff;
+						accumulator_ = tempWord & 0xff;
 						dataFlag_=1;
 					}
 					else
 					{
-						accumulator_=w&255;
+						accumulator_=tempWord&255;
 						dataFlag_=0;
 					}
 					if (trace_)
 					{
 						buffer.Printf("SD        D=%02X", accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
  				break;
 				case 6:
+                    bus_=0;
 					dataFlag_= (accumulator_ & 1)? 1 : 0;
 					accumulator_=accumulator_>>1;
 					if (trace_)
 					{
 						buffer.Printf("SHR       D=%02X",accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
+                    address_=scratchpadRegister_[dataPointer_];
 				break;
 				case 7:
-					w=accumulator_+((~readMem(scratchpadRegister_[dataPointer_]))&0xff)+1;
-					if (w>255)
+                    bus_=readMem(scratchpadRegister_[dataPointer_]);
+					tempWord=accumulator_+((~bus_)&0xff)+1;
+					if (tempWord>255)
 					{
-						accumulator_ = w & 0xff;
+						accumulator_ = tempWord & 0xff;
 						dataFlag_=1;
 					}
 					else
 					{
-						accumulator_=w&255;
+						accumulator_=tempWord&255;
 						dataFlag_=0;
 					}
 					if (trace_)
 					{
 						buffer.Printf("SM        D=%02X", accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 8:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					accumulator_=readMem(scratchpadRegister_[programCounter_]++);
+					bus_=readMem(scratchpadRegister_[programCounter_]++);
+                    accumulator_=bus_;
 					if (trace_)
 					{
 						buffer.Printf("LDI  %02X",accumulator_);
-						tr = tr + buffer;
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 9:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]++);
-					accumulator_ |= i;
+					bus_=readMem(scratchpadRegister_[programCounter_]++);
+					accumulator_ |= bus_;
 					if (trace_)
 					{
-						buffer.Printf("ORI  %02X   D=%02X", i, accumulator_);
-						tr = tr + buffer;
+						buffer.Printf("ORI  %02X   D=%02X", bus_, accumulator_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 10:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]++);
-					accumulator_ &= i;
+					bus_=readMem(scratchpadRegister_[programCounter_]++);
+					accumulator_ &= bus_;
 					if (trace_)
 					{
-						buffer.Printf("ANI  %02X   D=%02X",i,accumulator_);
-						tr = tr + buffer;
+						buffer.Printf("ANI  %02X   D=%02X",bus_,accumulator_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 11:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]++);
-					accumulator_ ^= i;
+					bus_=readMem(scratchpadRegister_[programCounter_]++);
+					accumulator_ ^= bus_;
 					if (trace_)
 					{
-						buffer.Printf("XRI  %02X   D=%02X",i,accumulator_);
-						tr = tr + buffer;
+						buffer.Printf("XRI  %02X   D=%02X",bus_,accumulator_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 12:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]++);
-					w=accumulator_ + i;
-					if (w>255)
+					bus_=readMem(scratchpadRegister_[programCounter_]++);
+					tempWord=accumulator_ + bus_;
+					if (tempWord>255)
 					{
-						accumulator_ = w & 255;
+						accumulator_ = tempWord & 255;
 						dataFlag_=1;
 					}
 					else
 					{
-						accumulator_=w;
+						accumulator_=tempWord;
 						dataFlag_=0;
 					}
 					if (trace_)
 					{
-						buffer.Printf("ADI  %02X   D=%02X",i,accumulator_);
-						tr = tr + buffer;
+						buffer.Printf("ADI  %02X   D=%02X",bus_,accumulator_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
  				break;
 				case 13:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i=readMem(scratchpadRegister_[programCounter_]++);
-					w=i+((~accumulator_)&0xff)+1;
-					if (w>255)
+					bus_=readMem(scratchpadRegister_[programCounter_]++);
+					tempWord=bus_+((~accumulator_)&0xff)+1;
+					if (tempWord>255)
 					{
-						accumulator_ = w&0xff;
+						accumulator_ = tempWord&0xff;
 						dataFlag_=1;
 					}
 					else
 					{
-						accumulator_=w&255;
+						accumulator_=tempWord&255;
 						dataFlag_=0;
 					}
 					if (trace_)
 					{
-						buffer.Printf("SDI  %02X   D=%02X",i, accumulator_);
-						tr = tr + buffer;
+						buffer.Printf("SDI  %02X   D=%02X",bus_, accumulator_);
+						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 				case 14:
+                    bus_=0;
                     if (cpuType_ == CPU1801)
                     {
                         if (trace_)
                         {
                             buffer.Printf("Illegal code");
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
                     }
                     else
@@ -2437,39 +3058,44 @@ void Cdp1802::cpuCycle()
                         if (trace_)
                         {
                             buffer.Printf("SHL       D=%02X",accumulator_);
-                            tr = tr + buffer;
+                            traceBuffer_ = traceBuffer_ + buffer;
                         }
+                        address_=scratchpadRegister_[programCounter_];
                     }
 				break;
 				case 15:
 					p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-					i= (~readMem(scratchpadRegister_[programCounter_]++))&0xff;
-					w=accumulator_+i+1;
-					if (w>255)
+                    bus_=readMem(scratchpadRegister_[programCounter_]++);
+					tempWord=accumulator_+(~bus_&0xff)+1;
+					if (tempWord>255)
 					{
-						accumulator_ = w&0xff;
+						accumulator_ = tempWord&0xff;
 						dataFlag_=1;
 					}
 					else
 					{
-						accumulator_=w&255;
+						accumulator_=tempWord&255;
 						dataFlag_=0;
 					}
 					if (trace_)
 					{
-						buffer.Printf("SMI  %02X   D=%02X",(~i)&0xff,accumulator_);
+						buffer.Printf("SMI  %02X   D=%02X",bus_,accumulator_);
 	//				      		       XXX       R
- 						tr = tr + buffer;
+ 						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
 			}
 		break;
 	}
-	if (trace_ && !skipTrace_)
-        p_Main->debugTrace(tr);
-    if (stopHiddenTrace)
+}
+
+void Cdp1802::cpuCycleFinalize()
+{
+    if (trace_ && !skipTrace_)
+        p_Main->debugTrace(traceBuffer_);
+    if (stopHiddenTrace_)
         skipTrace_ = false;
-    if (startHiddenTrace)
+    if (startHiddenTrace_)
         skipTrace_ = true;
 }
 

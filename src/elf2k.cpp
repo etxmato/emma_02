@@ -838,13 +838,17 @@ Byte Elf2K::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Elf2K::readMem(Word addr)
+Byte Elf2K::readMem(Word address)
 {
-	addr = addr | bootstrap_;
-	address_ = addr; 
+	address_ = address | bootstrap_;
 	elf2KScreenPointer->showAddress(address_);
+    return readMemDebug(address_);
+}
 
-	switch (memoryType_[addr/256])
+Byte Elf2K::readMemDebug(Word address)
+{
+    address = address | bootstrap_;
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
@@ -852,7 +856,7 @@ Byte Elf2K::readMem(Word addr)
 
 		case ROM:
 		case RAM:
-			return mainMemory_[addr];
+			return mainMemory_[address];
 		break;
 
 		default:
@@ -861,39 +865,43 @@ Byte Elf2K::readMem(Word addr)
 	}
 }
 
-void Elf2K::writeMem(Word addr, Byte value, bool writeRom)
+void Elf2K::writeMem(Word address, Byte value, bool writeRom)
 {
-	addr = addr | bootstrap_;
-	address_ = addr; 
+	address_ = address | bootstrap_;
 	elf2KScreenPointer->showAddress(address_);
+    writeMemDebug(address_, value, writeRom);
+}
 
-	switch (memoryType_[addr/256])
+void Elf2K::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    address = address | bootstrap_;
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 		case ROM:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
 			if (elfConfiguration.useSwitch || elfConfiguration.useHex)
 			{
 				if (mpButtonState_ == 0)
 				{
-					mainMemory_[addr]=value;
-					if (addr>= (memoryStart_ | bootstrap_) && addr<((memoryStart_ | bootstrap_)+256))
-						p_Main->updateDebugMemory(addr);
-					p_Main->updateAssTabCheck(addr);
+					mainMemory_[address]=value;
+					if (address>= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_)+256))
+						p_Main->updateDebugMemory(address);
+					p_Main->updateAssTabCheck(address);
 				}
 			}
 			else
 			{
-				mainMemory_[addr]=value;
-				if (addr>= (memoryStart_ | bootstrap_) && addr<((memoryStart_ | bootstrap_)+256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(addr);
+				mainMemory_[address]=value;
+				if (address>= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_)+256))
+					p_Main->updateDebugMemory(address);
+				p_Main->updateAssTabCheck(address);
 			}
 		break;
 	}
@@ -1272,32 +1280,32 @@ void Elf2K::showModules(bool useSwitch, bool useHex)
 	}
 }
 
-Byte Elf2K::read8275CharRom(Word addr)
+Byte Elf2K::read8275CharRom(Word address)
 {
 	if (elfConfiguration.use8275)
-		return i8275Pointer->read8275CharRom(addr);
+		return i8275Pointer->read8275CharRom(address);
 	else
 		return 0;
 }
 
-void Elf2K::write8275CharRom(Word addr, Byte value)
+void Elf2K::write8275CharRom(Word address, Byte value)
 {
 	if (elfConfiguration.use8275)
-		i8275Pointer->write8275CharRom(addr, value);
+		i8275Pointer->write8275CharRom(address, value);
 }
 
-Byte Elf2K::read8275VideoRam(Word addr)
+Byte Elf2K::read8275VideoRam(Word address)
 {
     if (elfConfiguration.use8275)
-        return i8275Pointer->read8275VideoRam(addr);
+        return i8275Pointer->read8275VideoRam(address);
     else
         return 0;
 }
 
-void Elf2K::write8275VideoRam(Word addr, Byte value)
+void Elf2K::write8275VideoRam(Word address, Byte value)
 {
     if (elfConfiguration.use8275)
-        i8275Pointer->write8275VideoRam(addr, value);
+        i8275Pointer->write8275VideoRam(address, value);
 }
 
 void Elf2K::setElf2KDivider(Byte value)

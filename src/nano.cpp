@@ -298,41 +298,51 @@ Byte Nano::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Nano::readMem(Word addr)
+Byte Nano::readMem(Word address)
 {
-	if (addr < 0x8000)
-		address_ = (addr | addressLatch_) & 0x8fff;
+	if (address < 0x8000)
+		address = (address | addressLatch_) & 0x8fff;
 	else
-		address_ = addr & 0x81ff;
+		address = address & 0x81ff;
 
-	if (memoryType_[address_/256] == UNDEFINED) return 255;
-	return mainMemory_[address_];
+	if (memoryType_[address/256] == UNDEFINED) return 255;
+	return mainMemory_[address];
 }
 
-void Nano::writeMem(Word addr, Byte value, bool writeRom)
+Byte Nano::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
+void Nano::writeMem(Word address, Byte value, bool writeRom)
 {
 	Word memStart;
-	if (addr < 0x8000)
-		address_ = addr & 0xfff;
+	if (address < 0x8000)
+		address = address & 0xfff;
 	else
-		address_ = addr;
+		address = address;
 
 	if (memoryStart_ < 0x8000)
 		memStart = memoryStart_ & 0xfff;
 	else
 		memStart = memoryStart_;
 
-	if (mainMemory_[addr]==value)
+	if (mainMemory_[address]==value)
 		return;
 	if (!writeRom)
-		if (memoryType_[address_/256] != RAM)  return;
+		if (memoryType_[address/256] != RAM)  return;
 
-	mainMemory_[addr]=value;
+	mainMemory_[address]=value;
 	if (writeRom)
 		return;
-	if (address_>= memStart && address_<(memStart+256))
-		p_Main->updateDebugMemory(address_);
-	p_Main->updateAssTabCheck(address_);
+	if (address>= memStart && address<(memStart+256))
+		p_Main->updateDebugMemory(address);
+	p_Main->updateAssTabCheck(address);
+}
+
+void Nano::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Nano::cpuInstruction()

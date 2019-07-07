@@ -319,35 +319,44 @@ Byte Tmc1800::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Tmc1800::readMem(Word addr)
+Byte Tmc1800::readMem(Word address)
 {
-	if (addr < 0x8000)
-		address_ = (addr | addressLatch_) & (ramMask_ | 0x8000);
+	if (address < 0x8000)
+		address = (address | addressLatch_) & (ramMask_ | 0x8000);
 	else
-		address_ = addr & 0x81ff;
+		address = address & 0x81ff;
 
-	if (memoryType_[address_/256] == UNDEFINED) return 255;
-	return mainMemory_[address_| addressLatch_];
+	if (memoryType_[address/256] == UNDEFINED) return 255;
+	return mainMemory_[address| addressLatch_];
 }
 
-void Tmc1800::writeMem(Word addr, Byte value, bool writeRom)
+Byte Tmc1800::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
+void Tmc1800::writeMem(Word address, Byte value, bool writeRom)
 {
 	if (!writeRom)
-		address_ = addr & ramMask_;
-	else
-		address_ = addr;
+		address = address & ramMask_;
 
-	if (mainMemory_[address_]==value)
+	if (mainMemory_[address]==value)
 		return;
+    
 	if (!writeRom)
-		if (memoryType_[address_/256] != RAM)  return;
+		if (memoryType_[address/256] != RAM)  return;
 
-	mainMemory_[address_]=value;
+	mainMemory_[address]=value;
 	if (writeRom)
 		return;
-	if (address_ >= (memoryStart_& ramMask_) && address_<((memoryStart_& ramMask_) + 256))
-		p_Main->updateDebugMemory(address_);
-	p_Main->updateAssTabCheck(address_);
+	if (address >= (memoryStart_& ramMask_) && address<((memoryStart_& ramMask_) + 256))
+		p_Main->updateDebugMemory(address);
+	p_Main->updateAssTabCheck(address);
+}
+
+void Tmc1800::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Tmc1800::cpuInstruction()

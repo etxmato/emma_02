@@ -143,6 +143,7 @@ void Ms2000::initComputer()
     
     ioGroup_ = 0;
     cassetteEf_ = 0;
+    bootstrap_ = 0;
 }
 
 Byte Ms2000::ef(int flag)
@@ -509,11 +510,11 @@ Byte Ms2000::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Ms2000::readMem(Word addr)
+Byte Ms2000::readMem(Word address)
 {
-	address_ = addr | bootstrap_;
+	address = address | bootstrap_;
 
-	switch (memoryType_[addr / 256])
+	switch (memoryType_[address / 256])
 	{
 		case UNDEFINED:
 			return 255;
@@ -521,7 +522,7 @@ Byte Ms2000::readMem(Word addr)
 
 		case ROM:
 		case RAM:
-			return mainMemory_[addr | bootstrap_];
+			return mainMemory_[address];
 		break;
 
 		default:
@@ -530,27 +531,37 @@ Byte Ms2000::readMem(Word addr)
 	}
 }
 
-void Ms2000::writeMem(Word addr, Byte value, bool writeRom)
+Byte Ms2000::readMemDebug(Word address)
 {
-	address_ = addr | bootstrap_;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void Ms2000::writeMem(Word address, Byte value, bool writeRom)
+{
+	address = address | bootstrap_;
+
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 		case ROM:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case RAM:
-			if (mainMemory_[address_]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[address_]=value;
-			if (address_ >= (memoryStart_ | bootstrap_) && address_<((memoryStart_ | bootstrap_ ) +256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(address_);
+			mainMemory_[address]=value;
+			if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 	}
+}
+
+void Ms2000::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Ms2000::cpuInstruction()

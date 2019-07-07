@@ -29,9 +29,11 @@ public:
     void setRomMapper(Byte value);
 	void initRam(long start, long end);
 	
-	virtual Byte readMem(Word addr) = 0;
-	virtual void writeMem(Word addr, Byte value, bool writeRom) = 0;
-    
+	virtual Byte readMem(Word address) = 0;
+	virtual void writeMem(Word address, Byte value, bool writeRom) = 0;
+    virtual Byte readMemDebug(Word address) = 0;
+    virtual void writeMemDebug(Word address, Byte value, bool writeRom) = 0;
+
     Byte readSequencerRom(Word address);
     void writeSequencerRom(Word address, Byte value);
     Byte readSequencer(Word address);

@@ -485,67 +485,73 @@ Byte StudioIV::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte StudioIV::readMem(Word addr)
+Byte StudioIV::readMem(Word address)
 {
-	address_ = addr;
-
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
         case COLOURRAM:
-            addr = (addr&0xf) +  ((addr&0x3c0) >> 2);
-            return colorMemory1864_[addr] & 0xf;
+            address = (address&0xf) +  ((address&0x3c0) >> 2);
+            return colorMemory1864_[address] & 0xf;
         break;
             
     }
 
-	return mainMemory_[addr];
+	return mainMemory_[address];
 }
 
-void StudioIV::writeMem(Word addr, Byte value, bool writeRom)
+Byte StudioIV::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void StudioIV::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		case COLOURRAM:
-            addr = (addr&0xf) +  ((addr&0x3c0) >> 2);
-            colorMemory1864_[addr] = value & 0xf;
-            if ((addr) >= memoryStart_ && (addr) < (memoryStart_ + 256))
-                p_Main->updateDebugMemory(addr);
-            if (addr >= memoryStart_ && addr < (memoryStart_ + 256))
-                p_Main->updateDebugMemory(addr);
-            p_Main->updateAssTabCheck(addr);
+            address = (address&0xf) +  ((address&0x3c0) >> 2);
+            colorMemory1864_[address] = value & 0xf;
+            if ((address) >= memoryStart_ && (address) < (memoryStart_ + 256))
+                p_Main->updateDebugMemory(address);
+            if (address >= memoryStart_ && address < (memoryStart_ + 256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
             useColour(7);
 		break;
             
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
 }
 
-Byte StudioIV::read1864ColorDirect(Word addr)
+void StudioIV::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-    return colorMemory1864_[addr] & 0xf;
+    writeMem(address, value, writeRom);
 }
 
-void StudioIV::write1864ColorDirect(Word addr, Byte value)
+Byte StudioIV::read1864ColorDirect(Word address)
 {
-    colorMemory1864_[addr] = value & 0xf;
+    return colorMemory1864_[address] & 0xf;
+}
+
+void StudioIV::write1864ColorDirect(Word address, Byte value)
+{
+    colorMemory1864_[address] = value & 0xf;
 }
 
 void StudioIV::cpuInstruction()

@@ -561,7 +561,6 @@ Byte Cidelsa::readMemDataType(Word address)
 
 Byte Cidelsa::readMem(Word address)
 {
-	address_ = address;
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -587,9 +586,13 @@ Byte Cidelsa::readMem(Word address)
 	}
 }
 
+Byte Cidelsa::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
 void Cidelsa::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = address;
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -615,6 +618,11 @@ void Cidelsa::writeMem(Word address, Byte value, bool writeRom)
 			p_Main->updateAssTabCheck(address);
 		break;
 	}
+}
+
+void Cidelsa::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Cidelsa::cpuInstruction()

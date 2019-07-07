@@ -410,11 +410,11 @@ Byte Mcds::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Mcds::readMem(Word addr)
+Byte Mcds::readMem(Word address)
 {
-	address_ = addr | bootstrap_;
+	address = address | bootstrap_;
 
-	switch (memoryType_[addr / 256])
+	switch (memoryType_[address / 256])
 	{
 		case UNDEFINED:
 			return 255;
@@ -422,7 +422,7 @@ Byte Mcds::readMem(Word addr)
 
 		case ROM:
 		case RAM:
-			return mainMemory_[addr | bootstrap_];
+			return mainMemory_[address | bootstrap_];
 		break;
 
 		default:
@@ -431,27 +431,37 @@ Byte Mcds::readMem(Word addr)
 	}
 }
 
-void Mcds::writeMem(Word addr, Byte value, bool writeRom)
+Byte Mcds::readMemDebug(Word address)
 {
-	address_ = addr | bootstrap_;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void Mcds::writeMem(Word address, Byte value, bool writeRom)
+{
+	address = address | bootstrap_;
+
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 		case ROM:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case RAM:
-			if (mainMemory_[address_]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[address_]=value;
-			if (address_ >= (memoryStart_ | bootstrap_) && address_<((memoryStart_ | bootstrap_ ) +256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(address_);
+			mainMemory_[address]=value;
+			if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 	}
+}
+
+void Mcds::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Mcds::cpuInstruction()
