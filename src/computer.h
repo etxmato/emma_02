@@ -484,7 +484,7 @@ public:
 	virtual void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     virtual void reLoadKeyDefinition(wxString fileName) {};
     virtual void setPrinterEf() {};
-    virtual void switchHexEf(bool state) {};
+    virtual void switchHexEf(bool state);
     virtual wxString getRunningGame() {return "";};
     virtual void setGreenLed(int status);
 
@@ -493,7 +493,7 @@ public:
     virtual void setDisableSystemRom(bool disableSystemRom);
     virtual void setAutoKeyDef(bool autoKeyDef);
     virtual int getDmaCounter() {return 0;};
-    virtual void showAddress(Word address) {};
+    virtual void showAddress(Word address);
 
 protected:
 	RunComputer *threadPointer;

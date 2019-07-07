@@ -9,29 +9,45 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/configuration.cpp"
-            timestampString = "582844166.319312"
+            filePath = "src/cdp1802.cpp"
+            timestampString = "584224035.450868"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "122"
-            endingLineNumber = "122"
-            landmarkName = "ConfigurationDialog::onSaveButton( wxCommandEvent&amp; WXUNUSED(event) )"
+            startingLineNumber = "777"
+            endingLineNumber = "777"
+            landmarkName = "Cdp1802::inst1805()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/main.cpp"
-            timestampString = "582844297.94593"
+            filePath = "src/cdp1802.cpp"
+            timestampString = "584224035.45093"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3393"
-            endingLineNumber = "3393"
-            landmarkName = "Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationInfo oldConfigurationInfo)"
+            startingLineNumber = "778"
+            endingLineNumber = "778"
+            landmarkName = "Cdp1802::inst1805()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/cdp1802.cpp"
+            timestampString = "584224035.450985"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "972"
+            endingLineNumber = "972"
+            landmarkName = "Cdp1802::inst1805()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

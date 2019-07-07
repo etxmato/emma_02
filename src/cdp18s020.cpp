@@ -737,7 +737,24 @@ void Cdp18s020::cpuInstruction()
         machineCycle();
         if ((instructionCode_ & 0xf0) == 0xc0)
         {
-            showData(readMem(scratchpadRegister_[programCounter_]));
+            switch (instructionCode_ & 0xf0)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 8:
+                case 9:
+                case 0xA:
+                case 0xB:
+                    setRegisterB(readMem(scratchpadRegister_[programCounter_]));
+                    showData(getRegisterB());
+                break;
+                    
+                default:
+                    showData(readMem(scratchpadRegister_[programCounter_]));
+                break;
+            }
             showAddress(scratchpadRegister_[programCounter_]);
             cpuState_ = EXECUTE_2_STATE;
             cdp18s020ScreenPointer->setStateLed(SC0LED, 1);
@@ -757,11 +774,6 @@ void Cdp18s020::cpuInstruction()
                 cpuCycleExecute();
                 showAddress(address_);
                 cpuCycleFinalize();
-           //     if (bus_==-1)
-            //    {
-           //         showAddress(scratchpadRegister_[programCounter_]);
-            //        bus_=0;
-            //    }
                 showData(bus_);
                 cpuState_ = EXECUTE_1_STATE;
                 cdp18s020ScreenPointer->setStateLed(SC0LED, 1);
@@ -842,8 +854,6 @@ void Cdp18s020::cpuInstruction()
         cpuCycleExecute();
         showAddress(address_);
         cpuCycleFinalize();
-//        if (bus_==-1)
-//            bus_=0;
         showData(bus_);
         cpuState_ = EXECUTE_1_STATE;
         if (singleStateStep_)

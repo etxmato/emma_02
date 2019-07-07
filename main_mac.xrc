@@ -25938,7 +25938,7 @@
                                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                         <size>-1</size>
                                                                                                     </font>
-                                                                                                    <label>D:</label>
+                                                                                                    <label>D</label>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="sizeritem">
@@ -25959,7 +25959,7 @@
                                                                                             <object class="spacer">
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                                 <border>0</border>
-                                                                                                <size>7,5</size>
+                                                                                                <size>2,5</size>
                                                                                             </object>
                                                                                             <object class="sizeritem">
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -25971,7 +25971,7 @@
                                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                         <size>-1</size>
                                                                                                     </font>
-                                                                                                    <label>X:</label>
+                                                                                                    <label>X</label>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="sizeritem">
@@ -25992,7 +25992,7 @@
                                                                                             <object class="spacer">
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                                 <border>0</border>
-                                                                                                <size>7,5</size>
+                                                                                                <size>2,5</size>
                                                                                             </object>
                                                                                             <object class="sizeritem">
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -26004,7 +26004,7 @@
                                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                         <size>-1</size>
                                                                                                     </font>
-                                                                                                    <label>P:</label>
+                                                                                                    <label>P</label>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="sizeritem">
@@ -26025,7 +26025,7 @@
                                                                                             <object class="spacer">
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                                 <border>0</border>
-                                                                                                <size>7,5</size>
+                                                                                                <size>2,5</size>
                                                                                             </object>
                                                                                             <object class="sizeritem">
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
@@ -26037,7 +26037,7 @@
                                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                         <size>-1</size>
                                                                                                     </font>
-                                                                                                    <label>T:</label>
+                                                                                                    <label>T</label>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="sizeritem">
@@ -26058,7 +26058,35 @@
                                                                                             <object class="spacer">
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                                 <border>0</border>
-                                                                                                <size>6,5</size>
+                                                                                                <size>2,5</size>
+                                                                                            </object>
+                                                                                            <object class="sizeritem">
+                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                <border>0</border>
+                                                                                                <object class="wxStaticText" name="BButton">
+                                                                                                    <size>-1,13</size>
+                                                                                                    <tooltip>Temporary register B</tooltip>
+                                                                                                    <font>
+                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                        <size>-1</size>
+                                                                                                    </font>
+                                                                                                    <label>B</label>
+                                                                                                </object>
+                                                                                            </object>
+                                                                                            <object class="sizeritem">
+                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                <border>30</border>
+                                                                                                <object class="wxTextCtrl" name="B" subclass="HexEdit">
+                                                                                                    <size>18,13</size>
+                                                                                                    <font>
+                                                                                                        <size>10</size>
+                                                                                                        <family>swiss</family>
+                                                                                                    </font>
+                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                    <enabled>0</enabled>
+                                                                                                    <bg>#E5E5E5</bg>
+                                                                                                    <maxlength>2</maxlength>
+                                                                                                </object>
                                                                                             </object>
                                                                                         </object>
                                                                                     </object>
@@ -27595,6 +27623,7 @@
                                                                                                                 <item>D</item>
                                                                                                                 <item>P</item>
                                                                                                                 <item>X</item>
+                                                                                                                <item>B</item>
                                                                                                                 <item>T</item>
                                                                                                                 <item>DF</item>
                                                                                                                 <item>Q</item>

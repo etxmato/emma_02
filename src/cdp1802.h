@@ -89,8 +89,10 @@ public:
 	void setAccumulator(Byte accumulator) {accumulator_ = accumulator;};
 	Byte getDataFlag() {return dataFlag_;};
 	void setDataFlag(Byte dataFlag) {dataFlag_ = dataFlag;};
-	Byte getRegisterT() {return registerT_;};
-	void setRegisterT(Byte registerT) {registerT_ = registerT;};
+    Byte getRegisterT() {return registerT_;};
+    void setRegisterT(Byte registerT) {registerT_ = registerT;};
+    Byte getRegisterB() {return registerB_;};
+    void setRegisterB(Byte registerB) {registerB_ = registerB;};
 	Byte getFlipFlopQ() { return flipFlopQ_; };
 	void setFlipFlopQ(Byte flipFlopQ) { flipFlopQ_ = flipFlopQ; };
 	Byte isReadyToReceiveData(int ef) { return readyToReceiveData[ef]; };

@@ -1946,3 +1946,12 @@ void Computer::setAutoKeyDef(bool WXUNUSED(autoKeyDef))
 {
 }
 
+void Computer::showAddress(Word WXUNUSED(address))
+{
+}
+
+void Computer::switchHexEf(bool WXUNUSED(state))
+{
+}
+
+

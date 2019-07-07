@@ -471,6 +471,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp18s020.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cidelsa.cpp"
 				>
 			</File>
@@ -568,6 +572,10 @@
 			</File>
 			<File
 				RelativePath=".\src\functionkey.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guicdp18s020.cpp"
 				>
 			</File>
 			<File
@@ -951,6 +959,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp18s020.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cidelsa.h"
 				>
 			</File>
@@ -1052,6 +1064,10 @@
 			</File>
 			<File
 				RelativePath=".\src\functionkey.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guicdp18s020.h"
 				>
 			</File>
 			<File

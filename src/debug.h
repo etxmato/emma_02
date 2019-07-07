@@ -19,26 +19,27 @@ public:
 #define TREG_D 0
 #define TREG_P 1
 #define TREG_X 2
-#define TREG_T 3
-#define TREG_DF 4
-#define TREG_Q 5
-#define TREG_R0 6
-#define TREG_R1 7
-#define TREG_R2 8
-#define TREG_R3 9
-#define TREG_R4 10
-#define TREG_R5 11
-#define TREG_R6 12
-#define TREG_R7 13
-#define TREG_R8 14
-#define TREG_R9 15
-#define TREG_RA 16
-#define TREG_RB 17
-#define TREG_RC 18
-#define TREG_RD 19
-#define TREG_RE 20
-#define TREG_RF 21
-#define TREG_FAULT 22
+#define TREG_B 3
+#define TREG_T 4
+#define TREG_DF 5
+#define TREG_Q 6
+#define TREG_R0 7
+#define TREG_R1 8
+#define TREG_R2 9
+#define TREG_R3 10
+#define TREG_R4 11
+#define TREG_R5 12
+#define TREG_R6 13
+#define TREG_R7 14
+#define TREG_R8 15
+#define TREG_R9 16
+#define TREG_RA 17
+#define TREG_RB 18
+#define TREG_RC 19
+#define TREG_RD 20
+#define TREG_RE 21
+#define TREG_RF 22
+#define TREG_FAULT 23
 
 #define CPU_MEMORY 0
 #define CPU_TYPE 1
@@ -250,7 +251,8 @@ public:
 	void D(wxCommandEvent&event);
 	void P(wxCommandEvent&event);
 	void X(wxCommandEvent&event);
-	void T(wxCommandEvent&event);
+    void T(wxCommandEvent&event);
+    void B(wxCommandEvent&event);
 	void DF(wxCommandEvent&event);
 	void Q(wxCommandEvent&event);
 	void IE(wxCommandEvent&event);
@@ -463,8 +465,9 @@ protected:
 	wxTextCtrl *dTextPointer;
 	wxTextCtrl *pTextPointer;
 	wxTextCtrl *xTextPointer;
-	wxTextCtrl *tTextPointer;
-    
+    wxTextCtrl *tTextPointer;
+    wxTextCtrl *bTextPointer;
+
 	bool traceChip8Int_;
 	bool traceInt_;
 	bool traceDma_;
@@ -546,7 +549,8 @@ private:
 	Byte lastD_;
 	Byte lastP_;
 	Byte lastX;
-	Byte lastT_;
+    Byte lastT_;
+    Byte lastB_;
 	Byte lastDf_;
 	Byte lastQ_;
 	Byte lastIe_;

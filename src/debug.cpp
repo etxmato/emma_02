@@ -576,6 +576,7 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_TEXT_ENTER(XRCID("P"), DebugWindow::P)
 	EVT_TEXT_ENTER(XRCID("X"), DebugWindow::X)
 	EVT_TEXT_ENTER(XRCID("T"), DebugWindow::T)
+    EVT_TEXT_ENTER(XRCID("B"), DebugWindow::B)
 	EVT_TEXT_ENTER(XRCID("DF"), DebugWindow::DF)
 	EVT_TEXT_ENTER(XRCID("Q"), DebugWindow::Q)
 	EVT_TEXT_ENTER(XRCID("IE"), DebugWindow::IE)
@@ -1201,7 +1202,8 @@ void DebugWindow::enableDebugGui(bool status)
 	dTextPointer->Enable(status&&!protectedMode_);
 	pTextPointer->Enable(status&&!protectedMode_);
 	xTextPointer->Enable(status&&!protectedMode_);
-	tTextPointer->Enable(status&&!protectedMode_);
+    tTextPointer->Enable(status&&!protectedMode_);
+    bTextPointer->Enable(status&&!protectedMode_);
 //	XRCCTRL(*this,"InputWindow", wxTextCtrl)->Enable(status);
 //	XRCCTRL(*this,"DebugAssemblerAddress", wxTextCtrl)->Enable(status);
 	XRCCTRL(*this,"ProtectedMode", wxCheckBox)->Enable(status);
@@ -1488,6 +1490,11 @@ void DebugWindow::cycleDebug()
 					printBuffer.Printf("X=%02X",p_Computer->getRegisterT());
 					j = i;
 				}
+                if (tregs_[i][0] == TREG_B && tregs_[i][1] == p_Computer->getRegisterB())
+                {
+                    printBuffer.Printf("X=%02X",p_Computer->getRegisterB());
+                    j = i;
+                }
 				if (tregs_[i][0] == TREG_Q && tregs_[i][1] == p_Computer->getFlipFlopQ())
 				{
 					printBuffer.Printf("Q=%X", p_Computer->getFlipFlopQ());
@@ -1582,6 +1589,7 @@ void DebugWindow::resetDisplay()
 	lastP_ = p_Computer->getProgramCounter() + 1;
 	lastX = p_Computer->getDataPointer() + 1;
 	lastT_ = p_Computer->getRegisterT() + 1;
+    lastB_ = p_Computer->getRegisterB() + 1;
 	lastDf_ = p_Computer->getDataFlag() ^ 1;
 	lastQ_ = p_Computer->getFlipFlopQ() ^ 1;
 	lastIe_ = p_Computer->getInterruptEnable() ^ 1;
@@ -1725,8 +1733,15 @@ void DebugWindow::updateWindow()
 		tTextPointer->ChangeValue(buffer);
 		lastT_ = cpucpuRegister;
 	}
+    cpucpuRegister = p_Computer->getRegisterB();
+    if (cpucpuRegister != lastB_)
+    {
+        buffer.Printf("%02X", cpucpuRegister);
+        bTextPointer->ChangeValue(buffer);
+        lastB_ = cpucpuRegister;
+    }
 
-	cpuFlag = p_Computer->getDataFlag();
+    cpuFlag = p_Computer->getDataFlag();
 	if (cpuFlag != lastDf_)
 	{
 		buffer.Printf("%01X", cpuFlag);
@@ -2812,7 +2827,10 @@ void DebugWindow::addTreg()
 
 		case TREG_T: printBuffer.Printf("T  %02X", tregs_[numberOfTregs_][1]);
 		break;
-	}
+
+        case TREG_B: printBuffer.Printf("B  %02X", tregs_[numberOfTregs_][1]);
+        break;
+    }
 	tregWindowPointer->InsertItem(numberOfTregs_, printBuffer);
 	numberOfTregs_++;
 }
@@ -6149,7 +6167,8 @@ int DebugWindow::getRegister(wxString buffer)
 	if (buffer == "DF")  return TREG_DF;
 	if (buffer == "P")  return TREG_P;
 	if (buffer == "X")  return TREG_X;
-	if (buffer == "T")  return TREG_T;
+    if (buffer == "T")  return TREG_T;
+    if (buffer == "B")  return TREG_B;
 	if (buffer == "Q")  return TREG_Q;
 	if (buffer == "R0")  return TREG_R0;
 	if (buffer == "R1")  return TREG_R1;
@@ -6907,6 +6926,14 @@ void DebugWindow::T(wxCommandEvent&WXUNUSED(event))
 	if (value == -1)  return;
 
 	p_Computer->setRegisterT(value);
+}
+
+void DebugWindow::B(wxCommandEvent&WXUNUSED(event))
+{
+    long value = get8BitValue("B");
+    if (value == -1)  return;
+    
+    p_Computer->setRegisterB(value);
 }
 
 void DebugWindow::DF(wxCommandEvent&WXUNUSED(event))

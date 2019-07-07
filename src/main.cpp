@@ -1785,7 +1785,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		dTextPointer = XRCCTRL(*this,"D", wxTextCtrl);
 		pTextPointer = XRCCTRL(*this,"P", wxTextCtrl);
 		xTextPointer = XRCCTRL(*this,"X", wxTextCtrl);
-		tTextPointer = XRCCTRL(*this,"T", wxTextCtrl);
+        tTextPointer = XRCCTRL(*this,"T", wxTextCtrl);
+        bTextPointer = XRCCTRL(*this,"B", wxTextCtrl);
 
         traceWindowPointer = XRCCTRL(*this,"TraceWindow", wxTextCtrl);
 		assInputWindowPointer = XRCCTRL(*this,"AssInputWindow", wxTextCtrl);
