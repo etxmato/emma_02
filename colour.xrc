@@ -13966,7 +13966,7 @@
             </object>
         </object>
     </object>
-    <object class="wxDialog" name="ColourDialogCdp18s020">
+    <object class="wxDialog" name="ColourDialogCDP18S020">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Video Setup CDP18S020 Evaluation Kit</title>

@@ -2263,7 +2263,7 @@ void Main::initConfig()
 	setScreenInfo(MEMBER, 0, 5, colour, 1, borderX, borderY);
 	setComputerInfo(MEMBER, "Membership", "Membership Card", "");
     setScreenInfo(CDP18S020, 0, 5, colour, 1, borderX, borderY);
-    setComputerInfo(CDP18S020, "Cdp18s020", "CDP18S020 Evaluation Kit", "");
+    setComputerInfo(CDP18S020, "CDP18S020", "CDP18S020 Evaluation Kit", "");
     
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
@@ -2820,7 +2820,7 @@ void Main::readConfig()
 			XRCCTRL(*this, "PanelSuperElf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelCdp18s020", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelCDP18S020", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -5854,7 +5854,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursSuperElf", wxButton)->Enable(status | (runningComputer_ == SUPERELF));
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
-    XRCCTRL(*this,"ColoursCdp18s020", wxButton)->Enable(status | (runningComputer_ == CDP18S020));
+    XRCCTRL(*this,"ColoursCDP18S020", wxButton)->Enable(status | (runningComputer_ == CDP18S020));
     XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status | (runningComputer_ == VIP));
     XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status | (runningComputer_ == VIPII));
     XRCCTRL(*this,"ColoursVip2K", wxButton)->Enable(status | (runningComputer_ == VIP2K));
@@ -6171,26 +6171,26 @@ void Main::enableGui(bool status)
     if (runningComputer_ == CDP18S020)
     {
         enableChip8DebugGui(!status);
-        XRCCTRL(*this,"MainRomCdp18s020", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RomButtonCdp18s020", wxButton)->Enable(status);
-        XRCCTRL(*this,"RamSWCdp18s020", wxComboBox)->Enable(status);
-        XRCCTRL(*this,"RamSWButtonCdp18s020", wxButton)->Enable(status);
-        XRCCTRL(*this,"FullScreenF3Cdp18s020", wxButton)->Enable(!status);
-        XRCCTRL(*this, "VTTypeCdp18s020", wxChoice)->Enable(status);
-        if (XRCCTRL(*this,"VTTypeCdp18s020",wxChoice)->GetSelection() != VTNONE)
+        XRCCTRL(*this,"MainRomCDP18S020", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RomButtonCDP18S020", wxButton)->Enable(status);
+        XRCCTRL(*this,"RamSWCDP18S020", wxComboBox)->Enable(status);
+        XRCCTRL(*this,"RamSWButtonCDP18S020", wxButton)->Enable(status);
+        XRCCTRL(*this,"FullScreenF3CDP18S020", wxButton)->Enable(!status);
+        XRCCTRL(*this, "VTTypeCDP18S020", wxChoice)->Enable(status);
+        if (XRCCTRL(*this,"VTTypeCDP18S020",wxChoice)->GetSelection() != VTNONE)
         {
             if (elfConfiguration[CDP18S020].useUart)
             {
-                XRCCTRL(*this, "VTBaudRTextCdp18s020", wxStaticText)->Enable(status);
-                XRCCTRL(*this, "VTBaudRChoiceCdp18s020", wxChoice)->Enable(status);
+                XRCCTRL(*this, "VTBaudRTextCDP18S020", wxStaticText)->Enable(status);
+                XRCCTRL(*this, "VTBaudRChoiceCDP18S020", wxChoice)->Enable(status);
             }
-            XRCCTRL(*this, "VTBaudTChoiceCdp18s020", wxChoice)->Enable(status);
-            XRCCTRL(*this, "VTBaudTTextCdp18s020", wxStaticText)->Enable(status);
-            XRCCTRL(*this,"VtSetupCdp18s020", wxButton)->Enable(status);
+            XRCCTRL(*this, "VTBaudTChoiceCDP18S020", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudTTextCDP18S020", wxStaticText)->Enable(status);
+            XRCCTRL(*this,"VtSetupCDP18S020", wxButton)->Enable(status);
         }
         
-        XRCCTRL(*this,"ScreenDumpF5Cdp18s020", wxButton)->Enable(!status);
-        XRCCTRL(*this,"RamCdp18s020", wxChoice)->Enable(status);
+        XRCCTRL(*this,"ScreenDumpF5CDP18S020", wxButton)->Enable(!status);
+        XRCCTRL(*this,"RamCDP18S020", wxChoice)->Enable(status);
         enableLoadGui(!status);
     }
 	if (runningComputer_ == STUDIO)

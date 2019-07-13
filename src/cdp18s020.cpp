@@ -378,7 +378,7 @@ void Cdp18s020::onRun()
 
 void Cdp18s020::autoBoot()
 {
-    addressLatch_ = p_Main->getBootAddress("Cdp18s020", computerType_);
+    addressLatch_ = p_Main->getBootAddress("CDP18S020", computerType_);
     setClear(1);
     cdp18s020ScreenPointer->setStateLed(CLEARLED, 1);
     if (cpuMode_ == RESET)

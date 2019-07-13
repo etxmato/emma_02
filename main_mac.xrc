@@ -13508,7 +13508,7 @@
                                 </object>
                                 <object class="choicebookpage">
                                     <label>CDP18S020 Evaluation Kit</label>
-                                    <object class="wxPanel" name="PanelCdp18s020">
+                                    <object class="wxPanel" name="PanelCDP18S020">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                             <size>-1</size>
@@ -13537,7 +13537,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="RomButtonCdp18s020">
+                                                                        <object class="wxButton" name="RomButtonCDP18S020">
                                                                             <tooltip>Browse for CDP18S020 system ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13549,7 +13549,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxComboBox" name="MainRomCdp18s020">
+                                                                        <object class="wxComboBox" name="MainRomCDP18S020">
                                                                             <size>172,-1</size>
                                                                             <tooltip>Specify CDP18S020 system ROM file</tooltip>
                                                                             <font>
@@ -13566,7 +13566,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="RamSWButtonCdp18s020">
+                                                                        <object class="wxButton" name="RamSWButtonCDP18S020">
                                                                             <tooltip>Browse for RAM software file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13578,7 +13578,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxComboBox" name="RamSWCdp18s020">
+                                                                        <object class="wxComboBox" name="RamSWCDP18S020">
                                                                             <size>172,-1</size>
                                                                             <tooltip>Specify RAM software file</tooltip>
                                                                             <font>
@@ -13595,7 +13595,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonCdp18s020">
+                                                                        <object class="wxButton" name="VtCharRomButtonCDP18S020">
                                                                             <tooltip>Browse for video terminal font file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13607,7 +13607,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomCdp18s020">
+                                                                        <object class="wxComboBox" name="VtCharRomCDP18S020">
                                                                             <size>172,-1</size>
                                                                             <tooltip>Specify video terminal font file</tooltip>
                                                                             <font>
@@ -13626,7 +13626,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxButton" name="ScreenDumpFileButtonCdp18s020">
+                                                                        <object class="wxButton" name="ScreenDumpFileButtonCDP18S020">
                                                                             <tooltip>Browse for video dump file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13644,7 +13644,7 @@
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
                                                                                 <option>20</option>
-                                                                                <object class="wxComboBox" name="ScreenDumpFileCdp18s020">
+                                                                                <object class="wxComboBox" name="ScreenDumpFileCDP18S020">
                                                                                     <size>146,-1</size>
                                                                                     <tooltip>Specify video dump file</tooltip>
                                                                                     <font>
@@ -13664,7 +13664,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxBitmapButton" name="ScreenDumpF5Cdp18s020">
+                                                                                <object class="wxBitmapButton" name="ScreenDumpF5CDP18S020">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Save video dump to file (F5)</tooltip>
                                                                                     <enabled>0</enabled>
@@ -13683,7 +13683,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxStaticText" name="RamTextCdp18s020">
+                                                                        <object class="wxStaticText" name="RamTextCDP18S020">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -13694,7 +13694,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxChoice" name="RamCdp18s020">
+                                                                        <object class="wxChoice" name="RamCDP18S020">
                                                                             <tooltip>CDP18S020 RAM size</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13726,7 +13726,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxChoice" name="VTTypeCdp18s020">
+                                                                                <object class="wxChoice" name="VTTypeCDP18S020">
                                                                                     <tooltip>Select video terminal type</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13744,7 +13744,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                                 <border>5</border>
-                                                                                <object class="wxButton" name="VtSetupCdp18s020">
+                                                                                <object class="wxButton" name="VtSetupCDP18S020">
                                                                                     <tooltip>Open video terminal setup window</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13763,7 +13763,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxStaticText" name="VTBaudTTextCdp18s020">
+                                                                                <object class="wxStaticText" name="VTBaudTTextCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -13774,7 +13774,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxChoice" name="VTBaudTChoiceCdp18s020">
+                                                                                <object class="wxChoice" name="VTBaudTChoiceCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -13802,7 +13802,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxStaticText" name="VTBaudRTextCdp18s020">
+                                                                                <object class="wxStaticText" name="VTBaudRTextCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -13813,7 +13813,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxChoice" name="VTBaudRChoiceCdp18s020">
+                                                                                <object class="wxChoice" name="VTBaudRChoiceCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -13848,7 +13848,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxStaticText" name="ZoomTextVtCdp18s020">
+                                                                                <object class="wxStaticText" name="ZoomTextVtCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -13859,7 +13859,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>1</border>
-                                                                                <object class="wxTextCtrl" name="ZoomValueVtCdp18s020" subclass="FloatEdit">
+                                                                                <object class="wxTextCtrl" name="ZoomValueVtCDP18S020" subclass="FloatEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
                                                                                     <font>
@@ -13871,7 +13871,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>5</border>
-                                                                                <object class="wxSpinButton" name="ZoomSpinVtCdp18s020">
+                                                                                <object class="wxSpinButton" name="ZoomSpinVtCDP18S020">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
                                                                                     <style>wxSP_VERTICAL|wxSP_WRAP</style>
@@ -13883,7 +13883,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxCheckBox" name="StretchDotCdp18s020">
+                                                                                <object class="wxCheckBox" name="StretchDotCDP18S020">
                                                                                     <tooltip>Enable stretch dot mode on video terminal</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13911,7 +13911,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxButton" name="CasButtonCdp18s020">
+                                                                                <object class="wxButton" name="CasButtonCDP18S020">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Browse for terminal file</tooltip>
                                                                                     <font>
@@ -13924,7 +13924,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>4</border>
-                                                                                <object class="wxTextCtrl" name="WavFileCdp18s020">
+                                                                                <object class="wxTextCtrl" name="WavFileCDP18S020">
                                                                                     <size>146,-1</size>
                                                                                     <tooltip>Specify terminal file</tooltip>
                                                                                     <font>
@@ -13936,7 +13936,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>3</border>
-                                                                                <object class="wxBitmapButton" name="EjectCasCdp18s020">
+                                                                                <object class="wxBitmapButton" name="EjectCasCDP18S020">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Eject terminal file</tooltip>
                                                                                     <bitmap>images_osx/eject.png</bitmap>
@@ -13954,7 +13954,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>4</border>
-                                                                                <object class="wxCheckBox" name="AutoCasLoadCdp18s020">
+                                                                                <object class="wxCheckBox" name="AutoCasLoadCDP18S020">
                                                                                     <tooltip>Enable auto mode for cassette file</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -13968,7 +13968,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxBitmapButton" name="CasSaveCdp18s020">
+                                                                                <object class="wxBitmapButton" name="CasSaveCDP18S020">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Start recording to cassette file</tooltip>
                                                                                     <enabled>0</enabled>
@@ -13978,7 +13978,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxBitmapButton" name="CasLoadCdp18s020">
+                                                                                <object class="wxBitmapButton" name="CasLoadCDP18S020">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Play cassette file</tooltip>
                                                                                     <enabled>0</enabled>
@@ -13988,7 +13988,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
-                                                                                <object class="wxBitmapButton" name="CasStopCdp18s020">
+                                                                                <object class="wxBitmapButton" name="CasStopCDP18S020">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Stop cassette file</tooltip>
                                                                                     <enabled>0</enabled>
@@ -13998,7 +13998,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxBitmapButton" name="RealCasLoadCdp18s020">
+                                                                                <object class="wxBitmapButton" name="RealCasLoadCDP18S020">
                                                                                     <size>26,27</size>
                                                                                     <tooltip>Disable / Enable real cassette loading</tooltip>
                                                                                     <style>wxBU_AUTODRAW</style>
@@ -14016,7 +14016,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>4</border>
-                                                                                <object class="wxCheckBox" name="TurboCdp18s020">
+                                                                                <object class="wxCheckBox" name="TurboCDP18S020">
                                                                                     <tooltip>Enable turbo mode for cassette file</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14030,7 +14030,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>4</border>
-                                                                                <object class="wxTextCtrl" name="TurboClockCdp18s020" subclass="IntEdit">
+                                                                                <object class="wxTextCtrl" name="TurboClockCDP18S020" subclass="IntEdit">
                                                                                     <size>35,-1</size>
                                                                                     <tooltip>Specify turbo clock speed in MHz</tooltip>
                                                                                     <font>
@@ -14043,7 +14043,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>4</border>
-                                                                                <object class="wxStaticText" name="TurboMhzTextCdp18s020">
+                                                                                <object class="wxStaticText" name="TurboMhzTextCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -14071,7 +14071,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="ZoomTextCdp18s020">
+                                                                        <object class="wxStaticText" name="ZoomTextCDP18S020">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -14082,7 +14082,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>1</border>
-                                                                        <object class="wxTextCtrl" name="ZoomValueCdp18s020" subclass="FloatEdit">
+                                                                        <object class="wxTextCtrl" name="ZoomValueCDP18S020" subclass="FloatEdit">
                                                                             <size>50,-1</size>
                                                                             <tooltip>Select CDP18S020 screen size</tooltip>
                                                                             <font>
@@ -14094,7 +14094,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>5</border>
-                                                                        <object class="wxSpinButton" name="ZoomSpinCdp18s020">
+                                                                        <object class="wxSpinButton" name="ZoomSpinCDP18S020">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select CDP18S020 screen size</tooltip>
                                                                             <style>wxSP_VERTICAL|wxSP_WRAP</style>
@@ -14106,7 +14106,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxBitmapButton" name="FullScreenF3Cdp18s020">
+                                                                        <object class="wxBitmapButton" name="FullScreenF3CDP18S020">
                                                                             <size>26,27</size>
                                                                             <tooltip>Activate full screen mode (F3)</tooltip>
                                                                             <enabled>0</enabled>
@@ -14116,7 +14116,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxButton" name="ColoursCdp18s020">
+                                                                        <object class="wxButton" name="ColoursCDP18S020">
                                                                             <tooltip>Open video setup window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14135,7 +14135,7 @@
                                                             <object class="sizeritem">
                                                                 <flag>wxALIGN_LEFT|wxALL</flag>
                                                                 <border>4</border>
-                                                                <object class="wxCheckBox" name="LatchCdp18s020">
+                                                                <object class="wxCheckBox" name="LatchCDP18S020">
                                                                     <hidden>1</hidden>
                                                                     <label>Load / latch ROM at F000</label>
                                                                     <checked>0</checked>
@@ -14149,7 +14149,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxStaticText" name="VolumeTextCdp18s020">
+                                                                        <object class="wxStaticText" name="VolumeTextCDP18S020">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -14160,7 +14160,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_BOTTOM|wxALL</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxSlider" name="VolumeCdp18s020">
+                                                                        <object class="wxSlider" name="VolumeCDP18S020">
                                                                             <size>100,-1</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
                                                                             <style>wxSL_HORIZONTAL</style>
@@ -14177,7 +14177,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxStaticText" name="AddressText1Cdp18s020">
+                                                                        <object class="wxStaticText" name="AddressText1CDP18S020">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -14188,7 +14188,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxTextCtrl" name="ShowAddressCdp18s020" subclass="IntEdit">
+                                                                        <object class="wxTextCtrl" name="ShowAddressCDP18S020" subclass="IntEdit">
                                                                             <size>45,-1</size>
                                                                             <tooltip>Led updates in run mode every X ms</tooltip>
                                                                             <font>
@@ -14201,7 +14201,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxStaticText" name="AddressText2Cdp18s020">
+                                                                        <object class="wxStaticText" name="AddressText2CDP18S020">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -14232,7 +14232,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxButton" name="LoadButtonCdp18s020">
+                                                                                <object class="wxButton" name="LoadButtonCDP18S020">
                                                                                     <tooltip>Load .hex file into CDP18S020 emulator memory</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14245,7 +14245,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxStaticText" name="TextStartCdp18s020">
+                                                                                <object class="wxStaticText" name="TextStartCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -14258,7 +14258,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxTextCtrl" name="SaveStartCdp18s020" subclass="HexEdit">
+                                                                                <object class="wxTextCtrl" name="SaveStartCDP18S020" subclass="HexEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Specify start address in hexadecimal</tooltip>
                                                                                     <font>
@@ -14272,7 +14272,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxButton" name="SaveButtonCdp18s020">
+                                                                                <object class="wxButton" name="SaveButtonCDP18S020">
                                                                                     <tooltip>Save CDP18S020 emulator memory to .hex file</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14285,7 +14285,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxStaticText" name="TextEndCdp18s020">
+                                                                                <object class="wxStaticText" name="TextEndCDP18S020">
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -14298,7 +14298,7 @@
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>2</border>
-                                                                                <object class="wxTextCtrl" name="SaveEndCdp18s020" subclass="HexEdit">
+                                                                                <object class="wxTextCtrl" name="SaveEndCDP18S020" subclass="HexEdit">
                                                                                     <size>50,-1</size>
                                                                                     <tooltip>Specify end address in hexadecimal</tooltip>
                                                                                     <font>
@@ -14321,7 +14321,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="ControlWindowsCdp18s020">
+                                                                        <object class="wxCheckBox" name="ControlWindowsCDP18S020">
                                                                             <tooltip>Show CDP18S020 control window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14341,7 +14341,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="AutoBootCdp18s020">
+                                                                        <object class="wxCheckBox" name="AutoBootCDP18S020">
                                                                             <tooltip>Enable auto boot at address 0</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14354,7 +14354,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxChoice" name="AutoBootTypeCdp18s020">
+                                                                        <object class="wxChoice" name="AutoBootTypeCDP18S020">
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -14368,7 +14368,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                         <border>0</border>
-                                                                        <object class="wxTextCtrl" name="BootAddressCdp18s020" subclass="HexEdit">
+                                                                        <object class="wxTextCtrl" name="BootAddressCDP18S020" subclass="HexEdit">
                                                                             <size>50,-1</size>
                                                                             <tooltip>Specify auto boot address in hexadecimal</tooltip>
                                                                             <font>
