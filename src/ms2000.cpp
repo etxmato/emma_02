@@ -566,42 +566,22 @@ void Ms2000::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Ms2000::cpuInstruction()
 {
-    if (steps_ != 0)
-    {
-        cycle0_=0;
-        machineCycle();
-        if (cycle0_ == 0) machineCycle();
-        if (cycle0_ == 0 && steps_ != 0)
-        {
-            cpuCycle();
-            cpuCycles_ += 2;
-        }
-        if (debugMode_)
-            p_Main->showInstructionTrace();
-		}
-    else
-        soundCycle();
+    cpuCycleStep();
+}
 
-    playSaveLoad();
-    checkMs2000Function();
+void Ms2000::resetPressed()
+{
+    resetCpu();
+    initComputer();
     
-    if (resetPressed_)
-    {
-        resetCpu();
-        initComputer();
-
-        if (ms2000Configuration.bootRam)
-            bootstrap_ = 0;
-        else
-            bootstrap_ = 0x8000;
-        
-        p_Main->setSwName("");
-        p_Main->eventUpdateTitle();
-        resetPressed_ = false;
-    }
-    if (debugMode_)
-        p_Main->cycleDebug();
-
+    if (ms2000Configuration.bootRam)
+        bootstrap_ = 0;
+    else
+        bootstrap_ = 0x8000;
+    
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    resetPressed_ = false;
 }
 
 void Ms2000::moveWindows()
@@ -629,7 +609,7 @@ void Ms2000::updateTitle(wxString Title)
         vtPointer->SetTitle("MS2000 - VT 100"+Title);
 }
 
-void Ms2000::checkMs2000Function()
+void Ms2000::checkComputerFunction()
 {
     switch (scratchpadRegister_[programCounter_])
     {

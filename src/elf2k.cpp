@@ -924,34 +924,7 @@ void Elf2K::cpuInstruction()
 	}
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetComputer();
-			autoBoot();
-			resetPressed_ = false;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-			if (elfConfiguration.usePs2gpio)
-				startPs2gpioKeyFile();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -966,6 +939,18 @@ void Elf2K::cpuInstruction()
 			threadPointer->Sleep(1);
 		}
 	}
+}
+
+void Elf2K::resetPressed()
+{
+    resetCpu();
+    resetComputer();
+    autoBoot();
+    resetPressed_ = false;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    if (elfConfiguration.usePs2gpio)
+        startPs2gpioKeyFile();
 }
 
 void Elf2K::resetComputer()

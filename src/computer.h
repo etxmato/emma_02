@@ -369,7 +369,10 @@ public:
 	virtual void removeElfHex();
 	virtual void removeCosmicosHex();
 	virtual void removeElfLedModule(); 
-	virtual void showData(Byte val);
+    virtual void showData(Byte val);
+    virtual void showCycleData(Byte val);
+    virtual void showDmaLed();
+    virtual void showIntLed();
 	virtual void resetVideo();
 	virtual void resetComputer();
 	virtual void clearBootstrap();
@@ -494,6 +497,11 @@ public:
     virtual void setAutoKeyDef(bool autoKeyDef);
     virtual int getDmaCounter() {return 0;};
     virtual void showAddress(Word address);
+    virtual void showState(int state);
+    virtual void checkComputerFunction() {};
+    virtual void resetPressed() {};
+    virtual void setWaitLed() {};
+    virtual void setGoTimer() {};
 
 protected:
 	RunComputer *threadPointer;

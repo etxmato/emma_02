@@ -43,6 +43,66 @@
 
 #include "main.h"
 
+int startCpuState1804_1805[] =
+{
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1,  // 0x
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1,  // 1x
+    STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805,  // 2x
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1,  // 3x
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1,  // 4x
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1,  // 5x
+    STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805,  // 6x
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_EXECUTE_2_1805, STATE_FETCH_1, STATE_EXECUTE_4_1805, STATE_EXECUTE_2_1805, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_EXECUTE_2_1805, STATE_FETCH_1, STATE_FETCH_1, STATE_EXECUTE_2_1805,  // 7x
+    STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805, STATE_EXECUTE_8_1805,  // 8x
+    STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805, STATE_EXECUTE_6_1805,  // 9x
+    STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805,  // Ax
+    STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805, STATE_EXECUTE_2_1805,  // Bx
+    STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805, STATE_EXECUTE_3_1805,  // Cx
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1,  // Dx
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1,  // Ex
+    STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_EXECUTE_2_1805, STATE_FETCH_1, STATE_FETCH_1, STATE_EXECUTE_2_1805, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_FETCH_1, STATE_EXECUTE_2_1805, STATE_FETCH_1, STATE_FETCH_1, STATE_EXECUTE_2_1805,  // Fx
+};
+
+int numberOfCycles1802[] =
+{
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 0x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 1x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 2x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 3x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 4x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 5x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 6x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 7x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 8x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // 9x
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // Ax
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // Bx
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // Cx
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // Dx
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // Ex
+    2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2,  // Fx
+};
+
+int numberOfCycles1805[] =
+{
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // 0x
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // 1x
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,  // 2x
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // 3x
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // 4x
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // 5x
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,  // 6x
+    3, 3, 3, 3, 4, 3, 6, 4, 3, 3, 3, 3, 4, 3, 3, 4,  // 7x
+    10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10,  // 8x
+    8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8,  // 9x
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,  // Ax
+    4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,  // Bx
+    5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,  // Cx
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // Dx
+    3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,  // Ex
+    3, 3, 3, 3, 4, 3, 3, 4, 3, 3, 3, 3, 4, 3, 3, 4,  // Fx
+};
+
 Cdp1802::Cdp1802()
 {
 }
@@ -95,7 +155,8 @@ void Cdp1802::initCpu(int computerType)
 
 void Cdp1802::resetCpu()
 {
-	flipFlopQ_ = 0;
+    cpuState_ = STATE_FETCH_1;
+    flipFlopQ_ = 0;
     interruptEnable_ = 1;
 	ci_ = 0;
 	xi_ = 0;
@@ -168,7 +229,8 @@ void Cdp1802::setWait(int value)
 
 void Cdp1802::dmaIn(Byte value)
 {
-	if (traceDma_)
+    showDmaLed();
+    if (traceDma_)
 	{
 		wxString traceText;
 		traceText.Printf("----  DMA in    R0=%04X", scratchpadRegister_[0]);
@@ -184,6 +246,12 @@ void Cdp1802::dmaIn(Byte value)
 	idle_=0;
 	cpuCycles_++;
 //	machineCycle(); // Using this will crash Elfs when tying in keys with Q sound on 'Hardware'
+    if (singleStateStep_)
+    {
+        showAddress(address_);
+        showCycleData(value);
+        singleStateStep();
+    }
 }
 
 Byte Cdp1802::dmaOut()
@@ -197,16 +265,24 @@ Byte Cdp1802::dmaOut()
 		p_Main->debugTrace(traceText);
 	}
 	ret=readMem(scratchpadRegister_[0]);
-	scratchpadRegister_[0]++;
+	address_ = scratchpadRegister_[0]++;
 	idle_=0;
 	cpuCycles_++;
 	machineCycle();
+    
+    if (singleStateStep_)
+    {
+        showAddress(address_);
+        showCycleData(ret);
+        singleStateStep();
+    }
 
 	return ret;
 }
 
 Byte Cdp1802::pixieDmaOut(int *color)
 {
+    showDmaLed();
 	Byte ret;
     ret = 255;
 	if (traceDma_)
@@ -252,10 +328,17 @@ Byte Cdp1802::pixieDmaOut(int *color)
 			*color = colorMemory1864_[scratchpadRegister_[0] & 0x3ff] & 0x7;
 		break;
 	}
-	scratchpadRegister_[0]++;
+	address_ = scratchpadRegister_[0]++;
 	idle_=0;
 	cpuCycles_++;
 	soundCycle();
+
+    if (singleStateStep_)
+    {
+        showAddress(address_);
+        showCycleData(ret);
+        singleStateStep();
+    }
 
 	return ret;
 }
@@ -279,6 +362,7 @@ void Cdp1802::visicomDmaOut(Byte *vram1, Byte *vram2)
 
 Byte Cdp1802::pixieDmaOut()
 {
+    showDmaLed();
 	Byte ret;
 	ret = 255;
 	if (traceDma_)
@@ -288,12 +372,19 @@ Byte Cdp1802::pixieDmaOut()
 		p_Main->debugTrace(traceText);
 	}
 	ret=readMem(scratchpadRegister_[0]);
-	scratchpadRegister_[0]++;
+	address_ = scratchpadRegister_[0]++;
 	idle_=0;
 	cpuCycles_++;
 	soundCycle();
 
-	return ret;
+    if (singleStateStep_)
+    {
+        showAddress(address_);
+        showCycleData(ret);
+        singleStateStep();
+    }
+
+    return ret;
 }
 
 void Cdp1802::decCounter()
@@ -345,6 +436,7 @@ void Cdp1802::setEf(int flag,int value)
 
 void Cdp1802::interrupt()
 {
+    showIntLed();
 	if (p_Main->isDiagActive(COMX) && computerType_ == COMX)
 	{
 		if (interruptEnable_ && (clear_ == 1))
@@ -376,10 +468,18 @@ void Cdp1802::interrupt()
 		machineCycle();
 	}
 	idle_=0;
+
+    if (singleStateStep_)
+    {
+        showAddress(scratchpadRegister_[programCounter_]);
+        showCycleData(0);
+        singleStateStep();
+    }
 }
 
 void Cdp1802::pixieInterrupt()
 {
+    showIntLed();
 	if (interruptEnable_)
 	{
 		if (traceInt_)
@@ -395,21 +495,328 @@ void Cdp1802::pixieInterrupt()
 		programCounter_=1;
 		interruptEnable_=0;
 		cpuCycles_++;
-  //      machineCycle(); //- I put this in to get correct timeing for something; however this messes up the Pixie screens on at least the Elfs.
+//      Adding a 'machineCycle()' here will mess up the Pixie screens on at least the Elfs. The machineCycle is however done as part of the cpuCycleStep routine if cycle0 is set to 1.
     }
 	idle_=0;
+
+    if (singleStateStep_)
+        singleStateStep();
 }
 
-void Cdp1802::inst1805()
+void Cdp1802::cpuCycleExecute1_1805()
+{
+    wxString buffer;
+    
+    Byte i, n, df1;
+    int tempWord;
+    
+    n = instructionCode1805_ & 15;
+    i = instructionCode1805_>>4;
+    bus_ = 0;
+    
+    switch(i)
+    {
+        case 2:
+            if (cpuType_ == CPU1805)
+            {
+                switch (cpuState_)
+                {
+                    case STATE_EXECUTE_3_1805:
+                        bus_=0;
+                        address_=scratchpadRegister_[n];
+                        scratchpadRegister_[n]--;
+                    break;
+                    case STATE_EXECUTE_2_1805:
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        registerB_=bus_;
+                    break;
+                }
+            }
+            else
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    traceBuffer_ = traceBuffer_ + buffer;
+                }
+                cpuState_ = STATE_FETCH_1;
+            }
+            break;
+            
+        case 6: // 1804
+            switch (cpuState_)
+            {
+                case STATE_EXECUTE_3_1805:
+                    bus_=readMem(scratchpadRegister_[dataPointer_]++);
+                    registerB_=bus_;
+                break;
+                case STATE_EXECUTE_2_1805:
+                    registerT_=registerB_;
+                    bus_=readMem(scratchpadRegister_[dataPointer_]++);
+                    registerB_=bus_;
+                break;
+            }
+            break;
+            
+        case 7:
+            if (cpuType_ == CPU1805)
+            {
+                switch(n)
+                {
+                    case 4:
+                        bus_=readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord = accumulator_ + bus_ + dataFlag_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 6:
+                        switch (cpuState_)
+                        {
+                            case STATE_EXECUTE_4_1805:
+                                scratchpadRegister_[dataPointer_]--;
+                                bus_=0;
+                            break;
+                            case STATE_EXECUTE_3_1805:
+                                writeMem(scratchpadRegister_[dataPointer_]--, registerT_, false);
+                                bus_=registerT_;
+                            break;
+                            case STATE_EXECUTE_2_1805:
+                                bus_=accumulator_;
+                                writeMem(scratchpadRegister_[dataPointer_]--, accumulator_, false);
+                                df1= (dataFlag_) ? 128 : 0;
+                                dataFlag_ = (accumulator_ & 1) ? 1 : 0;
+                                accumulator_ = (accumulator_ >> 1) | df1;
+                            break;
+                        }
+                        break;
+                    case 7:
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        bus_ += (~dataFlag_&0x1);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xc:
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord = accumulator_ + bus_ + dataFlag_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xf:
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        bus_=readMem(scratchpadRegister_[programCounter_]++);
+                        bus_ += (~dataFlag_&0x1);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    default:
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            traceBuffer_ = traceBuffer_ + buffer;
+                        }
+                        cpuState_ = STATE_FETCH_1;
+                    break;
+                }
+            }
+            else
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    traceBuffer_ = traceBuffer_ + buffer;
+                }
+                cpuState_ = STATE_FETCH_1;
+            }
+            break;
+            
+        case 8: // 1804
+            switch (cpuState_)
+            {
+                case STATE_EXECUTE_8_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[n];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+                break;
+                case STATE_EXECUTE_7_1805:
+                    writeMem(scratchpadRegister_[dataPointer_]--,registerT_, false);
+                    bus_=registerT_;
+                break;
+                case STATE_EXECUTE_6_1805:
+                    writeMem(scratchpadRegister_[dataPointer_]--,registerB_, false);
+                    bus_=registerB_;
+                break;
+                case STATE_EXECUTE_5_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[programCounter_];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+                break;
+                case STATE_EXECUTE_4_1805:
+                    bus_=0;
+                    scratchpadRegister_[n] = (registerB_ << 8) + registerT_;
+                    address_=scratchpadRegister_[n];
+                break;
+                case STATE_EXECUTE_3_1805:
+                    registerB_=readMem(scratchpadRegister_[n]++);
+                    bus_=registerB_;
+                break;
+                case STATE_EXECUTE_2_1805:
+                    registerT_=registerB_;
+                    registerB_=readMem(scratchpadRegister_[n]++);
+                    bus_=registerB_;
+                break;
+            }
+            break;
+            
+        case 9: // 1804
+            switch (cpuState_)
+            {
+                case STATE_EXECUTE_6_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[n];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+                break;
+                case STATE_EXECUTE_5_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[dataPointer_];
+                    scratchpadRegister_[dataPointer_]++;
+                break;
+                case STATE_EXECUTE_4_1805:
+                    bus_=0;
+                    scratchpadRegister_[programCounter_] = (registerB_ << 8) + registerT_;
+                    address_=scratchpadRegister_[programCounter_];
+                break;
+                case STATE_EXECUTE_3_1805:
+                    registerB_ = readMem(scratchpadRegister_[dataPointer_]++);
+                    bus_=registerB_;
+                break;
+                case STATE_EXECUTE_2_1805:
+                    registerT_=registerB_;
+                    registerB_ = readMem(scratchpadRegister_[dataPointer_]);
+                    bus_=registerB_;
+                break;
+            }
+            break;
+            
+        case 0xa: // 1804
+            switch (cpuState_)
+            {
+                case STATE_EXECUTE_3_1805:
+                    bus_=0;
+                    address_=scratchpadRegister_[n];
+                    registerT_=address_ & 0xff;
+                    registerB_=address_ >> 8;
+                break;
+                case STATE_EXECUTE_2_1805:
+                    writeMem(scratchpadRegister_[dataPointer_]--,registerT_, false);
+                    bus_=registerT_;
+                break;
+            }
+            break;
+            
+        case 0xb: // 1804
+            bus_=0;
+            address_=scratchpadRegister_[n];
+            registerT_=address_ & 0xff;
+            registerB_=address_ >> 8;
+            break;
+            
+        case 0xc:  // 1804
+            switch (cpuState_)
+            {
+                case STATE_EXECUTE_3_1805:
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                    registerB_=readMem(scratchpadRegister_[programCounter_]++);
+                    bus_=registerB_;
+                break;
+                case STATE_EXECUTE_2_1805:
+                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                    registerT_=registerB_;
+                    registerB_=readMem(scratchpadRegister_[programCounter_]++);
+                    bus_=registerB_;
+                break;
+            }
+            break;
+            
+        case 0xf:
+            if (cpuType_ == CPU1805)
+            {
+                switch(n)
+                {
+                    case 4:
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord = accumulator_ + bus_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 7:
+                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xc:
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        bus_ = readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord = accumulator_ + bus_;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    case 0xf:
+                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
+                        bus_ = readMem(scratchpadRegister_[programCounter_]++);
+                        tempWord = accumulator_+((~bus_)&0xff)+1;
+                        dataFlag_ = (tempWord >> 8) & 0x1;
+                        accumulator_ = tempWord & 255;
+                    break;
+                    default:
+                        if (trace_)
+                        {
+                            buffer.Printf("Illegal code");
+                            traceBuffer_ = traceBuffer_ + buffer;
+                        }
+                        cpuState_ = STATE_FETCH_1;
+                    break;
+                }
+            }
+            else
+            {
+                if (trace_)
+                {
+                    buffer.Printf("Illegal code");
+                    traceBuffer_ = traceBuffer_ + buffer;
+                }
+                cpuState_ = STATE_FETCH_1;
+            }
+            break;
+        default:
+            if (trace_)
+            {
+                buffer.Printf("Illegal code");
+                traceBuffer_ = traceBuffer_ + buffer;
+                cpuState_ = STATE_FETCH_1;
+            }
+            break;
+    }
+    cpuCycleFinalize();
+}
+
+void Cdp1802::cpuCycleExecute2_1805()
 {
 	wxString buffer;
 
-    Byte i, n, df1;
+    Byte i, n;
 	int tempWord;
 	tempWord = 0;
 
-    n = instructionCode_ & 15;
-	i = instructionCode_>>4;
+    n = instructionCode1805_ & 15;
+	i = instructionCode1805_>>4;
     
 	switch(i)
 	{
@@ -586,14 +993,14 @@ void Cdp1802::inst1805()
 			if (cpuType_ == CPU1805)
 			{
 				cpuCycles_ += 3;
-                if (!singleStateStep_)
+/*                if (computerType_ != CDP18S020)
                 {
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                     registerB_=readMemDebug(scratchpadRegister_[programCounter_]++);
                     bus_=readMem((Word) (scratchpadRegister_[programCounter_]++));
                     scratchpadRegister_[n]--;
                 }
-                else
+                else*/
                     bus_=readMem((Word) (scratchpadRegister_[programCounter_]++));
 
                 if (scratchpadRegister_[n] != 0)
@@ -663,11 +1070,11 @@ void Cdp1802::inst1805()
 
 		case 6: // 1804
 			cpuCycles_ += 3;
-            if (!singleStateStep_)
+/*            if (computerType_ != CDP18S020)
             {
                 registerT_ = readMemDebug(scratchpadRegister_[dataPointer_]++);
                 registerB_ = readMemDebug(scratchpadRegister_[dataPointer_]++);
-            }
+            }*/
 			scratchpadRegister_[n] = (registerT_ << 8) | registerB_;
 			if (trace_)
 			{
@@ -686,13 +1093,13 @@ void Cdp1802::inst1805()
 					case 4:
 						cpuCycles_ += 2;
                         
-                        if (!singleStateStep_)
+/*                        if (computerType_ != CDP18S020)
                         {
                             bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
                             tempWord = accumulator_ + bus_ + dataFlag_;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         tempWord = accumulator_ + (dataFlag_ << 8);
                         if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
@@ -715,7 +1122,7 @@ void Cdp1802::inst1805()
 					case 6:
 						cpuCycles_ += 4;
                         
-                        if (!singleStateStep_)
+/*                        if (computerType_ != CDP18S020)
                         {
                             writeMemDebug(--scratchpadRegister_[dataPointer_], registerT_, false);
                             writeMemDebug(--scratchpadRegister_[dataPointer_], accumulator_, false);
@@ -723,7 +1130,7 @@ void Cdp1802::inst1805()
                             dataFlag_ = (accumulator_ & 1) ? 1 : 0;
                             accumulator_ = (accumulator_ >> 1) | df1;
                             scratchpadRegister_[dataPointer_]--;
-                        }
+                        }*/
 						writeMemDebug(scratchpadRegister_[dataPointer_], accumulator_, false);
 						if (trace_)
 						{
@@ -736,14 +1143,14 @@ void Cdp1802::inst1805()
 					case 7:
 						cpuCycles_ += 2;
                         
-                        if (!singleStateStep_)
+ /*                       if (computerType_ != CDP18S020)
                         {
                             bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
                             bus_ += (~dataFlag_&0x1);
                             tempWord = accumulator_+((~bus_)&0xff)+1;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         accumulator_ -= (~dataFlag_&0x1);
                         if (dataFlag_ == 1)
@@ -779,14 +1186,14 @@ void Cdp1802::inst1805()
 					case 0xc:
 						cpuCycles_ += 2;
                     
-                        if (!singleStateStep_)
+ /*                       if (computerType_ != CDP18S020)
                         {
                             p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                             bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
                             tempWord = accumulator_ + bus_ + dataFlag_;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         tempWord = accumulator_ + (dataFlag_ << 8);
                         if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
@@ -809,7 +1216,7 @@ void Cdp1802::inst1805()
 					case 0xf:
 						cpuCycles_ += 2;
                         
-                        if (!singleStateStep_)
+ /*                       if (computerType_ != CDP18S020)
                         {
                             p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                             bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
@@ -817,7 +1224,7 @@ void Cdp1802::inst1805()
                             tempWord = accumulator_+((~bus_)&0xff)+1;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         accumulator_ -= (~dataFlag_&0x1);
                         if (dataFlag_ == 1)
@@ -873,7 +1280,7 @@ void Cdp1802::inst1805()
 
 		case 8: // 1804
 			cpuCycles_ += 8;
-            if (!singleStateStep_)
+ /*           if (computerType_ != CDP18S020)
             {
                 registerT_=scratchpadRegister_[n] & 0xff;
                 registerB_=scratchpadRegister_[n] >> 8;
@@ -885,7 +1292,7 @@ void Cdp1802::inst1805()
                 registerB_=readMemDebug(scratchpadRegister_[n]++);
                 registerT_=registerB_;
                 registerB_=readMemDebug(scratchpadRegister_[n]++);
-            }
+            }*/
             scratchpadRegister_[programCounter_] = (registerT_ << 8) + registerB_;
 			if (trace_)
 			{
@@ -898,7 +1305,7 @@ void Cdp1802::inst1805()
 
 		case 9: // 1804
 			cpuCycles_ += 6;
-            if (!singleStateStep_)
+  /*          if (computerType_ != CDP18S020)
             {
                 registerT_=scratchpadRegister_[n] & 0xff;
                 registerB_=scratchpadRegister_[n] >> 8;
@@ -907,7 +1314,7 @@ void Cdp1802::inst1805()
                 registerB_ = readMemDebug(scratchpadRegister_[dataPointer_]++);
                 registerT_=registerB_;
                 registerB_ = readMemDebug(scratchpadRegister_[dataPointer_]);
-            }
+            }*/
 			scratchpadRegister_[n] = (registerT_ << 8) + registerB_;
 			if (trace_)
 			{
@@ -920,12 +1327,12 @@ void Cdp1802::inst1805()
 
 		case 0xa: // 1804
 			cpuCycles_ += 3;
-            if (!singleStateStep_)
+ /*           if (computerType_ != CDP18S020)
             {
                 registerT_=scratchpadRegister_[n] & 0xff;
                 registerB_=scratchpadRegister_[n] >> 8;
                 writeMemDebug(scratchpadRegister_[dataPointer_]--,registerT_, false);
-            }
+            }*/
             bus_ = registerB_;
 			writeMem(scratchpadRegister_[dataPointer_]--, bus_, false);
 			if (trace_)
@@ -937,11 +1344,11 @@ void Cdp1802::inst1805()
 
 		case 0xb: // 1804
 			cpuCycles_ += 2;
-            if (!singleStateStep_)
+  /*          if (computerType_ != CDP18S020)
             {
                 registerT_=scratchpadRegister_[n] & 0xff;
                 registerB_=scratchpadRegister_[n] >> 8;
-            }
+            }*/
 			scratchpadRegister_[dataPointer_] = (registerB_ << 8) + registerT_;
 			if (trace_)
 			{
@@ -954,14 +1361,14 @@ void Cdp1802::inst1805()
 
 		case 0xc:  // 1804
 			cpuCycles_ += 3;
-            if (!singleStateStep_)
+  /*          if (computerType_ != CDP18S020)
             {
                 p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                 registerB_=readMemDebug(scratchpadRegister_[programCounter_]++);
                 p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                 registerT_=registerB_;
                 registerB_=readMemDebug(scratchpadRegister_[programCounter_]++);
-            }
+            }*/
 			scratchpadRegister_[n] = (registerT_ << 8) + registerB_;
 			if (trace_)
 			{
@@ -983,13 +1390,13 @@ void Cdp1802::inst1805()
 					case 4:
 						cpuCycles_ += 2;
                         
-                        if (!singleStateStep_)
+     /*                   if (computerType_ != CDP18S020)
                         {
                             bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
                             tempWord = accumulator_ + bus_;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         tempWord = accumulator_ + (dataFlag_ << 8);
                         if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
@@ -1012,13 +1419,13 @@ void Cdp1802::inst1805()
 					case 7:
 						cpuCycles_ += 2;
                         
-                        if (!singleStateStep_)
+            /*            if (computerType_ != CDP18S020)
                         {
                             bus_ = readMemDebug(scratchpadRegister_[dataPointer_]);
                             tempWord = accumulator_+((~bus_)&0xff)+1;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         accumulator_ -= (~dataFlag_&0x1);
                         if (dataFlag_ == 1)
@@ -1054,14 +1461,14 @@ void Cdp1802::inst1805()
 					case 0xc:
 						cpuCycles_ += 2;
                         
-                        if (!singleStateStep_)
+      /*                  if (computerType_ != CDP18S020)
                         {
                             p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                             bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
                             tempWord = accumulator_ + bus_;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         tempWord = accumulator_ + (dataFlag_ << 8);
                         if ((tempWord & 0xf) > 9 || (tempWord & 0xf) < (bus_&0xf))
@@ -1084,14 +1491,14 @@ void Cdp1802::inst1805()
 					case 0xf:
 						cpuCycles_ += 2;
                         
-                        if (!singleStateStep_)
+             /*           if (computerType_ != CDP18S020)
                         {
                             p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
                             bus_ = readMemDebug(scratchpadRegister_[programCounter_]++);
                             tempWord = accumulator_+((~bus_)&0xff)+1;
                             dataFlag_ = (tempWord >> 8) & 0x1;
                             accumulator_ = tempWord & 255;
-                        }
+                        }*/
                         
                         accumulator_ -= (~dataFlag_&0x1);
                         if (dataFlag_ == 1)
@@ -1155,319 +1562,129 @@ void Cdp1802::inst1805()
 	}
 }
 
-void Cdp1802::cpuCycleExecute1805()
+void Cdp1802::cpuCycleStep()
 {
-    wxString buffer;
+    int numberOfCycles;
     
-    Byte i, n, df1;
-    int tempWord;
-    
-    n = instructionCode_ & 15;
-    i = instructionCode_>>4;
-    bus_ = 0;
-
-    switch(i)
+    switch (cpuState_)
     {
-        case 2:
-            if (cpuType_ == CPU1805)
+        case STATE_FETCH_1:
+            if (steps_ != 0)
             {
-                switch (cpuState_)
+                if (!idle_)
                 {
-                    case EXECUTE_3_STATE_1805:
-                        bus_=0;
-                        address_=scratchpadRegister_[n];
-                        scratchpadRegister_[n]--;
-                    break;
-                    case EXECUTE_2_STATE_1805:
-                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        bus_=readMem(scratchpadRegister_[programCounter_]++);
-                        registerB_=bus_;
-                    break;
+                    if (instructionCode_ == 0x68 && (cpuType_ == CPU1805 || cpuType_ == CPU1804))
+                        numberOfCycles = numberOfCycles1805[readMemDebug(scratchpadRegister_[programCounter_]+1)] - 1;
+                    else
+                        numberOfCycles = numberOfCycles1802[readMemDebug(scratchpadRegister_[programCounter_])] - 1;
+                   
+                    cycle0_=0;
+                    machineCycle();
+
+                    if (cycle0_ == 0)
+                    {
+                        while (numberOfCycles-- != 0)
+                            machineCycle();
+                    }
+                    
+                    if (cycle0_ == 0 && steps_ != 0)
+                    {
+                        cpuCycleFetch();
+                        cpuCycles_ ++;
+                    }
+                
+                    showState(STATE_FETCH);
+                }
+                else
+                {
+                    machineCycle();
+                    if (cycle0_ == 0)
+                        machineCycle();
+                   cpuCycles_ +=2;
                 }
             }
             else
-            {
-                if (trace_)
-                {
-                    buffer.Printf("Illegal code");
-                    traceBuffer_ = traceBuffer_ + buffer;
-                }
-                cpuState_ = EXECUTE_1_STATE;
-            }
+                soundCycle();
         break;
             
-        case 6: // 1804
-            switch (cpuState_)
-            {
-                case EXECUTE_3_STATE_1805:
-                    bus_=readMem(scratchpadRegister_[dataPointer_]++);
-                    registerB_=bus_;
-                break;
-                case EXECUTE_2_STATE_1805:
-                    registerT_=registerB_;
-                    bus_=readMem(scratchpadRegister_[dataPointer_]++);
-                    registerB_=bus_;
-                break;
-            }
+        case STATE_FETCH_2:
+            cpuCycleFetch2();
         break;
             
-        case 7:
-            if (cpuType_ == CPU1805)
-            {
-                switch(n)
-                {
-                    case 4:
-                        bus_=readMem(scratchpadRegister_[dataPointer_]);
-                        tempWord = accumulator_ + bus_ + dataFlag_;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    case 6:
-                        switch (cpuState_)
-                        {
-                            case EXECUTE_4_STATE_1805:
-                                scratchpadRegister_[dataPointer_]--;
-                                bus_=0;
-                            break;
-                            case EXECUTE_3_STATE_1805:
-                                writeMem(scratchpadRegister_[dataPointer_]--, registerT_, false);
-                                bus_=registerT_;
-                            break;
-                            case EXECUTE_2_STATE_1805:
-                                bus_=accumulator_;
-                                writeMem(scratchpadRegister_[dataPointer_]--, accumulator_, false);
-                                df1= (dataFlag_) ? 128 : 0;
-                                dataFlag_ = (accumulator_ & 1) ? 1 : 0;
-                                accumulator_ = (accumulator_ >> 1) | df1;
-                            break;
-                        }
-                    break;
-                    case 7:
-                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
-                        bus_ += (~dataFlag_&0x1);
-                        tempWord = accumulator_+((~bus_)&0xff)+1;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    case 0xc:
-                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        bus_=readMem(scratchpadRegister_[programCounter_]++);
-                        tempWord = accumulator_ + bus_ + dataFlag_;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    case 0xf:
-                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        bus_=readMem(scratchpadRegister_[programCounter_]++);
-                        bus_ += (~dataFlag_&0x1);
-                        tempWord = accumulator_+((~bus_)&0xff)+1;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    default:
-                        if (trace_)
-                        {
-                            buffer.Printf("Illegal code");
-                            traceBuffer_ = traceBuffer_ + buffer;
-                        }
-                        cpuState_ = EXECUTE_1_STATE;
-                   break;
-                }
-            }
+        case STATE_EXECUTE_1:
+            cpuCycleExecute1();
+            showState(STATE_EXECUTE);
+            cpuCycles_++;
+        break;
+            
+        case STATE_EXECUTE_1_LBR:
+            cpuCycleExecute1_LBR();
+            showState(STATE_EXECUTE);
+        break;
+            
+        case STATE_EXECUTE_2_LBR:
+            cpuCycleExecute2_LBR();
+        break;
+            
+        case STATE_EXECUTE_1_1805:
+            cpuState_ = startCpuState1804_1805[instructionCode1805_];
+            showState(STATE_EXECUTE);
+            
+            if (cpuState_ == STATE_FETCH_1)
+                cpuCycleExecute2_1805();
             else
-            {
-                if (trace_)
-                {
-                    buffer.Printf("Illegal code");
-                    traceBuffer_ = traceBuffer_ + buffer;
-                }
-                cpuState_ = EXECUTE_1_STATE;
-            }
-            break;
-            
-        case 8: // 1804
-            switch (cpuState_)
-            {
-                case EXECUTE_8_STATE_1805:
-                    bus_=0;
-                    address_=scratchpadRegister_[n];
-                    registerT_=address_ & 0xff;
-                    registerB_=address_ >> 8;
-                break;
-                case EXECUTE_7_STATE_1805:
-                    writeMem(scratchpadRegister_[dataPointer_]--,registerT_, false);
-                    bus_=registerT_;
-                break;
-                case EXECUTE_6_STATE_1805:
-                    writeMem(scratchpadRegister_[dataPointer_]--,registerB_, false);
-                    bus_=registerB_;
-                break;
-                case EXECUTE_5_STATE_1805:
-                    bus_=0;
-                    address_=scratchpadRegister_[programCounter_];
-                    registerT_=address_ & 0xff;
-                    registerB_=address_ >> 8;
-               break;
-                case EXECUTE_4_STATE_1805:
-                    bus_=0;
-                    scratchpadRegister_[n] = (registerB_ << 8) + registerT_;
-                    address_=scratchpadRegister_[n];
-               break;
-                case EXECUTE_3_STATE_1805:
-                    registerB_=readMem(scratchpadRegister_[n]++);
-                    bus_=registerB_;
-                break;
-                case EXECUTE_2_STATE_1805:
-                    registerT_=registerB_;
-                    registerB_=readMem(scratchpadRegister_[n]++);
-                    bus_=registerB_;
-                break;
-            }
+                cpuCycleExecute1_1805();
         break;
             
-        case 9: // 1804
-            switch (cpuState_)
-            {
-                case EXECUTE_6_STATE_1805:
-                    bus_=0;
-                    address_=scratchpadRegister_[n];
-                    registerT_=address_ & 0xff;
-                    registerB_=address_ >> 8;
-                break;
-                case EXECUTE_5_STATE_1805:
-                    bus_=0;
-                    address_=scratchpadRegister_[dataPointer_];
-                    scratchpadRegister_[dataPointer_]++;
-                break;
-                case EXECUTE_4_STATE_1805:
-                    bus_=0;
-                    scratchpadRegister_[programCounter_] = (registerB_ << 8) + registerT_;
-                    address_=scratchpadRegister_[programCounter_];
-                break;
-                case EXECUTE_3_STATE_1805:
-                    registerB_ = readMem(scratchpadRegister_[dataPointer_]++);
-                    bus_=registerB_;
-                break;
-                case EXECUTE_2_STATE_1805:
-                    registerT_=registerB_;
-                    registerB_ = readMem(scratchpadRegister_[dataPointer_]);
-                    bus_=registerB_;
-                break;
-            }
-        break;
+        case STATE_EXECUTE_2_1805:
+        case STATE_EXECUTE_3_1805:
+        case STATE_EXECUTE_4_1805:
+        case STATE_EXECUTE_5_1805:
+        case STATE_EXECUTE_6_1805:
+        case STATE_EXECUTE_7_1805:
+        case STATE_EXECUTE_8_1805:
+            cpuState_--;
             
-        case 0xa: // 1804
-            switch (cpuState_)
-            {
-                case EXECUTE_3_STATE_1805:
-                    bus_=0;
-                    address_=scratchpadRegister_[n];
-                    registerT_=address_ & 0xff;
-                    registerB_=address_ >> 8;
-                break;
-                case EXECUTE_2_STATE_1805:
-                    writeMem(scratchpadRegister_[dataPointer_]--,registerT_, false);
-                    bus_=registerT_;
-                break;
-            }
-        break;
-            
-        case 0xb: // 1804
-            bus_=0;
-            address_=scratchpadRegister_[n];
-            registerT_=address_ & 0xff;
-            registerB_=address_ >> 8;
-       break;
-            
-        case 0xc:  // 1804
-            switch (cpuState_)
-            {
-                case EXECUTE_3_STATE_1805:
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                    registerB_=readMem(scratchpadRegister_[programCounter_]++);
-                    bus_=registerB_;
-                break;
-                case EXECUTE_2_STATE_1805:
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                    registerT_=registerB_;
-                    registerB_=readMem(scratchpadRegister_[programCounter_]++);
-                    bus_=registerB_;
-                break;
-            }
-        break;
-            
-        case 0xf:
-            if (cpuType_ == CPU1805)
-            {
-                switch(n)
-                {
-                    case 4:
-                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
-                        tempWord = accumulator_ + bus_;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    case 7:
-                        bus_ = readMem(scratchpadRegister_[dataPointer_]);
-                        tempWord = accumulator_+((~bus_)&0xff)+1;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    case 0xc:
-                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        bus_ = readMem(scratchpadRegister_[programCounter_]++);
-                        tempWord = accumulator_ + bus_;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    case 0xf:
-                        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-                        bus_ = readMem(scratchpadRegister_[programCounter_]++);
-                        tempWord = accumulator_+((~bus_)&0xff)+1;
-                        dataFlag_ = (tempWord >> 8) & 0x1;
-                        accumulator_ = tempWord & 255;
-                    break;
-                    default:
-                        if (trace_)
-                        {
-                            buffer.Printf("Illegal code");
-                            traceBuffer_ = traceBuffer_ + buffer;
-                        }
-                        cpuState_ = EXECUTE_1_STATE;
-                    break;
-                }
-            }
+            if (cpuState_ == STATE_FETCH_1)
+                cpuCycleExecute2_1805();
             else
-            {
-                if (trace_)
-                {
-                    buffer.Printf("Illegal code");
-                    traceBuffer_ = traceBuffer_ + buffer;
-                }
-                cpuState_ = EXECUTE_1_STATE;
-            }
-        break;
-        default:
-            if (trace_)
-            {
-                buffer.Printf("Illegal code");
-                traceBuffer_ = traceBuffer_ + buffer;
-                cpuState_ = EXECUTE_1_STATE;
-            }
+                cpuCycleExecute1_1805();
         break;
     }
+  
+    if (cpuState_ == STATE_FETCH_1)
+    {
+        
+        if (debugMode_)
+        {
+            p_Main->showInstructionTrace();
+            p_Main->cycleDebug();
+        }
+        
+        if (pseudoLoaded_)
+            p_Main->cyclePseudoDebug();
+
+        playSaveLoad();
+        p_Computer->checkComputerFunction();
+    }
+    
+    if (resetPressed_)
+        p_Computer->resetPressed();
+    
+    showAddress(address_);
+    showCycleData(bus_);
+    
+    if (singleStateStep_)
+        singleStateStep();
 }
 
-void Cdp1802::cpuCycle()
+void Cdp1802::singleStateStep()
 {
-	if (cpuMode_ != RUN) return;
-	if (idle_) return;
-    
-    cpuCycleFetch();
-    cpuCycleExecute();
-    cpuCycleFinalize();
+    setWait(0);
+    setWaitLed();
+    setGoTimer();
 }
-    
+
 void Cdp1802::cpuCycleFetch()
 {
     if (trace_)
@@ -1476,6 +1693,7 @@ void Cdp1802::cpuCycleFetch()
     }
     
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
+    bus_=instructionCode_;
     if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]) >= MEM_TYPE_OPCODE_RSHR)
     {
         switch (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]))
@@ -1483,76 +1701,89 @@ void Cdp1802::cpuCycleFetch()
             case MEM_TYPE_OPCODE_RSHR:
                 if (instructionCode_ != 0x76)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_RSHL:
                 if (instructionCode_ != 0x7E)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_BPZ:
                 if (instructionCode_ != 0x33)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_BGE:
                 if (instructionCode_ != 0x33)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_BM:
                 if (instructionCode_ != 0x3b)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_BL:
                 if (instructionCode_ != 0x3b)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_LSKP:
                 if (instructionCode_ != 0xc8)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_SKP:
                 if (instructionCode_ != 0x38)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_LBR_SLOT:
                 if ((instructionCode_&0xf0) != 0xC0)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_LDV:
             case MEM_TYPE_OPCODE_LDL:
             case MEM_TYPE_OPCODE_LDL_SLOT:
                 if (instructionCode_ != 0xF8)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPERAND_LD_2:
                 if ((instructionCode_&0xf0) != 0xB0)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPERAND_LD_3:
                 if (instructionCode_ != 0xF8)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPERAND_LD_5:
                 if ((instructionCode_&0xf0) != 0xA0)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
             case MEM_TYPE_OPCODE_RLDL:
                 if (instructionCode_ != 68 && (readMem(scratchpadRegister_[programCounter_]+1)&0xf0) != 0xc0)
                     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-                break;
+            break;
         }
     }
     else
         p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
     
     scratchpadRegister_[programCounter_]++;
+
+    if (instructionCode_ == 0x68 && (cpuType_ == CPU1805 || cpuType_ == CPU1804))
+        cpuState_ = STATE_FETCH_2;
+    else
+    {
+        if ((instructionCode_ & 0xf0) == 0xc0)
+            cpuState_ = STATE_EXECUTE_1_LBR;
+        else
+            cpuState_ = STATE_EXECUTE_1;
+    }
 }
 
 void Cdp1802::cpuCycleFetch2()
 {
     p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPERAND);
-    instructionCode_ = readMem(scratchpadRegister_[programCounter_]++);
+    instructionCode1805_ = readMem(scratchpadRegister_[programCounter_]++);
+    bus_=instructionCode1805_;
+    
+    cpuState_ = STATE_EXECUTE_1_1805;
 }
 
-void Cdp1802::cpuCycleExecute()
+void Cdp1802::cpuCycleExecute1()
 {
     wxString buffer;
     Byte i, h,l,n;
@@ -2042,8 +2273,8 @@ void Cdp1802::cpuCycleExecute()
 			if (n == 8 && (cpuType_ == CPU1805 || cpuType_ == CPU1804))
 			{
                 cpuCycleFetch2();
-				inst1805();
-				break;
+				cpuCycleExecute2_1805();
+				return;
 			}
 			if (n <= 7)
 			{
@@ -2810,8 +3041,8 @@ void Cdp1802::cpuCycleExecute()
 					}
 				break;
 			}
-            if (computerType_ != CDP18S020)
-                machineCycle();
+//            if (computerType_ != CDP18S020)
+ //               machineCycle();
 		break;
 		case 0xd:
 			if (trace_)
@@ -3101,6 +3332,364 @@ void Cdp1802::cpuCycleExecute()
 			}
 		break;
 	}
+    cpuCycleFinalize();
+}
+
+void Cdp1802::cpuCycleExecute1_LBR()
+{
+    cpuCycles_++;
+    Byte n = instructionCode_ & 0xf;
+
+    address_ = scratchpadRegister_[programCounter_];
+    bus_ = readMem(address_);
+
+    switch(n)
+    {
+        case 0:
+            setRegisterB(bus_);
+            scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 1:
+            if (flipFlopQ_)
+                setRegisterB(bus_);
+            scratchpadRegister_[programCounter_]++;
+        break;
+
+        case 2:
+            if (!accumulator_)
+                setRegisterB(bus_);
+            scratchpadRegister_[programCounter_]++;
+        break;
+
+        case 3:
+            if (dataFlag_)
+                setRegisterB(bus_);
+            scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 5:
+            if (!flipFlopQ_)
+                scratchpadRegister_[programCounter_]++;
+        break;
+
+        case 6:
+            if (accumulator_)
+                scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 7:
+            if (!dataFlag_)
+                scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 8:
+            scratchpadRegister_[programCounter_]++;
+        break;
+        
+        case 9:
+            if (!flipFlopQ_)
+                setRegisterB(bus_);
+            scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 0xa:
+            if (accumulator_)
+                setRegisterB(bus_);
+            scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 0xb:
+            if (!dataFlag_)
+                setRegisterB(bus_);
+            scratchpadRegister_[programCounter_]++;
+        break;
+
+        case 0xc:
+            if (interruptEnable_)
+                scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 0xd:
+            if (flipFlopQ_)
+                scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 0xe:
+            if (!accumulator_)
+                scratchpadRegister_[programCounter_]++;
+        break;
+            
+        case 0xf:
+            if (dataFlag_)
+                scratchpadRegister_[programCounter_]++;
+        break;
+
+    }
+    cpuState_ = STATE_EXECUTE_2_LBR;
+}
+
+void Cdp1802::cpuCycleExecute2_LBR()
+{
+    cpuCycles_++;
+    wxString buffer;
+
+    Byte n = instructionCode_ & 0xf;
+    
+    Word instructionAddress = address_-1;
+    Word firstOperandAddress = address_;
+    Word secondOperandAddress = address_+1;
+
+    Byte highByteBranchAddress=bus_;
+    Byte lowByteBranchAddress=readMemDebug(secondOperandAddress);
+    Word branchAddress=(registerB_<<8)|lowByteBranchAddress;
+
+    switch(n)
+    {
+        case 0:
+            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            {
+                p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
+                p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
+            }
+            bus_=lowByteBranchAddress;
+            scratchpadRegister_[programCounter_]=branchAddress;
+            address_++;
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
+            if (trace_)
+            {
+                buffer.Printf("LBR  %02X%02X",highByteBranchAddress,lowByteBranchAddress);
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 1:
+            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            {
+                p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
+                p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
+            }
+            bus_=lowByteBranchAddress;
+            if (flipFlopQ_)
+                scratchpadRegister_[programCounter_]=branchAddress;
+            else
+                scratchpadRegister_[programCounter_]++;
+            address_++;
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
+            if (trace_)
+            {
+                buffer.Printf("LBQ  %02X%02X",highByteBranchAddress,lowByteBranchAddress);
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 2:
+            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            {
+                p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
+                p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
+            }
+            bus_=lowByteBranchAddress;
+            if (!accumulator_)
+                scratchpadRegister_[programCounter_]=branchAddress;
+            else
+                scratchpadRegister_[programCounter_]++;
+            address_++;
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
+            if (trace_)
+            {
+                buffer.Printf("LBZ  %02X%02X",highByteBranchAddress,lowByteBranchAddress);
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 3:
+            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            {
+                p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
+                p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
+            }
+            bus_=lowByteBranchAddress;
+            if (dataFlag_)
+                scratchpadRegister_[programCounter_]=branchAddress;
+            else
+                scratchpadRegister_[programCounter_]++;
+            address_++;
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
+            if (trace_)
+            {
+                buffer.Printf("LBDF %02X%02X",highByteBranchAddress,lowByteBranchAddress);
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 4:
+            if (trace_)
+            {
+                buffer.Printf("NOP");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+            address_--;
+        break;
+        case 5:
+            if (!flipFlopQ_)
+            {
+                scratchpadRegister_[programCounter_]++;
+                address_++;
+                bus_=lowByteBranchAddress;
+            }
+            if (trace_)
+            {
+                buffer.Printf("LSNQ");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 6:
+            if (accumulator_)
+            {
+                scratchpadRegister_[programCounter_]++;
+                address_++;
+                bus_=lowByteBranchAddress;
+            }
+            if (trace_)
+            {
+                buffer.Printf("LSNZ");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 7:
+            if (!dataFlag_)
+            {
+                scratchpadRegister_[programCounter_]++;
+                address_++;
+                bus_=lowByteBranchAddress;
+            }
+            if (trace_)
+            {
+                buffer.Printf("LSNF");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 8:
+            scratchpadRegister_[programCounter_]++;
+            address_++;
+            bus_=lowByteBranchAddress;
+            if (trace_)
+            {
+                if (p_Computer->readMemDataType(instructionAddress) == MEM_TYPE_OPCODE_LSKP)
+                    buffer.Printf("LSKP");
+                else
+                    buffer.Printf("NLBR");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 9:
+            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            {
+                p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
+                p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
+            }
+            bus_=lowByteBranchAddress;
+            if (!flipFlopQ_)
+                scratchpadRegister_[programCounter_]=branchAddress;
+            else
+                scratchpadRegister_[programCounter_]++;
+            address_++;
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
+            if (trace_)
+            {
+                buffer.Printf("LBNQ %02X%02X",highByteBranchAddress,lowByteBranchAddress);
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 0xa:
+            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            {
+                p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
+                p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
+            }
+            bus_=lowByteBranchAddress;
+            if (accumulator_)
+                scratchpadRegister_[programCounter_]=branchAddress;
+            else
+                scratchpadRegister_[programCounter_]++;
+            address_++;
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
+            if (trace_)
+            {
+                buffer.Printf("LBNZ %02X%02X",highByteBranchAddress,lowByteBranchAddress);
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 0xb:
+            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            {
+                p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
+                p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
+            }
+            bus_=lowByteBranchAddress;
+            if (!dataFlag_)
+                scratchpadRegister_[programCounter_]=branchAddress;
+            else
+                scratchpadRegister_[programCounter_]++;
+            address_++;
+            p_Computer->writeMemLabelType(branchAddress, LABEL_TYPE_JUMP);
+            if (trace_)
+            {
+                buffer.Printf("LBNF %02X%02X",highByteBranchAddress,lowByteBranchAddress);
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 0xc:
+            if (interruptEnable_)
+            {
+                scratchpadRegister_[programCounter_]++;
+                address_++;
+                bus_=lowByteBranchAddress;
+            }
+            if (trace_)
+            {
+                buffer.Printf("LSIE");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 0xd:
+            if (flipFlopQ_)
+            {
+                scratchpadRegister_[programCounter_]++;
+                address_++;
+                bus_=lowByteBranchAddress;
+            }
+            if (trace_)
+            {
+                buffer.Printf("LSQ");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 0xe:
+            if (!accumulator_)
+            {
+                scratchpadRegister_[programCounter_]++;
+                address_++;
+                bus_=lowByteBranchAddress;
+            }
+            if (trace_)
+            {
+                buffer.Printf("LSZ");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+        case 0xf:
+            if (dataFlag_)
+            {
+                scratchpadRegister_[programCounter_]++;
+                address_++;
+                bus_=lowByteBranchAddress;
+            }
+            if (trace_)
+            {
+                buffer.Printf("LSDF");
+                traceBuffer_ = traceBuffer_ + buffer;
+            }
+        break;
+    }
+    cpuCycleFinalize();
 }
 
 void Cdp1802::cpuCycleFinalize()
@@ -3111,6 +3700,8 @@ void Cdp1802::cpuCycleFinalize()
         skipTrace_ = false;
     if (startHiddenTrace_)
         skipTrace_ = true;
+    
+    cpuState_ = STATE_FETCH_1;
 }
 
 bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool showFilename)
@@ -4193,7 +4784,7 @@ void Cdp1802::setDebugMode (bool debugModeNew, bool debugChip8ModeNew, bool trac
 
 void Cdp1802::debugTrace (wxString text)
 {
-	if (trace_)
+	if (trace_ && !singleStateStep_)
 		p_Main->debugTrace(text);
 }
 

@@ -349,37 +349,16 @@ void Nano::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkNanoFunction();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			addressLatch_ = 0x8000;
-			initPixie();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
+}
+
+void Nano::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    addressLatch_ = 0x8000;
+    initPixie();
 }
 
 void Nano::onReset()
@@ -387,7 +366,7 @@ void Nano::onReset()
 	resetPressed_ = true;
 }
 
-void Nano::checkNanoFunction()
+void Nano::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

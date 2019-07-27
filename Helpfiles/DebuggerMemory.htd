@@ -13,7 +13,7 @@ The default view will show the first 256 bytes of main CPU memory from the emula
 To change the value of a 'memory address' select the value and change it. Note both ROM and RAM values can be changed! 
 </p>
 <p>
-When running a COMX, TMC600 or Pecom 64 emulation the actual CDP 1870 characters will be shown in black and white per address value at the right of the hexadecimal values. When running other computers the values will be shown in a regular character set.
+When running a COMX, TMC600 or Pecom emulation the actual CDP 1870 characters will be shown in black and white per address value at the right of the hexadecimal values. When running other computers the values will be shown in a regular character set.
 </p>
 <p>
 The following additional features are available on windows and OS X, currently not implemented in the Linux version:  Move up or down 1 page by using the spin button left from the address field. After editing one byte the next address will be selected automatically. After the last byte of the page is changed the next page will be shown. 
@@ -92,7 +92,7 @@ C. = Victory Colour RAM Access<br>
 <p>
 When changing any of these values the RCA Studio II, RCA Studio III / Victory MPT-02 and/or Visicom COM-100 emulation might not work anymore!
 </p>
-<h4>Values allowed in Cidelsa, Telmac TMC 600 and Pecom 64 emulation</h4> 
+<h4>Values allowed in Cidelsa, Telmac TMC 600 and Pecom emulation</h4> 
 <p>
 space = UNDEFINED<br>
 . = RAM<br>
@@ -101,7 +101,7 @@ PR = 1870 Page RAM<br>
 CR = 1870 Character RAM<br>
 </p>
 <p>
-When changing any of these values the Cidelsa, Telmac TMC 600 and/or Pecom 64 emulation might not work anymore!
+When changing any of these values the Cidelsa, Telmac TMC 600 and/or Pecom emulation might not work anymore!
 </p>
 <h3>COMX Expansion Slot, 32K RAM Card and EPROM Switchboard</h3>
 <p>

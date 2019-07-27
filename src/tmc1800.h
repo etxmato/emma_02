@@ -33,8 +33,9 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void writeMem(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
-	void checkTMC1800Function();
+	void checkComputerFunction();
 
 private:
 	Byte telmac1800KeyPort_;

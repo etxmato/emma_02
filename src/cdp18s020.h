@@ -47,8 +47,10 @@ public:
 	Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
 	void switchQ(int value);
-    void showData(Byte val);
+    void showCycleData(Byte val);
     void showAddress(Word val);
+    void showState(int state);
+    void setWaitLed();
 	void cycle(int type);
     void cycleLed();
 
@@ -60,6 +62,7 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
 	void updateTitle(wxString Title);
     void onResetButton(wxCommandEvent&event);
@@ -73,14 +76,15 @@ public:
     void terminalStop();
     
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
-
+    void setAddressLatch(Word bootAddress);
+    
 private:
 	ElfConfiguration cdp18s020Configuration;
 	Vt100 *vtPointer;
 
     int ledCycleValue_;
     int ledCycleSize_;
-    int setLedCycleSize_;
+    int setMsValue_;
 
     Byte ef4State_;
     bool mpButtonState_[4];

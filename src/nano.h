@@ -31,8 +31,9 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
-	void checkNanoFunction();
+	void checkComputerFunction();
 
 private:
 	Byte NanoKeyPort_;

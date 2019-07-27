@@ -409,38 +409,7 @@ void CoinArcade::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-
-            setWait(1);
-			setClear(0);
-			setWait(1);
-			setClear(1);
-			initPixie();
-            if (mainMemory_[0] == 0)
-                p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -448,6 +417,20 @@ void CoinArcade::cpuInstruction()
 		cpuCycles_ = 0;
 		p_Main->startTime();
 	}
+}
+
+void CoinArcade::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
+    initPixie();
+    if (mainMemory_[0] == 0)
+        p_Computer->dmaOut(); // skip over IDL instruction, must be a RCA FRED COSMAC 1801 Game System
 }
 
 void CoinArcade::onReset()

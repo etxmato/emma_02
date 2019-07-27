@@ -592,7 +592,6 @@ void Super::initComputer()
 	switches_ = 0;
 	lastMode_ = UNDEFINDEDMODE;
 	monitor_ = false;
- 	singleStep_ = 0;
 	ef3State_ = 1;
 	ef4State_ = 1;
 	elfRunState_ = RESETSTATE;
@@ -870,6 +869,12 @@ void Super::showData(Byte val)
         superScreenPointer->showDataTil313Italic(val);
 }
 
+void Super::showCycleData(Byte val)
+{
+    if (singleStateStep_)
+        showData(val);
+}
+
 void Super::cycle(int type)
 {
 	switch(cycleType_[type])
@@ -947,42 +952,58 @@ void Super::cycleLed()
             superScreenPointer->ledTimeout();
         }
     }
+    if (goCycleValue_ > 0)
+    {
+        goCycleValue_ --;
+        if (goCycleValue_ <= 0)
+        {
+            goCycleValue_ = goCycleSize_;
+            wxMouseState mouseState = wxGetMouseState ();
+            
+            if (mouseState.LeftIsDown())
+                setWait(1);
+            else
+                goCycleValue_ = -1;
+        }
+    }
 }
 
-void Super::cycleA()
+void Super::setGoTimer()
 {
-	if (cpuMode_ != lastMode_)
-	{
-		superScreenPointer->setLed(0,0);
-		superScreenPointer->setLed(1,0);
-		superScreenPointer->setLed(2,0);
-		superScreenPointer->setLed(3,0);
-		switch(cpuMode_)
-		{
-			case LOAD: superScreenPointer->setLed(0,1); break;
-			case RESET: superScreenPointer->setLed(1,1); break;
-			case RUN: superScreenPointer->setLed(2,1); break;
-			case PAUSE: superScreenPointer->setLed(3,1); break;
-		}
-		lastMode_ = cpuMode_;
-	}
-	if (cpuMode_ == RUN && singleStep_ != 0 && state_ == 'F')
-	{
-		superScreenPointer->setLed(4,1);
-		superScreenPointer->setLed(5,0);
-		state_ = 'E';
-		setWait(0);
-	}
+    goCycleValue_ = goCycleSize_;
 }
 
-void Super::cycleB()
+void Super::showState(int state)
 {
-	if (singleStep_ != 0)
-	{
-		superScreenPointer->setLed(4,0);
-		superScreenPointer->setLed(5,1);
-		setWait(0);
-	}
+    switch (state)
+    {
+        case STATE_FETCH:
+            superScreenPointer->setLed(4, 1);
+            superScreenPointer->setLed(5, 0);
+        break;
+
+        case STATE_EXECUTE:
+            superScreenPointer->setLed(4, 0);
+            superScreenPointer->setLed(5, 1);
+        break;
+            
+        default:
+            superScreenPointer->setLed(4, 0);
+            superScreenPointer->setLed(5, 0);
+        break;
+    }
+    superScreenPointer->setLed(6, 0);
+    superScreenPointer->setLed(7, 0);
+}
+
+void Super::showDmaLed()
+{
+    superScreenPointer->setLed(6, 1);
+}
+
+void Super::showIntLed()
+{
+    superScreenPointer->setLed(7, 1);
 }
 
 void Super::autoBoot()
@@ -1032,7 +1053,6 @@ void Super::onRun()
 	}
 	else
 	{
-		lastMode_ = cpuMode_;
 		setClear(0);
 		setWait(1);
 		p_Main->eventUpdateTitle();
@@ -1043,10 +1063,8 @@ void Super::onRun()
             else
                 superScreenPointer->showAddressTil313Italic(0);
         }
-		singleStep_ = 0;
 		mpButtonState_ = 0;
 		monitor_ = false;
-		state_ = 'F';
 	}
 }
 
@@ -1057,11 +1075,9 @@ void Super::onPause(wxCommandEvent&WXUNUSED(event))
 
 void Super::onPause()
 {
-	setClear(1);
 	setWait(0);
 	p_Main->eventUpdateTitle();
 	mpButtonState_ = 0;
-	singleStep_ = 0;
 }
 
 void Super::onMpButton(wxCommandEvent&WXUNUSED(event))
@@ -1104,19 +1120,25 @@ void Super::onLoadButton()
         else
             superScreenPointer->showAddressTil313Italic(0);
     }
-    lastMode_ = cpuMode_;
     setClear(0);
     setWait(0);
 }
 
 void Super::onSingleStep(wxCommandEvent&WXUNUSED(event))
 {
-	singleStep_ = 1;
+    onSingleStep();
 }
 
 void Super::onSingleStep()
 {
-	singleStep_ = 1;
+    singleStateStep_ = !singleStateStep_;
+    if (singleStateStep_)
+    {
+        setMsValue_ = (int) p_Main->getLedTimeMs(SUPERELF);
+        setLedMs(0);
+    }
+    else
+        setLedMs(setMsValue_);
 }
 
 void Super::onResetButton(wxCommandEvent&WXUNUSED(event))
@@ -1126,7 +1148,8 @@ void Super::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Super::onResetButton()
 {
-    lastMode_ = cpuMode_;
+    singleStateStep_ = false;
+    lastMode_ = UNDEFINDEDMODE;
     setClear(0);
     setWait(1);
     if (cpuMode_ == RESET)
@@ -1136,10 +1159,8 @@ void Super::onResetButton()
         else
             superScreenPointer->showAddressTil313Italic(0);
     }
-    singleStep_ = 0;
     mpButtonState_ = 0;
     monitor_ = false;
-    state_ = 'F';
 }
 
 void Super::onNumberKeyDown(wxCommandEvent&event)
@@ -1304,6 +1325,8 @@ void Super::startComputer()
     else
         ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
+    goCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * 500;
+    goCycleValue_ = -1;
 
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
@@ -1705,54 +1728,25 @@ void Super::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Super::cpuInstruction()
 {
-	cycleA();
+    if (cpuMode_ != lastMode_)
+    {
+        superScreenPointer->setLed(0,0);
+        superScreenPointer->setLed(1,0);
+        superScreenPointer->setLed(2,0);
+        superScreenPointer->setLed(3,0);
+        switch(cpuMode_)
+        {
+            case LOAD: superScreenPointer->setLed(0,1); break;
+            case RESET: superScreenPointer->setLed(1,1); break;
+            case RUN: superScreenPointer->setLed(2,1); break;
+            case PAUSE: superScreenPointer->setLed(3,1); break;
+        }
+        lastMode_ = cpuMode_;
+    }
+    
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkElfFunction();
-		if (resetPressed_)
-		{
-			resetCpu();
-            if (elfConfiguration.bootStrap)
-                bootstrap_ = 0x8000;
-            else
-                bootstrap_ = 0;
-
-            if (elfConfiguration.use8275)
-				i8275Pointer->cRegWrite(0x40);
-			if (elfConfiguration.autoBoot)
-			{
-				scratchpadRegister_[0]=p_Main->getBootAddress("SuperElf", SUPERELF);
-				autoBoot();
-			}
-			resetPressed_ = false;
-			elfRunState_ = RESETSTATE;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-			startElfKeyFile("SuperElf");
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
-		state_ = 'F';
-		cycleB();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -1766,6 +1760,28 @@ void Super::cpuInstruction()
             ledCycleValue_ = 1;
 		}
 	}
+}
+
+void Super::resetPressed()
+{
+    resetCpu();
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+    else
+        bootstrap_ = 0;
+    
+    if (elfConfiguration.use8275)
+        i8275Pointer->cRegWrite(0x40);
+    if (elfConfiguration.autoBoot)
+    {
+        scratchpadRegister_[0]=p_Main->getBootAddress("SuperElf", SUPERELF);
+        autoBoot();
+    }
+    resetPressed_ = false;
+    elfRunState_ = RESETSTATE;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    startElfKeyFile("SuperElf");
 }
 
 void Super::configureElfExtensions()

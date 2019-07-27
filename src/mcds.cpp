@@ -466,42 +466,22 @@ void Mcds::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Mcds::cpuInstruction()
 {
-    if (steps_ != 0)
-    {
-        cycle0_=0;
-        machineCycle();
-        if (cycle0_ == 0) machineCycle();
-        if (cycle0_ == 0 && steps_ != 0)
-        {
-            cpuCycle();
-            cpuCycles_ += 2;
-        }
-        if (debugMode_)
-            p_Main->showInstructionTrace();
-		}
-    else
-        soundCycle();
+    cpuCycleStep();
+}
 
-    playSaveLoad();
-    checkMcdsFunction();
+void Mcds::resetPressed()
+{
+    resetCpu();
+    initComputer();
     
-    if (resetPressed_)
-    {
-        resetCpu();
-        initComputer();
-
-        if (McdsConfiguration.bootRam)
-            bootstrap_ = 0;
-        else
-            bootstrap_ = 0x8000;
-        
-        p_Main->setSwName("");
-        p_Main->eventUpdateTitle();
-        resetPressed_ = false;
-    }
-    if (debugMode_)
-        p_Main->cycleDebug();
-
+    if (McdsConfiguration.bootRam)
+        bootstrap_ = 0;
+    else
+        bootstrap_ = 0x8000;
+    
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    resetPressed_ = false;
 }
 
 void Mcds::moveWindows()
@@ -529,7 +509,7 @@ void Mcds::updateTitle(wxString Title)
         vtPointer->SetTitle("MCDS - VT 100"+Title);
 }
 
-void Mcds::checkMcdsFunction()
+void Mcds::checkComputerFunction()
 {
     wxString buffer;
 

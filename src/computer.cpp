@@ -1357,7 +1357,18 @@ void Computer::removeElfLedModule()
 
 void Computer::showData(Byte WXUNUSED(val))
 {
-	p_Main->message("Illegal call to display TIL311 data display");
+}
+
+void Computer::showCycleData(Byte WXUNUSED(val))
+{
+}
+
+void Computer::showDmaLed()
+{
+}
+
+void Computer::showIntLed()
+{
 }
 
 void Computer::resetVideo()
@@ -1947,6 +1958,10 @@ void Computer::setAutoKeyDef(bool WXUNUSED(autoKeyDef))
 }
 
 void Computer::showAddress(Word WXUNUSED(address))
+{
+}
+
+void Computer::showState(int WXUNUSED(state))
 {
 }
 

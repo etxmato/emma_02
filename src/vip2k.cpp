@@ -108,7 +108,6 @@ void Vip2K::initComputer()
     shiftEf_ = 1;
     ctlEf_ = 1;
 
-	runPressed_ = false;
 	stateQ_ = 0;
 
 	vipRunCommand_ = 0;
@@ -307,11 +306,6 @@ void Vip2K::keyUp(int keycode)
             ctlEf_ = 1;
         break;
     }
-}
-
-void Vip2K::onRun()
-{
-	runPressed_ = true;
 }
 
 Byte Vip2K::ef(int flag)
@@ -616,63 +610,22 @@ void Vip2K::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Vip2K::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-            machineCycle();
-//            machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-//            if (steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
+    cpuCycleStep();
 
-		playSaveLoad();
-		checkVipFunction();
+}
 
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			initPixie();
-			vipRunState_ = RESETSTATE;
-            for (int i=1; i<6; i++)
-            {
-                vipKeyState_[i] = 0xff;
-            }
-            shiftEf_ = 1;
-            ctlEf_ = 1;
-		}
-		if (runPressed_)
-		{
-			setClear(0);
-			p_Main->eventUpdateTitle();
-			runPressed_ = false;
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
-	}
-	else
-	{
-		if (runPressed_)
-		{
-			setClear(1);
-			p_Main->eventUpdateTitle();
-			initPixie();
-			runPressed_ = false;
-		}
-	}
+void Vip2K::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    initPixie();
+    vipRunState_ = RESETSTATE;
+    for (int i=1; i<6; i++)
+    {
+        vipKeyState_[i] = 0xff;
+    }
+    shiftEf_ = 1;
+    ctlEf_ = 1;
 }
 
 void Vip2K::moveWindows()
@@ -775,7 +728,7 @@ void Vip2K::terminalStop()
     ctlEf_ = 1;
 }
 
-void Vip2K::checkVipFunction()
+void Vip2K::checkComputerFunction()
 {
     
 }

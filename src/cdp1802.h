@@ -15,19 +15,35 @@ using namespace std;
 #define RUN 3
 #define UNDEFINDEDMODE 5
 
-#define FETCH_STATE_1 0
-#define FETCH_STATE_2 1
-#define EXECUTE_2_STATE 2
-#define EXECUTE_1_STATE 3 // This should always be 1 lower than EXECUTE_2_STATE_1805
-#define EXECUTE_2_STATE_1805 4
-#define EXECUTE_3_STATE_1805 5
-#define EXECUTE_4_STATE_1805 6
-#define EXECUTE_5_STATE_1805 7
-#define EXECUTE_6_STATE_1805 8
-#define EXECUTE_7_STATE_1805 9
-#define EXECUTE_8_STATE_1805 10
-#define DMA_STATE 11
-#define INTERRUPT_STATE 12
+#define STATE_FETCH 0
+#define STATE_EXECUTE 1
+#define STATE_DMA 2
+#define STATE_INTERRUPT 3
+
+#define STATE_FETCH_1 5 // This should always be 1 lower than STATE_EXECUTE_2_1805
+#define STATE_FETCH_2 0
+#define STATE_EXECUTE_1 1
+#define STATE_EXECUTE_1_LBR 2
+#define STATE_EXECUTE_2_LBR 3
+#define STATE_EXECUTE_1_1805 4
+#define STATE_EXECUTE_2_1805 6
+#define STATE_EXECUTE_2_1805 6
+#define STATE_EXECUTE_3_1805 7
+#define STATE_EXECUTE_4_1805 8
+#define STATE_EXECUTE_5_1805 9
+#define STATE_EXECUTE_6_1805 10
+#define STATE_EXECUTE_7_1805 11
+#define STATE_EXECUTE_8_1805 12
+
+#define INT_STD 0
+#define INT_PIXIE 1
+
+/*
+#define DMA_IN 0
+#define DMA_OUT 1
+#define DMA_PIXIE 2
+#define DMA_VISICOM 3
+#define DMA_COLOR 4*/
 
 class Cdp1802 : public IoDevice, public Memory, public Sound
 {
@@ -45,20 +61,23 @@ public:
 	int getClear() {return clear_;};
 	void setWait(int value);
 	int getWait() {return wait_;};
-    void cpuCycle();
+    void cpuCycleStep();
+    void singleStateStep();
     void cpuCycleFetch();
     void cpuCycleFetch2();
-    void cpuCycleExecute();
+    void cpuCycleExecute1();
+    void cpuCycleExecute1_LBR();
+    void cpuCycleExecute2_LBR();
     void cpuCycleFinalize();
-    void inst1805();
-    void cpuCycleExecute1805();
+    void cpuCycleExecute1_1805();
+    void cpuCycleExecute2_1805();
 	void dmaIn(Byte value);
 	Byte dmaOut();
 	Byte pixieDmaOut(int *color);
 	void visicomDmaOut(Byte *vram1, Byte *vram2);
 	Byte pixieDmaOut();
 
-	void interrupt();
+    void interrupt();
 	void pixieInterrupt();
 	void setEf(int flag, int value);
 
@@ -151,6 +170,7 @@ protected:
 
     Byte bus_;
     Byte instructionCode_;
+    Byte instructionCode1805_;
     wxString traceBuffer_;
     bool stopHiddenTrace_;
     bool startHiddenTrace_;
@@ -196,6 +216,9 @@ private:
 	bool traceDma_;
 	bool traceInt_;
 	bool traceChip8Int_;
+    
+    int interruptType_;
+    int dmaType_;
 
 	// 1805 stuff
 	Byte tq_;

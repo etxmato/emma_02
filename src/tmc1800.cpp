@@ -363,42 +363,13 @@ void Tmc1800::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkTMC1800Function();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			addressLatch_ = 0x8000;
-			initPixie();
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
 			p_Main->eventUpdateTitle();
 			runPressed_ = false;
 		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
 	}
 	else
 	{
@@ -413,12 +384,20 @@ void Tmc1800::cpuInstruction()
 	}
 }
 
+void Tmc1800::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    addressLatch_ = 0x8000;
+    initPixie();
+}
+
 void Tmc1800::onReset()
 {
 	resetPressed_ = true;
 }
 
-void Tmc1800::checkTMC1800Function()
+void Tmc1800::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

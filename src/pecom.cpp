@@ -886,52 +886,34 @@ void Pecom::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			machineCycle();
-			machineCycle();
-			if (steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkPecomFunction();
-
-		if (resetPressed_)
-		{
-			closePecomKeyFile();
-			keyDown_ = false;
-			videoRAM_ = false;
-			ctrlEf1_ = 0;
-			shiftEf2_ = 0;
-			shiftEf3_ = 0;
-			escEf4_ = 0;
-			addressLatch_ = 0x8000;
-			resetCpu();
-			resetPressed_ = false;
-			dmaCounter_ = -100;
-/*			if (!wxGetKeyState (WXK_CAPITAL))
-			{
-#ifdef __WXMSW__
-				::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
-				::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
-#endif
-			}*/
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-			pecomRunCommand_ = 0;
-			startPecomKeyFile();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
+}
+
+void Pecom::resetPressed()
+{
+    closePecomKeyFile();
+    keyDown_ = false;
+    videoRAM_ = false;
+    ctrlEf1_ = 0;
+    shiftEf2_ = 0;
+    shiftEf3_ = 0;
+    escEf4_ = 0;
+    addressLatch_ = 0x8000;
+    resetCpu();
+    resetPressed_ = false;
+    dmaCounter_ = -100;
+    /*            if (!wxGetKeyState (WXK_CAPITAL))
+     {
+     #ifdef __WXMSW__
+     ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
+     ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
+     #endif
+     }*/
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    pecomRunCommand_ = 0;
+    startPecomKeyFile();
 }
 
 void Pecom::onReset()
@@ -994,7 +976,7 @@ void Pecom::printOutPecom(int q)
 	}
 }
 
-void Pecom::checkPecomFunction()
+void Pecom::checkComputerFunction()
 {
     if (pecom32_)
     {

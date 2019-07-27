@@ -554,7 +554,7 @@ void Pixie::cyclePixie()
 
 	if (graphicsNext_ == 0)
 	{
-		p_Computer->debugTrace("----  H.Sync");
+        p_Computer->debugTrace("----  H.Sync");
 		graphicsMode_++;
 		if (graphicsMode_ == 60) pixieEf_ = 0;
 		if (graphicsMode_ == 64) pixieEf_ = 1;

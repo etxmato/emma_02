@@ -775,67 +775,7 @@ void Victory::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-        checkFunction();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
- 
-            p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-            p_Main->getDefaultHexKeys(VICTORY, "Victory", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
-
-            simDefA2_ = p_Main->getConfigBool("/Victory/DiagonalA2", true);
-            simDefB2_ = p_Main->getConfigBool("/Victory/DiagonalB2", true);
-            
-            if (multiCart_)
-			{
-				wxString game;
-                if (multiCartRom_[(0xa00 + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] < 32)
-                    game = p_Main->getMultiCartGame(multiCartMsb_, multiCartLsb_);
-                else
-                    game = getMultiCartGame();
-                if (gameAuto_)
-					p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-				if (game.Find('.'))
-					game = game.BeforeFirst('.');
-				p_Main->setSwName(game);
-                p_Main->eventUpdateTitle();
-			}
-			else
-			{
-				if (gameAuto_)
-					p_Main->loadKeyDefinition("", p_Main->getRomFile(VICTORY, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-			}
-
-            reDefineKeysA(keyDefA1_, keyDefA2_);
-            reDefineKeysB(keyDefB1_, keyDefB2_);
-            
-			setWait(1);
-			setClear(0);
-			setWait(1);
-			setClear(1);
-			initPixie();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -845,12 +785,53 @@ void Victory::cpuInstruction()
 	}
 }
 
+void Victory::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    
+    p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(VICTORY, "Victory", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    
+    simDefA2_ = p_Main->getConfigBool("/Victory/DiagonalA2", true);
+    simDefB2_ = p_Main->getConfigBool("/Victory/DiagonalB2", true);
+    
+    if (multiCart_)
+    {
+        wxString game;
+        if (multiCartRom_[(0xa00 + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] < 32)
+            game = p_Main->getMultiCartGame(multiCartMsb_, multiCartLsb_);
+        else
+            game = getMultiCartGame();
+        if (gameAuto_)
+            p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+        if (game.Find('.'))
+            game = game.BeforeFirst('.');
+        p_Main->setSwName(game);
+        p_Main->eventUpdateTitle();
+    }
+    else
+    {
+        if (gameAuto_)
+            p_Main->loadKeyDefinition("", p_Main->getRomFile(VICTORY, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+    }
+    
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
+    
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
+    initPixie();
+}
+
 void Victory::onReset()
 {
 	resetPressed_ = true;
 }
 
-void Victory::checkFunction()
+void Victory::checkComputerFunction()
 {
     if (!gameAuto_)
         return;

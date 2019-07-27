@@ -57,9 +57,12 @@ public:
 	Byte getData();
 	void out(Byte port, Word address, Byte value);
 	void showData(Byte value);
+    void showCycleData(Byte val);
 	void cycle(int type);
-	void cycleA();
-	void cycleB();
+    void setGoTimer();
+    void showState(int state);
+    void showDmaLed();
+    void showIntLed();
     void cycleLed();
 
 	void autoBoot();
@@ -93,6 +96,7 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void configureElfExtensions();
 	void moveWindows();
 	void updateTitle(wxString Title);
@@ -128,15 +132,17 @@ private:
 
     int ledCycleValue_;
     int ledCycleSize_;
+    int setMsValue_;
+
+    int goCycleValue_;
+    int goCycleSize_;
 
     Byte switches_;
 	int mpButtonState_;
 	Byte lastMode_;
-	char state_;
 	Byte ef3State_;
 	Byte ef4State_;
 
-	char singleStep_;
 	bool monitor_;
 	Word lastAddress_;
 

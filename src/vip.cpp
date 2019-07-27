@@ -879,43 +879,13 @@ void Vip::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkVipFunction();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			addressLatch_ = 0x8000;
-			initPixie();
-			vipRunState_ = RESETSTATE;
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
 			p_Main->eventUpdateTitle();
 			runPressed_ = false;
 		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
 	}
 	else
 	{
@@ -928,6 +898,15 @@ void Vip::cpuInstruction()
 			runPressed_ = false;
 		}
 	}
+}
+
+void Vip::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    addressLatch_ = 0x8000;
+    initPixie();
+    vipRunState_ = RESETSTATE;
 }
 
 void Vip::moveWindows()
@@ -949,7 +928,7 @@ void Vip::onReset()
 	resetPressed_ = true;
 }
 
-void Vip::checkVipFunction()
+void Vip::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

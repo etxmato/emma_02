@@ -20,8 +20,6 @@ public:
     void keyDown(int keycode);
 	void keyUp(int keycode);
 
-	void onRun();
-
 	Byte ef(int flag);
 	Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
@@ -37,10 +35,11 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
 	void updateTitle(wxString Title);
 	void onReset();
-	void checkVipFunction();
+	void checkComputerFunction();
 	void startComputerRun(bool load);
 	void sleepComputer(long ms);
 
@@ -57,7 +56,7 @@ private:
 	Byte vipKeyState_[6];
     Byte shiftEf_;
     Byte ctlEf_;
-	bool runPressed_;
+//	bool runPressed_;
 
 	int keyDefA1_[16];
 	int keyDefB1_[16];

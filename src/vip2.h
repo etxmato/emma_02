@@ -43,8 +43,9 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void writeMem(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
-	void checkVipFunction();
+	void checkComputerFunction();
 	void startComputerRun(bool load);
 	void sleepComputer(long ms);
 

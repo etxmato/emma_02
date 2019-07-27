@@ -61,6 +61,7 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
 
 	void setMicrotutorClockSpeed(double clock) {microtutorClockSpeed_ = clock;};

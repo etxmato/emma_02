@@ -32,8 +32,9 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void writeMem(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
-	void checkEtiFunction();
+	void checkComputerFunction();
 	void finishStopTape();
 	void keyClear();
 

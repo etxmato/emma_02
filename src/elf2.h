@@ -78,6 +78,7 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void configureElfExtensions();
 	void moveWindows();
 	void updateTitle(wxString Title);

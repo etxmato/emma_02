@@ -847,36 +847,7 @@ void Velf::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-        checkVelfFunction();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-            if (p_Main->getVelfMode() == 0)
-                addressLatch_ = 0x8000;
-            else
-                addressLatch_ = 0;
-			pixiePointer->initPixie();
-			vipRunState_ = RESETSTATE;
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
@@ -884,10 +855,6 @@ void Velf::cpuInstruction()
             velfScreenPointer->runSetState(BUTTON_DOWN);
 			runPressed_ = false;
 		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
 	}
 	else
 	{
@@ -904,6 +871,18 @@ void Velf::cpuInstruction()
 			runPressed_ = false;
 		}
 	}
+}
+
+void Velf::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    if (p_Main->getVelfMode() == 0)
+        addressLatch_ = 0x8000;
+    else
+        addressLatch_ = 0;
+    pixiePointer->initPixie();
+    vipRunState_ = RESETSTATE;
 }
 
 void Velf::moveWindows()
@@ -927,7 +906,7 @@ void Velf::onReset()
 	resetPressed_ = true;
 }
 
-void Velf::checkVelfFunction()
+void Velf::checkComputerFunction()
 {
     switch(scratchpadRegister_[programCounter_])
     {

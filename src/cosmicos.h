@@ -93,12 +93,13 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void configureElfExtensions();
 	void moveWindows();
 	void updateTitle(wxString Title);
 	void setForceUpperCase(bool status);
 	void onReset();
-	void checkCosmicosFunction();
+	void checkComputerFunction();
 
 	void removeCosmicosHex();
 	void showModules(bool useHex);
@@ -125,8 +126,6 @@ private:
 	Byte switches_;
 	Byte data_;
 	Byte lastMode_;
-	char singleStep_;
-	char state_;
 
     int keyDefA1_[16];
     int keyDefB1_[16];

@@ -33,8 +33,9 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
-	void checkTMC2000Function();
+	void checkComputerFunction();
 
 	Byte read1864ColorDirect(Word address);
 	void write1864ColorDirect(Word address, Byte value);

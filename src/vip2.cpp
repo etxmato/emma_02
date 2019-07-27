@@ -781,63 +781,12 @@ void VipII::cpuInstruction()
 	}
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkVipFunction();
-
-		if (resetPressed_)
-		{
-			runPressedAtStartup_ = p_Main->runPressed();
-			if (runPressedAtStartup_) 
-			{
-				addressLatch_ = 0x8000;
-				vipMode_ = true;
-				defineMemoryType(0, 0x7fff, RAM);
-				setClear(0);
-				p_Main->eventUpdateTitle();
-			}
-			else 
-			{
-				addressLatch_ = 0;
-				vipMode_ = false;
-				readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
-				defineMemoryType(0x400, 0x7ff, RAM);
-				defineMemoryType(0xc00, 0xfff, RAM);
-				defineMemoryType(0x4000, 0x7fff, RAM);
-			}
-			resetCpu();
-			resetPressed_ = false;
-//			addressLatch_ = 0x8000;
-			initPixie();
-			vipRunState_ = RESETSTATE;
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
 			p_Main->eventUpdateTitle();
 			runPressed_ = false;
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (vipMode_)
-		{
-			if (pseudoLoaded_ && cycle0_ == 0)
-				p_Main->cyclePseudoDebug();
 		}
 	}
 	else
@@ -854,12 +803,39 @@ void VipII::cpuInstruction()
 	}
 }
 
+void VipII::resetPressed()
+{
+    runPressedAtStartup_ = p_Main->runPressed();
+    if (runPressedAtStartup_)
+    {
+        addressLatch_ = 0x8000;
+        vipMode_ = true;
+        defineMemoryType(0, 0x7fff, RAM);
+        setClear(0);
+        p_Main->eventUpdateTitle();
+    }
+    else
+    {
+        addressLatch_ = 0;
+        vipMode_ = false;
+        readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
+        defineMemoryType(0x400, 0x7ff, RAM);
+        defineMemoryType(0xc00, 0xfff, RAM);
+        defineMemoryType(0x4000, 0x7fff, RAM);
+    }
+    resetCpu();
+    resetPressed_ = false;
+    //            addressLatch_ = 0x8000;
+    initPixie();
+    vipRunState_ = RESETSTATE;
+}
+
 void VipII::onReset()
 {
 	resetPressed_ = true;
 }
 
-void VipII::checkVipFunction()
+void VipII::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

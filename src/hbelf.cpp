@@ -1474,43 +1474,7 @@ void Elf::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkElfFunction();
-		if (resetPressed_)
-		{
-			resetCpu();
-			if (elfConfiguration.use8275)
-				i8275Pointer->cRegWrite(0x40);
-			if (elfConfiguration.autoBoot)
-			{
-				scratchpadRegister_[0]=p_Main->getBootAddress("Elf", ELF);
-				autoBoot();
-			}
-			resetPressed_ = false;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-			startElfKeyFile("Elf");
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -1525,6 +1489,22 @@ void Elf::cpuInstruction()
 			threadPointer->Sleep(1);
 		}
 	}
+}
+
+void Elf::resetPressed()
+{
+    resetCpu();
+    if (elfConfiguration.use8275)
+        i8275Pointer->cRegWrite(0x40);
+    if (elfConfiguration.autoBoot)
+    {
+        scratchpadRegister_[0]=p_Main->getBootAddress("Elf", ELF);
+        autoBoot();
+    }
+    resetPressed_ = false;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    startElfKeyFile("Elf");
 }
 
 void Elf::configureElfExtensions()

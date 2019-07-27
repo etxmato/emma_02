@@ -558,49 +558,7 @@ void StudioIV::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
- 
-            p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-            p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
-
-            simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", true);
-            simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", true);
-            
-            if (gameAuto_)
-                p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-
-            reDefineKeysA(keyDefA1_, keyDefA2_);
-            reDefineKeysB(keyDefB1_, keyDefB2_);
-            
-			setWait(1);
-			setClear(0);
-			setWait(1);
-			setClear(1);
-			initPixie();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-	        p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -608,6 +566,30 @@ void StudioIV::cpuInstruction()
 		cpuCycles_ = 0;
 		p_Main->startTime();
 	}
+}
+
+void StudioIV::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    
+    p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    
+    simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", true);
+    simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", true);
+    
+    if (gameAuto_)
+        p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+    
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
+    
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
+    initPixie();
 }
 
 void StudioIV::onReset()

@@ -911,47 +911,29 @@ void Tmc600::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			machineCycle();
-			machineCycle();
-			if (steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkTelmacFunction();
-
-		if (resetPressed_)
-		{
-			closeTelmacKeyFile();
-			keyDown_ = false;
-			resetCpu();
-			resetPressed_ = false;
-			if (!wxGetKeyState (WXK_CAPITAL))
-			{
-				capsPressed_ = false;
-#ifdef __WXMSW__
-				::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
-				::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
-#endif
-			}
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-			telmacRunCommand_ = 0;
-			telmacRunState_ = RESETSTATE;
-			startTelmacKeyFile();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
+}
+
+void Tmc600::resetPressed()
+{
+    closeTelmacKeyFile();
+    keyDown_ = false;
+    resetCpu();
+    resetPressed_ = false;
+    if (!wxGetKeyState (WXK_CAPITAL))
+    {
+        capsPressed_ = false;
+#ifdef __WXMSW__
+        ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
+        ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
+#endif
+    }
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    telmacRunCommand_ = 0;
+    telmacRunState_ = RESETSTATE;
+    startTelmacKeyFile();
 }
 
 void Tmc600::onReset()
@@ -959,7 +941,7 @@ void Tmc600::onReset()
 	resetPressed_ = true;
 }
 
-void Tmc600::checkTelmacFunction()
+void Tmc600::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

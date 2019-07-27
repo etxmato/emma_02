@@ -34,6 +34,7 @@ public:
     Byte read1864ColorDirect(Word address);
     void write1864ColorDirect(Word address, Byte value);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
 
 private:

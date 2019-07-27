@@ -81,7 +81,7 @@ public:
 	void onResetButton(wxCommandEvent&event);
 	void onReset();
     void sleepComputer(long ms);
-    void resetFred();
+    void resetPressed();
 	
     void cassetteFred(short val);
     void cassetteFred56();
@@ -94,7 +94,7 @@ public:
 
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void showDataLeds(Byte value);
-    void checkFredFunction();
+    void checkComputerFunction();
     void setKeyPadMode(int keyPadMode);
     void setTapeFormat(int tapeFormat);
     void cardButton(int cardValue);

@@ -638,38 +638,7 @@ void Microtutor2::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-		playSaveLoad();
-		if (resetPressed_)
-		{
-			resetCpu();
-			initComputer();
-			if (microtutorConfiguration.autoBoot)
-			{
-                scratchpadRegister_[0]=p_Main->getBootAddress("Microtutor II", MICROTUTOR2);
-                autoBoot();
-			}
-
-            resetPressed_ = false;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
     else
     {
@@ -683,6 +652,21 @@ void Microtutor2::cpuInstruction()
             ledCycleValue_ = 1;
         }
     }
+}
+
+void Microtutor2::resetPressed()
+{
+    resetCpu();
+    initComputer();
+    if (microtutorConfiguration.autoBoot)
+    {
+        scratchpadRegister_[0]=p_Main->getBootAddress("Microtutor II", MICROTUTOR2);
+        autoBoot();
+    }
+    
+    resetPressed_ = false;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
 }
 
 void Microtutor2::onReset()

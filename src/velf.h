@@ -64,10 +64,11 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
 	void updateTitle(wxString Title);
 	void onReset();
-    void checkVelfFunction();
+    void checkComputerFunction();
 	void startComputerRun(bool load);
 	void sleepComputer(long ms);
 

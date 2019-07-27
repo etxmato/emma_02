@@ -37,13 +37,14 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
     void setForceUpperCase(bool status);
 	void setBootRam(bool status);
 	void updateTitle(wxString Title);
 	void onReset();
     void sleepComputer(long ms);
-    void checkMs2000Function();
+    void checkComputerFunction();
 
 	void setMs2000ClockSpeed(double clock) {ms2000ClockSpeed_ = clock;};
 	void activateMainWindow();

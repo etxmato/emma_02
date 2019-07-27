@@ -1141,33 +1141,7 @@ void Fred::cpuInstruction()
 			if (zeroWaveCounter_ == -1)
 				psaveAmplitudeZero();
 		}
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) 
-				machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-        
-        playSaveLoad();
-        checkFredFunction();
-
-		if (resetPressed_)
-            resetFred();
-
-        if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-            p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -1179,7 +1153,7 @@ void Fred::cpuInstruction()
         playSaveLoad();
 
         if (resetPressed_)
-            resetFred();
+            resetPressed();
 
         p_Main->startTime();
 	}
@@ -1200,7 +1174,7 @@ void Fred::sleepComputer(long ms)
     threadPointer->Sleep(ms);
 }
 
-void Fred::resetFred()
+void Fred::resetPressed()
 {
     resetCpu();
     resetPressed_ = false;
@@ -1551,7 +1525,7 @@ void Fred::showDataLeds(Byte value)
     fredScreenPointer->setReadyLed(1);
 }
 
-void Fred::checkFredFunction()
+void Fred::checkComputerFunction()
 {
     if (scratchpadRegister_[programCounter_] == p_Computer->getChip8MainLoop() && pseudoType_ == "FEL-1")
     {

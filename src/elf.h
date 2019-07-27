@@ -18,7 +18,7 @@ public:
 	MainElf();
 	~MainElf();
 
-	void checkElfFunction();
+	void checkComputerFunction();
     void activateElfOsChip8();
     void fetchFileName(Word address, size_t length);
 

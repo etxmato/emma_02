@@ -537,36 +537,15 @@ void Eti::write1864ColorDirect(Word addr, Byte value)
 
 void Eti::cpuInstruction()
 {
-	if (steps_ != 0)
-	{
-		cycle0_=0;
-		machineCycle();
-		if (cycle0_ == 0) machineCycle();
-		if (cycle0_ == 0 && steps_ != 0)
-		{
-			cpuCycle();
-			cpuCycles_ += 2;
-		}
-		if (debugMode_)
-			p_Main->showInstructionTrace();
-	}
-	else
-		soundCycle();
+    cpuCycleStep();
+}
 
-	playSaveLoad();
-	checkEtiFunction();
-
-	if (resetPressed_)
-	{
-		resetCpu();
-		resetPressed_ = false;
-		initPixie();
-		initiateColour(false);
-	}
-	if (debugMode_)
-		p_Main->cycleDebug();
-	if (pseudoLoaded_ && cycle0_ == 0)
-		p_Main->cyclePseudoDebug();
+void Eti::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    initPixie();
+    initiateColour(false);
 }
 
 void Eti::onReset()
@@ -574,7 +553,7 @@ void Eti::onReset()
 	resetPressed_ = true;
 }
 
-void Eti::checkEtiFunction()
+void Eti::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

@@ -769,47 +769,7 @@ void Membership::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkElfFunction();
-		if (resetPressed_)
-		{
-			resetCpu();
-			ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(MEMBER);
-			if (currentElfConfig.clearRam)
-			{
-				p_Main->eventSetCheckBox("ClearRamMembership", false);
-				for (int i=ramStart_; i<=ramEnd_; i++)
-					mainMemory_[i] = 0;
-			}
-			if (currentElfConfig.autoBoot)
-			{
-				scratchpadRegister_[0]=p_Main->getBootAddress("Membership", MEMBER);
-				autoBoot();
-			}
-			qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
-			memberScreenPointer->setQLed(qLedStatus_);
-			resetPressed_ = false;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -824,6 +784,28 @@ void Membership::cpuInstruction()
 			threadPointer->Sleep(1);
 		}
 	}
+}
+
+void Membership::resetPressed()
+{
+    resetCpu();
+    ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(MEMBER);
+    if (currentElfConfig.clearRam)
+    {
+        p_Main->eventSetCheckBox("ClearRamMembership", false);
+        for (int i=ramStart_; i<=ramEnd_; i++)
+            mainMemory_[i] = 0;
+    }
+    if (currentElfConfig.autoBoot)
+    {
+        scratchpadRegister_[0]=p_Main->getBootAddress("Membership", MEMBER);
+        autoBoot();
+    }
+    qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
+    memberScreenPointer->setQLed(qLedStatus_);
+    resetPressed_ = false;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
 }
 
 void Membership::configureElfExtensions()

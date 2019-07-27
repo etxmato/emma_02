@@ -38,7 +38,7 @@ To change the defined keys below use menu item 'Settings / Function and Hot Keys
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F4</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Show printer output window</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>Cosmac VIP<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>MS2000<br>TMC-600<br>Pecom 64</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>Cosmac VIP<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>MS2000<br>TMC-600<br>Pecom 32 &amp; 64</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F5</TD>
@@ -53,22 +53,22 @@ To change the defined keys below use menu item 'Settings / Function and Hot Keys
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F7</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Show runtime menu. To change disk and cassette file names, load software and activate emulator panels when using Emma 02 via command line interface (without main GUI).</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>VELF<br>Microtutor<br>Cosmac VIP<br>Cosmac VIP II<br>MS2000<br>TMC-600<br>Telmac 1800<br>Telmac 2000<br>Oscom Nano<br>Pecom 64<br>ETI-660</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>VELF<br>Microtutor<br>Cosmac VIP<br>Cosmac VIP II<br>MS2000<br>TMC-600<br>Telmac 1800<br>Telmac 2000<br>Oscom Nano<br>Pecom 32 &amp; 64<br>ETI-660</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F8</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Video Terminal Set-up</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Elf 2000<br>Cosmicos<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>Cosmac VIP<br>MS2000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>VELF<br>CDP18S020 Evaluation Kit<br>Cosmac VIP<br>MS2000<br>MCDS</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F12</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Switch RUN mode on/off</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>VELF<br>Microtutor (only on)<br>Cosmac VIP<br>Cosmac VIP II<br>TMC-600<br>Telmac 1800<br>Telmac 2000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>VELF<br>Microtutor (only on)<br>Microtutor II<br>CDP18S020 Evaluation Kit<br>Cosmac VIP<br>Cosmac VIP II (in ROM Mode)<br>TMC-600<br>Telmac 1800<br>Telmac 2000</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F12</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Reset computer</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>RCA Studio II<br>RCA Studio III / Victory MPT-02<br>Visicom COM-100<br>Cidelsa<br>Oscom Nano<br>Pecom 64<br>ETI-660</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>VIP2K Membership Card<br>FRED 1<br>FRED 1.5<br>MS2000<br>MCDS<br>RCA Video Coin Arcade<br>RCA Studio II<br>RCA Studio III / Victory MPT-02<br>RCA Studio IV<br>Visicom COM-100<br>Cidelsa<br>Oscom Nano<br>Pecom 32 &amp; 64<br>ETI-660</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F12</TD>

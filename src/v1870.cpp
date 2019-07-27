@@ -701,7 +701,7 @@ void V1870::cycle1870()
 		{
 			case COMX:
 				if (!displayOff_)
-					p_Computer->interrupt();
+                        p_Computer->interrupt();
 			break;
 
 			case CIDELSA:

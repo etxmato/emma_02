@@ -35,9 +35,10 @@ public:
     Byte readMemDebug(Word address);
     void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
 	void printOutPecom(int q);
-	void checkPecomFunction();
+	void checkComputerFunction();
 	void startPecomKeyFile();
 	void closePecomKeyFile();
 	void sleepComputer(long ms);

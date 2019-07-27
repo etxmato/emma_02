@@ -39,26 +39,6 @@
 #define WAITLED 2
 #define CLEARLED 3
 
-int startCpuState1804_1805[] =
-{
-    EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, EXECUTE_1_STATE, 0, 0,  // 0x
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 1x
-    EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805,  // 2x
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, EXECUTE_1_STATE, EXECUTE_1_STATE,  // 3x
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 4x
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // 5x
-    EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805,  // 6x
-    0, 0, 0, 0, EXECUTE_2_STATE_1805, 0, EXECUTE_4_STATE_1805, EXECUTE_2_STATE_1805, 0, 0, 0, 0, EXECUTE_2_STATE_1805, 0, 0, EXECUTE_2_STATE_1805,  // 7x
-    EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805, EXECUTE_8_STATE_1805,  // 8x
-    EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805, EXECUTE_6_STATE_1805,  // 9x
-    EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805,  // Ax
-    EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805, EXECUTE_2_STATE_1805,  // Bx
-    EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805, EXECUTE_3_STATE_1805,  // Cx
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // Dx
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,  // Ex
-    0, 0, 0, 0, EXECUTE_2_STATE_1805, 0, 0, EXECUTE_2_STATE_1805, 0, 0, 0, 0, EXECUTE_2_STATE_1805, 0, 0, EXECUTE_2_STATE_1805,  // Fx
-};
-
 Cdp18s020Screen::Cdp18s020Screen(wxWindow *parent, const wxSize& size)
 : Panel(parent, size)
 {
@@ -330,7 +310,7 @@ void Cdp18s020::configureComputer()
 void Cdp18s020::initComputer()
 {
     Show(p_Main->getUseCdp18s020ControlWindows());
-    addressLatch_ = 0;
+    addressLatch_ = p_Main->getBootAddress("CDP18S020", computerType_);
     setClear(0);
     cdp18s020ScreenPointer->setStateLed(CLEARLED, 0);
 	setWait(1);
@@ -378,11 +358,15 @@ void Cdp18s020::onRun()
 
 void Cdp18s020::autoBoot()
 {
-    addressLatch_ = p_Main->getBootAddress("CDP18S020", computerType_);
     setClear(1);
     cdp18s020ScreenPointer->setStateLed(CLEARLED, 1);
     if (cpuMode_ == RESET)
         showAddress(addressLatch_);
+}
+
+void Cdp18s020::setAddressLatch(Word bootAddress)
+{
+    addressLatch_ = bootAddress;
 }
 
 void Cdp18s020::onMpButton(int buttonNumber)
@@ -395,11 +379,11 @@ void Cdp18s020::onSingleStep()
     singleStateStep_ = !singleStateStep_;
     if (singleStateStep_)
     {
-        setLedCycleSize_ = ledCycleSize_;
+        setMsValue_ = (int) p_Main->getLedTimeMs(CDP18S020);
         setLedMs(0);
     }
     else
-        setLedMs(setLedCycleSize_);
+        setLedMs(setMsValue_);
 }
 
 Byte Cdp18s020::ef(int flag)
@@ -476,7 +460,7 @@ void Cdp18s020::switchQ(int value)
         p_Serial->switchQ(value);
 }
 
-void Cdp18s020::showData(Byte val)
+void Cdp18s020::showCycleData(Byte val)
 {
     for (int i=0; i<8; i++)
     {
@@ -492,6 +476,17 @@ void Cdp18s020::showAddress(Word val)
         cdp18s020ScreenPointer->setLed(i, val&1);
         val = val >> 1;
     }
+}
+
+void Cdp18s020::showState(int state)
+{
+    cdp18s020ScreenPointer->setStateLed(SC0LED, state&1);
+    cdp18s020ScreenPointer->setStateLed(SC1LED, (state&2)>>1);
+}
+
+void Cdp18s020::setWaitLed()
+{
+    cdp18s020ScreenPointer->setStateLed(WAITLED, 0);
 }
 
 void Cdp18s020::cycle(int type)
@@ -566,7 +561,7 @@ void Cdp18s020::startComputer()
         ledCycleSize_ = (((cdp18s020ClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
     
-    cpuState_ = EXECUTE_1_STATE;
+    cpuState_ = STATE_FETCH_1;
     
 	threadPointer->Run();
 }
@@ -705,188 +700,29 @@ void Cdp18s020::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Cdp18s020::cpuInstruction()
 {
-
-    if (cpuMode_ == RUN && cpuState_ == EXECUTE_1_STATE)
+    if (cpuMode_ == RUN)
     {
-        if (steps_ != 0)
-        {
-            machineCycle();
-            if (!idle_)
-            {
-                cpuCycleFetch();
-                showAddress(address_);
-                showData(instructionCode_);
-                cpuState_ = FETCH_STATE_1;
-                cdp18s020ScreenPointer->setStateLed(SC0LED, 0);
-                cdp18s020ScreenPointer->setStateLed(SC1LED, 0);
-            }
-            cpuCycles_ ++;
-            if (singleStateStep_)
-            {
-                setWait(0);
-                cdp18s020ScreenPointer->setStateLed(WAITLED, 0);
-                return;
-            }
-        }
-        else
-            soundCycle();
+        cpuCycleStep();
     }
-
-	if (cpuMode_ == RUN && cpuState_ == FETCH_STATE_1)
-	{
-        machineCycle();
-        if ((instructionCode_ & 0xf0) == 0xc0)
-        {
-            switch (instructionCode_ & 0xf0)
-            {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 8:
-                case 9:
-                case 0xA:
-                case 0xB:
-                    setRegisterB(readMem(scratchpadRegister_[programCounter_]));
-                    showData(getRegisterB());
-                break;
-                    
-                default:
-                    showData(readMem(scratchpadRegister_[programCounter_]));
-                break;
-            }
-            showAddress(scratchpadRegister_[programCounter_]);
-            cpuState_ = EXECUTE_2_STATE;
-            cdp18s020ScreenPointer->setStateLed(SC0LED, 1);
-            cdp18s020ScreenPointer->setStateLed(SC1LED, 0);
-        }
-        else
-        {
-            if (instructionCode_ == 0x68 && (cpuType_ == CPU1805 || cpuType_ == CPU1804))
-            {
-                cpuCycleFetch2();
-                showAddress(address_);
-                showData(instructionCode_);
-                cpuState_ = FETCH_STATE_2;
-            }
-            else
-            {
-                cpuCycleExecute();
-                showAddress(address_);
-                cpuCycleFinalize();
-                showData(bus_);
-                cpuState_ = EXECUTE_1_STATE;
-                cdp18s020ScreenPointer->setStateLed(SC0LED, 1);
-                cdp18s020ScreenPointer->setStateLed(SC1LED, 0);
-            }
-        }
-        cpuCycles_ ++;
-        if (singleStateStep_)
-        {
-            setWait(0);
-            cdp18s020ScreenPointer->setStateLed(WAITLED, 0);
-            return;
-        }
-    }
-    
-    if (cpuMode_ == RUN && cpuState_ == FETCH_STATE_2)
+    else
     {
-        machineCycle();
-        if (singleStateStep_)
-            cpuState_ = startCpuState1804_1805[instructionCode_];
-        else
-            cpuState_ = EXECUTE_1_STATE;
-        cdp18s020ScreenPointer->setStateLed(SC0LED, 1);
-        cdp18s020ScreenPointer->setStateLed(SC1LED, 0);
-        
-        if (cpuState_ == EXECUTE_1_STATE)
-        {
-            inst1805();
-            showAddress(address_);
-            cpuCycleFinalize();
-        }
-        else
-        {
-            cpuCycleExecute1805();
-            showAddress(address_);
-        }
-        showData(bus_);
-
-        if (singleStateStep_)
-        {
-            setWait(0);
-            cdp18s020ScreenPointer->setStateLed(WAITLED, 0);
-            if (cpuState_ != EXECUTE_1_STATE)
-                return;
-        }
+        if (resetPressed_)
+            resetPressed();
     }
+}
 
-    if (cpuMode_ == RUN && cpuState_ >= EXECUTE_2_STATE_1805 && cpuState_ <= EXECUTE_8_STATE_1805)
-    {
-        machineCycle();
-        cpuState_ --;
-        
-        if (cpuState_ == EXECUTE_1_STATE)
-        {
-            inst1805();
-            showAddress(address_);
-            cpuCycleFinalize();
-        }
-        else
-        {
-            cpuCycleExecute1805();
-            showAddress(address_);
-        }
-        showData(bus_);
-        
-        if (singleStateStep_)
-        {
-            setWait(0);
-            cdp18s020ScreenPointer->setStateLed(WAITLED, 0);
-            if (cpuState_ != EXECUTE_1_STATE)
-                return;
-        }
-    }
-
-    if (cpuMode_ == RUN && cpuState_ == EXECUTE_2_STATE)
-    {
-        machineCycle();
-        cpuCycleExecute();
-        showAddress(address_);
-        cpuCycleFinalize();
-        showData(bus_);
-        cpuState_ = EXECUTE_1_STATE;
-        if (singleStateStep_)
-        {
-            setWait(0);
-            cdp18s020ScreenPointer->setStateLed(WAITLED, 0);
-        }
-    }
-
-    if (cpuMode_ == RUN && cpuState_ == EXECUTE_1_STATE)
-    {
-        if (debugMode_)
-            p_Main->showInstructionTrace();
-
-        playSaveLoad();
-
-		if (debugMode_)
-			p_Main->cycleDebug();
-	}
-    if (resetPressed_ && (singleStateStep_ || (cpuMode_ == RUN && cpuState_ == EXECUTE_1_STATE)))
-    {
-        resetCpu();
-        cpuState_ = EXECUTE_1_STATE;
-        setClear(0);
-        cdp18s020ScreenPointer->setStateLed(CLEARLED, 0);
-        setWait(1);
-        cdp18s020ScreenPointer->setStateLed(WAITLED, 1);
-        addressLatch_ = 0;
-        showData(0);
-        if (cdp18s020Configuration.autoBoot)
-            autoBoot();
-        resetPressed_ = false;
-    }
+void Cdp18s020::resetPressed()
+{
+    resetCpu();
+    cpuState_ = STATE_FETCH_1;
+    setClear(0);
+    cdp18s020ScreenPointer->setStateLed(CLEARLED, 0);
+    setWait(1);
+    cdp18s020ScreenPointer->setStateLed(WAITLED, 1);
+    showCycleData(0);
+    if (cdp18s020Configuration.autoBoot)
+        autoBoot();
+    resetPressed_ = false;
 }
 
 void Cdp18s020::moveWindows()

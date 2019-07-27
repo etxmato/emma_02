@@ -1566,56 +1566,38 @@ void Comx::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Comx::cpuInstruction()
 {
-	if (steps_ != 0)
-	{
-		machineCycle();
-		machineCycle();
-		if (steps_ != 0)
-		{
-			cpuCycle();
-			cpuCycles_ += 2;
-		}
-		if (debugMode_)
-			p_Main->showInstructionTrace();
-	}
-	else
-		soundCycle();
+    cpuCycleStep();
+}
 
-	playSaveLoad();
-	checkComxFunction();
-
-	if (resetPressed_)
-	{
-		stop6845();
-		out5_1870(0x0080);
-		//mc6845started_ = false;
-		setCycleType(BLINKCYCLE, 0);
-		setCycleType(VIDEOCYCLE, 0);
-		startComxKeyFile();
-		if (expansionRomLoaded_)
-			out(1, 0, 0x10);
-		resetCpu();
-		init1870();
-        initComputer();
-        
-        p_Main->v1870BarSizeEvent();
-		writeMem(0xbf42, 0, false);
-		writeMem(0xbf44, 0, false);
-		p_Main->setSwName("");
-        p_Main->eventUpdateTitle();
-		comxRunCommand_ = 0;
-		resetPressed_ = false;
-		if (p_Main->isDiagOn(COMX) == 1)
-			diagRomActive_ = true;
-		else
-			diagRomActive_ = false;
-        updateDiagLedStatus(1, diagRomActive_);
-		diagDmaLedOn_ = false;
-		updateDiagLedStatus(2, diagDmaLedOn_);
-        updateDiagLedStatus(5, false);
-	}
-	if (debugMode_)
-		p_Main->cycleDebug();
+void Comx::resetPressed()
+{
+    stop6845();
+    out5_1870(0x0080);
+    //mc6845started_ = false;
+    setCycleType(BLINKCYCLE, 0);
+    setCycleType(VIDEOCYCLE, 0);
+    startComxKeyFile();
+    if (expansionRomLoaded_)
+        out(1, 0, 0x10);
+    resetCpu();
+    init1870();
+    initComputer();
+    
+    p_Main->v1870BarSizeEvent();
+    writeMem(0xbf42, 0, false);
+    writeMem(0xbf44, 0, false);
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    comxRunCommand_ = 0;
+    resetPressed_ = false;
+    if (p_Main->isDiagOn(COMX) == 1)
+        diagRomActive_ = true;
+    else
+        diagRomActive_ = false;
+    updateDiagLedStatus(1, diagRomActive_);
+    diagDmaLedOn_ = false;
+    updateDiagLedStatus(2, diagDmaLedOn_);
+    updateDiagLedStatus(5, false);
 }
 
 void Comx::charEvent(int keycode)
@@ -1743,7 +1725,7 @@ void Comx::keyClear()
 	previousKeyCode_ = (wxKeyCode) 0;
 }
 
-void Comx::checkComxFunction()
+void Comx::checkComputerFunction()
 {
 #if defined(__WXMSW__ )
 	bool maximize;

@@ -627,30 +627,13 @@ void Cidelsa::writeMemDebug(Word address, Byte value, bool writeRom)
 
 void Cidelsa::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
-		if (steps_ != 0)
-		{
-			machineCycle();
-			machineCycle();
-			if (steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-	}
+    cpuCycleStep();
+}
+
+void Cidelsa::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
 }
 
 void Cidelsa::cid1Bit8(bool set)
