@@ -15,8 +15,8 @@ Use punch cards as follows:
 <LI>0: 0xBD - new game & player one card,
 <LI>1: 0xCC - Give player one card
 <LI>2: 0x78 - Give dealer one card 
-<LI>4: 0x73 - Show hand player
-<LI>5: 0xB1 - Show hand dealer
+<LI>3: 0x73 - Show hand player
+<LI>4: 0xB1 - Show hand dealer
 </UL>
 </p>
 <h3>21 II</h3>

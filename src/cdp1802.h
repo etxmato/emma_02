@@ -170,7 +170,6 @@ protected:
 
     Byte bus_;
     Byte instructionCode_;
-    Byte instructionCode1805_;
     wxString traceBuffer_;
     bool stopHiddenTrace_;
     bool startHiddenTrace_;

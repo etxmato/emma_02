@@ -179,7 +179,7 @@ public:
 	void resetDisplay();
 	void assemblerDisplay(wxString buffer);
 //	void disassemblerDisplay(wxString buffer);
-	void debugTrace(wxString buffer);
+    void debugTrace(wxString buffer);
 	void chip8DebugTrace(wxString buffer);
 //	void onEnter(wxCommandEvent& event);
 //	void onDebugDis(wxCommandEvent&event);

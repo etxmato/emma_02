@@ -10954,7 +10954,6 @@
                                                                             </font>
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
-                                                                                <item></item>
                                                                                 <item>21 I.bin</item>
                                                                                 <item>21 II.bin</item>
                                                                                 <item>Acey Duecy.bin</item>
@@ -10980,7 +10979,7 @@
                                                                                 <item>Luckypath.bin</item>
                                                                                 <item>Match I.bin</item>
                                                                                 <item>Match II.bin</item>
-                                                                                <item>Memory Test,bin</item>
+                                                                                <item>Memory Test.bin</item>
                                                                                 <item>Minikrieg.bin</item>
                                                                                 <item>Nimnet.bin</item>
                                                                                 <item>Pattern Puzzle.bin</item>
