@@ -1610,7 +1610,7 @@ void Cdp1802::cpuCycleFetch2()
 void Cdp1802::cpuCycleExecute1()
 {
     wxString buffer;
-    Byte i, h,l,n;
+    Byte i, n;
     int tempWord;
     Byte df1;
 
@@ -2618,7 +2618,6 @@ void Cdp1802::cpuCycleExecute1()
                     traceBuffer_ = traceBuffer_ + buffer;
                 }
             }
-            break;
 		break;
 		case 0xd:
 			if (trace_)

@@ -53,7 +53,7 @@ To change the defined keys below use menu item 'Settings / Function and Hot Keys
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F7</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">Show runtime menu. To change disk and cassette file names, load software and activate emulator panels when using Emma 02 via command line interface (without main GUI).</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>VELF<br>Microtutor<br>Cosmac VIP<br>Cosmac VIP II<br>MS2000<br>TMC-600<br>Telmac 1800<br>Telmac 2000<br>Oscom Nano<br>Pecom 32 &amp; 64<br>ETI-660</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX<br>Elf 2000<br>Cosmicos<br>Cosmac Elf<br>Netronics Elf II<br>Quest Super Elf<br>Membership Card<br>VIP2K Membership Card<br>VELF<br>FRED 1<br>FRED 1.5<br>Microtutor<br>Microtutor II<br>CDP18S020 Evaluation Kit<br>Cosmac VIP<br>Cosmac VIP II<br>MS2000<br>MCDS<br>TMC-600<br>Telmac 1800<br>Telmac 2000<br>Oscom Nano<br>Pecom 32 &amp; 64<br>ETI-660</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">F8</TD>

@@ -629,7 +629,7 @@ void Velf::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			pixiePointer->cyclePixie();
+            pixiePointer->cyclePixie();
 		break;
 
         case VT100CYCLE:
@@ -863,6 +863,9 @@ void Velf::cpuInstruction()
 			setClear(1);
 			p_Main->eventUpdateTitle();
             velfScreenPointer->runSetState(BUTTON_UP);
+            p_Main->startTime();
+            p_Video->resetVideoSyncCount();
+            cpuCycles_ = 0;
             if (p_Main->getVelfMode() == 0)
                 addressLatch_ = 0x8000;
             else
