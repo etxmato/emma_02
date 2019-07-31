@@ -174,6 +174,14 @@ void Cdp1802::resetCpu()
 		p_Video->reset();
 }
 
+void Cdp1802::resetEffectiveClock()
+{
+    p_Main->startTime();
+    cpuCycles_ = 0;
+    if (p_Video != NULL)
+        p_Video->resetVideoSyncCount();
+}
+
 void Cdp1802::machineCycle()
 {
 	for (int i=1; i<5; i++)
@@ -1511,10 +1519,7 @@ void Cdp1802::singleStateStep()
 
 void Cdp1802::cpuCycleFetch()
 {
-    if (trace_)
-    {
-        traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
-    }
+    traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
@@ -3279,6 +3284,9 @@ void Cdp1802::cpuCycleFinalize()
         if (trace_ && !skipTrace_ && traceBuffer_ != ".")
             p_Main->debugTrace(traceBuffer_);
 
+        if (cpuState_ != STATE_EXECUTE_1)
+            cpuState_ = STATE_FETCH_1;
+        
         machineCycle();
         cpuCycles_ ++;
     }

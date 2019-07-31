@@ -24955,7 +24955,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <flag>wxALIGN_BOTTOM|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxVERTICAL</orient>

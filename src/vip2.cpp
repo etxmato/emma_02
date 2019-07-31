@@ -795,6 +795,7 @@ void VipII::cpuInstruction()
 		{
 			setClear(1);
 			p_Main->eventUpdateTitle();
+            resetEffectiveClock();
 			if (vipMode_) 
 				addressLatch_ = 0x8000;
 			initPixie();

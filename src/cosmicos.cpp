@@ -463,10 +463,10 @@ void Cosmicos::onRunButton(wxCommandEvent&WXUNUSED(event))
 void Cosmicos::onRunButton()
 {
     singleStateStep_ = false;
+    resetEffectiveClock();
 	setClear(1);
 	setWait(1);
 	p_Main->eventUpdateTitle();
-	p_Main->startTime();
 }
 
 void Cosmicos::onMouseRelease(wxMouseEvent&event)
@@ -482,7 +482,7 @@ void Cosmicos::onRun()
 		setClear(1);
 		setWait(1);
 		p_Main->eventUpdateTitle();
-		p_Main->startTime();
+        resetEffectiveClock();
 	}
 	else
 	{

@@ -121,6 +121,7 @@ private:
     
     double velfClockSpeed_;
     Pixie *pixiePointer;
+    bool pixieCycle_;
     class VelfScreen *velfScreenPointer;
 
     DECLARE_EVENT_TABLE()

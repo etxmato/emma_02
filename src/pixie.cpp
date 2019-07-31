@@ -60,16 +60,40 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	endGraphicsMode_ = 267;
 	endScreen_ = 312;
 	
-    if (computerType_ == STUDIOIV || (computerType_ == VICTORY))
+    if (computerType_ == VICTORY)
     {
         videoHeight_ = 192;
         videoMode_ = p_Main->getStudioVideoMode(computerType_);
+        
         if (videoMode_ != PAL)
 		{
             interruptGraphicsMode_ = 62;
             startGraphicsMode_ = 64;
             endGraphicsMode_ = 191;
             endScreen_ = 262;
+            videoHeight_ = 128;
+        }
+    }
+    if (computerType_ == STUDIOIV)
+    {
+        videoMode_ = p_Main->getStudioVideoMode(computerType_);
+        
+        if (videoMode_ == PAL)
+        {
+            interruptGraphicsMode_ = 32;
+            startGraphicsMode_ = 34;
+            endGraphicsMode_ = 225;
+            endScreen_ = 262;
+
+            videoHeight_ = 192;
+        }
+        else
+        {
+            interruptGraphicsMode_ = 38;
+            startGraphicsMode_ = 40;
+            endGraphicsMode_ = 167;
+            endScreen_ = 208;
+            
             videoHeight_ = 128;
         }
         studioIVFactor_ = true;
@@ -699,7 +723,7 @@ void Pixie::cyclePixieCoinArcade()
     {
         p_Computer->debugTrace("----  H.Sync");
         graphicsMode_++;
-        if (graphicsMode_ >= 262)
+        if (graphicsMode_ >= 322)
         {
             if (changeScreenSize_)
             {
@@ -1197,8 +1221,8 @@ void PixieVip2K::configurePixie()
     colourMask_ = 0;
     
     p_Main->message("Configuring VIP2K Video");
-    p_Main->message("    Input 6: enable graphics, input 7: disable graphics, EF 1: DMA indicator");
-    p_Main->message("    Output 6: enable graphics, ouptut 7: disable graphics\n");
+    p_Main->message("	Input 6: enable graphics, input 7: disable graphics, EF 1: DMA indicator");
+    p_Main->message("	Output 6: enable graphics, ouptut 7: disable graphics\n");
     
     sequencerAddress_ = 0;
     scanLine_ = 0;

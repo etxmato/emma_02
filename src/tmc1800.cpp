@@ -379,6 +379,7 @@ void Tmc1800::cpuInstruction()
 			addressLatch_ = 0x8000;
 			initPixie();
 			p_Main->eventUpdateTitle();
+            resetEffectiveClock();
 			runPressed_ = false;
 		}
 	}

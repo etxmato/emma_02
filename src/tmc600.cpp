@@ -374,7 +374,7 @@ void Tmc600::onRun()
 	{
 		setClear(1);
 		p_Main->eventUpdateTitle();
-		p_Main->startTime();
+        resetEffectiveClock();
 	}
 	else
 	{

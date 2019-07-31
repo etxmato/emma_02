@@ -1038,7 +1038,9 @@ void Super::onRunButton()
 	setClear(1);
 	setWait(1);
 	p_Main->eventUpdateTitle();
-	p_Main->startTime();
+    
+    if (cpuMode_ != RUN)
+        resetEffectiveClock();
 }
 
 void Super::onRun()
@@ -1049,7 +1051,7 @@ void Super::onRun()
 		setClear(1);
 		setWait(1);
 		p_Main->eventUpdateTitle();
-		p_Main->startTime();
+        resetEffectiveClock();
 	}
 	else
 	{

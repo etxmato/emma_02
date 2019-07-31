@@ -412,6 +412,7 @@ void Tmc2000::cpuInstruction()
 			addressLatch_ = 0x8000;
 			initPixie();
 			p_Main->eventUpdateTitle();
+            resetEffectiveClock();
 			runPressed_ = false;
 		}
 	}

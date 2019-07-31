@@ -893,6 +893,7 @@ void Vip::cpuInstruction()
 		{
 			setClear(1);
 			p_Main->eventUpdateTitle();
+            resetEffectiveClock();
 			addressLatch_ = 0x8000;
 			initPixie();
 			runPressed_ = false;

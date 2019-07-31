@@ -6983,6 +6983,7 @@ void Main::cpuTimeout(wxTimerEvent&WXUNUSED(event))
 void Main::startTime()
 {
 	startTime_ = wxGetLocalTime();
+    lastNumberOfCpuCycles_ = -1;
 }
 
 void Main::showTime()
@@ -6994,7 +6995,7 @@ void Main::showTime()
 	time_t endTime;
 
 	long cpuCycles = p_Computer->getCpuCycles();
-	if (cpuCycles != 0)
+	if (cpuCycles != 0 && lastNumberOfCpuCycles_ != cpuCycles)
 	{
 		endTime = wxGetLocalTime();
 		s = (int)(endTime - startTime_);
@@ -7045,6 +7046,7 @@ void Main::showTime()
 		XRCCTRL(*this, "VideoFrequency", wxStaticText)->SetLabel(print_buffer);
 #endif
 	}
+    lastNumberOfCpuCycles_ = cpuCycles;
 }
 
 void Main::vuSet(wxString item, int gaugeValue)

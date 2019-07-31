@@ -1190,7 +1190,8 @@ private:
 	int oldGauge_;
 
 	wxString message_;
-	time_t startTime_;
+    time_t startTime_;
+    long lastNumberOfCpuCycles_;
 
 	int eventNumber_;
 

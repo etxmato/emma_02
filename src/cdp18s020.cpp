@@ -102,11 +102,11 @@ void Cdp18s020Screen::init()
     osx_text_runPButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 130, 30, "P");
     osx_text_runButtonPointer = new HexButton(dc, COSMICOS_HEX_BUTTON, 190, 30, "U");
 #else
-    text_resetButtonPointer = new wxButton(this, 3, "", wxPoint(70, 40), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
+    text_resetButtonPointer = new wxButton(this, 3, "", wxPoint(70, 30), wxSize(25, 25), 0, wxDefaultValidator, "ResetButton");
     text_resetButtonPointer->SetToolTip("Reset");
-    text_runPButtonPointer = new wxButton(this, 2, "P", wxPoint(130, 40), wxSize(25, 25), 0, wxDefaultValidator, "RunPButton");
+    text_runPButtonPointer = new wxButton(this, 2, "P", wxPoint(130, 30), wxSize(25, 25), 0, wxDefaultValidator, "RunPButton");
     text_runPButtonPointer->SetToolTip("RUN-P");
-    text_runButtonPointer = new wxButton(this, 1, "U", wxPoint(190, 40), wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
+    text_runButtonPointer = new wxButton(this, 1, "U", wxPoint(190, 30), wxSize(25, 25), 0, wxDefaultValidator, "RunButton");
     text_runButtonPointer->SetToolTip("RUN-U");
 #endif
     stepSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 15, 30, "");
@@ -348,6 +348,10 @@ void Cdp18s020::onRun()
 {
     if (!singleStateStep_)
         resetCpu();
+    
+    if (cpuMode_ != RUN)
+        resetEffectiveClock();
+
     setClear(1);
     cdp18s020ScreenPointer->setStateLed(CLEARLED, 1);
     setWait(1);

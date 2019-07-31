@@ -53,6 +53,7 @@ public:
 
 	void initCpu(int computerType);
 	void resetCpu();
+    void resetEffectiveClock();
 
 	void machineCycle();
 	virtual void cpuInstruction() = 0;
