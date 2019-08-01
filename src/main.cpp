@@ -1798,19 +1798,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     }
 
 	initConfig();
-	readConfig();
-
-	oldGauge_ = 1;
-	vuPointer = new wxTimer(this, 902);
-	cpuPointer = new wxTimer(this, 903);
-    updateCheckPointer = new wxTimer(this, 905);
-    traceTimeoutPointer = new wxTimer(this, 906);
-    keyDebounceTimeoutPointer = new wxTimer(this, 907);
-    guiSizeTimeoutPointer = new wxTimer(this, 908);
-    guiSizeTimerStarted_ = false;
-
-    if (mode_.gui)
-        buildConfigMenu();
 
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
@@ -1848,7 +1835,21 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
             }
         }
     }
+ 
+    readConfig();
     
+    oldGauge_ = 1;
+    vuPointer = new wxTimer(this, 902);
+    cpuPointer = new wxTimer(this, 903);
+    updateCheckPointer = new wxTimer(this, 905);
+    traceTimeoutPointer = new wxTimer(this, 906);
+    keyDebounceTimeoutPointer = new wxTimer(this, 907);
+    guiSizeTimeoutPointer = new wxTimer(this, 908);
+    guiSizeTimerStarted_ = false;
+    
+    if (mode_.gui)
+        buildConfigMenu();
+
 	this->connectKeyEvent(this);
 
 	wxSystemOptions::SetOption("msw.window.no-clip-children", 0);

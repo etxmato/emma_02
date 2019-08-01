@@ -1018,8 +1018,6 @@ void Elf::efSwitch(int i)
 
 void Elf::startComputer()
 {
-	startElfKeyFile("Elf");
-
 	resetPressed_ = false;
 
 	if (elfConfiguration.usePortExtender)
@@ -1078,6 +1076,7 @@ void Elf::startComputer()
 	readProgram(p_Main->getRomDir(ELF, MAINROM2), p_Main->getRomFile(ELF, MAINROM2), p_Main->getLoadromMode(ELF, 1), offset, NONAME);
 
 	configureElfExtensions();
+    startElfKeyFile("Elf");
 	if (elfConfiguration.autoBoot)
 	{
 		scratchpadRegister_[0]=p_Main->getBootAddress("Elf", ELF);

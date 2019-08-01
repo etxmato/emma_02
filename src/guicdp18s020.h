@@ -27,6 +27,7 @@ public:
     bool getUseCdp18s020ControlWindows();
     void onAutoBoot(wxCommandEvent& event);
     void onAutoBootType(wxCommandEvent& event);
+    void onCdp18s020ForceUpperCase(wxCommandEvent&event);
 
 private:
     wxPoint position_;

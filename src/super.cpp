@@ -1228,7 +1228,6 @@ void Super::onHexKeyUp(int keycode)
 
 void Super::startComputer()
 {
-	startElfKeyFile("SuperElf");
 	resetPressed_ = false;
 
 	if (elfConfiguration.usePortExtender)
@@ -1291,6 +1290,7 @@ void Super::startComputer()
 	readProgram(p_Main->getRomDir(SUPERELF, MAINROM2), p_Main->getRomFile(SUPERELF, MAINROM2), p_Main->getLoadromMode(SUPERELF, 1), offset, NONAME);
 
 	configureElfExtensions();
+    startElfKeyFile("SuperElf");
 
     if (elfConfiguration.autoBoot)
 	{

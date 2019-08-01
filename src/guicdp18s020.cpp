@@ -93,6 +93,7 @@ BEGIN_EVENT_TABLE(GuiCdp18s020, GuiTMC2000)
     EVT_TEXT(XRCID("WavFileCDP18S020"), GuiMain::onCassetteText)
 
     EVT_CHOICE(XRCID("AutoBootTypeCDP18S020"), GuiCdp18s020::onAutoBootType)
+    EVT_CHECKBOX(XRCID("ForceUCCDP18S020"), GuiCdp18s020::onCdp18s020ForceUpperCase)
 
 END_EVENT_TABLE()
 
@@ -196,6 +197,8 @@ void GuiCdp18s020::readCdp18s020Config()
     else
         conf[CDP18S020].bootAddress_ = 0;
 
+    configPointer->Read("/CDP18S020/Force_Uppercase", &elfConfiguration[CDP18S020].forceUpperCase, true);
+
     if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomCDP18S020", wxComboBox)->SetValue(conf[CDP18S020].rom_[MAINROM1]);
@@ -224,6 +227,7 @@ void GuiCdp18s020::readCdp18s020Config()
 
         XRCCTRL(*this, "RamCDP18S020", wxChoice)->SetSelection(conf[CDP18S020].ramType_);
         XRCCTRL(*this, "AutoBootTypeCDP18S020", wxChoice)->SetSelection(elfConfiguration[CDP18S020].autoBootType);
+        XRCCTRL(*this, "ForceUCCDP18S020", wxCheckBox)->SetValue(elfConfiguration[CDP18S020].forceUpperCase);
     }
 }
 
@@ -280,6 +284,7 @@ void GuiCdp18s020::writeCdp18s020Config()
 	configPointer->Write("/CDP18S020/Clock_Speed", conf[CDP18S020].clock_);
     configPointer->Write("/CDP18S020/Ram_Type", conf[CDP18S020].ramType_);
     configPointer->Write("/CDP18S020/AutoBootType", elfConfiguration[CDP18S020].autoBootType);
+    configPointer->Write("/CDP18S020/Force_Uppercase", elfConfiguration[CDP18S020].forceUpperCase);
 }
 
 void GuiCdp18s020::readCdp18s020WindowConfig()
@@ -362,5 +367,15 @@ void GuiCdp18s020::onAutoBootType(wxCommandEvent&event)
     if (runningComputer_ == CDP18S020)
         p_Cdp18s020->setAddressLatch(conf[CDP18S020].bootAddress_);
 }
+
+void GuiCdp18s020::onCdp18s020ForceUpperCase(wxCommandEvent&event)
+{
+    elfConfiguration[CDP18S020].forceUpperCase = event.IsChecked();
+    if (runningComputer_ == CDP18S020)
+    {
+        p_Cdp18s020->setForceUpperCase(event.IsChecked());
+    }
+}
+
 
 

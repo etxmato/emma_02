@@ -1025,7 +1025,6 @@ void Elf2::onHexKeyUp(int keycode)
 
 void Elf2::startComputer()
 {
-	startElfKeyFile("ElfII");
 	resetPressed_ = false;
 
 	if (elfConfiguration.usePortExtender)
@@ -1088,6 +1087,7 @@ void Elf2::startComputer()
     readProgram(p_Main->getRomDir(ELFII, MAINROM2), p_Main->getRomFile(ELFII, MAINROM2), p_Main->getLoadromMode(ELFII, 1), offset, NONAME);
 
 	configureElfExtensions();
+    startElfKeyFile("ElfII");
 	if (elfConfiguration.autoBoot)
 	{
 		scratchpadRegister_[0]=p_Main->getBootAddress("ElfII", ELFII);

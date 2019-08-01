@@ -791,3 +791,10 @@ void Cdp18s020::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(but
     cdp18s020ScreenPointer->releaseButtonOnScreen(buttonPointer);
 }
 
+void Cdp18s020::setForceUpperCase(bool status)
+{
+    if (cdp18s020Configuration.vtType != VTNONE)
+        vtPointer->setForceUCVt(status);
+}
+
+
