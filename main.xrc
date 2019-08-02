@@ -14486,7 +14486,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxCheckBox" name="UpperCaseCDP18S020">
+                                                                        <object class="wxCheckBox" name="ForceUCCDP18S020">
                                                                             <tooltip>Force keyboard in uppercase</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

@@ -179,7 +179,7 @@ void GuiVelf::readVelfConfig()
 	setRealCas(VELF);
 
 	wxString defaultClock;
-	defaultClock.Printf("%1.4f", 3.579545);
+	defaultClock.Printf("%1.2f", 1.76);
 	conf[VELF].clock_ = configPointer->Read("/Velf/Clock_Speed", defaultClock);
 
     wxString defaultTimer;
@@ -195,7 +195,7 @@ void GuiVelf::readVelfConfig()
     elfConfiguration[VELF].vt52SetUpFeature_ = configPointer->Read("/Velf/VT52Setup", 0x00004092l);
     elfConfiguration[VELF].vt100SetUpFeature_ = configPointer->Read("/Velf/VT100Setup", 0x0000ca52l);
     elfConfiguration[VELF].vtExternalSetUpFeature_ = configPointer->Read("/Velf/VTExternalSetup", 0x0000ca52l);
-	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 1l);
+	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 2l);
 	elfConfiguration[VELF].baudR = elfConfiguration[VELF].baudT;
 
 	setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
