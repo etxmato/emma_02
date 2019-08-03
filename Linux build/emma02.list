@@ -6,12 +6,12 @@ $libdir=/usr/lib
 $mandir=${prefix}/share/man
 $srcdir=.
 %product Emma 02
-%copyright 2007-2018 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
+%copyright 2007-2019 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README
-%description Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, RCA Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
-%version 1.30
+%description Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, RCA Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+%version 1.31
 %requires glibc
 %requires libcurl
 %requires SDL
@@ -26,6 +26,7 @@ f 755 root sys ${bindir}/emma_02 ../Release/emma_02
 f 644 root sys ${datadir}/emma_02/pseudo.def ../pseudo.def
 f 644 root sys ${datadir}/emma_02/CARDTRAN.syntax ../CARDTRAN.syntax
 f 644 root sys ${datadir}/emma_02/Chip8.syntax ../Chip8.syntax
+f 644 root sys ${datadir}/emma_02/Chip8.syntax ../Chip8Elf.syntax
 f 644 root sys ${datadir}/emma_02/Chip8Studio.syntax ../Chip8Studio.syntax
 f 644 root sys ${datadir}/emma_02/Chip8Vip2K.syntax ../Chip8Vip2K.syntax
 f 644 root sys ${datadir}/emma_02/Chip8X.syntax ../Chip8X.syntax

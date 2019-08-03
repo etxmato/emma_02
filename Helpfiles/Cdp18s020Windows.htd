@@ -1,0 +1,15 @@
+<HTML>
+<Title>Control Windows</Title>
+<BODY>
+<h3>Control Windows</h3>
+<p>
+The main CDP18S020 Evaluation Kit control board can be shown by selecting check box 'CDP18S020 Window'. 
+</p>
+<p>
+The main board includes the switches, buttons and status leds. Emulation of the leds can take a lot of PC CPU power so default these are only updated every 500 ms. This can be changed in the Emma 02 window by changing the 'Leds' field. When 0 ms (or nothing) is specfied the leds will be updated in real time. Note that this will take a lot of CPU load and as such make the CDP18S020 run very slow due to the frequent changes in both CPU status, data and address leds.
+</p>
+<p>
+In STEP mode all leds are updated in real time.
+</p>
+</BODY>
+</HTML>

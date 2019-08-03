@@ -8,7 +8,7 @@
 
 DECLARE_EVENT_TYPE(ON_UART_VIP2K, 811)
 
-class Vip2K : public Cdp1802, public Pixie
+class Vip2K : public Cdp1802, public PixieVip2K
 {
 public:
 	Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf);
@@ -20,8 +20,6 @@ public:
     void keyDown(int keycode);
 	void keyUp(int keycode);
 
-	void onRun();
-
 	Byte ef(int flag);
 	Byte in(Byte port, Word address);
 	void out(Byte port, Word address, Byte value);
@@ -32,13 +30,16 @@ public:
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
 	void updateTitle(wxString Title);
 	void onReset();
-	void checkVipFunction();
+	void checkComputerFunction();
 	void startComputerRun(bool load);
 	void sleepComputer(long ms);
 
@@ -55,7 +56,7 @@ private:
 	Byte vipKeyState_[6];
     Byte shiftEf_;
     Byte ctlEf_;
-	bool runPressed_;
+//	bool runPressed_;
 
 	int keyDefA1_[16];
 	int keyDefB1_[16];

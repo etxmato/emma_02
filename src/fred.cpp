@@ -224,8 +224,8 @@ void FredScreen::releaseButtonOnScreen(HexButton* buttonPoint)
 }
 
 BEGIN_EVENT_TABLE(Fred, wxFrame)
-	EVT_BUTTON(1, Cosmicos::onRunButton)
-	EVT_BUTTON(2, Cosmicos::onResetButton)
+	EVT_BUTTON(1, Fred::onRunButton)
+	EVT_BUTTON(2, Fred::onResetButton)
 	EVT_CLOSE (Fred::onClose)
 END_EVENT_TABLE()
 
@@ -779,7 +779,7 @@ void Fred::cycle(int type)
         break;
             
 		case PIXIECYCLE:
-			pixiePointer->cyclePixieFred();
+			pixiePointer->cyclePixie();
 		break;
 
         case LEDCYCLE:
@@ -1005,7 +1005,7 @@ void Fred::startComputer()
         fredScreenPointer->setStopLed(1);
     }
 
-    pixiePointer->configurePixieFred();
+    pixiePointer->configurePixie();
 	pixiePointer->initPixie();
 	pixiePointer->setZoom(zoom);
 	pixiePointer->Show(true);
@@ -1076,53 +1076,59 @@ Byte Fred::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Fred::readMem(Word addr)
+Byte Fred::readMem(Word address)
 {
-	address_ = addr;
-
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
         case MAPPEDRAM:
-			addr = addr & 0x7ff;
+			address = address & 0x7ff;
 		break;
  	}
-    return mainMemory_[addr];
+    return mainMemory_[address];
 }
 
-void Fred::writeMem(Word addr, Byte value, bool writeRom)
+Byte Fred::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void Fred::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
             
 		case MAPPEDRAM:
-			addr = addr & 0x7ff;
-			if (mainMemory_[addr]==value)
+			address = address & 0x7ff;
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
+}
+
+void Fred::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Fred::cpuInstruction()
@@ -1135,33 +1141,7 @@ void Fred::cpuInstruction()
 			if (zeroWaveCounter_ == -1)
 				psaveAmplitudeZero();
 		}
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) 
-				machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-        
-        playSaveLoad();
-        checkFredFunction();
-
-		if (resetPressed_)
-            resetFred();
-
-        if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-            p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -1173,7 +1153,7 @@ void Fred::cpuInstruction()
         playSaveLoad();
 
         if (resetPressed_)
-            resetFred();
+            resetPressed();
 
         p_Main->startTime();
 	}
@@ -1194,7 +1174,7 @@ void Fred::sleepComputer(long ms)
     threadPointer->Sleep(ms);
 }
 
-void Fred::resetFred()
+void Fred::resetPressed()
 {
     resetCpu();
     resetPressed_ = false;
@@ -1545,7 +1525,7 @@ void Fred::showDataLeds(Byte value)
     fredScreenPointer->setReadyLed(1);
 }
 
-void Fred::checkFredFunction()
+void Fred::checkComputerFunction()
 {
     if (scratchpadRegister_[programCounter_] == p_Computer->getChip8MainLoop() && pseudoType_ == "FEL-1")
     {

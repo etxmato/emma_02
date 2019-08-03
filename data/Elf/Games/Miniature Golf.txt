@@ -1,0 +1,10 @@
+This is the Miniature Golf game from the VIP II game manual. I don't have a copy of that manual so not sure how it works exactly. Start-up us key 1, 2, 3 or 4 depending on how many players you want.
+
+This is a chip 8 based game.
+
+The Miniature Golf.hex and Miniature Golf.bin files include:
+000 - 1FF Elf II Chip 8 Interpreter (part 1)
+200 - 5FF Miniature Golf chip 8 code, start from giantboard with 00-IN, 00-IN, 00-IN, IN
+600 - DFF Probably data that happened to be in memory at time of 'save'
+E00 - E6D Elf II Chip 8 Interpreter (part 2)
+F00 - FFF Used for screen memory so code/data in file is never used

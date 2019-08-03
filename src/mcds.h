@@ -30,9 +30,12 @@ public:
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
     void setForceUpperCase(bool status);
 	void setBootRam(bool status);
@@ -42,7 +45,7 @@ public:
     void startComputerRun(bool load);
     int getRunState() {return mcdsRunState_;};
     bool isComputerRunning();
-    void checkMcdsFunction();
+    void checkComputerFunction();
 
 	void setMcdsClockSpeed(double clock) {McdsClockSpeed_ = clock;};
 	void activateMainWindow();

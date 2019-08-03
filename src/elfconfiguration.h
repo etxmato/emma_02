@@ -112,6 +112,7 @@ public:
 	int baudR;
 	int baudT;
     bool autoBoot;
+    int autoBootType;
     bool stopTone;
     bool utilityMemory;
     bool tapeStart;
@@ -153,7 +154,8 @@ public:
     int frontType;
 
     bool giantBoardMapping;
-    
+    bool efButtons;
+
     bool forceUpperCase;
 	int qSound_;
     int tilType;

@@ -210,6 +210,7 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_CHECKBOX(XRCID("UpperCaseSuperElf"), GuiElf::onForceUpperCase)
 
     EVT_CHECKBOX(XRCID("GiantElfII"), GuiElf::onGiantBoardMapping)
+    EVT_CHECKBOX(XRCID("EFButtonsElfII"), GuiElf::onEfButtons)
 
     EVT_CHOICE(XRCID("DiskTypeElf"), GuiElf::onDiskType)
 	EVT_CHOICE(XRCID("DiskTypeElfII"), GuiElf::onDiskType)
@@ -335,6 +336,10 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 
     EVT_CHECKBOX(XRCID("BootStrapSuperElf"), GuiElf::onBootStrap)
 
+    EVT_CHECKBOX(XRCID("HexEfElf"), GuiElf::onHexEf)
+    EVT_CHECKBOX(XRCID("HexEfElfII"), GuiElf::onHexEf)
+    EVT_CHECKBOX(XRCID("HexEfSuperElf"), GuiElf::onHexEf)
+
     EVT_CHOICE(XRCID("TilTypeElf"), GuiElf::onTilType)
     EVT_CHOICE(XRCID("TilTypeElfII"), GuiElf::onTilType)
     EVT_CHOICE(XRCID("TilTypeSuperElf"), GuiElf::onTilType)
@@ -395,10 +400,11 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	elfConfiguration[elfType].baudR = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Receive", 3l);
 	elfConfiguration[elfType].baudT = (int)configPointer->Read(elfTypeStr+"/Vt_Baud_Transmit", 3l);
 	elfConfiguration[elfType].diskType = (int)configPointer->Read(elfTypeStr+"/Disk_Type", 2l);
-	elfConfiguration[elfType].keyboardType = (int)configPointer->Read(elfTypeStr+"/Keyboard_Type", 0l);
+    elfConfiguration[elfType].keyboardType = (int)configPointer->Read(elfTypeStr+"/Keyboard_Type", 0l);
 	elfConfiguration[elfType].memoryType = (int)configPointer->Read(elfTypeStr+"/Memory_Type", 0l);
 
 	elfConfiguration[elfType].bellFrequency_ = (int)configPointer->Read(elfTypeStr + "/Bell_Frequency", 800);
+    configPointer->Read(elfTypeStr+"/UseHexEf", &elfConfiguration[elfType].useHexKeyboardEf3, false);
     configPointer->Read(elfTypeStr+"/SerialLog", &elfConfiguration[elfType].serialLog, false);
     configPointer->Read(elfTypeStr+"/Uart", &elfConfiguration[elfType].useUart, false);
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Boot", &elfConfiguration[elfType].autoBoot, true);
@@ -412,6 +418,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].printMode_ = (int)configPointer->Read(elfTypeStr+"/Print_Mode", 1l);
 
     configPointer->Read(elfTypeStr+"/GiantBoardMapping", &elfConfiguration[elfType].giantBoardMapping, false);
+    configPointer->Read(elfTypeStr+"/EfButtons", &elfConfiguration[elfType].efButtons, false);
     elfConfiguration[elfType].tilType = (int)configPointer->Read(elfTypeStr+"/TilType", 1l);
     if (elfType == SUPERELF)
         configPointer->Read(elfTypeStr+"/BootStrap", &elfConfiguration[elfType].bootStrap, false);
@@ -506,6 +513,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 //		XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 //		XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 		XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
+        XRCCTRL(*this, "HexEf"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useHexKeyboardEf3);
+
 		XRCCTRL(*this, "ZoomValue"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoom_);
 		XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoomVt_);
 		XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
@@ -514,7 +523,10 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
         XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].stretchDot_);
 
         if (elfType == ELFII)
+        {
             XRCCTRL(*this, "Giant"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].giantBoardMapping);
+            XRCCTRL(*this, "EFButtons"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].efButtons);
+        }
 
         XRCCTRL(*this, "TilType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].tilType);
 
@@ -554,7 +566,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     }
 
 	setDiskType(elfTypeStr, elfType, elfConfiguration[elfType].diskType);
-	setElfKeyboard(elfTypeStr, elfType, elfConfiguration[elfType].keyboardType);
+	setElfKeyboard(elfTypeStr, elfType, elfConfiguration[elfType].keyboardType, elfConfiguration[elfType].useHexKeyboardEf3);
 	setRealCas(elfType);
 
 	configPointer->Read(elfTypeStr+"/Load_Mode_Rom_1", &romMode, true);
@@ -694,12 +706,14 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	buffer.Printf("%04X", (unsigned int)conf[elfType].bootAddress_);
 	configPointer->Write(elfTypeStr+"/Boot_Address", buffer);
 	configPointer->Write(elfTypeStr+"/Video_Type", conf[elfType].videoMode_);
-	configPointer->Write(elfTypeStr+"/Keyboard_Type", elfConfiguration[elfType].keyboardType);
+    configPointer->Write(elfTypeStr+"/Keyboard_Type", elfConfiguration[elfType].keyboardType);
+    configPointer->Write(elfTypeStr+"/UseHexEf", elfConfiguration[elfType].useHexKeyboardEf3);
 	configPointer->Write(elfTypeStr+"/Zoom", conf[elfType].zoom_);
 	configPointer->Write(elfTypeStr+"/Vt_Zoom", conf[elfType].zoomVt_);
 	configPointer->Write(elfTypeStr+"/Force_Uppercase", elfConfiguration[elfType].forceUpperCase);
 
     configPointer->Write(elfTypeStr+"/GiantBoardMapping", elfConfiguration[elfType].giantBoardMapping);
+    configPointer->Write(elfTypeStr+"/EfButtons", elfConfiguration[elfType].efButtons);
 
 	configPointer->Write(elfTypeStr+"/Enable_Printer", conf[elfType].printerOn_);
 	configPointer->Write(elfTypeStr + "/Print_Mode", conf[elfType].printMode_);
@@ -834,7 +848,7 @@ void GuiElf::onVideoType(wxCommandEvent&event)
 
 void GuiElf::onElfKeyboard(wxCommandEvent&event)
 {
-	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, event.GetSelection());
+	setElfKeyboard(computerInfo[selectedComputer_].gui, selectedComputer_, event.GetSelection(), elfConfiguration[selectedComputer_].useHexKeyboardEf3);
 }
 
 void GuiElf::onForceUpperCase(wxCommandEvent&event)
@@ -859,6 +873,11 @@ void GuiElf::onForceUpperCase(wxCommandEvent&event)
 void GuiElf::onGiantBoardMapping(wxCommandEvent&event)
 {
     elfConfiguration[selectedComputer_].giantBoardMapping = event.IsChecked();
+}
+
+void GuiElf::onEfButtons(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].efButtons = event.IsChecked();
 }
 
 void GuiElf::setMemory(wxString elfTypeStr, int elfType, int Selection)
@@ -1054,7 +1073,7 @@ long GuiElf::getEndRam(wxString elfTypeStr, int elfType)
 	return endRam_[elfType];
 }
 
-void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection)
+void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, bool hexEf)
 {
 	elfConfiguration[elfType].keyboardType = Selection;
 
@@ -1068,19 +1087,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection)
 			elfConfiguration[elfType].usePs2gpio = false;
 			if (mode_.gui)
 			{
-				XRCCTRL(*this,"KeyFileButton"+elfTypeStr, wxButton)->Enable(false);
-				XRCCTRL(*this,"KeyFile"+elfTypeStr, wxTextCtrl)->Enable(false);
-				XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->Enable(false);
-			}
-		break;
-		case KEYBOARD_HEX_EF:
-			elfConfiguration[elfType].useHexKeyboard = true;
-			elfConfiguration[elfType].useHexKeyboardEf3 = true;
-			elfConfiguration[elfType].useKeyboard = false;
-			elfConfiguration[elfType].UsePS2 = false;
-			elfConfiguration[elfType].usePs2gpio = false;
-			if (mode_.gui)
-			{
+                XRCCTRL(*this,"HexEf"+elfTypeStr, wxCheckBox)->Enable(false);
 				XRCCTRL(*this,"KeyFileButton"+elfTypeStr, wxButton)->Enable(false);
 				XRCCTRL(*this,"KeyFile"+elfTypeStr, wxTextCtrl)->Enable(false);
 				XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->Enable(false);
@@ -1088,12 +1095,13 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection)
 		break;
 		case KEYBOARD_HEX:
 			elfConfiguration[elfType].useHexKeyboard = true;
-			elfConfiguration[elfType].useHexKeyboardEf3 = false;
+			elfConfiguration[elfType].useHexKeyboardEf3 = hexEf;
 			elfConfiguration[elfType].useKeyboard = false;
 			elfConfiguration[elfType].UsePS2 = false;
 			elfConfiguration[elfType].usePs2gpio = false;
 			if (mode_.gui)
 			{
+                XRCCTRL(*this,"HexEf"+elfTypeStr, wxCheckBox)->Enable(true);
 				XRCCTRL(*this,"KeyFileButton"+elfTypeStr, wxButton)->Enable(false);
 				XRCCTRL(*this,"KeyFile"+elfTypeStr, wxTextCtrl)->Enable(false);
 				XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->Enable(false);
@@ -1107,6 +1115,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection)
 			elfConfiguration[elfType].usePs2gpio = false;
 			if (mode_.gui)
 			{
+                XRCCTRL(*this,"HexEf"+elfTypeStr, wxCheckBox)->Enable(false);
 				XRCCTRL(*this, "KeyFileButton" + elfTypeStr, wxButton)->Enable(true);
 				XRCCTRL(*this, "KeyFile" + elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "EjectKeyFile" + elfTypeStr, wxBitmapButton)->Enable(true);
@@ -1114,12 +1123,13 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection)
 			break;
 		case KEYBOARD_ASCII_HEX_EF:
 			elfConfiguration[elfType].useHexKeyboard = true;
-			elfConfiguration[elfType].useHexKeyboardEf3 = true;
+			elfConfiguration[elfType].useHexKeyboardEf3 = hexEf;
 			elfConfiguration[elfType].useKeyboard = true;
 			elfConfiguration[elfType].UsePS2 = false;
 			elfConfiguration[elfType].usePs2gpio = false;
 			if (mode_.gui)
 			{
+                XRCCTRL(*this,"HexEf"+elfTypeStr, wxCheckBox)->Enable(true);
 				XRCCTRL(*this,"KeyFileButton"+elfTypeStr, wxButton)->Enable(true);
 				XRCCTRL(*this,"KeyFile"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->Enable(true);
@@ -1134,6 +1144,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection)
 			elfConfiguration[elfType].usePs2gpio = false;
 			if (mode_.gui)
 			{
+                XRCCTRL(*this,"HexEf"+elfTypeStr, wxCheckBox)->Enable(false);
 				XRCCTRL(*this,"KeyFileButton"+elfTypeStr, wxButton)->Enable(false);
 				XRCCTRL(*this,"KeyFile"+elfTypeStr, wxTextCtrl)->Enable(false);
 				XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->Enable(false);
@@ -1148,6 +1159,7 @@ void GuiElf::setElfKeyboard(wxString elfTypeStr, int elfType, int Selection)
 			elfConfiguration[elfType].usePs2gpio = false;
 			if (mode_.gui)
 			{
+                XRCCTRL(*this,"HexEf"+elfTypeStr, wxCheckBox)->Enable(false);
 				XRCCTRL(*this,"KeyFileButton"+elfTypeStr, wxButton)->Enable(false);
 				XRCCTRL(*this,"KeyFile"+elfTypeStr, wxTextCtrl)->Enable(false);
 				XRCCTRL(*this,"EjectKeyFile"+elfTypeStr, wxBitmapButton)->Enable(false);
@@ -1416,6 +1428,14 @@ void GuiElf::onQsound(wxCommandEvent&event)
 	XRCCTRL(*this, "BeepFrequencyText"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
     XRCCTRL(*this, "BeepFrequencyTextHz"+computerInfo[selectedComputer_].gui, wxStaticText)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
 	XRCCTRL(*this, "BeepFrequency"+computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].qSound_ == QSOUNDEXT);
+}
+
+void GuiElf::onHexEf(wxCommandEvent&event)
+{
+    elfConfiguration[selectedComputer_].useHexKeyboardEf3 = event.IsChecked();
+    if ((selectedComputer_ == runningComputer_) && computerRunning_)
+        p_Computer->switchHexEf(elfConfiguration[selectedComputer_].useHexKeyboardEf3);
+
 }
 
 void GuiElf::onBootStrap(wxCommandEvent&event)

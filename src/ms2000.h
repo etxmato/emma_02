@@ -32,16 +32,19 @@ public:
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
     void setForceUpperCase(bool status);
 	void setBootRam(bool status);
 	void updateTitle(wxString Title);
 	void onReset();
     void sleepComputer(long ms);
-    void checkMs2000Function();
+    void checkComputerFunction();
 
 	void setMs2000ClockSpeed(double clock) {ms2000ClockSpeed_ = clock;};
 	void activateMainWindow();

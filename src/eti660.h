@@ -27,16 +27,19 @@ public:
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
+	void writeMem(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void onReset();
-	void checkEtiFunction();
+	void checkComputerFunction();
 	void finishStopTape();
 	void keyClear();
 
-	Byte read1864ColorDirect(Word addr);
-	void write1864ColorDirect(Word addr, Byte value);
+	Byte read1864ColorDirect(Word address);
+	void write1864ColorDirect(Word address, Byte value);
 
 private:
 	bool eti660KeyState_[16];

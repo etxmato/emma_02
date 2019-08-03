@@ -107,6 +107,9 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         case VELF:
             computerTypeStr_ = "Velf";
         break;
+        case CDP18S020:
+            computerTypeStr_ = "CDP18S020";
+        break;
 		case MCDS:
 			computerTypeStr_ = "MCDS";
 		break;
@@ -239,6 +242,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	originMode_ = false;
     terminalSave_ = false;
     terminalLoad_ = false;
+    terminalFileCdp18s020_ = false;
     terminalInputFileLine_ = "";
 
     if (vtType_ != EXTERNAL_TERMINAL)
@@ -324,10 +328,7 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
         p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
         
         dataReadyFlag_ = elfPortConf.vt100Ef;
-        if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
-            p_Computer->setEfType(dataReadyFlag_, VTINEF);
-        else
-            p_Computer->setEfType(dataReadyFlag_, VT100EF);
+        p_Computer->setEfType(dataReadyFlag_, VT100EF);
         
         if (reverseQ_) p_Computer->setFlipFlopQ(1);
         
@@ -367,7 +368,7 @@ void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataRead
     
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
-    dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP = 4
+    dataReadyFlag_ = dataReadyFlag; // Velf = 2, Member = 3, Mcds, Cosmicos, VIP, CDP18S020 = 4
     
     if (computerType_ == VELF || computerType_ == VIP)
         baudRateT_ = (int) (((clock_ * 1000000) / 16) / baudRateValue_[selectedBaudT_]);
@@ -812,7 +813,7 @@ void Vt100::cycleVt()
                                     break;
                                         
                                     case 2:
-                                        if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa)
+                                        if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa && !terminalFileCdp18s020_)
                                             eof = true;
                                         seek = -1;
                                     break;
@@ -1332,8 +1333,48 @@ void Vt100::Display(int byt, bool forceDisplay)
 	{
         char buffer[1];
 		buffer[0] = byt;
-		outputTerminalFile.Write(buffer, 1);
-		return;
+        if (terminalFileCdp18s020_)
+        {
+            switch (byt)
+            {
+                case 0:
+                break;
+                    
+                case 0xa:
+                    if (lastByte_ == -1)
+                        lastByte_ = byt;
+                    if (lastByte_ == 0xd)
+                    {
+                        outputTerminalFile.Write(buffer, 1);
+                        lastByte_ = byt;
+                    }
+               break;
+                    
+                case 0xd:
+                    if (lastByte_ != -1)
+                    {
+                        outputTerminalFile.Write(buffer, 1);
+                        lastByte_ = byt;
+                    }
+                break;
+                    
+                case 0x2a:
+                    terminalStopVt();
+                    p_Main->stopTerminal();
+                break;
+
+                default:
+                    outputTerminalFile.Write(buffer, 1);
+                    lastByte_ = byt;
+               break;
+
+            }
+        }
+        else
+        {
+            outputTerminalFile.Write(buffer, 1);
+            return;
+        }
 	}
 
 	if ((xOff_ || smoothScroll_ || (displayStart_ != displayEnd_)) && !forceDisplay)
@@ -2654,7 +2695,7 @@ Byte Vt100::uartThreStatus()
 
 void Vt100::getKey()
 {
-    if (terminalLoad_ || terminalSave_)
+    if ((terminalLoad_ || terminalSave_) && !terminalFileCdp18s020_)
         return;
     
 	if (vtOut_ <= 0)
@@ -2832,6 +2873,20 @@ void Vt100::terminalSaveVt(wxString fileName)
     }
 }
 
+void Vt100::terminalSaveCdp18s020Vt(wxString fileName)
+{
+    if (!fileName.empty())
+    {
+        if (outputTerminalFile.Create(fileName, true))
+        {
+            terminalSave_ = true;
+            terminalFileCdp18s020_ = true;
+            lastByte_ = -1;
+            terminalLine_ = "";
+        }
+    }
+}
+
 void Vt100::terminalLoadVt(wxString fileName, bool binaryFile)
 {
     if (!fileName.empty())
@@ -2840,7 +2895,22 @@ void Vt100::terminalLoadVt(wxString fileName, bool binaryFile)
         {
             terminalLoad_ = true;
             binaryFile_ = binaryFile;
-			p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+            p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+            previousByte_ = 0;
+        }
+    }
+}
+
+void Vt100::terminalLoadCdp18s020Vt(wxString fileName, bool binaryFile)
+{
+    if (!fileName.empty())
+    {
+        if (inputTerminalFile.Open(fileName, _("rb")))
+        {
+            terminalLoad_ = true;
+            terminalFileCdp18s020_ = true;
+            binaryFile_ = binaryFile;
+            p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
         }
     }
@@ -2848,6 +2918,7 @@ void Vt100::terminalLoadVt(wxString fileName, bool binaryFile)
 
 void Vt100::terminalStopVt()
 {
+    terminalFileCdp18s020_ = false;
     if (terminalSave_)
     {
 		terminalSave_ = false;

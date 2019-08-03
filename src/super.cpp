@@ -269,7 +269,8 @@ void SuperScreen::onMouseRelease(wxMouseEvent&event)
 	osx_stepButtonPointer->onMouseRelease(dc, x, y);
 	osx_text_mpButtonPointer->onMouseRelease(dc, x, y);
 	for (int i = 0; i<16; i++)
-		osx_buttonPointer[i]->onMouseRelease(dc, x, y);
+		if (osx_buttonPointer[i]->onMouseRelease(dc, x, y))
+            p_Computer->onNumberKeyUp();
 #endif
 }
 
@@ -509,11 +510,7 @@ void Super::configureComputer()
 	efType_[3] = EF3UNDEFINED;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
-//	int efPort;
 	wxString printBuffer;
-
-//	int input = p_Main->getConfigItem("/SuperElf/HexInput", 4l);
-//	int output = p_Main->getConfigItem("/SuperElf/HexOutput", 4l);
 
 	p_Main->message("Configuring Super Elf");
 	printBuffer.Printf("	Output %d: display output, input %d: data input", elfConfiguration.elfPortConf.hexOutput, elfConfiguration.elfPortConf.hexInput);
@@ -524,39 +521,31 @@ void Super::configureComputer()
 
     if (elfConfiguration.useRomMapper)
     {
-//        output = p_Main->getConfigItem("/SuperElf/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: rom mapper", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, ROMMAPPEROUT);
         p_Main->message(printBuffer);
     }
     if (elfConfiguration.useEms)
     {
-//        output = p_Main->getConfigItem("/SuperElf/EmsOutput", 7l);
         printBuffer.Printf("	Output %d: EMS-512KB", elfConfiguration.elfPortConf.emsOutput);
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
 	if (elfConfiguration.useTape)
 	{
-//		efPort = p_Main->getConfigItem("/SuperElf/TapeEf", 2l);
-//		efPort = p_Main->getConfigItem("/SuperElf/TapeEf", 3l);
 		efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
 		printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
 		p_Main->message(printBuffer);
 	}
 	if (elfConfiguration.useHexKeyboardEf3)
 	{
-//		efPort = p_Main->getConfigItem("/SuperElf/HexEf", 3l);
-		efType_[elfConfiguration.elfPortConf.hexEf] = SUPEREF3;
 		printBuffer.Printf("	EF %d: 0 when hex button pressed", elfConfiguration.elfPortConf.hexEf);
 		p_Main->message(printBuffer);
 	}
-	if (efType_[4] == 0)
-	{
-		efType_[4] = ELFINEF;
-		p_Main->message("	EF 4: 0 when in button pressed");
-	}
-	p_Main->message("");
+
+    p_Main->message("	EF 4: 0 when in button pressed");
+
+    p_Main->message("");
 
     inKey1_ = p_Main->getDefaultInKey1("SuperElf");
     inKey2_ = p_Main->getDefaultInKey2("SuperElf");
@@ -567,6 +556,11 @@ void Super::configureComputer()
 		p_Main->loadKeyDefinition(p_Main->getRomFile(SUPERELF, MAINROM1), p_Main->getRomFile(SUPERELF, MAINROM2), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         
 	resetCpu();
+}
+
+void Super::switchHexEf(bool state)
+{
+    elfConfiguration.useHexKeyboardEf3 = state;
 }
 
 void Super::setPrinterEf()
@@ -598,7 +592,6 @@ void Super::initComputer()
 	switches_ = 0;
 	lastMode_ = UNDEFINDEDMODE;
 	monitor_ = false;
- 	singleStep_ = 0;
 	ef3State_ = 1;
 	ef4State_ = 1;
 	elfRunState_ = RESETSTATE;
@@ -607,6 +600,16 @@ void Super::initComputer()
 
 Byte Super::ef(int flag)
 {
+    if (flag == 4)
+    {
+        if (ef4State_ == 0)
+            return ef4State_;
+    }
+    if (elfConfiguration.useHexKeyboardEf3)
+    {
+        if (flag == elfConfiguration.elfPortConf.hexEf)
+            return ef3State_;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -653,24 +656,6 @@ Byte Super::ef(int flag)
 			return cassetteEf_;
 		break;
 
-		case ELFINEF:
-			return ef4();
-		break;
-
-		case VTINEF:
-			if (ef4State_ == 0)
-				return 0;
-			else
-				return vtPointer->ef();
-		break;
-
-		case VTINEFSERIAL:
-			if (ef4State_ == 0)
-				return 0;
-			else
-				return p_Serial->ef();
-		break;
-
 		case EF1UNDEFINED:
 			return elfConfiguration.elfPortConf.ef1default;
 		break;
@@ -683,7 +668,6 @@ Byte Super::ef(int flag)
 			return elfConfiguration.elfPortConf.ef3default;
 		break;
 
-		case SUPEREF3:
 		case ELFPRINTEREF:
 			return ef3State_;
 		break;
@@ -691,11 +675,6 @@ Byte Super::ef(int flag)
 		default:
 			return 1;
 	}
-}
-
-Byte Super::ef4()
-{
-	return ef4State_;
 }
 
 Byte Super::in(Byte port, Word WXUNUSED(address))
@@ -890,6 +869,12 @@ void Super::showData(Byte val)
         superScreenPointer->showDataTil313Italic(val);
 }
 
+void Super::showCycleData(Byte val)
+{
+    if (singleStateStep_)
+        showData(val);
+}
+
 void Super::cycle(int type)
 {
 	switch(cycleType_[type])
@@ -967,42 +952,58 @@ void Super::cycleLed()
             superScreenPointer->ledTimeout();
         }
     }
+    if (goCycleValue_ > 0)
+    {
+        goCycleValue_ --;
+        if (goCycleValue_ <= 0)
+        {
+            goCycleValue_ = goCycleSize_;
+            wxMouseState mouseState = wxGetMouseState ();
+            
+            if (mouseState.LeftIsDown())
+                setWait(1);
+            else
+                goCycleValue_ = -1;
+        }
+    }
 }
 
-void Super::cycleA()
+void Super::setGoTimer()
 {
-	if (cpuMode_ != lastMode_)
-	{
-		superScreenPointer->setLed(0,0);
-		superScreenPointer->setLed(1,0);
-		superScreenPointer->setLed(2,0);
-		superScreenPointer->setLed(3,0);
-		switch(cpuMode_)
-		{
-			case LOAD: superScreenPointer->setLed(0,1); break;
-			case RESET: superScreenPointer->setLed(1,1); break;
-			case RUN: superScreenPointer->setLed(2,1); break;
-			case PAUSE: superScreenPointer->setLed(3,1); break;
-		}
-		lastMode_ = cpuMode_;
-	}
-	if (cpuMode_ == RUN && singleStep_ != 0 && state_ == 'F')
-	{
-		superScreenPointer->setLed(4,1);
-		superScreenPointer->setLed(5,0);
-		state_ = 'E';
-		setWait(0);
-	}
+    goCycleValue_ = goCycleSize_;
 }
 
-void Super::cycleB()
+void Super::showState(int state)
 {
-	if (singleStep_ != 0)
-	{
-		superScreenPointer->setLed(4,0);
-		superScreenPointer->setLed(5,1);
-		setWait(0);
-	}
+    switch (state)
+    {
+        case STATE_FETCH:
+            superScreenPointer->setLed(4, 1);
+            superScreenPointer->setLed(5, 0);
+        break;
+
+        case STATE_EXECUTE:
+            superScreenPointer->setLed(4, 0);
+            superScreenPointer->setLed(5, 1);
+        break;
+            
+        default:
+            superScreenPointer->setLed(4, 0);
+            superScreenPointer->setLed(5, 0);
+        break;
+    }
+    superScreenPointer->setLed(6, 0);
+    superScreenPointer->setLed(7, 0);
+}
+
+void Super::showDmaLed()
+{
+    superScreenPointer->setLed(6, 1);
+}
+
+void Super::showIntLed()
+{
+    superScreenPointer->setLed(7, 1);
 }
 
 void Super::autoBoot()
@@ -1037,7 +1038,9 @@ void Super::onRunButton()
 	setClear(1);
 	setWait(1);
 	p_Main->eventUpdateTitle();
-	p_Main->startTime();
+    
+    if (cpuMode_ != RUN)
+        resetEffectiveClock();
 }
 
 void Super::onRun()
@@ -1048,11 +1051,10 @@ void Super::onRun()
 		setClear(1);
 		setWait(1);
 		p_Main->eventUpdateTitle();
-		p_Main->startTime();
+        resetEffectiveClock();
 	}
 	else
 	{
-		lastMode_ = cpuMode_;
 		setClear(0);
 		setWait(1);
 		p_Main->eventUpdateTitle();
@@ -1063,10 +1065,8 @@ void Super::onRun()
             else
                 superScreenPointer->showAddressTil313Italic(0);
         }
-		singleStep_ = 0;
 		mpButtonState_ = 0;
 		monitor_ = false;
-		state_ = 'F';
 	}
 }
 
@@ -1077,11 +1077,9 @@ void Super::onPause(wxCommandEvent&WXUNUSED(event))
 
 void Super::onPause()
 {
-	setClear(1);
 	setWait(0);
 	p_Main->eventUpdateTitle();
 	mpButtonState_ = 0;
-	singleStep_ = 0;
 }
 
 void Super::onMpButton(wxCommandEvent&WXUNUSED(event))
@@ -1124,19 +1122,25 @@ void Super::onLoadButton()
         else
             superScreenPointer->showAddressTil313Italic(0);
     }
-    lastMode_ = cpuMode_;
     setClear(0);
     setWait(0);
 }
 
 void Super::onSingleStep(wxCommandEvent&WXUNUSED(event))
 {
-	singleStep_ = 1;
+    onSingleStep();
 }
 
 void Super::onSingleStep()
 {
-	singleStep_ = 1;
+    singleStateStep_ = !singleStateStep_;
+    if (singleStateStep_)
+    {
+        setMsValue_ = (int) p_Main->getLedTimeMs(SUPERELF);
+        setLedMs(0);
+    }
+    else
+        setLedMs(setMsValue_);
 }
 
 void Super::onResetButton(wxCommandEvent&WXUNUSED(event))
@@ -1146,7 +1150,8 @@ void Super::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Super::onResetButton()
 {
-    lastMode_ = cpuMode_;
+    singleStateStep_ = false;
+    lastMode_ = UNDEFINDEDMODE;
     setClear(0);
     setWait(1);
     if (cpuMode_ == RESET)
@@ -1156,10 +1161,8 @@ void Super::onResetButton()
         else
             superScreenPointer->showAddressTil313Italic(0);
     }
-    singleStep_ = 0;
     mpButtonState_ = 0;
     monitor_ = false;
-    state_ = 'F';
 }
 
 void Super::onNumberKeyDown(wxCommandEvent&event)
@@ -1177,6 +1180,11 @@ void Super::onNumberKeyDown(int i)
 void Super::onNumberKeyUp(wxCommandEvent&WXUNUSED(event))
 {
 	ef3State_ = 1;
+}
+
+void Super::onNumberKeyUp()
+{
+    ef3State_ = 1;
 }
 
 void Super::onHexKeyDown(int keycode)
@@ -1220,7 +1228,6 @@ void Super::onHexKeyUp(int keycode)
 
 void Super::startComputer()
 {
-	startElfKeyFile("SuperElf");
 	resetPressed_ = false;
 
 	if (elfConfiguration.usePortExtender)
@@ -1283,6 +1290,7 @@ void Super::startComputer()
 	readProgram(p_Main->getRomDir(SUPERELF, MAINROM2), p_Main->getRomFile(SUPERELF, MAINROM2), p_Main->getLoadromMode(SUPERELF, 1), offset, NONAME);
 
 	configureElfExtensions();
+    startElfKeyFile("SuperElf");
 
     if (elfConfiguration.autoBoot)
 	{
@@ -1319,6 +1327,8 @@ void Super::startComputer()
     else
         ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
+    goCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * 500;
+    goCycleValue_ = -1;
 
     if (p_Vt100 != NULL)
         p_Vt100->splashScreen();
@@ -1452,27 +1462,37 @@ Byte Super::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Super::readMem(Word addr)
+Byte Super::readMem(Word address)
 {
-    if ((addr & 0x8000) == 0x8000)
+    if ((address & 0x8000) == 0x8000)
         bootstrap_ = 0;
 
-    addr = addr | bootstrap_;
-	Byte minimon[] = { 0xf8, 0xff, 0xa1, 0xe1, 0x6c, 0x64, 0xa3, 0x21,
-                   0x6c, 0x64, 0x3f, 0x07, 0x37, 0x0c, 0x3a, 0x11,
-                   0xd3, 0xe3, 0xf6, 0x33, 0x17, 0x7b, 0x6c, 0x64,
-                   0x23, 0x3f, 0x13, 0x37, 0x1b, 0x13, 0x30, 0x13 };
-
-	address_ = addr;
+    address_ = address | bootstrap_;
+    
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
     else
         superScreenPointer->showAddressTil313Italic(address_);
+    
+    return readMemDebug(address_);
+}
 
-	switch (memoryType_[addr/256])
+Byte Super::readMemDebug(Word address)
+{
+    if ((address & 0x8000) == 0x8000)
+        bootstrap_ = 0;
+    
+    address = address | bootstrap_;
+    
+    Byte minimon[] = { 0xf8, 0xff, 0xa1, 0xe1, 0x6c, 0x64, 0xa3, 0x21,
+        0x6c, 0x64, 0x3f, 0x07, 0x37, 0x0c, 0x3a, 0x11,
+        0xd3, 0xe3, 0xf6, 0x33, 0x17, 0x7b, 0x6c, 0x64,
+        0x23, 0x3f, 0x13, 0x37, 0x1b, 0x13, 0x30, 0x13 };
+    
+	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
-			switch (emsMemoryType_[((addr & 0x3fff) |(emsPage_ << 14))/256])
+			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
 			{
 				case UNDEFINED:
 					return 255;
@@ -1480,7 +1500,7 @@ Byte Super::readMem(Word addr)
 
 				case ROM:
 				case RAM:
-					return emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))];
+					return emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
 				break;
 
 				default:
@@ -1492,7 +1512,7 @@ Byte Super::readMem(Word addr)
         case ROMMAPPER:
             if (emsPage_ <= maxNumberOfPages_)
             {
-                switch (romMapperMemoryType_[((addr & 0x7fff) |(emsPage_ << 15))/256])
+                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
                 {
                     case UNDEFINED:
                         return 255;
@@ -1500,7 +1520,7 @@ Byte Super::readMem(Word addr)
                         
                     case ROM:
                     case RAM:
-                        return expansionRom_[(long) ((addr & 0x7fff) |(emsPage_ << 15))];
+                        return expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
                     break;
                         
                     default:
@@ -1517,31 +1537,31 @@ Byte Super::readMem(Word addr)
 		break;
 
 		case ROM:
-			if (addr <32 && monitor_) return minimon[addr];
-			return mainMemory_[addr];
+			if (address <32 && monitor_) return minimon[address];
+			return mainMemory_[address];
 		break;
 
 		case MAPPEDRAM:
 		case RAM:
-			if (addr <32 && monitor_) return minimon[addr];
-			addr = (addr & ramMask_) + ramStart_;
-			return mainMemory_[addr];
+			if (address <32 && monitor_) return minimon[address];
+			address = (address & ramMask_) + ramStart_;
+			return mainMemory_[address];
 		break;
 
 		case MC6847RAM:
-			return mc6847Pointer->read6847(addr);
+			return mc6847Pointer->read6847(address);
 		break;
 
 		case MC6845RAM:
-			return mc6845Pointer->read6845(addr & 0x7ff);
+			return mc6845Pointer->read6845(address & 0x7ff);
 		break;
 
 		case MC6845REGISTERS:
-			return mc6845Pointer->readData6845(addr);
+			return mc6845Pointer->readData6845(address);
 		break;
 
 		case PAGER:
-			switch (pagerMemoryType_[((getPager(addr>>12) << 12) |(addr &0xfff))/256])
+			switch (pagerMemoryType_[((getPager(address>>12) << 12) |(address &0xfff))/256])
 			{
 				case UNDEFINED:
 					return 255;
@@ -1549,8 +1569,8 @@ Byte Super::readMem(Word addr)
 
 				case ROM:
 				case RAM:
-					if (addr <32 && monitor_) return minimon[addr];
-					return mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)];
+					if (address <32 && monitor_) return minimon[address];
+					return mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)];
 				break;
 
 				default:
@@ -1565,41 +1585,48 @@ Byte Super::readMem(Word addr)
 	}
 }
 
-void Super::writeMem(Word addr, Byte value, bool writeRom)
+void Super::writeMem(Word address, Byte value, bool writeRom)
 {
-    addr = addr | bootstrap_;
-	address_ = addr;
+    address_ = address | bootstrap_;
+    
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
     else
         superScreenPointer->showAddressTil313Italic(address_);
+    
+    writeMemDebug(address_, value, writeRom);
+}
 
+void Super::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    address = address | bootstrap_;
+    
 	if (emsMemoryDefined_)
 	{
-		if (addr>=0xc000 && addr <=0xffff)
+		if (address>=0xc000 && address <=0xffff)
 		{
 			emsPage_ = value & 0x1f;
 		}
 	}
 
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
-			switch (emsMemoryType_[((addr & 0x3fff) |(emsPage_ << 14))/256])
+			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
 			{
 				case UNDEFINED:
 				case ROM:
 					if (writeRom)
-						emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))] = value;
+						emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = value;
 				break;
 
 				case RAM:
                     if (!getMpButtonState())
                     {
-                        emsRam_[(long) ((addr & 0x3fff) |(emsPage_ << 14))] = value;
-                        if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                            p_Main->updateDebugMemory(addr);
-                        p_Main->updateAssTabCheck(addr);
+                        emsRam_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = value;
+                        if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                            p_Main->updateDebugMemory(address);
+                        p_Main->updateAssTabCheck(address);
                     }
 				break;
 			}
@@ -1608,21 +1635,21 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
         case ROMMAPPER:
             if (emsPage_ <= maxNumberOfPages_)
             {
-                switch (romMapperMemoryType_[((addr & 0x7fff) |(emsPage_ << 15))/256])
+                switch (romMapperMemoryType_[((address & 0x7fff) |(emsPage_ << 15))/256])
                 {
                     case UNDEFINED:
                     case ROM:
                         if (writeRom)
-                            expansionRom_[(long) ((addr & 0x7fff) |(emsPage_ << 15))] = value;
+                            expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = value;
                     break;
                         
                     case RAM:
                         if (!getMpButtonState())
                         {
-                            expansionRom_[(long) ((addr & 0x7fff) |(emsPage_ << 15))] = value;
-                            if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                                p_Main->updateDebugMemory(addr);
-							p_Main->updateAssTabCheck(addr);
+                            expansionRom_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = value;
+                            if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                                p_Main->updateDebugMemory(address);
+							p_Main->updateAssTabCheck(address);
 						}
                     break;
                 }
@@ -1630,42 +1657,42 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
         break;
             
 		case MC6847RAM:
-			mc6847Pointer->write(addr, value);
-			mainMemory_[addr] = value;
-			if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-				p_Main->updateDebugMemory(addr);
+			mc6847Pointer->write(address, value);
+			mainMemory_[address] = value;
+			if (address >= memoryStart_ && address<(memoryStart_ + 256))
+				p_Main->updateDebugMemory(address);
 		break;
 
 		case MC6845RAM:
-			mc6845Pointer->write6845(addr & 0x7ff, value);
+			mc6845Pointer->write6845(address & 0x7ff, value);
 		break;
 
 		case MC6845REGISTERS:
-			mc6845Pointer->writeRegister6845(addr, value);
+			mc6845Pointer->writeRegister6845(address, value);
 		break;
 
 		case UNDEFINED:
 		case ROM:
-			if (addr < 32 && monitor_) return;
+			if (address < 32 && monitor_) return;
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case MAPPEDRAM:
 		case RAM:
             if (!getMpButtonState())
             {
-                if (mainMemory_[addr]==value)
+                if (mainMemory_[address]==value)
                     return;
-                if (addr < 32 && monitor_) return;
-                addr = (addr & ramMask_) + ramStart_;
-                mainMemory_[addr]=value;
-                if (addr >= (memoryStart_& ramMask_) && addr<((memoryStart_& ramMask_) + 256))
-                    p_Main->updateDebugMemory(addr);
-                p_Main->updateAssTabCheck(addr);
+                if (address < 32 && monitor_) return;
+                address = (address & ramMask_) + ramStart_;
+                mainMemory_[address]=value;
+                if (address >= (memoryStart_& ramMask_) && address<((memoryStart_& ramMask_) + 256))
+                    p_Main->updateDebugMemory(address);
+                p_Main->updateAssTabCheck(address);
 /*			if (loadedOs_ == ELFOS)
 			{
-				if (addr == 0x7cb1)
+				if (address == 0x7cb1)
 				{
 					Word saveStart = (mainMemory_[0x7cae] << 8) + mainMemory_[0x7caf] ;
 					Word saveEnd = saveStart + (mainMemory_[0x7cb0] << 8) + mainMemory_[0x7cb1];
@@ -1676,23 +1703,23 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 		break;
 
 		case PAGER:
-			switch (pagerMemoryType_[((getPager(addr>>12) << 12) |(addr &0xfff))/256])
+			switch (pagerMemoryType_[((getPager(address>>12) << 12) |(address &0xfff))/256])
 			{
 				case UNDEFINED:
 				case ROM:
-					if (addr < 32 && monitor_) return;
+					if (address < 32 && monitor_) return;
 					if (writeRom)
-						mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)] = value;
+						mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
 				break;
 
 				case RAM:
                     if (!getMpButtonState())
                     {
-                        if (addr < 32 && monitor_) return;
-                        mainMemory_[(getPager(addr>>12) << 12) |(addr &0xfff)] = value;
-                        if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                            p_Main->updateDebugMemory(addr);
-                        p_Main->updateAssTabCheck(addr);
+                        if (address < 32 && monitor_) return;
+                        mainMemory_[(getPager(address>>12) << 12) |(address &0xfff)] = value;
+                        if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                            p_Main->updateDebugMemory(address);
+                        p_Main->updateAssTabCheck(address);
                     }
 				break;
 			}
@@ -1703,54 +1730,25 @@ void Super::writeMem(Word addr, Byte value, bool writeRom)
 
 void Super::cpuInstruction()
 {
-	cycleA();
+    if (cpuMode_ != lastMode_)
+    {
+        superScreenPointer->setLed(0,0);
+        superScreenPointer->setLed(1,0);
+        superScreenPointer->setLed(2,0);
+        superScreenPointer->setLed(3,0);
+        switch(cpuMode_)
+        {
+            case LOAD: superScreenPointer->setLed(0,1); break;
+            case RESET: superScreenPointer->setLed(1,1); break;
+            case RUN: superScreenPointer->setLed(2,1); break;
+            case PAUSE: superScreenPointer->setLed(3,1); break;
+        }
+        lastMode_ = cpuMode_;
+    }
+    
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkElfFunction();
-		if (resetPressed_)
-		{
-			resetCpu();
-            if (elfConfiguration.bootStrap)
-                bootstrap_ = 0x8000;
-            else
-                bootstrap_ = 0;
-
-            if (elfConfiguration.use8275)
-				i8275Pointer->cRegWrite(0x40);
-			if (elfConfiguration.autoBoot)
-			{
-				scratchpadRegister_[0]=p_Main->getBootAddress("SuperElf", SUPERELF);
-				autoBoot();
-			}
-			resetPressed_ = false;
-			elfRunState_ = RESETSTATE;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-			startElfKeyFile("SuperElf");
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
-		state_ = 'F';
-		cycleB();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -1764,6 +1762,28 @@ void Super::cpuInstruction()
             ledCycleValue_ = 1;
 		}
 	}
+}
+
+void Super::resetPressed()
+{
+    resetCpu();
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+    else
+        bootstrap_ = 0;
+    
+    if (elfConfiguration.use8275)
+        i8275Pointer->cRegWrite(0x40);
+    if (elfConfiguration.autoBoot)
+    {
+        scratchpadRegister_[0]=p_Main->getBootAddress("SuperElf", SUPERELF);
+        autoBoot();
+    }
+    resetPressed_ = false;
+    elfRunState_ = RESETSTATE;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    startElfKeyFile("SuperElf");
 }
 
 void Super::configureElfExtensions()
@@ -1930,73 +1950,73 @@ void Super::sleepComputer(long ms)
 	threadPointer->Sleep(ms);
 }
 
-Byte Super::read8275CharRom(Word addr)
+Byte Super::read8275CharRom(Word address)
 {
 	if (elfConfiguration.use8275)
-		return i8275Pointer->read8275CharRom(addr);
+		return i8275Pointer->read8275CharRom(address);
 	else
 		return 0;
 }
 
-void Super::write8275CharRom(Word addr, Byte value)
+void Super::write8275CharRom(Word address, Byte value)
 {
 	if (elfConfiguration.use8275)
-		i8275Pointer->write8275CharRom(addr, value);
+		i8275Pointer->write8275CharRom(address, value);
 }
 
-Byte Super::read8275VideoRam(Word addr)
+Byte Super::read8275VideoRam(Word address)
 {
     if (elfConfiguration.use8275)
-        return i8275Pointer->read8275VideoRam(addr);
+        return i8275Pointer->read8275VideoRam(address);
     else
         return 0;
 }
 
-void Super::write8275VideoRam(Word addr, Byte value)
+void Super::write8275VideoRam(Word address, Byte value)
 {
     if (elfConfiguration.use8275)
-        i8275Pointer->write8275VideoRam(addr, value);
+        i8275Pointer->write8275VideoRam(address, value);
 }
 
-Byte Super::read6845CharRom(Word addr)
+Byte Super::read6845CharRom(Word address)
 {
 	if (elfConfiguration.use6845||elfConfiguration.useS100)
-		return mc6845Pointer->read6845CharRom(addr);
+		return mc6845Pointer->read6845CharRom(address);
 	else
 		return 0;
 }
 
-void Super::write6845CharRom(Word addr, Byte value)
+void Super::write6845CharRom(Word address, Byte value)
 {
-	mc6845Pointer->write6845CharRom(addr, value);
+	mc6845Pointer->write6845CharRom(address, value);
 }
 
-Byte Super::read6847CharRom(Word addr)
+Byte Super::read6847CharRom(Word address)
 {
 	if (elfConfiguration.use6847)
-		return mc6847Pointer->read6847CharRom(addr);
+		return mc6847Pointer->read6847CharRom(address);
 	else
 		return 0;
 }
 
-void Super::write6847CharRom(Word addr, Byte value)
+void Super::write6847CharRom(Word address, Byte value)
 {
 	if (elfConfiguration.use6847)
-		mc6847Pointer->write6847CharRom(addr, value);
+		mc6847Pointer->write6847CharRom(address, value);
 }
 
-int Super::readDirect6847(Word addr)
+int Super::readDirect6847(Word address)
 {
 	if (elfConfiguration.use6847)
-		return mc6847Pointer->readDirect6847(addr); 
+		return mc6847Pointer->readDirect6847(address);
 	else
 		return 0;
 }
 
-void Super::writeDirect6847(Word addr, int value)
+void Super::writeDirect6847(Word address, int value)
 {
 	if (elfConfiguration.use6847)
-		mc6847Pointer->writeDirect6847(addr, value); 
+		mc6847Pointer->writeDirect6847(address, value);
 }
 
 Word Super::get6847RamMask()

@@ -30,7 +30,7 @@
 #include "vip2k.h"
 
 Vip2K::Vip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType, double clock, ElfConfiguration conf)
-:Pixie(title, pos, size, zoom, zoomfactor, computerType)
+:PixieVip2K(title, pos, size, zoom, zoomfactor, computerType)
 {
 	vipConfiguration = conf;
 	clock_ = clock;
@@ -108,7 +108,6 @@ void Vip2K::initComputer()
     shiftEf_ = 1;
     ctlEf_ = 1;
 
-	runPressed_ = false;
 	stateQ_ = 0;
 
 	vipRunCommand_ = 0;
@@ -309,11 +308,6 @@ void Vip2K::keyUp(int keycode)
     }
 }
 
-void Vip2K::onRun()
-{
-	runPressed_ = true;
-}
-
 Byte Vip2K::ef(int flag)
 {
 	switch(efType_[flag])
@@ -464,7 +458,7 @@ void Vip2K::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			cyclePixieVip2K();
+			cyclePixie();
 		break;
 
         case VT100CYCLE:
@@ -527,7 +521,7 @@ void Vip2K::startComputer()
 
 	double zoom = p_Main->getZoom();
 
-    configurePixieVip2K();
+    configurePixie();
 	initPixie();
 	setZoom(zoom);
 	Show(true);
@@ -569,15 +563,13 @@ Byte Vip2K::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Vip2K::readMem(Word addr)
+Byte Vip2K::readMem(Word address)
 {
-    address_ = addr;
-
-    switch (memoryType_[addr/256])
+    switch (memoryType_[address/256])
 	{
 		case RAM:
         case ROM:
-			return mainMemory_[addr];
+			return mainMemory_[address];
 		break;
 
         default:
@@ -586,87 +578,54 @@ Byte Vip2K::readMem(Word addr)
 	}
 }
 
-void Vip2K::writeMem(Word addr, Byte value, bool writeRom)
+Byte Vip2K::readMemDebug(Word address)
 {
-    address_ = addr;
+    return readMem(address);
+}
 
-    switch (memoryType_[addr/256])
+void Vip2K::writeMem(Word address, Byte value, bool writeRom)
+{
+    switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-            if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-                p_Main->updateDebugMemory(addr);
-            p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+            if (address >= memoryStart_ && address<(memoryStart_ + 256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
 }
 
+void Vip2K::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
+}
+
 void Vip2K::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-            machineCycle();
-//            machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-//            if (steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
+    cpuCycleStep();
 
-		playSaveLoad();
-		checkVipFunction();
+}
 
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			initPixie();
-			vipRunState_ = RESETSTATE;
-            for (int i=1; i<6; i++)
-            {
-                vipKeyState_[i] = 0xff;
-            }
-            shiftEf_ = 1;
-            ctlEf_ = 1;
-		}
-		if (runPressed_)
-		{
-			setClear(0);
-			p_Main->eventUpdateTitle();
-			runPressed_ = false;
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
-	}
-	else
-	{
-		if (runPressed_)
-		{
-			setClear(1);
-			p_Main->eventUpdateTitle();
-			initPixie();
-			runPressed_ = false;
-		}
-	}
+void Vip2K::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    initPixie();
+    vipRunState_ = RESETSTATE;
+    for (int i=1; i<6; i++)
+    {
+        vipKeyState_[i] = 0xff;
+    }
+    shiftEf_ = 1;
+    ctlEf_ = 1;
 }
 
 void Vip2K::moveWindows()
@@ -769,7 +728,7 @@ void Vip2K::terminalStop()
     ctlEf_ = 1;
 }
 
-void Vip2K::checkVipFunction()
+void Vip2K::checkComputerFunction()
 {
     
 }

@@ -695,68 +695,78 @@ Byte VipII::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte VipII::readMem(Word addr)
+Byte VipII::readMem(Word address)
 {
-	if (addr < 0x8000)
-		addr = (addr | addressLatch_);
+	if (address < 0x8000)
+		address = (address | addressLatch_);
 	else
-		addr = addr & 0x81ff;
+		address = address & 0x81ff;
 
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			return mainMemory_[addr];
+			return mainMemory_[address];
 		break;
 
 		case UNDEFINED:
 			return 255;
 		break;
 	}
-	return mainMemory_[addr];
+	return mainMemory_[address];
 }
 
-void VipII::writeMem(Word addr, Byte value, bool writeRom)
+Byte VipII::readMemDebug(Word address)
 {
-	switch (memoryType_[addr/256])
+    return readMem(address);
+}
+
+void VipII::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr >= memoryStart_ && addr <(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address >= memoryStart_ && address <(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		case COLOURRAM:
-			if ((addr >= 0xc000) && (addr < 0xd000))
+			if ((address >= 0xc000) && (address < 0xd000))
 				colourMask_ = 0xe7;
 			else
 				colourMask_ = 0x3ff;  
-			colorMemory1864_[addr&colourMask_] = value & 0xf;
-			if ((addr&colourMask_) >= memoryStart_ && (addr&colourMask_) <(memoryStart_+256))
-				p_Main->updateDebugMemory(addr&colourMask_);
-			if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			colorMemory1864_[address&colourMask_] = value & 0xf;
+			if ((address&colourMask_) >= memoryStart_ && (address&colourMask_) <(memoryStart_+256))
+				p_Main->updateDebugMemory(address&colourMask_);
+			if (address >= memoryStart_ && address<(memoryStart_ + 256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 			useColour(colourMask_);
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
 }
 
-Byte VipII::read1864ColorDirect(Word addr)
+void VipII::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	return colorMemory1864_[addr] & 0xf;
+    writeMem(address, value, writeRom);
 }
 
-void VipII::write1864ColorDirect(Word addr, Byte value)
+Byte VipII::read1864ColorDirect(Word address)
 {
-	colorMemory1864_[addr] = value & 0xf;
+	return colorMemory1864_[address] & 0xf;
+}
+
+void VipII::write1864ColorDirect(Word address, Byte value)
+{
+	colorMemory1864_[address] = value & 0xf;
 }
 
 void VipII::cpuInstruction()
@@ -771,63 +781,12 @@ void VipII::cpuInstruction()
 	}
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkVipFunction();
-
-		if (resetPressed_)
-		{
-			runPressedAtStartup_ = p_Main->runPressed();
-			if (runPressedAtStartup_) 
-			{
-				addressLatch_ = 0x8000;
-				vipMode_ = true;
-				defineMemoryType(0, 0x7fff, RAM);
-				setClear(0);
-				p_Main->eventUpdateTitle();
-			}
-			else 
-			{
-				addressLatch_ = 0;
-				vipMode_ = false;
-				readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
-				defineMemoryType(0x400, 0x7ff, RAM);
-				defineMemoryType(0xc00, 0xfff, RAM);
-				defineMemoryType(0x4000, 0x7fff, RAM);
-			}
-			resetCpu();
-			resetPressed_ = false;
-//			addressLatch_ = 0x8000;
-			initPixie();
-			vipRunState_ = RESETSTATE;
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
 			p_Main->eventUpdateTitle();
 			runPressed_ = false;
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (vipMode_)
-		{
-			if (pseudoLoaded_ && cycle0_ == 0)
-				p_Main->cyclePseudoDebug();
 		}
 	}
 	else
@@ -836,6 +795,7 @@ void VipII::cpuInstruction()
 		{
 			setClear(1);
 			p_Main->eventUpdateTitle();
+            resetEffectiveClock();
 			if (vipMode_) 
 				addressLatch_ = 0x8000;
 			initPixie();
@@ -844,12 +804,39 @@ void VipII::cpuInstruction()
 	}
 }
 
+void VipII::resetPressed()
+{
+    runPressedAtStartup_ = p_Main->runPressed();
+    if (runPressedAtStartup_)
+    {
+        addressLatch_ = 0x8000;
+        vipMode_ = true;
+        defineMemoryType(0, 0x7fff, RAM);
+        setClear(0);
+        p_Main->eventUpdateTitle();
+    }
+    else
+    {
+        addressLatch_ = 0;
+        vipMode_ = false;
+        readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
+        defineMemoryType(0x400, 0x7ff, RAM);
+        defineMemoryType(0xc00, 0xfff, RAM);
+        defineMemoryType(0x4000, 0x7fff, RAM);
+    }
+    resetCpu();
+    resetPressed_ = false;
+    //            addressLatch_ = 0x8000;
+    initPixie();
+    vipRunState_ = RESETSTATE;
+}
+
 void VipII::onReset()
 {
 	resetPressed_ = true;
 }
 
-void VipII::checkVipFunction()
+void VipII::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

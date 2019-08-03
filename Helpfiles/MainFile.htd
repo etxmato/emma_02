@@ -43,6 +43,10 @@ Directory including Chip 8, Chip 8X and Chip 10 software. This software can be u
 <p>
 Whenever possible the Chip 8 directory will be build up of the same software as available in the Chip 8 Program Pack on <a href="http://www.chip8.com">CHIP8.COM</a>.
 </p>
+<h3>CDP18S020</h3>
+<p>
+Directory including the CDP18S020 UT4 ROM and Tiny Basic version for the CDP18S020.
+</p>
 <h3>Cidelsa</h3>
 <p>
 All available Cidelsa roms.
@@ -154,9 +158,13 @@ Directory including Elf 2000 firmare and software.
 <p>
 Directory including ETI 660 firmare and software.
 </p>
-<h3>FRED</h3>
+<h3>FRED1</h3>
 <p>
-Directory including FRED software.
+Directory including FRED 1 software.
+</p>
+<h3>FRED1_5</h3>
+<p>
+Directory including FRED 1.6 software.
 </p>
 <h3>MCDS</h3>
 <p>
@@ -224,7 +232,7 @@ Directory including the Cosmac Vip ROM file, FP Basic, Chip 8/8X/10 interpreter 
 </p>
 <h3>VIP2K</h3>
 <p>
-Directory including VIP2K Membership Card software and the video sequencer state machine ROM.
+Directory including VIP2K Membership Card software and the video sequencer state machine ROMs.
 </p>
 <h3>Visicom</h3>
 <p>

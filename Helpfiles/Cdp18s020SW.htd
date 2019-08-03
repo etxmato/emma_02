@@ -1,0 +1,18 @@
+<HTML>
+<Title>Pre SW Load</Title>
+<BODY>
+<h2>Pre SW Load</h2>
+<p>
+To run the CDP18S020 Evaluation Kit emulator with SW loaded before the emulator starts select the SW file in the 'RAM SW' field. To change the location use the 'RAM SW' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+The selected file will be loaded at RAM address 0 (if the file is binary, other formats like intel hex will be loaded at the specified locations).
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+<p>
+Files can also be loaded in RAM in run time, either by using the Memory Access buttons or via the file specified in the terminal section. When loading a file via the terminal section first type !M in UT4 and then press play. For saving RAM to a file type ?M&lt;start&gt; &lt;length&gt; in UT4 where &lt;start> is the starting address and &lt;length&gt; the number of bytes to be saved. Then press record in the terminal section and press 'return' in UT4.
+</p>
+</BODY>
+</HTML>

@@ -15,6 +15,36 @@ using namespace std;
 #define RUN 3
 #define UNDEFINDEDMODE 5
 
+#define STATE_FETCH 0
+#define STATE_EXECUTE 1
+#define STATE_DMA 2
+#define STATE_INTERRUPT 3
+
+#define STATE_FETCH_1 5 // This should always be 1 lower than STATE_EXECUTE_2_1805
+#define STATE_FETCH_2 0
+#define STATE_EXECUTE_1 1
+#define STATE_EXECUTE_1_LBR 2
+#define STATE_EXECUTE_2_LBR 3
+#define STATE_EXECUTE_1_1805 4
+#define STATE_EXECUTE_2_1805 6
+#define STATE_EXECUTE_2_1805 6
+#define STATE_EXECUTE_3_1805 7
+#define STATE_EXECUTE_4_1805 8
+#define STATE_EXECUTE_5_1805 9
+#define STATE_EXECUTE_6_1805 10
+#define STATE_EXECUTE_7_1805 11
+#define STATE_EXECUTE_8_1805 12
+
+#define INT_STD 0
+#define INT_PIXIE 1
+
+/*
+#define DMA_IN 0
+#define DMA_OUT 1
+#define DMA_PIXIE 2
+#define DMA_VISICOM 3
+#define DMA_COLOR 4*/
+
 class Cdp1802 : public IoDevice, public Memory, public Sound
 {
 public:
@@ -23,6 +53,7 @@ public:
 
 	void initCpu(int computerType);
 	void resetCpu();
+    void resetEffectiveClock();
 
 	void machineCycle();
 	virtual void cpuInstruction() = 0;
@@ -31,14 +62,23 @@ public:
 	int getClear() {return clear_;};
 	void setWait(int value);
 	int getWait() {return wait_;};
-	void cpuCycle();
+    void cpuCycleStep();
+    void singleStateStep();
+    void cpuCycleFetch();
+    void cpuCycleFetch2();
+    void cpuCycleExecute1();
+    void cpuCycleExecute1_LBR();
+    void cpuCycleExecute2_LBR();
+    void cpuCycleFinalize();
+    void cpuCycleExecute1_1805();
+    void cpuCycleExecute2_1805();
 	void dmaIn(Byte value);
 	Byte dmaOut();
 	Byte pixieDmaOut(int *color);
 	void visicomDmaOut(Byte *vram1, Byte *vram2);
 	Byte pixieDmaOut();
 
-	void interrupt();
+    void interrupt();
 	void pixieInterrupt();
 	void setEf(int flag, int value);
 
@@ -69,8 +109,10 @@ public:
 	void setAccumulator(Byte accumulator) {accumulator_ = accumulator;};
 	Byte getDataFlag() {return dataFlag_;};
 	void setDataFlag(Byte dataFlag) {dataFlag_ = dataFlag;};
-	Byte getRegisterT() {return registerT_;};
-	void setRegisterT(Byte registerT) {registerT_ = registerT;};
+    Byte getRegisterT() {return registerT_;};
+    void setRegisterT(Byte registerT) {registerT_ = registerT;};
+    Byte getRegisterB() {return registerB_;};
+    void setRegisterB(Byte registerB) {registerB_ = registerB;};
 	Byte getFlipFlopQ() { return flipFlopQ_; };
 	void setFlipFlopQ(Byte flipFlopQ) { flipFlopQ_ = flipFlopQ; };
 	Byte isReadyToReceiveData(int ef) { return readyToReceiveData[ef]; };
@@ -108,7 +150,8 @@ public:
 
 protected:
 	Byte cycle0_;
-	Byte cpuMode_;
+    Byte cpuMode_;
+    Byte cpuState_;
 
 	// Debug data
 	long steps_;
@@ -121,6 +164,16 @@ protected:
 	Word scratchpadRegister_[16];
 	Byte programCounter_;
     Byte scrtProgramCounter_;
+
+    Byte idle_;
+    int cpuType_;
+    bool singleStateStep_;
+
+    Byte bus_;
+    Byte instructionCode_;
+    wxString traceBuffer_;
+    bool stopHiddenTrace_;
+    bool startHiddenTrace_;
 
 	int expansionSlot_;
 	int ramBank_;
@@ -144,27 +197,28 @@ protected:
 private:
 	void setMode();
 	void decCounter();
-	void inst1805(wxString *tr);
 	int colourMask_;
 	bool readyToReceiveData[4];
 
 	// 1802 CPU Registers
-	Byte dataFlag_;
+    Byte dataFlag_;
 	Byte dataPointer_;
-	Byte registerT_;
+    Byte registerB_;
+    Byte registerT_;
 	Byte interruptEnable_;
 	Byte efFlags_;
 	Byte accumulator_;
 
 	int clear_;
 	int wait_;
-	Byte idle_;
 	bool trace_;
     bool skipTrace_;
 	bool traceDma_;
 	bool traceInt_;
 	bool traceChip8Int_;
-	int cpuType_;
+    
+    int interruptType_;
+    int dmaType_;
 
 	// 1805 stuff
 	Byte tq_;

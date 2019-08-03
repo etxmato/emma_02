@@ -60,11 +60,11 @@
                                             </font>
                                             <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf,
 Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Memberhip
-Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, Cosmac VIP, 
-Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, 
-RCA Studio III, Victory MPT-02, Visicom, COM-100, Cidelsa, Telmac 
-TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, 
-Pecom 64 and ETI 660 </label>
+Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020
+Evaluation Kit, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video
+Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom,
+COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, 
+Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
@@ -77,7 +77,7 @@ Pecom 64 and ETI 660 </label>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
+                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
@@ -96,7 +96,7 @@ Pecom 64 and ETI 660 </label>
                                                 <size>-1</size>
                                             </font>
                                             <style>wxALIGN_CENTRE</style>
-                                            <label>Emma 02 Copyright (C) 2007-2018 Marcel van Tongeren, 
+                                            <label>Emma 02 Copyright (C) 2007-2019 Marcel van Tongeren, 
 core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                             <wrap>400</wrap>
                                         </object>
@@ -371,10 +371,25 @@ Copyright (C) 2004 by Spare Time Gizmos </label>
                                 <border>0</border>
                                 <object class="wxBoxSizer">
                                     <orient>wxVERTICAL</orient>
-                                    <object class="sizeritem">
+                                    <object platform="mac" class="sizeritem">
                                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                         <border>1</border>
-                                        <object class="wxStaticText" name="wxID_STATIC">
+                                        <object platform="mac" class="wxStaticText" name="wxID_STATIC">
+                                            <size>400,-1</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>The Sarnoff Collection at TCNJ - Chip 8, Coin Arcade, FRED 1, 
+FRED 1.5, VIP and Studio II, III and IV SW. See readme and/or txt
+files for details</label>
+                                            <wrap>400</wrap>
+                                        </object>
+                                    </object>
+                                    <object platform="win|unix" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                        <border>1</border>
+                                        <object platform="win|unix" class="wxStaticText" name="wxID_STATIC">
                                             <size>400,-1</size>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

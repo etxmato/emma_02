@@ -170,7 +170,10 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 #if defined (__linux__)
     linuxExtension = "_linux";
 #endif
-        
+    
+    buttonSizeX_ = 30;
+    buttonSizeY_ = 30;
+
 	switch (type)
 	{
         case VERTICAL_BUTTON:
@@ -223,7 +226,14 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/inButtonDown.png", wxBITMAP_TYPE_PNG);
 		break;
 
-		default:
+        case DIP_SWITCH_BUTTON:
+            upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/dip_switch_on.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/dip_switch_off.png", wxBITMAP_TYPE_PNG);
+            buttonSizeX_ = 8;
+            buttonSizeY_ = 20;
+        break;
+
+        default:
 			upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
 			downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
 		break;
@@ -309,7 +319,7 @@ bool SwitchButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
 	if (type_ < PUSH_BUTTON)
 		return false;
 
-	if ((x >= x_) &&(x <= (x_+30)) &&(y >= y_) &&(y <= (y_+30)))
+	if ((x >= x_) &&(x <= (x_+buttonSizeX_)) &&(y >= y_) &&(y <= (y_+buttonSizeY_)))
 	{
 		state_ = !state_;
 		if (state_ == BUTTON_UP)
@@ -330,7 +340,7 @@ bool SwitchButton::onMouseRelease(wxDC& dc, wxCoord x, wxCoord y)
     if (type_ > PUSH_BUTTON)
         return false;
 
-    if ((x >= x_) &&(x <= (x_+30)) &&(y >= y_) &&(y <= (y_+30)))
+    if ((x >= x_) &&(x <= (x_+buttonSizeX_)) &&(y >= y_) &&(y <= (y_+buttonSizeY_)))
 	{
 		state_ = !state_;
 		if (state_ == BUTTON_UP)
@@ -391,10 +401,18 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	updatePauseLed_ = false;
 	updateRunLed_ = false;
 	updateLoadLed_ = false;
-	for (int i=0; i<8; i++)
+	for (int i=0; i<24; i++)
 	{
 		ledStatus[i] = 0;
 		updateLed_[i] = false;
+    }
+    for (int i=0; i<4; i++)
+    {
+        stateLedStatus[i] = 0;
+        updateStateLed_[i] = false;
+    }
+    for (int i=0; i<8; i++)
+    {
 		segStatus[i] = 0;
 		updateSeg_[i] = false;
 	}
@@ -578,11 +596,12 @@ void Panel::ledTimeout()
 	updatePauseLed(dc);
 	updateRunLed(dc);
 	updateLoadLed(dc);
-	for (int i=0; i<8; i++)
-	{
-		updateLed(dc, i);
+    for (int i=0; i<24; i++)
+        updateLed(dc, i);
+    for (int i=0; i<4; i++)
+        updateStateLed(dc, i);
+    for (int i=0; i<8; i++)
 		updateSeg(dc, i);
-	}
 	updateData(dc);
     updateDataTil313(dc);
     updateDataTil313Italic(dc);
@@ -802,6 +821,29 @@ void Panel::updateLed(wxDC& dc, int i)
 		ledPointer[i]->setStatus(dc, ledStatus[i]);
 		updateLed_[i] = false;
 	}
+}
+
+void Panel::setStateLed(int i, int status)
+{
+    if (stateLedStatus[i] != status)
+    {
+        stateLedStatus[i] = status;
+        updateStateLed_[i] = true;
+        if (ms_ == 0)
+        {
+            wxClientDC dc(this);
+            updateStateLed(dc, i);
+        }
+    }
+}
+
+void Panel::updateStateLed(wxDC& dc, int i)
+{
+    if (updateStateLed_[i])
+    {
+        stateLedPointer[i]->setStatus(dc, stateLedStatus[i]);
+        updateStateLed_[i] = false;
+    }
 }
 
 void Panel::showData(Byte value)
@@ -1315,7 +1357,18 @@ void Computer::removeElfLedModule()
 
 void Computer::showData(Byte WXUNUSED(val))
 {
-	p_Main->message("Illegal call to display TIL311 data display");
+}
+
+void Computer::showCycleData(Byte WXUNUSED(val))
+{
+}
+
+void Computer::showDmaLed()
+{
+}
+
+void Computer::showIntLed()
+{
 }
 
 void Computer::resetVideo()
@@ -1534,6 +1587,10 @@ void Computer::onRunButton()
 {
 }
 
+void Computer::onRunPButton()
+{
+}
+
 void Computer::onReadButton()
 {
 }
@@ -1543,6 +1600,10 @@ void Computer::onCardButton()
 }
 
 void Computer::onRunButton(wxCommandEvent&WXUNUSED(event))
+{
+}
+
+void Computer::onRunPButton(wxCommandEvent&WXUNUSED(event))
 {
 }
 
@@ -1587,6 +1648,10 @@ void Computer::onSingleStep(wxCommandEvent&WXUNUSED(event))
 }
 
 void Computer::onMpButton()
+{
+}
+
+void Computer::onMpButton(int WXUNUSED(buttonNumber))
 {
 }
 
@@ -1707,6 +1772,10 @@ void Computer::onNumberKeyDown(wxCommandEvent& WXUNUSED(event))
 }
 
 void Computer::onNumberKeyUp(wxCommandEvent& WXUNUSED(event))
+{
+}
+
+void Computer::onNumberKeyUp()
 {
 }
 
@@ -1887,4 +1956,17 @@ void Computer::setDisableSystemRom(bool WXUNUSED(disableSystemRom))
 void Computer::setAutoKeyDef(bool WXUNUSED(autoKeyDef))
 {
 }
+
+void Computer::showAddress(Word WXUNUSED(address))
+{
+}
+
+void Computer::showState(int WXUNUSED(state))
+{
+}
+
+void Computer::switchHexEf(bool WXUNUSED(state))
+{
+}
+
 

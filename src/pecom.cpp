@@ -775,8 +775,8 @@ Byte Pecom::readMemDataType(Word address)
 
 Byte Pecom::readMem(Word address)
 {
-	address_ = address | addressLatch_;
-	switch (memoryType_[address_/256])
+	address = address | addressLatch_;
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
@@ -784,25 +784,25 @@ Byte Pecom::readMem(Word address)
 
 		case PRAM1870:
 			if (videoRAM_)
-				return readPram(address_);
+				return readPram(address);
 			else
-				return mainMemory_[address_];
+				return mainMemory_[address];
 		break;
 
 		case CRAM1870:
 			if (videoRAM_)
-				return readCram(address_);
+				return readCram(address);
 			else
-				return mainMemory_[address_];
+				return mainMemory_[address];
 		break;
 
 		case ROM:
 		case RAM:
-			return mainMemory_[address_];
+			return mainMemory_[address];
 		break;
 
 		case MAPPEDRAM:
-			return mainMemory_[address_ & 0x3fff];
+			return mainMemory_[address & 0x3fff];
 		break;
 
 		default:
@@ -811,9 +811,13 @@ Byte Pecom::readMem(Word address)
 	}
 }
 
+Byte Pecom::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
 void Pecom::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = address;
 	if (writeRom)
 	{
 		mainMemory_[address]=value;
@@ -873,56 +877,43 @@ void Pecom::writeMem(Word address, Byte value, bool writeRom)
 	}
 }
 
+void Pecom::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
+}
+
 void Pecom::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			machineCycle();
-			machineCycle();
-			if (steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkPecomFunction();
-
-		if (resetPressed_)
-		{
-			closePecomKeyFile();
-			keyDown_ = false;
-			videoRAM_ = false;
-			ctrlEf1_ = 0;
-			shiftEf2_ = 0;
-			shiftEf3_ = 0;
-			escEf4_ = 0;
-			addressLatch_ = 0x8000;
-			resetCpu();
-			resetPressed_ = false;
-			dmaCounter_ = -100;
-/*			if (!wxGetKeyState (WXK_CAPITAL))
-			{
-#ifdef __WXMSW__
-				::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
-				::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
-#endif
-			}*/
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-			pecomRunCommand_ = 0;
-			startPecomKeyFile();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
+}
+
+void Pecom::resetPressed()
+{
+    closePecomKeyFile();
+    keyDown_ = false;
+    videoRAM_ = false;
+    ctrlEf1_ = 0;
+    shiftEf2_ = 0;
+    shiftEf3_ = 0;
+    escEf4_ = 0;
+    addressLatch_ = 0x8000;
+    resetCpu();
+    resetPressed_ = false;
+    dmaCounter_ = -100;
+    /*            if (!wxGetKeyState (WXK_CAPITAL))
+     {
+     #ifdef __WXMSW__
+     ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY, 0 );
+     ::keybd_event( VK_CAPITAL, 0x45, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0 );
+     #endif
+     }*/
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    pecomRunCommand_ = 0;
+    startPecomKeyFile();
 }
 
 void Pecom::onReset()
@@ -985,7 +976,7 @@ void Pecom::printOutPecom(int q)
 	}
 }
 
-void Pecom::checkPecomFunction()
+void Pecom::checkComputerFunction()
 {
     if (pecom32_)
     {

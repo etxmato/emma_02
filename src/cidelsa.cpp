@@ -561,7 +561,6 @@ Byte Cidelsa::readMemDataType(Word address)
 
 Byte Cidelsa::readMem(Word address)
 {
-	address_ = address;
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -587,9 +586,13 @@ Byte Cidelsa::readMem(Word address)
 	}
 }
 
+Byte Cidelsa::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
 void Cidelsa::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = address;
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -617,32 +620,20 @@ void Cidelsa::writeMem(Word address, Byte value, bool writeRom)
 	}
 }
 
+void Cidelsa::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
+}
+
 void Cidelsa::cpuInstruction()
 {
-	if (cpuMode_ == RUN)
-	{
-		if (steps_ != 0)
-		{
-			machineCycle();
-			machineCycle();
-			if (steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-	}
+    cpuCycleStep();
+}
+
+void Cidelsa::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
 }
 
 void Cidelsa::cid1Bit8(bool set)

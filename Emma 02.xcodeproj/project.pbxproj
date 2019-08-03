@@ -21,6 +21,7 @@
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
+		995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */; };
 		9960FF23211953CE00DB2EDD /* GPL-A_ROM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */; };
 		9962E3482156DD2100A3AC2B /* MenuFred.pjd in Resources */ = {isa = PBXBuildFile; fileRef = 9962E3472156DD2100A3AC2B /* MenuFred.pjd */; };
 		9962E34A2156DD3B00A3AC2B /* menuFred.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9962E3492156DD3B00A3AC2B /* menuFred.xrc */; };
@@ -175,6 +176,8 @@
 		99DA24F11B7D3618003B8560 /* configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99DA24F01B7D3618003B8560 /* configuration.cpp */; };
 		99E4FECF1FF3BD40001A10B7 /* serial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99E4FECE1FF3BD40001A10B7 /* serial.cpp */; };
 		99E940F91FF1746900E69E8B /* libcurl.4.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 99E940F81FF1746900E69E8B /* libcurl.4.dylib */; };
+		99EBEE8922B55A6A00FF276A /* cdp18s020.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99EBEE8822B55A6A00FF276A /* cdp18s020.cpp */; };
+		99EBEE8C22B55A8400FF276A /* guicdp18s020.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99EBEE8A22B55A8300FF276A /* guicdp18s020.cpp */; };
 		99F263CE220CD4ED00EA87B5 /* network.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F263CC220CD4EC00EA87B5 /* network.cpp */; };
 		99F3746B1CADBB93000DA615 /* copyright.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746A1CADBB93000DA615 /* copyright.rtf */; };
 		99F374711CADBBC2000DA615 /* Quest_CC_Lic.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 99F3746C1CADBBC2000DA615 /* Quest_CC_Lic.jpg */; };
@@ -246,6 +249,7 @@
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
 		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
+		995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Elf.syntax; sourceTree = "<group>"; };
 		9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-A_ROM.syntax"; sourceTree = "<group>"; };
 		9962E3472156DD2100A3AC2B /* MenuFred.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = MenuFred.pjd; sourceTree = "<group>"; };
 		9962E3492156DD3B00A3AC2B /* menuFred.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuFred.xrc; sourceTree = "<group>"; };
@@ -520,6 +524,10 @@
 		99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc9.vcproj"; sourceTree = "<group>"; };
 		99E6EA971F40EC300030F125 /* IsTool */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IsTool; sourceTree = "<group>"; };
 		99E940F81FF1746900E69E8B /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../usr/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		99EBEE8722B55A6900FF276A /* cdp18s020.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp18s020.h; path = src/cdp18s020.h; sourceTree = "<group>"; };
+		99EBEE8822B55A6A00FF276A /* cdp18s020.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp18s020.cpp; path = src/cdp18s020.cpp; sourceTree = "<group>"; };
+		99EBEE8A22B55A8300FF276A /* guicdp18s020.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guicdp18s020.cpp; path = src/guicdp18s020.cpp; sourceTree = "<group>"; };
+		99EBEE8B22B55A8300FF276A /* guicdp18s020.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guicdp18s020.h; path = src/guicdp18s020.h; sourceTree = "<group>"; };
 		99F263CC220CD4EC00EA87B5 /* network.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = network.cpp; path = src/network.cpp; sourceTree = "<group>"; };
 		99F263CD220CD4ED00EA87B5 /* network.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = network.h; path = src/network.h; sourceTree = "<group>"; };
 		99F3746A1CADBB93000DA615 /* copyright.rtf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.rtf; path = copyright.rtf; sourceTree = "<group>"; };
@@ -603,6 +611,7 @@
 				99D5FCD6211C938E001F4391 /* ST2.syntax */,
 				99D6218F211B402200E1A471 /* ST4.syntax */,
 				99D5FCD5211C938E001F4391 /* Chip8.syntax */,
+				995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */,
 				99FA47C3211E0DC000C399AE /* Chip8Studio.syntax */,
 				99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */,
 				99D5FCD3211C938E001F4391 /* Chip8X.syntax */,
@@ -689,6 +698,8 @@
 				997647941A61D5EE00FB9B33 /* Blip_Buffer.h */,
 				9976479C1A61D5EE00FB9B33 /* breakpoints.cpp */,
 				9976479D1A61D5EE00FB9B33 /* breakpoints.h */,
+				99EBEE8822B55A6A00FF276A /* cdp18s020.cpp */,
+				99EBEE8722B55A6900FF276A /* cdp18s020.h */,
 				997647001A61D5EE00FB9B33 /* cdp1802.cpp */,
 				9976475C1A61D5EE00FB9B33 /* cdp1802.h */,
 				9976471C1A61D5EE00FB9B33 /* cidelsa.cpp */,
@@ -742,6 +753,8 @@
 				997C6D61209E3FF000A8704E /* fred.h */,
 				9976471B1A61D5EE00FB9B33 /* functionkey.cpp */,
 				9976476F1A61D5EE00FB9B33 /* functionkey.h */,
+				99EBEE8A22B55A8300FF276A /* guicdp18s020.cpp */,
+				99EBEE8B22B55A8300FF276A /* guicdp18s020.h */,
 				997647701A61D5EE00FB9B33 /* guicidelsa.cpp */,
 				997647761A61D5EE00FB9B33 /* guicidelsa.h */,
 				997647031A61D5EE00FB9B33 /* guicomx.cpp */,
@@ -1027,6 +1040,7 @@
 				9997F7BD212494FA0036A1FC /* GPL-3.syntax in Resources */,
 				99792DE71B88A4200044FDBB /* configuration.xrc in Resources */,
 				99792DE11B88A3B10044FDBB /* about.xrc in Resources */,
+				995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */,
 				993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */,
 				9962E3482156DD2100A3AC2B /* MenuFred.pjd in Resources */,
 				999DE99B20667EF2005B3A29 /* Linux build in Resources */,
@@ -1089,6 +1103,7 @@
 				997647DA1A61D5EF00FB9B33 /* vtsetup.cpp in Sources */,
 				99BE53251F156AA1006BD353 /* diagstatusbar.cpp in Sources */,
 				997647D81A61D5EF00FB9B33 /* fdc.cpp in Sources */,
+				99EBEE8C22B55A8400FF276A /* guicdp18s020.cpp in Sources */,
 				999DE99E2066EA7E005B3A29 /* studioiv.cpp in Sources */,
 				9976480F1A61D5EF00FB9B33 /* pushbutton.cpp in Sources */,
 				997647CB1A61D5EF00FB9B33 /* computer.cpp in Sources */,
@@ -1158,6 +1173,7 @@
 				997648091A61D5EF00FB9B33 /* elf.cpp in Sources */,
 				997647EA1A61D5EF00FB9B33 /* mc6845.cpp in Sources */,
 				996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */,
+				99EBEE8922B55A6A00FF276A /* cdp18s020.cpp in Sources */,
 				997647CD1A61D5EF00FB9B33 /* guivip2.cpp in Sources */,
 				997647F31A61D5EF00FB9B33 /* i8275.cpp in Sources */,
 				99BC8688225697B000056D0E /* microtutor2.cpp in Sources */,

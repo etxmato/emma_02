@@ -317,7 +317,6 @@ void Membership::configureComputer()
 			break;
 		}
 	}
-	efType_[4] = ELFINEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring Membership Card");
@@ -361,6 +360,11 @@ void Membership::initComputer()
 
 Byte Membership::ef(int flag)
 {
+    if (flag == 4)
+    {
+        if (inPressed_ == true)
+            return 0;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -375,35 +379,9 @@ Byte Membership::ef(int flag)
             return p_Serial->ef();
         break;
             
-		case ELFINEF:
-			return ef4();
-		break;
-
-		case VTINEF:
-			if (inPressed_ == true)
-				return 0;
-			else
-				return vtPointer->ef();
-		break;
-
-		case VTINEFSERIAL:
-			if (inPressed_ == true)
-				return 0;
-			else
-				return p_Serial->ef();
-		break;
-
 		default:
 			return 1;
 	}
-}
-
-Byte Membership::ef4()
-{
-	if (inPressed_ == true)
-		return 0;
-	else
-		return 1;
 }
 
 Byte Membership::in(Byte port, Word WXUNUSED(address))
@@ -728,22 +706,26 @@ Byte Membership::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Membership::readMem(Word addr)
+Byte Membership::readMem(Word address)
 {
-	address_ = addr;
+	address_ = address;
+    return readMemDebug(address_);
+}
 
-	switch (memoryType_[addr/256])
+Byte Membership::readMemDebug(Word address)
+{
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
 		case RAM:
-			return mainMemory_[addr ];
+			return mainMemory_[address ];
 		break;
             
         case ROM:
-            return mainMemory_[addr ];
+            return mainMemory_[address ];
         break;
 
 		default:
@@ -752,28 +734,32 @@ Byte Membership::readMem(Word addr)
 	}
 }
 
-void Membership::writeMem(Word addr, Byte value, bool writeRom)
+void Membership::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = addr;
+	address_ = address;
+    writeMemDebug(address_, value, writeRom);
+}
 
-	switch (memoryType_[addr/256])
+void Membership::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 		case ROM:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 
 		case RAM:
 			if (!getMpButtonState())
 			{
-                if (mainMemory_[addr]==value)
+                if (mainMemory_[address]==value)
 					return;
 
-                mainMemory_[addr]=value;
-				if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(addr);
+                mainMemory_[address]=value;
+				if (address >= memoryStart_ && address<(memoryStart_ + 256))
+					p_Main->updateDebugMemory(address);
+				p_Main->updateAssTabCheck(address);
 			}
 		break;
 	}
@@ -783,47 +769,7 @@ void Membership::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkElfFunction();
-		if (resetPressed_)
-		{
-			resetCpu();
-			ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(MEMBER);
-			if (currentElfConfig.clearRam)
-			{
-				p_Main->eventSetCheckBox("ClearRamMembership", false);
-				for (int i=ramStart_; i<=ramEnd_; i++)
-					mainMemory_[i] = 0;
-			}
-			if (currentElfConfig.autoBoot)
-			{
-				scratchpadRegister_[0]=p_Main->getBootAddress("Membership", MEMBER);
-				autoBoot();
-			}
-			qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
-			memberScreenPointer->setQLed(qLedStatus_);
-			resetPressed_ = false;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -838,6 +784,28 @@ void Membership::cpuInstruction()
 			threadPointer->Sleep(1);
 		}
 	}
+}
+
+void Membership::resetPressed()
+{
+    resetCpu();
+    ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(MEMBER);
+    if (currentElfConfig.clearRam)
+    {
+        p_Main->eventSetCheckBox("ClearRamMembership", false);
+        for (int i=ramStart_; i<=ramEnd_; i++)
+            mainMemory_[i] = 0;
+    }
+    if (currentElfConfig.autoBoot)
+    {
+        scratchpadRegister_[0]=p_Main->getBootAddress("Membership", MEMBER);
+        autoBoot();
+    }
+    qLedStatus_ = (1 ^ elfConfiguration.vtEf) << 1;
+    memberScreenPointer->setQLed(qLedStatus_);
+    resetPressed_ = false;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
 }
 
 void Membership::configureElfExtensions()

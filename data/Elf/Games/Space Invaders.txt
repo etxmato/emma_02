@@ -1,0 +1,1 @@
+Chip 8 based game, but it is unfinished, buggy or not loaded without errors (even if the load didn't show any errors). Press any key to start, additional HW (EF3/EF4) buttons will move ship to left and right but only a few steps. Nothing else happends as far as I can see.

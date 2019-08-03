@@ -10,6 +10,7 @@ CPP_SRCS += \
 ../src/base.cpp \
 ../src/breakpoints.cpp \
 ../src/cdp1802.cpp \
+../src/cdp18s020.cpp \
 ../src/cidelsa.cpp \
 ../src/cidelsastatusbar.cpp \
 ../src/coinarcade.cpp \
@@ -35,6 +36,7 @@ CPP_SRCS += \
 ../src/fdc.cpp \
 ../src/fred.cpp \
 ../src/functionkey.cpp \
+../src/guicdp18s020.cpp \
 ../src/guicidelsa.cpp \
 ../src/guicomx.cpp \
 ../src/guicosmicos.cpp \
@@ -137,6 +139,7 @@ OBJS += \
 ./src/base.o \
 ./src/breakpoints.o \
 ./src/cdp1802.o \
+./src/cdp18s020.o \
 ./src/cidelsa.o \
 ./src/cidelsastatusbar.o \
 ./src/coinarcade.o \
@@ -162,6 +165,7 @@ OBJS += \
 ./src/fdc.o \
 ./src/fred.o \
 ./src/functionkey.o \
+./src/guicdp18s020.o \
 ./src/guicidelsa.o \
 ./src/guicomx.o \
 ./src/guicosmicos.o \
@@ -256,6 +260,7 @@ CPP_DEPS += \
 ./src/base.d \
 ./src/breakpoints.d \
 ./src/cdp1802.d \
+./src/cdp18s020.d \
 ./src/cidelsa.d \
 ./src/cidelsastatusbar.d \
 ./src/coinarcade.d \
@@ -281,6 +286,7 @@ CPP_DEPS += \
 ./src/fdc.d \
 ./src/fred.d \
 ./src/functionkey.d \
+./src/guicdp18s020.d \
 ./src/guicidelsa.d \
 ./src/guicomx.d \
 ./src/guicosmicos.d \

@@ -139,7 +139,8 @@ void KeypadScreen::onMouseRelease(wxMouseEvent&event)
     if (osx_push_inButtonPointer->onMouseRelease(dc, x, y))
         p_Computer->onInButtonRelease();
     for (int i = 0; i<16; i++)
-        osx_buttonPointer[i]->onMouseRelease(dc, x, y);
+        if (osx_buttonPointer[i]->onMouseRelease(dc, x, y))
+            p_Computer->onNumberKeyUp();
 #endif
 }
 

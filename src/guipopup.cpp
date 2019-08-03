@@ -70,6 +70,7 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
     EVT_CHECKBOX(XRCID("ControlWindowsPopupElf"), PopupDialog::onElfControlWindows)
 
     EVT_CHECKBOX(XRCID("ControlWindowsPopupVelf"), PopupDialog::onVelfControlWindows)
+    EVT_CHECKBOX(XRCID("ControlWindowsPopupCDP18S020"), PopupDialog::onCdp18s020ControlWindows)
     EVT_CHECKBOX(XRCID("ControlWindowsPopupFRED"), PopupDialog::onFredControlWindows)
 
 	EVT_CHECKBOX(XRCID("ControlWindowsPopupMembership"), PopupDialog::onMembershipControlWindows)
@@ -140,6 +141,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
 
         case VIP2K:
         case MEMBER:
+        case CDP18S020:
 			wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"menuMembership.xrc");
 			wxXmlResource::Get()->LoadDialog(this, parent, "PopupMembership");
             XRCCTRL(*this, "PopupMembership", wxDialog)->SetLabel(p_Main->getSelectedComputerText()+" Menu");
@@ -235,6 +237,7 @@ void PopupDialog::init()
 
 		case MEMBER:
 		case VIP2K:
+        case CDP18S020:
             XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getVtWaveFile(computer_));
 			XRCCTRL(*this, "ControlWindowsPopupMembership", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
 			setStartLocation(p_Main->getSaveStartString(computer_));
@@ -442,6 +445,13 @@ void PopupDialog::onVelfControlWindows(wxCommandEvent&event)
         p_Main->setCheckBox("ControlWindowsVelf", event.IsChecked());
 }
 
+void PopupDialog::onCdp18s020ControlWindows(wxCommandEvent&event)
+{
+    p_Main->onCdp18s020ControlWindows(event);
+    if (p_Main->getGuiMode())
+        p_Main->setCheckBox("ControlWindowsCDP18S020", event.IsChecked());
+}
+
 void PopupDialog::onFredControlWindows(wxCommandEvent&event)
 {
     if (computer_ == FRED1)
@@ -460,7 +470,15 @@ void PopupDialog::onFredControlWindows(wxCommandEvent&event)
 
 void PopupDialog::onMembershipControlWindows(wxCommandEvent&event)
 {
- 	p_Main->onMembershipControlWindows(event);
+    switch (computer_)
+    {
+        case MEMBER:
+            p_Main->onMembershipControlWindows(event);
+        break;
+        case CDP18S020:
+            p_Main->onCdp18s020ControlWindows(event);
+        break;
+    }
 	if (p_Main->getGuiMode())
 		p_Main->setCheckBox("ControlWindowsMembership", event.IsChecked());
 }

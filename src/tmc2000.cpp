@@ -331,101 +331,78 @@ Byte Tmc2000::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Tmc2000::readMem(Word addr)
+Byte Tmc2000::readMem(Word address)
 {
-	if (addr < 0x8000)
-		address_ = (addr | addressLatch_) & (ramMask_ | 0x8000);
+	if (address < 0x8000)
+		address = (address | addressLatch_) & (ramMask_ | 0x8000);
 	else
-		address_ = addr & 0x81ff;
+		address = address & 0x81ff;
 
-	if (memoryType_[address_/256] == UNDEFINED) return 255;
-	return mainMemory_[address_| addressLatch_];
+	if (memoryType_[address/256] == UNDEFINED) return 255;
+	return mainMemory_[address| addressLatch_];
 }
 
-void Tmc2000::writeMem(Word addr, Byte value, bool writeRom)
+Byte Tmc2000::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
+void Tmc2000::writeMem(Word address, Byte value, bool writeRom)
+{
 	if (!writeRom)
 	{
-		if (colorLatch_ && (addr >= 0x8000) && (addr < 0x8400))
+		if (colorLatch_ && (address >= 0x8000) && (address < 0x8400))
 		{
-			colorMemory1864_[addr&0x3ff] = value &0xf;
-			if ((addr&0x3ff) >= memoryStart_ && (addr&0x3ff) <(memoryStart_+256))
-				p_Main->updateDebugMemory(addr&0x3ff);
-			if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			colorMemory1864_[address&0x3ff] = value &0xf;
+			if ((address&0x3ff) >= memoryStart_ && (address&0x3ff) <(memoryStart_+256))
+				p_Main->updateDebugMemory(address&0x3ff);
+			if (address >= memoryStart_ && address<(memoryStart_ + 256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 			return;
 		}
-		address_ = addr & ramMask_;
+		address = address & ramMask_;
 	}
-	else
-		address_ = addr;
 
-	if (mainMemory_[address_]==value)
+	if (mainMemory_[address]==value)
 		return;
 	if (!writeRom)
-		if (memoryType_[address_/256] != RAM)  return;
+		if (memoryType_[address/256] != RAM)  return;
 
-	mainMemory_[address_]=value;
+	mainMemory_[address]=value;
 	if (writeRom)
 		return;
-	if (address_ >= (memoryStart_& ramMask_) && address_<((memoryStart_& ramMask_) + 256))
-		p_Main->updateDebugMemory(address_);
-	p_Main->updateAssTabCheck(address_);
+	if (address >= (memoryStart_& ramMask_) && address<((memoryStart_& ramMask_) + 256))
+		p_Main->updateDebugMemory(address);
+	p_Main->updateAssTabCheck(address);
 }
 
-Byte Tmc2000::read1864ColorDirect(Word addr)
+void Tmc2000::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	return colorMemory1864_[addr] & 0xf;
+    writeMem(address, value, writeRom);
 }
 
-void Tmc2000::write1864ColorDirect(Word addr, Byte value)
+Byte Tmc2000::read1864ColorDirect(Word address)
 {
-	colorMemory1864_[addr] = value & 0xf;
+	return colorMemory1864_[address] & 0xf;
+}
+
+void Tmc2000::write1864ColorDirect(Word address, Byte value)
+{
+	colorMemory1864_[address] = value & 0xf;
 }
 
 void Tmc2000::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkTMC2000Function();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			addressLatch_ = 0x8000;
-			initPixie();
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
 			p_Main->eventUpdateTitle();
 			runPressed_ = false;
 		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
 	}
 	else
 	{
@@ -435,9 +412,18 @@ void Tmc2000::cpuInstruction()
 			addressLatch_ = 0x8000;
 			initPixie();
 			p_Main->eventUpdateTitle();
+            resetEffectiveClock();
 			runPressed_ = false;
 		}
 	}
+}
+
+void Tmc2000::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    addressLatch_ = 0x8000;
+    initPixie();
 }
 
 void Tmc2000::onReset()
@@ -445,7 +431,7 @@ void Tmc2000::onReset()
 	resetPressed_ = true;
 }
 
-void Tmc2000::checkTMC2000Function()
+void Tmc2000::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

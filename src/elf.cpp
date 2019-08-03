@@ -82,7 +82,7 @@ MainElf::~MainElf()
     }
 }
 
-void MainElf::checkElfFunction()
+void MainElf::checkComputerFunction()
 {
     if (romMapperDefined_)
     {

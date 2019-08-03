@@ -72,7 +72,8 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
 		case COSMICOS:
 		case MEMBER:
 		case MS2000:
-		case MCDS:
+        case MCDS:
+        case CDP18S020:
 			forceUpperCase_ = p_Main->getUpperCase(computerType);
 		break;
 
@@ -508,7 +509,7 @@ void Video::changeScreenSize()
 	else
 		zoom_ = zoomy;
 	offsetX_ = (destinationWidth_/(zoom_*xZoomFactor_) - videoWidth_) / 2;
-	offsetY_ = (destinationHeight_/zoom_ - videoHeight_) / 2;
+    offsetY_ = (destinationHeight_/zoom_ - videoHeight_) / 2;
 
 	extraBackGround_ = false;
 	if ((int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_) != destinationWidth_)

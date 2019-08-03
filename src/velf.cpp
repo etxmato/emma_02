@@ -248,7 +248,6 @@ void Velf::configureComputer()
 	outType_[7] = VIPIIOUT7;
     inType_[4] = ELFIN;
 	efType_[3] = VIPKEYEF;
-    efType_[4] = ELFINEF;
     setCycleType(COMPUTERCYCLE, LEDCYCLE);
 
 	p_Main->message("Configuring VELF");
@@ -380,6 +379,7 @@ void Velf::initComputer()
 
 	vipRunCommand_ = 0;
 	vipRunState_ = RESETSTATE;
+    pixieCycle_ = true;
 }
 
 void Velf::keyDown(int keycode)
@@ -469,6 +469,11 @@ void Velf::dataSwitch(int i)
 
 Byte Velf::ef(int flag)
 {
+    if (flag == 4)
+    {
+        if (ef4State_ == 0)
+            return ef4State_;
+    }
 	switch(efType_[flag])
 	{
 		case 0:
@@ -486,10 +491,6 @@ Byte Velf::ef(int flag)
 		case VIPKEYEF:
 			return ef3();
 		break;
-
-        case ELFINEF:
-            return ef4();
-        break;
 
         case VT100EF:
             if (isLoading() || realCassetteLoad_)
@@ -513,11 +514,6 @@ Byte Velf::ef(int flag)
 Byte Velf::ef3()
 {
 	return (vipKeyState_[0][vipKeyPort_]) ? 0 : 1;
-}
-
-Byte Velf::ef4()
-{
-    return ef4State_;
 }
 
 Byte Velf::in(Byte port, Word WXUNUSED(address))
@@ -634,7 +630,9 @@ void Velf::cycle(int type)
 		break;
 
 		case PIXIECYCLE:
-			pixiePointer->cyclePixie();
+//            if (pixieCycle_)
+                pixiePointer->cyclePixie();
+//            pixieCycle_ = !pixieCycle_;
 		break;
 
         case VT100CYCLE:
@@ -794,85 +792,65 @@ Byte Velf::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Velf::readMem(Word addr)
+Byte Velf::readMem(Word address)
 {
-
-	if ((addr & 0x8000) == 0x8000)
+	if ((address & 0x8000) == 0x8000)
 		addressLatch_ = 0;
 
-	if (addr < 0x8000)
-		addr = (addr | addressLatch_);
+	if (address < 0x8000)
+		address = (address | addressLatch_);
 
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			return mainMemory_[addr];
+			return mainMemory_[address];
 		break;
 
 		case UNDEFINED:
 			return 255;
 		break;
 	}
-	return mainMemory_[addr];
+	return mainMemory_[address];
 }
 
-void Velf::writeMem(Word addr, Byte value, bool writeRom)
+Byte Velf::readMemDebug(Word address)
 {
-	switch (memoryType_[addr/256])
+    return readMem(address);
+}
+
+void Velf::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
             if (!getMpButtonState())
             {
-                mainMemory_[addr]=value;
-                if (addr >= memoryStart_ && addr<(memoryStart_+256))
-                    p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(addr);
+                mainMemory_[address]=value;
+                if (address >= memoryStart_ && address<(memoryStart_+256))
+                    p_Main->updateDebugMemory(address);
+				p_Main->updateAssTabCheck(address);
 			}
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
+}
+
+void Velf::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Velf::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-        checkVelfFunction();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-            if (p_Main->getVelfMode() == 0)
-                addressLatch_ = 0x8000;
-            else
-                addressLatch_ = 0;
-			pixiePointer->initPixie();
-			vipRunState_ = RESETSTATE;
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
@@ -880,10 +858,6 @@ void Velf::cpuInstruction()
             velfScreenPointer->runSetState(BUTTON_DOWN);
 			runPressed_ = false;
 		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
 	}
 	else
 	{
@@ -892,6 +866,7 @@ void Velf::cpuInstruction()
 			setClear(1);
 			p_Main->eventUpdateTitle();
             velfScreenPointer->runSetState(BUTTON_UP);
+            resetEffectiveClock();
             if (p_Main->getVelfMode() == 0)
                 addressLatch_ = 0x8000;
             else
@@ -900,6 +875,18 @@ void Velf::cpuInstruction()
 			runPressed_ = false;
 		}
 	}
+}
+
+void Velf::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    if (p_Main->getVelfMode() == 0)
+        addressLatch_ = 0x8000;
+    else
+        addressLatch_ = 0;
+    pixiePointer->initPixie();
+    vipRunState_ = RESETSTATE;
 }
 
 void Velf::moveWindows()
@@ -923,7 +910,7 @@ void Velf::onReset()
 	resetPressed_ = true;
 }
 
-void Velf::checkVelfFunction()
+void Velf::checkComputerFunction()
 {
     switch(scratchpadRegister_[programCounter_])
     {

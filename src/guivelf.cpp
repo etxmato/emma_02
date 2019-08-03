@@ -35,7 +35,7 @@
 
 #include "psave.h"
 
-BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
+BEGIN_EVENT_TABLE(GuiVelf, GuiCdp18s020)
 
 	EVT_TEXT(XRCID("MainRomVelf"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomVelf"), GuiMain::onMainRom1Text)
@@ -107,7 +107,7 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiTMC2000)
 END_EVENT_TABLE()
 
 GuiVelf::GuiVelf(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiTMC2000(title, pos, size, mode, dataDir, iniDir)
+: GuiCdp18s020(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[VELF].loadFileNameFull_ = "";
 	conf[VELF].loadFileName_ = "";
@@ -179,7 +179,7 @@ void GuiVelf::readVelfConfig()
 	setRealCas(VELF);
 
 	wxString defaultClock;
-	defaultClock.Printf("%1.4f", 3.579545);
+	defaultClock.Printf("%1.2f", 1.76);
 	conf[VELF].clock_ = configPointer->Read("/Velf/Clock_Speed", defaultClock);
 
     wxString defaultTimer;
@@ -195,7 +195,7 @@ void GuiVelf::readVelfConfig()
     elfConfiguration[VELF].vt52SetUpFeature_ = configPointer->Read("/Velf/VT52Setup", 0x00004092l);
     elfConfiguration[VELF].vt100SetUpFeature_ = configPointer->Read("/Velf/VT100Setup", 0x0000ca52l);
     elfConfiguration[VELF].vtExternalSetUpFeature_ = configPointer->Read("/Velf/VTExternalSetup", 0x0000ca52l);
-	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 1l);
+	elfConfiguration[VELF].baudT = (int)configPointer->Read("/Velf/Vt_Baud", 2l);
 	elfConfiguration[VELF].baudR = elfConfiguration[VELF].baudT;
 
 	setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);

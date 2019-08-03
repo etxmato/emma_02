@@ -499,9 +499,9 @@ void Elf2KDisk::setGeometry(int cyl, int hd, int sc)
 	geometry_[1].maxLba = geometry_[1].cylinders * geometry_[1].heads * geometry_[1].sectors;
 }
 
-void Elf2KDisk::writeRtc(int addr, Byte value)
+void Elf2KDisk::writeRtc(int address, Byte value)
 {
-	rtcRam_[addr] = value;
+	rtcRam_[address] = value;
 }
 
 void Elf2KDisk::writeIdeRegister(int reg, Word value)

@@ -47,7 +47,6 @@ public:
 	void configureComputer();
 	void initComputer();
 	Byte ef(int flag);
-	Byte ef4();
 	Byte in(Byte port, Word address);
 	Byte getData();
 	void out(Byte port, Word address, Byte value);
@@ -66,9 +65,12 @@ public:
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void configureElfExtensions();
 	void moveWindows();
 	void updateTitle(wxString Title);

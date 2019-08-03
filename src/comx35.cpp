@@ -1104,7 +1104,6 @@ Byte Comx::readMemDataType(Word address)
 
 Byte Comx::readMem(Word address)
 {
-	address_ = address;
 	wxDateTime systemNow;
 	wxDateTime now;
 	wxTimeSpan timeDiff;
@@ -1280,9 +1279,13 @@ Byte Comx::readMem(Word address)
 	}
 }
 
+Byte Comx::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
 void Comx::writeMem(Word address, Byte value, bool writeRom)
 {
-	address_ = address;
 	wxDateTime systemNow;
 	wxDateTime now;
 	wxTimeSpan timeDiff;
@@ -1556,58 +1559,45 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 	}
 }
 
+void Comx::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
+}
+
 void Comx::cpuInstruction()
 {
-	if (steps_ != 0)
-	{
-		machineCycle();
-		machineCycle();
-		if (steps_ != 0)
-		{
-			cpuCycle();
-			cpuCycles_ += 2;
-		}
-		if (debugMode_)
-			p_Main->showInstructionTrace();
-	}
-	else
-		soundCycle();
+    cpuCycleStep();
+}
 
-	playSaveLoad();
-	checkComxFunction();
-
-	if (resetPressed_)
-	{
-		stop6845();
-		out5_1870(0x0080);
-		//mc6845started_ = false;
-		setCycleType(BLINKCYCLE, 0);
-		setCycleType(VIDEOCYCLE, 0);
-		startComxKeyFile();
-		if (expansionRomLoaded_)
-			out(1, 0, 0x10);
-		resetCpu();
-		init1870();
-        initComputer();
-        
-        p_Main->v1870BarSizeEvent();
-		writeMem(0xbf42, 0, false);
-		writeMem(0xbf44, 0, false);
-		p_Main->setSwName("");
-        p_Main->eventUpdateTitle();
-		comxRunCommand_ = 0;
-		resetPressed_ = false;
-		if (p_Main->isDiagOn(COMX) == 1)
-			diagRomActive_ = true;
-		else
-			diagRomActive_ = false;
-        updateDiagLedStatus(1, diagRomActive_);
-		diagDmaLedOn_ = false;
-		updateDiagLedStatus(2, diagDmaLedOn_);
-        updateDiagLedStatus(5, false);
-	}
-	if (debugMode_)
-		p_Main->cycleDebug();
+void Comx::resetPressed()
+{
+    stop6845();
+    out5_1870(0x0080);
+    //mc6845started_ = false;
+    setCycleType(BLINKCYCLE, 0);
+    setCycleType(VIDEOCYCLE, 0);
+    startComxKeyFile();
+    if (expansionRomLoaded_)
+        out(1, 0, 0x10);
+    resetCpu();
+    init1870();
+    initComputer();
+    
+    p_Main->v1870BarSizeEvent();
+    writeMem(0xbf42, 0, false);
+    writeMem(0xbf44, 0, false);
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
+    comxRunCommand_ = 0;
+    resetPressed_ = false;
+    if (p_Main->isDiagOn(COMX) == 1)
+        diagRomActive_ = true;
+    else
+        diagRomActive_ = false;
+    updateDiagLedStatus(1, diagRomActive_);
+    diagDmaLedOn_ = false;
+    updateDiagLedStatus(2, diagDmaLedOn_);
+    updateDiagLedStatus(5, false);
 }
 
 void Comx::charEvent(int keycode)
@@ -1735,7 +1725,7 @@ void Comx::keyClear()
 	previousKeyCode_ = (wxKeyCode) 0;
 }
 
-void Comx::checkComxFunction()
+void Comx::checkComputerFunction()
 {
 #if defined(__WXMSW__ )
 	bool maximize;
@@ -2084,15 +2074,15 @@ bool Comx::isFAndMBasicRunning()
 	return fAndMBasicRunning_;
 }
 
-void Comx::setDosFileName(int addr)
+void Comx::setDosFileName(int address)
 {
 	wxString name;
 	name = "";
-	addr = 0xbc03;
-	while ((mainMemory_[addr] != 0xff) && (addr < 0xbc15))
+	address = 0xbc03;
+	while ((mainMemory_[address] != 0xff) && (address < 0xbc15))
 	{
-		name = name + (char)mainMemory_[addr];
-		addr++;
+		name = name + (char)mainMemory_[address];
+		address++;
 	}
 	if (name[0] == 0 && name[1] == 0)
 		return;

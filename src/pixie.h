@@ -22,13 +22,12 @@ public:
 	~Pixie();
 
 	void reset();
-	void configurePixie(ElfPortConfiguration portConf);
+    void configurePixie(ElfPortConfiguration portConf);
+    virtual void configurePixie() {};
 	void configurePixieStudio2();
-    void configurePixieFred();
     void configurePixieCoinArcade();
     void configurePixieVisicom();
     void configurePixieVip();
-    void configurePixieVip2K();
 	void configurePixieVelf();
 	void configurePixieVipII();
 	void configurePixieTmc1800();
@@ -41,14 +40,12 @@ public:
 	void configurePixieCosmicos();
 	void initPixie(); 
 	Byte efPixie();
-	Byte inPixie();
-	void outPixie(); 
+	virtual Byte inPixie();
+	virtual void outPixie();
     void outPixieBackGround();
     void outPixieStudioIV(int value);
     void switchVideoMode(int videoMode);
-    void cyclePixie();
-    void cyclePixieVip2K();
-    void executeSequencer(Byte sequencerValue);
+    virtual void cyclePixie();
     void cyclePixieStudioIV();
     void cyclePixieCoinArcade();
 	void cyclePixieTelmac();
@@ -70,15 +67,17 @@ protected:
     Byte pbacking_[384][208];
     Byte color_[384][208];
     bool interlace_;
+    Byte pixieEf_;
 
     bool graphicsOn_;
     long graphicsNext_;
     long graphicsMode_;
  
     int colourMask_;
+    int backGroundInit_;
 
     Byte vidInt_;
-
+ 
 private:
 	PlotList *plotListPointer;
 	wxString runningComputer_;
@@ -88,9 +87,6 @@ private:
 	Byte vidCycle_;
 
 	int graphicsX_;
-	Byte pixieEf_;
-
-	int backGroundInit_;
 
 	int updatePlot_;
 	int highRes_;
@@ -103,10 +99,6 @@ private:
 
     int videoMode_;
     
-    Word sequencerAddress_;
-    int scanLine_;
-    int scanByte_;
-    int viewableLines_;
 };
 
 class PixieFred : public Pixie
@@ -114,14 +106,41 @@ class PixieFred : public Pixie
 public:
     PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
 
+    void configurePixie();
     void drawScreen();
-    void cyclePixieFred();
+    void cyclePixie();
     void setDisplayType(int displayType);
   
 private:
     int displayType_;
     int xInterlace_, yInterlace_, xNonInterlace_, yNonInterlace_;
 
+};
+
+class PixieVip2K : public Pixie
+{
+public:
+    PixieVip2K(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType);
+    
+    void configurePixie();
+    void drawScreen();
+    void cyclePixie();
+    void executeSequencer(Byte sequencerValue);
+    Byte inPixie();
+    void outPixie();
+
+private:
+    int additionalBottomPalLines_;
+    int additionalTopPalLines_;
+    
+    Word sequencerAddress_;
+    int scanLine_;
+    int scanByte_;
+    int viewableLines_;
+    int totalNumberOfLines_;
+    int sizeTopBox_;
+    int sizeBottomBox1_;
+    int sizeBottomBox2_;
 };
 
 #endif  // PIXIE_H

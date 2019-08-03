@@ -87,10 +87,7 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguratio
         p_Computer->setOutType(elfPortConf.vt100Output, VTOUTSERIAL);
         
         dataReadyFlag_ = elfPortConf.vt100Ef;
-        if (p_Computer->getEfType(dataReadyFlag_) == ELFINEF)
-            p_Computer->setEfType(dataReadyFlag_, VTINEFSERIAL);
-        else
-            p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
+        p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
         
         if (reverseQ_) p_Computer->setFlipFlopQ(1);
         

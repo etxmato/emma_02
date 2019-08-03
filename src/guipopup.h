@@ -37,6 +37,7 @@ private:
 
     void onElfControlWindows(wxCommandEvent& event);
     void onVelfControlWindows(wxCommandEvent& event);
+    void onCdp18s020ControlWindows(wxCommandEvent& event);
     void onFredControlWindows(wxCommandEvent& event);
 
 	void onMembershipControlWindows(wxCommandEvent& event);

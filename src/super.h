@@ -46,6 +46,7 @@ public:
 	void onHexKeyUp(int keycode);
 
     void configureComputer();
+    void switchHexEf(bool state);
     void setPrinterEf();
     void reLoadKeyDefinition(wxString fileName);
 	void reDefineKeysA(int *, int *);
@@ -56,9 +57,12 @@ public:
 	Byte getData();
 	void out(Byte port, Word address, Byte value);
 	void showData(Byte value);
+    void showCycleData(Byte val);
 	void cycle(int type);
-	void cycleA();
-	void cycleB();
+    void setGoTimer();
+    void showState(int state);
+    void showDmaLed();
+    void showIntLed();
     void cycleLed();
 
 	void autoBoot();
@@ -81,14 +85,18 @@ public:
     void onResetButton();
 	void onNumberKeyDown(wxCommandEvent& event);
 	void onNumberKeyDown(int i);
-	void onNumberKeyUp(wxCommandEvent& event);
+    void onNumberKeyUp(wxCommandEvent& event);
+    void onNumberKeyUp();
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void configureElfExtensions();
 	void moveWindows();
 	void updateTitle(wxString Title);
@@ -98,17 +106,17 @@ public:
 
 	Byte getTmsMemory(int address) {return tmsPointer->getTmsMemory(address);};
 	void setTmsMemory(int address, Byte value) {tmsPointer->setTmsMemory(address, value);};
-	Byte read8275CharRom(Word addr);
-	void write8275CharRom(Word addr, Byte value);
-    Byte read8275VideoRam(Word addr);
-    void write8275VideoRam(Word addr, Byte value);
-	Byte read6845CharRom(Word addr);
-	void write6845CharRom(Word addr, Byte value);
-	Byte read6847CharRom(Word addr);
-	void write6847CharRom(Word addr, Byte value);
-	int readDirect6847(Word addr);
+	Byte read8275CharRom(Word address);
+	void write8275CharRom(Word address, Byte value);
+    Byte read8275VideoRam(Word address);
+    void write8275VideoRam(Word address, Byte value);
+	Byte read6845CharRom(Word address);
+	void write6845CharRom(Word address, Byte value);
+	Byte read6847CharRom(Word address);
+	void write6847CharRom(Word address, Byte value);
+	int readDirect6847(Word address);
 	Word get6847RamMask();
-	void writeDirect6847(Word addr, int value);
+	void writeDirect6847(Word address, int value);
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
@@ -124,15 +132,17 @@ private:
 
     int ledCycleValue_;
     int ledCycleSize_;
+    int setMsValue_;
+
+    int goCycleValue_;
+    int goCycleSize_;
 
     Byte switches_;
 	int mpButtonState_;
 	Byte lastMode_;
-	char state_;
 	Byte ef3State_;
 	Byte ef4State_;
 
-	char singleStep_;
 	bool monitor_;
 	Word lastAddress_;
 

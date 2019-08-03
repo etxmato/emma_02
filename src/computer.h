@@ -22,6 +22,7 @@
 #define ELF2K_MP_BUTTON 7
 #define ELF2K_RUN_BUTTON 8
 #define ELF2K_IN_BUTTON 9
+#define DIP_SWITCH_BUTTON 10
 
 #define BUTTON_UP true
 #define BUTTON_DOWN false
@@ -83,6 +84,8 @@ private:
     wxCoord x_;
     wxCoord y_;
     bool state_;
+    wxCoord buttonSizeX_;
+    wxCoord buttonSizeY_;
     int type_;
 };
 
@@ -131,6 +134,8 @@ public:
 	void updateLoadLed(wxDC& dc);
 	void setLed(int i, int status);
 	void updateLed(wxDC& dc, int i);
+    void setStateLed(int i, int status);
+    void updateStateLed(wxDC& dc, int i);
 	void showData(Byte value);
 	void updateData(wxDC& dc);
 	void showDataTil313(Byte value);
@@ -207,7 +212,8 @@ protected:
     wxButton *text_readButtonPointer;
     wxButton *text_resetButtonPointer;
 	wxButton *text_loadButtonPointer;
-	wxButton *text_runButtonPointer;
+    wxButton *text_runButtonPointer;
+    wxButton *text_runPButtonPointer;
 	wxButton *text_mpButtonPointer;
 	wxButton *text_dataSwitchPointer[8];
 
@@ -219,6 +225,7 @@ protected:
     HexButton *osx_text_resetButtonPointer;
     HexButton *osx_text_loadButtonPointer;
     HexButton *osx_text_runButtonPointer;
+    HexButton *osx_text_runPButtonPointer;
     HexButton *osx_text_mpButtonPointer;
     HexButton *osx_text_dataSwitchPointer[8];
 	HexButton *osx_buttonPointer[16];
@@ -240,9 +247,11 @@ protected:
     SwitchButton *cardSwitchButton;
     SwitchButton *clearSwitchButton;
     SwitchButton *waitSwitchButton;
+    SwitchButton *stepSwitchButton;
     SwitchButton *velfSwitchButton;
 	SwitchButton *dataSwitchButton[8];
 	SwitchButton *efSwitchButton[4];
+    SwitchButton *dipSwitchButton[4];
 
     wxBitmap *hexButtonPointer;
     wxBitmap *upBitmapPointer;
@@ -280,7 +289,8 @@ protected:
 	Led *pauseLedPointer;
 	Led *runLedPointer;
 	Led *loadLedPointer;
-    Led *ledPointer[8];
+    Led *ledPointer[24];
+    Led *stateLedPointer[4];
 
     int readyLedStatus;
     int stopLedStatus;
@@ -290,7 +300,8 @@ protected:
 	int pauseLedStatus;
 	int runLedStatus;
 	int loadLedStatus;
-	int ledStatus[8];
+    int ledStatus[24];
+    int stateLedStatus[4];
 
     bool updateReadyLed_;
     bool updateStopLed_;
@@ -300,7 +311,8 @@ protected:
 	bool updatePauseLed_;
 	bool updateRunLed_;
 	bool updateLoadLed_;
-	bool updateLed_[8];
+    bool updateLed_[24];
+    bool updateStateLed_[4];
     bool updateAddress_;
     bool updateAddressTil313_;
     bool updateAddressTil313Italic_;
@@ -357,7 +369,10 @@ public:
 	virtual void removeElfHex();
 	virtual void removeCosmicosHex();
 	virtual void removeElfLedModule(); 
-	virtual void showData(Byte val);
+    virtual void showData(Byte val);
+    virtual void showCycleData(Byte val);
+    virtual void showDmaLed();
+    virtual void showIntLed();
 	virtual void resetVideo();
 	virtual void resetComputer();
 	virtual void clearBootstrap();
@@ -377,9 +392,11 @@ public:
     virtual void onReadButton();
     virtual void onCardButton();
     virtual void onRunButton();
+    virtual void onRunPButton();
     virtual void onRunButtonPress() {};
     virtual void onRunButtonRelease() {};
     virtual void onRunButton(wxCommandEvent& event);
+    virtual void onRunPButton(wxCommandEvent& event);
 	virtual void onPause();
 	virtual void onPause(wxCommandEvent& event);
 	virtual void onMonitor();
@@ -387,6 +404,7 @@ public:
 	virtual void onSingleStep();
 	virtual void onSingleStep(wxCommandEvent& event);
     virtual void onMpButton();
+    virtual void onMpButton(int buttonNumber);
     virtual void onMpButton(wxCommandEvent& event);
     virtual void onWaitButton();
     virtual void onClearButton();
@@ -437,7 +455,8 @@ public:
 	void setQsound(int status) {qSound_ = status;};
 
 	virtual void onNumberKeyDown(wxCommandEvent& event);
-	virtual void onNumberKeyUp(wxCommandEvent& event);
+    virtual void onNumberKeyUp(wxCommandEvent& event);
+    virtual void onNumberKeyUp();
 	virtual void ledTimeout();
 	virtual void setLedMs(long ms);
     virtual void showDataLeds(Byte value);
@@ -468,6 +487,7 @@ public:
 	virtual void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     virtual void reLoadKeyDefinition(wxString fileName) {};
     virtual void setPrinterEf() {};
+    virtual void switchHexEf(bool state);
     virtual wxString getRunningGame() {return "";};
     virtual void setGreenLed(int status);
 
@@ -476,6 +496,12 @@ public:
     virtual void setDisableSystemRom(bool disableSystemRom);
     virtual void setAutoKeyDef(bool autoKeyDef);
     virtual int getDmaCounter() {return 0;};
+    virtual void showAddress(Word address);
+    virtual void showState(int state);
+    virtual void checkComputerFunction() {};
+    virtual void resetPressed() {};
+    virtual void setWaitLed() {};
+    virtual void setGoTimer() {};
 
 protected:
 	RunComputer *threadPointer;

@@ -26,6 +26,7 @@ public:
 	void onElfKeyboard(wxCommandEvent& event);
     void onForceUpperCase(wxCommandEvent& event);
     void onGiantBoardMapping(wxCommandEvent& event);
+    void onEfButtons(wxCommandEvent& event);
  	void onUsePortExtender(wxCommandEvent& event);
 	void onLedModule(wxCommandEvent& event);
 	void onElfControlWindows(wxCommandEvent& event);
@@ -34,6 +35,7 @@ public:
 	void onElfScreenDump(wxCommandEvent& event);
 	void onTape(wxCommandEvent& event);
 	void onQsound(wxCommandEvent&event);
+    void onHexEf(wxCommandEvent&event);
     void onBootStrap(wxCommandEvent&event);
     void onTilType(wxCommandEvent&event);
 
@@ -42,7 +44,7 @@ public:
 	long getEndRam(wxString elfTypeStr, int elfType);
 	void setDiskType(wxString elfTypeStr, int elfType, int Selection);
 	void setMemory(wxString elfTypeStr, int elfType, int Selection);
-	void setElfKeyboard(wxString elfTypeStr, int elfType, int Selection);
+	void setElfKeyboard(wxString elfTypeStr, int elfType, int Selection, bool hexEf);
 	void setVideoType(wxString elfTypeStr, int elfType, int Selection);
 	void setTapeType(wxString elfTypeStr, int elfType);
 

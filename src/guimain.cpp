@@ -864,7 +864,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT52:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -904,7 +904,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT100:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -1323,7 +1323,7 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
 {
 	conf[selectedComputer_].wavFile_[0] = event.GetString();
     
-    if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER)
+    if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
         return;
     
     if (conf[selectedComputer_].wavFile_[0] != "")
@@ -3087,7 +3087,7 @@ void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::startAutoTerminalLoad(bool binaryFile)
 {
-	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3148,7 +3148,7 @@ void GuiMain::stopTerminal()
 
 void GuiMain::startAutoTerminalSave()
 {
-    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)

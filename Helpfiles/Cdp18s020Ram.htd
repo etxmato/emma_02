@@ -1,0 +1,18 @@
+<HTML>
+<Title>RAM Size and Memory Protect</Title>
+<BODY>
+<h2>RAM Size and Memory Protect</h2>
+<p>
+To specify the onboard RAM size of the emulated CDP18S020 Evaluation Kit (between 256 bytes and 4 Kb) use the 'RAM' spin button. 
+</p>
+<p>
+4 dip switches are available on the CDP18S020 front panel, switch these up to enable RAM memory protection (disable writing to RAM). Each dip switch controls 1 KB of RAM at address:
+</p>
+<ul>
+<li>000-3FF
+<li>400-7FF
+<li>800-BFF
+<li>C00-FFF
+</ul>
+</BODY>
+</HTML>

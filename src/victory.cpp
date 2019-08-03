@@ -640,196 +640,142 @@ Byte Victory::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Victory::readMem(Word addr)
+Byte Victory::readMem(Word address)
 {
-	address_ = addr;
-
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
 		case MULTICART:
-			if ((addr < 0x400) && !disableSystemRom_)
-				return mainMemory_[addr];
+			if ((address < 0x400) && !disableSystemRom_)
+				return mainMemory_[address];
 			else
-				return multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
+				return multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_];
 		break;
 
         case MAPPEDMULTICART:
-            addr = addr & 0xfff;
-            if ((addr < 0x400) && !disableSystemRom_)
-                return mainMemory_[addr];
+            address = address & 0xfff;
+            if ((address < 0x400) && !disableSystemRom_)
+                return mainMemory_[address];
             else
-                return multiCartRom_[(addr+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+                return multiCartRom_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
         break;
             
         case COLOURRAM:
-			if ((addr & 0xff) < 0x40)
-				return colorMemory1864_[addr&0xff] & 0xf;
+			if ((address & 0xff) < 0x40)
+				return colorMemory1864_[address&0xff] & 0xf;
 			else
 				return 255;
         break;
             
         case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
+			address = (address & 0x1ff) | 0x800;
 		break;
 
         case CARTRIDGEROM:
-  //          addr = (addr & 0x3ff) | 0x400;
+  //          address = (address & 0x3ff) | 0x400;
         break;
             
         case TESTCARTRIDGEROM:
-            return testCartRom_[addr];
+            return testCartRom_[address];
         break;
             
         case MAPPEDROM:
-            addr = (addr & 0x3ff);
+            address = (address & 0x3ff);
         break;
     }
 
-	return mainMemory_[addr];
+	return mainMemory_[address];
 }
 
-void Victory::writeMem(Word addr, Byte value, bool writeRom)
+Byte Victory::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void Victory::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		case MULTICART:
 			if (writeRom)
 			{
-				if ((addr < 0x400) && !disableSystemRom_)
-					mainMemory_[addr] = value;
+				if ((address < 0x400) && !disableSystemRom_)
+					mainMemory_[address] = value;
 				else
-					multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+					multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
 			}
 		break;
 
         case MAPPEDMULTICART:
-            addr = addr & 0xfff;
+            address = address & 0xfff;
             if (writeRom)
             {
-                if ((addr < 0x400) && !disableSystemRom_)
-                    mainMemory_[addr] = value;
+                if ((address < 0x400) && !disableSystemRom_)
+                    mainMemory_[address] = value;
                 else
-                    multiCartRom_[(addr + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
+                    multiCartRom_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = value;
             }
         break;
             
 		case COLOURRAM:
-			if ((addr & 0xff) < 0x40)
+			if ((address & 0xff) < 0x40)
 			{
-				colorMemory1864_[addr & 0xff] = value & 0xf;
-				if ((addr & 0xff) >= memoryStart_ && (addr & 0xff) < (memoryStart_ + 256))
-					p_Main->updateDebugMemory(addr & 0xff);
-				if (addr >= memoryStart_ && addr < (memoryStart_ + 256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(addr);
+				colorMemory1864_[address & 0xff] = value & 0xf;
+				if ((address & 0xff) >= memoryStart_ && (address & 0xff) < (memoryStart_ + 256))
+					p_Main->updateDebugMemory(address & 0xff);
+				if (address >= memoryStart_ && address < (memoryStart_ + 256))
+					p_Main->updateDebugMemory(address);
+				p_Main->updateAssTabCheck(address);
 				useColour(7);
 			}
 		break;
 
 		case MAPPEDRAM:
-			addr = (addr & 0x1ff) | 0x800;
-			if (mainMemory_[addr]==value)
+			address = (address & 0x1ff) | 0x800;
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
         case TESTCARTRIDGEROM:
             if (writeRom)
             {
-                testCartRom_[addr] = value;
+                testCartRom_[address] = value;
             }
         break;
             
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
+}
+
+void Victory::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    writeMem(address, value, writeRom);
 }
 
 void Victory::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-        checkFunction();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
- 
-            p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-            p_Main->getDefaultHexKeys(VICTORY, "Victory", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
-
-            simDefA2_ = p_Main->getConfigBool("/Victory/DiagonalA2", true);
-            simDefB2_ = p_Main->getConfigBool("/Victory/DiagonalB2", true);
-            
-            if (multiCart_)
-			{
-				wxString game;
-                if (multiCartRom_[(0xa00 + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] < 32)
-                    game = p_Main->getMultiCartGame(multiCartMsb_, multiCartLsb_);
-                else
-                    game = getMultiCartGame();
-                if (gameAuto_)
-					p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-				if (game.Find('.'))
-					game = game.BeforeFirst('.');
-				p_Main->setSwName(game);
-                p_Main->eventUpdateTitle();
-			}
-			else
-			{
-				if (gameAuto_)
-					p_Main->loadKeyDefinition("", p_Main->getRomFile(VICTORY, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-			}
-
-            reDefineKeysA(keyDefA1_, keyDefA2_);
-            reDefineKeysB(keyDefB1_, keyDefB2_);
-            
-			setWait(1);
-			setClear(0);
-			setWait(1);
-			setClear(1);
-			initPixie();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -839,12 +785,53 @@ void Victory::cpuInstruction()
 	}
 }
 
+void Victory::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    
+    p_Main->getDefaultHexKeys(VICTORY, "Victory", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(VICTORY, "Victory", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    
+    simDefA2_ = p_Main->getConfigBool("/Victory/DiagonalA2", true);
+    simDefB2_ = p_Main->getConfigBool("/Victory/DiagonalB2", true);
+    
+    if (multiCart_)
+    {
+        wxString game;
+        if (multiCartRom_[(0xa00 + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] < 32)
+            game = p_Main->getMultiCartGame(multiCartMsb_, multiCartLsb_);
+        else
+            game = getMultiCartGame();
+        if (gameAuto_)
+            p_Main->loadKeyDefinition("", game, keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+        if (game.Find('.'))
+            game = game.BeforeFirst('.');
+        p_Main->setSwName(game);
+        p_Main->eventUpdateTitle();
+    }
+    else
+    {
+        if (gameAuto_)
+            p_Main->loadKeyDefinition("", p_Main->getRomFile(VICTORY, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+    }
+    
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
+    
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
+    initPixie();
+}
+
 void Victory::onReset()
 {
 	resetPressed_ = true;
 }
 
-void Victory::checkFunction()
+void Victory::checkComputerFunction()
 {
     if (!gameAuto_)
         return;

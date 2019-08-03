@@ -49,13 +49,13 @@ public:
 	void onHexKeyUp(int keycode);
 
     void configureComputer();
+    void switchHexEf(bool state);
     void setPrinterEf();
     void reLoadKeyDefinition(wxString fileName);
 	void reDefineKeysA(int *, int *);
 	void reDefineKeysB(int *, int *);
 	void initComputer();
 	Byte ef(int flag);
-	Byte ef4();
 	Byte in(Byte port, Word address);
 	Byte getData();
 	void out(Byte port, Word address, Byte value);
@@ -77,9 +77,12 @@ public:
 	void removeElfHex() {hexKeypadClosed_ = true;};
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void configureElfExtensions();
 	void moveWindows();
 	void updateTitle(wxString Title);
@@ -91,22 +94,23 @@ public:
 
 	Byte getTmsMemory(int address) {return tmsPointer->getTmsMemory(address);};
 	void setTmsMemory(int address, Byte value) {tmsPointer->setTmsMemory(address, value);};
-	Byte read8275CharRom(Word addr);
-	void write8275CharRom(Word addr, Byte value);
-    Byte read8275VideoRam(Word addr);
-    void write8275VideoRam(Word addr, Byte value);
-	Byte read6845CharRom(Word addr);
-	void write6845CharRom(Word addr, Byte value);
-	Byte read6847CharRom(Word addr);
-	void write6847CharRom(Word addr, Byte value);
-	int readDirect6847(Word addr);
+	Byte read8275CharRom(Word address);
+	void write8275CharRom(Word address, Byte value);
+    Byte read8275VideoRam(Word address);
+    void write8275VideoRam(Word address, Byte value);
+	Byte read6845CharRom(Word address);
+	void write6845CharRom(Word address, Byte value);
+	Byte read6847CharRom(Word address);
+	void write6847CharRom(Word address, Byte value);
+	int readDirect6847(Word address);
 	Word get6847RamMask();
-	void writeDirect6847(Word addr, int value);
+	void writeDirect6847(Word address, int value);
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void onNumberKeyDown(int i);
+    void onNumberKeyUp();
 
 private:
 	class ElfScreen *elfScreenPointer;

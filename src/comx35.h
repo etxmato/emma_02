@@ -27,14 +27,17 @@ public:
 	Byte readMemDataType(Word address);
 	Byte readMem(Word address);
 	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 
 	void charEvent(int keycode);
 	bool keyDownExtended(int keycode, wxKeyEvent& event);
 	void keyUp(int keycode);
 	void keyClear();
 
-	void checkComxFunction();
+	void checkComputerFunction();
 	void sleepComputer(long ms);
 	void startComputerRun(bool load);
 	void startComxKeyFile();
@@ -42,7 +45,7 @@ public:
 	void onReset();
 	bool isFAndMBasicRunning();
 	bool isComputerRunning();
-	void setDosFileName(int addr);
+	void setDosFileName(int address);
 	void saveRam();
 	void loadRam();
     void switchQ(int value);

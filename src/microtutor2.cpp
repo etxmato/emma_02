@@ -477,7 +477,7 @@ void Microtutor2::writeMemDataType(Word address, Byte type)
     {
         case RAM:
             address = address | bootstrap_;
-            if (((address_&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
+            if (((address&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
                 return;
             if (mainMemoryDataType_[address] != type)
             {
@@ -488,7 +488,7 @@ void Microtutor2::writeMemDataType(Word address, Byte type)
             
         case MAPPEDRAM:
             address = (address & ramMask_) | bootstrap_;
-            if (((address_&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
+            if (((address&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
                 return;
             if (mainMemoryDataType_[address] != type)
             {
@@ -516,21 +516,21 @@ Byte Microtutor2::readMemDataType(Word address)
     return mainMemoryDataType_[address];
 }
 
-Byte Microtutor2::readMem(Word addr)
+Byte Microtutor2::readMem(Word address)
 {
-	switch (memoryType_[addr / 256])
+	switch (memoryType_[address / 256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
         case RAM:
-            address_ = addr | bootstrap_;
+            address_ = address | bootstrap_;
             return mainMemory_[address_];
         break;
             
         case MAPPEDRAM:
-            address_ = (addr & ramMask_) | bootstrap_;
+            address_ = (address & ramMask_) | bootstrap_;
             return mainMemory_[address_];
         break;
 
@@ -540,9 +540,33 @@ Byte Microtutor2::readMem(Word addr)
 	}
 }
 
-void Microtutor2::writeMem(Word addr, Byte value, bool writeRom)
+Byte Microtutor2::readMemDebug(Word address)
 {
-	switch (memoryType_[addr/256])
+    switch (memoryType_[address / 256])
+    {
+        case UNDEFINED:
+            return 255;
+        break;
+            
+        case RAM:
+            address = address | bootstrap_;
+            return mainMemory_[address];
+        break;
+            
+        case MAPPEDRAM:
+            address = (address & ramMask_) | bootstrap_;
+            return mainMemory_[address];
+        break;
+            
+        default:
+            return 255;
+        break;
+    }
+}
+
+void Microtutor2::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			if (writeRom)
@@ -550,67 +574,71 @@ void Microtutor2::writeMem(Word addr, Byte value, bool writeRom)
 		break;
 
 		case MAPPEDRAM:
-            address_ = (addr & ramMask_) | bootstrap_;
+            address_ = (address & ramMask_) | bootstrap_;
             if (((address_&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
                 return;
             if (mainMemory_[address_]==value)
                 return;
             mainMemory_[address_]=value;
             if (address_ >= memoryStart_ && address_<(memoryStart_ +256))
-                p_Main->updateDebugMemory(addr);
+                p_Main->updateDebugMemory(address_);
             p_Main->updateAssTabCheck(address_);
 		break;
 
 		case RAM:
-            address_ = addr | bootstrap_;
+            address_ = address | bootstrap_;
             if (((address_&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
                 return;
 			if (mainMemory_[address_]==value)
 				return;
 			mainMemory_[address_]=value;
 			if (address_ >= memoryStart_ && address_<(memoryStart_  +256))
-				p_Main->updateDebugMemory(addr);
+				p_Main->updateDebugMemory(address_);
 			p_Main->updateAssTabCheck(address_);
 		break;
 	}
+}
+
+void Microtutor2::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    switch (memoryType_[address/256])
+    {
+        case UNDEFINED:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+            
+        case MAPPEDRAM:
+            address = (address & ramMask_) | bootstrap_;
+            if (((address&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
+                return;
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= memoryStart_ && address<(memoryStart_ +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+            
+        case RAM:
+            address = address | bootstrap_;
+            if (((address&0x8000) == 0x8000 && mpButtonState_ == 1) || (!microtutorConfiguration.utilityMemory && (mpButtonState_ == 1)))
+                return;
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= memoryStart_ && address<(memoryStart_  +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+    }
 }
 
 void Microtutor2::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-		playSaveLoad();
-		if (resetPressed_)
-		{
-			resetCpu();
-			initComputer();
-			if (microtutorConfiguration.autoBoot)
-			{
-                scratchpadRegister_[0]=p_Main->getBootAddress("Microtutor II", MICROTUTOR2);
-                autoBoot();
-			}
-
-            resetPressed_ = false;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
+        cpuCycleStep();
 	}
     else
     {
@@ -624,6 +652,21 @@ void Microtutor2::cpuInstruction()
             ledCycleValue_ = 1;
         }
     }
+}
+
+void Microtutor2::resetPressed()
+{
+    resetCpu();
+    initComputer();
+    if (microtutorConfiguration.autoBoot)
+    {
+        scratchpadRegister_[0]=p_Main->getBootAddress("Microtutor II", MICROTUTOR2);
+        autoBoot();
+    }
+    
+    resetPressed_ = false;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
 }
 
 void Microtutor2::onReset()

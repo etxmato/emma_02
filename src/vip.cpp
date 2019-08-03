@@ -721,46 +721,51 @@ Byte Vip::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Vip::readMem(Word addr)
+Byte Vip::readMem(Word address)
 {
 /*	if (addressLatch_ == 0)
 	{
-		if (addr < 0x200)
-			addr += 0x8200;
+		if (address < 0x200)
+			address += 0x8200;
 	}
 	else
 	{*/ // Patch to get Eds home made VIP to work
-//	if ((addr & 0x8000) == 0x8000)
+//	if ((address & 0x8000) == 0x8000)
 //		addressLatch_ = 0;
 
-	if (addr < setLatch_)
-		addr = (addr | addressLatch_);
+	if (address < setLatch_)
+		address = (address | addressLatch_);
 	else
-		addr = addr & romMask_;
+		address = address & romMask_;
 //	}
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case MAPPEDRAM:
-			return mainMemory_[addr & (ramMask_ | 0x8000)];
+			return mainMemory_[address & (ramMask_ | 0x8000)];
 		break;
 
 		case VP570RAM:
-			return mainMemory_[addr];
+			return mainMemory_[address];
 		break;
 
 		case UNDEFINED:
 			return 255;
 		break;
 	}
-	return mainMemory_[addr];
+	return mainMemory_[address];
 }
 
-void Vip::writeMem(Word addr, Byte value, bool writeRom)
+Byte Vip::readMemDebug(Word address)
+{
+    return readMem(address);
+}
+
+void Vip::writeMem(Word address, Byte value, bool writeRom)
 {
 	if (vipSound_ == VIP_SUPER4)
 	{
-		switch (addr)
+		switch (address)
 		{
 			case 0x4001:
 				frequencySuper(2, value);
@@ -785,47 +790,47 @@ void Vip::writeMem(Word addr, Byte value, bool writeRom)
 			return;
 		}
 	}
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case MAPPEDRAM:
-			if (mainMemory_[addr & ramMask_]==value)
+			if (mainMemory_[address & ramMask_]==value)
 				return;
-			mainMemory_[addr & ramMask_]=value;
-			if ((addr & ramMask_) >= (memoryStart_ & ramMask_) && (addr & ramMask_)<((memoryStart_ & ramMask_)+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr & ramMask_);
+			mainMemory_[address & ramMask_]=value;
+			if ((address & ramMask_) >= (memoryStart_ & ramMask_) && (address & ramMask_)<((memoryStart_ & ramMask_)+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address & ramMask_);
 		break;
 
 		case VP570RAM:
-			mainMemory_[addr]=value;
-			if (addr >= memoryStart_ && addr <(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address >= memoryStart_ && address <(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		case COLOURRAM:
-			if ((addr >= 0xc000) && (addr < 0xd000))
+			if ((address >= 0xc000) && (address < 0xd000))
 				colourMask_ = 0xe7;
 			else
 				colourMask_ = 0xff; 
-			colorMemory1864_[addr&colourMask_] = value & 0xf;
-			if ((addr&colourMask_) >= memoryStart_ && (addr&colourMask_) <(memoryStart_+256))
-				p_Main->updateDebugMemory(addr&colourMask_);
-			if (addr >= memoryStart_ && addr<(memoryStart_ + 256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			colorMemory1864_[address&colourMask_] = value & 0xf;
+			if ((address&colourMask_) >= memoryStart_ && (address&colourMask_) <(memoryStart_+256))
+				p_Main->updateDebugMemory(address&colourMask_);
+			if (address >= memoryStart_ && address<(memoryStart_ + 256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 			useColour(colourMask_);
 		break;
 
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 			else
 			{
 				if (vipSound_ == VIP_SUPER2 || vipSound_ == VIP_SUPER4)
 				{
-					switch (addr)
+					switch (address)
 					{
 						case 0x8001:
 							frequencySuper(0, value);
@@ -855,57 +860,32 @@ void Vip::writeMem(Word addr, Byte value, bool writeRom)
 	}
 }
 
-Byte Vip::read1864ColorDirect(Word addr)
+void Vip::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	return colorMemory1864_[addr] & 0xf;
+    writeMem(address, value, writeRom);
 }
 
-void Vip::write1864ColorDirect(Word addr, Byte value)
+Byte Vip::read1864ColorDirect(Word address)
 {
-	colorMemory1864_[addr] = value & 0xf;
+	return colorMemory1864_[address] & 0xf;
+}
+
+void Vip::write1864ColorDirect(Word address, Byte value)
+{
+	colorMemory1864_[address] = value & 0xf;
 }
 
 void Vip::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		playSaveLoad();
-		checkVipFunction();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
-			addressLatch_ = 0x8000;
-			initPixie();
-			vipRunState_ = RESETSTATE;
-		}
+        cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
 			p_Main->eventUpdateTitle();
 			runPressed_ = false;
 		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-			p_Main->cyclePseudoDebug();
 	}
 	else
 	{
@@ -913,11 +893,21 @@ void Vip::cpuInstruction()
 		{
 			setClear(1);
 			p_Main->eventUpdateTitle();
+            resetEffectiveClock();
 			addressLatch_ = 0x8000;
 			initPixie();
 			runPressed_ = false;
 		}
 	}
+}
+
+void Vip::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    addressLatch_ = 0x8000;
+    initPixie();
+    vipRunState_ = RESETSTATE;
 }
 
 void Vip::moveWindows()
@@ -939,7 +929,7 @@ void Vip::onReset()
 	resetPressed_ = true;
 }
 
-void Vip::checkVipFunction()
+void Vip::checkComputerFunction()
 {
 	switch(scratchpadRegister_[programCounter_])
 	{

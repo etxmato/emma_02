@@ -21,6 +21,9 @@
                     </font>
                     <label>To start the VIP in system ROM Mode:
 While keeping 'C' pressed, press 'F12' twice"
+
+To start FPB press '1'
+(only when fpb__color.bin is selected as RAM SW) 
 </label>
                 </object>
             </object>

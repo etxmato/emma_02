@@ -384,6 +384,7 @@ public:
 
 #include "cidelsa.h"
 #include "comx35.h"
+#include "cdp18s020.h"
 #include "hbelf.h"
 #include "member.h"
 #include "microtutor.h"
@@ -415,7 +416,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.30
+#define EMMA_VERSION 1.31
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -428,25 +429,26 @@ public:
 #define VELF 8
 #define MICROTUTOR 9
 #define MICROTUTOR2 10
-#define MS2000 11
-#define MCDS 12
-#define FRED1 13
-#define FRED1_5 14
-#define COMX 15
-#define STUDIO 16
-#define ETI 17
-#define CIDELSA 18
-#define TMC600 19
-#define TMC1800 20
-#define TMC2000 21
-#define NANO 22
-#define PECOM 23
-#define VISICOM 24
-#define VICTORY 25
-#define VIPII 26
-#define COINARCADE 27
-#define STUDIOIV 28
-#define DEBUGGER 29
+#define CDP18S020 11
+#define MS2000 12
+#define MCDS 13
+#define FRED1 14
+#define FRED1_5 15
+#define COMX 16
+#define STUDIO 17
+#define ETI 18
+#define CIDELSA 19
+#define TMC600 20
+#define TMC1800 21
+#define TMC2000 22
+#define NANO 23
+#define PECOM 24
+#define VISICOM 25
+#define VICTORY 26
+#define VIPII 27
+#define COINARCADE 28
+#define STUDIOIV 29
+#define DEBUGGER 20
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -505,10 +507,11 @@ public:
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
 #define MICROTUTOR2TAB 3
-#define VIPTAB 4
-#define VIPIITAB 5
-#define MS2000TAB 6
-#define MCDSTAB 7
+#define CDP18S020TAB 4
+#define VIPTAB 5
+#define VIPIITAB 6
+#define MS2000TAB 7
+#define MCDSTAB 8
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
@@ -559,8 +562,7 @@ public:
 #define KEYBOARD_PS2_INT 2
 #define KEYBOARD_ASCII 3
 #define KEYBOARD_ASCII_HEX_EF 4
-#define KEYBOARD_HEX_EF 5
-#define KEYBOARD_HEX 6
+#define KEYBOARD_HEX 5
 
 #define KEYBOARD2KPS2GPIOJP4 2
 #define KEYBOARDELF2KHEX 3
@@ -604,7 +606,8 @@ public:
 #define MAPPEDROM 28
 #define MAPPEDMULTICART 29
 #define TESTCARTRIDGEROM 30
-#define NOCHANGE 31
+#define REGSTORAGE 31
+#define NOCHANGE 32
 
 #define SHOWNAME true
 #define NONAME false
@@ -1187,7 +1190,8 @@ private:
 	int oldGauge_;
 
 	wxString message_;
-	time_t startTime_;
+    time_t startTime_;
+    long lastNumberOfCpuCycles_;
 
 	int eventNumber_;
 

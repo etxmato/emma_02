@@ -316,8 +316,9 @@ Cosmicos::Cosmicos(const wxString& title, const wxPoint& pos, const wxSize& size
 	cosmicosScreenPointer->init();
 
 	cycleSize_ = (int)(1000 / ((1/1.75) * 8)); // ~1000 Hz on 1.75 CPU
-	cycleValue_ = cycleSize_; 
-	bootstrap_ = 0;
+	cycleValue_ = cycleSize_;
+
+    bootstrap_ = 0;
 }
 
 Cosmicos::~Cosmicos()
@@ -422,21 +423,21 @@ void Cosmicos::onPause(wxCommandEvent&WXUNUSED(event))
 
 void Cosmicos::onPause()
 {
+    singleStateStep_ = true;
 	setClear(1);
 	setWait(0);
 	pixieOn_ = false;
 	p_Main->eventUpdateTitle();
-	singleStep_ = 0;
 }
 
 void Cosmicos::onSingleStep(wxCommandEvent&WXUNUSED(event))
 {
-    singleStep_ = 1;
+    onSingleStep();
 }
 
 void Cosmicos::onSingleStep()
 {
-	singleStep_ = 1;
+    setWait(1);
 }
 
 void Cosmicos::onResetButton(wxCommandEvent&WXUNUSED(event))
@@ -446,13 +447,12 @@ void Cosmicos::onResetButton(wxCommandEvent&WXUNUSED(event))
 
 void Cosmicos::onResetButton()
 {
-	lastMode_ = cpuMode_;
+    singleStateStep_ = false;
+	lastMode_ = UNDEFINDEDMODE;
 	setClear(0);
 	setWait(1);
 	segNumber_ = 0;
 	pixieOn_ = false;
-	singleStep_ = 0;
-	state_ = 'F';
 }
 
 void Cosmicos::onRunButton(wxCommandEvent&WXUNUSED(event))
@@ -462,10 +462,11 @@ void Cosmicos::onRunButton(wxCommandEvent&WXUNUSED(event))
 
 void Cosmicos::onRunButton()
 {
+    singleStateStep_ = false;
+    resetEffectiveClock();
 	setClear(1);
 	setWait(1);
 	p_Main->eventUpdateTitle();
-	p_Main->startTime();
 }
 
 void Cosmicos::onMouseRelease(wxMouseEvent&event)
@@ -481,18 +482,15 @@ void Cosmicos::onRun()
 		setClear(1);
 		setWait(1);
 		p_Main->eventUpdateTitle();
-		p_Main->startTime();
+        resetEffectiveClock();
 	}
 	else
 	{
-		lastMode_ = cpuMode_;
 		setClear(0);
 		setWait(1);
 		segNumber_ = 0;
 		pixieOn_ = false;
 		p_Main->eventUpdateTitle();
-		singleStep_ = 0;
-		state_ = 'F';
 	}
 }
 
@@ -538,7 +536,6 @@ void Cosmicos::onLoadButton(wxCommandEvent&WXUNUSED(event))
 
 void Cosmicos::onLoadButton()
 {
-	lastMode_ = cpuMode_;
 	setClear(0);
 	setWait(0);
 	segNumber_ = 0;
@@ -671,7 +668,6 @@ void Cosmicos::initComputer()
 	qState_ = flipFlopQ_ + 1;
 	switches_ = 0;
 	inPressed_ = 0;
- 	singleStep_ = 0;
 	segNumber_ = 0;
 	cassetteEf_ = 0;
 	pixieOn_ = false;
@@ -845,13 +841,13 @@ void Cosmicos::cycle(int type)
 		break;
 
 		case COSMICOS7SEG:
-				cycleValue_ --;
-				if (cycleValue_ <= 0)
-				{
-					if (!pixieOn_)
-						interrupt();
-					cycleValue_ = cycleSize_;
-				}
+            cycleValue_ --;
+            if (cycleValue_ <= 0)
+            {
+                if (!pixieOn_)
+                    interrupt();
+                cycleValue_ = cycleSize_;
+            }
 		break;
 
 		case VT100CYCLE:
@@ -985,61 +981,71 @@ Byte Cosmicos::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte Cosmicos::readMem(Word addr)
+Byte Cosmicos::readMem(Word address)
 {
-	address_ = addr | bootstrap_;
-
-	switch (memoryType_[addr / 256])
-	{
-		case UNDEFINED:
-			return 255;
-		break;
-
-		case ROM:
-		case RAM:
-		case MAPPEDRAM:
-			return mainMemory_[addr | bootstrap_];
-		break;
-
-		default:
-			return 255;
-		break;
-	}
+	address_ = address | bootstrap_;
+    return readMemDebug(address_);
 }
 
-void Cosmicos::writeMem(Word addr, Byte value, bool writeRom)
+Byte Cosmicos::readMemDebug(Word address)
 {
-	address_ = addr | bootstrap_;
+    address = address | bootstrap_;
+    switch (memoryType_[address / 256])
+    {
+        case UNDEFINED:
+            return 255;
+        break;
+            
+        case ROM:
+        case RAM:
+        case MAPPEDRAM:
+            return mainMemory_[address];
+        break;
+            
+        default:
+            return 255;
+        break;
+    }
+}
 
-	switch (memoryType_[addr/256])
-	{
-		case UNDEFINED:
-		case ROM:
-			if (writeRom)
-				mainMemory_[addr]=value;
-		break;
+void Cosmicos::writeMem(Word address, Byte value, bool writeRom)
+{
+	address_ = address | bootstrap_;
+    writeMemDebug(address_, value, writeRom);
+}
 
-		case MAPPEDRAM:
-			if (mpButtonState_ == 0)
-			{
-				if (mainMemory_[addr | bootstrap_]==value)
-					return;
-				mainMemory_[addr | bootstrap_]=value;
-				if (address_ >= (memoryStart_ | bootstrap_) && address_<((memoryStart_ | bootstrap_ ) +256))
-					p_Main->updateDebugMemory(addr);
-				p_Main->updateAssTabCheck(address_);
-			}
-		break;
-
-		case RAM:
-			if (mainMemory_[address_]==value)
-				return;
-			mainMemory_[address_]=value;
-			if (address_ >= (memoryStart_ | bootstrap_) && address_<((memoryStart_ | bootstrap_ ) +256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(address_);
-		break;
-	}
+void Cosmicos::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    address = address | bootstrap_;
+    switch (memoryType_[address/256])
+    {
+        case UNDEFINED:
+        case ROM:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+            
+        case MAPPEDRAM:
+            if (mpButtonState_ == 0)
+            {
+                if (mainMemory_[address | bootstrap_]==value)
+                    return;
+                mainMemory_[address | bootstrap_]=value;
+                if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+                    p_Main->updateDebugMemory(address);
+                p_Main->updateAssTabCheck(address);
+            }
+        break;
+            
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+    }
 }
 
 void Cosmicos::cpuInstruction()
@@ -1059,69 +1065,39 @@ void Cosmicos::cpuInstruction()
 		}
 		lastMode_ = cpuMode_;
 	}
-	if (cpuMode_ == RUN && singleStep_ != 0 && state_ == 'F')
-	{
-		state_ = 'E';
-		setWait(0);
-	}
 
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-		playSaveLoad();
-		checkCosmicosFunction();
-		if (resetPressed_)
-		{
-			pixieOn_ = false;
-			resetCpu();
-			initComputer();
-			if (cosmicosConfiguration.autoBoot)
-			{
-				bootstrap_ = 0xC0C0;
-				autoBoot();
-			}
-			else
-				bootstrap_ = 0;
-			resetPressed_ = false;
-			p_Main->setSwName("");
-            p_Main->eventUpdateTitle();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-
-		state_ = 'F';
-		if (singleStep_ != 0)
-		{
-			setWait(0);
-		}
+        cpuCycleStep();
 	}
 	else
 	{
-		machineCycle();
-		machineCycle();
+        cycleLed();
 		cpuCycles_ = 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{
 			showData(readMem(address_));
             ledCycleValue_ = 1;
-//			threadPointer->Sleep(1);
 		}
 	}
+}
+
+void Cosmicos::resetPressed()
+{
+    pixieOn_ = false;
+    resetCpu();
+    initComputer();
+    if (cosmicosConfiguration.autoBoot)
+    {
+        bootstrap_ = 0xC0C0;
+        autoBoot();
+    }
+    else
+        bootstrap_ = 0;
+    resetPressed_ = false;
+    p_Main->setSwName("");
+    p_Main->eventUpdateTitle();
 }
 
 void Cosmicos::configureElfExtensions()
@@ -1247,7 +1223,7 @@ void Cosmicos::loadRam()
 	}
 }
 
-void Cosmicos::checkCosmicosFunction()
+void Cosmicos::checkComputerFunction()
 {
 	switch (loadedProgram_)
 	{

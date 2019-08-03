@@ -41,7 +41,6 @@ public:
 
 	Byte ef(int flag);
     Byte ef3();
-    Byte ef4();
 	Byte in(Byte port, Word address);
     Byte getData();
 	void out(Byte port, Word address, Byte value);
@@ -60,13 +59,16 @@ public:
     void startComputer();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
-	Byte readMem(Word addr);
-	void writeMem(Word addr, Byte value, bool writeRom);
+	Byte readMem(Word address);
+	void writeMem(Word address, Byte value, bool writeRom);
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
 	void cpuInstruction();
+    void resetPressed();
 	void moveWindows();
 	void updateTitle(wxString Title);
 	void onReset();
-    void checkVelfFunction();
+    void checkComputerFunction();
 	void startComputerRun(bool load);
 	void sleepComputer(long ms);
 
@@ -119,6 +121,7 @@ private:
     
     double velfClockSpeed_;
     Pixie *pixiePointer;
+    bool pixieCycle_;
     class VelfScreen *velfScreenPointer;
 
     DECLARE_EVENT_TABLE()

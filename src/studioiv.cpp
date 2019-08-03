@@ -485,116 +485,80 @@ Byte StudioIV::readMemDataType(Word address)
 	return MEM_TYPE_UNDEFINED;
 }
 
-Byte StudioIV::readMem(Word addr)
+Byte StudioIV::readMem(Word address)
 {
-	address_ = addr;
-
-	switch (memoryType_[addr/256])
+	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
 			return 255;
 		break;
 
         case COLOURRAM:
-            addr = (addr&0xf) +  ((addr&0x3c0) >> 2);
-            return colorMemory1864_[addr] & 0xf;
+            address = (address&0xf) +  ((address&0x3c0) >> 2);
+            return colorMemory1864_[address] & 0xf;
         break;
             
     }
 
-	return mainMemory_[addr];
+	return mainMemory_[address];
 }
 
-void StudioIV::writeMem(Word addr, Byte value, bool writeRom)
+Byte StudioIV::readMemDebug(Word address)
 {
-	address_ = addr;
+    return readMem(address);
+}
 
-	switch (memoryType_[addr/256])
+void StudioIV::writeMem(Word address, Byte value, bool writeRom)
+{
+	switch (memoryType_[address/256])
 	{
 		case RAM:
-			if (mainMemory_[addr]==value)
+			if (mainMemory_[address]==value)
 				return;
-			mainMemory_[addr]=value;
-			if (addr>= memoryStart_ && addr<(memoryStart_+256))
-				p_Main->updateDebugMemory(addr);
-			p_Main->updateAssTabCheck(addr);
+			mainMemory_[address]=value;
+			if (address>= memoryStart_ && address<(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
 		break;
 
 		case COLOURRAM:
-            addr = (addr&0xf) +  ((addr&0x3c0) >> 2);
-            colorMemory1864_[addr] = value & 0xf;
-            if ((addr) >= memoryStart_ && (addr) < (memoryStart_ + 256))
-                p_Main->updateDebugMemory(addr);
-            if (addr >= memoryStart_ && addr < (memoryStart_ + 256))
-                p_Main->updateDebugMemory(addr);
-            p_Main->updateAssTabCheck(addr);
+            address = (address&0xf) +  ((address&0x3c0) >> 2);
+            colorMemory1864_[address] = value & 0xf;
+            if ((address) >= memoryStart_ && (address) < (memoryStart_ + 256))
+                p_Main->updateDebugMemory(address);
+            if (address >= memoryStart_ && address < (memoryStart_ + 256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
             useColour(7);
 		break;
             
 		default:
 			if (writeRom)
-				mainMemory_[addr]=value;
+				mainMemory_[address]=value;
 		break;
 	}
 }
 
-Byte StudioIV::read1864ColorDirect(Word addr)
+void StudioIV::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-    return colorMemory1864_[addr] & 0xf;
+    writeMem(address, value, writeRom);
 }
 
-void StudioIV::write1864ColorDirect(Word addr, Byte value)
+Byte StudioIV::read1864ColorDirect(Word address)
 {
-    colorMemory1864_[addr] = value & 0xf;
+    return colorMemory1864_[address] & 0xf;
+}
+
+void StudioIV::write1864ColorDirect(Word address, Byte value)
+{
+    colorMemory1864_[address] = value & 0xf;
 }
 
 void StudioIV::cpuInstruction()
 {
 	if (cpuMode_ == RUN)
 	{
-		if (steps_ != 0)
-		{
-			cycle0_=0;
-			machineCycle();
-			if (cycle0_ == 0) machineCycle();
-			if (cycle0_ == 0 && steps_ != 0)
-			{
-				cpuCycle();
-				cpuCycles_ += 2;
-			}
-			if (debugMode_)
-				p_Main->showInstructionTrace();
-		}
-		else
-			soundCycle();
-
-		if (resetPressed_)
-		{
-			resetCpu();
-			resetPressed_ = false;
- 
-            p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-            p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
-
-            simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", true);
-            simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", true);
-            
-            if (gameAuto_)
-                p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
-
-            reDefineKeysA(keyDefA1_, keyDefA2_);
-            reDefineKeysB(keyDefB1_, keyDefB2_);
-            
-			setWait(1);
-			setClear(0);
-			setWait(1);
-			setClear(1);
-			initPixie();
-		}
-		if (debugMode_)
-			p_Main->cycleDebug();
-		if (pseudoLoaded_ && cycle0_ == 0)
-	        p_Main->cyclePseudoDebug();
+        cpuCycleStep();
 	}
 	else
 	{
@@ -602,6 +566,30 @@ void StudioIV::cpuInstruction()
 		cpuCycles_ = 0;
 		p_Main->startTime();
 	}
+}
+
+void StudioIV::resetPressed()
+{
+    resetCpu();
+    resetPressed_ = false;
+    
+    p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
+    p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
+    
+    simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", true);
+    simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", true);
+    
+    if (gameAuto_)
+        p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+    
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
+    
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
+    initPixie();
 }
 
 void StudioIV::onReset()
