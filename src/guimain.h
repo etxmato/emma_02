@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 30
-#define LAST_ELF_TYPE 15
+#define NO_COMPUTER 31
+#define LAST_ELF_TYPE 16
 
 #define MAINROM1 0
 
@@ -24,6 +24,16 @@
 #define CARTROM2 3
 #define CARTROM3 4
 #define CARTROM4 5
+
+// CDP18S600
+#define U21ROM 0
+#define U20ROM 1
+#define U19ROM 2
+#define U18ROM 3
+#define U17ROM 4
+
+#define ONE_SOCKET 0
+#define FOUR_SOCKET 1
 
 #define MAXROM 6
 
@@ -161,6 +171,11 @@ public:
     long debugRetAddress_;
 
 	int gameId_;
+    
+    int microChipType_[2];
+    int microChipLocation_[2];
+    int microChipMemory_[MAXROM];
+    bool microChipDisable_[MAXROM];
 };
 
 class ComputerInfo
@@ -335,6 +350,15 @@ public:
     void setElfConfiguration(ElfConfiguration elfConf);
     void setSerialPorts(wxString port);
 
+    int getMicroChipType(int computerType, int romType) {return conf[computerType].microChipType_[romType];};
+    void setMicroChipType(int computerType, int romType, int chipType) { conf[computerType].microChipType_[romType] = chipType;};
+    int getMicroChipLocation(int computerType, int romType) {return conf[computerType].microChipLocation_[romType];};
+    void setMicroChipLocation(int computerType, int romType, int chipLocation) { conf[computerType].microChipLocation_[romType] = chipLocation;};
+    int getMicroChipMemory(int computerType, int romType) {return conf[computerType].microChipMemory_[romType];};
+    void setMicroChipMemory(int computerType, int romType, int memType) { conf[computerType].microChipMemory_[romType] = memType;};
+    bool getMicroChipDisable(int computerType, int romType) {return conf[computerType].microChipDisable_[romType];};
+    void setMicroChipDisable(int computerType, int romType, bool disableSocket) { conf[computerType].microChipDisable_[romType] = disableSocket;};
+
 	long getBitValue(wxString reference);
 	long get8BitValue(wxString reference);
 	long get12BitValue(wxString reference);
@@ -452,6 +476,7 @@ protected:
     Vip2K *p_Vip2K;
     Velf *p_Velf;
     Cdp18s020 *p_Cdp18s020;
+    Cdp18s600 *p_Cdp18s600;
 	Nano *p_Nano;
 	Tmc1800 *p_Tmc1800;
 	Tmc2000 *p_Tmc2000;
@@ -503,7 +528,8 @@ protected:
 	int ubuntuOffsetX_;
 
 	int elfChoice_;
-	int rcaChoice_;
+    int rcaChoice_;
+    int microChoice_;
 	int debuggerChoice_;
 	int studioChoice_;
 	int telmacChoice_;

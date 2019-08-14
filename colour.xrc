@@ -79,6 +79,7 @@
                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                 <size>-1</size>
                                                             </font>
+                                                            <fg>#000000</fg>
                                                             <label>Black</label>
                                                         </object>
                                                     </object>
@@ -11546,7 +11547,7 @@
             </object>
         </object>
     </object>
-    <object class="wxDialog" name="ColourDialogMcds">
+    <object class="wxDialog" name="ColourDialogMCDS">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Video Setup MCDS</title>
@@ -13970,6 +13971,319 @@
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
         <title>Video Setup CDP18S020 Evaluation Kit</title>
+        <centered>1</centered>
+        <font>
+            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+            <size>-1</size>
+        </font>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALIGN_LEFT|wxALL</flag>
+                <border>0</border>
+                <object class="wxButton" name="ID_BUTTON">
+                    <font>
+                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                        <size>-1</size>
+                    </font>
+                    <hidden>1</hidden>
+                    <label>Dummy button</label>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>0</border>
+                <object class="wxBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="ID_STATICTEXT">
+                            <font>
+                                <size>-1</size>
+                                <family>swiss</family>
+                                <weight>bold</weight>
+                                <face>Arial</face>
+                            </font>
+                            <label>Video Terminal</label>
+                        </object>
+                    </object>
+                    <object class="spacer">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>0</border>
+                        <size>5,3</size>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxVERTICAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxHORIZONTAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>5</border>
+                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <label>Foreground</label>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxColourPickerCtrl" name="ColourButton0">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+                                                    <hidden>1</hidden>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxColourPickerCtrl" name="ColourButton1">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+                                                    <hidden>1</hidden>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxColourPickerCtrl" name="ColourButton2">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>5</border>
+                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <label>Background</label>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxColourPickerCtrl" name="ColourButton3">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxHORIZONTAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>5</border>
+                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                    <size>70,-1</size>
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <hidden>1</hidden>
+                                                    <label>Highlight</label>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxColourPickerCtrl" name="ColourButton4">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxCLRP_DEFAULT_STYLE|wxWANTS_CHARS</style>
+                                                    <hidden>1</hidden>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Border Video Terminal X:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxSpinCtrl" name="BorderX0">
+                                    <size>60,-1</size>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxSP_ARROW_KEYS</style>
+                                    <value>0</value>
+                                    <min>0</min>
+                                    <max>100</max>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Y:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                <border>5</border>
+                                <object class="wxSpinCtrl" name="BorderY0">
+                                    <size>60,-1</size>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxSP_ARROW_KEYS</style>
+                                    <value>0</value>
+                                    <min>0</min>
+                                    <max>100</max>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Default colour set:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxChoice" name="ColourMonitor1">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item></item>
+                                        <item>Green</item>
+                                        <item>Orange</item>
+                                        <item>Black / White</item>
+                                        <item>Black / Green</item>
+                                        <item>Black / Orange</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxGROW|wxALL</flag>
+                <border>5</border>
+                <object class="wxStaticLine" name="wxID_STATIC">
+                    <style>wxLI_HORIZONTAL</style>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxButton" name="ColourDefault1">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Default</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxButton" name="ColourTest">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Test</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxButton" name="ColourSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+    <object class="wxDialog" name="ColourDialogCDP18S600">
+        <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
+        <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
+        <title>Video Setup CDP18S600</title>
         <centered>1</centered>
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

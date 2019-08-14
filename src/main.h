@@ -385,6 +385,7 @@ public:
 #include "cidelsa.h"
 #include "comx35.h"
 #include "cdp18s020.h"
+#include "cdp18s600.h"
 #include "hbelf.h"
 #include "member.h"
 #include "microtutor.h"
@@ -430,25 +431,27 @@ public:
 #define MICROTUTOR 9
 #define MICROTUTOR2 10
 #define CDP18S020 11
-#define MS2000 12
-#define MCDS 13
-#define FRED1 14
-#define FRED1_5 15
-#define COMX 16
-#define STUDIO 17
-#define ETI 18
-#define CIDELSA 19
-#define TMC600 20
-#define TMC1800 21
-#define TMC2000 22
-#define NANO 23
-#define PECOM 24
-#define VISICOM 25
-#define VICTORY 26
-#define VIPII 27
-#define COINARCADE 28
-#define STUDIOIV 29
-#define DEBUGGER 20
+#define CDP18S600 12
+#define MS2000 13
+#define MCDS 14
+#define FRED1 15
+#define FRED1_5 16
+#define COMX 17
+#define STUDIO 18
+#define ETI 19
+#define CIDELSA 20
+#define TMC600 21
+#define TMC1800 22
+#define TMC2000 23
+#define NANO 24
+#define PECOM 25
+#define VISICOM 26
+#define VICTORY 27
+#define VIPII 28
+#define COINARCADE 29
+#define STUDIOIV 30
+#define DEBUGGER 31
+
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -484,12 +487,13 @@ public:
 #define COMXTAB 0
 #define COSMACELFTAB 1
 #define RCATAB 2
-#define STUDIOTAB 3
-#define CIDELSATAB 4
-#define TELMACTAB 5
-#define PECOMTAB 6
-#define ETITAB 7
-#define DEBUGGERTAB 8
+#define MICROTAB 3
+#define STUDIOTAB 4
+#define CIDELSATAB 5
+#define TELMACTAB 6
+#define PECOMTAB 7
+#define ETITAB 8
+#define DEBUGGERTAB 9
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
@@ -502,16 +506,20 @@ public:
 #define MEMBERTAB 5
 #define VIP2KTAB 6
 #define VELFTAB 7
+#define LASTELFTAB 7
 
 #define FRED1TAB 0
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
 #define MICROTUTOR2TAB 3
-#define CDP18S020TAB 4
-#define VIPTAB 5
-#define VIPIITAB 6
-#define MS2000TAB 7
-#define MCDSTAB 8
+#define VIPTAB 4
+#define VIPIITAB 5
+#define LASTRCATAB 7
+
+#define CDP18S020TAB 0
+#define CDP18S600TAB 1
+#define MCDSTAB 2
+#define MS2000TAB 3
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
@@ -607,7 +615,12 @@ public:
 #define MAPPEDMULTICART 29
 #define TESTCARTRIDGEROM 30
 #define REGSTORAGE 31
-#define NOCHANGE 32
+#define CPURAM 32
+#define NOCHANGE 33
+
+#define MICRO_ROM 0
+#define MICRO_RAM 1
+#define MICRO_CPURAM 2
 
 #define SHOWNAME true
 #define NONAME false
@@ -1007,7 +1020,8 @@ public:
 	void onStudioChoiceBook(wxChoicebookEvent& event);
 	void onTelmacChoiceBook(wxChoicebookEvent& event);
 	void onElfChoiceBook(wxChoicebookEvent& event);
-	void onRcaChoiceBook(wxChoicebookEvent& event);
+    void onRcaChoiceBook(wxChoicebookEvent& event);
+    void onMicroChoiceBook(wxChoicebookEvent& event);
 	void onDebuggerChoiceBook(wxChoicebookEvent& event);
     void setConfigurationMenu();
 	void setNoteBook();

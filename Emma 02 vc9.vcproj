@@ -475,6 +475,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp18s600.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cidelsa.cpp"
 				>
 			</File>
@@ -576,6 +580,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guicdp18s020.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guicdp18s600.cpp"
 				>
 			</File>
 			<File
@@ -752,6 +760,10 @@
 			</File>
 			<File
 				RelativePath=".\src\memory.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\microsetup.cpp"
 				>
 			</File>
 			<File
@@ -963,6 +975,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp18s600.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cidelsa.h"
 				>
 			</File>
@@ -1068,6 +1084,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guicdp18s020.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guicdp18s600.h"
 				>
 			</File>
 			<File
@@ -1244,6 +1264,10 @@
 			</File>
 			<File
 				RelativePath=".\src\memory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\microsetup.h"
 				>
 			</File>
 			<File

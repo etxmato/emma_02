@@ -183,8 +183,8 @@ void GuiVip2K::readVip2KConfig()
     elfConfiguration[VIP2K].vt100SetUpFeature_ = configPointer->Read("/Vip2K/VT100Setup", 0x0000ca52l);
     elfConfiguration[VIP2K].vtExternalSetUpFeature_ = configPointer->Read("/Vip2K/VTExternalSetup", 0x0000ca52l);
 	elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Vip2K/Vt_Baud", 5l);
-    elfConfiguration[VIP2K].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 1l);
-    elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 1l);
+    elfConfiguration[VIP2K].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 2l);
+    elfConfiguration[VIP2K].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 2l);
     configPointer->Read("/Vip2K/ShowVtWindow", &elfConfiguration[VIP2K].vtShow, false);
     configPointer->Read("/Vip2K/AutoKeyDef", &elfConfiguration[VIP2K].autoKeyDef, true);
 

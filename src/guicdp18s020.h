@@ -1,9 +1,9 @@
 #ifndef GUICDP18S020_H
 #define GUICDP18S020_H
 
-#include "guitmc2000.h"
+#include "guicdp18s600.h"
 
-class GuiCdp18s020: public GuiTMC2000
+class GuiCdp18s020: public GuiCdp18s600
 {
 public:
 

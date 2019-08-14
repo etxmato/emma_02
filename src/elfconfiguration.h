@@ -108,7 +108,8 @@ public:
 	wxString vtWavFileDir_;
     wxString vtWavFile_;
     wxString serialPort_;
-	bool useUart;
+    bool useUart;
+    int uartGroup;
 	int baudR;
 	int baudT;
     bool autoBoot;
@@ -168,7 +169,7 @@ public:
 
     int tapeFormat_;
 	bool coinArcadeControl_;
-
+    
 	ElfPortConfiguration elfPortConf;
 };
 

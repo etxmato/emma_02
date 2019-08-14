@@ -163,8 +163,8 @@ void GuiMS2000::readMS2000Config()
 
     elfConfiguration[MS2000].useUart = true; 
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
-	elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 0l);
-	elfConfiguration[MS2000].baudT = (int)configPointer->Read("/MS2000/Vt_Baud_Transmit", 0l);
+	elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);
+	elfConfiguration[MS2000].baudT = (int)configPointer->Read("/MS2000/Vt_Baud_Transmit", 1l);
 	elfConfiguration[MS2000].vtType = (int)configPointer->Read("/MS2000/VT_Type", 2l);
     elfConfiguration[MS2000].vt52SetUpFeature_ = configPointer->Read("/MS2000/VT52Setup", 0x00004092l);
     elfConfiguration[MS2000].vt100SetUpFeature_ = configPointer->Read("/MS2000/VT100Setup", 0x0000cad2l);

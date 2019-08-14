@@ -6195,7 +6195,6 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 	long addr;
 	Byte value;
 	wxFile outputFile;
-	wxTextFile outputTextFile;
 	wxString fileName, memoryStr, number, strValue, line;
 
 	switch (memoryDisplay_)
@@ -11441,7 +11440,6 @@ void DebugWindow::onAssSave(int range)
 {
 	Byte value;
 	wxFile outputFile;
-	wxTextFile outputTextFile;
 	wxString fileName, memoryStr, strValue, line;
 
 	fileName = dirAssDirNameVector[range] + pathSeparator_ + dirAssFileNameVector[range];
@@ -11732,7 +11730,6 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
 		return;
 	}
 
-	wxTextFile outputTextFile;
 	wxString fileName, number, printBufferOpcode;
 	bool commandFound;
 
@@ -11763,6 +11760,12 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
 	wxString path = FullPath.GetPath();
 	wxString ext = FullPath.GetExt();
 
+    if (ext == "txt")
+    {
+        assDirOld(fileName, start, end);
+        return;
+    }
+ 
     disassembleAgain_ = true;
     disassemblePass_ = 1;
     
@@ -12114,6 +12117,149 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                 outOfRangeAddress.Printf("%04XH", labelInfo_[i].outOfRangeAddress);
             outputTextFile.InsertLine("; " + outOfRangeAddress + " referenced from " + AddressString, lineNumber++);
         }
+    }
+    outputTextFile.Write();
+    outputTextFile.Close();
+}
+
+void DebugWindow::assDirOld(wxString fileName, long start, long end)
+{
+    outputTextFile.Create(fileName);
+    wxString printBufferOpcode;
+    Word address = (Word)start;
+    bool commandFound;
+
+    wxString line, characters, newChar;
+    Byte value;
+    
+    while(address <= end && address >= start)
+    {
+        if (start == 0 && address >= 0xfff8)
+            start += 8;
+        
+        Byte memType = p_Computer->readMemDataType(address);
+        
+        switch (memType)
+        {
+            case MEM_TYPE_OPCODE:
+            case MEM_TYPE_OPCODE_RSHR:
+            case MEM_TYPE_OPCODE_RSHL:
+            case MEM_TYPE_OPCODE_BPZ:
+            case MEM_TYPE_OPCODE_BGE:
+            case MEM_TYPE_OPCODE_BM:
+            case MEM_TYPE_OPCODE_BL:
+            case MEM_TYPE_OPCODE_LSKP:
+            case MEM_TYPE_OPCODE_SKP:
+            case MEM_TYPE_OPCODE_LBR_SLOT:
+            case MEM_TYPE_OPCODE_RLDL:
+                line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
+            break;
+                
+            case MEM_TYPE_OPCODE_LDV:
+            case MEM_TYPE_OPCODE_LDL:
+                line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
+                outputTextFile.AddLine(line);
+                line.Printf("      %02X %02X %02X", p_Computer->readMem(address-3), p_Computer->readMem(address-2), p_Computer->readMem(address-1));
+            break;
+                
+            case MEM_TYPE_OPCODE_LDL_SLOT:
+                line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
+                outputTextFile.AddLine(line);
+                line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address-3), p_Computer->readMem(address-2), p_Computer->readMem(address-1), p_Computer->readMem(address-5),p_Computer->readMem(address-2));
+            break;
+                
+            case MEM_TYPE_OPERAND_LD_3:
+                if (p_Computer->readMemDataType((address-3)&0xffff) == MEM_TYPE_OPCODE_LDL_SLOT)
+                    line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2), p_Computer->readMem(address-2),p_Computer->readMem(address+1));
+                else
+                    line.Printf("      %02X %02X %02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2));
+                address+=3;
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_PSEUDO_1:
+                line = pseudoDisassemble(address, false, true);
+                value = p_Computer->readMemDebug(address++);
+
+                commandFound = false;
+                for (size_t i=0; i<singleByteCommandNumber_; i++)
+                {
+                    if (value == singleByteCommand_[i])
+                        commandFound = true;
+                }
+                
+                if (!commandFound)
+                    address++;
+
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_OPCODE_JUMP_SLOT:
+                line.Printf("%04X: %02X %02X       S%02X,%04X", address, p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMemDataType(address+1), (p_Computer->readMem(address)<<8) + p_Computer->readMem(address+1));
+                address+=2;
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_JUMP:
+                line.Printf("%04X: %02X %02X       %04X", address, p_Computer->readMem(address), p_Computer->readMem(address+1), (p_Computer->readMem(address)<<8) + p_Computer->readMem(address+1));
+                address+=2;
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_JUMP_REV:
+                line.Printf("%04X: %02X %02X       %04X", address, p_Computer->readMem(address), p_Computer->readMem(address+1), (p_Computer->readMem(address+1)<<8) + p_Computer->readMem(address));
+                address+=2;
+                address&=0xffff;
+            break;
+                
+            default:
+                characters = "";
+                if (dataViewDump)
+                {
+                    line.Printf("%04X: ", address);
+                    int count = 0;
+                    memType = p_Computer->readMemDataType(address);
+                    while (count < 4 && (memType == MEM_TYPE_UNDEFINED || memType == MEM_TYPE_DATA || memType == MEM_TYPE_PSEUDO_2 || memType == MEM_TYPE_OPERAND))
+                    {
+                        value = p_Computer->readMem(address);
+                        printBufferOpcode.Printf("%02X ", value);
+                        line = line + printBufferOpcode;
+                        newChar = " ";
+                        if (value > 0x20)
+                            newChar.SetChar(0, value&0x7f);
+                        characters = characters + newChar;
+                        address++;
+                        address&=0xffff;
+                        count++;
+                        memType = p_Computer->readMemDataType(address);
+                    }
+                    if (count == 0)
+                    {
+                        value = p_Computer->readMem(address);
+                        line.Printf("%04X: %02X", address, value);
+                        address++;
+                        address&=0xffff;
+                        characters = " ";
+                        if (value > 0x20)
+                            characters.SetChar(0, value&0x7f);
+                    }
+                }
+                else
+                {
+                    value = p_Computer->readMem(address);
+                    line.Printf("%04X: %02X", address, value);
+                    address++;
+                    address&=0xffff;
+                    characters = " ";
+                    if (value > 0x20)
+                        characters.SetChar(0, value&0x7f);
+                }
+                line = line + "            ";
+                line = line.Left(18) + characters;
+                break;
+        }
+        
+        outputTextFile.AddLine(line);
     }
     outputTextFile.Write();
     outputTextFile.Close();
@@ -12535,6 +12681,10 @@ void DebugWindow::DebugDisplayMap()
 
                 case REGSTORAGE:
                     value.Printf ("S");
+                break;
+                    
+                case CPURAM:
+                    value.Printf ("CP");
                 break;
                     
 				case COMXEXPBOX:
@@ -13571,8 +13721,10 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
 				setMemoryType((int)id, MC6845REGISTERS);
 			else if (strValue == "CF")
 				setMemoryType((int)id, COPYFLOPROM);
-			else if (strValue == "CE")
-				setMemoryType((int)id, COPYCOMXEXPROM);
+            else if (strValue == "CE")
+                setMemoryType((int)id, COPYCOMXEXPROM);
+            else if (strValue == "CP")
+                setMemoryType((int)id, CPURAM);
 			else if (strValue == "P")
 				setMemoryType((int)id, UNDEFINED);
 			else if (strValue == "C")
@@ -13593,6 +13745,7 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
 										"R = ROM\n"
 										"M. = Mapped RAM\n"
 										"E. = VP570 Expansion RAM\n"
+                                        "CP = CDP1805 CPU RAM\n"
 										"PR = 1870 Page RAM\n"
                                         "CR = 1870 Character RAM or\n"
                                         "     Cartridge ROM\n"
@@ -13819,7 +13972,19 @@ void DebugWindow::setMemoryType(int id, int setType)
             }
         break;
             
+        case CDP18S600:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == CPURAM))
+                p_Computer->defineMemoryType(id*256, setType);
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), ROM (R), CDP1805 CPU RAM (CP) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+                                   "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+            
         case VELF:
+        case MCDS:
+        case MS2000:
             if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
                 p_Computer->defineMemoryType(id*256, setType);
             else
@@ -14980,6 +15145,16 @@ void DebugWindow::updateTitle()
 			p_Mcds->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
+        case CDP18S600:
+            if (p_Cdp18s600->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s600->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s600->SetTitle("CDP18S600" + title);
+            p_Cdp18s600->updateTitle(title);
+            p_Cdp18s600->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
 		case COSMICOS:
 			if (p_Cosmicos->getSteps()==0)
 				title = title + " ** PAUSED **";

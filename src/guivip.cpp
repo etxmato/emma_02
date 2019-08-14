@@ -214,7 +214,7 @@ void GuiVip::readVipConfig()
     elfConfiguration[VIP].vt52SetUpFeature_ = configPointer->Read("/Vip/VT52Setup", 0x00004092l);
     elfConfiguration[VIP].vt100SetUpFeature_ = configPointer->Read("/Vip/VT100Setup", 0x0000ca52l);
     elfConfiguration[VIP].vtExternalSetUpFeature_ = configPointer->Read("/Vip/VTExternalSetup", 0x0000ca52l);
-	elfConfiguration[VIP].baudT = (int)configPointer->Read("/Vip/Vt_Baud", 5l);
+	elfConfiguration[VIP].baudT = (int)configPointer->Read("/Vip/Vt_Baud", 6l);
 	elfConfiguration[VIP].baudR = elfConfiguration[VIP].baudT;
 
 	setVtType("Vip", VIP, elfConfiguration[VIP].vtType, false);

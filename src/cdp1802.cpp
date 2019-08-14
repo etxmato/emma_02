@@ -3335,7 +3335,8 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 					{
 						wxString endStr;
 						endStr.Printf("%04X", (int)end);
-						p_Main->errorMessage("Attempt to load after address " + endStr);
+                        if (computerType_ != CDP18S600)
+                            p_Main->errorMessage("Attempt to load after address " + endStr);
 					}
 					setAddress(showFilename, start, last);
 					return true;
@@ -3588,7 +3589,8 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-			p_Main->errorMessage("Attempt to load after address " + endStr);
+            if (computerType_ != CDP18S600)
+                p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, last);
 		return true;
@@ -3712,7 +3714,8 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-			p_Main->errorMessage("Attempt to load after address " + endStr);
+            if (computerType_ != CDP18S600)
+                p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, address-1);
 		return true;
@@ -4074,6 +4077,15 @@ bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word ad
 	else return false;
 }
 
+bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, Word lastAddress, bool showFilename)
+{
+    if (rom.Len() != 0)
+    {
+        return readFile(romDir+rom, memoryType, address, lastAddress, showFilename);
+    }
+    else return false;
+}
+
 bool Cdp1802::readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename)
 {
 	bool ret;
@@ -4399,6 +4411,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 
                 case COSMICOS:
                 case MCDS:
+                case CDP18S600:
                 case MS2000:
                 case ELF2K:
                     address = address | bootstrap_;
@@ -4461,6 +4474,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 
                 case COSMICOS:
                 case MCDS:
+                case CDP18S600:
                 case MS2000:
                 case ELF2K:
                     address = address | bootstrap_;
@@ -4512,7 +4526,15 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 mainMemoryLabelType_[address] = type;
             }
         break;
-            
+ 
+        case CPURAM:
+            if (type > cpuRamLabelType_[address&0xff] || type == 0)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                cpuRamLabelType_[address&0xff] = type;
+            }
+        break;
+
         case MAPPEDRAM:
             switch (computerType_)
             {
@@ -4763,6 +4785,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                     
                 case COSMICOS:
                 case MCDS:
+                case CDP18S600:
                 case MS2000:
                 case ELF2K:
                     address = address | bootstrap_;
@@ -4823,6 +4846,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 
                 case COSMICOS:
                 case MCDS:
+                case CDP18S600:
                 case MS2000:
                 case ELF2K:
                     address = address | bootstrap_;
@@ -4870,6 +4894,10 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
             }
             return mainMemoryLabelType_[address];
+        break;
+            
+        case CPURAM:
+            return cpuRamLabelType_[address&0xff];
         break;
             
         case MAPPEDRAM:

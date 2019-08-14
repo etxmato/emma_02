@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.31
+AppVerName=Emma 02 - V1.31.1
 AppVersion=1.31
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.31
+OutputBaseFilename=Emma_02_x86_setup_v1.31.1
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -61,6 +61,7 @@ Source: ..\menuPecom.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuTmc600.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVelf.xrc; DestDir: {app}; Components: MAIN
 Source: ..\menuVip.xrc; DestDir: {app}; Components: MAIN
+Source: ..\microsetup.xrc; DestDir: {app}; Components: MAIN
 Source: ..\ports.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash.xrc; DestDir: {app}; Components: MAIN
@@ -75,6 +76,7 @@ Source: ..\LGPL.txt; DestDir: {app}; Components: MAIN
 Source: ..\COPYING - curl; DestDir: {app}; Components: MAIN
 Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\Configurations Windows\CDP18S020\*.*; DestDir: {app}\Configurations\CDP18S020; Components: MAIN
+Source: ..\Configurations Windows\CDP18S600\*.*; DestDir: {app}\Configurations\CDP18S600; Components: MAIN
 Source: ..\Configurations Windows\Cidelsa\*.*; DestDir: {app}\Configurations\Cidelsa; Components: MAIN
 Source: ..\Configurations Windows\Comx\*.*; DestDir: {app}\Configurations\Comx; Components: MAIN
 Source: ..\Configurations Windows\Cosmicos\*.*; DestDir: {app}\Configurations\Cosmicos; Components: MAIN
@@ -111,6 +113,7 @@ Source: ..\data\german.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\dutch.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\french.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\CDP18S020\*.*; DestDir: {app}\data\CDP18S020; Components: MAIN
+Source: ..\data\CDP18S600\*.*; DestDir: {app}\data\CDP18S600; Components: MAIN
 Source: ..\data\Comx\comx35.bin; DestDir: {app}\data\Comx; Components: MAIN
 Source: ..\data\Comx\comx35.1.1.bin; DestDir: {app}\data\Comx; Components: MAIN
 Source: ..\data\Comx\f&m.expansion.3.1.bin; DestDir: {app}\data\Comx; Components: MAIN

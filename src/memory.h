@@ -27,8 +27,9 @@ public:
     void setEmsPage(Byte value);
     void setPager(int page, Byte value);
     void setRomMapper(Byte value);
-	void initRam(long start, long end);
-	
+    void initRam(long start, long end);
+    void initCpuRam();
+
 	virtual Byte readMem(Word address) = 0;
 	virtual void writeMem(Word address, Byte value, bool writeRom) = 0;
     virtual Byte readMemDebug(Word address) = 0;
@@ -93,6 +94,9 @@ protected:
 	Byte* expansionSuper_;
 	Byte* expansionSuperDataType_;
 	Byte* expansionSuperLabelType_;
+    Byte* cpuRam_;
+    Byte* cpuRamDataType_;
+    Byte* cpuRamLabelType_;
 
     Byte* multiCartRom_;
 	Byte* multiCartRomDataType_;

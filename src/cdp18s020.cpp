@@ -8,11 +8,6 @@
  *******************************************************************
 */
 
-
-/* TODO:
- 4 RAM protect switches, 1 per 1 KB
- Tiny basic save/load
- */
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__

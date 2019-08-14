@@ -23,15 +23,25 @@
 
 Memory::Memory()
 {
-	mainMemory_ = (Byte*)malloc(65536);
+    mainMemory_ = (Byte*)malloc(65536);
     mainMemoryDataType_ = (Byte*)malloc(65536);
     mainMemoryLabelType_ = (Byte*)malloc(65536);
+    cpuRam_ = (Byte*)malloc(255);
+    cpuRamDataType_ = (Byte*)malloc(255);
+    cpuRamLabelType_ = (Byte*)malloc(255);
     for (int i=0; i<65536; i++)
 	{
         mainMemory_[i] = 0;
         mainMemoryDataType_[i] = MEM_TYPE_DATA;
         mainMemoryLabelType_[i] = LABEL_TYPE_NONE;
     }
+    for (int i=0; i<255; i++)
+    {
+        cpuRam_[i] = 0;
+        cpuRamDataType_[i] = MEM_TYPE_DATA;
+        cpuRamLabelType_[i] = LABEL_TYPE_NONE;
+    }
+    
 	for (int i=0; i<256; i++) memoryType_[i] = 0;
 
     switch (p_Main->getCpuStartupVideoRam())
@@ -69,6 +79,9 @@ Memory::~Memory()
 	free(mainMemory_);
     free(mainMemoryDataType_);
     free(mainMemoryLabelType_);
+    free(cpuRam_);
+    free(cpuRamDataType_);
+    free(cpuRamLabelType_);
     if (comxExpansionMemoryDefined_)
 	{
 		free(expansionRom_);	
@@ -116,6 +129,11 @@ void Memory::clearDebugMemory()
     {
         mainMemoryDataType_[i] = MEM_TYPE_DATA;
         mainMemoryLabelType_[i] = LABEL_TYPE_NONE;
+    }
+    for (int i=0; i<255; i++)
+    {
+        cpuRamDataType_[i] = MEM_TYPE_DATA;
+        cpuRamLabelType_[i] = LABEL_TYPE_NONE;
     }
 	if (comxExpansionMemoryDefined_)
 	{
@@ -461,7 +479,29 @@ void Memory::initRam(long start, long end)
 	}
 }
 
-void Memory::defineMemoryType(long start, long end, int type) 
+void Memory::initCpuRam()
+{
+    switch (p_Main->getCpuStartupRam())
+    {
+        case STARTUP_ZEROED:
+            for (long i=0; i<=255; i++)
+                cpuRam_[i] = 0;
+        break;
+            
+        case STARTUP_RANDOM:
+            for (long i=0; i<=255; i++)
+                cpuRam_[i] = rand() % 0x100;
+        break;
+            
+        case STARTUP_DYNAMIC:
+            setDynamicRandomByte();
+            for (long i=0; i<=255; i++)
+                cpuRam_[i] = getDynamicByte(i);
+        break;
+    }
+}
+
+void Memory::defineMemoryType(long start, long end, int type)
 {
 	start /= 256;
 	end /= 256;

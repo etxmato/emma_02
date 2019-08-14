@@ -148,8 +148,8 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].volume_ = (int)configPointer->Read("/Membership/Volume", 25l);
 
 	elfConfiguration[MEMBER].clearRam = false;
-	elfConfiguration[MEMBER].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 1l);
-	elfConfiguration[MEMBER].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 1l);
+	elfConfiguration[MEMBER].baudR = (int)configPointer->Read("/Membership/Vt_Baud_Receive", 2l);
+	elfConfiguration[MEMBER].baudT = (int)configPointer->Read("/Membership/Vt_Baud_Transmit", 2l);
 
 	configPointer->Read("/Membership/Open_Control_Windows", &elfConfiguration[MEMBER].useElfControlWindows, true);
 	configPointer->Read("/Membership/Force_Uppercase", &elfConfiguration[MEMBER].forceUpperCase, true);

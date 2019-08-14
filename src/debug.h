@@ -354,6 +354,7 @@ public:
     void AssInitLog();
 	void onAssCopy(wxCommandEvent&event);
 	void onAssDis(wxCommandEvent&event);
+    void assDirOld(wxString fileName, long start, long end);
 	void assLog(Byte value);
 	void stopAssLog();
     void onAssTextChange(wxCommandEvent&event);
@@ -617,7 +618,8 @@ private:
 	int numberOfDebugLines_;
     
 	wxTextFile inFile;
-
+    wxTextFile outputTextFile;
+    
     size_t psuedoNumber_;
     vector<PseudoCodeDetails> pseudoCodeDetails_;
 

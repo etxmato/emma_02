@@ -95,6 +95,7 @@ public:
 	void checkLoadedSoftware();
 	bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename);
+    bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, Word lastAddress, bool showFilename);
 	bool readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramTmc600(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
