@@ -50,7 +50,7 @@ public:
     void showCycleData(Byte val);
     void showAddress(Word val);
     void showState(int state);
-    void setWaitLed();
+    void setCpuMode(int mode);
 	void cycle(int type);
     void cycleLed();
 

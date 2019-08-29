@@ -11,18 +11,20 @@
 #define PANEL_HEX_BUTTON 2
 #define PANEL_WIDE_HEX_BUTTON 3
 #define ELF2K_RESET_BUTTON 4
+#define PIO_HEX_BUTTON 5
 
 #define VERTICAL_BUTTON 0
 #define HORIZONTAL_BUTTON 1
 #define ELF2K_POWER_BUTTON 2
 #define PUSH_BUTTON_BLACK 3
 #define VERTICAL_BUTTON_RED 4
-#define PUSH_BUTTON 5
-#define ELF2K_LOAD_BUTTON 6
-#define ELF2K_MP_BUTTON 7
-#define ELF2K_RUN_BUTTON 8
-#define ELF2K_IN_BUTTON 9
-#define DIP_SWITCH_BUTTON 10
+#define PIO_VERTICAL_BUTTON 5
+#define PUSH_BUTTON 6
+#define ELF2K_LOAD_BUTTON 7
+#define ELF2K_MP_BUTTON 8
+#define ELF2K_RUN_BUTTON 9
+#define ELF2K_IN_BUTTON 10
+#define DIP_SWITCH_BUTTON 11
 
 #define BUTTON_UP true
 #define BUTTON_DOWN false
@@ -39,7 +41,6 @@ wx__DECLARE_EVT1(COMPUTER_MSG, id, (&func))
 
 
 class HexButton : public wxEvtHandler
-
 {
 public:
     HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label);
@@ -47,23 +48,40 @@ public:
     void onPaint(wxDC& dc);
     bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
     bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
-	void OnTimer(wxTimerEvent& event);
+	virtual void OnTimer(wxTimerEvent& event);
 	void releaseButtonOnScreen(wxDC& dc);
+    void enable(wxDC& dc, bool enabled);
+
+protected:
+    bool state_;
+    int buttonType_;
 
 private:
     wxBitmap *upBitmapPointer;
     wxBitmap *downBitmapPointer;
-    
+    wxBitmap *disabledBitmapPointer;
+
     wxCoord x_;
     wxCoord y_;
-    bool state_;
-    
-    int buttonType_;
+ 
+    bool enabled_;
+
     wxTimer *focusTimer;
 
     DECLARE_EVENT_TABLE()
 };
 
+class HexButton2 : public HexButton
+{
+public:
+    HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label);
+    void OnTimer(wxTimerEvent& event);
+    
+private:
+    DECLARE_EVENT_TABLE()
+};
+
+    
 class SwitchButton
 {
 public:
@@ -73,19 +91,26 @@ public:
     bool onMousePress(wxDC& dc, wxCoord x, wxCoord y);
     bool onMouseRelease(wxDC& dc, wxCoord x, wxCoord y);
     void setState(wxDC& dc, bool state);
-    
+    void enable(wxDC& dc, bool enabled);
+
 private:
     wxBitmap *upBitmapPointer;
     wxBitmap *downBitmapPointer;
-    
+    wxBitmap *disabledUpBitmapPointer;
+    wxBitmap *disabledDownBitmapPointer;
+
     wxMask *maskUp;
     wxMask *maskDown;
+    
+    bool enabled_;
     
     wxCoord x_;
     wxCoord y_;
     bool state_;
     wxCoord buttonSizeX_;
     wxCoord buttonSizeY_;
+    wxCoord buttonStartX_;
+    wxCoord buttonStartY_;
     int type_;
 };
 
@@ -133,7 +158,8 @@ public:
 	void setLoadLed(int status);
 	void updateLoadLed(wxDC& dc);
 	void setLed(int i, int status);
-	void updateLed(wxDC& dc, int i);
+    void updateLed(wxDC& dc, int i);
+    void refreshLed(wxDC& dc, int i);
     void setStateLed(int i, int status);
     void updateStateLed(wxDC& dc, int i);
 	void showData(Byte value);
@@ -216,6 +242,8 @@ protected:
     wxButton *text_runPButtonPointer;
 	wxButton *text_mpButtonPointer;
 	wxButton *text_dataSwitchPointer[8];
+    wxButton *text_ardyButtonPointer;
+    wxButton *text_brdyButtonPointer;
 
 	HexButton *osx_pauseButtonPointer;
 	HexButton *osx_monitorButtonPointer;
@@ -235,6 +263,8 @@ protected:
 	HexButton *osx_seqButtonPointer;
 	HexButton *osx_decButtonPointer;
 	HexButton *osx_retButtonPointer;
+    HexButton *osx_ardyButtonPointer;
+    HexButton *osx_brdyButtonPointer;
 
     SwitchButton *powerSwitchButton;
     SwitchButton *resetSwitchButton;
@@ -249,7 +279,7 @@ protected:
     SwitchButton *waitSwitchButton;
     SwitchButton *stepSwitchButton;
     SwitchButton *velfSwitchButton;
-	SwitchButton *dataSwitchButton[8];
+	SwitchButton *dataSwitchButton[20];
 	SwitchButton *efSwitchButton[4];
     SwitchButton *dipSwitchButton[4];
 
@@ -367,6 +397,7 @@ public:
 	virtual void setElf2KDivider(Byte value);
 	virtual void removeElf2KSwitch();
 	virtual void removeElfHex();
+	virtual void removePio() {};
 	virtual void removeCosmicosHex();
 	virtual void removeElfLedModule(); 
     virtual void showData(Byte val);
@@ -420,7 +451,8 @@ public:
     virtual void onNumberKeyPress(int i);
     virtual void onNumberKeyDown(int i);
 	virtual void onRamButton();
-	virtual void efSwitch(int number);
+    virtual void efSwitch(int number);
+    virtual void setEfState(int number, Byte value);
 	virtual void dataSwitch(int number);
 	virtual Byte getData();
 	virtual void onHexDown(int hex);
@@ -484,7 +516,8 @@ public:
 	virtual void onBackupYes(wxString dir, bool sub);
     virtual int getBuildInGame(){return 0;};
 
-	virtual void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    virtual void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType);
     virtual void reLoadKeyDefinition(wxString fileName) {};
     virtual void setPrinterEf() {};
     virtual void switchHexEf(bool state);
@@ -500,7 +533,7 @@ public:
     virtual void showState(int state);
     virtual void checkComputerFunction() {};
     virtual void resetPressed() {};
-    virtual void setWaitLed() {};
+    virtual void setCpuMode(int mode);
     virtual void setGoTimer() {};
 
 protected:

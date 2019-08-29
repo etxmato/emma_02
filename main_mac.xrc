@@ -17044,6 +17044,46 @@
                                                                             <bitmap>images_osx/screen.png</bitmap>
                                                                         </object>
                                                                     </object>
+                                                                    <object class="spacer">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>5</border>
+                                                                        <size>5,5</size>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="AddressText1CDP18S600">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Leds:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxTextCtrl" name="ShowAddressCDP18S600" subclass="IntEdit">
+                                                                            <size>45,-1</size>
+                                                                            <tooltip>Led updates in run mode every X ms</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <value>100</value>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="AddressText2CDP18S600">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>ms</label>
+                                                                        </object>
+                                                                    </object>
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
@@ -17250,6 +17290,39 @@
                                                                                     </object>
                                                                                 </object>
                                                                             </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>3</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="ControlWindowsCDP18S600">
+                                                                            <tooltip>Show CDP18S640 control window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>CDP18S640 Window</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="PioCDP18S600">
+                                                                            <tooltip>Show PIO window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>PIO Window</label>
+                                                                            <checked>0</checked>
                                                                         </object>
                                                                     </object>
                                                                 </object>
@@ -26901,173 +26974,316 @@
                                                                                 <object class="wxBoxSizer">
                                                                                     <orient>wxVERTICAL</orient>
                                                                                     <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                                                                        <flag>wxALIGN_LEFT</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxStaticBoxSizer" name="wxID_ANY">
-                                                                                            <orient>wxHORIZONTAL</orient>
+                                                                                            <orient>wxVERTICAL</orient>
                                                                                             <label></label>
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                 <size>-1</size>
                                                                                             </font>
                                                                                             <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>4</border>
-                                                                                                <object class="wxStaticText" name="DButton">
-                                                                                                    <size>-1,13</size>
-                                                                                                    <tooltip>Accumulator/data register value</tooltip>
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>D</label>
+                                                                                                <flag>wxALIGN_LEFT|wxBOTTOM</flag>
+                                                                                                <border>2</border>
+                                                                                                <object class="wxBoxSizer">
+                                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>4</border>
+                                                                                                        <object class="wxStaticText" name="DButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Accumulator/data register value</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>D</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="D" subclass="HexEdit">
+                                                                                                            <size>18,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>2</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="spacer">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <size>2,5</size>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <object class="wxStaticText" name="XButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Data pointer register</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>X</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="X" subclass="HexEdit">
+                                                                                                            <size>12,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>2</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="spacer">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <size>2,5</size>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <object class="wxStaticText" name="PButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Program counter register</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>P</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="P" subclass="HexEdit">
+                                                                                                            <size>12,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>2</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="spacer">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <size>2,5</size>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <object class="wxStaticText" name="TButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Temporary register value (old X, P after interrupt)</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>T</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="T" subclass="HexEdit">
+                                                                                                            <size>18,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>2</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="spacer">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <size>2,5</size>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <object class="wxStaticText" name="BButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Temporary register B</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>B</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="B" subclass="HexEdit">
+                                                                                                            <size>18,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>2</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>30</border>
-                                                                                                <object class="wxTextCtrl" name="D" subclass="HexEdit">
-                                                                                                    <size>18,13</size>
-                                                                                                    <font>
-                                                                                                        <size>10</size>
-                                                                                                        <family>swiss</family>
-                                                                                                    </font>
-                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-                                                                                                    <enabled>0</enabled>
-                                                                                                    <bg>#E5E5E5</bg>
-                                                                                                    <maxlength>2</maxlength>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="spacer">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                                <border>0</border>
-                                                                                                <size>2,5</size>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>0</border>
-                                                                                                <object class="wxStaticText" name="XButton">
-                                                                                                    <size>-1,13</size>
-                                                                                                    <tooltip>Data pointer register</tooltip>
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>X</label>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>30</border>
-                                                                                                <object class="wxTextCtrl" name="X" subclass="HexEdit">
-                                                                                                    <size>12,13</size>
-                                                                                                    <font>
-                                                                                                        <size>10</size>
-                                                                                                        <family>swiss</family>
-                                                                                                    </font>
-                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-                                                                                                    <enabled>0</enabled>
-                                                                                                    <bg>#E5E5E5</bg>
-                                                                                                    <maxlength>2</maxlength>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="spacer">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                                <border>0</border>
-                                                                                                <size>2,5</size>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>0</border>
-                                                                                                <object class="wxStaticText" name="PButton">
-                                                                                                    <size>-1,13</size>
-                                                                                                    <tooltip>Program counter register</tooltip>
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>P</label>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>30</border>
-                                                                                                <object class="wxTextCtrl" name="P" subclass="HexEdit">
-                                                                                                    <size>12,13</size>
-                                                                                                    <font>
-                                                                                                        <size>10</size>
-                                                                                                        <family>swiss</family>
-                                                                                                    </font>
-                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-                                                                                                    <enabled>0</enabled>
-                                                                                                    <bg>#E5E5E5</bg>
-                                                                                                    <maxlength>2</maxlength>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="spacer">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                                <border>0</border>
-                                                                                                <size>2,5</size>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>0</border>
-                                                                                                <object class="wxStaticText" name="TButton">
-                                                                                                    <size>-1,13</size>
-                                                                                                    <tooltip>Temporary register value (old X, P after interrupt)</tooltip>
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>T</label>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>30</border>
-                                                                                                <object class="wxTextCtrl" name="T" subclass="HexEdit">
-                                                                                                    <size>18,13</size>
-                                                                                                    <font>
-                                                                                                        <size>10</size>
-                                                                                                        <family>swiss</family>
-                                                                                                    </font>
-                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-                                                                                                    <enabled>0</enabled>
-                                                                                                    <bg>#E5E5E5</bg>
-                                                                                                    <maxlength>2</maxlength>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="spacer">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                                <border>0</border>
-                                                                                                <size>2,5</size>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>0</border>
-                                                                                                <object class="wxStaticText" name="BButton">
-                                                                                                    <size>-1,13</size>
-                                                                                                    <tooltip>Temporary register B</tooltip>
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>B</label>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                                                <border>30</border>
-                                                                                                <object class="wxTextCtrl" name="B" subclass="HexEdit">
-                                                                                                    <size>18,13</size>
-                                                                                                    <font>
-                                                                                                        <size>10</size>
-                                                                                                        <family>swiss</family>
-                                                                                                    </font>
-                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
-                                                                                                    <enabled>0</enabled>
-                                                                                                    <bg>#E5E5E5</bg>
-                                                                                                    <maxlength>2</maxlength>
+                                                                                                <flag>wxALIGN_LEFT|wxTOP</flag>
+                                                                                                <border>2</border>
+                                                                                                <object class="wxBoxSizer">
+                                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>4</border>
+                                                                                                        <object class="wxStaticText" name="CHButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Counter Jam Value</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>CH</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="CH" subclass="HexEdit">
+                                                                                                            <size>18,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>2</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="spacer">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <size>2,5</size>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>4</border>
+                                                                                                        <object class="wxStaticText" name="CNTRButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Counter / Timer</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>CNTR</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="CNTR" subclass="HexEdit">
+                                                                                                            <size>18,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>2</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="spacer">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <size>2,5</size>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>4</border>
+                                                                                                        <object class="wxStaticText" name="CIEButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>Counter Interrupt Enable</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>CIE</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="CIE" subclass="HexEdit">
+                                                                                                            <size>12,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>1</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="spacer">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <size>2,5</size>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>4</border>
+                                                                                                        <object class="wxStaticText" name="XIEButton">
+                                                                                                            <size>-1,13</size>
+                                                                                                            <tooltip>External Interrupt Enable</tooltip>
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <hidden>1</hidden>
+                                                                                                            <label>XIE</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                                        <border>30</border>
+                                                                                                        <object class="wxTextCtrl" name="XIE" subclass="HexEdit">
+                                                                                                            <size>12,13</size>
+                                                                                                            <font>
+                                                                                                                <size>10</size>
+                                                                                                                <family>swiss</family>
+                                                                                                            </font>
+                                                                                                            <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                            <hidden>1</hidden>
+                                                                                                            <enabled>0</enabled>
+                                                                                                            <bg>#E5E5E5</bg>
+                                                                                                            <maxlength>1</maxlength>
+                                                                                                        </object>
+                                                                                                    </object>
                                                                                                 </object>
                                                                                             </object>
                                                                                         </object>
@@ -27747,7 +27963,7 @@
                                                                                                                         <size>10</size>
                                                                                                                         <family>swiss</family>
                                                                                                                     </font>
-                                                                                                                    <style>wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                                                                     <enabled>0</enabled>
                                                                                                                     <bg>#E5E5E5</bg>
                                                                                                                     <maxlength>1</maxlength>
@@ -27788,7 +28004,7 @@
                                                                                                                         <size>10</size>
                                                                                                                         <family>swiss</family>
                                                                                                                     </font>
-                                                                                                                    <style>wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                                                                     <enabled>0</enabled>
                                                                                                                     <bg>#E5E5E5</bg>
                                                                                                                     <maxlength>1</maxlength>
@@ -27829,7 +28045,7 @@
                                                                                                                         <size>10</size>
                                                                                                                         <family>swiss</family>
                                                                                                                     </font>
-                                                                                                                    <style>wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                                                                     <enabled>0</enabled>
                                                                                                                     <bg>#E5E5E5</bg>
                                                                                                                     <maxlength>1</maxlength>
@@ -27870,7 +28086,7 @@
                                                                                                                         <size>10</size>
                                                                                                                         <family>swiss</family>
                                                                                                                     </font>
-                                                                                                                    <style>wxTE_CENTRE|wxNO_BORDER</style>
+                                                                                                                    <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                                                                     <enabled>0</enabled>
                                                                                                                     <bg>#E5E5E5</bg>
                                                                                                                     <maxlength>1</maxlength>
@@ -28609,6 +28825,8 @@
                                                                                                                 <item>T</item>
                                                                                                                 <item>DF</item>
                                                                                                                 <item>Q</item>
+                                                                                                                <item>CH</item>
+                                                                                                                <item>CNTR</item>
                                                                                                                 <item>R0</item>
                                                                                                                 <item>R1</item>
                                                                                                                 <item>R2</item>

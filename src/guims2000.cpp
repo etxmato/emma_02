@@ -161,7 +161,8 @@ void GuiMS2000::readMS2000Config()
 	configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
     configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
-    elfConfiguration[MS2000].useUart = true; 
+    elfConfiguration[MS2000].uartGroup = 0;
+    elfConfiguration[MS2000].useUart = true;
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
 	elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);
 	elfConfiguration[MS2000].baudT = (int)configPointer->Read("/MS2000/Vt_Baud_Transmit", 1l);

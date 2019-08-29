@@ -23,23 +23,25 @@ public:
 #define TREG_T 4
 #define TREG_DF 5
 #define TREG_Q 6
-#define TREG_R0 7
-#define TREG_R1 8
-#define TREG_R2 9
-#define TREG_R3 10
-#define TREG_R4 11
-#define TREG_R5 12
-#define TREG_R6 13
-#define TREG_R7 14
-#define TREG_R8 15
-#define TREG_R9 16
-#define TREG_RA 17
-#define TREG_RB 18
-#define TREG_RC 19
-#define TREG_RD 20
-#define TREG_RE 21
-#define TREG_RF 22
-#define TREG_FAULT 23
+#define TREG_CH 7
+#define TREG_CNTR 8
+#define TREG_R0 9
+#define TREG_R1 10
+#define TREG_R2 11
+#define TREG_R3 12
+#define TREG_R4 13
+#define TREG_R5 14
+#define TREG_R6 15
+#define TREG_R7 16
+#define TREG_R8 17
+#define TREG_R9 18
+#define TREG_RA 19
+#define TREG_RB 20
+#define TREG_RC 21
+#define TREG_RD 22
+#define TREG_RE 23
+#define TREG_RF 24
+#define TREG_FAULT 25
 
 #define CPU_MEMORY 0
 #define CPU_TYPE 1
@@ -253,9 +255,12 @@ public:
 	void X(wxCommandEvent&event);
     void T(wxCommandEvent&event);
     void B(wxCommandEvent&event);
+    void CH(wxCommandEvent&event);
+    void CNTR(wxCommandEvent&event);
 	void DF(wxCommandEvent&event);
 	void Q(wxCommandEvent&event);
 	void IE(wxCommandEvent&event);
+    void CIE(wxCommandEvent&event);
 	void EF1(wxCommandEvent&event);
 	void EF2(wxCommandEvent&event);
 	void EF3(wxCommandEvent&event);
@@ -462,7 +467,10 @@ protected:
 	wxTextCtrl *efTextPointer[5];
 	wxTextCtrl *dfTextPointer;
 	wxTextCtrl *qTextPointer;
-	wxTextCtrl *ieTextPointer;
+    wxTextCtrl *ieTextPointer;
+    wxTextCtrl *cieTextPointer;
+    wxTextCtrl *chTextPointer;
+    wxTextCtrl *counterTextPointer;
 	wxTextCtrl *dTextPointer;
 	wxTextCtrl *pTextPointer;
 	wxTextCtrl *xTextPointer;
@@ -554,7 +562,10 @@ private:
     Byte lastB_;
 	Byte lastDf_;
 	Byte lastQ_;
-	Byte lastIe_;
+    Byte lastIe_;
+    Byte lastCie_;
+    Byte lastCh_;
+    Byte lastCounter_;
 	Byte lastEf1_;
 	Byte lastEf2_;
 	Byte lastEf3_;

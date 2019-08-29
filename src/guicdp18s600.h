@@ -37,6 +37,11 @@ public:
 
     void onOneSocketSetup(wxCommandEvent& event);
     void setOneSocketState();
+    void onCdp18s600ControlWindows(wxCommandEvent&event);
+    void onPioWindows(wxCommandEvent&event);
+    void pioWindows(bool state);
+    bool getUseCdp18s600ControlWindows();
+    bool getUsePioWindows();
     void setRamlabel(int romNumber, wxString romString);
     void onFourSocketSetup(wxCommandEvent& event);
     void setFourSocketState();
@@ -52,7 +57,7 @@ private:
     wxString floppyCdp18s600_[4];
     
     bool directoryMode_[4];
-    
+
     DECLARE_EVENT_TABLE()
 };
 

@@ -9,13 +9,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/guicdp18s600.cpp"
-            timestampString = "587423655.529145"
+            filePath = "src/pio.cpp"
+            timestampString = "588716273.8246059"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "361"
-            endingLineNumber = "361"
-            landmarkName = "GuiCdp18s600::onOneSocketBank(wxCommandEvent&amp;event)"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
+            landmarkName = "PioScreen::ioSwitch(int i)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,29 +25,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/microsetup.cpp"
-            timestampString = "587250213.797518"
+            filePath = "src/pio.cpp"
+            timestampString = "588716273.824675"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "91"
-            endingLineNumber = "91"
-            landmarkName = "MicroFourSocketSetupDialog(wxWindow* parent)"
-            landmarkType = "9">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/microsetup.cpp"
-            timestampString = "587250213.797842"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
-            landmarkName = "MicroFourSocketSetupDialog::onSaveButton( wxCommandEvent&amp; WXUNUSED(event) )"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "PioScreen::onBrdyButton()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -57,13 +41,13 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/debug.cpp"
-            timestampString = "587508184.9317631"
+            filePath = "src/pio.cpp"
+            timestampString = "588716273.824744"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "12407"
-            endingLineNumber = "12407"
-            landmarkName = "DebugWindow::changeNumberOfDebugLines(int height)"
+            startingLineNumber = "863"
+            endingLineNumber = "863"
+            landmarkName = "PioScreen::readPortB()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -73,13 +57,45 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/vt100.cpp"
-            timestampString = "587508184.932215"
+            filePath = "src/pio.cpp"
+            timestampString = "588716273.82481"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "858"
-            endingLineNumber = "858"
-            landmarkName = "Vt100::cycleVt()"
+            startingLineNumber = "696"
+            endingLineNumber = "696"
+            landmarkName = "PioScreen::enableStbRdyB(wxDC&amp; dc)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/pio.cpp"
+            timestampString = "588716273.824865"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "507"
+            endingLineNumber = "507"
+            landmarkName = "PioScreen::writeControlRegister(Byte value)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/cdp1802.cpp"
+            timestampString = "588632833.533452"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1591"
+            endingLineNumber = "1591"
+            landmarkName = "Cdp1802::cpuCycleFetch()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

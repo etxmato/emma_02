@@ -9,6 +9,7 @@
 
 #define IO_GRP1_UART 1
 #define IO_GRP2_UART 2
+#define IO_GRP_PIO 8
 
 class Cdp18s600 : public wxFrame, public Cdp1802
 {
@@ -21,11 +22,29 @@ public:
     
     void configureComputer();
     void initComputer();
+    
+    void onRunButton(wxCommandEvent&event);
+    void onRunPButton(wxCommandEvent&event);
+    void onResetButton(wxCommandEvent&event);
+    void onRunButton();
+    void onRunPButton();
+    void onRun();
+    void autoBoot();
+    void setAddressLatch(Word bootAddress);
+    void onSingleStep();
+
     Byte ef(int flag);
+    void setEfState(int number, Byte value);
     Byte in(Byte port, Word address);
     void out(Byte port, Word address, Byte value);
+    void switchQ(int value);
+    void showCycleData(Byte val);
+    void showAddress(Word val);
+    void showState(int state);
+    void setCpuMode(int mode);
     void cycle(int type);
-    
+    void cycleLed();
+
     void startComputer();
     void readMicro(int romNumber, Word startAddress, Word lastAddress);
     void writeMemDataType(Word address, Byte type);
@@ -42,15 +61,18 @@ public:
     void updateTitle(wxString Title);
     void onReset();
     void sleepComputer(long ms);
+    void setLedMs(long ms);
     void startComputerRun(bool load);
     int getRunState() {return mcdsRunState_;};
     bool isComputerRunning();
     void checkComputerFunction();
     
     void setCdp18s600ClockSpeed(double clock) {Cdp18s600ClockSpeed_ = clock;};
+    void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType);
     void activateMainWindow();
-    void switchQ(int value);
-    void setAddressLatch(Word bootAddress);
+	void showPio(bool state);
+    void removePio();
 
 private:
     Vt100 *vtPointer;
@@ -59,13 +81,23 @@ private:
     
     double Cdp18s600ClockSpeed_;
     Word lastAddress_;
+    Byte efState_[5];
     
     int ioGroup_;
     
     int cycleValue_;
     int cycleSize_;
-    
+   
+    int ledCycleValue_;
+    int ledCycleSize_;
+    int setMsValue_;
+
     int mcdsRunState_;
+    
+    class Cdp18s640Screen *cdp18s640ScreenPointer;
+    class PioFrame *pioFramePointer;
+    
+    DECLARE_EVENT_TABLE()
 };
 
 #endif  // CDP18S600_H

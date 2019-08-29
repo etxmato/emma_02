@@ -577,9 +577,12 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_TEXT_ENTER(XRCID("X"), DebugWindow::X)
 	EVT_TEXT_ENTER(XRCID("T"), DebugWindow::T)
     EVT_TEXT_ENTER(XRCID("B"), DebugWindow::B)
+    EVT_TEXT_ENTER(XRCID("CH"), DebugWindow::CH)
+    EVT_TEXT_ENTER(XRCID("CNTR"), DebugWindow::CNTR)
 	EVT_TEXT_ENTER(XRCID("DF"), DebugWindow::DF)
 	EVT_TEXT_ENTER(XRCID("Q"), DebugWindow::Q)
-	EVT_TEXT_ENTER(XRCID("IE"), DebugWindow::IE)
+    EVT_TEXT_ENTER(XRCID("IE"), DebugWindow::IE)
+    EVT_TEXT_ENTER(XRCID("CIE"), DebugWindow::CIE)
 	EVT_TEXT_ENTER(XRCID("EF1"), DebugWindow::EF1)
 	EVT_TEXT_ENTER(XRCID("EF2"), DebugWindow::EF2)
 	EVT_TEXT_ENTER(XRCID("EF3"), DebugWindow::EF3)
@@ -1194,7 +1197,16 @@ void DebugWindow::enableDebugGui(bool status)
     XRCCTRL(*this,"IEText", wxStaticText)->Enable(status);
     dfTextPointer->Enable(status&&!protectedMode_);
 	qTextPointer->Enable(status&&!protectedMode_);
-	ieTextPointer->Enable(status&&!protectedMode_);
+    ieTextPointer->Enable(status&&!protectedMode_);
+    if (cpuType_ >= CPU1804)
+    {
+        cieTextPointer->Enable(status&&!protectedMode_);
+        chTextPointer->Enable(status&&!protectedMode_);
+        counterTextPointer->Enable(status&&!protectedMode_);
+    }
+    XRCCTRL(*this,"CNTRButton", wxStaticText)->Enable(cpuType_ >= CPU1804);
+    XRCCTRL(*this,"CHButton", wxStaticText)->Enable(cpuType_ >= CPU1804);
+    XRCCTRL(*this,"CIEButton", wxStaticText)->Enable(cpuType_ >= CPU1804);
 	efTextPointer[1]->Enable(status&&!protectedMode_);
 	efTextPointer[2]->Enable(status&&!protectedMode_);
 	efTextPointer[3]->Enable(status&&!protectedMode_);
@@ -1487,12 +1499,22 @@ void DebugWindow::cycleDebug()
 				}
 				if (tregs_[i][0] == TREG_T && tregs_[i][1] == p_Computer->getRegisterT())
 				{
-					printBuffer.Printf("X=%02X",p_Computer->getRegisterT());
+					printBuffer.Printf("T=%02X",p_Computer->getRegisterT());
 					j = i;
 				}
                 if (tregs_[i][0] == TREG_B && tregs_[i][1] == p_Computer->getRegisterB())
                 {
-                    printBuffer.Printf("X=%02X",p_Computer->getRegisterB());
+                    printBuffer.Printf("B=%02X",p_Computer->getRegisterB());
+                    j = i;
+                }
+                if (tregs_[i][0] == TREG_CH && tregs_[i][1] == p_Computer->getCounterJamValue())
+                {
+                    printBuffer.Printf("CH=%02X",p_Computer->getCounterJamValue());
+                    j = i;
+                }
+                if (tregs_[i][0] == TREG_CNTR && tregs_[i][1] == p_Computer->getCounterTimer())
+                {
+                    printBuffer.Printf("CNTR=%02X",p_Computer->getCounterTimer());
                     j = i;
                 }
 				if (tregs_[i][0] == TREG_Q && tregs_[i][1] == p_Computer->getFlipFlopQ())
@@ -1592,7 +1614,10 @@ void DebugWindow::resetDisplay()
     lastB_ = p_Computer->getRegisterB() + 1;
 	lastDf_ = p_Computer->getDataFlag() ^ 1;
 	lastQ_ = p_Computer->getFlipFlopQ() ^ 1;
-	lastIe_ = p_Computer->getInterruptEnable() ^ 1;
+    lastIe_ = p_Computer->getInterruptEnable() ^ 1;
+    lastCie_ = p_Computer->getCounterInterruptEnable() ^ 1;
+    lastCh_ = p_Computer->getCounterJamValue() ^ 1;
+    lastCounter_ = p_Computer->getCounterTimer() ^ 1;
 	Byte cpuFlag = p_Computer->getEfFlags();
 	lastEf1_ = (cpuFlag & 1) ^ 0x1;
 	lastEf2_ = (cpuFlag & 2) ^ 0x2;
@@ -1740,6 +1765,24 @@ void DebugWindow::updateWindow()
         bTextPointer->ChangeValue(buffer);
         lastB_ = cpucpuRegister;
     }
+    cpucpuRegister = p_Computer->getCounterJamValue();
+    if (cpucpuRegister != lastCh_)
+    {
+        buffer.Printf("%02X", cpucpuRegister);
+        if (cpuType_ < CPU1804)
+            buffer = "--";
+        chTextPointer->ChangeValue(buffer);
+        lastCh_ = cpucpuRegister;
+    }
+    cpucpuRegister = p_Computer->getCounterTimer();
+    if (cpucpuRegister != lastCounter_)
+    {
+        buffer.Printf("%02X", cpucpuRegister);
+        if (cpuType_ < CPU1804)
+            buffer = "--";
+        counterTextPointer->ChangeValue(buffer);
+        lastCounter_ = cpucpuRegister;
+    }
 
     cpuFlag = p_Computer->getDataFlag();
 	if (cpuFlag != lastDf_)
@@ -1762,6 +1805,15 @@ void DebugWindow::updateWindow()
 		ieTextPointer->ChangeValue(buffer);
 		lastIe_ = cpuFlag;
 	}
+    cpuFlag = p_Computer->getCounterInterruptEnable();
+    if (cpuFlag != lastCie_)
+    {
+        buffer.Printf("%01X", cpuFlag);
+        if (cpuType_ < CPU1804)
+            buffer = "-";
+        cieTextPointer->ChangeValue(buffer);
+        lastCie_ = cpuFlag;
+    }
 	cpuFlag = p_Computer->getEfFlags();
 	if ((cpuFlag & 1) != lastEf1_)
 	{
@@ -2829,6 +2881,12 @@ void DebugWindow::addTreg()
 		break;
 
         case TREG_B: printBuffer.Printf("B  %02X", tregs_[numberOfTregs_][1]);
+        break;
+            
+        case TREG_CH: printBuffer.Printf("CH %02X", tregs_[numberOfTregs_][1]);
+        break;
+
+        case TREG_CNTR: printBuffer.Printf("CN %02X", tregs_[numberOfTregs_][1]);
         break;
     }
 	tregWindowPointer->InsertItem(numberOfTregs_, printBuffer);
@@ -6169,6 +6227,9 @@ int DebugWindow::getRegister(wxString buffer)
 	if (buffer == "X")  return TREG_X;
     if (buffer == "T")  return TREG_T;
     if (buffer == "B")  return TREG_B;
+    if (buffer == "CH")  return TREG_CH;
+    if (buffer == "CN")  return TREG_CNTR;
+    if (buffer == "CNTR")  return TREG_CNTR;
 	if (buffer == "Q")  return TREG_Q;
 	if (buffer == "R0")  return TREG_R0;
 	if (buffer == "R1")  return TREG_R1;
@@ -6935,6 +6996,22 @@ void DebugWindow::B(wxCommandEvent&WXUNUSED(event))
     p_Computer->setRegisterB(value);
 }
 
+void DebugWindow::CH(wxCommandEvent&WXUNUSED(event))
+{
+    long value = get8BitValue("CH");
+    if (value == -1)  return;
+    
+    p_Computer->setCounterJamValue(value);
+}
+
+void DebugWindow::CNTR(wxCommandEvent&WXUNUSED(event))
+{
+    long value = get8BitValue("CNTR");
+    if (value == -1)  return;
+    
+    p_Computer->setCounterTimer(value);
+}
+
 void DebugWindow::DF(wxCommandEvent&WXUNUSED(event))
 {
 	long value = getBitValue("DF");
@@ -6957,6 +7034,14 @@ void DebugWindow::IE(wxCommandEvent&WXUNUSED(event))
 	if (value == -1)  return;
 
 	p_Computer->setInterruptEnable(value);
+}
+
+void DebugWindow::CIE(wxCommandEvent&WXUNUSED(event))
+{
+    long value = getBitValue("CIE");
+    if (value == -1)  return;
+    
+    p_Computer->setCounterInterruptEnable(value);
 }
 
 void DebugWindow::EF1(wxCommandEvent&WXUNUSED(event))
@@ -13601,6 +13686,9 @@ void DebugWindow::DebugDisplayVtRam()
         case VIP:
         case VIP2K:
         case VELF:
+        case MS2000:
+        case MCDS:
+        case CDP18S600:
         case CDP18S020:
 		case MEMBER:
 		case SUPERELF:

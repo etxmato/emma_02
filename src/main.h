@@ -418,7 +418,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.31
-#define EMMA_SUB_VERSION 0
+#define EMMA_SUB_VERSION 3
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -564,6 +564,7 @@ public:
 #define COSMICOSLED 6
 #define MEMBERLED 7
 #define MEMBERLEDGREEN 8
+#define PIOLED 9
 
 #define KEYBOARDNONE 0
 #define KEYBOARD_PS2 1

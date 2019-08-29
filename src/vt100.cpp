@@ -434,10 +434,16 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     p_Computer->setEfType(4, VT100EF);
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal with CDP1854/UART");
+    wxString groupString;
+    if (elfConfiguration_.uartGroup == 0)
+        groupString = "1";
     else
-        p_Main->message("Configuring VT100 terminal with CDP1854/UART");
+        groupString = "2";
+
+    if (vtType_ == VT52)
+        p_Main->message("Configuring VT52 terminal with CDP1854/UART on group " + groupString);
+    else
+        p_Main->message("Configuring VT100 terminal with CDP1854/UART on group " + groupString);
     
     p_Main->message("	Output 2: load transmitter, input 2: read receiver");
     p_Main->message("	Output 3: load control, input 3: read status");

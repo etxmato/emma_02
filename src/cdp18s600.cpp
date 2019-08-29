@@ -33,12 +33,21 @@
 #include "main.h"
 
 #include "cdp18s600.h"
+#include "cdp18s640.h"
+#include "pio.h"
 #include "upd765.h"
 
 Word romSize[]=
 {
     0x7ff, 0xfff, 0x1fff
 };
+
+BEGIN_EVENT_TABLE(Cdp18s600, wxFrame)
+    EVT_CLOSE (Cdp18s600::onClose)
+    EVT_BUTTON(1, Cdp18s600::onRunButton)
+    EVT_BUTTON(2, Cdp18s600::onRunPButton)
+    EVT_BUTTON(3, Cdp18s600::onResetButton)
+END_EVENT_TABLE()
 
 Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
@@ -56,6 +65,15 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     
     cycleSize_ = (int)(1000 / ((1/1.75) * 8)); // ~1000 Hz on 1.75 CPU
     cycleValue_ = cycleSize_;
+
+    cdp18s640ScreenPointer = new Cdp18s640Screen(this, size);
+    cdp18s640ScreenPointer->init();
+    
+#if defined(__WXMAC__)
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(CDP18S600), wxSize(310, 202));
+#else
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(CDP18S600), wxSize(320, 210));
+#endif
 }
 
 Cdp18s600::~Cdp18s600()
@@ -68,6 +86,11 @@ Cdp18s600::~Cdp18s600()
     if (Cdp18s600Configuration.vtExternal)
         delete p_Serial;
     p_Main->setMainPos(CDP18S600, GetPosition());
+    delete cdp18s640ScreenPointer;
+
+	if (Cdp18s600Configuration.usePio)
+		p_Main->setSecondFramePos(CDP18S600, pioFramePointer->GetPosition());
+    pioFramePointer->Destroy();
 }
 
 void Cdp18s600::onClose(wxCloseEvent&WXUNUSED(event) )
@@ -77,6 +100,8 @@ void Cdp18s600::onClose(wxCloseEvent&WXUNUSED(event) )
 
 void Cdp18s600::configureComputer()
 {
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
+
     inType_[1] = MS2000IOGROUP;
     inType_[2] = MS2000IO2;
     inType_[3] = MS2000IO3;
@@ -92,11 +117,15 @@ void Cdp18s600::configureComputer()
     outType_[6] = MS2000IO6;
     outType_[7] = MS2000IO7;
     
-    efType_[2] = MS2000CASEF;
-    
+    efType_[1] = CDP18SEF1;
+    efType_[2] = CDP18SEF2;
+
+    efState_[1] = 1;
+    efState_[2] = 2;
+
     p_Main->message("Configuring CDP18S600");
-    p_Main->message("    Output 1: set I/O group, input 1: read I/O group");
-    p_Main->message("    I/O group 1: video terminal");
+    p_Main->message("	Output 1: set I/O group, input 1: read I/O group");
+    p_Main->message("	I/O group 1: video terminal");
     
     p_Main->message("");
     
@@ -117,19 +146,91 @@ void Cdp18s600::configureComputer()
         p_Serial->configureMs2000(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
     }
     
+    p_Main->message("Configuring PIO on group 8");
+    p_Main->message("	Output 2: write to port B, output 3: write to port A");
+    p_Main->message("	Input 2: read port B, input 3: read port A");
+    p_Main->message("	Output 6: write control register, input 6: read status");
+    p_Main->message("   EF 1: ARDY, EF 2: BRDY");
+
     resetCpu();
 }
 
 void Cdp18s600::initComputer()
 {
+    Show(p_Main->getUseCdp18s600ControlWindows());
     addressLatch_ = p_Main->getBootAddress("CDP18S600", computerType_);
+    setCpuMode(RESET); // CLEAR = 0, WAIT = 1, CLEAR LED ON, WAIT LED OFF, RUN LED OFF
 
-    setClear(1);
-    setWait(1);
-    
     ioGroup_ = 0;
     
     mcdsRunState_ = RESETSTATE;
+}
+
+void Cdp18s600::onRunButton(wxCommandEvent&WXUNUSED(event))
+{
+    onRunButton();
+}
+
+void Cdp18s600::onRunPButton(wxCommandEvent&WXUNUSED(event))
+{
+    onRunPButton();
+}
+
+void Cdp18s600::onResetButton(wxCommandEvent&WXUNUSED(event))
+{
+    onReset();
+}
+
+void Cdp18s600::onRunButton()
+{
+    if (!singleStateStep_)
+        addressLatch_ = 0x8000;
+    if (idle_)
+        dmaOut();
+    onRun();
+}
+
+void Cdp18s600::onRunPButton()
+{
+    addressLatch_ = 0x0000;
+    if (idle_)
+        dmaOut();
+    onRun();
+}
+
+void Cdp18s600::onRun()
+{
+//    if (!singleStateStep_)
+//        resetCpu();
+    
+    if (cpuMode_ != RUN)
+        resetEffectiveClock();
+    
+    setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF, RUN LED ON
+
+    p_Main->eventUpdateTitle();
+}
+
+void Cdp18s600::autoBoot()
+{
+    setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF, RUN LED ON
+}
+
+void Cdp18s600::setAddressLatch(Word bootAddress)
+{
+    addressLatch_ = bootAddress;
+}
+
+void Cdp18s600::onSingleStep()
+{
+    singleStateStep_ = !singleStateStep_;
+    if (singleStateStep_)
+    {
+        setMsValue_ = (int) p_Main->getLedTimeMs(CDP18S600);
+        setLedMs(0);
+    }
+    else
+        setLedMs(setMsValue_);
 }
 
 Byte Cdp18s600::ef(int flag)
@@ -148,9 +249,41 @@ Byte Cdp18s600::ef(int flag)
             return p_Serial->ef();
         break;
             
+        case CDP18SEF1:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    return efState_[1];
+                break;
+                    
+                default:
+                    return 1;
+                break;
+            }
+        break;
+            
+        case CDP18SEF2:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    return efState_[2];
+                break;
+
+                    
+                default:
+                    return 1;
+                break;
+            }
+        break;
+
         default:
             return 1;
     }
+}
+
+void Cdp18s600::setEfState(int number, Byte value)
+{
+    efState_[number] = value;
 }
 
 Byte Cdp18s600::in(Byte port, Word WXUNUSED(address))
@@ -190,6 +323,10 @@ Byte Cdp18s600::in(Byte port, Word WXUNUSED(address))
                     }
                 break;
                     
+                case IO_GRP_PIO:
+                    return pioFramePointer->readPortB();
+                break;
+                    
                 default:
                     ret = 255;
             }
@@ -218,6 +355,10 @@ Byte Cdp18s600::in(Byte port, Word WXUNUSED(address))
                     }
                 break;
                     
+                case IO_GRP_PIO:
+                    return pioFramePointer->readPortA();
+                    break;
+
                 default:
                     ret = 255;
             }
@@ -230,6 +371,12 @@ Byte Cdp18s600::in(Byte port, Word WXUNUSED(address))
         break;
             
         case MS2000IO6:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    return pioFramePointer->readStatusRegister();
+                break;
+            }
         break;
             
         case MS2000IO7:
@@ -278,6 +425,10 @@ void Cdp18s600::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Serial->uartOut(value);
                     }
                 break;
+                    
+                case IO_GRP_PIO:
+                    pioFramePointer->writePortB(value);
+                break;
             }
         break;
             
@@ -303,6 +454,10 @@ void Cdp18s600::out(Byte port, Word WXUNUSED(address), Byte value)
                             p_Serial->uartControl(value);
                     }
                 break;
+
+                case IO_GRP_PIO:
+                    pioFramePointer->writePortA(value);
+                break;
             }
         break;
             
@@ -313,11 +468,66 @@ void Cdp18s600::out(Byte port, Word WXUNUSED(address), Byte value)
         break;
             
         case MS2000IO6:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    pioFramePointer->writeControlRegister(value);
+                break;
+            }
         break;
             
         case MS2000IO7:
         break;
     }
+}
+
+void Cdp18s600::switchQ(int value)
+{
+    cdp18s640ScreenPointer->setQLed(value);
+    
+    if (Cdp18s600Configuration.vtType != VTNONE)
+        vtPointer->switchQ(value);
+    
+    if (Cdp18s600Configuration.vtExternal)
+        p_Serial->switchQ(value);
+}
+
+void Cdp18s600::showCycleData(Byte val)
+{
+    cdp18s640ScreenPointer->showDataTil313Italic(val);
+}
+
+void Cdp18s600::showAddress(Word val)
+{
+    cdp18s640ScreenPointer->showAddressTil313Italic(val);
+}
+
+void Cdp18s600::showState(int state)
+{
+    cdp18s640ScreenPointer->setStateLed(SC0LED, state&1);
+    cdp18s640ScreenPointer->setStateLed(SC1LED, (state&2)>>1);
+}
+
+void Cdp18s600::setCpuMode(int mode)
+{
+    int clear = (mode>>1)&1;
+    int wait = mode&1;
+    
+    setWait(wait);
+    setClear(clear);
+
+    if (clear == 0)
+	{
+        pioFramePointer->reset();
+	}
+
+    cdp18s640ScreenPointer->setRunLed(clear & wait);
+
+    wait ^= 1;
+    clear ^= 1;
+
+    cdp18s640ScreenPointer->setStateLed(CLEARLED, clear);
+    cdp18s640ScreenPointer->setStateLed(WAITLED, wait);
 }
 
 void Cdp18s600::cycle(int type)
@@ -335,6 +545,26 @@ void Cdp18s600::cycle(int type)
         case VTSERIALCYCLE:
             p_Serial->cycleVt();
         break;
+
+        case LEDCYCLE:
+            cycleLed();
+            pioFramePointer->interruptCycle();
+        break;
+    }
+}
+
+void Cdp18s600::cycleLed()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            cdp18s640ScreenPointer->ledTimeout();
+			if (Cdp18s600Configuration.usePio)
+				pioFramePointer->ledTimeout();
+        }
     }
 }
 
@@ -381,15 +611,27 @@ void Cdp18s600::startComputer()
     if (p_Vt100 != NULL)
         p_Vt100->Show(true);
     
+    if (Cdp18s600Configuration.autoBoot)
+        autoBoot();
+
     p_Main->setSwName("");
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
     p_Main->startTime();
     
-//    if (p_Vt100 != NULL)
-//        p_Vt100->splashScreen();
-    
+    int ms = (int) p_Main->getLedTimeMs(CDP18S600);
+    cdp18s640ScreenPointer->setLedMs(ms);
+    pioFramePointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((Cdp18s600ClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+
+	if (Cdp18s600Configuration.usePio)
+	    pioFramePointer->Show(true);
+
     threadPointer->Run();
 }
 
@@ -473,12 +715,18 @@ Byte Cdp18s600::readMemDataType(Word address)
 
 Byte Cdp18s600::readMem(Word address)
 {
+    address_ = address;
+    return readMemDebug(address);
+}
+
+Byte Cdp18s600::readMemDebug(Word address)
+{
     if ((address & 0x8000) == 0x8000)
         addressLatch_ = 0;
     
     if (address < 0x8000)
         address = (address | addressLatch_);
-
+    
     switch (memoryType_[address / 256])
     {
         case UNDEFINED:
@@ -493,22 +741,21 @@ Byte Cdp18s600::readMem(Word address)
         case CPURAM:
             return cpuRam_[address&0xff];
         break;
-
+            
         default:
             return 255;
         break;
     }
 }
 
-Byte Cdp18s600::readMemDebug(Word address)
-{
-    return readMem(address);
-}
-
 void Cdp18s600::writeMem(Word address, Byte value, bool writeRom)
 {
-    address = address;
-    
+    address_ = address;
+    writeMemDebug(address, value, writeRom);
+}
+
+void Cdp18s600::writeMemDebug(Word address, Byte value, bool writeRom)
+{
     switch (memoryType_[address/256])
     {
         case UNDEFINED:
@@ -536,14 +783,25 @@ void Cdp18s600::writeMem(Word address, Byte value, bool writeRom)
     }
 }
 
-void Cdp18s600::writeMemDebug(Word address, Byte value, bool writeRom)
-{
-    writeMem(address, value, writeRom);
-}
-
 void Cdp18s600::cpuInstruction()
 {
-    cpuCycleStep();
+    if (cpuMode_ == RUN)
+    {
+        cpuCycleStep();
+        if (idle_ || cpuMode_ != RUN)
+            cdp18s640ScreenPointer->setRunLed(0);
+        else
+            cdp18s640ScreenPointer->setRunLed(1);
+    }
+    else
+    {
+        machineCycle();
+        machineCycle();
+        if (resetPressed_)
+            resetPressed();
+    }
+    if (interruptRequested_ == true && cpuState_ == STATE_FETCH_1)
+        p_Computer->interrupt();
 }
 
 void Cdp18s600::resetPressed()
@@ -553,6 +811,13 @@ void Cdp18s600::resetPressed()
     
     p_Main->setSwName("");
     p_Main->eventUpdateTitle();
+
+    setCpuMode(RESET); // CLEAR = 0, WAIT = 1, CLEAR LED ON, WAIT LED OFF, RUN LED OFF
+    
+    showCycleData(0);
+    if (Cdp18s600Configuration.autoBoot)
+        autoBoot();
+
     resetPressed_ = false;
 }
 
@@ -627,6 +892,17 @@ void Cdp18s600::sleepComputer(long ms)
     threadPointer->Sleep(ms);
 }
 
+void Cdp18s600::setLedMs(long ms)
+{
+    cdp18s640ScreenPointer->setLedMs(ms);
+    pioFramePointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((Cdp18s600ClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+}
+
 void Cdp18s600::startComputerRun(bool load)
 {
     if (p_Vt100 != NULL)
@@ -641,6 +917,16 @@ bool Cdp18s600::isComputerRunning()
         return false;
 }
 
+void Cdp18s600::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
+{
+    cdp18s640ScreenPointer->releaseButtonOnScreen(buttonPointer);
+}
+
+void Cdp18s600::releaseButtonOnScreen2(HexButton* buttonPointer, int WXUNUSED(buttonType))
+{
+    pioFramePointer->releaseButtonOnScreen(buttonPointer);
+}
+
 void Cdp18s600::activateMainWindow()
 {
     bool maximize = IsMaximized();
@@ -650,18 +936,16 @@ void Cdp18s600::activateMainWindow()
     Maximize(maximize);
 }
 
-void Cdp18s600::switchQ(int value)
+void Cdp18s600::showPio(bool state)
 {
-    if (Cdp18s600Configuration.vtType != VTNONE)
-        vtPointer->switchQ(value);
-    
-    if (Cdp18s600Configuration.vtExternal)
-        p_Serial->switchQ(value);
+	pioFramePointer->Show(state);
+    if (state)
+        pioFramePointer->refreshLeds();
 }
 
-void Cdp18s600::setAddressLatch(Word bootAddress)
+void Cdp18s600::removePio()
 {
-    addressLatch_ = bootAddress;
+    Cdp18s600Configuration.usePio = false;
+    p_Main->pioWindows(false);
+    showPio(false);
 }
-
-

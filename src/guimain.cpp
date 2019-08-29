@@ -2552,6 +2552,27 @@ void GuiMain::setKeypadPos(int computerType, wxPoint position)
 	}
 }
 
+wxPoint GuiMain::getSecondFramePos(int computerType)
+{
+    return wxPoint(conf[computerType].secondFrameX_, conf[computerType].secondFrameY_);
+}
+
+void GuiMain::setSecondFramePos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].secondFrameX_ = -1;
+        conf[computerType].secondFrameY_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].secondFrameX_ = position.x;
+        if (position.x > 0)
+            conf[computerType].secondFrameY_ = position.y;
+    }
+}
+
 int GuiMain::pload()
 {
 	wxFFile inputFile;

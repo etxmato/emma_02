@@ -479,6 +479,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp18s640.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cidelsa.cpp"
 				>
 			</File>
@@ -791,6 +795,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\pio.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\pixie.cpp"
 				>
 			</File>
@@ -976,6 +984,10 @@
 			</File>
 			<File
 				RelativePath=".\src\cdp18s600.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp18s640.h"
 				>
 			</File>
 			<File
@@ -1292,6 +1304,10 @@
 			</File>
 			<File
 				RelativePath=".\src\pecom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pio.h"
 				>
 			</File>
 			<File

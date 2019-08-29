@@ -99,6 +99,10 @@ BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
     EVT_CHECKBOX(XRCID("AutoBootCDP18S600"), GuiCdp18s600::onAutoBoot)
     EVT_CHOICE(XRCID("AutoBootTypeCDP18S600"), GuiCdp18s600::onAutoBootType)
 
+    EVT_TEXT(XRCID("ShowAddressCDP18S600"), GuiMain::onLedTimer)
+    EVT_CHECKBOX(XRCID("ControlWindowsCDP18S600"), GuiCdp18s600::onCdp18s600ControlWindows)
+    EVT_CHECKBOX(XRCID("PioCDP18S600"), GuiCdp18s600::onPioWindows)
+
 END_EVENT_TABLE()
 
 GuiCdp18s600::GuiCdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
@@ -169,7 +173,9 @@ void GuiCdp18s600::readCdp18s600Config()
     elfConfiguration[CDP18S600].vtQ = true;
 
     configPointer->Read("/CDP18S600/Force_Uppercase", &elfConfiguration[CDP18S600].forceUpperCase, true);
-    
+    configPointer->Read("/CDP18S600/Open_Control_Windows", &elfConfiguration[CDP18S600].useElfControlWindows, true);
+    configPointer->Read("/CDP18S600/Pio_Windows", &elfConfiguration[CDP18S600].usePio, true);
+
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 1.0);
     conf[CDP18S600].zoomVt_ = configPointer->Read("/CDP18S600/Vt_Zoom", defaultZoom);
@@ -180,6 +186,10 @@ void GuiCdp18s600::readCdp18s600Config()
     wxString defaultClock;
     defaultClock.Printf("%1.4f", 4.9152);
     conf[CDP18S600].clock_ = configPointer->Read("/CDP18S600/Clock_Speed", defaultClock);
+    
+    wxString defaultTimer;
+    defaultTimer.Printf("%d", 100);
+    conf[CDP18S600].ledTime_ = configPointer->Read("/CDP18S600/Led_Update_Frequency", defaultTimer);
     
     conf[CDP18S600].useLoadLocation_ = false;
     
@@ -242,8 +252,15 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this, "OneSocketBank", wxChoice)->SetSelection(conf[CDP18S600].microChipType_[ONE_SOCKET]);
         XRCCTRL(*this, "FourSocketBank", wxChoice)->SetSelection(conf[CDP18S600].microChipType_[FOUR_SOCKET]);
 
+        XRCCTRL(*this, "ShowAddressCDP18S600", wxTextCtrl)->ChangeValue(conf[CDP18S600].ledTime_);
+        XRCCTRL(*this,"ShowAddressCDP18S600", wxTextCtrl)->Enable(elfConfiguration[CDP18S600].useElfControlWindows);
         XRCCTRL(*this, "AutoBootCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].autoBoot);
         XRCCTRL(*this, "AutoBootTypeCDP18S600", wxChoice)->SetSelection(elfConfiguration[CDP18S600].autoBootType);
+
+        XRCCTRL(*this,"AddressText1CDP18S600", wxStaticText)->Enable(elfConfiguration[CDP18S600].useElfControlWindows);
+        XRCCTRL(*this,"AddressText2CDP18S600", wxStaticText)->Enable(elfConfiguration[CDP18S600].useElfControlWindows);
+        XRCCTRL(*this, "ControlWindowsCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].useElfControlWindows);
+        XRCCTRL(*this, "PioCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].usePio);
 
         setOneSocketState();
         setFourSocketState();
@@ -295,7 +312,10 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/CDP18S600/Force_Uppercase", elfConfiguration[CDP18S600].forceUpperCase);
     configPointer->Write("/CDP18S600/Enable_Vt_Stretch_Dot", conf[CDP18S600].stretchDot_);
     configPointer->Write("/CDP18S600/Enable_Vt_External", elfConfiguration[CDP18S600].vtExternal);
-    
+    configPointer->Write("/CDP18S600/Open_Control_Windows", elfConfiguration[CDP18S600].useElfControlWindows);
+    configPointer->Write("/CDP18S600/Pio_Windows", elfConfiguration[CDP18S600].usePio);
+    configPointer->Write("/CDP18S600/Led_Update_Frequency", conf[CDP18S600].ledTime_);
+
     configPointer->Write("/CDP18S600/MicroChipTypeOneScoket", conf[CDP18S600].microChipType_[ONE_SOCKET]);
     configPointer->Write("/CDP18S600/MicroChipTypeFourScoket", conf[CDP18S600].microChipType_[FOUR_SOCKET]);
 
@@ -327,6 +347,8 @@ void GuiCdp18s600::readCdp18s600WindowConfig()
     conf[CDP18S600].vtY_ = (int)configPointer->Read("/CDP18S600/Window_Position_Vt_Y", mainWindowY_);
     conf[CDP18S600].mainX_ = (int)configPointer->Read("/CDP18S600/Window_Position_X", mainWindowX_);
     conf[CDP18S600].mainY_ = (int)configPointer->Read("/CDP18S600/Window_Position_Y", mainWindowY_+windowInfo.mainwY);
+    conf[CDP18S600].secondFrameX_ = (int)configPointer->Read("/CDP18S600/Window_Position_SecondFrame_X", mainWindowX_ + 310);
+    conf[CDP18S600].secondFrameY_ = (int)configPointer->Read("/CDP18S600/Window_Position_SecondFrame_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
 }
 
 void GuiCdp18s600::writeCdp18s600WindowConfig()
@@ -339,7 +361,10 @@ void GuiCdp18s600::writeCdp18s600WindowConfig()
         configPointer->Write("/CDP18S600/Window_Position_X", conf[CDP18S600].mainX_);
     if (conf[CDP18S600].mainY_ > 0)
         configPointer->Write("/CDP18S600/Window_Position_Y", conf[CDP18S600].mainY_);
-    
+    if (conf[CDP18S600].secondFrameX_ > 0)
+        configPointer->Write("/CDP18S600/Window_Position_SecondFrame_X", conf[CDP18S600].secondFrameX_);
+    if (conf[CDP18S600].secondFrameY_ > 0)
+        configPointer->Write("/CDP18S600/Window_Position_SecondFrame_Y", conf[CDP18S600].secondFrameY_);
 }
 
 void GuiCdp18s600::onCdp18s600BaudT(wxCommandEvent&event)
@@ -576,6 +601,52 @@ void GuiCdp18s600::setFourSocketState()
     setRamlabel(U19ROM, "U19");
     setRamlabel(U18ROM, "U18");
     setRamlabel(U17ROM, "U17");
+}
+
+void GuiCdp18s600::onCdp18s600ControlWindows(wxCommandEvent&event)
+{
+    elfConfiguration[CDP18S600].useElfControlWindows = event.IsChecked();
+    
+    if (mode_.gui)
+    {
+        XRCCTRL(*this,"ShowAddressCDP18S600",wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText1CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText2CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+    }
+    
+    if (runningComputer_ == CDP18S600)
+        p_Cdp18s600->Show(elfConfiguration[CDP18S600].useElfControlWindows);
+}
+
+void GuiCdp18s600::onPioWindows(wxCommandEvent&event)
+{
+    elfConfiguration[CDP18S600].usePio = event.IsChecked();
+    
+    if (mode_.gui)
+    {
+        XRCCTRL(*this,"ShowAddressCDP18S600",wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText1CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText2CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+    }
+    
+    if (runningComputer_ == CDP18S600)
+        p_Cdp18s600->showPio(elfConfiguration[CDP18S600].usePio);
+}
+
+void GuiCdp18s600::pioWindows(bool state)
+{
+    elfConfiguration[CDP18S600].usePio = state;
+    XRCCTRL(*this, "PioCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].usePio);
+}
+
+bool GuiCdp18s600::getUseCdp18s600ControlWindows()
+{
+    return elfConfiguration[CDP18S600].useElfControlWindows;
+}
+
+bool GuiCdp18s600::getUsePioWindows()
+{
+    return elfConfiguration[CDP18S600].usePio;
 }
 
 void GuiCdp18s600::onAutoBoot(wxCommandEvent&event)

@@ -1178,12 +1178,12 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     if (parser.Found("r", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on MCDS emulator");
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on CDP18S600 emulator");
                         return false;
                     }
                     if (parser.Found("ch", &software))
                     {
-                        wxMessageOutput::Get()->Printf("Option -ch is not supported on MCDS emulator");
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on CDP18S600 emulator");
                         return false;
                     }
                     return true;
@@ -1803,7 +1803,10 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		}
 		dfTextPointer = XRCCTRL(*this,"DF", wxTextCtrl);
 		qTextPointer = XRCCTRL(*this,"Q", wxTextCtrl);
-		ieTextPointer = XRCCTRL(*this,"IE", wxTextCtrl);
+        ieTextPointer = XRCCTRL(*this,"IE", wxTextCtrl);
+        cieTextPointer = XRCCTRL(*this,"CIE", wxTextCtrl);
+        chTextPointer = XRCCTRL(*this,"CH", wxTextCtrl);
+        counterTextPointer = XRCCTRL(*this,"CNTR", wxTextCtrl);
 		dTextPointer = XRCCTRL(*this,"D", wxTextCtrl);
 		pTextPointer = XRCCTRL(*this,"P", wxTextCtrl);
 		xTextPointer = XRCCTRL(*this,"X", wxTextCtrl);
@@ -4785,6 +4788,8 @@ void Main::nonFixedWindowPosition()
     conf[VELF].mainY_ = -1;
     conf[CDP18S020].mainX_ = -1;
     conf[CDP18S020].mainY_ = -1;
+    conf[CDP18S600].mainX_ = -1;
+    conf[CDP18S600].mainY_ = -1;
 	conf[TMC1800].mainX_ = -1;
 	conf[TMC1800].mainY_ = -1;
 	conf[TMC2000].mainX_ = -1;
@@ -4849,6 +4854,8 @@ void Main::nonFixedWindowPosition()
     conf[CDP18S020].vtY_ = -1;
     conf[CDP18S600].vtX_ = -1;
     conf[CDP18S600].vtY_ = -1;
+    conf[CDP18S600].secondFrameX_ = -1;
+    conf[CDP18S600].secondFrameY_ = -1;
     conf[FRED1].pixieX_ = -1;
     conf[FRED1].pixieY_ = -1;
     conf[FRED1_5].pixieX_ = -1;
@@ -4889,6 +4896,8 @@ void Main::fixedWindowPosition()
     conf[VELF].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[CDP18S020].mainX_ = mainWindowX_;
     conf[CDP18S020].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[CDP18S600].mainX_ = mainWindowX_;
+    conf[CDP18S600].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[TMC1800].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[TMC1800].mainY_ = mainWindowY_;
 	conf[TMC2000].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -4953,6 +4962,8 @@ void Main::fixedWindowPosition()
     conf[CDP18S020].vtY_ = mainWindowY_;
     conf[CDP18S600].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[CDP18S600].vtY_ = mainWindowY_;
+    conf[CDP18S600].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
+    conf[CDP18S600].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[FRED1].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[FRED1].pixieY_ = mainWindowY_;
     conf[FRED1_5].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -5165,9 +5176,9 @@ void Main::onStart(int computer)
         break;
             
         case CDP18S600:
-            p_Cdp18s600 = new Cdp18s600(computerInfo[CDP18S600].name, wxPoint(conf[CDP18S600].mainX_, conf[CDP18S600].mainY_), wxSize(507, 459), conf[CDP18S600].clockSpeed_, elfConfiguration[CDP18S600]);
+            p_Cdp18s600 = new Cdp18s600(computerInfo[CDP18S600].name, wxPoint(conf[CDP18S600].mainX_, conf[CDP18S600].mainY_), wxSize(310, 180), conf[CDP18S600].clockSpeed_, elfConfiguration[CDP18S600]);
             p_Computer = p_Cdp18s600;
-            break;
+        break;
             
 		case TMC1800:
 			p_Tmc1800 = new Tmc1800(computerInfo[TMC1800].name, wxPoint(conf[TMC1800].mainX_, conf[TMC1800].mainY_), wxSize(64*zoom*xScale, 128*zoom), zoom, xScale, TMC1800);
@@ -5212,7 +5223,7 @@ void Main::onStart(int computer)
 		break;
 	}
     
-    if (runningComputer_ < 12 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED1_5 )
+    if (runningComputer_ < 13 || runningComputer_ == VIPII || runningComputer_ == FRED1 || runningComputer_ == FRED1_5 )
     {
         conf[runningComputer_].ledTime_.ToLong(&ms);
         conf[runningComputer_].ledTimeMs_ = ms;

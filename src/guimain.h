@@ -147,8 +147,9 @@ public:
 	int mc6847X_, mc6847Y_;
 	int i8275X_, i8275Y_;
 	int mainX_, mainY_;
-	int keypadX_, keypadY_;
-	
+    int keypadX_, keypadY_;
+    int secondFrameX_, secondFrameY_;
+
 	int sizeX_;
 	int sizeY_;
 	int sizeNTSCX_;
@@ -410,6 +411,8 @@ public:
 	void set8275Pos(int computerType, wxPoint position);
 	wxPoint getKeypadPos(int computerType);
 	void setKeypadPos(int computerType, wxPoint position);
+    wxPoint getSecondFramePos(int computerType);
+    void setSecondFramePos(int computerType, wxPoint position);
 
 	wxString getDataDir() {return dataDir_;};
 	wxString getApplicationDir() {return applicationDirectory_;};
