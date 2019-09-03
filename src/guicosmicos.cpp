@@ -333,7 +333,7 @@ void GuiCosmicos::onCosmicosForceUpperCase(wxCommandEvent&event)
 	elfConfiguration[COSMICOS].forceUpperCase = event.IsChecked();
 	if (runningComputer_ == COSMICOS)
 	{
-		p_Cosmicos->setForceUpperCase(event.IsChecked());
+		p_Computer->setForceUpperCase(event.IsChecked());
 	}
 }
 

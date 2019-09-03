@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 31
-#define LAST_ELF_TYPE 16
+#define NO_COMPUTER 33
+#define LAST_ELF_TYPE 18
 
 #define MAINROM1 0
 
@@ -34,6 +34,14 @@
 
 #define ONE_SOCKET 0
 #define FOUR_SOCKET 1
+
+#define FOUR_SOCKET_ROM1 1
+#define FOUR_SOCKET_ROM2 2
+
+#define XU27ROM 1
+#define XU26ROM 2
+#define XU25ROM 3
+#define XU24ROM 4
 
 #define MAXROM 6
 
@@ -174,7 +182,7 @@ public:
 	int gameId_;
     
     int microChipType_[2];
-    int microChipLocation_[2];
+    int microChipLocation_[3];
     int microChipMemory_[MAXROM];
     bool microChipDisable_[MAXROM];
 };
@@ -480,6 +488,8 @@ protected:
     Velf *p_Velf;
     Cdp18s020 *p_Cdp18s020;
     Cdp18s600 *p_Cdp18s600;
+    Cdp18s601 *p_Cdp18s601;
+    Cdp18s603a *p_Cdp18s603a;
 	Nano *p_Nano;
 	Tmc1800 *p_Tmc1800;
 	Tmc2000 *p_Tmc2000;

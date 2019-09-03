@@ -63,7 +63,7 @@ void MicroOneSocketSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     int location = XRCCTRL(*this, "MicroSetupLocation", wxChoice)->GetSelection() * (ramSize_ / 2);
     p_Main->setMicroChipLocation(CDP18S600, ONE_SOCKET, location);
 
-    p_Main->setOneSocketState();
+    p_Main->setOneSocketState("CDP18S600");
 
     EndModal(wxID_OK);
 }
@@ -122,7 +122,7 @@ void MicroFourSocketSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     int location = XRCCTRL(*this, "MicroSetupLocationU20", wxChoice)->GetSelection() * (ramSize_ / 2);
     p_Main->setMicroChipLocation(CDP18S600, FOUR_SOCKET, location);
     
-    p_Main->setFourSocketState();
+    p_Main->setFourSocketState(CDP18S600, "CDP18S600");
 
     EndModal(wxID_OK);
 }
@@ -136,5 +136,195 @@ void MicroFourSocketSetupDialog::onLocation( wxCommandEvent& event)
     XRCCTRL(*this, "MicroSetupLocationU18", wxChoice)->SetSelection(location);
     XRCCTRL(*this, "MicroSetupLocationU17", wxChoice)->SetSelection(location);
 
+}
+
+BEGIN_EVENT_TABLE(MicroRomSocketSetupDialog, wxDialog)
+    EVT_BUTTON(XRCID("MicroSetupSave"), MicroRomSocketSetupDialog::onSaveButton)
+    EVT_CHOICE(XRCID("MicroSetupLocationU20"), MicroRomSocketSetupDialog::onLocationXu25)
+    EVT_CHOICE(XRCID("MicroSetupLocationU19"), MicroRomSocketSetupDialog::onLocationXu25)
+    EVT_CHOICE(XRCID("MicroSetupLocationU18"), MicroRomSocketSetupDialog::onLocationXu27)
+    EVT_CHOICE(XRCID("MicroSetupLocationU17"), MicroRomSocketSetupDialog::onLocationXu27)
+    EVT_CHOICE(XRCID("MicroSetupLocationU20_1"), MicroRomSocketSetupDialog::onLocationXu)
+    EVT_CHOICE(XRCID("MicroSetupLocationU19_1"), MicroRomSocketSetupDialog::onLocationXu)
+    EVT_CHOICE(XRCID("MicroSetupLocationU18_1"), MicroRomSocketSetupDialog::onLocationXu)
+    EVT_CHOICE(XRCID("MicroSetupLocationU17_1"), MicroRomSocketSetupDialog::onLocationXu)
+END_EVENT_TABLE()
+
+MicroRomSocketSetupDialog::MicroRomSocketSetupDialog(wxWindow* parent)
+{
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+
+    int locationXu25 = p_Main->getMicroChipLocation(CDP18S601, FOUR_SOCKET_ROM1);
+    int locationXu27 = p_Main->getMicroChipLocation(CDP18S601, FOUR_SOCKET_ROM2);
+
+    if (p_Main->getMicroChipType(CDP18S601, FOUR_SOCKET) == 1)
+    {
+        wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S601_4_2K_Dialog");
+        XRCCTRL(*this, "MicroSetupMemoryU20", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S601, XU27ROM));
+        XRCCTRL(*this, "MicroSetupMemoryU19", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S601, XU26ROM));
+        XRCCTRL(*this, "MicroSetupMemoryU18", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S601, XU25ROM));
+        XRCCTRL(*this, "MicroSetupMemoryU17", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S601, XU24ROM));
+        
+        XRCCTRL(*this, "MicroSetupLocationU20", wxChoice)->SetSelection(locationXu25);
+        XRCCTRL(*this, "MicroSetupLocationU19", wxChoice)->SetSelection(locationXu25);
+        XRCCTRL(*this, "MicroSetupLocationU18", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU17", wxChoice)->SetSelection(locationXu27);
+    }
+    else
+    {
+        wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S601_4_1K_Dialog");
+        
+        XRCCTRL(*this, "MicroSetupLocationU20_1", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU19_1", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU18_1", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU17_1", wxChoice)->SetSelection(locationXu27);
+    }
+    
+    if (p_Main->isComputerRunning())
+        XRCCTRL(*this, "MicroSetupSave", wxButton)->Disable();
+}
+
+void MicroRomSocketSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
+{
+    if (p_Main->getMicroChipType(CDP18S601, FOUR_SOCKET) == 1)
+    {
+        p_Main->setMicroChipMemory(CDP18S601, XU27ROM,  XRCCTRL(*this, "MicroSetupMemoryU20", wxChoice)->GetSelection());
+        p_Main->setMicroChipMemory(CDP18S601, XU26ROM,  XRCCTRL(*this, "MicroSetupMemoryU19", wxChoice)->GetSelection());
+        p_Main->setMicroChipMemory(CDP18S601, XU25ROM,  XRCCTRL(*this, "MicroSetupMemoryU18", wxChoice)->GetSelection());
+        p_Main->setMicroChipMemory(CDP18S601, XU24ROM,  XRCCTRL(*this, "MicroSetupMemoryU17", wxChoice)->GetSelection());
+
+        int locationXu25 = XRCCTRL(*this, "MicroSetupLocationU20", wxChoice)->GetSelection();
+        p_Main->setMicroChipLocation(CDP18S601, FOUR_SOCKET_ROM1, locationXu25);
+        int locationXu27 = XRCCTRL(*this, "MicroSetupLocationU18", wxChoice)->GetSelection();
+        p_Main->setMicroChipLocation(CDP18S601, FOUR_SOCKET_ROM2, locationXu27);
+    }
+    else
+    {
+        int locationXu = XRCCTRL(*this, "MicroSetupLocationU20_1", wxChoice)->GetSelection();
+        p_Main->setMicroChipLocation(CDP18S601, FOUR_SOCKET_ROM2, locationXu);
+    }
+    
+    EndModal(wxID_OK);
+}
+
+void MicroRomSocketSetupDialog::onLocationXu25( wxCommandEvent& event)
+{
+    int location = event.GetSelection();
+    
+    XRCCTRL(*this, "MicroSetupLocationU20", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU19", wxChoice)->SetSelection(location);
+}
+
+void MicroRomSocketSetupDialog::onLocationXu27( wxCommandEvent& event)
+{
+    int location = event.GetSelection();
+    
+    XRCCTRL(*this, "MicroSetupLocationU18", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU17", wxChoice)->SetSelection(location);
+}
+
+void MicroRomSocketSetupDialog::onLocationXu( wxCommandEvent& event)
+{
+    int location = event.GetSelection();
+    
+    XRCCTRL(*this, "MicroSetupLocationU20_1", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU19_1", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU18_1", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU17_1", wxChoice)->SetSelection(location);
+}
+
+BEGIN_EVENT_TABLE(MicroRom603ASocketSetupDialog, wxDialog)
+    EVT_BUTTON(XRCID("MicroSetupSave"), MicroRom603ASocketSetupDialog::onSaveButton)
+    EVT_CHOICE(XRCID("MicroSetupLocationU20"), MicroRom603ASocketSetupDialog::onLocationXu25)
+    EVT_CHOICE(XRCID("MicroSetupLocationU19"), MicroRom603ASocketSetupDialog::onLocationXu25)
+    EVT_CHOICE(XRCID("MicroSetupLocationU18"), MicroRom603ASocketSetupDialog::onLocationXu27)
+    EVT_CHOICE(XRCID("MicroSetupLocationU17"), MicroRom603ASocketSetupDialog::onLocationXu27)
+    EVT_CHOICE(XRCID("MicroSetupLocationU20_1"), MicroRom603ASocketSetupDialog::onLocationXu)
+    EVT_CHOICE(XRCID("MicroSetupLocationU19_1"), MicroRom603ASocketSetupDialog::onLocationXu)
+    EVT_CHOICE(XRCID("MicroSetupLocationU18_1"), MicroRom603ASocketSetupDialog::onLocationXu)
+    EVT_CHOICE(XRCID("MicroSetupLocationU17_1"), MicroRom603ASocketSetupDialog::onLocationXu)
+END_EVENT_TABLE()
+
+MicroRom603ASocketSetupDialog::MicroRom603ASocketSetupDialog(wxWindow* parent)
+{
+    wxXmlResource::Get()->Load(p_Main->getApplicationDir()+p_Main->getPathSep()+"microsetup.xrc");
+    
+    int locationXu25 = p_Main->getMicroChipLocation(CDP18S603A, FOUR_SOCKET_ROM1);
+    int locationXu27 = p_Main->getMicroChipLocation(CDP18S603A, FOUR_SOCKET_ROM2);
+    
+    if (p_Main->getMicroChipType(CDP18S603A, FOUR_SOCKET) == 1)
+    {
+        wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S601_4_2K_Dialog");
+        XRCCTRL(*this, "MicroSetupMemoryU20", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S603A, XU27ROM));
+        XRCCTRL(*this, "MicroSetupMemoryU19", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S603A, XU26ROM));
+        XRCCTRL(*this, "MicroSetupMemoryU18", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S603A, XU25ROM));
+        XRCCTRL(*this, "MicroSetupMemoryU17", wxChoice)->SetSelection(p_Main->getMicroChipMemory(CDP18S603A, XU24ROM));
+        
+        XRCCTRL(*this, "MicroSetupLocationU20", wxChoice)->SetSelection(locationXu25);
+        XRCCTRL(*this, "MicroSetupLocationU19", wxChoice)->SetSelection(locationXu25);
+        XRCCTRL(*this, "MicroSetupLocationU18", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU17", wxChoice)->SetSelection(locationXu27);
+    }
+    else
+    {
+        wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S601_4_1K_Dialog");
+        
+        XRCCTRL(*this, "MicroSetupLocationU20_1", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU19_1", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU18_1", wxChoice)->SetSelection(locationXu27);
+        XRCCTRL(*this, "MicroSetupLocationU17_1", wxChoice)->SetSelection(locationXu27);
+    }
+    
+    if (p_Main->isComputerRunning())
+        XRCCTRL(*this, "MicroSetupSave", wxButton)->Disable();
+}
+
+void MicroRom603ASocketSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
+{
+    if (p_Main->getMicroChipType(CDP18S603A, FOUR_SOCKET) == 1)
+    {
+        p_Main->setMicroChipMemory(CDP18S603A, XU27ROM,  XRCCTRL(*this, "MicroSetupMemoryU20", wxChoice)->GetSelection());
+        p_Main->setMicroChipMemory(CDP18S603A, XU26ROM,  XRCCTRL(*this, "MicroSetupMemoryU19", wxChoice)->GetSelection());
+        p_Main->setMicroChipMemory(CDP18S603A, XU25ROM,  XRCCTRL(*this, "MicroSetupMemoryU18", wxChoice)->GetSelection());
+        p_Main->setMicroChipMemory(CDP18S603A, XU24ROM,  XRCCTRL(*this, "MicroSetupMemoryU17", wxChoice)->GetSelection());
+        
+        int locationXu25 = XRCCTRL(*this, "MicroSetupLocationU20", wxChoice)->GetSelection();
+        p_Main->setMicroChipLocation(CDP18S603A, FOUR_SOCKET_ROM1, locationXu25);
+        int locationXu27 = XRCCTRL(*this, "MicroSetupLocationU18", wxChoice)->GetSelection();
+        p_Main->setMicroChipLocation(CDP18S603A, FOUR_SOCKET_ROM2, locationXu27);
+    }
+    else
+    {
+        int locationXu = XRCCTRL(*this, "MicroSetupLocationU20_1", wxChoice)->GetSelection();
+        p_Main->setMicroChipLocation(CDP18S603A, FOUR_SOCKET_ROM2, locationXu);
+    }
+    
+    EndModal(wxID_OK);
+}
+
+void MicroRom603ASocketSetupDialog::onLocationXu25( wxCommandEvent& event)
+{
+    int location = event.GetSelection();
+    
+    XRCCTRL(*this, "MicroSetupLocationU20", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU19", wxChoice)->SetSelection(location);
+}
+
+void MicroRom603ASocketSetupDialog::onLocationXu27( wxCommandEvent& event)
+{
+    int location = event.GetSelection();
+    
+    XRCCTRL(*this, "MicroSetupLocationU18", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU17", wxChoice)->SetSelection(location);
+}
+
+void MicroRom603ASocketSetupDialog::onLocationXu( wxCommandEvent& event)
+{
+    int location = event.GetSelection();
+    
+    XRCCTRL(*this, "MicroSetupLocationU20_1", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU19_1", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU18_1", wxChoice)->SetSelection(location);
+    XRCCTRL(*this, "MicroSetupLocationU17_1", wxChoice)->SetSelection(location);
 }
 

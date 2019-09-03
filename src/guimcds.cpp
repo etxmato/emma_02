@@ -368,7 +368,7 @@ void GuiMcds::onMcdsForceUpperCase(wxCommandEvent&event)
     elfConfiguration[MCDS].forceUpperCase = event.IsChecked();
     if (runningComputer_ == MCDS)
     {
-        p_Mcds->setForceUpperCase(event.IsChecked());
+        p_Computer->setForceUpperCase(event.IsChecked());
     }
 }
 

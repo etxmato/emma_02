@@ -420,7 +420,7 @@ void GuiElf2K::onElf2KForceUpperCase(wxCommandEvent&event)
 	elfConfiguration[ELF2K].forceUpperCase = event.IsChecked();
 	if (runningComputer_ == ELF2K)
 	{
-		p_Elf2K->setForceUpperCase(event.IsChecked());
+		p_Computer->setForceUpperCase(event.IsChecked());
 	}
 }
 

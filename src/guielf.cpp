@@ -854,20 +854,7 @@ void GuiElf::onElfKeyboard(wxCommandEvent&event)
 void GuiElf::onForceUpperCase(wxCommandEvent&event)
 {
 	elfConfiguration[selectedComputer_].forceUpperCase = event.IsChecked();
-	switch(runningComputer_)
-	{
-		case ELF:
-			p_Elf->setForceUpperCase(event.IsChecked());
-		break;
-
-		case ELFII:
-			p_Elf2->setForceUpperCase(event.IsChecked());
-		break;
-
-		case SUPERELF:
-			p_Super->setForceUpperCase(event.IsChecked());
-		break;
-	}
+    p_Computer->setForceUpperCase(event.IsChecked());
 }
 
 void GuiElf::onGiantBoardMapping(wxCommandEvent&event)

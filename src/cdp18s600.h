@@ -20,7 +20,7 @@ public:
     
     void onClose(wxCloseEvent&WXUNUSED(event));
     
-    void configureComputer();
+    virtual void configureComputer();
     void initComputer();
     
     void onRunButton(wxCommandEvent&event);
@@ -35,8 +35,8 @@ public:
 
     Byte ef(int flag);
     void setEfState(int number, Byte value);
-    Byte in(Byte port, Word address);
-    void out(Byte port, Word address, Byte value);
+    virtual Byte in(Byte port, Word address);
+    virtual void out(Byte port, Word address, Byte value);
     void switchQ(int value);
     void showCycleData(Byte val);
     void showAddress(Word val);
@@ -46,6 +46,7 @@ public:
     void cycleLed();
 
     void startComputer();
+    virtual void readRoms();
     void readMicro(int romNumber, Word startAddress, Word lastAddress);
     void writeMemDataType(Word address, Byte type);
     Byte readMemDataType(Word address);
@@ -74,16 +75,17 @@ public:
 	void showPio(bool state);
     void removePio();
 
-private:
-    Vt100 *vtPointer;
-    
-    ElfConfiguration Cdp18s600Configuration;
-    
-    double Cdp18s600ClockSpeed_;
-    Word lastAddress_;
+protected:
     Byte efState_[5];
-    
+    ElfConfiguration Cdp18s600Configuration;
+    wxString computerTypeStr_;
+    double Cdp18s600ClockSpeed_;
+    Vt100 *vtPointer;
     int ioGroup_;
+    class PioFrame *pioFramePointer;
+
+private:
+    Word lastAddress_;
     
     int cycleValue_;
     int cycleSize_;
@@ -95,9 +97,37 @@ private:
     int mcdsRunState_;
     
     class Cdp18s640Screen *cdp18s640ScreenPointer;
-    class PioFrame *pioFramePointer;
     
     DECLARE_EVENT_TABLE()
 };
+
+class Cdp18s601 : public Cdp18s600
+{
+public:
+    Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+
+    void configureComputer();
+    Byte in(Byte port, Word address);
+    void out(Byte port, Word address, Byte value);
+    void readRoms();
+
+private:
+
+};
+
+class Cdp18s603a : public Cdp18s600
+{
+public:
+    Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+    
+    void configureComputer();
+    Byte in(Byte port, Word address);
+    void out(Byte port, Word address, Byte value);
+    void readRoms();
+    
+private:
+    
+};
+
 
 #endif  // CDP18S600_H

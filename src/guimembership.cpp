@@ -327,7 +327,7 @@ void GuiMembership::onMembershipForceUpperCase(wxCommandEvent&event)
 	elfConfiguration[MEMBER].forceUpperCase = event.IsChecked();
 	if (runningComputer_ == MEMBER)
 	{
-		p_Membership->setForceUpperCase(event.IsChecked());
+		p_Computer->setForceUpperCase(event.IsChecked());
 	}
 }
 

@@ -425,7 +425,7 @@ void GuiMS2000::onMS2000ForceUpperCase(wxCommandEvent&event)
     elfConfiguration[MS2000].forceUpperCase = event.IsChecked();
     if (runningComputer_ == MS2000)
     {
-        p_Ms2000->setForceUpperCase(event.IsChecked());
+        p_Computer->setForceUpperCase(event.IsChecked());
     }
 }
 

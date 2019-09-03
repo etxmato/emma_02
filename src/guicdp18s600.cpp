@@ -55,8 +55,8 @@ BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
     EVT_COMBOBOX(XRCID("MainRomU17CDP18S600"), GuiCdp18s600::onRomU17Text)
     EVT_BUTTON(XRCID("RomButtonU17CDP18S600"), GuiCdp18s600::onRomU17)
 
-    EVT_CHOICE(XRCID("OneSocketBank"), GuiCdp18s600::onOneSocketBank)
-    EVT_CHOICE(XRCID("FourSocketBank"), GuiCdp18s600::onFourSocketBank)
+    EVT_CHOICE(XRCID("OneSocketBankCDP18S600"), GuiCdp18s600::onOneSocketBank)
+    EVT_CHOICE(XRCID("FourSocketBankCDP18S600"), GuiCdp18s600::onFourSocketBank)
 
     EVT_TEXT(XRCID("VtCharRomCDP18S600"), GuiMain::onVtCharRomText)
     EVT_COMBOBOX(XRCID("VtCharRomCDP18S600"), GuiMain::onVtCharRomText)
@@ -93,8 +93,8 @@ BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
 
     EVT_CHOICE(XRCID("VTBaudTChoiceCDP18S600"), GuiCdp18s600::onCdp18s600BaudT)
 
-    EVT_BUTTON(XRCID("OneSocketSetup"), GuiCdp18s600::onOneSocketSetup)
-    EVT_BUTTON(XRCID("FourSocketSetup"), GuiCdp18s600::onFourSocketSetup)
+    EVT_BUTTON(XRCID("OneSocketSetupCDP18S600"), GuiCdp18s600::onOneSocketSetup)
+    EVT_BUTTON(XRCID("FourSocketSetupCDP18S600"), GuiCdp18s600::onFourSocketSetup)
 
     EVT_CHECKBOX(XRCID("AutoBootCDP18S600"), GuiCdp18s600::onAutoBoot)
     EVT_CHOICE(XRCID("AutoBootTypeCDP18S600"), GuiCdp18s600::onAutoBootType)
@@ -103,294 +103,492 @@ BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
     EVT_CHECKBOX(XRCID("ControlWindowsCDP18S600"), GuiCdp18s600::onCdp18s600ControlWindows)
     EVT_CHECKBOX(XRCID("PioCDP18S600"), GuiCdp18s600::onPioWindows)
 
+
+    EVT_TEXT(XRCID("MainRomU21CDP18S601"), GuiCdp18s600::onRomU21Text)
+    EVT_COMBOBOX(XRCID("MainRomU21CDP18S601"), GuiCdp18s600::onRomU21Text)
+    EVT_BUTTON(XRCID("RomButtonU21CDP18S601"), GuiCdp18s600::onRomU21)
+
+    EVT_TEXT(XRCID("MainRomU20CDP18S601"), GuiCdp18s600::onRomU20Text)
+    EVT_COMBOBOX(XRCID("MainRomU20CDP18S601"), GuiCdp18s600::onRomU20Text)
+    EVT_BUTTON(XRCID("RomButtonU20CDP18S601"), GuiCdp18s600::onRomU20)
+
+    EVT_TEXT(XRCID("MainRomU19CDP18S601"), GuiCdp18s600::onRomU19Text)
+    EVT_COMBOBOX(XRCID("MainRomU19CDP18S601"), GuiCdp18s600::onRomU19Text)
+    EVT_BUTTON(XRCID("RomButtonU19CDP18S601"), GuiCdp18s600::onRomU19)
+
+    EVT_TEXT(XRCID("MainRomU18CDP18S601"), GuiCdp18s600::onRomU18Text)
+    EVT_COMBOBOX(XRCID("MainRomU18CDP18S601"), GuiCdp18s600::onRomU18Text)
+    EVT_BUTTON(XRCID("RomButtonU18CDP18S601"), GuiCdp18s600::onRomU18)
+
+    EVT_TEXT(XRCID("MainRomU17CDP18S601"), GuiCdp18s600::onRomU17Text)
+    EVT_COMBOBOX(XRCID("MainRomU17CDP18S601"), GuiCdp18s600::onRomU17Text)
+    EVT_BUTTON(XRCID("RomButtonU17CDP18S601"), GuiCdp18s600::onRomU17)
+
+    EVT_CHOICE(XRCID("OneSocketBankCDP18S601"), GuiCdp18s600::onOneSocketBank)
+    EVT_CHOICE(XRCID("FourSocketBankCDP18S601"), GuiCdp18s600::onFourSocketBank)
+
+    EVT_TEXT(XRCID("VtCharRomCDP18S601"), GuiMain::onVtCharRomText)
+    EVT_COMBOBOX(XRCID("VtCharRomCDP18S601"), GuiMain::onVtCharRomText)
+    EVT_BUTTON(XRCID("VtCharRomButtonCDP18S601"), GuiMain::onVtCharRom)
+
+    EVT_TEXT(XRCID("KeyFileCDP18S601"), GuiMain::onKeyFileText)
+    EVT_BUTTON(XRCID("KeyFileButtonCDP18S601"), GuiMain::onKeyFile)
+    EVT_BUTTON(XRCID("EjectKeyFileCDP18S601"), GuiMain::onKeyFileEject)
+
+    EVT_CHOICE(XRCID("VTTypeCDP18S601"), GuiMain::onVT100)
+    EVT_SPIN_UP(XRCID("ZoomSpinVtCDP18S601"), GuiMain::onZoomUpVt)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinVtCDP18S601"), GuiMain::onZoomDownVt)
+    EVT_TEXT(XRCID("ZoomValueVtCDP18S601"), GuiMain::onZoomValueVt)
+    EVT_BUTTON(XRCID("FullScreenF3CDP18S601"), GuiMain::onFullScreen)
+
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonCDP18S601"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileCDP18S601"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileCDP18S601"), GuiMain::onScreenDumpFileText)
+    EVT_BUTTON(XRCID("ScreenDumpF5CDP18S601"), GuiMain::onScreenDump)
+
+    EVT_CHECKBOX(XRCID("CDP18S601ForceUC"), GuiCdp18s600::onCdp18s600ForceUpperCase)
+    EVT_BUTTON(XRCID("VtSetupCDP18S601"), GuiMain::onVtSetup)
+    EVT_CHECKBOX(XRCID("StretchDotCDP18S601"), GuiMain::onStretchDot)
+    EVT_BUTTON(XRCID("ColoursCDP18S601"), Main::onColoursDef)
+
+    EVT_BUTTON(XRCID("SaveButtonCDP18S601"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonCDP18S601"), GuiMain::onLoadButton)
+    EVT_BUTTON(XRCID("RunButtonCDP18S601"), GuiMain::onLoadRunButton)
+    EVT_BUTTON(XRCID("DsaveButtonCDP18S601"), GuiMain::onDataSaveButton)
+
+    EVT_CHECKBOX(XRCID("UseLocationCDP18S601"), GuiMain::onUseLocation)
+    EVT_TEXT(XRCID("SaveStartCDP18S601"), GuiMain::onSaveStart)
+    EVT_TEXT(XRCID("SaveEndCDP18S601"), GuiMain::onSaveEnd)
+
+    EVT_CHOICE(XRCID("VTBaudTChoiceCDP18S601"), GuiCdp18s600::onCdp18s600BaudT)
+
+    EVT_BUTTON(XRCID("FourSocketSetupCDP18S601"), GuiCdp18s600::onRomSocketSetup)
+
+    EVT_CHECKBOX(XRCID("AutoBootCDP18S601"), GuiCdp18s600::onAutoBoot)
+    EVT_CHOICE(XRCID("AutoBootTypeCDP18S601"), GuiCdp18s600::onAutoBootType)
+
+    EVT_TEXT(XRCID("ShowAddressCDP18S601"), GuiMain::onLedTimer)
+    EVT_CHECKBOX(XRCID("ControlWindowsCDP18S601"), GuiCdp18s600::onCdp18s600ControlWindows)
+    EVT_CHECKBOX(XRCID("PioCDP18S601"), GuiCdp18s600::onPioWindows)
+
+
+    EVT_TEXT(XRCID("MainRomU21CDP18S603A"), GuiCdp18s600::onRomU21Text)
+    EVT_COMBOBOX(XRCID("MainRomU21CDP18S603A"), GuiCdp18s600::onRomU21Text)
+    EVT_BUTTON(XRCID("RomButtonU21CDP18S603A"), GuiCdp18s600::onRomU21)
+
+    EVT_TEXT(XRCID("MainRomU20CDP18S603A"), GuiCdp18s600::onRomU20Text)
+    EVT_COMBOBOX(XRCID("MainRomU20CDP18S603A"), GuiCdp18s600::onRomU20Text)
+    EVT_BUTTON(XRCID("RomButtonU20CDP18S603A"), GuiCdp18s600::onRomU20)
+
+    EVT_TEXT(XRCID("MainRomU19CDP18S603A"), GuiCdp18s600::onRomU19Text)
+    EVT_COMBOBOX(XRCID("MainRomU19CDP18S603A"), GuiCdp18s600::onRomU19Text)
+    EVT_BUTTON(XRCID("RomButtonU19CDP18S603A"), GuiCdp18s600::onRomU19)
+
+    EVT_TEXT(XRCID("MainRomU18CDP18S603A"), GuiCdp18s600::onRomU18Text)
+    EVT_COMBOBOX(XRCID("MainRomU18CDP18S603A"), GuiCdp18s600::onRomU18Text)
+    EVT_BUTTON(XRCID("RomButtonU18CDP18S603A"), GuiCdp18s600::onRomU18)
+
+    EVT_TEXT(XRCID("MainRomU17CDP18S603A"), GuiCdp18s600::onRomU17Text)
+    EVT_COMBOBOX(XRCID("MainRomU17CDP18S603A"), GuiCdp18s600::onRomU17Text)
+    EVT_BUTTON(XRCID("RomButtonU17CDP18S603A"), GuiCdp18s600::onRomU17)
+
+    EVT_CHOICE(XRCID("OneSocketBankCDP18S603A"), GuiCdp18s600::onOneSocketBank)
+    EVT_CHOICE(XRCID("FourSocketBankCDP18S603A"), GuiCdp18s600::onFourSocketBank)
+
+    EVT_TEXT(XRCID("VtCharRomCDP18S603A"), GuiMain::onVtCharRomText)
+    EVT_COMBOBOX(XRCID("VtCharRomCDP18S603A"), GuiMain::onVtCharRomText)
+    EVT_BUTTON(XRCID("VtCharRomButtonCDP18S603A"), GuiMain::onVtCharRom)
+
+    EVT_TEXT(XRCID("KeyFileCDP18S603A"), GuiMain::onKeyFileText)
+    EVT_BUTTON(XRCID("KeyFileButtonCDP18S603A"), GuiMain::onKeyFile)
+    EVT_BUTTON(XRCID("EjectKeyFileCDP18S603A"), GuiMain::onKeyFileEject)
+
+    EVT_CHOICE(XRCID("VTTypeCDP18S603A"), GuiMain::onVT100)
+    EVT_SPIN_UP(XRCID("ZoomSpinVtCDP18S603A"), GuiMain::onZoomUpVt)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinVtCDP18S603A"), GuiMain::onZoomDownVt)
+    EVT_TEXT(XRCID("ZoomValueVtCDP18S603A"), GuiMain::onZoomValueVt)
+    EVT_BUTTON(XRCID("FullScreenF3CDP18S603A"), GuiMain::onFullScreen)
+
+    EVT_BUTTON(XRCID("ScreenDumpFileButtonCDP18S603A"), GuiMain::onScreenDumpFile)
+    EVT_TEXT(XRCID("ScreenDumpFileCDP18S603A"), GuiMain::onScreenDumpFileText)
+    EVT_COMBOBOX(XRCID("ScreenDumpFileCDP18S603A"), GuiMain::onScreenDumpFileText)
+    EVT_BUTTON(XRCID("ScreenDumpF5CDP18S603A"), GuiMain::onScreenDump)
+
+    EVT_CHECKBOX(XRCID("CDP18S603AForceUC"), GuiCdp18s600::onCdp18s600ForceUpperCase)
+    EVT_BUTTON(XRCID("VtSetupCDP18S603A"), GuiMain::onVtSetup)
+    EVT_CHECKBOX(XRCID("StretchDotCDP18S603A"), GuiMain::onStretchDot)
+    EVT_BUTTON(XRCID("ColoursCDP18S603A"), Main::onColoursDef)
+
+    EVT_BUTTON(XRCID("SaveButtonCDP18S603A"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonCDP18S603A"), GuiMain::onLoadButton)
+    EVT_BUTTON(XRCID("RunButtonCDP18S603A"), GuiMain::onLoadRunButton)
+    EVT_BUTTON(XRCID("DsaveButtonCDP18S603A"), GuiMain::onDataSaveButton)
+
+    EVT_CHECKBOX(XRCID("UseLocationCDP18S603A"), GuiMain::onUseLocation)
+    EVT_TEXT(XRCID("SaveStartCDP18S603A"), GuiMain::onSaveStart)
+    EVT_TEXT(XRCID("SaveEndCDP18S603A"), GuiMain::onSaveEnd)
+
+    EVT_CHOICE(XRCID("VTBaudTChoiceCDP18S603A"), GuiCdp18s600::onCdp18s600BaudT)
+
+    EVT_BUTTON(XRCID("FourSocketSetupCDP18S603A"), GuiCdp18s600::onRom603ASocketSetup)
+
+    EVT_CHECKBOX(XRCID("AutoBootCDP18S603A"), GuiCdp18s600::onAutoBoot)
+    EVT_CHOICE(XRCID("AutoBootTypeCDP18S603A"), GuiCdp18s600::onAutoBootType)
+
+    EVT_TEXT(XRCID("ShowAddressCDP18S603A"), GuiMain::onLedTimer)
+    EVT_CHECKBOX(XRCID("ControlWindowsCDP18S603A"), GuiCdp18s600::onCdp18s600ControlWindows)
+    EVT_CHECKBOX(XRCID("PioCDP18S603A"), GuiCdp18s600::onPioWindows)
+
 END_EVENT_TABLE()
 
 GuiCdp18s600::GuiCdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode_, wxString dataDir, wxString iniDir)
 : GuiTMC2000(title, pos, size, mode_, dataDir, iniDir)
 {
-    conf[CDP18S600].loadFileNameFull_ = "";
-    conf[CDP18S600].loadFileName_ = "";
-    
-    conf[CDP18S600].pLoadSaveName_[0] = 'S';
-    conf[CDP18S600].pLoadSaveName_[1] = 'U';
-    conf[CDP18S600].pLoadSaveName_[2] = 'P';
-    conf[CDP18S600].pLoadSaveName_[3] = 'E';
-    
-    conf[CDP18S600].defus_ = 0x81;
-    conf[CDP18S600].eop_ = 0x83;
-    conf[CDP18S600].string_ = 0x92;
-    conf[CDP18S600].arrayValue_ = 0x94;
-    conf[CDP18S600].eod_ = 0x99;
-    conf[CDP18S600].basicRamAddress_ = 0x200;
-    
-    conf[CDP18S600].saveStartString_ = "";
-    conf[CDP18S600].saveEndString_ = "";
-    conf[CDP18S600].saveExecString_ = "";
-    
     position_.x = 0;
 }
 
-void GuiCdp18s600::readCdp18s600Config()
+void GuiCdp18s600::readCdp18s600Config(int cdpType, wxString cdpTypeStr)
 {
-    selectedComputer_ = CDP18S600;
+    selectedComputer_ = cdpType;
     
-    conf[CDP18S600].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600" + pathSeparator_;
+    conf[cdpType].loadFileNameFull_ = "";
+    conf[cdpType].loadFileName_ = "";
     
-    conf[CDP18S600].mainDir_ = readConfigDir("/Dir/CDP18S600/Main", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].romDir_[U21ROM] = readConfigDir("/Dir/CDP18S600/Main_Rom_File21", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].romDir_[U20ROM] = readConfigDir("/Dir/CDP18S600/Main_Rom_File20", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].romDir_[U19ROM] = readConfigDir("/Dir/CDP18S600/Main_Rom_File19", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].romDir_[U18ROM] = readConfigDir("/Dir/CDP18S600/Main_Rom_File18", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].romDir_[U17ROM] = readConfigDir("/Dir/CDP18S600/Main_Rom_File17", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].vtCharRomDir_ = readConfigDir("/Dir/CDP18S600/Vt_Font_Rom_File", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].keyFileDir_ = readConfigDir("/Dir/CDP18S600/Key_File", dataDir_ + "CDP18S600" + pathSeparator_);
-    conf[CDP18S600].screenDumpFileDir_ = readConfigDir("/Dir/CDP18S600/Video_Dump_File", dataDir_ + "CDP18S600" + pathSeparator_);
+    conf[cdpType].pLoadSaveName_[0] = 'S';
+    conf[cdpType].pLoadSaveName_[1] = 'U';
+    conf[cdpType].pLoadSaveName_[2] = 'P';
+    conf[cdpType].pLoadSaveName_[3] = 'E';
     
-    conf[CDP18S600].rom_[U21ROM] = configPointer->Read("/CDP18S600/Main_Rom_File21", "");
-    conf[CDP18S600].rom_[U20ROM] = configPointer->Read("/CDP18S600/Main_Rom_File20", "ut71.bin");
-    conf[CDP18S600].rom_[U19ROM] = configPointer->Read("/CDP18S600/Main_Rom_File19", "");
-    conf[CDP18S600].rom_[U18ROM] = configPointer->Read("/CDP18S600/Main_Rom_File18", "");
-    conf[CDP18S600].rom_[U17ROM] = configPointer->Read("/CDP18S600/Main_Rom_File17", "");
-    conf[CDP18S600].keyFile_ = configPointer->Read("/CDP18S600/Key_File", "");
-    conf[CDP18S600].screenDumpFile_ = configPointer->Read("/CDP18S600/Video_Dump_File", "screendump.png");
+    conf[cdpType].defus_ = 0x81;
+    conf[cdpType].eop_ = 0x83;
+    conf[cdpType].string_ = 0x92;
+    conf[cdpType].arrayValue_ = 0x94;
+    conf[cdpType].eod_ = 0x99;
+    conf[cdpType].basicRamAddress_ = 0x200;
     
-    getConfigBool("/CDP18S600/SerialLog", false);
+    conf[cdpType].saveStartString_ = "";
+    conf[cdpType].saveEndString_ = "";
+    conf[cdpType].saveExecString_ = "";
     
-    configPointer->Read("/CDP18S600/Enable_Vt_Stretch_Dot", &conf[CDP18S600].stretchDot_, false);
-    configPointer->Read("/CDP18S600/Enable_Vt_External", &elfConfiguration[CDP18S600].vtExternal, false);
+    conf[cdpType].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + cdpTypeStr + pathSeparator_;
     
-    configPointer->Read("/CDP18S600/Uart", &elfConfiguration[CDP18S600].useUart, true);
-    elfConfiguration[CDP18S600].uartGroup = (int)configPointer->Read("/CDP18S600/UartGroup", 0l);
-    elfConfiguration[CDP18S600].bellFrequency_ = (int)configPointer->Read("/CDP18S600/Bell_Frequency", 800);
-    elfConfiguration[CDP18S600].baudR = (int)configPointer->Read("/CDP18S600/Vt_Baud_Receive", 0l);
-    elfConfiguration[CDP18S600].baudT = (int)configPointer->Read("/CDP18S600/Vt_Baud_Transmit", 0l);
-    elfConfiguration[CDP18S600].vtType = (int)configPointer->Read("/CDP18S600/VT_Type", 2l);
-    elfConfiguration[CDP18S600].vt52SetUpFeature_ = configPointer->Read("/CDP18S600/VT52Setup", 0x00004092l);
-    elfConfiguration[CDP18S600].vt100SetUpFeature_ = configPointer->Read("/CDP18S600/VT100Setup", 0x0000cad2l);
-    elfConfiguration[CDP18S600].vtExternalSetUpFeature_ = configPointer->Read("/CDP18S600/VTExternalSetup", 0x0000cad2l);
-    elfConfiguration[CDP18S600].serialPort_ = configPointer->Read("/CDP18S600/VtSerialPortChoice", "");
-    elfConfiguration[CDP18S600].vtEf = false;
-    elfConfiguration[CDP18S600].vtQ = true;
+    conf[cdpType].mainDir_ = readConfigDir("/Dir/" + cdpTypeStr + "/Main", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].romDir_[U21ROM] = readConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File21", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].romDir_[U20ROM] = readConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File20", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].romDir_[U19ROM] = readConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File19", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].romDir_[U18ROM] = readConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File18", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].romDir_[U17ROM] = readConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File17", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].vtCharRomDir_ = readConfigDir("/Dir/" + cdpTypeStr + "/Vt_Font_Rom_File", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].keyFileDir_ = readConfigDir("/Dir/" + cdpTypeStr + "/Key_File", dataDir_ + cdpTypeStr + pathSeparator_);
+    conf[cdpType].screenDumpFileDir_ = readConfigDir("/Dir/" + cdpTypeStr + "/Video_Dump_File", dataDir_ + cdpTypeStr + pathSeparator_);
+    
+    conf[cdpType].keyFile_ = configPointer->Read("/" + cdpTypeStr + "/Key_File", "");
+    conf[cdpType].screenDumpFile_ = configPointer->Read("/" + cdpTypeStr + "/Video_Dump_File", "screendump.png");
+    
+    getConfigBool("/" + cdpTypeStr + "/SerialLog", false);
+    
+    configPointer->Read("/" + cdpTypeStr + "/Enable_Vt_Stretch_Dot", &conf[cdpType].stretchDot_, false);
+    configPointer->Read("/" + cdpTypeStr + "/Enable_Vt_External", &elfConfiguration[cdpType].vtExternal, false);
+    
+    wxString defaultClock;
 
-    configPointer->Read("/CDP18S600/Force_Uppercase", &elfConfiguration[CDP18S600].forceUpperCase, true);
-    configPointer->Read("/CDP18S600/Open_Control_Windows", &elfConfiguration[CDP18S600].useElfControlWindows, true);
-    configPointer->Read("/CDP18S600/Pio_Windows", &elfConfiguration[CDP18S600].usePio, true);
+    switch (cdpType)
+    {
+        case CDP18S600:
+            configPointer->Read("/" + cdpTypeStr + "/Uart", &elfConfiguration[cdpType].useUart, true);
+            elfConfiguration[cdpType].baudR = (int)configPointer->Read("/" + cdpTypeStr + "/Vt_Baud_Receive", 0l);
+            elfConfiguration[cdpType].baudT = (int)configPointer->Read("/" + cdpTypeStr + "/Vt_Baud_Transmit", 0l);
+            defaultClock.Printf("%1.4f", 4.9152);
+
+            conf[cdpType].rom_[U21ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File21", "");
+            conf[cdpType].rom_[U20ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File20", "ut71.bin");
+            conf[cdpType].rom_[U19ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File19", "");
+            conf[cdpType].rom_[U18ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File18", "");
+            conf[cdpType].rom_[U17ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File17", "");
+
+            conf[cdpType].microChipType_[ONE_SOCKET] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipTypeOneSocket", 2l);
+            conf[cdpType].microChipType_[FOUR_SOCKET] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipTypeFourSocket", 0l);
+
+            conf[cdpType].microChipMemory_[U21ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU21", 1l);
+            configPointer->Read("/" + cdpTypeStr + "/MicroChiDisableU21", &conf[cdpType].microChipDisable_[U21ROM], false);
+            
+            conf[cdpType].microChipMemory_[U20ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU20", 0l);
+            configPointer->Read("/" + cdpTypeStr + "/MicroChiDisableU20", &conf[cdpType].microChipDisable_[U20ROM], false);
+            
+            conf[cdpType].microChipMemory_[U19ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU19", 1l);
+            configPointer->Read("/" + cdpTypeStr + "/MicroChiDisableU19", &conf[cdpType].microChipDisable_[U19ROM], false);
+            
+            conf[cdpType].microChipMemory_[U18ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU18", 0l);
+            configPointer->Read("/" + cdpTypeStr + "/MicroChiDisableU18", &conf[cdpType].microChipDisable_[U18ROM], true);
+            
+            conf[cdpType].microChipMemory_[U17ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU17", 0l);
+            configPointer->Read("/" + cdpTypeStr + "/MicroChiDisableU17", &conf[cdpType].microChipDisable_[U17ROM], true);
+
+            conf[cdpType].microChipLocation_[ONE_SOCKET] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipLocationOneSocket", 0l);
+            conf[cdpType].microChipLocation_[FOUR_SOCKET] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipLocationFourSocket", 4l);
+        break;
+
+        case CDP18S601:
+        case CDP18S603A:
+            configPointer->Read("/" + cdpTypeStr + "/Uart", &elfConfiguration[cdpType].useUart, false);
+            elfConfiguration[cdpType].baudR = (int)configPointer->Read("/" + cdpTypeStr + "/Vt_Baud_Receive", 10l);
+            elfConfiguration[cdpType].baudT = (int)configPointer->Read("/" + cdpTypeStr + "/Vt_Baud_Transmit", 10l);
+            defaultClock.Printf("%1.1f", 2.0);
+            
+            conf[cdpType].rom_[U21ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File21", "");
+            conf[cdpType].rom_[U20ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File20", "");
+            conf[cdpType].rom_[U19ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File19", "");
+            conf[cdpType].rom_[U18ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File18", "ut4.bin");
+            conf[cdpType].rom_[U17ROM] = configPointer->Read("/" + cdpTypeStr + "/Main_Rom_File17", "");
+
+            conf[cdpType].microChipType_[ONE_SOCKET] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipTypeOneSocket", 0l);
+            conf[cdpType].microChipType_[FOUR_SOCKET] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipTypeFourSocket", 1l);
+
+            conf[cdpType].microChipMemory_[U21ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU21", 1l);
+            conf[cdpType].microChipDisable_[U21ROM] = false;
+            
+            conf[cdpType].microChipMemory_[XU27ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU20", 1l);
+            conf[cdpType].microChipDisable_[XU27ROM] = false;
+            
+            conf[cdpType].microChipMemory_[XU26ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU19", 1l);
+            conf[cdpType].microChipDisable_[XU26ROM] = false;
+            
+            conf[cdpType].microChipMemory_[XU25ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU18", 1l);
+            conf[cdpType].microChipDisable_[XU25ROM] = false;
+            
+            conf[cdpType].microChipMemory_[XU24ROM] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipMemoryU17", 1l);
+            conf[cdpType].microChipDisable_[XU24ROM] = false;
+            
+            conf[cdpType].microChipLocation_[FOUR_SOCKET_ROM1] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipLocationRom1Socket", 9l);
+            conf[cdpType].microChipLocation_[FOUR_SOCKET_ROM2] = (int)configPointer->Read("/" + cdpTypeStr + "/MicroChipLocationRom2Socket", 8l);
+
+       break;
+    }
+    
+    elfConfiguration[cdpType].uartGroup = (int)configPointer->Read("/" + cdpTypeStr + "/UartGroup", 0l);
+    elfConfiguration[cdpType].bellFrequency_ = (int)configPointer->Read("/" + cdpTypeStr + "/Bell_Frequency", 800);
+    elfConfiguration[cdpType].vtType = (int)configPointer->Read("/" + cdpTypeStr + "/VT_Type", 2l);
+    elfConfiguration[cdpType].vt52SetUpFeature_ = configPointer->Read("/" + cdpTypeStr + "/VT52Setup", 0x00004092l);
+    elfConfiguration[cdpType].vt100SetUpFeature_ = configPointer->Read("/" + cdpTypeStr + "/VT100Setup", 0x0000cad2l);
+    elfConfiguration[cdpType].vtExternalSetUpFeature_ = configPointer->Read("/" + cdpTypeStr + "/VTExternalSetup", 0x0000cad2l);
+    elfConfiguration[cdpType].serialPort_ = configPointer->Read("/" + cdpTypeStr + "/VtSerialPortChoice", "");
+    elfConfiguration[cdpType].vtEf = false;
+    elfConfiguration[cdpType].vtQ = true;
+
+    configPointer->Read("/" + cdpTypeStr + "/Force_Uppercase", &elfConfiguration[cdpType].forceUpperCase, true);
+    configPointer->Read("/" + cdpTypeStr + "/Open_Control_Windows", &elfConfiguration[cdpType].useElfControlWindows, true);
+    configPointer->Read("/" + cdpTypeStr + "/Pio_Windows", &elfConfiguration[cdpType].usePio, true);
 
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 1.0);
-    conf[CDP18S600].zoomVt_ = configPointer->Read("/CDP18S600/Vt_Zoom", defaultZoom);
+    conf[cdpType].zoomVt_ = configPointer->Read("/" + cdpTypeStr + "/Vt_Zoom", defaultZoom);
     wxString defaultScale;
     defaultScale.Printf("%i", 3);
-    conf[CDP18S600].xScale_ = configPointer->Read("/CDP18S600/Window_Scale_Factor_X", defaultScale);
+    conf[cdpType].xScale_ = configPointer->Read("/" + cdpTypeStr + "/Window_Scale_Factor_X", defaultScale);
     
-    wxString defaultClock;
-    defaultClock.Printf("%1.4f", 4.9152);
-    conf[CDP18S600].clock_ = configPointer->Read("/CDP18S600/Clock_Speed", defaultClock);
+    conf[cdpType].clock_ = configPointer->Read("/" + cdpTypeStr + "/Clock_Speed", defaultClock);
     
     wxString defaultTimer;
     defaultTimer.Printf("%d", 100);
-    conf[CDP18S600].ledTime_ = configPointer->Read("/CDP18S600/Led_Update_Frequency", defaultTimer);
+    conf[cdpType].ledTime_ = configPointer->Read("/" + cdpTypeStr + "/Led_Update_Frequency", defaultTimer);
     
-    conf[CDP18S600].useLoadLocation_ = false;
+    conf[cdpType].useLoadLocation_ = false;
     
-    setVtType("CDP18S600", CDP18S600, elfConfiguration[CDP18S600].vtType, false);
+    setVtType(cdpTypeStr, cdpType, elfConfiguration[cdpType].vtType, false);
     
-    conf[CDP18S600].vtCharRom_ = configPointer->Read("/CDP18S600/Vt_Font_Rom_File", "vt100.bin");
+    conf[cdpType].vtCharRom_ = configPointer->Read("/" + cdpTypeStr + "/Vt_Font_Rom_File", "vt100.bin");
     
-    conf[CDP18S600].microChipType_[ONE_SOCKET] = (int)configPointer->Read("/CDP18S600/MicroChipTypeOneSocket", 2l);
-    conf[CDP18S600].microChipType_[FOUR_SOCKET] = (int)configPointer->Read("/CDP18S600/MicroChipTypeFourSocket", 0l);
-
-    conf[CDP18S600].microChipLocation_[ONE_SOCKET] = (int)configPointer->Read("/CDP18S600/MicroChipLocationOneSocket", 0l);
-    conf[CDP18S600].microChipLocation_[FOUR_SOCKET] = (int)configPointer->Read("/CDP18S600/MicroChipLocationFourSocket", 4l);
-
-    conf[CDP18S600].microChipMemory_[U21ROM] = (int)configPointer->Read("/CDP18S600/MicroChipMemoryU21", 1l);
-    configPointer->Read("/CDP18S600/MicroChiDisableU21", &conf[CDP18S600].microChipDisable_[U21ROM], false);
-
-    conf[CDP18S600].microChipMemory_[U20ROM] = (int)configPointer->Read("/CDP18S600/MicroChipMemoryU20", 0l);
-    configPointer->Read("/CDP18S600/MicroChiDisableU20", &conf[CDP18S600].microChipDisable_[U20ROM], false);
-
-    conf[CDP18S600].microChipMemory_[U19ROM] = (int)configPointer->Read("/CDP18S600/MicroChipMemoryU19", 1l);
-    configPointer->Read("/CDP18S600/MicroChiDisableU19", &conf[CDP18S600].microChipDisable_[U19ROM], false);
-
-    conf[CDP18S600].microChipMemory_[U18ROM] = (int)configPointer->Read("/CDP18S600/MicroChipMemoryU18", 0l);
-    configPointer->Read("/CDP18S600/MicroChiDisableU18", &conf[CDP18S600].microChipDisable_[U18ROM], true);
-
-    conf[CDP18S600].microChipMemory_[U17ROM] = (int)configPointer->Read("/CDP18S600/MicroChipMemoryU17", 0l);
-    configPointer->Read("/CDP18S600/MicroChiDisableU17", &conf[CDP18S600].microChipDisable_[U17ROM], true);
-
-    configPointer->Read("/CDP18S600/Enable_Auto_Boot", &elfConfiguration[CDP18S600].autoBoot, true);
-    elfConfiguration[CDP18S600].autoBootType = (int)configPointer->Read("/CDP18S600/AutoBootType", 0l);
-    if (elfConfiguration[CDP18S600].autoBootType == 0)
-        conf[CDP18S600].bootAddress_ = 0x8000;
+    configPointer->Read("/" + cdpTypeStr + "/Enable_Auto_Boot", &elfConfiguration[cdpType].autoBoot, true);
+    elfConfiguration[cdpType].autoBootType = (int)configPointer->Read("/" + cdpTypeStr + "/AutoBootType", 0l);
+    if (elfConfiguration[cdpType].autoBootType == 0)
+        conf[cdpType].bootAddress_ = 0x8000;
     else
-        conf[CDP18S600].bootAddress_ = 0;
+        conf[cdpType].bootAddress_ = 0;
 
     if (mode_.gui)
     {
-        XRCCTRL(*this, "MainRomU21CDP18S600", wxComboBox)->SetValue(conf[CDP18S600].rom_[U21ROM]);
-        XRCCTRL(*this, "MainRomU20CDP18S600", wxComboBox)->SetValue(conf[CDP18S600].rom_[U20ROM]);
-        XRCCTRL(*this, "MainRomU19CDP18S600", wxComboBox)->SetValue(conf[CDP18S600].rom_[U19ROM]);
-        XRCCTRL(*this, "MainRomU18CDP18S600", wxComboBox)->SetValue(conf[CDP18S600].rom_[U18ROM]);
-        XRCCTRL(*this, "MainRomU17CDP18S600", wxComboBox)->SetValue(conf[CDP18S600].rom_[U17ROM]);
-        XRCCTRL(*this, "VtCharRomCDP18S600", wxComboBox)->SetValue(conf[CDP18S600].vtCharRom_);
-        XRCCTRL(*this, "KeyFileCDP18S600", wxTextCtrl)->SetValue(conf[CDP18S600].keyFile_);
-        XRCCTRL(*this, "ScreenDumpFileCDP18S600", wxComboBox)->SetValue(conf[CDP18S600].screenDumpFile_);
+        XRCCTRL(*this, "MainRomU21" + cdpTypeStr, wxComboBox)->SetValue(conf[cdpType].rom_[U21ROM]);
+        XRCCTRL(*this, "MainRomU20" + cdpTypeStr, wxComboBox)->SetValue(conf[cdpType].rom_[U20ROM]);
+        XRCCTRL(*this, "MainRomU19" + cdpTypeStr, wxComboBox)->SetValue(conf[cdpType].rom_[U19ROM]);
+        XRCCTRL(*this, "MainRomU18" + cdpTypeStr, wxComboBox)->SetValue(conf[cdpType].rom_[U18ROM]);
+        XRCCTRL(*this, "MainRomU17" + cdpTypeStr, wxComboBox)->SetValue(conf[cdpType].rom_[U17ROM]);
+        XRCCTRL(*this, "VtCharRom" + cdpTypeStr, wxComboBox)->SetValue(conf[cdpType].vtCharRom_);
+        XRCCTRL(*this, "KeyFile" + cdpTypeStr, wxTextCtrl)->SetValue(conf[cdpType].keyFile_);
+        XRCCTRL(*this, "ScreenDumpFile" + cdpTypeStr, wxComboBox)->SetValue(conf[cdpType].screenDumpFile_);
         
-        XRCCTRL(*this, "VTTypeCDP18S600", wxChoice)->SetSelection(elfConfiguration[CDP18S600].vtType);
-        XRCCTRL(*this, "CDP18S600ForceUC", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].forceUpperCase);
+        XRCCTRL(*this, "VTType" + cdpTypeStr, wxChoice)->SetSelection(elfConfiguration[cdpType].vtType);
+        XRCCTRL(*this, cdpTypeStr + "ForceUC", wxCheckBox)->SetValue(elfConfiguration[cdpType].forceUpperCase);
         
-        XRCCTRL(*this, "VTBaudRChoiceCDP18S600", wxChoice)->SetSelection(elfConfiguration[CDP18S600].baudR);
-        XRCCTRL(*this, "VTBaudTChoiceCDP18S600", wxChoice)->SetSelection(elfConfiguration[CDP18S600].baudT);
+        XRCCTRL(*this, "VTBaudRChoice" + cdpTypeStr, wxChoice)->SetSelection(elfConfiguration[cdpType].baudR);
+        XRCCTRL(*this, "VTBaudTChoice" + cdpTypeStr, wxChoice)->SetSelection(elfConfiguration[cdpType].baudT);
         
-        XRCCTRL(*this, "ZoomValueVtCDP18S600", wxTextCtrl)->ChangeValue(conf[CDP18S600].zoomVt_);
-        XRCCTRL(*this, "StretchDotCDP18S600", wxCheckBox)->SetValue(conf[CDP18S600].stretchDot_);
+        XRCCTRL(*this, "ZoomValueVt" + cdpTypeStr, wxTextCtrl)->ChangeValue(conf[cdpType].zoomVt_);
+        XRCCTRL(*this, "StretchDot" + cdpTypeStr, wxCheckBox)->SetValue(conf[cdpType].stretchDot_);
         
-        clockTextCtrl[CDP18S600]->ChangeValue(conf[CDP18S600].clock_);
+        clockTextCtrl[cdpType]->ChangeValue(conf[cdpType].clock_);
         
-        XRCCTRL(*this, "UseLocationCDP18S600", wxCheckBox)->SetValue(conf[CDP18S600].useLoadLocation_);
+        XRCCTRL(*this, "UseLocation" + cdpTypeStr, wxCheckBox)->SetValue(conf[cdpType].useLoadLocation_);
         
-        XRCCTRL(*this, "OneSocketBank", wxChoice)->SetSelection(conf[CDP18S600].microChipType_[ONE_SOCKET]);
-        XRCCTRL(*this, "FourSocketBank", wxChoice)->SetSelection(conf[CDP18S600].microChipType_[FOUR_SOCKET]);
+        XRCCTRL(*this, "OneSocketBank" + cdpTypeStr, wxChoice)->SetSelection(conf[cdpType].microChipType_[ONE_SOCKET]);
+        XRCCTRL(*this, "FourSocketBank" + cdpTypeStr, wxChoice)->SetSelection(conf[cdpType].microChipType_[FOUR_SOCKET]);
 
-        XRCCTRL(*this, "ShowAddressCDP18S600", wxTextCtrl)->ChangeValue(conf[CDP18S600].ledTime_);
-        XRCCTRL(*this,"ShowAddressCDP18S600", wxTextCtrl)->Enable(elfConfiguration[CDP18S600].useElfControlWindows);
-        XRCCTRL(*this, "AutoBootCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].autoBoot);
-        XRCCTRL(*this, "AutoBootTypeCDP18S600", wxChoice)->SetSelection(elfConfiguration[CDP18S600].autoBootType);
+        switch (cdpType)
+        {
+            case CDP18S600:
+                setOneSocketState(cdpTypeStr);
+                setFourSocketState(cdpType, cdpTypeStr);
+            break;
+        }
 
-        XRCCTRL(*this,"AddressText1CDP18S600", wxStaticText)->Enable(elfConfiguration[CDP18S600].useElfControlWindows);
-        XRCCTRL(*this,"AddressText2CDP18S600", wxStaticText)->Enable(elfConfiguration[CDP18S600].useElfControlWindows);
-        XRCCTRL(*this, "ControlWindowsCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].useElfControlWindows);
-        XRCCTRL(*this, "PioCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].usePio);
+        XRCCTRL(*this, "ShowAddress" + cdpTypeStr, wxTextCtrl)->ChangeValue(conf[cdpType].ledTime_);
+        XRCCTRL(*this,"ShowAddress" + cdpTypeStr, wxTextCtrl)->Enable(elfConfiguration[cdpType].useElfControlWindows);
+        XRCCTRL(*this, "AutoBoot" + cdpTypeStr, wxCheckBox)->SetValue(elfConfiguration[cdpType].autoBoot);
+        XRCCTRL(*this, "AutoBootType" + cdpTypeStr, wxChoice)->SetSelection(elfConfiguration[cdpType].autoBootType);
 
-        setOneSocketState();
-        setFourSocketState();
+        XRCCTRL(*this,"AddressText1" + cdpTypeStr, wxStaticText)->Enable(elfConfiguration[cdpType].useElfControlWindows);
+        XRCCTRL(*this,"AddressText2" + cdpTypeStr, wxStaticText)->Enable(elfConfiguration[cdpType].useElfControlWindows);
+        XRCCTRL(*this, "ControlWindows" + cdpTypeStr, wxCheckBox)->SetValue(elfConfiguration[cdpType].useElfControlWindows);
+        XRCCTRL(*this, "Pio" + cdpTypeStr, wxCheckBox)->SetValue(elfConfiguration[cdpType].usePio);
+
     }
 }
 
-void GuiCdp18s600::writeCdp18s600DirConfig()
+void GuiCdp18s600::writeCdp18s600DirConfig(int cdpType, wxString cdpTypeStr)
 {
-    writeConfigDir("/Dir/CDP18S600/Main", conf[CDP18S600].mainDir_);
-    writeConfigDir("/Dir/CDP18S600/Main_Rom_File21", conf[CDP18S600].romDir_[U21ROM]);
-    writeConfigDir("/Dir/CDP18S600/Main_Rom_File20", conf[CDP18S600].romDir_[U20ROM]);
-    writeConfigDir("/Dir/CDP18S600/Main_Rom_File19", conf[CDP18S600].romDir_[U19ROM]);
-    writeConfigDir("/Dir/CDP18S600/Main_Rom_File18", conf[CDP18S600].romDir_[U18ROM]);
-    writeConfigDir("/Dir/CDP18S600/Main_Rom_File18", conf[CDP18S600].romDir_[U17ROM]);
-    writeConfigDir("/Dir/CDP18S600/Vt_Font_Rom_File", conf[CDP18S600].vtCharRomDir_);
-    writeConfigDir("/Dir/CDP18S600/Key_File", conf[CDP18S600].keyFileDir_);
-    writeConfigDir("/Dir/CDP18S600/Video_Dump_File", conf[CDP18S600].screenDumpFileDir_);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Main", conf[cdpType].mainDir_);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File21", conf[cdpType].romDir_[U21ROM]);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File20", conf[cdpType].romDir_[U20ROM]);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File19", conf[cdpType].romDir_[U19ROM]);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File18", conf[cdpType].romDir_[U18ROM]);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Main_Rom_File18", conf[cdpType].romDir_[U17ROM]);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Vt_Font_Rom_File", conf[cdpType].vtCharRomDir_);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Key_File", conf[cdpType].keyFileDir_);
+    writeConfigDir("/Dir/" + cdpTypeStr + "/Video_Dump_File", conf[cdpType].screenDumpFileDir_);
 }
 
-void GuiCdp18s600::writeCdp18s600Config()
+void GuiCdp18s600::writeCdp18s600Config(int cdpType, wxString cdpTypeStr)
 {
-    writeElfPortConfig(CDP18S600, "CDP18S600");
+    writeElfPortConfig(cdpType, cdpTypeStr);
     
-    configPointer->Write("/CDP18S600/Main_Rom_File21", conf[CDP18S600].rom_[U21ROM]);
-    configPointer->Write("/CDP18S600/Main_Rom_File20", conf[CDP18S600].rom_[U20ROM]);
-    configPointer->Write("/CDP18S600/Main_Rom_File19", conf[CDP18S600].rom_[U19ROM]);
-    configPointer->Write("/CDP18S600/Main_Rom_File18", conf[CDP18S600].rom_[U18ROM]);
-    configPointer->Write("/CDP18S600/Main_Rom_File17", conf[CDP18S600].rom_[U17ROM]);
-    configPointer->Write("/CDP18S600/Vt_Font_Rom_File", conf[CDP18S600].vtCharRom_);
-    configPointer->Write("/CDP18S600/Key_File", conf[CDP18S600].keyFile_);
-    configPointer->Write("/CDP18S600/Video_Dump_File", conf[CDP18S600].screenDumpFile_);
-    configPointer->Write("/CDP18S600/VtSerialPortChoice", elfConfiguration[CDP18S600].serialPort_);
+    configPointer->Write("/" + cdpTypeStr + "/Main_Rom_File21", conf[cdpType].rom_[U21ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/Main_Rom_File20", conf[cdpType].rom_[U20ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/Main_Rom_File19", conf[cdpType].rom_[U19ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/Main_Rom_File18", conf[cdpType].rom_[U18ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/Main_Rom_File17", conf[cdpType].rom_[U17ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/Vt_Font_Rom_File", conf[cdpType].vtCharRom_);
+    configPointer->Write("/" + cdpTypeStr + "/Key_File", conf[cdpType].keyFile_);
+    configPointer->Write("/" + cdpTypeStr + "/Video_Dump_File", conf[cdpType].screenDumpFile_);
+    configPointer->Write("/" + cdpTypeStr + "/VtSerialPortChoice", elfConfiguration[cdpType].serialPort_);
     
-    configPointer->Write("/CDP18S600/Bell_Frequency", elfConfiguration[CDP18S600].bellFrequency_);
-    configPointer->Write("/CDP18S600/VT_Type", elfConfiguration[CDP18S600].vtType);
+    configPointer->Write("/" + cdpTypeStr + "/Bell_Frequency", elfConfiguration[cdpType].bellFrequency_);
+    configPointer->Write("/" + cdpTypeStr + "/VT_Type", elfConfiguration[cdpType].vtType);
     
-    long value = elfConfiguration[CDP18S600].vt52SetUpFeature_.to_ulong();
-    configPointer->Write("/CDP18S600/VT52Setup", value);
-    value = elfConfiguration[CDP18S600].vt100SetUpFeature_.to_ulong();
-    configPointer->Write("/CDP18S600/VT100Setup", value);
-    value = elfConfiguration[CDP18S600].vtExternalSetUpFeature_.to_ulong();
-    configPointer->Write("/CDP18S600/VTExternalSetup", value);
-    configPointer->Write("/CDP18S600/Uart", elfConfiguration[CDP18S600].useUart);
-    configPointer->Write("/CDP18S600/UartGroup", elfConfiguration[CDP18S600].uartGroup);
+    long value = elfConfiguration[cdpType].vt52SetUpFeature_.to_ulong();
+    configPointer->Write("/" + cdpTypeStr + "/VT52Setup", value);
+    value = elfConfiguration[cdpType].vt100SetUpFeature_.to_ulong();
+    configPointer->Write("/" + cdpTypeStr + "/VT100Setup", value);
+    value = elfConfiguration[cdpType].vtExternalSetUpFeature_.to_ulong();
+    configPointer->Write("/" + cdpTypeStr + "/VTExternalSetup", value);
+    configPointer->Write("/" + cdpTypeStr + "/Uart", elfConfiguration[cdpType].useUart);
+    configPointer->Write("/" + cdpTypeStr + "/UartGroup", elfConfiguration[cdpType].uartGroup);
 
-    configPointer->Write("/CDP18S600/Vt_Baud_Receive", elfConfiguration[CDP18S600].baudR);
-    configPointer->Write("/CDP18S600/Vt_Baud_Transmit", elfConfiguration[CDP18S600].baudT);
-    configPointer->Write("/CDP18S600/Vt_Zoom", conf[CDP18S600].zoomVt_);
-    configPointer->Write("/CDP18S600/Force_Uppercase", elfConfiguration[CDP18S600].forceUpperCase);
-    configPointer->Write("/CDP18S600/Enable_Vt_Stretch_Dot", conf[CDP18S600].stretchDot_);
-    configPointer->Write("/CDP18S600/Enable_Vt_External", elfConfiguration[CDP18S600].vtExternal);
-    configPointer->Write("/CDP18S600/Open_Control_Windows", elfConfiguration[CDP18S600].useElfControlWindows);
-    configPointer->Write("/CDP18S600/Pio_Windows", elfConfiguration[CDP18S600].usePio);
-    configPointer->Write("/CDP18S600/Led_Update_Frequency", conf[CDP18S600].ledTime_);
+    configPointer->Write("/" + cdpTypeStr + "/Vt_Baud_Receive", elfConfiguration[cdpType].baudR);
+    configPointer->Write("/" + cdpTypeStr + "/Vt_Baud_Transmit", elfConfiguration[cdpType].baudT);
+    configPointer->Write("/" + cdpTypeStr + "/Vt_Zoom", conf[cdpType].zoomVt_);
+    configPointer->Write("/" + cdpTypeStr + "/Force_Uppercase", elfConfiguration[cdpType].forceUpperCase);
+    configPointer->Write("/" + cdpTypeStr + "/Enable_Vt_Stretch_Dot", conf[cdpType].stretchDot_);
+    configPointer->Write("/" + cdpTypeStr + "/Enable_Vt_External", elfConfiguration[cdpType].vtExternal);
+    configPointer->Write("/" + cdpTypeStr + "/Open_Control_Windows", elfConfiguration[cdpType].useElfControlWindows);
+    configPointer->Write("/" + cdpTypeStr + "/Pio_Windows", elfConfiguration[cdpType].usePio);
+    configPointer->Write("/" + cdpTypeStr + "/Led_Update_Frequency", conf[cdpType].ledTime_);
 
-    configPointer->Write("/CDP18S600/MicroChipTypeOneScoket", conf[CDP18S600].microChipType_[ONE_SOCKET]);
-    configPointer->Write("/CDP18S600/MicroChipTypeFourScoket", conf[CDP18S600].microChipType_[FOUR_SOCKET]);
 
-    configPointer->Write("/CDP18S600/MicroChipLocationOneScoket", conf[CDP18S600].microChipLocation_[ONE_SOCKET]);
-    configPointer->Write("/CDP18S600/MicroChipLocationFourScoket", conf[CDP18S600].microChipLocation_[FOUR_SOCKET]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipLocationOneSocket", conf[cdpType].microChipLocation_[ONE_SOCKET]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipTypeOneSocket", conf[cdpType].microChipType_[ONE_SOCKET]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipTypeFourSocket", conf[cdpType].microChipType_[FOUR_SOCKET]);
 
-    configPointer->Write("/CDP18S600/MicroChipMemoryU21", conf[CDP18S600].microChipMemory_[U21ROM]);
-    configPointer->Write("/CDP18S600/MicroChiDisableU21", conf[CDP18S600].microChipDisable_[U21ROM]);
+    switch (cdpType)
+    {
+        case CDP18S600:
+            configPointer->Write("/" + cdpTypeStr + "/MicroChipLocationFourSocket", conf[cdpType].microChipLocation_[FOUR_SOCKET]);
+        break;
 
-    configPointer->Write("/CDP18S600/MicroChipMemoryU20", conf[CDP18S600].microChipMemory_[U20ROM]);
-    configPointer->Write("/CDP18S600/MicroChiDisableU20", conf[CDP18S600].microChipDisable_[U20ROM]);
+        case CDP18S601:
+        case CDP18S603A:
+            configPointer->Write("/" + cdpTypeStr + "/MicroChipLocationRom1Socket", conf[cdpType].microChipLocation_[FOUR_SOCKET_ROM1]);
+            configPointer->Write("/" + cdpTypeStr + "/MicroChipLocationRom2Socket", conf[cdpType].microChipLocation_[FOUR_SOCKET_ROM2]);
+        break;
+    }
 
-    configPointer->Write("/CDP18S600/MicroChipMemoryU19", conf[CDP18S600].microChipMemory_[U19ROM]);
-    configPointer->Write("/CDP18S600/MicroChiDisableU19", conf[CDP18S600].microChipDisable_[U19ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipMemoryU21", conf[cdpType].microChipMemory_[U21ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChiDisableU21", conf[cdpType].microChipDisable_[U21ROM]);
 
-    configPointer->Write("/CDP18S600/MicroChipMemoryU18", conf[CDP18S600].microChipMemory_[U18ROM]);
-    configPointer->Write("/CDP18S600/MicroChiDisableU18", conf[CDP18S600].microChipDisable_[U18ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipMemoryU20", conf[cdpType].microChipMemory_[U20ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChiDisableU20", conf[cdpType].microChipDisable_[U20ROM]);
 
-    configPointer->Write("/CDP18S600/MicroChipMemoryU17", conf[CDP18S600].microChipMemory_[U17ROM]);
-    configPointer->Write("/CDP18S600/MicroChiDisableU17", conf[CDP18S600].microChipDisable_[U17ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipMemoryU19", conf[cdpType].microChipMemory_[U19ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChiDisableU19", conf[cdpType].microChipDisable_[U19ROM]);
 
-    configPointer->Write("/CDP18S600/Enable_Auto_Boot", elfConfiguration[CDP18S600].autoBoot);
-    configPointer->Write("/CDP18S600/AutoBootType", elfConfiguration[CDP18S600].autoBootType);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipMemoryU18", conf[cdpType].microChipMemory_[U18ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChiDisableU18", conf[cdpType].microChipDisable_[U18ROM]);
+
+    configPointer->Write("/" + cdpTypeStr + "/MicroChipMemoryU17", conf[cdpType].microChipMemory_[U17ROM]);
+    configPointer->Write("/" + cdpTypeStr + "/MicroChiDisableU17", conf[cdpType].microChipDisable_[U17ROM]);
+
+    configPointer->Write("/" + cdpTypeStr + "/Enable_Auto_Boot", elfConfiguration[cdpType].autoBoot);
+    configPointer->Write("/" + cdpTypeStr + "/AutoBootType", elfConfiguration[cdpType].autoBootType);
 }
 
-void GuiCdp18s600::readCdp18s600WindowConfig()
+void GuiCdp18s600::readCdp18s600WindowConfig(int cdpType, wxString cdpTypeStr)
 {
-    conf[CDP18S600].vtX_ = (int)configPointer->Read("/CDP18S600/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX);
-    conf[CDP18S600].vtY_ = (int)configPointer->Read("/CDP18S600/Window_Position_Vt_Y", mainWindowY_);
-    conf[CDP18S600].mainX_ = (int)configPointer->Read("/CDP18S600/Window_Position_X", mainWindowX_);
-    conf[CDP18S600].mainY_ = (int)configPointer->Read("/CDP18S600/Window_Position_Y", mainWindowY_+windowInfo.mainwY);
-    conf[CDP18S600].secondFrameX_ = (int)configPointer->Read("/CDP18S600/Window_Position_SecondFrame_X", mainWindowX_ + 310);
-    conf[CDP18S600].secondFrameY_ = (int)configPointer->Read("/CDP18S600/Window_Position_SecondFrame_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
+    conf[cdpType].vtX_ = (int)configPointer->Read("/" + cdpTypeStr + "/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX);
+    conf[cdpType].vtY_ = (int)configPointer->Read("/" + cdpTypeStr + "/Window_Position_Vt_Y", mainWindowY_);
+    conf[cdpType].mainX_ = (int)configPointer->Read("/" + cdpTypeStr + "/Window_Position_X", mainWindowX_);
+    conf[cdpType].mainY_ = (int)configPointer->Read("/" + cdpTypeStr + "/Window_Position_Y", mainWindowY_+windowInfo.mainwY);
+    conf[cdpType].secondFrameX_ = (int)configPointer->Read("/" + cdpTypeStr + "/Window_Position_SecondFrame_X", mainWindowX_ + 310);
+    conf[cdpType].secondFrameY_ = (int)configPointer->Read("/" + cdpTypeStr + "/Window_Position_SecondFrame_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
 }
 
-void GuiCdp18s600::writeCdp18s600WindowConfig()
+void GuiCdp18s600::writeCdp18s600WindowConfig(int cdpType, wxString cdpTypeStr)
 {
-    if (conf[CDP18S600].vtX_ > 0)
-        configPointer->Write("/CDP18S600/Window_Position_Vt_X", conf[CDP18S600].vtX_);
-    if (conf[CDP18S600].vtY_ > 0)
-        configPointer->Write("/CDP18S600/Window_Position_Vt_Y", conf[CDP18S600].vtY_);
-    if (conf[CDP18S600].mainX_ > 0)
-        configPointer->Write("/CDP18S600/Window_Position_X", conf[CDP18S600].mainX_);
-    if (conf[CDP18S600].mainY_ > 0)
-        configPointer->Write("/CDP18S600/Window_Position_Y", conf[CDP18S600].mainY_);
-    if (conf[CDP18S600].secondFrameX_ > 0)
-        configPointer->Write("/CDP18S600/Window_Position_SecondFrame_X", conf[CDP18S600].secondFrameX_);
-    if (conf[CDP18S600].secondFrameY_ > 0)
-        configPointer->Write("/CDP18S600/Window_Position_SecondFrame_Y", conf[CDP18S600].secondFrameY_);
+    if (conf[cdpType].vtX_ > 0)
+        configPointer->Write("/" + cdpTypeStr + "/Window_Position_Vt_X", conf[cdpType].vtX_);
+    if (conf[cdpType].vtY_ > 0)
+        configPointer->Write("/" + cdpTypeStr + "/Window_Position_Vt_Y", conf[cdpType].vtY_);
+    if (conf[cdpType].mainX_ > 0)
+        configPointer->Write("/" + cdpTypeStr + "/Window_Position_X", conf[cdpType].mainX_);
+    if (conf[cdpType].mainY_ > 0)
+        configPointer->Write("/" + cdpTypeStr + "/Window_Position_Y", conf[cdpType].mainY_);
+    if (conf[cdpType].secondFrameX_ > 0)
+        configPointer->Write("/" + cdpTypeStr + "/Window_Position_SecondFrame_X", conf[cdpType].secondFrameX_);
+    if (conf[cdpType].secondFrameY_ > 0)
+        configPointer->Write("/" + cdpTypeStr + "/Window_Position_SecondFrame_Y", conf[cdpType].secondFrameY_);
 }
 
 void GuiCdp18s600::onCdp18s600BaudT(wxCommandEvent&event)
 {
-    elfConfiguration[CDP18S600].baudT = event.GetSelection();
-    elfConfiguration[CDP18S600].baudR = event.GetSelection();
-    XRCCTRL(*this, "VTBaudRChoiceCDP18S600", wxChoice)->SetSelection(elfConfiguration[CDP18S600].baudR);
+    elfConfiguration[selectedComputer_].baudT = event.GetSelection();
+    elfConfiguration[selectedComputer_].baudR = event.GetSelection();
+    XRCCTRL(*this, "VTBaudRChoice"+computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
 }
 
 void GuiCdp18s600::onCdp18s600ForceUpperCase(wxCommandEvent&event)
 {
-    elfConfiguration[CDP18S600].forceUpperCase = event.IsChecked();
-    if (runningComputer_ == CDP18S600)
+    elfConfiguration[selectedComputer_].forceUpperCase = event.IsChecked();
+    if (runningComputer_ == selectedComputer_)
     {
-        p_Cdp18s600->setForceUpperCase(event.IsChecked());
+        p_Computer->setForceUpperCase(event.IsChecked());
     }
 }
 
 void GuiCdp18s600::onOneSocketBank(wxCommandEvent&event)
 {
-    conf[CDP18S600].microChipType_[ONE_SOCKET] = event.GetSelection();
+    conf[selectedComputer_].microChipType_[ONE_SOCKET] = event.GetSelection();
 }
 
 void GuiCdp18s600::onFourSocketBank(wxCommandEvent&event)
 {
-    conf[CDP18S600].microChipType_[FOUR_SOCKET] = event.GetSelection();
+    conf[selectedComputer_].microChipType_[FOUR_SOCKET] = event.GetSelection();
 }
 
 void GuiCdp18s600::onRomU21(wxCommandEvent& WXUNUSED(event))
@@ -554,15 +752,15 @@ void GuiCdp18s600::onOneSocketSetup(wxCommandEvent&WXUNUSED(event))
     MicroOneSocketSetupDialog.ShowModal();
 }
 
-void GuiCdp18s600::setOneSocketState()
+void GuiCdp18s600::setOneSocketState(wxString cdpTypeStr)
 {
-    setRamlabel(U21ROM, "U21");
+    setRamlabel(U21ROM, "U21", cdpTypeStr, "U21");
 }
 
-void GuiCdp18s600::setRamlabel(int romNumber, wxString romString)
+void GuiCdp18s600::setRamlabel(int romNumber, wxString romString, wxString cdpTypeStr, wxString label)
 {
-    wxString buttonString = "RomButton" + romString + "CDP18S600";
-    wxString comboString = "MainRom" + romString + "CDP18S600";
+    wxString buttonString = "RomButton" + romString + cdpTypeStr;
+    wxString comboString = "MainRom" + romString + cdpTypeStr;
     wxString typeString = "ROM ";
     
     switch (conf[selectedComputer_].microChipMemory_[romNumber])
@@ -575,7 +773,7 @@ void GuiCdp18s600::setRamlabel(int romNumber, wxString romString)
             typeString = "CRAM ";
         break;
     }
-    XRCCTRL(*this, buttonString, wxButton)->SetLabel(typeString + romString);
+    XRCCTRL(*this, buttonString, wxButton)->SetLabel(typeString + label);
 
     if (conf[selectedComputer_].microChipDisable_[romNumber])
     {
@@ -595,74 +793,138 @@ void GuiCdp18s600::onFourSocketSetup(wxCommandEvent&WXUNUSED(event))
     MicroFourSocketSetupDialog.ShowModal();
 }
 
-void GuiCdp18s600::setFourSocketState()
+void GuiCdp18s600::onRomSocketSetup(wxCommandEvent&WXUNUSED(event))
 {
-    setRamlabel(U20ROM, "U20");
-    setRamlabel(U19ROM, "U19");
-    setRamlabel(U18ROM, "U18");
-    setRamlabel(U17ROM, "U17");
+    MicroRomSocketSetupDialog MicroRomSocketSetupDialog(this);
+    MicroRomSocketSetupDialog.ShowModal();
+}
+
+void GuiCdp18s600::onRom603ASocketSetup(wxCommandEvent&WXUNUSED(event))
+{
+    MicroRom603ASocketSetupDialog MicroRom603ASocketSetupDialog(this);
+    MicroRom603ASocketSetupDialog.ShowModal();
+}
+
+void GuiCdp18s600::setFourSocketState(int cdpType, wxString cdpTypeStr)
+{
+    if (cdpType == CDP18S600)
+    {
+        setRamlabel(U20ROM, "U20", cdpTypeStr, "U20");
+        setRamlabel(U19ROM, "U19", cdpTypeStr, "U19");
+        setRamlabel(U18ROM, "U18", cdpTypeStr, "U18");
+        setRamlabel(U17ROM, "U17", cdpTypeStr, "U17");
+    }
 }
 
 void GuiCdp18s600::onCdp18s600ControlWindows(wxCommandEvent&event)
 {
-    elfConfiguration[CDP18S600].useElfControlWindows = event.IsChecked();
+    elfConfiguration[selectedComputer_].useElfControlWindows = event.IsChecked();
     
     if (mode_.gui)
     {
-        XRCCTRL(*this,"ShowAddressCDP18S600",wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
-        XRCCTRL(*this,"AddressText1CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
-        XRCCTRL(*this,"AddressText2CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"ShowAddress" + computerInfo[selectedComputer_].gui,wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText1" + computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText2" + computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
     }
     
-    if (runningComputer_ == CDP18S600)
-        p_Cdp18s600->Show(elfConfiguration[CDP18S600].useElfControlWindows);
+    if (runningComputer_ == selectedComputer_)
+    {
+        switch (runningComputer_)
+        {
+            case CDP18S600:
+                p_Cdp18s600->Show(elfConfiguration[selectedComputer_].useElfControlWindows);
+            break;
+
+            case CDP18S601:
+                p_Cdp18s601->Show(elfConfiguration[selectedComputer_].useElfControlWindows);
+            break;
+
+            case CDP18S603A:
+                p_Cdp18s603a->Show(elfConfiguration[selectedComputer_].useElfControlWindows);
+            break;
+        }
+    }
 }
 
 void GuiCdp18s600::onPioWindows(wxCommandEvent&event)
 {
-    elfConfiguration[CDP18S600].usePio = event.IsChecked();
+    elfConfiguration[selectedComputer_].usePio = event.IsChecked();
     
     if (mode_.gui)
     {
-        XRCCTRL(*this,"ShowAddressCDP18S600",wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
-        XRCCTRL(*this,"AddressText1CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
-        XRCCTRL(*this,"AddressText2CDP18S600",wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"ShowAddress" + computerInfo[selectedComputer_].gui,wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText1" + computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
+        XRCCTRL(*this,"AddressText2" + computerInfo[selectedComputer_].gui,wxStaticText)->Enable(elfConfiguration[selectedComputer_].useElfControlWindows | elfConfiguration[selectedComputer_].usePio);
     }
     
-    if (runningComputer_ == CDP18S600)
-        p_Cdp18s600->showPio(elfConfiguration[CDP18S600].usePio);
+    if (runningComputer_ == selectedComputer_)
+    {
+        switch (runningComputer_)
+        {
+            case CDP18S600:
+                p_Cdp18s600->showPio(elfConfiguration[selectedComputer_].usePio);
+            break;
+                
+            case CDP18S601:
+                p_Cdp18s601->showPio(elfConfiguration[selectedComputer_].usePio);
+            break;
+
+            case CDP18S603A:
+                p_Cdp18s603a->showPio(elfConfiguration[selectedComputer_].usePio);
+            break;
+        }
+    }
 }
 
 void GuiCdp18s600::pioWindows(bool state)
 {
-    elfConfiguration[CDP18S600].usePio = state;
-    XRCCTRL(*this, "PioCDP18S600", wxCheckBox)->SetValue(elfConfiguration[CDP18S600].usePio);
+    elfConfiguration[selectedComputer_].usePio = state;
+    XRCCTRL(*this, "Pio" + computerInfo[selectedComputer_].gui, wxCheckBox)->SetValue(elfConfiguration[selectedComputer_].usePio);
 }
 
 bool GuiCdp18s600::getUseCdp18s600ControlWindows()
 {
-    return elfConfiguration[CDP18S600].useElfControlWindows;
+    return elfConfiguration[selectedComputer_].useElfControlWindows;
 }
 
 bool GuiCdp18s600::getUsePioWindows()
 {
-    return elfConfiguration[CDP18S600].usePio;
+    return elfConfiguration[selectedComputer_].usePio;
 }
 
 void GuiCdp18s600::onAutoBoot(wxCommandEvent&event)
 {
-    elfConfiguration[CDP18S600].autoBoot = event.IsChecked();
+    elfConfiguration[selectedComputer_].autoBoot = event.IsChecked();
 }
 
 void GuiCdp18s600::onAutoBootType(wxCommandEvent&event)
 {
-    elfConfiguration[CDP18S600].autoBootType = event.GetSelection();
-    if (elfConfiguration[CDP18S600].autoBootType == 0)
-        conf[CDP18S600].bootAddress_ = 0x8000;
+    elfConfiguration[selectedComputer_].autoBootType = event.GetSelection();
+    if (elfConfiguration[selectedComputer_].autoBootType == 0)
+        conf[selectedComputer_].bootAddress_ = 0x8000;
     else
-        conf[CDP18S600].bootAddress_ = 0;
-    if (runningComputer_ == CDP18S600)
-        p_Cdp18s600->setAddressLatch(conf[CDP18S600].bootAddress_);
+        conf[selectedComputer_].bootAddress_ = 0;
+    
+    if (runningComputer_ == selectedComputer_)
+    {
+        if (runningComputer_ == selectedComputer_)
+        {
+            switch (runningComputer_)
+            {
+                case CDP18S600:
+                    p_Cdp18s600->setAddressLatch(conf[selectedComputer_].bootAddress_);
+                break;
+                    
+                case CDP18S601:
+                    p_Cdp18s601->setAddressLatch(conf[selectedComputer_].bootAddress_);
+                break;
+
+                case CDP18S603A:
+                    p_Cdp18s603a->setAddressLatch(conf[selectedComputer_].bootAddress_);
+                break;
+            }
+        }
+    }
 }
 
 

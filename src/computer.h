@@ -535,6 +535,7 @@ public:
     virtual void resetPressed() {};
     virtual void setCpuMode(int mode);
     virtual void setGoTimer() {};
+    virtual void setForceUpperCase(bool status);
 
 protected:
 	RunComputer *threadPointer;

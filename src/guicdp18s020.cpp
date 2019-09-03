@@ -373,7 +373,7 @@ void GuiCdp18s020::onCdp18s020ForceUpperCase(wxCommandEvent&event)
     elfConfiguration[CDP18S020].forceUpperCase = event.IsChecked();
     if (runningComputer_ == CDP18S020)
     {
-        p_Cdp18s020->setForceUpperCase(event.IsChecked());
+        p_Computer->setForceUpperCase(event.IsChecked());
     }
 }
 

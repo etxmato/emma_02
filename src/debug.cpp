@@ -13689,6 +13689,8 @@ void DebugWindow::DebugDisplayVtRam()
         case MS2000:
         case MCDS:
         case CDP18S600:
+        case CDP18S601:
+        case CDP18S603A:
         case CDP18S020:
 		case MEMBER:
 		case SUPERELF:
@@ -13839,7 +13841,7 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
                                         "     Cartridge ROM\n"
 										"M7 = MC6847 Video RAM\n"
 										"M5 = MC6845 Video RAM\n"
-										"MR = MC6845 Register\n"
+										"MR = MC6845 Register or Mapped ROM\n"
 										"CE = COMX Expansion ROM copy\n"
 										"CF = COMX Floppy disk ROM copy\n"
                                         "TC = Test Cartridge ROM\n"
@@ -14082,7 +14084,18 @@ void DebugWindow::setMemoryType(int id, int setType)
             }
         break;
             
-		case ELF2K:
+        case CDP18S601:
+        case CDP18S603A:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6845REGISTERS))
+                p_Computer->defineMemoryType(id*256, setType);
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), ROM (R), MAPPED RAM (M.), MAPPED ROM (MR) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+                                   "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+
+        case ELF2K:
 		case TMC2000:
 		case TMC1800:
 		case NANO:
@@ -15243,6 +15256,26 @@ void DebugWindow::updateTitle()
             p_Cdp18s600->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
+        case CDP18S601:
+            if (p_Cdp18s601->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s601->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s601->SetTitle("CDP18S601" + title);
+            p_Cdp18s601->updateTitle(title);
+            p_Cdp18s601->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+ 
+        case CDP18S603A:
+            if (p_Cdp18s603a->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s603a->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s603a->SetTitle("CDP18S603A" + title);
+            p_Cdp18s603a->updateTitle(title);
+            p_Cdp18s603a->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+
 		case COSMICOS:
 			if (p_Cosmicos->getSteps()==0)
 				title = title + " ** PAUSED **";

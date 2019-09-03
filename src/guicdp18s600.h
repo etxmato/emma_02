@@ -11,11 +11,11 @@ public:
     GuiCdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~GuiCdp18s600() {};
     
-    void readCdp18s600Config();
-    void writeCdp18s600DirConfig();
-    void writeCdp18s600Config();
-    void readCdp18s600WindowConfig();
-    void writeCdp18s600WindowConfig();
+    void readCdp18s600Config(int cdpType, wxString cdpTypeStr);
+    void writeCdp18s600DirConfig(int cdpType, wxString cdpTypeStr);
+    void writeCdp18s600Config(int cdpType, wxString cdpTypeStr);
+    void readCdp18s600WindowConfig(int cdpType, wxString cdpTypeStr);
+    void writeCdp18s600WindowConfig(int cdpType, wxString cdpTypeStr);
     
     void onCdp18s600BaudT(wxCommandEvent& event);
     void onCdp18s600Clock(wxCommandEvent& event);
@@ -36,15 +36,17 @@ public:
     void onRomU17Text(wxCommandEvent& event);
 
     void onOneSocketSetup(wxCommandEvent& event);
-    void setOneSocketState();
+    void setOneSocketState(wxString cdpTypeStr);
     void onCdp18s600ControlWindows(wxCommandEvent&event);
     void onPioWindows(wxCommandEvent&event);
     void pioWindows(bool state);
     bool getUseCdp18s600ControlWindows();
     bool getUsePioWindows();
-    void setRamlabel(int romNumber, wxString romString);
+    void setRamlabel(int romNumber, wxString romString, wxString cdpTypeStr, wxString label);
     void onFourSocketSetup(wxCommandEvent& event);
-    void setFourSocketState();
+    void onRomSocketSetup(wxCommandEvent& event);
+    void onRom603ASocketSetup(wxCommandEvent& event);
+    void setFourSocketState(int cdpType, wxString cdpTypeStr);
     void onAutoBoot(wxCommandEvent&event);
     void onAutoBootType(wxCommandEvent&event);
 

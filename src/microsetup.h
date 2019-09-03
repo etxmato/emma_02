@@ -30,4 +30,36 @@ private:
     
 };
 
+class MicroRomSocketSetupDialog : public wxDialog
+{
+public:
+    MicroRomSocketSetupDialog(wxWindow* parent);
+    ~MicroRomSocketSetupDialog() {};
+    
+private:
+    void onSaveButton(wxCommandEvent &event);
+    void onLocationXu25(wxCommandEvent& event);
+    void onLocationXu27(wxCommandEvent& event);
+    void onLocationXu(wxCommandEvent& event);
+
+    DECLARE_EVENT_TABLE()
+    
+};
+
+class MicroRom603ASocketSetupDialog : public wxDialog
+{
+public:
+    MicroRom603ASocketSetupDialog(wxWindow* parent);
+    ~MicroRom603ASocketSetupDialog() {};
+    
+private:
+    void onSaveButton(wxCommandEvent &event);
+    void onLocationXu25(wxCommandEvent& event);
+    void onLocationXu27(wxCommandEvent& event);
+    void onLocationXu(wxCommandEvent& event);
+    
+    DECLARE_EVENT_TABLE()
+    
+};
+
 #endif  // MICROSETUPDLG_H

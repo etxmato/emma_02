@@ -2157,5 +2157,9 @@ void Computer::setCpuMode(int mode)
     p_Computer->setClear(clear);
 }
 
+void Computer::setForceUpperCase(bool WXUNUSED(status))
+{
+    
+}
 
 

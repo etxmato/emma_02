@@ -75,6 +75,8 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
         case MCDS:
         case CDP18S020:
         case CDP18S600:
+        case CDP18S601:
+        case CDP18S603A:
 			forceUpperCase_ = p_Main->getUpperCase(computerType);
 		break;
 
