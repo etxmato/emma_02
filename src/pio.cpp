@@ -117,7 +117,7 @@ void PioScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 
     dc.SetPen(*wxWHITE_PEN);
     dc.SetBrush(*wxWHITE_BRUSH);
-    dc.DrawRectangle(0, 0, 310, 200);
+    dc.DrawRectangle(0, 0, 329, 219);
 #if defined(__WXMAC__)
 	wxFont defaultFont(16, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #else
@@ -731,7 +731,11 @@ void PioScreen::disableStbRdyB(wxDC& dc)
     ioSwitchEnabled_[PIO_RDY_B] = false;
 }
 
+#if defined (__WXMAC__)
 void PioScreen::enableInterruptButton(wxDC& dc)
+#else
+void PioScreen::enableInterruptButton(wxDC& WXUNUSED(dc))
+#endif
 {
     switch (pioBMode_)
     {

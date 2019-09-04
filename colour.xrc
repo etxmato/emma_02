@@ -14283,7 +14283,7 @@
     <object class="wxDialog" name="ColourDialogCDP18S600">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-        <title>Video Setup CDP18S600</title>
+        <title>Video Setup CDP18S600 RCA Microboard</title>
         <centered>1</centered>
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14596,7 +14596,7 @@
     <object class="wxDialog" name="ColourDialogCDP18S601">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-        <title>Video Setup CDP18S601</title>
+        <title>Video Setup CDP18S601 RCA Microboard</title>
         <centered>1</centered>
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -14909,7 +14909,7 @@
     <object class="wxDialog" name="ColourDialogCDP18S603A">
         <style>wxCAPTION|wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLOSE_BOX|wxWANTS_CHARS|wxTAB_TRAVERSAL</style>
         <exstyle>wxWS_EX_BLOCK_EVENTS</exstyle>
-        <title>Video Setup CDP18S603A</title>
+        <title>Video Setup CDP18S603A RCA Microboard</title>
         <centered>1</centered>
         <font>
             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

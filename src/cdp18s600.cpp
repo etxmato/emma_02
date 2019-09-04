@@ -78,7 +78,7 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
 #if defined(__WXMAC__)
     pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 202));
 #else
-    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(320, 210));
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 219));
 #endif
 }
 

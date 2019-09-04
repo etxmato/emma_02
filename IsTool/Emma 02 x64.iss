@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.31.1
-AppVersion=1.31
+AppVerName=Emma 02 - V1.32
+AppVersion=1.32
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.31.1
+OutputBaseFilename=Emma_02_x64_setup_v1.32
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -80,6 +80,8 @@ Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components:
 Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\Configurations Windows\CDP18S020\*.*; DestDir: {app}\Configurations\CDP18S020; Components: MAIN
 Source: ..\Configurations Windows\CDP18S600\*.*; DestDir: {app}\Configurations\CDP18S600; Components: MAIN
+Source: ..\Configurations Windows\CDP18S601\*.*; DestDir: {app}\Configurations\CDP18S601; Components: MAIN
+Source: ..\Configurations Windows\CDP18S603A\*.*; DestDir: {app}\Configurations\CDP18S603A; Components: MAIN
 Source: ..\Configurations Windows\Cidelsa\*.*; DestDir: {app}\Configurations\Cidelsa; Components: MAIN
 Source: ..\Configurations Windows\Comx\*.*; DestDir: {app}\Configurations\Comx; Components: MAIN
 Source: ..\Configurations Windows\Cosmicos\*.*; DestDir: {app}\Configurations\Cosmicos; Components: MAIN
@@ -117,6 +119,8 @@ Source: ..\data\dutch.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\french.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\CDP18S020\*.*; DestDir: {app}\data\CDP18S020; Components: MAIN
 Source: ..\data\CDP18S600\*.*; DestDir: {app}\data\CDP18S600; Components: MAIN
+Source: ..\data\CDP18S601\*.*; DestDir: {app}\data\CDP18S601; Components: MAIN
+Source: ..\data\CDP18S603A\*.*; DestDir: {app}\data\CDP18S603A; Components: MAIN
 Source: ..\data\Comx\comx35.bin; DestDir: {app}\data\Comx; Components: MAIN
 Source: ..\data\Comx\comx35.1.1.bin; DestDir: {app}\data\Comx; Components: MAIN
 Source: ..\data\Comx\f&m.expansion.3.1.bin; DestDir: {app}\data\Comx; Components: MAIN

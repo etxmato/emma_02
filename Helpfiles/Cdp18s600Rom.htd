@@ -1,0 +1,18 @@
+<HTML>
+<Title>ROM and RAM Files</Title>
+<BODY>
+<h2>ROM and RAM Files</h2>
+<p>
+The CDP18S600 Microboard has 5 ROM and/or RAM socket, '1 Socket' for 1 ROM/RAM chip and '4 Socket' for 4 ROM/RAM chips. For all details see the CDP18S600 manual. In the main Emma 02 window the size of the '1 Socket' and '4 Socket' ROM/RAM chips can be selected (2Kx8, 4Kx8 or 8Kx8). All '4 socket' chips should have the same size.
+</p>
+<p>
+Use the Setup - 1 or - 4 button to specify ROM/RAM location, memory type (ROM, RAM or CPU RAM) and/or to disable the socket. Depending on the chip size selected different location options will be available. For the '4 Socket' chips locations of the 4 sockets will be linked to each other.
+</p>
+<p>
+Default settting is using ut71.bin for U20. Default CDP18S600 ROM/RAM location is the CDP18S600 directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) To change the location use the 'ROM Uxx' or 'RAM Uxx' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>

@@ -16404,7 +16404,7 @@
                                     </object>
                                 </object>
                                 <object class="choicebookpage">
-                                    <label>CDP18S600</label>
+                                    <label>CDP18S600 Microboard</label>
                                     <object class="wxPanel" name="PanelCDP18S600">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -17415,7 +17415,7 @@
                                     </object>
                                 </object>
                                 <object class="choicebookpage">
-                                    <label>CDP18S601</label>
+                                    <label>CDP18S601 Microboard</label>
                                     <object class="wxPanel" name="PanelCDP18S601">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -17450,7 +17450,7 @@
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>RAM 4Kx8:</label>
+                                                                            <label>RAM Socket:</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -17466,13 +17466,13 @@
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
                                                                                     </font>
-                                                                                    <label>Location:</label>
+                                                                                    <label>4Kx8</label>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="spacer">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>1</border>
-                                                                                <size>3,5</size>
+                                                                                <size>20,5</size>
                                                                             </object>
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
@@ -17590,7 +17590,7 @@
                                                                                 <flag>wxALIGN_TOP</flag>
                                                                                 <border>3</border>
                                                                                 <object class="wxButton" name="FourSocketSetupCDP18S601">
-                                                                                    <tooltip>Setup 4 Socket Memory Bank</tooltip>
+                                                                                    <tooltip>Setup ROM Socket Memory Bank</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
@@ -18437,7 +18437,7 @@
                                     </object>
                                 </object>
                                 <object class="choicebookpage">
-                                    <label>CDP18S603A</label>
+                                    <label>CDP18S603A Microboard</label>
                                     <object class="wxPanel" name="PanelCDP18S603A">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -18472,7 +18472,7 @@
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>RAM 1Kx8:</label>
+                                                                            <label>RAM Socket:</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -18488,13 +18488,13 @@
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
                                                                                     </font>
-                                                                                    <label>Location:</label>
+                                                                                    <label>1Kx8</label>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="spacer">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                                                                 <border>1</border>
-                                                                                <size>3,5</size>
+                                                                                <size>20,5</size>
                                                                             </object>
                                                                             <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
@@ -18612,7 +18612,7 @@
                                                                                 <flag>wxALIGN_TOP</flag>
                                                                                 <border>3</border>
                                                                                 <object class="wxButton" name="FourSocketSetupCDP18S603A">
-                                                                                    <tooltip>Setup 4 Socket Memory Bank</tooltip>
+                                                                                    <tooltip>Setup ROM Socket Memory Bank</tooltip>
                                                                                     <font>
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
