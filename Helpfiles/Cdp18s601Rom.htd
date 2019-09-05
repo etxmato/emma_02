@@ -1,0 +1,24 @@
+<HTML>
+<Title>ROM and RAM Files</Title>
+<BODY>
+<h2>ROM and RAM Files</h2>
+<p>
+The CDP18S601 Microboard has 1 RAM and 4 ROM sockets, 'RAM Socket' for 1 RAM chip and 'ROM Socket' for 4 ROM chips. For details see the CDP18S601 manual. The RAM socket chip size is fixed to 4Kx8, location of the chip can be slected in any of the 16 4K blocks.
+</p>
+<p>
+In the main Emma 02 window the size of the 'ROM Socket' chips can be selected (1Kx8 or 2Kx8). 
+</p>
+<p>
+In 1Kx8 mode the ROM location can be selected by using the 'Setup ROM' button. All 1K chip locations will be in consecutive order with XU25 on the lowest address followed by XU27, XU24 and XU26. 
+</p>
+<p>
+In 2Kx8 mode the ROM location and memory size can be selected by using the 'Setup ROM' button. The XU27 and XU26 chip locations will be in consecutive order with U27 on the lowest address followed by 26, the same is valid for XU25 and XU24. When selecting memory size of 1Kx8 the ROM will be repeated twice in the 2K block.
+</p>
+<p>
+Default settting is loading ut4.bin in XU25 (2K) and 4K RAM at location 0. Default CDP18S601 ROM/RAM location is the CDP18S601 directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM XUxx' or 'RAM' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>
