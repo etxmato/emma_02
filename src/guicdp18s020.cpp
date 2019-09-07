@@ -35,7 +35,7 @@
 
 #include "psave.h"
 
-BEGIN_EVENT_TABLE(GuiCdp18s020, GuiTMC2000)
+BEGIN_EVENT_TABLE(GuiCdp18s020, GuiCdp18s600)
 
 	EVT_TEXT(XRCID("MainRomCDP18S020"), GuiMain::onMainRom1Text)
 	EVT_COMBOBOX(XRCID("MainRomCDP18S020"), GuiMain::onMainRom1Text)
@@ -98,7 +98,7 @@ BEGIN_EVENT_TABLE(GuiCdp18s020, GuiTMC2000)
 END_EVENT_TABLE()
 
 GuiCdp18s020::GuiCdp18s020(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiTMC2000(title, pos, size, mode, dataDir, iniDir)
+: GuiCdp18s600(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[CDP18S020].loadFileNameFull_ = "";
 	conf[CDP18S020].loadFileName_ = "";
@@ -180,7 +180,7 @@ void GuiCdp18s020::readCdp18s020Config()
     elfConfiguration[CDP18S020].vt52SetUpFeature_ = configPointer->Read("/CDP18S020/VT52Setup", 0x00004092l);
     elfConfiguration[CDP18S020].vt100SetUpFeature_ = configPointer->Read("/CDP18S020/VT100Setup", 0x0000cad2l);
     elfConfiguration[CDP18S020].vtExternalSetUpFeature_ = configPointer->Read("/CDP18S020/VTExternalSetup", 0x0000cad2l);
-	elfConfiguration[CDP18S020].baudT = (int)configPointer->Read("/CDP18S020/Vt_Baud", 9l);
+	elfConfiguration[CDP18S020].baudT = (int)configPointer->Read("/CDP18S020/Vt_Baud", 10l);
 	elfConfiguration[CDP18S020].baudR = elfConfiguration[CDP18S020].baudT;
     elfConfiguration[CDP18S020].vtEf = false;
     elfConfiguration[CDP18S020].vtQ = true;
@@ -373,7 +373,7 @@ void GuiCdp18s020::onCdp18s020ForceUpperCase(wxCommandEvent&event)
     elfConfiguration[CDP18S020].forceUpperCase = event.IsChecked();
     if (runningComputer_ == CDP18S020)
     {
-        p_Cdp18s020->setForceUpperCase(event.IsChecked());
+        p_Computer->setForceUpperCase(event.IsChecked());
     }
 }
 

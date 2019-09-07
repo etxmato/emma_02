@@ -79,6 +79,7 @@ public:
 	Byte pixieDmaOut();
 
     void interrupt();
+    void requestInterrupt();
 	void pixieInterrupt();
 	void setEf(int flag, int value);
 
@@ -95,6 +96,7 @@ public:
 	void checkLoadedSoftware();
 	bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename);
+    bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, Word lastAddress, bool showFilename);
 	bool readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramTmc600(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
@@ -113,6 +115,10 @@ public:
     void setRegisterT(Byte registerT) {registerT_ = registerT;};
     Byte getRegisterB() {return registerB_;};
     void setRegisterB(Byte registerB) {registerB_ = registerB;};
+    Byte getCounterJamValue() {return ch_;};
+    void setCounterJamValue(Byte ch) {ch_ = ch;};
+    Byte getCounterTimer() {return counter_;};
+    void setCounterTimer(Byte counter) {counter_ = counter;};
 	Byte getFlipFlopQ() { return flipFlopQ_; };
 	void setFlipFlopQ(Byte flipFlopQ) { flipFlopQ_ = flipFlopQ; };
 	Byte isReadyToReceiveData(int ef) { return readyToReceiveData[ef]; };
@@ -123,6 +129,8 @@ public:
 	void setDataPointer(Byte dataPointer) {dataPointer_ = dataPointer;};
 	Byte getInterruptEnable() {return interruptEnable_;};
 	void setInterruptEnable(Byte interruptEnable) {interruptEnable_ = interruptEnable;};
+    Byte getCounterInterruptEnable() {return cie_;};
+    void setCounterInterruptEnable(Byte cie) {cie_ = cie;};
 	Byte getEfFlags() {return efFlags_;};
 	void setCycle0() {cycle0_ = 1;};
 	long getCpuCycles() {return cpuCycles_;};
@@ -193,6 +201,8 @@ protected:
     Word addressLatch_;
     Word setLatch_;
     Word romMask_;
+    
+    bool interruptRequested_;
     
 private:
 	void setMode();

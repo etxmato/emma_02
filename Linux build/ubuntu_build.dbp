@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.31
+Version: 1.32
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -12,73 +12,75 @@ Description: Emma 02, the RCA 1802 Emulator
  Cosmac Elf, Netronics ELF II, Quest Super Elf,
  Membership Card, VIP2K Membership Card, VELF,
  FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020
- Evaluation Kit, Cosmac VIP, Cosmac VIP II, MCDS,
- MS2000, RCA Video Coin Arcade, RCA Studio II, RCA
- Studio III, Studio IV, Victory MPT-02, Visicom COM-100,
- Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000,
- Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+ Evaluation Kit, CDP18S600 Microboard, CDP18S601
+ Microboard, CDP18S603A Microboard, Cosmac VIP,
+ Cosmac VIP II, MCDS, MS2000, RCA Video Coin Arcade,
+ RCA Studio II, RCA Studio III, Studio IV, Victory MPT-02,
+ Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800,
+ Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and
+ ETI 660
 
 <</CTRL>>
 <<FILES>>
 1
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8Vip2K.syntax* -> Chip8Vip2K.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuFred.xrc -> menuFred.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ChipEti.syntax* -> ChipEti.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8X.syntax* -> Chip8X.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8Studio.syntax* -> Chip8Studio.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8.syntax* -> Chip8.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ST4.syntax* -> ST4.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ST2.syntax* -> ST2.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Test_Word.syntax* -> Test_Word.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/STK-2.syntax* -> STK-2.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/STK-1.syntax* -> STK-1.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/FEL-1.syntax* -> FEL-1.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-4.syntax* -> GPL-4.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-3.syntax* -> GPL-3.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-2.syntax* -> GPL-2.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-A_ROM.syntax* -> GPL-A_ROM.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-A_RAM.syntax* -> GPL-A_RAM.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/FPL-4.syntax* -> FPL-4.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/FPL-2.syntax* -> FPL-2.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/CARDTRAN.syntax* -> CARDTRAN.syntax -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/pseudo.def* -> pseudo.def -> /usr/share/emma_02
-/media/psf/Home/workspace/emma_02/Release/emma_02* -> emma_02 -> /usr/bin
-/media/psf/Home/workspace/emma_02/Linux build/emma02.xpm -> emma02.xpm -> /usr/share/pixmaps
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/emma_02.htb -> emma_02.htb -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/copyright.rtf -> copyright.rtf -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Quest_license.txt -> Quest_license.txt -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Quest_CC_Lic.jpg -> Quest_CC_Lic.jpg -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/vt.xrc -> vt.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/splash.xrc -> splash.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/sb.xrc -> sb.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ports.xrc -> ports.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menu_Cas_Mem.xrc -> menu_Cas_Mem.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuVip.xrc -> menuVip.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuVelf.xrc -> menuVelf.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuTmc600.xrc -> menuTmc600.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuPecom.xrc -> menuPecom.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuMembership.xrc -> menuMembership.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuMcds.xrc -> menuMcds.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuMS2000.xrc -> menuMS2000.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuElf2K.xrc -> menuElf2K.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuElf.xrc -> menuElf.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuCosmicos.xrc -> menuCosmicos.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuComx.xrc -> menuComx.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/main.xrc* -> main.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/keymap_tmc.xrc -> keymap_tmc.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/keymap.xrc -> keymap.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/functionkey.xrc -> functionkey.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/eprom.xrc -> eprom.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/diag.xrc -> diag.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/datadir.xrc -> datadir.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/configuration.xrc -> configuration.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/colour.xrc -> colour.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/cassette.xrc -> cassette.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/about.xrc -> about.xrc -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/images_linux -> images_linux -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/images -> images -> /usr/share/emma_02
-/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/data -> data -> /usr/share/emma_02
 /home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Configurations -> Configurations -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/data -> data -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/images -> images -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/images_linux -> images_linux -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/about.xrc -> about.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/cassette.xrc -> cassette.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/colour.xrc -> colour.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/configuration.xrc -> configuration.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/datadir.xrc -> datadir.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/diag.xrc -> diag.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/eprom.xrc -> eprom.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/functionkey.xrc -> functionkey.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/keymap.xrc -> keymap.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/keymap_tmc.xrc -> keymap_tmc.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/main.xrc* -> main.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuComx.xrc -> menuComx.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuCosmicos.xrc -> menuCosmicos.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuElf.xrc -> menuElf.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuElf2K.xrc -> menuElf2K.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuMS2000.xrc -> menuMS2000.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuMcds.xrc -> menuMcds.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuMembership.xrc -> menuMembership.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuPecom.xrc -> menuPecom.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuTmc600.xrc -> menuTmc600.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuVelf.xrc -> menuVelf.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuVip.xrc -> menuVip.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menu_Cas_Mem.xrc -> menu_Cas_Mem.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ports.xrc -> ports.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/sb.xrc -> sb.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/splash.xrc -> splash.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/vt.xrc -> vt.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Quest_CC_Lic.jpg -> Quest_CC_Lic.jpg -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Quest_license.txt -> Quest_license.txt -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/copyright.rtf -> copyright.rtf -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/emma_02.htb -> emma_02.htb -> /usr/share/emma_02
+/media/psf/Home/workspace/emma_02/Linux build/emma02.xpm -> emma02.xpm -> /usr/share/pixmaps
+/media/psf/Home/workspace/emma_02/Release/emma_02* -> emma_02 -> /usr/bin
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/pseudo.def* -> pseudo.def -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/CARDTRAN.syntax* -> CARDTRAN.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/FPL-2.syntax* -> FPL-2.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/FPL-4.syntax* -> FPL-4.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-A_RAM.syntax* -> GPL-A_RAM.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-A_ROM.syntax* -> GPL-A_ROM.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-2.syntax* -> GPL-2.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-3.syntax* -> GPL-3.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/GPL-4.syntax* -> GPL-4.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/FEL-1.syntax* -> FEL-1.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/STK-1.syntax* -> STK-1.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/STK-2.syntax* -> STK-2.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Test_Word.syntax* -> Test_Word.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ST2.syntax* -> ST2.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ST4.syntax* -> ST4.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8.syntax* -> Chip8.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8Studio.syntax* -> Chip8Studio.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8X.syntax* -> Chip8X.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/ChipEti.syntax* -> ChipEti.syntax -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/menuFred.xrc -> menuFred.xrc -> /usr/share/emma_02
+/home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Chip8Vip2K.syntax* -> Chip8Vip2K.syntax -> /usr/share/emma_02
 <</FILES>>
 <<SCRIPTS>>
 <<PREINST>>
@@ -105,11 +107,11 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.31) xenial; urgency=medium
+emma-02 (1.32) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Thu, 01 Aug 2019 16:46:45 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Fri, 07 Sep 2019 13:21:45 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>

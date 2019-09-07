@@ -8,11 +8,6 @@
  *******************************************************************
 */
 
-
-/* TODO:
- 4 RAM protect switches, 1 per 1 KB
- Tiny basic save/load
- */
 #include "wx/wxprec.h"
 
 #ifdef __BORLANDC__
@@ -231,7 +226,7 @@ void Cdp18s020Screen::releaseButtonOnScreen(HexButton* buttonPoint)
 BEGIN_EVENT_TABLE(Cdp18s020, wxFrame)
     EVT_CLOSE (Cdp18s020::onClose)
     EVT_BUTTON(1, Cdp18s020::onRunButton)
-    EVT_BUTTON(2, Cdp18s020::onRunButton)
+    EVT_BUTTON(2, Cdp18s020::onRunPButton)
     EVT_BUTTON(3, Cdp18s020::onResetButton)
 END_EVENT_TABLE()
 
@@ -311,10 +306,7 @@ void Cdp18s020::initComputer()
 {
     Show(p_Main->getUseCdp18s020ControlWindows());
     addressLatch_ = p_Main->getBootAddress("CDP18S020", computerType_);
-    setClear(0);
-    cdp18s020ScreenPointer->setStateLed(CLEARLED, 0);
-	setWait(1);
-    cdp18s020ScreenPointer->setStateLed(WAITLED, 1);
+    setCpuMode(RESET); // CLEAR = 0, WAIT = 1, CLEAR LED ON, WAIT LED OFF
 
     for (int i=0; i<4; i++)
         mpButtonState_[i] = false;
@@ -352,20 +344,14 @@ void Cdp18s020::onRun()
     if (cpuMode_ != RUN)
         resetEffectiveClock();
 
-    setClear(1);
-    cdp18s020ScreenPointer->setStateLed(CLEARLED, 1);
-    setWait(1);
-    cdp18s020ScreenPointer->setStateLed(WAITLED, 1);
+    setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF
 
     p_Main->eventUpdateTitle();
 }
 
 void Cdp18s020::autoBoot()
 {
-    setClear(1);
-    cdp18s020ScreenPointer->setStateLed(CLEARLED, 1);
-    if (cpuMode_ == RESET)
-        showAddress(addressLatch_);
+    setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF
 }
 
 void Cdp18s020::setAddressLatch(Word bootAddress)
@@ -488,9 +474,19 @@ void Cdp18s020::showState(int state)
     cdp18s020ScreenPointer->setStateLed(SC1LED, (state&2)>>1);
 }
 
-void Cdp18s020::setWaitLed()
+void Cdp18s020::setCpuMode(int mode)
 {
-    cdp18s020ScreenPointer->setStateLed(WAITLED, 0);
+    int clear = (mode>>1)&1;
+    int wait = mode&1;
+    
+    setWait(wait);
+    setClear(clear);
+    
+    wait ^= 1;
+    clear ^= 1;
+
+    cdp18s020ScreenPointer->setStateLed(CLEARLED, clear);
+    cdp18s020ScreenPointer->setStateLed(WAITLED, wait);
 }
 
 void Cdp18s020::cycle(int type)
@@ -564,8 +560,6 @@ void Cdp18s020::startComputer()
     else
         ledCycleSize_ = (((cdp18s020ClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
-    
-    cpuState_ = STATE_FETCH_1;
     
 	threadPointer->Run();
 }
@@ -718,14 +712,13 @@ void Cdp18s020::cpuInstruction()
 void Cdp18s020::resetPressed()
 {
     resetCpu();
-    cpuState_ = STATE_FETCH_1;
-    setClear(0);
-    cdp18s020ScreenPointer->setStateLed(CLEARLED, 0);
-    setWait(1);
-    cdp18s020ScreenPointer->setStateLed(WAITLED, 1);
+
+    setCpuMode(RESET); // CLEAR = 0, WAIT = 1, CLEAR LED ON, WAIT LED OFF, RUN LED OFF
+
     showCycleData(0);
     if (cdp18s020Configuration.autoBoot)
         autoBoot();
+    
     resetPressed_ = false;
 }
 

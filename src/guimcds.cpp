@@ -184,8 +184,8 @@ void GuiMcds::readMcdsConfig()
 
     elfConfiguration[MCDS].useUart = false; 
     elfConfiguration[MCDS].bellFrequency_ = (int)configPointer->Read("/Mcds/Bell_Frequency", 800);
-	elfConfiguration[MCDS].baudR = (int)configPointer->Read("/Mcds/Vt_Baud_Receive", 7l);
-	elfConfiguration[MCDS].baudT = (int)configPointer->Read("/Mcds/Vt_Baud_Transmit", 7l);
+	elfConfiguration[MCDS].baudR = (int)configPointer->Read("/Mcds/Vt_Baud_Receive", 8l);
+	elfConfiguration[MCDS].baudT = (int)configPointer->Read("/Mcds/Vt_Baud_Transmit", 8l);
 	elfConfiguration[MCDS].vtType = (int)configPointer->Read("/Mcds/VT_Type", 2l);
     elfConfiguration[MCDS].vt52SetUpFeature_ = configPointer->Read("/Mcds/VT52Setup", 0x00004092l);
     elfConfiguration[MCDS].vt100SetUpFeature_ = configPointer->Read("/Mcds/VT100Setup", 0x0000cad2l);
@@ -368,7 +368,7 @@ void GuiMcds::onMcdsForceUpperCase(wxCommandEvent&event)
     elfConfiguration[MCDS].forceUpperCase = event.IsChecked();
     if (runningComputer_ == MCDS)
     {
-        p_Mcds->setForceUpperCase(event.IsChecked());
+        p_Computer->setForceUpperCase(event.IsChecked());
     }
 }
 

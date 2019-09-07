@@ -146,7 +146,7 @@ void GuiCosmicos::readCosmicosConfig()
     elfConfiguration[COSMICOS].vtExternalSetUpFeature_ = configPointer->Read("/Cosmicos/VTExternalSetup", 0xcad2l);
 
     elfConfiguration[COSMICOS].keyboardType = (int)configPointer->Read("/Cosmicos/Keyboard_Type", 0l);
-	elfConfiguration[COSMICOS].baudT = (int)configPointer->Read("/Cosmicos/Vt_Baud", 9l);
+	elfConfiguration[COSMICOS].baudT = (int)configPointer->Read("/Cosmicos/Vt_Baud", 10l);
 	elfConfiguration[COSMICOS].baudR = elfConfiguration[COSMICOS].baudT;
 
 	configPointer->Read("/Cosmicos/Force_Uppercase", &elfConfiguration[COSMICOS].forceUpperCase, true);
@@ -333,7 +333,7 @@ void GuiCosmicos::onCosmicosForceUpperCase(wxCommandEvent&event)
 	elfConfiguration[COSMICOS].forceUpperCase = event.IsChecked();
 	if (runningComputer_ == COSMICOS)
 	{
-		p_Cosmicos->setForceUpperCase(event.IsChecked());
+		p_Computer->setForceUpperCase(event.IsChecked());
 	}
 }
 

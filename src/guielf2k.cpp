@@ -148,8 +148,8 @@ void GuiElf2K::readElf2KConfig()
     conf[ELF2K].beepFrequency_ = (int)configPointer->Read("/Elf2K/Beep_Frequency", 250);
     
 	elfConfiguration[ELF2K].bellFrequency_ = (int)configPointer->Read("/Elf2K/Bell_Frequency", 800);
-	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 3l);
-	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 3l);
+	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 4l);
+	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 4l);
 	elfConfiguration[ELF2K].vtType = (int)configPointer->Read("/Elf2K/VT_Type", 0l);
     elfConfiguration[ELF2K].vt52SetUpFeature_ = configPointer->Read("/Elf2K/VT52Setup", 0x00004092l);
     elfConfiguration[ELF2K].vt100SetUpFeature_ = configPointer->Read("/Elf2K/VT100Setup", 0x0000ca52l);
@@ -420,7 +420,7 @@ void GuiElf2K::onElf2KForceUpperCase(wxCommandEvent&event)
 	elfConfiguration[ELF2K].forceUpperCase = event.IsChecked();
 	if (runningComputer_ == ELF2K)
 	{
-		p_Elf2K->setForceUpperCase(event.IsChecked());
+		p_Computer->setForceUpperCase(event.IsChecked());
 	}
 }
 

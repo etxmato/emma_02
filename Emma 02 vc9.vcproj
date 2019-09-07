@@ -475,6 +475,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp18s600.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp18s640.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cidelsa.cpp"
 				>
 			</File>
@@ -576,6 +584,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guicdp18s020.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guicdp18s600.cpp"
 				>
 			</File>
 			<File
@@ -755,6 +767,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\microsetup.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\microtutor.cpp"
 				>
 			</File>
@@ -776,6 +792,10 @@
 			</File>
 			<File
 				RelativePath=".\src\pecom.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pio.cpp"
 				>
 			</File>
 			<File
@@ -963,6 +983,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\cdp18s600.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\cdp18s640.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\cidelsa.h"
 				>
 			</File>
@@ -1068,6 +1096,10 @@
 			</File>
 			<File
 				RelativePath=".\src\guicdp18s020.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\guicdp18s600.h"
 				>
 			</File>
 			<File
@@ -1247,6 +1279,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\microsetup.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\microtutor.h"
 				>
 			</File>
@@ -1268,6 +1304,10 @@
 			</File>
 			<File
 				RelativePath=".\src\pecom.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\pio.h"
 				>
 			</File>
 			<File

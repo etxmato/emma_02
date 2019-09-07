@@ -1,0 +1,38 @@
+
+<html>
+<title>Control Window</title>
+<body>
+<h2>Control Window</h2>
+<p>
+The front panel option for the CDP18S603A is the CDP18S640 Microboard Control and Display Module. This module can be activate or deactivated via the 'CDP18S640 Window' checkbox. 
+</p>
+<p>
+The main board includes the switches, buttons and status leds. Emulation of the leds can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'Leds' field. When 0 ms (or nothing) is specfied the leds will be updated in real time. Note that this will take a lot of CPU load and as such make the CDP18S603A run very slow due to the frequent changes in both CPU status, data and address leds.
+</p>
+<p>
+In STEP mode all leds are updated in real time.
+</p>
+<h3>Front Panel</h3>
+<p>
+RESET - Places the CPU into the reset state
+</p>
+<p>
+RUN P - Execute program in RAM at address 0
+</p>
+<p>
+RUN U - Execute program in ROM at address 8000
+</p>
+<p>
+STEP/CONT - STEP mode will single step the processor by executing next CPU cycle and then entering Wait mode
+</p>
+<p>
+DATA BUS - 2 seven-segment led displays showing the value of the data bus
+</p>
+<p>
+MEMPRY ADDRESS - 4 seven-segment led displays showing the value of the address bus
+</p>
+<p>
+STATUS LEDS - CPU Status leds SC1/SC0 showing the state type, WT for Wait, CLR for Clear, Q and RUN. 
+</p>
+</body>
+</html>

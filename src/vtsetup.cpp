@@ -128,19 +128,32 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart CDP1854");
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 
+        case CDP18S600:
+            XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
+            XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart CDP1854");
+            XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtUartGroup", wxChoice)->SetSelection(elfConfiguration_.uartGroup);
+        break;
+            
         case MCDS:
         case CDP18S020:
+        case CDP18S601:
+        case CDP18S603A:
             XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
         break;
             
 		case MS2000:
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
 			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 
 		case ELF2K:
@@ -148,6 +161,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart 16450");
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 
         case VIP:
@@ -157,6 +171,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
             XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
             XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
         break;
             
 		case COSMICOS:
@@ -165,6 +180,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
 			XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
 			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 	}
 
@@ -239,8 +255,15 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
         break;
 
-        case MCDS:
+        case CDP18S600:
+            elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
+            elfConfiguration_.uartGroup = XRCCTRL(*this, "VtUartGroup", wxChoice)->GetSelection();
+        break;
+            
         case CDP18S020:
+        case CDP18S601:
+        case CDP18S603A:
+        case MCDS:
             elfConfiguration_.useUart = false;
         break;
             

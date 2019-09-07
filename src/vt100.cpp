@@ -40,18 +40,18 @@
 
 int baudRateValue_[] =
 {
-	19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
+	38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
 };
 
 int baudRateCode_[] =
 {
-	120, 114, 104, 96, 88, 80, 72, 64, 56, 48, 40, 32, 24, 16, 8, 0
+	128, 120, 114, 104, 96, 88, 80, 72, 64, 56, 48, 40, 32, 24, 16, 8, 0
 };
 
 int baudRateFactor_[] =
 {
-	13,    26,   52,   69,   120,  138,  153,  230,  460, 900, 1250, 1666, 1866, 2273, 3333, 5000
-//	19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200,  150,  134,  110,  75,   50
+	6,     13,    26,   52,   69,   120,  138,  153,  230,  460, 900, 1250, 1666, 1866, 2273, 3333, 5000
+//	38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200,  150,  134,  110,  75,   50
 };
 
 #define UART_DA 0
@@ -109,6 +109,15 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         break;
         case CDP18S020:
             computerTypeStr_ = "CDP18S020";
+        break;
+        case CDP18S600:
+            computerTypeStr_ = "CDP18S600";
+        break;
+        case CDP18S601:
+            computerTypeStr_ = "CDP18S601";
+        break;
+        case CDP18S603A:
+            computerTypeStr_ = "CDP18S603A";
         break;
 		case MCDS:
 			computerTypeStr_ = "MCDS";
@@ -314,7 +323,7 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
     
     baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
     baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
-    
+
     if (uart_)
     {
         configureUart(elfPortConf);
@@ -431,10 +440,16 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     p_Computer->setEfType(4, VT100EF);
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
-    if (vtType_ == VT52)
-        p_Main->message("Configuring VT52 terminal with CDP1854/UART");
+    wxString groupString;
+    if (elfConfiguration_.uartGroup == 0)
+        groupString = "1";
     else
-        p_Main->message("Configuring VT100 terminal with CDP1854/UART");
+        groupString = "2";
+
+    if (vtType_ == VT52)
+        p_Main->message("Configuring VT52 terminal with CDP1854/UART on group " + groupString);
+    else
+        p_Main->message("Configuring VT100 terminal with CDP1854/UART on group " + groupString);
     
     p_Main->message("	Output 2: load transmitter, input 2: read receiver");
     p_Main->message("	Output 3: load control, input 3: read status");
@@ -635,18 +650,18 @@ void Vt100::cycleVt()
 			changeScreenSize();
 			changeScreenSize_ = false;
 		}
-/*		if (zoomChanged_ != 0)
-		{
-			zoom_ = zoomChanged_;
-			double intPart;
-			zoomFraction_ = (modf(zoom_, &intPart) != 0);
-			this->SetClientSize((videoWidth_+2*borderX_)*zoom_, (videoHeight_+2*borderY_)*zoom_);
-			videoScreenPointer->SetClientSize((videoWidth_+2*borderX_)*zoom_, (videoHeight_+2*borderY_)*zoom_);
-
-			videoScreenPointer->setZoom(zoom_);
-			reBlit_ = true;
-			zoomChanged_ = 0;
-		}*/
+//		if (zoomChanged_ != 0)
+//		{
+//			zoom_ = zoomChanged_;
+//			double intPart;
+//			zoomFraction_ = (modf(zoom_, &intPart) != 0);
+//			this->SetClientSize((videoWidth_+2*borderX_)*zoom_, (videoHeight_+2*borderY_)*zoom_);
+//			videoScreenPointer->SetClientSize((videoWidth_+2*borderX_)*zoom_, (videoHeight_+2*borderY_)*zoom_);
+//
+//			videoScreenPointer->setZoom(zoom_);
+//			reBlit_ = true;
+//			zoomChanged_ = 0;
+//		}
 		copyScreen();
 
 		blinkCount_--;

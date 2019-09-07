@@ -385,6 +385,7 @@ public:
 #include "cidelsa.h"
 #include "comx35.h"
 #include "cdp18s020.h"
+#include "cdp18s600.h"
 #include "hbelf.h"
 #include "member.h"
 #include "microtutor.h"
@@ -416,7 +417,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.31
+#define EMMA_VERSION 1.32
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -430,25 +431,30 @@ public:
 #define MICROTUTOR 9
 #define MICROTUTOR2 10
 #define CDP18S020 11
-#define MS2000 12
-#define MCDS 13
-#define FRED1 14
-#define FRED1_5 15
-#define COMX 16
-#define STUDIO 17
-#define ETI 18
-#define CIDELSA 19
-#define TMC600 20
-#define TMC1800 21
-#define TMC2000 22
-#define NANO 23
-#define PECOM 24
-#define VISICOM 25
-#define VICTORY 26
-#define VIPII 27
-#define COINARCADE 28
-#define STUDIOIV 29
-#define DEBUGGER 20
+#define CDP18S600 12
+#define CDP18S601 13
+#define CDP18S603A 14
+#define LAST_LED_COMPUTER 14
+#define MS2000 15
+#define MCDS 16
+#define FRED1 17
+#define FRED1_5 18
+#define COMX 19
+#define STUDIO 20
+#define ETI 21
+#define CIDELSA 22
+#define TMC600 23
+#define TMC1800 24
+#define TMC2000 25
+#define NANO 26
+#define PECOM 27
+#define VISICOM 28
+#define VICTORY 29
+#define VIPII 30
+#define COINARCADE 31
+#define STUDIOIV 32
+#define DEBUGGER 33
+
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
 #define VIPPRINTER 4
@@ -484,12 +490,13 @@ public:
 #define COMXTAB 0
 #define COSMACELFTAB 1
 #define RCATAB 2
-#define STUDIOTAB 3
-#define CIDELSATAB 4
-#define TELMACTAB 5
-#define PECOMTAB 6
-#define ETITAB 7
-#define DEBUGGERTAB 8
+#define MICROTAB 3
+#define STUDIOTAB 4
+#define CIDELSATAB 5
+#define TELMACTAB 6
+#define PECOMTAB 7
+#define ETITAB 8
+#define DEBUGGERTAB 9
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
@@ -502,16 +509,22 @@ public:
 #define MEMBERTAB 5
 #define VIP2KTAB 6
 #define VELFTAB 7
+#define LASTELFTAB 7
 
 #define FRED1TAB 0
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
 #define MICROTUTOR2TAB 3
-#define CDP18S020TAB 4
-#define VIPTAB 5
-#define VIPIITAB 6
-#define MS2000TAB 7
-#define MCDSTAB 8
+#define VIPTAB 4
+#define VIPIITAB 5
+#define LASTRCATAB 7
+
+#define CDP18S020TAB 0
+#define CDP18S600TAB 1
+#define CDP18S601TAB 2
+#define CDP18S603ATAB 3
+#define MCDSTAB 4
+#define MS2000TAB 5
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
@@ -556,6 +569,7 @@ public:
 #define COSMICOSLED 6
 #define MEMBERLED 7
 #define MEMBERLEDGREEN 8
+#define PIOLED 9
 
 #define KEYBOARDNONE 0
 #define KEYBOARD_PS2 1
@@ -607,7 +621,12 @@ public:
 #define MAPPEDMULTICART 29
 #define TESTCARTRIDGEROM 30
 #define REGSTORAGE 31
-#define NOCHANGE 32
+#define CPURAM 32
+#define NOCHANGE 33
+
+#define MICRO_ROM 0
+#define MICRO_RAM 1
+#define MICRO_CPURAM 2
 
 #define SHOWNAME true
 #define NONAME false
@@ -1007,7 +1026,8 @@ public:
 	void onStudioChoiceBook(wxChoicebookEvent& event);
 	void onTelmacChoiceBook(wxChoicebookEvent& event);
 	void onElfChoiceBook(wxChoicebookEvent& event);
-	void onRcaChoiceBook(wxChoicebookEvent& event);
+    void onRcaChoiceBook(wxChoicebookEvent& event);
+    void onMicroChoiceBook(wxChoicebookEvent& event);
 	void onDebuggerChoiceBook(wxChoicebookEvent& event);
     void setConfigurationMenu();
 	void setNoteBook();

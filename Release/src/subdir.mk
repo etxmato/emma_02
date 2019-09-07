@@ -11,6 +11,8 @@ CPP_SRCS += \
 ../src/breakpoints.cpp \
 ../src/cdp1802.cpp \
 ../src/cdp18s020.cpp \
+../src/cdp18s600.cpp \
+../src/cdp18s640.cpp \
 ../src/cidelsa.cpp \
 ../src/cidelsastatusbar.cpp \
 ../src/coinarcade.cpp \
@@ -37,6 +39,7 @@ CPP_SRCS += \
 ../src/fred.cpp \
 ../src/functionkey.cpp \
 ../src/guicdp18s020.cpp \
+../src/guicdp18s600.cpp \
 ../src/guicidelsa.cpp \
 ../src/guicomx.cpp \
 ../src/guicosmicos.cpp \
@@ -81,12 +84,14 @@ CPP_SRCS += \
 ../src/mcds.cpp \
 ../src/member.cpp \
 ../src/memory.cpp \
+../src/microsetup.cpp \
 ../src/microtutor.cpp \
 ../src/microtutor2.cpp \
 ../src/ms2000.cpp \
 ../src/nano.cpp \
 ../src/network.cpp \
 ../src/pecom.cpp \
+../src/pio.cpp \
 ../src/pixie.cpp \
 ../src/portext.cpp \
 ../src/ports.cpp \
@@ -140,6 +145,8 @@ OBJS += \
 ./src/breakpoints.o \
 ./src/cdp1802.o \
 ./src/cdp18s020.o \
+./src/cdp18s600.o \
+./src/cdp18s640.o \
 ./src/cidelsa.o \
 ./src/cidelsastatusbar.o \
 ./src/coinarcade.o \
@@ -166,6 +173,7 @@ OBJS += \
 ./src/fred.o \
 ./src/functionkey.o \
 ./src/guicdp18s020.o \
+./src/guicdp18s600.o \
 ./src/guicidelsa.o \
 ./src/guicomx.o \
 ./src/guicosmicos.o \
@@ -210,12 +218,14 @@ OBJS += \
 ./src/mcds.o \
 ./src/member.o \
 ./src/memory.o \
+./src/microsetup.o \
 ./src/microtutor.o \
 ./src/microtutor2.o \
 ./src/ms2000.o \
 ./src/nano.o \
 ./src/network.o \
 ./src/pecom.o \
+./src/pio.o \
 ./src/pixie.o \
 ./src/portext.o \
 ./src/ports.o \
@@ -261,6 +271,8 @@ CPP_DEPS += \
 ./src/breakpoints.d \
 ./src/cdp1802.d \
 ./src/cdp18s020.d \
+./src/cdp18s600.d \
+./src/cdp18s640.d \
 ./src/cidelsa.d \
 ./src/cidelsastatusbar.d \
 ./src/coinarcade.d \
@@ -287,6 +299,7 @@ CPP_DEPS += \
 ./src/fred.d \
 ./src/functionkey.d \
 ./src/guicdp18s020.d \
+./src/guicdp18s600.d \
 ./src/guicidelsa.d \
 ./src/guicomx.d \
 ./src/guicosmicos.d \
@@ -331,12 +344,14 @@ CPP_DEPS += \
 ./src/mcds.d \
 ./src/member.d \
 ./src/memory.d \
+./src/microsetup.d \
 ./src/microtutor.d \
 ./src/microtutor2.d \
 ./src/ms2000.d \
 ./src/nano.d \
 ./src/network.d \
 ./src/pecom.d \
+./src/pio.d \
 ./src/pixie.d \
 ./src/portext.d \
 ./src/ports.d \

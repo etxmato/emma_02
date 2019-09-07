@@ -577,9 +577,12 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_TEXT_ENTER(XRCID("X"), DebugWindow::X)
 	EVT_TEXT_ENTER(XRCID("T"), DebugWindow::T)
     EVT_TEXT_ENTER(XRCID("B"), DebugWindow::B)
+    EVT_TEXT_ENTER(XRCID("CH"), DebugWindow::CH)
+    EVT_TEXT_ENTER(XRCID("CNTR"), DebugWindow::CNTR)
 	EVT_TEXT_ENTER(XRCID("DF"), DebugWindow::DF)
 	EVT_TEXT_ENTER(XRCID("Q"), DebugWindow::Q)
-	EVT_TEXT_ENTER(XRCID("IE"), DebugWindow::IE)
+    EVT_TEXT_ENTER(XRCID("IE"), DebugWindow::IE)
+    EVT_TEXT_ENTER(XRCID("CIE"), DebugWindow::CIE)
 	EVT_TEXT_ENTER(XRCID("EF1"), DebugWindow::EF1)
 	EVT_TEXT_ENTER(XRCID("EF2"), DebugWindow::EF2)
 	EVT_TEXT_ENTER(XRCID("EF3"), DebugWindow::EF3)
@@ -1194,7 +1197,16 @@ void DebugWindow::enableDebugGui(bool status)
     XRCCTRL(*this,"IEText", wxStaticText)->Enable(status);
     dfTextPointer->Enable(status&&!protectedMode_);
 	qTextPointer->Enable(status&&!protectedMode_);
-	ieTextPointer->Enable(status&&!protectedMode_);
+    ieTextPointer->Enable(status&&!protectedMode_);
+    if (cpuType_ >= CPU1804)
+    {
+        cieTextPointer->Enable(status&&!protectedMode_);
+        chTextPointer->Enable(status&&!protectedMode_);
+        counterTextPointer->Enable(status&&!protectedMode_);
+    }
+    XRCCTRL(*this,"CNTRButton", wxStaticText)->Enable(cpuType_ >= CPU1804);
+    XRCCTRL(*this,"CHButton", wxStaticText)->Enable(cpuType_ >= CPU1804);
+    XRCCTRL(*this,"CIEButton", wxStaticText)->Enable(cpuType_ >= CPU1804);
 	efTextPointer[1]->Enable(status&&!protectedMode_);
 	efTextPointer[2]->Enable(status&&!protectedMode_);
 	efTextPointer[3]->Enable(status&&!protectedMode_);
@@ -1487,12 +1499,22 @@ void DebugWindow::cycleDebug()
 				}
 				if (tregs_[i][0] == TREG_T && tregs_[i][1] == p_Computer->getRegisterT())
 				{
-					printBuffer.Printf("X=%02X",p_Computer->getRegisterT());
+					printBuffer.Printf("T=%02X",p_Computer->getRegisterT());
 					j = i;
 				}
                 if (tregs_[i][0] == TREG_B && tregs_[i][1] == p_Computer->getRegisterB())
                 {
-                    printBuffer.Printf("X=%02X",p_Computer->getRegisterB());
+                    printBuffer.Printf("B=%02X",p_Computer->getRegisterB());
+                    j = i;
+                }
+                if (tregs_[i][0] == TREG_CH && tregs_[i][1] == p_Computer->getCounterJamValue())
+                {
+                    printBuffer.Printf("CH=%02X",p_Computer->getCounterJamValue());
+                    j = i;
+                }
+                if (tregs_[i][0] == TREG_CNTR && tregs_[i][1] == p_Computer->getCounterTimer())
+                {
+                    printBuffer.Printf("CNTR=%02X",p_Computer->getCounterTimer());
                     j = i;
                 }
 				if (tregs_[i][0] == TREG_Q && tregs_[i][1] == p_Computer->getFlipFlopQ())
@@ -1592,7 +1614,10 @@ void DebugWindow::resetDisplay()
     lastB_ = p_Computer->getRegisterB() + 1;
 	lastDf_ = p_Computer->getDataFlag() ^ 1;
 	lastQ_ = p_Computer->getFlipFlopQ() ^ 1;
-	lastIe_ = p_Computer->getInterruptEnable() ^ 1;
+    lastIe_ = p_Computer->getInterruptEnable() ^ 1;
+    lastCie_ = p_Computer->getCounterInterruptEnable() ^ 1;
+    lastCh_ = p_Computer->getCounterJamValue() ^ 1;
+    lastCounter_ = p_Computer->getCounterTimer() ^ 1;
 	Byte cpuFlag = p_Computer->getEfFlags();
 	lastEf1_ = (cpuFlag & 1) ^ 0x1;
 	lastEf2_ = (cpuFlag & 2) ^ 0x2;
@@ -1740,6 +1765,24 @@ void DebugWindow::updateWindow()
         bTextPointer->ChangeValue(buffer);
         lastB_ = cpucpuRegister;
     }
+    cpucpuRegister = p_Computer->getCounterJamValue();
+    if (cpucpuRegister != lastCh_)
+    {
+        buffer.Printf("%02X", cpucpuRegister);
+        if (cpuType_ < CPU1804)
+            buffer = "--";
+        chTextPointer->ChangeValue(buffer);
+        lastCh_ = cpucpuRegister;
+    }
+    cpucpuRegister = p_Computer->getCounterTimer();
+    if (cpucpuRegister != lastCounter_)
+    {
+        buffer.Printf("%02X", cpucpuRegister);
+        if (cpuType_ < CPU1804)
+            buffer = "--";
+        counterTextPointer->ChangeValue(buffer);
+        lastCounter_ = cpucpuRegister;
+    }
 
     cpuFlag = p_Computer->getDataFlag();
 	if (cpuFlag != lastDf_)
@@ -1762,6 +1805,15 @@ void DebugWindow::updateWindow()
 		ieTextPointer->ChangeValue(buffer);
 		lastIe_ = cpuFlag;
 	}
+    cpuFlag = p_Computer->getCounterInterruptEnable();
+    if (cpuFlag != lastCie_)
+    {
+        buffer.Printf("%01X", cpuFlag);
+        if (cpuType_ < CPU1804)
+            buffer = "-";
+        cieTextPointer->ChangeValue(buffer);
+        lastCie_ = cpuFlag;
+    }
 	cpuFlag = p_Computer->getEfFlags();
 	if ((cpuFlag & 1) != lastEf1_)
 	{
@@ -2829,6 +2881,12 @@ void DebugWindow::addTreg()
 		break;
 
         case TREG_B: printBuffer.Printf("B  %02X", tregs_[numberOfTregs_][1]);
+        break;
+            
+        case TREG_CH: printBuffer.Printf("CH %02X", tregs_[numberOfTregs_][1]);
+        break;
+
+        case TREG_CNTR: printBuffer.Printf("CN %02X", tregs_[numberOfTregs_][1]);
         break;
     }
 	tregWindowPointer->InsertItem(numberOfTregs_, printBuffer);
@@ -6169,6 +6227,9 @@ int DebugWindow::getRegister(wxString buffer)
 	if (buffer == "X")  return TREG_X;
     if (buffer == "T")  return TREG_T;
     if (buffer == "B")  return TREG_B;
+    if (buffer == "CH")  return TREG_CH;
+    if (buffer == "CN")  return TREG_CNTR;
+    if (buffer == "CNTR")  return TREG_CNTR;
 	if (buffer == "Q")  return TREG_Q;
 	if (buffer == "R0")  return TREG_R0;
 	if (buffer == "R1")  return TREG_R1;
@@ -6195,7 +6256,6 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
 	long addr;
 	Byte value;
 	wxFile outputFile;
-	wxTextFile outputTextFile;
 	wxString fileName, memoryStr, number, strValue, line;
 
 	switch (memoryDisplay_)
@@ -6936,6 +6996,22 @@ void DebugWindow::B(wxCommandEvent&WXUNUSED(event))
     p_Computer->setRegisterB(value);
 }
 
+void DebugWindow::CH(wxCommandEvent&WXUNUSED(event))
+{
+    long value = get8BitValue("CH");
+    if (value == -1)  return;
+    
+    p_Computer->setCounterJamValue(value);
+}
+
+void DebugWindow::CNTR(wxCommandEvent&WXUNUSED(event))
+{
+    long value = get8BitValue("CNTR");
+    if (value == -1)  return;
+    
+    p_Computer->setCounterTimer(value);
+}
+
 void DebugWindow::DF(wxCommandEvent&WXUNUSED(event))
 {
 	long value = getBitValue("DF");
@@ -6958,6 +7034,14 @@ void DebugWindow::IE(wxCommandEvent&WXUNUSED(event))
 	if (value == -1)  return;
 
 	p_Computer->setInterruptEnable(value);
+}
+
+void DebugWindow::CIE(wxCommandEvent&WXUNUSED(event))
+{
+    long value = getBitValue("CIE");
+    if (value == -1)  return;
+    
+    p_Computer->setCounterInterruptEnable(value);
 }
 
 void DebugWindow::EF1(wxCommandEvent&WXUNUSED(event))
@@ -11441,7 +11525,6 @@ void DebugWindow::onAssSave(int range)
 {
 	Byte value;
 	wxFile outputFile;
-	wxTextFile outputTextFile;
 	wxString fileName, memoryStr, strValue, line;
 
 	fileName = dirAssDirNameVector[range] + pathSeparator_ + dirAssFileNameVector[range];
@@ -11732,7 +11815,6 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
 		return;
 	}
 
-	wxTextFile outputTextFile;
 	wxString fileName, number, printBufferOpcode;
 	bool commandFound;
 
@@ -11763,6 +11845,12 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
 	wxString path = FullPath.GetPath();
 	wxString ext = FullPath.GetExt();
 
+    if (ext == "txt")
+    {
+        assDirOld(fileName, start, end);
+        return;
+    }
+ 
     disassembleAgain_ = true;
     disassemblePass_ = 1;
     
@@ -12114,6 +12202,149 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
                 outOfRangeAddress.Printf("%04XH", labelInfo_[i].outOfRangeAddress);
             outputTextFile.InsertLine("; " + outOfRangeAddress + " referenced from " + AddressString, lineNumber++);
         }
+    }
+    outputTextFile.Write();
+    outputTextFile.Close();
+}
+
+void DebugWindow::assDirOld(wxString fileName, long start, long end)
+{
+    outputTextFile.Create(fileName);
+    wxString printBufferOpcode;
+    Word address = (Word)start;
+    bool commandFound;
+
+    wxString line, characters, newChar;
+    Byte value;
+    
+    while(address <= end && address >= start)
+    {
+        if (start == 0 && address >= 0xfff8)
+            start += 8;
+        
+        Byte memType = p_Computer->readMemDataType(address);
+        
+        switch (memType)
+        {
+            case MEM_TYPE_OPCODE:
+            case MEM_TYPE_OPCODE_RSHR:
+            case MEM_TYPE_OPCODE_RSHL:
+            case MEM_TYPE_OPCODE_BPZ:
+            case MEM_TYPE_OPCODE_BGE:
+            case MEM_TYPE_OPCODE_BM:
+            case MEM_TYPE_OPCODE_BL:
+            case MEM_TYPE_OPCODE_LSKP:
+            case MEM_TYPE_OPCODE_SKP:
+            case MEM_TYPE_OPCODE_LBR_SLOT:
+            case MEM_TYPE_OPCODE_RLDL:
+                line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
+            break;
+                
+            case MEM_TYPE_OPCODE_LDV:
+            case MEM_TYPE_OPCODE_LDL:
+                line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
+                outputTextFile.AddLine(line);
+                line.Printf("      %02X %02X %02X", p_Computer->readMem(address-3), p_Computer->readMem(address-2), p_Computer->readMem(address-1));
+            break;
+                
+            case MEM_TYPE_OPCODE_LDL_SLOT:
+                line = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, start, end);
+                outputTextFile.AddLine(line);
+                line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address-3), p_Computer->readMem(address-2), p_Computer->readMem(address-1), p_Computer->readMem(address-5),p_Computer->readMem(address-2));
+            break;
+                
+            case MEM_TYPE_OPERAND_LD_3:
+                if (p_Computer->readMemDataType((address-3)&0xffff) == MEM_TYPE_OPCODE_LDL_SLOT)
+                    line.Printf("      %02X %02X %02X         %02X%02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2), p_Computer->readMem(address-2),p_Computer->readMem(address+1));
+                else
+                    line.Printf("      %02X %02X %02X", p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMem(address+2));
+                address+=3;
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_PSEUDO_1:
+                line = pseudoDisassemble(address, false, true);
+                value = p_Computer->readMemDebug(address++);
+
+                commandFound = false;
+                for (size_t i=0; i<singleByteCommandNumber_; i++)
+                {
+                    if (value == singleByteCommand_[i])
+                        commandFound = true;
+                }
+                
+                if (!commandFound)
+                    address++;
+
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_OPCODE_JUMP_SLOT:
+                line.Printf("%04X: %02X %02X       S%02X,%04X", address, p_Computer->readMem(address), p_Computer->readMem(address+1), p_Computer->readMemDataType(address+1), (p_Computer->readMem(address)<<8) + p_Computer->readMem(address+1));
+                address+=2;
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_JUMP:
+                line.Printf("%04X: %02X %02X       %04X", address, p_Computer->readMem(address), p_Computer->readMem(address+1), (p_Computer->readMem(address)<<8) + p_Computer->readMem(address+1));
+                address+=2;
+                address&=0xffff;
+            break;
+                
+            case MEM_TYPE_JUMP_REV:
+                line.Printf("%04X: %02X %02X       %04X", address, p_Computer->readMem(address), p_Computer->readMem(address+1), (p_Computer->readMem(address+1)<<8) + p_Computer->readMem(address));
+                address+=2;
+                address&=0xffff;
+            break;
+                
+            default:
+                characters = "";
+                if (dataViewDump)
+                {
+                    line.Printf("%04X: ", address);
+                    int count = 0;
+                    memType = p_Computer->readMemDataType(address);
+                    while (count < 4 && (memType == MEM_TYPE_UNDEFINED || memType == MEM_TYPE_DATA || memType == MEM_TYPE_PSEUDO_2 || memType == MEM_TYPE_OPERAND))
+                    {
+                        value = p_Computer->readMem(address);
+                        printBufferOpcode.Printf("%02X ", value);
+                        line = line + printBufferOpcode;
+                        newChar = " ";
+                        if (value > 0x20)
+                            newChar.SetChar(0, value&0x7f);
+                        characters = characters + newChar;
+                        address++;
+                        address&=0xffff;
+                        count++;
+                        memType = p_Computer->readMemDataType(address);
+                    }
+                    if (count == 0)
+                    {
+                        value = p_Computer->readMem(address);
+                        line.Printf("%04X: %02X", address, value);
+                        address++;
+                        address&=0xffff;
+                        characters = " ";
+                        if (value > 0x20)
+                            characters.SetChar(0, value&0x7f);
+                    }
+                }
+                else
+                {
+                    value = p_Computer->readMem(address);
+                    line.Printf("%04X: %02X", address, value);
+                    address++;
+                    address&=0xffff;
+                    characters = " ";
+                    if (value > 0x20)
+                        characters.SetChar(0, value&0x7f);
+                }
+                line = line + "            ";
+                line = line.Left(18) + characters;
+                break;
+        }
+        
+        outputTextFile.AddLine(line);
     }
     outputTextFile.Write();
     outputTextFile.Close();
@@ -12535,6 +12766,10 @@ void DebugWindow::DebugDisplayMap()
 
                 case REGSTORAGE:
                     value.Printf ("S");
+                break;
+                    
+                case CPURAM:
+                    value.Printf ("CP");
                 break;
                     
 				case COMXEXPBOX:
@@ -13451,6 +13686,11 @@ void DebugWindow::DebugDisplayVtRam()
         case VIP:
         case VIP2K:
         case VELF:
+        case MS2000:
+        case MCDS:
+        case CDP18S600:
+        case CDP18S601:
+        case CDP18S603A:
         case CDP18S020:
 		case MEMBER:
 		case SUPERELF:
@@ -13571,8 +13811,10 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
 				setMemoryType((int)id, MC6845REGISTERS);
 			else if (strValue == "CF")
 				setMemoryType((int)id, COPYFLOPROM);
-			else if (strValue == "CE")
-				setMemoryType((int)id, COPYCOMXEXPROM);
+            else if (strValue == "CE")
+                setMemoryType((int)id, COPYCOMXEXPROM);
+            else if (strValue == "CP")
+                setMemoryType((int)id, CPURAM);
 			else if (strValue == "P")
 				setMemoryType((int)id, UNDEFINED);
 			else if (strValue == "C")
@@ -13593,12 +13835,13 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
 										"R = ROM\n"
 										"M. = Mapped RAM\n"
 										"E. = VP570 Expansion RAM\n"
+                                        "CP = CDP1805 CPU RAM\n"
 										"PR = 1870 Page RAM\n"
                                         "CR = 1870 Character RAM or\n"
                                         "     Cartridge ROM\n"
 										"M7 = MC6847 Video RAM\n"
 										"M5 = MC6845 Video RAM\n"
-										"MR = MC6845 Register\n"
+										"MR = MC6845 Register or Mapped ROM\n"
 										"CE = COMX Expansion ROM copy\n"
 										"CF = COMX Floppy disk ROM copy\n"
                                         "TC = Test Cartridge ROM\n"
@@ -13819,7 +14062,19 @@ void DebugWindow::setMemoryType(int id, int setType)
             }
         break;
             
+        case CDP18S600:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == CPURAM))
+                p_Computer->defineMemoryType(id*256, setType);
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), ROM (R), CDP1805 CPU RAM (CP) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+                                   "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+            
         case VELF:
+        case MCDS:
+        case MS2000:
             if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED))
                 p_Computer->defineMemoryType(id*256, setType);
             else
@@ -13829,7 +14084,18 @@ void DebugWindow::setMemoryType(int id, int setType)
             }
         break;
             
-		case ELF2K:
+        case CDP18S601:
+        case CDP18S603A:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6845REGISTERS))
+                p_Computer->defineMemoryType(id*256, setType);
+            else
+            {
+                (void)wxMessageBox( "Only RAM (.), ROM (R), MAPPED RAM (M.), MAPPED ROM (MR) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+                                   "Emma 02", wxICON_ERROR | wxOK );
+            }
+        break;
+
+        case ELF2K:
 		case TMC2000:
 		case TMC1800:
 		case NANO:
@@ -14979,6 +15245,36 @@ void DebugWindow::updateTitle()
 			p_Mcds->updateTitle(title);
 			p_Mcds->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
+
+        case CDP18S600:
+            if (p_Cdp18s600->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s600->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s600->SetTitle("CDP18S600" + title);
+            p_Cdp18s600->updateTitle(title);
+            p_Cdp18s600->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
+        case CDP18S601:
+            if (p_Cdp18s601->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s601->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s601->SetTitle("CDP18S601" + title);
+            p_Cdp18s601->updateTitle(title);
+            p_Cdp18s601->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+ 
+        case CDP18S603A:
+            if (p_Cdp18s603a->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s603a->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s603a->SetTitle("CDP18S603A" + title);
+            p_Cdp18s603a->updateTitle(title);
+            p_Cdp18s603a->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
 
 		case COSMICOS:
 			if (p_Cosmicos->getSteps()==0)

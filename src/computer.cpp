@@ -40,6 +40,7 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
 {
     wxBitmap *upBitmap;
     wxBitmap *downBitmap;
+    wxBitmap *disabledBitmap;
     wxSize buttonSize;
     
     buttonType_ = type;
@@ -53,6 +54,7 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
         break;
             
         case COSMICOS_HEX_BUTTON:
+        case PIO_HEX_BUTTON:
             upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_small.png", wxBITMAP_TYPE_PNG);
             downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_small_pushed.png", wxBITMAP_TYPE_PNG);
             buttonSize.x = 26;
@@ -97,8 +99,26 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
     memDC.DrawText(label, xPosition, yPosition);
     memDC.SelectObject(wxNullBitmap);
     
+    if (type == PIO_HEX_BUTTON)
+    {
+        disabledBitmapPointer = new wxBitmap(buttonSize);
+        
+        disabledBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_small_disabled.png", wxBITMAP_TYPE_PNG);
+        
+        memDC.SelectObject(*disabledBitmapPointer);
+        memDC.Clear();
+        memDC.DrawBitmap(*disabledBitmap, 0, 0);
+        memDC.SetTextForeground(*wxLIGHT_GREY);
+        memDC.DrawText(label, xPosition, yPosition);
+        memDC.SelectObject(wxNullBitmap);
+
+        delete disabledBitmap;
+    }
+
     delete upBitmap;
     delete downBitmap;
+    
+    enabled_ = true;
     
     x_ = x;
     y_ = y;
@@ -114,17 +134,27 @@ HexButton::~HexButton()
     delete upBitmapPointer;
     delete downBitmapPointer;
     delete focusTimer;
+
+    if (buttonType_ == PIO_HEX_BUTTON)
+        delete disabledBitmapPointer;
 }
 
 void HexButton::onPaint(wxDC& dc)
 {
-    if (state_ == BUTTON_UP)
+    if (enabled_)
     {
-        dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        }
     }
     else
     {
-        dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        dc.DrawBitmap(*disabledBitmapPointer, x_, y_);
     }
 }
 
@@ -161,10 +191,47 @@ void HexButton::releaseButtonOnScreen(wxDC& dc)
 	dc.DrawBitmap(*upBitmapPointer, x_, y_);
 }
 
+void HexButton::enable(wxDC& dc, bool enabled)
+{
+    enabled_ = enabled;
+    if (enabled_)
+    {
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        }
+    }
+    else
+    {
+        dc.DrawBitmap(*disabledBitmapPointer, x_, y_);
+    }
+}
+
+BEGIN_EVENT_TABLE(HexButton2, wxEvtHandler )
+    EVT_TIMER(wxID_ANY, HexButton2::OnTimer)
+END_EVENT_TABLE()
+
+HexButton2::HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
+: HexButton(dc, type, x, y, label)
+{
+}
+
+void HexButton2::OnTimer(wxTimerEvent& WXUNUSED(event))
+{
+    state_ = BUTTON_UP;
+    p_Computer->releaseButtonOnScreen2(this, buttonType_);
+}
+
 SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxCoord x, wxCoord y, wxString label)
 {
 	wxBitmap *upBitmap;
 	wxBitmap *downBitmap;
+    wxBitmap *disabledUpBitmap;
+    wxBitmap *disabledDownBitmap;
 
     wxString linuxExtension = "";
 #if defined (__linux__)
@@ -173,17 +240,30 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
     
     buttonSizeX_ = 30;
     buttonSizeY_ = 30;
+    buttonStartX_ = 0;
+    buttonStartY_ = 0;
+    
+    enabled_ = true;
 
 	switch (type)
 	{
         case VERTICAL_BUTTON:
             upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swup.png", wxBITMAP_TYPE_PNG);
             downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdown.png", wxBITMAP_TYPE_PNG);
+            buttonSizeX_ = 22;
+            buttonSizeY_ = 22;
+            buttonStartX_ = 3;
+            buttonStartY_ = 3;
         break;
 
 		case VERTICAL_BUTTON_RED:
+        case PIO_VERTICAL_BUTTON:
 			upBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swupred.png", wxBITMAP_TYPE_PNG);
 			downBitmap = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdownred.png", wxBITMAP_TYPE_PNG);
+            buttonSizeX_ = 22;
+            buttonSizeY_ = 22;
+            buttonStartX_ = 3;
+            buttonStartY_ = 3;
 		break;
 
 		case HORIZONTAL_BUTTON:
@@ -245,10 +325,10 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 	wxColour maskColour(255, 0, 255);
 
 	maskUp = new wxMask (*upBitmap, maskColour);
-	upBitmap->SetMask(maskUp);
+    upBitmap->SetMask(maskUp);
 	maskDown = new wxMask (*downBitmap, maskColour);
-	downBitmap->SetMask(maskDown);
-
+    downBitmap->SetMask(maskDown);
+    
 	upBitmapPointer = new wxBitmap(upBitmap->GetWidth(), upBitmap->GetHeight());  
 	downBitmapPointer = new wxBitmap(downBitmap->GetWidth(), downBitmap->GetHeight());  
 
@@ -278,10 +358,34 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
     }
 	memDC.SelectObject(wxNullBitmap);
 
-	delete upBitmap;
-	delete downBitmap;
+    if (type == PIO_VERTICAL_BUTTON)
+    {
+        disabledUpBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisabledup.png", wxBITMAP_TYPE_PNG);
+        disabledDownBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + linuxExtension + "/swdisableddown.png", wxBITMAP_TYPE_PNG);
+        
+        disabledUpBitmap->SetMask(maskUp);
+        disabledDownBitmap->SetMask(maskDown);
 
-	x_ = x;
+        disabledUpBitmapPointer = new wxBitmap(disabledUpBitmap->GetWidth(), disabledUpBitmap->GetHeight());
+        disabledDownBitmapPointer = new wxBitmap(disabledDownBitmap->GetWidth(), disabledDownBitmap->GetHeight());
+
+        memDC.SelectObject(*disabledUpBitmapPointer);
+        memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(bkgrClr));
+        memDC.Clear();
+        memDC.DrawBitmap(*disabledUpBitmap, 0, 0, true);
+        memDC.SelectObject(wxNullBitmap);
+
+        memDC.SelectObject(*disabledDownBitmapPointer);
+        memDC.SetBackground(*wxTheBrushList->FindOrCreateBrush(bkgrClr));
+        memDC.Clear();
+        memDC.DrawBitmap(*disabledDownBitmap, 0, 0, true);
+        memDC.SelectObject(wxNullBitmap);
+    }
+    
+    delete upBitmap;
+    delete downBitmap;
+
+    x_ = x;
 	y_ = y;
 	state_ = state;
 	type_ = type;
@@ -299,19 +403,38 @@ SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxC
 SwitchButton::~SwitchButton()
 {
 	delete upBitmapPointer;
-	delete downBitmapPointer;
+    delete downBitmapPointer;
+    if (type_ == PIO_VERTICAL_BUTTON)
+    {
+        delete disabledUpBitmapPointer;
+        delete disabledDownBitmapPointer;
+    }
 }
 
 void SwitchButton::onPaint(wxDC& dc)
 {
-	if (state_ == BUTTON_UP)
-	{
-		dc.DrawBitmap(*upBitmapPointer, x_, y_);
-	}
-	else
-	{
-		dc.DrawBitmap(*downBitmapPointer, x_, y_);
-	}
+    if (enabled_)
+    {
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        }
+    }
+    else
+    {
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*disabledUpBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*disabledDownBitmapPointer, x_, y_);
+        }
+    }
 }
 
 bool SwitchButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
@@ -319,7 +442,7 @@ bool SwitchButton::onMousePress(wxDC& dc, wxCoord x, wxCoord y)
 	if (type_ < PUSH_BUTTON)
 		return false;
 
-	if ((x >= x_) &&(x <= (x_+buttonSizeX_)) &&(y >= y_) &&(y <= (y_+buttonSizeY_)))
+	if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSizeX_)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSizeY_)))
 	{
 		state_ = !state_;
 		if (state_ == BUTTON_UP)
@@ -340,7 +463,7 @@ bool SwitchButton::onMouseRelease(wxDC& dc, wxCoord x, wxCoord y)
     if (type_ > PUSH_BUTTON)
         return false;
 
-    if ((x >= x_) &&(x <= (x_+buttonSizeX_)) &&(y >= y_) &&(y <= (y_+buttonSizeY_)))
+    if ((x >= (x_+buttonStartX_)) &&(x <= (x_+buttonSizeX_)) &&(y >= (y_+buttonStartY_)) &&(y <= (y_+buttonSizeY_)))
 	{
 		state_ = !state_;
 		if (state_ == BUTTON_UP)
@@ -359,14 +482,55 @@ bool SwitchButton::onMouseRelease(wxDC& dc, wxCoord x, wxCoord y)
 void SwitchButton::setState(wxDC& dc, bool state)
 {
 	state_ = state;
-	if (state_ == BUTTON_UP)
-	{
-		dc.DrawBitmap(*upBitmapPointer, x_, y_);
-	}
-	else
-	{
-		dc.DrawBitmap(*downBitmapPointer, x_, y_);
-	}
+    if (enabled_)
+    {
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        }
+    }
+    else
+    {
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*disabledUpBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*disabledDownBitmapPointer, x_, y_);
+        }
+    }
+}
+
+void SwitchButton::enable(wxDC& dc, bool enabled)
+{
+    enabled_ = enabled;
+    if (enabled_)
+    {
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*upBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*downBitmapPointer, x_, y_);
+        }
+    }
+    else
+    {
+        if (state_ == BUTTON_UP)
+        {
+            dc.DrawBitmap(*disabledUpBitmapPointer, x_, y_);
+        }
+        else
+        {
+            dc.DrawBitmap(*disabledDownBitmapPointer, x_, y_);
+        }
+    }
 }
 
 void *RunComputer::Entry()
@@ -446,6 +610,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 
 Panel::~Panel()
 {
+    
 }
 
 void Panel::init()
@@ -821,6 +986,12 @@ void Panel::updateLed(wxDC& dc, int i)
 		ledPointer[i]->setStatus(dc, ledStatus[i]);
 		updateLed_[i] = false;
 	}
+}
+
+void Panel::refreshLed(wxDC& dc, int i)
+{
+    ledPointer[i]->setStatus(dc, ledStatus[i]);
+    updateLed_[i] = false;
 }
 
 void Panel::setStateLed(int i, int status)
@@ -1699,6 +1870,10 @@ void Computer::efSwitch(int WXUNUSED(number))
 {
 }
 
+void Computer::setEfState(int WXUNUSED(number), Byte WXUNUSED(value))
+{
+}
+
 Byte Computer::getData()
 {
 	return 0;
@@ -1925,6 +2100,10 @@ void Computer::releaseButtonOnScreen(HexButton* WXUNUSED(buttonPointer), int WXU
 {
 }
 
+void Computer::releaseButtonOnScreen2(HexButton* WXUNUSED(buttonPointer), int WXUNUSED(buttonType))
+{
+}
+
 void Computer::terminalSave(wxString WXUNUSED(fileName))
 {
 }
@@ -1967,6 +2146,20 @@ void Computer::showState(int WXUNUSED(state))
 
 void Computer::switchHexEf(bool WXUNUSED(state))
 {
+}
+
+void Computer::setCpuMode(int mode)
+{
+    int clear = (mode>>1)&1;
+    int wait = mode&1;
+    
+    p_Computer->setWait(wait);
+    p_Computer->setClear(clear);
+}
+
+void Computer::setForceUpperCase(bool WXUNUSED(status))
+{
+    
 }
 
 

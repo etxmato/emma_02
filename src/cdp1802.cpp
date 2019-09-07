@@ -120,6 +120,8 @@ void Cdp1802::initCpu(int computerType)
         accumulator_ = 0;
         registerT_ = 0;
         registerB_ = 0;
+        counter_ = 0;
+        ch_ = 0;
    }
     else
     {
@@ -129,6 +131,8 @@ void Cdp1802::initCpu(int computerType)
         accumulator_ = rand() % 0x100;
         registerT_ = rand() % 0x100;
         registerB_ = rand() % 0x100;
+        counter_ = rand() % 0x100;
+        ch_ = rand() % 0x100;
    }
 	efFlags_ = 0xf;
 
@@ -151,6 +155,7 @@ void Cdp1802::initCpu(int computerType)
 	traceChip8Int_ = false;
     skipTrace_ = false;
     singleStateStep_ = false;
+    interruptRequested_ = false;
 }
 
 void Cdp1802::resetCpu()
@@ -158,14 +163,17 @@ void Cdp1802::resetCpu()
     cpuState_ = STATE_FETCH_1;
     flipFlopQ_ = 0;
     interruptEnable_ = 1;
-	ci_ = 0;
+    cie_ = 1;
+    xie_ = 1;
+    ci_ = 0;
 	xi_ = 0;
 	dataPointer_ = 0;
 	programCounter_ = 0;
 	scratchpadRegister_[0] = 0;
     ctrPre_ = 32;
 	tq_ = 0;
-	ctrRunning_ = 0;
+    ctrRunning_ = 0;
+    ctrMode_ = 0;
 	idle_ = 0;
 	address_ = 0;
 	colourMask_ = 0;
@@ -193,12 +201,27 @@ void Cdp1802::machineCycle()
 	{
 		cycle(i);
 	}
-    if (ctrRunning_ == 1 && ctrMode_ == 3)
+    if (ctrRunning_ == 1)
     {
-        if (--ctrPre_ == 0)
+        switch (ctrMode_)
         {
-            decCounter();
-            ctrPre_ = 32;
+            case 3:
+                if (--ctrPre_ == 0)
+                {
+                    decCounter();
+                    ctrPre_ = 32;
+                }
+            break;
+
+            case 4:
+                if ((efFlags_ & 1) == 1)
+                    decCounter();
+            break;
+
+            case 5:
+                if ((efFlags_ & 2) == 2)
+                    decCounter();
+            break;
         }
     }
     soundCycle();
@@ -419,19 +442,51 @@ void Cdp1802::setEf(int flag,int value)
 {
 	if (flag == 1)
 	{
-		if (ctrMode_ == 1 && ctrRunning_)
-		{
-			if (value == 0 &&(efFlags_ & 1)) decCounter();
-		}
+        if (ctrRunning_)
+        {
+            switch (ctrMode_)
+            {
+                case 1:
+                    if (value == 0 &&(efFlags_ & 1))
+                        decCounter();
+                break;
+                case 4:
+                    if (value == 0 &&(efFlags_ & 1))
+                    {
+                        ctrRunning_ = 0;
+                        ctrMode_ = 0;
+                        ci_ = (cie_) ? 1 : 0;
+                        if (ci_)
+                            interrupt();
+                    }
+                break;
+            }
+        }
 		if (value) efFlags_ |= 1;
 		else efFlags_ &= 0xe;
 	}
 	if (flag == 2)
 	{
-		if (ctrMode_ == 2 && ctrRunning_)
-		{
- 			if (value == 0 &&(efFlags_ & 2)) decCounter();
-		}
+        if (ctrRunning_)
+        {
+            switch (ctrMode_)
+            {
+                case 2:
+                    if (value == 0 &&(efFlags_ & 2))
+                        decCounter();
+                break;
+                case 5:
+                    if (value == 0 &&(efFlags_ & 1))
+                    {
+                        ctrRunning_ = 0;
+                        ctrMode_ = 0;
+                        ci_ = (cie_) ? 1 : 0;
+                        if (ci_)
+                            interrupt();
+                    }
+                break;
+            }
+        }
 		if (value) efFlags_ |= 2;
 		else efFlags_ &= 0xd;
 	}
@@ -449,6 +504,7 @@ void Cdp1802::setEf(int flag,int value)
 
 void Cdp1802::interrupt()
 {
+    interruptRequested_ = false;
     showIntLed();
 	if (p_Main->isDiagActive(COMX) && computerType_ == COMX)
 	{
@@ -467,7 +523,7 @@ void Cdp1802::interrupt()
 	{
 		if (traceInt_)
 		{
-			p_Main->debugTrace("----  Interrupt");
+            p_Main->debugTrace("----  Interrupt");
 		}
 		if (traceChip8Int_)
 		{
@@ -479,16 +535,22 @@ void Cdp1802::interrupt()
 		interruptEnable_=0;
 		cpuCycles_++;
 		machineCycle();
+        
+        cpuState_ = STATE_FETCH_1;
+        
+        if (singleStateStep_)
+        {
+            showAddress(scratchpadRegister_[programCounter_]);
+            showCycleData(0);
+            singleStateStep();
+        }
 	}
-	idle_=0;
-    cpuState_ = STATE_FETCH_1;
+    idle_=0;
+}
 
-    if (singleStateStep_)
-    {
-        showAddress(scratchpadRegister_[programCounter_]);
-        showCycleData(0);
-        singleStateStep();
-    }
+void Cdp1802::requestInterrupt()
+{
+    interruptRequested_ = true;
 }
 
 void Cdp1802::pixieInterrupt()
@@ -510,12 +572,13 @@ void Cdp1802::pixieInterrupt()
 		interruptEnable_=0;
 		cpuCycles_++;
 //      Adding a 'machineCycle()' here will mess up the Pixie screens on at least the Elfs. The machineCycle is however done as part of the cpuCycleStep routine if cycle0 is set to 1.
+        
+        cpuState_ = STATE_FETCH_1;
+        
+        if (singleStateStep_)
+            singleStateStep();
     }
-	idle_=0;
-    cpuState_ = STATE_FETCH_1;
-
-    if (singleStateStep_)
-        singleStateStep();
+    idle_=0;
 }
 
 void Cdp1802::cpuCycleExecute1_1805()
@@ -1513,7 +1576,7 @@ void Cdp1802::cpuCycleStep()
 void Cdp1802::singleStateStep()
 {
     setWait(0);
-    setWaitLed();
+    setCpuMode(PAUSE);
     setGoTimer();
 }
 
@@ -3335,7 +3398,8 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 					{
 						wxString endStr;
 						endStr.Printf("%04X", (int)end);
-						p_Main->errorMessage("Attempt to load after address " + endStr);
+                        if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+                            p_Main->errorMessage("Attempt to load after address " + endStr);
 					}
 					setAddress(showFilename, start, last);
 					return true;
@@ -3588,7 +3652,8 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-			p_Main->errorMessage("Attempt to load after address " + endStr);
+            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+                p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, last);
 		return true;
@@ -3712,7 +3777,8 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-			p_Main->errorMessage("Attempt to load after address " + endStr);
+            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+                p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, address-1);
 		return true;
@@ -4074,6 +4140,15 @@ bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word ad
 	else return false;
 }
 
+bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, Word lastAddress, bool showFilename)
+{
+    if (rom.Len() != 0)
+    {
+        return readFile(romDir+rom, memoryType, address, lastAddress, showFilename);
+    }
+    else return false;
+}
+
 bool Cdp1802::readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename)
 {
 	bool ret;
@@ -4412,6 +4487,9 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
 
+                case CDP18S600:
+                case CDP18S601:
+                case CDP18S603A:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4474,6 +4552,9 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
                 
+                case CDP18S600:
+                case CDP18S601:
+                case CDP18S603A:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4512,7 +4593,15 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 mainMemoryLabelType_[address] = type;
             }
         break;
-            
+ 
+        case CPURAM:
+            if (type > cpuRamLabelType_[address&0xff] || type == 0)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                cpuRamLabelType_[address&0xff] = type;
+            }
+        break;
+
         case MAPPEDRAM:
             switch (computerType_)
             {
@@ -4776,6 +4865,9 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
+                case CDP18S600:
+                case CDP18S601:
+                case CDP18S603A:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4836,6 +4928,9 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
+                case CDP18S600:
+                case CDP18S601:
+                case CDP18S603A:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4870,6 +4965,10 @@ Byte Cdp1802::readMemLabelType(Word address)
                 break;
             }
             return mainMemoryLabelType_[address];
+        break;
+            
+        case CPURAM:
+            return cpuRamLabelType_[address&0xff];
         break;
             
         case MAPPEDRAM:
