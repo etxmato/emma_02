@@ -69,16 +69,13 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     
     this->SetClientSize(size);
     
-    cycleSize_ = (int)(1000 / ((1/1.75) * 8)); // ~1000 Hz on 1.75 CPU
-    cycleValue_ = cycleSize_;
-
     cdp18s640ScreenPointer = new Cdp18s640Screen(this, size);
     cdp18s640ScreenPointer->init();
     
-#if defined(__WXMAC__)
-    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 202));
+#if defined (__WXMAC__) || (__linux__)
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
 #else
-    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 219));
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
 #endif
 }
 
@@ -885,6 +882,8 @@ void Cdp18s600::moveWindows()
 {
     if (Cdp18s600Configuration.vtType != VTNONE)
         vtPointer->Move(p_Main->getVtPos(computerType_));
+    if (Cdp18s600Configuration.usePio)
+        pioFramePointer->Move(p_Main->getSecondFramePos(computerType_));
 }
 
 void Cdp18s600::setForceUpperCase(bool status)

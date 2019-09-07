@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.31
+Version: 1.32
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -12,11 +12,13 @@ Description: Emma 02, the RCA 1802 Emulator
  Cosmac Elf, Netronics ELF II, Quest Super Elf,
  Membership Card, VIP2K Membership Card, VELF,
  FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020
- Evaluation Kit, Cosmac VIP, Cosmac VIP II, MCDS,
- MS2000, RCA Video Coin Arcade, RCA Studio II, RCA
- Studio III, Studio IV, Victory MPT-02, Visicom COM-100,
- Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000,
- Oscam Nano, Pecom 32, Pecom 64 and ETI 660
+ Evaluation Kit, CDP18S600 Microboard, CDP18S601
+ Microboard, CDP18S603A Microboard, Cosmac VIP,
+ Cosmac VIP II, MCDS, MS2000, RCA Video Coin Arcade,
+ RCA Studio II, RCA Studio III, Studio IV, Victory MPT-02,
+ Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800,
+ Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and
+ ETI 660
 
 <</CTRL>>
 <<FILES>>
@@ -105,11 +107,11 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.31) xenial; urgency=medium
+emma-02 (1.32) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Fri, 02 Aug 2019 16:46:45 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Fri, 07 Sep 2019 13:21:45 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>

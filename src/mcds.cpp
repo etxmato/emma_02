@@ -49,9 +49,6 @@ Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
 	this->SetClientSize(size);
 
-	cycleSize_ = (int)(1000 / ((1/1.75) * 8)); // ~1000 Hz on 1.75 CPU
-	cycleValue_ = cycleSize_;
-    
     saveStarted_ = false;
     loadStarted_ = false;
 

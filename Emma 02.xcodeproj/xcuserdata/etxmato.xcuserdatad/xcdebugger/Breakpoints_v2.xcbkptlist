@@ -10,7 +10,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.87482"
+            timestampString = "589496849.417091"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "64"
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.874891"
+            timestampString = "589496849.4174449"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "604"
-            endingLineNumber = "604"
+            startingLineNumber = "599"
+            endingLineNumber = "599"
             landmarkName = "Cdp18s600::startComputer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.874948"
+            timestampString = "589496849.417733"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "60"
@@ -58,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.875005"
+            timestampString = "589496849.418002"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "159"
+            endingLineNumber = "159"
             landmarkName = "Cdp18s600::configureComputer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.87506"
+            timestampString = "589496849.418283"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1169"
-            endingLineNumber = "1169"
+            startingLineNumber = "1166"
+            endingLineNumber = "1166"
             landmarkName = "Cdp18s601::out(Byte port, Word WXUNUSED(address), Byte value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.875115"
+            timestampString = "589496849.418576"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1168"
-            endingLineNumber = "1168"
+            startingLineNumber = "1165"
+            endingLineNumber = "1165"
             landmarkName = "Cdp18s601::out(Byte port, Word WXUNUSED(address), Byte value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.8752789"
+            timestampString = "589496849.418878"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1252"
-            endingLineNumber = "1252"
+            startingLineNumber = "1249"
+            endingLineNumber = "1249"
             landmarkName = "Cdp18s601::readRoms()"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +154,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/cdp18s600.cpp"
-            timestampString = "589150931.875333"
+            timestampString = "589496849.419147"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1180"
-            endingLineNumber = "1180"
+            startingLineNumber = "1177"
+            endingLineNumber = "1177"
             landmarkName = "Cdp18s601::out(Byte port, Word WXUNUSED(address), Byte value)"
             landmarkType = "7">
          </BreakpointContent>
@@ -176,6 +176,38 @@
             startingLineNumber = "591"
             endingLineNumber = "591"
             landmarkName = "GuiCdp18s600::onFourSocketBank(wxCommandEvent&amp;event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/pio.cpp"
+            timestampString = "589496849.4194289"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "39"
+            endingLineNumber = "39"
+            landmarkName = "PioScreen::PioScreen(wxWindow *parent, const wxSize&amp; size)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/cdp18s600.cpp"
+            timestampString = "589496849.4194829"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
+            landmarkName = "Cdp18s600::Cdp18s600(const wxString&amp; title, const wxPoint&amp; pos, const wxSize&amp; size, double clock, ElfConfiguration conf)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

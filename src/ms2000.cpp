@@ -49,9 +49,6 @@ Ms2000::Ms2000(const wxString& title, const wxPoint& pos, const wxSize& size, do
 
 	this->SetClientSize(size);
 
-	cycleSize_ = (int)(1000 / ((1/1.75) * 8)); // ~1000 Hz on 1.75 CPU
-	cycleValue_ = cycleSize_;
-    
     saveStarted_ = false;
     loadStarted_ = false;
 	microDosRunning_ = false;

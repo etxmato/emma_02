@@ -86,10 +86,7 @@ protected:
 
 private:
     Word lastAddress_;
-    
-    int cycleValue_;
-    int cycleSize_;
-   
+       
     int ledCycleValue_;
     int ledCycleSize_;
     int setMsValue_;

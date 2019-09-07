@@ -26,12 +26,17 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
+#if defined(__linux__)
+#include "app_icon.xpm"
+#endif
+
 #include "main.h"
 #include "pio.h"
 
 PioScreen::PioScreen(wxWindow *parent, const wxSize& size)
 : Panel(parent, size)
 {
+//    this->SetClientSize(size);
 }
 
 PioScreen::~PioScreen()
@@ -972,7 +977,9 @@ PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size
 {
     pioScreenPointer = new PioScreen(this, size);
     pioScreenPointer->init();
-
+    
+    this->SetClientSize(size);
+    
 #ifndef __WXMAC__
 	SetIcon(wxICON(app_icon));
 #endif

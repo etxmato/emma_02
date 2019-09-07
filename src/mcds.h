@@ -61,8 +61,6 @@ private:
 
     int ioGroup_;
 
-	int cycleValue_;
-	int cycleSize_;
     bool saveStarted_;
     bool loadStarted_;
     wxString tapeNumber_;
