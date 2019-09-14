@@ -23,6 +23,12 @@ public:
     
     void onOneSocketBank(wxCommandEvent&event);
     void onFourSocketBank(wxCommandEvent&event);
+    void onCdp18s604bFourSocketBank(wxCommandEvent&event);
+    int convertCdp18s604ChipType(int type);
+    void onCdp18s604bRamBlock(wxCommandEvent&event);
+    void onCdp18s604bRomBlock(wxCommandEvent&event);
+    void cdp18s604bOneSocketBankGui();
+    void cdp18s604bFourSocketBankGui();
 
     void onRomU21(wxCommandEvent& event);
     void onRomU21Text(wxCommandEvent& event);
@@ -39,7 +45,9 @@ public:
     void setOneSocketState(wxString cdpTypeStr);
     void onCdp18s600ControlWindows(wxCommandEvent&event);
     void onPioWindows(wxCommandEvent&event);
-    void pioWindows(bool state);
+    void onCdp1852Windows(wxCommandEvent&event);
+    void pioWindows(int computerType, bool state);
+    void cdp1852Windows(int computerType, bool state);
     bool getUseCdp18s600ControlWindows();
     bool getUsePioWindows();
     void setRamlabel(int romNumber, wxString romString, wxString cdpTypeStr, wxString label);

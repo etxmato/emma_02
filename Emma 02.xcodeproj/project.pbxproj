@@ -30,6 +30,7 @@
 		996C1615212F3F130061C30B /* pseudo.def in Resources */ = {isa = PBXBuildFile; fileRef = 996C1614212F3F130061C30B /* pseudo.def */; };
 		996F46261AA643B300C88AA6 /* keymaptmc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 996F46241AA643B300C88AA6 /* keymaptmc.cpp */; };
 		996FCAE821430C240051F294 /* STK-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 996FCAE721430C240051F294 /* STK-1.syntax */; };
+		9970174D23298F2D00D66312 /* cdp1852.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9970174B23298F2C00D66312 /* cdp1852.cpp */; };
 		9971896E1C3B16D20061426E /* menuVelf.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896D1C3B16D10061426E /* menuVelf.xrc */; };
 		997189701C3B19BC0061426E /* menuVip.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9971896F1C3B19BC0061426E /* menuVip.xrc */; };
 		997646F51A61D5D400FB9B33 /* usb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 997646F41A61D5D400FB9B33 /* usb.cpp */; };
@@ -270,6 +271,8 @@
 		996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02.pkgproj"; sourceTree = "<group>"; };
 		996FC5821F8ABDE800E08812 /* introduction.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = introduction.rtf; sourceTree = "<group>"; };
 		996FCAE721430C240051F294 /* STK-1.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-1.syntax"; sourceTree = "<group>"; };
+		9970174B23298F2C00D66312 /* cdp1852.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp1852.cpp; path = src/cdp1852.cpp; sourceTree = "<group>"; };
+		9970174C23298F2C00D66312 /* cdp1852.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp1852.h; path = src/cdp1852.h; sourceTree = "<group>"; };
 		9971896D1C3B16D10061426E /* menuVelf.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuVelf.xrc; sourceTree = "<group>"; };
 		9971896F1C3B19BC0061426E /* menuVip.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuVip.xrc; sourceTree = "<group>"; };
 		9973DDFC1A69B7B300B57557 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images; sourceTree = "<group>"; };
@@ -726,6 +729,8 @@
 				997915CF2308266B0063A6F3 /* cdp18s640.h */,
 				997647001A61D5EE00FB9B33 /* cdp1802.cpp */,
 				9976475C1A61D5EE00FB9B33 /* cdp1802.h */,
+				9970174B23298F2C00D66312 /* cdp1852.cpp */,
+				9970174C23298F2C00D66312 /* cdp1852.h */,
 				9976471C1A61D5EE00FB9B33 /* cidelsa.cpp */,
 				997647441A61D5EE00FB9B33 /* cidelsa.h */,
 				997646FA1A61D5EE00FB9B33 /* cidelsastatusbar.cpp */,
@@ -1212,6 +1217,7 @@
 				997647CD1A61D5EF00FB9B33 /* guivip2.cpp in Sources */,
 				99605651230AF26F009FF74F /* pio.cpp in Sources */,
 				997647F31A61D5EF00FB9B33 /* i8275.cpp in Sources */,
+				9970174D23298F2D00D66312 /* cdp1852.cpp in Sources */,
 				99BC8688225697B000056D0E /* microtutor2.cpp in Sources */,
 				997647DC1A61D5EF00FB9B33 /* ledmodule.cpp in Sources */,
 				997647D91A61D5EF00FB9B33 /* tmc1800.cpp in Sources */,

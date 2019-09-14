@@ -119,6 +119,9 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         case CDP18S603A:
             computerTypeStr_ = "CDP18S603A";
         break;
+        case CDP18S604B:
+            computerTypeStr_ = "CDP18S604B";
+        break;
 		case MCDS:
 			computerTypeStr_ = "MCDS";
 		break;

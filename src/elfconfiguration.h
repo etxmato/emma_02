@@ -101,7 +101,8 @@ public:
 	int screenHeight6847;
 	bool useTMS9918;
 	bool use8275;
-	bool usePio;
+    bool usePio;
+    bool useCdp1852;
 	int vtType;
     bool vtExternal;
     bool serialLog;

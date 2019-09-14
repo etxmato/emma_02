@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 33
-#define LAST_ELF_TYPE 18
+#define NO_COMPUTER 34
+#define LAST_ELF_TYPE 19
 
 #define MAINROM1 0
 
@@ -183,6 +183,7 @@ public:
     
     int microChipType_[2];
     int microChipLocation_[3];
+    wxString microChipBlock_[2];
     int microChipMemory_[MAXROM];
     bool microChipDisable_[MAXROM];
 };
@@ -367,6 +368,7 @@ public:
     void setMicroChipMemory(int computerType, int romType, int memType) { conf[computerType].microChipMemory_[romType] = memType;};
     bool getMicroChipDisable(int computerType, int romType) {return conf[computerType].microChipDisable_[romType];};
     void setMicroChipDisable(int computerType, int romType, bool disableSocket) { conf[computerType].microChipDisable_[romType] = disableSocket;};
+    wxString getMicroChipBlock(int computerType, int romType) {return conf[computerType].microChipBlock_[romType];};
 
 	long getBitValue(wxString reference);
 	long get8BitValue(wxString reference);
@@ -490,6 +492,7 @@ protected:
     Cdp18s600 *p_Cdp18s600;
     Cdp18s601 *p_Cdp18s601;
     Cdp18s603a *p_Cdp18s603a;
+    Cdp18s604b *p_Cdp18s604b;
 	Nano *p_Nano;
 	Tmc1800 *p_Tmc1800;
 	Tmc2000 *p_Tmc2000;

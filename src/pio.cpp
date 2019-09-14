@@ -41,7 +41,7 @@ PioScreen::PioScreen(wxWindow *parent, const wxSize& size)
 
 PioScreen::~PioScreen()
 {
-    for (int i=0; i<16; i++)
+    for (int i=0; i<20; i++)
     {
         delete ledPointer[i];
         delete dataSwitchButton[i];

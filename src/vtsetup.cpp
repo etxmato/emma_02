@@ -143,6 +143,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         case CDP18S020:
         case CDP18S601:
         case CDP18S603A:
+        case CDP18S604B:
             XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
@@ -263,6 +264,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         case CDP18S020:
         case CDP18S601:
         case CDP18S603A:
+        case CDP18S604B:
         case MCDS:
             elfConfiguration_.useUart = false;
         break;

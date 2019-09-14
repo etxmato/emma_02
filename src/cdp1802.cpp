@@ -3398,7 +3398,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 					{
 						wxString endStr;
 						endStr.Printf("%04X", (int)end);
-                        if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+                        if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A && computerType_ != CDP18S604B)
                             p_Main->errorMessage("Attempt to load after address " + endStr);
 					}
 					setAddress(showFilename, start, last);
@@ -3652,7 +3652,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A && computerType_ != CDP18S604B)
                 p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, last);
@@ -3777,7 +3777,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A && computerType_ != CDP18S604B)
                 p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, address-1);
@@ -4490,6 +4490,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case CDP18S600:
                 case CDP18S601:
                 case CDP18S603A:
+                case CDP18S604B:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4555,6 +4556,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                 case CDP18S600:
                 case CDP18S601:
                 case CDP18S603A:
+                case CDP18S604B:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4868,6 +4870,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case CDP18S600:
                 case CDP18S601:
                 case CDP18S603A:
+                case CDP18S604B:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4931,6 +4934,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                 case CDP18S600:
                 case CDP18S601:
                 case CDP18S603A:
+                case CDP18S604B:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)

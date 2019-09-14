@@ -13691,6 +13691,7 @@ void DebugWindow::DebugDisplayVtRam()
         case CDP18S600:
         case CDP18S601:
         case CDP18S603A:
+        case CDP18S604B:
         case CDP18S020:
 		case MEMBER:
 		case SUPERELF:
@@ -14086,6 +14087,7 @@ void DebugWindow::setMemoryType(int id, int setType)
             
         case CDP18S601:
         case CDP18S603A:
+        case CDP18S604B:
             if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6845REGISTERS))
                 p_Computer->defineMemoryType(id*256, setType);
             else
@@ -15276,6 +15278,16 @@ void DebugWindow::updateTitle()
             p_Cdp18s603a->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
 
+        case CDP18S604B:
+            if (p_Cdp18s604b->getSteps() == 0)
+                title = title + " ** PAUSED **";
+            if (p_Cdp18s604b->getClear() == 0)
+                title = title + " ** CPU STOPPED **";
+            p_Cdp18s604b->SetTitle("CDP18S604B" + title);
+            p_Cdp18s604b->updateTitle(title);
+            p_Cdp18s604b->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+        break;
+            
 		case COSMICOS:
 			if (p_Cosmicos->getSteps()==0)
 				title = title + " ** PAUSED **";

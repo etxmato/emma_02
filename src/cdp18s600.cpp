@@ -35,6 +35,7 @@
 #include "cdp18s600.h"
 #include "cdp18s640.h"
 #include "pio.h"
+#include "cdp1852.h"
 #include "upd765.h"
 
 Word romSize[]=
@@ -71,12 +72,6 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     
     cdp18s640ScreenPointer = new Cdp18s640Screen(this, size);
     cdp18s640ScreenPointer->init();
-    
-#if defined (__WXMAC__) || (__linux__)
-    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
-#else
-    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
-#endif
 }
 
 Cdp18s600::~Cdp18s600()
@@ -91,9 +86,11 @@ Cdp18s600::~Cdp18s600()
     p_Main->setMainPos(computerType_, GetPosition());
     delete cdp18s640ScreenPointer;
 
-	if (Cdp18s600Configuration.usePio)
-		p_Main->setSecondFramePos(computerType_, pioFramePointer->GetPosition());
-    pioFramePointer->Destroy();
+    if (Cdp18s600Configuration.usePio)
+        p_Main->setSecondFramePos(computerType_, pioFramePointer->GetPosition());
+    
+    if (pioFramePointer != NULL)
+        pioFramePointer->Destroy();
 }
 
 void Cdp18s600::onClose(wxCloseEvent&WXUNUSED(event) )
@@ -156,6 +153,12 @@ void Cdp18s600::configureComputer()
         p_Serial->configureMs2000(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
     }
     
+#if defined (__WXMAC__) || (__linux__)
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
+#else
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
+#endif
+
     p_Main->message("Configuring PIO on group 8");
     p_Main->message("	Output 2: write to port B, output 3: write to port A");
     p_Main->message("	Input 2: read port B, input 3: read port A");
@@ -527,9 +530,7 @@ void Cdp18s600::setCpuMode(int mode)
     setClear(clear);
 
     if (clear == 0)
-	{
         pioFramePointer->reset();
-	}
 
     cdp18s640ScreenPointer->setRunLed(clear & wait);
 
@@ -598,6 +599,7 @@ void Cdp18s600::startComputer()
     int ms = (int) p_Main->getLedTimeMs(computerType_);
     cdp18s640ScreenPointer->setLedMs(ms);
     pioFramePointer->setLedMs(ms);
+    
     if (ms == 0)
         ledCycleSize_ = -1;
     else
@@ -884,6 +886,8 @@ void Cdp18s600::moveWindows()
         vtPointer->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         pioFramePointer->Move(p_Main->getSecondFramePos(computerType_));
+    if (Cdp18s600Configuration.useCdp1852)
+        cdp1852FramePointer->Move(p_Main->getSecondFramePos(computerType_));
 }
 
 void Cdp18s600::setForceUpperCase(bool status)
@@ -1002,11 +1006,25 @@ void Cdp18s600::showPio(bool state)
         pioFramePointer->refreshLeds();
 }
 
+void Cdp18s600::showCdp1852(bool state)
+{
+    cdp1852FramePointer->Show(state);
+    if (state)
+        cdp1852FramePointer->refreshLeds();
+}
+
 void Cdp18s600::removePio()
 {
     Cdp18s600Configuration.usePio = false;
-    p_Main->pioWindows(false);
+    p_Main->pioWindows(computerType_, false);
     showPio(false);
+}
+
+void Cdp18s600::removeCdp1852()
+{
+    Cdp18s600Configuration.useCdp1852 = false;
+    p_Main->cdp1852Windows(computerType_, false);
+    showCdp1852(false);
 }
 
 Cdp18s601::Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
@@ -1063,6 +1081,12 @@ void Cdp18s601::configureComputer()
         p_Serial->configureMs2000(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
     }
     
+#if defined (__WXMAC__) || (__linux__)
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
+#else
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
+#endif
+
     p_Main->message("Configuring PIO on group 8");
     p_Main->message("	Output 6: write to port B, output 4: write to port A");
     p_Main->message("	Input 6: read port B, input 4: read port A");
@@ -1379,6 +1403,12 @@ void Cdp18s603a::configureComputer()
         p_Serial->configureMs2000(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
     }
     
+#if defined (__WXMAC__) || (__linux__)
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
+#else
+    pioFramePointer = new PioFrame("PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
+#endif
+
     p_Main->message("Configuring PIO on group 8");
     p_Main->message("	Output 6/7: write to port B, output 4/5: write to port A");
     p_Main->message("	Input 6/7: read port B, input 4/5: read port A");
@@ -1667,5 +1697,515 @@ void Cdp18s603a::readRoms()
         readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), ROM, startAddress, lastAddress+1, NONAME);
         defineMemoryType(startAddress, lastAddress, ROM);
     }
+}
+
+Cdp18s604b::Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
+: Cdp18s600(title, pos, size, clock, conf)
+{
+    pioFramePointer = NULL;
+}
+
+Cdp18s604b::~Cdp18s604b()
+{
+    if (Cdp18s600Configuration.useCdp1852)
+        p_Main->setSecondFramePos(computerType_, cdp1852FramePointer->GetPosition());
+    cdp1852FramePointer->Destroy();
+}
+
+void Cdp18s604b::configureComputer()
+{
+    setCycleType(COMPUTERCYCLE, CYCLECDP18S604B);
+    
+    inType_[1] = MS2000IOGROUP;
+    inType_[2] = MS2000IO2;
+    inType_[3] = MS2000IO3;
+    inType_[4] = MS2000IO4;
+    inType_[5] = MS2000IO5;
+    inType_[6] = MS2000IO6;
+    inType_[7] = MS2000IO7;
+    outType_[1] = MS2000IOGROUP;
+    outType_[2] = MS2000IO2;
+    outType_[3] = MS2000IO3;
+    outType_[4] = MS2000IO4;
+    outType_[5] = MS2000IO5;
+    outType_[6] = MS2000IO6;
+    outType_[7] = MS2000IO7;
+    
+    efType_[2] = CDP18SEF2;
+    efType_[3] = CDP18SEF3;
+
+    efState_[3] = 1;
+    
+    p_Main->message("Configuring " + computerTypeStr_);
+    p_Main->message("	Output 1: set I/O group");
+    p_Main->message("	I/O group 8: CDP1852 & CD4536B");
+    
+    p_Main->message("");
+    
+    if (Cdp18s600Configuration.vtType != VTNONE)
+    {
+        double zoom = p_Main->getZoomVt();
+        if (Cdp18s600Configuration.vtType == VT52)
+            vtPointer = new Vt100(computerTypeStr_ + " - VT 52", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration);
+        else
+            vtPointer = new Vt100(computerTypeStr_ + " - VT 100", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration);
+        p_Vt100 = vtPointer;
+        vtPointer->configureStandard(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT, 4);
+    }
+    
+    if (Cdp18s600Configuration.vtExternal)
+    {
+        p_Serial = new Serial(computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration);
+        p_Serial->configureMs2000(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
+    }
+    
+#if defined (__WXMAC__) || (__linux__)
+    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(310, 180));
+#else
+    cdp1852FramePointer = new Cdp1852Frame("CDP1852", p_Main->getSecondFramePos(computerType_), wxSize(329, 180));
+#endif
+
+    p_Main->message("Configuring CDP1852 on group 8");
+    p_Main->message("	Output 2: write to port, input 2: read port");
+    p_Main->message("	EF 3: STB");
+    p_Main->message("");
+
+    p_Main->message("Configuring CD4536B on group 8");
+    p_Main->message("	Output 3: write control byte");
+    p_Main->message("	EF 2: Timer out");
+
+    resetCpu();
+}
+
+void Cdp18s604b::setCpuMode(int mode)
+{
+    int clear = (mode>>1)&1;
+    int wait = mode&1;
+    
+    setWait(wait);
+    setClear(clear);
+    
+    if (clear == 0)
+        cdp1852FramePointer->reset();
+    
+    cdp18s640ScreenPointer->setRunLed(clear & wait);
+    
+    wait ^= 1;
+    clear ^= 1;
+    
+    cdp18s640ScreenPointer->setStateLed(CLEARLED, clear);
+    cdp18s640ScreenPointer->setStateLed(WAITLED, wait);
+}
+
+void Cdp18s604b::cycle(int type)
+{
+    switch(cycleType_[type])
+    {
+        case 0:
+            return;
+        break;
+            
+        case VT100CYCLE:
+            vtPointer->cycleVt();
+        break;
+            
+        case VTSERIALCYCLE:
+            p_Serial->cycleVt();
+        break;
+            
+        case CYCLECDP18S604B:
+            cycleCdp18s604b();
+        break;
+            
+    }
+}
+
+void Cdp18s604b::cycleCdp18s604b()
+{
+    if (ledCycleValue_ > 0)
+    {
+        ledCycleValue_ --;
+        if (ledCycleValue_ <= 0)
+        {
+            ledCycleValue_ = ledCycleSize_;
+            cdp18s640ScreenPointer->ledTimeout();
+            if (Cdp18s600Configuration.useCdp1852)
+                cdp1852FramePointer->ledTimeout();
+        }
+    }
+    if (counterCycleValue_ > 0 && !counterPaused_)
+    {
+        counterCycleValue_ --;
+        if (counterCycleValue_ <= 0)
+        {
+            if (counterSquare_)
+            {
+                efState_[2] = (efState_[2] ^ 0x1) & 0x1;
+                counterCycleValue_ = counterCycleSize_/2;
+            }
+            else
+            {
+                efState_[2] = 0;
+                counterCycleValue_ = counterCycleSize_;
+            }
+            p_Computer->interrupt();
+        }
+    }
+}
+
+Byte Cdp18s604b::ef(int flag)
+{
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
+            
+        case VT100EF:       // EF4
+            return vtPointer->ef();
+        break;
+            
+        case VTSERIALEF:
+            return p_Serial->ef();
+        break;
+    
+        case CDP18SEF2:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    return efState_[2];
+                break;
+                
+                default:
+                    return 1;
+                break;
+            }
+        break;
+
+        case CDP18SEF3:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    return efState_[3];
+                break;
+                
+                default:
+                    return 1;
+                break;
+            }
+        break;
+            
+        default:
+            return 1;
+    }
+}
+
+Byte Cdp18s604b::in(Byte port, Word WXUNUSED(address))
+{
+    Byte ret;
+    ret = 0;
+    
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
+            
+        case MS2000IOGROUP:
+        break;
+            
+        case MS2000IO2:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    return cdp1852FramePointer->readPort();
+                break;
+            }
+        break;
+            
+        case MS2000IO3:
+        break;
+            
+        case MS2000IO4:
+        break;
+            
+        case MS2000IO5:
+        break;
+            
+        case MS2000IO6:
+        break;
+            
+        case MS2000IO7:
+        break;
+            
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
+}
+
+void Cdp18s604b::out(Byte port, Word WXUNUSED(address), Byte value)
+{
+    outValues_[port] = value;
+    
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
+            
+        case MS2000IOGROUP:
+            ioGroup_ = value;
+        break;
+            
+        case MS2000IO2:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    cdp1852FramePointer->writePort(value);
+                break;
+            }
+        break;
+            
+        case MS2000IO3:
+            switch (ioGroup_)
+            {
+                case IO_GRP_PIO:
+                    counterControlByte(value);
+                break;
+            }
+        break;
+            
+        case MS2000IO4:
+        break;
+            
+        case MS2000IO5:
+        break;
+            
+        case MS2000IO6:
+        break;
+            
+        case MS2000IO7:
+        break;
+    }
+}
+
+void Cdp18s604b::counterControlByte(Byte value)
+{
+    efState_[2] = 1;
+
+    if ((value & 0x10) == 0x10)
+        counterCycleSize_ = 2 << (value&0xf);
+    else
+        counterCycleSize_ = 512 << (value&0xf);
+    
+    counterSquare_ = ((value & 0x30) == 0);
+
+    counterCycleValue_ = counterCycleSize_ / 2;
+    if ((value & 0x20) == 0x20) // Set
+        counterCycleValue_ = counterCycleSize_ / 2;
+    if ((value & 0x40) == 0x40) // Reset
+        counterCycleValue_ = counterCycleSize_;
+
+    counterPaused_ = ((value & 0x80) == 0x80);
+}
+
+void Cdp18s604b::startComputer()
+{
+    resetPressed_ = false;
+    counterPaused_ = true;
+    
+    readRoms();
+    
+    if (p_Vt100 != NULL)
+        p_Vt100->Show(true);
+    
+    if (Cdp18s600Configuration.autoBoot)
+        autoBoot();
+    
+    p_Main->setSwName("");
+    p_Main->updateTitle();
+    
+    cpuCycles_ = 0;
+    p_Main->startTime();
+    
+    int ms = (int) p_Main->getLedTimeMs(computerType_);
+    cdp18s640ScreenPointer->setLedMs(ms);
+    cdp1852FramePointer->setLedMs(ms);
+    
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((Cdp18s600ClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
+    counterCycleSize_ = -1;
+    ledCycleValue_ = -1;
+    
+    if (Cdp18s600Configuration.useCdp1852)
+        cdp1852FramePointer->Show(true);
+    
+    threadPointer->Run();
+}
+
+void Cdp18s604b::readRoms()
+{
+    wxString ramBlockStr = p_Main->getMicroChipBlock(computerType_, ONE_SOCKET);
+    long ramBlock;
+    ramBlockStr.ToLong(&ramBlock);
+    
+    Word startAddress = ramBlock * 0x400;
+    Word lastAddress = startAddress + 0x3ff;
+    
+    readProgramMicro(p_Main->getRomDir(computerType_, U21ROM), p_Main->getRomFile(computerType_, U21ROM), RAM, startAddress, lastAddress+1, NONAME);
+    defineMemoryType(startAddress, lastAddress, RAM);
+    
+    int chipType = p_Main->getMicroChipType(computerType_, FOUR_SOCKET);
+    int convertedChipType = p_Main->convertCdp18s604ChipType(chipType);
+    Word currentRomSize = convertedChipType*0x400;
+
+    wxString romBlockStr = p_Main->getMicroChipBlock(computerType_, FOUR_SOCKET);
+    long romBlock;
+    romBlockStr.ToLong(&romBlock);
+
+    startAddress = romBlock * currentRomSize;
+    
+    if (chipType == 0)
+        lastAddress = startAddress + 0x1ff;
+    else
+        lastAddress = startAddress + currentRomSize - 1;
+
+    readProgramMicro(p_Main->getRomDir(computerType_, U20ROM), p_Main->getRomFile(computerType_, U20ROM), ROM, startAddress, lastAddress+1, U20ROM);
+    if (chipType == 0)
+    {
+        defineMemoryType(startAddress, lastAddress, ROM);
+        defineMemoryType(lastAddress+1, lastAddress+0x200, MAPPEDROM);
+    }
+    else
+        defineMemoryType(startAddress, lastAddress, ROM);
+}
+
+void Cdp18s604b::writeMemDataType(Word address, Byte type)
+{
+    if (address < 0x8000)
+        address = (address | addressLatch_);
+    
+    switch (memoryType_[address/256])
+    {
+        case ROM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
+        break;
+            
+        case MAPPEDROM:
+            if (mainMemoryDataType_[address&0xfdff] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address&0xfdff] = type;
+            }
+        break;
+            
+        case RAM:
+            if (mainMemoryDataType_[address] != type)
+            {
+                p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+                mainMemoryDataType_[address] = type;
+            }
+        break;
+    }
+}
+
+Byte Cdp18s604b::readMemDataType(Word address)
+{
+    if (address < 0x8000)
+        address = (address | addressLatch_);
+    
+    switch (memoryType_[address/256])
+    {
+        case RAM:
+        case ROM:
+            return mainMemoryDataType_[address];
+        break;
+            
+        case MAPPEDROM:
+            return mainMemoryDataType_[address&0xfdff];
+        break;
+    }
+    return MEM_TYPE_UNDEFINED;
+}
+
+Byte Cdp18s604b::readMemDebug(Word address)
+{
+    if ((address & 0x8000) == 0x8000)
+        addressLatch_ = 0;
+    
+    if (address < 0x8000)
+        address = (address | addressLatch_);
+    
+    switch (memoryType_[address / 256])
+    {
+        case UNDEFINED:
+            return 255;
+        break;
+            
+        case ROM:
+        case RAM:
+            return mainMemory_[address];
+        break;
+            
+        case MAPPEDROM:
+            return mainMemory_[address&0xfdff];
+        break;
+            
+        default:
+            return 255;
+        break;
+    }
+}
+
+void Cdp18s604b::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    switch (memoryType_[address/256])
+    {
+        case UNDEFINED:
+        case ROM:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+            
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= (memoryStart_) && address<((memoryStart_) +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+            
+        case MAPPEDROM:
+            if (writeRom)
+                mainMemory_[address&0xfdff]=value;
+        break;
+    }
+}
+
+void Cdp18s604b::setLedMs(long ms)
+{
+    cdp18s640ScreenPointer->setLedMs(ms);
+    cdp1852FramePointer->setLedMs(ms);
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((Cdp18s600ClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+}
+
+void Cdp18s604b::releaseButtonOnScreen2(HexButton* buttonPointer, int WXUNUSED(buttonType))
+{
+    cdp1852FramePointer->releaseButtonOnScreen(buttonPointer);
 }
 

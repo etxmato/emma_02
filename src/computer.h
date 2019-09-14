@@ -242,6 +242,7 @@ protected:
     wxButton *text_runPButtonPointer;
 	wxButton *text_mpButtonPointer;
 	wxButton *text_dataSwitchPointer[8];
+    wxButton *text_stbButtonPointer;
     wxButton *text_ardyButtonPointer;
     wxButton *text_brdyButtonPointer;
 
@@ -263,6 +264,7 @@ protected:
 	HexButton *osx_seqButtonPointer;
 	HexButton *osx_decButtonPointer;
 	HexButton *osx_retButtonPointer;
+    HexButton *osx_stbButtonPointer;
     HexButton *osx_ardyButtonPointer;
     HexButton *osx_brdyButtonPointer;
 
@@ -397,7 +399,8 @@ public:
 	virtual void setElf2KDivider(Byte value);
 	virtual void removeElf2KSwitch();
 	virtual void removeElfHex();
-	virtual void removePio() {};
+    virtual void removePio() {};
+    virtual void removeCdp1852() {};
 	virtual void removeCosmicosHex();
 	virtual void removeElfLedModule(); 
     virtual void showData(Byte val);
