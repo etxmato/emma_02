@@ -235,7 +235,7 @@ Cdp1852Frame::~Cdp1852Frame()
 
 void Cdp1852Frame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-	p_Computer->removeCdp1852();
+	p_Computer->removePio();
 }
 
 void Cdp1852Frame::onStbButton(wxCommandEvent&WXUNUSED(event))

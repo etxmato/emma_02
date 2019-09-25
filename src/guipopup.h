@@ -66,28 +66,29 @@ private:
 	void onSaveExec(wxCommandEvent& event);
 	void onUseLocation(wxCommandEvent& event);
 
-	void onMs2000Disk0(wxCommandEvent& event);
-	void onMs2000DiskText0(wxCommandEvent& event);
-	void onMs2000DiskEject0(wxCommandEvent& event);
-	void onMS2000DiskDirSwitch0(wxCommandEvent& event);
-	void onMs2000Disk1(wxCommandEvent& event);
-	void onMs2000DiskText1(wxCommandEvent& event);
-	void onMs2000DiskEject1(wxCommandEvent& event);
-	void onMS2000DiskDirSwitch1(wxCommandEvent& event);
-	void onMs2000Disk2(wxCommandEvent& event);
-	void onMs2000DiskText2(wxCommandEvent& event);
-	void onMs2000DiskEject2(wxCommandEvent& event);
-	void onMS2000DiskDirSwitch2(wxCommandEvent& event);
-	void onMs2000Disk3(wxCommandEvent& event);
-	void onMs2000DiskText3(wxCommandEvent& event);
-	void onMs2000DiskEject3(wxCommandEvent& event);
-	void onMS2000DiskDirSwitch3(wxCommandEvent& event);
+	void onUpdDisk0(wxCommandEvent& event);
+	void onUpdDiskText0(wxCommandEvent& event);
+	void onUpdDiskEject0(wxCommandEvent& event);
+	void onUpdDiskDirSwitch0(wxCommandEvent& event);
+	void onUpdDisk1(wxCommandEvent& event);
+	void onUpdDiskText1(wxCommandEvent& event);
+	void onUpdDiskEject1(wxCommandEvent& event);
+	void onUpdDiskDirSwitch1(wxCommandEvent& event);
+	void onUpdDisk2(wxCommandEvent& event);
+	void onUpdDiskText2(wxCommandEvent& event);
+	void onUpdDiskEject2(wxCommandEvent& event);
+	void onUpdDiskDirSwitch2(wxCommandEvent& event);
+	void onUpdDisk3(wxCommandEvent& event);
+	void onUpdDiskText3(wxCommandEvent& event);
+	void onUpdDiskEject3(wxCommandEvent& event);
+	void onUpdDiskDirSwitch3(wxCommandEvent& event);
     
     wxString getFdcName(int drive);
 	void setDirSwitch(int drive);
     
 	wxString computerStr_;
-	int computer_;
+    int computer_;
+    int fdcType_;
 
 	bool loadingGui_;
 

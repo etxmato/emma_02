@@ -24,37 +24,10 @@ public:
     void onMS2000ForceUpperCase(wxCommandEvent& event);
     void onBootRam(wxCommandEvent&event);
     
-    void onMs2000Disk0(wxCommandEvent& event);
-    void onMs2000DiskText0(wxCommandEvent& event);
-    void onMs2000DiskEject0(wxCommandEvent& event);
-    void onMS2000DiskDirSwitch0(wxCommandEvent& event);
-    void onMs2000Disk1(wxCommandEvent& event);
-    void onMs2000DiskText1(wxCommandEvent& event);
-    void onMs2000DiskEject1(wxCommandEvent& event);
-    void onMS2000DiskDirSwitch1(wxCommandEvent& event);
-    void onMs2000Disk2(wxCommandEvent& event);
-    void onMs2000DiskText2(wxCommandEvent& event);
-    void onMs2000DiskEject2(wxCommandEvent& event);
-    void onMS2000DiskDirSwitch2(wxCommandEvent& event);
-    void onMs2000Disk3(wxCommandEvent& event);
-    void onMs2000DiskText3(wxCommandEvent& event);
-    void onMs2000DiskEject3(wxCommandEvent& event);
-    void onMS2000DiskDirSwitch3(wxCommandEvent& event);
-    bool getDirectoryMode(int drive);
-    void setDirectoryMode(int drive, bool state);
-    wxString getMs2000FloppyDirSwitched(int drive);
-    wxString getMs2000FloppyDir(int drive);
-    wxString getMs2000FloppyFile(int drive);
-
 protected:
 
 private:
     wxPoint position_;
-    wxString floppyDirSwitchedMs2000_[4];
-    wxString floppyDirMs2000_[4];
-    wxString floppyMs2000_[4];
-    
-    bool directoryMode_[4];
     
 	DECLARE_EVENT_TABLE()
 };

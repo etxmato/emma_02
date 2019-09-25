@@ -114,8 +114,10 @@ Upd765::Upd765()
 /*
  Configure UPD 765 for use with MS2000 and initialize startup values for internal variables
 */
-void Upd765::configureUpd765()
+void Upd765::configureUpd765(int fdcType)
 {
+    fdcType_ = fdcType;
+    
     p_Computer->setCycleType(DISKCYCLEFDC, FDCCYCLE);
     
     for (int i=0; i<4; i++)
@@ -182,7 +184,7 @@ void Upd765::doRead()
     
     if(dmaControl_ == 3)   // actual transfer?
     {
-        if (!p_Main->getDirectoryMode(drive_))
+        if (!p_Main->getDirectoryMode(fdcType_, drive_))
         {
             // Folloing 3 commented lines are for debug purpose showing current data in debug message window
             // wxString textMessage;
@@ -446,7 +448,7 @@ void Upd765::doWrite()
     // Calculate location from cylinder and record number (head ignored)
     offset_ = (commandPacket_[2]*9 + commandPacket_[4]-1);
 
-    if (!p_Main->getDirectoryMode(drive_))
+    if (!p_Main->getDirectoryMode(fdcType_, drive_))
     {
 		// Folloing 3 commented lines are for debug purpose showing current data in debug message window
 		// wxString textMessage;
@@ -612,7 +614,7 @@ void Upd765::doFormatWrite()
     
     interrupt_ = 0;
     
-    if (!p_Main->getDirectoryMode(drive_))
+    if (!p_Main->getDirectoryMode(fdcType_, drive_))
     {
         if (diskDir_[drive_]+diskName_[drive_] == "" || diskName_[drive_] == "")
         {
@@ -917,7 +919,7 @@ void Upd765::doCommand()
         break;
             
         case RCCMD:                  // recalibrate            
-            if (!diskCreated_[drive_] && !p_Main->getDirectoryMode(drive_))
+            if (!diskCreated_[drive_] && !p_Main->getDirectoryMode(fdcType_, drive_))
             {
 				if (diskName_[drive_] == "")
 				{
@@ -941,7 +943,7 @@ void Upd765::doCommand()
             }
             else
             {
-                if (p_Main->getDirectoryMode(drive_))
+                if (p_Main->getDirectoryMode(fdcType_, drive_))
                 {
                     pcn = 0;
                     statusRegister0_ = SR_SEEK_END | (commandPacket_[1]&3);
@@ -965,7 +967,7 @@ void Upd765::doCommand()
             }
             else
             {
-                if (p_Main->getDirectoryMode(drive_))
+                if (p_Main->getDirectoryMode(fdcType_, drive_))
                 {
                     pcn = 0;
                     statusRegister0_ = SR_SEEK_END | (commandPacket_[1]&3);

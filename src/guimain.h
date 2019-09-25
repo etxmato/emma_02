@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 34
-#define LAST_ELF_TYPE 19
+#define NO_COMPUTER 35
+#define LAST_ELF_TYPE 20
 
 #define MAINROM1 0
 
@@ -43,7 +43,37 @@
 #define XU25ROM 3
 #define XU24ROM 4
 
+#define CDP626_SEC1 0
+#define CDP626_SEC2 1
+#define CDP626_SEC3 2
+#define CDP626_SEC4 3
+
 #define MAXROM 6
+
+//MICROBOARD CARD TYPES
+#define CARD_EMPTY 0
+#define CARD_CDP18S508 1
+#define CARD_CDP18S626 2
+#define CARD_CDP18S629 3
+#define CARD_CDP18S640 4
+#define CARD_CDP18S651 5
+#define CARD_CDP18S652 6
+
+#define FDCTYPE_MS2000 0
+#define FDCTYPE_MICROBOARD 1
+#define FDCTYPE_MAX 2
+
+// CDP18S626
+#define MEM_SECTION0 0
+#define MEM_SECTION1 1
+#define MEM_SECTION2 2
+#define MEM_SECTION3 3
+
+// CDP18S652
+#define ROM_SOCKET1 0
+#define ROM_SOCKET2 1
+#define ROM_SOCKET3 2
+#define ROM_SOCKET4 3
 
 DECLARE_EVENT_TYPE(OPEN_PRINTER_WINDOW, 811) 
 
@@ -181,6 +211,7 @@ public:
 
 	int gameId_;
     
+    int microboardType_[6];
     int microChipType_[2];
     int microChipLocation_[3];
     wxString microChipBlock_[2];
@@ -340,7 +371,8 @@ public:
 	bool getDisableSystemRom(int computerType) { return conf[computerType].disableSystemRom_; };
 	Byte getMultiCartLsb(int computerType) {return conf[computerType].lsb_;};
     Byte getMultiCartMsb(int computerType) {return conf[computerType].msb_;};
-    
+    int getFdcType(int computerType) {return elfConfiguration[computerType].fdcType_;};
+
 	wxString getLedTime(int computerType) {return conf[computerType].ledTime_;}; 
 	long getLedTimeMs(int computerType) {return conf[computerType].ledTimeMs_;}; 
 
@@ -360,6 +392,8 @@ public:
     void setElfConfiguration(ElfConfiguration elfConf);
     void setSerialPorts(wxString port);
 
+    void setConfiguration(int computerType, Conf configuration) { conf[computerType] = configuration;};
+    void setElfConfiguration(int computerType, ElfConfiguration elfConf) { elfConfiguration[computerType] = elfConf;};
     int getMicroChipType(int computerType, int romType) {return conf[computerType].microChipType_[romType];};
     void setMicroChipType(int computerType, int romType, int chipType) { conf[computerType].microChipType_[romType] = chipType;};
     int getMicroChipLocation(int computerType, int romType) {return conf[computerType].microChipLocation_[romType];};
@@ -481,6 +515,29 @@ public:
     
     bool repairIde();
     
+    void onUpdDisk0(wxCommandEvent& event);
+    void onUpdDiskText0(wxCommandEvent& event);
+    void onUpdDiskEject0(wxCommandEvent& event);
+    void onUpdDiskDirSwitch0(wxCommandEvent& event);
+    void onUpdDisk1(wxCommandEvent& event);
+    void onUpdDiskText1(wxCommandEvent& event);
+    void onUpdDiskEject1(wxCommandEvent& event);
+    void onUpdDiskDirSwitch1(wxCommandEvent& event);
+    void onUpdDisk2(wxCommandEvent& event);
+    void onUpdDiskText2(wxCommandEvent& event);
+    void onUpdDiskEject2(wxCommandEvent& event);
+    void onUpdDiskDirSwitch2(wxCommandEvent& event);
+    void onUpdDisk3(wxCommandEvent& event);
+    void onUpdDiskText3(wxCommandEvent& event);
+    void onUpdDiskEject3(wxCommandEvent& event);
+    void onUpdDiskDirSwitch3(wxCommandEvent& event);
+    bool getDirectoryMode(int fdcType, int drive);
+    void setDirectoryMode(int fdcType, int drive, bool state);
+    wxString getUpdFloppyDirSwitched(int fdcType, int drive);
+    wxString getUpdFloppyDir(int fdcType, int drive);
+    wxString getUpdFloppyFile(int fdcType, int drive);
+    void setUpdFloppyGui(int fdcType, int drive);
+
 protected:
 	Mode mode_;
 
@@ -491,6 +548,7 @@ protected:
     Cdp18s020 *p_Cdp18s020;
     Cdp18s600 *p_Cdp18s600;
     Cdp18s601 *p_Cdp18s601;
+    Cdp18s602 *p_Cdp18s602;
     Cdp18s603a *p_Cdp18s603a;
     Cdp18s604b *p_Cdp18s604b;
 	Nano *p_Nano;
@@ -601,6 +659,12 @@ protected:
 
     bool terminalSave_;
     bool terminalLoad_;
+
+    wxString floppyDirSwitched_[FDCTYPE_MAX][4];
+    wxString floppyDir_[FDCTYPE_MAX][4];
+    wxString floppy_[FDCTYPE_MAX][4];
+    
+    bool directoryMode_[FDCTYPE_MAX][4];
 
 private:
 	wxBitmap playBlackBitmap;

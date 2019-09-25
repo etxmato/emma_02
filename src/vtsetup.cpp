@@ -144,6 +144,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         case CDP18S601:
         case CDP18S603A:
         case CDP18S604B:
+        case MICROBOARD:
             XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
@@ -262,14 +263,17 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         break;
             
         case CDP18S020:
-        case CDP18S601:
         case CDP18S603A:
-        case CDP18S604B:
         case MCDS:
             elfConfiguration_.useUart = false;
         break;
             
-		case MS2000:
+        case CDP18S601:
+        case CDP18S604B:
+            elfConfiguration_.useUart = true;
+        break;
+
+        case MS2000:
 			elfConfiguration_.useUart = true;
 
 			uartMS2000Event.SetEventObject(this);
@@ -316,7 +320,10 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 			elfConfiguration_.vtEf = XRCCTRL(*this, "VtEf", wxCheckBox)->GetValue();
 			elfConfiguration_.vtQ = !XRCCTRL(*this, "VtQ", wxCheckBox)->GetValue();
         break;
-	}
+            
+        case MICROBOARD:
+        break;
+    }
 
     long bellFrequency;
     wxString valueString = XRCCTRL(*this, "VtBell", wxTextCtrl)->GetValue();

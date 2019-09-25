@@ -435,26 +435,27 @@ public:
 #define CDP18S601 13
 #define CDP18S603A 14
 #define CDP18S604B 15
-#define LAST_LED_COMPUTER 15
-#define MS2000 16
-#define MCDS 17
-#define FRED1 18
-#define FRED1_5 19
-#define COMX 20
-#define STUDIO 21
-#define ETI 22
-#define CIDELSA 23
-#define TMC600 24
-#define TMC1800 25
-#define TMC2000 26
-#define NANO 27
-#define PECOM 28
-#define VISICOM 29
-#define VICTORY 30
-#define VIPII 31
-#define COINARCADE 32
-#define STUDIOIV 33
-#define DEBUGGER 34
+#define MICROBOARD 16
+#define LAST_LED_COMPUTER 16
+#define MS2000 17
+#define MCDS 18
+#define FRED1 19
+#define FRED1_5 20
+#define COMX 21
+#define STUDIO 22
+#define ETI 23
+#define CIDELSA 24
+#define TMC600 25
+#define TMC1800 26
+#define TMC2000 27
+#define NANO 28
+#define PECOM 29
+#define VISICOM 30
+#define VICTORY 31
+#define VIPII 32
+#define COINARCADE 33
+#define STUDIOIV 34
+#define DEBUGGER 35
 
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
@@ -525,8 +526,9 @@ public:
 #define CDP18S601TAB 2
 #define CDP18S603ATAB 3
 #define CDP18S604BTAB 4
-#define MCDSTAB 5
-#define MS2000TAB 6
+#define MICROBOARDTAB 5
+#define MCDSTAB 6
+#define MS2000TAB 7
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
@@ -545,6 +547,12 @@ public:
 #define CHIP8TAB 3
 #define MEMORYTAB 4
 #define ASSTAB 5
+
+#define MICROBOARD_CDP18S600 0
+#define MICROBOARD_CDP18S601 1
+#define MICROBOARD_CDP18S602 2
+#define MICROBOARD_CDP18S603A 3
+#define MICROBOARD_CDP18S604B 4
 
 #define VIDEONONE 0
 #define VIDEO1870 0
@@ -658,6 +666,9 @@ public:
 #define GOLDMON 6
 #define MONITOR_CHUCK_LOW 8
 #define MONITOR_CHUCK_HIGH 10
+#define UT4 12
+#define UT62 14
+#define UT71 16
 
 #define BASICADDR_KEY 0
 #define BASICADDR_READY 1

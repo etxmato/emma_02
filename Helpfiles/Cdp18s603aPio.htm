@@ -10,7 +10,7 @@ The PIO Window can be used to simpulate the PIO, i.e. the CDP1851 I/O chip. The 
 The initial window will show both A and B ports as input but when either port is set to output, bit programmable or bi-directional (via the PIO control register, OUT 2 or 3) the window will switch to show input (switched active) or output (leds active) depending on the mode selected. The same is valid for the STB and RDY input switches and output leds which will become active in bit programmable mode.
 </p>
 <p>
-The interrupt buttons INT 'A' and 'B' will become active when the PIO interrupt is enabled and a press on either button will send an input signal to the emulated CPU and also activate EF1 or EF2.
+The interrupt buttons INT 'A' and 'B' will become active when the PIO interrupt is enabled and a press on either button will send an interrupt signal to the emulated CPU and also activate EF1 or EF2.
 </p>
 <p>
 The PIO is defined on I/O group 8 with:

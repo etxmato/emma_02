@@ -16,6 +16,7 @@
 		991B061321694CDD0061D86C /* guivip2k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991B061121694CDD0061D86C /* guivip2k.cpp */; };
 		991C84F71E37E66A0084DAFB /* guimicrotutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F31E37E66A0084DAFB /* guimicrotutor.cpp */; };
 		991C84F81E37E66A0084DAFB /* microtutor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 991C84F51E37E66A0084DAFB /* microtutor.cpp */; };
+		99220BA0232D403B0063B363 /* main_mac.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99220B9F232D403B0063B363 /* main_mac.xrc */; };
 		9935652B21446B7000A329C6 /* STK-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9935652A21446B7000A329C6 /* STK-2.syntax */; };
 		993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 993B1649211EBD9C008A5656 /* GPL-2.syntax */; };
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
@@ -168,7 +169,6 @@
 		99BE53251F156AA1006BD353 /* diagstatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE53231F156AA1006BD353 /* diagstatusbar.cpp */; };
 		99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C3BFE61C0CF400006E3D82 /* guivelf.cpp */; };
 		99C9EABB2145C1FC00C1EA03 /* Test_Word.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */; };
-		99CC30BA21DBA13300B04C7F /* main_mac.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99CC30B921DBA13200B04C7F /* main_mac.xrc */; };
 		99CC30BC21DBF3ED00B04C7F /* menuMCDS.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99CC30BB21DBF3ED00B04C7F /* menuMCDS.xrc */; };
 		99CC30BE21DBF5FE00B04C7F /* menuTMC600.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99CC30BD21DBF5FD00B04C7F /* menuTMC600.xrc */; };
 		99D5FCD7211C938E001F4391 /* Chip8X.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD3211C938E001F4391 /* Chip8X.syntax */; };
@@ -243,6 +243,7 @@
 		991C84F41E37E66A0084DAFB /* guimicrotutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guimicrotutor.h; path = src/guimicrotutor.h; sourceTree = "<group>"; };
 		991C84F51E37E66A0084DAFB /* microtutor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microtutor.cpp; path = src/microtutor.cpp; sourceTree = "<group>"; };
 		991C84F61E37E66A0084DAFB /* microtutor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microtutor.h; path = src/microtutor.h; sourceTree = "<group>"; };
+		99220B9F232D403B0063B363 /* main_mac.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac.xrc; sourceTree = "<group>"; };
 		9935652A21446B7000A329C6 /* STK-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "STK-2.syntax"; sourceTree = "<group>"; };
 		993B1649211EBD9C008A5656 /* GPL-2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-2.syntax"; sourceTree = "<group>"; };
 		9942DD6B1F3B4D3E00569242 /* base.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base.cpp; path = src/base.cpp; sourceTree = "<group>"; };
@@ -521,7 +522,6 @@
 		99C3BFE71C0CF400006E3D82 /* guivelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivelf.h; path = src/guivelf.h; sourceTree = "<group>"; };
 		99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_Word.syntax; sourceTree = "<group>"; };
 		99CC30B721DBA0F800B04C7F /* Emma 02 mac.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Emma 02 mac.pjd"; sourceTree = "<group>"; };
-		99CC30B921DBA13200B04C7F /* main_mac.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = main_mac.xrc; sourceTree = "<group>"; };
 		99CC30BB21DBF3ED00B04C7F /* menuMCDS.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMCDS.xrc; sourceTree = "<group>"; };
 		99CC30BD21DBF5FD00B04C7F /* menuTMC600.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuTMC600.xrc; sourceTree = "<group>"; };
 		99D5FCD3211C938E001F4391 /* Chip8X.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8X.syntax; sourceTree = "<group>"; };
@@ -649,7 +649,7 @@
 				99792DEF1B88FF340044FDBB /* keymap_tmc.xrc */,
 				99792DF01B88FF340044FDBB /* keymap.xrc */,
 				99792DE21B88A3F50044FDBB /* main.xrc */,
-				99CC30B921DBA13200B04C7F /* main_mac.xrc */,
+				99220B9F232D403B0063B363 /* main_mac.xrc */,
 				99792DF41B88FF580044FDBB /* menu_Cas_Mem.xrc */,
 				99792DF51B88FF580044FDBB /* menuComx.xrc */,
 				99792DF61B88FF580044FDBB /* menuCosmicos.xrc */,
@@ -1028,7 +1028,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99CC30BA21DBA13300B04C7F /* main_mac.xrc in Resources */,
 				99AD77891F2BDDA900487F8F /* images in Resources */,
 				99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */,
 				99CC30BC21DBF3ED00B04C7F /* menuMCDS.xrc in Resources */,
@@ -1058,6 +1057,7 @@
 				9935652B21446B7000A329C6 /* STK-2.syntax in Resources */,
 				99BE53221F155713006BD353 /* diag.xrc in Resources */,
 				99D5FCD8211C938E001F4391 /* ChipEti.syntax in Resources */,
+				99220BA0232D403B0063B363 /* main_mac.xrc in Resources */,
 				99A3116021A75B98003CB022 /* Chip8Vip2K.syntax in Resources */,
 				99792E001B88FF580044FDBB /* menu_Cas_Mem.xrc in Resources */,
 				99792DE51B88A4100044FDBB /* cassette.xrc in Resources */,

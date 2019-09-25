@@ -31,7 +31,7 @@ public:
 
 private:
     wxPoint position_;
-
+    
 	bool latch_;
 
 	DECLARE_EVENT_TABLE()

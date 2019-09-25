@@ -102,7 +102,10 @@ public:
 	bool useTMS9918;
 	bool use8275;
     bool usePio;
-    bool useCdp1852;
+    bool useUpd765;
+    int upd765Group;
+    int upd765GroupMask;
+    int fdcType_;
 	int vtType;
     bool vtExternal;
     bool serialLog;

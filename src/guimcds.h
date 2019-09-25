@@ -26,11 +26,6 @@ protected:
 
 private:
     wxPoint position_;
-    wxString floppyDirSwitchedMcds_[4];
-    wxString floppyDirMcds_[4];
-    wxString floppyMcds_[4];
-    
-    bool directoryMode_[4];
     
 	DECLARE_EVENT_TABLE()
 };

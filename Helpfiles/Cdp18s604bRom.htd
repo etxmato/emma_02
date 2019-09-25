@@ -1,0 +1,20 @@
+<HTML>
+<Title>ROM and RAM Files</Title>
+<BODY>
+<h2>ROM and RAM Files</h2>
+<p>
+The CDP18S604B Microboard has 1 RAM and 1 ROM socket, 'RAM Socket' for 1 RAM chip and 'ROM Socket' for 1 ROM chip. For details see the CDP18S604B manual. The RAM socket chip size is fixed to 1Kx8, location of the chip can be slected in any of the 64 1K blocks 
+</p>
+<p>
+In the main Emma 02 window the size of the 'ROM Socket' chip can be selected (512x8, 1Kx8, 2Kx8 or 4Kx8). Depending on the size one of the 1K, 2K or 4K blocks can be selected. The 512x8 chip size also uses a 1K block and will be repeated twice in the 1K block.
+</p>
+<p>
+For any selected block Emma 02 will show the physical address based on the chosen block number.</p>
+<p>
+Default settting is 1K RAM at location 4000 and 4K ROM at 0000. Default CDP18S604B ROM/RAM file location is the CDP18S603A directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM' or 'RAM' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+</BODY>
+</HTML>

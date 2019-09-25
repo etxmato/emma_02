@@ -1,0 +1,17 @@
+<html>
+<title>CDP18S604B Microboard</title>
+<body>
+<h1>CDP18S604B Microboard</h1>
+<p>
+This emulator will emulate the CDP18S604B Microboard computer. Additional information about the CDP18S604B can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+</p>
+<p>
+This chapter includes:
+</p>
+<p>
+<a href="Cdp18s604bRom.htm">ROM and RAM Files</a><br>
+<a href="Cdp18s604bBoot.htm">Auto Boot</a><br>
+<a href="Cdp18s604bWindows.htm">Control Window</a><br>
+<a href="Cdp18s604bCdp1852.htm">CDP1852 Window</a><br>
+</p>
+</body></html>

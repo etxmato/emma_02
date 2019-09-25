@@ -400,7 +400,6 @@ public:
 	virtual void removeElf2KSwitch();
 	virtual void removeElfHex();
     virtual void removePio() {};
-    virtual void removeCdp1852() {};
 	virtual void removeCosmicosHex();
 	virtual void removeElfLedModule(); 
     virtual void showData(Byte val);
@@ -539,6 +538,10 @@ public:
     virtual void setCpuMode(int mode);
     virtual void setGoTimer() {};
     virtual void setForceUpperCase(bool status);
+    virtual void moveWindows() {};
+    virtual void showPio(bool state);
+    virtual void showControlWindow(bool state);
+    virtual void setAddressLatch(Word bootAddress);
 
 protected:
 	RunComputer *threadPointer;

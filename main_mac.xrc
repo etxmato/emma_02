@@ -20341,7 +20341,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
-                                                                        <object class="wxCheckBox" name="CDP1852CDP18S604B">
+                                                                        <object class="wxCheckBox" name="PioCDP18S604B">
                                                                             <tooltip>Show CDP1852 window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -20417,6 +20417,1363 @@
                                                                             </font>
                                                                             <label>Uppercase</label>
                                                                             <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                        </object>
+                                                    </object>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                </object>
+                                <object class="choicebookpage">
+                                    <label>CMOS Microboard</label>
+                                    <object class="wxPanel" name="PanelMicroboard">
+                                        <font>
+                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                            <size>-1</size>
+                                        </font>
+                                        <style>wxTAB_TRAVERSAL</style>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxVERTICAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_LEFT</flag>
+                                                <border>0</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxHORIZONTAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                                        <border>3</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxVERTICAL</orient>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxBOTTOM</flag>
+                                                                <border>5</border>
+                                                                <object class="wxFlexGridSizer">
+                                                                    <cols>2</cols>
+                                                                    <rows>15</rows>
+                                                                    <vgap>0</vgap>
+                                                                    <hgap>0</hgap>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="Card1Microboard">
+                                                                            <tooltip>Open CARD 1 setup window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>CARD 1</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxChoice" name="Card1ChoiceMicroboard">
+                                                                            <tooltip>Select CARD 1 board type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>CDP18S600</item>
+                                                                                <item>CDP18S601</item>
+                                                                                <item>CDP18S602</item>
+                                                                                <item>CDP18S603A</item>
+                                                                                <item>CDP18S604B</item>
+                                                                            </content>
+                                                                            <selection>0</selection>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="Card2Microboard">
+                                                                            <tooltip>Open CARD 2 setup window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>CARD 2</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxChoice" name="Card2ChoiceMicroboard">
+                                                                            <tooltip>Select CARD 2 board type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>-- empty --</item>
+                                                                                <item>CDP18S508 UART</item>
+                                                                                <item>CDP18S626 32/64K RAM/ROM</item>
+                                                                                <item>CDP18S629 32K RAM/ROM</item>
+                                                                                <item>CDP18S640 Display</item>
+                                                                                <item>CDP18S651 FDC</item>
+                                                                                <item>CDP18S652 Memory &amp; Tape</item>
+                                                                            </content>
+                                                                            <selection>4</selection>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="Card3Microboard">
+                                                                            <tooltip>Open CARD 3 setup window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>CARD 3</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxChoice" name="Card3ChoiceMicroboard">
+                                                                            <tooltip>Select CARD 3 board type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>-- empty --</item>
+                                                                                <item>CDP18S508 UART</item>
+                                                                                <item>CDP18S626 32/64K RAM/ROM</item>
+                                                                                <item>CDP18S629 32K RAM/ROM</item>
+                                                                                <item>CDP18S640 Display</item>
+                                                                                <item>CDP18S651 FDC</item>
+                                                                                <item>CDP18S652 Memory &amp; Tape</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="Card4Microboard">
+                                                                            <tooltip>Open CARD 4 setup window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>CARD 4</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxChoice" name="Card4ChoiceMicroboard">
+                                                                            <tooltip>Select CARD 4 board type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>-- empty --</item>
+                                                                                <item>CDP18S508 UART</item>
+                                                                                <item>CDP18S626 32/64K RAM/ROM</item>
+                                                                                <item>CDP18S629 32K RAM/ROM</item>
+                                                                                <item>CDP18S640 Display</item>
+                                                                                <item>CDP18S651 FDC</item>
+                                                                                <item>CDP18S652 Memory &amp; Tape</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="Card5Microboard">
+                                                                            <tooltip>Open CARD 5 setup window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>CARD 5</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxChoice" name="Card5ChoiceMicroboard">
+                                                                            <tooltip>Select CARD 5 board type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>-- empty --</item>
+                                                                                <item>CDP18S508 UART</item>
+                                                                                <item>CDP18S626 32/64K RAM/ROM</item>
+                                                                                <item>CDP18S629 32K RAM/ROM</item>
+                                                                                <item>CDP18S640 Display</item>
+                                                                                <item>CDP18S651 FDC</item>
+                                                                                <item>CDP18S652 Memory &amp; Tape</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticLine" name="wxID_STATIC">
+                                                                            <style>wxLI_HORIZONTAL</style>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticLine" name="wxID_STATIC">
+                                                                            <style>wxLI_HORIZONTAL</style>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="FDC0_ButtonMicroboard">
+                                                                            <tooltip>Browse for Microboard FDC 0 image file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>FDC 0</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <option>20</option>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="FDC0_SwitchMicroboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Toggle FDC/HD</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="FDC0_FileMicroboard">
+                                                                                    <size>120,-1</size>
+                                                                                    <tooltip>Specify Microboard FDC 0 image file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="Eject_FDC0Microboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject Microboard FDC 0 image file</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="FDC1_ButtonMicroboard">
+                                                                            <tooltip>Browse for Microboard FDC 1 image file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>FDC 1</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <option>20</option>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="FDC1_SwitchMicroboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Toggle FDC/HD</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="FDC1_FileMicroboard">
+                                                                                    <size>120,-1</size>
+                                                                                    <tooltip>Specify Microboard FDC 1 image file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="Eject_FDC1Microboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject MS2000 FDC 1 image file</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="FDC2_ButtonMicroboard">
+                                                                            <tooltip>Browse for Microboard FDC 2 image file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>FDC 2</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="FDC2_SwitchMicroboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Toggle FDC/HD</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="FDC2_FileMicroboard">
+                                                                                    <size>120,-1</size>
+                                                                                    <tooltip>Specify Microboard FDC 2 image file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="Eject_FDC2Microboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject Microboard FDC 2 image file</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="FDC3_ButtonMicroboard">
+                                                                            <tooltip>Browse for Microboard FDC 3 image file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>FDC 3</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <option>20</option>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="FDC3_SwitchMicroboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Toggle FDC/HD</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="FDC3_FileMicroboard">
+                                                                                    <size>120,-1</size>
+                                                                                    <tooltip>Specify Microboard FDC 3 image file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="Eject_FDC3Microboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject MS2000 FDC 3 image file</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="VtCharRomButtonMicroboard">
+                                                                            <tooltip>Browse for video terminal font file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>VT Font</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <option>20</option>
+                                                                        <object class="wxComboBox" name="VtCharRomMicroboard">
+                                                                            <size>172,-1</size>
+                                                                            <tooltip>Specify video terminal font file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxCB_DROPDOWN</style>
+                                                                            <content>
+                                                                                <item>vt52.a.bin</item>
+                                                                                <item>vt52.b.bin</item>
+                                                                                <item>vt100.bin</item>
+                                                                            </content>
+                                                                            <selection>2</selection>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="KeyFileButtonMicroboard">
+                                                                            <tooltip>Browse for key input file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Key File</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <option>20</option>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="KeyFileMicroboard">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify key input file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="EjectKeyFileMicroboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject key input file</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="ScreenDumpFileButtonMicroboard">
+                                                                            <tooltip>Browse for video dump file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>VideoDump</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxComboBox" name="ScreenDumpFileMicroboard">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify video dump file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxCB_DROPDOWN</style>
+                                                                                    <content>
+                                                                                        <item></item>
+                                                                                        <item>screendump.png</item>
+                                                                                        <item>screendump.jpeg</item>
+                                                                                        <item>screendump.bmp</item>
+                                                                                        <item>screendump.pcx</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="ScreenDumpF5Microboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Save video dump to file (F5)</tooltip>
+                                                                                    <enabled>0</enabled>
+                                                                                    <bitmap>images_osx/filesave.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="CasButtonMicroboard">
+                                                                            <tooltip>Browse for cassette file 0</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Cassette 0</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>4</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="WavFileMicroboard">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify cassette file 0</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="EjectCasMicroboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject cassette file 0</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                    <selected>images_osx/eject.png</selected>
+                                                                                    <focus>images_osx/eject.png</focus>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="CasButton1Microboard">
+                                                                            <tooltip>Browse for cassette file 1</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Cassette 1</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>4</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="WavFile1Microboard">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify cassette file 1</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="EjectCas1Microboard">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject cassette file 1</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                    <selected>images_osx/eject.png</selected>
+                                                                                    <focus>images_osx/eject.png</focus>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                                        <border>3</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxVERTICAL</orient>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxButton" name="ColoursMicroboard">
+                                                                            <tooltip>Open video setup window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>VideoSetup</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBitmapButton" name="FullScreenF3Microboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Activate full screen mode (F3)</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/screen.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="spacer">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>5</border>
+                                                                        <size>5,5</size>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="AddressText1Microboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Leds:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxTextCtrl" name="ShowAddressMicroboard" subclass="IntEdit">
+                                                                            <size>45,-1</size>
+                                                                            <tooltip>Led updates in run mode every X ms</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <value>100</value>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="AddressText2Microboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>ms</label>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxGROW</flag>
+                                                                <border>5</border>
+                                                                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                                                                    <orient>wxVERTICAL</orient>
+                                                                    <label>Memory Access</label>
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxFlexGridSizer">
+                                                                            <cols>3</cols>
+                                                                            <rows>3</rows>
+                                                                            <vgap>1</vgap>
+                                                                            <hgap>0</hgap>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>4</border>
+                                                                                <object class="wxCheckBox" name="UseLocationMicroboard">
+                                                                                    <tooltip>Select to SAVE specific machine code address</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>Specify Location</label>
+                                                                                    <checked>0</checked>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="TextStartMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>Start</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                        <border>2</border>
+                                                                                        <object class="wxTextCtrl" name="SaveStartMicroboard" subclass="HexEdit">
+                                                                                            <size>50,21</size>
+                                                                                            <tooltip>Specify start address in hexadecimal</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <enabled>0</enabled>
+                                                                                            <maxlength>4</maxlength>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_TOP</flag>
+                                                                                        <border>1</border>
+                                                                                        <object class="wxButton" name="LoadButtonMicroboard">
+                                                                                            <size>-1,23</size>
+                                                                                            <tooltip>Load .hex/.rca file into Microboard emulator memory</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <enabled>0</enabled>
+                                                                                            <label>LOAD</label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_TOP</flag>
+                                                                                        <border>1</border>
+                                                                                        <object class="wxButton" name="RunButtonMicroboard">
+                                                                                            <size>-1,23</size>
+                                                                                            <tooltip>Load .rca file into Microboard emulator memory and RUN software</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <enabled>0</enabled>
+                                                                                            <label>RUN</label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="TextEndMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>End</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                        <border>2</border>
+                                                                                        <object class="wxTextCtrl" name="SaveEndMicroboard" subclass="HexEdit">
+                                                                                            <size>50,21</size>
+                                                                                            <tooltip>Specify end address in hexadecimal</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <enabled>0</enabled>
+                                                                                            <maxlength>4</maxlength>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_TOP</flag>
+                                                                                        <border>1</border>
+                                                                                        <object class="wxButton" name="SaveButtonMicroboard">
+                                                                                            <size>-1,23</size>
+                                                                                            <tooltip>Save Microboard emulator memory to .hex/.rca file</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <enabled>0</enabled>
+                                                                                            <label>SAVE</label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_TOP</flag>
+                                                                                        <border>1</border>
+                                                                                        <object class="wxButton" name="DsaveButtonMicroboard">
+                                                                                            <size>-1,23</size>
+                                                                                            <tooltip>Save Microboard emulator data memory to .rca file</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <enabled>0</enabled>
+                                                                                            <label>Data SAVE</label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>5</border>
+                                                                                <object class="wxStaticText" name="TextExecMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>Exec</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                        <border>2</border>
+                                                                                        <object class="wxTextCtrl" name="SaveExecMicroboard" subclass="HexEdit">
+                                                                                            <size>50,21</size>
+                                                                                            <tooltip>Specify machine code execution address in hexadecimal</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <enabled>0</enabled>
+                                                                                            <maxlength>4</maxlength>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT</flag>
+                                                                <border>3</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="PioMicroboard">
+                                                                            <tooltip>Show IO window</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>IO Window</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxCheckBox" name="MicroboardForceUC">
+                                                                            <tooltip>Force keyboard in uppercase</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Uppercase</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT</flag>
+                                                                <border>3</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="AutoBootMicroboard">
+                                                                            <tooltip>Enable auto boot</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto Boot</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxChoice" name="AutoBootTypeMicroboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>Utility</item>
+                                                                                <item>Program</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxTextCtrl" name="BootAddressMicroboard" subclass="HexEdit">
+                                                                            <size>50,-1</size>
+                                                                            <tooltip>Specify auto boot address in hexadecimal</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <maxlength>4</maxlength>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="TextCassetteMicroboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxALIGN_RIGHT</style>
+                                                                            <enabled>0</enabled>
+                                                                            <label>Cassette 0:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSaveMicroboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Start recording to cassette file 0</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/rec_off.png</bitmap>
+                                                                            <selected>images_osx/rec_off.png</selected>
+                                                                            <focus>images_osx/rec_off.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoadMicroboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Play cassette file 0</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/play_black.png</bitmap>
+                                                                            <selected>images_osx/play_black.png</selected>
+                                                                            <focus>images_osx/play_black.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStopMicroboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Stop cassette files</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/stop.png</bitmap>
+                                                                            <selected>images_osx/stop.png</selected>
+                                                                            <focus>images_osx/stop.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="TextCassette1Microboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxALIGN_RIGHT</style>
+                                                                            <enabled>0</enabled>
+                                                                            <label>1:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSave1Microboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Start recording to cassette file 1</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/rec_off.png</bitmap>
+                                                                            <selected>images_osx/rec_off.png</selected>
+                                                                            <focus>images_osx/rec_off.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoad1Microboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Play cassette file 1</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/play_black.png</bitmap>
+                                                                            <selected>images_osx/play_black.png</selected>
+                                                                            <focus>images_osx/play_black.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStop1Microboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Stop cassette files</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/stop.png</bitmap>
+                                                                            <selected>images_osx/stop.png</selected>
+                                                                            <focus>images_osx/stop.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="TurboMicroboard">
+                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Turbo LOAD/SAVE: </label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxTextCtrl" name="TurboClockMicroboard" subclass="IntEdit">
+                                                                            <size>35,-1</size>
+                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxStaticText" name="TurboMhzTextMicroboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>MHz</label>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="AutoCasLoadMicroboard">
+                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto LOAD/SAVE:</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBitmapButton" name="RealCasLoadMicroboard">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                            <style>wxBU_AUTODRAW</style>
+                                                                            <hidden>1</hidden>
+                                                                            <bitmap>images_osx/real_cas_off.png</bitmap>
+                                                                            <selected>images_osx/real_cas_off.png</selected>
+                                                                            <focus>images_osx/real_cas_off.png</focus>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                                                                    <orient>wxVERTICAL</orient>
+                                                                    <label>Terminal</label>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxChoice" name="VTTypeMicroboard">
+                                                                                    <tooltip>Select video terminal type</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>None</item>
+                                                                                        <item>VT52</item>
+                                                                                        <item>VT100</item>
+                                                                                        <item>External</item>
+                                                                                    </content>
+                                                                                    <selection>0</selection>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>5</border>
+                                                                                <object class="wxButton" name="VtSetupMicroboard">
+                                                                                    <tooltip>Open video terminal setup window</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Setup</label>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxTOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="VTBaudTTextMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Baud T:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxChoice" name="VTBaudTChoiceMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>38400</item>
+                                                                                        <item>19200</item>
+                                                                                        <item>9600</item>
+                                                                                        <item>4800</item>
+                                                                                        <item>3600</item>
+                                                                                        <item>2400</item>
+                                                                                        <item>2000</item>
+                                                                                        <item>1800</item>
+                                                                                        <item>1200</item>
+                                                                                        <item>600</item>
+                                                                                        <item>300</item>
+                                                                                        <item>200</item>
+                                                                                        <item>150</item>
+                                                                                        <item>134</item>
+                                                                                        <item>110</item>
+                                                                                        <item>75</item>
+                                                                                        <item>50</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="VTBaudRTextMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>R:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxChoice" name="VTBaudRChoiceMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>38400</item>
+                                                                                        <item>19200</item>
+                                                                                        <item>9600</item>
+                                                                                        <item>4800</item>
+                                                                                        <item>3600</item>
+                                                                                        <item>2400</item>
+                                                                                        <item>2000</item>
+                                                                                        <item>1800</item>
+                                                                                        <item>1200</item>
+                                                                                        <item>600</item>
+                                                                                        <item>300</item>
+                                                                                        <item>200</item>
+                                                                                        <item>150</item>
+                                                                                        <item>134</item>
+                                                                                        <item>110</item>
+                                                                                        <item>75</item>
+                                                                                        <item>50</item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxTOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxStaticText" name="ZoomTextVtMicroboard">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Zoom:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>1</border>
+                                                                                <object class="wxTextCtrl" name="ZoomValueVtMicroboard" subclass="FloatEdit">
+                                                                                    <size>50,-1</size>
+                                                                                    <tooltip>Select Video Terminal screen size</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>5</border>
+                                                                                <object class="wxSpinButton" name="ZoomSpinVtMicroboard">
+                                                                                    <size>-1,23</size>
+                                                                                    <tooltip>Select Video Terminal screen size</tooltip>
+                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <value>0</value>
+                                                                                    <min>0</min>
+                                                                                    <max>100</max>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxCheckBox" name="StretchDotMicroboard">
+                                                                                    <tooltip>Enable stretch dot mode on video terminal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Stretch</label>
+                                                                                    <checked>0</checked>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                 </object>

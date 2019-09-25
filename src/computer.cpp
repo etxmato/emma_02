@@ -2162,4 +2162,15 @@ void Computer::setForceUpperCase(bool WXUNUSED(status))
     
 }
 
+void Computer::showPio(bool WXUNUSED(state))
+{
+}
+
+void Computer::showControlWindow(bool WXUNUSED(state))
+{
+}
+
+void Computer::setAddressLatch(Word WXUNUSED(bootAddress))
+{
+}
 

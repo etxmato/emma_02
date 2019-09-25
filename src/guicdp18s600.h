@@ -4,6 +4,33 @@
 #include "guitmc2000.h"
 #include "elfconfiguration.h"
 
+#define MICRO_MAXROM 4
+
+class MicroMemoryConf
+{
+public:
+    wxString ramDir_;
+    wxString ram_;
+
+    wxString romDir_[MICRO_MAXROM];
+    wxString rom_[MICRO_MAXROM];
+    int memType[MICRO_MAXROM];
+  
+    wxString chipBlockRam_;
+    wxString chipBlockRom_[2];
+
+    int memLocation_[2];
+    int socketSize_;
+    
+    int inhibit64_;
+    int inhibit32Low_;
+    int inhibit32High_;
+
+    bool useCdp18s626_;
+    bool useCdp18s629_;
+    bool useCdp18s652_;
+};
+
 class GuiCdp18s600: public GuiTMC2000
 {
 public:
@@ -23,12 +50,12 @@ public:
     
     void onOneSocketBank(wxCommandEvent&event);
     void onFourSocketBank(wxCommandEvent&event);
-    void onCdp18s604bFourSocketBank(wxCommandEvent&event);
-    int convertCdp18s604ChipType(int type);
-    void onCdp18s604bRamBlock(wxCommandEvent&event);
-    void onCdp18s604bRomBlock(wxCommandEvent&event);
-    void cdp18s604bOneSocketBankGui();
-    void cdp18s604bFourSocketBankGui();
+    void onFour604BSocketBank(wxCommandEvent&event);
+    int convert604BChipType(int type);
+    void on604BRamBlock(wxCommandEvent&event);
+    void on604BRomBlock(wxCommandEvent&event);
+    void one604BSocketBankGui();
+    void four604BSocketBankGui();
 
     void onRomU21(wxCommandEvent& event);
     void onRomU21Text(wxCommandEvent& event);
@@ -45,28 +72,37 @@ public:
     void setOneSocketState(wxString cdpTypeStr);
     void onCdp18s600ControlWindows(wxCommandEvent&event);
     void onPioWindows(wxCommandEvent&event);
-    void onCdp1852Windows(wxCommandEvent&event);
     void pioWindows(int computerType, bool state);
-    void cdp1852Windows(int computerType, bool state);
     bool getUseCdp18s600ControlWindows();
     bool getUsePioWindows();
     void setRamlabel(int romNumber, wxString romString, wxString cdpTypeStr, wxString label);
     void onFourSocketSetup(wxCommandEvent& event);
     void onRomSocketSetup(wxCommandEvent& event);
     void onRom603ASocketSetup(wxCommandEvent& event);
+    void onMicroboardCard1Setup(wxCommandEvent& event);
+    void onMicroboardCard2Setup(wxCommandEvent& event);
+    void onMicroboardCard3Setup(wxCommandEvent& event);
+    void onMicroboardCard4Setup(wxCommandEvent& event);
+    void onMicroboardCard5Setup(wxCommandEvent& event);
+    void onMicroboardType1(wxCommandEvent&event);
+    void onMicroboardType2(wxCommandEvent&event);
+    void onMicroboardType3(wxCommandEvent&event);
+    void onMicroboardType4(wxCommandEvent&event);
+    void onMicroboardType5(wxCommandEvent&event);
+    void setCardType();
+    void setTapeGui();
     void setFourSocketState(int cdpType, wxString cdpTypeStr);
     void onAutoBoot(wxCommandEvent&event);
     void onAutoBootType(wxCommandEvent&event);
+    MicroMemoryConf getMicroMemConf(int card) {return microMemConf[card];};
+    void setMicroMemConfiguration(int card, MicroMemoryConf microMemoryConf) { microMemConf[card-2] = microMemoryConf;};
 
 protected:
     
 private:
     wxPoint position_;
-    wxString floppyDirSwitchedCdp18s600_[4];
-    wxString floppyDirCdp18s600_[4];
-    wxString floppyCdp18s600_[4];
-    
-    bool directoryMode_[4];
+
+    MicroMemoryConf microMemConf[4];
 
     DECLARE_EVENT_TABLE()
 };
