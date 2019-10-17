@@ -64,6 +64,7 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	int regVal [16] = {129, 80, 102, 20, 34, 0, 24, 27, 0, 8, 72, 8, 0, 0, 0, 0};
 	clock_ = clock;
 
+    v1870Configured_ = false;
 	windowSize_ = size;
 
 	computerType_ = computerType;
@@ -95,10 +96,12 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	pixelWidth_ = 2;
 	pixelHeight_ = 2;
 	videoMode_ = PAL;
+    interruptMode_ = INT_MODE2;
+    interruptEnabled_ = true;
 
 	switch (computerType_)
 	{
-		case COMX:
+        case COMX:
 			videoMode_ = p_Main->getVideoMode(COMX);
 			interlaceGUI_ = p_Main->getInterlace(COMX);
 			maxPageMemory_ = 960;
@@ -158,7 +161,21 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 			videoWidth_ = 240;
 			videoHeight_ = 216;
 		break;
-	}
+
+        case MICROBOARD:
+            videoMode_ = p_Main->getVideoMode(MICROBOARD);
+            if (videoMode_ == PAL)
+            {
+                videoWidth_ = 240;
+                videoHeight_ = 216;
+            }
+            else
+            {
+                videoWidth_ = 240;
+                videoHeight_ = 192;
+            }
+        break;
+    }
 
 	setCycle();
 
@@ -175,9 +192,11 @@ V1870::~V1870()
 
 	dcMemory.SelectObject(wxNullBitmap);
 	dcScroll.SelectObject(wxNullBitmap);
+    delete videoScreenPointer;
+    if (!v1870Configured_)
+        return;
 	delete screenCopyPointer;
 	delete screenScrollCopyPointer;
-	delete videoScreenPointer;
 #if defined(__WXMAC__)
 	delete gc;
 #endif
@@ -231,7 +250,12 @@ void V1870::focus()
 
 void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
 {
+    v1870Configured_ = true;
+   maxLinesPerCharacters_ = 16;
+    pageMemorySize_ = 0x3ff;
+    charMemorySize_ = 0x7ff;
 	pcbMask_ = 0x7f;
+    charMemoryIsRom_ = false;
 
     if (p_Main->isDiagActive(COMX))
         diagStatusBarPointer->initDiagBar();
@@ -261,12 +285,162 @@ void V1870::configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0)
 	p_Main->message("	EF 1: display/non display period\n");
 }
 
+bool V1870::configure1870Microboard(int v1870group, int pageMemSize, int videoMode, int interruptMode)
+{
+    v1870Configured_ = true;
+    pageMemorySize_ = (0x400 << pageMemSize) - 1;
+    maxPageMemory_ = (pageMemSize == 0) ? 960 : 1920;
+    if (videoMode_ == PAL)
+    {
+        switch (videoMode)
+        {
+            case 1:
+                pageMemorySize_ = 0x3ff;
+                maxPageMemory_ = 960;
+                charMemorySize_ = 0x3ff;
+                charMemoryIsRom_ = false;
+                pcbMask_ = 0x7f;
+                maxLinesPerCharacters_ = 8;
+            break;
+
+            case 2:
+                pageMemorySize_ = 0x3ff;
+                maxPageMemory_ = 960;
+                charMemorySize_ = 0x3ff;
+                charMemoryIsRom_ = false;
+                pcbMask_ = 0x7f;
+                maxLinesPerCharacters_ = 16;
+            break;
+        }
+    }
+    else
+    {
+        switch (videoMode)
+        {
+            case 1:
+                charMemorySize_ = 0x3ff;
+                charMemoryIsRom_ = false;
+                pcbMask_ = 0x7f;
+                maxLinesPerCharacters_ = 8;
+            break;
+            
+            case 2:
+                charMemorySize_ = 0x7ff;
+                charMemoryIsRom_ = false;
+                pcbMask_ = 0xff;
+                maxLinesPerCharacters_ = 8;
+            break;
+
+            case 3:
+                charMemorySize_ = 0x7ff;
+                charMemoryIsRom_ = false;
+                pcbMask_ = 0x7f;
+                maxLinesPerCharacters_ = 16;
+            break;
+            
+            case 4:
+                charMemorySize_ = 0x3ff;
+                charMemoryIsRom_ = true;
+                romAddress_ = 0x200;
+                pcbMask_ = 0x7f;
+                maxLinesPerCharacters_ = 8;
+            break;
+
+            case 5:
+                charMemorySize_ = 0x3ff;
+                charMemoryIsRom_ = true;
+                romAddress_ = 0;
+                pcbMask_ = 0x7f;
+                maxLinesPerCharacters_ = 8;
+            break;
+
+            case 6:
+                charMemorySize_ = 0x7ff;
+                charMemoryIsRom_ = true;
+                romAddress_ = 0;
+                pcbMask_ = 0xff;
+                maxLinesPerCharacters_ = 8;
+            break;
+
+            case 7:
+                charMemorySize_ = 0x7ff;
+                charMemoryIsRom_ = true;
+                romAddress_ = 0;
+                pcbMask_ = 0x7f;
+                maxLinesPerCharacters_ = 16;
+            break;
+                
+            case 8:
+                charMemorySize_ = 0x7ff;
+                charMemoryIsRom_ = true;
+                romAddress_ = 0x400;
+                pcbMask_ = 0xff;
+                maxLinesPerCharacters_ = 8;
+            break;
+
+            case 9:
+                charMemorySize_ = 0xfff;
+                charMemoryIsRom_ = true;
+                romAddress_ = 0x800;
+                pcbMask_ = 0xff;
+                maxLinesPerCharacters_ = 16;
+            break;
+        }
+    }
+
+    interruptMode_ = interruptMode;
+    
+    wxString message;
+    
+    screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
+    dcMemory.SelectObject(*screenCopyPointer);
+    dcScroll.SelectObject(*screenScrollCopyPointer);
+    
+#if defined(__WXMAC__)
+    gc = wxGraphicsContext::Create(dcMemory);
+    gc->SetAntialiasMode(wxANTIALIAS_NONE);
+#endif
+    
+    cycleType_[VIDEOCYCLE1870] = V1870CYCLE;
+    message.Printf("Configuring Video Interface System CDP 1869/1870 on group %02X", v1870group);
+    p_Main->message(message);
+    
+    p_Main->message("	Output 3 to 7: VIS OUT 3 to 7");
+    p_Main->message("	EF 1: display/non display period");
+    message.Printf("	Page RAM Size = %d KB", (pageMemorySize_+1)/0x400);
+    p_Main->message(message);
+    if (charMemoryIsRom_)
+    {
+        if (romAddress_ == 0)
+            message.Printf("	Character ROM Size = %d KB", (charMemorySize_+1)/0x400);
+        else
+            message.Printf("	Character RAM+ROM Size = %d KB; RAM 0-%03X, ROM %03X-%03X", (charMemorySize_+1)/0x400, romAddress_-1, romAddress_, charMemorySize_);
+    }
+    else
+        message.Printf("	Character RAM Size = %d KB", (charMemorySize_+1)/0x400);
+    p_Main->message(message);
+    if (videoMode_ == PAL && maxLinesPerCharacters_ == 16 )
+        message.Printf("	64 Characters with size: 6x%d", maxLinesPerCharacters_);
+    else
+        message.Printf("	%d Characters with size: 6x%d", pcbMask_+1, maxLinesPerCharacters_);
+    p_Main->message(message);
+    p_Main->message("\n");
+    
+    return charMemoryIsRom_;
+}
+
 void V1870::configure1870Cidelsa()
 {
+    v1870Configured_ = true;
+    maxLinesPerCharacters_ = 8;
 	pcbMask_ = 0xff;
-
+    charMemorySize_ = 0x7ff;
+    charMemoryIsRom_ = false;
+    
 	if (cidelsaGame_ != DRACO)
 	{
+        pageMemorySize_ = 0x3ff;
 		cidelsaStatusBarPointer = new CidelsaStatusBar(this);
 		SetStatusBar(cidelsaStatusBarPointer);
 		cidelsaStatusBarPointer->initCidelsaBar();
@@ -275,6 +449,7 @@ void V1870::configure1870Cidelsa()
 	}
 	else
 	{
+        pageMemorySize_ = 0x7ff;
 		videoWidth_ = 216;
 		reCycle_ = true;
 		efNonDisplay_ = 1;
@@ -307,7 +482,12 @@ void V1870::configure1870Cidelsa()
 
 void V1870::configure1870Telmac()
 {
+    v1870Configured_ = true;
+    maxLinesPerCharacters_ = 16;
+    pageMemorySize_ = 0x3ff;
+    charMemorySize_ = 0xfff;
 	pcbMask_ = 0xff;
+    charMemoryIsRom_ = true;
 
 	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
 	screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
@@ -333,7 +513,12 @@ void V1870::configure1870Telmac()
 
 void V1870::configure1870Pecom()
 {
+    v1870Configured_ = true;
+    maxLinesPerCharacters_ = 16;
+    pageMemorySize_ = 0x3ff;
+    charMemorySize_ = 0x7ff;
 	pcbMask_ = 0x7f;
+    charMemoryIsRom_ = false;
 
 	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
 	screenScrollCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
@@ -467,6 +652,7 @@ void V1870::init1870()
 	register5_ = 0;
 	cmemAccessMode_ = 0;
 	linesPerCharacters_ = 9;
+    maxLinesPerCharacters_ = 16;
 	pageMemoryMask_ = 0x3ff;
 	CmaMask_ = 0xf;
 	rowsPerScreen_ = 12;
@@ -637,7 +823,7 @@ void V1870::out7_1870(Word address)
 	register7_ = (address & pageMemoryMask_ & 0x7fc);
 
 	if (mc6845started_)  return;
-	if ((pixelWidth_ == 1) && (pixelHeight_ == 1) && ((computerType_ == COMX) || (computerType_ == TMC600) || (computerType_ == PECOM)))
+	if ((pixelWidth_ == 1) && (pixelHeight_ == 1) && ((computerType_ == COMX) || (computerType_ == TMC600) || (computerType_ == PECOM)  || (computerType_ == MICROBOARD)))
 	{
 		if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
 		{
@@ -664,8 +850,17 @@ void V1870::cycle1870()
 	cycleValue_ --;
 	if (cycleValue_ == preDisplayPeriod_)
 	{
-		if (!displayOff_) 
+		if (!displayOff_)
+        {
 			ef1Value_ = efDisplay_;
+            if (computerType_ == MICROBOARD)
+            {
+                if (interruptMode_ == INT_MODE1)
+                    p_Computer->interrupt();
+                if (interruptEnabled_ && interruptMode_ == INT_MODE3)
+                    p_Computer->interrupt();
+            }
+        }
 	}
 	if (cycleValue_ == nonDisplayPeriodEnd_)
 	{
@@ -699,10 +894,20 @@ void V1870::cycle1870()
 		videoSyncCount_++;
 		switch (computerType_)
 		{
-			case COMX:
+            case COMX:
 				if (!displayOff_)
                         p_Computer->interrupt();
 			break;
+
+            case MICROBOARD:
+                if (!displayOff_)
+                {
+                    if (interruptMode_ == INT_MODE2)
+                        p_Computer->interrupt();
+                    if (interruptEnabled_ && interruptMode_ == INT_MODE4)
+                        p_Computer->interrupt();
+                }
+            break;
 
 			case CIDELSA:
 				if (cidelsaGame_ != DRACO)
@@ -738,6 +943,7 @@ void V1870::writePram(Word address, Byte v)
 			return;
 		address &= pageMemoryMask_;
 	}
+    address &= pageMemorySize_;
 
 	pageMemory_[address] = v;
 	vismacColorRam_[address] = vismacColorLatch_;
@@ -758,6 +964,9 @@ void V1870::writePram(Word address, Byte v)
 
 void V1870::writeCram(Word address, Byte v)
 {
+    if (charMemoryIsRom_ && address >= romAddress_)
+        return;
+    
 	Word ac;
 	if (cmemAccessMode_)
 		ac = register6_ & pageMemoryMask_;
@@ -770,8 +979,8 @@ void V1870::writeCram(Word address, Byte v)
 	}
 
 	address &= CmaMask_;
-	address += ((pageMemory_[ac]&pcbMask_) * 16);
-	characterMemory_[address] = v;
+    address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
+	characterMemory_[address&charMemorySize_] = v;
 
 	if (address>= memoryStart_ && address<(memoryStart_+256))
 		p_Main->updateDebugMemory(address);
@@ -809,9 +1018,9 @@ Byte V1870::readPram(Word address)
 
 	if (cmemAccessMode_)
 	{
-		return pageMemory_[register6_& pageMemoryMask_];
+        return pageMemory_[register6_ & pageMemoryMask_ & pageMemorySize_];
 	}
-	return pageMemory_[address & pageMemoryMask_];
+	return pageMemory_[address & pageMemoryMask_ & pageMemorySize_];
 }
 
 Byte V1870::readCram(Word address)
@@ -831,12 +1040,12 @@ Byte V1870::readCram(Word address)
 	address &= CmaMask_;
 	if (computerType_ == CIDELSA)
 	{
-		p_Computer->cid1Bit8((v1870pcb_[address+(pageMemory_[ac])*16] == 0));
+        p_Computer->cid1Bit8((v1870pcb_[address+(pageMemory_[ac])*maxLinesPerCharacters_] == 0));
 	}
-	address += ((pageMemory_[ac]&pcbMask_) * 16);
+    address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
 	if (computerType_ == TMC600)
 	{
-		ret = characterMemory_[ac] & 0x3f;
+		ret = characterMemory_[ac&charMemorySize_] & 0x3f;
 		clr = vismacColorRam_[ac] &0x7;
 		if (((vismacColorRam_[ac] & 0x8) == 0x8) && vismacBlink_)
 		{
@@ -845,45 +1054,7 @@ Byte V1870::readCram(Word address)
 		ret |= ((clr & 0x2) << 6);
 		return ret;
 	}
-	return characterMemory_[address];
-}
-
-Byte V1870::readCramDirect(Word address)
-{
-	reDraw_ = true;
-	switch (computerType_)
-    {
-        case TMC600:
-            return characterMemory_[address] & 0x3f;
-        break;
-            
-        case CIDELSA:
-            return characterMemory_[address] & 0x3f;
-        break;
-            
-        default:
-            return characterMemory_[address];
-        break;
-    }
-}
-
-void V1870::writeCramDirect(Word address, Byte value)
-{
-    switch (computerType_)
-    {
-        case TMC600:
-            characterMemory_[address] = value & 0x3f;
-        break;
-            
-        case CIDELSA:
-            characterMemory_[address] = (value & 0x3f) | (characterMemory_[address] & 0xc0);
-        break;
-            
-        default:
-            characterMemory_[address] = value;
-        break;
-    }
-	reDraw_ = true;
+	return characterMemory_[address&charMemorySize_];
 }
 
 Byte V1870::readColourRamDirect(Word address)
@@ -895,7 +1066,7 @@ Byte V1870::readColourRamDirect(Word address)
         break;
             
         case CIDELSA:
-            return ((characterMemory_[address] & 0xc0) >> 6) | ((v1870pcb_[address] & 0x1) << 2);
+            return ((characterMemory_[address&charMemorySize_] & 0xc0) >> 6) | ((v1870pcb_[address] & 0x1) << 2);
         break;
             
         default:
@@ -913,23 +1084,11 @@ void V1870::writeColourRamDirect(Word address, Byte value)
         break;
             
         case CIDELSA:
-            characterMemory_[address] = (characterMemory_[address] & 0x3f) | ((value << 6) & 0xc0);
+            characterMemory_[address&charMemorySize_] = (characterMemory_[address&charMemorySize_] & 0x3f) | ((value << 6) & 0xc0);
             v1870pcb_[address] = (value & 0x4) >> 2;
         break;
     }
     reDraw_ = true;
-}
-
-Byte V1870::readPramDirect(Word address)
-{
-	reDraw_ = true;
-	return pageMemory_[address];
-}
-
-void V1870::writePramDirect(Word address, Byte value)
-{
-	pageMemory_[address] = value;
-	reDraw_ = true;
 }
 
 void V1870::set1870(wxString Register, long value)
@@ -1063,11 +1222,15 @@ void V1870::drawCharacter(wxCoord x, wxCoord y, Byte v, int address)
 	Byte pcb = (v & 0x80) ? 1 : 0;
 
 	v &= pcbMask_;
-	int a = v * 16;
+    int a = v * maxLinesPerCharacters_;
 	for (wxCoord i=y; i<y+linesPerCharacters_; i++)
 	{
 		if (pcbMask_  == 0xff) pcb = v1870pcb_[a];
-		drawLine(x*pixelWidth_, i*pixelHeight_, characterMemory_[a], pcb, address);
+    
+        if (i==(y+8) && linesPerCharacters_ > maxLinesPerCharacters_)
+            drawLine(x*pixelWidth_, i*pixelHeight_, 0, pcb, address);
+        else
+            drawLine(x*pixelWidth_, i*pixelHeight_, characterMemory_[a&charMemorySize_], pcb, address);
 		a++;
 	}
 }
@@ -1078,13 +1241,16 @@ void V1870::drawCharacterAndBackground(wxCoord x, wxCoord y, Byte v, int address
 	if (displayOff_)
 		return;
 	v &= pcbMask_;
-	int a = v * 16;
+    int a = v * maxLinesPerCharacters_;
 	for (wxCoord i=y; i<y+linesPerCharacters_; i++)
 	{
 		if (pcbMask_  == 0xff) pcb = v1870pcb_[a];
 		setColourMutex(backGround_);
 		drawBackgroundLine(x*pixelWidth_, i*pixelHeight_);
-		drawLine(x*pixelWidth_, i*pixelHeight_, characterMemory_[a], pcb, address);
+        if (i==(y+8) && linesPerCharacters_ > maxLinesPerCharacters_)
+            drawLine(x*pixelWidth_, i*pixelHeight_, 0, pcb, address);
+        else
+            drawLine(x*pixelWidth_, i*pixelHeight_, characterMemory_[a&charMemorySize_], pcb, address);
 		a++;
 	}
 #if defined(__WXMAC__) || defined(__linux__)
@@ -1236,7 +1402,7 @@ void V1870::updateCidelsaLedStatus(int number, bool status)
 	cidelsaStatusBarPointer->updateLedStatus(number, status);
 }
 
-bool V1870::readChargenFile(wxString romDir, wxString romFile)
+bool V1870::readChargenFileTmc(wxString romDir, wxString romFile)
 {
 	wxFFile inFile;
 	size_t length, number;
@@ -1245,8 +1411,8 @@ bool V1870::readChargenFile(wxString romDir, wxString romFile)
 	wxString fileName = romDir + romFile;
 
 	if (!wxFile::Exists(fileName))
-	{
-		(void)wxMessageBox( "File " + fileName + " not found", // Works correct, via p_Main->errorMessage it will NOT
+    {   // Works correct, via p_Main->errorMessage it will NOT
+		(void)wxMessageBox( "File " + fileName + " not found",
 						    "Emma 02", wxICON_ERROR | wxOK );
 		return false;
 	}
@@ -1275,11 +1441,43 @@ bool V1870::readChargenFile(wxString romDir, wxString romFile)
 		return true;
 	}
 	else
-	{
-		(void)wxMessageBox( "Error reading " + fileName, // Works correct, via p_Main->errorMessage it will NOT
+    {   // Works correct, via p_Main->errorMessage it will NOT
+		(void)wxMessageBox( "Error reading " + fileName,
 						    "Emma 02", wxICON_ERROR | wxOK );
 		return false;
 	}
+}
+
+bool V1870::readChargenFile(wxString romDir, wxString romFile)
+{
+    wxFFile inFile;
+    size_t length;
+    char buffer[4096];
+    
+    wxString fileName = romDir + romFile;
+    
+    if (!wxFile::Exists(fileName))
+    {   // Works correct, via p_Main->errorMessage it will NOT
+        (void)wxMessageBox( "File " + fileName + " not found",
+                           "Emma 02", wxICON_ERROR | wxOK );
+        return false;
+    }
+    
+    if (inFile.Open(fileName, "rb"))
+    {
+        length = inFile.Read(buffer, 4096-romAddress_);
+        for (size_t i=0; i<length; i++)
+            characterMemory_[i+romAddress_] = (Byte)buffer[i];
+        
+        inFile.Close();
+        return true;
+    }
+    else
+    {   // Works correct, via p_Main->errorMessage it will NOT
+        (void)wxMessageBox( "Error reading " + fileName,
+                           "Emma 02", wxICON_ERROR | wxOK );
+        return false;
+    }
 }
 
 Byte V1870::ef6845()
@@ -1810,7 +2008,8 @@ void V1870::setCycle()
 			preDisplayPeriod_ = (int) ((float) cycleSize_ / 312 * 269);
 		break;
 
-		case TMC600: 
+        case MICROBOARD:
+        case TMC600:
 		case PECOM:  // DOT = 5.626
 			clockPeriod = (float)((1/5.626) * 6);
 			fieldTime = clockPeriod * 60 * 312;

@@ -257,20 +257,20 @@ void Upd765::doRead()
                 }
 
                 for (int pos = 0; pos < dmaCounter_; pos++)
-                    p_Computer->writeMem(scratchpadRegister_[0]++, diskBuffer_[drive_][pos], false);
+                    p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
             }
 
 			if (offset >= 1 && offset <= 8)
 			{
 				buildDirectoryClusters(offset);
 				for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
-                    p_Computer->writeMem(scratchpadRegister_[0]++, diskBuffer_[drive_][pos], false);
+                    p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
             }
 
             if (offset == 9)
             {
                 for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
-                    p_Computer->writeMem(scratchpadRegister_[0]++, diskBuffer_[drive_][pos], false);
+                    p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
             }
 
             if (offset >= FIRST_CLUSTER)
@@ -278,7 +278,7 @@ void Upd765::doRead()
 				if (!clusterInfo_[drive_][offset].readCluster)
 				{
 					for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
-						p_Computer->writeMem(scratchpadRegister_[0]++, diskBuffer_[drive_][pos], false);
+						p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
 					return;
 				}
 				if (dmaCounter_ >= 3584)
@@ -298,7 +298,7 @@ void Upd765::doRead()
 						diskFile.Read(&diskBuffer_[drive_][offset * 512], dmaCounter_);
 
 						for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
-							p_Computer->writeMem(scratchpadRegister_[0]++, diskBuffer_[drive_][pos], false);
+							p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
 						return;
 					}
 					else
@@ -394,7 +394,7 @@ void Upd765::doRead()
                         }
                     }
                     for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
-						p_Computer->writeMem(scratchpadRegister_[0]++, diskBuffer_[drive_][pos], false);
+						p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
 
 	/*				for (int cluster = offset + 1; cluster <= (offset + numberOfClusters); cluster++)
 					{
@@ -427,7 +427,7 @@ void Upd765::doRead()
                             diskBuffer_[drive_][pos] = 0;
                     }
                     for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
-                        p_Computer->writeMem(scratchpadRegister_[0]++, diskBuffer_[drive_][pos], false);
+                        p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
                 }
                 diskFile.Close();
 			}
@@ -489,7 +489,7 @@ void Upd765::doWrite()
 			bool clusterEmpty=true;
             for (int pos=0; pos < dmaCounter_; pos++)
             {
-                dirBuffer_[pos] = p_Computer->readMem(scratchpadRegister_[0]++);
+                dirBuffer_[pos] = p_Computer->readMem(p_Computer->getAndIncRegister0());
                 if (dirBuffer_[pos] != 0)
                     clusterEmpty = false;
             }
@@ -501,13 +501,13 @@ void Upd765::doWrite()
         if (offset_ == 9)
         {
             for (int pos = offset_ * 512; pos < (offset_ * 512) + dmaCounter_; pos++)
-                diskBuffer_[drive_][pos] = p_Computer->readMem(scratchpadRegister_[0]++);
+                diskBuffer_[drive_][pos] = p_Computer->readMem(p_Computer->getAndIncRegister0());
         }
 
 		if (offset_ >= FIRST_CLUSTER)
 		{
 			for (int pos = offset_ * 512; pos < (offset_ * 512) + dmaCounter_; pos++)
-				diskBuffer_[drive_][pos] = p_Computer->readMem(scratchpadRegister_[0]++);
+				diskBuffer_[drive_][pos] = p_Computer->readMem(p_Computer->getAndIncRegister0());
 
             if (clusterInfo_[drive_][offset_].readCluster)
                 return;

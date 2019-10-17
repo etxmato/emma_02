@@ -11,11 +11,11 @@
 #define IO_GRP2_UART 2
 #define IO_GRP_PIO 8
 
-class Cdp18s600 : public wxFrame, public Upd765
+class Cdp18s600 : public Upd765, public V1870
 {
 public:
-    Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
-    Cdp18s600() {};
+    Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+//    Cdp18s600() {};
     virtual ~Cdp18s600();
     
     void onClose(wxCloseEvent&WXUNUSED(event));
@@ -23,11 +23,9 @@ public:
     void configureComputer();
     void configureVt();
     virtual void configurePio();
+    void configureCdp18s660();
     void initComputer();
     
-    void onRunButton(wxCommandEvent&event);
-    void onRunPButton(wxCommandEvent&event);
-    void onResetButton(wxCommandEvent&event);
     void onRunButton();
     void onRunPButton();
     void onRun();
@@ -36,9 +34,16 @@ public:
     void onSingleStep();
 
     virtual Byte ef(int flag);
-    void setEfState(int number, Byte value);
+    int defaultEf(int flag);
+    void setEfState(int pioNumber, int number, Byte value);
     virtual Byte in(Byte port, Word address);
+    int defaultIn(Byte port);
     virtual void out(Byte port, Word address, Byte value);
+    void defaultOut(Byte port, Word address, Byte value);
+    Byte keyboardIn();
+    void charEvent(int keycode);
+    bool keyDownExtended(int keycode, wxKeyEvent& event);
+    void keyClear();
     void tapeIo(Byte value);
     void switchQ(int value);
     void showCycleData(Byte val);
@@ -46,9 +51,13 @@ public:
     void showState(int state);
     virtual void setCpuMode(int mode);
     virtual void cycle(int type);
-    void cycleLed();
+    virtual void cycleLed();
 
     virtual void startComputer();
+    void setInhibitBlock(Word* startAddress, Word* socketSize, Word* inhibitStart, Word* inhibitStop, int bank, int card);
+    virtual void startPio(long ms);
+    void startCdp18s660(long ms);
+    void setDiskNames();
     virtual void readRoms();
     void configureCards();
     void readMicro(int romNumber, Word startAddress, Word lastAddress);
@@ -71,18 +80,19 @@ public:
     int getRunState() {return cdpRunState_;};
     bool isComputerRunning();
     void checkComputerFunction();
-    
+
     void setCdp18s600ClockSpeed(double clock) {Cdp18s600ClockSpeed_ = clock;};
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
-    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType);
+    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
     void activateMainWindow();
     virtual void showPio(bool state);
-    void removePio();
+    void removePio(int pioNumber);
     void setHeaderTitle(const wxString& title);
     void showControlWindow(bool state);
 
 protected:
     Byte efState_[5];
+    Byte pioEfState_[3][5];
     ElfConfiguration Cdp18s600Configuration;
     wxString computerTypeStr_;
     wxString pioMessage_;
@@ -90,10 +100,16 @@ protected:
     Vt100 *vtPointer;
     int ioGroup_;
     class PioFrame *pioFramePointer;
+    class PioFrame *pioFramePointer1;
+    class PioFrame *pioFramePointer2;
     class Cdp1852Frame *cdp1852FramePointer;
     int ledCycleValue_;
     int ledCycleSize_;
-    class Cdp18s640Screen *cdp18s640ScreenPointer;
+    class Cdp18s640Frame *cdp18s640FramePointer;
+    
+    int microboardType_;
+    Byte keyboardEf3_;
+    Byte printEf_;
 
 private:
     Word lastAddress_;
@@ -107,14 +123,15 @@ private:
 
     wxString tapeNumber_;
 
-    DECLARE_EVENT_TABLE()
+    int keyboardCode_;
 };
 
 class Cdp18s601 : public Cdp18s600
 {
 public:
-    Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+    Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
 
+    virtual void configurePio();
     Byte in(Byte port, Word address);
     void out(Byte port, Word address, Byte value);
     void readRoms();
@@ -126,33 +143,32 @@ private:
 class Cdp18s602 : public Cdp18s600
 {
 public:
-    Cdp18s602(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+    Cdp18s602(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
     ~Cdp18s602();
     
     void configurePio();
+    void startPio(long ms);
     Byte ef(int flag);
     Byte in(Byte port, Word address);
     void out(Byte port, Word address, Byte value);
-    void startComputer();
     void readRoms();
     
     void setCpuMode(int mode);
     void cycle(int type);
+    void cycleLed();
     void setLedMs(long ms);
-    void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType);
+    void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
     void moveWindows();
     void showPio(bool state);
     
 private:
 };
 
-class Cdp18s603a : public Cdp18s600
+class Cdp18s603a : public Cdp18s601
 {
 public:
-    Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+    Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
     
-    Byte in(Byte port, Word address);
-    void out(Byte port, Word address, Byte value);
     void readRoms();
     
 private:
@@ -162,10 +178,11 @@ private:
 class Cdp18s604b : public Cdp18s600
 {
 public:
-    Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf);
+    Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
     ~Cdp18s604b();
     
     void configurePio();
+    void startPio(long ms);
     Byte ef(int flag);
     Byte in(Byte port, Word address);
     void out(Byte port, Word address, Byte value);
@@ -179,9 +196,9 @@ public:
     void writeMemDebug(Word address, Byte value, bool writeRom);
     void setCpuMode(int mode);
     void cycle(int type);
-    void cycleCdp18s604b();
+    void cycleLed();
     void setLedMs(long ms);
-    void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType);
+    void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
     void moveWindows();
     void showPio(bool state);
 

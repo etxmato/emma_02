@@ -364,8 +364,8 @@ void GuiCdp18s020::onAutoBootType(wxCommandEvent&event)
         conf[CDP18S020].bootAddress_ = 0x8000;
     else
         conf[CDP18S020].bootAddress_ = 0;
-    if (runningComputer_ == CDP18S020)
-        p_Cdp18s020->setAddressLatch(conf[CDP18S020].bootAddress_);
+//    if (runningComputer_ == CDP18S020)
+//        p_Cdp18s020->setAddressLatch(conf[CDP18S020].bootAddress_);
 }
 
 void GuiCdp18s020::onCdp18s020ForceUpperCase(wxCommandEvent&event)

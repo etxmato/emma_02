@@ -20,7 +20,7 @@
 class PioScreen : public Panel
 {
 public:
-    PioScreen(wxWindow *parent, const wxSize& size);
+    PioScreen(wxWindow *parent, const wxSize& size, int pioNumber);
     ~PioScreen();
     
     void init();
@@ -58,6 +58,8 @@ public:
     void refreshLeds();
     
 private:
+    int pioNumber_;
+
     int pioAMode_;
     int pioBMode_;
     int pioStbAMode_;
@@ -93,7 +95,7 @@ private:
 class PioFrame : public wxFrame
 {
 public:
-    PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+    PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber);
     ~PioFrame();
   
 	void onClose(wxCloseEvent& event);
@@ -116,6 +118,8 @@ public:
 private:
     class PioScreen *pioScreenPointer;
 
+    int pioNumber_;
+    
 	DECLARE_EVENT_TABLE()
 };
 

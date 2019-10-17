@@ -774,7 +774,7 @@ void Tmc600::startComputer()
 		p_Main->enableIoGui();
 	}
     p_Main->checkAndReInstallCharFile(TMC600, "Character", EXPROM);
-	readChargenFile(p_Main->getCharRomDir(TMC600), p_Main->getCharRomFile(TMC600));
+	readChargenFileTmc(p_Main->getCharRomDir(TMC600), p_Main->getCharRomFile(TMC600));
 
 	defineMemoryType(0xf400, 0xf7ff, CRAM1870);
 	defineMemoryType(0xf800, 0xffff, PRAM1870);

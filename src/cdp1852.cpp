@@ -68,7 +68,7 @@ void Cdp1852Screen::init()
     inPutValue_ = 0;
 
 #if defined (__WXMAC__)
-    osx_stbButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "");
+    osx_stbButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "", 0);
 #else
     text_stbButtonPointer = new wxButton(this, 1, "", wxPoint(55, 144), wxSize(25, 25), 0, wxDefaultValidator, "StbButton");
     text_stbButtonPointer->SetToolTip("STB");
@@ -154,7 +154,7 @@ void Cdp1852Screen::releaseButtonOnScreen(HexButton* buttonPoint)
 
 void Cdp1852Screen::onStbButton()
 {
-    p_Computer->setEfState(3, 0);
+    p_Computer->setEfState(0, 3, 0);
    
     p_Computer->requestInterrupt();
 }
@@ -197,7 +197,7 @@ void Cdp1852Screen::writePort(Byte value)
 
 Byte Cdp1852Screen::readPort()
 {
-    p_Computer->setEfState(3, 1);
+    p_Computer->setEfState(0, 3, 1);
  
     return outPutValue_;
 }
@@ -235,7 +235,7 @@ Cdp1852Frame::~Cdp1852Frame()
 
 void Cdp1852Frame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-	p_Computer->removePio();
+	p_Computer->removePio(0);
 }
 
 void Cdp1852Frame::onStbButton(wxCommandEvent&WXUNUSED(event))

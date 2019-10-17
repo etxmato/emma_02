@@ -107,17 +107,36 @@ public:
     void drawPointMutex(wxCoord x, wxCoord y);
     void splashScreen();
 	virtual void updateDiagLedStatus(int led, bool status);
-    
+ 
+    Byte readPramDirect(Word address);
+    Byte readCramDirect(Word address);
+    void writeCramDirect(Word address, Byte v);
+    void writePramDirect(Word address, Byte v);
+    Word getPageMemorySize()  {return pageMemorySize_;};
+    Word getCharMemorySize()  {return charMemorySize_;};
+    void setInterruptEnable(bool status) {interruptEnabled_ = status;};
+    Byte getPcbMask()  {return pcbMask_;};
+    int getMaxLinesPerChar()  {return maxLinesPerCharacters_;};
+
 protected:
-	wxColour colour_[66];
-	wxPen penColour_[66];
-	wxBrush brushColour_[66];
+    Byte pageMemory_[4096];
+    Byte characterMemory_[4096];
+    int pcbMask_;
+    int pageMemoryMask_;
+    Word pageMemorySize_;
+    Word charMemorySize_;
+    bool charMemoryIsRom_;
+    Word romAddress_;
+
+	wxColour colour_[67];
+	wxPen penColour_[67];
+	wxBrush brushColour_[67];
 	int borderX_[10];
 	int borderY_[10];
 
-	wxColour colourNew_[66];
-	wxPen penColourNew_[66];
-	wxBrush brushColourNew_[66];
+	wxColour colourNew_[67];
+	wxPen penColourNew_[67];
+	wxBrush brushColourNew_[67];
 	int borderXNew_[10];
 	int borderYNew_[10];
 
@@ -158,6 +177,10 @@ protected:
 
 	bool fullScreenSet_;
 	long videoSyncCount_;
+    
+    bool interruptEnabled_;
+    int maxLinesPerCharacters_;
+    bool v1870Configured_;
 
 private:
     SplashScreen *splashScreen_;

@@ -18,7 +18,7 @@ public:
     bool sdwClusterDefined;
 };
 
-class Upd765 : public Cdp1802
+class Upd765
 {
 public:
 	Upd765();

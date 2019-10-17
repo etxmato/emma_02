@@ -152,7 +152,7 @@ Byte Ms2000::ef(int flag)
 		break;
 
         case MS2000PRINTEF: // EF1
-            return 0;
+            return 1;
         break;
             
         case MS2000CASEF:   // EF2

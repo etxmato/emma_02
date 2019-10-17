@@ -111,6 +111,7 @@ public:
 
 	Word getScratchpadRegister(int number) {return scratchpadRegister_[number];};
 	void setScratchpadRegister(int number, Word scratchpadRegister) {scratchpadRegister_[number] = scratchpadRegister;};
+    Word getAndIncRegister0() {return scratchpadRegister_[0]++;};
 	Byte getAccumulator() {return accumulator_;};
 	void setAccumulator(Byte accumulator) {accumulator_ = accumulator;};
 	Byte getDataFlag() {return dataFlag_;};
@@ -156,7 +157,7 @@ public:
 	Byte get1805Ch() {return ch_;};
 	Byte is1805CtrRunning() {return ctrRunning_;};
     bool getSkipTraceMode() {return skipTrace_;};
-
+    
 	void writeMemLabelType(Word address, Byte type);
 	Byte readMemLabelType(Word address);
 

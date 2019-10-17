@@ -864,7 +864,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT52:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == CDP18S600 || elfType == CDP18S601 || elfType == CDP18S603A || elfType == CDP18S604B || elfType == MICROBOARD)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -904,7 +904,7 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT100:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == CDP18S600 || elfType == CDP18S601 || elfType == CDP18S603A || elfType == CDP18S604B || elfType == MICROBOARD)
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
 				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
@@ -1598,7 +1598,9 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
 			address = arrayStart;
 			start = 7;
 			dataLength += start;
-
+            dataLength &= 0xffff;
+            address &= 0xffff;
+            
 			for (size_t i=start; i<(dataLength); i++)
 			{
 				buffer[i] = p_Computer->getRam(address);
@@ -1677,7 +1679,8 @@ void GuiMain::runSoftware(bool load)
 	{
 		case COMX:
 		case PECOM:
-		case TMC600:
+        case TMC600:
+        case MICROBOARD:
             p_Computer->startComputerRun(load);
 		break;
 
@@ -1750,10 +1753,6 @@ void GuiMain::onLoad(bool load)
 		case TMC600:
         case VIPII:
         case MCDS:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
-        case CDP18S604B:
         case MICROBOARD:
             extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
@@ -1807,10 +1806,6 @@ void GuiMain::onLoad(bool load)
 		break;
 
 		case MCDS:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
-        case CDP18S604B:
         case MICROBOARD:
 			if (swFullPath.GetExt() == computerInfo[selectedComputer_].ploadExtension)
 				p_Computer->startComputerRun(load);
@@ -1872,10 +1867,6 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case TMC600:
 		case VIPII:
         case MCDS:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
-        case CDP18S604B:
         case MICROBOARD:
             extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
@@ -2582,6 +2573,69 @@ void GuiMain::setSecondFramePos(int computerType, wxPoint position)
             conf[computerType].secondFrameX_ = position.x;
         if (position.x > 0)
             conf[computerType].secondFrameY_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getThirdFramePos(int computerType)
+{
+    return wxPoint(conf[computerType].thirdFrameX_, conf[computerType].thirdFrameY_);
+}
+
+void GuiMain::setThirdFramePos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].thirdFrameX_ = -1;
+        conf[computerType].thirdFrameY_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].thirdFrameX_ = position.x;
+        if (position.x > 0)
+            conf[computerType].thirdFrameY_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getFourthFramePos(int computerType)
+{
+    return wxPoint(conf[computerType].fourthFrameX_, conf[computerType].fourthFrameY_);
+}
+
+void GuiMain::setFourthFramePos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].fourthFrameX_ = -1;
+        conf[computerType].fourthFrameY_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].fourthFrameX_ = position.x;
+        if (position.x > 0)
+            conf[computerType].fourthFrameY_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getV1870Pos(int computerType)
+{
+    return wxPoint(conf[computerType].v1870X_, conf[computerType].v1870Y_);
+}
+
+void GuiMain::setV1870Pos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].v1870X_ = -1;
+        conf[computerType].v1870Y_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].v1870X_ = position.x;
+        if (position.x > 0)
+            conf[computerType].v1870Y_ = position.y;
     }
 }
 
@@ -3421,7 +3475,7 @@ void GuiMain::enableMemAccessGui(bool status)
 	}
 	if (!mode_.gui)
 		return;
-	if ((runningComputer_ == CDP18S600) || (runningComputer_ == CDP18S601) || (runningComputer_ == CDP18S603A)  || (runningComputer_ == CDP18S604B) || (runningComputer_ == MICROBOARD) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
+	if ((runningComputer_ == MICROBOARD) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
 	{
 		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);
@@ -3674,6 +3728,29 @@ int GuiMain::getCpuType()
     	cpuType_ = SYSTEM00;
 	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED1_5)
         cpuType_ = CPU1801;
+    if (runningComputer_ == MICROBOARD)
+    {
+        switch (p_Main->getMicroboardType(MICROBOARD))
+        {
+            case MICROBOARD_CDP18S601:
+            case MICROBOARD_CDP18S602:
+            case MICROBOARD_CDP18S603:
+            case MICROBOARD_CDP18S603A:
+            case MICROBOARD_CDP18S604B:
+            case MICROBOARD_CDP18S605:
+                cpuType_ = CPU1802;
+            break;
+                
+            case MICROBOARD_CDP18S600:
+            case MICROBOARD_CDP18S606:
+            case MICROBOARD_CDP18S607:
+            case MICROBOARD_CDP18S608:
+            case MICROBOARD_CDP18S609:
+            case MICROBOARD_CDP18S610:
+                cpuType_ = CPU1805;
+            break;
+        }
+    }
     
     return cpuType_;
 };
@@ -3991,7 +4068,7 @@ void GuiMain::onUpdDiskEject0(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch0(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0];
-    setUpdFloppyGui(elfConfiguration[selectedComputer_].fdcType_, 0);
+    setUpdFloppyGui(0);
 }
 
 void GuiMain::onUpdDisk1(wxCommandEvent& WXUNUSED(event) )
@@ -4069,7 +4146,7 @@ void GuiMain::onUpdDiskEject1(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch1(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1];
-    setUpdFloppyGui(elfConfiguration[selectedComputer_].fdcType_, 1);
+    setUpdFloppyGui(1);
 }
 
 void GuiMain::onUpdDisk2(wxCommandEvent& WXUNUSED(event) )
@@ -4147,7 +4224,7 @@ void GuiMain::onUpdDiskEject2(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch2(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2];
-    setUpdFloppyGui(elfConfiguration[selectedComputer_].fdcType_, 2);
+    setUpdFloppyGui(2);
 }
 
 void GuiMain::onUpdDisk3(wxCommandEvent& WXUNUSED(event) )
@@ -4225,7 +4302,7 @@ void GuiMain::onUpdDiskEject3(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch3(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3];
-    setUpdFloppyGui(elfConfiguration[selectedComputer_].fdcType_, 3);
+    setUpdFloppyGui(3);
 }
 
 bool GuiMain::getDirectoryMode(int fdcType, int drive)
@@ -4253,7 +4330,7 @@ wxString GuiMain::getUpdFloppyFile(int fdcType, int drive)
     return floppy_[fdcType][drive];
 }
 
-void GuiMain::setUpdFloppyGui(int fdcType, int drive)
+void GuiMain::setUpdFloppyGui(int drive)
 {
     wxString driveStr;
     driveStr.Printf("%d", drive);

@@ -19,16 +19,29 @@ public:
     wxString chipBlockRam_;
     wxString chipBlockRom_[2];
 
-    int memLocation_[2];
-    int socketSize_;
-    
+    int memLocation_[3];
+    int socketSize_[2];
+  
+    bool inhibitBlock_[2][4];
+
     int inhibit64_;
     int inhibit32Low_;
     int inhibit32High_;
 
+    bool disableCardMemory_;
+
+    bool useCdp18s620_;
+    bool useCdp18s621_;
+    bool useCdp18s623a_;
+    bool useCdp18s625_;
     bool useCdp18s626_;
+    bool useCdp18s627_;
+    bool useCdp18s628_;
     bool useCdp18s629_;
+    bool useCdp18s640_;
     bool useCdp18s652_;
+    bool useCdp18s661_;
+    bool useCdp18s660_;
 };
 
 class GuiCdp18s600: public GuiTMC2000
@@ -38,71 +51,54 @@ public:
     GuiCdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
     ~GuiCdp18s600() {};
     
-    void readCdp18s600Config(int cdpType, wxString cdpTypeStr);
-    void writeCdp18s600DirConfig(int cdpType, wxString cdpTypeStr);
-    void writeCdp18s600Config(int cdpType, wxString cdpTypeStr);
-    void readCdp18s600WindowConfig(int cdpType, wxString cdpTypeStr);
-    void writeCdp18s600WindowConfig(int cdpType, wxString cdpTypeStr);
+    void readCdp18s600Config();
+    void writeCdp18s600DirConfig();
+    void writeCdp18s600Config();
+    void readCdp18s600WindowConfig();
+    void writeCdp18s600WindowConfig();
     
     void onCdp18s600BaudT(wxCommandEvent& event);
     void onCdp18s600Clock(wxCommandEvent& event);
     void onCdp18s600ForceUpperCase(wxCommandEvent& event);
     
-    void onOneSocketBank(wxCommandEvent&event);
-    void onFourSocketBank(wxCommandEvent&event);
-    void onFour604BSocketBank(wxCommandEvent&event);
     int convert604BChipType(int type);
-    void on604BRamBlock(wxCommandEvent&event);
-    void on604BRomBlock(wxCommandEvent&event);
-    void one604BSocketBankGui();
-    void four604BSocketBankGui();
 
-    void onRomU21(wxCommandEvent& event);
-    void onRomU21Text(wxCommandEvent& event);
-    void onRomU20(wxCommandEvent& event);
-    void onRomU20Text(wxCommandEvent& event);
-    void onRomU19(wxCommandEvent& event);
-    void onRomU19Text(wxCommandEvent& event);
-    void onRomU18(wxCommandEvent& event);
-    void onRomU18Text(wxCommandEvent& event);
-    void onRomU17(wxCommandEvent& event);
-    void onRomU17Text(wxCommandEvent& event);
-
-    void onOneSocketSetup(wxCommandEvent& event);
-    void setOneSocketState(wxString cdpTypeStr);
-    void onCdp18s600ControlWindows(wxCommandEvent&event);
     void onPioWindows(wxCommandEvent&event);
     void pioWindows(int computerType, bool state);
     bool getUseCdp18s600ControlWindows();
     bool getUsePioWindows();
     void setRamlabel(int romNumber, wxString romString, wxString cdpTypeStr, wxString label);
-    void onFourSocketSetup(wxCommandEvent& event);
-    void onRomSocketSetup(wxCommandEvent& event);
-    void onRom603ASocketSetup(wxCommandEvent& event);
     void onMicroboardCard1Setup(wxCommandEvent& event);
     void onMicroboardCard2Setup(wxCommandEvent& event);
     void onMicroboardCard3Setup(wxCommandEvent& event);
     void onMicroboardCard4Setup(wxCommandEvent& event);
-    void onMicroboardCard5Setup(wxCommandEvent& event);
+    void onMicroboardCardSetup(wxCommandEvent& event);
     void onMicroboardType1(wxCommandEvent&event);
     void onMicroboardType2(wxCommandEvent&event);
     void onMicroboardType3(wxCommandEvent&event);
     void onMicroboardType4(wxCommandEvent&event);
-    void onMicroboardType5(wxCommandEvent&event);
+    void onMicroboardCard(wxCommandEvent&event);
+    void setCardMax();
     void setCardType();
+    wxString checkBoardType(int card, wxString cardstring, wxString oldStr, bool boardControlValue);
+    void setChoiceColor(wxString cardstring, bool error);
     void setTapeGui();
-    void setFourSocketState(int cdpType, wxString cdpTypeStr);
     void onAutoBoot(wxCommandEvent&event);
     void onAutoBootType(wxCommandEvent&event);
     MicroMemoryConf getMicroMemConf(int card) {return microMemConf[card];};
     void setMicroMemConfiguration(int card, MicroMemoryConf microMemoryConf) { microMemConf[card-2] = microMemoryConf;};
 
+    int getMicroboardType(int computerType) {return conf[computerType].microboardType_[1];};
+    int getMicroboardMaxCard(int computerType) {return conf[computerType].microboardMaxCards_;};
+    wxString getMicroboardTypeStr(int boardType);
 protected:
     
 private:
     wxPoint position_;
 
-    MicroMemoryConf microMemConf[4];
+    vector<MicroMemoryConf> microMemConf;
+
+//    MicroMemoryConf microMemConf[24];
 
     DECLARE_EVENT_TABLE()
 };

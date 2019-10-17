@@ -33,9 +33,10 @@
 #include "main.h"
 #include "pio.h"
 
-PioScreen::PioScreen(wxWindow *parent, const wxSize& size)
+PioScreen::PioScreen(wxWindow *parent, const wxSize& size, int pioNumber)
 : Panel(parent, size)
 {
+    pioNumber_ = pioNumber;
 //    this->SetClientSize(size);
 }
 
@@ -102,8 +103,8 @@ void PioScreen::init()
     inPutValueA_ = 0;
 
 #if defined (__WXMAC__)
-    osx_ardyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "A");
-    osx_brdyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 95, 144, "B");
+    osx_ardyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 55, 144, "A", pioNumber_);
+    osx_brdyButtonPointer = new HexButton2(dc, PIO_HEX_BUTTON, 95, 144, "B", pioNumber_);
 #else
     text_ardyButtonPointer = new wxButton(this, 1, "A", wxPoint(55, 144), wxSize(25, 25), 0, wxDefaultValidator, "ArdyButton");
     text_ardyButtonPointer->SetToolTip("ARDY");
@@ -218,7 +219,7 @@ void PioScreen::interruptCycle()
 
 void PioScreen::onArdyButton()
 {
-    p_Computer->setEfState(1, 0);
+    p_Computer->setEfState(pioNumber_, 1, 0);
    
     if (pioAMode_ == PIO_BI_DRECT)
         pioStatus_ |= 0x8;
@@ -231,7 +232,7 @@ void PioScreen::onArdyButton()
 
 void PioScreen::onBrdyButton()
 {
-    p_Computer->setEfState(2, 0);
+    p_Computer->setEfState(pioNumber_, 2, 0);
     
     if (pioAMode_ == PIO_BI_DRECT)
         pioStatus_ |= 0x4;
@@ -858,7 +859,7 @@ void PioScreen::writePortB(Byte value)
 
 Byte PioScreen::readPortA()
 {
-    p_Computer->setEfState(1, 1);
+    p_Computer->setEfState(pioNumber_, 1, 1);
     pioStatus_ &= 0xFD;
  
     if (pioAMode_ == PIO_BI_DRECT)
@@ -869,7 +870,7 @@ Byte PioScreen::readPortA()
 
 Byte PioScreen::readPortB()
 {
-    p_Computer->setEfState(2, 1);
+    p_Computer->setEfState(pioNumber_, 2, 1);
     pioStatus_ &= 0xFE;
 
     return outPutValueB_;
@@ -972,10 +973,12 @@ BEGIN_EVENT_TABLE(PioFrame, wxFrame)
     EVT_BUTTON(2, PioFrame::onBrdyButton)
 END_EVENT_TABLE()
 
-PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
+PioFrame::PioFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int pioNumber)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-    pioScreenPointer = new PioScreen(this, size);
+    pioNumber_ = pioNumber;
+    
+    pioScreenPointer = new PioScreen(this, size, pioNumber);
     pioScreenPointer->init();
     
     this->SetClientSize(size);
@@ -992,7 +995,7 @@ PioFrame::~PioFrame()
 
 void PioFrame::onClose(wxCloseEvent&WXUNUSED(event))
 {
-	p_Computer->removePio();
+	p_Computer->removePio(pioNumber_);
 }
 
 void PioFrame::onArdyButton(wxCommandEvent&WXUNUSED(event))

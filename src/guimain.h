@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 35
-#define LAST_ELF_TYPE 20
+#define NO_COMPUTER 31
+#define LAST_ELF_TYPE 16
 
 #define MAINROM1 0
 
@@ -43,6 +43,11 @@
 #define XU25ROM 3
 #define XU24ROM 4
 
+#define XU23ROM 0
+#define XU22ROM 1
+#define XU21ROM 2
+#define XU20ROM 3
+
 #define CDP626_SEC1 0
 #define CDP626_SEC2 1
 #define CDP626_SEC3 2
@@ -52,12 +57,23 @@
 
 //MICROBOARD CARD TYPES
 #define CARD_EMPTY 0
-#define CARD_CDP18S508 1
-#define CARD_CDP18S626 2
-#define CARD_CDP18S629 3
-#define CARD_CDP18S640 4
-#define CARD_CDP18S651 5
-#define CARD_CDP18S652 6
+#define CARD_CDP18S620 1
+#define CARD_CDP18S621 2
+#define CARD_CDP18S623A 3
+#define CARD_CDP18S625 4
+#define CARD_CDP18S626 5
+#define CARD_CDP18S627 6
+#define CARD_CDP18S628 7
+#define CARD_CDP18S629 8
+#define CARD_CDP18S640 9
+#define CARD_CDP18S641 10
+#define CARD_CDP18S646 11
+#define CARD_CDP18S651 12
+#define CARD_CDP18S652 13
+#define CARD_CDP18S660 14
+#define CARD_CDP18S661B 15
+#define CARD_CDP18S661V3 16
+#define CARD_LAST 16
 
 #define FDCTYPE_MS2000 0
 #define FDCTYPE_MICROBOARD 1
@@ -178,6 +194,7 @@ public:
 	Byte lsb_;
     Byte msb_;
 
+	int v1870X_, v1870Y_;
     int pixieX_, pixieY_;
 	int tmsX_, tmsY_;
 	int vtX_, vtY_;
@@ -187,6 +204,8 @@ public:
 	int mainX_, mainY_;
     int keypadX_, keypadY_;
     int secondFrameX_, secondFrameY_;
+    int thirdFrameX_, thirdFrameY_;
+    int fourthFrameX_, fourthFrameY_;
 
 	int sizeX_;
 	int sizeY_;
@@ -211,7 +230,8 @@ public:
 
 	int gameId_;
     
-    int microboardType_[6];
+    int microboardMaxCards_;
+    int microboardType_[25];
     int microChipType_[2];
     int microChipLocation_[3];
     wxString microChipBlock_[2];
@@ -457,6 +477,12 @@ public:
 	void setKeypadPos(int computerType, wxPoint position);
     wxPoint getSecondFramePos(int computerType);
     void setSecondFramePos(int computerType, wxPoint position);
+    wxPoint getThirdFramePos(int computerType);
+    void setThirdFramePos(int computerType, wxPoint position);
+    wxPoint getFourthFramePos(int computerType);
+    void setFourthFramePos(int computerType, wxPoint position);
+    wxPoint getV1870Pos(int computerType);
+    void setV1870Pos(int computerType, wxPoint position);
 
 	wxString getDataDir() {return dataDir_;};
 	wxString getApplicationDir() {return applicationDirectory_;};
@@ -536,7 +562,7 @@ public:
     wxString getUpdFloppyDirSwitched(int fdcType, int drive);
     wxString getUpdFloppyDir(int fdcType, int drive);
     wxString getUpdFloppyFile(int fdcType, int drive);
-    void setUpdFloppyGui(int fdcType, int drive);
+    void setUpdFloppyGui(int drive);
 
 protected:
 	Mode mode_;
@@ -603,7 +629,6 @@ protected:
 
 	int elfChoice_;
     int rcaChoice_;
-    int microChoice_;
 	int debuggerChoice_;
 	int studioChoice_;
 	int telmacChoice_;

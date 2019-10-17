@@ -74,10 +74,6 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
 		case MS2000:
         case MCDS:
         case CDP18S020:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
-        case CDP18S604B:
         case MICROBOARD:
 			forceUpperCase_ = p_Main->getUpperCase(computerType);
 		break;
@@ -160,7 +156,8 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
 	{
 		switch (computerType_)
 		{
-			case COMX:
+            case COMX:
+            case MICROBOARD:
 			case TMC600:
 			case PECOM:
 				if (p_Main->checkFunctionKey(event))
@@ -554,6 +551,9 @@ void Video::onF3()
 
 void Video::onF5()
 {
+    if (videoType_ == VIDEO1870 && !v1870Configured_)
+        return;
+        
 	int num = 0;
 	wxFile screenDump;
 	wxString number;
@@ -728,3 +728,54 @@ void Video::updateDiagLedStatus(int WXUNUSED(led), bool WXUNUSED(status))
 {
 	
 }
+
+Byte Video::readPramDirect(Word address)
+{
+    reDraw_ = true;
+    return pageMemory_[address];
+}
+
+Byte Video::readCramDirect(Word address)
+{
+    reDraw_ = true;
+    switch (computerType_)
+    {
+        case TMC600:
+        case CIDELSA:
+            return characterMemory_[address] & 0x3f;
+        break;
+                        
+        default:
+            return characterMemory_[address];
+        break;
+    }
+}
+
+void Video::writeCramDirect(Word address, Byte value)
+{
+    switch (computerType_)
+    {
+        case TMC600:
+            characterMemory_[address] = value & 0x3f;
+        break;
+            
+        case CIDELSA:
+            characterMemory_[address] = (value & 0x3f) | (characterMemory_[address] & 0xc0);
+        break;
+            
+        default:
+            characterMemory_[address] = value;
+        break;
+    }
+    reDraw_ = true;
+}
+
+void Video::writePramDirect(Word address, Byte value)
+{
+    pageMemory_[address] = value;
+    reDraw_ = true;
+}
+
+
+
+

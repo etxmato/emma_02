@@ -1503,6 +1503,18 @@ void Printer::configureThermalPrinter()
 	p_Computer->setCycleType(PRINTCYCLE, THERMALCYCLE);
 }
 
+void Printer::init(Printer *pointer, wxString computerName, int printerType)
+{
+	printerPointer = pointer;
+	computerName_ = computerName;
+	printerType_ = printerType;
+
+	printMode_ = p_Main->getPrintMode();
+	printerFrameOpen_ = false;
+	setPrintfileName(p_Main->getPrintFile());
+	line_ = "";
+}
+
 void Printer::initComx(Printer *pointer)
 {
 	printerPointer = pointer;
@@ -1552,18 +1564,6 @@ void Printer::initMS2000(Printer *pointer)
     printerFrameOpen_ = false;
     setPrintfileName(p_Main->getPrintFile());
     line_ = "";
-}
-
-void Printer::initMcds(Printer *pointer)
-{
-	printerPointer = pointer;
-	computerName_ = "MCDS";
-	printerType_ = MS2000PRINTER;
-
-	printMode_ = p_Main->getPrintMode();
-	printerFrameOpen_ = false;
-	setPrintfileName(p_Main->getPrintFile());
-	line_ = "";
 }
 
 void Printer::initVip(Printer *pointer)

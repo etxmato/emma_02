@@ -2182,7 +2182,7 @@ void Cdp1802::cpuCycleExecute1()
 					{
 						case COMX:
 						case CIDELSA:
-						case PECOM:
+                        case PECOM:
 							if (n>3)
 								buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
 							else
@@ -2195,6 +2195,13 @@ void Cdp1802::cpuCycleExecute1()
 							else
 								buffer.Printf("OUT  %X    [%02X]",n,bus_);
 						break;
+
+                        case MICROBOARD:
+                            if (n>3 && elfConfiguration.usev1870)
+                                buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
+                            else
+                                buffer.Printf("OUT  %X    [%02X]",n,bus_);
+                        break;
 
 						default:
 							buffer.Printf("OUT  %X    [%02X]",n,bus_);
@@ -3403,9 +3410,11 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long in
                     strValue = line.Mid((i*2)+9, 2);
                     strValue.ToLong(&value, 16);
                     if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
+                    {
                         writeMem(address,(Byte)value, true);
-                    if (memoryType != NOCHANGE && memoryType != RAM)
-                        defineMemoryType(address, memoryType);
+                        if (memoryType != NOCHANGE && memoryType != RAM)
+                            defineMemoryType(address, memoryType);
+                    }
                     address++;
                 }
                 if (address > last)
@@ -3426,9 +3435,11 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long in
                         {
                             value &= 255;
                             if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
+                            {
                                 writeMem(address,(Byte)value, true);
-                            if (memoryType != NOCHANGE && memoryType != RAM)
-                                defineMemoryType(address, memoryType);
+                                if (memoryType != NOCHANGE && memoryType != RAM)
+                                    defineMemoryType(address, memoryType);
+                            }
                             address++;
                             i++;
                         }
@@ -3486,7 +3497,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 					{
 						wxString endStr;
 						endStr.Printf("%04X", (int)end);
-                        if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A && computerType_ != CDP18S604B && computerType_ != MICROBOARD)
+                        if (computerType_ != MICROBOARD)
                             p_Main->errorMessage("Attempt to load after address " + endStr);
 					}
 					setAddress(showFilename, start, last);
@@ -3740,7 +3751,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A && computerType_ != CDP18S604B && computerType_ != MICROBOARD)
+            if (computerType_ != MICROBOARD)
                 p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, last);
@@ -3821,18 +3832,20 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word start, long en
 {
     wxFFile inFile;
     size_t length;
-    char buffer[end-start+1];
+    char buffer[65535];
     Word address = start;
     
     if (inFile.Open(fileName, _("rb")))
     {
-        length = inFile.Read(buffer, end-start+1);
+        length = inFile.Read(buffer, end-start);
         for (size_t i=0; i<length; i++)
         {
             if (address < (start+length) && !(address >= inhibitStart && address <= inhibitEnd))
+            {
                 writeMem(address,(Byte)buffer[i], true);
-            if (memoryType != NOCHANGE && memoryType != RAM)
-                defineMemoryType(address, memoryType);
+                if (memoryType != NOCHANGE && memoryType != RAM)
+                    defineMemoryType(address, memoryType);
+            }
             address++;
         }
         inFile.Close();
@@ -3894,7 +3907,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A && computerType_ != CDP18S604B && computerType_ != MICROBOARD)
+            if (computerType_ != MICROBOARD)
                 p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, address-1);
@@ -4226,10 +4239,6 @@ void Cdp1802::checkLoadedSoftware()
             break;
                 
             case CDP18S020:
-            case CDP18S600:
-            case CDP18S601:
-            case CDP18S603A:
-            case CDP18S604B:
             case MICROBOARD:
                 if ((mainMemory_[0x8024] == 0x51) && (mainMemory_[0x8030] == 0xe5) && (mainMemory_[0x8048] == 0xa3) && (mainMemory_[0x80d8] == 0x50))
                 {
@@ -4289,7 +4298,7 @@ bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType, Wo
 bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType1, int memoryType2, long startAddress, long lastAddress, long inhibitStart, long inhibitEnd)
 {
     long address = startAddress;
-    for (size_t i=0; i<(lastAddress-startAddress); i+=256)
+    for (long i=0; i<(lastAddress-startAddress); i+=256)
     {
         if (address < lastAddress && !(address >= inhibitStart && address <= inhibitEnd))
             defineMemoryType(address, memoryType1);
@@ -4673,10 +4682,6 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
 
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
-                case CDP18S604B:
                 case MICROBOARD:
                 case CDP18S020:
                 case VELF:
@@ -4740,10 +4745,6 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
                 
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
-                case CDP18S604B:
                 case MICROBOARD:
                 case CDP18S020:
                 case VELF:
@@ -5055,10 +5056,6 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
-                case CDP18S604B:
                 case MICROBOARD:
                 case CDP18S020:
                 case VELF:
@@ -5120,10 +5117,6 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
-                case CDP18S604B:
                 case MICROBOARD:
                 case CDP18S020:
                 case VELF:

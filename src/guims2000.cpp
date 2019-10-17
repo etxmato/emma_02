@@ -126,7 +126,7 @@ GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& si
 void GuiMS2000::readMS2000Config()
 {
 	selectedComputer_ = MS2000;
-    elfConfiguration[MS2000].fdcType_ = FDCTYPE_MICROBOARD;
+    elfConfiguration[MS2000].fdcType_ = FDCTYPE_MS2000;
     
 	conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
 
@@ -162,7 +162,9 @@ void GuiMS2000::readMS2000Config()
 	configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
     configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
-    elfConfiguration[MS2000].uartGroup = 0;
+    elfConfiguration[MS2000].uartGroup = 1;
+    elfConfiguration[MS2000].elfPortConf.uartOut = 2;
+    elfConfiguration[MS2000].elfPortConf.uartControl = 3;
     elfConfiguration[MS2000].useUart = true;
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
 	elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);
@@ -205,7 +207,7 @@ void GuiMS2000::readMS2000Config()
     if (mode_.gui)
 	{
         for (int drive=0; drive < 4; drive++)
-            setUpdFloppyGui(elfConfiguration[MS2000].fdcType_, drive);
+            setUpdFloppyGui(drive);
 
         XRCCTRL(*this, "MainRomMS2000", wxComboBox)->SetValue(conf[MS2000].rom_[MAINROM1]);
 		XRCCTRL(*this, "VtCharRomMS2000", wxComboBox)->SetValue(conf[MS2000].vtCharRom_);
