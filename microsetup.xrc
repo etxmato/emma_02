@@ -22,6 +22,39 @@
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxBoxSizer">
@@ -172,6 +205,39 @@
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxBoxSizer">
@@ -306,6 +372,39 @@
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxBoxSizer">
@@ -429,6 +528,39 @@
                                 <face>System Font</face>
                             </font>
                             <label>Setup 'Four Socket' - 2Kx8</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -1580,6 +1712,39 @@
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_RIGHT|wxALL</flag>
                         <border>5</border>
                         <object class="wxBoxSizer">
@@ -2008,6 +2173,39 @@
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_RIGHT|wxALL</flag>
                         <border>5</border>
                         <object class="wxBoxSizer">
@@ -2245,7 +2443,40 @@
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
                         <flag>wxALIGN_LEFT|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
                         <object class="wxBoxSizer">
                             <orient>wxHORIZONTAL</orient>
                             <object class="sizeritem">
@@ -2610,7 +2841,40 @@
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
                         <flag>wxALIGN_LEFT|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
                         <object class="wxBoxSizer">
                             <orient>wxHORIZONTAL</orient>
                             <object class="sizeritem">
@@ -2785,12 +3049,12 @@
                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="Four601SocketSetupMicroboard">
-                                            <tooltip>Setup 4 Socket Memory Bank</tooltip>
+                                            <tooltip>Setup ROM Socket Memory Bank</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>Setup - 4</label>
+                                            <label>Setup - ROM</label>
                                         </object>
                                     </object>
                                 </object>
@@ -2947,7 +3211,40 @@
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
                         <flag>wxALIGN_LEFT|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
                         <object class="wxBoxSizer">
                             <orient>wxHORIZONTAL</orient>
                             <object class="sizeritem">
@@ -3312,7 +3609,40 @@
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
                         <flag>wxALIGN_LEFT|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
                         <object class="wxBoxSizer">
                             <orient>wxHORIZONTAL</orient>
                             <object class="sizeritem">
@@ -3487,12 +3817,12 @@
                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                         <border>3</border>
                                         <object class="wxButton" name="Four603ASocketSetupMicroboard">
-                                            <tooltip>Setup 4 Socket Memory Bank</tooltip>
+                                            <tooltip>Setup ROM Socket Memory Bank</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>Setup - 4</label>
+                                            <label>Setup - ROM</label>
                                         </object>
                                     </object>
                                 </object>
@@ -3649,7 +3979,40 @@
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
                         <flag>wxALIGN_LEFT|wxALL</flag>
-                        <border>5</border>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
                         <object class="wxBoxSizer">
                             <orient>wxHORIZONTAL</orient>
                             <object class="sizeritem">
@@ -3933,6 +4296,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -4075,6 +4471,39 @@
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
@@ -4288,6 +4717,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -4423,10 +4885,36 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>1</border>
-                        <object class="wxStaticLine" name="wxID_STATIC">
-                            <style>wxLI_HORIZONTAL</style>
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -4860,6 +5348,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -5237,6 +5758,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -5379,6 +5933,39 @@
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
@@ -5752,6 +6339,39 @@
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
@@ -6130,6 +6750,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -6336,6 +6989,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -6481,6 +7167,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -6620,6 +7339,39 @@
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
                     <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
                         <object class="wxFlexGridSizer">
@@ -6700,6 +7452,39 @@
         <title>CDP18S652 Setup</title>
         <object class="wxBoxSizer">
             <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALIGN_LEFT|wxALL</flag>
+                <border>0</border>
+                <object class="wxBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <hidden>1</hidden>
+                            <fg>#FB0106</fg>
+                            <label>Double board error</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="MemoryErrorMicroboard">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <hidden>1</hidden>
+                            <fg>#FB0106</fg>
+                            <label>Memory error</label>
+                        </object>
+                    </object>
+                </object>
+            </object>
             <object class="sizeritem">
                 <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                 <border>5</border>
@@ -7082,6 +7867,1246 @@
             </object>
         </object>
     </object>
+    <object class="wxDialog" name="CDP18S660_Setup_Dialog">
+        <title>CDP18S660 Setup</title>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxFlexGridSizer">
+                            <cols>3</cols>
+                            <rows>1</rows>
+                            <vgap>2</vgap>
+                            <hgap>0</hgap>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>PIO 1, I/O Group:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="Pio1IoGroupMicroboard">
+                                    <tooltip>Select PIO 1 I/O Group</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>10</item>
+                                        <item>20</item>
+                                        <item>30</item>
+                                        <item>40</item>
+                                        <item>50</item>
+                                        <item>60</item>
+                                        <item>70</item>
+                                        <item>80</item>
+                                        <item>90</item>
+                                        <item>A0</item>
+                                        <item>B0</item>
+                                        <item>C0</item>
+                                        <item>D0</item>
+                                        <item>E0</item>
+                                        <item>F0</item>
+                                    </content>
+                                    <selection>0</selection>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                <border>4</border>
+                                <object class="wxCheckBox" name="Pio1IoWindow">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>IO Window</label>
+                                    <checked>0</checked>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxFlexGridSizer">
+                            <cols>3</cols>
+                            <rows>1</rows>
+                            <vgap>2</vgap>
+                            <hgap>0</hgap>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>PIO 2, I/O Group:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="Pio2IoGroupMicroboard">
+                                    <tooltip>Select PIO 1 I/O Group</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>10</item>
+                                        <item>20</item>
+                                        <item>30</item>
+                                        <item>40</item>
+                                        <item>50</item>
+                                        <item>60</item>
+                                        <item>70</item>
+                                        <item>80</item>
+                                        <item>90</item>
+                                        <item>A0</item>
+                                        <item>B0</item>
+                                        <item>C0</item>
+                                        <item>D0</item>
+                                        <item>E0</item>
+                                        <item>F0</item>
+                                    </content>
+                                    <selection>1</selection>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                <border>4</border>
+                                <object class="wxCheckBox" name="Pio2IoWindow">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>IO Window</label>
+                                    <checked>0</checked>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>1</border>
+                        <object class="wxStaticLine" name="wxID_STATIC">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
+                        <border>5</border>
+                        <object class="wxFlexGridSizer">
+                            <cols>2</cols>
+                            <rows>2</rows>
+                            <vgap>2</vgap>
+                            <hgap>0</hgap>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>RAM Socket:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>2Kx8</label>
+                                        </object>
+                                    </object>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                        <border>5</border>
+                                        <size>20,5</size>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxGROW|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxChoice" name="OneSocketBankMicroboard">
+                                            <tooltip>Select RAM Socket Memory Location</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <content>
+                                                <item>0000-07FF</item>
+                                                <item>0800-0FFF</item>
+                                                <item>1000-17FF</item>
+                                                <item>1800-1FFF</item>
+                                                <item>2000-27FF</item>
+                                                <item>2800-2FFF</item>
+                                                <item>3000-37FF</item>
+                                                <item>3800-3FFF</item>
+                                                <item>4000-47FF</item>
+                                                <item>4800-4FFF</item>
+                                                <item>5000-57FF</item>
+                                                <item>5800-5FFF</item>
+                                                <item>6000-67FF</item>
+                                                <item>6800-6FFF</item>
+                                                <item>7000-77FF</item>
+                                                <item>7800-7FFF</item>
+                                                <item>8000-87FF</item>
+                                                <item>8800-8FFF</item>
+                                                <item>9000-97FF</item>
+                                                <item>9800-9FFF</item>
+                                                <item>A000-A7FF</item>
+                                                <item>A800-AFFF</item>
+                                                <item>B000-B7FF</item>
+                                                <item>B800-BFFF</item>
+                                                <item>C000-C7FF</item>
+                                                <item>C800-CFFF</item>
+                                                <item>D000-D7FF</item>
+                                                <item>C800-DFFF</item>
+                                                <item>E000-E7FF</item>
+                                                <item>E800-EFFF</item>
+                                                <item>F000-F7FF</item>
+                                                <item>F800-FFFF</item>
+                                            </content>
+                                            <selection>18</selection>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="RamButtonSection1Microboard">
+                                    <tooltip>Browse for Microboard RAM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>RAM</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                <border>1</border>
+                                <option>20</option>
+                                <object class="wxComboBox" name="RamSection1Microboard">
+                                    <size>172,-1</size>
+                                    <tooltip>Specify Microboard RAM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item></item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>1</border>
+                        <object class="wxStaticLine" name="wxID_STATIC">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
+                        <border>5</border>
+                        <object class="wxFlexGridSizer">
+                            <cols>2</cols>
+                            <rows>5</rows>
+                            <vgap>2</vgap>
+                            <hgap>0</hgap>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>ROM Socket:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxHORIZONTAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxGROW|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxChoice" name="FourSocketBankMicroboard">
+                                            <tooltip>Select ROM Socket Bank Memory Chip</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <content>
+                                                <item>1Kx8</item>
+                                                <item>2Kx8</item>
+                                            </content>
+                                            <selection>1</selection>
+                                        </object>
+                                    </object>
+                                    <object class="spacer">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                        <border>5</border>
+                                        <size>5,5</size>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                        <border>3</border>
+                                        <object class="wxButton" name="Four660SocketSetupMicroboard">
+                                            <tooltip>Setup ROM Socket Memory Bank</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>Setup - ROM</label>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="RomButtonSection1Microboard">
+                                    <tooltip>Browse for Microboard XU23 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>ROM XU23</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                <border>1</border>
+                                <option>20</option>
+                                <object class="wxComboBox" name="RomSection1Microboard">
+                                    <size>172,-1</size>
+                                    <tooltip>Specify Microboard XU23 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item></item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="RomButtonSection2Microboard">
+                                    <tooltip>Browse for Microboard XU22 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>ROM XU22</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                <border>1</border>
+                                <option>20</option>
+                                <object class="wxComboBox" name="RomSection2Microboard">
+                                    <size>172,-1</size>
+                                    <tooltip>Specify Microboard XU22 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item></item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="RomButtonSection3Microboard">
+                                    <tooltip>Browse for Microboard XU21 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>ROM XU21</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                <border>1</border>
+                                <option>20</option>
+                                <object class="wxComboBox" name="RomSection3Microboard">
+                                    <size>172,-1</size>
+                                    <tooltip>Specify Microboard XU21 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item></item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                <border>3</border>
+                                <object class="wxButton" name="RomButtonSection4Microboard">
+                                    <tooltip>Browse for Microboard XU20 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>ROM XU20</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                <border>1</border>
+                                <option>20</option>
+                                <object class="wxComboBox" name="RomSection4Microboard">
+                                    <size>172,-1</size>
+                                    <tooltip>Specify Microboard XU20 ROM file</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxCB_DROPDOWN</style>
+                                    <content>
+                                        <item></item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>1</border>
+                        <object class="wxStaticLine" name="wxID_STATIC">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+    <object class="wxDialog" name="CDP18S660_4_2K_Dialog">
+        <title>CDP18S660 Memory Setup</title>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="MicroSetupText">
+                            <font>
+                                <size>14</size>
+                                <weight>bold</weight>
+                                <face>System Font</face>
+                            </font>
+                            <label>Setup ROM Socket - 2Kx8</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU23 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU23">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0000-07FF</item>
+                                        <item>1000-17FF</item>
+                                        <item>2000-27FF</item>
+                                        <item>3000-37FF</item>
+                                        <item>4000-47FF</item>
+                                        <item>5000-57FF</item>
+                                        <item>6000-67FF</item>
+                                        <item>7000-77FF</item>
+                                        <item>8000-87FF</item>
+                                        <item>9000-97FF</item>
+                                        <item>A000-A7FF</item>
+                                        <item>B000-B7FF</item>
+                                        <item>C000-C7FF</item>
+                                        <item>D000-D7FF</item>
+                                        <item>E000-E7FF</item>
+                                        <item>F000-F7FF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MicroSetupMemoryU23Text">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory size</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupMemoryU23">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>1Kx8</item>
+                                        <item>2Kx8</item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxCheckBox" name="MicroSetupDisableU23">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <label>Disable Socket</label>
+                                    <checked>0</checked>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="ID_STATICLINE">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU22 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU22">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0800-0FFF</item>
+                                        <item>1800-1FFF</item>
+                                        <item>2800-2FFF</item>
+                                        <item>3800-3FFF</item>
+                                        <item>4800-4FFF</item>
+                                        <item>5800-5FFF</item>
+                                        <item>6800-6FFF</item>
+                                        <item>7800-7FFF</item>
+                                        <item>8800-8FFF</item>
+                                        <item>9800-9FFF</item>
+                                        <item>A800-AFFF</item>
+                                        <item>B800-BFFF</item>
+                                        <item>C800-CFFF</item>
+                                        <item>D800-DFFF</item>
+                                        <item>E800-EFFF</item>
+                                        <item>F800-FFFF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MicroSetupMemoryU22Text">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory size</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupMemoryU22">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>1Kx8</item>
+                                        <item>2Kx8</item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxCheckBox" name="MicroSetupDisableU22">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <label>Disable Socket</label>
+                                    <checked>0</checked>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="StaticLine1">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU21 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU21">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0000-07FF</item>
+                                        <item>1000-17FF</item>
+                                        <item>2000-27FF</item>
+                                        <item>3000-37FF</item>
+                                        <item>4000-47FF</item>
+                                        <item>5000-57FF</item>
+                                        <item>6000-67FF</item>
+                                        <item>7000-77FF</item>
+                                        <item>8000-87FF</item>
+                                        <item>9000-97FF</item>
+                                        <item>A000-A7FF</item>
+                                        <item>B000-B7FF</item>
+                                        <item>C000-C7FF</item>
+                                        <item>D000-D7FF</item>
+                                        <item>E000-E7FF</item>
+                                        <item>F000-F7FF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MicroSetupMemoryU21Text">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory size</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupMemoryU21">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>1Kx8</item>
+                                        <item>2Kx8</item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxCheckBox" name="MicroSetupDisableU21">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <label>Disable Socket</label>
+                                    <checked>0</checked>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="StaticLine1">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU20 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU20">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0800-0FFF</item>
+                                        <item>1800-1FFF</item>
+                                        <item>2800-2FFF</item>
+                                        <item>3800-3FFF</item>
+                                        <item>4800-4FFF</item>
+                                        <item>5800-5FFF</item>
+                                        <item>6800-6FFF</item>
+                                        <item>7800-7FFF</item>
+                                        <item>8800-8FFF</item>
+                                        <item>9800-9FFF</item>
+                                        <item>A800-AFFF</item>
+                                        <item>B800-BFFF</item>
+                                        <item>C800-CFFF</item>
+                                        <item>D800-DFFF</item>
+                                        <item>E800-EFFF</item>
+                                        <item>F800-FFFF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MicroSetupMemoryU20Text">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory size</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupMemoryU20">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>1Kx8</item>
+                                        <item>2Kx8</item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxCheckBox" name="MicroSetupDisableU20">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <label>Disable Socket</label>
+                                    <checked>0</checked>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="StaticLine1">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>8</border>
+                <object class="wxButton" name="MicroSetupSave">
+                    <font>
+                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                        <size>-1</size>
+                    </font>
+                    <label>Save</label>
+                </object>
+            </object>
+        </object>
+    </object>
+    <object class="wxDialog" name="CDP18S660_4_1K_Dialog">
+        <title>CDP18S660 Memory Setup</title>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticText" name="MicroSetupText">
+                            <font>
+                                <size>14</size>
+                                <weight>bold</weight>
+                                <face>System Font</face>
+                            </font>
+                            <label>Setup ROM Socket - 1Kx8</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU23 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU23_1">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0000-03FF</item>
+                                        <item>1000-13FF</item>
+                                        <item>2000-23FF</item>
+                                        <item>3000-33FF</item>
+                                        <item>4000-43FF</item>
+                                        <item>5000-53FF</item>
+                                        <item>6000-63FF</item>
+                                        <item>7000-73FF</item>
+                                        <item>8000-83FF</item>
+                                        <item>9000-93FF</item>
+                                        <item>A000-A3FF</item>
+                                        <item>B000-B3FF</item>
+                                        <item>C000-C3FF</item>
+                                        <item>D000-D3FF</item>
+                                        <item>E000-E3FF</item>
+                                        <item>F000-F3FF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="ID_STATICLINE">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU22 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU22_1">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0800-0BFF</item>
+                                        <item>1800-1BFF</item>
+                                        <item>2800-2BFF</item>
+                                        <item>3800-3BFF</item>
+                                        <item>4800-4BFF</item>
+                                        <item>5800-5BFF</item>
+                                        <item>6800-6BFF</item>
+                                        <item>7800-7BFF</item>
+                                        <item>8800-8BFF</item>
+                                        <item>9800-9BFF</item>
+                                        <item>A800-ABFF</item>
+                                        <item>B800-BBFF</item>
+                                        <item>C800-CBFF</item>
+                                        <item>D800-DBFF</item>
+                                        <item>E800-EBFF</item>
+                                        <item>F800-FBFF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="StaticLine1">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU21 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU21_1">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0400-07FF</item>
+                                        <item>1400-17FF</item>
+                                        <item>2400-27FF</item>
+                                        <item>3400-37FF</item>
+                                        <item>4400-47FF</item>
+                                        <item>5400-57FF</item>
+                                        <item>6400-67FF</item>
+                                        <item>7400-77FF</item>
+                                        <item>8400-87FF</item>
+                                        <item>9400-97FF</item>
+                                        <item>A400-A7FF</item>
+                                        <item>B400-B7FF</item>
+                                        <item>C400-C7FF</item>
+                                        <item>D400-D7FF</item>
+                                        <item>E400-E7FF</item>
+                                        <item>F400-F7FF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="StaticLine1">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Memory Bank XU20 location:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="MicroSetupLocationU20_1">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>0C00-0FFF</item>
+                                        <item>1C00-1FFF</item>
+                                        <item>2C00-2FFF</item>
+                                        <item>3C00-3FFF</item>
+                                        <item>4C00-4FFF</item>
+                                        <item>5C00-5FFF</item>
+                                        <item>6C00-6FFF</item>
+                                        <item>7C00-7FFF</item>
+                                        <item>8C00-8FFF</item>
+                                        <item>9C00-9FFF</item>
+                                        <item>AC00-AFFF</item>
+                                        <item>BC00-BFFF</item>
+                                        <item>CC00-CFFF</item>
+                                        <item>DC00-DFFF</item>
+                                        <item>EC00-EFFF</item>
+                                        <item>FC00-FFFF</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxStaticLine" name="StaticLine1">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>8</border>
+                <object class="wxButton" name="MicroSetupSave">
+                    <font>
+                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                        <size>-1</size>
+                    </font>
+                    <label>Save</label>
+                </object>
+            </object>
+        </object>
+    </object>
     <object class="wxDialog" name="CDP18S661B_Setup_Dialog">
         <title>CDP18S661B Setup</title>
         <object class="wxBoxSizer">
@@ -7091,6 +9116,39 @@
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
@@ -7344,6 +9402,39 @@
                 <border>5</border>
                 <object class="wxBoxSizer">
                     <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                         <border>5</border>
@@ -8551,1123 +10642,6 @@
                             <label>Save</label>
                         </object>
                     </object>
-                </object>
-            </object>
-        </object>
-    </object>
-    <object class="wxDialog" name="CDP18S660_Setup_Dialog">
-        <title>CDP18S660 Setup</title>
-        <object class="wxBoxSizer">
-            <orient>wxVERTICAL</orient>
-            <object class="sizeritem">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>5</border>
-                <object class="wxBoxSizer">
-                    <orient>wxVERTICAL</orient>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxFlexGridSizer">
-                            <cols>2</cols>
-                            <rows>1</rows>
-                            <vgap>2</vgap>
-                            <hgap>0</hgap>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>I/O Group PIO 1:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="Pio1IoGroupMicroboard">
-                                    <tooltip>Select PIO 1 I/O Group</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>10</item>
-                                        <item>20</item>
-                                        <item>30</item>
-                                        <item>40</item>
-                                        <item>50</item>
-                                        <item>60</item>
-                                        <item>70</item>
-                                        <item>80</item>
-                                        <item>90</item>
-                                        <item>A0</item>
-                                        <item>B0</item>
-                                        <item>C0</item>
-                                        <item>D0</item>
-                                        <item>E0</item>
-                                        <item>F0</item>
-                                    </content>
-                                    <selection>0</selection>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxFlexGridSizer">
-                            <cols>2</cols>
-                            <rows>1</rows>
-                            <vgap>2</vgap>
-                            <hgap>0</hgap>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>I/O Group PIO 2:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="Pio2IoGroupMicroboard">
-                                    <tooltip>Select PIO 1 I/O Group</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>10</item>
-                                        <item>20</item>
-                                        <item>30</item>
-                                        <item>40</item>
-                                        <item>50</item>
-                                        <item>60</item>
-                                        <item>70</item>
-                                        <item>80</item>
-                                        <item>90</item>
-                                        <item>A0</item>
-                                        <item>B0</item>
-                                        <item>C0</item>
-                                        <item>D0</item>
-                                        <item>E0</item>
-                                        <item>F0</item>
-                                    </content>
-                                    <selection>1</selection>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>1</border>
-                        <object class="wxStaticLine" name="wxID_STATIC">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
-                        <border>5</border>
-                        <object class="wxFlexGridSizer">
-                            <cols>2</cols>
-                            <rows>2</rows>
-                            <vgap>2</vgap>
-                            <hgap>0</hgap>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>RAM Socket:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxStaticText" name="wxID_STATIC">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <label>2Kx8</label>
-                                        </object>
-                                    </object>
-                                    <object class="spacer">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                        <border>5</border>
-                                        <size>20,5</size>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxGROW|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxChoice" name="OneSocketBankMicroboard">
-                                            <tooltip>Select RAM Socket Memory Location</tooltip>
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <content>
-                                                <item>0000-07FF</item>
-                                                <item>0800-0FFF</item>
-                                                <item>1000-17FF</item>
-                                                <item>1800-1FFF</item>
-                                                <item>2000-27FF</item>
-                                                <item>2800-2FFF</item>
-                                                <item>3000-37FF</item>
-                                                <item>3800-3FFF</item>
-                                                <item>4000-47FF</item>
-                                                <item>4800-4FFF</item>
-                                                <item>5000-57FF</item>
-                                                <item>5800-5FFF</item>
-                                                <item>6000-67FF</item>
-                                                <item>6800-6FFF</item>
-                                                <item>7000-77FF</item>
-                                                <item>7800-7FFF</item>
-                                                <item>8000-87FF</item>
-                                                <item>8800-8FFF</item>
-                                                <item>9000-97FF</item>
-                                                <item>9800-9FFF</item>
-                                                <item>A000-A7FF</item>
-                                                <item>A800-AFFF</item>
-                                                <item>B000-B7FF</item>
-                                                <item>B800-BFFF</item>
-                                                <item>C000-C7FF</item>
-                                                <item>C800-CFFF</item>
-                                                <item>D000-D7FF</item>
-                                                <item>C800-DFFF</item>
-                                                <item>E000-E7FF</item>
-                                                <item>E800-EFFF</item>
-                                                <item>F000-F7FF</item>
-                                                <item>F800-FFFF</item>
-                                            </content>
-                                            <selection>18</selection>
-                                        </object>
-                                    </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                <border>3</border>
-                                <object class="wxButton" name="RamButtonSection1Microboard">
-                                    <tooltip>Browse for Microboard RAM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>RAM</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RamSection1Microboard">
-                                    <size>172,-1</size>
-                                    <tooltip>Specify Microboard RAM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>1</border>
-                        <object class="wxStaticLine" name="wxID_STATIC">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT|wxRIGHT|wxTOP</flag>
-                        <border>5</border>
-                        <object class="wxFlexGridSizer">
-                            <cols>2</cols>
-                            <rows>5</rows>
-                            <vgap>2</vgap>
-                            <hgap>0</hgap>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>ROM Socket:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <flag>wxGROW|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxChoice" name="FourSocketBankMicroboard">
-                                            <tooltip>Select ROM Socket Bank Memory Chip</tooltip>
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <content>
-                                                <item>1Kx8</item>
-                                                <item>2Kx8</item>
-                                            </content>
-                                            <selection>1</selection>
-                                        </object>
-                                    </object>
-                                    <object class="spacer">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                        <border>5</border>
-                                        <size>5,5</size>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                        <border>3</border>
-                                        <object class="wxButton" name="Four660SocketSetupMicroboard">
-                                            <tooltip>Setup ROM Socket Memory Bank</tooltip>
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <label>Setup - ROM</label>
-                                        </object>
-                                    </object>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                <border>3</border>
-                                <object class="wxButton" name="RomButtonSection1Microboard">
-                                    <tooltip>Browse for Microboard XU23 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>ROM XU23</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RomSection1Microboard">
-                                    <size>172,-1</size>
-                                    <tooltip>Specify Microboard XU23 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                <border>3</border>
-                                <object class="wxButton" name="RomButtonSection2Microboard">
-                                    <tooltip>Browse for Microboard XU22 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>ROM XU22</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RomSection2Microboard">
-                                    <size>172,-1</size>
-                                    <tooltip>Specify Microboard XU22 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                <border>3</border>
-                                <object class="wxButton" name="RomButtonSection3Microboard">
-                                    <tooltip>Browse for Microboard XU21 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>ROM XU21</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RomSection3Microboard">
-                                    <size>172,-1</size>
-                                    <tooltip>Specify Microboard XU21 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                <border>3</border>
-                                <object class="wxButton" name="RomButtonSection4Microboard">
-                                    <tooltip>Browse for Microboard XU20 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>ROM XU20</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
-                                <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RomSection4Microboard">
-                                    <size>172,-1</size>
-                                    <tooltip>Specify Microboard XU20 ROM file</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>1</border>
-                        <object class="wxStaticLine" name="wxID_STATIC">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>8</border>
-                        <object class="wxButton" name="MicroSetupSave">
-                            <font>
-                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                <size>-1</size>
-                            </font>
-                            <label>Save</label>
-                        </object>
-                    </object>
-                </object>
-            </object>
-        </object>
-    </object>
-    <object class="wxDialog" name="CDP18S660_4_2K_Dialog">
-        <title>CDP18S660 Memory Setup</title>
-        <object class="wxBoxSizer">
-            <orient>wxVERTICAL</orient>
-            <object class="sizeritem">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>5</border>
-                <object class="wxBoxSizer">
-                    <orient>wxVERTICAL</orient>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticText" name="MicroSetupText">
-                            <font>
-                                <size>14</size>
-                                <weight>bold</weight>
-                                <face>System Font</face>
-                            </font>
-                            <label>Setup ROM Socket - 2Kx8</label>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU23 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU23">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0000-07FF</item>
-                                        <item>1000-17FF</item>
-                                        <item>2000-27FF</item>
-                                        <item>3000-37FF</item>
-                                        <item>4000-47FF</item>
-                                        <item>5000-57FF</item>
-                                        <item>6000-67FF</item>
-                                        <item>7000-77FF</item>
-                                        <item>8000-87FF</item>
-                                        <item>9000-97FF</item>
-                                        <item>A000-A7FF</item>
-                                        <item>B000-B7FF</item>
-                                        <item>C000-C7FF</item>
-                                        <item>D000-D7FF</item>
-                                        <item>E000-E7FF</item>
-                                        <item>F000-F7FF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="MicroSetupMemoryU23Text">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory size</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxChoice" name="MicroSetupMemoryU23">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>1Kx8</item>
-                                        <item>2Kx8</item>
-                                    </content>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxCheckBox" name="MicroSetupDisableU23">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <hidden>1</hidden>
-                                    <label>Disable Socket</label>
-                                    <checked>0</checked>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="ID_STATICLINE">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU22 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU22">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0800-0FFF</item>
-                                        <item>1800-1FFF</item>
-                                        <item>2800-2FFF</item>
-                                        <item>3800-3FFF</item>
-                                        <item>4800-4FFF</item>
-                                        <item>5800-5FFF</item>
-                                        <item>6800-6FFF</item>
-                                        <item>7800-7FFF</item>
-                                        <item>8800-8FFF</item>
-                                        <item>9800-9FFF</item>
-                                        <item>A800-AFFF</item>
-                                        <item>B800-BFFF</item>
-                                        <item>C800-CFFF</item>
-                                        <item>D800-DFFF</item>
-                                        <item>E800-EFFF</item>
-                                        <item>F800-FFFF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="MicroSetupMemoryU22Text">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory size</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxChoice" name="MicroSetupMemoryU22">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>1Kx8</item>
-                                        <item>2Kx8</item>
-                                    </content>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxCheckBox" name="MicroSetupDisableU22">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <hidden>1</hidden>
-                                    <label>Disable Socket</label>
-                                    <checked>0</checked>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="StaticLine1">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU21 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU21">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0000-07FF</item>
-                                        <item>1000-17FF</item>
-                                        <item>2000-27FF</item>
-                                        <item>3000-37FF</item>
-                                        <item>4000-47FF</item>
-                                        <item>5000-57FF</item>
-                                        <item>6000-67FF</item>
-                                        <item>7000-77FF</item>
-                                        <item>8000-87FF</item>
-                                        <item>9000-97FF</item>
-                                        <item>A000-A7FF</item>
-                                        <item>B000-B7FF</item>
-                                        <item>C000-C7FF</item>
-                                        <item>D000-D7FF</item>
-                                        <item>E000-E7FF</item>
-                                        <item>F000-F7FF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="MicroSetupMemoryU21Text">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory size</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxChoice" name="MicroSetupMemoryU21">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>1Kx8</item>
-                                        <item>2Kx8</item>
-                                    </content>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxCheckBox" name="MicroSetupDisableU21">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <hidden>1</hidden>
-                                    <label>Disable Socket</label>
-                                    <checked>0</checked>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="StaticLine1">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU20 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU20">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0800-0FFF</item>
-                                        <item>1800-1FFF</item>
-                                        <item>2800-2FFF</item>
-                                        <item>3800-3FFF</item>
-                                        <item>4800-4FFF</item>
-                                        <item>5800-5FFF</item>
-                                        <item>6800-6FFF</item>
-                                        <item>7800-7FFF</item>
-                                        <item>8800-8FFF</item>
-                                        <item>9800-9FFF</item>
-                                        <item>A800-AFFF</item>
-                                        <item>B800-BFFF</item>
-                                        <item>C800-CFFF</item>
-                                        <item>D800-DFFF</item>
-                                        <item>E800-EFFF</item>
-                                        <item>F800-FFFF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="MicroSetupMemoryU20Text">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory size</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxChoice" name="MicroSetupMemoryU20">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>1Kx8</item>
-                                        <item>2Kx8</item>
-                                    </content>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                <border>4</border>
-                                <object class="wxCheckBox" name="MicroSetupDisableU20">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <hidden>1</hidden>
-                                    <label>Disable Socket</label>
-                                    <checked>0</checked>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="StaticLine1">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
-                </object>
-            </object>
-        </object>
-    </object>
-    <object class="wxDialog" name="CDP18S660_4_1K_Dialog">
-        <title>CDP18S660 Memory Setup</title>
-        <object class="wxBoxSizer">
-            <orient>wxVERTICAL</orient>
-            <object class="sizeritem">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>5</border>
-                <object class="wxBoxSizer">
-                    <orient>wxVERTICAL</orient>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticText" name="MicroSetupText">
-                            <font>
-                                <size>14</size>
-                                <weight>bold</weight>
-                                <face>System Font</face>
-                            </font>
-                            <label>Setup ROM Socket - 1Kx8</label>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU23 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU23_1">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0000-03FF</item>
-                                        <item>1000-13FF</item>
-                                        <item>2000-23FF</item>
-                                        <item>3000-33FF</item>
-                                        <item>4000-43FF</item>
-                                        <item>5000-53FF</item>
-                                        <item>6000-63FF</item>
-                                        <item>7000-73FF</item>
-                                        <item>8000-83FF</item>
-                                        <item>9000-93FF</item>
-                                        <item>A000-A3FF</item>
-                                        <item>B000-B3FF</item>
-                                        <item>C000-C3FF</item>
-                                        <item>D000-D3FF</item>
-                                        <item>E000-E3FF</item>
-                                        <item>F000-F3FF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="ID_STATICLINE">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU22 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU22_1">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0800-0BFF</item>
-                                        <item>1800-1BFF</item>
-                                        <item>2800-2BFF</item>
-                                        <item>3800-3BFF</item>
-                                        <item>4800-4BFF</item>
-                                        <item>5800-5BFF</item>
-                                        <item>6800-6BFF</item>
-                                        <item>7800-7BFF</item>
-                                        <item>8800-8BFF</item>
-                                        <item>9800-9BFF</item>
-                                        <item>A800-ABFF</item>
-                                        <item>B800-BBFF</item>
-                                        <item>C800-CBFF</item>
-                                        <item>D800-DBFF</item>
-                                        <item>E800-EBFF</item>
-                                        <item>F800-FBFF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="StaticLine1">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU21 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU21_1">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0400-07FF</item>
-                                        <item>1400-17FF</item>
-                                        <item>2400-27FF</item>
-                                        <item>3400-37FF</item>
-                                        <item>4400-47FF</item>
-                                        <item>5400-57FF</item>
-                                        <item>6400-67FF</item>
-                                        <item>7400-77FF</item>
-                                        <item>8400-87FF</item>
-                                        <item>9400-97FF</item>
-                                        <item>A400-A7FF</item>
-                                        <item>B400-B7FF</item>
-                                        <item>C400-C7FF</item>
-                                        <item>D400-D7FF</item>
-                                        <item>E400-E7FF</item>
-                                        <item>F400-F7FF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="StaticLine1">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_RIGHT|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>5</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Bank XU20 location:</label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MicroSetupLocationU20_1">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>0C00-0FFF</item>
-                                        <item>1C00-1FFF</item>
-                                        <item>2C00-2FFF</item>
-                                        <item>3C00-3FFF</item>
-                                        <item>4C00-4FFF</item>
-                                        <item>5C00-5FFF</item>
-                                        <item>6C00-6FFF</item>
-                                        <item>7C00-7FFF</item>
-                                        <item>8C00-8FFF</item>
-                                        <item>9C00-9FFF</item>
-                                        <item>AC00-AFFF</item>
-                                        <item>BC00-BFFF</item>
-                                        <item>CC00-CFFF</item>
-                                        <item>DC00-DFFF</item>
-                                        <item>EC00-EFFF</item>
-                                        <item>FC00-FFFF</item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxGROW|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxStaticLine" name="StaticLine1">
-                            <style>wxLI_HORIZONTAL</style>
-                        </object>
-                    </object>
-                </object>
-            </object>
-            <object class="sizeritem">
-                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                <border>8</border>
-                <object class="wxButton" name="MicroSetupSave">
-                    <font>
-                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                        <size>-1</size>
-                    </font>
-                    <label>Save</label>
                 </object>
             </object>
         </object>

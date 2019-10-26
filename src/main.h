@@ -512,9 +512,9 @@ public:
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
 #define MICROTUTOR2TAB 3
-#define VIPTAB 4
-#define VIPIITAB 5
-#define CDP18S020TAB 6
+#define CDP18S020TAB 4
+#define VIPTAB 5
+#define VIPIITAB 6
 #define MICROBOARDTAB 7
 #define MCDSTAB 8
 #define MS2000TAB 9
@@ -553,6 +553,7 @@ public:
 #define MICROBOARD_CDP18S608 9
 #define MICROBOARD_CDP18S609 10
 #define MICROBOARD_CDP18S610 11
+#define MICROBOARD_LAST 11
 
 #define VIDEONONE 0
 #define VIDEO1870 0

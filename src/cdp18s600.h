@@ -54,7 +54,6 @@ public:
     virtual void cycleLed();
 
     virtual void startComputer();
-    void setInhibitBlock(Word* startAddress, Word* socketSize, Word* inhibitStart, Word* inhibitStop, int bank, int card);
     virtual void startPio(long ms);
     void startCdp18s660(long ms);
     void setDiskNames();
@@ -86,6 +85,8 @@ public:
     virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
     void activateMainWindow();
     virtual void showPio(bool state);
+    void showCdp18s660Pio1(bool state);
+    void showCdp18s660Pio2(bool state);
     void removePio(int pioNumber);
     void setHeaderTitle(const wxString& title);
     void showControlWindow(bool state);
@@ -94,6 +95,7 @@ protected:
     Byte efState_[5];
     Byte pioEfState_[3][5];
     ElfConfiguration Cdp18s600Configuration;
+    
     wxString computerTypeStr_;
     wxString pioMessage_;
     double Cdp18s600ClockSpeed_;
@@ -122,6 +124,7 @@ private:
     bool resetHdData_;
 
     wxString tapeNumber_;
+    int addressLatchCounter_;
 
     int keyboardCode_;
 };

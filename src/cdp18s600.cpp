@@ -38,35 +38,6 @@
 #include "cdp1852.h"
 #include "upd765.h"
 
-Word romSize[]=
-{
-    0x7ff, 0xfff, 0x1fff
-};
-
-Word romSizeCDP18S601[]=
-{
-    0x3ff, 0x7ff
-};
-
-int inhibit[5][12][2]=
-{
-    {
-        {0xFFFF, 0x0000}, {0xE000, 0xEFFF}, {0xF000, 0xFFFF}, {0xE000, 0xFFFF}, {0xE000, 0xE3FF}, {0xE400, 0xE7FF}, {0xE800, 0xEBFF}, {0xEC00, 0xEFFF}, {0xF000, 0xF3FF}, {0xF400, 0xF7FF}, {0xF800, 0xFBFF}, {0xFC00, 0xFFFF}
-    },
-    {
-        {0xFFFF, 0x0000}, {0x7000, 0x77FF}, {0x7800, 0x7FFF}, {0x7000, 0x7FFF}, {0x7000, 0x73FF}, {0x7400, 0x77FF}, {0x7800, 0x7BFF}, {0x7C00, 0x7FFF}, {0, 0}, {0, 0}, {0, 0}, {0, 0}
-    },
-    {
-        {0xFFFF, 0x0000}, {0xF000, 0xF7FF}, {0xF800, 0xFFFF}, {0xF000, 0xFFFF}, {0xF000, 0xF3FF}, {0xF400, 0xF7FF}, {0xF800, 0xFBFF}, {0xFC00, 0xFFFF}, {0, 0}, {0, 0}, {0, 0}, {0, 0}
-    },
-    {
-        {0xFFFF, 0x0000}, {0x0000, 0x07FF}, {0x0800, 0x0FFF}, {0x0000, 0x0FFF}, {0x0000, 0x03FF}, {0x0400, 0x07FF}, {0x0800, 0x0BFF}, {0x0C00, 0x0FFF}, {0, 0}, {0, 0}, {0, 0}, {0, 0}
-    },
-    {
-        {0xFFFF, 0x0000}, {0x8000, 0x87FF}, {0x8800, 0x8FFF}, {0x8000, 0x8FFF}, {0x8000, 0x83FF}, {0x8400, 0x87FF}, {0x8800, 0x8BFF}, {0x8C00, 0x8FFF}, {0, 0}, {0, 0}, {0, 0}, {0, 0}
-    }
-};
-
 Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
 :V1870(title, pos, size, zoomLevel, computerType, clock)
 {
@@ -100,6 +71,8 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
 
     p_Printer = new Printer();
     p_Printer->init(p_Printer, computerTypeStr_, MS2000PRINTER);
+
+    addressLatchCounter_ = 0;
 }
 
 Cdp18s600::~Cdp18s600()
@@ -135,9 +108,7 @@ Cdp18s600::~Cdp18s600()
     {
         p_Main->setThirdFramePos(computerType_, pioFramePointer1->GetPosition());
         pioFramePointer1->Destroy();
-    }
-    if (Cdp18s600Configuration.useCdp18s660)
-    {
+
         p_Main->setFourthFramePos(computerType_, pioFramePointer2->GetPosition());
         pioFramePointer2->Destroy();
     }
@@ -352,6 +323,7 @@ void Cdp18s600::onRun()
     if (cpuMode_ != RUN)
         resetEffectiveClock();
     
+    addressLatchCounter_ = 64;
     setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF, RUN LED ON
 
     p_Main->eventUpdateTitle();
@@ -1115,10 +1087,10 @@ void Cdp18s600::startPio(long ms)
 void Cdp18s600::startCdp18s660(long ms)
 {
     pioFramePointer1->setLedMs(ms);
-    pioFramePointer1->Show(true);
+    pioFramePointer1->Show(Cdp18s600Configuration.usePioWindow1Cdp18s660);
 
     pioFramePointer2->setLedMs(ms);
-    pioFramePointer2->Show(true);
+    pioFramePointer2->Show(Cdp18s600Configuration.usePioWindow2Cdp18s660);
 }
 
 void Cdp18s600::setDiskNames()
@@ -1170,301 +1142,59 @@ void Cdp18s600::setDiskNames()
 
 void Cdp18s600::readRoms()
 {
-    Word currentRomSize = romSize[p_Main->getMicroChipType(computerType_, ONE_SOCKET)];
-    int divider = (2 << (p_Main->getMicroChipType(computerType_, ONE_SOCKET)))/2;
-    int location = p_Main->getMicroChipLocation(computerType_, ONE_SOCKET) / divider;
-    Word startAddress = location * (currentRomSize+1);
-    Word lastAddress = startAddress + currentRomSize;
+    Conf configuration = p_Main->getConfiguration(MICROBOARD);
     
-    readMicro(U21ROM, startAddress, lastAddress);
-    
-    p_Main->checkAndReInstallFile(computerType_, "ROM U20", U20ROM);
-    currentRomSize = romSize[p_Main->getMicroChipType(computerType_, FOUR_SOCKET)];
-    divider = (2 << (p_Main->getMicroChipType(computerType_, FOUR_SOCKET)))/2;
-    location = p_Main->getMicroChipLocation(computerType_, FOUR_SOCKET) / divider;
-    startAddress = location * (4*(currentRomSize+1));
-    lastAddress = startAddress + currentRomSize;
-    
-    readMicro(U20ROM, startAddress, lastAddress);
-    
-    startAddress += (currentRomSize+1);
-    lastAddress = startAddress + currentRomSize;
-    
-    readMicro(U19ROM, startAddress, lastAddress);
-    
-    startAddress += (currentRomSize+1);
-    lastAddress = startAddress + currentRomSize;
-    
-    readMicro(U18ROM, startAddress, lastAddress);
-    
-    startAddress += (currentRomSize+1);
-    lastAddress = startAddress + currentRomSize;
-    
-    readMicro(U17ROM, startAddress, lastAddress);
+    p_Main->setMemoryMapCDP18S600(&configuration, -1, -1);
 }
 
 void Cdp18s600::configureCards()
 {
-    Word startAddress, socketSize;
+    Conf configuration = p_Main->getConfiguration(MICROBOARD);
+
     for (int card=0; card<p_Main->getMicroboardMaxCard(computerType_); card++)
     {
         MicroMemoryConf microMemConf = p_Main->getMicroMemConf(card);
-        if (microMemConf.useCdp18s620_)
+        switch (configuration.microboardType_[card+2])
         {
-            startAddress = 0x1000 * microMemConf.memLocation_[0];
-            socketSize = 0x1000;
-            
-            readProgramMicro(microMemConf.romDir_[0], microMemConf.rom_[0], RAM, RAM, startAddress, startAddress+socketSize, 0xFFFF, 0);
-        }
-        if (microMemConf.useCdp18s621_)
-        {
-            Word inhibitStart = 0xFFFF, inhibitStop = 0;
-            startAddress = 0x4000 * microMemConf.memLocation_[0];
-            socketSize = 0x4000;
-            
-            setInhibitBlock(&startAddress, &socketSize, &inhibitStart, &inhibitStop, 0, card);
-            
-            if (!microMemConf.inhibitBlock_[0][0] || !microMemConf.inhibitBlock_[0][1] || !microMemConf.inhibitBlock_[0][2] || !microMemConf.inhibitBlock_[0][3])
-                readProgramMicro(microMemConf.romDir_[0], microMemConf.rom_[0], RAM, RAM, startAddress, startAddress+socketSize, inhibitStart, inhibitStop);
-        }
-        if (microMemConf.useCdp18s623a_)
-        {
-            startAddress = 0x2000 * microMemConf.memLocation_[0];
-            socketSize = 0x2000;
-            
-            readProgramMicro(microMemConf.romDir_[0], microMemConf.rom_[0], RAM, RAM, startAddress, startAddress+socketSize, 0xFFFF, 0);
-        }
-        if (microMemConf.useCdp18s625_)
-        {
-            Word inhibitStart = 0xFFFF, inhibitStop = 0;
-            
-            long block;
-            microMemConf.chipBlockRom_[0].ToLong(&block);
-            
-            socketSize = (1 << (microMemConf.socketSize_[0]))*0x1000;
-            startAddress = block * socketSize;
+            case CARD_CDP18S620:
+                p_Main->setMemoryMapCDP18S620(&configuration, microMemConf, card+2, -1);
+            break;
 
-            setInhibitBlock(&startAddress, &socketSize, &inhibitStart, &inhibitStop, 0, card);
-            
-            if (!microMemConf.inhibitBlock_[0][0] || !microMemConf.inhibitBlock_[0][1] || !microMemConf.inhibitBlock_[0][2] || !microMemConf.inhibitBlock_[0][3])
-                readProgramMicro(microMemConf.romDir_[0], microMemConf.rom_[0], ROM, ROM, startAddress, startAddress+socketSize, inhibitStart, inhibitStop);
+            case CARD_CDP18S621:
+                p_Main->setMemoryMapCDP18S621(&configuration, microMemConf, card+2, -1);
+            break;
 
-            inhibitStart = 0xFFFF; inhibitStop = 0;
-            microMemConf.chipBlockRom_[1].ToLong(&block);
-            
-            socketSize = (1 << (microMemConf.socketSize_[1]))*0x1000;
-            startAddress = block * socketSize;
-            
-            setInhibitBlock(&startAddress, &socketSize, &inhibitStart, &inhibitStop, 1, card);
-            
-            if (!microMemConf.inhibitBlock_[1][0] || !microMemConf.inhibitBlock_[1][1] || !microMemConf.inhibitBlock_[1][2] || !microMemConf.inhibitBlock_[1][3])
-                readProgramMicro(microMemConf.romDir_[1], microMemConf.rom_[1], ROM, ROM, startAddress, startAddress+socketSize, inhibitStart, inhibitStop);
-        }
-        if (microMemConf.useCdp18s626_ || microMemConf.useCdp18s628_ || microMemConf.useCdp18s629_)
-        {
-            startAddress = 0x8000 * microMemConf.memLocation_[0];
-            socketSize = 0x2000 * (microMemConf.socketSize_[0] + 1);
-            
-            for (int section = 0; section<4; section++)
-            {
-                int inhibitLocation, inhibitType;
-                if (microMemConf.socketSize_[0] == 1)
-                {
-                    inhibitLocation = microMemConf.inhibit64_;
-                    inhibitType = 0;
-                }
-                else
-                {
-                    if (microMemConf.memLocation_[0] == 0)
-                    {
-                        inhibitLocation = microMemConf.inhibit32Low_;
-                        inhibitType = 1;
-						if (microMemConf.useCdp18s628_)
-							inhibitType = 3;
-                    }
-                    else
-                    {
-                        inhibitLocation = microMemConf.inhibit32High_;
-                        inhibitType = 2;
-						if (microMemConf.useCdp18s628_)
-							inhibitType = 4;
-                    }
-                }
-                
-                if (microMemConf.useCdp18s629_)
-                {
-                    int memType1 = microMemConf.memType[section]+1;
-                    int memType2 = microMemConf.memType[section]+1;
-                    if (microMemConf.memType[section] == 2)
-                    {
-                        memType1 = RAM;
-                        memType2 = ROM;
-                    }
-                    readProgramMicro(microMemConf.romDir_[section], microMemConf.rom_[section], memType1, memType2, startAddress, startAddress+socketSize, inhibit[inhibitType][inhibitLocation][0], inhibit[inhibitType][inhibitLocation][1]);
-                }
-                else
-                    readProgramMicro(microMemConf.romDir_[section], microMemConf.rom_[section], microMemConf.memType[section]+1, microMemConf.memType[section]+1, startAddress, startAddress+socketSize, inhibit[inhibitType][inhibitLocation][0], inhibit[inhibitType][inhibitLocation][1]);
-                startAddress += socketSize;
-            }
-        }
-        if (microMemConf.useCdp18s627_)
-        {
-            startAddress = 0x1000 * microMemConf.memLocation_[0];
-            socketSize = 0x1000;
-            
-            readProgramMicro(microMemConf.romDir_[0], microMemConf.rom_[0], ROM, ROM, startAddress, startAddress+socketSize, 0xFFFF, 0);
-        }
-        if (microMemConf.useCdp18s640_)
-        {
-            startAddress = 0x8C00;
-            socketSize = 0x400;
-            
-            readProgramMicro(microMemConf.romDir_[0], microMemConf.rom_[0], RAM, RAM, startAddress, startAddress+socketSize, 0xFFFF, 0);
-            
-            startAddress = 0x8000;
-            socketSize = 0x800;
-            
-            readProgramMicro(microMemConf.romDir_[1], microMemConf.rom_[1], ROM, ROM, startAddress, startAddress+socketSize, 0xFFFF, 0);
-        }
-        if (microMemConf.useCdp18s652_ && !microMemConf.disableCardMemory_)
-        {
-            wxString ramBlockStr = microMemConf.chipBlockRam_;
-            long ramBlock;
-            ramBlockStr.ToLong(&ramBlock);
-            
-            startAddress = 0x400 * ramBlock;
-            socketSize = 0x400;
-   
-            readProgramMicro(microMemConf.ramDir_, microMemConf.ram_, RAM, RAM, startAddress, startAddress+socketSize, 0xFFFF, 0);
+            case CARD_CDP18S623A:
+                p_Main->setMemoryMapCDP18S623a(&configuration, microMemConf, card+2, -1);
+            break;
 
-            startAddress = 0x8000 * microMemConf.memLocation_[0];
-            socketSize = 0x2000 * (microMemConf.socketSize_[0] + 1);
-            
-            for (int section = 0; section<3; section++)
-            {
-                int inhibitLocation, inhibitType;
-                if (microMemConf.memLocation_[0] == 0)
-                {
-                    inhibitLocation = microMemConf.inhibit32Low_;
-                    inhibitType = 3;
-                }
-                else
-                {
-                    inhibitLocation = microMemConf.inhibit32High_;
-                    inhibitType = 4;
-                }
-                
-                readProgramMicro(microMemConf.romDir_[section], microMemConf.rom_[section], ROM, ROM, startAddress, startAddress+socketSize, inhibit[inhibitType][inhibitLocation][0], inhibit[inhibitType][inhibitLocation][1]);
-                startAddress += socketSize;
-            }
-        }
-        if (microMemConf.useCdp18s660_)
-        {
-            Word currentRomSize, lastAddress;
-            Word startAddress = microMemConf.memLocation_[ONE_SOCKET] * 0x800;
-            socketSize = 0x800;
+            case CARD_CDP18S625:
+                p_Main->setMemoryMapCDP18S625(&configuration, microMemConf, card+2, -1);
+            break;
 
-            readProgramMicro(microMemConf.ramDir_, microMemConf.ram_, RAM, RAM, startAddress, startAddress+socketSize, 0xFFFF, 0);
-            
-            if (microMemConf.socketSize_[FOUR_SOCKET] == 1)
-            { // 2Kx8 for ROM SOCKET
-                int romLocation = microMemConf.memLocation_[FOUR_SOCKET_ROM1];
+            case CARD_CDP18S626:
+            case CARD_CDP18S628:
+            case CARD_CDP18S629:
+                p_Main->setMemoryMapCDP18S626(&configuration, microMemConf, card+2, -1);
+            break;
 
-                currentRomSize = romSizeCDP18S601[microMemConf.memType[XU23ROM]];
-                startAddress = romLocation * 0x1000;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU23ROM], microMemConf.rom_[XU23ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
-                
-                if (microMemConf.memType[XU23ROM] == 0)
-                    defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-                
-                currentRomSize = romSizeCDP18S601[microMemConf.memType[XU22ROM]];
-                startAddress += 0x800;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU22ROM], microMemConf.rom_[XU22ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
-                
-                if (microMemConf.memType[XU22ROM] == 0)
-                    defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-                
-                romLocation = microMemConf.memLocation_[FOUR_SOCKET_ROM2];
+            case CARD_CDP18S627:
+                p_Main->setMemoryMapCDP18S627(&configuration, microMemConf, card+2, -1);
+            break;
 
-                currentRomSize = romSizeCDP18S601[microMemConf.memType[XU21ROM]];
-                startAddress = romLocation * 0x1000;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU21ROM], microMemConf.rom_[XU21ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
+            case CARD_CDP18S640:
+                p_Main->setMemoryMapCDP18S640(&configuration, microMemConf, card+2, -1);
+            break;
 
-                if (microMemConf.memType[XU21ROM] == 0)
-                    defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-                
-                currentRomSize = romSizeCDP18S601[microMemConf.memType[XU20ROM]];
-                startAddress += 0x800;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU20ROM], microMemConf.rom_[XU20ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
-                
-                if (microMemConf.memType[XU20ROM] == 0)
-                    defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-            }
-            else
-            { // 1Kx8 for ROM SOCKET
-                int romLocation = microMemConf.memLocation_[FOUR_SOCKET_ROM2];
+            case CARD_CDP18S652:
+                p_Main->setMemoryMapCDP18S652(&configuration, microMemConf, card+2, -1);
+            break;
 
-                currentRomSize = 0x3ff;
-                startAddress = romLocation * 0x1000;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU23ROM], microMemConf.rom_[XU23ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
-
-                startAddress += 0x400;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU21ROM], microMemConf.rom_[XU21ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
-
-                startAddress += 0x400;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU22ROM], microMemConf.rom_[XU22ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
-
-                startAddress += 0x400;
-                lastAddress = startAddress + currentRomSize;
-                
-                readProgramMicro(microMemConf.romDir_[XU20ROM], microMemConf.rom_[XU20ROM], ROM, ROM, startAddress, lastAddress+1, 0xFFFF, 0);
-            }
+            case CARD_CDP18S660:
+                p_Main->setMemoryMapCDP18S660(&configuration, microMemConf, card+2, -1);
+            break;
         }
     }
-}
-
-void Cdp18s600::setInhibitBlock(Word* startAddress, Word* socketSize, Word* inhibitStart, Word* inhibitStop, int bank, int card)
-{
-    MicroMemoryConf microMemConf = p_Main->getMicroMemConf(card);
-    Word chipSize = *socketSize/4;
-    
-    if (microMemConf.inhibitBlock_[bank][1])
-    {
-        *inhibitStart = *startAddress + chipSize;
-        *inhibitStop = *inhibitStart + chipSize - 1;
-    }
-    if (microMemConf.inhibitBlock_[bank][2])
-    {
-        *inhibitStart = *startAddress + (chipSize*2);
-        *inhibitStop = *inhibitStart + chipSize - 1;
-    }
-    if (microMemConf.inhibitBlock_[bank][1] && microMemConf.inhibitBlock_[bank][2])
-    {
-        *inhibitStart = *startAddress + chipSize - 1;
-        *inhibitStop = *inhibitStart + (chipSize*2) - 1;
-    }
-    
-    if (microMemConf.inhibitBlock_[bank][0])
-    {
-        *startAddress += chipSize;
-        *socketSize -= chipSize;
-    }
-    if (microMemConf.inhibitBlock_[bank][3])
-        *socketSize -= chipSize;
 }
 
 void Cdp18s600::readMicro(int romNumber, Word startAddress, Word lastAddress )
@@ -1589,8 +1319,8 @@ Byte Cdp18s600::readMem(Word address)
 
 Byte Cdp18s600::readMemDebug(Word address)
 {
-    if ((address & 0x8000) == 0x8000)
-        addressLatch_ = 0;
+//    if ((address & 0x8000) == 0x8000)
+//        addressLatch_ = 0;
     
     if (address < 0x8000)
         address = (address | addressLatch_);
@@ -1697,6 +1427,12 @@ void Cdp18s600::cpuInstruction()
 {
     if (cpuMode_ == RUN)
     {
+        if (addressLatchCounter_ > 0)
+        {
+            addressLatchCounter_--;
+            if (addressLatchCounter_ == 0)
+                addressLatch_ = 0;
+        }
         cpuCycleStep();
         if (idle_ || cpuMode_ != RUN)
             cdp18s640FramePointer->setRunLed(0);
@@ -1956,6 +1692,20 @@ void Cdp18s600::showPio(bool state)
         pioFramePointer->refreshLeds();
 }
 
+void Cdp18s600::showCdp18s660Pio1(bool state)
+{
+    pioFramePointer1->Show(state);
+    if (state)
+        pioFramePointer1->refreshLeds();
+}
+
+void Cdp18s600::showCdp18s660Pio2(bool state)
+{
+    pioFramePointer2->Show(state);
+    if (state)
+        pioFramePointer2->refreshLeds();
+}
+
 void Cdp18s600::removePio(int pioNumber)
 {
     switch (pioNumber)
@@ -1967,14 +1717,14 @@ void Cdp18s600::removePio(int pioNumber)
         break;
 
         case 1:
-            Cdp18s600Configuration.useCdp18s660 = false;
-            p_Main->pioWindows(computerType_, false);
+            Cdp18s600Configuration.usePioWindow1Cdp18s660  = false;
+            p_Main->cdp18660WindowPio1(computerType_, false);
             pioFramePointer1->Show(false);
         break;
 
         case 2:
-            Cdp18s600Configuration.useCdp18s660 = false;
-            p_Main->pioWindows(computerType_, false);
+            Cdp18s600Configuration.usePioWindow2Cdp18s660 = false;
+            p_Main->cdp18660WindowPio2(computerType_, false);
             pioFramePointer2->Show(false);
         break;
     }
@@ -2195,140 +1945,9 @@ void Cdp18s601::out(Byte port, Word address, Byte value)
 
 void Cdp18s601::readRoms()
 {
-    Word currentRomSize = 0xfff;
-    int ramLocation = p_Main->getMicroChipType(computerType_, ONE_SOCKET);
-    Word startAddress = ramLocation * 0x1000;
-    Word lastAddress = startAddress + currentRomSize;
+    Conf configuration = p_Main->getConfiguration(MICROBOARD);
     
-    readProgramMicro(p_Main->getRomDir(computerType_, U21ROM), p_Main->getRomFile(computerType_, U21ROM), RAM, startAddress, lastAddress+1, NONAME);
-    defineMemoryType(startAddress, lastAddress, RAM);
-
-    if (p_Main->getMicroChipType(computerType_, FOUR_SOCKET) == 1)
-    { // 2Kx8 for ROM SOCKET
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU27ROM)];
-        int romLocation = p_Main->getMicroChipLocation(computerType_, FOUR_SOCKET_ROM1);
-        startAddress = romLocation * 0x1000;
-        lastAddress = startAddress + currentRomSize;
-        
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU27ROM), p_Main->getRomFile(computerType_, XU27ROM), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
-
-            if (p_Main->getMicroChipMemory(computerType_, XU27ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU27ROM), p_Main->getRomFile(computerType_, XU27ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU26ROM)];
-        startAddress += 0x800;
-        lastAddress = startAddress + currentRomSize;
-
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), ROM, startAddress, lastAddress+1, NONAME);
-
-            defineMemoryType(startAddress, lastAddress, ROM);
-        
-            if (p_Main->getMicroChipMemory(computerType_, XU26ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-
-        p_Main->checkAndReInstallFile(computerType_, "ROM XU25", XU25ROM);
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU25ROM)];
-        int location = p_Main->getMicroChipLocation(computerType_, FOUR_SOCKET_ROM2);
-        startAddress = location * 0x1000;
-        lastAddress = startAddress + currentRomSize;
-
-        if (location != ramLocation && location != romLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), ROM, startAddress, lastAddress+1, NONAME);
-
-            defineMemoryType(startAddress, lastAddress, ROM);
-        
-            if (p_Main->getMicroChipMemory(computerType_, XU25ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-        {
-            if (location != ramLocation)
-                readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), ROM, startAddress, lastAddress+1, NONAME);
-            else
-                readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        }
-        
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU24ROM)];
-        startAddress += 0x800;
-        lastAddress = startAddress + currentRomSize;
-        
-        if (location != ramLocation && location != romLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), ROM, startAddress, lastAddress+1, NONAME);
-
-            defineMemoryType(startAddress, lastAddress, ROM);
-            
-            if (p_Main->getMicroChipMemory(computerType_, XU24ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-        {
-            if (location != ramLocation)
-                readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), ROM, startAddress, lastAddress+1, NONAME);
-            else
-                readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        }
-    }
-    else
-    { // 1Kx8 for ROM SOCKET
-        currentRomSize = 0x3ff;
-        int romLocation = p_Main->getMicroChipLocation(computerType_, FOUR_SOCKET_ROM2);
-        startAddress = romLocation * 0x1000;
-        lastAddress = startAddress + currentRomSize;
-     
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        
-        startAddress += 0x400;
-        lastAddress = startAddress + currentRomSize;
-
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU27ROM), p_Main->getRomFile(computerType_, XU27ROM), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU27ROM), p_Main->getRomFile(computerType_, XU27ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-
-        startAddress += 0x400;
-        lastAddress = startAddress + currentRomSize;
-
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-
-        startAddress += 0x400;
-        lastAddress = startAddress + currentRomSize;
-
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-    }
+    p_Main->setMemoryMapCDP18S601(&configuration, -1, -1);
 }
 
 Cdp18s602::Cdp18s602(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
@@ -2624,38 +2243,9 @@ void Cdp18s602::startPio(long ms)
 
 void Cdp18s602::readRoms()
 {
-    wxString ramBlockStr = p_Main->getMicroChipBlock(computerType_, ONE_SOCKET);
-    long ramBlock;
-    ramBlockStr.ToLong(&ramBlock);
+    Conf configuration = p_Main->getConfiguration(MICROBOARD);
     
-    Word startAddress = ramBlock * 0x800;
-    Word lastAddress = startAddress + 0x7ff;
-    
-    readProgramMicro(p_Main->getRomDir(computerType_, U21ROM), p_Main->getRomFile(computerType_, U21ROM), RAM, startAddress, lastAddress+1, NONAME);
-    defineMemoryType(startAddress, lastAddress, RAM);
-    
-    if (p_Main->getMicroChipDisable(computerType_, FOUR_SOCKET))
-        return;
-    
-    int chipType = p_Main->getMicroChipType(computerType_, FOUR_SOCKET)+1;
-    Word currentRomSize = chipType*0x400;
-    
-    wxString romBlockStr = p_Main->getMicroChipBlock(computerType_, FOUR_SOCKET);
-    long romBlock;
-    romBlockStr.ToLong(&romBlock);
-    
-    startAddress = romBlock * (currentRomSize*2);
-    lastAddress = startAddress + currentRomSize - 1;
-    
-    readProgramMicro(p_Main->getRomDir(computerType_, U20ROM), p_Main->getRomFile(computerType_, U20ROM), ROM, startAddress, lastAddress+1, NONAME);
-    defineMemoryType(startAddress, lastAddress, ROM);
-    
-    startAddress += currentRomSize;
-    lastAddress = startAddress + currentRomSize - 1;
-
-    readProgramMicro(p_Main->getRomDir(computerType_, U19ROM), p_Main->getRomFile(computerType_, U19ROM), ROM, startAddress, lastAddress+1, NONAME);
-    defineMemoryType(startAddress, lastAddress, ROM);
-
+    p_Main->setMemoryMapCDP18S602(&configuration, -1, -1);
 }
 
 void Cdp18s602::setLedMs(long ms)
@@ -2699,126 +2289,9 @@ Cdp18s603a::Cdp18s603a(const wxString& title, const wxPoint& pos, const wxSize& 
 
 void Cdp18s603a::readRoms()
 {
-    Word currentRomSize = 0x3ff;
-    int ramLocation = p_Main->getMicroChipType(computerType_, ONE_SOCKET);
-    Word startAddress = ramLocation * 0x1000;
-    Word lastAddress = startAddress + currentRomSize;
+    Conf configuration = p_Main->getConfiguration(MICROBOARD);
     
-    readProgramMicro(p_Main->getRomDir(computerType_, U21ROM), p_Main->getRomFile(computerType_, U21ROM), RAM, startAddress, lastAddress+1, NONAME);
-    defineMemoryType(startAddress, lastAddress, RAM);
-    defineMemoryType(lastAddress+1, startAddress+0xfff, MAPPEDRAM);
-
-    if (p_Main->getMicroChipType(computerType_, FOUR_SOCKET) == 1)
-    { // 2Kx8 for ROM SOCKET
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU27ROM)];
-        int romLocation = p_Main->getMicroChipLocation(computerType_, FOUR_SOCKET_ROM1);
-        startAddress = romLocation * 0x1000;
-        lastAddress = startAddress + currentRomSize;
-        
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU27ROM), p_Main->getRomFile(computerType_, XU27ROM), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
-            
-            if (p_Main->getMicroChipMemory(computerType_, XU27ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU27ROM), p_Main->getRomFile(computerType_, XU27ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU26ROM)];
-        startAddress += 0x800;
-        lastAddress = startAddress + currentRomSize;
-        
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), ROM, startAddress, lastAddress+1, NONAME);
-            
-            defineMemoryType(startAddress, lastAddress, ROM);
-            
-            if (p_Main->getMicroChipMemory(computerType_, XU26ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        
-        p_Main->checkAndReInstallFile(computerType_, "ROM XU25", XU25ROM);
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU25ROM)];
-        int location = p_Main->getMicroChipLocation(computerType_, FOUR_SOCKET_ROM2);
-        startAddress = location * 0x1000;
-        lastAddress = startAddress + currentRomSize;
-        
-        if (location != ramLocation && location != romLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), ROM, startAddress, lastAddress+1, NONAME);
-            
-            defineMemoryType(startAddress, lastAddress, ROM);
-            
-            if (p_Main->getMicroChipMemory(computerType_, XU25ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-        {
-            if (location != ramLocation)
-                readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), ROM, startAddress, lastAddress+1, NONAME);
-            else
-                readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        }
-        
-        currentRomSize = romSizeCDP18S601[p_Main->getMicroChipMemory(computerType_, XU24ROM)];
-        startAddress += 0x800;
-        lastAddress = startAddress + currentRomSize;
-        
-        if (location != ramLocation && location != romLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), ROM, startAddress, lastAddress+1, NONAME);
-            
-            defineMemoryType(startAddress, lastAddress, ROM);
-            
-            if (p_Main->getMicroChipMemory(computerType_, XU24ROM) == 0)
-                defineMemoryType(startAddress+0x400, lastAddress+0x400, MAPPEDROM);
-        }
-        else
-        {
-            if (location != ramLocation)
-                readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), ROM, startAddress, lastAddress+1, NONAME);
-            else
-                readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        }
-    }
-    else
-    { // 1Kx8 for ROM SOCKET
-        currentRomSize = 0x3ff;
-        int romLocation = p_Main->getMicroChipLocation(computerType_, FOUR_SOCKET_ROM2);
-        startAddress = romLocation * 0x1000;
-        lastAddress = startAddress + currentRomSize;
-        
-        if (romLocation != ramLocation)
-        {
-            readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
-        }
-        else
-            readProgramMicro(p_Main->getRomDir(computerType_, XU25ROM), p_Main->getRomFile(computerType_, XU25ROM), NOCHANGE, startAddress, lastAddress+1, NONAME);
-        
-        startAddress += 0x400;
-        lastAddress = startAddress + currentRomSize;
-        
-        readProgramMicro(p_Main->getRomDir(computerType_, XU27ROM), p_Main->getRomFile(computerType_, XU27ROM), ROM, startAddress, lastAddress+1, NONAME);
-        defineMemoryType(startAddress, lastAddress, ROM);
-        
-        startAddress += 0x400;
-        lastAddress = startAddress + currentRomSize;
-        
-        readProgramMicro(p_Main->getRomDir(computerType_, XU24ROM), p_Main->getRomFile(computerType_, XU24ROM), ROM, startAddress, lastAddress+1, NONAME);
-        defineMemoryType(startAddress, lastAddress, ROM);
-        
-        startAddress += 0x400;
-        lastAddress = startAddress + currentRomSize;
-        
-        readProgramMicro(p_Main->getRomDir(computerType_, XU26ROM), p_Main->getRomFile(computerType_, XU26ROM), ROM, startAddress, lastAddress+1, NONAME);
-        defineMemoryType(startAddress, lastAddress, ROM);
-    }
+    p_Main->setMemoryMapCDP18S603a(&configuration, -1, -1);
 }
 
 Cdp18s604b::Cdp18s604b(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
@@ -3214,39 +2687,9 @@ void Cdp18s604b::startPio(long ms)
 
 void Cdp18s604b::readRoms()
 {
-    wxString ramBlockStr = p_Main->getMicroChipBlock(computerType_, ONE_SOCKET);
-    long ramBlock;
-    ramBlockStr.ToLong(&ramBlock);
+    Conf configuration = p_Main->getConfiguration(MICROBOARD);
     
-    Word startAddress = ramBlock * 0x400;
-    Word lastAddress = startAddress + 0x3ff;
-    
-    readProgramMicro(p_Main->getRomDir(computerType_, U21ROM), p_Main->getRomFile(computerType_, U21ROM), RAM, startAddress, lastAddress+1, NONAME);
-    defineMemoryType(startAddress, lastAddress, RAM);
-    
-    int chipType = p_Main->getMicroChipType(computerType_, FOUR_SOCKET);
-    int convertedChipType = p_Main->convert604BChipType(chipType);
-    Word currentRomSize = convertedChipType*0x400;
-
-    wxString romBlockStr = p_Main->getMicroChipBlock(computerType_, FOUR_SOCKET);
-    long romBlock;
-    romBlockStr.ToLong(&romBlock);
-
-    startAddress = romBlock * currentRomSize;
-    
-    if (chipType == 0)
-        lastAddress = startAddress + 0x1ff;
-    else
-        lastAddress = startAddress + currentRomSize - 1;
-
-    readProgramMicro(p_Main->getRomDir(computerType_, U20ROM), p_Main->getRomFile(computerType_, U20ROM), ROM, startAddress, lastAddress+1, NONAME);
-    if (chipType == 0)
-    {
-        defineMemoryType(startAddress, lastAddress, ROM);
-        defineMemoryType(lastAddress+1, lastAddress+0x200, MAPPEDROM);
-    }
-    else
-        defineMemoryType(startAddress, lastAddress, ROM);
+    p_Main->setMemoryMapCDP18S604b(&configuration, -1, -1);
 }
 
 void Cdp18s604b::writeMemDataType(Word address, Byte type)

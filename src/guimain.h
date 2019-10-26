@@ -230,8 +230,14 @@ public:
 
 	int gameId_;
     
+    wxString errorDoubleBoard_[25];
+    wxString errorMemoryOverlapp_[25];
+    int memoryMapType_[256];
+    int memoryMapCard_[256];
+
     int microboardMaxCards_;
     int microboardType_[25];
+    wxString microboardTypeStr_[25];
     int microChipType_[2];
     int microChipLocation_[3];
     wxString microChipBlock_[2];
@@ -413,6 +419,7 @@ public:
     void setSerialPorts(wxString port);
 
     void setConfiguration(int computerType, Conf configuration) { conf[computerType] = configuration;};
+    Conf getConfiguration(int computerType){ return conf[computerType];};
     void setElfConfiguration(int computerType, ElfConfiguration elfConf) { elfConfiguration[computerType] = elfConf;};
     int getMicroChipType(int computerType, int romType) {return conf[computerType].microChipType_[romType];};
     void setMicroChipType(int computerType, int romType, int chipType) { conf[computerType].microChipType_[romType] = chipType;};

@@ -11,6 +11,8 @@ public:
 
 private:
     void onSaveButton(wxCommandEvent &event);
+    void checkErrorStatus();
+    void updateErrorStatus();
     void onFourSocketBankDisable(wxCommandEvent&event);
     
     void onRomU21(wxCommandEvent& event);
@@ -54,6 +56,9 @@ private:
     int selectedComputer_;
     wxString selectedComputerName_;
     wxString selectedComputerStr_;
+    
+    bool memoryError_;
+    bool boardError_;
 
     DECLARE_EVENT_TABLE()
     
@@ -123,12 +128,22 @@ public:
 
 private:
     void onSaveButton(wxCommandEvent &event);
-    void onFdcIoGroupMicroboard(wxCommandEvent&event);
+    void checkErrorStatus();
+    void updateErrorStatus();
+    void onMicroSetupLocation0(wxCommandEvent& event);
+	void onMicroSetupInhibit(wxCommandEvent& event);
+	void onMicroSetupInhibit64(wxCommandEvent& event);
+	void onMicroSetupInhibit32Low(wxCommandEvent& event);
+	void onMicroSetupInhibit32High(wxCommandEvent& event);
+	void onMicroSetupDisableMemory(wxCommandEvent& event);
+    void onMicroSetupSocketSize1(wxCommandEvent& event);
+	void onFdcIoGroupMicroboard(wxCommandEvent&event);
     void onUartIoGroupMicroboard(wxCommandEvent&event);
+    void onPrinterIoGroupMicroboard(wxCommandEvent&event);
     void onV1870IoGroupMicroboard(wxCommandEvent&event);
     void onPio1IoGroupMicroboard(wxCommandEvent&event);
     void onPio2IoGroupMicroboard(wxCommandEvent&event);
-    void onSocket626BankMicroboard(wxCommandEvent&event);
+    void onMicroSetupSocketSize0(wxCommandEvent&event);
     void setInhibit();
     void onLowHighMicroboard(wxCommandEvent&event);
     void onVideoMode(wxCommandEvent&event);
@@ -168,7 +183,8 @@ private:
     void onPrintFile(wxCommandEvent&event);
     void onPrintFileText(wxCommandEvent&event);
     void onMicroRom660SocketSetup(wxCommandEvent&event);
-    void onSocket660BankMicroboard(wxCommandEvent&event);
+    void onPio1IoWindow(wxCommandEvent&event);
+    void onPio2IoWindow(wxCommandEvent&event);
 
     Conf configuration_;
     ElfConfiguration elfConfiguration_;
@@ -180,6 +196,8 @@ private:
     wxString selectedComputerStr_;
     
     wxString romText_[4];
+    bool memoryError_;
+    bool boardError_;
 
     DECLARE_EVENT_TABLE()
     
@@ -197,9 +215,8 @@ private:
     void onMicroboardCardSetup(wxCommandEvent& event);
     void onMicroboardType(wxCommandEvent&event);
 
-    void checkAllBoardTypes();
-    wxString checkBoardType(int card, wxString cardstring, wxString oldStr, bool boardControlValue);
-    void setChoiceColor(wxString cardstring, bool error);
+    void setCardType();
+    void setButtonColor(wxString cardstring, bool error);
     void microboardCardSetup(int card);
     
     Conf configuration_;

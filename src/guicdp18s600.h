@@ -29,19 +29,6 @@ public:
     int inhibit32High_;
 
     bool disableCardMemory_;
-
-    bool useCdp18s620_;
-    bool useCdp18s621_;
-    bool useCdp18s623a_;
-    bool useCdp18s625_;
-    bool useCdp18s626_;
-    bool useCdp18s627_;
-    bool useCdp18s628_;
-    bool useCdp18s629_;
-    bool useCdp18s640_;
-    bool useCdp18s652_;
-    bool useCdp18s661_;
-    bool useCdp18s660_;
 };
 
 class GuiCdp18s600: public GuiTMC2000
@@ -65,6 +52,8 @@ public:
 
     void onPioWindows(wxCommandEvent&event);
     void pioWindows(int computerType, bool state);
+    void cdp18660WindowPio1(int computerType, bool state);
+    void cdp18660WindowPio2(int computerType, bool state);
     bool getUseCdp18s600ControlWindows();
     bool getUsePioWindows();
     void setRamlabel(int romNumber, wxString romString, wxString cdpTypeStr, wxString label);
@@ -80,8 +69,27 @@ public:
     void onMicroboardCard(wxCommandEvent&event);
     void setCardMax();
     void setCardType();
-    wxString checkBoardType(int card, wxString cardstring, wxString oldStr, bool boardControlValue);
-    void setChoiceColor(wxString cardstring, bool error);
+    void checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig);
+    void checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig, MicroMemoryConf microMemoryConfCardx, int cardx);
+    void setMemoryMap(Conf* config, long start, long end, int card, int boardType);
+    void setMemoryMap(Conf* config, long start, long end, int card, int boardType, long inhibitStart, long inhibitEnd);
+    void setMemoryMapCDP18S600(Conf* config, int card, int boardType);
+    void setMemoryMapCDP18S601(Conf* config, int card, int boardType);
+    void setMemoryMapCDP18S602(Conf* config, int card, int boardType);
+    void setMemoryMapCDP18S603a(Conf* config, int card, int boardType);
+    void setMemoryMapCDP18S604b(Conf* config, int card, int boardType);
+    void setMemoryMapCDP18S620(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S621(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S623a(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S625(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S626(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S627(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S640(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S652(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setMemoryMapCDP18S660(Conf* config, MicroMemoryConf memConf, int card, int boardType);
+    void setInhibitBlock(MicroMemoryConf memConf, Word* startAddress, Word* socketSize, Word* inhibitStart, Word* inhibitStop, int bank);
+    void checkBoardType(Conf* config, int card, wxString cardstring, int oldCard, wxString oldStr, bool boardControlValue);
+    void setButtonColor(wxString cardstring, bool error);
     void setTapeGui();
     void onAutoBoot(wxCommandEvent&event);
     void onAutoBootType(wxCommandEvent&event);
@@ -91,14 +99,13 @@ public:
     int getMicroboardType(int computerType) {return conf[computerType].microboardType_[1];};
     int getMicroboardMaxCard(int computerType) {return conf[computerType].microboardMaxCards_;};
     wxString getMicroboardTypeStr(int boardType);
+    
 protected:
     
 private:
     wxPoint position_;
 
     vector<MicroMemoryConf> microMemConf;
-
-//    MicroMemoryConf microMemConf[24];
 
     DECLARE_EVENT_TABLE()
 };

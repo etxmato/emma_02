@@ -1,0 +1,43 @@
+<HTML>
+<Title>CDP18S609: CPU 1805 & CDP1852</Title>
+<BODY>
+<h2>CDP18S609: CPU 1805 & CDP1852</h2>
+<p>
+The CDP18S609 board includes:
+<UL>
+<LI>CDP1805 CPU with a 2.097152 MHz crystal clock
+<LI>A maximum of 1 KB RAM and 4 KB ROM
+<LI>CDP1852 with 8 inputs and 8 outputs
+</UL>
+</p>
+<p>
+To define a system using the CDP18S609 select 'CDP18S609 1805 & 1852' from the CARD 1 Choice box. CPU boards are only supported in slot 1.
+</p>
+<p>
+To specify the memory configuration press the CARD 1 button and the CDP18S609 Setup window will open. Press 'SAVE' to save the configuration.
+</p>
+<p>
+A default CDP18S609 configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>). This configuration includes the CDP18S609 CPU board, a CDP18S640 A/A1 Display board and a CDP18S641 UART board.
+</p>
+<h3>Memory Configuration and ROM/RAM Files</h3>
+<p>
+The CDP18S609 Microboard has a ROM and RAM socket. For details see the CDP18S609 manual. In the CDP18S609 setup window the size of the ROM socket chip can be selected (521x8, 1Kx8, 2Kx8 and 4Kx8). The RAM socket and total chip size is always 1Kx8.
+</p>
+<p>
+The RAM and ROM locations can be selected by specifying a 1K, 2K or 4K block (1K for RAM and 1, 2 or 4K for ROM depending on chip size).
+</p>
+<p>
+Default configuration of the CDP18S609 is using a 1K RAM socket from 0-3FF and a 1K ROM socket from 400-7FF. In this same configuration the CDP18S640 board includes the ut71.bin ROM at 8000 and an additional 1 K RAM at 8C00 as well as a CDP18S641 UART board for terminal support.
+</p>
+<p>
+Default CDP18S609 ROM/RAM file location is the Microboard directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM' or 'RAM' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+<h3>CDP1852 Window</h3>
+<p>
+The CDP1852 Window can be used to simulate the CDP1852 I/O chip. The window can be activate or deactivated via the 'IO Window' checkbox. A press on the INT button will send an interrupt signal to the emulated CPU and also activate EF2.
+</p>
+</BODY>
+</HTML>

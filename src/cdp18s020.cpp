@@ -242,6 +242,7 @@ Cdp18s020::Cdp18s020(const wxString& title, const wxPoint& pos, const wxSize& si
     cdp18s020ScreenPointer = new Cdp18s020Screen(this, size);
     cdp18s020ScreenPointer->init();
 
+    addressLatchCounter_ = 0;
 }
 
 Cdp18s020::~Cdp18s020()
@@ -344,6 +345,7 @@ void Cdp18s020::onRun()
     if (cpuMode_ != RUN)
         resetEffectiveClock();
 
+    addressLatchCounter_ = 64;
     setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF
 
     p_Main->eventUpdateTitle();
@@ -631,8 +633,8 @@ Byte Cdp18s020::readMem(Word address)
 
 Byte Cdp18s020::readMemDebug(Word address)
 {
-	if ((address & 0x8000) == 0x8000)
-		addressLatch_ = 0;
+//	if ((address & 0x8000) == 0x8000)
+//		addressLatch_ = 0;
 
 	if (address < 0x8000)
 		address = (address | addressLatch_);
@@ -700,6 +702,12 @@ void Cdp18s020::cpuInstruction()
 {
     if (cpuMode_ == RUN)
     {
+        if (addressLatchCounter_ > 0)
+        {
+            addressLatchCounter_--;
+            if (addressLatchCounter_ == 0)
+                addressLatch_ = 0;
+        }
         cpuCycleStep();
     }
     else

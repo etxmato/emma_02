@@ -543,6 +543,8 @@ public:
     virtual void setForceUpperCase(bool status);
     virtual void moveWindows() {};
     virtual void showPio(bool state);
+    virtual void showCdp18s660Pio1(bool state);
+    virtual void showCdp18s660Pio2(bool state);
     virtual void showControlWindow(bool state);
     virtual void setAddressLatch(Word bootAddress);
 

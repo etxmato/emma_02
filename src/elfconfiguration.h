@@ -108,6 +108,8 @@ public:
     int pageMemSize;
     bool usePio;
     bool useCdp18s660;
+    bool usePioWindow1Cdp18s660;
+    bool usePioWindow2Cdp18s660;
     bool useUpd765;
     int upd765Group;
     int printerGroup;

@@ -2175,6 +2175,14 @@ void Computer::showPio(bool WXUNUSED(state))
 {
 }
 
+void Computer::showCdp18s660Pio1(bool WXUNUSED(state))
+{
+}
+
+void Computer::showCdp18s660Pio2(bool WXUNUSED(state))
+{
+}
+
 void Computer::showControlWindow(bool WXUNUSED(state))
 {
 }
