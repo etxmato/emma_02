@@ -16204,9 +16204,31 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>14</rows>
-                                                                    <vgap>0</vgap>
+                                                                    <rows>15</rows>
+                                                                    <vgap>1</vgap>
                                                                     <hgap>0</hgap>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="wxID_ANY">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Configuration:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="ConfigTextMicroboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label></label>
+                                                                        </object>
+                                                                    </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
@@ -16224,7 +16246,7 @@
                                                                         <border>1</border>
                                                                         <option>20</option>
                                                                         <object class="wxChoice" name="Card1ChoiceMicroboard">
-                                                                            <size>172,-1</size>
+                                                                            <size>202,-1</size>
                                                                             <tooltip>Select CARD 1 board type</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -16383,7 +16405,7 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="AdditionalCardsMicroboard">
+                                                                        <object class="wxButton" name="Card5Microboard">
                                                                             <tooltip>Specify additional expansion cards</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -16393,14 +16415,49 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxStaticText" name="ConfigTextMicroboard">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                                        <border>1</border>
+                                                                        <option>20</option>
+                                                                        <object class="wxChoice" name="Card5ChoiceMicroboard">
+                                                                            <size>172,-1</size>
+                                                                            <tooltip>Select CARD 4 board type</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label></label>
+                                                                            <content>
+                                                                                <item>-- empty --</item>
+                                                                                <item>CDP18S620 4K RAM</item>
+                                                                                <item>CDP18S621 16K RAM</item>
+                                                                                <item>CDP18S623A 8K RAM</item>
+                                                                                <item>CDP18S625 8/16/32K ROM</item>
+                                                                                <item>CDP18S626 32/64K RAM/ROM</item>
+                                                                                <item>CDP18S627 4K ROM</item>
+                                                                                <item>CDP18S628 32K RAM/ROM</item>
+                                                                                <item>CDP18S629 32K RAM/ROM</item>
+                                                                                <item>CDP18S640 A/A1 Display</item>
+                                                                                <item>CDP18S641 UART</item>
+                                                                                <item>CDP18S646 Printer</item>
+                                                                                <item>CDP18S651 FDC</item>
+                                                                                <item>CDP18S652 Memory &amp; Tape</item>
+                                                                                <item>CDP18S660 Memory &amp; I/O</item>
+                                                                                <item>CDP18S661B Video (NTSC)</item>
+                                                                                <item>CDP18S661V3 Video  (PAL)</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticLine" name="wxID_STATIC">
+                                                                            <style>wxLI_HORIZONTAL</style>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticLine" name="wxID_STATIC">
+                                                                            <style>wxLI_HORIZONTAL</style>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -16635,61 +16692,6 @@
                                                                                 <object class="wxBitmapButton" name="EjectKeyFileMicroboard">
                                                                                     <tooltip>Eject key input file</tooltip>
                                                                                     <bitmap>images/eject.png</bitmap>
-                                                                                </object>
-                                                                            </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="PrintFileButtonMicroboard">
-                                                                            <tooltip>Browse for printer output file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Printer</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
-                                                                        <border>2</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxBoxSizer">
-                                                                            <orient>wxHORIZONTAL</orient>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-                                                                                <border>1</border>
-                                                                                <option>20</option>
-                                                                                <object class="wxTextCtrl" name="PrintFileMicroboard">
-                                                                                    <tooltip>Specify printer output file</tooltip>
-                                                                                    <font>
-                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                        <size>-1</size>
-                                                                                    </font>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-                                                                                <border>1</border>
-                                                                                <object class="wxChoice" name="PrintModeMicroboard">
-                                                                                    <tooltip>Select print mode</tooltip>
-                                                                                    <font>
-                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                        <size>-1</size>
-                                                                                    </font>
-                                                                                    <content>
-                                                                                        <item>File</item>
-                                                                                        <item>Window</item>
-                                                                                    </content>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxGROW|wxALL</flag>
-                                                                                <border>0</border>
-                                                                                <object class="wxBitmapButton" name="PrintButtonMicroboard">
-                                                                                    <tooltip>Open printer window (F4)</tooltip>
-                                                                                    <bitmap>images/print.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                         </object>
