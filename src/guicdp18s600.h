@@ -66,8 +66,9 @@ public:
     void onMicroboardType2(wxCommandEvent&event);
     void onMicroboardType3(wxCommandEvent&event);
     void onMicroboardType4(wxCommandEvent&event);
-    void onMicroboardCard(wxCommandEvent&event);
-    void setCardMax();
+    void onMicroboardType5(wxCommandEvent&event);
+    void clearConfigName();
+    void setCardMax(Conf* config);
     void setCardType();
     void checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig);
     void checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig, MicroMemoryConf microMemoryConfCardx, int cardx);
@@ -93,10 +94,10 @@ public:
     void setTapeGui();
     void onAutoBoot(wxCommandEvent&event);
     void onAutoBootType(wxCommandEvent&event);
-    MicroMemoryConf getMicroMemConf(int card) {return microMemConf[card];};
-    void setMicroMemConfiguration(int card, MicroMemoryConf microMemoryConf) { microMemConf[card-2] = microMemoryConf;};
+    MicroMemoryConf getMicroMemConf(int card) {return microMemConf[card-1];};
+    void setMicroMemConfiguration(int card, MicroMemoryConf microMemoryConf) { microMemConf[card-1] = microMemoryConf;};
 
-    int getMicroboardType(int computerType) {return conf[computerType].microboardType_[1];};
+    int getMicroboardType(int computerType) {return conf[computerType].microboardType_[0];};
     int getMicroboardMaxCard(int computerType) {return conf[computerType].microboardMaxCards_;};
     wxString getMicroboardTypeStr(int boardType);
     

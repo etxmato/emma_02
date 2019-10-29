@@ -35,7 +35,11 @@ BEGIN_EVENT_TABLE(VtSetupDialog, wxDialog)
 	EVT_TEXT(XRCID("VtSetupWavFile"), VtSetupDialog::onVtWavFile)
 	EVT_BUTTON(XRCID("VtSetupWavButton"), VtSetupDialog::onVtWavFileButton)
 	EVT_BUTTON(XRCID("VtSetupWavEject"), VtSetupDialog::onVtWavFileEject)
-	END_EVENT_TABLE()
+    EVT_TEXT(XRCID("VtSetupCharRom"), VtSetupDialog::onVtCharRomText)
+    EVT_COMBOBOX(XRCID("VtSetupCharRom"), VtSetupDialog::onVtCharRomText)
+    EVT_BUTTON(XRCID("VtSetupCharRomButton"), VtSetupDialog::onVtCharRom)
+
+END_EVENT_TABLE()
 
 VtSetupDialog::VtSetupDialog(wxWindow* parent)
 {
@@ -185,6 +189,8 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		box.Printf("%d", i);
 		XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->SetSelection(SetUpFeature_[i]);
 	}
+	XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vtCharRom_);
+
     
 #ifdef __WXMSW__
     listPorts();
@@ -369,6 +375,38 @@ void VtSetupDialog::onVtWavFileEject(wxCommandEvent& WXUNUSED(event))
 
 	XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(true);
 }
+
+void VtSetupDialog::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
+{
+	wxString fileName;
+
+	fileName = wxFileSelector( "Select the VT Character Font file to load",
+                               elfConfiguration_.vtCharRomDir_, XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue(),
+                               "bin",
+                               wxString::Format
+                              (
+                                    "Binary Font File|*.bin;*.rom|All files (%s)|%s",
+                                    wxFileSelectorDefaultWildcardStr,
+                                    wxFileSelectorDefaultWildcardStr
+                               ),
+                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               this
+                              );
+	if (!fileName)
+		return;
+
+	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+	elfConfiguration_.vtCharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+	elfConfiguration_.vtCharRom_ = FullPath.GetFullName();
+
+	XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vtCharRom_);
+}
+
+void VtSetupDialog::onVtCharRomText(wxCommandEvent& WXUNUSED(event))
+{
+	elfConfiguration_.vtCharRom_ = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
+}
+
 
 void VtSetupDialog::listPorts()
 {

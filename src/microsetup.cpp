@@ -292,28 +292,28 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
     memoryError_ = false;
     boardError_ = false;
 
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
-            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[1])+ "_Setup_Dialog");
+            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[0])+ "_Setup_Dialog");
         break;
             
         case MICROBOARD_CDP18S601:
         case MICROBOARD_CDP18S602:
         case MICROBOARD_CDP18S603:
         case MICROBOARD_CDP18S604B:
-            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[1])+ "_Setup_Dialog");
+            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[0])+ "_Setup_Dialog");
         break;
             
         case MICROBOARD_CDP18S606:
         case MICROBOARD_CDP18S607:
         case MICROBOARD_CDP18S608:
-            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[1]-6)+ "_Setup_Dialog");
+            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[0]-6)+ "_Setup_Dialog");
             XRCCTRL(*this, "MicroSetupCpuType", wxStaticText)->SetLabel("CPU Type: CDP1805");
         break;
 
         case MICROBOARD_CDP18S609:
-            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[1]-5)+ "_Setup_Dialog");
+            wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(configuration_.microboardType_[0]-5)+ "_Setup_Dialog");
             XRCCTRL(*this, "MicroSetupCpuType", wxStaticText)->SetLabel("CPU Type: CDP1805");
         break;
 
@@ -327,12 +327,12 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
         break;
     }
     
-    this->SetTitle(p_Main->getMicroboardTypeStr(configuration_.microboardType_[1])+ " Setup");
+    this->SetTitle(p_Main->getMicroboardTypeStr(configuration_.microboardType_[0])+ " Setup");
     
     XRCCTRL(*this, "MainRomU21" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U21ROM]);
     XRCCTRL(*this, "MainRomU20" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U20ROM]);
 
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
             if (configuration_.microChipType_[FOUR_SOCKET] > 2)
@@ -408,11 +408,11 @@ void MicroboardSetupDialog::updateErrorStatus()
     bool refresh = false;
     wxColour colour = XRCCTRL(*this, "MicroSetupSave", wxButton)->GetForegroundColour();
 
-    if (configuration_.errorMemoryOverlapp_[1] != "")
+    if (configuration_.errorMemoryOverlapp_[0] != "")
     {
-        XRCCTRL(*this, "MemoryErrorMicroboard", wxStaticText)->SetLabel(configuration_.errorMemoryOverlapp_[1]);
+        XRCCTRL(*this, "MemoryErrorMicroboard", wxStaticText)->SetLabel(configuration_.errorMemoryOverlapp_[0]);
         XRCCTRL(*this, "MemoryErrorMicroboard", wxStaticText)->Show();
-        if (configuration_.errorMemoryOverlapp_[1].Right(4) == "card")
+        if (configuration_.errorMemoryOverlapp_[0].Right(4) == "card")
             XRCCTRL(*this, "MemoryErrorMicroboard", wxStaticText)->SetForegroundColour(colour);
         else
             XRCCTRL(*this, "MemoryErrorMicroboard", wxStaticText)->SetForegroundColour(*wxRED);
@@ -429,9 +429,9 @@ void MicroboardSetupDialog::updateErrorStatus()
         memoryError_ = false;
     }
     
-    if (configuration_.errorDoubleBoard_[1] != "")
+    if (configuration_.errorDoubleBoard_[0] != "")
     {
-        XRCCTRL(*this, "DoubleBoardErrorMicroboard", wxStaticText)->SetLabel(configuration_.errorDoubleBoard_[1]);
+        XRCCTRL(*this, "DoubleBoardErrorMicroboard", wxStaticText)->SetLabel(configuration_.errorDoubleBoard_[0]);
         XRCCTRL(*this, "DoubleBoardErrorMicroboard", wxStaticText)->Show();
         if (!boardError_)
             refresh = true;
@@ -460,7 +460,7 @@ void MicroboardSetupDialog::onFourSocketBankDisable(wxCommandEvent&event)
 void MicroboardSetupDialog::onRomU21(wxCommandEvent& WXUNUSED(event))
 {
     wxString fileName, romName = "";
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
             romName = " U21";
@@ -511,7 +511,7 @@ void MicroboardSetupDialog::onRomU21Text(wxCommandEvent& WXUNUSED(event))
 void MicroboardSetupDialog::onRomU20(wxCommandEvent& WXUNUSED(event))
 {
     wxString fileName, romName = "";
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
             romName = " U20";
@@ -568,7 +568,7 @@ void MicroboardSetupDialog::onRomU20Text(wxCommandEvent& WXUNUSED(event))
 void MicroboardSetupDialog::onRomU19(wxCommandEvent& WXUNUSED(event))
 {
     wxString fileName, romName = "";
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
             romName = " U19";
@@ -620,7 +620,7 @@ void MicroboardSetupDialog::onRomU19Text(wxCommandEvent& WXUNUSED(event))
 void MicroboardSetupDialog::onRomU18(wxCommandEvent& WXUNUSED(event))
 {
     wxString fileName, romName = "";
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
             romName = " U18";
@@ -665,7 +665,7 @@ void MicroboardSetupDialog::onRomU18Text(wxCommandEvent& WXUNUSED(event))
 void MicroboardSetupDialog::onRomU17(wxCommandEvent& WXUNUSED(event))
 {
     wxString fileName, romName = "";
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
             romName = " U17";
@@ -714,7 +714,7 @@ void MicroboardSetupDialog::setOneSocketState()
 
 void MicroboardSetupDialog::setFourSocketState()
 {
-    if (configuration_.microboardType_[1] == MICROBOARD_CDP18S600)
+    if (configuration_.microboardType_[0] == MICROBOARD_CDP18S600)
     {
         setRamlabel(U20ROM, "U20");
         setRamlabel(U19ROM, "U19");
@@ -833,7 +833,13 @@ void MicroboardSetupDialog::one604BSocketBankGui()
     long block;
     configuration_.microChipBlock_[ONE_SOCKET].ToLong(&block);
     
-    wxString label;
+	while ((block*0x400) > 0xffff)
+	{
+		block = (long)(block / 2);
+		configuration_.microChipBlock_[ONE_SOCKET].Printf("%d", block);
+	}
+
+	wxString label;
     label.Printf("address: %04X-%04X", (int)(block*0x400), (int)(block*0x400+0x3ff));
     XRCCTRL(*this, "RamAddress"+selectedComputerStr_, wxStaticText)->SetLabel(label);
 }
@@ -850,6 +856,12 @@ void MicroboardSetupDialog::four604BSocketBankGui()
     
     configuration_.microChipBlock_[FOUR_SOCKET].ToLong(&block);
     
+	while ((block*chipType*0x400) > 0xffff || (block*chipType*0x400+chipType*0x400-1) > 0xffff)
+	{
+		block = (long)(block / 2);
+		configuration_.microChipBlock_[FOUR_SOCKET].Printf("%d", block);
+	}
+
     if (configuration_.microChipType_[FOUR_SOCKET] == 0)
         label.Printf("address: %04X-%04X", (int)(block*chipType*0x400), (int)(block*chipType*0x400+0x1ff));
     else
@@ -928,6 +940,12 @@ void MicroboardSetupDialog::one602SocketBankGui()
     long block;
     configuration_.microChipBlock_[ONE_SOCKET].ToLong(&block);
     
+	while ((block*0x800) > 0xffff)
+	{
+		block = (long)(block / 2);
+		configuration_.microChipBlock_[ONE_SOCKET].Printf("%d", block);
+	}
+
     wxString label;
     label.Printf("address: %04X-%04X", (int)(block*0x800), (int)(block*0x800+0x7ff));
     XRCCTRL(*this, "RamAddress"+selectedComputerStr_, wxStaticText)->SetLabel(label);
@@ -945,7 +963,13 @@ void MicroboardSetupDialog::four602SocketBankGui()
     
     configuration_.microChipBlock_[FOUR_SOCKET].ToLong(&block);
     
-    label.Printf("address U9-U10: %04X-%04X", (int)(block*chipType*0x400), (int)(block*chipType*0x400+chipType*0x400-1));
+	while ((block*chipType*0x400) > 0xffff || (block*chipType*0x400+chipType*0x400-1) > 0xffff)
+	{
+		block = (long)(block / 2);
+		configuration_.microChipBlock_[FOUR_SOCKET].Printf("%d", block);
+	}
+
+	label.Printf("address U9-U10: %04X-%04X", (int)(block*chipType*0x400), (int)(block*chipType*0x400+chipType*0x400-1));
     XRCCTRL(*this, "RomAddress"+selectedComputerStr_, wxStaticText)->SetLabel(label);
     
     if (configuration_.microChipDisable_[FOUR_SOCKET])
@@ -983,7 +1007,7 @@ void MicroboardSetupDialog::onOneSocketBank(wxCommandEvent&event)
 
 void MicroboardSetupDialog::onFourSocketBank(wxCommandEvent&event)
 {
-    switch (configuration_.microboardType_[1])
+    switch (configuration_.microboardType_[0])
     {
         case MICROBOARD_CDP18S602:
         case MICROBOARD_CDP18S605:
@@ -1399,25 +1423,6 @@ void MicroboardCardSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 {
     switch (configuration_.microboardType_[cardNumber_])
     {
-        case CARD_CDP18S621:
-//            microMemConfigutation_.memLocation_[0] = XRCCTRL(*this, "MicroSetup621Location0", wxChoice)->GetSelection();
-//            microMemConfigutation_.inhibitBlock_[0][0] = XRCCTRL(*this, "MicroSetupDisableBlock00", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[0][1] = XRCCTRL(*this, "MicroSetupDisableBlock01", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[0][2] = XRCCTRL(*this, "MicroSetupDisableBlock02", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[0][3] = XRCCTRL(*this, "MicroSetupDisableBlock03", wxCheckBox)->GetValue();
-        break;
-
-        case CARD_CDP18S625:
-//            microMemConfigutation_.inhibitBlock_[0][0] = XRCCTRL(*this, "MicroSetupDisableBlock00", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[0][1] = XRCCTRL(*this, "MicroSetupDisableBlock01", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[0][2] = XRCCTRL(*this, "MicroSetupDisableBlock02", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[0][3] = XRCCTRL(*this, "MicroSetupDisableBlock03", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[1][0] = XRCCTRL(*this, "MicroSetupDisableBlock10", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[1][1] = XRCCTRL(*this, "MicroSetupDisableBlock11", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[1][2] = XRCCTRL(*this, "MicroSetupDisableBlock12", wxCheckBox)->GetValue();
-//            microMemConfigutation_.inhibitBlock_[1][3] = XRCCTRL(*this, "MicroSetupDisableBlock13", wxCheckBox)->GetValue();
-        break;
-
         case CARD_CDP18S626:
         case CARD_CDP18S628:
         case CARD_CDP18S629:
@@ -1425,26 +1430,11 @@ void MicroboardCardSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             microMemConfigutation_.memType[CDP626_SEC2] = XRCCTRL(*this, "MemorySection2Microboard", wxChoice)->GetSelection();
             microMemConfigutation_.memType[CDP626_SEC3] = XRCCTRL(*this, "MemorySection3Microboard", wxChoice)->GetSelection();
             microMemConfigutation_.memType[CDP626_SEC4] = XRCCTRL(*this, "MemorySection4Microboard", wxChoice)->GetSelection();
-//            microMemConfigutation_.inhibit64_ = XRCCTRL(*this, "MemoryInhibit64Microboard", wxChoice)->GetSelection();
-//            microMemConfigutation_.inhibit32Low_ = XRCCTRL(*this, "MemoryInhibit32LowMicroboard", wxChoice)->GetSelection();
-//            microMemConfigutation_.inhibit32High_ = XRCCTRL(*this, "MemoryInhibit32HighMicroboard", wxChoice)->GetSelection();
         break;
 
         case CARD_CDP18S641:
             elfConfiguration_.elfPortConf.uartOut = XRCCTRL(*this, "UartDataIoMicroboard", wxChoice)->GetSelection() + 2;
             elfConfiguration_.elfPortConf.uartControl = XRCCTRL(*this, "UartStatusControlMicroboard", wxChoice)->GetSelection() + 2;
-        break;
-
-        case CARD_CDP18S652:
-//            microMemConfigutation_.inhibit64_ = XRCCTRL(*this, "MemoryInhibit64Microboard", wxChoice)->GetSelection();
-//            microMemConfigutation_.inhibit32Low_ = XRCCTRL(*this, "MemoryInhibit32LowMicroboard", wxChoice)->GetSelection();
-//            microMemConfigutation_.inhibit32High_ = XRCCTRL(*this, "MemoryInhibit32HighMicroboard", wxChoice)->GetSelection();
-//            microMemConfigutation_.disableCardMemory_ = XRCCTRL(*this, "MemoryDisableMicroboard", wxCheckBox)->GetValue();
-        break;
-
-        case CARD_CDP18S660:
-//            microMemConfigutation_.memLocation_[ONE_SOCKET] = XRCCTRL(*this, "OneSocketBankMicroboard", wxChoice)->GetSelection();
-//            microMemConfigutation_.socketSize_[FOUR_SOCKET] = XRCCTRL(*this, "FourSocketBankMicroboard", wxChoice)->GetSelection();
         break;
 
         case CARD_CDP18S661B:
@@ -1932,7 +1922,13 @@ void MicroboardCardSetupDialog::ramSocketBankGui()
     long block;
     microMemConfigutation_.chipBlockRam_.ToLong(&block);
     
-    wxString label;
+	while ((block*0x400) > 0xffff)
+	{
+		block = (long)(block / 2);
+		microMemConfigutation_.chipBlockRam_.Printf("%d", block);
+	}
+
+	wxString label;
     label.Printf("address: %04X-%04X", (int)(block*0x400), (int)(block*0x400+0x3ff));
     XRCCTRL(*this, "RamAddress"+selectedComputerStr_, wxStaticText)->SetLabel(label);
 }
@@ -1962,7 +1958,7 @@ void MicroboardCardSetupDialog::setMemoryInhibit621(int bank)
     
     for (int i=0; i<4; i++)
     {
-        label.Printf("%04X-%04X", startAddress, startAddress+socketSize-1);
+        label.Printf("%04X-%04X", startAddress&0xffff, (startAddress+socketSize-1)&0xffff);
         checkBox.Printf("MicroSetupDisableBlock%d%d", bank, i);
         XRCCTRL(*this, checkBox, wxCheckBox)->SetLabel(label);
         startAddress += socketSize;
@@ -2046,6 +2042,12 @@ void MicroboardCardSetupDialog::rom1SocketBankGui625()
     
     Word socketSize = (1 << (microMemConfigutation_.socketSize_[0]))*0x400;
 
+	while ((block*socketSize*4) > 0xffff || (block*socketSize*4+(socketSize*4)-1) > 0xffff)
+	{
+		block = (long)(block / 2);
+		microMemConfigutation_.chipBlockRom_[0].Printf("%d", block);
+	}
+
     wxString label;
     label.Printf("address: %04X-%04X", (int)(block*socketSize*4), (int)(block*socketSize*4+(socketSize*4)-1));
     XRCCTRL(*this, "Rom1Address"+selectedComputerStr_, wxStaticText)->SetLabel(label);
@@ -2082,6 +2084,12 @@ void MicroboardCardSetupDialog::rom2SocketBankGui625()
     
     Word socketSize = (1 << (microMemConfigutation_.socketSize_[1]))*0x400;
 
+	while ((block*socketSize*4) > 0xffff || (block*socketSize*4+(socketSize*4)-1) > 0xffff)
+	{
+		block = (long)(block / 2);
+		microMemConfigutation_.chipBlockRom_[1].Printf("%d", block);
+	}
+
     wxString label;
     label.Printf("address: %04X-%04X", (int)(block*socketSize*4), (int)(block*socketSize*4+(socketSize*4)-1));
     XRCCTRL(*this, "Rom2Address"+selectedComputerStr_, wxStaticText)->SetLabel(label);
@@ -2104,7 +2112,7 @@ void MicroboardCardSetupDialog::setMemoryInhibit625(int bank)
     
     for (int i=0; i<4; i++)
     {
-        label.Printf("%04X-%04X", startAddress, startAddress+socketSize-1);
+        label.Printf("%04X-%04X", startAddress&0xffff, (startAddress+socketSize-1)&0xffff);
         checkBox.Printf("MicroSetupDisableBlock%d%d", bank, i);
         XRCCTRL(*this, checkBox, wxCheckBox)->SetLabel(label);
         startAddress += socketSize;
@@ -2273,22 +2281,13 @@ MicroboardAdditionalCardSetupDialog::MicroboardAdditionalCardSetupDialog(wxWindo
     selectedComputerName_ = p_Main->getSelectedComputerText();
     selectedComputerStr_ = p_Main->getSelectedComputerStr();
     
-    wxString cardNumberStr;
-    for (int card=5; card<=configuration_.microboardMaxCards_; card++)
-    {
-        cardNumberStr.Printf("%02d",card);
-        XRCCTRL(*this, "CardChoice" + selectedComputerStr_+ cardNumberStr, wxChoice)->Show();
-        XRCCTRL(*this, "Card" + selectedComputerStr_+ cardNumberStr, wxButton)->Show();
-        XRCCTRL(*this, "CardChoice" + selectedComputerStr_ + cardNumberStr, wxChoice)->SetSelection(configuration_.microboardType_[card]);
-        
-        if (configuration_.microboardType_[card] == 0)
-            XRCCTRL(*this, "Card" + selectedComputerStr_+ cardNumberStr, wxButton)->Disable();
-    }
-
-    this->DoLayoutAdaptation();
     setCardType();
+
+    setMaxCards();
     if (p_Main->isComputerRunning())
         XRCCTRL(*this, "MicroSetupSave", wxButton)->Disable();
+
+    this->DoLayoutAdaptation();
 }
 
 void MicroboardAdditionalCardSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
@@ -2309,6 +2308,7 @@ void MicroboardAdditionalCardSetupDialog::onMicroboardCardSetup(wxCommandEvent&e
     if (!buttonNumber.ToLong(&card, 10))
         return;
 
+    card -= 1;
     microboardCardSetup((int)card);
 }
 
@@ -2322,14 +2322,47 @@ void MicroboardAdditionalCardSetupDialog::onMicroboardType(wxCommandEvent&event)
     if (!buttonNumber.ToLong(&card, 10))
         return;
 
-    configuration_.microboardType_[card] = event.GetSelection();
+    card -= 1;
+    int selection = event.GetSelection();
     
-    if (configuration_.microboardType_[card] == 0)
-        XRCCTRL(*this, "Card" + selectedComputerStr_+ buttonNumber, wxButton)->Disable();
-    else
-        XRCCTRL(*this, "Card" + selectedComputerStr_+ buttonNumber, wxButton)->Enable();
+    if (configuration_.microboardType_[card] != selection)
+    {
+        configuration_.microboardType_[card] = selection;
+     
+        p_Main->setCardMax(&configuration_);
+        p_Main->clearConfigName();
+        setMaxCards();
+        setCardType();
+    }
+}
+
+void MicroboardAdditionalCardSetupDialog::setMaxCards()
+{
+    wxString cardNumberStr;
     
-    setCardType();
+    int maxCards = configuration_.microboardMaxCards_+1;
+    if (maxCards == 24)
+        maxCards = 23;
+    for (int card=4; card<=maxCards; card++)
+    {
+        cardNumberStr.Printf("%02d",card+1);
+        XRCCTRL(*this, "Card" + selectedComputerStr_+ cardNumberStr, wxButton)->Enable();
+        XRCCTRL(*this, "CardChoice" + selectedComputerStr_+ cardNumberStr, wxChoice)->Enable();
+        XRCCTRL(*this, "CardChoice" + selectedComputerStr_ + cardNumberStr, wxChoice)->SetSelection(configuration_.microboardType_[card]);
+        
+        if (configuration_.microboardType_[card] == 0)
+        {
+            XRCCTRL(*this, "Card" + selectedComputerStr_+ cardNumberStr, wxButton)->Disable();
+            setButtonColor(cardNumberStr, false);
+        }
+    }
+    for (int card=maxCards+1; card< 24; card++)
+    {
+        cardNumberStr.Printf("%02d",card+1);
+        XRCCTRL(*this, "Card" + selectedComputerStr_+ cardNumberStr, wxButton)->Disable();
+        XRCCTRL(*this, "CardChoice" + selectedComputerStr_+ cardNumberStr, wxChoice)->Disable();
+        setButtonColor(cardNumberStr, false);
+    }
 }
 
 void MicroboardAdditionalCardSetupDialog::setCardType()
@@ -2338,9 +2371,9 @@ void MicroboardAdditionalCardSetupDialog::setCardType()
 
     p_Main->checkAllBoardTypes(&configuration_, &elfConfiguration_);
 
-    for (int card=5; card<=configuration_.microboardMaxCards_; card++)
+    for (int card=4; card<=configuration_.microboardMaxCards_; card++)
     {
-        cardStr.Printf("%02d", card);
+        cardStr.Printf("%02d", card+1);
         
         setButtonColor(cardStr, configuration_.errorMemoryOverlapp_[card] != "" || configuration_.errorDoubleBoard_[card] != "");
     }
@@ -2371,12 +2404,18 @@ void MicroboardAdditionalCardSetupDialog::setButtonColor(wxString cardstring, bo
 
 void MicroboardAdditionalCardSetupDialog::microboardCardSetup(int card)
 {
-    MicroMemoryConf microMemConf = p_Main->getMicroMemConf(card-2);
+    int boardType[24];
+    
+    MicroMemoryConf microMemConf = p_Main->getMicroMemConf(card);
     
     MicroboardCardSetupDialog MicroboardCardSetupDialog(this, configuration_, elfConfiguration_, microMemConf, card);
     MicroboardCardSetupDialog.ShowModal();
 
+    for (int card=4; card<24; card++)
+        boardType[card] = configuration_.microboardType_[card];
     configuration_ = p_Main->getConfiguration(MICROBOARD);
+    for (int card=4; card<24; card++)
+        configuration_.microboardType_[card] = boardType[card];
     elfConfiguration_ = p_Main->getElfConfiguration(MICROBOARD);
     
     setCardType();

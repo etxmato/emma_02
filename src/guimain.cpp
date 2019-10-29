@@ -715,37 +715,6 @@ void GuiMain::onCharRomText(wxCommandEvent& WXUNUSED(event))
 	conf[selectedComputer_].charRom_ = XRCCTRL(*this, "CharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
-void GuiMain::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
-{
-	wxString fileName;
-
-	fileName = wxFileSelector( "Select the VT Character Font file to load",
-                               conf[selectedComputer_].vtCharRomDir_, XRCCTRL(*this, "VtCharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
-                               "bin",
-                               wxString::Format
-                              (
-                                    "Binary Font File|*.bin;*.rom|All files (%s)|%s",
-                                    wxFileSelectorDefaultWildcardStr,
-                                    wxFileSelectorDefaultWildcardStr
-                               ),
-                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                               this
-                              );
-	if (!fileName)
-		return;
-
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].vtCharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].vtCharRom_ = FullPath.GetFullName();
-
-	XRCCTRL(*this, "VtCharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].vtCharRom_);
-}
-
-void GuiMain::onVtCharRomText(wxCommandEvent& WXUNUSED(event))
-{
-	conf[selectedComputer_].vtCharRom_ = XRCCTRL(*this, "VtCharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
-}
-
 void GuiMain::onKeyFile(wxCommandEvent& WXUNUSED(event) )
 {
 	wxString fileName;
@@ -854,8 +823,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 }
 
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(false);
-				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(false);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(false);
 				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(false);
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(false);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(false);
@@ -865,13 +832,13 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 
 		case VT52:
 			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
-				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
+				elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
                 else
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
-			conf[elfType].vtCharRom_ = "vt52.a.bin";
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
+			elfConfiguration[elfType].vtCharRom_ = "vt52.a.bin";
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
@@ -880,9 +847,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].vtCharRom_);
 				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
@@ -905,13 +869,13 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 
 		case VT100:
 			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
-				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
+				elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
                 else
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
-			conf[elfType].vtCharRom_ = "vt100.bin";
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
+			elfConfiguration[elfType].vtCharRom_ = "vt100.bin";
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
@@ -920,9 +884,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].vtCharRom_);
 				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);

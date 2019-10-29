@@ -17,7 +17,7 @@ To define a system using the CDP18S604B select 'CDP18S604B 1802 & 1852' from the
 To specify the memory configuration press the CARD 1 button and the CDP18S604B Setup window will open. Press 'SAVE' to save the configuration.
 </p>
 <p>
-A default CDP18S604B configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>). This configuration includes the CDP18S604B CPU board, a CDP18S640 A/A1 Display board and a CDP18S641 UART board.
+A default CDP18S604B configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>. This configuration includes the CDP18S604B CPU board, a CDP18S640 A/A1 Display board and a CDP18S641 UART board.
 </p>
 <h3>Memory Configuration and ROM/RAM Files</h3>
 <p>

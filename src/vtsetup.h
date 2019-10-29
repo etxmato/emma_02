@@ -12,6 +12,8 @@ private:
 	void onVtWavFile(wxCommandEvent &event);
 	void onVtWavFileButton(wxCommandEvent &event);
 	void onVtWavFileEject(wxCommandEvent &event);
+	void onVtCharRom(wxCommandEvent& event);
+	void onVtCharRomText(wxCommandEvent& event);
     void listPorts();
 
  	wxString computerTypeStr_;

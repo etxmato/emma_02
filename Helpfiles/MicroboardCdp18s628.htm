@@ -1,0 +1,29 @@
+
+<HTML>
+<Title>CDP18S628: 32K RAM/ROM</Title>
+<BODY>
+<h2>CDP18S628: 32K RAM/ROM</h2>
+<p>
+The emulation of the CDP18S628 is probably not aligned with the real board. This is due to the fact that I don't have a copy of the specifications. What is emulated in Emma 02 is my best guess based on the other memory boards and the MS2000 specification which use the CDP18S628. This emulation is similar to the CDP18S629 except for the inihibit feature which inhibits 0000-0FFF or 8000-8FFF instead of 7000-7FFF or F000-FFFF.
+</p>
+<p>
+The CDP18S628 board includes:
+<UL>
+<LI>32 KB RAM or ROM
+<LI>Inhibit feature to disable part of the RAM/ROM chips
+</UL>
+</p>
+<p>
+To define a system using the CDP18S628 select 'CDP18S628 32K RAM/ROM' from one of the CARD Choice boxes. 
+</p>
+<p>
+To specify the RAM or ROM location, content files and/or inhibit function press the CARD x button and the CDP18S628 Setup window will open. The CDP18S628 has four RAM or ROM banks in bank sizes of 4 times 8K. Start location can be selected as either 0000 or 8000, i.e. memory runs from 0000-7FFF or 8000-8FFF.
+</p>
+<p>
+Memory inhibit possibilities depend on the start location.
+</p>
+<p>
+Note that the defined RAM or ROM should not overlap with any other defined RAM or ROM in any of the other cards, if this does happen Emma 02 will give a warning (CARD button will turn red and a message will appear in the setup window). Even if warnings are issued the configuration might run in Emma 02 however the board in the highest CARD will override the memory type of lower boards.
+</p>
+</BODY>
+</HTML>

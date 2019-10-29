@@ -124,8 +124,6 @@ public:
 	wxString wavFile_[2];
 	wxString charRomDir_;
 	wxString charRom_;
-	wxString vtCharRomDir_;
-	wxString vtCharRom_;
 	wxString ideDir_;
 	wxString ide_;
     wxString keyFileDir_;
@@ -230,14 +228,14 @@ public:
 
 	int gameId_;
     
-    wxString errorDoubleBoard_[25];
-    wxString errorMemoryOverlapp_[25];
+    wxString errorDoubleBoard_[24];
+    wxString errorMemoryOverlapp_[24];
     int memoryMapType_[256];
     int memoryMapCard_[256];
 
     int microboardMaxCards_;
-    int microboardType_[25];
-    wxString microboardTypeStr_[25];
+    int microboardType_[24];
+    wxString microboardTypeStr_[24];
     int microChipType_[2];
     int microChipLocation_[3];
     wxString microChipBlock_[2];
@@ -298,8 +296,6 @@ public:
 	void onIdeText(wxCommandEvent& event);
 	void onCharRom(wxCommandEvent& event);
 	void onCharRomText(wxCommandEvent& event);
-	void onVtCharRom(wxCommandEvent& event);
-	void onVtCharRomText(wxCommandEvent& event);
 	void onKeyFile(wxCommandEvent& event);
 	void onKeyFileText(wxCommandEvent& event);
 	void onKeyFileEject(wxCommandEvent& event);
@@ -372,7 +368,7 @@ public:
 	wxString getChip8Dir(int computerType){return conf[computerType].chip8SWDir_;};
 	wxString getIdeDir(int computerType) {return conf[computerType].ideDir_;};
 	wxString getCharRomDir(int computerType) {return conf[computerType].charRomDir_;};
-	wxString getVtCharRomDir(int computerType) {return conf[computerType].vtCharRomDir_;};
+	wxString getVtCharRomDir(int computerType) {return elfConfiguration[computerType].vtCharRomDir_;};
 	wxString getWaveDir(int computerType) {return conf[computerType].wavFileDir_[0];};
 	bool getAutCassetteLoad() {return conf[runningComputer_].autoCassetteLoad_;};
 	bool getPrinterStatus(int computerType) {return conf[computerType].printerOn_;};
@@ -407,7 +403,7 @@ public:
 	wxString getChip8SW(int computerType){return conf[computerType].chip8SW_;};
 	wxString getIdeFile(int computerType) {return conf[computerType].ide_;};
 	wxString getCharRomFile(int computerType) {return conf[computerType].charRom_;};
-	wxString getVtCharRomFile(int computerType) {return conf[computerType].vtCharRom_;};
+	wxString getVtCharRomFile(int computerType) {return elfConfiguration[computerType].vtCharRom_;};
 	wxString getWaveFile(int computerType) {return conf[computerType].wavFile_[0];};
 	wxString getKeyFile();
 	wxString getKeyFileDir();

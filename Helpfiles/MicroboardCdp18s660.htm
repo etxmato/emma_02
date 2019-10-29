@@ -1,0 +1,41 @@
+
+<HTML>
+<Title>CDP18S660: Memory & I/O</Title>
+<BODY>
+<h2>CDP18S660: Memory & I/O</h2>
+<p>
+The CDP18S660 board includes:
+<UL>
+<LI>2 CDP1851 PIOs for 40 programmable I/O input, output or bidirectional
+<LI>2 KB RAM and 4 to 8 KB ROM
+</UL>
+</p>
+<p>
+The PIO is defined via selectable I/O group with:
+<ul>
+<li>Output 4: write to port A, output 6: write to port B</li>
+<li>Input 4: read port A, input 6: read port B</li>
+<li>Output 2: write control register, input 2: read status</li>
+<li>EF 1: ARDY, EF 2: BRDY</li>
+</ul>
+</p>
+<p>
+To define a system using the CDP18S660 select 'CDP18S660 Memory & I/O' from one of the CARD Choice boxes. 
+</p>
+<p>
+To specify the RAM or ROM location, content files, inhibit function PIO I/O group and/or IO window press the CARD x button and the CDP18S660 Setup window will open. The CDP18S660 has one 2K RAM and four ROM chips all either 1K or 2K. RAM location can be any 2K block. 
+</p>
+<p>
+In 1Kx8 mode the ROM location can be selected by using the 'Setup - ROM' button. All 1K chip locations will be in consecutive order with XU23 on the lowest address followed by XU21, XU22 and XU20. 
+</p>
+<p>
+In 2Kx8 mode the ROM location and memory size can be selected by using the 'Setup - ROM' button. The XU23 and XU22 chip locations will be in consecutive order with XU23 on the lowest address followed by XU22, the same is valid for XU21 and XU20. When selecting memory size of 1Kx8 the ROM will be repeated twice in the 2K block.
+</p>
+<p>
+Note that the defined RAM or ROM should not overlap with any other defined RAM or ROM in any of the other cards, if this does happen Emma 02 will give a warning (CARD button will turn red and a message will appear in the setup window). Even if warnings are issued the configuration might run in Emma 02 however the board in the highest CARD will override the memory type of lower boards.
+</p>
+<p>
+See also chapter <a href="MicroboardIo.htm">IO Window</a>
+</p>
+</BODY>
+</HTML>

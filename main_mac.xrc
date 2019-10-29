@@ -1524,7 +1524,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>7</rows>
+                                                                    <rows>6</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -1629,37 +1629,6 @@
                                                                                 <item>intel8275.bin</item>
                                                                             </content>
                                                                             <selection>1</selection>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonElf2K">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomElf2K">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -2531,7 +2500,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>4</rows>
+                                                                    <rows>3</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -2563,37 +2532,6 @@
                                                                                 <item>hex.and.UT4.monitor.bin</item>
                                                                                 <item>hexmonitor.bin</item>
                                                                             </content>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonCosmicos">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomCosmicos">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -3496,7 +3434,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>10</rows>
+                                                                    <rows>9</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -3688,37 +3626,6 @@
                                                                                 <item>intel8275.bin</item>
                                                                             </content>
                                                                             <selection>1</selection>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonElf">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomElf">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -5024,7 +4931,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>10</rows>
+                                                                    <rows>9</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -5216,37 +5123,6 @@
                                                                                 <item>intel8275.bin</item>
                                                                             </content>
                                                                             <selection>1</selection>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonElfII">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomElfII">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -6551,7 +6427,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>10</rows>
+                                                                    <rows>9</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -6743,37 +6619,6 @@
                                                                                 <item>intel8275.bin</item>
                                                                             </content>
                                                                             <selection>1</selection>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonSuperElf">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomSuperElf">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -8065,7 +7910,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>3</rows>
+                                                                    <rows>2</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -8117,37 +7962,6 @@
                                                                                     </content>
                                                                                 </object>
                                                                             </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonMembership">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxComboBox" name="VtCharRomMembership">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -9012,7 +8826,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>5</rows>
+                                                                    <rows>4</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -9101,38 +8915,6 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <style>wxCB_DROPDOWN</style>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonVip2K">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxComboBox" name="VtCharRomVip2K">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -9867,7 +9649,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>8</rows>
+                                                                    <rows>7</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -10024,37 +9806,6 @@
                                                                                     <bitmap>images_osx/print.png</bitmap>
                                                                                 </object>
                                                                             </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonVelf">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomVelf">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -13537,7 +13288,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>4</rows>
+                                                                    <rows>3</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -13596,37 +13347,6 @@
                                                                                 <item></item>
                                                                                 <item>Cosmac Tiny Basic.bin</item>
                                                                             </content>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonCDP18S020">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxComboBox" name="VtCharRomCDP18S020">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -14441,7 +14161,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>7</rows>
+                                                                    <rows>6</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -14606,38 +14326,6 @@
                                                                                     <bitmap>images_osx/print.png</bitmap>
                                                                                 </object>
                                                                             </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonVip">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxComboBox" name="VtCharRomVip">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -16414,6 +16102,28 @@
                                                                     <vgap>0</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="wxID_ANY">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Configuration:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxStaticText" name="ConfigTextMicroboard">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label></label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
                                                                         <border>2</border>
                                                                         <object class="wxButton" name="Card1Microboard">
@@ -16581,50 +16291,43 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
                                                                         <border>2</border>
-                                                                        <object class="wxButton" name="AdditionalCardsMicroboard">
+                                                                        <object class="wxButton" name="Card5Microboard">
                                                                             <tooltip>Specify additional expansion cards</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>C 5-8</label>
+                                                                            <label>C 5-24</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBoxSizer">
-                                                                            <orient>wxHORIZONTAL</orient>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                                <border>3</border>
-                                                                                <object class="wxStaticText" name="CardMaxTextMicroboard">
-                                                                                    <font>
-                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                        <size>-1</size>
-                                                                                    </font>
-                                                                                    <label>Number of cards:</label>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxGROW|wxLEFT|wxTOP|wxBOTTOM</flag>
-                                                                                <border>2</border>
-                                                                                <object class="wxChoice" name="CardMaxMicroboard">
-                                                                                    <tooltip>Select number of expansion cards</tooltip>
-                                                                                    <font>
-                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                        <size>-1</size>
-                                                                                    </font>
-                                                                                    <content>
-                                                                                        <item>4</item>
-                                                                                        <item>8</item>
-                                                                                        <item>12</item>
-                                                                                        <item>16</item>
-                                                                                        <item>20</item>
-                                                                                        <item>24</item>
-                                                                                    </content>
-                                                                                </object>
-                                                                            </object>
+                                                                        <flag>wxALIGN_LEFT|wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxChoice" name="Card5ChoiceMicroboard">
+                                                                            <tooltip>Select CARD 5 board type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>-- empty --</item>
+                                                                                <item>CDP18S620 4K RAM</item>
+                                                                                <item>CDP18S621 16K RAM</item>
+                                                                                <item>CDP18S623A 8K RAM</item>
+                                                                                <item>CDP18S625 8/16/32K ROM</item>
+                                                                                <item>CDP18S626 32/64K RAM/ROM</item>
+                                                                                <item>CDP18S627 4K ROM</item>
+                                                                                <item>CDP18S628 32K RAM/ROM</item>
+                                                                                <item>CDP18S629 32K RAM/ROM</item>
+                                                                                <item>CDP18S640 A/A1 Display</item>
+                                                                                <item>CDP18S641 UART</item>
+                                                                                <item>CDP18S646 Printer</item>
+                                                                                <item>CDP18S651 FDC</item>
+                                                                                <item>CDP18S652 Memory &amp; Tape</item>
+                                                                                <item>CDP18S660 Memory &amp; I/O</item>
+                                                                                <item>CDP18S661B Video (NTSC)</item>
+                                                                                <item>CDP18S661V3 Video  (PAL)</item>
+                                                                            </content>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -16842,38 +16545,6 @@
                                                                                     <bitmap>images_osx/eject.png</bitmap>
                                                                                 </object>
                                                                             </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonMicroboard">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxComboBox" name="VtCharRomMicroboard">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -17863,7 +17534,7 @@
                                                                 <border>5</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>9</rows>
+                                                                    <rows>8</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -17957,38 +17628,6 @@
                                                                                 <item>basic_3.bin</item>
                                                                             </content>
                                                                             <selection>1</selection>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonMCDS">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxComboBox" name="VtCharRomMCDS">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -18934,7 +18573,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>10</rows>
+                                                                    <rows>9</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -19169,38 +18808,6 @@
                                                                                     <bitmap>images_osx/eject.png</bitmap>
                                                                                 </object>
                                                                             </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="VtCharRomButtonMS2000">
-                                                                            <tooltip>Browse for video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>VT Font</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxComboBox" name="VtCharRomMS2000">
-                                                                            <size>172,-1</size>
-                                                                            <tooltip>Specify video terminal font file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
-                                                                            <content>
-                                                                                <item>vt52.a.bin</item>
-                                                                                <item>vt52.b.bin</item>
-                                                                                <item>vt100.bin</item>
-                                                                            </content>
-                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">

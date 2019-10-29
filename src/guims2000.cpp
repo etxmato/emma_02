@@ -61,10 +61,6 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
     EVT_BUTTON(XRCID("EjectCasMS2000"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileMS2000"), GuiMain::onCassetteText)
 
-    EVT_TEXT(XRCID("VtCharRomMS2000"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomMS2000"), GuiMain::onVtCharRomText)
-	EVT_BUTTON(XRCID("VtCharRomButtonMS2000"), GuiMain::onVtCharRom)
-
 	EVT_TEXT(XRCID("KeyFileMS2000"), GuiMain::onKeyFileText)
 	EVT_BUTTON(XRCID("KeyFileButtonMS2000"), GuiMain::onKeyFile)
 	EVT_BUTTON(XRCID("EjectKeyFileMS2000"), GuiMain::onKeyFileEject)
@@ -132,7 +128,7 @@ void GuiMS2000::readMS2000Config()
 
     conf[MS2000].mainDir_ = readConfigDir("/Dir/MS2000/Main", dataDir_ + "MS2000" + pathSeparator_);
 	conf[MS2000].romDir_[MAINROM1] = readConfigDir("/Dir/MS2000/Main_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
-	conf[MS2000].vtCharRomDir_ = readConfigDir("/Dir/MS2000/Vt_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
+	elfConfiguration[MS2000].vtCharRomDir_ = readConfigDir("/Dir/MS2000/Vt_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][0] = readConfigDir("/Dir/MS2000/FDC0_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][1] = readConfigDir("/Dir/MS2000/FDC1_File", dataDir_ + "MS2000" + pathSeparator_);
     floppyDir_[elfConfiguration[MS2000].fdcType_][2] = readConfigDir("/Dir/MS2000/FDC2_File", dataDir_ + "MS2000" + pathSeparator_);
@@ -197,7 +193,7 @@ void GuiMS2000::readMS2000Config()
  
 	setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType, false);
 
-	conf[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
+	elfConfiguration[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
 
     configPointer->Read("/MS2000/DirectoryMode_0", &directoryMode_[elfConfiguration[MS2000].fdcType_][0], false);
     configPointer->Read("/MS2000/DirectoryMode_1", &directoryMode_[elfConfiguration[MS2000].fdcType_][1], false);
@@ -210,7 +206,6 @@ void GuiMS2000::readMS2000Config()
             setUpdFloppyGui(drive);
 
         XRCCTRL(*this, "MainRomMS2000", wxComboBox)->SetValue(conf[MS2000].rom_[MAINROM1]);
-		XRCCTRL(*this, "VtCharRomMS2000", wxComboBox)->SetValue(conf[MS2000].vtCharRom_);
         XRCCTRL(*this, "KeyFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].keyFile_);
         XRCCTRL(*this, "PrintFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].printFile_);
         XRCCTRL(*this, "ScreenDumpFileMS2000", wxComboBox)->SetValue(conf[MS2000].screenDumpFile_);
@@ -244,7 +239,7 @@ void GuiMS2000::writeMS2000DirConfig()
 {
     writeConfigDir("/Dir/MS2000/Main", conf[MS2000].mainDir_);
 	writeConfigDir("/Dir/MS2000/Main_Rom_File", conf[MS2000].romDir_[MAINROM1]);
-	writeConfigDir("/Dir/MS2000/Vt_Font_Rom_File", conf[MS2000].vtCharRomDir_);
+	writeConfigDir("/Dir/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRomDir_);
     writeConfigDir("/Dir/MS2000/FDC0_File", floppyDir_[elfConfiguration[MS2000].fdcType_][0]);
     writeConfigDir("/Dir/MS2000/FDC1_File", floppyDir_[elfConfiguration[MS2000].fdcType_][1]);
     writeConfigDir("/Dir/MS2000/FDC2_File", floppyDir_[elfConfiguration[MS2000].fdcType_][2]);
@@ -264,7 +259,7 @@ void GuiMS2000::writeMS2000Config()
     writeElfPortConfig(MS2000, "MS2000");
 
     configPointer->Write("/MS2000/Main_Rom_File", conf[MS2000].rom_[MAINROM1]);
-	configPointer->Write("/MS2000/Vt_Font_Rom_File", conf[MS2000].vtCharRom_);
+	configPointer->Write("/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRom_);
     configPointer->Write("/MS2000/FDC0_File", floppy_[elfConfiguration[MS2000].fdcType_][0]);
     configPointer->Write("/MS2000/FDC1_File", floppy_[elfConfiguration[MS2000].fdcType_][1]);
     configPointer->Write("/MS2000/FDC2_File", floppy_[elfConfiguration[MS2000].fdcType_][2]);

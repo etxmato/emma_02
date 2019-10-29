@@ -4,9 +4,7 @@
 <body>
 <h2>IO Window</h2>
 <p>
-The IO Window can be used to simpulate the PIO CDP1851 or the CDP1852 I/O chips. This is depending on the chosen main CPU board and / or 
-
-, i.e. the CDP1851 I/O chip. The window can be activate or deactivated via the 'PIO Window' checkbox. 
+The IO Window can be used to simpulate the PIO CDP1851 or the CDP1852 I/O chips. This is depending on the chosen main CPU board and / or additional selection of the CDP18S660 Memory & I/O board. The window can be activate or deactivated via the 'IO Window' checkbox either in the main Emma 02 window or CDP18S660 Setup window. 
 </p>
 <p>
 The initial window will show both A and B ports as input but when either port is set to output, bit programmable or bi-directional (via the PIO control register, OUT 6) the window will switch to show input (switched active) or output (leds active) depending on the mode selected. The same is valid for the STB and RDY input switches and output leds which will become active in bit programmable mode.
@@ -15,13 +13,7 @@ The initial window will show both A and B ports as input but when either port is
 The interrupt buttons INT 'A' and 'B' will become active when the PIO interrupt is enabled and a press on either button will send an interrupt signal to the emulated CPU and also activate EF1 or EF2.
 </p>
 <p>
-The PIO is defined on I/O group 8 with:
-<ul>
-<li>Output 2: write to port B, output 3: write to port A</li>
-<li>Input 2: read port B, input 3: read port A</li>
-<li>Output 6: write control register, input 6: read status</li>
-<li>EF 1: ARDY, EF 2: BRDY</li>
-</ul>
+The PIO is defined on I/O group 8 for any CPU board and selectable on the CDP18S660.
 </p>
 </body>
 </html>

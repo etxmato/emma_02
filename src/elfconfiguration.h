@@ -122,6 +122,8 @@ public:
 	int bellFrequency_;
 	wxString vtWavFileDir_;
     wxString vtWavFile_;
+	wxString vtCharRomDir_;
+	wxString vtCharRom_;
     wxString serialPort_;
     bool useUart;
     int uartGroup;

@@ -179,16 +179,6 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_BUTTON(XRCID("CharRomButtonElfII"), GuiMain::onCharRom)
 	EVT_BUTTON(XRCID("CharRomButtonSuperElf"), GuiMain::onCharRom)
 
-	EVT_TEXT(XRCID("VtCharRomElf"), GuiMain::onVtCharRomText)
-	EVT_TEXT(XRCID("VtCharRomElfII"), GuiMain::onVtCharRomText)
-	EVT_TEXT(XRCID("VtCharRomSuperElf"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomElf"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomElfII"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomSuperElf"), GuiMain::onVtCharRomText)
-	EVT_BUTTON(XRCID("VtCharRomButtonElf"), GuiMain::onVtCharRom)
-	EVT_BUTTON(XRCID("VtCharRomButtonElfII"), GuiMain::onVtCharRom)
-	EVT_BUTTON(XRCID("VtCharRomButtonSuperElf"), GuiMain::onVtCharRom)
-
 	EVT_TEXT(XRCID("StartRamElf"), GuiElf::onStartRam)
 	EVT_TEXT(XRCID("StartRamElfII"), GuiElf::onStartRam)
 	EVT_TEXT(XRCID("StartRamSuperElf"), GuiElf::onStartRam)
@@ -367,7 +357,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].romDir_[MAINROM1] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_1_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].romDir_[MAINROM2] = readConfigDir("/Dir/"+elfTypeStr+"/Main_Rom_2_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].charRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Font_Rom_File", dataDir_ + "Elf" + pathSeparator_);
-	conf[elfType].vtCharRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Vt_Font_Rom_File", dataDir_ + "Elf" + pathSeparator_);
+	elfConfiguration[elfType].vtCharRomDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Vt_Font_Rom_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].ramDir_ = readConfigDir("/Dir/"+elfTypeStr+"/SWD", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].ideDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Ide_File", dataDir_ + "Elf" + pathSeparator_);
 	conf[elfType].keyFileDir_ = readConfigDir("/Dir/"+elfTypeStr+"/Key_File", dataDir_ + "Elf" + pathSeparator_);
@@ -471,7 +461,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	setVideoType(elfTypeStr, elfType, conf[elfType].videoMode_);
 
 	conf[elfType].charRom_ = configPointer->Read(elfTypeStr+"/Font_Rom_File", "super.video.bin");
-	conf[elfType].vtCharRom_ = configPointer->Read(elfTypeStr+"/Vt_Font_Rom_File", "vt100.bin");
+	elfConfiguration[elfType].vtCharRom_ = configPointer->Read(elfTypeStr+"/Vt_Font_Rom_File", "vt100.bin");
 
 	if (mode_.gui)
 	{
@@ -479,7 +469,6 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "MainRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].rom_[MAINROM1]);
 		XRCCTRL(*this, "MainRom2"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].rom_[MAINROM2]);
 		XRCCTRL(*this, "CharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].charRom_);
-		XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].vtCharRom_);
 		XRCCTRL(*this, "IdeFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].ide_);
 		XRCCTRL(*this, "KeyFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].keyFile_);
 		XRCCTRL(*this, "PrintFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].printFile_);
@@ -509,9 +498,6 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "UpperCase"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].forceUpperCase);
 		XRCCTRL(*this, "DiskType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].diskType);
 		XRCCTRL(*this, "Memory"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].memoryType);
-//		XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
-//		XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[elfType].vtType != VTNONE);
-//		XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(elfConfiguration[elfType].vtType != VTNONE);
 		XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
         XRCCTRL(*this, "HexEf"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useHexKeyboardEf3);
 
@@ -650,7 +636,7 @@ void GuiElf::writeElfDirConfig(int elfType, wxString elfTypeStr)
 	writeConfigDir("/Dir/" + elfTypeStr + "/Main_Rom_1_File", conf[elfType].romDir_[MAINROM1]);
 	writeConfigDir("/Dir/" + elfTypeStr + "/Main_Rom_2_File", conf[elfType].romDir_[MAINROM2]);
 	writeConfigDir("/Dir/" + elfTypeStr + "/Font_Rom_File", conf[elfType].charRomDir_);
-	writeConfigDir("/Dir/" + elfTypeStr + "/Vt_Font_Rom_File", conf[elfType].vtCharRomDir_);
+	writeConfigDir("/Dir/" + elfTypeStr + "/Vt_Font_Rom_File", elfConfiguration[elfType].vtCharRomDir_);
 	writeConfigDir("/Dir/" + elfTypeStr + "/Software_File", conf[elfType].ramDir_);
 	writeConfigDir("/Dir/" + elfTypeStr + "/Ide_File", conf[elfType].ideDir_);
 	writeConfigDir("/Dir/" + elfTypeStr + "/Key_File", conf[elfType].keyFileDir_);
@@ -669,7 +655,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr + "/Main_Rom_1_File", conf[elfType].rom_[MAINROM1]);
 	configPointer->Write(elfTypeStr+"/Main_Rom_2_File", conf[elfType].rom_[MAINROM2]);
 	configPointer->Write(elfTypeStr+"/Font_Rom_File", conf[elfType].charRom_);
-	configPointer->Write(elfTypeStr+"/Vt_Font_Rom_File", conf[elfType].vtCharRom_);
+	configPointer->Write(elfTypeStr+"/Vt_Font_Rom_File", elfConfiguration[elfType].vtCharRom_);
 	configPointer->Write(elfTypeStr+"/Ide_File", conf[elfType].ide_);
 	configPointer->Write(elfTypeStr+"/Key_File", conf[elfType].keyFile_);
 	configPointer->Write(elfTypeStr+"/Print_File", conf[elfType].printFile_);

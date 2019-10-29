@@ -86,10 +86,6 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiCdp18s020)
 
 	EVT_CHECKBOX(XRCID("LatchVelf"), GuiVelf::onLatch)
 
-	EVT_TEXT(XRCID("VtCharRomVelf"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomVelf"), GuiMain::onVtCharRomText)
-	EVT_BUTTON(XRCID("VtCharRomButtonVelf"), GuiMain::onVtCharRom)
-
 	EVT_CHOICE(XRCID("VTTypeVelf"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomDownVt)
@@ -133,7 +129,7 @@ void GuiVelf::readVelfConfig()
     
     conf[VELF].romDir_[MAINROM1] = readConfigDir("/Dir/Velf/Main_Rom_File", dataDir_ + "Velf"  + pathSeparator_);
 	conf[VELF].ramDir_ = readConfigDir("/Dir/Velf/Software_File", dataDir_ + "Velf"  + pathSeparator_);
-	conf[VELF].vtCharRomDir_ = readConfigDir("/Dir/Velf/Vt_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
+	elfConfiguration[VELF].vtCharRomDir_ = readConfigDir("/Dir/Velf/Vt_Font_Rom_File", dataDir_ + "Velf" + pathSeparator_);
 	conf[VELF].chip8SWDir_ = readConfigDir("/Dir/Velf/Chip_8_Software", dataDir_ + "Chip-8"  + pathSeparator_ + "Chip-8 Games"  + pathSeparator_);
 	conf[VELF].printFileDir_ = readConfigDir("/Dir/Velf/Print_File", dataDir_ + "Velf" + pathSeparator_);
 	conf[VELF].screenDumpFileDir_ = readConfigDir("/Dir/Velf/Video_Dump_File", dataDir_ + "Velf" + pathSeparator_);
@@ -200,7 +196,7 @@ void GuiVelf::readVelfConfig()
 
 	setVtType("Velf", VELF, elfConfiguration[VELF].vtType, false);
 
-	conf[VELF].vtCharRom_ = configPointer->Read("/Velf/Vt_Font_Rom_File", "vt100.bin");
+	elfConfiguration[VELF].vtCharRom_ = configPointer->Read("/Velf/Vt_Font_Rom_File", "vt100.bin");
 
     conf[VELF].velfMode_ = (int)configPointer->Read("/Velf/ModeVelf", 0l);
     configPointer->Read("/Velf/Enable_Auto_Boot", &elfConfiguration[VELF].autoBoot, true);
@@ -211,7 +207,6 @@ void GuiVelf::readVelfConfig()
 		XRCCTRL(*this, "RamSWVelf", wxComboBox)->SetValue(conf[VELF].ram_);
 		XRCCTRL(*this, "Chip8SWVelf", wxTextCtrl)->SetValue(conf[VELF].chip8SW_);
 		XRCCTRL(*this, "PrintFileVelf", wxTextCtrl)->SetValue(conf[VELF].printFile_);
-		XRCCTRL(*this, "VtCharRomVelf", wxComboBox)->SetValue(conf[VELF].vtCharRom_);
 		XRCCTRL(*this, "ScreenDumpFileVelf", wxComboBox)->SetValue(conf[VELF].screenDumpFile_);
 		XRCCTRL(*this, "WavFileVelf", wxTextCtrl)->SetValue(conf[VELF].wavFile_[0]);
 
@@ -252,7 +247,7 @@ void GuiVelf::writeVelfDirConfig()
 	writeConfigDir("/Dir/Velf/Software_File", conf[VELF].ramDir_);
 	writeConfigDir("/Dir/Velf/Chip_8_Software", conf[VELF].chip8SWDir_);
 	writeConfigDir("/Dir/Velf/Print_File", conf[VELF].printFileDir_);
-	writeConfigDir("/Dir/Velf/Vt_Font_Rom_File", conf[VELF].vtCharRomDir_);
+	writeConfigDir("/Dir/Velf/Vt_Font_Rom_File", elfConfiguration[VELF].vtCharRomDir_);
 	writeConfigDir("/Dir/Velf/Video_Dump_File", conf[VELF].screenDumpFileDir_);
 	writeConfigDir("/Dir/Velf/Wav_File", conf[VELF].wavFileDir_[0]);
 	writeConfigDir("/Dir/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFileDir_);
@@ -261,7 +256,7 @@ void GuiVelf::writeVelfDirConfig()
 void GuiVelf::writeVelfConfig()
 {
     configPointer->Write("/Velf/Main_Rom_File", conf[VELF].rom_[MAINROM1]);
-	configPointer->Write("/Velf/Vt_Font_Rom_File", conf[VELF].vtCharRom_);
+	configPointer->Write("/Velf/Vt_Font_Rom_File", elfConfiguration[VELF].vtCharRom_);
 	configPointer->Write("/Velf/Ram_Software", conf[VELF].ram_);
 	configPointer->Write("/Velf/Chip_8_Software", conf[VELF].chip8SW_);
 	configPointer->Write("/Velf/Print_File", conf[VELF].printFile_);

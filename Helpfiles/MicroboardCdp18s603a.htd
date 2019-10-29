@@ -27,7 +27,7 @@ To define a system using the CDP18S603A select 'CDP18S603A 1802, Q/F & PIO' from
 To specify the memory configuration press the CARD 1 button and the CDP18S603A Setup window will open. Press 'SAVE' to save the configuration.
 </p>
 <p>
-A default CDP18S603A configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>). This configuration includes the CDP18S603A CPU board and a CDP18S640 A/A1 Display board.
+A default CDP18S603A configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>. This configuration includes the CDP18S603A CPU board and a CDP18S640 A/A1 Display board.
 </p>
 <h3>Memory Configuration and ROM/RAM Files</h3>
 <p>

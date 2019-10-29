@@ -9675,6 +9675,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
+                                    <enabled>0</enabled>
                                     <label>CARD 6</label>
                                 </object>
                             </object>
@@ -9687,6 +9688,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -9724,6 +9726,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
+                                    <enabled>0</enabled>
                                     <label>CARD 7</label>
                                 </object>
                             </object>
@@ -9736,6 +9739,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -9773,6 +9777,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
+                                    <enabled>0</enabled>
                                     <label>CARD 8</label>
                                 </object>
                             </object>
@@ -9785,6 +9790,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -9822,7 +9828,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 9</label>
                                 </object>
                             </object>
@@ -9835,7 +9841,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -9873,7 +9879,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 10</label>
                                 </object>
                             </object>
@@ -9886,7 +9892,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -9924,7 +9930,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 11</label>
                                 </object>
                             </object>
@@ -9937,7 +9943,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -9975,7 +9981,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 12</label>
                                 </object>
                             </object>
@@ -9988,7 +9994,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10026,7 +10032,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 13</label>
                                 </object>
                             </object>
@@ -10039,7 +10045,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10077,7 +10083,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 14</label>
                                 </object>
                             </object>
@@ -10090,7 +10096,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10128,7 +10134,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 15</label>
                                 </object>
                             </object>
@@ -10141,7 +10147,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10179,7 +10185,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 16</label>
                                 </object>
                             </object>
@@ -10192,7 +10198,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10230,7 +10236,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 17</label>
                                 </object>
                             </object>
@@ -10243,7 +10249,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10281,7 +10287,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 18</label>
                                 </object>
                             </object>
@@ -10294,7 +10300,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10332,7 +10338,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 19</label>
                                 </object>
                             </object>
@@ -10345,7 +10351,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10383,7 +10389,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 20</label>
                                 </object>
                             </object>
@@ -10396,7 +10402,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10434,7 +10440,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 21</label>
                                 </object>
                             </object>
@@ -10447,7 +10453,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10485,7 +10491,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 22</label>
                                 </object>
                             </object>
@@ -10498,7 +10504,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10536,7 +10542,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 23</label>
                                 </object>
                             </object>
@@ -10549,7 +10555,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>
@@ -10587,7 +10593,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <label>CARD 24</label>
                                 </object>
                             </object>
@@ -10600,7 +10606,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <hidden>1</hidden>
+                                    <enabled>0</enabled>
                                     <content>
                                         <item>-- empty --</item>
                                         <item>CDP18S620 4K RAM</item>

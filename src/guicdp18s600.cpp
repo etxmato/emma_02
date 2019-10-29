@@ -143,16 +143,12 @@ BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
     EVT_BUTTON(XRCID("Card2Microboard"), GuiCdp18s600::onMicroboardCard2Setup)
     EVT_BUTTON(XRCID("Card3Microboard"), GuiCdp18s600::onMicroboardCard3Setup)
     EVT_BUTTON(XRCID("Card4Microboard"), GuiCdp18s600::onMicroboardCard4Setup)
-    EVT_BUTTON(XRCID("AdditionalCardsMicroboard"), GuiCdp18s600::onMicroboardCardSetup)
+    EVT_BUTTON(XRCID("Card5Microboard"), GuiCdp18s600::onMicroboardCardSetup)
     EVT_CHOICE(XRCID("Card1ChoiceMicroboard"), GuiCdp18s600::onMicroboardType1)
     EVT_CHOICE(XRCID("Card2ChoiceMicroboard"), GuiCdp18s600::onMicroboardType2)
     EVT_CHOICE(XRCID("Card3ChoiceMicroboard"), GuiCdp18s600::onMicroboardType3)
     EVT_CHOICE(XRCID("Card4ChoiceMicroboard"), GuiCdp18s600::onMicroboardType4)
-    EVT_CHOICE(XRCID("CardMaxMicroboard"), GuiCdp18s600::onMicroboardCard)
-
-    EVT_TEXT(XRCID("VtCharRomMicroboard"), GuiMain::onVtCharRomText)
-    EVT_COMBOBOX(XRCID("VtCharRomMicroboard"), GuiMain::onVtCharRomText)
-    EVT_BUTTON(XRCID("VtCharRomButtonMicroboard"), GuiMain::onVtCharRom)
+    EVT_CHOICE(XRCID("Card5ChoiceMicroboard"), GuiCdp18s600::onMicroboardType5)
 
     EVT_TEXT(XRCID("KeyFileMicroboard"), GuiMain::onKeyFileText)
     EVT_BUTTON(XRCID("KeyFileButtonMicroboard"), GuiMain::onKeyFile)
@@ -270,7 +266,7 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].romDir_[U19ROM] = readConfigDir("/Dir/Microboard/Main_Rom_File19", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].romDir_[U18ROM] = readConfigDir("/Dir/Microboard/Main_Rom_File18", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].romDir_[U17ROM] = readConfigDir("/Dir/Microboard/Main_Rom_File17", dataDir_ + "Microboard" + pathSeparator_);
-    conf[MICROBOARD].vtCharRomDir_ = readConfigDir("/Dir/Microboard/Vt_Font_Rom_File", dataDir_ + "Microboard" + pathSeparator_);
+    elfConfiguration[MICROBOARD].vtCharRomDir_ = readConfigDir("/Dir/Microboard/Vt_Font_Rom_File", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].keyFileDir_ = readConfigDir("/Dir/Microboard/Key_File", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].screenDumpFileDir_ = readConfigDir("/Dir/Microboard/Video_Dump_File", dataDir_ + "Microboard" + pathSeparator_);
     
@@ -316,10 +312,16 @@ void GuiCdp18s600::readCdp18s600Config()
     configPointer->Read("/Microboard/DirectoryMode_3", &directoryMode_[elfConfiguration[MICROBOARD].fdcType_][3], false);
     conf[MICROBOARD].printFile_ = configPointer->Read("/Microboard/Print_File", "printerout.txt");
 
-    conf[MICROBOARD].microboardMaxCards_ = (int)configPointer->Read("/Microboard/MicroboardMaxCards", 4l);
-    microMemConf.resize(conf[MICROBOARD].microboardMaxCards_);
+    conf[MICROBOARD].microboardType_[0] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType0", 0l)];
+    conf[MICROBOARD].microboardType_[1] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType1", 9l)];
+
+    for (int card=2; card<24; card++)
+    {
+        cardNumberStr.Printf("%d",card);
+        conf[MICROBOARD].microboardType_[card] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType"+ cardNumberStr, 0l)];
+    }
     
-    setCardMax();
+    setCardMax(&conf[MICROBOARD]);
 
     elfConfiguration[MICROBOARD].baudR = (int)configPointer->Read("/Microboard/Vt_Baud_Receive", 0l);
     elfConfiguration[MICROBOARD].baudT = (int)configPointer->Read("/Microboard/Vt_Baud_Transmit", 0l);
@@ -362,17 +364,12 @@ void GuiCdp18s600::readCdp18s600Config()
     configPointer->Read("/Microboard/Pio_Windows", &elfConfiguration[MICROBOARD].usePio, true);
     configPointer->Read("/Microboard/Pio1_Windows", &elfConfiguration[MICROBOARD].usePioWindow1Cdp18s660, true);
     configPointer->Read("/Microboard/Pio2_Windows", &elfConfiguration[MICROBOARD].usePioWindow2Cdp18s660, true);
-
-    conf[MICROBOARD].microboardType_[1] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType0", 0l)];
-    conf[MICROBOARD].microboardType_[2] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType1", 9l)];
     
     microMemConf[0].rom_[MEM_SECTION1] = configPointer->Read("/Microboard/Card0RomFile1", "ut71.bin");
 
     for (int card=0; card<conf[MICROBOARD].microboardMaxCards_; card++)
     {
         cardNumberStr.Printf("%d",card);
-        if (card != 0 && card != 1)
-            conf[MICROBOARD].microboardType_[card+1] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType"+ cardNumberStr, 0l)];
         microMemConf[card].memType[MEM_SECTION0] = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"MemType0", 0l);
         microMemConf[card].memType[MEM_SECTION1] = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"MemType1", 0l);
         microMemConf[card].memType[MEM_SECTION2] = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"MemType2", 0l);
@@ -458,7 +455,7 @@ void GuiCdp18s600::readCdp18s600Config()
     
     setVtType("Microboard", MICROBOARD, elfConfiguration[MICROBOARD].vtType, false);
     
-    conf[MICROBOARD].vtCharRom_ = configPointer->Read("/Microboard/Vt_Font_Rom_File", "vt100.bin");
+    elfConfiguration[MICROBOARD].vtCharRom_ = configPointer->Read("/Microboard/Vt_Font_Rom_File", "vt100.bin");
     
     configPointer->Read("/Microboard/Enable_Auto_Boot", &elfConfiguration[MICROBOARD].autoBoot, true);
     elfConfiguration[MICROBOARD].autoBootType = (int)configPointer->Read("/Microboard/AutoBootType", 0l);
@@ -469,7 +466,6 @@ void GuiCdp18s600::readCdp18s600Config()
 
     if (mode_.gui)
     {
-        XRCCTRL(*this, "VtCharRomMicroboard", wxComboBox)->SetValue(conf[MICROBOARD].vtCharRom_);
         XRCCTRL(*this, "KeyFileMicroboard", wxTextCtrl)->SetValue(conf[MICROBOARD].keyFile_);
         XRCCTRL(*this, "ScreenDumpFileMicroboard", wxComboBox)->SetValue(conf[MICROBOARD].screenDumpFile_);
         
@@ -489,12 +485,11 @@ void GuiCdp18s600::readCdp18s600Config()
         for (int drive=0; drive < 4; drive++)
             setUpdFloppyGui(drive);
 
-        XRCCTRL(*this, "CardMaxMicroboard", wxChoice)->SetSelection((conf[MICROBOARD].microboardMaxCards_/4)-1);
-
-        XRCCTRL(*this, "Card1ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[1]);
-        XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[2]);
-        XRCCTRL(*this, "Card3ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[3]);
-        XRCCTRL(*this, "Card4ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[4]);
+        XRCCTRL(*this, "Card1ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[0]);
+        XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[1]);
+        XRCCTRL(*this, "Card3ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[2]);
+        XRCCTRL(*this, "Card4ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[3]);
+        XRCCTRL(*this, "Card5ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[4]);
 
         XRCCTRL(*this, "TurboClockMicroboard", wxTextCtrl)->SetValue(conf[MICROBOARD].turboClock_);
         XRCCTRL(*this, "TurboMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].turbo_);
@@ -516,6 +511,8 @@ void GuiCdp18s600::readCdp18s600Config()
 
         XRCCTRL(*this,"AddressText1Microboard", wxStaticText)->Enable(elfConfiguration[MICROBOARD].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Microboard", wxStaticText)->Enable(elfConfiguration[MICROBOARD].useElfControlWindows);
+        
+        XRCCTRL(*this,"ConfigTextMicroboard", wxStaticText)->SetLabel(configPointer->Read("/Microboard/ConfigName", "CDP18S600"));
     }
 }
 
@@ -529,7 +526,7 @@ void GuiCdp18s600::writeCdp18s600DirConfig()
     writeConfigDir("/Dir/Microboard/Main_Rom_File19", conf[MICROBOARD].romDir_[U19ROM]);
     writeConfigDir("/Dir/Microboard/Main_Rom_File18", conf[MICROBOARD].romDir_[U18ROM]);
     writeConfigDir("/Dir/Microboard/Main_Rom_File18", conf[MICROBOARD].romDir_[U17ROM]);
-    writeConfigDir("/Dir/Microboard/Vt_Font_Rom_File", conf[MICROBOARD].vtCharRomDir_);
+    writeConfigDir("/Dir/Microboard/Vt_Font_Rom_File", elfConfiguration[MICROBOARD].vtCharRomDir_);
     writeConfigDir("/Dir/Microboard/Key_File", conf[MICROBOARD].keyFileDir_);
     writeConfigDir("/Dir/Microboard/Video_Dump_File", conf[MICROBOARD].screenDumpFileDir_);
 
@@ -568,7 +565,7 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/Main_Rom_File19", conf[MICROBOARD].rom_[U19ROM]);
     configPointer->Write("/Microboard/Main_Rom_File18", conf[MICROBOARD].rom_[U18ROM]);
     configPointer->Write("/Microboard/Main_Rom_File17", conf[MICROBOARD].rom_[U17ROM]);
-    configPointer->Write("/Microboard/Vt_Font_Rom_File", conf[MICROBOARD].vtCharRom_);
+    configPointer->Write("/Microboard/Vt_Font_Rom_File", elfConfiguration[MICROBOARD].vtCharRom_);
     configPointer->Write("/Microboard/Key_File", conf[MICROBOARD].keyFile_);
     configPointer->Write("/Microboard/Video_Dump_File", conf[MICROBOARD].screenDumpFile_);
     configPointer->Write("/Microboard/VtSerialPortChoice", elfConfiguration[MICROBOARD].serialPort_);
@@ -610,7 +607,8 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/MicroChipLocationRom1Socket", conf[MICROBOARD].microChipLocation_[FOUR_SOCKET_ROM1]);
     configPointer->Write("/Microboard/MicroChipLocationRom2Socket", conf[MICROBOARD].microChipLocation_[FOUR_SOCKET_ROM2]);
 
-    configPointer->Write("/Microboard/MicroboardMaxCards", conf[MICROBOARD].microboardMaxCards_);
+    if (mode_.gui)
+        configPointer->Write("/Microboard/ConfigName", XRCCTRL(*this,"ConfigTextMicroboard", wxStaticText)->GetLabel());
 
     configPointer->Write("/Microboard/MicroBlockOneSocket", conf[MICROBOARD].microChipBlock_[ONE_SOCKET]);
     configPointer->Write("/Microboard/MicroBlockFourSocket", conf[MICROBOARD].microChipBlock_[FOUR_SOCKET]);
@@ -633,7 +631,7 @@ void GuiCdp18s600::writeCdp18s600Config()
     for (int card=0; card<conf[MICROBOARD].microboardMaxCards_; card++)
     {
         cardNumberStr.Printf("%d",card);
-        configPointer->Write("/Microboard/MicroboardType"+cardNumberStr, cardBoardNumber[conf[MICROBOARD].microboardType_[card+1]]);
+        configPointer->Write("/Microboard/MicroboardType"+cardNumberStr, cardBoardNumber[conf[MICROBOARD].microboardType_[card]]);
         configPointer->Write("/Microboard/Card" + cardNumberStr+"MemType0", microMemConf[card].memType[MEM_SECTION0]);
         configPointer->Write("/Microboard/Card" + cardNumberStr+"MemType1", microMemConf[card].memType[MEM_SECTION1]);
         configPointer->Write("/Microboard/Card" + cardNumberStr+"MemType2", microMemConf[card].memType[MEM_SECTION2]);
@@ -807,7 +805,7 @@ void GuiCdp18s600::onMicroboardCard1Setup(wxCommandEvent&WXUNUSED(event))
 
 void GuiCdp18s600::onMicroboardCard2Setup(wxCommandEvent&WXUNUSED(event))
 {
-    MicroboardCardSetupDialog MicroboardCardSetupDialog(this, conf[selectedComputer_], elfConfiguration[selectedComputer_], microMemConf[0], 2);
+    MicroboardCardSetupDialog MicroboardCardSetupDialog(this, conf[selectedComputer_], elfConfiguration[selectedComputer_], microMemConf[0], 1);
     MicroboardCardSetupDialog.ShowModal();
 
     setCardType();
@@ -815,7 +813,7 @@ void GuiCdp18s600::onMicroboardCard2Setup(wxCommandEvent&WXUNUSED(event))
 
 void GuiCdp18s600::onMicroboardCard3Setup(wxCommandEvent&WXUNUSED(event))
 {
-    MicroboardCardSetupDialog MicroboardCardSetupDialog(this, conf[selectedComputer_], elfConfiguration[selectedComputer_], microMemConf[1], 3);
+    MicroboardCardSetupDialog MicroboardCardSetupDialog(this, conf[selectedComputer_], elfConfiguration[selectedComputer_], microMemConf[1], 2);
     MicroboardCardSetupDialog.ShowModal();
 
     setCardType();
@@ -823,7 +821,7 @@ void GuiCdp18s600::onMicroboardCard3Setup(wxCommandEvent&WXUNUSED(event))
 
 void GuiCdp18s600::onMicroboardCard4Setup(wxCommandEvent&WXUNUSED(event))
 {
-    MicroboardCardSetupDialog MicroboardCardSetupDialog(this, conf[selectedComputer_], elfConfiguration[selectedComputer_], microMemConf[2], 4);
+    MicroboardCardSetupDialog MicroboardCardSetupDialog(this, conf[selectedComputer_], elfConfiguration[selectedComputer_], microMemConf[2], 3);
     MicroboardCardSetupDialog.ShowModal();
 
     setCardType();
@@ -834,50 +832,86 @@ void GuiCdp18s600::onMicroboardCardSetup(wxCommandEvent&WXUNUSED(event))
     MicroboardAdditionalCardSetupDialog MicroboardAdditionalCardSetupDialog(this, conf[selectedComputer_], elfConfiguration[selectedComputer_]);
     MicroboardAdditionalCardSetupDialog.ShowModal();
 
+    XRCCTRL(*this, "Card5ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[4]);
+
     setCardType();
 }
 
 void GuiCdp18s600::onMicroboardType1(wxCommandEvent&event)
 {
-    conf[selectedComputer_].microboardType_[1] = event.GetSelection();
-    setCardType();
+    int selection = event.GetSelection();
+    
+    if (conf[selectedComputer_].microboardType_[0] != selection)
+    {
+        conf[selectedComputer_].microboardType_[0] = selection;
+        clearConfigName();
+        setCardType();
+    }
 }
 
 void GuiCdp18s600::onMicroboardType2(wxCommandEvent&event)
 {
-    conf[selectedComputer_].microboardType_[2] = event.GetSelection();
-    setCardType();
+    int selection = event.GetSelection();
+    
+    if (conf[selectedComputer_].microboardType_[1] != selection)
+    {
+        conf[selectedComputer_].microboardType_[1] = selection;
+        clearConfigName();
+        setCardType();
+    }
 }
 
 void GuiCdp18s600::onMicroboardType3(wxCommandEvent&event)
 {
-    conf[selectedComputer_].microboardType_[3] = event.GetSelection();
-    setCardType();
+    int selection = event.GetSelection();
+    
+    if (conf[selectedComputer_].microboardType_[2] != selection)
+    {
+        conf[selectedComputer_].microboardType_[2] = selection;
+        clearConfigName();
+        setCardType();
+    }
 }
 
 void GuiCdp18s600::onMicroboardType4(wxCommandEvent&event)
 {
-    conf[selectedComputer_].microboardType_[4] = event.GetSelection();
-    setCardType();
+    int selection = event.GetSelection();
+    
+    if (conf[selectedComputer_].microboardType_[3] != selection)
+    {
+        conf[selectedComputer_].microboardType_[3] = selection;
+        clearConfigName();
+        setCardType();
+    }
 }
 
-void GuiCdp18s600::onMicroboardCard(wxCommandEvent&event)
+void GuiCdp18s600::onMicroboardType5(wxCommandEvent&event)
 {
-    conf[selectedComputer_].microboardMaxCards_ = (event.GetSelection() + 1) * 4;
-    microMemConf.resize(conf[selectedComputer_].microboardMaxCards_);
-
-    setCardMax();
+    int selection = event.GetSelection();
+    
+    if (conf[selectedComputer_].microboardType_[4] != selection)
+    {
+        conf[selectedComputer_].microboardType_[4] = selection;
+        clearConfigName();
+        setCardType();
+    }
 }
 
-void GuiCdp18s600::setCardMax()
+void GuiCdp18s600::clearConfigName()
 {
-    wxString label;
-    if (conf[selectedComputer_].microboardMaxCards_ == 4)
-        label = "";
-    else
-        label.Printf("C 5-%d", conf[selectedComputer_].microboardMaxCards_);
-    XRCCTRL(*this, "AdditionalCards" + computerInfo[selectedComputer_].gui, wxButton)->SetLabel(label);
-    XRCCTRL(*this, "AdditionalCards" + computerInfo[selectedComputer_].gui, wxButton)->Enable(conf[selectedComputer_].microboardMaxCards_ != 4);
+    XRCCTRL(*this, "ConfigTextMicroboard", wxStaticText)->SetLabel("");
+}
+
+void GuiCdp18s600::setCardMax(Conf* config)
+{
+    config->microboardMaxCards_ = 4;
+    for (int card=4; card<24; card++)
+    {
+        if (config->microboardType_[card] != CARD_EMPTY)
+            config->microboardMaxCards_ = card;
+    }
+    
+    microMemConf.resize(config->microboardMaxCards_);
 }
 
 void GuiCdp18s600::setCardType()
@@ -894,7 +928,7 @@ void GuiCdp18s600::setCardType()
         XRCCTRL(*this, "ZoomValue" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
         XRCCTRL(*this, "ZoomSpin" + computerInfo[selectedComputer_].gui, wxSpinButton)->Enable(false);
 
-        switch (conf[selectedComputer_].microboardType_[1])
+        switch (conf[selectedComputer_].microboardType_[0])
         {
             case MICROBOARD_CDP18S604B:
             case MICROBOARD_CDP18S609:
@@ -908,11 +942,11 @@ void GuiCdp18s600::setCardType()
             break;
         }
     
-        setButtonColor("1", (conf[MICROBOARD].errorMemoryOverlapp_[1] != "" && conf[MICROBOARD].errorMemoryOverlapp_[1].Right(4) != "card") || conf[MICROBOARD].errorDoubleBoard_[1] != "");
+        setButtonColor("1", (conf[MICROBOARD].errorMemoryOverlapp_[0] != "" && conf[MICROBOARD].errorMemoryOverlapp_[0].Right(4) != "card") || conf[MICROBOARD].errorDoubleBoard_[0] != "");
 
-        for (int card=2; card<=4; card++)
+        for (int card=1; card<=4; card++)
         {
-            cardStr.Printf("%d", card);
+            cardStr.Printf("%d", card+1);
             XRCCTRL(*this, "Card"+cardStr + computerInfo[selectedComputer_].gui, wxButton)->Enable(true);
             
             setButtonColor(cardStr, (conf[MICROBOARD].errorMemoryOverlapp_[card] != ""  && conf[MICROBOARD].errorMemoryOverlapp_[card].Right(4) != "card") || conf[MICROBOARD].errorDoubleBoard_[card] != "");
@@ -920,7 +954,8 @@ void GuiCdp18s600::setCardType()
             switch (conf[selectedComputer_].microboardType_[card])
             {
                 case CARD_EMPTY:
-                    XRCCTRL(*this, "Card"+cardStr + computerInfo[selectedComputer_].gui, wxButton)->Enable(false);
+                    if (card != 4)
+                        XRCCTRL(*this, "Card"+cardStr + computerInfo[selectedComputer_].gui, wxButton)->Enable(false);
                 break;
                     
                 case CARD_CDP18S641:
@@ -966,22 +1001,22 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
     }
 
     elfConfig->useUart = false;
-    config->errorDoubleBoard_[1] = "";
-    config->errorMemoryOverlapp_[1] = "";
-    config->microboardTypeStr_[1] = microBoardStr[config->microboardType_[1]];
-    switch (config->microboardType_[1])
+    config->errorDoubleBoard_[0] = "";
+    config->errorMemoryOverlapp_[0] = "";
+    config->microboardTypeStr_[0] = microBoardStr[config->microboardType_[0]];
+    switch (config->microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
             elfConfig->useUart = true;
             elfConfig->elfPortConf.uartOut = 2;
             elfConfig->elfPortConf.uartControl = 3;
-            setMemoryMapCDP18S600(config, 1, config->microboardType_[1]);
+            setMemoryMapCDP18S600(config, 0, config->microboardType_[0]);
         break;
             
         case MICROBOARD_CDP18S601:
         case MICROBOARD_CDP18S606:
             elfConfig->useUart = false;
-            setMemoryMapCDP18S601(config, 1, config->microboardType_[1]);
+            setMemoryMapCDP18S601(config, 0, config->microboardType_[0]);
         break;
 
         case MICROBOARD_CDP18S602:
@@ -991,21 +1026,21 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             elfConfig->useUart = true;
             elfConfig->elfPortConf.uartOut = 2;
             elfConfig->elfPortConf.uartControl = 3;
-            setMemoryMapCDP18S602(config, 1, config->microboardType_[1]);
+            setMemoryMapCDP18S602(config, 0, config->microboardType_[0]);
         break;
             
         case MICROBOARD_CDP18S603:
         case MICROBOARD_CDP18S603A:
         case MICROBOARD_CDP18S608:
             elfConfig->useUart = false;
-            setMemoryMapCDP18S603a(config, 1, config->microboardType_[1]);
+            setMemoryMapCDP18S603a(config, 0, config->microboardType_[0]);
         break;
             
         case MICROBOARD_CDP18S604B:
         case MICROBOARD_CDP18S609:
             elfConfig->vtType = 0;
             elfConfig->useUart = false;
-            setMemoryMapCDP18S604b(config, 1, config->microboardType_[1]);
+            setMemoryMapCDP18S604b(config, 0, config->microboardType_[0]);
         break;
     }
 
@@ -1017,18 +1052,19 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
     config->printerOn_ = false;
 
     wxString controlWindowCardStr="", uartCardStr="1", printerCardStr="", upd765CardStr="", tapeCardStr="", v1870CardStr="", pioCardStr="";
-    int controlWindowCard=0, uartCard=1, printerCard=0, upd765Card=0, tapeCard=0, v1870Card=0, pioCard=0;
+    int controlWindowCard=-1, uartCard=0, printerCard=-1, upd765Card=-1, tapeCard=-1, v1870Card=-1, pioCard=-1;
 
     MicroMemoryConf microMemConfig;
     
-    for (int card=2; card<=config->microboardMaxCards_; card++)
+    for (int card=1; card<=config->microboardMaxCards_; card++)
     {
         config->microboardTypeStr_[card] = microBoardStr[config->microboardType_[card]+MICROBOARD_LAST];
-        microMemConfig = getMicroMemConf(card-2);
+        
+        microMemConfig = getMicroMemConf(card);
         
         config->errorDoubleBoard_[card] = "";
         config->errorMemoryOverlapp_[card] = "";
-        cardStr.Printf("%d", card);
+        cardStr.Printf("%d", card+1);
 
         switch (config->microboardType_[card])
         {
@@ -1197,9 +1233,9 @@ void GuiCdp18s600::setMemoryMap(Conf* config, long start, long end, int card, in
                 }
                 else
                 {
-                    message1.Printf("Error: Memory overlap with " + microBoardStr[config->memoryMapType_[i]] + " in slot %d", config->memoryMapCard_[i]);
+                    message1.Printf("Error: Memory overlap with " + microBoardStr[config->memoryMapType_[i]] + " in slot %d", config->memoryMapCard_[i]+1);
                     config->errorMemoryOverlapp_[card] = message1;
-                    message2.Printf("Error: Memory overlap with " + microBoardStr[boardType] + " in slot %d", card);
+                    message2.Printf("Error: Memory overlap with " + microBoardStr[boardType] + " in slot %d", card+1);
                     config->errorMemoryOverlapp_[config->memoryMapCard_[i]] = message2;
                 }
             }
@@ -2136,13 +2172,13 @@ void GuiCdp18s600::checkBoardType(Conf* config, int card, wxString cardstring, i
     if (boardControlValue == true)
     {
         config->errorDoubleBoard_[card] = "Error: Same board as in slot "+oldStr+", only 1 " + conf[MICROBOARD].microboardTypeStr_[card] + " supported";
-        if (oldCard == 1)
+        if (oldCard == 0)
             config->errorDoubleBoard_[card] = "Error: UART included in CPU board, only 1 UART supported";
         
         if (cardstring.Left(1) == "0")
             cardstring = cardstring.Right(1);
         
-        if (oldCard != 0)
+        if (oldCard > 0)
             config->errorDoubleBoard_[oldCard] = "Error: Same board as in slot "+cardstring+" only 1 " + conf[MICROBOARD].microboardTypeStr_[oldCard] + " supported";
     }
 }

@@ -215,6 +215,7 @@ private:
     void onMicroboardCardSetup(wxCommandEvent& event);
     void onMicroboardType(wxCommandEvent&event);
 
+    void setMaxCards();
     void setCardType();
     void setButtonColor(wxString cardstring, bool error);
     void microboardCardSetup(int card);

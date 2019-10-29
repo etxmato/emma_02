@@ -54,10 +54,6 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_BUTTON(XRCID("EjectCas1MCDS"), GuiMain::onCassette1Eject)
     EVT_TEXT(XRCID("WavFile1MCDS"), GuiMain::onCassette1Text)
 
-    EVT_TEXT(XRCID("VtCharRomMCDS"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomMCDS"), GuiMain::onVtCharRomText)
-	EVT_BUTTON(XRCID("VtCharRomButtonMCDS"), GuiMain::onVtCharRom)
-
 	EVT_TEXT(XRCID("KeyFileMCDS"), GuiMain::onKeyFileText)
 	EVT_BUTTON(XRCID("KeyFileButtonMCDS"), GuiMain::onKeyFile)
 	EVT_BUTTON(XRCID("EjectKeyFileMCDS"), GuiMain::onKeyFileEject)
@@ -148,7 +144,7 @@ void GuiMcds::readMcdsConfig()
 	conf[MCDS].romDir_[MAINROM1] = readConfigDir("/Dir/Mcds/Main_Rom_File1", dataDir_ + "MCDS" + pathSeparator_);
 	conf[MCDS].romDir_[MAINROM2] = readConfigDir("/Dir/Mcds/Main_Rom_File2", dataDir_ + "MCDS" + pathSeparator_);
 	conf[MCDS].romDir_[MAINROM3] = readConfigDir("/Dir/Mcds/Main_Rom_File3", dataDir_ + "MCDS" + pathSeparator_);
-	conf[MCDS].vtCharRomDir_ = readConfigDir("/Dir/Mcds/Vt_Font_Rom_File", dataDir_ + "MCDS" + pathSeparator_);
+	elfConfiguration[MCDS].vtCharRomDir_ = readConfigDir("/Dir/Mcds/Vt_Font_Rom_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].keyFileDir_ = readConfigDir("/Dir/Mcds/Key_File", dataDir_ + "MCDS" + pathSeparator_);
     conf[MCDS].printFileDir_ = readConfigDir("Dir/Mcds/Print_File", dataDir_ + "MCDS" + pathSeparator_);
 	conf[MCDS].screenDumpFileDir_ = readConfigDir("/Dir/Mcds/Video_Dump_File", dataDir_ + "MCDS" + pathSeparator_);
@@ -205,14 +201,13 @@ void GuiMcds::readMcdsConfig()
 
  	setVtType("MCDS", MCDS, elfConfiguration[MCDS].vtType, false);
 
-	conf[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
+	elfConfiguration[MCDS].vtCharRom_ = configPointer->Read("/Mcds/Vt_Font_Rom_File", "vt100.bin");
 
     if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomMCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM1]);
 		XRCCTRL(*this, "MainRom2MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM2]);
 		XRCCTRL(*this, "MainRom3MCDS", wxComboBox)->SetValue(conf[MCDS].rom_[MAINROM3]);
-		XRCCTRL(*this, "VtCharRomMCDS", wxComboBox)->SetValue(conf[MCDS].vtCharRom_);
         XRCCTRL(*this, "KeyFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].keyFile_);
         XRCCTRL(*this, "PrintFileMCDS", wxTextCtrl)->SetValue(conf[MCDS].printFile_);
         XRCCTRL(*this, "ScreenDumpFileMCDS", wxComboBox)->SetValue(conf[MCDS].screenDumpFile_);
@@ -251,7 +246,7 @@ void GuiMcds::writeMcdsDirConfig()
 	writeConfigDir("/Dir/Mcds/Main_Rom_File1", conf[MCDS].romDir_[MAINROM1]);
 	writeConfigDir("/Dir/Mcds/Main_Rom_File2", conf[MCDS].romDir_[MAINROM2]);
 	writeConfigDir("/Dir/Mcds/Main_Rom_File3", conf[MCDS].romDir_[MAINROM3]);
-	writeConfigDir("/Dir/Mcds/Vt_Font_Rom_File", conf[MCDS].vtCharRomDir_);
+	writeConfigDir("/Dir/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRomDir_);
     writeConfigDir("/Dir/Mcds/Key_File", conf[MCDS].keyFileDir_);
     writeConfigDir("/Dir/Mcds/Print_File", conf[MCDS].printFileDir_);
     writeConfigDir("/Dir/Mcds/Video_Dump_File", conf[MCDS].screenDumpFileDir_);
@@ -266,7 +261,7 @@ void GuiMcds::writeMcdsConfig()
 	configPointer->Write("/Mcds/Main_Rom_File1", conf[MCDS].rom_[MAINROM1]);
 	configPointer->Write("/Mcds/Main_Rom_File2", conf[MCDS].rom_[MAINROM2]);
 	configPointer->Write("/Mcds/Main_Rom_File3", conf[MCDS].rom_[MAINROM3]);
-	configPointer->Write("/Mcds/Vt_Font_Rom_File", conf[MCDS].vtCharRom_);
+	configPointer->Write("/Mcds/Vt_Font_Rom_File", elfConfiguration[MCDS].vtCharRom_);
     configPointer->Write("/Mcds/Key_File", conf[MCDS].keyFile_);
     configPointer->Write("/Mcds/Print_File", conf[MCDS].printFile_);
     configPointer->Write("/Mcds/Video_Dump_File", conf[MCDS].screenDumpFile_);

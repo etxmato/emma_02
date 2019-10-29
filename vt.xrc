@@ -480,6 +480,50 @@
             <object class="sizeritem">
                 <flag>wxGROW|wxALL</flag>
                 <border>5</border>
+                <object class="wxStaticLine" name="StaticLine0">
+                    <style>wxLI_HORIZONTAL</style>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxHORIZONTAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxButton" name="VtsetupCharRomButton">
+                            <tooltip>Browse for video terminal font file</tooltip>
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>VT Font</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxComboBox" name="VtSetupCharRom">
+                            <tooltip>Specify video terminal font file</tooltip>
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <style>wxCB_DROPDOWN</style>
+                            <content>
+                                <item>vt52.a.bin</item>
+                                <item>vt52.b.bin</item>
+                                <item>vt100.bin</item>
+                            </content>
+                            <selection>2</selection>
+                        </object>
+                    </object>
+                </object>
+            </object>
+            <object class="sizeritem">
+                <flag>wxGROW|wxALL</flag>
+                <border>5</border>
                 <object class="wxStaticLine" name="StaticLine1">
                     <style>wxLI_HORIZONTAL</style>
                 </object>

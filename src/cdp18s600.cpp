@@ -1151,47 +1151,47 @@ void Cdp18s600::configureCards()
 {
     Conf configuration = p_Main->getConfiguration(MICROBOARD);
 
-    for (int card=0; card<p_Main->getMicroboardMaxCard(computerType_); card++)
+    for (int card=1; card<=p_Main->getMicroboardMaxCard(computerType_); card++)
     {
         MicroMemoryConf microMemConf = p_Main->getMicroMemConf(card);
-        switch (configuration.microboardType_[card+2])
+        switch (configuration.microboardType_[card])
         {
             case CARD_CDP18S620:
-                p_Main->setMemoryMapCDP18S620(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S620(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S621:
-                p_Main->setMemoryMapCDP18S621(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S621(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S623A:
-                p_Main->setMemoryMapCDP18S623a(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S623a(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S625:
-                p_Main->setMemoryMapCDP18S625(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S625(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S626:
             case CARD_CDP18S628:
             case CARD_CDP18S629:
-                p_Main->setMemoryMapCDP18S626(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S626(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S627:
-                p_Main->setMemoryMapCDP18S627(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S627(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S640:
-                p_Main->setMemoryMapCDP18S640(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S640(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S652:
-                p_Main->setMemoryMapCDP18S652(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S652(&configuration, microMemConf, card, -1);
             break;
 
             case CARD_CDP18S660:
-                p_Main->setMemoryMapCDP18S660(&configuration, microMemConf, card+2, -1);
+                p_Main->setMemoryMapCDP18S660(&configuration, microMemConf, card, -1);
             break;
         }
     }
