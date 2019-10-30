@@ -14,7 +14,7 @@ When using EMS memory, the RAM or ROM Mapper the RAM fields will be disabled and
 </p>
 <h3>EMS - 512 KB</h3>
 <p>
-RAM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 16K slot from any large RAM chip. Selected RAM is swicthed to 8000-BFFF by using A15 from bit 0 on port 7, A16 from bit 1 upto a max of 5 bits. 
+RAM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 16K slot from any large RAM chip. Selected RAM is swicthed to 8000-BFFF by using A15 from bit 0 on port 7, A16 from bit 1 up to a max of 5 bits. 
 </p>
 <h3>RAM Mapper - 1 MB</h3>
 <p>

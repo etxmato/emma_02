@@ -6,7 +6,7 @@
 The CDP18S621 board includes:
 <UL>
 <LI>16 KB RAM selectable at any 16K memory location
-<LI>Inhibit feature to disable any of the four 4K RAM chips
+<LI>Inhibit feature to disable any of the four 4 KB RAM chips
 </UL>
 </p>
 <p>

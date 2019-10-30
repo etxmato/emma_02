@@ -150,10 +150,6 @@ BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
     EVT_CHOICE(XRCID("Card4ChoiceMicroboard"), GuiCdp18s600::onMicroboardType4)
     EVT_CHOICE(XRCID("Card5ChoiceMicroboard"), GuiCdp18s600::onMicroboardType5)
 
-    EVT_TEXT(XRCID("KeyFileMicroboard"), GuiMain::onKeyFileText)
-    EVT_BUTTON(XRCID("KeyFileButtonMicroboard"), GuiMain::onKeyFile)
-    EVT_BUTTON(XRCID("EjectKeyFileMicroboard"), GuiMain::onKeyFileEject)
-
     EVT_CHOICE(XRCID("VTTypeMicroboard"), GuiMain::onVT100)
     EVT_SPIN_UP(XRCID("ZoomSpinVtMicroboard"), GuiMain::onZoomUpVt)
     EVT_SPIN_DOWN(XRCID("ZoomSpinVtMicroboard"), GuiMain::onZoomDownVt)
@@ -270,7 +266,6 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].keyFileDir_ = readConfigDir("/Dir/Microboard/Key_File", dataDir_ + "Microboard" + pathSeparator_);
     conf[MICROBOARD].screenDumpFileDir_ = readConfigDir("/Dir/Microboard/Video_Dump_File", dataDir_ + "Microboard" + pathSeparator_);
     
-    conf[MICROBOARD].keyFile_ = configPointer->Read("/Microboard/Key_File", "");
     conf[MICROBOARD].screenDumpFile_ = configPointer->Read("/Microboard/Video_Dump_File", "screendump.png");
     
     getConfigBool("/Microboard/SerialLog", false);
@@ -466,7 +461,6 @@ void GuiCdp18s600::readCdp18s600Config()
 
     if (mode_.gui)
     {
-        XRCCTRL(*this, "KeyFileMicroboard", wxTextCtrl)->SetValue(conf[MICROBOARD].keyFile_);
         XRCCTRL(*this, "ScreenDumpFileMicroboard", wxComboBox)->SetValue(conf[MICROBOARD].screenDumpFile_);
         
         XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].vtType);
@@ -566,7 +560,6 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/Main_Rom_File18", conf[MICROBOARD].rom_[U18ROM]);
     configPointer->Write("/Microboard/Main_Rom_File17", conf[MICROBOARD].rom_[U17ROM]);
     configPointer->Write("/Microboard/Vt_Font_Rom_File", elfConfiguration[MICROBOARD].vtCharRom_);
-    configPointer->Write("/Microboard/Key_File", conf[MICROBOARD].keyFile_);
     configPointer->Write("/Microboard/Video_Dump_File", conf[MICROBOARD].screenDumpFile_);
     configPointer->Write("/Microboard/VtSerialPortChoice", elfConfiguration[MICROBOARD].serialPort_);
     

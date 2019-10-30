@@ -9,14 +9,14 @@ The emulation of the CDP18S652 is probably not aligned with the real board. This
 The CDP18S652 board includes:
 <UL>
 <LI>2 cassette tape I/O ports
-<LI>1 KB RAM and upto 24 KB ROM
+<LI>1 KB RAM and up to 24 KB ROM
 </UL>
 </p>
 <p>
 To define a system using the CDP18S652 select 'CDP18S652 Memory & Tape' from one of the CARD Choice boxes. 
 </p>
 <p>
-To specify the RAM or ROM location, content files and/or inhibit function press the CARD x button and the CDP18S652 Setup window will open. The CDP18S652 has one 1K RAM and 3 8K ROM banks. RAM location can be any 1K block. ROM start location can be selected as either 0000 or 8000, i.e. ROM memory runs from 0000-5FFF or 8000-DFFF.
+To specify the RAM or ROM location, content files and/or inhibit function press the CARD x button and the CDP18S652 Setup window will open. The CDP18S652 has one 1 KB RAM and three 8 KB ROM banks. RAM location can be any 1K block. ROM start location can be selected as either 0000 or 8000, i.e. ROM memory runs from 0000-5FFF or 8000-DFFF.
 </p>
 <p>
 Memory inhibit possibilities depend on the start location.
@@ -25,7 +25,7 @@ Memory inhibit possibilities depend on the start location.
 Note that the defined RAM or ROM should not overlap with any other defined RAM or ROM in any of the other cards, if this does happen Emma 02 will give a warning (CARD button will turn red and a message will appear in the setup window). Even if warnings are issued the configuration might run in Emma 02 however the board in the highest CARD will override the memory type of lower boards.
 </p>
 <p>
-A configuration using the CDP18S652 can be loaded (CDP18S693 MCDS or CDP18S694 MCDS), see also <a href="MainConfigurations.htm">Configurations</a>).
+A configuration using the CDP18S652 can be loaded (CDP18S693 MCDS or CDP18S694 MCDS), see also <a href="MainConfigurations.htm">Configurations</a>.
 </p>
 <h3>Real Cassette</h3>
 For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>

@@ -43,7 +43,7 @@ In 1Kx8 mode the ROM location can be selected by using the 'Setup ROM' button. A
 In 2Kx8 mode the ROM location and memory size can be selected by using the 'Setup ROM' button. The XU27 and XU26 chip locations will be in consecutive order with U27 on the lowest address followed by 26, the same is valid for XU25 and XU24. When selecting memory size of 1Kx8 the ROM will be repeated twice in the 2K block.
 </p>
 <p>
-Default configuration of the CDP18S603 is using a 1K RAM socket, from 0-3FF. ROM chips are also defined 0-FFF which means ROM XU25 has to be empty as it overlaps with RAM. In this same configuration the CDP18S640 board includes the ut4.bin ROM at 8000 and an additional 1 K RAM at 8C00.
+Default configuration of the CDP18S603 is using a 1 KB RAM socket, from 0-3FF. ROM chips are also defined 0-FFF which means ROM XU25 has to be empty as it overlaps with RAM. In this same configuration the CDP18S640 board includes the ut4.bin ROM at 8000 and an additional 1 KB RAM at 8C00.
 </p>
 <p>
 Default CDP18S603 ROM/RAM file location is the Microboard directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM XUxx' or 'RAM' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.
@@ -56,7 +56,7 @@ The binary, Intel hex and RCS Elf Emulator hex format are supported.
 The PIO Window can be used to simulate the PIO, i.e. the CDP1851 I/O chip. The window can be activate or deactivated via the 'IO Window' checkbox. 
 </p>
 <p>
-The initial window will show both A and B ports as input but when either port is set to output, bit programmable or bi-directional (via the PIO control register, OUT 2) the window will switch to show input (switched active) or output (leds active) depending on the mode selected. The same is valid for the STB and RDY input switches and output leds which will become active in bit programmable mode.
+The initial window will show both A and B ports as input but when either port is set to output, bit programmable or bi-directional (via the PIO control register, OUT 2) the window will switch to show input (switches active) or output (LEDs active) depending on the mode selected. The same is valid for the STB and RDY input switches and output LEDs which will become active in bit programmable mode.
 </p>
 <p>
 The interrupt buttons INT 'A' and 'B' will become active when the PIO interrupt is enabled and a press on either button will send an interrupt signal to the emulated CPU and also activate EF1 or EF2.

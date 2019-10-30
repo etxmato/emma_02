@@ -7,7 +7,7 @@ The CDP18S602 board includes:
 <UL>
 <LI>CDP1802 CPU with a 0.3072, 0.6144, 1.2288 or 2.4576 MHz crystal clock (default Emma 02 uses 2.4576 MHz)
 <LI>A maximum of 2 KB RAM and 4 KB ROM
-<LI>CDP1854A UART drivern serial I/O with baud rates: 50 to 19200
+<LI>CDP1854A UART driven serial I/O with baud rates: 50 to 19200
 <LI>CDP1852 with 8 inputs and 8 outputs
 </UL>
 </p>
@@ -34,7 +34,7 @@ The CDP18S602 Microboard has a ROM and RAM socket. For details see the CDP18S602
 The RAM and ROM locations can be selected by specifying a 2K or 4K block (2K for RAM and 2 or 4K for ROM depending on chip size).
 </p>
 <p>
-Default configuration of the CDP18S602 is using a 2K RAM socket, from 0-7FF. ROM chips are disabled. In this same configuration the CDP18S640 board includes the ut71.bin ROM at 8000 and an additional 1 K RAM at 8C00.
+Default configuration of the CDP18S602 is using a 2 KB RAM socket, from 0-7FF. ROM chips are disabled. In this same configuration the CDP18S640 board includes the ut71.bin ROM at 8000 and an additional 1 KB RAM at 8C00.
 </p>
 <p>
 Default CDP18S602 ROM/RAM file location is the Microboard directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM XU9', 'ROM XU10' or 'RAM U15-U18' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.

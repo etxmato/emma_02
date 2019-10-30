@@ -16204,8 +16204,8 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>15</rows>
-                                                                    <vgap>1</vgap>
+                                                                    <rows>14</rows>
+                                                                    <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
@@ -16650,47 +16650,6 @@
                                                                                 <border>0</border>
                                                                                 <object class="wxBitmapButton" name="Eject_FDC3Microboard">
                                                                                     <tooltip>Eject Microboard FDC 3 image file</tooltip>
-                                                                                    <bitmap>images/eject.png</bitmap>
-                                                                                </object>
-                                                                            </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxButton" name="KeyFileButtonMicroboard">
-                                                                            <tooltip>Browse for key input file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Key File</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
-                                                                        <border>2</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxBoxSizer">
-                                                                            <orient>wxHORIZONTAL</orient>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-                                                                                <border>1</border>
-                                                                                <option>20</option>
-                                                                                <object class="wxTextCtrl" name="KeyFileMicroboard">
-                                                                                    <size>146,-1</size>
-                                                                                    <tooltip>Specify key input file</tooltip>
-                                                                                    <font>
-                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                        <size>-1</size>
-                                                                                    </font>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxGROW|wxALL</flag>
-                                                                                <border>0</border>
-                                                                                <object class="wxBitmapButton" name="EjectKeyFileMicroboard">
-                                                                                    <tooltip>Eject key input file</tooltip>
                                                                                     <bitmap>images/eject.png</bitmap>
                                                                                 </object>
                                                                             </object>
