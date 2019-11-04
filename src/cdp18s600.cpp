@@ -58,13 +58,7 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     SetIcon(wxICON(app_icon));
 #endif
     
-//    this->SetClientSize(size);
-    
-#if defined (__WXMAC__) || (__linux__)
     cdp18s640FramePointer = new Cdp18s640Frame(title, p_Main->getMainPos(computerType_), wxSize(310, 180));
-#else
-    cdp18s640FramePointer = new Cdp18s640Frame(title, p_Main->getMainPos(computerType_), wxSize(329, 180));
-#endif
     cdp18s640FramePointer->init();
 
     pioMessage_ = "CDP1851 PIO";
@@ -72,7 +66,7 @@ Cdp18s600::Cdp18s600(const wxString& title, const wxPoint& pos, const wxSize& si
     p_Printer = new Printer();
     p_Printer->init(p_Printer, computerTypeStr_, MS2000PRINTER);
 
-    addressLatchCounter_ = 0;
+    addressLatchCounter_ = 64;
 }
 
 Cdp18s600::~Cdp18s600()
@@ -317,9 +311,6 @@ void Cdp18s600::onRunPButton()
 
 void Cdp18s600::onRun()
 {
-//    if (!singleStateStep_)
-//        resetCpu();
-    
     if (cpuMode_ != RUN)
         resetEffectiveClock();
     
@@ -332,6 +323,8 @@ void Cdp18s600::onRun()
 void Cdp18s600::autoBoot()
 {
     addressLatch_ = p_Main->getBootAddress(computerTypeStr_, computerType_);
+    
+    addressLatchCounter_ = 64;
     setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF, RUN LED ON
 }
 
@@ -1319,9 +1312,6 @@ Byte Cdp18s600::readMem(Word address)
 
 Byte Cdp18s600::readMemDebug(Word address)
 {
-//    if ((address & 0x8000) == 0x8000)
-//        addressLatch_ = 0;
-    
     if (address < 0x8000)
         address = (address | addressLatch_);
     
@@ -1475,11 +1465,10 @@ void Cdp18s600::moveWindows()
         vtPointer->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         pioFramePointer->Move(p_Main->getSecondFramePos(computerType_));
-    if (Cdp18s600Configuration.useCdp18s660)
-    {
-        pioFramePointer->Move(p_Main->getThirdFramePos(computerType_));
-        pioFramePointer->Move(p_Main->getFourthFramePos(computerType_));
-    }
+    if (Cdp18s600Configuration.usePioWindow1Cdp18s660)
+        pioFramePointer1->Move(p_Main->getThirdFramePos(computerType_));
+    if (Cdp18s600Configuration.usePioWindow2Cdp18s660)
+        pioFramePointer2->Move(p_Main->getFourthFramePos(computerType_));
     if (Cdp18s600Configuration.useElfControlWindows)
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));
 }
@@ -2270,6 +2259,10 @@ void Cdp18s602::moveWindows()
         vtPointer->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         cdp1852FramePointer->Move(p_Main->getSecondFramePos(computerType_));
+    if (Cdp18s600Configuration.usePioWindow1Cdp18s660)
+        pioFramePointer1->Move(p_Main->getThirdFramePos(computerType_));
+    if (Cdp18s600Configuration.usePioWindow2Cdp18s660)
+        pioFramePointer2->Move(p_Main->getFourthFramePos(computerType_));
     if (Cdp18s600Configuration.useElfControlWindows)
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));
 }
@@ -2746,9 +2739,6 @@ Byte Cdp18s604b::readMemDataType(Word address)
 
 Byte Cdp18s604b::readMemDebug(Word address)
 {
-    if ((address & 0x8000) == 0x8000)
-        addressLatch_ = 0;
-    
     if (address < 0x8000)
         address = (address | addressLatch_);
     
@@ -2821,6 +2811,10 @@ void Cdp18s604b::moveWindows()
         vtPointer->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         cdp1852FramePointer->Move(p_Main->getSecondFramePos(computerType_));
+    if (Cdp18s600Configuration.usePioWindow1Cdp18s660)
+        pioFramePointer1->Move(p_Main->getThirdFramePos(computerType_));
+    if (Cdp18s600Configuration.usePioWindow2Cdp18s660)
+        pioFramePointer2->Move(p_Main->getFourthFramePos(computerType_));
     if (Cdp18s600Configuration.useElfControlWindows)
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));
 }

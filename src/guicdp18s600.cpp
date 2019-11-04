@@ -540,11 +540,11 @@ void GuiCdp18s600::writeCdp18s600DirConfig()
     for (int card=0; card<conf[MICROBOARD].microboardMaxCards_; card++)
     {
         cardNumberStr.Printf("%d",card);
-        configPointer->Write("/Dir/Microboard/Card" + cardNumberStr+"RamFile0", microMemConf[card].ramDir_);
-        configPointer->Write("/Dir/Microboard/Card" + cardNumberStr+"RomFile0", microMemConf[card].romDir_[MEM_SECTION0]);
-        configPointer->Write("/Dir/Microboard/Card" + cardNumberStr+"RomFile1", microMemConf[card].romDir_[MEM_SECTION1]);
-        configPointer->Write("/Dir/Microboard/Card" + cardNumberStr+"RomFile2", microMemConf[card].romDir_[MEM_SECTION2]);
-        configPointer->Write("/Dir/Microboard/Card" + cardNumberStr+"RomFile3", microMemConf[card].romDir_[MEM_SECTION3]);
+        writeConfigDir("/Dir/Microboard/Card" + cardNumberStr+"RamFile0", microMemConf[card].ramDir_);
+        writeConfigDir("/Dir/Microboard/Card" + cardNumberStr+"RomFile0", microMemConf[card].romDir_[MEM_SECTION0]);
+        writeConfigDir("/Dir/Microboard/Card" + cardNumberStr+"RomFile1", microMemConf[card].romDir_[MEM_SECTION1]);
+        writeConfigDir("/Dir/Microboard/Card" + cardNumberStr+"RomFile2", microMemConf[card].romDir_[MEM_SECTION2]);
+        writeConfigDir("/Dir/Microboard/Card" + cardNumberStr+"RomFile3", microMemConf[card].romDir_[MEM_SECTION3]);
     }
 }
 
@@ -620,11 +620,15 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/MicroChipMemoryU17", conf[MICROBOARD].microChipMemory_[U17ROM]);
     configPointer->Write("/Microboard/MicroChiDisableU17", conf[MICROBOARD].microChipDisable_[U17ROM]);
 
-
-    for (int card=0; card<conf[MICROBOARD].microboardMaxCards_; card++)
+    for (int card=0; card<24; card++)
     {
         cardNumberStr.Printf("%d",card);
         configPointer->Write("/Microboard/MicroboardType"+cardNumberStr, cardBoardNumber[conf[MICROBOARD].microboardType_[card]]);
+    }
+    
+    for (int card=0; card<conf[MICROBOARD].microboardMaxCards_; card++)
+    {
+        cardNumberStr.Printf("%d",card);
         configPointer->Write("/Microboard/Card" + cardNumberStr+"MemType0", microMemConf[card].memType[MEM_SECTION0]);
         configPointer->Write("/Microboard/Card" + cardNumberStr+"MemType1", microMemConf[card].memType[MEM_SECTION1]);
         configPointer->Write("/Microboard/Card" + cardNumberStr+"MemType2", microMemConf[card].memType[MEM_SECTION2]);
@@ -691,15 +695,21 @@ void GuiCdp18s600::writeCdp18s600Config()
 
 void GuiCdp18s600::readCdp18s600WindowConfig()
 {
-    conf[MICROBOARD].vtX_ = (int)configPointer->Read("/Microboard/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX);
+    conf[MICROBOARD].vtX_ = (int)configPointer->Read("/Microboard/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[MICROBOARD].vtY_ = (int)configPointer->Read("/Microboard/Window_Position_Vt_Y", mainWindowY_);
     conf[MICROBOARD].mainX_ = (int)configPointer->Read("/Microboard/Window_Position_X", mainWindowX_);
-    conf[MICROBOARD].mainY_ = (int)configPointer->Read("/Microboard/Window_Position_Y", mainWindowY_+windowInfo.mainwY);
-    conf[MICROBOARD].secondFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_SecondFrame_X", mainWindowX_ + 310);
+    conf[MICROBOARD].mainY_ = (int)configPointer->Read("/Microboard/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
+    conf[MICROBOARD].secondFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_SecondFrame_X", mainWindowX_ + 310 + windowInfo.xBorder2);
     conf[MICROBOARD].secondFrameY_ = (int)configPointer->Read("/Microboard/Window_Position_SecondFrame_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
-    conf[MICROBOARD].thirdFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_ThirdFrame_X", mainWindowX_ + 610);
     conf[MICROBOARD].thirdFrameY_ = (int)configPointer->Read("/Microboard/Window_Position_ThirdFrame_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
-    conf[MICROBOARD].fourthFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_FourthFrame_X", mainWindowX_ + 910);
+#if defined (__WXMAC__) || (__linux__)
+    conf[MICROBOARD].thirdFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_ThirdFrame_X", mainWindowX_ + 620 + windowInfo.xBorder2);
+    conf[MICROBOARD].fourthFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_FourthFrame_X", mainWindowX_ + 930 + windowInfo.xBorder2);
+#else
+    conf[MICROBOARD].thirdFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_ThirdFrame_X", mainWindowX_ + 639 + windowInfo.xBorder2);
+    conf[MICROBOARD].fourthFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_FourthFrame_X", mainWindowX_ + 968 + windowInfo.xBorder2);
+#endif
+
     conf[MICROBOARD].fourthFrameY_ = (int)configPointer->Read("/Microboard/Window_Position_FourthFrame_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
     conf[MICROBOARD].v1870X_ = (int)configPointer->Read("/Microboard/Window_Position_v1870_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[MICROBOARD].v1870Y_ = (int)configPointer->Read("/Microboard/Window_Position_v1870_Y", mainWindowY_);

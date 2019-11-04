@@ -311,7 +311,7 @@ wxString GuiMain::readConfigDir(const wxString& key, const wxString& defVal)
     
     if (returnDir == "")
         returnDir = dataDir_ + returnDir;
-
+    
     wxDir directory;
     if (!directory.Open(returnDir))
         returnDir = dataDir_ + returnDir;
@@ -1975,6 +1975,8 @@ void GuiMain::onVtSetup(wxCommandEvent&WXUNUSED(event))
 {
 	VtSetupDialog VtSetupDialog(this);
  	VtSetupDialog.ShowModal();
+    
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, true);
 }
 
 void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))

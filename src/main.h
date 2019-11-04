@@ -417,7 +417,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.32
+#define EMMA_VERSION 1.33
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -970,6 +970,8 @@ public:
     void onDataDir(wxCommandEvent& event);
     void onReInstallConfig(wxCommandEvent& event);
     void onReInstallData(wxCommandEvent& event);
+    void removeRedundantFiles();
+    void deleteDir(wxString directory);
     void reInstall(wxString source, wxString destination, wxString pathSep);
     void reInstallOnNotFound(int computerType, wxString fileTypeString);
     void checkAndReInstallMainRom(int computerType);

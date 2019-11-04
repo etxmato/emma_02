@@ -1859,7 +1859,14 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
             }
         }
     }
- 
+    bool redundantFilesRemoveCheck;
+    configPointer->Read("/Main/RedundantFilesRemoveCheck", &redundantFilesRemoveCheck, false);
+    if (!redundantFilesRemoveCheck)
+    {
+        removeRedundantFiles();
+        configPointer->Write("/Main/RedundantFilesRemoveCheck", true);
+    }
+    
     readConfig();
     
     oldGauge_ = 1;
@@ -1976,12 +1983,14 @@ wxSize Main::getDefaultGuiSize()
     
 #if defined (__WXMAC__)
 	size.x += 40;
-#else
-	size.x += 50;
+    size.y += 114;
 #endif
 #if defined (__linux__)
+    size.x += 30;
     size.y += 140;
-#else
+#endif
+#if defined (__WXMSW__)
+    size.x += 20;
     size.y += 114;
 #endif
 
@@ -2282,7 +2291,7 @@ void Main::initConfig()
     colour[66] = "#00ff00";    // highlight vt
 
     setScreenInfo(MICROBOARD, 0, 67, colour, 2, borderX, borderY);
-    setComputerInfo(MICROBOARD, "Microboard", "RCA Microboard System", "rca");
+    setComputerInfo(MICROBOARD, "Microboard", "Microboard System", "rca");
 
 	borderX[VIDEOVT] = 0;
 	borderY[VIDEOVT] = 0;  //Video Terminal
@@ -2529,54 +2538,54 @@ void Main::initConfig()
     int startCorrectionY = 124;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 255+62; 
+	int clockTextCorrectionComxX = 327; 
 	int clockTextCorrectionComxY = 107;
-	int clockFloatCorrectionComxX = 217+62; 
+	int clockFloatCorrectionComxX = 289; 
 	int clockFloatCorrectionComxY = 110;
-	int mhzTextCorrectionComxX = 170+60; 
+	int mhzTextCorrectionComxX = 240; 
 	int mhzTextCorrectionComxY = 107;
-    int stopCorrectionComxX = 142+60;
+    int stopCorrectionComxX = 212;
     int stopCorrectionComxY = 111;
-    int startCorrectionComxX = 142-22;
+    int startCorrectionComxX = 130;
     int startCorrectionComxY = 111;
 	int floatHeight = 21;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 255+62; 
+	int clockTextCorrectionX = 327; 
 	int clockTextCorrectionY = 136;
-	int clockFloatCorrectionX = 217+62; 
+	int clockFloatCorrectionX = 289; 
 	int clockFloatCorrectionY = 139;
-	int mhzTextCorrectionX = 170+60; 
+	int mhzTextCorrectionX = 240; 
     int mhzTextCorrectionY = 136;
-    int stopCorrectionX = 142+60;
+    int stopCorrectionX = 212;
     int stopCorrectionY = 140;
-    int startCorrectionX = 142-22;
+    int startCorrectionX = 130;
     int startCorrectionY = 140;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxX = 260+60;
-    int clockTextCorrectionComxY = 136;
-    int clockFloatCorrectionComxX = 217+60;
-    int clockFloatCorrectionComxY = 141;
-    int mhzTextCorrectionComxX = 170+60;
-    int mhzTextCorrectionComxY = 136;
-    int stopCorrectionComxX = 138+60;
-    int stopCorrectionComxY = 142;
-    int startCorrectionComxX = 138-23;
-    int startCorrectionComxY = 142;
+    int clockTextCorrectionComxX = 320;
+    int clockTextCorrectionComxY = 90;
+    int clockFloatCorrectionComxX = 277;
+    int clockFloatCorrectionComxY = 95;
+    int mhzTextCorrectionComxX = 230;
+    int mhzTextCorrectionComxY = 90;
+    int stopCorrectionComxX = 198;
+    int stopCorrectionComxY = 96;
+    int startCorrectionComxX = 116;
+    int startCorrectionComxY = 96;
     int floatHeight = -1;
     int startHeight = -1;
     
-    int clockTextCorrectionX = 260+60;
-    int clockTextCorrectionY = 172;
-    int clockFloatCorrectionX = 217+60;
-    int clockFloatCorrectionY = 177;
-    int mhzTextCorrectionX = 170+60;
-    int mhzTextCorrectionY = 172;
-    int stopCorrectionX = 138+60;
-    int stopCorrectionY = 178;
-    int startCorrectionX = 138-23;
-    int startCorrectionY = 178;
+    int clockTextCorrectionX = 320;
+    int clockTextCorrectionY = 126;
+    int clockFloatCorrectionX = 277;
+    int clockFloatCorrectionY = 131;
+    int mhzTextCorrectionX = 230;
+    int mhzTextCorrectionY = 126;
+    int stopCorrectionX = 198;
+    int stopCorrectionY = 132;
+    int startCorrectionX = 116;
+    int startCorrectionY = 132;
 #endif
   
 	if (mode_.gui)
@@ -3780,6 +3789,71 @@ void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
         reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
         completedSplashScreen_ = new CompletedSplashScreen(this);
     }
+}
+
+void Main::removeRedundantFiles()
+{
+    bool cpd18s600 = wxDir::Exists(dataDir_ + "CDP18S600");
+    bool cpd18s601 = wxDir::Exists(dataDir_ + "CDP18S601");
+    bool cpd18s603 = wxDir::Exists(dataDir_ + "CDP18S603A");
+    bool cpd18s600conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600");
+    bool cpd18s601conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601");
+    bool cpd18s603conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A");
+
+    if (cpd18s600 || cpd18s601 || cpd18s603 || cpd18s600conf || cpd18s601conf || cpd18s603conf)
+    {
+        wxString message = "Redundant files and directories found:\n";
+        if (cpd18s600)
+            message = message + dataDir_ + "CDP18S600\n";
+        if (cpd18s601)
+            message = message + dataDir_ + "CDP18S601\n";
+        if (cpd18s603)
+            message = message + dataDir_ + "CDP18S603A\n";
+        if (cpd18s600conf)
+            message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600\n";
+        if (cpd18s601conf)
+            message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601\n";
+        if (cpd18s603conf)
+            message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A\n";
+
+        int answer = wxMessageBox(message+"\nDelete files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+        
+        if (answer == wxYES)
+        {
+            if (cpd18s600)
+                deleteDir (dataDir_ + "CDP18S600");
+            if (cpd18s601)
+                deleteDir (dataDir_ + "CDP18S601");
+            if (cpd18s603)
+                deleteDir (dataDir_ + "CDP18S603A");
+            if (cpd18s600conf)
+                deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600");
+            if (cpd18s601conf)
+                deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601");
+            if (cpd18s603conf)
+                deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A");
+        }
+    }
+}
+
+void Main::deleteDir(wxString directory)
+{
+    wxString fileName;
+    bool fileFound;
+    
+    wxDir *dir;
+    
+    dir = new wxDir (directory);
+    fileFound = dir->GetFirst(&fileName);
+    
+    while (fileFound)
+    {
+        wxRemoveFile(directory+pathSeparator_+fileName);
+        fileFound = dir->GetNext(&fileName);
+    }
+    
+    wxRmdir (directory);
+    delete dir;
 }
 
 void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep)
@@ -4994,9 +5068,14 @@ void Main::fixedWindowPosition()
     conf[MICROBOARD].vtY_ = mainWindowY_;
     conf[MICROBOARD].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
     conf[MICROBOARD].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[MICROBOARD].thirdFrameX_ = mainWindowX_ + 610 + windowInfo.xBorder2;
+#if defined (__WXMAC__) || (__linux__)
+    conf[MICROBOARD].thirdFrameX_ = mainWindowX_ + 620 + windowInfo.xBorder2;
+    conf[MICROBOARD].fourthFrameX_ = mainWindowX_ + 930 + windowInfo.xBorder2;
+#else
+    conf[MICROBOARD].thirdFrameX_ = mainWindowX_ + 639 + windowInfo.xBorder2;
+    conf[MICROBOARD].fourthFrameX_ = mainWindowX_ + 968 + windowInfo.xBorder2;
+#endif
     conf[MICROBOARD].thirdFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[MICROBOARD].fourthFrameX_ = mainWindowX_ + 910 + windowInfo.xBorder2;
     conf[MICROBOARD].fourthFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[MICROBOARD].v1870X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[MICROBOARD].v1870Y_ = mainWindowY_;
@@ -7230,11 +7309,8 @@ void Main::showTime()
 
 void Main::vuSet(wxString item, int gaugeValue)
 {
-#if defined(__linux__)
-    exit;
-#endif
-    
-	if (gaugeValue == oldGauge_)
+#ifndef __linux__
+    if (gaugeValue == oldGauge_)
 		return;
 
 	oldGauge_ = gaugeValue;
@@ -7273,6 +7349,7 @@ void Main::vuSet(wxString item, int gaugeValue)
 	}
 	dcVu.SelectObject(wxNullBitmap);
 	XRCCTRL(*this, item, wxStaticBitmap)->SetBitmap(vu);
+#endif
 }
 
 void Main::errorMessageEvent(wxErrorMsgEvent&event)

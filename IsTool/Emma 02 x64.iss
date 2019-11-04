@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.32
-AppVersion=1.32
+AppVerName=Emma 02 - V1.33
+AppVersion=1.33
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.32
+OutputBaseFilename=Emma_02_x64_setup_v1.33
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -79,9 +79,6 @@ Source: ..\COPYING - curl; DestDir: {app}; Components: MAIN
 Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\data\data dir for portable mode.txt; DestDir: {app}\data; Components: MAIN
 Source: ..\Configurations Windows\CDP18S020\*.*; DestDir: {app}\Configurations\CDP18S020; Components: MAIN
-Source: ..\Configurations Windows\CDP18S600\*.*; DestDir: {app}\Configurations\CDP18S600; Components: MAIN
-Source: ..\Configurations Windows\CDP18S601\*.*; DestDir: {app}\Configurations\CDP18S601; Components: MAIN
-Source: ..\Configurations Windows\CDP18S603A\*.*; DestDir: {app}\Configurations\CDP18S603A; Components: MAIN
 Source: ..\Configurations Windows\Cidelsa\*.*; DestDir: {app}\Configurations\Cidelsa; Components: MAIN
 Source: ..\Configurations Windows\Comx\*.*; DestDir: {app}\Configurations\Comx; Components: MAIN
 Source: ..\Configurations Windows\Cosmicos\*.*; DestDir: {app}\Configurations\Cosmicos; Components: MAIN
@@ -93,6 +90,7 @@ Source: ..\Configurations Windows\FRED1\*.*; DestDir: {app}\Configurations\FRED1
 Source: ..\Configurations Windows\FRED1_5\*.*; DestDir: {app}\Configurations\FRED1_5; Components: MAIN
 Source: ..\Configurations Windows\MCDS\*.*; DestDir: {app}\Configurations\MCDS; Components: MAIN
 Source: ..\Configurations Windows\Membership\*.*; DestDir: {app}\Configurations\Membership; Components: MAIN
+Source: ..\Configurations Windows\Microboard\*.*; DestDir: {app}\Configurations\Microboard; Components: MAIN
 Source: ..\Configurations Windows\Microtutor\*.*; DestDir: {app}\Configurations\Microtutor; Components: MAIN
 Source: ..\Configurations Windows\Microtutor2\*.*; DestDir: {app}\Configurations\Microtutor2; Components: MAIN
 Source: ..\Configurations Windows\MS2000\*.*; DestDir: {app}\Configurations\MS2000; Components: MAIN
@@ -118,9 +116,6 @@ Source: ..\data\german.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\dutch.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\french.ini; DestDir: {app}\data; Components: MAIN
 Source: ..\data\CDP18S020\*.*; DestDir: {app}\data\CDP18S020; Components: MAIN
-Source: ..\data\CDP18S600\*.*; DestDir: {app}\data\CDP18S600; Components: MAIN
-Source: ..\data\CDP18S601\*.*; DestDir: {app}\data\CDP18S601; Components: MAIN
-Source: ..\data\CDP18S603A\*.*; DestDir: {app}\data\CDP18S603A; Components: MAIN
 Source: ..\data\Comx\comx35.bin; DestDir: {app}\data\Comx; Components: MAIN
 Source: ..\data\Comx\comx35.1.1.bin; DestDir: {app}\data\Comx; Components: MAIN
 Source: ..\data\Comx\f&m.expansion.3.1.bin; DestDir: {app}\data\Comx; Components: MAIN
@@ -211,6 +206,12 @@ Source: ..\data\VipII\vip.32.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\fpb.rom; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\VipII\*.ram; DestDir: {app}\data\VipII; Components: MAIN
 Source: ..\data\MCDS\*.bin; DestDir: {app}\data\MCDS; Components: MAIN
+Source: ..\data\Microboard\*.*; DestDir: {app}\data\Microboard; Components: MAIN
+Source: ..\data\Microboard\MICRODOS\*.*; DestDir: {app}\data\Microboard\MICRODOS; Components: MAIN
+Source: ..\data\Microboard\BASIC\*.*; DestDir: {app}\data\Microboard\BASIC; Components: MAIN
+Source: ..\data\Microboard\Software\*.*; DestDir: {app}\data\Microboard\Software; Components: MAIN
+Source: ..\data\Microboard\PLM\*.*; DestDir: {app}\data\Microboard\PLM; Components: MAIN
+Source: ..\data\Microboard\RP\*.*; DestDir: {app}\data\Microboard\RP; Components: MAIN
 Source: ..\data\MS2000\*.bin; DestDir: {app}\data\MS2000; Components: MAIN
 Source: ..\data\MS2000\MICRODOS\*.*; DestDir: {app}\data\MS2000\MICRODOS; Components: MAIN
 Source: ..\data\MS2000\microdos.img; DestDir: {app}\data\MS2000\; Components: MAIN
@@ -380,6 +381,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
   OldUserDir: String;
   fredDirOld: String;
   fredDirNew: String;
+  cdpDir: String;
   MajorVersion: Cardinal;
   MinorVersion: Cardinal;
 
@@ -398,6 +400,42 @@ procedure CurStepChanged(CurStep: TSetupStep);
       if DirExists(fredDirOld) then
       begin
         RenameFile(fredDirOld, fredDirNew);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\CDP18S600';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\Configurations\CDP18S600';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\CDP18S601';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\Configurations\CDP18S601';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\data\CDP18S603A';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
+      end;
+
+      cdpDir := ExpandConstant('{app}') + '\Configurations\CDP18S603A';
+      if DirExists(cdpDir) then
+      begin
+        DelTree(cdpDir, True, True, True);
       end;
 
       if RegQueryStringValue(HKLM32, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\1802 Emulator_is1', 'UninstallString', Uninstall) then

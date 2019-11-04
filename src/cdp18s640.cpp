@@ -26,6 +26,10 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
+#if defined(__linux__)
+#include "app_icon.xpm"
+#endif
+
 #include "main.h"
 #include "cdp18s640.h"
 

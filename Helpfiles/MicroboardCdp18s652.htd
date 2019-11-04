@@ -25,7 +25,7 @@ Memory inhibit possibilities depend on the start location.
 Note that the defined RAM or ROM should not overlap with any other defined RAM or ROM in any of the other cards, if this does happen Emma 02 will give a warning (CARD button will turn red and a message will appear in the setup window). Even if warnings are issued the configuration might run in Emma 02 however the board in the highest CARD will override the memory type of lower boards.
 </p>
 <p>
-A configuration using the CDP18S652 can be loaded (CDP18S693 MCDS or CDP18S694 MCDS), see also <a href="MainConfigurations.htm">Configurations</a>.
+Multiple configurations using the CDP18S652 can be loaded (CDP18S693 MCDS, CDP18S694 MCDS, MS2000 - FDC or MS2000- HD), see also <a href="MainConfigurations.htm">Configurations</a>.
 </p>
 <h3>Real Cassette</h3>
 For details on how to use a real cassette player connected to a PC and Emma 02 please see the chapter: <a href="MainRealCassette.htm">Real Cassette Support</a>
@@ -34,7 +34,7 @@ For details on how to use a real cassette player connected to a PC and Emma 02 p
 The easiest and fastest way use .wav file in the Microboard System emulator is by making sure both options 'Turbo LOAD/SAVE' and 'Auto LOAD/SAVE' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.
 </p>
 <p>
-Support for two cassettes is available for use in the Tape Editor and Assembler.  
+Support for two cassettes is available for use in the Tape Editor and Assembler which are available in the CDP18694 MCDS configuraton.  
 </p>
 <p>
 Note that we have not tried to use any of the saved wav files on a real Microboard System. If you have/need that option, please let me know and we can do some trouble shooting on this. Changing the wave file settings might impact the usability of the wav files on a real Microboard System, see also below.
@@ -44,23 +44,47 @@ Note that we have not tried to use any of the saved wav files on a real Microboa
 Default settings, to use this make sure 'Auto LOAD/SAVE' is checked.
 </p>
 <p>
+<U>When using one of the MCDS configurations:</U>
+</p>
+<p>
 To load a .wav file into the Microboard System, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Depending on what type of loading is needed, either use PLOAD or DLOAD (and return) from within BASIC3 or R or C from within the UT62. Both command need to be given in the Microboard System emulator window after which the cassette PLAY button should go green.
 </p>
 <p>
 To save a .wav file from the Microboard System, Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Depending on what type of loading is needed, either use PSAVE or DSAVE (and return) from within BASIC3 or W from within the UT62. Both command need to be given in the Microboard System emulator window and the cassette REC button should go red. 
 </p>
 <p>
-For both save and load make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the Microboard System emulator will hang on the PLOAD, C or R (until you manually start a .wav file) or with a PSAVE or W the wav sound will not be written to any file.
+<U>When using one of the MS2000 configurations:</U>
+</p>
+<p>
+To convert a .wav file to MicroDos, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED #TR filename). MicroDos will ask for the tape number. To start the actual conversion press return twice and the cassette PLAY button should go green.
+</p>
+<p>
+To convert from MicroDos to a .wav file, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED filename #TW). MicroDos will ask for the tape number. To start the actual conversion press return twice and the cassette REC button should go red. 
+</p>
+<p>
+For save, load and conversions make sure a .wav file is selected in the Emma 02 window before using the save and load instructions otherwise the Microboard System emulator will hang on the conversions, PLOAD, C or R (until you manually start a .wav file) or with a conversion to cassettem PSAVE or W the wav sound will not be written to any file.
 </p>
 <h4>Manual LOAD/SAVE</h4>
 <p>
 To use this make sure 'Auto LOAD/SAVE' is NOT checked. 
 </p>
 <p>
+<U>When using one of the MCDS configurations:</U>
+</p>
+<p>
 To load a .wav file into the Microboard System, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' button. Press play and after that as soon as possible give a load command on the Microboard System.
 </p>
 <p>
 To save a .wav file from the Microboard System, Select a .wav file in the Emma 02 window by selecting the 'Cassette' button after that Press the dark red recording button and give a save command in the Microboard System.
+</p>
+<p>
+<U>When using one of the MS2000 configurations:</U>
+</p>
+<p>
+To convert a .wav file to MicroDos, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED #TR filename). MicroDos will ask for the tape number. To start the actual conversion press return then press the play and again return. 
+</p>
+<p>
+To convert from MicroDos to a .wav file, start the Emma 02 emulator and then the Microboard System emulator (start button on Microboard System tab). Select a .wav file in the Emma 02 window by selecting the 'Cassette' push button. Start MicroDos (L or B0) and give a TAPED command (TAPED filename #TW). MicroDos will ask for the tape number. To start the actual conversion press return then press the dark red recording button and again return. 
 </p>
 <h4>Turbo LOAD/SAVE</h4>
 <p>
@@ -95,7 +119,5 @@ Default this is set to 'Amplitude' which works for all my wav files. Depending o
 <p>
 Switch converted signal polarity (1->0 and 0->1) as described for conversion types above.
 </p>
-</BODY>
-</HTML>
 </BODY>
 </HTML>
