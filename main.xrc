@@ -3480,7 +3480,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>9</rows>
+                                                                    <rows>8</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -3864,8 +3864,107 @@
                                                                             </object>
                                                                         </object>
                                                                     </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxCheckBox" name="AutoCasLoadElf">
+                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxCheckBox" name="TurboElf">
+                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Turbo:</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxTextCtrl" name="TurboClockElf" subclass="IntEdit">
+                                                                            <size>35,-1</size>
+                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticText" name="TurboMhzTextElf">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>MHz</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSaveElf">
+                                                                            <tooltip>Start recording to cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/rec_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoadElf">
+                                                                            <tooltip>Play cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/play_black.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStopElf">
+                                                                            <tooltip>Stop cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/stop.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxGROW</flag>
+                                                                        <border>0</border>
+                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadElf">
+                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                            <style>wxBU_AUTODRAW</style>
+                                                                            <bitmap>images/real_cas_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                <border>0</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>4</border>
                                                                         <object class="wxButton" name="DP_ButtonElf">
                                                                             <tooltip>Open device ports definition window</tooltip>
@@ -3877,7 +3976,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_TOP</flag>
                                                                         <border>3</border>
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxHORIZONTAL</orient>
@@ -4713,98 +4812,6 @@
                                                             </object>
                                                             <object class="sizeritem">
                                                                 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxCheckBox" name="AutoCasLoadElf">
-                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Auto</label>
-                                                                            <checked>1</checked>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxCheckBox" name="TurboElf">
-                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Turbo:</label>
-                                                                            <checked>1</checked>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-                                                                        <border>1</border>
-                                                                        <object class="wxTextCtrl" name="TurboClockElf" subclass="IntEdit">
-                                                                            <size>35,-1</size>
-                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxStaticText" name="TurboMhzTextElf">
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>MHz</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasSaveElf">
-                                                                            <tooltip>Start recording to cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/rec_off.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasLoadElf">
-                                                                            <tooltip>Play cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/play_black.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasStopElf">
-                                                                            <tooltip>Stop cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/stop.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxGROW</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadElf">
-                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
-                                                                            <style>wxBU_AUTODRAW</style>
-                                                                            <bitmap>images/real_cas_off.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
                                                                 <border>3</border>
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
@@ -4974,7 +4981,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>9</rows>
+                                                                    <rows>8</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -5358,8 +5365,107 @@
                                                                             </object>
                                                                         </object>
                                                                     </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxCheckBox" name="AutoCasLoadElfII">
+                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxCheckBox" name="TurboElfII">
+                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Turbo:</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxTextCtrl" name="TurboClockElfII" subclass="IntEdit">
+                                                                            <size>35,-1</size>
+                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticText" name="TurboMhzTextElfII">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>MHz</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSaveElfII">
+                                                                            <tooltip>Start recording to cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/rec_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoadElfII">
+                                                                            <tooltip>Play cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/play_black.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStopElfII">
+                                                                            <tooltip>Stop cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/stop.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxGROW</flag>
+                                                                        <border>0</border>
+                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadElfII">
+                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                            <style>wxBU_AUTODRAW</style>
+                                                                            <bitmap>images/real_cas_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                <border>0</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>4</border>
                                                                         <object class="wxButton" name="DP_ButtonElfII">
                                                                             <tooltip>Open device ports definition window</tooltip>
@@ -5371,7 +5477,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_TOP</flag>
                                                                         <border>3</border>
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxHORIZONTAL</orient>
@@ -6200,98 +6306,6 @@
                                                             </object>
                                                             <object class="sizeritem">
                                                                 <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxCheckBox" name="AutoCasLoadElfII">
-                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Auto</label>
-                                                                            <checked>1</checked>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxCheckBox" name="TurboElfII">
-                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Turbo:</label>
-                                                                            <checked>1</checked>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-                                                                        <border>1</border>
-                                                                        <object class="wxTextCtrl" name="TurboClockElfII" subclass="IntEdit">
-                                                                            <size>35,-1</size>
-                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxStaticText" name="TurboMhzTextElfII">
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>MHz</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasSaveElfII">
-                                                                            <tooltip>Start recording to cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/rec_off.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasLoadElfII">
-                                                                            <tooltip>Play cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/play_black.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasStopElfII">
-                                                                            <tooltip>Stop cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/stop.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxGROW</flag>
-                                                                        <border>0</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadElfII">
-                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
-                                                                            <style>wxBU_AUTODRAW</style>
-                                                                            <bitmap>images/real_cas_off.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
                                                                 <border>3</border>
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
@@ -6467,7 +6481,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>9</rows>
+                                                                    <rows>8</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -6851,8 +6865,107 @@
                                                                             </object>
                                                                         </object>
                                                                     </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxCheckBox" name="AutoCasLoadSuperElf">
+                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxCheckBox" name="TurboSuperElf">
+                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Turbo:</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxTextCtrl" name="TurboClockSuperElf" subclass="IntEdit">
+                                                                            <size>35,-1</size>
+                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticText" name="TurboMhzTextSuperElf">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>MHz</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSaveSuperElf">
+                                                                            <tooltip>Start recording to cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/rec_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoadSuperElf">
+                                                                            <tooltip>Play cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/play_black.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStopSuperElf">
+                                                                            <tooltip>Stop cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/stop.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxGROW</flag>
+                                                                        <border>2</border>
+                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadSuperElf">
+                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                            <style>wxBU_AUTODRAW</style>
+                                                                            <bitmap>images/real_cas_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                <border>0</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>4</border>
                                                                         <object class="wxButton" name="DP_ButtonSuperElf">
                                                                             <tooltip>Open device ports definition window</tooltip>
@@ -6864,7 +6977,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP</flag>
+                                                                        <flag>wxALIGN_TOP</flag>
                                                                         <border>3</border>
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxHORIZONTAL</orient>
@@ -7687,98 +7800,6 @@
                                                                                     </object>
                                                                                 </object>
                                                                             </object>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxBoxSizer">
-                                                                    <orient>wxHORIZONTAL</orient>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxCheckBox" name="AutoCasLoadSuperElf">
-                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Auto</label>
-                                                                            <checked>1</checked>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxCheckBox" name="TurboSuperElf">
-                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>Turbo:</label>
-                                                                            <checked>1</checked>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-                                                                        <border>1</border>
-                                                                        <object class="wxTextCtrl" name="TurboClockSuperElf" subclass="IntEdit">
-                                                                            <size>35,-1</size>
-                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxStaticText" name="TurboMhzTextSuperElf">
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <label>MHz</label>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasSaveSuperElf">
-                                                                            <tooltip>Start recording to cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/rec_off.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasLoadSuperElf">
-                                                                            <tooltip>Play cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/play_black.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBitmapButton" name="CasStopSuperElf">
-                                                                            <tooltip>Stop cassette file</tooltip>
-                                                                            <enabled>0</enabled>
-                                                                            <bitmap>images/stop.png</bitmap>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object platform="win" class="sizeritem">
-                                                                        <flag>wxGROW</flag>
-                                                                        <border>2</border>
-                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadSuperElf">
-                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
-                                                                            <style>wxBU_AUTODRAW</style>
-                                                                            <bitmap>images/real_cas_off.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                 </object>

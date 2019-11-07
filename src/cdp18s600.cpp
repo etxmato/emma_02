@@ -1465,9 +1465,9 @@ void Cdp18s600::moveWindows()
         vtPointer->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         pioFramePointer->Move(p_Main->getSecondFramePos(computerType_));
-    if (Cdp18s600Configuration.usePioWindow1Cdp18s660)
+    if (Cdp18s600Configuration.usePioWindow1Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
         pioFramePointer1->Move(p_Main->getThirdFramePos(computerType_));
-    if (Cdp18s600Configuration.usePioWindow2Cdp18s660)
+    if (Cdp18s600Configuration.usePioWindow2Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
         pioFramePointer2->Move(p_Main->getFourthFramePos(computerType_));
     if (Cdp18s600Configuration.useElfControlWindows)
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));
@@ -2259,9 +2259,9 @@ void Cdp18s602::moveWindows()
         vtPointer->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         cdp1852FramePointer->Move(p_Main->getSecondFramePos(computerType_));
-    if (Cdp18s600Configuration.usePioWindow1Cdp18s660)
+    if (Cdp18s600Configuration.usePioWindow1Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
         pioFramePointer1->Move(p_Main->getThirdFramePos(computerType_));
-    if (Cdp18s600Configuration.usePioWindow2Cdp18s660)
+    if (Cdp18s600Configuration.usePioWindow2Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
         pioFramePointer2->Move(p_Main->getFourthFramePos(computerType_));
     if (Cdp18s600Configuration.useElfControlWindows)
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));
@@ -2811,9 +2811,9 @@ void Cdp18s604b::moveWindows()
         vtPointer->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         cdp1852FramePointer->Move(p_Main->getSecondFramePos(computerType_));
-    if (Cdp18s600Configuration.usePioWindow1Cdp18s660)
+    if (Cdp18s600Configuration.usePioWindow1Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
         pioFramePointer1->Move(p_Main->getThirdFramePos(computerType_));
-    if (Cdp18s600Configuration.usePioWindow2Cdp18s660)
+    if (Cdp18s600Configuration.usePioWindow2Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
         pioFramePointer2->Move(p_Main->getFourthFramePos(computerType_));
     if (Cdp18s600Configuration.useElfControlWindows)
         cdp18s640FramePointer->Move(p_Main->getMainPos(computerType_));

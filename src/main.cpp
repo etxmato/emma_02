@@ -1740,8 +1740,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         
         defaultGuiSize_ = getDefaultGuiSize();
         
-        windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X", defaultGuiSize_.x);
-        windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y", defaultGuiSize_.y);
+        windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X_133", defaultGuiSize_.x);
+        windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y_133", defaultGuiSize_.y);
 
         this->SetSize(wxSize(windowInfo.mainwX, windowInfo.mainwY));
     }
@@ -1990,7 +1990,7 @@ wxSize Main::getDefaultGuiSize()
     size.y += 140;
 #endif
 #if defined (__WXMSW__)
-    size.x += 20;
+    size.x += 28;
     size.y += 114;
 #endif
 
@@ -2021,8 +2021,8 @@ void Main::writeConfig()
 //#if defined (__linux__)
 //    windowInfo.mainwY -= 28;
 //#endif
-    configPointer->Write("/Main/Window_Size_X", windowInfo.mainwX);
-    configPointer->Write("/Main/Window_Size_Y", windowInfo.mainwY);
+    configPointer->Write("/Main/Window_Size_X_133", windowInfo.mainwX);
+    configPointer->Write("/Main/Window_Size_Y_133", windowInfo.mainwY);
     
 	if (mode_.gui)
 	{
@@ -2512,80 +2512,132 @@ void Main::initConfig()
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
 
+    int clockSize = 47;
 #if defined(__WXMAC__)
-    int clockTextCorrectionComxX = 256+60;
-    int clockTextCorrectionComxY = 96;
-    int clockFloatCorrectionComxX = 220+60;
-    int clockFloatCorrectionComxY = 99;
-    int mhzTextCorrectionComxX = 171+60;
-    int mhzTextCorrectionComxY = 96;
-    int stopCorrectionComxX = 143+60;
+    int clockTextCorrectionComxX = 316;
+    int clockTextCorrectionComxY = 97;
+    int clockFloatCorrectionComxX = 280;
+    int clockFloatCorrectionComxY = 100;
+    int mhzTextCorrectionComxX = 231;
+    int mhzTextCorrectionComxY = 97;
+    int stopCorrectionComxX = 203;
     int stopCorrectionComxY = 100;
-    int startCorrectionComxX = 143-23;
+    int startCorrectionComxX = 120;
     int startCorrectionComxY = 100;
-    int floatHeight = -1;
+    int floatHeight = 21;
     int startHeight = -1;
 
-    int clockTextCorrectionX = 255+60;
-    int clockTextCorrectionY = 120;
-    int clockFloatCorrectionX = 219+60;
-    int clockFloatCorrectionY = 123;
-    int mhzTextCorrectionX = 170+60;
-    int mhzTextCorrectionY = 120;
-    int stopCorrectionX = 142+60;
+    int clockTextCorrectionX = 315;
+    int clockTextCorrectionY = 121;
+    int clockFloatCorrectionX = 279;
+    int clockFloatCorrectionY = 124;
+    int mhzTextCorrectionX = 230;
+    int mhzTextCorrectionY = 121;
+    int stopCorrectionX = 202;
     int stopCorrectionY = 124;
-    int startCorrectionX = 142-23;
+    int startCorrectionX = 119;
     int startCorrectionY = 124;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 327; 
+	int clockTextCorrectionComxX = 317; 
 	int clockTextCorrectionComxY = 107;
-	int clockFloatCorrectionComxX = 289; 
+	int clockFloatCorrectionComxX = 279; 
 	int clockFloatCorrectionComxY = 110;
-	int mhzTextCorrectionComxX = 240; 
+	int mhzTextCorrectionComxX = 230; 
 	int mhzTextCorrectionComxY = 107;
-    int stopCorrectionComxX = 212;
+    int stopCorrectionComxX = 202;
     int stopCorrectionComxY = 111;
-    int startCorrectionComxX = 130;
+    int startCorrectionComxX = 120;
     int startCorrectionComxY = 111;
-	int floatHeight = 21;
+	int floatHeight = 23;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 327; 
-	int clockTextCorrectionY = 136;
-	int clockFloatCorrectionX = 289; 
-	int clockFloatCorrectionY = 139;
-	int mhzTextCorrectionX = 240; 
-    int mhzTextCorrectionY = 136;
-    int stopCorrectionX = 212;
-    int stopCorrectionY = 140;
-    int startCorrectionX = 130;
-    int startCorrectionY = 140;
+	int clockTextCorrectionX = 317; 
+	int clockTextCorrectionY = 135;
+	int clockFloatCorrectionX = 279; 
+	int clockFloatCorrectionY = 138;
+	int mhzTextCorrectionX = 230; 
+    int mhzTextCorrectionY = 135;
+    int stopCorrectionX = 202;
+    int stopCorrectionY = 139;
+    int startCorrectionX = 120;
+    int startCorrectionY = 139;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxX = 320;
-    int clockTextCorrectionComxY = 90;
-    int clockFloatCorrectionComxX = 277;
-    int clockFloatCorrectionComxY = 95;
-    int mhzTextCorrectionComxX = 230;
-    int mhzTextCorrectionComxY = 90;
-    int stopCorrectionComxX = 198;
-    int stopCorrectionComxY = 96;
-    int startCorrectionComxX = 116;
-    int startCorrectionComxY = 96;
+    int clockTextCorrectionComxY;
+    int clockFloatCorrectionComxY;
+    int mhzTextCorrectionComxY;
+    int stopCorrectionComxY;
+    int startCorrectionComxY;
+    int clockTextCorrectionY;
+    int clockFloatCorrectionY;
+    int mhzTextCorrectionY;
+    int stopCorrectionY;
+    int startCorrectionY;
+    
+    int clockTextCorrectionComxX;
+    int clockFloatCorrectionComxX;
+    int mhzTextCorrectionComxX;
+    int stopCorrectionComxX;
+    int startCorrectionComxX;
+    int clockTextCorrectionX;
+    int clockFloatCorrectionX;
+    int mhzTextCorrectionX;
+    int stopCorrectionX;
+    int startCorrectionX;
+    if (windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_10)
+	{
+		clockTextCorrectionComxY = 90;
+		clockFloatCorrectionComxY = 95;
+		mhzTextCorrectionComxY = 90;
+		stopCorrectionComxY = 96;
+		startCorrectionComxY = 96;
+		clockTextCorrectionY = 126;
+		clockFloatCorrectionY = 131;
+		mhzTextCorrectionY = 126;
+		stopCorrectionY = 132;
+		startCorrectionY = 132;
+        clockSize = 59;
+
+        clockTextCorrectionComxX = 320;
+        clockFloatCorrectionComxX = 279;
+        mhzTextCorrectionComxX = 220;
+        stopCorrectionComxX = 188;
+        startCorrectionComxX = 106;
+        clockTextCorrectionX = 320;
+        clockFloatCorrectionX = 279;
+        mhzTextCorrectionX = 220;
+        stopCorrectionX = 188;
+        startCorrectionX = 106;
+}
+	else
+	{
+		clockTextCorrectionComxY = 127;
+		clockFloatCorrectionComxY = 135;
+		mhzTextCorrectionComxY = 127;
+		stopCorrectionComxY = 136;
+		startCorrectionComxY = 136;
+		clockTextCorrectionY = 168;
+		clockFloatCorrectionY = 176;
+		mhzTextCorrectionY = 168;
+		stopCorrectionY = 177;
+		startCorrectionY = 177;
+        clockSize = 59;
+
+        clockTextCorrectionComxX = 320;
+        clockFloatCorrectionComxX = 279;
+        mhzTextCorrectionComxX = 220;
+        stopCorrectionComxX = 188;
+        startCorrectionComxX = 106;
+        clockTextCorrectionX = 320;
+        clockFloatCorrectionX = 279;
+        mhzTextCorrectionX = 220;
+        stopCorrectionX = 188;
+        startCorrectionX = 106;
+    }
+
     int floatHeight = -1;
     int startHeight = -1;
-    
-    int clockTextCorrectionX = 320;
-    int clockTextCorrectionY = 126;
-    int clockFloatCorrectionX = 277;
-    int clockFloatCorrectionY = 131;
-    int mhzTextCorrectionX = 230;
-    int mhzTextCorrectionY = 126;
-    int stopCorrectionX = 198;
-    int stopCorrectionY = 132;
-    int startCorrectionX = 116;
-    int startCorrectionY = 132;
 #endif
   
 	if (mode_.gui)
@@ -2599,7 +2651,7 @@ void Main::initConfig()
                 case CIDELSA:
                 case ETI:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionComxX, defaultGuiSize_.y - clockTextCorrectionComxY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(47, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(clockSize, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionComxX, defaultGuiSize_.y - mhzTextCorrectionComxY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionComxX, defaultGuiSize_.y - stopCorrectionComxY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionComxX, defaultGuiSize_.y - startCorrectionComxY), wxSize(80, startHeight));
@@ -2607,7 +2659,7 @@ void Main::initConfig()
                     
                 default:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionX, defaultGuiSize_.y - clockTextCorrectionY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(47, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(clockSize, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionX, defaultGuiSize_.y - mhzTextCorrectionY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionX, defaultGuiSize_.y - stopCorrectionY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionX, defaultGuiSize_.y - startCorrectionY), wxSize(80, startHeight));

@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
-            timestampString = "594597293.205026"
+            timestampString = "594675318.988333"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2523"
@@ -58,7 +58,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
-            timestampString = "594597293.20539"
+            timestampString = "594675318.988884"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "311"
@@ -90,12 +90,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "594597293.205641"
+            timestampString = "594770300.03281"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3851"
-            endingLineNumber = "3851"
-            landmarkName = "Main::deleteDir(wxString directory)"
+            startingLineNumber = "3887"
+            endingLineNumber = "3887"
+            landmarkName = "Main::removeRedundantFiles()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -106,12 +106,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "594597293.2057"
+            timestampString = "594770300.033141"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3803"
-            endingLineNumber = "3803"
-            landmarkName = "Main::removeRedundantFiles()"
+            startingLineNumber = "3839"
+            endingLineNumber = "3839"
+            landmarkName = "Main::onReInstallData(wxCommandEvent&amp;WXUNUSED(event))"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

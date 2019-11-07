@@ -10,6 +10,7 @@ CPP_SRCS += \
 ../src/base.cpp \
 ../src/breakpoints.cpp \
 ../src/cdp1802.cpp \
+../src/cdp1852.cpp \
 ../src/cdp18s020.cpp \
 ../src/cdp18s600.cpp \
 ../src/cdp18s640.cpp \
@@ -144,6 +145,7 @@ OBJS += \
 ./src/base.o \
 ./src/breakpoints.o \
 ./src/cdp1802.o \
+./src/cdp1852.o \
 ./src/cdp18s020.o \
 ./src/cdp18s600.o \
 ./src/cdp18s640.o \
@@ -270,6 +272,7 @@ CPP_DEPS += \
 ./src/base.d \
 ./src/breakpoints.d \
 ./src/cdp1802.d \
+./src/cdp1852.d \
 ./src/cdp18s020.d \
 ./src/cdp18s600.d \
 ./src/cdp18s640.d \
