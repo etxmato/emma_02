@@ -215,15 +215,16 @@ BEGIN_EVENT_TABLE(HexButton2, wxEvtHandler )
     EVT_TIMER(wxID_ANY, HexButton2::OnTimer)
 END_EVENT_TABLE()
 
-HexButton2::HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
+HexButton2::HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber)
 : HexButton(dc, type, x, y, label)
 {
+    pioNumber_ = pioNumber;
 }
 
 void HexButton2::OnTimer(wxTimerEvent& WXUNUSED(event))
 {
     state_ = BUTTON_UP;
-    p_Computer->releaseButtonOnScreen2(this, buttonType_);
+    p_Computer->releaseButtonOnScreen2(this, buttonType_, pioNumber_);
 }
 
 SwitchButton::SwitchButton(wxDC& dc, int type, wxColour bkgrClr, bool state, wxCoord x, wxCoord y, wxString label)
@@ -1506,6 +1507,10 @@ void Computer::setElf2KDivider(Byte WXUNUSED(value))
 	p_Main->message("Illegal call to set Elf 2000 divider value");
 }
 
+void Computer::removePio(int WXUNUSED(pioNumber))
+{
+}
+
 void Computer::removeElf2KSwitch()
 {
 	p_Main->message("Illegal call to stop Elf 2000 swicth panel");
@@ -1874,6 +1879,10 @@ void Computer::setEfState(int WXUNUSED(number), Byte WXUNUSED(value))
 {
 }
 
+void Computer::setEfState(int WXUNUSED(pioNmber), int WXUNUSED(number), Byte WXUNUSED(value))
+{
+}
+
 Byte Computer::getData()
 {
 	return 0;
@@ -2100,7 +2109,7 @@ void Computer::releaseButtonOnScreen(HexButton* WXUNUSED(buttonPointer), int WXU
 {
 }
 
-void Computer::releaseButtonOnScreen2(HexButton* WXUNUSED(buttonPointer), int WXUNUSED(buttonType))
+void Computer::releaseButtonOnScreen2(HexButton* WXUNUSED(buttonPointer), int WXUNUSED(buttonType), int WXUNUSED(pioNumber))
 {
 }
 
@@ -2162,4 +2171,22 @@ void Computer::setForceUpperCase(bool WXUNUSED(status))
     
 }
 
+void Computer::showPio(bool WXUNUSED(state))
+{
+}
 
+void Computer::showCdp18s660Pio1(bool WXUNUSED(state))
+{
+}
+
+void Computer::showCdp18s660Pio2(bool WXUNUSED(state))
+{
+}
+
+void Computer::showControlWindow(bool WXUNUSED(state))
+{
+}
+
+void Computer::setAddressLatch(Word WXUNUSED(bootAddress))
+{
+}

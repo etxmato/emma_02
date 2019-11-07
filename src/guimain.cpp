@@ -311,7 +311,7 @@ wxString GuiMain::readConfigDir(const wxString& key, const wxString& defVal)
     
     if (returnDir == "")
         returnDir = dataDir_ + returnDir;
-
+    
     wxDir directory;
     if (!directory.Open(returnDir))
         returnDir = dataDir_ + returnDir;
@@ -715,37 +715,6 @@ void GuiMain::onCharRomText(wxCommandEvent& WXUNUSED(event))
 	conf[selectedComputer_].charRom_ = XRCCTRL(*this, "CharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
 }
 
-void GuiMain::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
-{
-	wxString fileName;
-
-	fileName = wxFileSelector( "Select the VT Character Font file to load",
-                               conf[selectedComputer_].vtCharRomDir_, XRCCTRL(*this, "VtCharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue(),
-                               "bin",
-                               wxString::Format
-                              (
-                                    "Binary Font File|*.bin;*.rom|All files (%s)|%s",
-                                    wxFileSelectorDefaultWildcardStr,
-                                    wxFileSelectorDefaultWildcardStr
-                               ),
-                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                               this
-                              );
-	if (!fileName)
-		return;
-
-	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-	conf[selectedComputer_].vtCharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-	conf[selectedComputer_].vtCharRom_ = FullPath.GetFullName();
-
-	XRCCTRL(*this, "VtCharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->SetValue(conf[selectedComputer_].vtCharRom_);
-}
-
-void GuiMain::onVtCharRomText(wxCommandEvent& WXUNUSED(event))
-{
-	conf[selectedComputer_].vtCharRom_ = XRCCTRL(*this, "VtCharRom"+computerInfo[selectedComputer_].gui, wxComboBox)->GetValue();
-}
-
 void GuiMain::onKeyFile(wxCommandEvent& WXUNUSED(event) )
 {
 	wxString fileName;
@@ -854,8 +823,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 }
 
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(false);
-				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(false);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(false);
 				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(false);
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(false);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(false);
@@ -864,14 +831,14 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT52:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == CDP18S600 || elfType == CDP18S601 || elfType == CDP18S603A)
-				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
+				elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
                 else
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
-			conf[elfType].vtCharRom_ = "vt52.a.bin";
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
+			elfConfiguration[elfType].vtCharRom_ = "vt52.a.bin";
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
@@ -880,9 +847,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].vtCharRom_);
 				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
@@ -904,14 +868,14 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
 
 		case VT100:
-			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == CDP18S600 || elfType == CDP18S601 || elfType == CDP18S603A)
-				conf[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
+			if (elfType == COSMICOS || elfType == ELF2K || elfType == MS2000 || elfType == MEMBER || elfType == VIP || elfType == VIP2K || elfType == VELF || elfType == CDP18S020 || elfType == MICROBOARD)
+				elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + elfTypeStr + pathSeparator_;
 			else
                 if (elfType == MCDS)
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "MCDS" + pathSeparator_;
                 else
-                    conf[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
-			conf[elfType].vtCharRom_ = "vt100.bin";
+                    elfConfiguration[elfType].vtCharRomDir_ = dataDir_ + "Elf" + pathSeparator_;
+			elfConfiguration[elfType].vtCharRom_ = "vt100.bin";
 			if (mode_.gui)
 			{
 				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
@@ -920,9 +884,6 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRomButton"+elfTypeStr, wxButton)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->Enable(true);
-				XRCCTRL(*this, "VtCharRom"+elfTypeStr, wxComboBox)->SetValue(conf[elfType].vtCharRom_);
 				XRCCTRL(*this, "ZoomSpinVt"+elfTypeStr, wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "StretchDot"+elfTypeStr, wxCheckBox)->Enable(true);
@@ -1598,7 +1559,9 @@ void GuiMain::onDataSaveButton(wxCommandEvent& WXUNUSED(event) )
 			address = arrayStart;
 			start = 7;
 			dataLength += start;
-
+            dataLength &= 0xffff;
+            address &= 0xffff;
+            
 			for (size_t i=start; i<(dataLength); i++)
 			{
 				buffer[i] = p_Computer->getRam(address);
@@ -1677,7 +1640,8 @@ void GuiMain::runSoftware(bool load)
 	{
 		case COMX:
 		case PECOM:
-		case TMC600:
+        case TMC600:
+        case MICROBOARD:
             p_Computer->startComputerRun(load);
 		break;
 
@@ -1750,9 +1714,7 @@ void GuiMain::onLoad(bool load)
 		case TMC600:
         case VIPII:
         case MCDS:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
+        case MICROBOARD:
             extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
@@ -1805,9 +1767,7 @@ void GuiMain::onLoad(bool load)
 		break;
 
 		case MCDS:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
+        case MICROBOARD:
 			if (swFullPath.GetExt() == computerInfo[selectedComputer_].ploadExtension)
 				p_Computer->startComputerRun(load);
             else
@@ -1868,9 +1828,7 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case TMC600:
 		case VIPII:
         case MCDS:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
+        case MICROBOARD:
             extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
@@ -2017,6 +1975,8 @@ void GuiMain::onVtSetup(wxCommandEvent&WXUNUSED(event))
 {
 	VtSetupDialog VtSetupDialog(this);
  	VtSetupDialog.ShowModal();
+    
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, true);
 }
 
 void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))
@@ -2576,6 +2536,69 @@ void GuiMain::setSecondFramePos(int computerType, wxPoint position)
             conf[computerType].secondFrameX_ = position.x;
         if (position.x > 0)
             conf[computerType].secondFrameY_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getThirdFramePos(int computerType)
+{
+    return wxPoint(conf[computerType].thirdFrameX_, conf[computerType].thirdFrameY_);
+}
+
+void GuiMain::setThirdFramePos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].thirdFrameX_ = -1;
+        conf[computerType].thirdFrameY_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].thirdFrameX_ = position.x;
+        if (position.x > 0)
+            conf[computerType].thirdFrameY_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getFourthFramePos(int computerType)
+{
+    return wxPoint(conf[computerType].fourthFrameX_, conf[computerType].fourthFrameY_);
+}
+
+void GuiMain::setFourthFramePos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].fourthFrameX_ = -1;
+        conf[computerType].fourthFrameY_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].fourthFrameX_ = position.x;
+        if (position.x > 0)
+            conf[computerType].fourthFrameY_ = position.y;
+    }
+}
+
+wxPoint GuiMain::getV1870Pos(int computerType)
+{
+    return wxPoint(conf[computerType].v1870X_, conf[computerType].v1870Y_);
+}
+
+void GuiMain::setV1870Pos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].v1870X_ = -1;
+        conf[computerType].v1870Y_ = -1;
+    }
+    else
+    {
+        if (position.y > 0)
+            conf[computerType].v1870X_ = position.x;
+        if (position.x > 0)
+            conf[computerType].v1870Y_ = position.y;
     }
 }
 
@@ -3415,7 +3438,7 @@ void GuiMain::enableMemAccessGui(bool status)
 	}
 	if (!mode_.gui)
 		return;
-	if ((runningComputer_ == CDP18S600) || (runningComputer_ == CDP18S601)  || (runningComputer_ == CDP18S603A) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
+	if ((runningComputer_ == MICROBOARD) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
 	{
 		XRCCTRL(*this, "RunButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "UseLocation"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(status);
@@ -3668,6 +3691,29 @@ int GuiMain::getCpuType()
     	cpuType_ = SYSTEM00;
 	if (runningComputer_ == MICROTUTOR || runningComputer_ == COINARCADE || runningComputer_ == FRED1_5)
         cpuType_ = CPU1801;
+    if (runningComputer_ == MICROBOARD)
+    {
+        switch (p_Main->getMicroboardType(MICROBOARD))
+        {
+            case MICROBOARD_CDP18S601:
+            case MICROBOARD_CDP18S602:
+            case MICROBOARD_CDP18S603:
+            case MICROBOARD_CDP18S603A:
+            case MICROBOARD_CDP18S604B:
+            case MICROBOARD_CDP18S605:
+                cpuType_ = CPU1802;
+            break;
+                
+            case MICROBOARD_CDP18S600:
+            case MICROBOARD_CDP18S606:
+            case MICROBOARD_CDP18S607:
+            case MICROBOARD_CDP18S608:
+            case MICROBOARD_CDP18S609:
+            case MICROBOARD_CDP18S610:
+                cpuType_ = CPU1805;
+            break;
+        }
+    }
     
     return cpuType_;
 };
@@ -3910,4 +3956,376 @@ bool GuiMain::repairIde()
         return false;
 }
 
+void GuiMain::onUpdDisk0(wxCommandEvent& WXUNUSED(event) )
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0])
+    {
+        wxString dirName = wxDirSelector( "Select the FDC 0 Directory", floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][0]);
+        if (!dirName)
+            return;
+        
+        floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][0] = dirName + pathSeparator_;
+        
+        if (mode_.gui)
+        {
+            wxFileName setectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][0]);
+            wxArrayString dirArray = setectedDirFile.GetDirs();
+            dirName = dirArray.Last();
+            XRCCTRL(*this, "FDC0_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(dirName);
+        }
+    }
+    else
+    {
+        wxString fileName;
+        
+        fileName = wxFileSelector( "Select the FDC 0 file to load",
+                                  floppyDir_[elfConfiguration[selectedComputer_].fdcType_][0], floppy_[elfConfiguration[selectedComputer_].fdcType_][0],
+                                  "img",
+                                  wxString::Format
+                                  (
+                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                                   ),
+                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                                  this
+                                  );
+        if (!fileName)
+            return;
+        
+        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+        floppyDir_[elfConfiguration[selectedComputer_].fdcType_][0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        floppy_[elfConfiguration[selectedComputer_].fdcType_][0] = FullPath.GetFullName();
+        
+        if (mode_.gui)
+            XRCCTRL(*this, "FDC0_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][0]);
+    }
+}
+
+void GuiMain::onUpdDiskText0(wxCommandEvent&event)
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0])
+    {
+        if (runningComputer_ == MS2000)
+            p_Ms2000->setDiskName(1, floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][0], "");
+        return;
+    }
+    
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][0] = event.GetString();
+    if (runningComputer_ == MS2000)
+    {
+        if (floppy_[elfConfiguration[selectedComputer_].fdcType_][0].Len() == 0)
+            p_Ms2000->setDiskName(1, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][0], "");
+        else
+            p_Ms2000->setDiskName(1, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][0], floppy_[elfConfiguration[selectedComputer_].fdcType_][0]);
+    }
+}
+
+void GuiMain::onUpdDiskEject0(wxCommandEvent& WXUNUSED(event) )
+{
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][0] = "";
+    if (mode_.gui)
+        XRCCTRL(*this, "FDC0_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][0]);
+}
+
+void GuiMain::onUpdDiskDirSwitch0(wxCommandEvent&WXUNUSED(event))
+{
+    directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0];
+    setUpdFloppyGui(0);
+}
+
+void GuiMain::onUpdDisk1(wxCommandEvent& WXUNUSED(event) )
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1])
+    {
+        wxString dirName = wxDirSelector( "Select the FDC 1 Directory", floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][1]);
+        if (!dirName)
+            return;
+        
+        floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][1] = dirName + pathSeparator_;
+        
+        if (mode_.gui)
+        {
+            wxFileName setectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][1]);
+            wxArrayString dirArray = setectedDirFile.GetDirs();
+            dirName = dirArray.Last();
+            XRCCTRL(*this, "FDC1_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(dirName);
+        }
+    }
+    else
+    {
+        wxString fileName;
+        
+        fileName = wxFileSelector( "Select the FDC 1 file to load",
+                                  floppyDir_[elfConfiguration[selectedComputer_].fdcType_][1], floppy_[elfConfiguration[selectedComputer_].fdcType_][1],
+                                  "img",
+                                  wxString::Format
+                                  (
+                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                                   ),
+                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                                  this
+                                  );
+        if (!fileName)
+            return;
+        
+        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+        floppyDir_[elfConfiguration[selectedComputer_].fdcType_][1] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        floppy_[elfConfiguration[selectedComputer_].fdcType_][1] = FullPath.GetFullName();
+        
+        if (mode_.gui)
+            XRCCTRL(*this, "FDC1_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][1]);
+    }
+}
+
+void GuiMain::onUpdDiskText1(wxCommandEvent&event)
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1])
+    {
+        if (runningComputer_ == MS2000)
+            p_Ms2000->setDiskName(2, floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][1], "");
+        return;
+    }
+    
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][1] = event.GetString();
+    if (runningComputer_ == MS2000)
+    {
+        if (floppy_[elfConfiguration[selectedComputer_].fdcType_][1].Len() == 0)
+            p_Ms2000->setDiskName(2, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][1], "");
+        else
+            p_Ms2000->setDiskName(2, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][1], floppy_[elfConfiguration[selectedComputer_].fdcType_][1]);
+    }
+}
+
+void GuiMain::onUpdDiskEject1(wxCommandEvent& WXUNUSED(event) )
+{
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][1] = "";
+    if (mode_.gui)
+        XRCCTRL(*this, "FDC1_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][1]);
+}
+
+void GuiMain::onUpdDiskDirSwitch1(wxCommandEvent&WXUNUSED(event))
+{
+    directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1];
+    setUpdFloppyGui(1);
+}
+
+void GuiMain::onUpdDisk2(wxCommandEvent& WXUNUSED(event) )
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2])
+    {
+        wxString dirName = wxDirSelector( "Select the FDC 2 Directory", floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][2]);
+        if (!dirName)
+            return;
+        
+        floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][2] = dirName + pathSeparator_;
+        
+        if (mode_.gui)
+        {
+            wxFileName setectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][2]);
+            wxArrayString dirArray = setectedDirFile.GetDirs();
+            dirName = dirArray.Last();
+            XRCCTRL(*this, "FDC2_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(dirName);
+        }
+    }
+    else
+    {
+        wxString fileName;
+        
+        fileName = wxFileSelector( "Select the FDC 2 file to load",
+                                  floppyDir_[elfConfiguration[selectedComputer_].fdcType_][2], floppy_[elfConfiguration[selectedComputer_].fdcType_][2],
+                                  "img",
+                                  wxString::Format
+                                  (
+                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                                   ),
+                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                                  this
+                                  );
+        if (!fileName)
+            return;
+        
+        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+        floppyDir_[elfConfiguration[selectedComputer_].fdcType_][2] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        floppy_[elfConfiguration[selectedComputer_].fdcType_][2] = FullPath.GetFullName();
+        
+        if (mode_.gui)
+            XRCCTRL(*this, "FDC2_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][2]);
+    }
+}
+
+void GuiMain::onUpdDiskText2(wxCommandEvent&event)
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2])
+    {
+        if (runningComputer_ == MS2000)
+            p_Ms2000->setDiskName(3, floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][2], "");
+        return;
+    }
+    
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][2] = event.GetString();
+    if (runningComputer_ == MS2000)
+    {
+        if (floppy_[elfConfiguration[selectedComputer_].fdcType_][2].Len() == 0)
+            p_Ms2000->setDiskName(3, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][2], "");
+        else
+            p_Ms2000->setDiskName(3, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][2], floppy_[elfConfiguration[selectedComputer_].fdcType_][2]);
+    }
+}
+
+void GuiMain::onUpdDiskEject2(wxCommandEvent& WXUNUSED(event) )
+{
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][2] = "";
+    if (mode_.gui)
+        XRCCTRL(*this, "FDC2_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][2]);
+}
+
+void GuiMain::onUpdDiskDirSwitch2(wxCommandEvent&WXUNUSED(event))
+{
+    directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2];
+    setUpdFloppyGui(2);
+}
+
+void GuiMain::onUpdDisk3(wxCommandEvent& WXUNUSED(event) )
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3])
+    {
+        wxString dirName = wxDirSelector( "Select the FDC 3 Directory", floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][3]);
+        if (!dirName)
+            return;
+        
+        floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][3] = dirName + pathSeparator_;
+        
+        if (mode_.gui)
+        {
+            wxFileName setectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][3]);
+            wxArrayString dirArray = setectedDirFile.GetDirs();
+            dirName = dirArray.Last();
+            XRCCTRL(*this, "FDC3_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(dirName);
+        }
+    }
+    else
+    {
+        wxString fileName;
+        
+        fileName = wxFileSelector( "Select the FDC 3 file to load",
+                                  floppyDir_[elfConfiguration[selectedComputer_].fdcType_][3], floppy_[elfConfiguration[selectedComputer_].fdcType_][3],
+                                  "img",
+                                  wxString::Format
+                                  (
+                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
+                                   wxFileSelectorDefaultWildcardStr,
+                                   wxFileSelectorDefaultWildcardStr
+                                   ),
+                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                                  this
+                                  );
+        if (!fileName)
+            return;
+        
+        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+        floppyDir_[elfConfiguration[selectedComputer_].fdcType_][3] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+        floppy_[elfConfiguration[selectedComputer_].fdcType_][3] = FullPath.GetFullName();
+        
+        if (mode_.gui)
+            XRCCTRL(*this, "FDC3_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][3]);
+    }
+}
+
+void GuiMain::onUpdDiskText3(wxCommandEvent&event)
+{
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3])
+    {
+        if (runningComputer_ == MS2000)
+            p_Ms2000->setDiskName(4, floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][3], "");
+        return;
+    }
+    
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][3] = event.GetString();
+    if (runningComputer_ == MS2000)
+    {
+        if (floppy_[elfConfiguration[selectedComputer_].fdcType_][3].Len() == 0)
+            p_Ms2000->setDiskName(4, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][3], "");
+        else
+            p_Ms2000->setDiskName(4, floppyDir_[elfConfiguration[selectedComputer_].fdcType_][3], floppy_[elfConfiguration[selectedComputer_].fdcType_][3]);
+    }
+}
+
+void GuiMain::onUpdDiskEject3(wxCommandEvent& WXUNUSED(event) )
+{
+    floppy_[elfConfiguration[selectedComputer_].fdcType_][3] = "";
+    if (mode_.gui)
+        XRCCTRL(*this, "FDC3_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][3]);
+}
+
+void GuiMain::onUpdDiskDirSwitch3(wxCommandEvent&WXUNUSED(event))
+{
+    directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3];
+    setUpdFloppyGui(3);
+}
+
+bool GuiMain::getDirectoryMode(int fdcType, int drive)
+{
+    return directoryMode_[fdcType][drive];
+}
+
+void GuiMain::setDirectoryMode(int fdcType, int drive, bool state)
+{
+    directoryMode_[fdcType][drive] = state;
+}
+
+wxString GuiMain::getUpdFloppyDirSwitched(int fdcType, int drive)
+{
+    return floppyDirSwitched_[fdcType][drive];
+}
+
+wxString GuiMain::getUpdFloppyDir(int fdcType, int drive)
+{
+    return floppyDir_[fdcType][drive];
+}
+
+wxString GuiMain::getUpdFloppyFile(int fdcType, int drive)
+{
+    return floppy_[fdcType][drive];
+}
+
+void GuiMain::setUpdFloppyGui(int drive)
+{
+    wxString driveStr;
+    driveStr.Printf("%d", drive);
+    bool deActivateFdc;
+    
+    if (selectedComputer_ == MICROBOARD)
+    {
+        deActivateFdc = !elfConfiguration[selectedComputer_].useUpd765;
+        XRCCTRL(*this, "FDC"+driveStr + "_Button"+ computerInfo[selectedComputer_].gui, wxButton)->Enable(!deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr + "_Switch"+ computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(!deActivateFdc);
+    }
+    else
+        deActivateFdc = false;
+        
+    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][drive])
+    {
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetLabel("HD "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetToolTip("Browse for "+computerInfo[selectedComputer_].gui+" HD Directory "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(false);
+        wxFileName selectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][drive]);
+        wxArrayString dirArray = selectedDirFile.GetDirs();
+        wxString dirName = dirArray.Last();
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(dirName);
+    }
+    else
+    {
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetLabel("FDC "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetToolTip("Browse for "+computerInfo[selectedComputer_].gui+" FDC "+driveStr+" image file");
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true & !deActivateFdc);
+        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(true & !deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][drive]);
+    }
+}
 

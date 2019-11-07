@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.32
+Version: 1.33
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -12,9 +12,8 @@ Description: Emma 02, the RCA 1802 Emulator
  Cosmac Elf, Netronics ELF II, Quest Super Elf,
  Membership Card, VIP2K Membership Card, VELF,
  FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020
- Evaluation Kit, CDP18S600 Microboard, CDP18S601
- Microboard, CDP18S603A Microboard, Cosmac VIP,
- Cosmac VIP II, MCDS, MS2000, RCA Video Coin Arcade,
+ Evaluation Kit, Cosmac VIP, Cosmac VIP II, Microboard
+ System, MCDS, MS2000, RCA Video Coin Arcade,
  RCA Studio II, RCA Studio III, Studio IV, Victory MPT-02,
  Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800,
  Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and
@@ -94,6 +93,37 @@ if test -d /usr/share/emma_02/Configurations/FRED2
 then
   mv /usr/share/emma_02/Configurations/FRED2 /usr/share/emma_02/Configurations/FRED1_5
 fi
+if test -d /usr/share/emma_02/data/CDP18S600
+then
+  rm /usr/share/emma_02/data/CDP18S600/*.*
+  rmdir /usr/share/emma_02/data/CDP18S600
+fi
+if test -d /usr/share/emma_02/data/CDP18S601
+then
+  rm /usr/share/emma_02/data/CDP18S601/*.*
+  rmdir /usr/share/emma_02/data/CDP18S601
+fi
+if test -d /usr/share/emma_02/data/CDP18S603A
+then
+  rm /usr/share/emma_02/data/CDP18S603A/*.*
+  rmdir /usr/share/emma_02/data/CDP18S603A
+fi
+if test -d /usr/share/emma_02/Configurations/CDP18S600
+then
+  rm /usr/share/emma_02/Configurations/CDP18S600/*.*
+  rmdir /usr/share/emma_02/Configurations/CDP18S600
+fi
+if test -d /usr/share/emma_02/Configurations/CDP18S601
+then
+  rm /usr/share/emma_02/Configurations/CDP18S601/*.*
+  rmdir /usr/share/emma_02/Configurations/CDP18S601
+fi
+if test -d /usr/share/emma_02/Configurations/CDP18S603A
+then
+  rm /usr/share/emma_02/Configurations/CDP18S603A/*.*
+  rmdir /usr/share/emma_02/Configurations/CDP18S603A
+fi
+
 <</PREINST>>
 <<POSTINST>>
 0
@@ -107,16 +137,16 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.32) xenial; urgency=medium
+emma-02 (1.33) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Fri, 07 Sep 2019 13:21:45 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Tue, 05 Nov 2019 21:33:13 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
 Emma 02 Emulator 
-Copyright (C) 2007-2018 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
+Copyright (C) 2007-2019 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
 
 ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp and Rc/Basic
 Copyright (C) 2004 by Michael H Riley

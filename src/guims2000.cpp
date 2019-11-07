@@ -40,30 +40,26 @@ BEGIN_EVENT_TABLE(GuiMS2000, GuiMcds)
 	EVT_COMBOBOX(XRCID("MainRomMS2000"), GuiMain::onMainRom1Text)
 	EVT_BUTTON(XRCID("RomButtonMS2000"), GuiMain::onMainRom1)
 
-    EVT_BUTTON(XRCID("FDC0_ButtonMS2000"), GuiMS2000::onMs2000Disk0)
-    EVT_TEXT(XRCID("FDC0_FileMS2000"), GuiMS2000::onMs2000DiskText0)
-    EVT_BUTTON(XRCID("Eject_FDC0MS2000"), GuiMS2000::onMs2000DiskEject0)
-    EVT_BUTTON(XRCID("FDC0_SwitchMS2000"), GuiMS2000::onMS2000DiskDirSwitch0)
-    EVT_BUTTON(XRCID("FDC1_ButtonMS2000"), GuiMS2000::onMs2000Disk1)
-    EVT_TEXT(XRCID("FDC1_FileMS2000"), GuiMS2000::onMs2000DiskText1)
-    EVT_BUTTON(XRCID("Eject_FDC1MS2000"), GuiMS2000::onMs2000DiskEject1)
-    EVT_BUTTON(XRCID("FDC1_SwitchMS2000"), GuiMS2000::onMS2000DiskDirSwitch1)
-    EVT_BUTTON(XRCID("FDC2_ButtonMS2000"), GuiMS2000::onMs2000Disk2)
-    EVT_TEXT(XRCID("FDC2_FileMS2000"), GuiMS2000::onMs2000DiskText2)
-    EVT_BUTTON(XRCID("Eject_FDC2MS2000"), GuiMS2000::onMs2000DiskEject2)
-    EVT_BUTTON(XRCID("FDC2_SwitchMS2000"), GuiMS2000::onMS2000DiskDirSwitch2)
-    EVT_BUTTON(XRCID("FDC3_ButtonMS2000"), GuiMS2000::onMs2000Disk3)
-    EVT_TEXT(XRCID("FDC3_FileMS2000"), GuiMS2000::onMs2000DiskText3)
-    EVT_BUTTON(XRCID("Eject_FDC3MS2000"), GuiMS2000::onMs2000DiskEject3)
-    EVT_BUTTON(XRCID("FDC3_SwitchMS2000"), GuiMS2000::onMS2000DiskDirSwitch3)
+    EVT_BUTTON(XRCID("FDC0_ButtonMS2000"), GuiMain::onUpdDisk0)
+    EVT_TEXT(XRCID("FDC0_FileMS2000"), GuiMain::onUpdDiskText0)
+    EVT_BUTTON(XRCID("Eject_FDC0MS2000"), GuiMain::onUpdDiskEject0)
+    EVT_BUTTON(XRCID("FDC0_SwitchMS2000"), GuiMain::onUpdDiskDirSwitch0)
+    EVT_BUTTON(XRCID("FDC1_ButtonMS2000"), GuiMain::onUpdDisk1)
+    EVT_TEXT(XRCID("FDC1_FileMS2000"), GuiMain::onUpdDiskText1)
+    EVT_BUTTON(XRCID("Eject_FDC1MS2000"), GuiMain::onUpdDiskEject1)
+    EVT_BUTTON(XRCID("FDC1_SwitchMS2000"), GuiMain::onUpdDiskDirSwitch1)
+    EVT_BUTTON(XRCID("FDC2_ButtonMS2000"), GuiMain::onUpdDisk2)
+    EVT_TEXT(XRCID("FDC2_FileMS2000"), GuiMain::onUpdDiskText2)
+    EVT_BUTTON(XRCID("Eject_FDC2MS2000"), GuiMain::onUpdDiskEject2)
+    EVT_BUTTON(XRCID("FDC2_SwitchMS2000"), GuiMain::onUpdDiskDirSwitch2)
+    EVT_BUTTON(XRCID("FDC3_ButtonMS2000"), GuiMain::onUpdDisk3)
+    EVT_TEXT(XRCID("FDC3_FileMS2000"), GuiMain::onUpdDiskText3)
+    EVT_BUTTON(XRCID("Eject_FDC3MS2000"), GuiMain::onUpdDiskEject3)
+    EVT_BUTTON(XRCID("FDC3_SwitchMS2000"), GuiMain::onUpdDiskDirSwitch3)
 
     EVT_BUTTON(XRCID("CasButtonMS2000"), GuiMain::onCassette)
     EVT_BUTTON(XRCID("EjectCasMS2000"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileMS2000"), GuiMain::onCassetteText)
-
-    EVT_TEXT(XRCID("VtCharRomMS2000"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomMS2000"), GuiMain::onVtCharRomText)
-	EVT_BUTTON(XRCID("VtCharRomButtonMS2000"), GuiMain::onVtCharRom)
 
 	EVT_TEXT(XRCID("KeyFileMS2000"), GuiMain::onKeyFileText)
 	EVT_BUTTON(XRCID("KeyFileButtonMS2000"), GuiMain::onKeyFile)
@@ -126,30 +122,31 @@ GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& si
 void GuiMS2000::readMS2000Config()
 {
 	selectedComputer_ = MS2000;
-
+    elfConfiguration[MS2000].fdcType_ = FDCTYPE_MS2000;
+    
 	conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
 
     conf[MS2000].mainDir_ = readConfigDir("/Dir/MS2000/Main", dataDir_ + "MS2000" + pathSeparator_);
 	conf[MS2000].romDir_[MAINROM1] = readConfigDir("/Dir/MS2000/Main_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
-	conf[MS2000].vtCharRomDir_ = readConfigDir("/Dir/MS2000/Vt_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
-    floppyDirMs2000_[0] = readConfigDir("/Dir/MS2000/FDC0_File", dataDir_ + "MS2000" + pathSeparator_);
-    floppyDirMs2000_[1] = readConfigDir("/Dir/MS2000/FDC1_File", dataDir_ + "MS2000" + pathSeparator_);
-    floppyDirMs2000_[2] = readConfigDir("/Dir/MS2000/FDC2_File", dataDir_ + "MS2000" + pathSeparator_);
-    floppyDirMs2000_[3] = readConfigDir("/Dir/MS2000/FDC3_File", dataDir_ + "MS2000" + pathSeparator_);
-    floppyDirSwitchedMs2000_[0] = readConfigDir("/Dir/MS2000/FDC0_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "Software" + pathSeparator_);
-    floppyDirSwitchedMs2000_[1] = readConfigDir("/Dir/MS2000/FDC1_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "Software" + pathSeparator_);
-    floppyDirSwitchedMs2000_[2] = readConfigDir("/Dir/MS2000/FDC2_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "PLM" + pathSeparator_);
-    floppyDirSwitchedMs2000_[3] = readConfigDir("/Dir/MS2000/FDC3_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "BASIC" + pathSeparator_);
+	elfConfiguration[MS2000].vtCharRomDir_ = readConfigDir("/Dir/MS2000/Vt_Font_Rom_File", dataDir_ + "MS2000" + pathSeparator_);
+    floppyDir_[elfConfiguration[MS2000].fdcType_][0] = readConfigDir("/Dir/MS2000/FDC0_File", dataDir_ + "MS2000" + pathSeparator_);
+    floppyDir_[elfConfiguration[MS2000].fdcType_][1] = readConfigDir("/Dir/MS2000/FDC1_File", dataDir_ + "MS2000" + pathSeparator_);
+    floppyDir_[elfConfiguration[MS2000].fdcType_][2] = readConfigDir("/Dir/MS2000/FDC2_File", dataDir_ + "MS2000" + pathSeparator_);
+    floppyDir_[elfConfiguration[MS2000].fdcType_][3] = readConfigDir("/Dir/MS2000/FDC3_File", dataDir_ + "MS2000" + pathSeparator_);
+    floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][0] = readConfigDir("/Dir/MS2000/FDC0_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "Software" + pathSeparator_);
+    floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][1] = readConfigDir("/Dir/MS2000/FDC1_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "Software" + pathSeparator_);
+    floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][2] = readConfigDir("/Dir/MS2000/FDC2_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "PLM" + pathSeparator_);
+    floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][3] = readConfigDir("/Dir/MS2000/FDC3_File_Switched", dataDir_ + "MS2000" + pathSeparator_ + "BASIC" + pathSeparator_);
     conf[MS2000].keyFileDir_ = readConfigDir("/Dir/MS2000/Key_File", dataDir_ + "MS2000" + pathSeparator_);
     conf[MS2000].printFileDir_ = readConfigDir("Dir/MS2000/Print_File", dataDir_ + "MS2000" + pathSeparator_);
 	conf[MS2000].screenDumpFileDir_ = readConfigDir("/Dir/MS2000/Video_Dump_File", dataDir_ + "MS2000" + pathSeparator_);
     conf[MS2000].wavFileDir_[0] = readConfigDir("/Dir/MS2000/Wav_File", dataDir_ + "MS2000" + pathSeparator_);
     
 	conf[MS2000].rom_[MAINROM1] = configPointer->Read("/MS2000/Main_Rom_File", "ut71.bin");
-    floppyMs2000_[0] = configPointer->Read("/MS2000/FDC0_File", "microdos.img");
-    floppyMs2000_[1] = configPointer->Read("/MS2000/FDC1_File", "PLM 1800.img");
-    floppyMs2000_[2] = configPointer->Read("/MS2000/FDC2_File", "basic1.img");
-    floppyMs2000_[3] = configPointer->Read("/MS2000/FDC3_File", "");
+    floppy_[elfConfiguration[MS2000].fdcType_][0] = configPointer->Read("/MS2000/FDC0_File", "microdos.img");
+    floppy_[elfConfiguration[MS2000].fdcType_][1] = configPointer->Read("/MS2000/FDC1_File", "PLM 1800.img");
+    floppy_[elfConfiguration[MS2000].fdcType_][2] = configPointer->Read("/MS2000/FDC2_File", "basic1.img");
+    floppy_[elfConfiguration[MS2000].fdcType_][3] = configPointer->Read("/MS2000/FDC3_File", "");
     conf[MS2000].keyFile_ = configPointer->Read("/MS2000/Key_File", "");
     conf[MS2000].printFile_ = configPointer->Read("/MS2000/Print_File", "printerout.txt");
     conf[MS2000].screenDumpFile_ = configPointer->Read("/MS2000/Video_Dump_File", "screendump.png");
@@ -161,7 +158,9 @@ void GuiMS2000::readMS2000Config()
 	configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
     configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
-    elfConfiguration[MS2000].uartGroup = 0;
+    elfConfiguration[MS2000].uartGroup = 1;
+    elfConfiguration[MS2000].elfPortConf.uartOut = 2;
+    elfConfiguration[MS2000].elfPortConf.uartControl = 3;
     elfConfiguration[MS2000].useUart = true;
     elfConfiguration[MS2000].bellFrequency_ = (int)configPointer->Read("/MS2000/Bell_Frequency", 800);
 	elfConfiguration[MS2000].baudR = (int)configPointer->Read("/MS2000/Vt_Baud_Receive", 1l);
@@ -194,97 +193,19 @@ void GuiMS2000::readMS2000Config()
  
 	setVtType("MS2000", MS2000, elfConfiguration[MS2000].vtType, false);
 
-	conf[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
+	elfConfiguration[MS2000].vtCharRom_ = configPointer->Read("/MS2000/Vt_Font_Rom_File", "vt100.bin");
 
-    configPointer->Read("/MS2000/DirectoryMode_0", &directoryMode_[0], false);
-    configPointer->Read("/MS2000/DirectoryMode_1", &directoryMode_[1], false);
-    configPointer->Read("/MS2000/DirectoryMode_2", &directoryMode_[2], false);
-    configPointer->Read("/MS2000/DirectoryMode_3", &directoryMode_[3], false);
+    configPointer->Read("/MS2000/DirectoryMode_0", &directoryMode_[elfConfiguration[MS2000].fdcType_][0], false);
+    configPointer->Read("/MS2000/DirectoryMode_1", &directoryMode_[elfConfiguration[MS2000].fdcType_][1], false);
+    configPointer->Read("/MS2000/DirectoryMode_2", &directoryMode_[elfConfiguration[MS2000].fdcType_][2], false);
+    configPointer->Read("/MS2000/DirectoryMode_3", &directoryMode_[elfConfiguration[MS2000].fdcType_][3], false);
 
     if (mode_.gui)
 	{
-        if (directoryMode_[0])
-        {
-            XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetLabel("HD 0");
-            XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 0");
-            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->Enable(false);
-            XRCCTRL(*this, "Eject_FDC0MS2000", wxBitmapButton)->Enable(false);
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[0]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            wxString dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-        else
-        {
-            XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetLabel("FDC 0");
-            XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 0 image file");
-            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->Enable(true);
-            XRCCTRL(*this, "Eject_FDC0MS2000", wxBitmapButton)->Enable(true);
-            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[0]);
-        }
-        
-        if (directoryMode_[1])
-        {
-            XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetLabel("HD 1");
-            XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 1");
-            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->Enable(false);
-            XRCCTRL(*this, "Eject_FDC1MS2000", wxBitmapButton)->Enable(false);
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[1]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            wxString dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-        else
-        {
-            XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetLabel("FDC 1");
-            XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 1 image file");
-            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->Enable(true);
-            XRCCTRL(*this, "Eject_FDC1MS2000", wxBitmapButton)->Enable(true);
-            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[1]);
-        }
-        
-        if (directoryMode_[2])
-        {
-            XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetLabel("HD 2");
-            XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 2");
-            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->Enable(false);
-            XRCCTRL(*this, "Eject_FDC2MS2000", wxBitmapButton)->Enable(false);
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[2]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            wxString dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-        else
-        {
-            XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetLabel("FDC 2");
-            XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 2 image file");
-            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->Enable(true);
-            XRCCTRL(*this, "Eject_FDC2MS2000", wxBitmapButton)->Enable(true);
-            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[2]);
-        }
-        
-        if (directoryMode_[3])
-        {
-            XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetLabel("HD 3");
-            XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 3");
-            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->Enable(false);
-            XRCCTRL(*this, "Eject_FDC3MS2000", wxBitmapButton)->Enable(false);
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[3]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            wxString dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-        else
-        {
-            XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetLabel("FDC 3");
-            XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 3 image file");
-            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->Enable(true);
-            XRCCTRL(*this, "Eject_FDC3MS2000", wxBitmapButton)->Enable(true);
-            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[3]);
-        }
+        for (int drive=0; drive < 4; drive++)
+            setUpdFloppyGui(drive);
 
         XRCCTRL(*this, "MainRomMS2000", wxComboBox)->SetValue(conf[MS2000].rom_[MAINROM1]);
-		XRCCTRL(*this, "VtCharRomMS2000", wxComboBox)->SetValue(conf[MS2000].vtCharRom_);
         XRCCTRL(*this, "KeyFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].keyFile_);
         XRCCTRL(*this, "PrintFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].printFile_);
         XRCCTRL(*this, "ScreenDumpFileMS2000", wxComboBox)->SetValue(conf[MS2000].screenDumpFile_);
@@ -318,15 +239,15 @@ void GuiMS2000::writeMS2000DirConfig()
 {
     writeConfigDir("/Dir/MS2000/Main", conf[MS2000].mainDir_);
 	writeConfigDir("/Dir/MS2000/Main_Rom_File", conf[MS2000].romDir_[MAINROM1]);
-	writeConfigDir("/Dir/MS2000/Vt_Font_Rom_File", conf[MS2000].vtCharRomDir_);
-    writeConfigDir("/Dir/MS2000/FDC0_File", floppyDirMs2000_[0]);
-    writeConfigDir("/Dir/MS2000/FDC1_File", floppyDirMs2000_[1]);
-    writeConfigDir("/Dir/MS2000/FDC2_File", floppyDirMs2000_[2]);
-    writeConfigDir("/Dir/MS2000/FDC3_File", floppyDirMs2000_[3]);
-    writeConfigDir("/Dir/MS2000/FDC0_File_Switched", floppyDirSwitchedMs2000_[0]);
-    writeConfigDir("/Dir/MS2000/FDC1_File_Switched", floppyDirSwitchedMs2000_[1]);
-    writeConfigDir("/Dir/MS2000/FDC2_File_Switched", floppyDirSwitchedMs2000_[2]);
-    writeConfigDir("/Dir/MS2000/FDC3_File_Switched", floppyDirSwitchedMs2000_[3]);
+	writeConfigDir("/Dir/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRomDir_);
+    writeConfigDir("/Dir/MS2000/FDC0_File", floppyDir_[elfConfiguration[MS2000].fdcType_][0]);
+    writeConfigDir("/Dir/MS2000/FDC1_File", floppyDir_[elfConfiguration[MS2000].fdcType_][1]);
+    writeConfigDir("/Dir/MS2000/FDC2_File", floppyDir_[elfConfiguration[MS2000].fdcType_][2]);
+    writeConfigDir("/Dir/MS2000/FDC3_File", floppyDir_[elfConfiguration[MS2000].fdcType_][3]);
+    writeConfigDir("/Dir/MS2000/FDC0_File_Switched", floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][0]);
+    writeConfigDir("/Dir/MS2000/FDC1_File_Switched", floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][1]);
+    writeConfigDir("/Dir/MS2000/FDC2_File_Switched", floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][2]);
+    writeConfigDir("/Dir/MS2000/FDC3_File_Switched", floppyDirSwitched_[elfConfiguration[MS2000].fdcType_][3]);
     writeConfigDir("/Dir/MS2000/Key_File", conf[MS2000].keyFileDir_);
     writeConfigDir("/Dir/MS2000/Print_File", conf[MS2000].printFileDir_);
     writeConfigDir("/Dir/MS2000/Video_Dump_File", conf[MS2000].screenDumpFileDir_);
@@ -338,11 +259,11 @@ void GuiMS2000::writeMS2000Config()
     writeElfPortConfig(MS2000, "MS2000");
 
     configPointer->Write("/MS2000/Main_Rom_File", conf[MS2000].rom_[MAINROM1]);
-	configPointer->Write("/MS2000/Vt_Font_Rom_File", conf[MS2000].vtCharRom_);
-    configPointer->Write("/MS2000/FDC0_File", floppyMs2000_[0]);
-    configPointer->Write("/MS2000/FDC1_File", floppyMs2000_[1]);
-    configPointer->Write("/MS2000/FDC2_File", floppyMs2000_[2]);
-    configPointer->Write("/MS2000/FDC3_File", floppyMs2000_[3]);
+	configPointer->Write("/MS2000/Vt_Font_Rom_File", elfConfiguration[MS2000].vtCharRom_);
+    configPointer->Write("/MS2000/FDC0_File", floppy_[elfConfiguration[MS2000].fdcType_][0]);
+    configPointer->Write("/MS2000/FDC1_File", floppy_[elfConfiguration[MS2000].fdcType_][1]);
+    configPointer->Write("/MS2000/FDC2_File", floppy_[elfConfiguration[MS2000].fdcType_][2]);
+    configPointer->Write("/MS2000/FDC3_File", floppy_[elfConfiguration[MS2000].fdcType_][3]);
     configPointer->Write("/MS2000/Key_File", conf[MS2000].keyFile_);
     configPointer->Write("/MS2000/Print_File", conf[MS2000].printFile_);
     configPointer->Write("/MS2000/Video_Dump_File", conf[MS2000].screenDumpFile_);
@@ -375,10 +296,10 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/Enable_Real_Cassette", conf[MS2000].realCassetteLoad_);
     configPointer->Write("/MS2000/Print_Mode", conf[MS2000].printMode_);
     
-    configPointer->Write("/MS2000/DirectoryMode_0", directoryMode_[0]);
-    configPointer->Write("/MS2000/DirectoryMode_1", directoryMode_[1]);
-    configPointer->Write("/MS2000/DirectoryMode_2", directoryMode_[2]);
-    configPointer->Write("/MS2000/DirectoryMode_3", directoryMode_[3]);
+    configPointer->Write("/MS2000/DirectoryMode_0", directoryMode_[elfConfiguration[MS2000].fdcType_][0]);
+    configPointer->Write("/MS2000/DirectoryMode_1", directoryMode_[elfConfiguration[MS2000].fdcType_][1]);
+    configPointer->Write("/MS2000/DirectoryMode_2", directoryMode_[elfConfiguration[MS2000].fdcType_][2]);
+    configPointer->Write("/MS2000/DirectoryMode_3", directoryMode_[elfConfiguration[MS2000].fdcType_][3]);
 }
 
 void GuiMS2000::readMS2000WindowConfig()
@@ -436,425 +357,4 @@ void GuiMS2000::onBootRam(wxCommandEvent&event)
 	{
 		p_Mcds->setBootRam(event.IsChecked());
 	}
-}
-
-void GuiMS2000::onMs2000Disk0(wxCommandEvent& WXUNUSED(event) )
-{
-    if (directoryMode_[0])
-    {
-        wxString dirName = wxDirSelector( "Select the FDC 0 Directory", floppyDirSwitchedMs2000_[0]);
-        if (!dirName)
-            return;
-        
-        floppyDirSwitchedMs2000_[0] = dirName + pathSeparator_;
- 
-        if (mode_.gui)
-        {
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[0]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-    }
-    else
-    {
-        wxString fileName;
-        
-        fileName = wxFileSelector( "Select the FDC 0 file to load",
-                                  floppyDirMs2000_[0], floppyMs2000_[0],
-                                  "img",
-                                  wxString::Format
-                                  (
-                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                                   ),
-                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                                  this
-                                  );
-        if (!fileName)
-            return;
-        
-        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-        floppyDirMs2000_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-        floppyMs2000_[0] = FullPath.GetFullName();
-        
-        if (mode_.gui)
-            XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[0]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskText0(wxCommandEvent&event)
-{
-    if (directoryMode_[0])
-    {
-        if (runningComputer_ == MS2000)
-            p_Ms2000->setDiskName(1, floppyDirSwitchedMs2000_[0], "");
-        return;
-    }
-    
-    floppyMs2000_[0] = event.GetString();
-    if (runningComputer_ == MS2000)
-    {
-        if (floppyMs2000_[0].Len() == 0)
-            p_Ms2000->setDiskName(1, floppyDirMs2000_[0], "");
-        else
-            p_Ms2000->setDiskName(1, floppyDirMs2000_[0], floppyMs2000_[0]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskEject0(wxCommandEvent& WXUNUSED(event) )
-{
-    floppyMs2000_[0] = "";
-    if (mode_.gui)
-        XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[0]);
-}
-
-void GuiMS2000::onMS2000DiskDirSwitch0(wxCommandEvent&WXUNUSED(event))
-{
-    if (directoryMode_[0])
-    {
-        directoryMode_[0] = false;
-        XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetLabel("FDC 0");
-        XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 0 image file");
-        XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->Enable(true);
-        XRCCTRL(*this, "Eject_FDC0MS2000", wxBitmapButton)->Enable(true);
-
-        XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[0]);
-    }
-    else
-    {
-        directoryMode_[0] = true;
-        XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetLabel("HD 0");
-        XRCCTRL(*this, "FDC0_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 0");
-        XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "Eject_FDC0MS2000", wxBitmapButton)->Enable(false);
-
-        wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[0]);
-        wxArrayString dirArray = setectedDirFile.GetDirs();
-        wxString dirName = dirArray.Last();
-        XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(dirName);
-    }
-}
-
-void GuiMS2000::onMs2000Disk1(wxCommandEvent& WXUNUSED(event) )
-{
-    if (directoryMode_[1])
-    {
-        wxString dirName = wxDirSelector( "Select the FDC 1 Directory", floppyDirSwitchedMs2000_[1]);
-        if (!dirName)
-            return;
-        
-        floppyDirSwitchedMs2000_[1] = dirName + pathSeparator_;
-        
-        if (mode_.gui)
-        {
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[1]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-    }
-    else
-    {
-        wxString fileName;
-    
-        fileName = wxFileSelector( "Select the FDC 1 file to load",
-                                  floppyDirMs2000_[1], floppyMs2000_[1],
-                                  "img",
-                                  wxString::Format
-                                  (
-                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                                   ),
-                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                                  this
-                                  );
-        if (!fileName)
-            return;
-        
-        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-        floppyDirMs2000_[1] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-        floppyMs2000_[1] = FullPath.GetFullName();
-        
-        if (mode_.gui)
-            XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[1]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskText1(wxCommandEvent&event)
-{
-    if (directoryMode_[1])
-    {
-        if (runningComputer_ == MS2000)
-            p_Ms2000->setDiskName(2, floppyDirSwitchedMs2000_[1], "");
-        return;
-    }
-    
-    floppyMs2000_[1] = event.GetString();
-    if (runningComputer_ == MS2000)
-    {
-        if (floppyMs2000_[1].Len() == 0)
-            p_Ms2000->setDiskName(2, floppyDirMs2000_[1], "");
-        else
-            p_Ms2000->setDiskName(2, floppyDirMs2000_[1], floppyMs2000_[1]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskEject1(wxCommandEvent& WXUNUSED(event) )
-{
-    floppyMs2000_[1] = "";
-    if (mode_.gui)
-        XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[1]);
-}
-
-void GuiMS2000::onMS2000DiskDirSwitch1(wxCommandEvent&WXUNUSED(event))
-{
-    if (directoryMode_[1])
-    {
-        directoryMode_[1] = false;
-        XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetLabel("FDC 1");
-        XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 1 image file");
-        XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->Enable(true);
-        XRCCTRL(*this, "Eject_FDC1MS2000", wxBitmapButton)->Enable(true);
-
-        XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[1]);
-    }
-    else
-    {
-        directoryMode_[1] = true;
-        XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetLabel("HD 1");
-        XRCCTRL(*this, "FDC1_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 1");
-        XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "Eject_FDC1MS2000", wxBitmapButton)->Enable(false);
-
-        wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[1]);
-        wxArrayString dirArray = setectedDirFile.GetDirs();
-        wxString dirName = dirArray.Last();
-        XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(dirName);
-    }
-}
-
-void GuiMS2000::onMs2000Disk2(wxCommandEvent& WXUNUSED(event) )
-{
-    if (directoryMode_[2])
-    {
-        wxString dirName = wxDirSelector( "Select the FDC 2 Directory", floppyDirSwitchedMs2000_[2]);
-        if (!dirName)
-            return;
-        
-        floppyDirSwitchedMs2000_[2] = dirName + pathSeparator_;
-        
-        if (mode_.gui)
-        {
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[2]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-    }
-    else
-    {
-        wxString fileName;
-    
-        fileName = wxFileSelector( "Select the FDC 2 file to load",
-                                  floppyDirMs2000_[2], floppyMs2000_[2],
-                                  "img",
-                                  wxString::Format
-                                  (
-                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                                   ),
-                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                                  this
-                                  );
-        if (!fileName)
-            return;
-        
-        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-        floppyDirMs2000_[2] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-        floppyMs2000_[2] = FullPath.GetFullName();
-        
-        if (mode_.gui)
-            XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[2]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskText2(wxCommandEvent&event)
-{
-    if (directoryMode_[2])
-    {
-        if (runningComputer_ == MS2000)
-            p_Ms2000->setDiskName(3, floppyDirSwitchedMs2000_[2], "");
-        return;
-    }
-    
-    floppyMs2000_[2] = event.GetString();
-    if (runningComputer_ == MS2000)
-    {
-        if (floppyMs2000_[2].Len() == 0)
-            p_Ms2000->setDiskName(3, floppyDirMs2000_[2], "");
-        else
-            p_Ms2000->setDiskName(3, floppyDirMs2000_[2], floppyMs2000_[2]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskEject2(wxCommandEvent& WXUNUSED(event) )
-{
-    floppyMs2000_[2] = "";
-    if (mode_.gui)
-        XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[2]);
-}
-
-void GuiMS2000::onMS2000DiskDirSwitch2(wxCommandEvent&WXUNUSED(event))
-{
-    if (directoryMode_[2])
-    {
-        directoryMode_[2] = false;
-        XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetLabel("FDC 2");
-        XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 2 image file");
-        XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->Enable(true);
-        XRCCTRL(*this, "Eject_FDC2MS2000", wxBitmapButton)->Enable(true);
-        
-        XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[2]);
-    }
-    else
-    {
-        directoryMode_[2] = true;
-        XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetLabel("HD 2");
-        XRCCTRL(*this, "FDC2_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 2");
-        XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "Eject_FDC2MS2000", wxBitmapButton)->Enable(false);
-
-        wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[2]);
-        wxArrayString dirArray = setectedDirFile.GetDirs();
-        wxString dirName = dirArray.Last();
-        XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(dirName);
-    }
-}
-
-void GuiMS2000::onMs2000Disk3(wxCommandEvent& WXUNUSED(event) )
-{
-    if (directoryMode_[3])
-    {
-        wxString dirName = wxDirSelector( "Select the FDC 3 Directory", floppyDirSwitchedMs2000_[3]);
-        if (!dirName)
-            return;
-        
-        floppyDirSwitchedMs2000_[3] = dirName + pathSeparator_;
-        
-        if (mode_.gui)
-        {
-            wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[3]);
-            wxArrayString dirArray = setectedDirFile.GetDirs();
-            dirName = dirArray.Last();
-            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(dirName);
-        }
-    }
-    else
-    {
-        wxString fileName;
-    
-        fileName = wxFileSelector( "Select the FDC 3 file to load",
-                                  floppyDirMs2000_[3], floppyMs2000_[3],
-                                  "img",
-                                  wxString::Format
-                                  (
-                                   "FDC Image (*.img)|*.img|All files (%s)|%s",
-                                   wxFileSelectorDefaultWildcardStr,
-                                   wxFileSelectorDefaultWildcardStr
-                                   ),
-                                  wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
-                                  this
-                                  );
-        if (!fileName)
-            return;
-        
-        wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
-        floppyDirMs2000_[3] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
-        floppyMs2000_[3] = FullPath.GetFullName();
-        
-        if (mode_.gui)
-            XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[3]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskText3(wxCommandEvent&event)
-{
-    if (directoryMode_[3])
-    {
-        if (runningComputer_ == MS2000)
-            p_Ms2000->setDiskName(4, floppyDirSwitchedMs2000_[3], "");
-        return;
-    }
-    
-    floppyMs2000_[3] = event.GetString();
-    if (runningComputer_ == MS2000)
-    {
-        if (floppyMs2000_[3].Len() == 0)
-            p_Ms2000->setDiskName(4, floppyDirMs2000_[3], "");
-        else
-            p_Ms2000->setDiskName(4, floppyDirMs2000_[3], floppyMs2000_[3]);
-    }
-}
-
-void GuiMS2000::onMs2000DiskEject3(wxCommandEvent& WXUNUSED(event) )
-{
-    floppyMs2000_[3] = "";
-    if (mode_.gui)
-        XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[3]);
-}
-
-void GuiMS2000::onMS2000DiskDirSwitch3(wxCommandEvent&WXUNUSED(event))
-{
-    if (directoryMode_[3])
-    {
-        directoryMode_[3] = false;
-        XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetLabel("FDC 3");
-        XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 FDC 3 image file");
-        XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->Enable(true);
-        XRCCTRL(*this, "Eject_FDC3MS2000", wxBitmapButton)->Enable(true);
- 
-        XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(floppyMs2000_[3]);
-    }
-    else
-    {
-        directoryMode_[3] = true;
-        XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetLabel("HD 3");
-        XRCCTRL(*this, "FDC3_ButtonMS2000", wxButton)->SetToolTip("Browse for MS2000 HD Directory 3");
-        XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "Eject_FDC3MS2000", wxBitmapButton)->Enable(false);
-
-        wxFileName setectedDirFile = wxFileName(floppyDirSwitchedMs2000_[3]);
-        wxArrayString dirArray = setectedDirFile.GetDirs();
-        wxString dirName = dirArray.Last();
-        XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(dirName);
-    }
-}
-
-bool GuiMS2000::getDirectoryMode(int drive)
-{
-    return directoryMode_[drive];
-}
-
-void GuiMS2000::setDirectoryMode(int drive, bool state)
-{
-    directoryMode_[drive] = state;
-}
-
-wxString GuiMS2000::getMs2000FloppyDirSwitched(int drive)
-{
-    return floppyDirSwitchedMs2000_[drive];
-}
-
-wxString GuiMS2000::getMs2000FloppyDir(int drive)
-{
-    return floppyDirMs2000_[drive];
-}
-
-wxString GuiMS2000::getMs2000FloppyFile(int drive)
-{
-    return floppyMs2000_[drive];
 }

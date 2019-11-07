@@ -1,0 +1,33 @@
+#!/bin/sh
+if [ -d "/Applications/Emma 02.app/Contents/Resources/data/CDP18S600" ]
+then
+rm /Applications/Emma\ 02.app/Contents/Resources/data/CDP18S600/*.*
+rmdir /Applications/Emma\ 02.app/Contents/Resources/data/CDP18S600
+fi
+if [ -d "/Applications/Emma 02.app/Contents/Resources/data/CDP18S601" ]
+then
+    rm /Applications/Emma\ 02.app/Contents/Resources/data/CDP18S601/*.*
+    rmdir /Applications/Emma\ 02.app/Contents/Resources/data/CDP18S601
+fi
+if [ -d "/Applications/Emma 02.app/Contents/Resources/data/CDP18S603A" ]
+then
+rm /Applications/Emma\ 02.app/Contents/Resources/data/CDP18S603A/*.*
+rmdir /Applications/Emma\ 02.app/Contents/Resources/data/CDP18S603A
+fi
+if [ -d "/Applications/Emma 02.app/Contents/Resources/Configurations/CDP18S600" ]
+then
+rm /Applications/Emma\ 02.app/Contents/Resources/Configurations/CDP18S600/*.*
+rmdir /Applications/Emma\ 02.app/Contents/Resources/Configurations/CDP18S600
+fi
+if [ -d "/Applications/Emma 02.app/Contents/Resources/Configurations/CDP18S601" ]
+then
+rm /Applications/Emma\ 02.app/Contents/Resources/Configurations/CDP18S601/*.*
+rmdir /Applications/Emma\ 02.app/Contents/Resources/Configurations/CDP18S601
+fi
+if [ -d "/Applications/Emma 02.app/Contents/Resources/Configurations/CDP18S603A" ]
+then
+rm /Applications/Emma\ 02.app/Contents/Resources/Configurations/CDP18S603A/*.*
+rmdir /Applications/Emma\ 02.app/Contents/Resources/Configurations/CDP18S603A
+fi
+
+

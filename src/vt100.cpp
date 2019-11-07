@@ -73,6 +73,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     line_ = "";
 
     colourIndex_ = 2;
+    videoType_ = VIDEOVT;
 	switch(computerType_)
 	{
 		case ELF:
@@ -110,14 +111,10 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         case CDP18S020:
             computerTypeStr_ = "CDP18S020";
         break;
-        case CDP18S600:
-            computerTypeStr_ = "CDP18S600";
-        break;
-        case CDP18S601:
-            computerTypeStr_ = "CDP18S601";
-        break;
-        case CDP18S603A:
-            computerTypeStr_ = "CDP18S603A";
+        case MICROBOARD:
+            computerTypeStr_ = "Microboard";
+            colourIndex_ = 64;
+            videoType_ = VIDEOMICROVT;
         break;
 		case MCDS:
 			computerTypeStr_ = "MCDS";
@@ -140,7 +137,6 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	intensity_ = 1;
 	
 	defineColours(computerType_);
-	videoType_ = VIDEOVT;
 
 	redFore_ = colour_[colourIndex_].Red();
 	greenFore_ = colour_[colourIndex_].Green();
@@ -431,6 +427,8 @@ void Vt100::configureUart(ElfPortConfiguration elfPortConf)
 
 void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
 {
+    wxString message;
+    
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
@@ -441,18 +439,17 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
     
     wxString groupString;
-    if (elfConfiguration_.uartGroup == 0)
-        groupString = "1";
-    else
-        groupString = "2";
+    groupString.Printf("%X", elfConfiguration_.uartGroup);
 
     if (vtType_ == VT52)
         p_Main->message("Configuring VT52 terminal with CDP1854/UART on group " + groupString);
     else
         p_Main->message("Configuring VT100 terminal with CDP1854/UART on group " + groupString);
     
-    p_Main->message("	Output 2: load transmitter, input 2: read receiver");
-    p_Main->message("	Output 3: load control, input 3: read status");
+    message.Printf("	Output %d: load transmitter, input %d: read receiver", elfConfiguration_.elfPortConf.uartOut, elfConfiguration_.elfPortConf.uartOut);
+    p_Main->message(message);
+    message.Printf("	Output %d: load control, input %d: read status", elfConfiguration_.elfPortConf.uartControl, elfConfiguration_.elfPortConf.uartControl);
+    p_Main->message(message);
     p_Main->message("	EF 4: serial input");
     
     wxString printBuffer;

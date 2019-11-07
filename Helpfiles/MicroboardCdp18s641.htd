@@ -1,0 +1,18 @@
+<html>
+<title>CDP18S641: UART</title>
+<body>
+<h2>CDP18S641: UART</h2>
+<p>
+The CDP18S641 board includes:
+<UL>
+<LI>CDP1854A UART driven serial I/O with baud rates: 50 to 19200
+</UL>
+</p>
+<p>
+To define a system using the CDP18S641 select 'CDP18S641 UART' from one of the CARD Choice boxes. Note that only one CDP18S641 can be emulated in Emma 02 as such Emma 02 will issue a warning (CARD button will turn red) if two CDP18S641 boards are defined and also if a CDP18S641 is used in combination with  a CPU board that already includes a UART.
+</p>
+<p>
+To specify 'Data transfer I/O', 'Status in and Control out' and/or the I/O Group press the CARD x button and the CDP18S641 Setup window will open. Press 'SAVE' to save the configuration.
+</p>
+</body>
+</html>

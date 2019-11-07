@@ -83,11 +83,13 @@ public:
 	void pixieInterrupt();
 	void setEf(int flag, int value);
 
+    bool readIntelFile(wxString fileName, int memoryType, long end, long inhibitStart, long inhibitEnd);
 	bool readIntelFile(wxString fileName, int memoryType, long end, bool showFilename);
 	bool readIntelFile(wxString fileName, int memoryType, Word* lastAddress, long end, bool showFilename);
 	bool readLstFile(wxString fileName, int memoryType, long end, bool showFilename);
 	void saveIntelFile(wxString fileName, long start, long end);
 	void saveBinFile(wxString fileName, long start, long end);
+    bool readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd);
 	bool readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
     bool readBinFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
     bool readRomMapperBinFile(wxString fileName);
@@ -96,17 +98,20 @@ public:
 	void checkLoadedSoftware();
 	bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgram(wxString romDir, wxString rom, int memoryType, Word address, Word* lastAddress, bool showFilename);
-    bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, Word lastAddress, bool showFilename);
+    bool readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, long lastAddress, bool showFilename);
+    bool readProgramMicro(wxString romDir, wxString rom, int memoryType1, int memoryType2, long address, long lastAddress, long inhibitstart, long inhibitEnd_);
 	bool readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramTmc600(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	void readSt2Program(int computerType);
+    bool readFile(wxString fileName, int memoryType, Word address, long end, long inhibitStart, long inhibitEnd);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);
 	bool readFile(wxString fileName, int memoryType, Word address, Word* lastAddress, long end, bool showFilename);
 
 	Word getScratchpadRegister(int number) {return scratchpadRegister_[number];};
 	void setScratchpadRegister(int number, Word scratchpadRegister) {scratchpadRegister_[number] = scratchpadRegister;};
+    Word getAndIncRegister0() {return scratchpadRegister_[0]++;};
 	Byte getAccumulator() {return accumulator_;};
 	void setAccumulator(Byte accumulator) {accumulator_ = accumulator;};
 	Byte getDataFlag() {return dataFlag_;};
@@ -152,9 +157,12 @@ public:
 	Byte get1805Ch() {return ch_;};
 	Byte is1805CtrRunning() {return ctrRunning_;};
     bool getSkipTraceMode() {return skipTrace_;};
-
+    
 	void writeMemLabelType(Word address, Byte type);
 	Byte readMemLabelType(Word address);
+
+    virtual void setHeaderTitle(const wxString& title);
+    virtual void updateTitle(wxString Title);
 
 protected:
 	Byte cycle0_;

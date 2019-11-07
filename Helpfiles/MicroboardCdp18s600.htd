@@ -1,0 +1,59 @@
+<HTML>
+<Title>CDP18S600: CPU 1805, UART & PIO CDP1851</Title>
+<BODY>
+<h2>CDP18S600: CPU 1805, UART & PIO CDP1851</h2>
+<p>
+The CDP18S600 board includes:
+<UL>
+<LI>CDP1805 CPU with a 2.46 or 4.92 MHz crystal clock (default Emma 02 uses 4.92 MHz)
+<LI>A maximum of 40 KB RAM or ROM
+<LI>CDP1854A UART driven serial I/O with baud rates: 50 to 38400
+<LI>CDP1851 PIO with 20 programmable parallel I/O lines
+</UL>
+</p>
+<p>
+The PIO is defined on I/O group 8 with:
+<ul>
+<li>Output 3: write to port A, output 2: write to port B</li>
+<li>Input 3: read port A, input 2: read port B</li>
+<li>Output 6: write control register, input 6: read status</li>
+<li>EF 1: ARDY, EF 2: BRDY</li>
+</ul>
+</p>
+<p>
+To define a system using the CDP18S600 select 'CDP18S600 1805, UART & PIO' from the CARD 1 Choice box. CPU boards are only supported in slot 1.
+</p>
+<p>
+To specify the memory configuration and UART group press the CARD 1 button and the CDP18S600 Setup window will open. Press 'SAVE' to save the configuration.
+</p>
+<p>
+A default CDP18S600 configuration can be loaded, see also <a href="MainConfigurations.htm">Configurations</a>. This configuration includes the CDP18S600 CPU board and a CDP18S640 A/A1 Display board.
+</p>
+<h3>Memory Configuration and ROM/RAM Files</h3>
+<p>
+The CDP18S600 Microboard has 5 ROM and/or RAM socket, '1 Socket' for one ROM or RAM chip and '4 Socket' for four ROM or RAM chips. For details see the CDP18S600 manual. In the CDP18S600 setup window the size of the '1 Socket' and '4 Socket' chips can be selected (2Kx8, 4Kx8 or 8Kx8). All '4 socket' chips will always have the same size.
+</p>
+<p>
+Use the 'Setup - 1' or 'Setup - 4' button to specify ROM/RAM location, memory type (ROM, RAM or CPU RAM) and/or to disable the socket. Depending on the selected chip size different location options will be available (as described in the CDP18S600 manual). The '4 Socket' chip locations will be in consecutive order with U20 on the lowest address followed by U19, U18 and last U17.
+</p>
+<p>
+Default configuration of the CDP18S600 is using 8 KB RAM chips in all 5 sockets, from 0-7FFF (4 socket) and A000-BFFF (1 Socket). In this same configuration the CDP18S640 board includes the ut71.bin ROM at 8000 and an additional 1 KB RAM at 8C00.
+</p>
+<p>
+Default CDP18S600 ROM/RAM file location is the Microboard directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>). To change the location use the 'ROM Uxx' or 'RAM Uxx' buttons to browse for the file, do the same to change the filename or type in a new file name in the text field. Data can be loaded via files in either ROM or RAM. Files can also be loaded into RAM in run time by using the Memory Access buttons.
+</p>
+<p>
+The binary, Intel hex and RCS Elf Emulator hex format are supported.
+</p>
+<h3>CDP1851 PIO Window</h3>
+<p>
+The PIO Window can be used to simulate the PIO, i.e. the CDP1851 I/O chip. The window can be activate or deactivated via the 'IO Window' checkbox. 
+</p>
+<p>
+The initial window will show both A and B ports as input but when either port is set to output, bit programmable or bi-directional (via the PIO control register, OUT 6) the window will switch to show input (switches active) or output (LEDs active) depending on the mode selected. The same is valid for the STB and RDY input switches and output LEDs which will become active in bit programmable mode.
+</p>
+<p>
+The interrupt buttons INT 'A' and 'B' will become active when the PIO interrupt is enabled and a press on either button will send an interrupt signal to the emulated CPU and also activate EF1 or EF2.
+</p>
+</BODY>
+</HTML>

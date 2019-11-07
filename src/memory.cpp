@@ -503,8 +503,8 @@ void Memory::initCpuRam()
 
 void Memory::defineMemoryType(long start, long end, int type)
 {
-	start /= 256;
-	end /= 256;
+    start = (start / 256) & 0xff;
+    end = (end / 256) & 0xff;
 	for (long i=start; i<=end; i++)
 	{
 		memoryType_[i] = type;

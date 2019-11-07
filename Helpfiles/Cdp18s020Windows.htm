@@ -1,48 +1,16 @@
 
 <HTML>
-<Title>Control Window</Title>
+<Title>Control Windows</Title>
 <BODY>
-<h2>Control Window</h2>
+<h3>Control Windows</h3>
 <p>
 The main CDP18S020 Evaluation Kit control board can be shown by selecting check box 'CDP18S020 Window'. 
 </p>
 <p>
-The main board includes the switches, buttons and status leds. Emulation of the leds can take a lot of PC CPU power so default these are only updated every 500 ms. This can be changed in the Emma 02 window by changing the 'Leds' field. When 0 ms (or nothing) is specfied the leds will be updated in real time. Note that this will take a lot of CPU load and as such make the CDP18S020 run very slow due to the frequent changes in both CPU status, data and address leds.
+The main board includes the switches, buttons and status LEDs. Emulation of the LEDs can take a lot of PC CPU power so default these are only updated every 500 ms. This can be changed in the Emma 02 window by changing the 'LEDs' field. When 0 ms (or nothing) is specified the LEDs will be updated in real time. Note that this will take a lot of CPU load and as such make the CDP18S020 run very slow due to the frequent changes in both CPU status, data and address LEDs.
 </p>
 <p>
-In STEP mode all leds are updated in real time.
-</p>
-<h3>Front Panel</h3>
-<p>
-STEP - Single step the processor, will execute next CPU cycle and then enter Wait mode
-</p>
-<p>
-RESET - Places the CPU into the reset state
-</p>
-<p>
-RUN P - Execute program in RAM at address 0
-</p>
-<p>
-RUN U - Execute program in ROM at address 8000
-</p>
-<p>
-4 Dip switches - switch up to enable RAM memory protection (disable writing to RAM). Each dip switch controls 1 KB of RAM at address:
-</p>
-<OL>
-<li>000-3FF
-<li>400-7FF
-<li>800-BFF
-<li>C00-FFF
-</OL>
-</p>
-<p>
-DATA BUS - 8 leds (7 to 0) showing the value of the data bus
-</p>
-<p>
-MEMPRY ADDRESS - 16 leds (15 to 0) showing the value of the address bus
-</p>
-<p>
-STATUS - CPU Status leds SC1/SC0 showing the state type, W for Wait, C for Clear and Q. 
+In STEP mode all LEDs are updated in real time.
 </p>
 </BODY>
 </HTML>

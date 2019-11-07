@@ -53,7 +53,7 @@ Mcds::Mcds(const wxString& title, const wxPoint& pos, const wxSize& size, double
     loadStarted_ = false;
 
     p_Printer = new Printer();
-    p_Printer->initMcds(p_Printer);
+    p_Printer->init(p_Printer, "MCDS", MS2000PRINTER);
 }
 
 Mcds::~Mcds()
@@ -149,7 +149,7 @@ Byte Mcds::ef(int flag)
 		break;
 
         case MS2000PRINTEF: // EF1
-            return 0;
+            return 1;
         break;
             
         case MS2000CASEF:   // EF2

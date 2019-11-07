@@ -27,7 +27,7 @@ The above types are all possible within one session, except pseudo code is only 
 </OL>
 </p>
 <p>
-The colors <FONT COLOR="FOREST GREEN">green</FONT> and <FONT COLOR="#C833A1">light purple</FONT> are also used for address that have branches or subroutine calls to them. Making it easier to see to which addresses the code will actually branch or jump to.
+The colours <FONT COLOR="FOREST GREEN">green</FONT> and <FONT COLOR="#C833A1">light purple</FONT> are also used for address that have branches or subroutine calls to them. Making it easier to see to which addresses the code will actually branch or jump to.
 </p>
 <p>
 If nothing is specified or no code is executed memory is shown in 'Data' or 'Undefined'.
@@ -50,7 +50,7 @@ Next to 180x, Chip-8, ST2, ST4 and FEL code the following options are also avail
 <LI>'text
 <br>Store ASCII text, all text after ' will be stored in ASCII code at the current working address. When using this on the Studio IV characters are stored with Studio IV charcater numbering.
 <LI>"text
-<br>Only valuable for the COMX to store ASCII text in 'high color', all text after " will be stored in ASCII code (range 80 to FF) at the current working address.
+<br>Only valuable for the COMX to store ASCII text in 'high colour', all text after " will be stored in ASCII code (range 80 to FF) at the current working address.
 <LI>:address
 <br>Store 16 bit 'Branch data', see also chapter 'Branch data'.
 </UL>

@@ -7,6 +7,11 @@
 #include "cdp1802.h"
 #include "video.h"
 
+#define INT_MODE1 0
+#define INT_MODE2 1
+#define INT_MODE3 2
+#define INT_MODE4 3
+
 class CharacterList
 {
 public:
@@ -28,7 +33,8 @@ public:
 
 	void configure1870Pecom();
 	void configure1870Comx(bool expansionRomLoaded, int expansionTypeCard0);
-	void configure1870Telmac();
+    bool configure1870Microboard(int v1870group, int pageMemSize, int videoMode, int interruptMode);
+    void configure1870Telmac();
 	void configure1870Cidelsa();
 	void configure6845();
 	void stop6845();
@@ -48,14 +54,10 @@ public:
 
 	void writePram(Word address, Byte v);
 	void writeCram(Word address, Byte v);
-    void writeCramDirect(Word address, Byte v);
     void writeColourRamDirect(Word address, Byte v);
-	void writePramDirect(Word address, Byte v);
 	Byte readPram(Word address);
 	Byte readCram(Word address);
-    Byte readCramDirect(Word address);
     Byte readColourRamDirect(Word address);
-	Byte readPramDirect(Word address);
 	void set1870(wxString Register, long value);
 
 	void copyScreen();
@@ -63,9 +65,8 @@ public:
 	void updateExpansionLed(bool status);
 	void updateStatusLed(bool status);
 	void updateCidelsaLedStatus(int number, bool status);
-	bool readChargenFile(wxString romDir, wxString romFile);
-	Word getPageMemoryMask()  {return pageMemoryMask_;};
-	Word getCharacterMemoryMask()  {return pcbMask_*16+15;};
+    bool readChargenFileTmc(wxString romDir, wxString romFile);
+    bool readChargenFile(wxString romDir, wxString romFile);
 
 	void writeRegister6845(Byte value);
 	Byte readData6845();
@@ -92,6 +93,7 @@ protected:
 	int videoMode_;
 	int cidelsaGame_;
 	bool mc6845started_;
+    int computerType_;
 
 private:
 	void drawScreen();
@@ -113,7 +115,6 @@ private:
 
 	int save_v1870X_;
 	int save_v1870Y_;
-	int computerType_;
 
 	int cycleValue_;
 	int cycleSize_;
@@ -125,9 +126,7 @@ private:
 	int blinkValue6845_;
 	int blinkSize6845_;
 
-	Byte pageMemory_[4096];
 	Byte vismacColorRam_[4096];
-	Byte characterMemory_[4096];
 	Byte v1870pcb_[4096];
 
 	Word register3_;
@@ -138,11 +137,9 @@ private:
 
 	int cmemAccessMode_;
 	int charactersPerRow_;
-	int linesPerCharacters_;
+    int linesPerCharacters_;
 	int rowsPerScreen_;
 	int CmaMask_;
-	int pageMemoryMask_;
-	int pcbMask_;
 	int backgroundColour_;
 	int pixelWidth_;
 	int pixelHeight_;
@@ -185,6 +182,7 @@ private:
 	int blink_;
 	int cursorBlinkTime_;
 	int updateCharacter6845_;
+    int interruptMode_;
 
 	DECLARE_EVENT_TABLE()
 };

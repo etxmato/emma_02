@@ -61,11 +61,10 @@
                                             <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf,
 Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Memberhip
 Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020
-Evaluation Kit, CDP18S600 Microboard, CDP18S601 Microboard, 
-CDP18S603A Microboard, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, 
-RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, 
-Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 
-2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
+Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, 
+MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory 
+MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, 
+Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>
@@ -78,7 +77,7 @@ Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, CDP18S600 Microboard, CDP18S601 Microboard, CDP18S603A Microboard, Cosmac VIP, Cosmac VIPII, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
+                                            <label>Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 </label>
                                             <wrap>400</wrap>
                                         </object>
                                     </object>

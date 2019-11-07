@@ -26,6 +26,10 @@
     #error "Please set wxUSE_COMBOCTRL to 1 and rebuild the library."
 #endif
 
+#if defined(__linux__)
+#include "app_icon.xpm"
+#endif
+
 #include "main.h"
 #include "cdp18s640.h"
 
@@ -205,4 +209,51 @@ void Cdp18s640Screen::releaseButtonOnScreen(HexButton* buttonPoint)
     
     buttonPoint->releaseButtonOnScreen(dc);
 }
+
+BEGIN_EVENT_TABLE(Cdp18s640Frame, wxFrame)
+    EVT_CLOSE (Cdp18s640Frame::onClose)
+    EVT_BUTTON(1, Cdp18s640Frame::onRunButton)
+    EVT_BUTTON(2, Cdp18s640Frame::onRunPButton)
+    EVT_BUTTON(3, Cdp18s640Frame::onResetButton)
+END_EVENT_TABLE()
+
+Cdp18s640Frame::Cdp18s640Frame(const wxString& title, const wxPoint& pos, const wxSize& size)
+: wxFrame((wxFrame *)NULL, -1, title, pos, size)
+{
+    cdp18s640ScreenPointer = new Cdp18s640Screen(this, size);
+    cdp18s640ScreenPointer->init();
+    
+    this->SetClientSize(size);
+    
+#ifndef __WXMAC__
+    SetIcon(wxICON(app_icon));
+#endif
+}
+
+Cdp18s640Frame::~Cdp18s640Frame()
+{
+    delete cdp18s640ScreenPointer;
+}
+
+void Cdp18s640Frame::onClose(wxCloseEvent&WXUNUSED(event))
+{
+    Show(false);
+}
+
+void Cdp18s640Frame::onRunButton(wxCommandEvent&WXUNUSED(event))
+{
+    p_Computer->onRunButton();
+}
+
+void Cdp18s640Frame::onRunPButton(wxCommandEvent&WXUNUSED(event))
+{
+    p_Computer->onRunPButton();
+}
+
+void Cdp18s640Frame::onResetButton(wxCommandEvent&WXUNUSED(event))
+{
+    p_Computer->onReset();
+}
+
+
 

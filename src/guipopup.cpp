@@ -43,22 +43,22 @@ BEGIN_EVENT_TABLE(PopupDialog, wxDialog)
 	EVT_TEXT(XRCID("SaveEnd"), PopupDialog::onSaveEnd)
 	EVT_TEXT(XRCID("SaveExec"), PopupDialog::onSaveExec)
 
-	EVT_BUTTON(XRCID("FDC0_ButtonMS2000"), PopupDialog::onMs2000Disk0)
-	EVT_TEXT(XRCID("FDC0_FileMS2000"), PopupDialog::onMs2000DiskText0)
-	EVT_BUTTON(XRCID("Eject_FDC0MS2000"), PopupDialog::onMs2000DiskEject0)
-	EVT_BUTTON(XRCID("FDC0_SwitchMS2000"), PopupDialog::onMS2000DiskDirSwitch0)
-	EVT_BUTTON(XRCID("FDC1_ButtonMS2000"), PopupDialog::onMs2000Disk1)
-	EVT_TEXT(XRCID("FDC1_FileMS2000"), PopupDialog::onMs2000DiskText1)
-	EVT_BUTTON(XRCID("Eject_FDC1MS2000"), PopupDialog::onMs2000DiskEject1)
-	EVT_BUTTON(XRCID("FDC1_SwitchMS2000"), PopupDialog::onMS2000DiskDirSwitch1)
-	EVT_BUTTON(XRCID("FDC2_ButtonMS2000"), PopupDialog::onMs2000Disk2)
-	EVT_TEXT(XRCID("FDC2_FileMS2000"), PopupDialog::onMs2000DiskText2)
-	EVT_BUTTON(XRCID("Eject_FDC2MS2000"), PopupDialog::onMs2000DiskEject2)
-	EVT_BUTTON(XRCID("FDC2_SwitchMS2000"), PopupDialog::onMS2000DiskDirSwitch2)
-	EVT_BUTTON(XRCID("FDC3_ButtonMS2000"), PopupDialog::onMs2000Disk3)
-	EVT_TEXT(XRCID("FDC3_FileMS2000"), PopupDialog::onMs2000DiskText3)
-	EVT_BUTTON(XRCID("Eject_FDC3MS2000"), PopupDialog::onMs2000DiskEject3)
-	EVT_BUTTON(XRCID("FDC3_SwitchMS2000"), PopupDialog::onMS2000DiskDirSwitch3)
+	EVT_BUTTON(XRCID("FDC0_ButtonMS2000"), PopupDialog::onUpdDisk0)
+	EVT_TEXT(XRCID("FDC0_FileMS2000"), PopupDialog::onUpdDiskText0)
+	EVT_BUTTON(XRCID("Eject_FDC0MS2000"), PopupDialog::onUpdDiskEject0)
+	EVT_BUTTON(XRCID("FDC0_SwitchMS2000"), PopupDialog::onUpdDiskDirSwitch0)
+	EVT_BUTTON(XRCID("FDC1_ButtonMS2000"), PopupDialog::onUpdDisk1)
+	EVT_TEXT(XRCID("FDC1_FileMS2000"), PopupDialog::onUpdDiskText1)
+	EVT_BUTTON(XRCID("Eject_FDC1MS2000"), PopupDialog::onUpdDiskEject1)
+	EVT_BUTTON(XRCID("FDC1_SwitchMS2000"), PopupDialog::onUpdDiskDirSwitch1)
+	EVT_BUTTON(XRCID("FDC2_ButtonMS2000"), PopupDialog::onUpdDisk2)
+	EVT_TEXT(XRCID("FDC2_FileMS2000"), PopupDialog::onUpdDiskText2)
+	EVT_BUTTON(XRCID("Eject_FDC2MS2000"), PopupDialog::onUpdDiskEject2)
+	EVT_BUTTON(XRCID("FDC2_SwitchMS2000"), PopupDialog::onUpdDiskDirSwitch2)
+	EVT_BUTTON(XRCID("FDC3_ButtonMS2000"), PopupDialog::onUpdDisk3)
+	EVT_TEXT(XRCID("FDC3_FileMS2000"), PopupDialog::onUpdDiskText3)
+	EVT_BUTTON(XRCID("Eject_FDC3MS2000"), PopupDialog::onUpdDiskEject3)
+	EVT_BUTTON(XRCID("FDC3_SwitchMS2000"), PopupDialog::onUpdDiskDirSwitch3)
 
 	EVT_CHECKBOX(XRCID("Elf2KControlWindowsPopup"), PopupDialog::onElf2KControlWindows)
 	EVT_CHECKBOX(XRCID("Elf2KSwitchPopup"), PopupDialog::onElf2KSwitch)
@@ -92,6 +92,7 @@ PopupDialog::PopupDialog(wxWindow* parent)
 {
 	computerStr_ = p_Main->getRunningComputerStr();
 	computer_ = p_Main->getRunningComputerId();
+    fdcType_ = p_Main->getFdcType(computer_);
 
 	tapeOnBitmap = wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/tick.png", wxBITMAP_TYPE_PNG);
 	tapeOffBitmap = wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/minus.png", wxBITMAP_TYPE_PNG);
@@ -644,116 +645,116 @@ void PopupDialog::onUseLocation(wxCommandEvent&event)
 		p_Main->setCheckBox("UseLocation"+computerStr_, event.IsChecked());
 }
 
-void PopupDialog::onMs2000Disk0(wxCommandEvent&event)
+void PopupDialog::onUpdDisk0(wxCommandEvent&event)
 {
-	p_Main->onMs2000Disk0(event);
+	p_Main->onUpdDisk0(event);
 	XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(getFdcName(0));
 }
 
-void PopupDialog::onMs2000DiskText0(wxCommandEvent&event)
+void PopupDialog::onUpdDiskText0(wxCommandEvent&event)
 {
-	p_Main->onMs2000DiskText0(event);
+	p_Main->onUpdDiskText0(event);
 	if (p_Main->getGuiMode())
 		p_Main->setTextCtrl("FDC0_FileMS2000", getFdcName(0));
 }
 
-void PopupDialog::onMs2000DiskEject0(wxCommandEvent&event)
+void PopupDialog::onUpdDiskEject0(wxCommandEvent&event)
 {
-    p_Main->onMs2000DiskEject0(event);
+    p_Main->onUpdDiskEject0(event);
     XRCCTRL(*this, "FDC0_FileMS2000", wxTextCtrl)->SetValue(getFdcName(0));
 }
 
-void PopupDialog::onMS2000DiskDirSwitch0(wxCommandEvent&event)
+void PopupDialog::onUpdDiskDirSwitch0(wxCommandEvent&event)
 {
-    p_Main->onMS2000DiskDirSwitch0(event);
+    p_Main->onUpdDiskDirSwitch0(event);
     setDirSwitch(0);
 }
 
-void PopupDialog::onMs2000Disk1(wxCommandEvent&event)
+void PopupDialog::onUpdDisk1(wxCommandEvent&event)
 {
-	p_Main->onMs2000Disk1(event);
+	p_Main->onUpdDisk1(event);
 	XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(getFdcName(1));
 }
 
-void PopupDialog::onMs2000DiskText1(wxCommandEvent&event)
+void PopupDialog::onUpdDiskText1(wxCommandEvent&event)
 {
-	p_Main->onMs2000DiskText1(event);
+	p_Main->onUpdDiskText1(event);
 	if (p_Main->getGuiMode())
 		p_Main->setTextCtrl("FDC1_FileMS2000", getFdcName(1));
 }
 
-void PopupDialog::onMs2000DiskEject1(wxCommandEvent&event)
+void PopupDialog::onUpdDiskEject1(wxCommandEvent&event)
 {
-	p_Main->onMs2000DiskEject1(event);
+	p_Main->onUpdDiskEject1(event);
 	XRCCTRL(*this, "FDC1_FileMS2000", wxTextCtrl)->SetValue(getFdcName(1));
 }
 
-void PopupDialog::onMS2000DiskDirSwitch1(wxCommandEvent&event)
+void PopupDialog::onUpdDiskDirSwitch1(wxCommandEvent&event)
 {
-	p_Main->onMS2000DiskDirSwitch1(event);
+	p_Main->onUpdDiskDirSwitch1(event);
 	setDirSwitch(1);
 }
 
-void PopupDialog::onMs2000Disk2(wxCommandEvent&event)
+void PopupDialog::onUpdDisk2(wxCommandEvent&event)
 {
-	p_Main->onMs2000Disk1(event);
+	p_Main->onUpdDisk1(event);
 	XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(getFdcName(2));
 }
 
-void PopupDialog::onMs2000DiskText2(wxCommandEvent&event)
+void PopupDialog::onUpdDiskText2(wxCommandEvent&event)
 {
-	p_Main->onMs2000DiskText2(event);
+	p_Main->onUpdDiskText2(event);
 	if (p_Main->getGuiMode())
 		p_Main->setTextCtrl("FDC2_FileMS2000", getFdcName(2));
 }
 
-void PopupDialog::onMs2000DiskEject2(wxCommandEvent&event)
+void PopupDialog::onUpdDiskEject2(wxCommandEvent&event)
 {
-	p_Main->onMs2000DiskEject2(event);
+	p_Main->onUpdDiskEject2(event);
 	XRCCTRL(*this, "FDC2_FileMS2000", wxTextCtrl)->SetValue(getFdcName(2));
 }
 
-void PopupDialog::onMS2000DiskDirSwitch2(wxCommandEvent&event)
+void PopupDialog::onUpdDiskDirSwitch2(wxCommandEvent&event)
 {
-	p_Main->onMS2000DiskDirSwitch2(event);
+	p_Main->onUpdDiskDirSwitch2(event);
 	setDirSwitch(2);
 }
 
-void PopupDialog::onMs2000Disk3(wxCommandEvent&event)
+void PopupDialog::onUpdDisk3(wxCommandEvent&event)
 {
-	p_Main->onMs2000Disk3(event);
+	p_Main->onUpdDisk3(event);
 	XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(getFdcName(3));
 }
 
-void PopupDialog::onMs2000DiskText3(wxCommandEvent&event)
+void PopupDialog::onUpdDiskText3(wxCommandEvent&event)
 {
-	p_Main->onMs2000DiskText3(event);
+	p_Main->onUpdDiskText3(event);
 	if (p_Main->getGuiMode())
 		p_Main->setTextCtrl("FDC3_FileMS2000", getFdcName(3));
 }
 
-void PopupDialog::onMs2000DiskEject3(wxCommandEvent&event)
+void PopupDialog::onUpdDiskEject3(wxCommandEvent&event)
 {
-	p_Main->onMs2000DiskEject3(event);
+	p_Main->onUpdDiskEject3(event);
 	XRCCTRL(*this, "FDC3_FileMS2000", wxTextCtrl)->SetValue(getFdcName(3));
 }
 
-void PopupDialog::onMS2000DiskDirSwitch3(wxCommandEvent&event)
+void PopupDialog::onUpdDiskDirSwitch3(wxCommandEvent&event)
 {
-	p_Main->onMS2000DiskDirSwitch3(event);
+	p_Main->onUpdDiskDirSwitch3(event);
 	setDirSwitch(3);
 }
 
 wxString PopupDialog::getFdcName(int drive)
 {
-    if (p_Main->getDirectoryMode(drive))
+    if (p_Main->getDirectoryMode(fdcType_, drive))
     {
-        wxFileName setectedDirFile = wxFileName(p_Main->getMs2000FloppyDirSwitched(drive));
+        wxFileName setectedDirFile = wxFileName(p_Main->getUpdFloppyDirSwitched(fdcType_, drive));
         wxArrayString dirArray = setectedDirFile.GetDirs();
         return dirArray.Last();
     }
     else
-        return p_Main->getMs2000FloppyFile(drive);
+        return p_Main->getUpdFloppyFile(fdcType_, drive);
 }
 
 void PopupDialog::setDirSwitch(int drive)
@@ -761,7 +762,7 @@ void PopupDialog::setDirSwitch(int drive)
 	wxString textCtrl, ejectButton;
 	textCtrl.Printf("FDC%01d_FileMS2000", drive);
 	ejectButton.Printf("Eject_FDC%01dMS2000", drive);
-	if (p_Main->getDirectoryMode(drive))
+	if (p_Main->getDirectoryMode(fdcType_, drive))
 	{
 		XRCCTRL(*this, textCtrl, wxTextCtrl)->Enable(false);
 		XRCCTRL(*this, ejectButton, wxBitmapButton)->Enable(false);

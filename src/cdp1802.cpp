@@ -2182,7 +2182,7 @@ void Cdp1802::cpuCycleExecute1()
 					{
 						case COMX:
 						case CIDELSA:
-						case PECOM:
+                        case PECOM:
 							if (n>3)
 								buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
 							else
@@ -2195,6 +2195,13 @@ void Cdp1802::cpuCycleExecute1()
 							else
 								buffer.Printf("OUT  %X    [%02X]",n,bus_);
 						break;
+
+                        case MICROBOARD:
+                            if (n>3 && elfConfiguration.usev1870)
+                                buffer.Printf("OUT  %X    [%04X]",n,scratchpadRegister_[dataPointer_]-1);
+                            else
+                                buffer.Printf("OUT  %X    [%02X]",n,bus_);
+                        break;
 
 						default:
 							buffer.Printf("OUT  %X    [%02X]",n,bus_);
@@ -3359,6 +3366,98 @@ void Cdp1802::cpuCycleFinalize()
         skipTrace_ = true;
 }
 
+bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, long inhibitStart, long inhibitEnd)
+{
+    wxTextFile inFile;
+    wxString line, strValue;
+    long count;
+    long address;
+    long value;
+    int spaces;
+    Word start = 0xffff;
+    Word last = 0;
+    
+    if (inFile.Open(fileName))
+    {
+        for (line=inFile.GetFirstLine(); !inFile.Eof(); line=inFile.GetNextLine())
+        {
+            spaces = 0;
+            int maxSpaces = 6;
+            if (line.Len() < 6)  maxSpaces = (int)line.Len();
+            for (int i=0; i<maxSpaces; i++) if (line[i] == 32) spaces++;
+            if (spaces == 0)
+            {
+                strValue = line.Mid(1, 2);
+                if (!strValue.ToLong(&count, 16))
+                    count = 0;
+                
+                strValue = line.Mid(3, 4);
+                strValue.ToLong(&address, 16);
+                
+                strValue = line.Mid(7, 2);
+                strValue.ToLong(&value, 16);
+                
+                if (value == 1)
+                {
+                    inFile.Close();
+                    checkLoadedSoftware();
+                    return true;
+                }
+                if (address < start)
+                    start = address;
+                for (int i=0; i<count; i++)
+                {
+                    strValue = line.Mid((i*2)+9, 2);
+                    strValue.ToLong(&value, 16);
+                    if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
+                    {
+                        writeMem(address,(Byte)value, true);
+                        if (memoryType != NOCHANGE && memoryType != RAM)
+                            defineMemoryType(address, memoryType);
+                    }
+                    address++;
+                }
+                if (address > last)
+                    last = address;
+            }
+            else
+            {
+                strValue = line.Mid(1, 4);
+                strValue.ToLong(&address, 16);
+                for (size_t i=5; i<line.Len(); i++)
+                {
+                    if ((line[i] >= '0' && line [i] <= '9') ||
+                        (line[i] >= 'A' && line [i] <= 'F') ||
+                        (line[i] >= 'a' && line [i] <= 'f'))
+                    {
+                        strValue = line.Mid(i, 2);
+                        if (strValue.ToLong(&value, 16))
+                        {
+                            value &= 255;
+                            if (address < end && !(address >= inhibitStart && address <= inhibitEnd))
+                            {
+                                writeMem(address,(Byte)value, true);
+                                if (memoryType != NOCHANGE && memoryType != RAM)
+                                    defineMemoryType(address, memoryType);
+                            }
+                            address++;
+                            i++;
+                        }
+                    }
+                }
+            }
+        }
+        inFile.Close();
+        checkLoadedSoftware();
+        return true;
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + fileName);
+        return false;
+    }
+}
+
 bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool showFilename)
 {
 	wxTextFile inFile;
@@ -3398,7 +3497,7 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 					{
 						wxString endStr;
 						endStr.Printf("%04X", (int)end);
-                        if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+                        if (computerType_ != MICROBOARD)
                             p_Main->errorMessage("Attempt to load after address " + endStr);
 					}
 					setAddress(showFilename, start, last);
@@ -3652,7 +3751,7 @@ bool Cdp1802::readLstFile(wxString fileName, int memoryType, long end, bool show
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+            if (computerType_ != MICROBOARD)
                 p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, last);
@@ -3729,6 +3828,37 @@ void Cdp1802::saveBinFile(wxString fileName, long start, long end)
 	}
 }
 
+bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word start, long end, long inhibitStart, long inhibitEnd)
+{
+    wxFFile inFile;
+    size_t length;
+    char buffer[65535];
+    Word address = start;
+    
+    if (inFile.Open(fileName, _("rb")))
+    {
+        length = inFile.Read(buffer, end-start);
+        for (size_t i=0; i<length; i++)
+        {
+            if (address < (start+length) && !(address >= inhibitStart && address <= inhibitEnd))
+            {
+                writeMem(address,(Byte)buffer[i], true);
+                if (memoryType != NOCHANGE && memoryType != RAM)
+                    defineMemoryType(address, memoryType);
+            }
+            address++;
+        }
+        inFile.Close();
+        checkLoadedSoftware();
+        return true;
+    }
+    else
+    {
+        p_Main->errorMessage("Error reading " + fileName);
+        return false;
+    }
+}
+
 bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress)
 {
 	wxFFile inFile;
@@ -3777,7 +3907,7 @@ bool Cdp1802::readBinFile(wxString fileName, int memoryType, Word address, long 
 		{
 			wxString endStr;
 			endStr.Printf("%04X", (int)end);
-            if (computerType_ != CDP18S600 && computerType_ != CDP18S601 && computerType_ != CDP18S603A)
+            if (computerType_ != MICROBOARD)
                 p_Main->errorMessage("Attempt to load after address " + endStr);
 		}
 		setAddress(showFilename, start, address-1);
@@ -4107,6 +4237,22 @@ void Cdp1802::checkLoadedSoftware()
                 if (loadedProgram_ == NOPROGRAM)
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "");
             break;
+                
+            case CDP18S020:
+            case MICROBOARD:
+                if ((mainMemory_[0x8024] == 0x51) && (mainMemory_[0x8030] == 0xe5) && (mainMemory_[0x8048] == 0xa3) && (mainMemory_[0x80d8] == 0x50))
+                {
+                    loadedProgram_ = UT4;
+                }
+                if ((mainMemory_[0x8024] == 0x94) && (mainMemory_[0x8030] == 0x83) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0xae))
+                {
+                    loadedProgram_ = UT62;
+                }
+                if ((mainMemory_[0x8111] == 0x55) && (mainMemory_[0x8112] == 0x54) && (mainMemory_[0x8113] == 0x37) && (mainMemory_[0x8114] == 0x31))
+                {
+                    loadedProgram_ = UT71;
+                }
+            break;
         }
 	}
 	if (loadedOs_ == NOOS)
@@ -4140,13 +4286,30 @@ bool Cdp1802::readProgram(wxString romDir, wxString rom, int memoryType, Word ad
 	else return false;
 }
 
-bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, Word lastAddress, bool showFilename)
+bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType, Word address, long lastAddress, bool showFilename)
 {
     if (rom.Len() != 0)
     {
         return readFile(romDir+rom, memoryType, address, lastAddress, showFilename);
     }
     else return false;
+}
+
+bool Cdp1802::readProgramMicro(wxString romDir, wxString rom, int memoryType1, int memoryType2, long startAddress, long lastAddress, long inhibitStart, long inhibitEnd)
+{
+    long address = startAddress;
+    for (long i=0; i<(lastAddress-startAddress); i+=256)
+    {
+        if (address < lastAddress && !(address >= inhibitStart && address <= inhibitEnd))
+            defineMemoryType(address, memoryType1);
+        address+=256;
+    }
+    if (rom.Len() != 0)
+    {
+        return readFile(romDir+rom, memoryType2, startAddress, lastAddress, inhibitStart, inhibitEnd);
+    }
+    else
+        return false;
 }
 
 bool Cdp1802::readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename)
@@ -4299,6 +4462,38 @@ void Cdp1802::readSt2Program(int computerType)
 							    "Emma 02", wxICON_ERROR | wxOK );
 		}
 	}
+}
+
+bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end, long inhibitStart, long inhibitEnd)
+{
+    wxFFile inFile;
+    char buffer[4];
+    
+    if (wxFile::Exists(fileName))
+    {
+        if (inFile.Open(fileName, _("rb")))
+        {
+            inFile.Read(buffer, 4);
+            inFile.Close();
+                        
+            if (buffer[0] == ':' || (buffer[0] == 0x0d && buffer[1] == 0x0a && buffer[2] == ':'))
+                return readIntelFile(fileName, memoryType, end, inhibitStart, inhibitEnd);
+            else if (buffer[0] == '0' && buffer[1] == '0' && buffer[2] == '0' && buffer[3] == '0')
+                return readLstFile(fileName, memoryType, end, false);
+            else
+                return readBinFile(fileName, memoryType, address, end, inhibitStart, inhibitEnd);
+        }
+        else
+        {
+            p_Main->errorMessage("Error reading " + fileName);
+            return false;
+        }
+    }
+    else
+    {
+        p_Main->errorMessage("File " + fileName + " not found");
+        return false;
+    }
 }
 
 bool Cdp1802::readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename)
@@ -4487,9 +4682,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
 
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
+                case MICROBOARD:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4552,9 +4745,7 @@ void Cdp1802::writeMemLabelType(Word address, Byte type)
                     address = address & ramMask_;
                 break;
                 
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
+                case MICROBOARD:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4865,9 +5056,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
+                case MICROBOARD:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -4928,9 +5117,7 @@ Byte Cdp1802::readMemLabelType(Word address)
                     address = address & ramMask_;
                 break;
                     
-                case CDP18S600:
-                case CDP18S601:
-                case CDP18S603A:
+                case MICROBOARD:
                 case CDP18S020:
                 case VELF:
                     if (address < 0x8000)
@@ -5132,4 +5319,13 @@ Byte Cdp1802::readMemLabelType(Word address)
     }
     return MEM_TYPE_UNDEFINED;
 }
+
+void Cdp1802::setHeaderTitle(const wxString& WXUNUSED(title))
+{
+}
+
+void Cdp1802::updateTitle(wxString WXUNUSED(Title))
+{
+}
+
 

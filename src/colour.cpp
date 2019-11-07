@@ -207,7 +207,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 	{
 		button.Printf("%d", i);
 		button.Trim(false);
-		if (i == 1)
+		if (i == 1 && computerType_ != MICROBOARD)
 		{
 			wxString valueString;
 			valueString.Printf("%i", p_Main->getConfigItem(computerTypeStr_+"/BorderX"+button, screenInfo_.borderX[i])*(int)scaleValue);
@@ -332,7 +332,7 @@ void ColourDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	{
 		button.Printf("%d", i);
 		button.Trim(false);
-		if (i == 1)
+        if (i == 1 && computerType_ != MICROBOARD)
 		{
 			wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
 			valueString.ToLong(&border);
@@ -405,7 +405,7 @@ void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
 		{
 			button.Printf("%d", i);
 			button.Trim(false);
-			if (i == 1)
+            if (i == 1 && computerType_ != MICROBOARD)
 			{
 				wxString valueString = XRCCTRL(*this, "BorderX1Text", wxTextCtrl)->GetValue();
 				valueString.ToLong(&borderX);
@@ -474,7 +474,7 @@ void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
 	{
 		button.Printf("%d", i);
 		button.Trim(false);
-		if (i == 1)
+        if (i == 1 && computerType_ != MICROBOARD)
 		{
 			wxString valueString;
 			valueString.Printf("%i", (int)(screenInfo_.borderX[i]*scaleValue));
@@ -509,6 +509,9 @@ void ColourDialog::onMonitor1( wxCommandEvent&event)
 
 	if (computerType_ == VIP || computerType_ == VIP2K )
 		colourIndex = 12;
+
+    if (computerType_ == MICROBOARD )
+        colourIndex = 64;
 
 	colourChanged_ = true;
 	XRCCTRL(*this, "ColourTest", wxButton)->Enable(true);

@@ -35,7 +35,11 @@ BEGIN_EVENT_TABLE(VtSetupDialog, wxDialog)
 	EVT_TEXT(XRCID("VtSetupWavFile"), VtSetupDialog::onVtWavFile)
 	EVT_BUTTON(XRCID("VtSetupWavButton"), VtSetupDialog::onVtWavFileButton)
 	EVT_BUTTON(XRCID("VtSetupWavEject"), VtSetupDialog::onVtWavFileEject)
-	END_EVENT_TABLE()
+    EVT_TEXT(XRCID("VtSetupCharRom"), VtSetupDialog::onVtCharRomText)
+    EVT_COMBOBOX(XRCID("VtSetupCharRom"), VtSetupDialog::onVtCharRomText)
+    EVT_BUTTON(XRCID("VtSetupCharRomButton"), VtSetupDialog::onVtCharRom)
+
+END_EVENT_TABLE()
 
 VtSetupDialog::VtSetupDialog(wxWindow* parent)
 {
@@ -128,32 +132,20 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart CDP1854");
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 
-        case CDP18S600:
-            XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart CDP1854");
-            XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtUartGroup", wxChoice)->SetSelection(elfConfiguration_.uartGroup);
-        break;
-            
         case MCDS:
         case CDP18S020:
-        case CDP18S601:
-        case CDP18S603A:
+        case MICROBOARD:
             XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
         break;
             
 		case MS2000:
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
 			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 
 		case ELF2K:
@@ -161,7 +153,6 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart 16450");
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 
         case VIP:
@@ -171,7 +162,6 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
             XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
             XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
         break;
             
 		case COSMICOS:
@@ -180,7 +170,6 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 			XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
 			XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
 			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
-            XRCCTRL(*this, "VtUartGroup", wxChoice)->Hide();
 		break;
 	}
 
@@ -200,6 +189,8 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		box.Printf("%d", i);
 		XRCCTRL(*this, "VtSetupBit"+box, wxChoice)->SetSelection(SetUpFeature_[i]);
 	}
+	XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vtCharRom_);
+
     
 #ifdef __WXMSW__
     listPorts();
@@ -255,19 +246,12 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
         break;
 
-        case CDP18S600:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
-            elfConfiguration_.uartGroup = XRCCTRL(*this, "VtUartGroup", wxChoice)->GetSelection();
-        break;
-            
         case CDP18S020:
-        case CDP18S601:
-        case CDP18S603A:
         case MCDS:
             elfConfiguration_.useUart = false;
         break;
             
-		case MS2000:
+        case MS2000:
 			elfConfiguration_.useUart = true;
 
 			uartMS2000Event.SetEventObject(this);
@@ -314,7 +298,10 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 			elfConfiguration_.vtEf = XRCCTRL(*this, "VtEf", wxCheckBox)->GetValue();
 			elfConfiguration_.vtQ = !XRCCTRL(*this, "VtQ", wxCheckBox)->GetValue();
         break;
-	}
+            
+        case MICROBOARD:
+        break;
+    }
 
     long bellFrequency;
     wxString valueString = XRCCTRL(*this, "VtBell", wxTextCtrl)->GetValue();
@@ -388,6 +375,38 @@ void VtSetupDialog::onVtWavFileEject(wxCommandEvent& WXUNUSED(event))
 
 	XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(true);
 }
+
+void VtSetupDialog::onVtCharRom(wxCommandEvent& WXUNUSED(event) )
+{
+	wxString fileName;
+
+	fileName = wxFileSelector( "Select the VT Character Font file to load",
+                               elfConfiguration_.vtCharRomDir_, XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue(),
+                               "bin",
+                               wxString::Format
+                              (
+                                    "Binary Font File|*.bin;*.rom|All files (%s)|%s",
+                                    wxFileSelectorDefaultWildcardStr,
+                                    wxFileSelectorDefaultWildcardStr
+                               ),
+                               wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW,
+                               this
+                              );
+	if (!fileName)
+		return;
+
+	wxFileName FullPath = wxFileName(fileName, wxPATH_NATIVE);
+	elfConfiguration_.vtCharRomDir_ = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+	elfConfiguration_.vtCharRom_ = FullPath.GetFullName();
+
+	XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->SetValue(elfConfiguration_.vtCharRom_);
+}
+
+void VtSetupDialog::onVtCharRomText(wxCommandEvent& WXUNUSED(event))
+{
+	elfConfiguration_.vtCharRom_ = XRCCTRL(*this, "VtSetupCharRom", wxComboBox)->GetValue();
+}
+
 
 void VtSetupDialog::listPorts()
 {

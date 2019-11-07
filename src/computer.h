@@ -74,10 +74,12 @@ private:
 class HexButton2 : public HexButton
 {
 public:
-    HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label);
+    HexButton2(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label, int pioNumber);
     void OnTimer(wxTimerEvent& event);
     
 private:
+    int pioNumber_;
+    
     DECLARE_EVENT_TABLE()
 };
 
@@ -242,6 +244,7 @@ protected:
     wxButton *text_runPButtonPointer;
 	wxButton *text_mpButtonPointer;
 	wxButton *text_dataSwitchPointer[8];
+    wxButton *text_stbButtonPointer;
     wxButton *text_ardyButtonPointer;
     wxButton *text_brdyButtonPointer;
 
@@ -263,6 +266,7 @@ protected:
 	HexButton *osx_seqButtonPointer;
 	HexButton *osx_decButtonPointer;
 	HexButton *osx_retButtonPointer;
+    HexButton *osx_stbButtonPointer;
     HexButton *osx_ardyButtonPointer;
     HexButton *osx_brdyButtonPointer;
 
@@ -397,7 +401,7 @@ public:
 	virtual void setElf2KDivider(Byte value);
 	virtual void removeElf2KSwitch();
 	virtual void removeElfHex();
-	virtual void removePio() {};
+    virtual void removePio(int pioNumber);
 	virtual void removeCosmicosHex();
 	virtual void removeElfLedModule(); 
     virtual void showData(Byte val);
@@ -453,6 +457,7 @@ public:
 	virtual void onRamButton();
     virtual void efSwitch(int number);
     virtual void setEfState(int number, Byte value);
+    virtual void setEfState(int pioNumber, int number, Byte value);
 	virtual void dataSwitch(int number);
 	virtual Byte getData();
 	virtual void onHexDown(int hex);
@@ -517,7 +522,7 @@ public:
     virtual int getBuildInGame(){return 0;};
 
     virtual void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
-    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType);
+    virtual void releaseButtonOnScreen2(HexButton* buttonPointer, int buttonType, int pioNumber);
     virtual void reLoadKeyDefinition(wxString fileName) {};
     virtual void setPrinterEf() {};
     virtual void switchHexEf(bool state);
@@ -536,6 +541,12 @@ public:
     virtual void setCpuMode(int mode);
     virtual void setGoTimer() {};
     virtual void setForceUpperCase(bool status);
+    virtual void moveWindows() {};
+    virtual void showPio(bool state);
+    virtual void showCdp18s660Pio1(bool state);
+    virtual void showCdp18s660Pio2(bool state);
+    virtual void showControlWindow(bool state);
+    virtual void setAddressLatch(Word bootAddress);
 
 protected:
 	RunComputer *threadPointer;

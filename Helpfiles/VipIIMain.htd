@@ -12,7 +12,7 @@ Default the VIP II will start up in Fixed Point Basic (FPB). To start-up in ROM 
 In FPB mode FPB ROM is located from 0000 to 3FFF except for 0400 to 07FF and 0C000 to 0FFF which is RAM. Also 4000 to 7FFF is RAM. In ROM Mode RAM is located from 0000 to 7FFF. System ROM is loaded at 8000 for both modes.
 </p>
 <p>
-Emulation of the leds can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'Leds' field. When 0 ms (or nothing) is specfied the leds will be updated in real time.
+Emulation of the LEDs can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'LEDs' field. When 0 ms (or nothing) is specified the LEDs will be updated in real time.
 </p>
 <p>
 This chapter includes:

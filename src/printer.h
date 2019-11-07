@@ -148,11 +148,11 @@ public:
 
 	void configureElfPrinter(ElfPortConfiguration portConf);
 	void configureThermalPrinter();
+	void init(Printer *pointer, wxString computerName, int printerType);
 	void initComx(Printer *pointer);
 	void initTelmac(Printer *pointer);
     void initPecom(Printer *pointer);
 	void initMS2000(Printer *pointer);
-	void initMcds(Printer *pointer);
 	void initVip(Printer *pointer);
 	void initElf(Printer *pointer, wxString computerName);
 	Byte inParallel();

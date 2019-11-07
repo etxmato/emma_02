@@ -26,4 +26,33 @@ public:
 private:
 };
 
+class Cdp18s640Frame : public wxFrame
+{
+public:
+    Cdp18s640Frame(const wxString& title, const wxPoint& pos, const wxSize& size);
+    ~Cdp18s640Frame();
+    
+    void onClose(wxCloseEvent& event);
+  
+    void onRunButton(wxCommandEvent&event);
+    void onRunPButton(wxCommandEvent&event);
+    void onResetButton(wxCommandEvent&event);
+
+    void init() {cdp18s640ScreenPointer->init();};
+    void releaseButtonOnScreen(HexButton* buttonPoint) {cdp18s640ScreenPointer->releaseButtonOnScreen(buttonPoint);};
+
+    void setQLed(int status) {cdp18s640ScreenPointer->setQLed(status);};
+    void showDataTil313Italic(Byte value) {cdp18s640ScreenPointer->showDataTil313Italic(value);};
+    void showAddressTil313Italic(Word address) {cdp18s640ScreenPointer->showAddressTil313Italic(address);};
+    void setStateLed(int i, int status) {cdp18s640ScreenPointer->setStateLed(i, status);};
+    void setRunLed(int status) {cdp18s640ScreenPointer->setRunLed(status);};
+    void ledTimeout() {cdp18s640ScreenPointer->ledTimeout();};
+    void setLedMs(long ms) {cdp18s640ScreenPointer->setLedMs(ms);};
+    
+private:
+    class Cdp18s640Screen *cdp18s640ScreenPointer;
+    
+    DECLARE_EVENT_TABLE()
+};
+
 #endif  // CDP18S640_H

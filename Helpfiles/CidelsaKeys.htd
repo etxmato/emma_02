@@ -3,7 +3,7 @@
 <body>
 <h2>Key Definition</h2>
 <p>
-All games can be started by '1' for 1 player or '2' for a 2 player game, note however that the 1 and 2 keys/buttons are only activated if there is enough credit (i.e. enough coins are inserted). For Altair and destroyer this is shown by the green leds in the status bar. The leds in the status bar can also be pressed instead of the defined keys.
+All games can be started by '1' for 1 player or '2' for a 2 player game, note however that the 1 and 2 keys/buttons are only activated if there is enough credit (i.e. enough coins are inserted). For Altair and destroyer this is shown by the green LEDs in the status bar. The LEDs in the status bar can also be pressed instead of the defined keys.
 </p>
 <p>
 <B>Keys for Altair are mapped as follows:</B><br>

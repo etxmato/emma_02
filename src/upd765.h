@@ -18,13 +18,13 @@ public:
     bool sdwClusterDefined;
 };
 
-class Upd765 : public Cdp1802
+class Upd765
 {
 public:
 	Upd765();
 	~Upd765() {};
 
-	void configureUpd765();
+	void configureUpd765(int fdcType);
 	Byte efInterrupt();
 	Byte inputMasterStatus();
     void outputCommand(Byte value);
@@ -83,6 +83,7 @@ private:
     
     int updActivity_;
     int sectorsPerTrack_;
+    int fdcType_;
 };
 
 #endif  // UPD_H

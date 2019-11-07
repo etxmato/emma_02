@@ -368,7 +368,7 @@ class ScreenInfo
 public:
 	int start;
 	int number;
-	wxString defaultColour[66];
+	wxString defaultColour[67];
 	int numberVideo;
 	int borderX[10];
 	int borderY[10];
@@ -417,7 +417,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.32
+#define EMMA_VERSION 1.33
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -431,29 +431,27 @@ public:
 #define MICROTUTOR 9
 #define MICROTUTOR2 10
 #define CDP18S020 11
-#define CDP18S600 12
-#define CDP18S601 13
-#define CDP18S603A 14
-#define LAST_LED_COMPUTER 14
-#define MS2000 15
-#define MCDS 16
-#define FRED1 17
-#define FRED1_5 18
-#define COMX 19
-#define STUDIO 20
-#define ETI 21
-#define CIDELSA 22
-#define TMC600 23
-#define TMC1800 24
-#define TMC2000 25
-#define NANO 26
-#define PECOM 27
-#define VISICOM 28
-#define VICTORY 29
-#define VIPII 30
-#define COINARCADE 31
-#define STUDIOIV 32
-#define DEBUGGER 33
+#define MICROBOARD 12
+#define LAST_LED_COMPUTER 12
+#define MS2000 13
+#define MCDS 14
+#define FRED1 15
+#define FRED1_5 16
+#define COMX 17
+#define STUDIO 18
+#define ETI 19
+#define CIDELSA 20
+#define TMC600 21
+#define TMC1800 22
+#define TMC2000 23
+#define NANO 24
+#define PECOM 25
+#define VISICOM 26
+#define VICTORY 27
+#define VIPII 28
+#define COINARCADE 29
+#define STUDIOIV 30
+#define DEBUGGER 31
 
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
@@ -490,13 +488,12 @@ public:
 #define COMXTAB 0
 #define COSMACELFTAB 1
 #define RCATAB 2
-#define MICROTAB 3
-#define STUDIOTAB 4
-#define CIDELSATAB 5
-#define TELMACTAB 6
-#define PECOMTAB 7
-#define ETITAB 8
-#define DEBUGGERTAB 9
+#define STUDIOTAB 3
+#define CIDELSATAB 4
+#define TELMACTAB 5
+#define PECOMTAB 6
+#define ETITAB 7
+#define DEBUGGERTAB 8
 #define DISKNONE 0
 #define DISKFDC 1
 #define DISKIDE 2
@@ -515,27 +512,26 @@ public:
 #define FRED2TAB 1
 #define MICROTUTORTAB 2
 #define MICROTUTOR2TAB 3
-#define VIPTAB 4
-#define VIPIITAB 5
-#define LASTRCATAB 7
-
-#define CDP18S020TAB 0
-#define CDP18S600TAB 1
-#define CDP18S601TAB 2
-#define CDP18S603ATAB 3
-#define MCDSTAB 4
-#define MS2000TAB 5
+#define CDP18S020TAB 4
+#define VIPTAB 5
+#define VIPIITAB 6
+#define MICROBOARDTAB 7
+#define MCDSTAB 8
+#define MS2000TAB 9
+#define LASTRCATAB 9
 
 #define COINARCADETAB 0
 #define STUDIOIITAB 1
 #define VICTORYTAB 2
 #define STUDIOIVTAB 3
 #define VISICOMTAB 4
+#define LASTSTUDIOTAB 4
 
 #define TMC600TAB 0
 #define TMC1800TAB 1
 #define TMC2000TAB 2
 #define NANOTAB 3
+#define LASTTELMACTAB 3
 
 #define MESSAGETAB 0
 #define DIRECTASSTAB 1
@@ -543,10 +539,26 @@ public:
 #define CHIP8TAB 3
 #define MEMORYTAB 4
 #define ASSTAB 5
+#define LASTDEBUGGERTAB 5
+
+#define MICROBOARD_CDP18S600 0
+#define MICROBOARD_CDP18S601 1
+#define MICROBOARD_CDP18S602 2
+#define MICROBOARD_CDP18S603 3
+#define MICROBOARD_CDP18S603A 4
+#define MICROBOARD_CDP18S604B 5
+#define MICROBOARD_CDP18S605 6
+#define MICROBOARD_CDP18S606 7
+#define MICROBOARD_CDP18S607 8
+#define MICROBOARD_CDP18S608 9
+#define MICROBOARD_CDP18S609 10
+#define MICROBOARD_CDP18S610 11
+#define MICROBOARD_LAST 11
 
 #define VIDEONONE 0
 #define VIDEO1870 0
 #define VIDEO80COL 2
+#define VIDEOMICROVT 1
 
 #define VIDEOVT 0
 #define VIDEOPIXIE 1
@@ -595,6 +607,7 @@ public:
 #define UNDEFINED 0
 #define RAM 1
 #define ROM 2
+#define RAMROM 3
 #define PAGER 3
 #define CRAM1870 5
 #define PRAM1870 6
@@ -656,6 +669,9 @@ public:
 #define GOLDMON 6
 #define MONITOR_CHUCK_LOW 8
 #define MONITOR_CHUCK_HIGH 10
+#define UT4 12
+#define UT62 14
+#define UT71 16
 
 #define BASICADDR_KEY 0
 #define BASICADDR_READY 1
@@ -954,6 +970,8 @@ public:
     void onDataDir(wxCommandEvent& event);
     void onReInstallConfig(wxCommandEvent& event);
     void onReInstallData(wxCommandEvent& event);
+    void removeRedundantFiles();
+    void deleteDir(wxString directory);
     void reInstall(wxString source, wxString destination, wxString pathSep);
     void reInstallOnNotFound(int computerType, wxString fileTypeString);
     void checkAndReInstallMainRom(int computerType);
@@ -1027,7 +1045,6 @@ public:
 	void onTelmacChoiceBook(wxChoicebookEvent& event);
 	void onElfChoiceBook(wxChoicebookEvent& event);
     void onRcaChoiceBook(wxChoicebookEvent& event);
-    void onMicroChoiceBook(wxChoicebookEvent& event);
 	void onDebuggerChoiceBook(wxChoicebookEvent& event);
     void setConfigurationMenu();
 	void setNoteBook();

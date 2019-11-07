@@ -93,6 +93,8 @@ private:
     double cdp18s020ClockSpeed_;
     class Cdp18s020Screen *cdp18s020ScreenPointer;
 
+    int addressLatchCounter_;
+    
     DECLARE_EVENT_TABLE()
 };
 

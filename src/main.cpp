@@ -490,7 +490,6 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("TelmacChoiceBook"), Main::onTelmacChoiceBook)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("ElfChoiceBook"), Main::onElfChoiceBook)
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("RcaChoiceBook"), Main::onRcaChoiceBook)
-    EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("MicroChoiceBook"), Main::onMicroChoiceBook)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
 	EVT_TIMER(902, Main::vuTimeout)
 	EVT_TIMER(903, Main::cpuTimeout)
@@ -1167,69 +1166,6 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                     }
                     return true;
                 }
-                if (computer == "Cdp18s600" || computer == "CDP18S600")
-                {
-                    startComputer_ = CDP18S600;
-                    mode_.gui = false;
-                    if (parser.Found("s", &software))
-                    {
-                        mode_.load = true;
-                        getSoftware(computer, "Software_File", software);
-                    }
-                    if (parser.Found("r", &software))
-                    {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on CDP18S600 emulator");
-                        return false;
-                    }
-                    if (parser.Found("ch", &software))
-                    {
-                        wxMessageOutput::Get()->Printf("Option -ch is not supported on CDP18S600 emulator");
-                        return false;
-                    }
-                    return true;
-                }
-                if (computer == "Cdp18s601" || computer == "CDP18S601")
-                {
-                    startComputer_ = CDP18S601;
-                    mode_.gui = false;
-                    if (parser.Found("s", &software))
-                    {
-                        mode_.load = true;
-                        getSoftware(computer, "Software_File", software);
-                    }
-                    if (parser.Found("r", &software))
-                    {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on CDP18S601 emulator");
-                        return false;
-                    }
-                    if (parser.Found("ch", &software))
-                    {
-                        wxMessageOutput::Get()->Printf("Option -ch is not supported on CDP18S601 emulator");
-                        return false;
-                    }
-                    return true;
-                }
-                if (computer == "Cdp18s603a" || computer == "CDP18S603A")
-                {
-                    startComputer_ = CDP18S603A;
-                    mode_.gui = false;
-                    if (parser.Found("s", &software))
-                    {
-                        mode_.load = true;
-                        getSoftware(computer, "Software_File", software);
-                    }
-                    if (parser.Found("r", &software))
-                    {
-                        wxMessageOutput::Get()->Printf("Option -r is not supported on CDP18S603A emulator");
-                        return false;
-                    }
-                    if (parser.Found("ch", &software))
-                    {
-                        wxMessageOutput::Get()->Printf("Option -ch is not supported on CDP18S603A emulator");
-                        return false;
-                    }
-                    return true;
-                }
 				wxMessageOutput::Get()->Printf("Incorrect computer name specified");
 				return false;
 			break;
@@ -1348,6 +1284,27 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 					}
 					return true;
 				}
+                if (computer == "Microboard" || computer == "Micro")
+                {
+                    startComputer_ = MICROBOARD;
+                    mode_.gui = false;
+                    if (parser.Found("s", &software))
+                    {
+                        mode_.load = true;
+                        getSoftware(computer, "Software_File", software);
+                    }
+                    if (parser.Found("r", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -r is not supported on Microboard emulator");
+                        return false;
+                    }
+                    if (parser.Found("ch", &software))
+                    {
+                        wxMessageOutput::Get()->Printf("Option -ch is not supported on Microboard emulator");
+                        return false;
+                    }
+                    return true;
+                }
 				if (computer == "Microtutor")
 				{
 					startComputer_ = MICROTUTOR;
@@ -1783,8 +1740,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         
         defaultGuiSize_ = getDefaultGuiSize();
         
-        windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X", defaultGuiSize_.x);
-        windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y", defaultGuiSize_.y);
+        windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X_133", defaultGuiSize_.x);
+        windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y_133", defaultGuiSize_.y);
 
         this->SetSize(wxSize(windowInfo.mainwX, windowInfo.mainwY));
     }
@@ -1902,7 +1859,14 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
             }
         }
     }
- 
+    bool redundantFilesRemoveCheck;
+    configPointer->Read("/Main/RedundantFilesRemoveCheck", &redundantFilesRemoveCheck, false);
+    if (!redundantFilesRemoveCheck)
+    {
+        removeRedundantFiles();
+        configPointer->Write("/Main/RedundantFilesRemoveCheck", true);
+    }
+    
     readConfig();
     
     oldGauge_ = 1;
@@ -2017,10 +1981,16 @@ wxSize Main::getDefaultGuiSize()
         number++;
     }
     
-    size.x += 40;
+#if defined (__WXMAC__)
+	size.x += 40;
+    size.y += 114;
+#endif
 #if defined (__linux__)
+    size.x += 30;
     size.y += 140;
-#else
+#endif
+#if defined (__WXMSW__)
+    size.x += 28;
     size.y += 114;
 #endif
 
@@ -2051,15 +2021,14 @@ void Main::writeConfig()
 //#if defined (__linux__)
 //    windowInfo.mainwY -= 28;
 //#endif
-    configPointer->Write("/Main/Window_Size_X", windowInfo.mainwX);
-    configPointer->Write("/Main/Window_Size_Y", windowInfo.mainwY);
+    configPointer->Write("/Main/Window_Size_X_133", windowInfo.mainwX);
+    configPointer->Write("/Main/Window_Size_Y_133", windowInfo.mainwY);
     
 	if (mode_.gui)
 	{
 		configPointer->Write("/Main/Selected_Tab", XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Cosmac_Tab", XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->GetSelection());
         configPointer->Write("/Main/Selected_Rca_Tab", XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->GetSelection());
-        configPointer->Write("/Main/Selected_Micro_Tab", XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Studio_Tab", XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Telmac_Tab", XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->GetSelection());
@@ -2175,9 +2144,7 @@ void Main::writeConfig()
     writeVip2KDirConfig();
     writeVelfDirConfig();
     writeCdp18s020DirConfig();
-    writeCdp18s600DirConfig(CDP18S600, "CDP18S600");
-    writeCdp18s600DirConfig(CDP18S601, "CDP18S601");
-    writeCdp18s600DirConfig(CDP18S603A, "CDP18S603A");
+    writeCdp18s600DirConfig();
 	writeElfDirConfig(ELF, "Elf");
 	writeElfDirConfig(ELFII, "ElfII");
 	writeElfDirConfig(SUPERELF, "SuperElf");
@@ -2209,9 +2176,7 @@ void Main::writeConfig()
     writeVip2KConfig();
     writeVelfConfig();
     writeCdp18s020Config();
-    writeCdp18s600Config(CDP18S600, "CDP18S600");
-    writeCdp18s600Config(CDP18S601, "CDP18S601");
-    writeCdp18s600Config(CDP18S603A, "CDP18S603A");
+    writeCdp18s600Config();
 	writeElfConfig(ELF, "Elf");
 	writeElfConfig(ELFII, "ElfII");
 	writeElfConfig(SUPERELF, "SuperElf");
@@ -2243,9 +2208,7 @@ void Main::writeConfig()
    	writeVip2KWindowConfig();
     writeVelfWindowConfig();
     writeCdp18s020WindowConfig();
-    writeCdp18s600WindowConfig(CDP18S600, "CDP18S600");
-    writeCdp18s600WindowConfig(CDP18S601, "CDP18S601");
-    writeCdp18s600WindowConfig(CDP18S603A, "CDP18S603A");
+    writeCdp18s600WindowConfig();
 	writeElfWindowConfig(ELF, "Elf");
 	writeElfWindowConfig(ELFII, "ElfII");
 	writeElfWindowConfig(SUPERELF, "SuperElf");
@@ -2285,7 +2248,7 @@ void Main::initConfig()
 
 	percentageClock_ = 1;
 
-	wxString colour[66];
+	wxString colour[67];
 	int borderX[10];
 	int borderY[10];
 
@@ -2320,6 +2283,16 @@ void Main::initConfig()
 	setScreenInfo(PECOM, 56, 64, colour, 1, borderX, borderY);
 	setComputerInfo(PECOM, "Pecom", "Pecom 64", "pecom");
 
+    borderX[VIDEOMICROVT] = 0;
+    borderY[VIDEOMICROVT] = 0;  //Video Terminal
+
+    colour[64] = "#00ff00";    // foreground vt
+    colour[65] = "#004000";    // background vt
+    colour[66] = "#00ff00";    // highlight vt
+
+    setScreenInfo(MICROBOARD, 0, 67, colour, 2, borderX, borderY);
+    setComputerInfo(MICROBOARD, "Microboard", "Microboard System", "rca");
+
 	borderX[VIDEOVT] = 0;
 	borderY[VIDEOVT] = 0;  //Video Terminal
 	borderX[VIDEOPIXIE] = 11;
@@ -2342,12 +2315,6 @@ void Main::initConfig()
 	setComputerInfo(MEMBER, "Membership", "Membership Card", "");
     setScreenInfo(CDP18S020, 0, 5, colour, 1, borderX, borderY);
     setComputerInfo(CDP18S020, "CDP18S020", "CDP18S020 Evaluation Kit", "");
-    setScreenInfo(CDP18S600, 0, 5, colour, 1, borderX, borderY);
-    setComputerInfo(CDP18S600, "CDP18S600", "CDP18S600, RCA CMOS Microboard", "rca");
-    setScreenInfo(CDP18S601, 0, 5, colour, 1, borderX, borderY);
-    setComputerInfo(CDP18S601, "CDP18S601", "CDP18S601, RCA CMOS Microboard", "rca");
-    setScreenInfo(CDP18S603A, 0, 5, colour, 1, borderX, borderY);
-    setComputerInfo(CDP18S603A, "CDP18S603A", "CDP18S603A, RCA CMOS Microboard", "rca");
 
 	borderX[VIDEOPIXIE] = 8;
 	borderY[VIDEOPIXIE] = 32;  //CDP1864
@@ -2545,80 +2512,132 @@ void Main::initConfig()
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
 
+    int clockSize = 47;
 #if defined(__WXMAC__)
-    int clockTextCorrectionComxX = 256+60;
-    int clockTextCorrectionComxY = 107;
-    int clockFloatCorrectionComxX = 220+60;
-    int clockFloatCorrectionComxY = 110;
-    int mhzTextCorrectionComxX = 171+60;
-    int mhzTextCorrectionComxY = 107;
-    int stopCorrectionComxX = 143+60;
-    int stopCorrectionComxY = 111;
-    int startCorrectionComxX = 143-23;
-    int startCorrectionComxY = 111;
-    int floatHeight = -1;
+    int clockTextCorrectionComxX = 316;
+    int clockTextCorrectionComxY = 97;
+    int clockFloatCorrectionComxX = 280;
+    int clockFloatCorrectionComxY = 100;
+    int mhzTextCorrectionComxX = 231;
+    int mhzTextCorrectionComxY = 97;
+    int stopCorrectionComxX = 203;
+    int stopCorrectionComxY = 100;
+    int startCorrectionComxX = 120;
+    int startCorrectionComxY = 100;
+    int floatHeight = 21;
     int startHeight = -1;
 
-    int clockTextCorrectionX = 255+60;
-    int clockTextCorrectionY = 132;
-    int clockFloatCorrectionX = 219+60;
-    int clockFloatCorrectionY = 135;
-    int mhzTextCorrectionX = 170+60;
-    int mhzTextCorrectionY = 132;
-    int stopCorrectionX = 142+60;
-    int stopCorrectionY = 136;
-    int startCorrectionX = 142-23;
-    int startCorrectionY = 136;
+    int clockTextCorrectionX = 315;
+    int clockTextCorrectionY = 121;
+    int clockFloatCorrectionX = 279;
+    int clockFloatCorrectionY = 124;
+    int mhzTextCorrectionX = 230;
+    int mhzTextCorrectionY = 121;
+    int stopCorrectionX = 202;
+    int stopCorrectionY = 124;
+    int startCorrectionX = 119;
+    int startCorrectionY = 124;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 255+62; 
-	int clockTextCorrectionComxY = 117;
-	int clockFloatCorrectionComxX = 217+62; 
-	int clockFloatCorrectionComxY = 120;
-	int mhzTextCorrectionComxX = 170+60; 
-	int mhzTextCorrectionComxY = 117;
-    int stopCorrectionComxX = 142+60;
-    int stopCorrectionComxY = 121;
-    int startCorrectionComxX = 142-22;
-    int startCorrectionComxY = 121;
-	int floatHeight = 21;
+	int clockTextCorrectionComxX = 317; 
+	int clockTextCorrectionComxY = 107;
+	int clockFloatCorrectionComxX = 279; 
+	int clockFloatCorrectionComxY = 110;
+	int mhzTextCorrectionComxX = 230; 
+	int mhzTextCorrectionComxY = 107;
+    int stopCorrectionComxX = 202;
+    int stopCorrectionComxY = 111;
+    int startCorrectionComxX = 120;
+    int startCorrectionComxY = 111;
+	int floatHeight = 23;
 	int startHeight = 25;
 
-	int clockTextCorrectionX = 255+62; 
-	int clockTextCorrectionY = 146;
-	int clockFloatCorrectionX = 217+62; 
-	int clockFloatCorrectionY = 149;
-	int mhzTextCorrectionX = 170+60; 
-    int mhzTextCorrectionY = 146;
-    int stopCorrectionX = 142+60;
-    int stopCorrectionY = 150;
-    int startCorrectionX = 142-22;
-    int startCorrectionY = 150;
+	int clockTextCorrectionX = 317; 
+	int clockTextCorrectionY = 135;
+	int clockFloatCorrectionX = 279; 
+	int clockFloatCorrectionY = 138;
+	int mhzTextCorrectionX = 230; 
+    int mhzTextCorrectionY = 135;
+    int stopCorrectionX = 202;
+    int stopCorrectionY = 139;
+    int startCorrectionX = 120;
+    int startCorrectionY = 139;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxX = 260+60;
-    int clockTextCorrectionComxY = 136;
-    int clockFloatCorrectionComxX = 217+60;
-    int clockFloatCorrectionComxY = 141;
-    int mhzTextCorrectionComxX = 170+60;
-    int mhzTextCorrectionComxY = 136;
-    int stopCorrectionComxX = 138+60;
-    int stopCorrectionComxY = 142;
-    int startCorrectionComxX = 138-23;
-    int startCorrectionComxY = 142;
+    int clockTextCorrectionComxY;
+    int clockFloatCorrectionComxY;
+    int mhzTextCorrectionComxY;
+    int stopCorrectionComxY;
+    int startCorrectionComxY;
+    int clockTextCorrectionY;
+    int clockFloatCorrectionY;
+    int mhzTextCorrectionY;
+    int stopCorrectionY;
+    int startCorrectionY;
+    
+    int clockTextCorrectionComxX;
+    int clockFloatCorrectionComxX;
+    int mhzTextCorrectionComxX;
+    int stopCorrectionComxX;
+    int startCorrectionComxX;
+    int clockTextCorrectionX;
+    int clockFloatCorrectionX;
+    int mhzTextCorrectionX;
+    int stopCorrectionX;
+    int startCorrectionX;
+    if (windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_10)
+	{
+		clockTextCorrectionComxY = 90;
+		clockFloatCorrectionComxY = 95;
+		mhzTextCorrectionComxY = 90;
+		stopCorrectionComxY = 96;
+		startCorrectionComxY = 96;
+		clockTextCorrectionY = 126;
+		clockFloatCorrectionY = 131;
+		mhzTextCorrectionY = 126;
+		stopCorrectionY = 132;
+		startCorrectionY = 132;
+        clockSize = 59;
+
+        clockTextCorrectionComxX = 320;
+        clockFloatCorrectionComxX = 279;
+        mhzTextCorrectionComxX = 220;
+        stopCorrectionComxX = 188;
+        startCorrectionComxX = 106;
+        clockTextCorrectionX = 320;
+        clockFloatCorrectionX = 279;
+        mhzTextCorrectionX = 220;
+        stopCorrectionX = 188;
+        startCorrectionX = 106;
+}
+	else
+	{
+		clockTextCorrectionComxY = 127;
+		clockFloatCorrectionComxY = 135;
+		mhzTextCorrectionComxY = 127;
+		stopCorrectionComxY = 136;
+		startCorrectionComxY = 136;
+		clockTextCorrectionY = 168;
+		clockFloatCorrectionY = 176;
+		mhzTextCorrectionY = 168;
+		stopCorrectionY = 177;
+		startCorrectionY = 177;
+        clockSize = 59;
+
+        clockTextCorrectionComxX = 320;
+        clockFloatCorrectionComxX = 279;
+        mhzTextCorrectionComxX = 220;
+        stopCorrectionComxX = 188;
+        startCorrectionComxX = 106;
+        clockTextCorrectionX = 320;
+        clockFloatCorrectionX = 279;
+        mhzTextCorrectionX = 220;
+        stopCorrectionX = 188;
+        startCorrectionX = 106;
+    }
+
     int floatHeight = -1;
     int startHeight = -1;
-    
-    int clockTextCorrectionX = 260+60;
-    int clockTextCorrectionY = 172;
-    int clockFloatCorrectionX = 217+60;
-    int clockFloatCorrectionY = 177;
-    int mhzTextCorrectionX = 170+60;
-    int mhzTextCorrectionY = 172;
-    int stopCorrectionX = 138+60;
-    int stopCorrectionY = 178;
-    int startCorrectionX = 138-23;
-    int startCorrectionY = 178;
 #endif
   
 	if (mode_.gui)
@@ -2632,7 +2651,7 @@ void Main::initConfig()
                 case CIDELSA:
                 case ETI:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionComxX, defaultGuiSize_.y - clockTextCorrectionComxY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(47, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(clockSize, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionComxX, defaultGuiSize_.y - mhzTextCorrectionComxY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionComxX, defaultGuiSize_.y - stopCorrectionComxY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionComxX, defaultGuiSize_.y - startCorrectionComxY), wxSize(80, startHeight));
@@ -2640,7 +2659,7 @@ void Main::initConfig()
                     
                 default:
                     clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionX, defaultGuiSize_.y - clockTextCorrectionY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(47, floatHeight));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(clockSize, floatHeight));
                     mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionX, defaultGuiSize_.y - mhzTextCorrectionY));
                     stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionX, defaultGuiSize_.y - stopCorrectionY), wxSize(80, startHeight));
                     startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionX, defaultGuiSize_.y - startCorrectionY), wxSize(80, startHeight));
@@ -2688,9 +2707,7 @@ void Main::readConfig()
     readVip2KConfig();
     readVelfConfig();
     readCdp18s020Config();
-    readCdp18s600Config(CDP18S600, "CDP18S600");
-    readCdp18s600Config(CDP18S601, "CDP18S601");
-    readCdp18s600Config(CDP18S603A, "CDP18S603A");
+    readCdp18s600Config();
 	readElfConfig(ELF, "Elf");
 	readElfConfig(ELFII, "ElfII");
 	readElfConfig(SUPERELF, "SuperElf");
@@ -2722,9 +2739,7 @@ void Main::readConfig()
     readVip2KWindowConfig();
     readVelfWindowConfig();
     readCdp18s020WindowConfig();
-    readCdp18s600WindowConfig(CDP18S600, "CDP18S600");
-    readCdp18s600WindowConfig(CDP18S601, "CDP18S601");
-    readCdp18s600WindowConfig(CDP18S603A, "CDP18S603A");
+    readCdp18s600WindowConfig();
     readElfWindowConfig(ELF, "Elf");
     readElfWindowConfig(ELFII, "ElfII");
     readElfWindowConfig(SUPERELF, "SuperElf");
@@ -2879,8 +2894,6 @@ void Main::readConfig()
 
 	if (mode_.gui)
 	{
-		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Studio_Tab", 0l));
-        
         long selected_tab = configPointer->Read("/Main/Selected_Cosmac_Tab", 0l);
         if (selected_tab > LASTELFTAB)
             selected_tab = 0;
@@ -2889,18 +2902,29 @@ void Main::readConfig()
 		if (selected_tab > LASTRCATAB)
 			selected_tab = 0;
         XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(selected_tab);
-        XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Micro_Tab", 0l));
-		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Telmac_Tab", 0l));
-		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetSelection(configPointer->Read("/Main/Selected_Debugger_Tab", 0l));
+        selected_tab = configPointer->Read("/Main/Selected_Studio_Tab", 0l);
+        if (selected_tab > LASTSTUDIOTAB)
+            selected_tab = 0;
+        XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetSelection(selected_tab);
+        selected_tab = configPointer->Read("/Main/Selected_Telmac_Tab", 0l);
+        if (selected_tab > LASTTELMACTAB)
+            selected_tab = 0;
+		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetSelection(selected_tab);
+        selected_tab = configPointer->Read("/Main/Selected_Debugger_Tab", 0l);
+        if (selected_tab > LASTDEBUGGERTAB)
+            selected_tab = 0;
+		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetSelection(selected_tab);
 
-		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(configPointer->Read("/Main/Selected_Tab", 0l));
+        selected_tab = configPointer->Read("/Main/Selected_Tab", 0l);
+        if (selected_tab > DEBUGGERTAB)
+            selected_tab = 0;
+		XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(selected_tab);
 		eventChangeNoteBook();
 
         int offset = 24;
 		wxSize mainWindowSize = this->GetClientSize();
 		XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
         XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
-        XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
@@ -2916,9 +2940,7 @@ void Main::readConfig()
             XRCCTRL(*this, "PanelMembership", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelVelf", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelCDP18S020", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelCDP18S600", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelCDP18S601", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
-            XRCCTRL(*this, "PanelCDP18S603A", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
+            XRCCTRL(*this, "PanelMicroboard", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelMicrotutor2", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
             XRCCTRL(*this, "PanelFRED1", wxPanel)->SetBackgroundColour(wxColour(255,255,255));
@@ -3006,7 +3028,6 @@ void Main::adjustGuiSize()
     {
         XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
-        XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
@@ -3245,59 +3266,59 @@ void Main::buildConfigMenu()
         conf[computer].configurationDeleteMenu = new wxMenu;
         conf[computer].configurationSubMenuInfoNumber_ = 0;
         
-        bool cont = dir.GetFirst(&filename);
-        
-        while ( cont )
-        {
-            wxFileName configFile(dirName + filename);
-            if (configFile.GetExt() == "ini")
-            {
-                configurationInfo = getMenuInfo(dirName + filename);
-                
-                if (configurationInfo.subMenuName != "")
-                {
-                    int subMenuFound = -1;
-                    for (size_t i=0; i<conf[computer].configurationSubMenuInfoNumber_; i++)
-                    {
-                        if (conf[computer].configurationSubMenuInfo_[i].subMenuName == configurationInfo.subMenuName)
-                            subMenuFound = (int)i;
-                    }
-                    
-                    if (subMenuFound == -1)
-                    {
-                        conf[computer].configurationSubMenuInfoNumber_++;
-                        conf[computer].configurationSubMenuInfo_.resize(conf[computer].configurationSubMenuInfoNumber_);
-                        conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].subMenuName = configurationInfo.subMenuName;
-                        conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].subMenu =  new wxMenu;
-                        conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].deleteSubMenu =  new wxMenu;
-                        
-                        conf[computer].configurationMenu->AppendSubMenu(conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].subMenu, configurationInfo.subMenuName);
-                        conf[computer].configurationDeleteMenu->AppendSubMenu(conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].deleteSubMenu, configurationInfo.subMenuName);
+        wxArrayString filenames;
+        size_t numberOfFiles = dir.GetAllFiles(dirName, &filenames, "*.ini", wxDIR_DEFAULT);
+        filenames.Sort();
 
-                        subMenuFound = (int)conf[computer].configurationSubMenuInfoNumber_-1;
-                    }
-                    conf[computer].configurationSubMenuInfo_[subMenuFound].subMenu->Append(menuItem, configurationInfo.menuName);
-                    conf[computer].configurationSubMenuInfo_[subMenuFound].deleteSubMenu->Append(menuItemDelete, configurationInfo.menuName);
-                }
-                else
+        for (size_t i=0; i<numberOfFiles; i++)
+        {
+            filename = filenames.Item(i);
+        
+            wxFileName configFile(filename);
+            configurationInfo = getMenuInfo(filename);
+            
+            if (configurationInfo.subMenuName != "")
+            {
+                int subMenuFound = -1;
+                for (size_t i=0; i<conf[computer].configurationSubMenuInfoNumber_; i++)
                 {
-					if (configurationInfo.menuName != "")
-                    {
-                        conf[computer].configurationMenu->Append(menuItem, configurationInfo.menuName);
-                        conf[computer].configurationDeleteMenu->Append(menuItemDelete, configurationInfo.menuName);
-                    }
+                    if (conf[computer].configurationSubMenuInfo_[i].subMenuName == configurationInfo.subMenuName)
+                        subMenuFound = (int)i;
                 }
                 
-                this->Connect(menuItem++, wxEVT_COMMAND_MENU_SELECTED , wxCommandEventHandler(Main::onConfigMenu) );
-                this->Connect(menuItemDelete++, wxEVT_COMMAND_MENU_SELECTED , wxCommandEventHandler(Main::onDeleteConfiguration) );
-                configurationMenuInfoNumber_++;
-                configurationMenuInfo_.resize(configurationMenuInfoNumber_);
-                configurationMenuInfo_[configurationMenuInfoNumber_-1].fileName = filename;
-                configurationMenuInfo_[configurationMenuInfoNumber_-1].menuName = configurationInfo.menuName;
-                configurationMenuInfo_[configurationMenuInfoNumber_-1].subMenuName = configurationInfo.subMenuName;
-           }
-            cont = dir.GetNext(&filename);
-        }
+                if (subMenuFound == -1)
+                {
+                    conf[computer].configurationSubMenuInfoNumber_++;
+                    conf[computer].configurationSubMenuInfo_.resize(conf[computer].configurationSubMenuInfoNumber_);
+                    conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].subMenuName = configurationInfo.subMenuName;
+                    conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].subMenu =  new wxMenu;
+                    conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].deleteSubMenu =  new wxMenu;
+                    
+                    conf[computer].configurationMenu->AppendSubMenu(conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].subMenu, configurationInfo.subMenuName);
+                    conf[computer].configurationDeleteMenu->AppendSubMenu(conf[computer].configurationSubMenuInfo_[conf[computer].configurationSubMenuInfoNumber_-1].deleteSubMenu, configurationInfo.subMenuName);
+
+                    subMenuFound = (int)conf[computer].configurationSubMenuInfoNumber_-1;
+                }
+                conf[computer].configurationSubMenuInfo_[subMenuFound].subMenu->Append(menuItem, configurationInfo.menuName);
+                conf[computer].configurationSubMenuInfo_[subMenuFound].deleteSubMenu->Append(menuItemDelete, configurationInfo.menuName);
+            }
+            else
+            {
+                if (configurationInfo.menuName != "")
+                {
+                    conf[computer].configurationMenu->Append(menuItem, configurationInfo.menuName);
+                    conf[computer].configurationDeleteMenu->Append(menuItemDelete, configurationInfo.menuName);
+                }
+            }
+            
+            this->Connect(menuItem++, wxEVT_COMMAND_MENU_SELECTED , wxCommandEventHandler(Main::onConfigMenu) );
+            this->Connect(menuItemDelete++, wxEVT_COMMAND_MENU_SELECTED , wxCommandEventHandler(Main::onDeleteConfiguration) );
+            configurationMenuInfoNumber_++;
+            configurationMenuInfo_.resize(configurationMenuInfoNumber_);
+            configurationMenuInfo_[configurationMenuInfoNumber_-1].fileName = configFile.GetFullName();
+            configurationMenuInfo_[configurationMenuInfoNumber_-1].menuName = configurationInfo.menuName;
+            configurationMenuInfo_[configurationMenuInfoNumber_-1].subMenuName = configurationInfo.subMenuName;
+       }
     }
     
     configurationMenuOn_ = true;
@@ -3494,19 +3515,9 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeCdp18s020Config();
         break;
             
-        case CDP18S600:
-            writeCdp18s600DirConfig(CDP18S600, "CDP18S600");
-            writeCdp18s600Config(CDP18S600, "CDP18S600");
-        break;
-            
-        case CDP18S601:
-            writeCdp18s600DirConfig(CDP18S601, "CDP18S601");
-            writeCdp18s600Config(CDP18S601, "CDP18S601");
-        break;
-            
-        case CDP18S603A:
-            writeCdp18s600DirConfig(CDP18S601, "CDP18S603A");
-            writeCdp18s600Config(CDP18S601, "CDP18S603A");
+        case MICROBOARD:
+            writeCdp18s600DirConfig();
+            writeCdp18s600Config();
         break;
             
         case MEMBER:
@@ -3621,6 +3632,7 @@ ConfigurationInfo Main::getMenuInfo(wxString fileName)
 
 void Main::loadComputerConfig(wxString fileName)
 {
+    wxString menuNameFull;
 #if defined(__linux__) || defined(__WXMAC__)
     wxString appName = "emma_02";
 #else
@@ -3730,16 +3742,14 @@ void Main::loadComputerConfig(wxString fileName)
             readCdp18s020Config();
         break;
             
-        case CDP18S600:
-            readCdp18s600Config(CDP18S600, "CDP18S600");
-        break;
+        case MICROBOARD:
+            readCdp18s600Config();
             
-        case CDP18S601:
-            readCdp18s600Config(CDP18S601, "CDP18S601");
-        break;
-            
-        case CDP18S603A:
-            readCdp18s600Config(CDP18S603A, "CDP18S603A");
+            menuNameFull = conf[selectedComputer_].configurationInfo_.menuName;
+            if (conf[selectedComputer_].configurationInfo_.subMenuName != "")
+                menuNameFull = conf[selectedComputer_].configurationInfo_.subMenuName + " - " + menuNameFull;
+
+            XRCCTRL(*this, "ConfigTextMicroboard", wxStaticText)->SetLabel(menuNameFull.Left(34));
         break;
             
         case MEMBER:
@@ -3831,6 +3841,71 @@ void Main::onReInstallData(wxCommandEvent&WXUNUSED(event))
         reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
         completedSplashScreen_ = new CompletedSplashScreen(this);
     }
+}
+
+void Main::removeRedundantFiles()
+{
+    bool cpd18s600 = wxDir::Exists(dataDir_ + "CDP18S600");
+    bool cpd18s601 = wxDir::Exists(dataDir_ + "CDP18S601");
+    bool cpd18s603 = wxDir::Exists(dataDir_ + "CDP18S603A");
+    bool cpd18s600conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600");
+    bool cpd18s601conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601");
+    bool cpd18s603conf = wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A");
+
+    if (cpd18s600 || cpd18s601 || cpd18s603 || cpd18s600conf || cpd18s601conf || cpd18s603conf)
+    {
+        wxString message = "Redundant files and directories found:\n";
+        if (cpd18s600)
+            message = message + dataDir_ + "CDP18S600\n";
+        if (cpd18s601)
+            message = message + dataDir_ + "CDP18S601\n";
+        if (cpd18s603)
+            message = message + dataDir_ + "CDP18S603A\n";
+        if (cpd18s600conf)
+            message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600\n";
+        if (cpd18s601conf)
+            message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601\n";
+        if (cpd18s603conf)
+            message = message + iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A\n";
+
+        int answer = wxMessageBox(message+"\nDelete files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+        
+        if (answer == wxYES)
+        {
+            if (cpd18s600)
+                deleteDir (dataDir_ + "CDP18S600");
+            if (cpd18s601)
+                deleteDir (dataDir_ + "CDP18S601");
+            if (cpd18s603)
+                deleteDir (dataDir_ + "CDP18S603A");
+            if (cpd18s600conf)
+                deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S600");
+            if (cpd18s601conf)
+                deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S601");
+            if (cpd18s603conf)
+                deleteDir (iniDir_ + "Configurations" + pathSeparator_ + "CDP18S603A");
+        }
+    }
+}
+
+void Main::deleteDir(wxString directory)
+{
+    wxString fileName;
+    bool fileFound;
+    
+    wxDir *dir;
+    
+    dir = new wxDir (directory);
+    fileFound = dir->GetFirst(&fileName);
+    
+    while (fileFound)
+    {
+        wxRemoveFile(directory+pathSeparator_+fileName);
+        fileFound = dir->GetNext(&fileName);
+    }
+    
+    wxRmdir (directory);
+    delete dir;
 }
 
 void Main::reInstall(wxString sourceDir, wxString destinationDir, wxString pathSep)
@@ -4089,7 +4164,6 @@ void Main::setDefaultSettings()
         configPointer->Write("/Main/Selected_Tab", XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Cosmac_Tab", XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->GetSelection());
         configPointer->Write("/Main/Selected_Rca_Tab", XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->GetSelection());
-        configPointer->Write("/Main/Selected_Micro_Tab", XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Studio_Tab", XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->GetSelection());
         configPointer->Write("/Main/Selected_Telmac_Tab", XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->GetSelection());
         configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->GetSelection());
@@ -4778,19 +4852,8 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
             p_Cdp18s020->Move(conf[CDP18S020].mainX_, conf[CDP18S020].mainY_);
         break;
             
-        case CDP18S600:
-            p_Cdp18s600->moveWindows();
-            p_Cdp18s600->Move(conf[CDP18S600].mainX_, conf[CDP18S600].mainY_);
-        break;
-            
-        case CDP18S601:
-            p_Cdp18s601->moveWindows();
-            p_Cdp18s601->Move(conf[CDP18S601].mainX_, conf[CDP18S601].mainY_);
-        break;
-            
-        case CDP18S603A:
-            p_Cdp18s603a->moveWindows();
-            p_Cdp18s603a->Move(conf[CDP18S603A].mainX_, conf[CDP18S603A].mainY_);
+        case MICROBOARD:
+            p_Computer->moveWindows();
         break;
             
 		case MEMBER:
@@ -4875,12 +4938,8 @@ void Main::nonFixedWindowPosition()
     conf[VELF].mainY_ = -1;
     conf[CDP18S020].mainX_ = -1;
     conf[CDP18S020].mainY_ = -1;
-    conf[CDP18S600].mainX_ = -1;
-    conf[CDP18S600].mainY_ = -1;
-    conf[CDP18S601].mainX_ = -1;
-    conf[CDP18S601].mainY_ = -1;
-    conf[CDP18S603A].mainX_ = -1;
-    conf[CDP18S603A].mainY_ = -1;
+    conf[MICROBOARD].mainX_ = -1;
+    conf[MICROBOARD].mainY_ = -1;
 	conf[TMC1800].mainX_ = -1;
 	conf[TMC1800].mainY_ = -1;
 	conf[TMC2000].mainX_ = -1;
@@ -4943,18 +5002,16 @@ void Main::nonFixedWindowPosition()
     conf[VELF].vtY_ = -1;
     conf[CDP18S020].vtX_ = -1;
     conf[CDP18S020].vtY_ = -1;
-    conf[CDP18S600].vtX_ = -1;
-    conf[CDP18S600].vtY_ = -1;
-    conf[CDP18S600].secondFrameX_ = -1;
-    conf[CDP18S600].secondFrameY_ = -1;
-    conf[CDP18S601].vtX_ = -1;
-    conf[CDP18S601].vtY_ = -1;
-    conf[CDP18S601].secondFrameX_ = -1;
-    conf[CDP18S601].secondFrameY_ = -1;
-    conf[CDP18S603A].vtX_ = -1;
-    conf[CDP18S603A].vtY_ = -1;
-    conf[CDP18S603A].secondFrameX_ = -1;
-    conf[CDP18S603A].secondFrameY_ = -1;
+    conf[MICROBOARD].vtX_ = -1;
+    conf[MICROBOARD].vtY_ = -1;
+    conf[MICROBOARD].secondFrameX_ = -1;
+    conf[MICROBOARD].secondFrameY_ = -1;
+    conf[MICROBOARD].v1870X_ = -1;
+    conf[MICROBOARD].v1870Y_ = -1;
+    conf[MICROBOARD].thirdFrameX_ = -1;
+    conf[MICROBOARD].thirdFrameY_ = -1;
+    conf[MICROBOARD].fourthFrameX_ = -1;
+    conf[MICROBOARD].fourthFrameY_ = -1;
     conf[FRED1].pixieX_ = -1;
     conf[FRED1].pixieY_ = -1;
     conf[FRED1_5].pixieX_ = -1;
@@ -4995,12 +5052,8 @@ void Main::fixedWindowPosition()
     conf[VELF].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
     conf[CDP18S020].mainX_ = mainWindowX_;
     conf[CDP18S020].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[CDP18S600].mainX_ = mainWindowX_;
-    conf[CDP18S600].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[CDP18S601].mainX_ = mainWindowX_;
-    conf[CDP18S601].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[CDP18S603A].mainX_ = mainWindowX_;
-    conf[CDP18S603A].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[MICROBOARD].mainX_ = mainWindowX_;
+    conf[MICROBOARD].mainY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 	conf[TMC1800].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
 	conf[TMC1800].mainY_ = mainWindowY_;
 	conf[TMC2000].mainX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -5063,18 +5116,21 @@ void Main::fixedWindowPosition()
     conf[VELF].vtY_ = mainWindowY_ + 426 + windowInfo.yBorder;
     conf[CDP18S020].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[CDP18S020].vtY_ = mainWindowY_;
-    conf[CDP18S600].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[CDP18S600].vtY_ = mainWindowY_;
-    conf[CDP18S600].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
-    conf[CDP18S600].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[CDP18S601].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[CDP18S601].vtY_ = mainWindowY_;
-    conf[CDP18S601].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
-    conf[CDP18S601].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
-    conf[CDP18S603A].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
-    conf[CDP18S603A].vtY_ = mainWindowY_;
-    conf[CDP18S603A].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
-    conf[CDP18S603A].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[MICROBOARD].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[MICROBOARD].vtY_ = mainWindowY_;
+    conf[MICROBOARD].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
+    conf[MICROBOARD].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+#if defined (__WXMAC__) || (__linux__)
+    conf[MICROBOARD].thirdFrameX_ = mainWindowX_ + 620 + windowInfo.xBorder2;
+    conf[MICROBOARD].fourthFrameX_ = mainWindowX_ + 930 + windowInfo.xBorder2;
+#else
+    conf[MICROBOARD].thirdFrameX_ = mainWindowX_ + 639 + windowInfo.xBorder2;
+    conf[MICROBOARD].fourthFrameX_ = mainWindowX_ + 968 + windowInfo.xBorder2;
+#endif
+    conf[MICROBOARD].thirdFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[MICROBOARD].fourthFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
+    conf[MICROBOARD].v1870X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[MICROBOARD].v1870Y_ = mainWindowY_;
     conf[FRED1].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[FRED1].pixieY_ = mainWindowY_;
     conf[FRED1_5].pixieX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
@@ -5285,20 +5341,48 @@ void Main::onStart(int computer)
             p_Cdp18s020 = new Cdp18s020(computerInfo[CDP18S020].name, wxPoint(conf[CDP18S020].mainX_, conf[CDP18S020].mainY_), wxSize(310, 180), conf[CDP18S020].clockSpeed_, elfConfiguration[CDP18S020]);
             p_Computer = p_Cdp18s020;
         break;
-            
-        case CDP18S600:
-            p_Cdp18s600 = new Cdp18s600(computerInfo[CDP18S600].name, wxPoint(conf[CDP18S600].mainX_, conf[CDP18S600].mainY_), wxSize(310, 180), conf[CDP18S600].clockSpeed_, elfConfiguration[CDP18S600]);
-            p_Computer = p_Cdp18s600;
-        break;
-            
-        case CDP18S601:
-            p_Cdp18s601 = new Cdp18s601(computerInfo[CDP18S601].name, wxPoint(conf[CDP18S601].mainX_, conf[CDP18S601].mainY_), wxSize(310, 180), conf[CDP18S601].clockSpeed_, elfConfiguration[CDP18S601]);
-            p_Computer = p_Cdp18s601;
-        break;
-            
-        case CDP18S603A:
-            p_Cdp18s603a = new Cdp18s603a(computerInfo[CDP18S603A].name, wxPoint(conf[CDP18S603A].mainX_, conf[CDP18S603A].mainY_), wxSize(310, 180), conf[CDP18S603A].clockSpeed_, elfConfiguration[CDP18S603A]);
-            p_Computer = p_Cdp18s603a;
+                        
+        case MICROBOARD:
+            switch (XRCCTRL(*this, "Card1ChoiceMicroboard", wxChoice)->GetSelection())
+            {
+                case MICROBOARD_CDP18S600:
+                    p_Cdp18s600 = new Cdp18s600(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Computer = p_Cdp18s600;
+                    p_Video = p_Cdp18s600;
+                break;
+                
+                case MICROBOARD_CDP18S601:
+                case MICROBOARD_CDP18S606:
+                    p_Cdp18s601 = new Cdp18s601(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Computer = p_Cdp18s601;
+                    p_Video = p_Cdp18s601;
+                break;
+                
+                case MICROBOARD_CDP18S602:
+                case MICROBOARD_CDP18S605:
+                case MICROBOARD_CDP18S607:
+                case MICROBOARD_CDP18S610:
+                    p_Cdp18s602 = new Cdp18s602(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Computer = p_Cdp18s602;
+                    p_Video = p_Cdp18s602;
+               break;
+                    
+                case MICROBOARD_CDP18S603:
+                case MICROBOARD_CDP18S603A:
+                case MICROBOARD_CDP18S608:
+                    p_Cdp18s603a = new Cdp18s603a(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Computer = p_Cdp18s603a;
+                    p_Video = p_Cdp18s603a;
+               break;
+
+                case MICROBOARD_CDP18S604B:
+                case MICROBOARD_CDP18S609:
+                    p_Cdp18s604b = new Cdp18s604b(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Computer = p_Cdp18s604b;
+                    p_Video = p_Cdp18s604b;
+               break;
+            }
+
         break;
             
 		case TMC1800:
@@ -5550,39 +5634,25 @@ void Main::onComputer(wxNotebookEvent&event)
 				case VIPIITAB:
 					rcaChoice_ = VIPII;
 				break;
-			}
-			selectedComputer_ = rcaChoice_;
-		break;
 
-        case MICROTAB:
-            switch (XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->GetSelection())
-            {
                 case CDP18S020TAB:
-                    microChoice_ = CDP18S020;
+                    rcaChoice_ = CDP18S020;
                 break;
                     
-                case CDP18S600TAB:
-                    microChoice_ = CDP18S600;
-                break;
-                    
-                case CDP18S601TAB:
-                    microChoice_ = CDP18S601;
-                break;
-                    
-                case CDP18S603ATAB:
-                    microChoice_ = CDP18S603A;
+                case MICROBOARDTAB:
+                    rcaChoice_ = MICROBOARD;
                 break;
                     
                 case MCDSTAB:
-                    microChoice_ = MCDS;
+                    rcaChoice_ = MCDS;
                 break;
-                
+                    
                 case MS2000TAB:
-                    microChoice_ = MS2000;
+                    rcaChoice_ = MS2000;
                 break;
             }
-            selectedComputer_ = microChoice_;
-        break;
+			selectedComputer_ = rcaChoice_;
+		break;
 
         case STUDIOTAB:
 			switch(XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->GetSelection())
@@ -5829,47 +5899,25 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
         case VIPIITAB:
             rcaChoice_ = VIPII;
 		break;
-	}
-	selectedComputer_ = rcaChoice_;
-	setConfigurationMenu();
-}
 
-void Main::onMicroChoiceBook(wxChoicebookEvent&event)
-{
-    if (selectedComputer_ < NO_COMPUTER && configurationMenuOn_ == true)
-    {
-        configurationMenu->Delete(GUI_CONFIG_MENU);
-        configurationDeleteMenu->Delete(GUI_CONFIG_DELETE_MENU);
-    }
-    
-    switch (event.GetSelection())
-    {
         case CDP18S020TAB:
-            microChoice_ = CDP18S020;
+            rcaChoice_ = CDP18S020;
         break;
             
-        case CDP18S600TAB:
-            microChoice_ = CDP18S600;
-        break;
-            
-        case CDP18S601TAB:
-            microChoice_ = CDP18S601;
-        break;
-            
-        case CDP18S603ATAB:
-            microChoice_ = CDP18S603A;
+        case MICROBOARDTAB:
+            rcaChoice_ = MICROBOARD;
         break;
             
         case MCDSTAB:
-            microChoice_ = MCDS;
+            rcaChoice_ = MCDS;
         break;
             
         case MS2000TAB:
-            microChoice_ = MS2000;
+            rcaChoice_ = MS2000;
         break;
     }
-    selectedComputer_ = microChoice_;
-    setConfigurationMenu();
+	selectedComputer_ = rcaChoice_;
+	setConfigurationMenu();
 }
 
 void Main::onDebuggerChoiceBook(wxChoicebookEvent&event)
@@ -6008,33 +6056,23 @@ void Main::setNoteBook()
 		break;
 
         case CDP18S020:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(MICROTAB);
-            XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetSelection(CDP18S020TAB);
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(CDP18S020TAB);
         break;
             
-        case CDP18S600:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(MICROTAB);
-            XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetSelection(CDP18S600TAB);
-        break;
-            
-        case CDP18S601:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(MICROTAB);
-            XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetSelection(CDP18S601TAB);
-        break;
-            
-        case CDP18S603A:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(MICROTAB);
-            XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetSelection(CDP18S603ATAB);
+        case MICROBOARD:
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROBOARDTAB);
         break;
             
         case MCDS:
-            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(MICROTAB);
-            XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetSelection(MCDSTAB);
+            XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
+            XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MCDSTAB);
         break;
             
 		case MS2000:
-			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(MICROTAB);
-			XRCCTRL(*this, "MicroChoiceBook", wxChoicebook)->SetSelection(MS2000TAB);
+			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
+			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MS2000TAB);
 		break;
 
 		case STUDIO:
@@ -6107,9 +6145,7 @@ void Main::enableColorbutton(bool status)
     XRCCTRL(*this,"ColoursMembership", wxButton)->Enable(status | (runningComputer_ == MEMBER));
     XRCCTRL(*this,"ColoursVelf", wxButton)->Enable(status | (runningComputer_ == VELF));
     XRCCTRL(*this,"ColoursCDP18S020", wxButton)->Enable(status | (runningComputer_ == CDP18S020));
-    XRCCTRL(*this,"ColoursCDP18S600", wxButton)->Enable(status | (runningComputer_ == CDP18S600));
-    XRCCTRL(*this,"ColoursCDP18S601", wxButton)->Enable(status | (runningComputer_ == CDP18S601));
-    XRCCTRL(*this,"ColoursCDP18S603A", wxButton)->Enable(status | (runningComputer_ == CDP18S603A));
+    XRCCTRL(*this,"ColoursMicroboard", wxButton)->Enable(status | (runningComputer_ == MICROBOARD));
     XRCCTRL(*this,"ColoursVip", wxButton)->Enable(status | (runningComputer_ == VIP));
     XRCCTRL(*this,"ColoursVipII", wxButton)->Enable(status | (runningComputer_ == VIPII));
     XRCCTRL(*this,"ColoursVip2K", wxButton)->Enable(status | (runningComputer_ == VIP2K));
@@ -6446,120 +6482,38 @@ void Main::enableGui(bool status)
         
         XRCCTRL(*this,"ScreenDumpF5CDP18S020", wxButton)->Enable(!status);
         XRCCTRL(*this,"RamCDP18S020", wxChoice)->Enable(status);
+        XRCCTRL(*this,"AutoBootTypeCDP18S020", wxChoice)->Enable(status);
+        XRCCTRL(*this, "AutoBootCDP18S020", wxCheckBox)->SetValue(status);
         enableLoadGui(!status);
     }
-    if (runningComputer_ == CDP18S600)
+    if (runningComputer_ == MICROBOARD)
     {
         p_Main->scrtValues(status, true, 4, 0x8364, 5, 0x8374);
         
+        XRCCTRL(*this, "Card1ChoiceMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "Card3ChoiceMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "Card4ChoiceMicroboard", wxChoice)->Enable(status);
+
         XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this, "MainRomU21CDP18S600", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU20CDP18S600", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU19CDP18S600", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU18CDP18S600", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU17CDP18S600", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "RomButtonU21CDP18S600", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU20CDP18S600", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU19CDP18S600", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU18CDP18S600", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU17CDP18S600", wxButton)->Enable(status);
-        XRCCTRL(*this,"OneSocketBankCDP18S600", wxChoice)->Enable(status);
-        XRCCTRL(*this,"FourSocketBankCDP18S600", wxChoice)->Enable(status);
-        if (status)
-        {
-            setOneSocketState("CDP18S600");
-            setFourSocketState(CDP18S600, "CDP18S600");
-        }
+        XRCCTRL(*this,"AutoBootTypeMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "AutoBootMicroboard", wxCheckBox)->Enable(status);
         enableMemAccessGui(!status);
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this, "VtCharRomButtonCDP18S600", wxButton)->Enable(status&(elfConfiguration[CDP18S600].vtType != VTNONE));
-            XRCCTRL(*this, "VtCharRomCDP18S600", wxComboBox)->Enable(status&(elfConfiguration[CDP18S600].vtType != VTNONE));
-            XRCCTRL(*this, "FullScreenF3CDP18S600", wxButton)->Enable(!status&(elfConfiguration[CDP18S600].vtType != VTNONE));
-            XRCCTRL(*this, "ScreenDumpF5CDP18S600", wxButton)->Enable(!status&(elfConfiguration[CDP18S600].vtType != VTNONE));
+            XRCCTRL(*this, "FullScreenF3Microboard", wxButton)->Enable(!status&(elfConfiguration[MICROBOARD].vtType != VTNONE));
+            XRCCTRL(*this, "ScreenDumpF5Microboard", wxButton)->Enable(!status&(elfConfiguration[MICROBOARD].vtType != VTNONE));
         }
-        XRCCTRL(*this, "VTTypeCDP18S600", wxChoice)->Enable(status);
-        if (elfConfiguration[CDP18S600].useUart)
+        XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->Enable(status);
+        if (elfConfiguration[MICROBOARD].useUart)
         {
-            XRCCTRL(*this, "VTBaudRTextCDP18S600", wxStaticText)->Enable(status);
-            XRCCTRL(*this, "VTBaudRChoiceCDP18S600", wxChoice)->Enable(status);
+            XRCCTRL(*this, "VTBaudRTextMicroboard", wxStaticText)->Enable(status);
+            XRCCTRL(*this, "VTBaudRChoiceMicroboard", wxChoice)->Enable(status);
         }
-        XRCCTRL(*this, "VTBaudTChoiceCDP18S600", wxChoice)->Enable(status);
-        XRCCTRL(*this, "VTBaudTTextCDP18S600", wxStaticText)->Enable(status);
-        XRCCTRL(*this, "VtSetupCDP18S600", wxButton)->Enable(status);
-    }
-    if (runningComputer_ == CDP18S601)
-    {
-        p_Main->scrtValues(status, true, 4, 0x8364, 5, 0x8374);
-        
-        XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
-        XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this, "MainRomU21CDP18S601", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU20CDP18S601", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU19CDP18S601", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU18CDP18S601", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU17CDP18S601", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "RomButtonU21CDP18S601", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU20CDP18S601", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU19CDP18S601", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU18CDP18S601", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU17CDP18S601", wxButton)->Enable(status);
-        XRCCTRL(*this,"OneSocketBankCDP18S601", wxChoice)->Enable(status);
-        XRCCTRL(*this,"FourSocketBankCDP18S601", wxChoice)->Enable(status);
-        enableMemAccessGui(!status);
-        if (!elfConfiguration[runningComputer_].vtExternal)
-        {
-            XRCCTRL(*this, "VtCharRomButtonCDP18S601", wxButton)->Enable(status&(elfConfiguration[CDP18S601].vtType != VTNONE));
-            XRCCTRL(*this, "VtCharRomCDP18S601", wxComboBox)->Enable(status&(elfConfiguration[CDP18S601].vtType != VTNONE));
-            XRCCTRL(*this, "FullScreenF3CDP18S601", wxButton)->Enable(!status&(elfConfiguration[CDP18S601].vtType != VTNONE));
-            XRCCTRL(*this, "ScreenDumpF5CDP18S601", wxButton)->Enable(!status&(elfConfiguration[CDP18S601].vtType != VTNONE));
-        }
-        XRCCTRL(*this, "VTTypeCDP18S601", wxChoice)->Enable(status);
-        if (elfConfiguration[CDP18S601].useUart)
-        {
-            XRCCTRL(*this, "VTBaudRTextCDP18S601", wxStaticText)->Enable(status);
-            XRCCTRL(*this, "VTBaudRChoiceCDP18S601", wxChoice)->Enable(status);
-        }
-        XRCCTRL(*this, "VTBaudTChoiceCDP18S601", wxChoice)->Enable(status);
-        XRCCTRL(*this, "VTBaudTTextCDP18S601", wxStaticText)->Enable(status);
-        XRCCTRL(*this, "VtSetupCDP18S601", wxButton)->Enable(status);
-    }
-    if (runningComputer_ == CDP18S603A)
-    {
-        p_Main->scrtValues(status, true, 4, 0x8364, 5, 0x8374);
-        
-        XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
-        XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
-        XRCCTRL(*this, "MainRomU21CDP18S603A", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU20CDP18S603A", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU19CDP18S603A", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU18CDP18S603A", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "MainRomU17CDP18S603A", wxComboBox)->Enable(status);
-        XRCCTRL(*this, "RomButtonU21CDP18S603A", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU20CDP18S603A", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU19CDP18S603A", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU18CDP18S603A", wxButton)->Enable(status);
-        XRCCTRL(*this, "RomButtonU17CDP18S603A", wxButton)->Enable(status);
-        XRCCTRL(*this,"OneSocketBankCDP18S603A", wxChoice)->Enable(status);
-        XRCCTRL(*this,"FourSocketBankCDP18S603A", wxChoice)->Enable(status);
-        enableMemAccessGui(!status);
-        if (!elfConfiguration[runningComputer_].vtExternal)
-        {
-            XRCCTRL(*this, "VtCharRomButtonCDP18S603A", wxButton)->Enable(status&(elfConfiguration[CDP18S603A].vtType != VTNONE));
-            XRCCTRL(*this, "VtCharRomCDP18S603A", wxComboBox)->Enable(status&(elfConfiguration[CDP18S603A].vtType != VTNONE));
-            XRCCTRL(*this, "FullScreenF3CDP18S603A", wxButton)->Enable(!status&(elfConfiguration[CDP18S603A].vtType != VTNONE));
-            XRCCTRL(*this, "ScreenDumpF5CDP18S603A", wxButton)->Enable(!status&(elfConfiguration[CDP18S603A].vtType != VTNONE));
-        }
-        XRCCTRL(*this, "VTTypeCDP18S603A", wxChoice)->Enable(status);
-        if (elfConfiguration[CDP18S603A].useUart)
-        {
-            XRCCTRL(*this, "VTBaudRTextCDP18S603A", wxStaticText)->Enable(status);
-            XRCCTRL(*this, "VTBaudRChoiceCDP18S603A", wxChoice)->Enable(status);
-        }
-        XRCCTRL(*this, "VTBaudTChoiceCDP18S603A", wxChoice)->Enable(status);
-        XRCCTRL(*this, "VTBaudTTextCDP18S603A", wxStaticText)->Enable(status);
-        XRCCTRL(*this, "VtSetupCDP18S603A", wxButton)->Enable(status);
+        XRCCTRL(*this, "VTBaudTChoiceMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "VTBaudTTextMicroboard", wxStaticText)->Enable(status);
+        XRCCTRL(*this, "VtSetupMicroboard", wxButton)->Enable(status);
     }
 	if (runningComputer_ == STUDIO)
 	{
@@ -6796,8 +6750,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"CharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].useS100));
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"VtCharRomButton"+elfTypeStr, wxButton)->Enable(status&(elfConfiguration[runningComputer_].vtType != VTNONE));
-            XRCCTRL(*this,"VtCharRom"+elfTypeStr, wxComboBox)->Enable(elfConfiguration[runningComputer_].vtType != VTNONE);
             XRCCTRL(*this,"FullScreenF3"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
             XRCCTRL(*this,"ScreenDumpF5"+elfTypeStr, wxButton)->Enable(!status&(elfConfiguration[runningComputer_].usePixie||elfConfiguration[runningComputer_].useTMS9918||elfConfiguration[runningComputer_].use6847||elfConfiguration[runningComputer_].use6845||elfConfiguration[runningComputer_].use8275||elfConfiguration[runningComputer_].useS100||(elfConfiguration[runningComputer_].vtType != VTNONE)));
        }
@@ -6843,8 +6795,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"CharRomButtonElf2K", wxButton)->Enable(status&elfConfiguration[ELF2K].use8275);
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"VtCharRomButtonElf2K", wxButton)->Enable(status&(elfConfiguration[ELF2K].vtType != VTNONE));
-            XRCCTRL(*this,"VtCharRomElf2K", wxComboBox)->Enable(status&(elfConfiguration[ELF2K].vtType != VTNONE));
             XRCCTRL(*this,"FullScreenF3Elf2K", wxButton)->Enable(!status&(elfConfiguration[ELF2K].usePixie||elfConfiguration[ELF2K].use8275||(elfConfiguration[ELF2K].vtType != VTNONE)));
             XRCCTRL(*this,"ScreenDumpF5Elf2K", wxButton)->Enable(!status&(elfConfiguration[ELF2K].usePixie||elfConfiguration[ELF2K].use8275||(elfConfiguration[ELF2K].vtType != VTNONE)));
         }
@@ -6862,8 +6812,6 @@ void Main::enableGui(bool status)
         enableMemAccessGui(!status);
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"VtCharRomButtonMS2000", wxButton)->Enable(status&(elfConfiguration[MS2000].vtType != VTNONE));
-            XRCCTRL(*this,"VtCharRomMS2000", wxComboBox)->Enable(status&(elfConfiguration[MS2000].vtType != VTNONE));
             XRCCTRL(*this,"FullScreenF3MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
             XRCCTRL(*this,"ScreenDumpF5MS2000", wxButton)->Enable(!status&(elfConfiguration[MS2000].vtType != VTNONE));
         }
@@ -6894,8 +6842,6 @@ void Main::enableGui(bool status)
         enableMemAccessGui(!status);
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this, "VtCharRomButtonMCDS", wxButton)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
-            XRCCTRL(*this, "VtCharRomMCDS", wxComboBox)->Enable(status&(elfConfiguration[MCDS].vtType != VTNONE));
             XRCCTRL(*this, "FullScreenF3MCDS", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
             XRCCTRL(*this, "ScreenDumpF5MCDS", wxButton)->Enable(!status&(elfConfiguration[MCDS].vtType != VTNONE));
         }
@@ -6939,8 +6885,6 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"Keyboard_TextCosmicos",wxStaticText)->Enable(status);
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"VtCharRomButtonCosmicos", wxButton)->Enable(status&(elfConfiguration[COSMICOS].vtType != VTNONE));
-            XRCCTRL(*this,"VtCharRomCosmicos", wxComboBox)->Enable(status&(elfConfiguration[COSMICOS].vtType != VTNONE));
             XRCCTRL(*this,"FullScreenF3Cosmicos", wxButton)->Enable(!status&(elfConfiguration[COSMICOS].usePixie||(elfConfiguration[COSMICOS].vtType != VTNONE)));
             XRCCTRL(*this,"ScreenDumpF5Cosmicos", wxButton)->Enable(!status&(elfConfiguration[COSMICOS].usePixie||(elfConfiguration[COSMICOS].vtType != VTNONE)));
         }
@@ -6974,8 +6918,6 @@ void Main::enableGui(bool status)
 
         if (!elfConfiguration[runningComputer_].vtExternal)
         {
-            XRCCTRL(*this,"VtCharRomButtonMembership", wxButton)->Enable(status&(elfConfiguration[MEMBER].vtType != VTNONE));
-            XRCCTRL(*this,"VtCharRomMembership", wxComboBox)->Enable(status&(elfConfiguration[MEMBER].vtType != VTNONE));
             XRCCTRL(*this,"FullScreenF3Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
             XRCCTRL(*this,"ScreenDumpF5Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
         }
@@ -7419,11 +7361,8 @@ void Main::showTime()
 
 void Main::vuSet(wxString item, int gaugeValue)
 {
-#if defined(__linux__)
-    exit;
-#endif
-    
-	if (gaugeValue == oldGauge_)
+#ifndef __linux__
+    if (gaugeValue == oldGauge_)
 		return;
 
 	oldGauge_ = gaugeValue;
@@ -7462,6 +7401,7 @@ void Main::vuSet(wxString item, int gaugeValue)
 	}
 	dcVu.SelectObject(wxNullBitmap);
 	XRCCTRL(*this, item, wxStaticBitmap)->SetBitmap(vu);
+#endif
 }
 
 void Main::errorMessageEvent(wxErrorMsgEvent&event)
@@ -8121,7 +8061,10 @@ void Main::setChangeNoteBookEvent(guiEvent& WXUNUSED(event))
 {
 	XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COMXTAB);
 	XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(DEBUGGERTAB);
-	XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(configPointer->Read("/Main/Selected_Tab", 0l));
+    long selected_tab = configPointer->Read("/Main/Selected_Tab", 0l);
+    if (selected_tab > DEBUGGERTAB)
+        selected_tab = 0;
+	XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(selected_tab);
 }
 
 void Main::eventChangeNoteBook()

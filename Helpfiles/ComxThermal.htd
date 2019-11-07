@@ -16,7 +16,7 @@ To open a print window manually, press the F4 button or the printer icon on the 
 From the printer output window it is possible to print towards a real printer by pressing the 'PRINT' button. With the 'PAGE SETUP' button page margins and paper format can be selected. To preview the printout before an actual print use the 'PREVIEW' button.
 </p>
 <p>
-It is possible to disable the status leds by clicking on one of the leds. This will speed up printout especially when using higher CPU speeds.
+It is possible to disable the status LEDs by clicking on one of the LEDs. This will speed up printout especially when using higher CPU speeds.
 </p>
 <h3>Thermal Printer CALL Routines</h3>
 <p>

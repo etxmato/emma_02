@@ -129,7 +129,7 @@ void Ms2000::configureComputer()
     p_Main->message("	Output 4: tape motor, output 5: cassette out");
     p_Main->message("	EF 2: cassette in\n");
 
-    configureUpd765();
+    configureUpd765(ms2000Configuration.fdcType_);
 	resetCpu();
 }
 
@@ -152,7 +152,7 @@ Byte Ms2000::ef(int flag)
 		break;
 
         case MS2000PRINTEF: // EF1
-            return 0;
+            return 1;
         break;
             
         case MS2000CASEF:   // EF2
@@ -418,48 +418,48 @@ void Ms2000::startComputer()
     else
         bootstrap_ = 0x8000;
     
-    if (p_Main->getDirectoryMode(0))
-        setDiskName(1, p_Main->getMs2000FloppyDirSwitched(0), "");
+    if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 0))
+        setDiskName(1, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 0), "");
     else
     {
-        wxString fileName = p_Main->getMs2000FloppyFile(0);
+        wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 0);
         if (fileName.Len() == 0)
-            setDiskName(1, p_Main->getMs2000FloppyDir(0), "");
+            setDiskName(1, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 0), "");
         else
-            setDiskName(1, p_Main->getMs2000FloppyDir(0), p_Main->getMs2000FloppyFile(0));
+            setDiskName(1, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 0), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 0));
     }
     
-    if (p_Main->getDirectoryMode(1))
-        setDiskName(2, p_Main->getMs2000FloppyDirSwitched(1), "");
+    if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 1))
+        setDiskName(2, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 1), "");
     else
     {
-        wxString fileName = p_Main->getMs2000FloppyFile(1);
+        wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 1);
         if (fileName.Len() == 0)
-            setDiskName(2, p_Main->getMs2000FloppyDir(1), "");
+            setDiskName(2, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 1), "");
         else
-            setDiskName(2, p_Main->getMs2000FloppyDir(1), p_Main->getMs2000FloppyFile(1));
+            setDiskName(2, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 1), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 1));
     }
     
-    if (p_Main->getDirectoryMode(2))
-        setDiskName(3, p_Main->getMs2000FloppyDirSwitched(2), "");
+    if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 2))
+        setDiskName(3, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 2), "");
     else
     {
-        wxString fileName = p_Main->getMs2000FloppyFile(2);
+        wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 2);
         if (fileName.Len() == 0)
-            setDiskName(3, p_Main->getMs2000FloppyDir(2), "");
+            setDiskName(3, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 2), "");
         else
-            setDiskName(3, p_Main->getMs2000FloppyDir(2), p_Main->getMs2000FloppyFile(2));
+            setDiskName(3, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 2), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 2));
     }
     
-    if (p_Main->getDirectoryMode(3))
-        setDiskName(4, p_Main->getMs2000FloppyDirSwitched(3), "");
+    if (p_Main->getDirectoryMode(ms2000Configuration.fdcType_, 3))
+        setDiskName(4, p_Main->getUpdFloppyDirSwitched(ms2000Configuration.fdcType_, 3), "");
     else
     {
-        wxString fileName = p_Main->getMs2000FloppyFile(3);
+        wxString fileName = p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 3);
         if (fileName.Len() == 0)
-            setDiskName(4, p_Main->getMs2000FloppyDir(3), "");
+            setDiskName(4, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 3), "");
         else
-            setDiskName(4, p_Main->getMs2000FloppyDir(3), p_Main->getMs2000FloppyFile(3));
+            setDiskName(4, p_Main->getUpdFloppyDir(ms2000Configuration.fdcType_, 3), p_Main->getUpdFloppyFile(ms2000Configuration.fdcType_, 3));
     }
     
     p_Main->setSwName("");

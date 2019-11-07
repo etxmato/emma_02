@@ -6,7 +6,7 @@
 This emulator will emulate the VIP2K Membership Card. Additional information about the Membership Card can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-Note that in the default setting a VT100 terminal is supported but no VT window will open. This as the VIP2K when running the standard ROM doesn't use any terminal I/O except for the file transfer functions of the monitor and BASIC. The file I/O will work even if no video terminal is opened. To open (or show) the video terminal window select the 'Show' checkbox.
+Note that in the default setting a VT100 terminal is supported but no VT window will open. This as the VIP2K when running the standard ROM doesn't use any terminal I/O except for the file transfer functions of the monitor and BASIC. The file I/O will work even if no video terminal is opened. To open (or show) the video terminal window select the 'Show Terminal' checkbox.
 </p>
 <p>
 VIP2K video emulation is not exactly the same as on the real VIP2K. This is affecting the top 8 scan lines of the screen which in normal operation should be blank and as such this difference is not noticable. If data is shown on those lines it will not maych the real VIP2K.

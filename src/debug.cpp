@@ -1701,7 +1701,7 @@ void DebugWindow::updateWindow()
 			{
 				case COMX:
 				case CIDELSA:
-				case PECOM:
+                case PECOM:
 					if (i>3)
 						buffer.Printf("%04X",p_Computer->getOutValue(i));
 					else
@@ -1714,6 +1714,13 @@ void DebugWindow::updateWindow()
 					else
 						buffer.Printf("%02X",p_Computer->getOutValue(i));
 				break;
+
+                case MICROBOARD:
+                    if (i>3 && elfConfiguration[runningComputer_].usev1870)
+                        buffer.Printf("%04X",p_Computer->getOutValue(i));
+                    else
+                        buffer.Printf("%02X",p_Computer->getOutValue(i));
+                break;
 
 				default:
 					buffer.Printf("%02X",p_Computer->getOutValue(i));
@@ -3221,7 +3228,14 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
 								printBufferDetails.Printf("[%02X]", p_Computer->readMemDebug(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1));
 						break;
 
-						default:
+                        case MICROBOARD:
+                            if (n>3 && elfConfiguration[runningComputer_].usev1870)
+                                printBufferDetails.Printf("[%04X]", p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1);
+                            else
+                                printBufferDetails.Printf("[%02X]", p_Computer->readMemDebug(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1));
+                        break;
+
+                        default:
 							printBufferDetails.Printf("[%02X]", p_Computer->readMemDebug(p_Computer->getScratchpadRegister(p_Computer->getDataPointer())-1));
 						break;
 					}
@@ -7262,7 +7276,7 @@ void DebugWindow::O4(wxCommandEvent&WXUNUSED(event))
 {
 	long value;
 
-	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM)
+	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
 	{
 		value = get16BitValue("O4");
 		if (value == -1)  return;
@@ -7280,7 +7294,7 @@ void DebugWindow::O5(wxCommandEvent&WXUNUSED(event))
 {
 	long value;
 
-	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM)
+	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
 	{
 		value = get16BitValue("O5");
 		if (value == -1)  return;
@@ -7298,7 +7312,7 @@ void DebugWindow::O6(wxCommandEvent&WXUNUSED(event))
 {
 	long value;
 
-	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM)
+	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
 	{
 		value = get16BitValue("O6");
 		if (value == -1)  return;
@@ -7316,7 +7330,7 @@ void DebugWindow::O7(wxCommandEvent&WXUNUSED(event))
 {
 	long value;
 
-	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM)
+	if (runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
 	{
 		value = get16BitValue("O7");
 		if (value == -1)  return;
@@ -7961,7 +7975,7 @@ void DebugWindow::drawAssCharacter(Word address, int line, int count)
 	int t;
 	char bits [9];
 
-	if ((runningComputer_ == COMX) || (runningComputer_ == TMC600) || (runningComputer_ == PECOM))
+	if ((runningComputer_ == COMX) || (runningComputer_ == TMC600) || (runningComputer_ == PECOM) || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
 	{
 		for (int i=0; i<9; i++)
 		{
@@ -7969,8 +7983,10 @@ void DebugWindow::drawAssCharacter(Word address, int line, int count)
 				t = p_Comx->readCramDirect((p_Comx->readMemDebug(address)&0x7f)*16+i);
 			else if (runningComputer_ == TMC600)
 				t = p_Tmc600->readCramDirect((p_Tmc600->readMemDebug(address)&0xff)*16+i);
-			else
+			else if (runningComputer_ == PECOM)
 				t = p_Pecom->readCramDirect((p_Pecom->readMemDebug(address)&0x7f)*16+i);
+            else
+                t = p_Video->readCramDirect((p_Computer->readMemDebug(address)&0x7f)*16+i);
 			bits[i] = (t & 0x1) << 5;
 			bits[i] |= (t & 0x2) << 3;
 			bits[i] |= (t & 0x4) << 1;
@@ -12621,16 +12637,14 @@ void DebugWindow::ShowCharacters(Word address, int y)
 
 	for (int j=0; j<16; j++)
 	{
-		if ((runningComputer_ == COMX) || (runningComputer_ == TMC600) || (runningComputer_ == PECOM))
+        if ((runningComputer_ == COMX) || (runningComputer_ == TMC600) || (runningComputer_ == PECOM) || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870))
 		{
-			for (int i=0; i<9; i++)
+            int lines =9;
+            if (p_Video->getMaxLinesPerChar() == 8)
+                lines = 8;
+			for (int i=0; i<lines; i++)
 			{
-				if (runningComputer_ == COMX)
-					t = p_Comx->readCramDirect((debugReadMem(address+j)&0x7f)*16+i);
-				else if (runningComputer_ == TMC600)
-					t = p_Tmc600->readCramDirect((debugReadMem(address+j)&0xff)*16+i);
-				else
-					t = p_Pecom->readCramDirect((debugReadMem(address+j)&0x7f)*16+i);
+                t = p_Video->readCramDirect((debugReadMem(address+j)&p_Video->getPcbMask())*p_Video->getMaxLinesPerChar()+i);
 				bits[i] = (t & 0x1) << 5;
 				bits[i] |= (t & 0x2) << 3;
 				bits[i] |= (t & 0x4) << 1;
@@ -13061,7 +13075,7 @@ void DebugWindow::DebugDisplayVip2kSequencer()
  
 void DebugWindow::DebugDisplay1870VideoRam()
 {
-    if (!(runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM))
+    if (!(runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM  || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870)))
     {
         if (xmlLoaded_)
             XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("CDP 1870 not running");
@@ -13688,9 +13702,7 @@ void DebugWindow::DebugDisplayVtRam()
         case VELF:
         case MS2000:
         case MCDS:
-        case CDP18S600:
-        case CDP18S601:
-        case CDP18S603A:
+        case MICROBOARD:
         case CDP18S020:
 		case MEMBER:
 		case SUPERELF:
@@ -14062,16 +14074,6 @@ void DebugWindow::setMemoryType(int id, int setType)
             }
         break;
             
-        case CDP18S600:
-            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == CPURAM))
-                p_Computer->defineMemoryType(id*256, setType);
-            else
-            {
-                (void)wxMessageBox( "Only RAM (.), ROM (R), CDP1805 CPU RAM (CP) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
-                                   "Emma 02", wxICON_ERROR | wxOK );
-            }
-        break;
-            
         case VELF:
         case MCDS:
         case MS2000:
@@ -14084,13 +14086,21 @@ void DebugWindow::setMemoryType(int id, int setType)
             }
         break;
             
-        case CDP18S601:
-        case CDP18S603A:
-            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6845REGISTERS))
-                p_Computer->defineMemoryType(id*256, setType);
+        case MICROBOARD:
+            if ((setType == RAM) || (setType == ROM) || (setType == UNDEFINED) || (setType == MAPPEDRAM) || (setType == MC6845REGISTERS) || (setType == CRAM1870) || (setType == PRAM1870))
+            {
+                if (!elfConfiguration[runningComputer_].usev1870 && ((setType == CRAM1870) || (setType == PRAM1870)))
+                {
+                    (void)wxMessageBox( "No CDP18S661 configured\n",
+                                       "Emma 02", wxICON_ERROR | wxOK );
+                    return;
+                }
+                else
+                    p_Computer->defineMemoryType(id*256, setType);
+            }
             else
             {
-                (void)wxMessageBox( "Only RAM (.), ROM (R), MAPPED RAM (M.), MAPPED ROM (MR) or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
+                (void)wxMessageBox( "Only RAM (.), ROM (R), MAPPED RAM (M.), MAPPED ROM (MR), CDP1870 (PR/CR), or UNDEFINED (space) allowed in "+computerInfo[runningComputer_].name+" emulation\n",
                                    "Emma 02", wxICON_ERROR | wxOK );
             }
         break;
@@ -14242,17 +14252,12 @@ Word DebugWindow::getAddressMask()
 			switch (runningComputer_)
 			{
 				case COMX:
-					return p_Comx->getCharacterMemoryMask();
-				break;
 				case CIDELSA:
-					return p_Cidelsa->getCharacterMemoryMask();
-				break;
 				case TMC600:
-					return p_Tmc600->getCharacterMemoryMask();
-				break;
 				case PECOM:
-					return p_Pecom->getCharacterMemoryMask();
-				break;
+                case MICROBOARD:
+                    return p_Video->getCharMemorySize();
+                break;
 				default:
 					return 0x7ff;
 				break;
@@ -14264,7 +14269,7 @@ Word DebugWindow::getAddressMask()
             switch (runningComputer_)
             {
                 case CIDELSA:
-                    return p_Cidelsa->getCharacterMemoryMask();
+                    return p_Cidelsa->getCharMemorySize();
                 break;
                 case TMC600:
                     return 0x3ff;
@@ -14279,17 +14284,12 @@ Word DebugWindow::getAddressMask()
 			switch (runningComputer_)
 			{
 				case COMX:
-					return p_Comx->getPageMemoryMask();
-				break;
-				case CIDELSA:
-					return p_Cidelsa->getPageMemoryMask();
-				break;
 				case TMC600:
-					return p_Tmc600->getPageMemoryMask();
-				break;
 				case PECOM:
-					return p_Pecom->getPageMemoryMask();
-				break;
+                case MICROBOARD:
+                case CIDELSA:
+                    return p_Video->getPageMemorySize();
+                break;
 				default:
 					return 0x3ff;
 				break;
@@ -14588,16 +14588,11 @@ Byte DebugWindow::debugReadMem(Word address)
 			switch (runningComputer_)
 			{
 				case COMX:
-					return p_Comx->readCramDirect(address);
-				break;
-				case CIDELSA:
-					return p_Cidelsa->readCramDirect(address);
-				break;
-				case TMC600:
-					return p_Tmc600->readCramDirect(address);
-				break;
-				case PECOM:
-					return p_Pecom->readCramDirect(address);
+                case CIDELSA:
+                case TMC600:
+                case PECOM:
+                case MICROBOARD:
+					return p_Video->readCramDirect(address);
 				break;
 				default:
 					return 0;
@@ -14623,17 +14618,12 @@ Byte DebugWindow::debugReadMem(Word address)
         case CDP_1870_P:
 			switch (runningComputer_)
 			{
-				case COMX:
-					return p_Comx->readPramDirect(address);
-				break;
-				case CIDELSA:
-					return p_Cidelsa->readPramDirect(address);
-				break;
-				case TMC600:
-					return p_Tmc600->readPramDirect(address);
-				break;
-				case PECOM:
-					return p_Pecom->readPramDirect(address);
+                case COMX:
+                case CIDELSA:
+                case TMC600:
+                case PECOM:
+                case MICROBOARD:
+					return p_Video->readPramDirect(address);
 				break;
 				default:
 					return 0;
@@ -14831,17 +14821,12 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 		case CDP_1870_C:
 			switch (runningComputer_)
 			{
-				case COMX:
-					p_Comx->writeCramDirect(address, value);
-				break;
-				case CIDELSA:
-					p_Cidelsa->writeCramDirect(address, value);
-				break;
-				case TMC600:
-					p_Tmc600->writeCramDirect(address, value);
-				break;
-				case PECOM:
-					p_Pecom->writeCramDirect(address, value);
+                case COMX:
+                case CIDELSA:
+                case TMC600:
+                case PECOM:
+                case MICROBOARD:
+					p_Video->writeCramDirect(address, value);
 				break;
 			}
 		break;
@@ -14861,17 +14846,12 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 		case CDP_1870_P:
 			switch (runningComputer_)
 			{
-				case COMX:
-					p_Comx->writePramDirect(address, value);
-				break;
-				case CIDELSA:
-					p_Cidelsa->writePramDirect(address, value);
-				break;
-				case TMC600:
-					p_Tmc600->writePramDirect(address, value);
-				break;
-				case PECOM:
-					p_Pecom->writePramDirect(address, value);
+                case COMX:
+                case CIDELSA:
+                case TMC600:
+                case PECOM:
+                case MICROBOARD:
+					p_Video->writePramDirect(address, value);
 				break;
 			}
 		break;
@@ -15245,37 +15225,16 @@ void DebugWindow::updateTitle()
 			p_Mcds->updateTitle(title);
 			p_Mcds->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
-
-        case CDP18S600:
-            if (p_Cdp18s600->getSteps() == 0)
+            
+        case MICROBOARD:
+            if (p_Computer->getSteps() == 0)
                 title = title + " ** PAUSED **";
-            if (p_Cdp18s600->getClear() == 0)
+            if (p_Computer->getClear() == 0)
                 title = title + " ** CPU STOPPED **";
-            p_Cdp18s600->SetTitle("CDP18S600" + title);
-            p_Cdp18s600->updateTitle(title);
-            p_Cdp18s600->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+            p_Computer->updateTitle(title);
+            p_Computer->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
-        case CDP18S601:
-            if (p_Cdp18s601->getSteps() == 0)
-                title = title + " ** PAUSED **";
-            if (p_Cdp18s601->getClear() == 0)
-                title = title + " ** CPU STOPPED **";
-            p_Cdp18s601->SetTitle("CDP18S601" + title);
-            p_Cdp18s601->updateTitle(title);
-            p_Cdp18s601->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
-        break;
- 
-        case CDP18S603A:
-            if (p_Cdp18s603a->getSteps() == 0)
-                title = title + " ** PAUSED **";
-            if (p_Cdp18s603a->getClear() == 0)
-                title = title + " ** CPU STOPPED **";
-            p_Cdp18s603a->SetTitle("CDP18S603A" + title);
-            p_Cdp18s603a->updateTitle(title);
-            p_Cdp18s603a->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
-        break;
-
 		case COSMICOS:
 			if (p_Cosmicos->getSteps()==0)
 				title = title + " ** PAUSED **";

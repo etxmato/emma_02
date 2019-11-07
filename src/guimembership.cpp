@@ -38,11 +38,8 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_COMBOBOX(XRCID("MainRomMembership"), GuiMain::onMainRom1Text)
 	EVT_BUTTON(XRCID("RomButtonMembership"), GuiMain::onMainRom1)
 
-	EVT_TEXT(XRCID("VtCharRomMembership"), GuiMain::onVtCharRomText)
-	EVT_COMBOBOX(XRCID("VtCharRomMembership"), GuiMain::onVtCharRomText)
 	EVT_BUTTON(XRCID("RomMembership"), GuiMembership::onRomEvent)
 
-	EVT_BUTTON(XRCID("VtCharRomButtonMembership"), GuiMain::onVtCharRom)
 	EVT_CHOICE(XRCID("VTTypeMembership"), GuiMain::onVT100)
 	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomUpVt)
 	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomDownVt)
@@ -114,7 +111,7 @@ void GuiMembership::readMembershipConfig()
 
     conf[MEMBER].mainDir_ = readConfigDir("/Dir/Membership/Main", dataDir_ + "Membership" + pathSeparator_);
 	conf[MEMBER].romDir_[MAINROM1] = readConfigDir("/Dir/Membership/Main_Rom_File", dataDir_ + "Membership" + pathSeparator_);
-	conf[MEMBER].vtCharRomDir_ = readConfigDir("/Dir/Membership/Vt_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
+	elfConfiguration[MEMBER].vtCharRomDir_ = readConfigDir("/Dir/Membership/Vt_Font_Rom_File", dataDir_ + "Membership" + pathSeparator_);
 	conf[MEMBER].ramDir_ = readConfigDir("/Dir/Membership/Software_File", dataDir_ + "Membership" + pathSeparator_);
 	conf[MEMBER].screenDumpFileDir_ = readConfigDir("/Dir/Membership/Video_Dump_File", dataDir_ + "Membership" + pathSeparator_);
     conf[MEMBER].wavFileDir_[0] = readConfigDir("/Dir/Membership/Terminal_File", dataDir_ + "Membership" + pathSeparator_);
@@ -176,7 +173,7 @@ void GuiMembership::readMembershipConfig()
     conf[MEMBER].realCassetteLoad_ = false;
 
 	setVtType("Membership", MEMBER, elfConfiguration[MEMBER].vtType, false);
-	conf[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
+	elfConfiguration[MEMBER].vtCharRom_ = configPointer->Read("/Membership/Vt_Font_Rom_File", "vt100.bin");
 
 	if (mode_.gui)
 	{
@@ -186,7 +183,6 @@ void GuiMembership::readMembershipConfig()
 			XRCCTRL(*this, "RomMembership", wxButton)->Enable(true);
 
 		XRCCTRL(*this, "MainRomMembership", wxComboBox)->SetValue(conf[MEMBER].rom_[MAINROM1]);
-		XRCCTRL(*this, "VtCharRomMembership", wxComboBox)->SetValue(conf[MEMBER].vtCharRom_);
 		XRCCTRL(*this, "ScreenDumpFileMembership", wxComboBox)->SetValue(conf[MEMBER].screenDumpFile_);
         XRCCTRL(*this, "WavFileMembership", wxTextCtrl)->SetValue(conf[MEMBER].wavFile_[0]);
 		XRCCTRL(*this, "AutoCasLoadMembership", wxCheckBox)->SetValue(conf[MEMBER].autoCassetteLoad_);
@@ -231,7 +227,7 @@ void GuiMembership::writeMembershipDirConfig()
     writeConfigDir("/Dir/Membership/Main", conf[MEMBER].mainDir_);
     writeConfigDir("/Dir/Membership/Main_Rom_File", conf[MEMBER].romDir_[MAINROM1]);
     writeConfigDir("/Dir/Membership/Software_File", conf[MEMBER].ramDir_);
-    writeConfigDir("/Dir/Membership/Vt_Font_Rom_File", conf[MEMBER].vtCharRomDir_);
+    writeConfigDir("/Dir/Membership/Vt_Font_Rom_File", elfConfiguration[MEMBER].vtCharRomDir_);
     writeConfigDir("/Dir/Membership/Video_Dump_File", conf[MEMBER].screenDumpFileDir_);
     writeConfigDir("/Dir/Membership/Terminal_File", conf[MEMBER].wavFileDir_[0]);
 	writeConfigDir("/Dir/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFileDir_);
@@ -242,7 +238,7 @@ void GuiMembership::writeMembershipConfig()
 	wxString buffer;
 
 	configPointer->Write("/Membership/Main_Rom_File", conf[MEMBER].rom_[MAINROM1]);
-	configPointer->Write("/Membership/Vt_Font_Rom_File", conf[MEMBER].vtCharRom_);
+	configPointer->Write("/Membership/Vt_Font_Rom_File", elfConfiguration[MEMBER].vtCharRom_);
 	configPointer->Write("/Membership/Video_Dump_File", conf[MEMBER].screenDumpFile_);
     configPointer->Write("/Membership/Terminal_File", conf[MEMBER].wavFile_[0]);
     configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
