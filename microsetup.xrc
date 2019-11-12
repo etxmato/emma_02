@@ -961,6 +961,39 @@
                     </object>
                     <object class="sizeritem">
                         <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
                         <border>5</border>
                         <object class="wxBoxSizer">
                             <orient>wxHORIZONTAL</orient>
@@ -1337,6 +1370,39 @@
                                 <face>System Font</face>
                             </font>
                             <label>Setup 'Four Socket' - 8Kx8</label>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
                         </object>
                     </object>
                     <object class="sizeritem">
@@ -6448,7 +6514,6 @@
                                     <content>
                                         <item>RAM</item>
                                         <item>ROM</item>
-                                        <item>MIX</item>
                                     </content>
                                     <selection>1</selection>
                                 </object>
@@ -6494,7 +6559,6 @@
                                     <content>
                                         <item>RAM</item>
                                         <item>ROM</item>
-                                        <item>MIX</item>
                                     </content>
                                     <selection>1</selection>
                                 </object>
@@ -6540,7 +6604,6 @@
                                     <content>
                                         <item>RAM</item>
                                         <item>ROM</item>
-                                        <item>MIX</item>
                                     </content>
                                     <selection>1</selection>
                                 </object>
@@ -6586,7 +6649,6 @@
                                     <content>
                                         <item>RAM</item>
                                         <item>ROM</item>
-                                        <item>MIX</item>
                                     </content>
                                     <selection>1</selection>
                                 </object>
@@ -7430,6 +7492,7 @@
                         <flag>wxGROW|wxALL</flag>
                         <border>1</border>
                         <object class="wxStaticLine" name="wxID_STATIC">
+                            <size>200,-1</size>
                             <style>wxLI_HORIZONTAL</style>
                         </object>
                     </object>

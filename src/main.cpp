@@ -646,7 +646,10 @@ WindowInfo getWinSizeInfo()
 		returnValue.RegularClockX = 333;
 		returnValue.ChoiceClockY = 474;
 		returnValue.ChoiceClockX = 334;
-		returnValue.operatingSystem = OS_LINUX_FEDORA;
+        
+        returnValue.operatingSystem = OS_LINUX_FEDORA;
+        if (distInfo.Id == "LinuxMint")
+            returnValue.operatingSystem = OS_LINUX_MINT;
 
 		wxString desktop = wxPlatformInfo::Get().GetDesktopEnvironment();
 		if (desktop == "KDE")
@@ -2585,55 +2588,85 @@ void Main::initConfig()
     int mhzTextCorrectionX;
     int stopCorrectionX;
     int startCorrectionX;
-    if (windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_04 || windowInfo.operatingSystem == OS_LINUX_UBUNTU_11_10)
-	{
-		clockTextCorrectionComxY = 90;
-		clockFloatCorrectionComxY = 95;
-		mhzTextCorrectionComxY = 90;
-		stopCorrectionComxY = 96;
-		startCorrectionComxY = 96;
-		clockTextCorrectionY = 126;
-		clockFloatCorrectionY = 131;
-		mhzTextCorrectionY = 126;
-		stopCorrectionY = 132;
-		startCorrectionY = 132;
-        clockSize = 59;
+    
+    switch (windowInfo.operatingSystem)
+    {
+            
+        case OS_LINUX_UBUNTU_11_04:
+        case OS_LINUX_UBUNTU_11_10:
+            clockTextCorrectionComxY = 90;
+            clockFloatCorrectionComxY = 95;
+            mhzTextCorrectionComxY = 90;
+            stopCorrectionComxY = 96;
+            startCorrectionComxY = 96;
+            clockTextCorrectionY = 126;
+            clockFloatCorrectionY = 131;
+            mhzTextCorrectionY = 126;
+            stopCorrectionY = 132;
+            startCorrectionY = 132;
+            clockSize = 59;
+            
+            clockTextCorrectionComxX = 320;
+            clockFloatCorrectionComxX = 279;
+            mhzTextCorrectionComxX = 220;
+            stopCorrectionComxX = 188;
+            startCorrectionComxX = 106;
+            clockTextCorrectionX = 320;
+            clockFloatCorrectionX = 279;
+            mhzTextCorrectionX = 220;
+            stopCorrectionX = 188;
+            startCorrectionX = 106;
+        break;
+            
+        case OS_LINUX_MINT:
+            clockTextCorrectionComxY = 111;
+            clockFloatCorrectionComxY = 116;
+            mhzTextCorrectionComxY = 111;
+            stopCorrectionComxY = 117;
+            startCorrectionComxY = 117;
+            clockTextCorrectionY = 147;
+            clockFloatCorrectionY = 152;
+            mhzTextCorrectionY = 147;
+            stopCorrectionY = 153;
+            startCorrectionY = 153;
+            clockSize = 59;
+            
+            clockTextCorrectionComxX = 320;
+            clockFloatCorrectionComxX = 279;
+            mhzTextCorrectionComxX = 220;
+            stopCorrectionComxX = 188;
+            startCorrectionComxX = 106;
+            clockTextCorrectionX = 320;
+            clockFloatCorrectionX = 279;
+            mhzTextCorrectionX = 220;
+            stopCorrectionX = 188;
+            startCorrectionX = 106;
+        break;
 
-        clockTextCorrectionComxX = 320;
-        clockFloatCorrectionComxX = 279;
-        mhzTextCorrectionComxX = 220;
-        stopCorrectionComxX = 188;
-        startCorrectionComxX = 106;
-        clockTextCorrectionX = 320;
-        clockFloatCorrectionX = 279;
-        mhzTextCorrectionX = 220;
-        stopCorrectionX = 188;
-        startCorrectionX = 106;
-}
-	else
-	{
-		clockTextCorrectionComxY = 127;
-		clockFloatCorrectionComxY = 135;
-		mhzTextCorrectionComxY = 127;
-		stopCorrectionComxY = 136;
-		startCorrectionComxY = 136;
-		clockTextCorrectionY = 168;
-		clockFloatCorrectionY = 176;
-		mhzTextCorrectionY = 168;
-		stopCorrectionY = 177;
-		startCorrectionY = 177;
-        clockSize = 59;
-
-        clockTextCorrectionComxX = 320;
-        clockFloatCorrectionComxX = 279;
-        mhzTextCorrectionComxX = 220;
-        stopCorrectionComxX = 188;
-        startCorrectionComxX = 106;
-        clockTextCorrectionX = 320;
-        clockFloatCorrectionX = 279;
-        mhzTextCorrectionX = 220;
-        stopCorrectionX = 188;
-        startCorrectionX = 106;
+        default:
+            clockTextCorrectionComxY = 127;
+            clockFloatCorrectionComxY = 135;
+            mhzTextCorrectionComxY = 127;
+            stopCorrectionComxY = 136;
+            startCorrectionComxY = 136;
+            clockTextCorrectionY = 168;
+            clockFloatCorrectionY = 176;
+            mhzTextCorrectionY = 168;
+            stopCorrectionY = 177;
+            startCorrectionY = 177;
+            clockSize = 59;
+            
+            clockTextCorrectionComxX = 320;
+            clockFloatCorrectionComxX = 279;
+            mhzTextCorrectionComxX = 220;
+            stopCorrectionComxX = 188;
+            startCorrectionComxX = 106;
+            clockTextCorrectionX = 320;
+            clockFloatCorrectionX = 279;
+            mhzTextCorrectionX = 220;
+            stopCorrectionX = 188;
+            startCorrectionX = 106;
+        break;
     }
 
     int floatHeight = -1;

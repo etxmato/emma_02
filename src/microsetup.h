@@ -59,6 +59,7 @@ private:
     
     bool memoryError_;
     bool boardError_;
+    bool guiLoaded_;
 
     DECLARE_EVENT_TABLE()
     
@@ -198,6 +199,7 @@ private:
     wxString romText_[4];
     bool memoryError_;
     bool boardError_;
+    bool guiLoaded_;
 
     DECLARE_EVENT_TABLE()
     
