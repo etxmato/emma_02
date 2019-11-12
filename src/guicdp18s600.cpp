@@ -995,7 +995,11 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig)
 
 void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig, MicroMemoryConf microMemoryConfCardx, int cardx)
 {
+    long block;
+    Word socketSize;
     wxString cardStr;
+    int chipType;
+    
     int vtType = elfConfig->vtType;
     for (int i=0; i<256; i++)
     {
@@ -1010,6 +1014,12 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
     switch (config->microboardType_[0])
     {
         case MICROBOARD_CDP18S600:
+            if (config->microChipType_[ONE_SOCKET]>2)
+                config->microChipType_[ONE_SOCKET] = 0;
+            
+            if (config->microChipType_[FOUR_SOCKET]>2)
+                config->microChipType_[FOUR_SOCKET] = 0;
+
             elfConfig->useUart = true;
             elfConfig->elfPortConf.uartOut = 2;
             elfConfig->elfPortConf.uartControl = 3;
@@ -1018,6 +1028,9 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             
         case MICROBOARD_CDP18S601:
         case MICROBOARD_CDP18S606:
+            if (config->microChipType_[FOUR_SOCKET]>1)
+                config->microChipType_[FOUR_SOCKET] = 0;
+
             elfConfig->useUart = false;
             setMemoryMapCDP18S601(config, 0, config->microboardType_[0]);
         break;
@@ -1026,6 +1039,32 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
         case MICROBOARD_CDP18S605:
         case MICROBOARD_CDP18S607:
         case MICROBOARD_CDP18S610:
+            if (config->microChipType_[FOUR_SOCKET]>1)
+                config->microChipType_[FOUR_SOCKET] = 0;
+            
+            if (!config->microChipBlock_[ONE_SOCKET].ToLong(&block))
+            {
+                config->microChipBlock_[ONE_SOCKET] = "0";
+                block = 0;
+            }
+            while ((block*0x800) > 0xffff)
+            {
+                block = (long)(block / 2);
+                config->microChipBlock_[ONE_SOCKET].Printf("%d", (int)block);
+            }
+
+            chipType = (config->microChipType_[FOUR_SOCKET]+1)*2;
+            if (!config->microChipBlock_[FOUR_SOCKET].ToLong(&block))
+            {
+                config->microChipBlock_[FOUR_SOCKET] = "0";
+                block = 0;
+            }
+            while ((block*chipType*0x400) > 0xffff || (block*chipType*0x400+chipType*0x400-1) > 0xffff)
+            {
+                block = (long)(block / 2);
+                config->microChipBlock_[FOUR_SOCKET].Printf("%d", (int)block);
+            }
+
             elfConfig->useUart = true;
             elfConfig->elfPortConf.uartOut = 2;
             elfConfig->elfPortConf.uartControl = 3;
@@ -1035,12 +1074,38 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
         case MICROBOARD_CDP18S603:
         case MICROBOARD_CDP18S603A:
         case MICROBOARD_CDP18S608:
+            if (config->microChipType_[FOUR_SOCKET]>1)
+                config->microChipType_[FOUR_SOCKET] = 0;
+
             elfConfig->useUart = false;
             setMemoryMapCDP18S603a(config, 0, config->microboardType_[0]);
         break;
             
         case MICROBOARD_CDP18S604B:
         case MICROBOARD_CDP18S609:
+            if (!config->microChipBlock_[ONE_SOCKET].ToLong(&block))
+            {
+                config->microChipBlock_[ONE_SOCKET] = "0";
+                block = 0;
+            }
+            while ((block*0x400) > 0xffff)
+            {
+                block = (long)(block / 2);
+                config->microChipBlock_[ONE_SOCKET].Printf("%d", (int)block);
+            }
+
+            chipType = convert604BChipType(config->microChipType_[FOUR_SOCKET]);
+            if (!config->microChipBlock_[FOUR_SOCKET].ToLong(&block))
+            {
+                config->microChipBlock_[FOUR_SOCKET] = "0";
+                block = 0;
+            }
+            while ((block*chipType*0x400) > 0xffff || (block*chipType*0x400+chipType*0x400-1) > 0xffff)
+            {
+                block = (long)(block / 2);
+                config->microChipBlock_[FOUR_SOCKET].Printf("%d", (int)block);
+            }
+
             elfConfig->vtType = 0;
             elfConfig->useUart = false;
             setMemoryMapCDP18S604b(config, 0, config->microboardType_[0]);
@@ -1072,6 +1137,9 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
         switch (config->microboardType_[card])
         {
             case CARD_CDP18S620:
+                if (microMemConfig.memLocation_[0] > 15)
+                    microMemConfig.memLocation_[0] = 0;
+
                 if (card == cardx)
                     setMemoryMapCDP18S620(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
                 else
@@ -1079,16 +1147,20 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             break;
                 
             case CARD_CDP18S621:
+                if (microMemConfig.memLocation_[0] > 3)
+                    microMemConfig.memLocation_[0] = 0;
+                microMemConfig.socketSize_[0] = 2;
+
                 if (card == cardx)
                     setMemoryMapCDP18S621(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
                 else
                     setMemoryMapCDP18S621(config, microMemConfig, card, config->microboardType_[card]+MICROBOARD_LAST);
-                microMemConfig.socketSize_[0] = 2;
-                if (microMemConfig.memLocation_[0] > 3)
-                    microMemConfig.memLocation_[0] = 0;
             break;
                 
             case CARD_CDP18S623A:
+                if (microMemConfig.memLocation_[0] > 7)
+                    microMemConfig.memLocation_[0] = 0;
+                    
                 if (card == cardx)
                     setMemoryMapCDP18S623a(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
                 else
@@ -1096,6 +1168,30 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             break;
                 
             case CARD_CDP18S625:
+                if (!microMemConfig.chipBlockRom_[0].ToLong(&block))
+                {
+                    microMemConfig.chipBlockRom_[0] = "0";
+                    block = 0;
+                }
+                socketSize = (1 << (microMemConfig.socketSize_[0]))*0x400;
+                while ((block*socketSize*4) > 0xffff || (block*socketSize*4+(socketSize*4)-1) > 0xffff)
+                {
+                    block = (long)(block / 2);
+                    microMemConfig.chipBlockRom_[0].Printf("%d", (int)block);
+                }
+                
+                if (!microMemConfig.chipBlockRom_[1].ToLong(&block))
+                {
+                    microMemConfig.chipBlockRom_[1] = "0";
+                    block = 0;
+                }
+                socketSize = (1 << (microMemConfig.socketSize_[1]))*0x400;
+                while ((block*socketSize*4) > 0xffff || (block*socketSize*4+(socketSize*4)-1) > 0xffff)
+                {
+                    block = (long)(block / 2);
+                    microMemConfig.chipBlockRom_[1].Printf("%d", (int)block);
+                }
+
                 if (card == cardx)
                     setMemoryMapCDP18S625(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
                 else
@@ -1103,6 +1199,11 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             break;
                 
             case CARD_CDP18S626:
+                if (microMemConfig.memLocation_[0] > 1)
+                    microMemConfig.memLocation_[0] = 0;
+                if (microMemConfig.socketSize_[0] > 1)
+                    microMemConfig.socketSize_[0] = 0;
+
                 if (card == cardx)
                     setMemoryMapCDP18S626(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
                 else
@@ -1110,6 +1211,9 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             break;
  
             case CARD_CDP18S627:
+                if (microMemConfig.memLocation_[0] > 15)
+                    microMemConfig.memLocation_[0] = 0;
+
                 if (card == cardx)
                     setMemoryMapCDP18S627(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
                 else
@@ -1118,6 +1222,9 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
 
             case CARD_CDP18S628:
             case CARD_CDP18S629:
+                if (microMemConfig.memLocation_[0] > 1)
+                    microMemConfig.memLocation_[0] = 0;
+                
                 if (card == cardx)
                     setMemoryMapCDP18S626(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
                 else
@@ -1163,6 +1270,20 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             break;
 
             case CARD_CDP18S652:
+                if (microMemConfig.memLocation_[0] > 1)
+                    microMemConfig.memLocation_[0] = 0;
+                
+                if (!microMemConfig.chipBlockRam_.ToLong(&block))
+                {
+                    microMemConfig.chipBlockRam_ = "0";
+                    block = 0;
+                }
+                while ((block*0x400) > 0xffff)
+                {
+                    block = (long)(block / 2);
+                    microMemConfig.chipBlockRam_.Printf("%d", (int)block);
+                }
+
                 checkBoardType(config, card, cardStr, tapeCard, tapeCardStr, elfConfig->useTape);
                 if (card == cardx)
                     setMemoryMapCDP18S652(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);
@@ -1176,6 +1297,9 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             break;
                 
             case CARD_CDP18S660:
+                if (microMemConfig.socketSize_[1] > 1)
+                    microMemConfig.socketSize_[1] = 0;
+
                 checkBoardType(config, card, cardStr, pioCard, pioCardStr, elfConfig->useCdp18s660);
                 if (card == cardx)
                     setMemoryMapCDP18S660(config, microMemoryConfCardx, cardx, config->microboardType_[card]+MICROBOARD_LAST);

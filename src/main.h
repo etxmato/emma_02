@@ -232,6 +232,7 @@ protected:
 #define OS_LINUX_OPENSUSE_GNOME 21
 #define OS_MAC 30
 #define OS_LINUX_FEDORA 40
+#define OS_LINUX_MINT 41
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -417,7 +418,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.33
+#define EMMA_VERSION 1.34
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
