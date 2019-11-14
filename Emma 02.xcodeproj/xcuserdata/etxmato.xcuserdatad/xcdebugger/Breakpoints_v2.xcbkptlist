@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/microsetup.cpp"
-            timestampString = "594249894.0289921"
+            timestampString = "595259341.227517"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2322"
-            endingLineNumber = "2322"
+            startingLineNumber = "2470"
+            endingLineNumber = "2470"
             landmarkName = "MicroboardAdditionalCardSetupDialog::onMicroboardType(wxCommandEvent&amp;event)"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,7 +74,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guicdp18s600.cpp"
-            timestampString = "594252626.119259"
+            timestampString = "595259341.227939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "399"
@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "594770300.03281"
+            timestampString = "594943983.096024"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3887"
-            endingLineNumber = "3887"
+            startingLineNumber = "3920"
+            endingLineNumber = "3920"
             landmarkName = "Main::removeRedundantFiles()"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,12 +106,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/main.cpp"
-            timestampString = "594770300.033141"
+            timestampString = "594943983.0967931"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3839"
-            endingLineNumber = "3839"
+            startingLineNumber = "3872"
+            endingLineNumber = "3872"
             landmarkName = "Main::onReInstallData(wxCommandEvent&amp;WXUNUSED(event))"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/microsetup.cpp"
+            timestampString = "595259341.228022"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2492"
+            endingLineNumber = "2492"
+            landmarkName = "MicroboardAdditionalCardSetupDialog::setMaxCards()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/microsetup.cpp"
+            timestampString = "595259341.228282"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2449"
+            endingLineNumber = "2449"
+            landmarkName = "MicroboardAdditionalCardSetupDialog::onSaveButton( wxCommandEvent&amp; WXUNUSED(event) )"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/microsetup.cpp"
+            timestampString = "595259341.228536"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2495"
+            endingLineNumber = "2495"
+            landmarkName = "MicroboardAdditionalCardSetupDialog::setMaxCards()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

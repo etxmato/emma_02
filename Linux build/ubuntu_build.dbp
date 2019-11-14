@@ -1,12 +1,12 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.33
+Version: 1.34
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
 Priority: standard
-Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libwxgtk3.0-0v5, libwxbase3.0-0v5, libserialport0
+Depends: libc6, libcurl3-gnutls, libsdl1.2debian, libcurl3, libwxgtk3.0-0v5 | libwxgtk3.0-0, libwxbase3.0-0v5 | libwxbase3.0-0, libserialport0
 Description: Emma 02, the RCA 1802 Emulator
  Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos,
  Cosmac Elf, Netronics ELF II, Quest Super Elf,
@@ -22,6 +22,7 @@ Description: Emma 02, the RCA 1802 Emulator
 <</CTRL>>
 <<FILES>>
 1
+/media/psf/Home/workspace/emma_02/microsetup.xrc* -> microsetup.xrc -> /usr/share/emma_02
 /home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/Configurations -> Configurations -> /usr/share/emma_02
 /home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/data -> data -> /usr/share/emma_02
 /home/etxmato/Desktop/Parallels Shared Folders/Home/workspace/emma_02/images -> images -> /usr/share/emma_02
@@ -137,11 +138,11 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.33) xenial; urgency=medium
+emma-02 (1.34) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
- -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Tue, 05 Nov 2019 21:33:13 +0200
+ -- Marcel van Tongeren <marcel.v.tongeren@gmail.com>  Tue, 12 Nov 2019 15:06:10 +0200
 
 <</CHANGELOG>>
 <<COPYRIGHT>>
