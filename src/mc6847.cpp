@@ -98,23 +98,52 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 	SetIcon(wxICON(app_icon));
 #endif
 
-	videoWidth_ = size.GetWidth() / zoom;
-	videoHeight_ = size.GetHeight() / zoom;
-
-	charHeight_ = 12;
-	charWidth_ = 8;
-
-	charLine_ = videoWidth_ / charWidth_;
-	rows_ = videoHeight_ / charHeight_;
+    videoWidth_ = 256;
+	videoHeight_ = 192;
 
 	fullScreenSet_ = false;
 
-	if (videoHeight_ == 192)
-		addLine_ = 1;
-	else
-		addLine_ = 2;
+    if (elfPortConf.forceHighAg)
+        ag_ = 1;
+    else
+        ag_ = 0;
 
-	videoHeight_ = rows_*charHeight_*addLine_;
+    if (elfPortConf.forceHighAs)
+        as_ = 1;
+    else
+        as_ = 0;
+
+    if (elfPortConf.forceHighExt)
+        ext_ = 1;
+    else
+        ext_ = 0;
+
+    if (elfPortConf.forceHighGm2)
+        gm2_ = 1;
+    else
+        gm2_ = 0;
+
+    if (elfPortConf.forceHighGm1)
+        gm1_ = 1;
+    else
+        gm1_ = 0;
+
+    if (elfPortConf.forceHighGm0)
+        gm0_ = 1;
+    else
+        gm0_ = 0;
+
+    if (elfPortConf.forceHighCss)
+        css_ = 1;
+    else
+        css_ = 0;
+
+    if (elfPortConf.forceHighInv)
+        inv_ = 1;
+    else
+        inv_ = 0;
+
+    setGraphicMode();
 
 	offsetX_ = 0;
 	offsetY_ = 0;
@@ -122,9 +151,6 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 	reBlit_ = false;
 	newBackGround_ = false;
 	updateCharacter_ = 0;
-
-//	for (int i=0; i<(rows_*charLine_); i++)
-//		mc6847ram_[i] = 32;
 
 	screenCopyPointer = new wxBitmap(videoWidth_, videoHeight_);
 	dcMemory.SelectObject(*screenCopyPointer);
@@ -149,14 +175,6 @@ mc6847::mc6847(const wxString& title, const wxPoint& pos, const wxSize& size, do
 	zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
 	characterListPointer6847 = NULL;
-	ag_ = 0;
-	inv_ = 0;
-	ext_ = 0;
-	css_ = 0;
-	as_ = 0;
-	gm0_ = 0;
-	gm1_ = 0;
-	gm2_ = 0;
 	outLatch_ = 0;
 
 	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_, (videoHeight_+2*borderY_[videoType_])*zoom_);
@@ -217,14 +235,20 @@ void mc6847::configure(ElfPortConfiguration elfPortConf)
 	setMCBit(8, elfPortConf.mc6847b0); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-B0", 5l));
 	setMCBit(7, elfPortConf.mc6847dd7); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD7", 1l));
 	setMCBit(6, elfPortConf.mc6847dd6); //p_Main->getConfigItem(elfTypeStr_+"/MC6847-DD6", 0l));
-
-	p_Computer->setOutType(elfPortConf.mc6847Output, MC6847OUT);
-
+    
 	p_Computer->setCycleType(VIDEOCYCLE, MC6847CYCLE);
 
 	p_Main->message("Configuring MC6847");
 
-	printBuffer.Printf("	Output %d: video mode\n", elfPortConf.mc6847Output);
+    if (elfPortConf.mc6847OutputMode == 1)
+    {
+        printBuffer = "	Write mem FFxx: video mode\n";
+    }
+    else
+    {
+        p_Computer->setOutType(elfPortConf.mc6847Output, MC6847OUT);
+        printBuffer.Printf("	Output %d: video mode\n", elfPortConf.mc6847Output);
+    }
 	p_Main->message(printBuffer);
 }
 
@@ -281,89 +305,112 @@ void mc6847::outMc6847(Byte v)
 
 	value = v * 256;
 
-	newMode = (((value >> agBit_) & 1) == 1);
-	if (newMode != ag_)
-		reDraw_ = true;
-	ag_ = newMode;
+    if (agBit_ != 16)
+    {
+        newMode = (((value >> agBit_) & 1) == 1);
+        if (newMode != ag_)
+            reDraw_ = true;
+        ag_ = newMode;
+    }
 
-	inv_ = (value >> invBit_) & 1;
-	ext_ = (value >> extBit_) & 1;
-	css_ = (value >> cssBit_) & 1;
-	as_ = (value >> asBit_) & 1;
-	gm0_ = (value >> gm0Bit_) & 1;
-	gm1_ = (value >> gm1Bit_) & 1;
-	gm2_ = (value >> gm2Bit_) & 1;
+    if (invBit_ != 16)
+        inv_ = (value >> invBit_) & 1;
+    if (extBit_ != 16)
+        ext_ = (value >> extBit_) & 1;
+    if (cssBit_ != 16)
+        css_ = (value >> cssBit_) & 1;
+    if (asBit_ != 16)
+        as_ = (value >> asBit_) & 1;
+    if (gm0Bit_ != 16)
+        gm0_ = (value >> gm0Bit_) & 1;
+    if (gm1Bit_ != 16)
+        gm1_ = (value >> gm1Bit_) & 1;
+    if (gm2Bit_ != 16)
+        gm2_ = (value >> gm2Bit_) & 1;
 
 	newMode = gm0_ + (gm1_ << 1) + (gm2_ << 2);
 	if (newMode != graphicMode_)
 		reDraw_ = true;
 	graphicMode_ = newMode;
 
-	if (ag_ == 0)
-	{
-		charHeight_ = 12;
-		charWidth_ = 8;
-	}
-	else
-	{
-		switch(graphicMode_)
-		{
-			case 0:
-				charHeight_ = 3;
-				charWidth_ = 16;
-				elementWidth_ = 4;
-			break;
-
-			case 1:
-				charHeight_ = 3;
-				charWidth_ = 16;
-				elementWidth_ = 2;
-			break;
-
-			case 2:
-				charHeight_ = 3;
-				charWidth_ = 8;
-				elementWidth_ = 2;
-			break;
-
-			case 3:
-				charHeight_ = 2;
-				charWidth_ = 16;
-				elementWidth_ = 2;
-			break;
-
-			case 4:
-				charHeight_ = 2;
-				charWidth_ = 8;
-				elementWidth_ = 2;
-			break;
-
-			case 5:
-				charHeight_ = 1;
-				charWidth_ = 16;
-				elementWidth_ = 2;
-			break;
-
-			case 6:
-				charHeight_ = 1;
-				charWidth_ = 8;
-				elementWidth_ = 2;
-			break;
-
-			case 7:
-				charHeight_ = 1;
-				charWidth_ = 8;
-				elementWidth_ = 1;
-			break;
-		}
-	}
-	charLine_ = screenWidth_ / charWidth_;
-	rows_ = screenHeight_ / charHeight_;
-
-	videoWidth_ = charLine_*charWidth_;
-	videoHeight_ = rows_*charHeight_*addLine_;
+    setGraphicMode();
 
 	outLatch_ = value & 0xf00;
+}
+
+void mc6847::setGraphicMode()
+{
+    if (ag_ == 0)
+    {
+        charHeight_ = 12;
+        charWidth_ = 8;
+
+    //  if (videoHeight_ == 192)
+            addLine_ = 1;
+    //    else
+    //        addLine_ = 2;
+    }
+    else
+    {
+        addLine_ = 1;
+        graphicMode_ = gm0_ + (gm1_ << 1) + (gm2_ << 2);
+        switch(graphicMode_)
+        {
+            case 0:
+                charHeight_ = 3;
+                charWidth_ = 16;
+                elementWidth_ = 4;
+            break;
+
+            case 1:
+                charHeight_ = 3;
+                charWidth_ = 16;
+                elementWidth_ = 2;
+            break;
+
+            case 2:
+                charHeight_ = 3;
+                charWidth_ = 8;
+                elementWidth_ = 2;
+            break;
+
+            case 3:
+                charHeight_ = 2;
+                charWidth_ = 16;
+                elementWidth_ = 2;
+            break;
+
+            case 4:
+                charHeight_ = 2;
+                charWidth_ = 8;
+                elementWidth_ = 2;
+            break;
+
+            case 5:
+                charHeight_ = 1;
+                charWidth_ = 16;
+                elementWidth_ = 2;
+            break;
+
+            case 6:
+                charHeight_ = 1;
+                charWidth_ = 8;
+                elementWidth_ = 2;
+            break;
+
+            case 7:
+                charHeight_ = 1;
+                charWidth_ = 8;
+                elementWidth_ = 1;
+            break;
+        }
+    }
+    
+    charLine_ = videoWidth_ / charWidth_;
+    rows_ = videoHeight_ / charHeight_;
+
+    videoWidth_ = charLine_*charWidth_;
+    videoHeight_ = rows_*charHeight_*addLine_;
 }
 
 void mc6847::cycle6847()
@@ -387,7 +434,10 @@ void mc6847::cycle6847()
 
 void mc6847::copyScreen()
 {
-	CharacterList6847 *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
+
+    CharacterList6847 *temp;
 
 	if (reColour_)
 	{
@@ -506,6 +556,7 @@ Byte mc6847::read6847CharRom(Word addr)
 void mc6847::write6847CharRom(Word addr, Byte value)
 {
 	mc6847CharRom_[addr] = value;
+
 	Word memoryStart = p_Computer->getDebugMemoryStart();
 	if (addr >= memoryStart && addr<(memoryStart + 256))
 		p_Main->updateDebugMemory(addr);
@@ -521,6 +572,7 @@ void mc6847::draw(Word addr)
 {
 	int y = (addr/charLine_)*charHeight_*addLine_;
 	int x = (addr%charLine_)*charWidth_;
+
 	if (ag_ == 1)
 		drawGraphic(x, y, mc6847ram_[addr]);
 	else
@@ -660,7 +712,7 @@ void mc6847::drawGraphic(wxCoord x, wxCoord y, int v)
 {
 	wxColour clr;
 
-	if (css_ < 12) 
+	if (cssBit_ < 12) 
 		css_ = (v >> cssBit_) & 1;
 
 	if (gm0_ == 0)

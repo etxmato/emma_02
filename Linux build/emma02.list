@@ -6,19 +6,14 @@ $libdir=/usr/lib
 $mandir=${prefix}/share/man
 $srcdir=.
 %product Emma 02
-%copyright 2007-2019 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
+%copyright 2007-2020 Marcel van Tongeren, core based on RCS Elf Emulator copyright 2006 by Michael H Riley.
 %vendor Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 %license COPYING
 %readme README
 %description Emma 02 is emulating the COMX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, RCA Studio IV, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660
-%version 1.34
+%version 1.35
 %requires glibc
-%requires libcurl
 %requires SDL
-%requires wxGTK
-%requires wxBase
-%requires libpng12
-%requires libserialport
 # Executables
 %system all
 f 755 root sys ${bindir}/emma_02 ../Release/emma_02
@@ -73,6 +68,13 @@ f 644 root sys ${datadir}/emma_02/ports.xrc ../ports.xrc
 f 644 root sys ${datadir}/emma_02/sb.xrc ../sb.xrc
 f 644 root sys ${datadir}/emma_02/splash.xrc ../splash.xrc
 f 644 root sys ${datadir}/emma_02/vt.xrc ../vt.xrc
+f 644 root sys ${datadir}/emma_02/fedora.ini ../fedora.ini
+f 644 root sys ${datadir}/emma_02/suse.ini ../suse.ini
+f 644 root sys ${datadir}/emma_02/linuxmint.ini ../linuxmint.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.2.ini ../ubuntu.2.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.3.ini ../ubuntu.3.ini
+f 644 root sys ${datadir}/emma_02/ubuntu.4.ini ../ubuntu.4.ini
+f 644 root sys ${datadir}/emma_02/linuxdefault.ini ../linuxdefault.ini
 f 644 root sys ${datadir}/emma_02/Quest_CC_Lic.jpg ../Quest_CC_Lic.jpg
 f 644 root sys ${datadir}/emma_02/Quest_license.txt ../Quest_license.txt
 f 644 root sys ${datadir}/emma_02/copyright.rtf ../copyright.rtf

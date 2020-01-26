@@ -45,8 +45,8 @@ BEGIN_EVENT_TABLE(GuiCdp18s020, GuiCdp18s600)
 	EVT_COMBOBOX(XRCID("RamSWCDP18S020"), GuiCdp18s020::onRamSWText)
 	EVT_BUTTON(XRCID("RamSWButtonCDP18S020"), GuiCdp18s020::onRamSWCdp18s020)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinCDP18S020"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinCDP18S020"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinCDP18S020"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinCDP18S020"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueCDP18S020"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3CDP18S020"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ScreenDumpFileButtonCDP18S020"), GuiMain::onScreenDumpFile)
@@ -66,8 +66,8 @@ BEGIN_EVENT_TABLE(GuiCdp18s020, GuiCdp18s600)
 	EVT_CHECKBOX(XRCID("LatchCDP18S020"), GuiCdp18s020::onLatch)
 
 	EVT_CHOICE(XRCID("VTTypeCDP18S020"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtCDP18S020"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtCDP18S020"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtCDP18S020"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtCDP18S020"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtCDP18S020"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("VtSetupCDP18S020"), GuiMain::onVtSetup)
 	EVT_CHECKBOX(XRCID("StretchDotCDP18S020"), GuiMain::onStretchDot)
@@ -210,12 +210,14 @@ void GuiCdp18s020::readCdp18s020Config()
         XRCCTRL(*this,"AddressText1CDP18S020", wxStaticText)->Enable(elfConfiguration[CDP18S020].useElfControlWindows);
         XRCCTRL(*this,"AddressText2CDP18S020", wxStaticText)->Enable(elfConfiguration[CDP18S020].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsCDP18S020", wxCheckBox)->SetValue(elfConfiguration[CDP18S020].useElfControlWindows);
-        XRCCTRL(*this, "ZoomValueVtCDP18S020", wxTextCtrl)->ChangeValue(conf[CDP18S020].zoomVt_);
+        
+        correctZoom(CDP18S020, "CDP18S020");
+        correctZoomVt(CDP18S020, "CDP18S020");
 
-		XRCCTRL(*this, "ZoomValueCDP18S020", wxTextCtrl)->ChangeValue(conf[CDP18S020].zoom_);
 		XRCCTRL(*this, "LatchCDP18S020", wxCheckBox)->SetValue(latch_);
 		XRCCTRL(*this, "VolumeCDP18S020", wxSlider)->SetValue(conf[CDP18S020].volume_);
-		clockTextCtrl[CDP18S020]->ChangeValue(conf[CDP18S020].clock_);
+        if (clockTextCtrl[CDP18S020] != NULL)
+            clockTextCtrl[CDP18S020]->ChangeValue(conf[CDP18S020].clock_);
         XRCCTRL(*this, "ShowAddressCDP18S020", wxTextCtrl)->ChangeValue(conf[CDP18S020].ledTime_);
         XRCCTRL(*this,"ShowAddressCDP18S020", wxTextCtrl)->Enable(elfConfiguration[CDP18S020].useElfControlWindows);
         XRCCTRL(*this, "AutoBootCDP18S020", wxCheckBox)->SetValue(elfConfiguration[CDP18S020].autoBoot);

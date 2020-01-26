@@ -44,11 +44,11 @@ ComxStatusBar::ComxStatusBar(wxWindow *parent)
 	statusLedUpdate_ = true;
 	slotLedUpdate_ = true;
     
-    WindowInfo windowInfo = getWinSizeInfo();
-    linux_led_pos_y_ = 2;
+    linux_led_pos_y_ = p_Main->getBarLedPosY();
+    leaderString_ = p_Main->getBarLeader();
     
-    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
-        linux_led_pos_y_ = 4;
+    for (int i=0; i<4; i++)
+        statusBarElementMeasure[i] = p_Main->getStatusBarElementMeasure(i);
 }
 
 ComxStatusBar::~ComxStatusBar()
@@ -107,7 +107,7 @@ void ComxStatusBar::displayText()
 	this->GetFieldRect (1, rect);
 	if (expansionRomLoaded_)
 	{
-		if (rect.GetWidth() < 80)
+		if (rect.GetWidth() < statusBarElementMeasure[1])
 			SetStatusText("E-Box", 0);
 		else
 			SetStatusText("Expansion Box", 0);
@@ -116,7 +116,7 @@ void ComxStatusBar::displayText()
 	{
 		if (expansionTypeCard0_ != COMXEMPTY)
 		{
-			if (rect.GetWidth() < 80)
+			if (rect.GetWidth() < statusBarElementMeasure[1])
 				SetStatusText("E-Card", 0);
 			else
 				SetStatusText("Expansion Card", 0);
@@ -285,13 +285,13 @@ void ComxStatusBar::onSlotLed(wxCommandEvent&WXUNUSED(event))
 void ComxStatusBar::updateStatusBarText()
 {
 	wxString buf;
-	wxString leader;
+//	wxString leader;
 
-#if defined(__linux__) || defined(__WXMAC__)
-	leader = "%d:         ";
-#else
-	leader = "%d:           ";
-#endif
+//#if defined(__linux__) || defined(__WXMAC__)
+//	leader = "%d:         ";
+//#else
+//	leader = "%d:           ";
+//#endif
 
 	wxRect rect;
 	this->GetFieldRect (1, rect);
@@ -312,135 +312,129 @@ void ComxStatusBar::updateStatusBarText()
 			switch(p_Computer->getComxExpansionType(slot))
 			{
 				case COMXRAM:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 100)
-							buf.Printf(leader + "32K", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[2])
+							buf.Printf(leaderString_ + "32K", slot+1);
 						else
-							buf.Printf(leader + "Ram 32K", slot+1);
+							buf.Printf(leaderString_ + "Ram 32K", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case COMXFLOP:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						buf.Printf(leader + "FDC", slot+1);
+						buf.Printf(leaderString_ + "FDC", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case COMXDIAG:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot + 1);
 					else
-						buf.Printf(leader + "Diag", slot + 1);
+						buf.Printf(leaderString_ + "Diag", slot + 1);
 					SetStatusText(buf, slot + 1);
 				break;
 
 				case COMXPRINTER:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 90)
-							buf.Printf(leader + "Pr", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[1])
+							buf.Printf(leaderString_ + "Pr", slot+1);
 						else
-							buf.Printf(leader + "Printer", slot+1);
+							buf.Printf(leaderString_ + "Printer", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case COMXRS232:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 90)
-							buf.Printf(leader + "232", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[1])
+							buf.Printf(leaderString_ + "232", slot+1);
 						else
-							buf.Printf(leader + "RS232", slot+1);
+							buf.Printf(leaderString_ + "RS232", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case COMXTHPRINTER:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 90)
-							buf.Printf(leader + "Th", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[1])
+							buf.Printf(leaderString_ + "T-P", slot+1);
 						else
-							if (rect.GetWidth() < 130)
-								buf.Printf(leader + "Thermal", slot+1);
+							if (rect.GetWidth() < statusBarElementMeasure[3])
+								buf.Printf(leaderString_ + "Thermal", slot+1);
 							else
-								buf.Printf(leader + "Thermal Printer", slot+1);
+								buf.Printf(leaderString_ + "Thermal Printer", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case COMX80COLUMN:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 90)
-							buf.Printf(leader + "80", slot+1);
-						else
-							if (rect.GetWidth() < 110)
-								buf.Printf(leader + "80 COL", slot+1);
-							else
-								buf.Printf(leader + "80 Column", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[1])
+							buf.Printf(leaderString_ + "80", slot+1);
+                        else
+                            if (rect.GetWidth() < statusBarElementMeasure[2])
+                                buf.Printf(leaderString_ + "80 COL", slot+1);
+                            else
+                                buf.Printf(leaderString_ + "80 Column", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case COMXJOY:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 95)
-							buf.Printf(leader + "Joy", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[1])
+							buf.Printf(leaderString_ + "Joy", slot+1);
 						else
-							if (rect.GetWidth() < 120)
-								buf.Printf(leader + "JoyCard", slot+1);
+							if (rect.GetWidth() < statusBarElementMeasure[3])
+								buf.Printf(leaderString_ + "JoyCard", slot+1);
 							else
-								buf.Printf(leader + "F&M JoyCard", slot+1);
+								buf.Printf(leaderString_ + "F&M JoyCard", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 				
 				case COMXEPROMBOARD:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 95)
-							buf.Printf(leader + "E-B", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[1])
+							buf.Printf(leaderString_ + "E-B", slot+1);
 						else
-							if (rect.GetWidth() < 120)
-								buf.Printf(leader + "Eprom-B", slot+1);
+							if (rect.GetWidth() < statusBarElementMeasure[3])
+								buf.Printf(leaderString_ + "Eprom", slot+1);
 							else
-								if (rect.GetWidth() < 150)
-									buf.Printf(leader + "Eprom Board", slot+1);
-								else
-									buf.Printf(leader + "F&M Eprom Board", slot+1);
+                                buf.Printf(leaderString_ + "F&M Eprom Board", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case NETWORK:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 95)
-							buf.Printf(leader + "NW", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[1])
+							buf.Printf(leaderString_ + "NW", slot+1);
 						else
-							buf.Printf(leader + "Network", slot+1);
+							buf.Printf(leaderString_ + "Network", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 
 				case COMXSUPERBOARD:
-					if (rect.GetWidth() < 70)
+					if (rect.GetWidth() < statusBarElementMeasure[0])
 						buf.Printf("%d:", slot+1);
 					else
-						if (rect.GetWidth() < 95)
-							buf.Printf(leader + "USB", slot+1);
+						if (rect.GetWidth() < statusBarElementMeasure[2])
+							buf.Printf(leaderString_ + "USB", slot+1);
 						else
-							if (rect.GetWidth() < 120)
-								buf.Printf(leader + "USB-B", slot+1);
-							else
-								buf.Printf(leader + "USB Board", slot+1);
+                            buf.Printf(leaderString_ + "USB Board", slot+1);
 					SetStatusText(buf, slot+1);
 				break;
 			}

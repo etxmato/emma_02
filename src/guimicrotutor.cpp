@@ -90,7 +90,8 @@ void GuiMicrotutor::readMicrotutorConfig()
 		XRCCTRL(*this, "RamSWMicrotutor", wxComboBox)->SetValue(conf[MICROTUTOR].ram_);
 		XRCCTRL(*this, "BootAddressMicrotutor", wxTextCtrl)->SetValue(bootAddress);
 		XRCCTRL(*this, "AutoBootMicrotutor", wxCheckBox)->SetValue(elfConfiguration[MICROTUTOR].autoBoot);
-		clockTextCtrl[MICROTUTOR]->ChangeValue(conf[MICROTUTOR].clock_);
+        if (clockTextCtrl[MICROTUTOR] != NULL)
+            clockTextCtrl[MICROTUTOR]->ChangeValue(conf[MICROTUTOR].clock_);
 	}
 
 	elfConfiguration[MICROTUTOR].usePortExtender = false;
@@ -206,7 +207,8 @@ void GuiMicrotutor2::readMicrotutor2Config()
         XRCCTRL(*this, "MainRamEMicrotutor2", wxComboBox)->SetValue(conf[MICROTUTOR2].rom_[MAINROM2]);
         XRCCTRL(*this, "BootAddressMicrotutor2", wxTextCtrl)->SetValue(bootAddress);
         XRCCTRL(*this, "AutoBootMicrotutor2", wxCheckBox)->SetValue(elfConfiguration[MICROTUTOR2].autoBoot);
-        clockTextCtrl[MICROTUTOR2]->ChangeValue(conf[MICROTUTOR2].clock_);
+        if (clockTextCtrl[MICROTUTOR2] != NULL)
+            clockTextCtrl[MICROTUTOR2]->ChangeValue(conf[MICROTUTOR2].clock_);
         XRCCTRL(*this, "RamMicrotutor2", wxChoice)->SetSelection(conf[MICROTUTOR2].ramType_);
         XRCCTRL(*this, "UtilityMemoryMcrotutor2", wxCheckBox)->SetValue(elfConfiguration[MICROTUTOR2].utilityMemory);
         

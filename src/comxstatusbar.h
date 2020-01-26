@@ -40,6 +40,8 @@ private:
 	bool ledStatus_[4];
     
     int linux_led_pos_y_;
+    int statusBarElementMeasure[4];
+    wxString leaderString_;
 
     DECLARE_EVENT_TABLE()
 };

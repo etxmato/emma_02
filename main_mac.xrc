@@ -354,7 +354,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -364,9 +363,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>3</selection>
+                                                                <selection>2</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -394,7 +392,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -404,9 +401,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>6</selection>
+                                                                <selection>5</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -434,7 +430,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -444,9 +439,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>2</selection>
+                                                                <selection>1</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -474,7 +468,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -484,9 +477,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>4</selection>
+                                                                <selection>3</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -907,9 +899,9 @@
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
                                                                 </font>
-                                                                <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                <style>wxSP_VERTICAL</style>
                                                                 <value>0</value>
-                                                                <min>0</min>
+                                                                <min>1</min>
                                                                 <max>100</max>
                                                             </object>
                                                         </object>
@@ -1902,9 +1894,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtElf2K">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -2129,9 +2121,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinElf2K">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Elf 2000 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -2799,9 +2791,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtCosmicos">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -2988,9 +2980,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinCosmicos">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -4063,9 +4055,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtElf">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -4365,9 +4357,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinElf">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -5567,9 +5559,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtElfII">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -5862,9 +5854,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinElfII">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -7070,9 +7062,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtSuperElf">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -7365,9 +7357,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinSuperElf">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -8214,9 +8206,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMembership">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -9159,9 +9151,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtVip2K">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -9435,9 +9427,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVip2K">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select VIP2K Membership Card screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -10107,9 +10099,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtVelf">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -10158,9 +10150,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVelf">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select VELF screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -11276,9 +11268,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinFRED1">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select FRED 1 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -12104,9 +12096,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinFRED1_5">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select FRED 1.5 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -13627,9 +13619,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtCDP18S020">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -13837,9 +13829,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinCDP18S020">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select CDP18S020 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -14714,9 +14706,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtVip">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -14765,9 +14757,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVip">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Cosmac VIP screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -15650,9 +15642,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVipII">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Cosmac VIP II screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -16738,9 +16730,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinMicroboard">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Microboard V1870 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -17442,9 +17434,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMicroboard">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -18008,9 +18000,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMCDS">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -19134,9 +19126,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMS2000">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -19672,7 +19664,7 @@
                                                                             <tooltip>Select RCA Video Coin Arcade screen size</tooltip>
                                                                             <style>wxSP_VERTICAL|wxSP_WRAP</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -20009,9 +20001,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinStudio2">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select RCA Studio II screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -20491,9 +20483,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVictory">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Victory MPT-02 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -20930,9 +20922,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinStudioIV">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select StudioIV screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -21232,9 +21224,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVisicom">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Visicom COM-100 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -21511,9 +21503,9 @@
                                                                     <object class="wxSpinButton" name="ZoomSpinCidelsa">
                                                                         <size>-1,23</size>
                                                                         <tooltip>Select Cidelsa screen size</tooltip>
-                                                                        <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                        <style>wxSP_VERTICAL</style>
                                                                         <value>0</value>
-                                                                        <min>0</min>
+                                                                        <min>1</min>
                                                                         <max>100</max>
                                                                     </object>
                                                                 </object>
@@ -22340,9 +22332,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinTMC600">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select TMC-600 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -23060,9 +23052,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinTMC1800">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Telmac 1800 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -23709,9 +23701,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinTMC2000">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Telmac 2000 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -24344,9 +24336,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinNano">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Oscom Nano screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -24925,9 +24917,9 @@
                                                             <object class="wxSpinButton" name="ZoomSpinPecom">
                                                                 <size>-1,23</size>
                                                                 <tooltip>Select Pecom screen size</tooltip>
-                                                                <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                <style>wxSP_VERTICAL</style>
                                                                 <value>0</value>
-                                                                <min>0</min>
+                                                                <min>1</min>
                                                                 <max>100</max>
                                                             </object>
                                                         </object>
@@ -25561,9 +25553,9 @@
                                                             <object class="wxSpinButton" name="ZoomSpinEti">
                                                                 <size>-1,23</size>
                                                                 <tooltip>Select ETI 660 screen size</tooltip>
-                                                                <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                <style>wxSP_VERTICAL</style>
                                                                 <value>0</value>
-                                                                <min>0</min>
+                                                                <min>1</min>
                                                                 <max>100</max>
                                                             </object>
                                                         </object>

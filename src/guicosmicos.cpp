@@ -39,11 +39,11 @@ BEGIN_EVENT_TABLE(GuiCosmicos, GuiMicrotutor2)
 	EVT_BUTTON(XRCID("RomButtonCosmicos"), GuiMain::onMainRom1)
 
 	EVT_CHOICE(XRCID("VTTypeCosmicos"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinCosmicos"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinCosmicos"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinCosmicos"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinCosmicos"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueCosmicos"), GuiMain::onZoomValue)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtCosmicos"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtCosmicos"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtCosmicos"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtCosmicos"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtCosmicos"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("FullScreenF3Cosmicos"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ColoursCosmicos"), Main::onColoursDef)
@@ -192,8 +192,10 @@ void GuiCosmicos::readCosmicosConfig()
 		XRCCTRL(*this, "VideoTypeCosmicos", wxChoice)->SetSelection(conf[COSMICOS].videoMode_);
 		XRCCTRL(*this, "AutoBootCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].autoBoot);
 		XRCCTRL(*this, "KeyboardCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].keyboardType);
-		XRCCTRL(*this, "ZoomValueCosmicos", wxTextCtrl)->ChangeValue(conf[COSMICOS].zoom_);
-		XRCCTRL(*this, "ZoomValueVtCosmicos", wxTextCtrl)->ChangeValue(conf[COSMICOS].zoomVt_);
+        
+        correctZoom(COSMICOS, "Cosmicos");
+        correctZoomVt(COSMICOS, "Cosmicos");
+
 		XRCCTRL(*this, "ControlWindowsCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useElfControlWindows);
 		XRCCTRL(*this, "ShowAddressCosmicos",wxTextCtrl)->Enable(elfConfiguration[COSMICOS].useElfControlWindows);
 		XRCCTRL(*this, "StretchDotCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].stretchDot_);
@@ -204,7 +206,8 @@ void GuiCosmicos::readCosmicosConfig()
 		XRCCTRL(*this, "TurboClockCosmicos", wxTextCtrl)->SetValue(conf[COSMICOS].turboClock_);
 		XRCCTRL(*this, "AutoCasLoadCosmicos", wxCheckBox)->SetValue(conf[COSMICOS].autoCassetteLoad_);
 		XRCCTRL(*this, "VolumeCosmicos", wxSlider)->SetValue(conf[COSMICOS].volume_);
-		clockTextCtrl[COSMICOS]->ChangeValue(conf[COSMICOS].clock_);
+        if (clockTextCtrl[COSMICOS] != NULL)
+            clockTextCtrl[COSMICOS]->ChangeValue(conf[COSMICOS].clock_);
 		XRCCTRL(*this, "ShowAddressCosmicos", wxTextCtrl)->ChangeValue(conf[COSMICOS].ledTime_);
 	}
 

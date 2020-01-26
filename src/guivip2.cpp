@@ -55,8 +55,8 @@ BEGIN_EVENT_TABLE(GuiVipII, GuiVip2K)
 	EVT_BUTTON(XRCID("Chip8SWButtonVipII"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWVipII"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVipII"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVipII"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinVipII"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVipII"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueVipII"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3VipII"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("CasButtonVipII"), GuiMain::onCassette)
@@ -175,13 +175,15 @@ void GuiVipII::readVipIIConfig()
 		XRCCTRL(*this, "ScreenDumpFileVipII", wxComboBox)->SetValue(conf[VIPII].screenDumpFile_);
 		XRCCTRL(*this, "WavFileVipII", wxTextCtrl)->SetValue(conf[VIPII].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValueVipII", wxTextCtrl)->ChangeValue(conf[VIPII].zoom_);
+        correctZoom(VIPII, "VipII");
+
 		XRCCTRL(*this, "TurboVipII", wxCheckBox)->SetValue(conf[VIPII].turbo_);
 		turboGui("VipII");
 		XRCCTRL(*this, "TurboClockVipII", wxTextCtrl)->SetValue(conf[VIPII].turboClock_);
 		XRCCTRL(*this, "AutoCasLoadVipII", wxCheckBox)->SetValue(conf[VIPII].autoCassetteLoad_);
 		XRCCTRL(*this, "VolumeVipII", wxSlider)->SetValue(conf[VIPII].volume_);
-		clockTextCtrl[VIPII]->ChangeValue(conf[VIPII].clock_);
+        if (clockTextCtrl[VIPII] != NULL)
+            clockTextCtrl[VIPII]->ChangeValue(conf[VIPII].clock_);
 		XRCCTRL(*this, "ShowAddressVipII", wxTextCtrl)->ChangeValue(conf[VIPII].ledTime_);
 	}
 }

@@ -51,8 +51,8 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 	EVT_BUTTON(XRCID("Chip8SWButtonVip"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWVip"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVip"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVip"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinVip"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVip"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueVip"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Vip"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("CasButtonVip"), GuiMain::onCassette)
@@ -104,8 +104,8 @@ BEGIN_EVENT_TABLE(GuiVip, GuiVipII)
 	EVT_CHECKBOX(XRCID("LatchVip"), GuiVip::onLatch)
 
 	EVT_CHOICE(XRCID("VTTypeVip"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtVip"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVip"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtVip"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVip"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtVip"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("VtSetupVip"), GuiMain::onVtSetup)
 	EVT_CHECKBOX(XRCID("StretchDotVip"), GuiMain::onStretchDot)
@@ -230,9 +230,10 @@ void GuiVip::readVipConfig()
 
 		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
-		XRCCTRL(*this, "ZoomValueVtVip", wxTextCtrl)->ChangeValue(conf[VIP].zoomVt_);
+        
+        correctZoom(VIP, "Vip");
+        correctZoomVt(VIP, "Vip");
 
-		XRCCTRL(*this, "ZoomValueVip", wxTextCtrl)->ChangeValue(conf[VIP].zoom_);
 		XRCCTRL(*this, "HighResVip", wxCheckBox)->SetValue(highRes_);
 		XRCCTRL(*this, "VP590", wxCheckBox)->SetValue(vipVp590_);
 		XRCCTRL(*this, "VP580", wxCheckBox)->SetValue(vipVp580_);
@@ -252,7 +253,8 @@ void GuiVip::readVipConfig()
 		XRCCTRL(*this, "VP570", wxSpinCtrl)->SetValue(vipVp570_);
 		XRCCTRL(*this, "PrintModeVip", wxChoice)->SetSelection((int)configPointer->Read("/Vip/Print_Mode", 1l));
 		setPrintMode();
-		clockTextCtrl[VIP]->ChangeValue(conf[VIP].clock_);
+        if (clockTextCtrl[VIP] != NULL)
+            clockTextCtrl[VIP]->ChangeValue(conf[VIP].clock_);
 		wxString beepFrequency;
 		beepFrequency.Printf("%d", conf[VIP].beepFrequency_);
 		XRCCTRL(*this, "BeepFrequencyVip", wxTextCtrl)->ChangeValue(beepFrequency);

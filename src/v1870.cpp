@@ -1117,6 +1117,9 @@ void V1870::set1870(wxString Register, long value)
 
 void V1870::copyScreen()
 {
+    if (p_Main->isZoomEventOngoing())
+        return;
+    
 	CharacterList *temp;
 
 	if (reColour_)

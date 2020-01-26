@@ -10,6 +10,7 @@ public:
 private:
     void onSaveButton(wxCommandEvent &event);
 	void reset6847Item(int dontCheck, int num);
+    void onMC6847OutputMode(wxCommandEvent&event);
 	void onMC6847DD6(wxCommandEvent& event);
 	void onMC6847DD7(wxCommandEvent& event);
 	void onMC6847B7(wxCommandEvent& event);

@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.34
-AppVersion=1.34
+AppVerName=Emma 02 - V1.35
+AppVersion=1.35
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x86
-OutputBaseFilename=Emma_02_x86_setup_v1.34
+OutputBaseFilename=Emma_02_x86_setup_v1.35
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -66,6 +66,10 @@ Source: ..\ports.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt.xrc; DestDir: {app}; Components: MAIN
+Source: ..\win8.ini; DestDir: {app}; Components: MAIN
+Source: ..\win10.ini; DestDir: {app}; Components: MAIN
+Source: ..\win2000.ini; DestDir: {app}; Components: MAIN
+Source: ..\winxp.ini; DestDir: {app}; Components: MAIN
 Source: ..\..\SDL2-2.0.5\lib\x86\SDL2.dll; DestDir: {app}; Components: MAIN
 Source: ..\..\libserialport\Win32\lib\libserialport.dll; DestDir: {app}; Components: MAIN
 Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN
@@ -246,6 +250,7 @@ Source: ..\data\Membership\*.rom; DestDir: {app}\data\Membership; Components: MA
 Source: ..\data\Membership\*.hex; DestDir: {app}\data\Membership; Components: MAIN
 Source: ..\data\Membership\*.txt; DestDir: {app}\data\Membership; Components: MAIN
 Source: ..\data\Microtutor\*.bin; DestDir: {app}\data\Microtutor; Components: MAIN
+Source: ..\data\Microtutor2\*.bin; DestDir: {app}\data\Microtutor2; Components: MAIN
 Source: ..\data\Elf2K\v87a.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\v88b.bin; DestDir: {app}\data\Elf2K; Components: MAIN
 Source: ..\data\Elf2K\intel8275.bin; DestDir: {app}\data\Elf2K; Components: MAIN

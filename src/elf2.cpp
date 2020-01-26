@@ -1255,7 +1255,7 @@ Byte Elf2::readMem(Word address)
 
 Byte Elf2::readMemDebug(Word address)
 {
-	switch (memoryType_[address/256])
+    switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
 			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
@@ -1366,6 +1366,8 @@ void Elf2::writeMemDebug(Word address, Byte value, bool writeRom)
 			emsPage_ = value & 0x1f;
 		}
 	}
+    if (elfConfiguration.elfPortConf.mc6847OutputMode == 1 && address >= 0xff00)
+        mc6847Pointer->outMc6847(value);
 
 	switch (memoryType_[address/256])
 	{
@@ -1428,7 +1430,7 @@ void Elf2::writeMemDebug(Word address, Byte value, bool writeRom)
 		case MC6845REGISTERS:
 			mc6845Pointer->writeRegister6845(address, value);
 		break;
-
+            
 		case UNDEFINED:
 		case ROM:
             if (elfConfiguration.giantBoardMapping)

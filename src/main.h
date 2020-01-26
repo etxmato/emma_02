@@ -78,7 +78,8 @@ public:
 	}
 
     // accessors
-    bool GetBoolValue()			{ return boolValue_;}
+    bool GetBoolValue()            { return boolValue_;}
+    double GetDoubleValue()        { return doubleValue_;}
     Word GetWordValue1()		{ return wordValue1_;}
     Word GetWordValue2()		{ return wordValue2_;}
     Word GetWordValue3()		{ return wordValue3_;}
@@ -88,7 +89,8 @@ public:
     wxString GetStringValue3()	{ return stringValue3_;}
     wxString GetStringValue4()	{ return stringValue4_;}
     wxString GetStringValue5()	{ return stringValue5_;}
-    void SetBoolValue(bool boolValue)	{ boolValue_ = boolValue;}
+    void SetBoolValue(bool boolValue)    { boolValue_ = boolValue;}
+    void SetDoubleValue(double doubleValue)    { doubleValue_ = doubleValue;}
     void SetWordValue1(Word wordValue)	{ wordValue1_ = wordValue;}
     void SetWordValue2(Word wordValue)	{ wordValue2_ = wordValue;}
     void SetWordValue3(Word wordValue)	{ wordValue3_ = wordValue;}
@@ -103,7 +105,8 @@ public:
 	wxEvent *Clone(void) const { return new guiEvent(*this); }
 
 private:
-	bool boolValue_;
+    bool boolValue_;
+    double doubleValue_;
 	Word wordValue1_;
 	Word wordValue2_;
 	Word wordValue3_;
@@ -219,20 +222,14 @@ protected:
 #define SHOW_TEXT_MESSAGE 30
 #define DEBOUNCE_TIMER 31
 #define SET_STATIC_TEXT_VALUE 32
+#define ZOOM_CHANGE 33
+#define ZOOMVT_CHANGE 34
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
-#define OS_WINDOWS_VISTA 2
-#define OS_WINDOWS_7 3
-#define OS_WINDOWS_8 4
-#define OS_WINDOWS_10 5
-#define OS_LINUX_UBUNTU_11_04 10
-#define OS_LINUX_UBUNTU_11_10 11
-#define OS_LINUX_OPENSUSE_KDE 20
-#define OS_LINUX_OPENSUSE_GNOME 21
-#define OS_MAC 30
-#define OS_LINUX_FEDORA 40
-#define OS_LINUX_MINT 41
+#define OS_WINDOWS 2
+#define OS_LINUX 10
+#define OS_MAC 20
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -253,13 +250,54 @@ protected:
 class WindowInfo
 {
 public:
+    int mainwX, mainwY;
 	int xBorder, yBorder;
 	int xBorder2, yBorder2;
 	int xPrint;
-	int mainwX, mainwY;
-	int RegularClockY, RegularClockX;
-	int ChoiceClockY, ChoiceClockX;
 	int operatingSystem;
+    
+    int clockTextCorrectionSingleTabX;
+    int clockCorrectionSingleTabX;
+    int mhzTextCorrectionSingleTabX;
+    int stopCorrectionSingleTabX;
+    int startCorrectionSingleTabX;
+    int clockTextCorrectionX;
+    int clockCorrectionX;
+    int mhzTextCorrectionX;
+    int stopCorrectionX;
+    int startCorrectionX;
+    
+    int clockTextCorrectionSingleTabY;
+    int clockCorrectionSingleTabY;
+    int mhzTextCorrectionSingleTabY;
+    int stopCorrectionSingleTabY;
+    int startCorrectionSingleTabY;
+    int clockTextCorrectionY;
+    int clockCorrectionY;
+    int mhzTextCorrectionY;
+    int stopCorrectionY;
+    int startCorrectionY;
+    
+    int floatHeight;
+    int startHeight;
+
+    int clockSize;
+
+    int red;
+    int green;
+    int blue;
+    
+    int ledPosY;
+    int ledPosDiagY;
+    int ledPosVip2Y;
+    
+    int statusBarElementMeasure[4];
+
+    wxString statusBarLeader;
+    
+    bool packageDeb;
+    
+    wxString errorMessage;
 };
 
 class Mode
@@ -418,7 +456,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.34
+#define EMMA_VERSION 1.35
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -946,8 +984,6 @@ private:
     wxString applicationDirectory_;
 };
 
-WindowInfo getWinSizeInfo();
-
 class Main: public DebugWindow
 {
 public:
@@ -955,6 +991,7 @@ public:
 	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~Main();
     
+    WindowInfo getWinSizeInfo(wxString appDir);
     wxSize getPosition(wxString control, wxSize size);
     wxSize getDefaultGuiSize();
     void windowSizeChanged(wxSizeEvent& event);
@@ -1123,6 +1160,16 @@ public:
     void showTextMessageEvent(guiEvent& event);
     void eventShowTextMessage(wxString messageText);
     
+    void setZoomChange(guiEvent& event);
+    void eventZoomChange(double zoom);
+    void zoomEventFinished();
+    bool isZoomEventOngoing();
+    
+    void setZoomVtChange(guiEvent& event);
+    void eventZoomVtChange(double zoom);
+    void zoomVtEventFinished();
+    bool isZoomVtEventOngoing();
+
     void printDefaultEvent(guiEvent& event);
 	void eventPrintDefault(Byte value);
 
@@ -1242,6 +1289,9 @@ private:
 
 	int functionKey_[13];
     CompletedSplashScreen *completedSplashScreen_;
+    
+    bool zoomEventOngoing_;
+    bool zoomVtEventOngoing_;
 
 	DECLARE_EVENT_TABLE()
 };

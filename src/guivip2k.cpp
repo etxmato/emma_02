@@ -55,8 +55,8 @@ BEGIN_EVENT_TABLE(GuiVip2K, GuiVelf)
 	EVT_BUTTON(XRCID("Chip8SWButtonVip2K"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWVip2K"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVip2K"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVip2K"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinVip2K"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVip2K"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueVip2K"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Vip2K"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ScreenDumpFileButtonVip2K"), GuiMain::onScreenDumpFile)
@@ -83,8 +83,8 @@ BEGIN_EVENT_TABLE(GuiVip2K, GuiVelf)
 	EVT_BUTTON(XRCID("LoadButtonVip2K"), GuiMain::onLoadButton)
 
 	EVT_CHOICE(XRCID("VTTypeVip2K"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtVip2K"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVip2K"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtVip2K"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVip2K"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtVip2K"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("VtSetupVip2K"), GuiMain::onVtSetup)
 	EVT_CHECKBOX(XRCID("StretchDotVip2K"), GuiMain::onStretchDot)
@@ -201,14 +201,17 @@ void GuiVip2K::readVip2KConfig()
 
 		XRCCTRL(*this, "VTBaudTChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
-		XRCCTRL(*this, "ZoomValueVtVip2K", wxTextCtrl)->ChangeValue(conf[VIP2K].zoomVt_);
+        
+        correctZoom(VIP2K, "Vip2K");
+        correctZoomVt(VIP2K, "Vip2K");
+
         XRCCTRL(*this, "VtShowVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].vtShow);
         XRCCTRL(*this, "AutoKeyDefVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].autoKeyDef);
 
-		XRCCTRL(*this, "ZoomValueVip2K", wxTextCtrl)->ChangeValue(conf[VIP2K].zoom_);
         XRCCTRL(*this, "AutoCasLoadVip2K", wxCheckBox)->SetValue(conf[VIP2K].autoCassetteLoad_);
 		XRCCTRL(*this, "VolumeVip2K", wxSlider)->SetValue(conf[VIP2K].volume_);
-		clockTextCtrl[VIP2K]->ChangeValue(conf[VIP2K].clock_);
+        if (clockTextCtrl[VIP2K] != NULL)
+            clockTextCtrl[VIP2K]->ChangeValue(conf[VIP2K].clock_);
 	}
 }
 

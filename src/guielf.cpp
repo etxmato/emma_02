@@ -72,25 +72,25 @@ BEGIN_EVENT_TABLE(GuiElf, GuiElf2K)
 	EVT_CHOICE(XRCID("QsoundElfII"), GuiElf::onQsound)
 	EVT_CHOICE(XRCID("QsoundSuperElf"), GuiElf::onQsound)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinElf"), GuiMain::onZoomUp)
-	EVT_SPIN_UP(XRCID("ZoomSpinElfII"), GuiMain::onZoomUp)
-	EVT_SPIN_UP(XRCID("ZoomSpinSuperElf"), GuiMain::onZoomUp)
+	EVT_SPIN_UP(XRCID("ZoomSpinElf"), GuiMain::onZoom)
+	EVT_SPIN_UP(XRCID("ZoomSpinElfII"), GuiMain::onZoom)
+	EVT_SPIN_UP(XRCID("ZoomSpinSuperElf"), GuiMain::onZoom)
 
-	EVT_SPIN_DOWN(XRCID("ZoomSpinElf"), GuiMain::onZoomDown)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinElfII"), GuiMain::onZoomDown)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinSuperElf"), GuiMain::onZoomDown)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinElf"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinElfII"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinSuperElf"), GuiMain::onZoom)
 
 	EVT_TEXT(XRCID("ZoomValueElf"), GuiMain::onZoomValue)
 	EVT_TEXT(XRCID("ZoomValueElfII"), GuiMain::onZoomValue)
 	EVT_TEXT(XRCID("ZoomValueSuperElf"), GuiMain::onZoomValue)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVtElf"), GuiMain::onZoomUpVt)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtElfII"), GuiMain::onZoomUpVt)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtSuperElf"), GuiMain::onZoomUpVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtElf"), GuiMain::onZoomVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtElfII"), GuiMain::onZoomVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtSuperElf"), GuiMain::onZoomVt)
 
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtElf"), GuiMain::onZoomDownVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtElfII"), GuiMain::onZoomDownVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtSuperElf"), GuiMain::onZoomDownVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtElf"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtElfII"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtSuperElf"), GuiMain::onZoomVt)
 
 	EVT_TEXT(XRCID("ZoomValueVtElf"), GuiMain::onZoomValueVt)
 	EVT_TEXT(XRCID("ZoomValueVtElfII"), GuiMain::onZoomValueVt)
@@ -501,8 +501,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
         XRCCTRL(*this, "HexEf"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useHexKeyboardEf3);
 
-		XRCCTRL(*this, "ZoomValue"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoom_);
-		XRCCTRL(*this, "ZoomValueVt"+elfTypeStr, wxTextCtrl)->ChangeValue(conf[elfType].zoomVt_);
+        correctZoom(elfType, elfTypeStr);
+        correctZoomVt(elfType, elfTypeStr);
+
 		XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
 		XRCCTRL(*this, "ControlWindows"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useElfControlWindows);
 		XRCCTRL(*this, "Interlace"+elfTypeStr, wxCheckBox)->SetValue(conf[elfType].interlace_);
@@ -523,7 +524,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "PrintMode"+elfTypeStr, wxChoice)->SetSelection(conf[elfType].printMode_);
 		setPrintMode();
 
-		clockTextCtrl[elfType]->ChangeValue(conf[elfType].clock_);
+        if (clockTextCtrl[elfType] != NULL)
+            clockTextCtrl[elfType]->ChangeValue(conf[elfType].clock_);
 		wxString beepFrequency;
 		beepFrequency.Printf("%d", conf[elfType].beepFrequency_);
 		XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->ChangeValue(beepFrequency);

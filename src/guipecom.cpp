@@ -44,8 +44,8 @@ BEGIN_EVENT_TABLE(GuiPecom, GuiMain)
 	EVT_COMBOBOX(XRCID("ScreenDumpFilePecom"), GuiMain::onScreenDumpFileText)
 	EVT_BUTTON(XRCID("ScreenDumpF5Pecom"), GuiMain::onScreenDump)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinPecom"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinPecom"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinPecom"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinPecom"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValuePecom"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Pecom"), GuiMain::onFullScreen)
 	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumePecom"), GuiMain::onVolume) 
@@ -151,10 +151,12 @@ void GuiPecom::readPecomConfig()
 		XRCCTRL(*this, "ScreenDumpFilePecom", wxComboBox)->SetValue(conf[PECOM].screenDumpFile_);
 		XRCCTRL(*this, "WavFilePecom", wxTextCtrl)->SetValue(conf[PECOM].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValuePecom", wxTextCtrl)->ChangeValue(conf[PECOM].zoom_);
+        correctZoom(PECOM, "Pecom");
+
 		XRCCTRL(*this, "VolumePecom", wxSlider)->SetValue(conf[PECOM].volume_);
 
-		clockTextCtrl[PECOM]->ChangeValue(conf[PECOM].clock_);
+        if (clockTextCtrl[PECOM] != NULL)
+            clockTextCtrl[PECOM]->ChangeValue(conf[PECOM].clock_);
 		XRCCTRL(*this, "TurboPecom", wxCheckBox)->SetValue(conf[PECOM].turbo_);
 		turboGui("Pecom");
 		XRCCTRL(*this, "TurboClockPecom", wxTextCtrl)->SetValue(conf[PECOM].turboClock_);

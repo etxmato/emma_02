@@ -300,12 +300,15 @@ public:
 	void onKeyFileText(wxCommandEvent& event);
 	void onKeyFileEject(wxCommandEvent& event);
     void onVT100(wxCommandEvent& event);
-	void onZoomUp(wxSpinEvent& event);
+    void onZoom(wxSpinEvent& event);
+    void onZoomUp(wxSpinEvent& event);
 	void onZoomDown(wxSpinEvent& event);
+    void onZoom(int direction);
 	void onZoomValue(wxCommandEvent& event);
 	void changeZoom(double zoom);
 	void onZoomUpVt(wxSpinEvent& event);
-	void onZoomDownVt(wxSpinEvent& event);
+    void onZoomDownVt(wxSpinEvent& event);
+    void onZoomVt(wxSpinEvent& event);
 	void onZoomValueVt(wxCommandEvent& event);
 	void changeZoomVt(double zoom);
 	void onFullScreen(wxCommandEvent&event);
@@ -394,6 +397,12 @@ public:
 	Byte getMultiCartLsb(int computerType) {return conf[computerType].lsb_;};
     Byte getMultiCartMsb(int computerType) {return conf[computerType].msb_;};
     int getFdcType(int computerType) {return elfConfiguration[computerType].fdcType_;};
+    int getBarLedPosY() {return windowInfo.ledPosY;};
+    int getBarLedPosDiagY() {return windowInfo.ledPosDiagY;};
+    int getBarLedPosVip2Y() {return windowInfo.ledPosVip2Y;};
+    int getStatusBarElementMeasure(int number) {return windowInfo.statusBarElementMeasure[number];};
+    wxString getBarLeader() {return windowInfo.statusBarLeader;};
+    int getPrintX() {return printX_;};
 
 	wxString getLedTime(int computerType) {return conf[computerType].ledTime_;}; 
 	long getLedTimeMs(int computerType) {return conf[computerType].ledTimeMs_;}; 
@@ -528,6 +537,8 @@ public:
 	ScreenInfo getScreenInfo(int id);
 	bool isFullScreenFloat() {return fullScreenFloat_;};
 	void onFullScreenFloat(wxCommandEvent&event);
+    void correctZoom(int computerType, wxString computerTypeString);
+    void correctZoomVt(int computerType, wxString computerTypeString);
     void onLedTimer(wxCommandEvent&event);
     int getCpuType();
     int getCpuStartupRegisters() {return cpuStartupRegisters_;};
@@ -659,6 +670,7 @@ protected:
 	bool debugMode_;
 	bool chip8DebugMode_;
 	bool zoomTextValueChanged_;
+    int zoomPosition_;
 	int memoryDisplay_;
 
 	int tapeState_;
@@ -694,6 +706,8 @@ protected:
     
     bool directoryMode_[FDCTYPE_MAX][4];
 
+    int printX_;
+    
 private:
 	wxBitmap playBlackBitmap;
 	wxBitmap playGreenBitmap;

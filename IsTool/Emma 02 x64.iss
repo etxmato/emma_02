@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.34
-AppVersion=1.34
+AppVerName=Emma 02 - V1.35
+AppVersion=1.35
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.34
+OutputBaseFilename=Emma_02_x64_setup_v1.35
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -68,6 +68,10 @@ Source: ..\ports.xrc; DestDir: {app}; Components: MAIN
 Source: ..\sb.xrc; DestDir: {app}; Components: MAIN
 Source: ..\splash.xrc; DestDir: {app}; Components: MAIN
 Source: ..\vt.xrc; DestDir: {app}; Components: MAIN
+Source: ..\win8.ini; DestDir: {app}; Components: MAIN
+Source: ..\win10.ini; DestDir: {app}; Components: MAIN
+Source: ..\win2000.ini; DestDir: {app}; Components: MAIN
+Source: ..\winxp.ini; DestDir: {app}; Components: MAIN
 Source: ..\..\SDL2-2.0.5\lib\x64\SDL2.dll; DestDir: {app}; Components: MAIN
 Source: ..\..\libserialport\Win64\lib\libserialport.dll; DestDir: {app}; Components: MAIN
 Source: ..\OpenSSL - LICENSE; DestDir: {app}; Components: MAIN

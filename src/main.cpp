@@ -533,6 +533,8 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(SHOW_MESSAGE, Main::showMessageEvent)
 	EVT_GUI_MSG(SHOW_TEXT_MESSAGE, Main::showTextMessageEvent)
     EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
+    EVT_GUI_MSG(ZOOM_CHANGE, Main::setZoomChange)
+    EVT_GUI_MSG(ZOOMVT_CHANGE, Main::setZoomVtChange)
 
 	EVT_COMMAND(wxID_ANY, KILL_COMPUTER, Main::killComputer)
 
@@ -579,229 +581,6 @@ BOOL GetOsVersion(RTL_OSVERSIONINFOEXW* pk_OsVer)
 	return Status == 0; // STATUS_SUCCESS;
 }
 #endif
-
-WindowInfo getWinSizeInfo()
-{
-	WindowInfo returnValue;
-
-#if defined (__linux__)
-	int major, minor;
-	wxString var, value;
-
-	wxGetOsVersion(&major, &minor);
-
-	wxLinuxDistributionInfo distInfo;
-
-	distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
-
-	if (distInfo.Id == "Ubuntu")
-	{
-		if (major > 2)
-		{	// Ubuntu 11.10
-			returnValue.mainwY = 600;
-			var = "UBUNTU_MENUPROXY";
-			if (wxGetEnv(var , &value))
-			{
-				if (value == "libappmenu.so")
-					returnValue.mainwY = 594;
-			}
-			returnValue.xBorder = 2;
-			returnValue.yBorder = 30;
-			returnValue.xBorder2 = 1;
-			returnValue.yBorder2 = 60;
-			returnValue.mainwX = 640;
-			returnValue.xPrint = 2;
-			returnValue.RegularClockY = 515;
-			returnValue.RegularClockX = 333;
-			returnValue.ChoiceClockY = 474;
-			returnValue.ChoiceClockX = 334;
-			returnValue.operatingSystem = OS_LINUX_UBUNTU_11_10;
-		}
-		else
-		{	// Ubuntu 11.04
-			returnValue.xBorder = 0;	
-			returnValue.yBorder = 0;	
-			returnValue.xBorder2 = 0;	
-			returnValue.yBorder2 = 30;
-			returnValue.mainwX = 640;
-            returnValue.mainwY = 670;
-            returnValue.xPrint = 2;
-			returnValue.RegularClockY = 515;
-			returnValue.RegularClockX = 333;
-			returnValue.ChoiceClockY = 474;
-			returnValue.ChoiceClockX = 334;
-			returnValue.operatingSystem = OS_LINUX_UBUNTU_11_04;
-		}
-	}
-	else
-	{
-		returnValue.xBorder = 2;
-		returnValue.yBorder = 30;
-		returnValue.xBorder2 = 1;
-		returnValue.yBorder2 = 60;
-		returnValue.mainwX = 640;
-		returnValue.mainwY = 670;
-		returnValue.xPrint = 2;
-		returnValue.RegularClockY = 515;
-		returnValue.RegularClockX = 333;
-		returnValue.ChoiceClockY = 474;
-		returnValue.ChoiceClockX = 334;
-        
-        returnValue.operatingSystem = OS_LINUX_FEDORA;
-        if (distInfo.Id == "LinuxMint")
-            returnValue.operatingSystem = OS_LINUX_MINT;
-
-		wxString desktop = wxPlatformInfo::Get().GetDesktopEnvironment();
-		if (desktop == "KDE")
-		{ // openSUSE KDE
-			returnValue.xBorder = 6;
-			returnValue.yBorder = 27;
-			returnValue.xBorder2 = 6;
-			returnValue.yBorder2 = 54;
-			returnValue.mainwY = 470;
-			returnValue.mainwX = 551;
-			returnValue.xPrint = 21;
-			returnValue.RegularClockY = 383;
-			returnValue.RegularClockX = 333;
-			returnValue.ChoiceClockY = 354;
-			returnValue.ChoiceClockX = 334;
-			returnValue.operatingSystem = OS_LINUX_OPENSUSE_KDE;
-		}
-		if (desktop == "GNOME")
-		{ // openSUSE GNOME
-			returnValue.xBorder = 0;
-			returnValue.yBorder = 0;
-			returnValue.xBorder2 = 2;
-			returnValue.yBorder2 = 36;
-			returnValue.mainwY = 510;
-			returnValue.mainwX = 545;
-			returnValue.xPrint = 20;
-			returnValue.RegularClockY = 365;
-			returnValue.RegularClockX = 333;
-			returnValue.ChoiceClockY = 334;
-			returnValue.ChoiceClockX = 334;
-			returnValue.operatingSystem = OS_LINUX_OPENSUSE_GNOME;
-		}
-	}
-#endif
-
-#if defined (__WXMAC__)
-	int major, minor;
-	wxOperatingSystemId operatingSystemId;
-	operatingSystemId = wxGetOsVersion(&major, &minor);
-
-	returnValue.xBorder = 1;
-	returnValue.yBorder = 1;
-	returnValue.xBorder2 = 1;
-	returnValue.yBorder2 = 24;
-	returnValue.mainwX = 572;
-    returnValue.mainwY = 480;
-	returnValue.xPrint = 19;
-	returnValue.RegularClockY = 375;
-	returnValue.RegularClockX = 333;
-	returnValue.ChoiceClockY = 351;
-	returnValue.ChoiceClockX = 334;
-	returnValue.operatingSystem = OS_MAC;
-#endif
-
-#if defined (__WXMSW__)
-	RTL_OSVERSIONINFOEXW osVersion;
-	GetOsVersion(&osVersion);
-
-	switch (osVersion.dwMajorVersion)
-	{
-		case OS_MAJOR_XP_2000:
-			switch (osVersion.dwMinorVersion)
-			{
-				case OS_MINOR_2000:
-					returnValue.xBorder2 = 8;
-					returnValue.yBorder2 = 36;
-					returnValue.mainwY = 489;
-					returnValue.operatingSystem = OS_WINDOWS_2000;
-				break;
-
-				case OS_MINOR_XP:
-					returnValue.xBorder2 = 8;
-					returnValue.yBorder2 = 36;
-					returnValue.mainwY = 489;
-					returnValue.operatingSystem = OS_WINDOWS_XP;
-				break;
-                    
-                default:
-                    returnValue.xBorder2 = 8;
-                    returnValue.yBorder2 = 36;
-                    returnValue.mainwY = 489;
-                    returnValue.operatingSystem = OS_WINDOWS_2000;
-                break;
-			}
-			returnValue.xBorder = 0;
-			returnValue.yBorder = 0;
-		break;
-
-		case OS_MAJOR_VISTA_8_1:
-			switch (osVersion.dwMinorVersion)
-			{
-				case OS_MINOR_VISTA:
-					returnValue.xBorder2 = 16;
-					returnValue.yBorder2 = 36;
-					returnValue.mainwY = 491;
-					returnValue.operatingSystem = OS_WINDOWS_VISTA;
-				break;
-
-				case OS_MINOR_7:
-					returnValue.xBorder2 = 16;
-					returnValue.yBorder2 = 36;
-					returnValue.mainwY = 495;
-					returnValue.operatingSystem = OS_WINDOWS_7;
-				break;
-
-				case OS_MINOR_8:
-				case OS_MINOR_8_1:
-					returnValue.xBorder2 = 16;
-					returnValue.yBorder2 = 36;
-					returnValue.mainwY = 495;
-					returnValue.operatingSystem = OS_WINDOWS_8;
-				break;
-
-   				default:
-                    returnValue.xBorder2 = 16;
-                    returnValue.yBorder2 = 36;
-                    returnValue.mainwY = 491;
-                    returnValue.operatingSystem = OS_WINDOWS_VISTA;
-                break;
-            }
-			returnValue.xBorder = 0;
-			returnValue.yBorder = 0;
-		break;
-
-		case OS_MAJOR_10:
-			returnValue.xBorder2 = 2;
-			returnValue.yBorder2 = 9;
-			returnValue.mainwY = 494;
-			returnValue.operatingSystem = OS_WINDOWS_10;
-			returnValue.xBorder = -14;
-			returnValue.yBorder = -7;
-        break;
-
-		default:
-            returnValue.xBorder2 = 2;
-            returnValue.yBorder2 = 9;
-            returnValue.mainwY = 494;
-            returnValue.operatingSystem = OS_WINDOWS_10;
-            returnValue.xBorder = -14;
-            returnValue.yBorder = -7;
-		break;
-	}
-	returnValue.RegularClockY = 370;
-	returnValue.RegularClockX = 333;
-	returnValue.ChoiceClockY = 343;
-	returnValue.ChoiceClockX = 333;
-	returnValue.xPrint = 21;
-	returnValue.mainwX = 570;
-#endif
-
-	return returnValue;
-}
 
 class MyFrame : public wxFrame
 {
@@ -1721,13 +1500,13 @@ void Emu1802::getSoftware(wxString computer, wxString type, wxString software)
 Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
 : DebugWindow(title, pos, size, mode, dataDir, iniDir)
 {
+    zoomEventOngoing_ = false;
 	selectedComputer_ = COMX;
 	computerRunning_ = false;
 	runningComputer_ = NO_COMPUTER;
 
 	popupDialog_ = NULL;
 	emmaClosing_ = false;
-	windowInfo = getWinSizeInfo();
     
     xmlLoaded_ = false;
     configurationMenuOn_ = false;
@@ -1735,21 +1514,21 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 #ifndef __WXMAC__
 	SetIcon(wxICON(app_icon));
 #endif
-
-	if (mode_.gui)
-	{
+    
+    if (mode_.gui)
+    {
         SetMenuBar(wxXmlResource::Get()->LoadMenuBar("Main_Menu"));
-		wxXmlResource::Get()->LoadPanel(this, "Main_GUI");
+        wxXmlResource::Get()->LoadPanel(this, "Main_GUI");
         
         defaultGuiSize_ = getDefaultGuiSize();
         
         windowInfo.mainwX = (int)configPointer->Read("/Main/Window_Size_X_133", defaultGuiSize_.x);
         windowInfo.mainwY = (int)configPointer->Read("/Main/Window_Size_Y_133", defaultGuiSize_.y);
-
+        
         this->SetSize(wxSize(windowInfo.mainwX, windowInfo.mainwY));
     }
-    
-	updateMemory_ = false;
+
+    updateMemory_ = false;
 	updateSlotinfo_ = false;
 	for (int x=0; x<16; x++)
 		for (int y=0; y<16; y++)
@@ -1825,6 +1604,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     }
 
 	initConfig();
+    if (windowInfo.errorMessage != "")
+        message(windowInfo.errorMessage);
 
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
@@ -1869,7 +1650,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
         removeRedundantFiles();
         configPointer->Write("/Main/RedundantFilesRemoveCheck", true);
     }
-    
+ 
     readConfig();
     
     oldGauge_ = 1;
@@ -1959,6 +1740,379 @@ Main::~Main()
 			wxThread::This()->Sleep(1);
 		}
 	}
+}
+
+WindowInfo Main::getWinSizeInfo(wxString appDir)
+{
+    WindowInfo returnValue;
+    wxString windowInfoFile;
+    int major, minor;
+    
+    returnValue.errorMessage = "";
+    wxGetOsVersion(&major, &minor);
+    
+    wxConfigBase *windowConfigPointer;
+    
+#if defined (__WXMAC__)
+    windowInfoFile = "osx.ini";
+    wxString appName = "emma_02";
+    
+    returnValue.operatingSystem = OS_MAC;
+#endif
+   
+    wxLinuxDistributionInfo distInfo;
+
+#if defined (__linux__)
+    distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
+
+    if (distInfo.Id == "Ubuntu")
+    {
+        switch (major)
+        {
+            case 2:
+                distInfo.Id += ".2";
+            break;
+                
+            case 3:
+                distInfo.Id += ".3";
+            break;
+
+            default:
+                distInfo.Id += ".4";
+            break;
+        }
+    }
+
+    windowInfoFile = distInfo.Id + ".ini";
+
+    if (distInfo.Id == "")
+    {
+        distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
+        if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
+            windowInfoFile = "fedora.ini";
+        if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
+            windowInfoFile = "suse.ini";
+    }
+    
+    wxString appName = "emma_02";
+    
+    returnValue.operatingSystem = OS_LINUX;
+#endif
+    
+#if defined (__WXMSW__)
+    wxString appName = "Emma 02";
+    returnValue.operatingSystem = OS_WINDOWS;
+    
+    RTL_OSVERSIONINFOEXW osVersion;
+    GetOsVersion(&osVersion);
+    
+    switch (osVersion.dwMajorVersion)
+    {
+        case OS_MAJOR_XP_2000:
+            if (osVersion.dwMinorVersion == OS_MINOR_2000)
+            {
+                windowInfoFile = "win2000.ini";
+                returnValue.operatingSystem = OS_WINDOWS_2000;
+            }
+            else
+                windowInfoFile = "winxp.ini";
+        break;
+            
+        case OS_MAJOR_VISTA_8_1:
+            windowInfoFile = "win8.ini";
+        break;
+            
+        default:
+            windowInfoFile = "win10.ini";
+        break;
+    }
+#endif
+    
+    windowInfoFile = windowInfoFile.MakeLower();
+    
+    bool fileExists = wxFile::Exists(appDir + windowInfoFile);
+    if (!fileExists)
+    {
+        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' not found, loading default configuration\n";
+       
+//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Id + "\n";
+//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Release + "\n";
+//        returnValue.errorMessage = returnValue.errorMessage + distInfo.CodeName + "\n";
+//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Description + "\n";
+//        returnValue.errorMessage = returnValue.errorMessage + wxPlatformInfo::Get().GetOperatingSystemDescription() + "\n";
+
+        windowInfoFile = "linuxdefault.ini";
+    }
+    else
+    {
+        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' loaded\n";
+        returnValue.errorMessage = returnValue.errorMessage + distInfo.Id + "\n";
+    }
+
+    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);
+    
+    wxConfigBase *currentConfigPointer = wxConfigBase::Set(pConfig);
+    windowConfigPointer = wxConfigBase::Get();
+    
+    returnValue.xBorder = (int)windowConfigPointer->Read("/Border/x", 1);
+    returnValue.yBorder = (int)windowConfigPointer->Read("/Border/y", 1);
+    returnValue.xBorder2 = (int)windowConfigPointer->Read("/Border/x2", 1);
+    returnValue.yBorder2 = (int)windowConfigPointer->Read("/Border/y2", 24);
+    returnValue.xPrint = (int)windowConfigPointer->Read("/Print/x", 19);
+    
+    returnValue.clockTextCorrectionX = (int)windowConfigPointer->Read("/Correction/clockTextX", 315);
+    returnValue.clockTextCorrectionY = (int)windowConfigPointer->Read("/Correction/clockTextY", 121);
+    returnValue.clockTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabX", 316);
+    returnValue.clockTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabY", 97);
+    
+    returnValue.clockCorrectionX = (int)windowConfigPointer->Read("/Correction/clockX", 279);
+    returnValue.clockCorrectionY = (int)windowConfigPointer->Read("/Correction/clockY", 124);
+    returnValue.clockCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockSingleTabX", 280);
+    returnValue.clockCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockSingleTabY", 100);
+    
+    returnValue.mhzTextCorrectionX = (int)windowConfigPointer->Read("/Correction/mhzTextX", 230);
+    returnValue.mhzTextCorrectionY = (int)windowConfigPointer->Read("/Correction/mhzTextY", 121);
+    returnValue.mhzTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabX", 231);
+    returnValue.mhzTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabY", 97);
+    
+    returnValue.stopCorrectionX = (int)windowConfigPointer->Read("/Correction/stopX", 202);
+    returnValue.stopCorrectionY = (int)windowConfigPointer->Read("/Correction/stopY", 124);
+    returnValue.stopCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/stopSingleTabX", 203);
+    returnValue.stopCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/stopSingleTabY", 100);
+    
+    returnValue.startCorrectionX = (int)windowConfigPointer->Read("/Correction/startX", 119);
+    returnValue.startCorrectionY = (int)windowConfigPointer->Read("/Correction/startY", 124);
+    returnValue.startCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/startSingleTabX", 120);
+    returnValue.startCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/startSingleTabY", 100);
+    
+    returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
+    returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
+    returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
+    
+    returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
+    returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
+
+    returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 70);
+    returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 80);
+    returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 100);
+    returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 150);
+
+    returnValue.floatHeight = (int)windowConfigPointer->Read("/Correction/floatHeight", 21);
+    returnValue.startHeight = (int)windowConfigPointer->Read("/Correction/startHeight", -1);
+    returnValue.clockSize = (int)windowConfigPointer->Read("/Correction/clockSize", 47);
+    
+    returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
+    returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
+    returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
+    
+    windowConfigPointer->Read("/Package/deb", &returnValue.packageDeb, true);
+    
+    delete pConfig;
+    wxConfigBase::Set(currentConfigPointer);
+    
+    /*
+     #if defined (__linux__)
+     wxString var, value;
+     
+     if (distInfo.Id == "Ubuntu")
+     {
+     if (major > 2)
+     {    // Ubuntu >= 11.10
+     returnValue.mainwY = 600;
+     var = "UBUNTU_MENUPROXY";
+     if (wxGetEnv(var , &value))
+     {
+     if (value == "libappmenu.so")
+     returnValue.mainwY = 594;
+     }
+     returnValue.xBorder = 2;
+     returnValue.yBorder = 30;
+     returnValue.xBorder2 = 1;
+     returnValue.yBorder2 = 60;
+     returnValue.mainwX = 640;
+     returnValue.xPrint = 2;
+     returnValue.RegularClockY = 515;
+     returnValue.RegularClockX = 333;
+     returnValue.ChoiceClockY = 474;
+     returnValue.ChoiceClockX = 334;
+     if (major >= 4 && minor >= 15)
+     returnValue.operatingSystem = OS_LINUX_UBUNTU_18;
+     else
+     returnValue.operatingSystem = OS_LINUX_UBUNTU_11_10;
+     }
+     else
+     {    // Ubuntu <= 11.04
+     returnValue.xBorder = 0;
+     returnValue.yBorder = 0;
+     returnValue.xBorder2 = 0;
+     returnValue.yBorder2 = 30;
+     returnValue.mainwX = 640;
+     returnValue.mainwY = 670;
+     returnValue.xPrint = 2;
+     returnValue.RegularClockY = 515;
+     returnValue.RegularClockX = 333;
+     returnValue.ChoiceClockY = 474;
+     returnValue.ChoiceClockX = 334;
+     returnValue.operatingSystem = OS_LINUX_UBUNTU_11_04;
+     }
+     }
+     else
+     {
+     returnValue.xBorder = 2;
+     returnValue.yBorder = 30;
+     returnValue.xBorder2 = 1;
+     returnValue.yBorder2 = 60;
+     returnValue.mainwX = 640;
+     returnValue.mainwY = 670;
+     returnValue.xPrint = 2;
+     returnValue.RegularClockY = 515;
+     returnValue.RegularClockX = 333;
+     returnValue.ChoiceClockY = 474;
+     returnValue.ChoiceClockX = 334;
+     
+     returnValue.operatingSystem = OS_LINUX_FEDORA;
+     if (distInfo.Id == "LinuxMint")
+     returnValue.operatingSystem = OS_LINUX_MINT;
+     
+     wxString desktop = wxPlatformInfo::Get().GetDesktopEnvironment();
+     if (desktop == "KDE")
+     { // openSUSE KDE
+     returnValue.xBorder = 6;
+     returnValue.yBorder = 27;
+     returnValue.xBorder2 = 6;
+     returnValue.yBorder2 = 54;
+     returnValue.mainwY = 470;
+     returnValue.mainwX = 551;
+     returnValue.xPrint = 21;
+     returnValue.RegularClockY = 383;
+     returnValue.RegularClockX = 333;
+     returnValue.ChoiceClockY = 354;
+     returnValue.ChoiceClockX = 334;
+     returnValue.operatingSystem = OS_LINUX_OPENSUSE_KDE;
+     }
+     if (desktop == "GNOME")
+     { // openSUSE GNOME
+     returnValue.xBorder = 0;
+     returnValue.yBorder = 0;
+     returnValue.xBorder2 = 2;
+     returnValue.yBorder2 = 36;
+     returnValue.mainwY = 510;
+     returnValue.mainwX = 545;
+     returnValue.xPrint = 20;
+     returnValue.RegularClockY = 365;
+     returnValue.RegularClockX = 333;
+     returnValue.ChoiceClockY = 334;
+     returnValue.ChoiceClockX = 334;
+     returnValue.operatingSystem = OS_LINUX_OPENSUSE_GNOME;
+     }
+     }
+     #endif*/
+    
+    /*
+     #if defined (__WXMAC__)
+     wxOperatingSystemId operatingSystemId;
+     operatingSystemId = wxGetOsVersion(&major, &minor);
+     
+     returnValue.xBorder = 1;
+     returnValue.yBorder = 1;
+     returnValue.xBorder2 = 1;
+     returnValue.yBorder2 = 24;
+     returnValue.xPrint = 19;
+     returnValue.RegularClockY = 375;
+     returnValue.RegularClockX = 333;
+     returnValue.ChoiceClockY = 351;
+     returnValue.ChoiceClockX = 334;
+     returnValue.operatingSystem = OS_MAC;
+     #endif*/
+    /*
+     #if defined (__WXMSW__)
+     RTL_OSVERSIONINFOEXW osVersion;
+     GetOsVersion(&osVersion);
+     
+     switch (osVersion.dwMajorVersion)
+     {
+     case OS_MAJOR_XP_2000:
+     switch (osVersion.dwMinorVersion)
+     {
+     case OS_MINOR_2000:
+     returnValue.xBorder2 = 8;
+     returnValue.yBorder2 = 36;
+     returnValue.operatingSystem = OS_WINDOWS_2000;
+     break;
+     
+     case OS_MINOR_XP:
+     returnValue.xBorder2 = 8;
+     returnValue.yBorder2 = 36;
+     returnValue.operatingSystem = OS_WINDOWS_XP;
+     break;
+     
+     default:
+     returnValue.xBorder2 = 8;
+     returnValue.yBorder2 = 36;
+     returnValue.operatingSystem = OS_WINDOWS_2000;
+     break;
+     }
+     returnValue.xBorder = 0;
+     returnValue.yBorder = 0;
+     break;
+     
+     case OS_MAJOR_VISTA_8_1:
+     switch (osVersion.dwMinorVersion)
+     {
+     case OS_MINOR_VISTA:
+     returnValue.xBorder2 = 16;
+     returnValue.yBorder2 = 36;
+     returnValue.operatingSystem = OS_WINDOWS_VISTA;
+     break;
+     
+     case OS_MINOR_7:
+     returnValue.xBorder2 = 16;
+     returnValue.yBorder2 = 36;
+     returnValue.operatingSystem = OS_WINDOWS_7;
+     break;
+     
+     case OS_MINOR_8:
+     case OS_MINOR_8_1:
+     returnValue.xBorder2 = 16;
+     returnValue.yBorder2 = 36;
+     returnValue.operatingSystem = OS_WINDOWS_8;
+     break;
+     
+     default:
+     returnValue.xBorder2 = 16;
+     returnValue.yBorder2 = 36;
+     returnValue.operatingSystem = OS_WINDOWS_VISTA;
+     break;
+     }
+     returnValue.xBorder = 0;
+     returnValue.yBorder = 0;
+     break;
+     
+     case OS_MAJOR_10:
+     returnValue.xBorder2 = 2;
+     returnValue.yBorder2 = 9;
+     returnValue.operatingSystem = OS_WINDOWS_10;
+     returnValue.xBorder = -14;
+     returnValue.yBorder = -7;
+     break;
+     
+     default:
+     returnValue.xBorder2 = 2;
+     returnValue.yBorder2 = 9;
+     returnValue.mainwY = 494;
+     returnValue.operatingSystem = OS_WINDOWS_10;
+     returnValue.xBorder = -14;
+     returnValue.yBorder = -7;
+     break;
+     }
+     returnValue.RegularClockY = 370;
+     returnValue.RegularClockX = 333;
+     returnValue.ChoiceClockY = 343;
+     returnValue.ChoiceClockX = 333;
+     returnValue.xPrint = 21;
+     #endif*/
+    
+    return returnValue;
 }
 
 wxSize Main::getPosition(wxString control, wxSize size)
@@ -2515,163 +2669,188 @@ void Main::initConfig()
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
 
-    int clockSize = 47;
-#if defined(__WXMAC__)
-    int clockTextCorrectionComxX = 316;
-    int clockTextCorrectionComxY = 97;
-    int clockFloatCorrectionComxX = 280;
-    int clockFloatCorrectionComxY = 100;
-    int mhzTextCorrectionComxX = 231;
-    int mhzTextCorrectionComxY = 97;
-    int stopCorrectionComxX = 203;
-    int stopCorrectionComxY = 100;
-    int startCorrectionComxX = 120;
-    int startCorrectionComxY = 100;
-    int floatHeight = 21;
-    int startHeight = -1;
+//   windowInfo.clockSize = 47;
+/*#if defined(__WXMAC__)
+    windowInfo.clockTextCorrectionSingleTabX = 316;
+    windowInfo.clockTextCorrectionSingleTabY = 97;
+    windowInfo.clockCorrectionSingleTabX = 280;
+    windowInfo.clockCorrectionSingleTabY = 100;
+    windowInfo.mhzTextCorrectionSingleTabX = 231;
+    windowInfo.mhzTextCorrectionSingleTabY = 97;
+    windowInfo.stopCorrectionSingleTabX = 203;
+    windowInfo.stopCorrectionSingleTabY = 100;
+    windowInfo.startCorrectionSingleTabX = 120;
+    windowInfo.startCorrectionSingleTabY = 100;
+    windowInfo.floatHeight = 21;
+    windowInfo.startHeight = -1;
 
-    int clockTextCorrectionX = 315;
-    int clockTextCorrectionY = 121;
-    int clockFloatCorrectionX = 279;
-    int clockFloatCorrectionY = 124;
-    int mhzTextCorrectionX = 230;
-    int mhzTextCorrectionY = 121;
-    int stopCorrectionX = 202;
-    int stopCorrectionY = 124;
-    int startCorrectionX = 119;
-    int startCorrectionY = 124;
+    windowInfo.clockTextCorrectionX = 315;
+    windowInfo.clockTextCorrectionY = 121;
+    windowInfo.clockCorrectionX = 279;
+    windowInfo.clockCorrectionY = 124;
+    windowInfo.mhzTextCorrectionX = 230;
+    windowInfo.mhzTextCorrectionY = 121;
+    windowInfo.stopCorrectionX = 202;
+    windowInfo.stopCorrectionY = 124;
+    windowInfo.startCorrectionX = 119;
+    windowInfo.startCorrectionY = 124;
 #endif
 #if defined(__WXMSW__)
-	int clockTextCorrectionComxX = 317; 
-	int clockTextCorrectionComxY = 107;
-	int clockFloatCorrectionComxX = 279; 
-	int clockFloatCorrectionComxY = 110;
-	int mhzTextCorrectionComxX = 230; 
-	int mhzTextCorrectionComxY = 107;
-    int stopCorrectionComxX = 202;
-    int stopCorrectionComxY = 111;
-    int startCorrectionComxX = 120;
-    int startCorrectionComxY = 111;
-	int floatHeight = 23;
-	int startHeight = 25;
+	windowInfo.clockTextCorrectionSingleTabX = 317;
+	windowInfo.clockTextCorrectionSingleTabY = 107;
+	windowInfo.clockCorrectionSingleTabX = 279;
+	windowInfo.clockCorrectionSingleTabY = 110;
+	windowInfo.mhzTextCorrectionSingleTabX = 230;
+	windowInfo.mhzTextCorrectionSingleTabY = 107;
+    windowInfo.stopCorrectionSingleTabX = 202;
+    windowInfo.stopCorrectionSingleTabY = 111;
+    windowInfo.startCorrectionSingleTabX = 120;
+    windowInfo.startCorrectionSingleTabY = 111;
+	windowInfo.floatHeight = 23;
+	windowInfo.startHeight = 25;
 
-	int clockTextCorrectionX = 317; 
-	int clockTextCorrectionY = 135;
-	int clockFloatCorrectionX = 279; 
-	int clockFloatCorrectionY = 138;
-	int mhzTextCorrectionX = 230; 
-    int mhzTextCorrectionY = 135;
-    int stopCorrectionX = 202;
-    int stopCorrectionY = 139;
-    int startCorrectionX = 120;
-    int startCorrectionY = 139;
+	windowInfo.clockTextCorrectionX = 317;
+	windowInfo.clockTextCorrectionY = 135;
+	windowInfo.clockCorrectionX = 279;
+	windowInfo.clockCorrectionY = 138;
+	windowInfo.mhzTextCorrectionX = 230;
+    windowInfo.mhzTextCorrectionY = 135;
+    windowInfo.stopCorrectionX = 202;
+    windowInfo.stopCorrectionY = 139;
+    windowInfo.startCorrectionX = 120;
+    windowInfo.startCorrectionY = 139;
 #endif
 #if defined(__linux__)
-    int clockTextCorrectionComxY;
-    int clockFloatCorrectionComxY;
-    int mhzTextCorrectionComxY;
-    int stopCorrectionComxY;
-    int startCorrectionComxY;
-    int clockTextCorrectionY;
-    int clockFloatCorrectionY;
-    int mhzTextCorrectionY;
-    int stopCorrectionY;
-    int startCorrectionY;
+    windowInfo.clockTextCorrectionSingleTabY;
+    windowInfo.clockCorrectionSingleTabY;
+    windowInfo.mhzTextCorrectionSingleTabY;
+    windowInfo.stopCorrectionSingleTabY;
+    windowInfo.startCorrectionSingleTabY;
+    windowInfo.clockTextCorrectionY;
+    windowInfo.clockCorrectionY;
+    windowInfo.mhzTextCorrectionY;
+    windowInfo.stopCorrectionY;
+    windowInfo.startCorrectionY;
     
-    int clockTextCorrectionComxX;
-    int clockFloatCorrectionComxX;
-    int mhzTextCorrectionComxX;
-    int stopCorrectionComxX;
-    int startCorrectionComxX;
-    int clockTextCorrectionX;
-    int clockFloatCorrectionX;
-    int mhzTextCorrectionX;
-    int stopCorrectionX;
-    int startCorrectionX;
+    windowInfo.clockTextCorrectionSingleTabX;
+    windowInfo.clockCorrectionSingleTabX;
+    windowInfo.mhzTextCorrectionSingleTabX;
+    windowInfo.stopCorrectionSingleTabX;
+    windowInfo.startCorrectionSingleTabX;
+    windowInfo.clockTextCorrectionX;
+    windowInfo.clockCorrectionX;
+    windowInfo.mhzTextCorrectionX;
+    windowInfo.stopCorrectionX;
+    windowInfo.startCorrectionX;
     
     switch (windowInfo.operatingSystem)
     {
             
         case OS_LINUX_UBUNTU_11_04:
         case OS_LINUX_UBUNTU_11_10:
-            clockTextCorrectionComxY = 90;
-            clockFloatCorrectionComxY = 95;
-            mhzTextCorrectionComxY = 90;
-            stopCorrectionComxY = 96;
-            startCorrectionComxY = 96;
-            clockTextCorrectionY = 126;
-            clockFloatCorrectionY = 131;
-            mhzTextCorrectionY = 126;
-            stopCorrectionY = 132;
-            startCorrectionY = 132;
-            clockSize = 59;
+            windowInfo.clockTextCorrectionSingleTabY = 90;
+            windowInfo.clockCorrectionSingleTabY = 95;
+            windowInfo.mhzTextCorrectionSingleTabY = 90;
+            windowInfo.stopCorrectionSingleTabY = 96;
+            windowInfo.startCorrectionSingleTabY = 96;
+            windowInfo.clockTextCorrectionY = 126;
+            windowInfo.clockCorrectionY = 131;
+            windowInfo.mhzTextCorrectionY = 126;
+            windowInfo.stopCorrectionY = 132;
+            windowInfo.startCorrectionY = 132;
+            windowInfo.clockSize = 59;
             
-            clockTextCorrectionComxX = 320;
-            clockFloatCorrectionComxX = 279;
-            mhzTextCorrectionComxX = 220;
-            stopCorrectionComxX = 188;
-            startCorrectionComxX = 106;
-            clockTextCorrectionX = 320;
-            clockFloatCorrectionX = 279;
-            mhzTextCorrectionX = 220;
-            stopCorrectionX = 188;
-            startCorrectionX = 106;
+            windowInfo.clockTextCorrectionSingleTabX = 320;
+            windowInfo.clockCorrectionSingleTabX = 279;
+            windowInfo.mhzTextCorrectionSingleTabX = 220;
+            windowInfo.stopCorrectionSingleTabX = 188;
+            windowInfo.startCorrectionSingleTabX = 106;
+            windowInfo.clockTextCorrectionX = 320;
+            windowInfo.clockCorrectionX = 279;
+            windowInfo.mhzTextCorrectionX = 220;
+            windowInfo.stopCorrectionX = 188;
+            windowInfo.startCorrectionX = 106;
         break;
+ 
+        case OS_LINUX_UBUNTU_18:
+            windowInfo.clockTextCorrectionSingleTabY = 120;
+            windowInfo.clockCorrectionSingleTabY = 125;
+            windowInfo.mhzTextCorrectionSingleTabY = 120;
+            windowInfo.stopCorrectionSingleTabY = 126;
+            windowInfo.startCorrectionSingleTabY = 126;
+            windowInfo.clockTextCorrectionY = 156;
+            windowInfo.clockCorrectionY = 161;
+            windowInfo.mhzTextCorrectionY = 156;
+            windowInfo.stopCorrectionY = 162;
+            windowInfo.startCorrectionY = 162;
+            windowInfo.clockSize = 59;
+            
+            windowInfo.clockTextCorrectionSingleTabX = 320;
+            windowInfo.clockCorrectionSingleTabX = 279;
+            windowInfo.mhzTextCorrectionSingleTabX = 220;
+            windowInfo.stopCorrectionSingleTabX = 188;
+            windowInfo.startCorrectionSingleTabX = 106;
+            windowInfo.clockTextCorrectionX = 320;
+            windowInfo.clockCorrectionX = 279;
+            windowInfo.mhzTextCorrectionX = 220;
+            windowInfo.stopCorrectionX = 188;
+            windowInfo.startCorrectionX = 106;
+       break;
             
         case OS_LINUX_MINT:
-            clockTextCorrectionComxY = 111;
-            clockFloatCorrectionComxY = 116;
-            mhzTextCorrectionComxY = 111;
-            stopCorrectionComxY = 117;
-            startCorrectionComxY = 117;
-            clockTextCorrectionY = 147;
-            clockFloatCorrectionY = 152;
-            mhzTextCorrectionY = 147;
-            stopCorrectionY = 153;
-            startCorrectionY = 153;
-            clockSize = 59;
+            windowInfo.clockTextCorrectionSingleTabY = 111;
+            windowInfo.clockCorrectionSingleTabY = 116;
+            windowInfo.mhzTextCorrectionSingleTabY = 111;
+            windowInfo.stopCorrectionSingleTabY = 117;
+            windowInfo.startCorrectionSingleTabY = 117;
+            windowInfo.clockTextCorrectionY = 147;
+            windowInfo.clockCorrectionY = 152;
+            windowInfo.mhzTextCorrectionY = 147;
+            windowInfo.stopCorrectionY = 153;
+            windowInfo.startCorrectionY = 153;
+            windowInfo.clockSize = 59;
             
-            clockTextCorrectionComxX = 320;
-            clockFloatCorrectionComxX = 279;
-            mhzTextCorrectionComxX = 220;
-            stopCorrectionComxX = 188;
-            startCorrectionComxX = 106;
-            clockTextCorrectionX = 320;
-            clockFloatCorrectionX = 279;
-            mhzTextCorrectionX = 220;
-            stopCorrectionX = 188;
-            startCorrectionX = 106;
+            windowInfo.clockTextCorrectionSingleTabX = 320;
+            windowInfo.clockCorrectionSingleTabX = 279;
+            windowInfo.mhzTextCorrectionSingleTabX = 220;
+            windowInfo.stopCorrectionSingleTabX = 188;
+            windowInfo.startCorrectionSingleTabX = 106;
+            windowInfo.clockTextCorrectionX = 320;
+            windowInfo.clockCorrectionX = 279;
+            windowInfo.mhzTextCorrectionX = 220;
+            windowInfo.stopCorrectionX = 188;
+            windowInfo.startCorrectionX = 106;
         break;
 
         default:
-            clockTextCorrectionComxY = 127;
-            clockFloatCorrectionComxY = 135;
-            mhzTextCorrectionComxY = 127;
-            stopCorrectionComxY = 136;
-            startCorrectionComxY = 136;
-            clockTextCorrectionY = 168;
-            clockFloatCorrectionY = 176;
-            mhzTextCorrectionY = 168;
-            stopCorrectionY = 177;
-            startCorrectionY = 177;
-            clockSize = 59;
+            windowInfo.clockTextCorrectionSingleTabY = 127;
+            windowInfo.clockCorrectionSingleTabY = 135;
+            windowInfo.mhzTextCorrectionSingleTabY = 127;
+            windowInfo.stopCorrectionSingleTabY = 136;
+            windowInfo.startCorrectionSingleTabY = 136;
+            windowInfo.clockTextCorrectionY = 168;
+            windowInfo.clockCorrectionY = 176;
+            windowInfo.mhzTextCorrectionY = 168;
+            windowInfo.stopCorrectionY = 177;
+            windowInfo.startCorrectionY = 177;
+            windowInfo.clockSize = 59;
             
-            clockTextCorrectionComxX = 320;
-            clockFloatCorrectionComxX = 279;
-            mhzTextCorrectionComxX = 220;
-            stopCorrectionComxX = 188;
-            startCorrectionComxX = 106;
-            clockTextCorrectionX = 320;
-            clockFloatCorrectionX = 279;
-            mhzTextCorrectionX = 220;
-            stopCorrectionX = 188;
-            startCorrectionX = 106;
+            windowInfo.clockTextCorrectionSingleTabX = 320;
+            windowInfo.clockCorrectionSingleTabX = 279;
+            windowInfo.mhzTextCorrectionSingleTabX = 220;
+            windowInfo.stopCorrectionSingleTabX = 188;
+            windowInfo.startCorrectionSingleTabX = 106;
+            windowInfo.clockTextCorrectionX = 320;
+            windowInfo.clockCorrectionX = 279;
+            windowInfo.mhzTextCorrectionX = 220;
+            windowInfo.stopCorrectionX = 188;
+            windowInfo.startCorrectionX = 106;
         break;
     }
 
-    int floatHeight = -1;
-    int startHeight = -1;
-#endif
+    windowInfo.floatHeight = -1;
+    windowInfo.startHeight = -1;
+#endif*/
   
 	if (mode_.gui)
 	{
@@ -2683,19 +2862,19 @@ void Main::initConfig()
                 case PECOM:
                 case CIDELSA:
                 case ETI:
-                    clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionComxX, defaultGuiSize_.y - clockTextCorrectionComxY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionComxX, defaultGuiSize_.y - clockFloatCorrectionComxY), wxSize(clockSize, floatHeight));
-                    mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionComxX, defaultGuiSize_.y - mhzTextCorrectionComxY));
-                    stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionComxX, defaultGuiSize_.y - stopCorrectionComxY), wxSize(80, startHeight));
-                    startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionComxX, defaultGuiSize_.y - startCorrectionComxY), wxSize(80, startHeight));
+                    clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - windowInfo.clockTextCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.clockTextCorrectionSingleTabY));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - windowInfo.clockCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.clockCorrectionSingleTabY), wxSize(windowInfo.clockSize, windowInfo.floatHeight));
+                    mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - windowInfo.mhzTextCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.mhzTextCorrectionSingleTabY));
+                    stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - windowInfo.stopCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.stopCorrectionSingleTabY), wxSize(80, windowInfo.startHeight));
+                    startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - windowInfo.startCorrectionSingleTabX, defaultGuiSize_.y - windowInfo.startCorrectionSingleTabY), wxSize(80, windowInfo.startHeight));
                 break;
                     
                 default:
-                    clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - clockTextCorrectionX, defaultGuiSize_.y - clockTextCorrectionY));
-                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - clockFloatCorrectionX, defaultGuiSize_.y - clockFloatCorrectionY), wxSize(clockSize, floatHeight));
-                    mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - mhzTextCorrectionX, defaultGuiSize_.y - mhzTextCorrectionY));
-                    stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - stopCorrectionX, defaultGuiSize_.y - stopCorrectionY), wxSize(80, startHeight));
-                    startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - startCorrectionX, defaultGuiSize_.y - startCorrectionY), wxSize(80, startHeight));
+                    clockText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "Clock:", wxPoint(defaultGuiSize_.x - windowInfo.clockTextCorrectionX, defaultGuiSize_.y - windowInfo.clockTextCorrectionY));
+                    clockTextCtrl[computer] = new FloatEdit(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_CLOCK_TEXTCTRL + computer, "", wxPoint(defaultGuiSize_.x - windowInfo.clockCorrectionX, defaultGuiSize_.y - windowInfo.clockCorrectionY), wxSize(windowInfo.clockSize, windowInfo.floatHeight));
+                    mhzText[computer] = new wxStaticText(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), wxID_ANY, "MHz", wxPoint(defaultGuiSize_.x - windowInfo.mhzTextCorrectionX, defaultGuiSize_.y - windowInfo.mhzTextCorrectionY));
+                    stopButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_STOP_BUTTON + computer, "Stop", wxPoint(defaultGuiSize_.x - windowInfo.stopCorrectionX, defaultGuiSize_.y - windowInfo.stopCorrectionY), wxSize(80, windowInfo.startHeight));
+                    startButton[computer] = new wxButton(XRCCTRL(*this, "Panel" + computerInfo[computer].gui, wxPanel), GUI_START_BUTTON + computer, "Start", wxPoint(defaultGuiSize_.x - windowInfo.startCorrectionX, defaultGuiSize_.y - windowInfo.startCorrectionY), wxSize(80, windowInfo.startHeight));
                 break;
 			}
             
@@ -2727,7 +2906,8 @@ void Main::readConfig()
 	wxMenuBar *menubarPointer = GetMenuBar();
 
     int saveSelectedComputer = selectedComputer_;
-    
+    configPointer->Read("/Main/Floating_Point_Zoom", &fullScreenFloat_, true);
+
     readDebugConfig();
 	readComxConfig();
     readInitialComxConfig();
@@ -2735,8 +2915,8 @@ void Main::readConfig()
 	readMS2000Config();
 	readMcdsConfig();
 	readCosmicosConfig();
-	readVipConfig();		
-	readVipIIConfig();		
+    readVipConfig(); //**** need to be fixed for windows XP
+    readVipIIConfig();
     readVip2KConfig();
     readVelfConfig();
     readCdp18s020Config();
@@ -2804,7 +2984,6 @@ void Main::readConfig()
 	configPointer->Read("/Main/Save_Debug_File", &saveDebugFile_, false);
     configPointer->Read("/Main/Save_On_Exit", &saveOnExit_, true);
 	configPointer->Read("/Main/Check_For_Update", &checkForUpdate_, true);
-    configPointer->Read("/Main/Floating_Point_Zoom", &fullScreenFloat_, true);
     configPointer->Read("/Main/Use_Num_Pad", &useNumPad_, true);
 	configPointer->Read("/Main/Use_Exit_Key", &useExitKey_, false);
 	runPressed_ = false;
@@ -3187,32 +3366,28 @@ bool Main::updateEmma()
 	if (messageBoxAnswer_ == wxYES)
 	{
 #if defined(__linux__)
-		wxLinuxDistributionInfo linuxDistro;
-		linuxDistro = ::wxGetLinuxDistributionInfo();
-		if (linuxDistro.Id == "Ubuntu")
+//		wxLinuxDistributionInfo linuxDistro;
+//		linuxDistro = ::wxGetLinuxDistributionInfo();
+//		if (linuxDistro.Id == "Ubuntu")
+        if (windowInfo.packageDeb)
 		{
-			if (wxIsPlatform64Bit())
+//			if (wxIsPlatform64Bit())
 				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=11"); // 64 Bit
-			else
-				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=12"); // 32 Bit
+//			else
+//				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=12"); // 32 Bit
 		}
 		else
 		{
-			if (wxIsPlatform64Bit())
+//			if (wxIsPlatform64Bit())
 				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=13"); // 64 Bit
-			else
-				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=14"); // 32 Bit
+//			else
+//				::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=14"); // 32 Bit
 		}
 		return true;
 #elif defined(__WXMAC__)
 		::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
 		return true;
 #else
-		if (windowInfo.operatingSystem == OS_WINDOWS_XP || windowInfo.operatingSystem == OS_WINDOWS_2000)
-		{
-			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=1");
-			return true;
-		}
 		if (wxIsPlatform64Bit())
 			::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=17");
 		else
@@ -7693,6 +7868,82 @@ void Main::eventShowTextMessage(wxString messageText)
 	event.SetString(messageText);
 
 	GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::setZoomChange(guiEvent&event)
+{
+    double zoom = event.GetDoubleValue();
+
+    p_Video->setZoom(zoom);
+    switch(runningComputer_)
+    {
+        case CIDELSA:
+        case COMX:
+        case VIPII:
+            p_Video->reDrawBar();
+        break;
+    }
+    zoomEventFinished();
+}
+
+void Main::eventZoomChange(double zoom)
+{
+    if (zoomEventOngoing_)
+        return;
+    
+    zoomEventOngoing_ = true;
+    
+    guiEvent event(GUI_MSG, ZOOM_CHANGE);
+    event.SetEventObject(p_Main);
+
+    event.SetDoubleValue(zoom);
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+bool Main::isZoomEventOngoing()
+{
+    return zoomEventOngoing_;
+}
+
+void Main::zoomEventFinished()
+{
+    zoomEventOngoing_ = false;
+}
+
+void Main::setZoomVtChange(guiEvent&event)
+{
+    double zoom = event.GetDoubleValue();
+
+    p_Vt100->setZoom(zoom);
+    if (runningComputer_ != ELF2K)
+        p_Vt100->copyScreen();
+    zoomVtEventFinished();
+}
+
+void Main::eventZoomVtChange(double zoom)
+{
+    if (zoomVtEventOngoing_)
+        return;
+    
+    zoomVtEventOngoing_ = true;
+    
+    guiEvent event(GUI_MSG, ZOOMVT_CHANGE);
+    event.SetEventObject(p_Main);
+
+    event.SetDoubleValue(zoom);
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+bool Main::isZoomVtEventOngoing()
+{
+    return zoomVtEventOngoing_;
+}
+
+void Main::zoomVtEventFinished()
+{
+    zoomVtEventOngoing_ = false;
 }
 
 void Main::printDefaultEvent(guiEvent&event)

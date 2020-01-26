@@ -39,11 +39,7 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledOffPointer->SetMask(maskOff);
     ledsDefined_ = false;
     
-    WindowInfo windowInfo = getWinSizeInfo();
-    linux_led_pos_y_ = -2;
-    
-    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
-        linux_led_pos_y_ = 3;
+    linux_led_pos_y_ = p_Main->getBarLedPosDiagY();
 }
 
 DiagStatusBar::~DiagStatusBar()

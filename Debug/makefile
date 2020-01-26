@@ -8,7 +8,10 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include x64/Release/Emma\ 02/subdir.mk
+-include x64/Debug/Emma\ 02/subdir.mk
 -include src/subdir.mk
+-include Win32/Release/Emma\ 02/subdir.mk
 -include subdir.mk
 -include objects.mk
 

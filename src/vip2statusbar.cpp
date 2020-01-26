@@ -39,11 +39,7 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
 	ledOffPointer->SetMask(maskOff);
 	ledsDefined_ = false;
     
-    WindowInfo windowInfo = getWinSizeInfo();
-    linux_led_pos_y_ = -1;
-    
-    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
-        linux_led_pos_y_ = 4;
+    linux_led_pos_y_ = p_Main->getBarLedPosVip2Y();
 }
 
 VipIIStatusBar::~VipIIStatusBar()

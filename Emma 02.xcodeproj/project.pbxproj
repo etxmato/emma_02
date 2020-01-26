@@ -25,7 +25,6 @@
 		995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */; };
 		99605651230AF26F009FF74F /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9960564F230AF26E009FF74F /* pio.cpp */; };
 		9960FF23211953CE00DB2EDD /* GPL-A_ROM.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 9960FF22211953CE00DB2EDD /* GPL-A_ROM.syntax */; };
-		9962E3482156DD2100A3AC2B /* MenuFred.pjd in Resources */ = {isa = PBXBuildFile; fileRef = 9962E3472156DD2100A3AC2B /* MenuFred.pjd */; };
 		9962E34A2156DD3B00A3AC2B /* menuFred.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 9962E3492156DD3B00A3AC2B /* menuFred.xrc */; };
 		99677914202E430B00108BB6 /* coinarcade.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99677912202E430B00108BB6 /* coinarcade.cpp */; };
 		996C1615212F3F130061C30B /* pseudo.def in Resources */ = {isa = PBXBuildFile; fileRef = 996C1614212F3F130061C30B /* pseudo.def */; };
@@ -152,7 +151,6 @@
 		999899A41F96A72600870480 /* emma_02.htb in Resources */ = {isa = PBXBuildFile; fileRef = 999899A31F96A72600870480 /* emma_02.htb */; };
 		9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
-		999DE99B20667EF2005B3A29 /* Linux build in Resources */ = {isa = PBXBuildFile; fileRef = 999DE99A20667EF2005B3A29 /* Linux build */; };
 		999DE99E2066EA7E005B3A29 /* studioiv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999DE99D2066EA7E005B3A29 /* studioiv.cpp */; };
 		99A3116021A75B98003CB022 /* Chip8Vip2K.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */; };
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
@@ -171,6 +169,7 @@
 		99C9EABB2145C1FC00C1EA03 /* Test_Word.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */; };
 		99CC30BC21DBF3ED00B04C7F /* menuMCDS.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99CC30BB21DBF3ED00B04C7F /* menuMCDS.xrc */; };
 		99CC30BE21DBF5FE00B04C7F /* menuTMC600.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99CC30BD21DBF5FD00B04C7F /* menuTMC600.xrc */; };
+		99D3B15423847AD000DAF323 /* osx.ini in Resources */ = {isa = PBXBuildFile; fileRef = 99CE8B4F2384626900DBF761 /* osx.ini */; };
 		99D5FCD7211C938E001F4391 /* Chip8X.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD3211C938E001F4391 /* Chip8X.syntax */; };
 		99D5FCD8211C938E001F4391 /* ChipEti.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD4211C938E001F4391 /* ChipEti.syntax */; };
 		99D5FCD9211C938E001F4391 /* Chip8.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99D5FCD5211C938E001F4391 /* Chip8.syntax */; };
@@ -495,9 +494,13 @@
 		999DE99A20667EF2005B3A29 /* Linux build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Linux build"; sourceTree = "<group>"; };
 		999DE99C2066EA7E005B3A29 /* studioiv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = studioiv.h; path = src/studioiv.h; sourceTree = "<group>"; };
 		999DE99D2066EA7E005B3A29 /* studioiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv.cpp; path = src/studioiv.cpp; sourceTree = "<group>"; };
+		99A307AC23BE9A0C00DE085B /* ubuntu.4.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.4.ini; sourceTree = "<group>"; };
+		99A307AD23BE9A1500DE085B /* ubuntu.3.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.3.ini; sourceTree = "<group>"; };
+		99A307AE23BE9A2A00DE085B /* ubuntu.2.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.2.ini; sourceTree = "<group>"; };
+		99A307AF23BE9A4100DE085B /* debian.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = debian.ini; sourceTree = "<group>"; };
 		99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Vip2K.syntax; sourceTree = "<group>"; };
 		99A502CA1E959040004218C8 /* splash.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = splash.xrc; sourceTree = "<group>"; };
-		99AA43FE20270FAD00474FB4 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = ../../../../usr/local/lib/libserialport.a; sourceTree = "<group>"; };
+		99AA43FE20270FAD00474FB4 /* libserialport.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libserialport.a; path = /Users/etxmato/workspace/emma_02/../../../../usr/local/lib/libserialport.a; sourceTree = "<absolute>"; };
 		99ABC2981E56538800850E94 /* menuMS2000.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMS2000.xrc; sourceTree = "<group>"; };
 		99ACA8591F42330C00788104 /* Emma 02 vc14.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc14.sln"; sourceTree = "<group>"; };
 		99ACA85A1F42330C00788104 /* Emma 02 vc14.vcxproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj"; sourceTree = "<group>"; };
@@ -521,14 +524,24 @@
 		99C3BFE61C0CF400006E3D82 /* guivelf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guivelf.cpp; path = src/guivelf.cpp; sourceTree = "<group>"; };
 		99C3BFE71C0CF400006E3D82 /* guivelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivelf.h; path = src/guivelf.h; sourceTree = "<group>"; };
 		99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_Word.syntax; sourceTree = "<group>"; };
+		99CA2F7F23D262C500A268C4 /* suse.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = suse.ini; sourceTree = "<group>"; };
 		99CC30B721DBA0F800B04C7F /* Emma 02 mac.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Emma 02 mac.pjd"; sourceTree = "<group>"; };
 		99CC30BB21DBF3ED00B04C7F /* menuMCDS.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuMCDS.xrc; sourceTree = "<group>"; };
 		99CC30BD21DBF5FD00B04C7F /* menuTMC600.xrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = menuTMC600.xrc; sourceTree = "<group>"; };
+		99CE8B4B2384626700DBF761 /* linuxdefault.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxdefault.ini; sourceTree = "<group>"; };
+		99CE8B4C2384626800DBF761 /* win2000.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win2000.ini; sourceTree = "<group>"; };
+		99CE8B4D2384626800DBF761 /* winxp.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = winxp.ini; sourceTree = "<group>"; };
+		99CE8B4F2384626900DBF761 /* osx.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = osx.ini; sourceTree = "<group>"; };
+		99CE8B512384626A00DBF761 /* fedora.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = fedora.ini; sourceTree = "<group>"; };
+		99CE8B522384626A00DBF761 /* win10.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win10.ini; sourceTree = "<group>"; };
+		99CE8B532384626A00DBF761 /* win8.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = win8.ini; sourceTree = "<group>"; };
+		99CE8B542384626B00DBF761 /* linuxmint.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = linuxmint.ini; sourceTree = "<group>"; };
 		99D5FCD3211C938E001F4391 /* Chip8X.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8X.syntax; sourceTree = "<group>"; };
 		99D5FCD4211C938E001F4391 /* ChipEti.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChipEti.syntax; sourceTree = "<group>"; };
 		99D5FCD5211C938E001F4391 /* Chip8.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8.syntax; sourceTree = "<group>"; };
 		99D5FCD6211C938E001F4391 /* ST2.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST2.syntax; sourceTree = "<group>"; };
 		99D6218F211B402200E1A471 /* ST4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ST4.syntax; sourceTree = "<group>"; };
+		99D7879323D5049E00EE2FBD /* kali.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = kali.ini; sourceTree = "<group>"; };
 		99D92E72211AA0AD007D868E /* CARDTRAN.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CARDTRAN.syntax; sourceTree = "<group>"; };
 		99D9441822FB2DA8007C384A /* guicdp18s600.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guicdp18s600.h; path = src/guicdp18s600.h; sourceTree = "<group>"; };
 		99D9441922FB2DA8007C384A /* guicdp18s600.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guicdp18s600.cpp; path = src/guicdp18s600.cpp; sourceTree = "<group>"; };
@@ -542,7 +555,7 @@
 		99E6EA951F40E0AA0030F125 /* Emma 02 vc9.sln */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02 vc9.sln"; sourceTree = "<group>"; };
 		99E6EA961F40E0AA0030F125 /* Emma 02 vc9.vcproj */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc9.vcproj"; sourceTree = "<group>"; };
 		99E6EA971F40EC300030F125 /* IsTool */ = {isa = PBXFileReference; lastKnownFileType = folder; path = IsTool; sourceTree = "<group>"; };
-		99E940F81FF1746900E69E8B /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = ../../../../usr/lib/libcurl.4.dylib; sourceTree = "<group>"; };
+		99E940F81FF1746900E69E8B /* libcurl.4.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurl.4.dylib; path = /Users/etxmato/workspace/emma_02/../../../../usr/lib/libcurl.4.dylib; sourceTree = "<absolute>"; };
 		99EBEE8722B55A6900FF276A /* cdp18s020.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cdp18s020.h; path = src/cdp18s020.h; sourceTree = "<group>"; };
 		99EBEE8822B55A6A00FF276A /* cdp18s020.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cdp18s020.cpp; path = src/cdp18s020.cpp; sourceTree = "<group>"; };
 		99EBEE8A22B55A8300FF276A /* guicdp18s020.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guicdp18s020.cpp; path = src/guicdp18s020.cpp; sourceTree = "<group>"; };
@@ -566,6 +579,8 @@
 		99F8CF00211A155E002F02C6 /* FEL-1.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FEL-1.syntax"; sourceTree = "<group>"; };
 		99F8CF02211A1567002F02C6 /* GPL-4.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "GPL-4.syntax"; sourceTree = "<group>"; };
 		99FA47C3211E0DC000C399AE /* Chip8Studio.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Studio.syntax; sourceTree = "<group>"; };
+		99FCB0A223D39FF30018C4A4 /* elementary.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = elementary.ini; sourceTree = "<group>"; };
+		99FCB0A323D3A8BF0018C4A4 /* zorin.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = zorin.ini; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -681,6 +696,22 @@
 				99F3746F1CADBBC2000DA615 /* README-SDL.txt */,
 				99F374701CADBBC2000DA615 /* LGPL.txt */,
 				997646EA1A61D27700FB9B33 /* Info_cocoa.plist */,
+				99FCB0A223D39FF30018C4A4 /* elementary.ini */,
+				99A307AF23BE9A4100DE085B /* debian.ini */,
+				99CE8B512384626A00DBF761 /* fedora.ini */,
+				99D7879323D5049E00EE2FBD /* kali.ini */,
+				99CE8B4B2384626700DBF761 /* linuxdefault.ini */,
+				99CE8B542384626B00DBF761 /* linuxmint.ini */,
+				99CE8B4F2384626900DBF761 /* osx.ini */,
+				99CA2F7F23D262C500A268C4 /* suse.ini */,
+				99A307AE23BE9A2A00DE085B /* ubuntu.2.ini */,
+				99A307AD23BE9A1500DE085B /* ubuntu.3.ini */,
+				99A307AC23BE9A0C00DE085B /* ubuntu.4.ini */,
+				99CE8B532384626A00DBF761 /* win8.ini */,
+				99CE8B522384626A00DBF761 /* win10.ini */,
+				99CE8B4C2384626800DBF761 /* win2000.ini */,
+				99CE8B4D2384626800DBF761 /* winxp.ini */,
+				99FCB0A323D3A8BF0018C4A4 /* zorin.ini */,
 				996FC5811F8ABD3F00E08812 /* Emma 02.pkgproj */,
 				996FC5821F8ABDE800E08812 /* introduction.rtf */,
 				99F3746A1CADBB93000DA615 /* copyright.rtf */,
@@ -997,7 +1028,7 @@
 		997646B61A61D16300FB9B33 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "Marcel van Tongeren";
 				TargetAttributes = {
 					997646BD1A61D16300FB9B33 = {
@@ -1010,6 +1041,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -1033,6 +1065,7 @@
 				99CC30BC21DBF3ED00B04C7F /* menuMCDS.xrc in Resources */,
 				99792E0A1B88FF590044FDBB /* sb.xrc in Resources */,
 				997189701C3B19BC0061426E /* menuVip.xrc in Resources */,
+				99D3B15423847AD000DAF323 /* osx.ini in Resources */,
 				99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */,
 				99431DEB1F22213400F5A2D4 /* images_osx in Resources */,
 				99792DE91B88FEE70044FDBB /* colour.xrc in Resources */,
@@ -1078,8 +1111,6 @@
 				99792DE11B88A3B10044FDBB /* about.xrc in Resources */,
 				995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */,
 				993B164A211EBD9C008A5656 /* GPL-2.syntax in Resources */,
-				9962E3482156DD2100A3AC2B /* MenuFred.pjd in Resources */,
-				999DE99B20667EF2005B3A29 /* Linux build in Resources */,
 				99792DEB1B88FEFD0044FDBB /* datadir.xrc in Resources */,
 				9962E34A2156DD3B00A3AC2B /* menuFred.xrc in Resources */,
 				99CC30BE21DBF5FE00B04C7F /* menuTMC600.xrc in Resources */,
@@ -1235,17 +1266,28 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -1254,6 +1296,7 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1266,13 +1309,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
-				VALID_ARCHS = "i386 x86_64";
-				"VALID_ARCHS[sdk=*]" = "i386 x86_64";
+				VALID_ARCHS = x86_64;
+				"VALID_ARCHS[sdk=*]" = x86_64;
 			};
 			name = Debug;
 		};
@@ -1281,17 +1324,28 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
-				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "-";
@@ -1300,6 +1354,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1321,9 +1376,9 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1361,11 +1416,11 @@
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.0",
-					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/include",
+					"-I$(WXROOT)/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I$(WXROOT)/include",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D__WXMAC__",
 					"-D__WXOSX__",
@@ -1388,7 +1443,7 @@
 					QTKit,
 					"$(OTHER_LDFLAGS)",
 					"-lz",
-					"-L/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib",
+					"-L$(WXROOT)/build-debug/lib",
 					"-framework",
 					IOKit,
 					"-framework",
@@ -1401,15 +1456,15 @@
 					System,
 					"-framework",
 					OpenGL,
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_webview-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_qa-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_baseu_net-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_html-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_adv-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_osx_cocoau_core-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_baseu_xml-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-debug/lib/libwx_baseu-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_xrc-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_webview-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_qa-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_baseu_net-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_html-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_adv-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_core-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_baseu_xml-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_baseu-3.0.a",
 					"-framework",
 					WebKit,
 					"-lexpat",
@@ -1428,7 +1483,7 @@
 				PRODUCT_NAME = "Emma 02";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = x86_64;
 				WARNING_LDFLAGS = "";
 				WXROOT = "../wxWidgets-3.0.3";
 			};
@@ -1439,9 +1494,9 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "compiler-default";
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1483,8 +1538,8 @@
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/wx/include/osx_cocoa-unicode-static-3.0",
-					"-I/Users/etxmato/workspace/wxWidgets-3.0.3/include",
+					"-I$(WXROOT)/build-release/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I$(WXROOT)/include",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D__WXMAC__",
 					"-D__WXOSX__",
@@ -1507,7 +1562,7 @@
 					QTKit,
 					"$(OTHER_LDFLAGS)",
 					"-lz",
-					"-L/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib",
+					"-L$(WXROOT)/build-release/lib",
 					"-framework",
 					IOKit,
 					"-framework",
@@ -1520,15 +1575,15 @@
 					System,
 					"-framework",
 					OpenGL,
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_webview-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_qa-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_baseu_net-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_html-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_adv-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_osx_cocoau_core-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_baseu_xml-3.0.a",
-					"/Users/etxmato/workspace/wxWidgets-3.0.3/build-release/lib/libwx_baseu-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_xrc-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_webview-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_qa-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_baseu_net-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_html-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_adv-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_core-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_baseu_xml-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_baseu-3.0.a",
 					"-framework",
 					WebKit,
 					"-lexpat",

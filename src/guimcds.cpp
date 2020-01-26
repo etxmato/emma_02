@@ -66,8 +66,8 @@ BEGIN_EVENT_TABLE(GuiMcds, GuiCosmicos)
     EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame)
 
     EVT_CHOICE(XRCID("VTTypeMCDS"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMCDS"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtMCDS"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("FullScreenF3MCDS"), GuiMain::onFullScreen)
     EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeMCDS"), GuiMain::onVolume)
@@ -226,7 +226,8 @@ void GuiMcds::readMcdsConfig()
 		XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
 
-        XRCCTRL(*this, "ZoomValueVtMCDS", wxTextCtrl)->ChangeValue(conf[MCDS].zoomVt_);
+        correctZoomVt(MCDS, "MCDS");
+
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         
 		XRCCTRL(*this, "StretchDotMCDS", wxCheckBox)->SetValue(conf[MCDS].stretchDot_);
@@ -234,7 +235,8 @@ void GuiMcds::readMcdsConfig()
         XRCCTRL(*this, "WavFile1MCDS", wxTextCtrl)->SetValue(conf[MCDS].wavFile_[1]);
         XRCCTRL(*this, "VolumeMCDS", wxSlider)->SetValue(conf[MCDS].volume_);
         
-        clockTextCtrl[MCDS]->ChangeValue(conf[MCDS].clock_);
+        if (clockTextCtrl[MCDS] != NULL)
+            clockTextCtrl[MCDS]->ChangeValue(conf[MCDS].clock_);
 
         XRCCTRL(*this, "UseLocationMCDS", wxCheckBox)->SetValue(conf[MCDS].useLoadLocation_);
     }

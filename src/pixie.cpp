@@ -839,7 +839,10 @@ void Pixie::cyclePixieTelmac()
 
 void Pixie::copyScreen()
 {
-	PlotList *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
+
+    PlotList *temp;
 
 	if (!graphicsOn_ && (computerType_ == ETI))  return;
 

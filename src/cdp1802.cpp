@@ -1582,7 +1582,8 @@ void Cdp1802::singleStateStep()
 
 void Cdp1802::cpuCycleFetch()
 {
-    traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
+    if (trace_)
+    	traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
@@ -2862,7 +2863,7 @@ void Cdp1802::cpuCycleExecute1()
                     accumulator_=bus_;
 					if (trace_)
 					{
-						buffer.Printf("LDI  %02X",accumulator_);
+						buffer.Printf("LDI  %02X   D=%02X", accumulator_, accumulator_);
 						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;

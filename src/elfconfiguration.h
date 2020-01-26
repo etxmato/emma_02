@@ -62,6 +62,7 @@ public:
       
     int led_Module_Output;
 
+    int mc6847OutputMode;
     int mc6847Output;
     int mc6847b7;
     int mc6847b6;
@@ -73,6 +74,15 @@ public:
     int mc6847b0;
     int mc6847dd7;
     int mc6847dd6;
+
+	bool forceHighAg;
+	bool forceHighAs;
+	bool forceHighExt;
+	bool forceHighGm2;
+	bool forceHighGm1;
+	bool forceHighGm0;
+	bool forceHighCss;
+	bool forceHighInv;
 
     int mc6847StartRam;
     int mc6847EndRam;

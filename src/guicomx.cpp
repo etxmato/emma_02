@@ -93,8 +93,8 @@ BEGIN_EVENT_TABLE(GuiComx, GuiElf)
 	EVT_TEXT(XRCID("KeyFileComx"), GuiMain::onKeyFileText)
 	EVT_BUTTON(XRCID("EjectKeyFileComx"), GuiMain::onKeyFileEject)
 	EVT_CHOICE(XRCID("VidModeComx"), GuiComx::onComxVideoMode)
-	EVT_SPIN_UP(XRCID("ZoomSpinComx"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinComx"), GuiMain::onZoomDown)
+    EVT_SPIN_UP(XRCID("ZoomSpinComx"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinComx"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueComx"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Comx"), GuiMain::onFullScreen)
 	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeComx"), GuiMain::onVolume)
@@ -332,11 +332,18 @@ void GuiComx::readComxConfig()
 		XRCCTRL(*this, "WavFileComx", wxTextCtrl)->SetValue(conf[COMX].wavFile_[0]);
 		XRCCTRL(*this, "VidModeComx", wxChoice)->SetSelection(conf[COMX].videoMode_);
 		if (conf[COMX].videoMode_ == PAL)
-			clockTextCtrl[COMX]->ChangeValue(comxPalClock_);
+        {
+            if (clockTextCtrl[COMX] != NULL)
+                clockTextCtrl[COMX]->ChangeValue(comxPalClock_);
+        }
 		else
-			clockTextCtrl[COMX]->ChangeValue(comxNtscClock_);
+        {
+            if (clockTextCtrl[COMX] != NULL)
+                clockTextCtrl[COMX]->ChangeValue(comxNtscClock_);
+        }
+        
+        correctZoom(COMX, "Comx");
 
-		XRCCTRL(*this, "ZoomValueComx", wxTextCtrl)->ChangeValue(conf[COMX].zoom_);
 		XRCCTRL(*this, "PrintModeComx", wxChoice)->SetSelection(comxPrintMode_);
 		setComxPrintMode();
 
@@ -904,11 +911,13 @@ void GuiComx::onComxVideoMode(wxCommandEvent&event)
 	switch(conf[COMX].videoMode_)
 	{
 		case PAL:
-			clockTextCtrl[COMX]->ChangeValue(comxPalClock_);
+            if (clockTextCtrl[COMX] != NULL)
+                clockTextCtrl[COMX]->ChangeValue(comxPalClock_);
 		break;
 
 		case NTSC:
-			clockTextCtrl[COMX]->ChangeValue(comxNtscClock_);
+            if (clockTextCtrl[COMX] != NULL)
+                clockTextCtrl[COMX]->ChangeValue(comxNtscClock_);
 		break;
 	}
     if (conf[COMX].videoMode_ == PAL)
@@ -1513,7 +1522,7 @@ void GuiComx::deleteAlias(int aliasDel)
 		aliasEmail[aliasDel] = aliasEmail[number];
 		aliasDel++;
 	}
-	numberOfAlias_--,
+    numberOfAlias_--;
 	alias.resize(numberOfAlias_);
 	aliasEmail.resize(numberOfAlias_);
 }

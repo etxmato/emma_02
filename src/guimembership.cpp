@@ -41,8 +41,8 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_BUTTON(XRCID("RomMembership"), GuiMembership::onRomEvent)
 
 	EVT_CHOICE(XRCID("VTTypeMembership"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtMembership"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("FullScreenF3Membership"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ColoursMembership"), Main::onColoursDef)
@@ -200,14 +200,17 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "ForceUCMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].forceUpperCase);
 		XRCCTRL(*this, "AutoBootMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].autoBoot);
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
-		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
+        
+        correctZoomVt(MEMBER, "Membership");
+
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
 		XRCCTRL(*this, "RamMembership", wxChoice)->SetSelection(conf[MEMBER].ramType_);
         XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);
         XRCCTRL(*this, "FrontMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].frontType);
 		XRCCTRL(*this, "VolumeMembership", wxSlider)->SetValue(conf[MEMBER].volume_);
-		clockTextCtrl[MEMBER]->ChangeValue(conf[MEMBER].clock_);
+        if (clockTextCtrl[MEMBER] != NULL)
+            clockTextCtrl[MEMBER]->ChangeValue(conf[MEMBER].clock_);
 		XRCCTRL(*this, "NvrMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].nvr);
 		XRCCTRL(*this, "ClearRamMembership", wxCheckBox)->Enable(elfConfiguration[MEMBER].nvr);
 		XRCCTRL(*this, "ClearRamMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].clearRam);

@@ -243,6 +243,10 @@ name: Hidden [David Winter,  1996].ch8
 elfosname: hidden
 load: VIPII on Character
 
+name: Knockout.ch8
+load: VIPII on Character
+game keys: 5, 4, 6, 10, 10, 10, 10, 10, 10, 10
+
 name: Kaleidoscope [Joseph Weisbecker,  1978].ch8
 elfosname: kaleidoscope
 load: VIPII on Character, fire on 0
@@ -384,6 +388,9 @@ elfosname: tank
 load: VIPII on Character
 pad a2: 0, 0, 317, 0, 314, 32, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
 game keys: 8, 4, 6, 2, 5, 10, 10, 10, 10, 10
+
+name: Tank Warfare.ch8
+load: VIPII on Character, fire on F
 
 name: Tapeworm [JDR, 1999].ch8
 elfosname: tapeworm
@@ -717,6 +724,16 @@ FRED Games:
 
 name: Bowling.bin
 load: FRED on Character
+
+name: Computer Bowling.bin
+load: FRED on Character
+pad a2: 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 317, 316, 315
+pad a2 nnp: 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 317, 316, 315
+
+name: Curses Foiled Again.bin
+load: FRED on Character
+pad a2: 0, 0, 0, 0, 0, 0, 315, 0, 314, 32, 0, 317, 0, 316, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 0, 0, 315, 0, 314, 32, 0, 0, 317, 316, 0, 0
 
 name: Life.bin
 load: FRED on Character

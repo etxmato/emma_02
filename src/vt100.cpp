@@ -965,7 +965,10 @@ void Vt100::setCycle()
 
 void Vt100::copyScreen()
 {
-	CharacterList *temp;
+    if (p_Main->isZoomVtEventOngoing())
+        return;
+
+    CharacterList *temp;
 
 	if (reColour_)
 	{

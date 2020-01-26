@@ -241,7 +241,6 @@
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticText" name="MC6847OutputText">
-                                                    <size>150,-1</size>
                                                     <font>
                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                         <size>-1</size>
@@ -329,6 +328,45 @@
                                         <border>5</border>
                                         <object class="wxBoxSizer">
                                             <orient>wxHORIZONTAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                <border>1</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxVERTICAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                        <border>0</border>
+                                                        <object class="wxStaticText" name="MC6847OutModeText">
+                                                            <font>
+                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                <size>-1</size>
+                                                            </font>
+                                                            <label>Mode</label>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                        <border>0</border>
+                                                        <object class="wxChoice" name="MC6847OutputMode">
+                                                            <font>
+                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                <size>-1</size>
+                                                            </font>
+                                                            <content>
+                                                                <item>OUT</item>
+                                                                <item>FFxx</item>
+                                                            </content>
+                                                        </object>
+                                                    </object>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxGROW|wxALL</flag>
+                                                <border>5</border>
+                                                <object class="wxStaticLine" name="wxID_STATIC">
+                                                    <style>wxLI_VERTICAL</style>
+                                                </object>
+                                            </object>
                                             <object class="sizeritem">
                                                 <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
                                                 <border>1</border>
@@ -729,6 +767,127 @@
                                                                 <item>GM1</item>
                                                                 <item>GM2</item>
                                                             </content>
+                                                        </object>
+                                                    </object>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxVERTICAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                                        <border>0</border>
+                                                        <object class="wxStaticText" name="MC6847-ForceHighText">
+                                                            <font>
+                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                <size>-1</size>
+                                                            </font>
+                                                            <label>Force High:</label>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                        <border>4</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxHORIZONTAL</orient>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-AG">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>A/G</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-AS">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>A/S</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-EXT">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>EXT</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-GM2">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>GM2</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-GM1">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>GM1</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-GM0">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>GM0</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-CSS">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>CSS</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                <border>3</border>
+                                                                <object class="wxCheckBox" name="MC6847-INV">
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>INV</label>
+                                                                    <checked>0</checked>
+                                                                </object>
+                                                            </object>
                                                         </object>
                                                     </object>
                                                 </object>

@@ -53,8 +53,8 @@ BEGIN_EVENT_TABLE(GuiTelmac, GuiPecom)
 	EVT_COMBOBOX(XRCID("ScreenDumpFileTMC600"), GuiMain::onScreenDumpFileText)
 	EVT_BUTTON(XRCID("ScreenDumpF5TMC600"), GuiMain::onScreenDump)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinTMC600"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinTMC600"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinTMC600"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinTMC600"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueTMC600"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3TMC600"), GuiMain::onFullScreen)
 	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeTMC600"), GuiMain::onVolume) 
@@ -183,9 +183,11 @@ void GuiTelmac::readTelmacConfig()
 		XRCCTRL(*this, "ScreenDumpFileTMC600", wxComboBox)->SetValue(conf[TMC600].screenDumpFile_);
 		XRCCTRL(*this, "WavFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValueTMC600", wxTextCtrl)->ChangeValue(conf[TMC600].zoom_);
+        correctZoom(TMC600, "TMC600");
+
 		XRCCTRL(*this, "VolumeTMC600", wxSlider)->SetValue(conf[TMC600].volume_);
-		clockTextCtrl[TMC600]->ChangeValue(conf[TMC600].clock_);
+        if (clockTextCtrl[TMC600] != NULL)
+            clockTextCtrl[TMC600]->ChangeValue(conf[TMC600].clock_);
 		XRCCTRL(*this, "TurboTMC600", wxCheckBox)->SetValue(conf[TMC600].turbo_);
 		turboGui("TMC600");
 		XRCCTRL(*this, "TurboClockTMC600", wxTextCtrl)->SetValue(conf[TMC600].turboClock_);

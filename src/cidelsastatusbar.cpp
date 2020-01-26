@@ -42,12 +42,7 @@ CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
 	ledOnPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/comxledon.png", wxBITMAP_TYPE_PNG);
 
     ledsDefined_ = false;
-
-    WindowInfo windowInfo = getWinSizeInfo();
-    linux_led_pos_y_ = 2;
-    
-    if (windowInfo.operatingSystem == OS_LINUX_FEDORA)
-        linux_led_pos_y_ = 4;
+    linux_led_pos_y_ = p_Main->getBarLedPosY();
 
     for (int i=0; i<5; i++)
 		status_[i] = false;

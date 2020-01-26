@@ -3844,6 +3844,7 @@ wxString DebugWindow::cdp1802disassemble(Word* address, bool showDetails, bool s
                         printBufferAssembler = "LDI  " + getHexByte(*address, textAssembler);
 						printBufferTemp.Printf("%02X ",p_Computer->readMemDebug(*address));
 						printBufferOpcode.operator += (printBufferTemp);
+                        printBufferDetails.Printf("D=%02X", accumulator);
 						*address = *address + 1;
 					}
 				break;
@@ -7420,7 +7421,10 @@ void DebugWindow::directAss()
 	dcAss.SelectObject(*assBmp);
 
 //	dcAss.SetFont(exactFont);
-    switch (windowInfo.operatingSystem)
+    dcAss.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
+    dcAss.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
+    dcAss.SetTextBackground(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue));
+/*    switch (windowInfo.operatingSystem)
     {
         case OS_MAC:
             dcAss.SetPen(wxPen(wxColour(219, 219, 219)));
@@ -7434,15 +7438,13 @@ void DebugWindow::directAss()
             dcAss.SetTextBackground(wxColour(0xd4, 0xd0, 0xc8));
         break;
             
-        case OS_LINUX_OPENSUSE_GNOME:
-        case OS_LINUX_OPENSUSE_KDE:
+        case OS_LINUX_OPENSUSE:
             dcAss.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcAss.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
         break;
             
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
+        case OS_LINUX_UBUNTU:
             dcAss.SetPen(wxPen(wxColour(242, 241, 240)));
             dcAss.SetBrush(wxBrush(wxColour(242, 241, 240)));
             dcAss.SetTextBackground(wxColour(242, 241, 240));
@@ -7465,7 +7467,7 @@ void DebugWindow::directAss()
             dcAss.SetBrush(wxBrush(wxColour(255,255,255)));
             dcAss.SetTextBackground(wxColour(255,255,255));
         break;
-    }
+    }*/
 	dcAss.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
 
 	if (dirAssStart_ == dirAssEnd_)
@@ -12419,7 +12421,10 @@ void DebugWindow::paintDebugBackground()
     for (int i=0; i<16; i++)
         lineBmp[i] = new wxBitmap(128, 16, 24);
     dcLine.SelectObject(*lineBmp[0]);
-    switch (windowInfo.operatingSystem)
+    dcLine.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
+    dcLine.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
+    dcLine.SetTextBackground(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue));
+/*    switch (windowInfo.operatingSystem)
     {
         case OS_MAC:
             dcLine.SetPen(wxPen(wxColour(219, 219, 219)));
@@ -12433,15 +12438,13 @@ void DebugWindow::paintDebugBackground()
             dcLine.SetTextBackground(wxColour(0xd4, 0xd0, 0xc8));
         break;
             
-        case OS_LINUX_OPENSUSE_GNOME:
-        case OS_LINUX_OPENSUSE_KDE:
+        case OS_LINUX_OPENSUSE:
             dcLine.SetPen(wxPen(wxColour(242, 241, 240)));
             dcLine.SetBrush(wxBrush(wxColour(242, 241, 240)));
             dcLine.SetTextBackground(wxColour(242, 241, 240));
         break;
 
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
+        case OS_LINUX_UBUNTU:
             dcLine.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
             dcLine.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
@@ -12463,13 +12466,15 @@ void DebugWindow::paintDebugBackground()
             dcLine.SetBrush(wxBrush(wxColour(255,255,255)));
             dcLine.SetTextBackground(wxColour(255,255,255));
         break;
-    }
+    }*/
     dcLine.DrawRectangle(0, 0, 128, 16);
 
     wxMemoryDC dcDebugBackground;
     
     dcDebugBackground.SelectObject(*assBmp);
-    switch (windowInfo.operatingSystem)
+    dcDebugBackground.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
+    dcDebugBackground.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
+/*    switch (windowInfo.operatingSystem)
     {
         case OS_MAC:
             dcDebugBackground.SetPen(wxPen(wxColour(219, 219, 219)));
@@ -12481,14 +12486,12 @@ void DebugWindow::paintDebugBackground()
             dcDebugBackground.SetBrush(wxBrush(wxColour(0xd4, 0xd0, 0xc8)));
         break;
             
-        case OS_LINUX_OPENSUSE_GNOME:
-        case OS_LINUX_OPENSUSE_KDE:
+        case OS_LINUX_OPENSUSE:
             dcDebugBackground.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
             dcDebugBackground.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
         break;
 
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
+        case OS_LINUX_UBUNTU:
             dcDebugBackground.SetPen(wxPen(wxColour(242, 241, 240)));
             dcDebugBackground.SetBrush(wxBrush(wxColour(242, 241, 240)));
         break;
@@ -12507,7 +12510,7 @@ void DebugWindow::paintDebugBackground()
             dcDebugBackground.SetPen(wxPen(wxColour(255,255,255)));
             dcDebugBackground.SetBrush(wxBrush(wxColour(255,255,255)));
         break;
-    }
+    }*/
     
     dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
     

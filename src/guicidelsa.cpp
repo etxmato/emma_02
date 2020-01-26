@@ -46,8 +46,8 @@ BEGIN_EVENT_TABLE(GuiCidelsa, GuiTelmac)
 	EVT_TEXT(XRCID("ScreenDumpFileCidelsa"), GuiMain::onScreenDumpFileText)
 	EVT_COMBOBOX(XRCID("ScreenDumpFileCidelsa"), GuiMain::onScreenDumpFileText)
 	EVT_BUTTON(XRCID("ScreenDumpF5Cidelsa"), GuiMain::onScreenDump)
-	EVT_SPIN_UP(XRCID("ZoomSpinCidelsa"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinCidelsa"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinCidelsa"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinCidelsa"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueCidelsa"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Cidelsa"), GuiMain::onFullScreen)
 	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeCidelsa"), GuiMain::onVolume) 
@@ -105,7 +105,9 @@ void GuiCidelsa::readCidelsaConfig()
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomCidelsa", wxComboBox)->SetValue(conf[CIDELSA].rom_[MAINROM1]);
-		XRCCTRL(*this, "ZoomValueCidelsa", wxTextCtrl)->ChangeValue(conf[CIDELSA].zoom_);
+        
+        correctZoom(CIDELSA, "Cidelsa");
+
 		XRCCTRL(*this, "VolumeCidelsa", wxSlider)->SetValue(conf[CIDELSA].volume_);
 		XRCCTRL(*this, "ScreenDumpFileCidelsa", wxComboBox)->SetValue(conf[CIDELSA].screenDumpFile_);
 		
@@ -121,7 +123,8 @@ void GuiCidelsa::readCidelsaConfig()
 		while (dracoCoin[i] != (in2ValueDraco_ & 0xe0) && i <= 7)
 			i++;
 		XRCCTRL(*this, "CidelsaCoinDraco", wxChoice)->SetSelection(i);
-		clockTextCtrl[CIDELSA]->ChangeValue(conf[CIDELSA].clock_);
+        if (clockTextCtrl[CIDELSA] != NULL)
+            clockTextCtrl[CIDELSA]->ChangeValue(conf[CIDELSA].clock_);
 	}
 }
 
