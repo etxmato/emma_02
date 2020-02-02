@@ -1846,11 +1846,11 @@ WindowInfo Main::getWinSizeInfo(wxString appDir)
 
         windowInfoFile = "linuxdefault.ini";
     }
-    else
+/*    else
     {
         returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' loaded\n";
         returnValue.errorMessage = returnValue.errorMessage + distInfo.Id + "\n";
-    }
+    }*/
 
     wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);
     
