@@ -139,7 +139,7 @@ void GuiNano::readNanoConfig()
 		XRCCTRL(*this, "ScreenDumpFileNano", wxComboBox)->SetValue(conf[NANO].screenDumpFile_);
 		XRCCTRL(*this, "WavFileNano", wxTextCtrl)->SetValue(conf[NANO].wavFile_[0]);
 
-        correctZoom(NANO, "Nano");
+        correctZoomAndValue(NANO, "Nano", SET_SPIN);
 
 		XRCCTRL(*this, "TurboNano", wxCheckBox)->SetValue(conf[NANO].turbo_);
 		turboGui("Nano");

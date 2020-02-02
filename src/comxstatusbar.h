@@ -40,7 +40,16 @@ private:
 	bool ledStatus_[4];
     
     int linux_led_pos_y_;
-    int statusBarElementMeasure[4];
+    int ledPosX1_;
+    int ledPosX2_;
+    int lastLedPosX_;
+    
+    int offsetField_;
+    int ledSpacing_;
+
+    int offsetX_;
+    
+    int statusBarElementMeasure[5];
     wxString leaderString_;
 
     DECLARE_EVENT_TABLE()

@@ -208,7 +208,7 @@ void GuiStudio2::readStudioConfig()
 		XRCCTRL(*this, "CartRomStudio2", wxComboBox)->SetValue(conf[STUDIO].rom_[CARTROM]);
 		XRCCTRL(*this, "ScreenDumpFileStudio2", wxComboBox)->SetValue(conf[STUDIO].screenDumpFile_);
         
-        correctZoom(STUDIO, "Studio2");
+        correctZoomAndValue(STUDIO, "Studio2", SET_SPIN);
 
         if (clockTextCtrl[STUDIO] != NULL)
             clockTextCtrl[STUDIO]->ChangeValue(conf[STUDIO].clock_);
@@ -333,7 +333,7 @@ void GuiStudio2::readCoinArcadeConfig()
         XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
         XRCCTRL(*this, "ScreenDumpFileCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].screenDumpFile_);
         
-        correctZoom(COINARCADE, "CoinArcade");
+        correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN);
 
         if (clockTextCtrl[COINARCADE] != NULL)
             clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
@@ -410,7 +410,7 @@ void GuiStudio2::readVisicomConfig()
 		XRCCTRL(*this, "CartRomVisicom", wxComboBox)->SetValue(conf[VISICOM].rom_[CARTROM]);
 		XRCCTRL(*this, "ScreenDumpFileVisicom", wxComboBox)->SetValue(conf[VISICOM].screenDumpFile_);
         
-        correctZoom(VISICOM, "Visicom");
+        correctZoomAndValue(VISICOM, "Visicom", SET_SPIN);
 
         if (clockTextCtrl[VISICOM] != NULL)
             clockTextCtrl[VISICOM]->ChangeValue(conf[VISICOM].clock_);
@@ -495,7 +495,7 @@ void GuiStudio2::readVictoryConfig()
 		XRCCTRL(*this, "CartRomVictory", wxComboBox)->SetValue(conf[VICTORY].rom_[CARTROM]);
 		XRCCTRL(*this, "ScreenDumpFileVictory", wxComboBox)->SetValue(conf[VICTORY].screenDumpFile_);
         
-        correctZoom(VICTORY, "Victory");
+        correctZoomAndValue(VICTORY, "Victory", SET_SPIN);
 
         if (clockTextCtrl[VICTORY] != NULL)
             clockTextCtrl[VICTORY]->ChangeValue(conf[VICTORY].clock_);
@@ -634,7 +634,7 @@ void GuiStudio2::readStudioIVConfig()
         XRCCTRL(*this, "CartRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].screenDumpFile_);
         
-        correctZoom(STUDIOIV, "StudioIV");
+        correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN);
 
         if (clockTextCtrl[STUDIOIV] != NULL)
             clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);

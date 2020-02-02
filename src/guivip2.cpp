@@ -175,7 +175,7 @@ void GuiVipII::readVipIIConfig()
 		XRCCTRL(*this, "ScreenDumpFileVipII", wxComboBox)->SetValue(conf[VIPII].screenDumpFile_);
 		XRCCTRL(*this, "WavFileVipII", wxTextCtrl)->SetValue(conf[VIPII].wavFile_[0]);
 
-        correctZoom(VIPII, "VipII");
+        correctZoomAndValue(VIPII, "VipII", SET_SPIN);
 
 		XRCCTRL(*this, "TurboVipII", wxCheckBox)->SetValue(conf[VIPII].turbo_);
 		turboGui("VipII");

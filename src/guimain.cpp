@@ -952,95 +952,91 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 	}
 }
 
-/*
-void GuiMain::onZoomUp(wxSpinEvent&WXUNUSED(event))
+void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
 {
-    onZoom(1);
+    fullScreenFloat_ = !fullScreenFloat_;
+    correctZoomAndValue(COMX, "Comx", SET_SPIN);
+    correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN);
+    correctZoomAndValue(COSMICOS, "Cosmicos", SET_SPIN);
+    correctZoomAndValue(ELF, "Elf", SET_SPIN);
+    correctZoomAndValue(ELFII, "ElfII", SET_SPIN);
+    correctZoomAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN);
+    correctZoomAndValue(VELF, "Velf", SET_SPIN);
+    correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
+    correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN);
+    correctZoomAndValue(CDP18S020, "CDP18S020", SET_SPIN);
+    correctZoomAndValue(VIP, "Vip", SET_SPIN);
+    correctZoomAndValue(VIPII, "VipII", SET_SPIN);
+    correctZoomAndValue(MICROBOARD, "Microboard", SET_SPIN);
+    correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN);
+    correctZoomAndValue(STUDIO, "Studio2", SET_SPIN);
+    correctZoomAndValue(VISICOM, "Visicom", SET_SPIN);
+    correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN);
+    correctZoomAndValue(VICTORY, "Victory", SET_SPIN);
+    correctZoomAndValue(CIDELSA, "Cidelsa", SET_SPIN);
+    correctZoomAndValue(TMC600, "TMC600", SET_SPIN);
+    correctZoomAndValue(TMC2000, "TMC2000", SET_SPIN);
+    correctZoomAndValue(TMC1800, "TMC1800", SET_SPIN);
+    correctZoomAndValue(NANO, "Nano", SET_SPIN);
+    correctZoomAndValue(PECOM, "Pecom", SET_SPIN);
+    correctZoomAndValue(ETI, "Eti", SET_SPIN);
+
+    correctZoomVtAndValue(ELF2K, "Elf2K", SET_SPIN);
+    correctZoomVtAndValue(COSMICOS, "Cosmicos", SET_SPIN);
+    correctZoomVtAndValue(ELF, "Elf", SET_SPIN);
+    correctZoomVtAndValue(ELFII, "ElfII", SET_SPIN);
+    correctZoomVtAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomVtAndValue(MEMBER, "Membership", SET_SPIN);
+    correctZoomVtAndValue(VIP2K, "Vip2K", SET_SPIN);
+    correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
+    correctZoomVtAndValue(CDP18S020, "CDP18S020", SET_SPIN);
+    correctZoomVtAndValue(VIP, "Vip", SET_SPIN);
+    correctZoomVtAndValue(MICROBOARD, "Microboard", SET_SPIN);
+    correctZoomVtAndValue(MCDS, "MCDS", SET_SPIN);
+    correctZoomVtAndValue(MS2000, "MS2000", SET_SPIN);
 }
 
-void GuiMain::onZoomDown(wxSpinEvent&WXUNUSED(event))
+void GuiMain::correctZoomAndValue(int computerType, wxString computerTypeString, bool setSpin)
 {
-    onZoom(-1);
+    correctZoom(computerType, computerTypeString, setSpin);
+    XRCCTRL(*this, "ZoomValue" + computerTypeString, wxTextCtrl)->ChangeValue(conf[computerType].zoom_);
 }
 
-void GuiMain::onZoom(int direction)
+void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool setSpin)
 {
-    zoomTextValueChanged_ = true;
     double zoom;
-    if ((selectedComputer_ == runningComputer_) && p_Video != NULL)
-        zoom = p_Video->getZoom();
-    else
-        conf[selectedComputer_].zoom_.ToDouble(&zoom);
+    int zoomInt;
 
+    conf[computerType].zoom_.ToDouble(&zoom);
     if (!fullScreenFloat_)
     {
-        zoom = (int) (zoom + direction);
-        if (zoom < 1)  zoom = 1;
+        zoomInt = (int) (zoom + 0.5);
+        if (zoomInt == 0)
+            zoomInt++;
+		if (setSpin)
+			XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(2,9);
+#else
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(1,10);
+#endif
+        conf[computerType].zoom_.Printf("%2.2f", (double)zoomInt);
     }
     else
     {
-        zoom = (int)(zoom*10+0.5);
-        zoom += direction;
-        zoom /= 10;
-        if (zoom < 0.5)  zoom = 0.5;
+		zoomInt = (int)(zoom*10+0.4);
+		if (setSpin)
+			XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(6,99);
+#else
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(5,100);
+#endif
+        conf[computerType].zoom_.Printf("%2.2f", zoom);
     }
-    conf[selectedComputer_].zoom_.Printf("%2.2f", zoom);
-
-    changeZoom(zoom);
-}
-
-void GuiMain::onZoomUpVt(wxSpinEvent&WXUNUSED(event))
-{
-    double zoomVt;
-    if ((selectedComputer_ == runningComputer_) && p_Vt100 != NULL)
-        zoomVt = p_Vt100->getZoom();
-    else
-        conf[selectedComputer_].zoomVt_.ToDouble(&zoomVt);
-
-    if (!fullScreenFloat_)
-        zoomVt = (int) (zoomVt + 1);
-    else
-    {
-        zoomVt = (int)(zoomVt*10+0.5);
-        zoomVt += 1;
-        zoomVt /= 10;
-    }
-    conf[selectedComputer_].zoomVt_.Printf("%2.2f", zoomVt);
-    changeZoomVt(zoomVt);
-}
-
-void GuiMain::onZoomDownVt(wxSpinEvent&WXUNUSED(event))
-{
-    double zoomVt;
-    if ((selectedComputer_ == runningComputer_) && p_Vt100 != NULL)
-        zoomVt = p_Vt100->getZoom();
-    else
-        conf[selectedComputer_].zoomVt_.ToDouble(&zoomVt);
-
-    if (!fullScreenFloat_)
-    {
-        zoomVt = (int) (zoomVt - 1);
-        if (zoomVt < 1)  zoomVt = 1;
-    }
-    else
-    {
-        zoomVt = (int)(zoomVt*10+0.5);
-        zoomVt -= 1;
-        zoomVt /= 10;
-        if (zoomVt < 0.5)  zoomVt = 0.5;
-    }
-    conf[selectedComputer_].zoomVt_.Printf("%2.2f", zoomVt);
-    changeZoomVt(zoomVt);
-}
-*/
-
-void GuiMain::changeZoom(double zoom)
-{
-    if ((selectedComputer_ == runningComputer_) && p_Video != NULL)
-	{
+    if (runningComputer_ == computerType && p_Video != NULL)
         p_Main->eventZoomChange(zoom);
-	}
-    XRCCTRL(*this, "ZoomValue"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(conf[selectedComputer_].zoom_);
 }
 
 void GuiMain::onZoom(wxSpinEvent&event)
@@ -1055,120 +1051,7 @@ void GuiMain::onZoom(wxSpinEvent&event)
         zoom = (double)position/10;
     
     conf[selectedComputer_].zoom_.Printf("%2.2f", zoom);
-
-    changeZoom(zoom);
-}
-
-void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
-{
-    fullScreenFloat_ = !fullScreenFloat_;
-    correctZoom(COMX, "Comx");
-    correctZoom(ELF2K, "Elf2K");
-    correctZoom(COSMICOS, "Cosmicos");
-    correctZoom(ELF, "Elf");
-    correctZoom(ELFII, "ElfII");
-    correctZoom(SUPERELF, "SuperElf");
-    correctZoom(VIP2K, "Vip2K");
-    correctZoom(VELF, "Velf");
-    correctZoom(FRED1, "FRED1");
-    correctZoom(FRED1_5, "FRED1_5");
-    correctZoom(CDP18S020, "CDP18S020");
-    correctZoom(VIP, "Vip");
-    correctZoom(VIPII, "VipII");
-    correctZoom(MICROBOARD, "Microboard");
-    correctZoom(COINARCADE, "CoinArcade");
-    correctZoom(STUDIO, "Studio2");
-    correctZoom(VISICOM, "Visicom");
-    correctZoom(STUDIOIV, "StudioIV");
-    correctZoom(VICTORY, "Victory");
-    correctZoom(CIDELSA, "Cidelsa");
-    correctZoom(TMC600, "TMC600");
-    correctZoom(TMC2000, "TMC2000");
-    correctZoom(TMC1800, "TMC1800");
-    correctZoom(NANO, "Nano");
-    correctZoom(PECOM, "Pecom");
-    correctZoom(ETI, "Eti");
-
-    correctZoomVt(ELF2K, "Elf2K");
-    correctZoomVt(COSMICOS, "Cosmicos");
-    correctZoomVt(ELF, "Elf");
-    correctZoomVt(ELFII, "ElfII");
-    correctZoomVt(SUPERELF, "SuperElf");
-    correctZoomVt(MEMBER, "Membership");
-    correctZoomVt(VIP2K, "Vip2K");
-    correctZoomVt(VELF, "Velf");
-    correctZoomVt(CDP18S020, "CDP18S020");
-    correctZoomVt(VIP, "Vip");
-    correctZoomVt(MICROBOARD, "Microboard");
-    correctZoomVt(MCDS, "MCDS");
-    correctZoomVt(MS2000, "MS2000");
-
-}
-
-void GuiMain::correctZoom(int computerType, wxString computerTypeString)
-{
-    double zoom;
-    conf[computerType].zoom_.ToDouble(&zoom);
-    if (!fullScreenFloat_)
-    {
-        int zoomInt;
-        zoomInt = (int) (zoom + 0.5);
-        if (zoomInt == 0)
-            zoomInt++;
-#if defined(__WXMSW__)
-        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(2,9);
-#else
-        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(1,10);
-#endif
-        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
-        conf[computerType].zoom_.Printf("%2.2f", (double)zoomInt);
-        if (runningComputer_ == computerType && p_Video != NULL)
-            p_Video->setZoom(zoomInt);
-    }
-    else
-    {
-#if defined(__WXMSW__)
-            XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(6,99);
-#else
-            XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(5,100);
-#endif
-        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue((int)(zoom*10+0.4));
-        conf[computerType].zoom_.Printf("%2.2f", zoom);
-    }
-    XRCCTRL(*this, "ZoomValue" + computerTypeString, wxTextCtrl)->ChangeValue(conf[computerType].zoom_);
-}
-
-void GuiMain::correctZoomVt(int computerType, wxString computerTypeString)
-{
-    double zoom;
-    conf[computerType].zoomVt_.ToDouble(&zoom);
-    if (!fullScreenFloat_)
-    {
-        int zoomInt;
-        zoomInt = (int) (zoom + 0.5);
-        if (zoomInt == 0)
-            zoomInt++;
-#if defined(__WXMSW__)
-        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(2,9);
-#else
-        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(1,10);
-#endif
-        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
-        conf[computerType].zoomVt_.Printf("%2.2f", (double)zoomInt);
-        if (runningComputer_ == computerType && p_Vt100 != NULL)
-            p_Vt100->setZoom(zoomInt);
-    }
-    else
-    {
-#if defined(__WXMSW__)
-            XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(6,99);
-#else
-            XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(5,100);
-#endif
-        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue((int)(zoom*10+0.4));
-        conf[computerType].zoomVt_.Printf("%2.2f", zoom);
-    }
-    XRCCTRL(*this, "ZoomValueVt" + computerTypeString, wxTextCtrl)->ChangeValue(conf[computerType].zoomVt_);
+    correctZoomAndValue(selectedComputer_, computerInfo[selectedComputer_].gui, DO_NOT_SET_SPIN);
 }
 
 void GuiMain::onZoomValue(wxCommandEvent&event)
@@ -1181,7 +1064,7 @@ void GuiMain::onZoomValue(wxCommandEvent&event)
 		if (!fullScreenFloat_)
 			zoom = (int) (zoom);
 		conf[selectedComputer_].zoom_ = zoomString;
-        p_Main->eventZoomChange(zoom);
+        correctZoom(selectedComputer_, computerInfo[selectedComputer_].gui, SET_SPIN);
 	}
 	else
 	{
@@ -1193,16 +1076,46 @@ void GuiMain::onZoomValue(wxCommandEvent&event)
 	}
 }
 
-void GuiMain::changeZoomVt(double zoom)
+void GuiMain::correctZoomVtAndValue(int computerType, wxString computerTypeString, bool setSpin)
 {
-	if ((selectedComputer_ == runningComputer_) && p_Vt100 != NULL)
-	{
+    correctZoomVt(computerType, computerTypeString, setSpin);
+    XRCCTRL(*this, "ZoomValueVt" + computerTypeString, wxTextCtrl)->ChangeValue(conf[computerType].zoomVt_);
+}
+
+void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool setSpin)
+{
+    double zoom;
+    int zoomInt;
+
+    conf[computerType].zoomVt_.ToDouble(&zoom);
+    if (!fullScreenFloat_)
+    {
+        zoomInt = (int) (zoom + 0.5);
+        if (zoomInt == 0)
+            zoomInt++;
+		if (setSpin)
+	        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(2,9);
+#else
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(1,10);
+#endif
+        conf[computerType].zoomVt_.Printf("%2.2f", (double)zoomInt);
+    }
+    else
+    {
+		zoomInt = (int)(zoom*10+0.4);
+		if (setSpin)
+	        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(6,99);
+#else
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(5,100);
+#endif
+        conf[computerType].zoomVt_.Printf("%2.2f", zoom);
+    }
+    if (runningComputer_ == computerType && p_Vt100 != NULL)
         p_Main->eventZoomVtChange(zoom);
-//		p_Vt100->setZoom(zoom);
-	//	if (runningComputer_ != ELF2K)
-		//	p_Vt100->copyScreen();
-	}
-    XRCCTRL(*this, "ZoomValueVt"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(conf[selectedComputer_].zoomVt_);
 }
 
 void GuiMain::onZoomVt(wxSpinEvent&event)
@@ -1217,8 +1130,7 @@ void GuiMain::onZoomVt(wxSpinEvent&event)
         zoomVt = (double)position/10;
     
     conf[selectedComputer_].zoomVt_.Printf("%2.2f", zoomVt);
-
-    changeZoomVt(zoomVt);
+    correctZoomVtAndValue(selectedComputer_, computerInfo[selectedComputer_].gui, DO_NOT_SET_SPIN);
 }
 
 void GuiMain::onZoomValueVt(wxCommandEvent&event)
@@ -1232,7 +1144,7 @@ void GuiMain::onZoomValueVt(wxCommandEvent&event)
 			zoomVt = (int) (zoomVt);
 
         conf[selectedComputer_].zoomVt_ = zoomString;
-		changeZoomVt(zoomVt);
+        correctZoomVt(selectedComputer_, computerInfo[selectedComputer_].gui, SET_SPIN);
 	}
 	else
 	{
@@ -2054,8 +1966,11 @@ void GuiMain::onClock(wxCommandEvent&WXUNUSED(event))
 	wxString clock =  clockTextCtrl[selectedComputer_]->GetValue();
 	if (!clock.ToDouble((double*)&clk))
 	{
-		(void)wxMessageBox( "Please specify frequency in MHz\n",
+		if (clock != "")
+		{
+			(void)wxMessageBox( "Please specify frequency in MHz\n",
 							"Emma 02", wxICON_ERROR | wxOK );
+		}
 		return;
 	}
 	if (clk == 0)
@@ -2321,8 +2236,11 @@ void GuiMain::setBeepFrequency(int computerType)
 	wxString frequencyString =  XRCCTRL(*this, "BeepFrequency"+computerInfo[computerType].gui, wxTextCtrl)->GetValue();
 	if (!frequencyString.ToLong((long*)&frequency))
 	{
-		(void)wxMessageBox( "Please specify frequency in Hz\n",
+		if (frequencyString != "")
+		{
+			(void)wxMessageBox( "Please specify frequency in Hz\n",
 							"Emma 02", wxICON_ERROR | wxOK );
+		}
 		return;
 	}
 	if (frequency == 0)

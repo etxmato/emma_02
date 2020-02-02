@@ -151,7 +151,7 @@ void GuiPecom::readPecomConfig()
 		XRCCTRL(*this, "ScreenDumpFilePecom", wxComboBox)->SetValue(conf[PECOM].screenDumpFile_);
 		XRCCTRL(*this, "WavFilePecom", wxTextCtrl)->SetValue(conf[PECOM].wavFile_[0]);
 
-        correctZoom(PECOM, "Pecom");
+        correctZoomAndValue(PECOM, "Pecom", SET_SPIN);
 
 		XRCCTRL(*this, "VolumePecom", wxSlider)->SetValue(conf[PECOM].volume_);
 

@@ -184,7 +184,7 @@ void GuiTMC2000::readTMC2000Config()
 		XRCCTRL(*this, "ScreenDumpFileTMC2000", wxComboBox)->SetValue(conf[TMC2000].screenDumpFile_);
 		XRCCTRL(*this, "WavFileTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].wavFile_[0]);
 
-        correctZoom(TMC2000, "TMC2000");
+        correctZoomAndValue(TMC2000, "TMC2000", SET_SPIN);
 
 		XRCCTRL(*this, "TurboTMC2000", wxCheckBox)->SetValue(conf[TMC2000].turbo_);
 		turboGui("TMC2000");
@@ -295,7 +295,7 @@ void GuiTMC2000::readTMC1800Config()
 		XRCCTRL(*this, "ScreenDumpFileTMC1800", wxComboBox)->SetValue(conf[TMC1800].screenDumpFile_);
 		XRCCTRL(*this, "WavFileTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].wavFile_[0]);
 
-        correctZoom(TMC1800, "TMC1800");
+        correctZoomAndValue(TMC1800, "TMC1800", SET_SPIN);
 
 		XRCCTRL(*this, "TurboTMC1800", wxCheckBox)->SetValue(conf[TMC1800].turbo_);
 		turboGui("TMC1800");

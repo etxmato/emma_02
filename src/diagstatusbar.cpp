@@ -40,6 +40,9 @@ DiagStatusBar::DiagStatusBar(wxWindow *parent)
     ledsDefined_ = false;
     
     linux_led_pos_y_ = p_Main->getBarLedPosDiagY();
+    leaderString_ = p_Main->getBarLeaderCidelsa();
+	statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
+	statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
 }
 
 DiagStatusBar::~DiagStatusBar()
@@ -95,42 +98,36 @@ void DiagStatusBar::displayText()
     wxRect rect;
     this->GetFieldRect (1, rect);
     
-    if (rect.GetWidth() < 70)
-    {
-#if defined(__linux__) || defined(__WXMAC__)
-        SetStatusText("    V++", 0);
-        SetStatusText("    EXT", 1);
-        SetStatusText("    DM", 2);
-        SetStatusText("    INT", 3);
-        SetStatusText("    I-A", 4);
-        SetStatusText("    CLR", 5);
-#else
-        SetStatusText("     V++", 0);
-        SetStatusText("     EXT", 1);
-        SetStatusText("     DM", 2);
-        SetStatusText("     INT", 3);
-        SetStatusText("     I-A", 4);
-        SetStatusText("     CLR", 5);
-#endif
-    }
-    else
-    {
-#if defined(__linux__) || defined(__WXMAC__)
-        SetStatusText("    V++", 0);
-        SetStatusText("    EXT ROM", 1);
-        SetStatusText("    DMA ACK", 2);
-        SetStatusText("    INT", 3);
-        SetStatusText("    INT ACK", 4);
-        SetStatusText("    CLEAR", 5);
-#else
-        SetStatusText("     V++", 0);
-        SetStatusText("     EXT ROM", 1);
-        SetStatusText("     DMA ACK", 2);
-        SetStatusText("     INTERRUPT", 3);
-        SetStatusText("     INT ACK", 4);
-        SetStatusText("     CLEAR", 5);
-#endif
-    }
+    if (rect.GetWidth() < statusBarElementMeasure0_)
+	{
+		SetStatusText("", 0);
+		SetStatusText("", 1);
+		SetStatusText("", 2);
+		SetStatusText("", 3);
+		SetStatusText("", 4);
+		SetStatusText("", 5);
+	}
+	else
+	{
+		if (rect.GetWidth() < statusBarElementMeasure1_)
+		{
+			SetStatusText(leaderString_ + "V++", 0);
+			SetStatusText(leaderString_ + "EXT", 1);
+			SetStatusText(leaderString_ + "DM", 2);
+			SetStatusText(leaderString_ + "INT", 3);
+			SetStatusText(leaderString_ + "I-A", 4);
+			SetStatusText(leaderString_ + "CLR", 5);
+		}
+		else
+		{
+			SetStatusText(leaderString_ + "V++", 0);
+			SetStatusText(leaderString_ + "EXT ROM", 1);
+			SetStatusText(leaderString_ + "DMA ACK", 2);
+			SetStatusText(leaderString_ + "INT", 3);
+			SetStatusText(leaderString_ + "INT ACK", 4);
+			SetStatusText(leaderString_ + "CLEAR", 5);
+		}
+	}
 }
 
 void DiagStatusBar::displayLeds()

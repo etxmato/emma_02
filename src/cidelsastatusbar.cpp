@@ -46,6 +46,11 @@ CidelsaStatusBar::CidelsaStatusBar(wxWindow *parent)
 
     for (int i=0; i<5; i++)
 		status_[i] = false;
+
+    leaderString_ = p_Main->getBarLeaderCidelsa();
+	statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
+	statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
+    ledSpacing_ = p_Main->getBarLedSpacing();
 }
 
 CidelsaStatusBar::~CidelsaStatusBar()
@@ -154,32 +159,32 @@ void CidelsaStatusBar::displayText()
 	wxRect rect;
 	this->GetFieldRect (1, rect);
 
-	wxString leader;
-#if defined(__linux__)
-	leader = "     ";
-#else
-#if defined(__WXMAC__)
-	leader = "     ";
-#else
-	leader = "     ";
-#endif
-#endif
-
-	if (rect.GetWidth() < 70)
+    if (rect.GetWidth() < statusBarElementMeasure0_)
 	{
-		SetStatusText(leader + "S A", 0);
-		SetStatusText(leader + "S B", 1);
-		SetStatusText(leader + "1 P", 2);
-		SetStatusText(leader + "2 P", 3);
-		SetStatusText(leader + "Fire", 4);
+		SetStatusText("", 0);
+		SetStatusText("", 1);
+		SetStatusText("", 2);
+		SetStatusText("", 3);
+		SetStatusText("", 4);
 	}
 	else
 	{
-		SetStatusText(leader + "Shute A", 0);
-		SetStatusText(leader + "Shute B", 1);
-		SetStatusText(leader + "1 Player", 2);
-		SetStatusText(leader + "2 Players", 3);
-		SetStatusText(leader + "Fire", 4);
+		if (rect.GetWidth() < statusBarElementMeasure1_)
+		{
+			SetStatusText(leaderString_ + "S A", 0);
+			SetStatusText(leaderString_ + "S B", 1);
+			SetStatusText(leaderString_ + "1 P", 2);
+			SetStatusText(leaderString_ + "2 P", 3);
+			SetStatusText(leaderString_ + "Fire", 4);
+		}
+		else
+		{
+			SetStatusText(leaderString_ + "Shute A", 0);
+			SetStatusText(leaderString_ + "Shute B", 1);
+			SetStatusText(leaderString_ + "1 Player", 2);
+			SetStatusText(leaderString_ + "2 Players", 3);
+			SetStatusText(leaderString_ + "Fire", 4);
+		}
 	}
 }
 
@@ -193,17 +198,17 @@ void CidelsaStatusBar::displayLeds()
 	{
 #if defined(__linux__)
         ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
-							         wxPoint(number*(rect.GetWidth()+1)+3+number*3, linux_led_pos_y_), wxSize(-1, -1),
+							         wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, linux_led_pos_y_), wxSize(-1, -1),
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
         ledBitmapPointers [number] = new PushBitmapButton(this, number, *ledOnPointer,
-                                                          wxPoint(number*(rect.GetWidth()+1)+3+number*3, 4), wxSize(-1, -1),
+                                                          wxPoint(number*(rect.GetWidth()+ledSpacing_)+3+number*3, 4), wxSize(-1, -1),
                                                           wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
 		ledBitmapPointers [number] = new PushButton(this, number, wxEmptyString, 
-							         wxPoint(number*(rect.GetWidth()+1)+3, 9), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
+							         wxPoint(number*(rect.GetWidth()+ledSpacing_)+3, 9), wxSize(CIDELSA_LED_SIZE_X, CIDELSA_LED_SIZE_Y),
 							         wxBORDER_NONE);
 #endif
 		if (status_[number])

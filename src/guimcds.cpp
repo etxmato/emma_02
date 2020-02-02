@@ -226,7 +226,7 @@ void GuiMcds::readMcdsConfig()
 		XRCCTRL(*this, "VTBaudRChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMCDS", wxChoice)->SetSelection(elfConfiguration[MCDS].baudT);
 
-        correctZoomVt(MCDS, "MCDS");
+        correctZoomVtAndValue(MCDS, "MCDS", SET_SPIN);
 
         XRCCTRL(*this, "McdsBootRam", wxCheckBox)->SetValue(elfConfiguration[MCDS].bootRam);
         

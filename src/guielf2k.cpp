@@ -211,8 +211,8 @@ void GuiElf2K::readElf2KConfig()
 
         XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
         
-        correctZoom(ELF2K, "Elf2K");
-        correctZoomVt(ELF2K, "Elf2K");
+        correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN);
+        correctZoomVtAndValue(ELF2K, "Elf2K", SET_SPIN);
 
 		XRCCTRL(*this, "ShowAddressElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].ledTime_);
 		XRCCTRL(*this, "Elf2KControlWindows", wxCheckBox)->SetValue(elfConfiguration[ELF2K].useElfControlWindows);

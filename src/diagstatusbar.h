@@ -34,7 +34,10 @@ private:
     wxMask *maskOn;
     
     int linux_led_pos_y_;
-    
+    int statusBarElementMeasure0_;
+    int statusBarElementMeasure1_;
+    wxString leaderString_;
+
 	bool ledsDefined_;
 	bool ledStatus_[NUMBER_OF_DIAG_LEDS];
 

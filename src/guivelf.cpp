@@ -219,8 +219,8 @@ void GuiVelf::readVelfConfig()
         XRCCTRL(*this,"AddressText2Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].useElfControlWindows);
         
-        correctZoom(VELF, "Velf");
-        correctZoomVt(VELF, "Velf");
+        correctZoomAndValue(VELF, "Velf", SET_SPIN);
+        correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
 
 		XRCCTRL(*this, "LatchVelf", wxCheckBox)->SetValue(latch_);
 		XRCCTRL(*this, "TurboVelf", wxCheckBox)->SetValue(conf[VELF].turbo_);

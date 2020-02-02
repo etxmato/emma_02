@@ -497,6 +497,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
     EVT_TIMER(908, Main::guiSizeTimeout)
+    EVT_TIMER(909, Main::guiRedrawBarTimeOut)
 
 	EVT_KEY_DOWN(Main::onKeyDown)
 	EVT_KEY_UP(Main::onKeyUp)
@@ -1660,6 +1661,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     traceTimeoutPointer = new wxTimer(this, 906);
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
     guiSizeTimeoutPointer = new wxTimer(this, 908);
+    guiRedrawBarTimeOutPointer = new wxTimer(this, 909);
     guiSizeTimerStarted_ = false;
     
     if (mode_.gui)
@@ -1711,6 +1713,7 @@ Main::~Main()
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
     delete guiSizeTimeoutPointer;
+    delete guiRedrawBarTimeOutPointer;
     delete help_;
 	if (configPointer == NULL || !saveOnExit_)
 		return;
@@ -1886,16 +1889,23 @@ WindowInfo Main::getWinSizeInfo(wxString appDir)
     returnValue.startCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/startSingleTabY", 100);
     
     returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
+    returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
+    returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
+    returnValue.ledSpacing = (int)windowConfigPointer->Read("/Bar/ledSpacing", 1);
     returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
     returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
     
     returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
     returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
 
-    returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 70);
-    returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 80);
-    returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 100);
-    returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 150);
+    returnValue.statusBarLeaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
+    returnValue.statusBarLeaderCidelsa = returnValue.statusBarLeaderCidelsa.Mid (1, returnValue.statusBarLeaderCidelsa.Len()-2);
+
+    returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 40);
+    returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 70);
+    returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 80);
+    returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 100);
+    returnValue.statusBarElementMeasure[4] = (int)windowConfigPointer->Read("/Bar/ElementMeasure4", 150);
 
     returnValue.floatHeight = (int)windowConfigPointer->Read("/Correction/floatHeight", 21);
     returnValue.startHeight = (int)windowConfigPointer->Read("/Correction/startHeight", -1);
@@ -7880,7 +7890,11 @@ void Main::setZoomChange(guiEvent&event)
         case CIDELSA:
         case COMX:
         case VIPII:
+#if defined(__linux__)
+            guiRedrawBarTimeOutPointer->Start(200, wxTIMER_ONE_SHOT);
+#else
             p_Video->reDrawBar();
+#endif
         break;
     }
     zoomEventFinished();
@@ -8494,6 +8508,11 @@ void Main::guiSizeTimeout(wxTimerEvent&WXUNUSED(event))
 {
     adjustGuiSize();
     guiSizeTimerStarted_ = false;
+}
+
+void Main::guiRedrawBarTimeOut(wxTimerEvent&WXUNUSED(event))
+{
+    p_Video->reDrawBar();
 }
 
 wxString Main::getMultiCartGame(Byte findMsb, Byte findLsb)

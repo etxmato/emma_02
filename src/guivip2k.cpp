@@ -202,8 +202,8 @@ void GuiVip2K::readVip2KConfig()
 		XRCCTRL(*this, "VTBaudTChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip2K", wxChoice)->SetSelection(elfConfiguration[VIP2K].baudT);
         
-        correctZoom(VIP2K, "Vip2K");
-        correctZoomVt(VIP2K, "Vip2K");
+        correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN);
+        correctZoomVtAndValue(VIP2K, "Vip2K", SET_SPIN);
 
         XRCCTRL(*this, "VtShowVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].vtShow);
         XRCCTRL(*this, "AutoKeyDefVip2K", wxCheckBox)->SetValue(elfConfiguration[VIP2K].autoKeyDef);

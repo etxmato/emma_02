@@ -301,16 +301,10 @@ public:
 	void onKeyFileEject(wxCommandEvent& event);
     void onVT100(wxCommandEvent& event);
     void onZoom(wxSpinEvent& event);
-    void onZoomUp(wxSpinEvent& event);
-	void onZoomDown(wxSpinEvent& event);
     void onZoom(int direction);
 	void onZoomValue(wxCommandEvent& event);
-	void changeZoom(double zoom);
-	void onZoomUpVt(wxSpinEvent& event);
-    void onZoomDownVt(wxSpinEvent& event);
     void onZoomVt(wxSpinEvent& event);
 	void onZoomValueVt(wxCommandEvent& event);
-	void changeZoomVt(double zoom);
 	void onFullScreen(wxCommandEvent&event);
 	void onInterlace(wxCommandEvent& event);
 	void onUpperCase(wxCommandEvent& event);
@@ -397,11 +391,15 @@ public:
 	Byte getMultiCartLsb(int computerType) {return conf[computerType].lsb_;};
     Byte getMultiCartMsb(int computerType) {return conf[computerType].msb_;};
     int getFdcType(int computerType) {return elfConfiguration[computerType].fdcType_;};
+    int getBarLedPosX1() {return windowInfo.ledPosX1;};
+    int getBarLedPosX2() {return windowInfo.ledPosX2;};
+    int getBarLedSpacing() {return windowInfo.ledSpacing;};
     int getBarLedPosY() {return windowInfo.ledPosY;};
     int getBarLedPosDiagY() {return windowInfo.ledPosDiagY;};
     int getBarLedPosVip2Y() {return windowInfo.ledPosVip2Y;};
     int getStatusBarElementMeasure(int number) {return windowInfo.statusBarElementMeasure[number];};
     wxString getBarLeader() {return windowInfo.statusBarLeader;};
+    wxString getBarLeaderCidelsa() {return windowInfo.statusBarLeaderCidelsa;};
     int getPrintX() {return printX_;};
 
 	wxString getLedTime(int computerType) {return conf[computerType].ledTime_;}; 
@@ -537,8 +535,10 @@ public:
 	ScreenInfo getScreenInfo(int id);
 	bool isFullScreenFloat() {return fullScreenFloat_;};
 	void onFullScreenFloat(wxCommandEvent&event);
-    void correctZoom(int computerType, wxString computerTypeString);
-    void correctZoomVt(int computerType, wxString computerTypeString);
+    void correctZoomAndValue(int computerType, wxString computerTypeString, bool setSpin);
+    void correctZoom(int computerType, wxString computerTypeString, bool setSpin);
+    void correctZoomVtAndValue(int computerType, wxString computerTypeString, bool setSpin);
+    void correctZoomVt(int computerType, wxString computerTypeString, bool setSpin);
     void onLedTimer(wxCommandEvent&event);
     int getCpuType();
     int getCpuStartupRegisters() {return cpuStartupRegisters_;};
@@ -687,6 +687,7 @@ protected:
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;
     wxTimer *guiSizeTimeoutPointer;
+    wxTimer *guiRedrawBarTimeOutPointer;
     bool guiSizeTimerStarted_;
 
 	bool slotLedUpdate_;

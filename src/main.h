@@ -287,14 +287,18 @@ public:
     int green;
     int blue;
     
+    int ledPosX1;
+    int ledPosX2;
+    int ledSpacing;
     int ledPosY;
     int ledPosDiagY;
     int ledPosVip2Y;
     
-    int statusBarElementMeasure[4];
+    int statusBarElementMeasure[5];
 
     wxString statusBarLeader;
-    
+    wxString statusBarLeaderCidelsa;
+
     bool packageDeb;
     
     wxString errorMessage;
@@ -682,6 +686,8 @@ public:
 
 #define SHOWNAME true
 #define NONAME false
+#define SET_SPIN true
+#define DO_NOT_SET_SPIN false
 
 #define HEX_UP 0
 #define HEX_LEFT 1
@@ -1236,6 +1242,8 @@ public:
 
     void guiSizeTimeout(wxTimerEvent& event);
     
+    void guiRedrawBarTimeOut(wxTimerEvent& event);
+
     wxString getMultiCartGame(Byte msb, Byte lsb);
     bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
     int getDefaultInKey1(wxString computerStr);

@@ -357,7 +357,7 @@ void GuiFred::readFred1Config()
         XRCCTRL(*this, "RamSWFRED1", wxComboBox)->SetValue(conf[FRED1].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1", wxComboBox)->SetValue(conf[FRED1].screenDumpFile_);
         
-        correctZoom(FRED1, "FRED1");
+        correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
 
         if (clockTextCtrl[FRED1] != NULL)
             clockTextCtrl[FRED1]->ChangeValue(conf[FRED1].clock_);
@@ -519,7 +519,7 @@ void GuiFred::readFred2Config()
         XRCCTRL(*this, "RamSWFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].screenDumpFile_);
 
-        correctZoom(FRED1_5, "FRED1_5");
+        correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN);
 
         if (clockTextCtrl[FRED1_5] != NULL)
             clockTextCtrl[FRED1_5]->ChangeValue(conf[FRED1_5].clock_);

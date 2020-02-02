@@ -211,8 +211,8 @@ void GuiCdp18s020::readCdp18s020Config()
         XRCCTRL(*this,"AddressText2CDP18S020", wxStaticText)->Enable(elfConfiguration[CDP18S020].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsCDP18S020", wxCheckBox)->SetValue(elfConfiguration[CDP18S020].useElfControlWindows);
         
-        correctZoom(CDP18S020, "CDP18S020");
-        correctZoomVt(CDP18S020, "CDP18S020");
+        correctZoomAndValue(CDP18S020, "CDP18S020", SET_SPIN);
+        correctZoomVtAndValue(CDP18S020, "CDP18S020", SET_SPIN);
 
 		XRCCTRL(*this, "LatchCDP18S020", wxCheckBox)->SetValue(latch_);
 		XRCCTRL(*this, "VolumeCDP18S020", wxSlider)->SetValue(conf[CDP18S020].volume_);

@@ -193,8 +193,8 @@ void GuiCosmicos::readCosmicosConfig()
 		XRCCTRL(*this, "AutoBootCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].autoBoot);
 		XRCCTRL(*this, "KeyboardCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].keyboardType);
         
-        correctZoom(COSMICOS, "Cosmicos");
-        correctZoomVt(COSMICOS, "Cosmicos");
+        correctZoomAndValue(COSMICOS, "Cosmicos", SET_SPIN);
+        correctZoomVtAndValue(COSMICOS, "Cosmicos", SET_SPIN);
 
 		XRCCTRL(*this, "ControlWindowsCosmicos", wxCheckBox)->SetValue(elfConfiguration[COSMICOS].useElfControlWindows);
 		XRCCTRL(*this, "ShowAddressCosmicos",wxTextCtrl)->Enable(elfConfiguration[COSMICOS].useElfControlWindows);

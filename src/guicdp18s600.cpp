@@ -469,8 +469,8 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this, "VTBaudRChoiceMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].baudR);
         XRCCTRL(*this, "VTBaudTChoiceMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].baudT);
         
-        correctZoom(MICROBOARD, "Microboard");
-        correctZoomVt(MICROBOARD, "Microboard");
+        correctZoomAndValue(MICROBOARD, "Microboard", SET_SPIN);
+        correctZoomVtAndValue(MICROBOARD, "Microboard", SET_SPIN);
 
         XRCCTRL(*this, "StretchDotMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].stretchDot_);
         

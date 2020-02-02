@@ -201,7 +201,7 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "AutoBootMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].autoBoot);
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
         
-        correctZoomVt(MEMBER, "Membership");
+        correctZoomVtAndValue(MEMBER, "Membership", SET_SPIN);
 
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);

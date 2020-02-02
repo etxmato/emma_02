@@ -342,7 +342,7 @@ void GuiComx::readComxConfig()
                 clockTextCtrl[COMX]->ChangeValue(comxNtscClock_);
         }
         
-        correctZoom(COMX, "Comx");
+        correctZoomAndValue(COMX, "Comx", SET_SPIN);
 
 		XRCCTRL(*this, "PrintModeComx", wxChoice)->SetSelection(comxPrintMode_);
 		setComxPrintMode();

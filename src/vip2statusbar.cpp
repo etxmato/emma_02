@@ -39,6 +39,11 @@ VipIIStatusBar::VipIIStatusBar(wxWindow *parent)
 	ledOffPointer->SetMask(maskOff);
 	ledsDefined_ = false;
     
+	leaderString_ = p_Main->getBarLeaderCidelsa();
+	statusBarElementMeasure0_ = p_Main->getStatusBarElementMeasure(0);
+	statusBarElementMeasure1_ = p_Main->getStatusBarElementMeasure(1);
+    ledSpacing_ = p_Main->getBarLedSpacing();
+
     linux_led_pos_y_ = p_Main->getBarLedPosVip2Y();
 }
 
@@ -88,9 +93,21 @@ void VipIIStatusBar::displayText()
     wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
     SetFont(defaultFont);
 #endif
-	SetStatusText("   RUN", 0);
-	SetStatusText("       Q", 1);
-	SetStatusText(" TAPE", 2);
+    wxRect rect;
+    this->GetFieldRect (1, rect);
+
+	if (rect.GetWidth() < statusBarElementMeasure1_)
+	{
+		SetStatusText(leaderString_ + "R", 0);
+		SetStatusText(leaderString_ + "Q", 1);
+		SetStatusText(leaderString_ + "T", 2);
+	}
+	else
+	{
+		SetStatusText(leaderString_ + "RUN", 0);
+		SetStatusText(leaderString_ + "Q", 1);
+		SetStatusText(leaderString_ + "TAPE", 2);
+	}
 }
 
 void VipIIStatusBar::displayLeds()
@@ -105,26 +122,26 @@ void VipIIStatusBar::displayLeds()
 #if defined(__linux__)
 		if (ledStatus[led])
 			ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOnPointer,
-									 wxPoint(led*((int)rect.GetWidth()+1)+40+(led*3), linux_led_pos_y_), wxSize(-1, -1),
+									 wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), linux_led_pos_y_), wxSize(-1, -1),
 									 wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 		else
 			ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
-									 wxPoint(led*((int)rect.GetWidth()+1)+40+(led*3), linux_led_pos_y_), wxSize(-1, -1),
+									 wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), linux_led_pos_y_), wxSize(-1, -1),
 									 wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
 		if (ledStatus[led])
 			ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOnPointer,
-									 wxPoint(led*((int)rect.GetWidth()+1)+43+(led*3), 3), wxSize(-1, -1),
+									 wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), 2), wxSize(-1, -1),
 									 wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 		else
 			ledBitmapPointers [led] = new PushBitmapButton(this, led, *ledOffPointer,
-									 wxPoint(led*((int)rect.GetWidth()+1)+43+(led*3), 3), wxSize(-1, -1),
+									 wxPoint(led*((int)rect.GetWidth()+ledSpacing_)+2+(led*3), 2), wxSize(-1, -1),
 									 wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
 		ledBitmapPointers [led] = new PushButton(this, led, wxEmptyString,
-								 wxPoint(led*(rect.GetWidth()+1)+40, 6), wxSize(12, 12), 
+								 wxPoint(led*(rect.GetWidth()+ledSpacing_)+2, 6), wxSize(12, 12), 
 								 wxBORDER_NONE);
 
         if (ledStatus[led])

@@ -106,7 +106,7 @@ void GuiCidelsa::readCidelsaConfig()
 	{
 		XRCCTRL(*this, "MainRomCidelsa", wxComboBox)->SetValue(conf[CIDELSA].rom_[MAINROM1]);
         
-        correctZoom(CIDELSA, "Cidelsa");
+        correctZoomAndValue(CIDELSA, "Cidelsa", SET_SPIN);
 
 		XRCCTRL(*this, "VolumeCidelsa", wxSlider)->SetValue(conf[CIDELSA].volume_);
 		XRCCTRL(*this, "ScreenDumpFileCidelsa", wxComboBox)->SetValue(conf[CIDELSA].screenDumpFile_);

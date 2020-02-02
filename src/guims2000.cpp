@@ -224,7 +224,7 @@ void GuiMS2000::readMS2000Config()
 		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);
 		XRCCTRL(*this, "VTBaudTChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudT);
 
-        correctZoomVt(MS2000, "MS2000");
+        correctZoomVtAndValue(MS2000, "MS2000", SET_SPIN);
 
         XRCCTRL(*this, "MS2000BootRam", wxCheckBox)->SetValue(elfConfiguration[MS2000].bootRam);
         

@@ -183,7 +183,7 @@ void GuiTelmac::readTelmacConfig()
 		XRCCTRL(*this, "ScreenDumpFileTMC600", wxComboBox)->SetValue(conf[TMC600].screenDumpFile_);
 		XRCCTRL(*this, "WavFileTMC600", wxTextCtrl)->SetValue(conf[TMC600].wavFile_[0]);
 
-        correctZoom(TMC600, "TMC600");
+        correctZoomAndValue(TMC600, "TMC600", SET_SPIN);
 
 		XRCCTRL(*this, "VolumeTMC600", wxSlider)->SetValue(conf[TMC600].volume_);
         if (clockTextCtrl[TMC600] != NULL)

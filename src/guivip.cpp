@@ -231,8 +231,8 @@ void GuiVip::readVipConfig()
 		XRCCTRL(*this, "VTBaudTChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceVip", wxChoice)->SetSelection(elfConfiguration[VIP].baudT);
         
-        correctZoom(VIP, "Vip");
-        correctZoomVt(VIP, "Vip");
+        correctZoomAndValue(VIP, "Vip", SET_SPIN);
+        correctZoomVtAndValue(VIP, "Vip", SET_SPIN);
 
 		XRCCTRL(*this, "HighResVip", wxCheckBox)->SetValue(highRes_);
 		XRCCTRL(*this, "VP590", wxCheckBox)->SetValue(vipVp590_);

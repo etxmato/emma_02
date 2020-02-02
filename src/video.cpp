@@ -490,6 +490,9 @@ void Video::setScreenSize()
 
 void Video::changeScreenSize()
 {
+	if (p_Main->isZoomEventOngoing() || p_Main->isZoomVtEventOngoing())
+		return;
+
 	double zoomx, zoomy;
 
 	wxSize size = this->GetClientSize();

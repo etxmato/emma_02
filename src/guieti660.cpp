@@ -130,7 +130,7 @@ void GuiEti::readEtiConfig()
 		XRCCTRL(*this, "ScreenDumpFileEti", wxComboBox)->SetValue(conf[ETI].screenDumpFile_);
 		XRCCTRL(*this, "WavFileEti", wxTextCtrl)->SetValue(conf[ETI].wavFile_[0]);
 
-        correctZoom(ETI, "Eti");
+        correctZoomAndValue(ETI, "Eti", SET_SPIN);
 
 		XRCCTRL(*this, "TurboEti", wxCheckBox)->SetValue(conf[ETI].turbo_);
 		turboGui("Eti");

@@ -501,8 +501,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "Keyboard"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].keyboardType);
         XRCCTRL(*this, "HexEf"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useHexKeyboardEf3);
 
-        correctZoom(elfType, elfTypeStr);
-        correctZoomVt(elfType, elfTypeStr);
+        correctZoomAndValue(elfType, elfTypeStr, SET_SPIN);
+        correctZoomVtAndValue(elfType, elfTypeStr, SET_SPIN);
 
 		XRCCTRL(*this, "PortExt"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].usePortExtender);
 		XRCCTRL(*this, "ControlWindows"+elfTypeStr, wxCheckBox)->SetValue(elfConfiguration[elfType].useElfControlWindows);
