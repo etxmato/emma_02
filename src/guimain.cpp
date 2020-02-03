@@ -123,7 +123,6 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     tapeState_ = TAPE_STOP;
 	turboOn_ = false;
-	zoomTextValueChanged_ = false;
     
     position_[ELF].x = 0;
     position_[ELFII].x = 0;
@@ -1037,12 +1036,19 @@ void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool se
     }
     if (runningComputer_ == computerType && p_Video != NULL)
         p_Main->eventZoomChange(zoom);
+	else
+		zoomEventOngoing_ = false;
 }
 
 void GuiMain::onZoom(wxSpinEvent&event)
 {
-    zoomTextValueChanged_ = true;
-    int position = event.GetPosition();
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+		return;
+
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
+
+	int position = event.GetPosition();
     double zoom;
     
     if (!fullScreenFloat_)
@@ -1056,7 +1062,12 @@ void GuiMain::onZoom(wxSpinEvent&event)
 
 void GuiMain::onZoomValue(wxCommandEvent&event)
 {
-	zoomTextValueChanged_ = true;
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+		return;
+
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
+
 	wxString zoomString = event.GetString();
 	double zoom;
 	if (zoomString.ToDouble(&zoom))
@@ -1068,6 +1079,7 @@ void GuiMain::onZoomValue(wxCommandEvent&event)
 	}
 	else
 	{
+		zoomEventOngoing_ = false;
         if (zoomString != "")
         {
             (void)wxMessageBox( "Please specify a number\n",
@@ -1116,11 +1128,18 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
     }
     if (runningComputer_ == computerType && p_Vt100 != NULL)
         p_Main->eventZoomVtChange(zoom);
+	else
+		zoomEventOngoing_ = false;
 }
 
 void GuiMain::onZoomVt(wxSpinEvent&event)
 {
-    zoomTextValueChanged_ = true;
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+		return;
+
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
+
     int position = event.GetPosition();
     double zoomVt;
 
@@ -1135,7 +1154,12 @@ void GuiMain::onZoomVt(wxSpinEvent&event)
 
 void GuiMain::onZoomValueVt(wxCommandEvent&event)
 {
-    zoomTextValueChanged_ = true;
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+		return;
+
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
+
 	wxString zoomString = event.GetString();
 	double zoomVt;
 	if (zoomString.ToDouble(&zoomVt))
@@ -1148,6 +1172,7 @@ void GuiMain::onZoomValueVt(wxCommandEvent&event)
 	}
 	else
 	{
+		zoomEventOngoing_ = false;
         if (zoomString != "")
         {
             (void)wxMessageBox( "Please specify a number\n",

@@ -490,7 +490,7 @@ void Video::setScreenSize()
 
 void Video::changeScreenSize()
 {
-	if (p_Main->isZoomEventOngoing() || p_Main->isZoomVtEventOngoing())
+	if (p_Main->isZoomEventOngoing())
 		return;
 
 	double zoomx, zoomy;
@@ -539,8 +539,10 @@ void Video::changeScreenSize()
 	double intPart;
 	zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
+#ifndef __linux__ // Looks like reDrawing on zooming will (sometimes) crash on linux
 	reDraw_ = true;
 	newBackGround_ = true;
+#endif
 
 	if (videoScreenPointer->isVt())
 		p_Main->zoomEventVt(zoom_);
@@ -622,7 +624,9 @@ void Video::setZoom(double zoom)
 	videoScreenPointer->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
 
 	videoScreenPointer->setZoom(zoom_);
+#ifndef __linux__
 	reBlit_ = true;
+#endif
 }
 
 void Video::drawExtraBackground(wxColour clr)

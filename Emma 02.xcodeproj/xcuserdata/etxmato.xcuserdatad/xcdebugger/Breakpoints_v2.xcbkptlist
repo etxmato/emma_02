@@ -51,8 +51,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "2537"
             endingLineNumber = "2537"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "GuiMain::set6845Pos(computerType, position)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -475,8 +475,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7891"
-            endingLineNumber = "7891"
+            startingLineNumber = "7897"
+            endingLineNumber = "7897"
             landmarkName = "Main::setZoomChange(event)"
             landmarkType = "7">
          </BreakpointContent>
@@ -491,8 +491,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7876"
-            endingLineNumber = "7876"
+            startingLineNumber = "7882"
+            endingLineNumber = "7882"
             landmarkName = "Main::eventShowTextMessage(messageText)"
             landmarkType = "7">
          </BreakpointContent>
@@ -557,8 +557,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1056"
             endingLineNumber = "1056"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "GuiMain::onZoom(event)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -571,10 +571,10 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7880"
-            endingLineNumber = "7880"
-            landmarkName = "Main::eventShowTextMessage(messageText)"
-            landmarkType = "7">
+            startingLineNumber = "7886"
+            endingLineNumber = "7886"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -686,6 +686,22 @@
             startingLineNumber = "1371"
             endingLineNumber = "1371"
             landmarkName = "V1870::reDrawBar()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AA8DA798-6173-47BC-95FD-C4A34EC4B52B"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "7296"
+            endingLineNumber = "7296"
+            landmarkName = "Main::zoomEvent(zoom)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

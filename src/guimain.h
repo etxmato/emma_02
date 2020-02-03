@@ -669,11 +669,11 @@ protected:
 
 	bool debugMode_;
 	bool chip8DebugMode_;
-	bool zoomTextValueChanged_;
     int zoomPosition_;
 	int memoryDisplay_;
 
 	int tapeState_;
+    bool zoomEventOngoing_;
 
 	bool computerRunning_;
 

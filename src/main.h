@@ -1174,7 +1174,6 @@ public:
     void setZoomVtChange(guiEvent& event);
     void eventZoomVtChange(double zoom);
     void zoomVtEventFinished();
-    bool isZoomVtEventOngoing();
 
     void printDefaultEvent(guiEvent& event);
 	void eventPrintDefault(Byte value);
@@ -1298,9 +1297,6 @@ private:
 	int functionKey_[13];
     CompletedSplashScreen *completedSplashScreen_;
     
-    bool zoomEventOngoing_;
-    bool zoomVtEventOngoing_;
-
 	DECLARE_EVENT_TABLE()
 };
 

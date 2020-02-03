@@ -7287,28 +7287,32 @@ void Main::zoomEvent(double zoom)
 {
 	if (!mode_.gui)
 		return;
-	if (zoomTextValueChanged_)
-		zoomTextValueChanged_ = false;
-	else
-	{
-		wxString zoomStr;
-		zoomStr.Printf("%2.2f", zoom);
-		XRCCTRL(*this, "ZoomValue"+computerInfo[runningComputer_].gui, wxTextCtrl)->ChangeValue(zoomStr);
-	}
+
+	if (zoomEventOngoing_)
+		return;
+
+//	wxString zoomStr;
+//	zoomStr.Printf("%2.2f", zoom);
+//	XRCCTRL(*this, "ZoomValue"+computerInfo[runningComputer_].gui, wxTextCtrl)->ChangeValue(zoomStr);
+
+    conf[runningComputer_].zoom_.Printf("%2.2f", zoom);
+    correctZoomAndValue(runningComputer_, computerInfo[runningComputer_].gui, SET_SPIN);
 }
 
 void Main::zoomEventVt(double zoom)
 {
 	if (!mode_.gui)
 		return;
-	if (zoomTextValueChanged_)
-		zoomTextValueChanged_ = false;
-	else
-	{
-		wxString zoomStr;
-		zoomStr.Printf("%2.2f", zoom);
-		XRCCTRL(*this, "ZoomValueVt"+computerInfo[runningComputer_].gui, wxTextCtrl)->ChangeValue(zoomStr);
-	}
+
+	if (zoomEventOngoing_)
+		return;
+
+//	wxString zoomStr;
+//	zoomStr.Printf("%2.2f", zoom);
+//	XRCCTRL(*this, "ZoomValueVt"+computerInfo[runningComputer_].gui, wxTextCtrl)->ChangeValue(zoomStr);
+
+    conf[runningComputer_].zoomVt_.Printf("%2.2f", zoom);
+    correctZoomVtAndValue(runningComputer_, computerInfo[runningComputer_].gui, SET_SPIN);
 }
 
 
@@ -7902,11 +7906,6 @@ void Main::setZoomChange(guiEvent&event)
 
 void Main::eventZoomChange(double zoom)
 {
-    if (zoomEventOngoing_)
-        return;
-    
-    zoomEventOngoing_ = true;
-    
     guiEvent event(GUI_MSG, ZOOM_CHANGE);
     event.SetEventObject(p_Main);
 
@@ -7937,11 +7936,6 @@ void Main::setZoomVtChange(guiEvent&event)
 
 void Main::eventZoomVtChange(double zoom)
 {
-    if (zoomVtEventOngoing_)
-        return;
-    
-    zoomVtEventOngoing_ = true;
-    
     guiEvent event(GUI_MSG, ZOOMVT_CHANGE);
     event.SetEventObject(p_Main);
 
@@ -7950,14 +7944,9 @@ void Main::eventZoomVtChange(double zoom)
     GetEventHandler()->AddPendingEvent(event);
 }
 
-bool Main::isZoomVtEventOngoing()
-{
-    return zoomVtEventOngoing_;
-}
-
 void Main::zoomVtEventFinished()
 {
-    zoomVtEventOngoing_ = false;
+    zoomEventOngoing_ = false;
 }
 
 void Main::printDefaultEvent(guiEvent&event)

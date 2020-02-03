@@ -224,7 +224,8 @@ void Cdp1802::machineCycle()
             break;
         }
     }
-    soundCycle();
+    if (!p_Main->isZoomEventOngoing())
+        soundCycle();
 }
 
 void Cdp1802::setMode()

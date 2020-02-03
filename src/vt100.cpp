@@ -965,7 +965,7 @@ void Vt100::setCycle()
 
 void Vt100::copyScreen()
 {
-    if (p_Main->isZoomVtEventOngoing())
+    if (p_Main->isZoomEventOngoing())
         return;
 
     CharacterList *temp;
