@@ -679,6 +679,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guiuc1800.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\src\guivelf.cpp"
 				>
 			</File>
@@ -892,6 +896,10 @@
 			</File>
 			<File
 				RelativePath=".\src\tms9918.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\src\uc1800.cpp"
 				>
 			</File>
 			<File
@@ -1195,6 +1203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\src\guiuc1800.h"
+				>
+			</File>
+			<File
 				RelativePath=".\src\guivelf.h"
 				>
 			</File>
@@ -1412,6 +1424,10 @@
 			</File>
 			<File
 				RelativePath=".\src\tms9918.h"
+				>
+			</File>
+			<File
+				RelativePath=".\src\uc1800.h"
 				>
 			</File>
 			<File

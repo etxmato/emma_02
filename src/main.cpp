@@ -1045,6 +1045,30 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
                 return false;
             break;
                 
+			case 'I':
+				if (computer == "Infifnite")
+				{
+					startComputer_ = UC1800;
+					mode_.gui = false;
+					if (parser.Found("s", &software))
+					{
+						mode_.load = true;
+						getSoftware(computer, "Software_File", software);
+					}
+					if (parser.Found("r", &software))
+					{
+						wxMessageOutput::Get()->Printf("Option -r is not supported on Infinite UC1800 emulator");
+						return false;
+					}
+					if (parser.Found("ch", &software))
+					{
+						wxMessageOutput::Get()->Printf("Option -ch is not supported on Infinite UC1800 emulator");
+						return false;
+					}
+					return true;
+				}
+			break;
+
 			case 'M':
 				if (computer == "Membership")
 				{
@@ -1380,6 +1404,30 @@ bool Emu1802::OnCmdLineParsed(wxCmdLineParser& parser)
 				return false;
 			break;
 
+			case 'U':
+				if (computer == "Uc1800")
+				{
+					startComputer_ = UC1800;
+					mode_.gui = false;
+					if (parser.Found("s", &software))
+					{
+						mode_.load = true;
+						getSoftware(computer, "Software_File", software);
+					}
+					if (parser.Found("r", &software))
+					{
+						wxMessageOutput::Get()->Printf("Option -r is not supported on Infinite UC1800 emulator");
+						return false;
+					}
+					if (parser.Found("ch", &software))
+					{
+						wxMessageOutput::Get()->Printf("Option -ch is not supported on Infinite UC1800 emulator");
+						return false;
+					}
+					return true;
+				}
+			break;
+
 			case 'V':
 				if (computer == "Visicom")
 				{
@@ -1511,6 +1559,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     
     xmlLoaded_ = false;
     configurationMenuOn_ = false;
+	guiInitialized_ = false;
     
 #ifndef __WXMAC__
 	SetIcon(wxICON(app_icon));
@@ -1674,6 +1723,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 	updateCheckStarted_ = false;
 	if (mode_.update_check) 
 		updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
+
+	guiInitialized_ = true;
 }
 
 Main::~Main()
@@ -2316,6 +2367,7 @@ void Main::writeConfig()
 	writeElfDirConfig(ELFII, "ElfII");
 	writeElfDirConfig(SUPERELF, "SuperElf");
     writeMembershipDirConfig();
+    writeUc1800DirConfig();
     writeMicrotutorDirConfig();
     writeMicrotutor2DirConfig();
     writeStudioDirConfig();
@@ -2348,6 +2400,7 @@ void Main::writeConfig()
 	writeElfConfig(ELFII, "ElfII");
 	writeElfConfig(SUPERELF, "SuperElf");
     writeMembershipConfig();
+    writeUc1800Config();
     writeMicrotutorConfig();
     writeMicrotutor2Config();
     writeStudioConfig();
@@ -2380,6 +2433,7 @@ void Main::writeConfig()
 	writeElfWindowConfig(ELFII, "ElfII");
 	writeElfWindowConfig(SUPERELF, "SuperElf");
     writeMembershipWindowConfig();
+    writeUc1800WindowConfig();
     writeMicrotutorWindowConfig();
     writeMicrotutor2WindowConfig();
     writeStudioWindowConfig();
@@ -2489,7 +2543,10 @@ void Main::initConfig()
 	setScreenInfo(COSMICOS, 0, 5, colour, 2, borderX, borderY);
 	setComputerInfo(COSMICOS, "Cosmicos", "Cosmicos", "");
 
-    setScreenInfo(MICROTUTOR, 0, 5, colour, 2, borderX, borderY);
+    setScreenInfo(UC1800, 0, 5, colour, 2, borderX, borderY);
+    setComputerInfo(UC1800, "UC1800", "Infinite UC1800", "");
+    
+	setScreenInfo(MICROTUTOR, 0, 5, colour, 2, borderX, borderY);
     setComputerInfo(MICROTUTOR, "Microtutor", "RCA Microtutor", "");
     
     setScreenInfo(MICROTUTOR2, 0, 5, colour, 2, borderX, borderY);
@@ -2935,6 +2992,7 @@ void Main::readConfig()
 	readElfConfig(ELFII, "ElfII");
 	readElfConfig(SUPERELF, "SuperElf");
 	readMembershipConfig();
+    readUc1800Config();
     readMicrotutorConfig();
     readMicrotutor2Config();
     readStudioConfig();
@@ -2967,6 +3025,7 @@ void Main::readConfig()
     readElfWindowConfig(ELFII, "ElfII");
     readElfWindowConfig(SUPERELF, "SuperElf");
     readMembershipWindowConfig();
+    readUc1800WindowConfig();
     readMicrotutorWindowConfig();
     readMicrotutor2WindowConfig();
     readStudioWindowConfig();
@@ -3469,7 +3528,8 @@ void Main::buildConfigMenu()
         if (!wxDir::Exists(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
         {
             wxDir::Make(iniDir_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui);
-            reInstall(applicationDirectory_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_+ computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
+			if (wxDir::Exists(applicationDirectory_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui))
+				reInstall(applicationDirectory_ + "Configurations" + pathSeparator_ + computerInfo[confComputer].gui + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_+ computerInfo[confComputer].gui + pathSeparator_, pathSeparator_);
         }
         
         wxString filename;
@@ -3743,7 +3803,12 @@ int Main::saveComputerConfig(ConfigurationInfo configurationInfo, ConfigurationI
             writeMembershipConfig();
         break;
             
-        case MICROTUTOR:
+        case UC1800:
+            writeUc1800DirConfig();
+            writeUc1800Config();
+        break;
+ 
+		case MICROTUTOR:
             writeMicrotutorDirConfig();
             writeMicrotutorConfig();
         break;
@@ -3974,6 +4039,10 @@ void Main::loadComputerConfig(wxString fileName)
             readMembershipConfig();
             XRCCTRL(*this, "ClearRamMembership", wxCheckBox)->SetValue(true);
             elfConfiguration[MEMBER].clearRam = true;
+        break;
+            
+        case UC1800:
+            readUc1800Config();
         break;
             
         case MICROTUTOR:
@@ -4676,8 +4745,9 @@ void Main::onHandheld(wxCommandEvent&WXUNUSED(event))
 
 void Main::onChar(wxKeyEvent& event)
 {
+	int keyCode = event.GetKeyCode();
 	if (computerRunning_)
-		p_Computer->charEvent(event.GetKeyCode());
+		p_Computer->charEvent(keyCode);
 }
 
 void Main::onKeyDown(wxKeyEvent& event)
@@ -4848,10 +4918,23 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
 
 	if (computerRunning_)
 	{
-		if (key == p_Computer->getInKey1() || key == p_Computer->getInKey2())
+		switch (runningComputer_)
 		{
-			p_Computer->onInButtonPress();
-			return true;
+			case UC1800:
+				if (key == p_Computer->getInKey1())
+				{
+					p_Computer->onInButtonPress();
+					return true;
+				}
+			break;
+
+			default:
+				if (key == p_Computer->getInKey1() || key == p_Computer->getInKey2())
+				{
+					p_Computer->onInButtonPress();
+					return true;
+				}
+			break;
 		}
 	}
 
@@ -5079,6 +5162,10 @@ void Main::onDefaultWindowPosition(wxCommandEvent&WXUNUSED(event))
 			p_Membership->Move(conf[MEMBER].mainX_, conf[MEMBER].mainY_);
 		break;
 
+		case UC1800:
+			p_Uc1800->Move(conf[UC1800].mainX_, conf[UC1800].mainY_);
+		break;
+
 		case MICROTUTOR:
 			p_Microtutor->Move(conf[MICROTUTOR].mainX_, conf[MICROTUTOR].mainY_);
 		break;
@@ -5184,6 +5271,8 @@ void Main::nonFixedWindowPosition()
     conf[STUDIOIV].mainY_ = -1;
 	conf[MEMBER].mainX_ = -1;
 	conf[MEMBER].mainY_ = -1;
+    conf[UC1800].mainX_ = -1;
+    conf[UC1800].mainY_ = -1;
     conf[MICROTUTOR].mainX_ = -1;
     conf[MICROTUTOR].mainY_ = -1;
     conf[MICROTUTOR2].mainX_ = -1;
@@ -5298,6 +5387,8 @@ void Main::fixedWindowPosition()
     conf[STUDIOIV].mainY_ = mainWindowY_;
 	conf[MEMBER].mainX_ = mainWindowX_;
 	conf[MEMBER].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
+    conf[UC1800].mainX_ = mainWindowX_;
+    conf[UC1800].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
     conf[MICROTUTOR].mainX_ = mainWindowX_;
     conf[MICROTUTOR].mainY_ = mainWindowY_ + windowInfo.mainwY + windowInfo.yBorder;
     conf[MICROTUTOR2].mainX_ = mainWindowX_;
@@ -5431,6 +5522,7 @@ void Main::onStart(int computer)
             {
                 case FRONT_TYPE_C:
                 case FRONT_TYPE_I:
+                case FRONT_TYPE_J:
                     x = 480; y = 299;
                 break;
                 default:
@@ -5439,6 +5531,11 @@ void Main::onStart(int computer)
             }
 			p_Membership = new Membership(computerInfo[MEMBER].name, wxPoint(conf[MEMBER].mainX_, conf[MEMBER].mainY_), wxSize(x, y), conf[MEMBER].clockSpeed_, elfConfiguration[MEMBER]);
 			p_Computer = p_Membership;
+		break;
+
+		case UC1800:
+			p_Uc1800 = new Uc1800(computerInfo[UC1800].name, wxPoint(conf[UC1800].mainX_, conf[UC1800].mainY_), wxSize(464, 264), conf[UC1800].clockSpeed_, elfConfiguration[UC1800]);
+			p_Computer = p_Uc1800;
 		break;
 
 		case MICROTUTOR:
@@ -5741,6 +5838,9 @@ void Main::stopComputer()
 			case ETI:
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
+			case UC1800:
+				p_Computer->resumeComputer();
+			break;
 			case NO_COMPUTER:
 				return;
 			break;
@@ -5822,7 +5922,12 @@ void Main::onComputer(wxNotebookEvent&event)
 				case VELFTAB:
                     elfChoice_ = VELF;
                 break;
-                                }
+
+				case UC1800TAB:
+					elfChoice_ = UC1800;
+				break;
+
+            }
 			selectedComputer_ = elfChoice_;
 		break;
 
@@ -6079,6 +6184,10 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
         case VELFTAB:
             elfChoice_ = VELF;
 		break;
+
+        case UC1800TAB:
+            elfChoice_ = UC1800;
+		break;
 	}
 	selectedComputer_ = elfChoice_;
 	setConfigurationMenu();
@@ -6243,6 +6352,11 @@ void Main::setNoteBook()
             XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(VIP2KTAB);
         break;
             
+		case UC1800:
+			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(COSMACELFTAB);
+			XRCCTRL(*this, "ElfChoiceBook", wxChoicebook)->SetSelection(UC1800TAB);
+		break;
+
 		case MICROTUTOR:
 			XRCCTRL(*this, GUICOMPUTERNOTEBOOK, wxNotebook)->SetSelection(RCATAB);
 			XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetSelection(MICROTUTORTAB);
@@ -6592,13 +6706,11 @@ void Main::enableGui(bool status)
 	}
 	if (runningComputer_ == VIPII)
 	{
-        p_Main->scrtValues(status, true, 4, 0x28EF, 5, 0x23E7);
+//        p_Main->scrtValues(status, true, 4, 0x28EF, 5, 0x23E7);
 
         enableChip8DebugGui(!status);
 		XRCCTRL(*this,"MainRomVipII", wxComboBox)->Enable(status);
-		XRCCTRL(*this,"MainRom2VipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonVipII", wxButton)->Enable(status);
-		XRCCTRL(*this,"RomButton2VipII", wxButton)->Enable(status);
 		XRCCTRL(*this,"RamSWVipII", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RamSWButtonVipII", wxButton)->Enable(status);
 		XRCCTRL(*this,"Chip8SWVipII", wxTextCtrl)->Enable(status);
@@ -6606,6 +6718,19 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"EjectChip8SWVipII", wxButton)->Enable(status);
 		XRCCTRL(*this,"FullScreenF3VipII", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ScreenDumpF5VipII", wxButton)->Enable(!status);
+		XRCCTRL(*this,"ComputerVersionVipII", wxChoice)->Enable(status);
+		if (conf[VIPII].computerVersion_ == VIPII_ED)
+		{
+			XRCCTRL(*this,"MainRom2VipII", wxComboBox)->Enable(status);
+			XRCCTRL(*this,"RomButton2VipII", wxButton)->Enable(status);
+		}
+		else
+		{
+			XRCCTRL(*this,"AutoBootTypeVipII", wxChoice)->Enable(status);
+			XRCCTRL(*this,"AutoBootVipII", wxCheckBox)->Enable(status);
+			XRCCTRL(*this,"RamTextVipII", wxStaticText)->Enable(status);
+			XRCCTRL(*this,"RamVipII", wxChoice)->Enable(status);
+		}
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
@@ -7139,6 +7264,16 @@ void Main::enableGui(bool status)
             XRCCTRL(*this,"FullScreenF3Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
             XRCCTRL(*this,"ScreenDumpF5Membership", wxButton)->Enable(elfConfiguration[MEMBER].vtType != VTNONE);
         }
+	}
+	if (runningComputer_ == UC1800)
+	{
+		XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
+		XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
+		XRCCTRL(*this, "RamSWUC1800", wxComboBox)->Enable(status);
+		XRCCTRL(*this, "RamSWButtonUC1800", wxButton)->Enable(status);
+		XRCCTRL(*this, "HexOutputUC1800", wxSpinCtrl)->Enable(status);
+		XRCCTRL(*this, "HexInputUC1800", wxSpinCtrl)->Enable(status);
+		enableMemAccessGui(!status);
 	}
 	if (runningComputer_ == MICROTUTOR)
 	{
@@ -7929,8 +8064,8 @@ void Main::setZoomVtChange(guiEvent&event)
     double zoom = event.GetDoubleValue();
 
     p_Vt100->setZoom(zoom);
-    if (runningComputer_ != ELF2K)
-        p_Vt100->copyScreen();
+//    if (runningComputer_ != ELF2K && runningComputer_ != MEMBER)
+//        p_Vt100->copyScreen();
     zoomVtEventFinished();
 }
 
@@ -8760,6 +8895,11 @@ int Main::getDefaultInKey2(wxString computerStr)
     return (int)configPointer->Read(computerStr+"/InButton2", 0l);
 }
 
+int Main::getDefaultInKey2(wxString computerStr, int defaultKey)
+{
+    return (int)configPointer->Read(computerStr+"/InButton2", (long)defaultKey);
+}
+
 void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int keysHex1[], int keysHex2[], int keyDefGameHexA_[])
 {
     int keyDefA1_[16];
@@ -8804,6 +8944,10 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         case ELF2K:
         case COSMICOS:
             keysFound = loadKeyDefinition("", "elfdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        break;
+
+        case UC1800:
+            keysFound = loadKeyDefinition("", "uc1800default", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
         case FRED1:
@@ -8859,6 +9003,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case ELF:
             case ELFII:
             case SUPERELF:
+            case UC1800:
             case ELF2K:
             case ETI:
             case TMC1800:

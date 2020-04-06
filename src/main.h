@@ -431,6 +431,7 @@ public:
 #include "cdp18s600.h"
 #include "hbelf.h"
 #include "member.h"
+#include "uc1800.h"
 #include "microtutor.h"
 #include "microtutor2.h"
 #include "elf2.h"
@@ -460,7 +461,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.35
+#define EMMA_VERSION 1.36
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -473,28 +474,29 @@ public:
 #define VELF 8
 #define MICROTUTOR 9
 #define MICROTUTOR2 10
-#define CDP18S020 11
-#define MICROBOARD 12
-#define LAST_LED_COMPUTER 12
-#define MS2000 13
-#define MCDS 14
-#define FRED1 15
-#define FRED1_5 16
-#define COMX 17
-#define STUDIO 18
-#define ETI 19
-#define CIDELSA 20
-#define TMC600 21
-#define TMC1800 22
-#define TMC2000 23
-#define NANO 24
-#define PECOM 25
-#define VISICOM 26
-#define VICTORY 27
-#define VIPII 28
-#define COINARCADE 29
-#define STUDIOIV 30
-#define DEBUGGER 31
+#define UC1800 11
+#define CDP18S020 12
+#define MICROBOARD 13
+#define LAST_LED_COMPUTER 13
+#define MS2000 14
+#define MCDS 15
+#define FRED1 16
+#define FRED1_5 17
+#define COMX 18
+#define STUDIO 19
+#define ETI 20
+#define CIDELSA 21
+#define TMC600 22
+#define TMC1800 23
+#define TMC2000 24
+#define NANO 25
+#define PECOM 26
+#define VISICOM 27
+#define VICTORY 28
+#define VIPII 29
+#define COINARCADE 30
+#define STUDIOIV 31
+#define DEBUGGER 32
 
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
@@ -549,7 +551,8 @@ public:
 #define MEMBERTAB 5
 #define VIP2KTAB 6
 #define VELFTAB 7
-#define LASTELFTAB 7
+#define UC1800TAB 8
+#define LASTELFTAB 8
 
 #define FRED1TAB 0
 #define FRED2TAB 1
@@ -708,6 +711,7 @@ public:
 #define RCABASIC4 11
 #define FPBBASIC 13
 #define FPBBOOT 14
+#define FPBBASIC_AT_8000 15
 
 #define TINYBASIC 2
 #define MINIMON 4
@@ -953,6 +957,7 @@ public:
 #define FRONT_TYPE_B 0
 #define FRONT_TYPE_C 1
 #define FRONT_TYPE_I 2
+#define FRONT_TYPE_J 3
 
 #define VIDEO 0
 #define PIXIE 1
@@ -1247,6 +1252,7 @@ public:
     bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
+    int getDefaultInKey2(wxString computerStr, int defaultKey);
     void getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int *, int *, int*);
 	void getTmc600Keys(int *, int *);
 	void getDefaultTmc600Keys(int *, int *);

@@ -56,6 +56,7 @@ int baudRateFactor_[] =
 
 #define UART_DA 0
 #define UART_FE 3
+#define UART_TSRE 6
 #define UART_THRE 7
 
 Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConf)
@@ -703,6 +704,7 @@ void Vt100::cycleVt()
             rs232_ = 0;
             p_Computer->thrStatus(0);
             uartStatus_[UART_THRE] = 1;
+            uartStatus_[UART_TSRE] = 1;
 			
 			vtCount_ = baudRateR_ * 9;
 		}
@@ -1295,9 +1297,12 @@ char* Vt100::getInteger(char* buffer,int* dest)
 
 void Vt100::Vterr()
 {
-	Word i;
 	escPosition_ = -1;
-	for (i=1; i<strlen(escBuffer_); i++) Display(escBuffer_[i], false);
+    
+    if (!elfConfiguration_.escError)
+        return;
+
+	for (Word i=1; i<strlen(escBuffer_); i++) Display(escBuffer_[i], false);
 }
 
 void Vt100::setFullScreen(bool fullScreenSet)
@@ -2682,6 +2687,7 @@ void Vt100::uartOut(Byte value)
 	rs232_ = value;
 	p_Computer->thrStatus(1);
 	uartStatus_[UART_THRE] = 0;
+	uartStatus_[UART_TSRE] = 0;
 }
 
 void Vt100::uartControl(Byte value)

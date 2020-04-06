@@ -54,10 +54,11 @@ VipIIStatusBar::~VipIIStatusBar()
 	deleteBitmaps();
 }
 
-void VipIIStatusBar::initVipIIBar()
+void VipIIStatusBar::initVipIIBar(bool runLed)
 {
 	SetFieldsCount(3);
-	for (int led = 0; led < 3; led++)
+    ledStatus[0] = runLed;
+	for (int led = 1; led < 3; led++)
 		ledStatus[led] = false;
 	displayLeds();
 	displayText();

@@ -396,6 +396,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	elfConfiguration[elfType].bellFrequency_ = (int)configPointer->Read(elfTypeStr + "/Bell_Frequency", 800);
     configPointer->Read(elfTypeStr+"/UseHexEf", &elfConfiguration[elfType].useHexKeyboardEf3, false);
     configPointer->Read(elfTypeStr+"/SerialLog", &elfConfiguration[elfType].serialLog, false);
+    configPointer->Read(elfTypeStr+"/ESCError", &elfConfiguration[elfType].escError, false);
     configPointer->Read(elfTypeStr+"/Uart", &elfConfiguration[elfType].useUart, false);
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Boot", &elfConfiguration[elfType].autoBoot, true);
 	configPointer->Read(elfTypeStr+"/Force_Uppercase", &elfConfiguration[elfType].forceUpperCase, true);
@@ -689,6 +690,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Vt_Baud_Transmit", elfConfiguration[elfType].baudT);
 	configPointer->Write(elfTypeStr + "/Bell_Frequency", elfConfiguration[elfType].bellFrequency_);
     configPointer->Write(elfTypeStr+"/SerialLog", elfConfiguration[elfType].serialLog);
+    configPointer->Write(elfTypeStr+"/ESCError", elfConfiguration[elfType].escError);
     configPointer->Write(elfTypeStr+"/Uart", elfConfiguration[elfType].useUart);
     configPointer->Write(elfTypeStr+"/Enable_Auto_Boot", elfConfiguration[elfType].autoBoot);
 	buffer.Printf("%04X", (unsigned int)conf[elfType].bootAddress_);

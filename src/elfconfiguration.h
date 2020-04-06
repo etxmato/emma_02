@@ -129,6 +129,7 @@ public:
 	int vtType;
     bool vtExternal;
     bool serialLog;
+    bool escError;
 	int bellFrequency_;
 	wxString vtWavFileDir_;
     wxString vtWavFile_;

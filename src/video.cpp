@@ -95,9 +95,9 @@ void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 
 void VideoScreen::onChar(wxKeyEvent& event)
 {
+	int key = event.GetKeyCode();
 	if (vt100_)
 	{
-		int key = event.GetKeyCode();
 		if (p_Vt100->charPressed(event))
 			return;
 		if (forceUpperCase_ && key >= 'a' && key <= 'z')
@@ -108,7 +108,28 @@ void VideoScreen::onChar(wxKeyEvent& event)
 			vtOut(key);
 		}
 	}
-    p_Computer->charEvent(event.GetKeyCode());
+	if (computerType_ == VIPII)
+	{
+#ifdef __WXMAC__
+        if (event.GetModifiers() == wxMOD_CONTROL)
+#else
+        if (event.GetModifiers() == wxMOD_ALT)
+#endif
+		{
+			if (key == 49 || key == 50 || key == 99 || key == 67)
+			{
+				p_Computer->onReset();
+				p_Computer->setClear(1);
+				p_Main->updateTitle();
+			}
+			if (key == 51)
+			{
+				p_Computer->setClear(0);
+				p_Main->updateTitle();
+			}
+		}
+	}
+    p_Computer->charEvent(key);
 }
 
 void VideoScreen::vtOut(int value)

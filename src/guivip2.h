@@ -22,6 +22,11 @@ public:
 	void onRamSWTextII(wxCommandEvent&event);
 	void pixieBarSize(wxCommandEvent &event);
 	void pixieBarSizeEvent();
+	void onComputerVersion(wxCommandEvent&event);
+	void setComputerVersion();
+    void onAutoBootVipII(wxCommandEvent&event);
+    void onAutoBootTypeVipII(wxCommandEvent&event);
+	void setAutoBootTypeVipII();
 
 private:
 

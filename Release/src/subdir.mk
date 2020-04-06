@@ -62,6 +62,7 @@ CPP_SRCS += \
 ../src/guistudio2.cpp \
 ../src/guitmc2000.cpp \
 ../src/guitmc600.cpp \
+../src/guiuc1800.cpp \
 ../src/guivelf.cpp \
 ../src/guivip.cpp \
 ../src/guivip2.cpp \
@@ -114,6 +115,7 @@ CPP_SRCS += \
 ../src/tmc2000.cpp \
 ../src/tmc600.cpp \
 ../src/tms9918.cpp \
+../src/uc1800.cpp \
 ../src/upd765.cpp \
 ../src/usb.cpp \
 ../src/v1870.cpp \
@@ -197,6 +199,7 @@ OBJS += \
 ./src/guistudio2.o \
 ./src/guitmc2000.o \
 ./src/guitmc600.o \
+./src/guiuc1800.o \
 ./src/guivelf.o \
 ./src/guivip.o \
 ./src/guivip2.o \
@@ -249,6 +252,7 @@ OBJS += \
 ./src/tmc2000.o \
 ./src/tmc600.o \
 ./src/tms9918.o \
+./src/uc1800.o \
 ./src/upd765.o \
 ./src/usb.o \
 ./src/v1870.o \
@@ -324,6 +328,7 @@ CPP_DEPS += \
 ./src/guistudio2.d \
 ./src/guitmc2000.d \
 ./src/guitmc600.d \
+./src/guiuc1800.d \
 ./src/guivelf.d \
 ./src/guivip.d \
 ./src/guivip2.d \
@@ -376,6 +381,7 @@ CPP_DEPS += \
 ./src/tmc2000.d \
 ./src/tmc600.d \
 ./src/tms9918.d \
+./src/uc1800.d \
 ./src/upd765.d \
 ./src/usb.d \
 ./src/v1870.d \

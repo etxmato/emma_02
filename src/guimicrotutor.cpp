@@ -31,7 +31,7 @@
 
 #include "main.h"
 
-BEGIN_EVENT_TABLE(GuiMicrotutor, GuiMembership)
+BEGIN_EVENT_TABLE(GuiMicrotutor, GuiUc1800)
 
     EVT_TEXT(XRCID("RamSWMicrotutor"), GuiMain::onRamSWText)
     EVT_COMBOBOX(XRCID("RamSWMicrotutor"), GuiMain::onRamSWText)
@@ -50,7 +50,7 @@ BEGIN_EVENT_TABLE(GuiMicrotutor, GuiMembership)
 END_EVENT_TABLE()
 
 GuiMicrotutor::GuiMicrotutor(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
-: GuiMembership(title, pos, size, mode, dataDir, iniDir)
+: GuiUc1800(title, pos, size, mode, dataDir, iniDir)
 {
 	conf[MICROTUTOR].saveStartString_ = "";
 	conf[MICROTUTOR].saveEndString_ = "";

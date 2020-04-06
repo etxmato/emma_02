@@ -142,14 +142,11 @@ Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM ch
 <p>
 This configuration will load and run Tiny Basic Interpreter for the Cosmac 1802 version 2 by Robert Edwards including output routines for an MC6847 video.
 </p>
-<h4>VDU</h4>
-<p>
-Configurations supporting the ACE VDU board. Two configurations are provided VDU / Ascii keyboard and VDU / Hex keypad, the first for Tiny basic and Monitor, the second for the games. Software supporting the VDU board can be found in the Elf / VDU folder.
-</p>
-<p>
-The mode of the chip is not set by an OUT instruction but instead set by writing to address FFxx and bit 6/7 in video memory. As far as I have figured out from the manual and code A/S is linked to bit 6 and INV to bit 7 of video memory. CSS bit 1, INT/EXT bit 2, A/G bit 4, GM0-GM2 bit 5 to 7 of address FFxx.
-</p>
 <h3>Membership Card</h3>
+<h4>Adventure+</h4>
+<p>
+Richard Goedeken's Adventureland+ game, see <a href="https://github.com/richard42/1802-adventureland-plus">Github, 1802 Adventureland+</a> for more details.
+<p>
 <h4>BascomM3</h4>
 <p>
 Richard's BascomM3

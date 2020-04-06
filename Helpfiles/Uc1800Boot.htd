@@ -1,0 +1,12 @@
+<HTML>
+<Title>Auto Boot</Title>
+<BODY>
+<h2>Auto Boot</h2>
+<p>
+To enable auto boot select the check box 'Auto Boot'. In auto boot mode the Infinite UC1800 computer will run automatically starting at the specified boot address.
+</p>
+<p>
+When auto boot is disabled the processor will not be started, in this case the processor needs to be started manual with the 'start' (F12) button.
+</p>
+</BODY>
+</HTML>

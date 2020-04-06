@@ -1365,6 +1365,9 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
         return;
     
+	if (!guiInitialized_)
+		return;
+
     if (conf[selectedComputer_].wavFile_[0] != "")
     {
         if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]))
@@ -1376,6 +1379,9 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 {
     conf[selectedComputer_].wavFile_[1] = event.GetString();
     
+	if (!guiInitialized_)
+		return;
+
     if (conf[selectedComputer_].wavFile_[1] != "")
     {
         if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]))
@@ -3516,6 +3522,15 @@ void GuiMain::enableMemAccessGui(bool status)
 				conf[runningComputer_].arrayValue_ = 0x4094;
 				conf[runningComputer_].eod_ = 0x4099;
 				conf[runningComputer_].basicRamAddress_ = 0x4200;
+				computerInfo[runningComputer_].ploadExtension = "fpb";
+			break;
+			case FPBBASIC_AT_8000:
+				conf[runningComputer_].defus_ = 0x7a81;
+				conf[runningComputer_].eop_ = 0x7a83;
+				conf[runningComputer_].string_ = 0x7a92;
+				conf[runningComputer_].arrayValue_ = 0x7a94;
+				conf[runningComputer_].eod_ = 0x7a99;
+				conf[runningComputer_].basicRamAddress_ = 0;
 				computerInfo[runningComputer_].ploadExtension = "fpb";
 			break;
 		}

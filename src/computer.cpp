@@ -61,6 +61,13 @@ HexButton::HexButton(wxDC& dc, int type, wxCoord x, wxCoord y, wxString label)
             buttonSize.y = 26;
         break;
             
+        case UC1800_HEX_BUTTON:
+            upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_uc1800.png", wxBITMAP_TYPE_PNG);
+            downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_uc1800_pushed.png", wxBITMAP_TYPE_PNG);
+            buttonSize.x = 26;
+            buttonSize.y = 20;
+        break;
+            
         case PANEL_WIDE_HEX_BUTTON:
             upBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_wide.png", wxBITMAP_TYPE_PNG);
             downBitmap = new wxBitmap (p_Main->getApplicationDir() + IMAGES_FOLDER + "/hex_button_wide_pushed.png", wxBITMAP_TYPE_PNG);
@@ -603,6 +610,7 @@ Panel::Panel(wxWindow *parent, const wxSize& size)
 	dataStatus = 0;
     dataTil313Status = 0;
     dataTil313StatusItalic = 0;
+	numberOfTil313_ = 4;
     dpStatus = false;
 	ms_ = 100;
 
@@ -1104,6 +1112,15 @@ void Panel::showDp313Italic(bool status)
     }
 }
 
+void Panel::turnOff313Italic(bool status)
+{
+    wxClientDC dc(this);
+    dataTil313PointerItalic[0]->turnOff(dc, status);
+    dataTil313PointerItalic[1]->turnOff(dc, status);
+	addressTil313PointerItalic[2]->turnOff(dc, status);
+	addressTil313PointerItalic[3]->turnOff(dc, status);
+}
+
 void Panel::updateDp313Italic(wxDC& dc)
 {
     if (updateDp313_)
@@ -1166,7 +1183,7 @@ void Panel::showAddressTil313(Word address)
 
 void Panel::showAddressTil313Italic(Word address)
 {
-    if (addressTil313StatusItalic != address)
+if (addressTil313StatusItalic != address)
     {
         addressTil313StatusItalic = address;
         updateAddressTil313Italic_ = true;
@@ -1196,8 +1213,8 @@ void Panel::updateAddressTil313(wxDC& dc)
     {
         addressTil313Pointer[0]->update(dc, addressTil313Status>>12);
         addressTil313Pointer[1]->update(dc,(addressTil313Status>>8)&15);
-        addressTil313Pointer[2]->update(dc,(addressTil313Status>>4)&15);
-        addressTil313Pointer[3]->update(dc, addressTil313Status&15);
+		addressTil313Pointer[2]->update(dc,(addressTil313Status>>4)&15);
+		addressTil313Pointer[3]->update(dc, addressTil313Status&15);
         updateAddressTil313_ = false;
     }
 }
@@ -1206,10 +1223,13 @@ void Panel::updateAddressTil313Italic(wxDC& dc)
 {
     if (updateAddressTil313Italic_)
     {
-        addressTil313PointerItalic[0]->update(dc, addressTil313StatusItalic>>12);
-        addressTil313PointerItalic[1]->update(dc,(addressTil313StatusItalic>>8)&15);
-        addressTil313PointerItalic[2]->update(dc,(addressTil313StatusItalic>>4)&15);
-        addressTil313PointerItalic[3]->update(dc, addressTil313StatusItalic&15);
+		if (numberOfTil313_ == 4)
+		{
+			addressTil313PointerItalic[0]->update(dc, addressTil313StatusItalic>>12);
+			addressTil313PointerItalic[1]->update(dc,(addressTil313StatusItalic>>8)&15);
+		}
+		addressTil313PointerItalic[2]->update(dc,(addressTil313StatusItalic>>4)&15);
+		addressTil313PointerItalic[3]->update(dc, addressTil313StatusItalic&15);
         updateAddressTil313Italic_ = false;
     }
 }
@@ -1232,6 +1252,12 @@ void Panel::clearSetState(bool state)
 {
     wxClientDC dc(this);
     clearSwitchButton->setState(dc, state);
+}
+
+void Panel::resetSetState(bool state)
+{
+    wxClientDC dc(this);
+    resetSwitchButton->setState(dc, state);
 }
 
 void Panel::waitSetState(bool state)

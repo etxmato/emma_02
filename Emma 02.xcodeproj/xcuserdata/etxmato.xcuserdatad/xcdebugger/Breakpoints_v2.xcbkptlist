@@ -102,7 +102,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4029"
             endingLineNumber = "4029"
-            landmarkName = "Main::onClose(event)"
+            landmarkName = "Main::loadComputerConfig(fileName)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -475,9 +475,9 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7897"
-            endingLineNumber = "7897"
-            landmarkName = "Main::setZoomChange(event)"
+            startingLineNumber = "7898"
+            endingLineNumber = "7898"
+            landmarkName = "Main::eventSetSwName(swName)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -491,10 +491,10 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7882"
-            endingLineNumber = "7882"
-            landmarkName = "Main::eventShowTextMessage(messageText)"
-            landmarkType = "7">
+            startingLineNumber = "7883"
+            endingLineNumber = "7883"
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -571,10 +571,10 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7886"
-            endingLineNumber = "7886"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            startingLineNumber = "7887"
+            endingLineNumber = "7887"
+            landmarkName = "Main::setSwNameEvent(event)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -699,9 +699,105 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7296"
-            endingLineNumber = "7296"
-            landmarkName = "Main::zoomEvent(zoom)"
+            startingLineNumber = "7297"
+            endingLineNumber = "7297"
+            landmarkName = "Main::enableGui(status)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4EC08DD0-4289-4D3B-BE6D-92622DD83F54"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/uc1800.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "177"
+            endingLineNumber = "177"
+            landmarkName = "Uc1800Screen::onMouseRelease(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B8B50410-6336-4016-A472-87C8C48A5DFB"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/uc1800.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "204"
+            endingLineNumber = "204"
+            landmarkName = "Uc1800Screen::onMousePress(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9164B5DC-CECF-4298-902D-23006E2A4912"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/video.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "118"
+            endingLineNumber = "118"
+            landmarkName = "VideoScreen::onChar(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "74794CE6-34E6-44FF-83D8-3930B944823E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/video.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
+            landmarkName = "VideoScreen::onChar(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "D9D84301-3B81-4420-AA1D-91A3C1519C56"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/video.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "VideoScreen::onChar(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A0DA2007-7918-4E6E-A3D5-78B13B7F2995"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/uc1800.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "736"
+            endingLineNumber = "736"
+            landmarkName = "Uc1800::startComputer()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

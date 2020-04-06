@@ -10,7 +10,7 @@ public:
 	VipIIStatusBar(wxWindow *parent);
 	~VipIIStatusBar();
 
-	void initVipIIBar();
+	void initVipIIBar(bool runLed);
 	void updateLedStatus(int card, bool status);
 	void reDrawBar();
 

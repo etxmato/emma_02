@@ -1071,6 +1071,9 @@ void DebugWindow::readDebugConfig()
 	XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->setRange(0, 3);
 //	XRCCTRL(*this, "DebugExpansionEprom", SlotEdit)->setRange(0, 4);
 	XRCCTRL(*this, "DebugPortExtender", HexEdit)->setStart(1);
+
+	for (int i=0; i<16; i++)
+        lineBmp[i] = new wxBitmap(128, 16, 24);
     paintDebugBackground();
 }
 
@@ -12418,8 +12421,6 @@ void DebugWindow::assLog(Byte value)
 
 void DebugWindow::paintDebugBackground()
 {
-    for (int i=0; i<16; i++)
-        lineBmp[i] = new wxBitmap(128, 16, 24);
     dcLine.SelectObject(*lineBmp[0]);
     dcLine.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcLine.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
@@ -14130,6 +14131,7 @@ void DebugWindow::setMemoryType(int id, int setType)
 		case TMC1800:
 		case NANO:
 		case MEMBER:
+        case UC1800:
         case MICROTUTOR:
         case MICROTUTOR2:
 		case ETI:
@@ -15275,6 +15277,15 @@ void DebugWindow::updateTitle()
 			p_Membership->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
+        case UC1800:
+			if (p_Uc1800->getSteps() == 0)
+				title = title + " ** PAUSED **";
+			if (p_Uc1800->getClear() == 0)
+				title = title + " ** CPU STOPPED **";
+			p_Uc1800->SetTitle("Infinifte UC1800" + title);
+			p_Uc1800->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+		break;
+
 		case MICROTUTOR:
 			if (p_Microtutor->getSteps() == 0)
 				title = title + " ** PAUSED **";
@@ -15284,7 +15295,7 @@ void DebugWindow::updateTitle()
 			p_Microtutor->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
 		break;
 
-        case MICROTUTOR2:
+		case MICROTUTOR2:
             if (p_Microtutor2->getSteps() == 0)
                 title = title + " ** PAUSED **";
             if (p_Microtutor2->getClear() == 0)

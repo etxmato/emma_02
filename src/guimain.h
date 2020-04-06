@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 31
-#define LAST_ELF_TYPE 16
+#define NO_COMPUTER 32
+#define LAST_ELF_TYPE 17
 
 #define MAINROM1 0
 
@@ -91,6 +91,9 @@
 #define ROM_SOCKET3 2
 #define ROM_SOCKET4 3
 
+#define VIPII_ED 0
+#define VIPII_RCA 1
+
 DECLARE_EVENT_TYPE(OPEN_PRINTER_WINDOW, 811) 
 
 class ConfigurationMenuInfo
@@ -156,6 +159,8 @@ public:
 	Word basicRamAddress_;
 
 	long bootAddress_;
+    bool autoBoot;
+    int autoBootType;
 
 	int volume_;
 	int tempo_;
@@ -172,6 +177,7 @@ public:
     int videoMode_;
     int velfMode_;
 	int ramType_;
+    int computerVersion_;
 	bool useKeyboard_;
 
 	bool printerOn_;
@@ -377,6 +383,7 @@ public:
 	int getRunningComputerId() {return runningComputer_;};
 	int getVolume(int computerType) {return conf[computerType].volume_;};
 	int getVideoMode(int computerType) {return conf[computerType].videoMode_;};
+	int getComputerVersion(int computerType) {return conf[computerType].computerVersion_;};
 	bool getInterlace(int computerType) {return conf[computerType].interlace_;};
 	bool getStretchDot(int computerType) {return conf[computerType].stretchDot_;};
 	int getSound(int computerType) {return conf[computerType].soundType_;};
@@ -612,6 +619,7 @@ protected:
 	Mcds *p_Mcds;
 	Cosmicos *p_Cosmicos;
 	Membership *p_Membership;
+    Uc1800 *p_Uc1800;
     Microtutor *p_Microtutor;
     Microtutor2 *p_Microtutor2;
 	Elf *p_Elf;
@@ -641,6 +649,7 @@ protected:
 	int mainWindowX_, mainWindowY_;
 	int ubuntuOffsetX_;
 
+	bool guiInitialized_;
 	int elfChoice_;
     int rcaChoice_;
 	int debuggerChoice_;

@@ -1504,7 +1504,7 @@
                                 </font>
                                 <style>wxBK_DEFAULT|wxFULL_REPAINT_ON_RESIZE</style>
                                 <object class="choicebookpage">
-                                    <label>Elf 2000</label>
+                                    <label>Cosmac Elf 2000</label>
                                     <object class="wxPanel" name="PanelElf2K">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -8690,6 +8690,7 @@
                                                                                         <item>B</item>
                                                                                         <item>C</item>
                                                                                         <item>I</item>
+                                                                                        <item>J</item>
                                                                                     </content>
                                                                                     <selection>0</selection>
                                                                                 </object>
@@ -10634,6 +10635,342 @@
                                                                             </font>
                                                                             <label>Auto Boot</label>
                                                                             <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                        </object>
+                                                    </object>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                </object>
+                                <object class="choicebookpage">
+                                    <label>Infinite UC1800</label>
+                                    <object class="wxPanel" name="PanelUC1800">
+                                        <font>
+                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                            <size>-1</size>
+                                        </font>
+                                        <style>wxTAB_TRAVERSAL</style>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxVERTICAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxHORIZONTAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                                        <border>3</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxVERTICAL</orient>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="RamSWButtonUC1800">
+                                                                            <tooltip>Browse for Infinite UC1800 RAM file </tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>RAM</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxComboBox" name="RamSWUC1800">
+                                                                            <size>202,-1</size>
+                                                                            <tooltip>Specify Infinite UC1800 RAM file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxCB_DROPDOWN</style>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT</flag>
+                                                                <border>2</border>
+                                                                <object class="wxButton" name="KeyMapUC1800">
+                                                                    <tooltip>Open key map window</tooltip>
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>Key Map</label>
+                                                                </object>
+                                                            </object>
+                                                            <object class="spacer">
+                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                                                <border>5</border>
+                                                                <size>5,1</size>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                <border>1</border>
+                                                                <object class="wxFlexGridSizer">
+                                                                    <cols>2</cols>
+                                                                    <rows>3</rows>
+                                                                    <vgap>0</vgap>
+                                                                    <hgap>2</hgap>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxStaticText" name="HexOutputTextUC1800">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Output, Display</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxSpinCtrl" name="HexOutputUC1800">
+                                                                            <size>40,-1</size>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <value>0</value>
+                                                                            <min>1</min>
+                                                                            <max>7</max>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxStaticText" name="HexInputTextUC1800">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Input, Read Data</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxSpinCtrl" name="HexInputUC1800">
+                                                                            <size>40,-1</size>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <value>0</value>
+                                                                            <min>0</min>
+                                                                            <max>7</max>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                                        <border>3</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxVERTICAL</orient>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_TOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="AddressText1UC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Leds:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxGROW|wxALL</flag>
+                                                                                <border>1</border>
+                                                                                <object class="wxTextCtrl" name="ShowAddressUC1800" subclass="IntEdit">
+                                                                                    <size>45,-1</size>
+                                                                                    <tooltip>Led updates in run mode every X ms</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <value>100</value>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="AddressText2UC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>ms</label>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="spacer">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>5</border>
+                                                                        <size>5,5</size>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxCheckBox" name="AutoBootUC1800">
+                                                                                    <tooltip>Enable auto boot at specified address</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Boot:</label>
+                                                                                    <checked>0</checked>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxGROW|wxALL</flag>
+                                                                                <border>1</border>
+                                                                                <object class="wxTextCtrl" name="BootAddressUC1800" subclass="HexEdit">
+                                                                                    <size>50,-1</size>
+                                                                                    <tooltip>Specify auto boot address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <maxlength>4</maxlength>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxGROW</flag>
+                                                                <border>5</border>
+                                                                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                                                                    <orient>wxVERTICAL</orient>
+                                                                    <label>Memory Access</label>
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxFlexGridSizer">
+                                                                            <cols>3</cols>
+                                                                            <rows>2</rows>
+                                                                            <vgap>0</vgap>
+                                                                            <hgap>0</hgap>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="LoadButtonUC1800">
+                                                                                    <tooltip>Load .hex file into Infinite UC1800 emulator memory</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>LOAD</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxStaticText" name="TextStartUC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>Start</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxTextCtrl" name="SaveStartUC1800" subclass="HexEdit">
+                                                                                    <size>50,-1</size>
+                                                                                    <tooltip>Specify start address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <maxlength>4</maxlength>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="SaveButtonUC1800">
+                                                                                    <tooltip>Save Infinite UC1800 emulator memory to .hex file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>SAVE</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxStaticText" name="TextEndUC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>End</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxTextCtrl" name="SaveEndUC1800" subclass="HexEdit">
+                                                                                    <size>50,-1</size>
+                                                                                    <tooltip>Specify end address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <maxlength>4</maxlength>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                 </object>
@@ -15489,6 +15826,7 @@
                                                                             <content>
                                                                                 <item></item>
                                                                                 <item>fpb.rom</item>
+                                                                                <item>vipii_2020.bin</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -15701,6 +16039,75 @@
                                                                             <label>Key Map</label>
                                                                         </object>
                                                                     </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>5</border>
+                                                                                <object class="wxStaticText" name="RamTextVipII">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>RAM:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxGROW|wxLEFT</flag>
+                                                                                <border>4</border>
+                                                                                <object class="wxChoice" name="RamVipII">
+                                                                                    <tooltip>VIP II RAM size 8, 16, 32 KB</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item> 8 KB</item>
+                                                                                        <item>16 KB</item>
+                                                                                        <item>32 KB</item>
+                                                                                    </content>
+                                                                                    <selection>2</selection>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>3</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxStaticText" name="TypeTextVipII">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>VIP II Type:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxChoice" name="ComputerVersionVipII">
+                                                                            <tooltip>Select VIP II Type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>ED</item>
+                                                                                <item>RCA</item>
+                                                                            </content>
+                                                                            <selection>0</selection>
+                                                                        </object>
+                                                                    </object>
                                                                 </object>
                                                             </object>
                                                         </object>
@@ -15790,7 +16197,49 @@
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxCheckBox" name="AutoBootVipII">
+                                                                            <tooltip>Enable auto boot</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto Boot</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxChoice" name="AutoBootTypeVipII">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>ROM - FPB</item>
+                                                                                <item>RAM</item>
+                                                                                <item>Op Sys</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxTextCtrl" name="BootAddressVipII" subclass="HexEdit">
+                                                                            <size>50,-1</size>
+                                                                            <tooltip>Specify auto boot address in hexadecimal</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <maxlength>4</maxlength>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                                         <border>3</border>
                                                                         <object class="wxStaticText" name="VipIIAddressText1">
                                                                             <font>
@@ -18651,9 +19100,10 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>ut71.hex</item>
+                                                                                <item>ut70.bin</item>
+                                                                                <item>ut71.bin</item>
                                                                             </content>
-                                                                            <selection>1</selection>
+                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">

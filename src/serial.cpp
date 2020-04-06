@@ -42,6 +42,7 @@ int baudRateValueSerial_[] =
 
 #define UART_DA_SERIAL 0
 #define UART_FE_SERIAL 3
+#define UART_TSRE_SERIAL 6
 #define UART_THRE_SERIAL 7
 
 Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
@@ -377,7 +378,8 @@ void Serial::cycleVt()
             rs232_ = 0;
             p_Computer->thrStatus(0);
             uartStatus_[UART_THRE_SERIAL] = 1;
-			
+			uartStatus_[UART_TSRE_SERIAL] = 1;
+
 			vtCount_ = baudRateR_ * 9;
 		}
 		if (vtOutCount_ > 0)
@@ -577,6 +579,7 @@ void Serial::uartOut(Byte value)
 	rs232_ = value;
 	p_Computer->thrStatus(1);
 	uartStatus_[UART_THRE_SERIAL] = 0;
+	uartStatus_[UART_TSRE_SERIAL] = 0;
 }
 
 void Serial::uartControl(Byte value)

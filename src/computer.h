@@ -12,6 +12,7 @@
 #define PANEL_WIDE_HEX_BUTTON 3
 #define ELF2K_RESET_BUTTON 4
 #define PIO_HEX_BUTTON 5
+#define UC1800_HEX_BUTTON 6
 
 #define VERTICAL_BUTTON 0
 #define HORIZONTAL_BUTTON 1
@@ -171,6 +172,7 @@ public:
     void showDataTil313Italic(Byte value);
     void updateDataTil313Italic(wxDC& dc);
     void showDp313Italic(bool status);
+	void turnOff313Italic(bool status);
     void updateDp313Italic(wxDC& dc);
 	void showSeg(int number, Byte value);
 	void updateSeg(wxDC& dc, int number);
@@ -184,6 +186,7 @@ public:
 	virtual void inDown();
     virtual void inSetState(bool state);
     virtual void clearSetState(bool state);
+    virtual void resetSetState(bool state);
     virtual void waitSetState(bool state);
     virtual void runUp();
     virtual void runDown();
@@ -305,6 +308,7 @@ protected:
 	Til313full *segPointer[8];
 
     int tilType_;
+	int numberOfTil313_;
     
     Word addressStatus;
     Word addressTil313Status;
@@ -424,6 +428,7 @@ public:
 	virtual void startComputer();
 	virtual void initComputer();
 	virtual void configureComputer();
+	virtual void onPowerButton() {};
     virtual void onReadButton();
     virtual void onCardButton();
     virtual void onRunButton();
@@ -447,6 +452,8 @@ public:
     virtual void onClearButtonRelease() {};
     virtual void onClearButton(wxCommandEvent& event);
 	virtual void onResetButton();
+    virtual void onResetButtonPress() {};
+    virtual void onResetButtonRelease() {};
     virtual void onResetButton(wxCommandEvent& event);
     virtual void onLoadButton();
     virtual void onLoadButton(wxCommandEvent& event);

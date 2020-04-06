@@ -192,6 +192,8 @@
 		99F4817B1C0E4A0C002BC0AE /* velf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F481791C0E4A0C002BC0AE /* velf.cpp */; };
 		99F70FF31E7096C800959A15 /* guimcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FEF1E7096C800959A15 /* guimcds.cpp */; };
 		99F70FF41E7096C800959A15 /* mcds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99F70FF01E7096C800959A15 /* mcds.cpp */; };
+		99F8CD9A242FF817009C2B08 /* guiuc1800.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD0D4C242FF553009E9515 /* guiuc1800.cpp */; };
+		99F8CD9B242FF829009C2B08 /* uc1800.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99AD0D48242FF4CD009E9515 /* uc1800.cpp */; };
 		99F8CF01211A155E002F02C6 /* FEL-1.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99F8CF00211A155E002F02C6 /* FEL-1.syntax */; };
 		99F8CF03211A1567002F02C6 /* GPL-4.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99F8CF02211A1567002F02C6 /* GPL-4.syntax */; };
 		99FA47C4211E0DC000C399AE /* Chip8Studio.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99FA47C3211E0DC000C399AE /* Chip8Studio.syntax */; };
@@ -507,6 +509,10 @@
 		99ACA85B1F42330C00788104 /* Emma 02 vc14.vcxproj.filters */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Emma 02 vc14.vcxproj.filters"; sourceTree = "<group>"; };
 		99ACCC9E22FE99DF00DE7617 /* microsetup.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = microsetup.cpp; path = src/microsetup.cpp; sourceTree = "<group>"; };
 		99ACCC9F22FE99DF00DE7617 /* microsetup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = microsetup.h; path = src/microsetup.h; sourceTree = "<group>"; };
+		99AD0D48242FF4CD009E9515 /* uc1800.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = uc1800.cpp; path = src/uc1800.cpp; sourceTree = "<group>"; };
+		99AD0D49242FF4CD009E9515 /* uc1800.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = uc1800.h; path = src/uc1800.h; sourceTree = "<group>"; };
+		99AD0D4B242FF553009E9515 /* guiuc1800.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guiuc1800.h; path = src/guiuc1800.h; sourceTree = "<group>"; };
+		99AD0D4C242FF553009E9515 /* guiuc1800.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guiuc1800.cpp; path = src/guiuc1800.cpp; sourceTree = "<group>"; };
 		99B5DE4F1F4A228400674C05 /* images_linux */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_linux; sourceTree = "<group>"; };
 		99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = upd765.cpp; path = src/upd765.cpp; sourceTree = "<group>"; };
 		99BC74FB1DCFDB5C0000D8A9 /* upd765.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upd765.h; path = src/upd765.h; sourceTree = "<group>"; };
@@ -845,6 +851,8 @@
 				991C84F41E37E66A0084DAFB /* guimicrotutor.h */,
 				999CFEDB1DCD33070094BEC8 /* guims2000.cpp */,
 				999CFEDC1DCD33070094BEC8 /* guims2000.h */,
+				99AD0D4C242FF553009E9515 /* guiuc1800.cpp */,
+				99AD0D4B242FF553009E9515 /* guiuc1800.h */,
 				9976477A1A61D5EE00FB9B33 /* guinano.cpp */,
 				9976477B1A61D5EE00FB9B33 /* guinano.h */,
 				9976477C1A61D5EE00FB9B33 /* guipecom.cpp */,
@@ -968,6 +976,8 @@
 				997647531A61D5EE00FB9B33 /* tmc2000.h */,
 				997647381A61D5EE00FB9B33 /* tms9918.cpp */,
 				997647541A61D5EE00FB9B33 /* tms9918.h */,
+				99AD0D48242FF4CD009E9515 /* uc1800.cpp */,
+				99AD0D49242FF4CD009E9515 /* uc1800.h */,
 				99BC74FA1DCFDB5C0000D8A9 /* upd765.cpp */,
 				99BC74FB1DCFDB5C0000D8A9 /* upd765.h */,
 				997646F41A61D5D400FB9B33 /* usb.cpp */,
@@ -1130,6 +1140,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				99F8CD9B242FF829009C2B08 /* uc1800.cpp in Sources */,
+				99F8CD9A242FF817009C2B08 /* guiuc1800.cpp in Sources */,
 				997647C61A61D5EF00FB9B33 /* vip2statusbar.cpp in Sources */,
 				997647DB1A61D5EF00FB9B33 /* guitmc600.cpp in Sources */,
 				997647ED1A61D5EF00FB9B33 /* ports.cpp in Sources */,

@@ -29,7 +29,7 @@ public:
     void configurePixieVisicom();
     void configurePixieVip();
 	void configurePixieVelf();
-	void configurePixieVipII();
+	void configurePixieVipII(bool runLed);
 	void configurePixieTmc1800();
 	void configurePixieTelmac();
     void configurePixieStudioIV();

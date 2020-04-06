@@ -103,7 +103,7 @@ void GuiMembership::readMembershipConfig()
 
 	getConfigBool("/Membership/SerialLog", false);
 	configPointer->Read("/Membership/VtEf", &elfConfiguration[MEMBER].vtEf, true);
-	configPointer->Read("/Membership/VtQ", &elfConfiguration[MEMBER].vtQ, false);
+	configPointer->Read("/Membership/VtQ", &elfConfiguration[MEMBER].vtQ, true);
 	elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
 	elfConfiguration[MEMBER].useUart = false;
 
@@ -136,7 +136,7 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].bootAddress_ = value;
 	conf[MEMBER].ramType_ = (int)configPointer->Read("/Membership/Ram_Type", 5l);
 
-	conf[MEMBER].rom_[MAINROM1] = configPointer->Read("/Membership/Main_Rom_File", "monitor_0000h.bin");
+	conf[MEMBER].rom_[MAINROM1] = configPointer->Read("/Membership/Main_Rom_File", "MCSMP20B.bin");
 	conf[MEMBER].screenDumpFile_ = configPointer->Read("/Membership/Video_Dump_File", "screendump.png");
     conf[MEMBER].wavFile_[0] = configPointer->Read("/Membership/Terminal_File", "");
 	elfConfiguration[MEMBER].vtWavFile_ = configPointer->Read("/Membership/Vt_Wav_File", "");
@@ -155,7 +155,7 @@ void GuiMembership::readMembershipConfig()
     configPointer->Read("/Membership/Enable_Vt_External", &elfConfiguration[MEMBER].vtExternal, false);
 	configPointer->Read("/Membership/Use_Non_Volatile_Ram", &elfConfiguration[MEMBER].nvr, true);
     elfConfiguration[MEMBER].ioType = (int)configPointer->Read("/Membership/IO_Type", IO_TYPE_N2);
-    elfConfiguration[MEMBER].frontType = (int)configPointer->Read("/Membership/Front_Type", FRONT_TYPE_I);
+    elfConfiguration[MEMBER].frontType = (int)configPointer->Read("/Membership/Front_Type", FRONT_TYPE_J);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
@@ -381,6 +381,7 @@ void GuiMembership::onIo(wxCommandEvent&event)
 void GuiMembership::onFront(wxCommandEvent&event)
 {
     elfConfiguration[MEMBER].frontType = event.GetSelection();
+    elfConfiguration[MEMBER].vtQ = (elfConfiguration[MEMBER].frontType == FRONT_TYPE_J);
 }
 
 void GuiMembership::onRomEvent(wxCommandEvent&WXUNUSED(event))

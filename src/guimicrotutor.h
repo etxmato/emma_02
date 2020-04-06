@@ -1,10 +1,10 @@
 #ifndef GUIMICROTUTOR_H
 #define GUIMICROTUTOR_H
 
-#include "guimembership.h"
+#include "guiuc1800.h"
 #include "elfconfiguration.h"
 
-class GuiMicrotutor: public GuiMembership
+class GuiMicrotutor: public GuiUc1800
 {
 public:
 

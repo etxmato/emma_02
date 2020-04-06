@@ -112,6 +112,7 @@ void MemberScreen::init(int front)
             qLedPointer = new Led(dc, 25, 136, MEMBERLEDGREEN);
         break;
         case FRONT_TYPE_I:
+        case FRONT_TYPE_J:
             mainBitmapPointer = new wxBitmap(p_Main->getApplicationDir() + IMAGES_FOLDER + "/membership3.png", wxBITMAP_TYPE_PNG);
             waitSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 59, 210, "");
             clearSwitchButton = new SwitchButton(dc, VERTICAL_BUTTON, wxColour(255, 255, 255), BUTTON_DOWN, 93, 210, "");
@@ -497,7 +498,7 @@ void Membership::autoBoot()
 
 void Membership::switchQ(int value)
 {
-	qLedStatus_ = (qLedStatus_ & 2) | (value & 1);
+    qLedStatus_ = (qLedStatus_ & 2) | (value & 1);
     memberScreenPointer->setQLed(qLedStatus_);
     
     if (elfConfiguration.vtType != VTNONE)
