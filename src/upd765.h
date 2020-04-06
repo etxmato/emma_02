@@ -68,11 +68,16 @@ private:
     
     Byte masterStatus_;
     Byte statusRegister0_;
-    int commandReturnCounter__;
+    Byte statusRegister1_;
+    Byte statusRegister2_;
+    Byte statusRegister3_;
+    int commandReturnCounter_;
+    int commandReturnValue_;
     Byte interrupt_;
     Word dmaCounter_;
     Byte dmaControl_;
     Byte commandPacket_[16];
+	Byte lastCommand_;
     int pcn;
     int commandPacketIndex;
     

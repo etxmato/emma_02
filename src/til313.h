@@ -30,6 +30,7 @@ public:
     void onPaint(wxDC& dc);
     void update(wxDC& dc, int NewNumber);
     void dp(wxDC& dc, bool status);
+    void turnOff(wxDC& dc, bool status);
     
 private:
     int    displayedNumber_;
@@ -38,6 +39,7 @@ private:
     
     wxBitmap *til313BitmapPointer_led_off;
     wxBitmap *til313BitmapPointer_led_on;
+    wxBitmap *til313BitmapPointer_off;
     wxMemoryDC dcMemory;
 };
 

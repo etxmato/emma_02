@@ -27,7 +27,8 @@
 
 BEGIN_EVENT_TABLE(DevicePortsDialog, wxDialog)
     EVT_BUTTON(XRCID("DevicePorts_Save"), DevicePortsDialog::onSaveButton)
-	EVT_CHOICE(XRCID("MC6847-B7"), DevicePortsDialog::onMC6847B7)
+    EVT_CHOICE(XRCID("MC6847OutputMode"), DevicePortsDialog::onMC6847OutputMode)
+    EVT_CHOICE(XRCID("MC6847-B7"), DevicePortsDialog::onMC6847B7)
 	EVT_CHOICE(XRCID("MC6847-B6"), DevicePortsDialog::onMC6847B6)
 	EVT_CHOICE(XRCID("MC6847-B5"), DevicePortsDialog::onMC6847B5)
 	EVT_CHOICE(XRCID("MC6847-B4"), DevicePortsDialog::onMC6847B4)
@@ -241,7 +242,10 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 		XRCCTRL(*this, "Led_Module_Output_Text", wxStaticText)->Enable(false);
 	}	
 
-	XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.mc6847Output);
+    XRCCTRL(*this, "MC6847OutputMode", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847OutputMode);
+    if (elfConfiguration.elfPortConf.mc6847OutputMode == 1)
+        XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->Enable(false);
+    XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.mc6847Output);
 	XRCCTRL(*this, "MC6847-B7", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b7);
 	XRCCTRL(*this, "MC6847-B6", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b6);
 	XRCCTRL(*this, "MC6847-B5", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b5);
@@ -252,6 +256,15 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 	XRCCTRL(*this, "MC6847-B0", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847b0);
 	XRCCTRL(*this, "MC6847-DD7", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847dd7);
 	XRCCTRL(*this, "MC6847-DD6", wxChoice)->SetSelection(elfConfiguration.elfPortConf.mc6847dd6);
+
+	XRCCTRL(*this, "MC6847-AG", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighAg);
+	XRCCTRL(*this, "MC6847-AS", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighAs);
+	XRCCTRL(*this, "MC6847-EXT", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighExt);
+	XRCCTRL(*this, "MC6847-GM2", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighGm2);
+	XRCCTRL(*this, "MC6847-GM1", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighGm1);
+	XRCCTRL(*this, "MC6847-GM0", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighGm0);
+	XRCCTRL(*this, "MC6847-CSS", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighCss);
+	XRCCTRL(*this, "MC6847-INV", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.forceHighInv);
 
 	int start = elfConfiguration.elfPortConf.mc6847StartRam;
 	int sel = (start - 0x8000)/0x1000;
@@ -274,8 +287,10 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 
 	if (!elfConfiguration.use6847)
 	{
-		XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->Enable(false);
+        XRCCTRL(*this, "MC6847OutputMode", wxChoice)->Enable(false);
+        XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->Enable(false);
 		XRCCTRL(*this, "MC6847OutputText", wxStaticText)->Enable(false);
+		XRCCTRL(*this, "MC6847-ForceHighText", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "MC6847-B7Text", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "MC6847-B6Text", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "MC6847-B5Text", wxStaticText)->Enable(false);
@@ -296,6 +311,14 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 		XRCCTRL(*this, "MC6847-B0", wxChoice)->Enable(false);
 		XRCCTRL(*this, "MC6847-DD7", wxChoice)->Enable(false);
 		XRCCTRL(*this, "MC6847-DD6", wxChoice)->Enable(false);
+		XRCCTRL(*this, "MC6847-AG", wxCheckBox)->Enable(false);
+		XRCCTRL(*this, "MC6847-AS", wxCheckBox)->Enable(false);
+		XRCCTRL(*this, "MC6847-EXT", wxCheckBox)->Enable(false);
+		XRCCTRL(*this, "MC6847-GM2", wxCheckBox)->Enable(false);
+		XRCCTRL(*this, "MC6847-GM1", wxCheckBox)->Enable(false);
+		XRCCTRL(*this, "MC6847-GM0", wxCheckBox)->Enable(false);
+		XRCCTRL(*this, "MC6847-CSS", wxCheckBox)->Enable(false);
+		XRCCTRL(*this, "MC6847-INV", wxCheckBox)->Enable(false);
 		XRCCTRL(*this, "MC6847StartRam", wxChoice)->Enable(false);
 		XRCCTRL(*this, "MC6847StartRamText", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "MC6847SizeRam", wxChoice)->Enable(false);
@@ -461,7 +484,8 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 
 	elfConfiguration.elfPortConf.led_Module_Output = XRCCTRL(*this, "Led_Module_Output", wxSpinCtrl)->GetValue();
 
-	elfConfiguration.elfPortConf.mc6847Output = XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->GetValue();
+    elfConfiguration.elfPortConf.mc6847OutputMode = XRCCTRL(*this, "MC6847OutputMode", wxChoice)->GetCurrentSelection();
+    elfConfiguration.elfPortConf.mc6847Output = XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->GetValue();
 	elfConfiguration.elfPortConf.mc6847b7 = XRCCTRL(*this, "MC6847-B7", wxChoice)->GetCurrentSelection();
 	elfConfiguration.elfPortConf.mc6847b6 = XRCCTRL(*this, "MC6847-B6", wxChoice)->GetCurrentSelection();
 	elfConfiguration.elfPortConf.mc6847b5 = XRCCTRL(*this, "MC6847-B5", wxChoice)->GetCurrentSelection();
@@ -472,6 +496,15 @@ void DevicePortsDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	elfConfiguration.elfPortConf.mc6847b0 = XRCCTRL(*this, "MC6847-B0", wxChoice)->GetCurrentSelection();
 	elfConfiguration.elfPortConf.mc6847dd7 = XRCCTRL(*this, "MC6847-DD7", wxChoice)->GetCurrentSelection();
 	elfConfiguration.elfPortConf.mc6847dd6 = XRCCTRL(*this, "MC6847-DD6", wxChoice)->GetCurrentSelection();
+
+	elfConfiguration.elfPortConf.forceHighAg =  XRCCTRL(*this, "MC6847-AG", wxCheckBox)->IsChecked();
+	elfConfiguration.elfPortConf.forceHighAs =  XRCCTRL(*this, "MC6847-AS", wxCheckBox)->IsChecked();
+	elfConfiguration.elfPortConf.forceHighExt =  XRCCTRL(*this, "MC6847-EXT", wxCheckBox)->IsChecked();
+	elfConfiguration.elfPortConf.forceHighGm2 =  XRCCTRL(*this, "MC6847-GM2", wxCheckBox)->IsChecked();
+	elfConfiguration.elfPortConf.forceHighGm1 =  XRCCTRL(*this, "MC6847-GM1", wxCheckBox)->IsChecked();
+	elfConfiguration.elfPortConf.forceHighGm0 =  XRCCTRL(*this, "MC6847-GM0", wxCheckBox)->IsChecked();
+	elfConfiguration.elfPortConf.forceHighCss =  XRCCTRL(*this, "MC6847-CSS", wxCheckBox)->IsChecked();
+	elfConfiguration.elfPortConf.forceHighInv =  XRCCTRL(*this, "MC6847-INV", wxCheckBox)->IsChecked();
 
 	int sel = XRCCTRL(*this, "MC6847StartRam", wxChoice)->GetCurrentSelection();
 	int start = (sel * 0x1000) + 0x8000;
@@ -563,6 +596,11 @@ void DevicePortsDialog::reset6847Item(int dontCheck, int num)
 		XRCCTRL(*this, "MC6847-DD7", wxChoice)->SetSelection(0);
 	if ((XRCCTRL(*this, "MC6847-DD6", wxChoice)->GetCurrentSelection() == num) && (dontCheck != 1))
 		XRCCTRL(*this, "MC6847-DD6", wxChoice)->SetSelection(0);
+}
+
+void DevicePortsDialog::onMC6847OutputMode(wxCommandEvent&event)
+{
+    XRCCTRL(*this, "MC6847Output", wxSpinCtrl)->Enable(event.GetSelection() != 1);
 }
 
 void DevicePortsDialog::onMC6847DD6(wxCommandEvent&event)

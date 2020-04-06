@@ -41,8 +41,8 @@ BEGIN_EVENT_TABLE(GuiMembership, GuiStudio2)
 	EVT_BUTTON(XRCID("RomMembership"), GuiMembership::onRomEvent)
 
 	EVT_CHOICE(XRCID("VTTypeMembership"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtMembership"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtMembership"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("FullScreenF3Membership"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ColoursMembership"), Main::onColoursDef)
@@ -103,7 +103,7 @@ void GuiMembership::readMembershipConfig()
 
 	getConfigBool("/Membership/SerialLog", false);
 	configPointer->Read("/Membership/VtEf", &elfConfiguration[MEMBER].vtEf, true);
-	configPointer->Read("/Membership/VtQ", &elfConfiguration[MEMBER].vtQ, false);
+	configPointer->Read("/Membership/VtQ", &elfConfiguration[MEMBER].vtQ, true);
 	elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
 	elfConfiguration[MEMBER].useUart = false;
 
@@ -136,7 +136,7 @@ void GuiMembership::readMembershipConfig()
 	conf[MEMBER].bootAddress_ = value;
 	conf[MEMBER].ramType_ = (int)configPointer->Read("/Membership/Ram_Type", 5l);
 
-	conf[MEMBER].rom_[MAINROM1] = configPointer->Read("/Membership/Main_Rom_File", "monitor_0000h.bin");
+	conf[MEMBER].rom_[MAINROM1] = configPointer->Read("/Membership/Main_Rom_File", "MCSMP20B.bin");
 	conf[MEMBER].screenDumpFile_ = configPointer->Read("/Membership/Video_Dump_File", "screendump.png");
     conf[MEMBER].wavFile_[0] = configPointer->Read("/Membership/Terminal_File", "");
 	elfConfiguration[MEMBER].vtWavFile_ = configPointer->Read("/Membership/Vt_Wav_File", "");
@@ -155,7 +155,7 @@ void GuiMembership::readMembershipConfig()
     configPointer->Read("/Membership/Enable_Vt_External", &elfConfiguration[MEMBER].vtExternal, false);
 	configPointer->Read("/Membership/Use_Non_Volatile_Ram", &elfConfiguration[MEMBER].nvr, true);
     elfConfiguration[MEMBER].ioType = (int)configPointer->Read("/Membership/IO_Type", IO_TYPE_N2);
-    elfConfiguration[MEMBER].frontType = (int)configPointer->Read("/Membership/Front_Type", FRONT_TYPE_I);
+    elfConfiguration[MEMBER].frontType = (int)configPointer->Read("/Membership/Front_Type", FRONT_TYPE_J);
 
 	wxString defaultZoom;
 	defaultZoom.Printf("%2.2f", 1.0);
@@ -200,14 +200,17 @@ void GuiMembership::readMembershipConfig()
 		XRCCTRL(*this, "ForceUCMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].forceUpperCase);
 		XRCCTRL(*this, "AutoBootMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].autoBoot);
 		XRCCTRL(*this, "BootAddressMembership", wxTextCtrl)->SetValue(bootAddress);
-		XRCCTRL(*this, "ZoomValueVtMembership", wxTextCtrl)->ChangeValue(conf[MEMBER].zoomVt_);
+        
+        correctZoomVtAndValue(MEMBER, "Membership", SET_SPIN);
+
 		XRCCTRL(*this, "ControlWindowsMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].useElfControlWindows);
         XRCCTRL(*this, "StretchDotMembership", wxCheckBox)->SetValue(conf[MEMBER].stretchDot_);
 		XRCCTRL(*this, "RamMembership", wxChoice)->SetSelection(conf[MEMBER].ramType_);
         XRCCTRL(*this, "IoMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].ioType);
         XRCCTRL(*this, "FrontMembership", wxChoice)->SetSelection(elfConfiguration[MEMBER].frontType);
 		XRCCTRL(*this, "VolumeMembership", wxSlider)->SetValue(conf[MEMBER].volume_);
-		clockTextCtrl[MEMBER]->ChangeValue(conf[MEMBER].clock_);
+        if (clockTextCtrl[MEMBER] != NULL)
+            clockTextCtrl[MEMBER]->ChangeValue(conf[MEMBER].clock_);
 		XRCCTRL(*this, "NvrMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].nvr);
 		XRCCTRL(*this, "ClearRamMembership", wxCheckBox)->Enable(elfConfiguration[MEMBER].nvr);
 		XRCCTRL(*this, "ClearRamMembership", wxCheckBox)->SetValue(elfConfiguration[MEMBER].clearRam);
@@ -378,6 +381,7 @@ void GuiMembership::onIo(wxCommandEvent&event)
 void GuiMembership::onFront(wxCommandEvent&event)
 {
     elfConfiguration[MEMBER].frontType = event.GetSelection();
+    elfConfiguration[MEMBER].vtQ = (elfConfiguration[MEMBER].frontType == FRONT_TYPE_J);
 }
 
 void GuiMembership::onRomEvent(wxCommandEvent&WXUNUSED(event))

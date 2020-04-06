@@ -50,6 +50,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 {
     terminalSave_ = false;
     terminalLoad_ = false;
+    zoomPosition_ = 0;
 
     configPointer = wxConfigBase::Get();
 	dataDir_ = dataDir;
@@ -81,6 +82,8 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
         applicationDirectory_ = applicationDirectory_ + "share" + pathSeparator_ + "emma_02" + pathSeparator_;
     }
 #endif
+
+    windowInfo = p_Main->getWinSizeInfo(applicationDirectory_);
 
     wxDir checkDirForFiles;
     bool dataDirEmpty = true;
@@ -120,7 +123,6 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
 
     tapeState_ = TAPE_STOP;
 	turboOn_ = false;
-	zoomTextValueChanged_ = false;
     
     position_[ELF].x = 0;
     position_[ELFII].x = 0;
@@ -193,6 +195,7 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
 
     elfConfiguration[elfType].elfPortConf.led_Module_Output = (int)configPointer->Read(elfTypeStr+"/Led_Module_Output", 4l);
 
+    elfConfiguration[elfType].elfPortConf.mc6847OutputMode = (int)configPointer->Read(elfTypeStr+"/MC6847OutputMode", 0l);
     elfConfiguration[elfType].elfPortConf.mc6847Output = (int)configPointer->Read(elfTypeStr+"/MC6847Output", 5l);
     elfConfiguration[elfType].elfPortConf.mc6847b7 = (int)configPointer->Read(elfTypeStr+"/MC6847-B7", 0l);
     elfConfiguration[elfType].elfPortConf.mc6847b6 = (int)configPointer->Read(elfTypeStr+"/MC6847-B6", 0l);
@@ -204,6 +207,15 @@ void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
     elfConfiguration[elfType].elfPortConf.mc6847b0 = (int)configPointer->Read(elfTypeStr+"/MC6847-B0", 5l);
     elfConfiguration[elfType].elfPortConf.mc6847dd7 = (int)configPointer->Read(elfTypeStr+"/MC6847-DD7", 1l);
     elfConfiguration[elfType].elfPortConf.mc6847dd6 = (int)configPointer->Read(elfTypeStr+"/MC6847-DD6", 0l);
+
+	configPointer->Read(elfTypeStr+"/MC6847-AG", &elfConfiguration[elfType].elfPortConf.forceHighAg, false);
+	configPointer->Read(elfTypeStr+"/MC6847-AS", &elfConfiguration[elfType].elfPortConf.forceHighAs, false);
+	configPointer->Read(elfTypeStr+"/MC6847-EXT", &elfConfiguration[elfType].elfPortConf.forceHighExt, false);
+	configPointer->Read(elfTypeStr+"/MC6847-GM2", &elfConfiguration[elfType].elfPortConf.forceHighGm2, false);
+	configPointer->Read(elfTypeStr+"/MC6847-GM1", &elfConfiguration[elfType].elfPortConf.forceHighGm1, false);
+	configPointer->Read(elfTypeStr+"/MC6847-GM0", &elfConfiguration[elfType].elfPortConf.forceHighGm0, false);
+	configPointer->Read(elfTypeStr+"/MC6847-CSS", &elfConfiguration[elfType].elfPortConf.forceHighCss, false);
+	configPointer->Read(elfTypeStr+"/MC6847-INV", &elfConfiguration[elfType].elfPortConf.forceHighInv, false);
 
     elfConfiguration[elfType].elfPortConf.mc6847StartRam = (int)configPointer->Read(elfTypeStr+"/mc6847StartRam", 0xe000l);
     elfConfiguration[elfType].elfPortConf.mc6847EndRam = (int)configPointer->Read(elfTypeStr+"/mc6847EndRam", 0xe3ffl);
@@ -277,6 +289,7 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/I8275VerticalRetrace", elfConfiguration[elfType].elfPortConf.i8275VerticalRetrace);
     configPointer->Write(elfTypeStr+"/Led_Module_Output", elfConfiguration[elfType].elfPortConf.led_Module_Output);
 
+    configPointer->Write(elfTypeStr+"/MC6847OutputMode", elfConfiguration[elfType].elfPortConf.mc6847OutputMode);
     configPointer->Write(elfTypeStr+"/MC6847Output", elfConfiguration[elfType].elfPortConf.mc6847Output);
     configPointer->Write(elfTypeStr+"/MC6847-B7", elfConfiguration[elfType].elfPortConf.mc6847b7);
     configPointer->Write(elfTypeStr+"/MC6847-B6", elfConfiguration[elfType].elfPortConf.mc6847b6);
@@ -288,6 +301,15 @@ void GuiMain::writeElfPortConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/MC6847-B0", elfConfiguration[elfType].elfPortConf.mc6847b0);
     configPointer->Write(elfTypeStr+"/MC6847-DD7", elfConfiguration[elfType].elfPortConf.mc6847dd7);
     configPointer->Write(elfTypeStr+"/MC6847-DD6", elfConfiguration[elfType].elfPortConf.mc6847dd6);
+
+	configPointer->Write(elfTypeStr+"/MC6847-AG", elfConfiguration[elfType].elfPortConf.forceHighAg);
+	configPointer->Write(elfTypeStr+"/MC6847-AS", elfConfiguration[elfType].elfPortConf.forceHighAs);
+	configPointer->Write(elfTypeStr+"/MC6847-EXT", elfConfiguration[elfType].elfPortConf.forceHighExt);
+	configPointer->Write(elfTypeStr+"/MC6847-GM2", elfConfiguration[elfType].elfPortConf.forceHighGm2);
+	configPointer->Write(elfTypeStr+"/MC6847-GM1", elfConfiguration[elfType].elfPortConf.forceHighGm1);
+	configPointer->Write(elfTypeStr+"/MC6847-GM0", elfConfiguration[elfType].elfPortConf.forceHighGm0);
+	configPointer->Write(elfTypeStr+"/MC6847-CSS", elfConfiguration[elfType].elfPortConf.forceHighCss);
+	configPointer->Write(elfTypeStr+"/MC6847-INV", elfConfiguration[elfType].elfPortConf.forceHighInv);
 
     configPointer->Write(elfTypeStr+"/mc6847StartRam", elfConfiguration[elfType].elfPortConf.mc6847StartRam);
     configPointer->Write(elfTypeStr+"/mc6847EndRam", elfConfiguration[elfType].elfPortConf.mc6847EndRam);
@@ -929,71 +951,123 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 	}
 }
 
-void GuiMain::changeZoom(double zoom)
+void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
 {
-	if (selectedComputer_ == runningComputer_)
-	{
-        p_Video->setZoom(zoom);
-		switch(runningComputer_)
-		{
-			case CIDELSA:
-			case VIPII:
-			case COMX:
-				p_Video->reDrawBar();
-			break;
-		}
-	}
-	else
-		XRCCTRL(*this, "ZoomValue"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(conf[selectedComputer_].zoom_);
+    fullScreenFloat_ = !fullScreenFloat_;
+    correctZoomAndValue(COMX, "Comx", SET_SPIN);
+    correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN);
+    correctZoomAndValue(COSMICOS, "Cosmicos", SET_SPIN);
+    correctZoomAndValue(ELF, "Elf", SET_SPIN);
+    correctZoomAndValue(ELFII, "ElfII", SET_SPIN);
+    correctZoomAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomAndValue(VIP2K, "Vip2K", SET_SPIN);
+    correctZoomAndValue(VELF, "Velf", SET_SPIN);
+    correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
+    correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN);
+    correctZoomAndValue(CDP18S020, "CDP18S020", SET_SPIN);
+    correctZoomAndValue(VIP, "Vip", SET_SPIN);
+    correctZoomAndValue(VIPII, "VipII", SET_SPIN);
+    correctZoomAndValue(MICROBOARD, "Microboard", SET_SPIN);
+    correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN);
+    correctZoomAndValue(STUDIO, "Studio2", SET_SPIN);
+    correctZoomAndValue(VISICOM, "Visicom", SET_SPIN);
+    correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN);
+    correctZoomAndValue(VICTORY, "Victory", SET_SPIN);
+    correctZoomAndValue(CIDELSA, "Cidelsa", SET_SPIN);
+    correctZoomAndValue(TMC600, "TMC600", SET_SPIN);
+    correctZoomAndValue(TMC2000, "TMC2000", SET_SPIN);
+    correctZoomAndValue(TMC1800, "TMC1800", SET_SPIN);
+    correctZoomAndValue(NANO, "Nano", SET_SPIN);
+    correctZoomAndValue(PECOM, "Pecom", SET_SPIN);
+    correctZoomAndValue(ETI, "Eti", SET_SPIN);
+
+    correctZoomVtAndValue(ELF2K, "Elf2K", SET_SPIN);
+    correctZoomVtAndValue(COSMICOS, "Cosmicos", SET_SPIN);
+    correctZoomVtAndValue(ELF, "Elf", SET_SPIN);
+    correctZoomVtAndValue(ELFII, "ElfII", SET_SPIN);
+    correctZoomVtAndValue(SUPERELF, "SuperElf", SET_SPIN);
+    correctZoomVtAndValue(MEMBER, "Membership", SET_SPIN);
+    correctZoomVtAndValue(VIP2K, "Vip2K", SET_SPIN);
+    correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
+    correctZoomVtAndValue(CDP18S020, "CDP18S020", SET_SPIN);
+    correctZoomVtAndValue(VIP, "Vip", SET_SPIN);
+    correctZoomVtAndValue(MICROBOARD, "Microboard", SET_SPIN);
+    correctZoomVtAndValue(MCDS, "MCDS", SET_SPIN);
+    correctZoomVtAndValue(MS2000, "MS2000", SET_SPIN);
 }
 
-void GuiMain::onZoomUp(wxSpinEvent&WXUNUSED(event))
+void GuiMain::correctZoomAndValue(int computerType, wxString computerTypeString, bool setSpin)
 {
-	double zoom;
-	if ((selectedComputer_ == runningComputer_) && p_Video != NULL)
-		zoom = p_Video->getZoom();
-	else
-		conf[selectedComputer_].zoom_.ToDouble(&zoom);
-
-	if (!fullScreenFloat_)
-		zoom = (int) (zoom + 1);
-	else
-	{
-		zoom = (int)(zoom*10+0.5);
-		zoom += 1;
-		zoom /= 10;
-	}
-	conf[selectedComputer_].zoom_.Printf("%2.2f", zoom);
-	changeZoom(zoom);
+    correctZoom(computerType, computerTypeString, setSpin);
+    XRCCTRL(*this, "ZoomValue" + computerTypeString, wxTextCtrl)->ChangeValue(conf[computerType].zoom_);
 }
 
-void GuiMain::onZoomDown(wxSpinEvent&WXUNUSED(event))
+void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool setSpin)
 {
-	double zoom;
-	if ((selectedComputer_ == runningComputer_) && p_Video != NULL)
-		zoom = p_Video->getZoom();
-	else
-		conf[selectedComputer_].zoom_.ToDouble(&zoom);
+    double zoom;
+    int zoomInt;
 
-	if (!fullScreenFloat_)
-	{
-		zoom = (int) (zoom - 1);
-		if (zoom < 1)  zoom = 1;
-	}
+    conf[computerType].zoom_.ToDouble(&zoom);
+    if (!fullScreenFloat_)
+    {
+        zoomInt = (int) (zoom + 0.5);
+        if (zoomInt == 0)
+            zoomInt++;
+		if (setSpin)
+			XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(2,9);
+#else
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(1,10);
+#endif
+        conf[computerType].zoom_.Printf("%2.2f", (double)zoomInt);
+    }
+    else
+    {
+		zoomInt = (int)(zoom*10+0.4);
+		if (setSpin)
+			XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(6,99);
+#else
+        XRCCTRL(*this, "ZoomSpin" + computerTypeString, wxSpinButton)->SetRange(5,100);
+#endif
+        conf[computerType].zoom_.Printf("%2.2f", zoom);
+    }
+    if (runningComputer_ == computerType && p_Video != NULL)
+        p_Main->eventZoomChange(zoom);
 	else
-	{
-		zoom = (int)(zoom*10+0.5);
-		zoom -= 1;
-		zoom /= 10;
-		if (zoom < 0.5)  zoom = 0.5;
-	}
-	conf[selectedComputer_].zoom_.Printf("%2.2f", zoom);
-	changeZoom(zoom);
+		zoomEventOngoing_ = false;
+}
+
+void GuiMain::onZoom(wxSpinEvent&event)
+{
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+		return;
+
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
+
+	int position = event.GetPosition();
+    double zoom;
+    
+    if (!fullScreenFloat_)
+        zoom = position;
+    else
+        zoom = (double)position/10;
+    
+    conf[selectedComputer_].zoom_.Printf("%2.2f", zoom);
+    correctZoomAndValue(selectedComputer_, computerInfo[selectedComputer_].gui, DO_NOT_SET_SPIN);
 }
 
 void GuiMain::onZoomValue(wxCommandEvent&event)
 {
-	zoomTextValueChanged_ = true;
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+		return;
+
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
+
 	wxString zoomString = event.GetString();
 	double zoom;
 	if (zoomString.ToDouble(&zoom))
@@ -1001,106 +1075,110 @@ void GuiMain::onZoomValue(wxCommandEvent&event)
 		if (!fullScreenFloat_)
 			zoom = (int) (zoom);
 		conf[selectedComputer_].zoom_ = zoomString;
-		if (selectedComputer_ == runningComputer_)
-		{
-			p_Video->setZoom(zoom);
-			switch(runningComputer_)
-			{
-				case CIDELSA:
-				case COMX:
-				case VIPII:
-					p_Video->reDrawBar();
-				break;
-			}
-		}
-#if defined(__WXMSW__) || defined(__WXMAC__)
-		else
-			XRCCTRL(*this, "ZoomValue"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(conf[selectedComputer_].zoom_);
+        correctZoom(selectedComputer_, computerInfo[selectedComputer_].gui, SET_SPIN);
+	}
+	else
+	{
+		zoomEventOngoing_ = false;
+        if (zoomString != "")
+        {
+            (void)wxMessageBox( "Please specify a number\n",
+                                "Emma 02", wxICON_ERROR | wxOK );
+        }
+	}
+}
+
+void GuiMain::correctZoomVtAndValue(int computerType, wxString computerTypeString, bool setSpin)
+{
+    correctZoomVt(computerType, computerTypeString, setSpin);
+    XRCCTRL(*this, "ZoomValueVt" + computerTypeString, wxTextCtrl)->ChangeValue(conf[computerType].zoomVt_);
+}
+
+void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool setSpin)
+{
+    double zoom;
+    int zoomInt;
+
+    conf[computerType].zoomVt_.ToDouble(&zoom);
+    if (!fullScreenFloat_)
+    {
+        zoomInt = (int) (zoom + 0.5);
+        if (zoomInt == 0)
+            zoomInt++;
+		if (setSpin)
+	        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(2,9);
+#else
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(1,10);
 #endif
-	}
+        conf[computerType].zoomVt_.Printf("%2.2f", (double)zoomInt);
+    }
+    else
+    {
+		zoomInt = (int)(zoom*10+0.4);
+		if (setSpin)
+	        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetValue(zoomInt);
+#if defined(__WXMSW__)
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(6,99);
+#else
+        XRCCTRL(*this, "ZoomSpinVt" + computerTypeString, wxSpinButton)->SetRange(5,100);
+#endif
+        conf[computerType].zoomVt_.Printf("%2.2f", zoom);
+    }
+    if (runningComputer_ == computerType && p_Vt100 != NULL)
+        p_Main->eventZoomVtChange(zoom);
 	else
-	{
-		(void)wxMessageBox( "Please specify a number\n",
-							"Emma 02", wxICON_ERROR | wxOK );
+		zoomEventOngoing_ = false;
+}
+
+void GuiMain::onZoomVt(wxSpinEvent&event)
+{
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
 		return;
-	}
-}
 
-void GuiMain::changeZoomVt(double zoom)
-{
-	if ((selectedComputer_ == runningComputer_) && p_Vt100 != NULL)
-	{
-		p_Vt100->setZoom(zoom);
-		if (runningComputer_ != ELF2K)
-			p_Vt100->copyScreen();
-	}
-	else
-		XRCCTRL(*this, "ZoomValueVt"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(conf[selectedComputer_].zoomVt_);
-}
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
 
-void GuiMain::onZoomUpVt(wxSpinEvent&WXUNUSED(event))
-{
-	double zoomVt;
-	if ((selectedComputer_ == runningComputer_) && p_Vt100 != NULL)
-		zoomVt = p_Vt100->getZoom();
-	else
-		conf[selectedComputer_].zoomVt_.ToDouble(&zoomVt);
+    int position = event.GetPosition();
+    double zoomVt;
 
-	if (!fullScreenFloat_)
-		zoomVt = (int) (zoomVt + 1);
-	else
-	{
-		zoomVt = (int)(zoomVt*10+0.5);
-		zoomVt += 1;
-		zoomVt /= 10;
-	}
-	conf[selectedComputer_].zoomVt_.Printf("%2.2f", zoomVt);
-	changeZoomVt(zoomVt);
-}
-
-void GuiMain::onZoomDownVt(wxSpinEvent&WXUNUSED(event))
-{
-	double zoomVt;
-	if ((selectedComputer_ == runningComputer_) && p_Vt100 != NULL)
-		zoomVt = p_Vt100->getZoom();
-	else
-		conf[selectedComputer_].zoomVt_.ToDouble(&zoomVt);
-
-	if (!fullScreenFloat_)
-	{
-		zoomVt = (int) (zoomVt - 1);
-		if (zoomVt < 1)  zoomVt = 1;
-	}
-	else
-	{
-		zoomVt = (int)(zoomVt*10+0.5);
-		zoomVt -= 1;
-		zoomVt /= 10;
-		if (zoomVt < 0.5)  zoomVt = 0.5;
-	}
-	conf[selectedComputer_].zoomVt_.Printf("%2.2f", zoomVt);
-	changeZoomVt(zoomVt);
+    if (!fullScreenFloat_)
+        zoomVt = position;
+    else
+        zoomVt = (double)position/10;
+    
+    conf[selectedComputer_].zoomVt_.Printf("%2.2f", zoomVt);
+    correctZoomVtAndValue(selectedComputer_, computerInfo[selectedComputer_].gui, DO_NOT_SET_SPIN);
 }
 
 void GuiMain::onZoomValueVt(wxCommandEvent&event)
 {
+	if (zoomEventOngoing_ && runningComputer_ == selectedComputer_)
+		return;
+
+	if (runningComputer_ == selectedComputer_)
+		zoomEventOngoing_ = true;
+
 	wxString zoomString = event.GetString();
 	double zoomVt;
 	if (zoomString.ToDouble(&zoomVt))
 	{
 		if (!fullScreenFloat_)
-		{
 			zoomVt = (int) (zoomVt);
-		}
-		conf[selectedComputer_].zoomVt_ = zoomString;
-		changeZoomVt(zoomVt);
+
+        conf[selectedComputer_].zoomVt_ = zoomString;
+        correctZoomVt(selectedComputer_, computerInfo[selectedComputer_].gui, SET_SPIN);
 	}
 	else
 	{
-		(void)wxMessageBox( "Please specify a number\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
-	}
+		zoomEventOngoing_ = false;
+        if (zoomString != "")
+        {
+            (void)wxMessageBox( "Please specify a number\n",
+                                "Emma 02", wxICON_ERROR | wxOK );
+        }
+    }
 }
 
 void GuiMain::onFullScreen(wxCommandEvent&WXUNUSED(event))
@@ -1287,6 +1365,9 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
         return;
     
+	if (!guiInitialized_)
+		return;
+
     if (conf[selectedComputer_].wavFile_[0] != "")
     {
         if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]))
@@ -1298,6 +1379,9 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 {
     conf[selectedComputer_].wavFile_[1] = event.GetString();
     
+	if (!guiInitialized_)
+		return;
+
     if (conf[selectedComputer_].wavFile_[1] != "")
     {
         if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]))
@@ -1913,8 +1997,11 @@ void GuiMain::onClock(wxCommandEvent&WXUNUSED(event))
 	wxString clock =  clockTextCtrl[selectedComputer_]->GetValue();
 	if (!clock.ToDouble((double*)&clk))
 	{
-		(void)wxMessageBox( "Please specify frequency in MHz\n",
+		if (clock != "")
+		{
+			(void)wxMessageBox( "Please specify frequency in MHz\n",
 							"Emma 02", wxICON_ERROR | wxOK );
+		}
 		return;
 	}
 	if (clk == 0)
@@ -2180,8 +2267,11 @@ void GuiMain::setBeepFrequency(int computerType)
 	wxString frequencyString =  XRCCTRL(*this, "BeepFrequency"+computerInfo[computerType].gui, wxTextCtrl)->GetValue();
 	if (!frequencyString.ToLong((long*)&frequency))
 	{
-		(void)wxMessageBox( "Please specify frequency in Hz\n",
+		if (frequencyString != "")
+		{
+			(void)wxMessageBox( "Please specify frequency in Hz\n",
 							"Emma 02", wxICON_ERROR | wxOK );
+		}
 		return;
 	}
 	if (frequency == 0)
@@ -3434,6 +3524,15 @@ void GuiMain::enableMemAccessGui(bool status)
 				conf[runningComputer_].basicRamAddress_ = 0x4200;
 				computerInfo[runningComputer_].ploadExtension = "fpb";
 			break;
+			case FPBBASIC_AT_8000:
+				conf[runningComputer_].defus_ = 0x7a81;
+				conf[runningComputer_].eop_ = 0x7a83;
+				conf[runningComputer_].string_ = 0x7a92;
+				conf[runningComputer_].arrayValue_ = 0x7a94;
+				conf[runningComputer_].eod_ = 0x7a99;
+				conf[runningComputer_].basicRamAddress_ = 0;
+				computerInfo[runningComputer_].ploadExtension = "fpb";
+			break;
 		}
 	}
 	if (!mode_.gui)
@@ -3662,11 +3761,6 @@ void GuiMain::setBaud(int baudR, int baudT)
     XRCCTRL(*this, "VTBaudTChoice" + computerInfo[runningComputer_].gui, wxChoice)->SetSelection(baudT);
     elfConfiguration[runningComputer_].baudR = baudR;
     elfConfiguration[runningComputer_].baudT = baudT;
-}
-
-void GuiMain::onFullScreenFloat(wxCommandEvent&WXUNUSED(event))
-{
-	fullScreenFloat_ = !fullScreenFloat_;
 }
 
 void GuiMain::onLedTimer(wxCommandEvent&event)

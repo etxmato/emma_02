@@ -2742,6 +2742,7 @@
                                     <style>wxCB_DROPDOWN</style>
                                     <content>
                                         <item></item>
+                                        <item>ut70.bin</item>
                                         <item>ut71.bin</item>
                                     </content>
                                 </object>
@@ -3567,6 +3568,7 @@
                                     <style>wxCB_DROPDOWN</style>
                                     <content>
                                         <item></item>
+                                        <item>ut70_part1.bin</item>
                                         <item>ut71_part1.bin</item>
                                     </content>
                                 </object>
@@ -3597,6 +3599,7 @@
                                     <style>wxCB_DROPDOWN</style>
                                     <content>
                                         <item></item>
+                                        <item>ut70_part2.bin</item>
                                         <item>ut71_part2.bin</item>
                                     </content>
                                 </object>

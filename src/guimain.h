@@ -1,8 +1,8 @@
 #ifndef GUIMAIN_H
 #define GUIMAIN_H
 
-#define NO_COMPUTER 31
-#define LAST_ELF_TYPE 16
+#define NO_COMPUTER 32
+#define LAST_ELF_TYPE 17
 
 #define MAINROM1 0
 
@@ -91,6 +91,9 @@
 #define ROM_SOCKET3 2
 #define ROM_SOCKET4 3
 
+#define VIPII_ED 0
+#define VIPII_RCA 1
+
 DECLARE_EVENT_TYPE(OPEN_PRINTER_WINDOW, 811) 
 
 class ConfigurationMenuInfo
@@ -156,6 +159,8 @@ public:
 	Word basicRamAddress_;
 
 	long bootAddress_;
+    bool autoBoot;
+    int autoBootType;
 
 	int volume_;
 	int tempo_;
@@ -172,6 +177,7 @@ public:
     int videoMode_;
     int velfMode_;
 	int ramType_;
+    int computerVersion_;
 	bool useKeyboard_;
 
 	bool printerOn_;
@@ -300,14 +306,11 @@ public:
 	void onKeyFileText(wxCommandEvent& event);
 	void onKeyFileEject(wxCommandEvent& event);
     void onVT100(wxCommandEvent& event);
-	void onZoomUp(wxSpinEvent& event);
-	void onZoomDown(wxSpinEvent& event);
+    void onZoom(wxSpinEvent& event);
+    void onZoom(int direction);
 	void onZoomValue(wxCommandEvent& event);
-	void changeZoom(double zoom);
-	void onZoomUpVt(wxSpinEvent& event);
-	void onZoomDownVt(wxSpinEvent& event);
+    void onZoomVt(wxSpinEvent& event);
 	void onZoomValueVt(wxCommandEvent& event);
-	void changeZoomVt(double zoom);
 	void onFullScreen(wxCommandEvent&event);
 	void onInterlace(wxCommandEvent& event);
 	void onUpperCase(wxCommandEvent& event);
@@ -380,6 +383,7 @@ public:
 	int getRunningComputerId() {return runningComputer_;};
 	int getVolume(int computerType) {return conf[computerType].volume_;};
 	int getVideoMode(int computerType) {return conf[computerType].videoMode_;};
+	int getComputerVersion(int computerType) {return conf[computerType].computerVersion_;};
 	bool getInterlace(int computerType) {return conf[computerType].interlace_;};
 	bool getStretchDot(int computerType) {return conf[computerType].stretchDot_;};
 	int getSound(int computerType) {return conf[computerType].soundType_;};
@@ -394,6 +398,16 @@ public:
 	Byte getMultiCartLsb(int computerType) {return conf[computerType].lsb_;};
     Byte getMultiCartMsb(int computerType) {return conf[computerType].msb_;};
     int getFdcType(int computerType) {return elfConfiguration[computerType].fdcType_;};
+    int getBarLedPosX1() {return windowInfo.ledPosX1;};
+    int getBarLedPosX2() {return windowInfo.ledPosX2;};
+    int getBarLedSpacing() {return windowInfo.ledSpacing;};
+    int getBarLedPosY() {return windowInfo.ledPosY;};
+    int getBarLedPosDiagY() {return windowInfo.ledPosDiagY;};
+    int getBarLedPosVip2Y() {return windowInfo.ledPosVip2Y;};
+    int getStatusBarElementMeasure(int number) {return windowInfo.statusBarElementMeasure[number];};
+    wxString getBarLeader() {return windowInfo.statusBarLeader;};
+    wxString getBarLeaderCidelsa() {return windowInfo.statusBarLeaderCidelsa;};
+    int getPrintX() {return printX_;};
 
 	wxString getLedTime(int computerType) {return conf[computerType].ledTime_;}; 
 	long getLedTimeMs(int computerType) {return conf[computerType].ledTimeMs_;}; 
@@ -528,6 +542,10 @@ public:
 	ScreenInfo getScreenInfo(int id);
 	bool isFullScreenFloat() {return fullScreenFloat_;};
 	void onFullScreenFloat(wxCommandEvent&event);
+    void correctZoomAndValue(int computerType, wxString computerTypeString, bool setSpin);
+    void correctZoom(int computerType, wxString computerTypeString, bool setSpin);
+    void correctZoomVtAndValue(int computerType, wxString computerTypeString, bool setSpin);
+    void correctZoomVt(int computerType, wxString computerTypeString, bool setSpin);
     void onLedTimer(wxCommandEvent&event);
     int getCpuType();
     int getCpuStartupRegisters() {return cpuStartupRegisters_;};
@@ -601,6 +619,7 @@ protected:
 	Mcds *p_Mcds;
 	Cosmicos *p_Cosmicos;
 	Membership *p_Membership;
+    Uc1800 *p_Uc1800;
     Microtutor *p_Microtutor;
     Microtutor2 *p_Microtutor2;
 	Elf *p_Elf;
@@ -630,6 +649,7 @@ protected:
 	int mainWindowX_, mainWindowY_;
 	int ubuntuOffsetX_;
 
+	bool guiInitialized_;
 	int elfChoice_;
     int rcaChoice_;
 	int debuggerChoice_;
@@ -658,10 +678,11 @@ protected:
 
 	bool debugMode_;
 	bool chip8DebugMode_;
-	bool zoomTextValueChanged_;
+    int zoomPosition_;
 	int memoryDisplay_;
 
 	int tapeState_;
+    bool zoomEventOngoing_;
 
 	bool computerRunning_;
 
@@ -675,6 +696,7 @@ protected:
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;
     wxTimer *guiSizeTimeoutPointer;
+    wxTimer *guiRedrawBarTimeOutPointer;
     bool guiSizeTimerStarted_;
 
 	bool slotLedUpdate_;
@@ -694,6 +716,8 @@ protected:
     
     bool directoryMode_[FDCTYPE_MAX][4];
 
+    int printX_;
+    
 private:
 	wxBitmap playBlackBitmap;
 	wxBitmap playGreenBitmap;

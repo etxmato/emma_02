@@ -47,8 +47,8 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
 	EVT_TEXT(XRCID("ScreenDumpFileStudio2"), GuiMain::onScreenDumpFileText)
 	EVT_COMBOBOX(XRCID("ScreenDumpFileStudio2"), GuiMain::onScreenDumpFileText)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinStudio2"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinStudio2"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinStudio2"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinStudio2"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueStudio2"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Studio2"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ScreenDumpF5Studio2"), GuiMain::onScreenDump)
@@ -72,8 +72,8 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
     EVT_TEXT(XRCID("ScreenDumpFileCoinArcade"), GuiMain::onScreenDumpFileText)
     EVT_COMBOBOX(XRCID("ScreenDumpFileCoinArcade"), GuiMain::onScreenDumpFileText)
 
-    EVT_SPIN_UP(XRCID("ZoomSpinCoinArcade"), GuiMain::onZoomUp)
-    EVT_SPIN_DOWN(XRCID("ZoomSpinCoinArcade"), GuiMain::onZoomDown)
+    EVT_SPIN_UP(XRCID("ZoomSpinCoinArcade"), GuiMain::onZoom)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinCoinArcade"), GuiMain::onZoom)
     EVT_TEXT(XRCID("ZoomValueCoinArcade"), GuiMain::onZoomValue)
     EVT_BUTTON(XRCID("FullScreenF3CoinArcade"), GuiMain::onFullScreen)
     EVT_BUTTON(XRCID("ScreenDumpF5CoinArcade"), GuiMain::onScreenDump)
@@ -96,8 +96,8 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
 	EVT_TEXT(XRCID("ScreenDumpFileVisicom"), GuiMain::onScreenDumpFileText)
 	EVT_COMBOBOX(XRCID("ScreenDumpFileVisicom"), GuiMain::onScreenDumpFileText)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVisicom"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVisicom"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinVisicom"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVisicom"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueVisicom"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Visicom"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ScreenDumpF5Visicom"), GuiMain::onScreenDump)
@@ -126,8 +126,8 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
 	EVT_TEXT(XRCID("ScreenDumpFileVictory"), GuiMain::onScreenDumpFileText)
 	EVT_COMBOBOX(XRCID("ScreenDumpFileVictory"), GuiMain::onScreenDumpFileText)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVictory"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVictory"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinVictory"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVictory"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueVictory"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Victory"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("ScreenDumpF5Victory"), GuiMain::onScreenDump)
@@ -149,8 +149,8 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
     EVT_TEXT(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
     EVT_COMBOBOX(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
 
-    EVT_SPIN_UP(XRCID("ZoomSpinStudioIV"), GuiMain::onZoomUp)
-    EVT_SPIN_DOWN(XRCID("ZoomSpinStudioIV"), GuiMain::onZoomDown)
+    EVT_SPIN_UP(XRCID("ZoomSpinStudioIV"), GuiMain::onZoom)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinStudioIV"), GuiMain::onZoom)
     EVT_TEXT(XRCID("ZoomValueStudioIV"), GuiMain::onZoomValue)
     EVT_BUTTON(XRCID("FullScreenF3StudioIV"), GuiMain::onFullScreen)
     EVT_BUTTON(XRCID("ScreenDumpF5StudioIV"), GuiMain::onScreenDump)
@@ -207,8 +207,11 @@ void GuiStudio2::readStudioConfig()
 		XRCCTRL(*this, "MainRomStudio2", wxComboBox)->SetValue(conf[STUDIO].rom_[MAINROM1]);
 		XRCCTRL(*this, "CartRomStudio2", wxComboBox)->SetValue(conf[STUDIO].rom_[CARTROM]);
 		XRCCTRL(*this, "ScreenDumpFileStudio2", wxComboBox)->SetValue(conf[STUDIO].screenDumpFile_);
-		XRCCTRL(*this, "ZoomValueStudio2", wxTextCtrl)->ChangeValue(conf[STUDIO].zoom_);
-		clockTextCtrl[STUDIO]->ChangeValue(conf[STUDIO].clock_);
+        
+        correctZoomAndValue(STUDIO, "Studio2", SET_SPIN);
+
+        if (clockTextCtrl[STUDIO] != NULL)
+            clockTextCtrl[STUDIO]->ChangeValue(conf[STUDIO].clock_);
 //		wxString beepFrequency;
 //		beepFrequency.Printf("%d", conf[STUDIO].beepFrequency_);
 //		XRCCTRL(*this, "BeepFrequencyStudio2", wxTextCtrl)->ChangeValue(beepFrequency);
@@ -329,8 +332,11 @@ void GuiStudio2::readCoinArcadeConfig()
     {
         XRCCTRL(*this, "MainRomCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].rom_[MAINROM1]);
         XRCCTRL(*this, "ScreenDumpFileCoinArcade", wxComboBox)->SetValue(conf[COINARCADE].screenDumpFile_);
-        XRCCTRL(*this, "ZoomValueCoinArcade", wxTextCtrl)->ChangeValue(conf[COINARCADE].zoom_);
-        clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
+        
+        correctZoomAndValue(COINARCADE, "CoinArcade", SET_SPIN);
+
+        if (clockTextCtrl[COINARCADE] != NULL)
+            clockTextCtrl[COINARCADE]->ChangeValue(conf[COINARCADE].clock_);
         XRCCTRL(*this, "VolumeCoinArcade", wxSlider)->SetValue(conf[COINARCADE].volume_);
     }
 }
@@ -403,8 +409,11 @@ void GuiStudio2::readVisicomConfig()
 		XRCCTRL(*this, "MainRomVisicom", wxComboBox)->SetValue(conf[VISICOM].rom_[MAINROM1]);
 		XRCCTRL(*this, "CartRomVisicom", wxComboBox)->SetValue(conf[VISICOM].rom_[CARTROM]);
 		XRCCTRL(*this, "ScreenDumpFileVisicom", wxComboBox)->SetValue(conf[VISICOM].screenDumpFile_);
-		XRCCTRL(*this, "ZoomValueVisicom", wxTextCtrl)->ChangeValue(conf[VISICOM].zoom_);
-		clockTextCtrl[VISICOM]->ChangeValue(conf[VISICOM].clock_);
+        
+        correctZoomAndValue(VISICOM, "Visicom", SET_SPIN);
+
+        if (clockTextCtrl[VISICOM] != NULL)
+            clockTextCtrl[VISICOM]->ChangeValue(conf[VISICOM].clock_);
 //		wxString beepFrequency;
 //		beepFrequency.Printf("%d", conf[VISICOM].beepFrequency_);
 //		XRCCTRL(*this, "BeepFrequencyVisicom", wxTextCtrl)->ChangeValue(beepFrequency);
@@ -485,8 +494,11 @@ void GuiStudio2::readVictoryConfig()
 		XRCCTRL(*this, "MainRomVictory", wxComboBox)->SetValue(conf[VICTORY].rom_[MAINROM1]);
 		XRCCTRL(*this, "CartRomVictory", wxComboBox)->SetValue(conf[VICTORY].rom_[CARTROM]);
 		XRCCTRL(*this, "ScreenDumpFileVictory", wxComboBox)->SetValue(conf[VICTORY].screenDumpFile_);
-		XRCCTRL(*this, "ZoomValueVictory", wxTextCtrl)->ChangeValue(conf[VICTORY].zoom_);
-		clockTextCtrl[VICTORY]->ChangeValue(conf[VICTORY].clock_);
+        
+        correctZoomAndValue(VICTORY, "Victory", SET_SPIN);
+
+        if (clockTextCtrl[VICTORY] != NULL)
+            clockTextCtrl[VICTORY]->ChangeValue(conf[VICTORY].clock_);
 		XRCCTRL(*this, "VolumeVictory", wxSlider)->SetValue(conf[VICTORY].volume_);
 
         XRCCTRL(*this, "MultiCartVictory", wxCheckBox)->SetValue(conf[VICTORY].multiCart_);
@@ -621,8 +633,11 @@ void GuiStudio2::readStudioIVConfig()
         XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
         XRCCTRL(*this, "CartRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].screenDumpFile_);
-        XRCCTRL(*this, "ZoomValueStudioIV", wxTextCtrl)->ChangeValue(conf[STUDIOIV].zoom_);
-        clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);
+        
+        correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN);
+
+        if (clockTextCtrl[STUDIOIV] != NULL)
+            clockTextCtrl[STUDIOIV]->ChangeValue(conf[STUDIOIV].clock_);
         XRCCTRL(*this, "VolumeStudioIV", wxSlider)->SetValue(conf[STUDIOIV].volume_);
         
         XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);

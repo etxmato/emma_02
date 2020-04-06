@@ -290,7 +290,7 @@ void Pixie::configurePixieVelf()
 	p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator\n");
 }
 
-void Pixie::configurePixieVipII()
+void Pixie::configurePixieVipII(bool runLed)
 {
 	p_Computer->setOutType(1, PIXIEOUT);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
@@ -305,7 +305,7 @@ void Pixie::configurePixieVipII()
 	p_Main->message("	Output 1: disable graphics, input 1: enable graphics, EF 1: in frame indicator");
 	p_Main->message("	Output 5: step background colour\n");
 
-	vipIIStatusBarPointer->initVipIIBar();
+	vipIIStatusBarPointer->initVipIIBar(runLed);
 }
 
 void Pixie::configurePixieTmc1800()
@@ -486,7 +486,7 @@ Byte Pixie::inPixie()
 void Pixie::outPixie()
 {
 	graphicsOn_ = false;
-	if (computerType_ == ETI || computerType_ == STUDIOIV)
+	if (computerType_ == ETI || computerType_ == STUDIOIV || computerType_ == VIPII)
 		videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 }
 
@@ -839,7 +839,10 @@ void Pixie::cyclePixieTelmac()
 
 void Pixie::copyScreen()
 {
-	PlotList *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
+
+    PlotList *temp;
 
 	if (!graphicsOn_ && (computerType_ == ETI))  return;
 

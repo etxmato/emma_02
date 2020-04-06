@@ -153,6 +153,12 @@ void Upd765::configureUpd765(int fdcType)
             clusterInfo_[drive][cluster].sdwClusterDefined = false;
 		}
 	}
+
+	statusRegister0_ = 0;
+	statusRegister1_ = 0;
+	statusRegister2_ = 0;
+	statusRegister3_ = 0;
+	lastCommand_ = 0;
 }
 
 /*
@@ -193,7 +199,8 @@ void Upd765::doRead()
 			if (!diskCreated_[drive_] || diskName_[drive_] == "")
 			{
 				statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
-				commandReturnCounter__ = 1;
+				commandReturnCounter_ = 1;
+				commandReturnValue_ = 0;
 				masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
 				return;
 			}
@@ -202,7 +209,8 @@ void Upd765::doRead()
             {
                 statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
                 // drive not ready error if not open
-                commandReturnCounter__ = 1;
+                commandReturnCounter_ = 1;
+				commandReturnValue_ = 0;
                 masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                 return;
             }
@@ -279,6 +287,13 @@ void Upd765::doRead()
 				{
 					for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
 						p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
+
+						updActivity_ = UPD_NONE;
+						statusRegister0_ = drive_;
+						commandReturnCounter_ = 7;
+						commandReturnValue_ = 0;
+						masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
+
 					return;
 				}
 				if (dmaCounter_ >= 3584)
@@ -289,7 +304,8 @@ void Upd765::doRead()
 						{
 							statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
 							// drive not ready error if not open
-							commandReturnCounter__ = 1;
+							commandReturnCounter_ = 1;
+							commandReturnValue_ = 0;
 							masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
 							return;
 						}
@@ -299,13 +315,21 @@ void Upd765::doRead()
 
 						for (int pos = offset * 512; pos < (offset * 512) + dmaCounter_; pos++)
 							p_Computer->writeMem(p_Computer->getAndIncRegister0(), diskBuffer_[drive_][pos], false);
+
+						updActivity_ = UPD_NONE;
+						statusRegister0_ = drive_;
+						commandReturnCounter_ = 7;
+						commandReturnValue_ = 0;
+						masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
+
 						return;
 					}
 					else
 					{
 						statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
 						// drive not ready error if not open
-						commandReturnCounter__ = 1;
+						commandReturnCounter_ = 1;
+						commandReturnValue_ = 0;
 						masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
 						return;
 					}
@@ -319,7 +343,8 @@ void Upd765::doRead()
 					{
 						statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
 						// drive not ready error if not open
-						commandReturnCounter__ = 1;
+						commandReturnCounter_ = 1;
+						commandReturnValue_ = 0;
 						masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
 						return;
 					}
@@ -410,7 +435,8 @@ void Upd765::doRead()
                     {
                         statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
                         // drive not ready error if not open
-                        commandReturnCounter__ = 1;
+                        commandReturnCounter_ = 1;
+						commandReturnValue_ = 0;
                         masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                         return;
                     }
@@ -433,7 +459,8 @@ void Upd765::doRead()
 			}
             updActivity_ = UPD_NONE;
             statusRegister0_ = drive_;
-            commandReturnCounter__ = 7;
+            commandReturnCounter_ = 7;
+			commandReturnValue_ = 0;
             masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
         }
     }
@@ -457,7 +484,8 @@ void Upd765::doWrite()
         if (!diskCreated_[drive_] || diskName_[drive_] == "")
 		{
 			statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
-			commandReturnCounter__ = 1;
+			commandReturnCounter_ = 1;
+			commandReturnValue_ = 0;
 			masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
 			return;
 		}
@@ -466,7 +494,8 @@ void Upd765::doWrite()
         {
             statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
             // drive not ready error if not open
-            commandReturnCounter__ = 1;
+            commandReturnCounter_ = 1;
+			commandReturnValue_ = 0;
             masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
             return;
         }
@@ -510,9 +539,16 @@ void Upd765::doWrite()
 				diskBuffer_[drive_][pos] = p_Computer->readMem(p_Computer->getAndIncRegister0());
 
             if (clusterInfo_[drive_][offset_].readCluster)
+			{
+//        updActivity_ = UPD_NONE;
+//        statusRegister0_ = drive_;
+//        commandReturnCounter_ = 7;
+//		commandReturnValue_ = 0;
+//        masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                 return;
-            
-            if (clusterInfo_[drive_][offset_].sdwCluster)
+			}
+
+			if (clusterInfo_[drive_][offset_].sdwCluster)
 			{
 				int clusterPointer = 0, numberOfClusters = 0, cluster;
 
@@ -603,7 +639,8 @@ void Upd765::doWrite()
 		}
         updActivity_ = UPD_NONE;
         statusRegister0_ = drive_;
-        commandReturnCounter__ = 7;
+        commandReturnCounter_ = 7;
+		commandReturnValue_ = 0;
         masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
     }
 }
@@ -620,7 +657,8 @@ void Upd765::doFormatWrite()
         {
             statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
             // drive not ready error if disk filename is empty
-            commandReturnCounter__ = 1;
+            commandReturnCounter_ = 1;
+			commandReturnValue_ = 0;
             masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
             return;
         }
@@ -636,7 +674,8 @@ void Upd765::doFormatWrite()
         {
             statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;
             // drive not ready error if not open
-            commandReturnCounter__ = 1;
+            commandReturnCounter_ = 1;
+			commandReturnValue_ = 0;
             masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
             return;
         }
@@ -652,7 +691,8 @@ void Upd765::doFormatWrite()
     {
         updActivity_ = UPD_NONE;
         statusRegister0_ = drive_;
-        commandReturnCounter__ = 7;
+        commandReturnCounter_ = 7;
+		commandReturnValue_ = 0;
         masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
     }
 }
@@ -915,10 +955,12 @@ void Upd765::doCommand()
     switch(commandPacket_[0])
     {
         case SPCMD:                  // specify
+			//p_Main->eventShowTextMessage("specify ");
             // Nothing to do
         break;
             
         case RCCMD:                  // recalibrate            
+            //p_Main->eventShowTextMessage("recalibrate ");
             if (!diskCreated_[drive_] && !p_Main->getDirectoryMode(fdcType_, drive_))
             {
 				if (diskName_[drive_] == "")
@@ -959,6 +1001,7 @@ void Upd765::doCommand()
         break;
             
         case SKCMD:                  // seek
+            //p_Main->eventShowTextMessage("seek ");
             // store some values in case this is followed by sense interrupt
             if(diskCreated_[drive_])
             {
@@ -983,10 +1026,12 @@ void Upd765::doCommand()
         break;
             
         case RDCMD:                  // read
+            //p_Main->eventShowTextMessage("read ");
             doRead();
         break;
             
         case WTCMD:                  // write
+			//p_Main->eventShowTextMessage("write ");
             doWrite();
         break;
             
@@ -995,19 +1040,33 @@ void Upd765::doCommand()
         break;
             
         case SISCMD:                 // sense interrupt status
-            //      printf("sense ");
-            interrupt_ = 0;
-            masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
-            commandReturnCounter__ = 2;
-        break;
+			if (lastCommand_ != commandPacket_[0])
+			{
+	            //p_Main->eventShowTextMessage("sense ");
+				interrupt_ = 0;
+				masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
+				commandReturnCounter_ = 2;
+				commandReturnValue_ = 0;
+			}
+			else
+			{
+		        //p_Main->eventShowTextMessage("invalid/second sense ");
+			    statusRegister0_ = SR_INVALID_COMMAND;
+				commandReturnCounter_ = 1;
+				commandReturnValue_ = 0;
+				masterStatus_ = MS_DATA_IO | MS_REQUEST_FOR_MASTER;
+			}
+		break;
             
         default:                 // Invalid command
-            //      printf("invalid ");
+            //p_Main->eventShowTextMessage("invalid ");
             statusRegister0_ = SR_INVALID_COMMAND;
-            commandReturnCounter__ = 1;
+            commandReturnCounter_ = 1;
+			commandReturnValue_ = 0;
             masterStatus_ = MS_DATA_IO | MS_REQUEST_FOR_MASTER;
         break;
     }
+	lastCommand_ = commandPacket_[0];
 }
 
 /*
@@ -1050,13 +1109,38 @@ void Upd765::outputCommand(Byte value)
  */
 Byte Upd765::inputCommandStatus(void)
 {
+	int returnValue;
+
     if((masterStatus_&0xc0) == (MS_DATA_IO | MS_REQUEST_FOR_MASTER))
     {
         interrupt_ = 1;               // clear interrupt
-        if(commandReturnCounter__-- == 1) // last byte, change to ready for command
+        if(commandReturnCounter_-- == 1) // last byte, change to ready for command
             masterStatus_ = MS_REQUEST_FOR_MASTER;
         
-        return statusRegister0_;
+		switch (commandReturnValue_)
+		{
+			case 0:
+				returnValue = statusRegister0_;
+			break;
+			case 1:
+				if (commandPacket_[0] == SISCMD)
+					returnValue = pcn;
+				else
+					returnValue = statusRegister1_;
+			break;
+			case 2:
+				returnValue = statusRegister2_;
+			break;
+			case 3:
+				returnValue = statusRegister3_;
+			break;
+			default:
+				returnValue = commandPacket_[commandReturnValue_-1];
+			break;
+		}
+
+		commandReturnValue_++;
+        return returnValue;
     }
     return 0;
 }
@@ -1119,7 +1203,8 @@ void Upd765::cycleUpd765()
             {
                 updActivity_ = UPD_NONE;
                 statusRegister0_ = drive_;
-                commandReturnCounter__ = 7;
+                commandReturnCounter_ = 7;
+				commandReturnValue_ = 0;
                 masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
             }
         break;
@@ -1135,7 +1220,8 @@ void Upd765::cycleUpd765()
                 if (!diskCreated_[drive_])
                 {
                     statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;      // drive not ready error if disk not created
-                    commandReturnCounter__ = 1;
+                    commandReturnCounter_ = 1;
+					commandReturnValue_ = 0;
                     masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                     updActivity_ = UPD_NONE;
                     return;
@@ -1144,7 +1230,8 @@ void Upd765::cycleUpd765()
                 if (!diskFile.Open(diskDir_[drive_]+diskName_[drive_], "rb+"))
                 {
                     statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;      // drive not ready error if not open
-                    commandReturnCounter__ = 1;
+                    commandReturnCounter_ = 1;
+					commandReturnValue_ = 0;
                     masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                     updActivity_ = UPD_NONE;
                     return;
@@ -1155,7 +1242,8 @@ void Upd765::cycleUpd765()
             
                 updActivity_ = UPD_NONE;
                 statusRegister0_ = drive_;
-                commandReturnCounter__ = 7;
+                commandReturnCounter_ = 7;
+				commandReturnValue_ = 0;
                 masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                 diskFile.Close();
             }
@@ -1172,7 +1260,8 @@ void Upd765::cycleUpd765()
                 if (!diskCreated_[drive_])
                 {
                     statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;      // drive not ready error if disk not created
-                    commandReturnCounter__ = 1;
+                    commandReturnCounter_ = 1;
+					commandReturnValue_ = 0;
                     masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                     updActivity_ = UPD_NONE;
                     return;
@@ -1181,7 +1270,8 @@ void Upd765::cycleUpd765()
                 if (!diskFile.Open(diskDir_[drive_]+diskName_[drive_], "rb+"))
                 {
                     statusRegister0_ = SR_ABNORMAL_TERMINATION | SR_HEAD_ADDRESS | drive_;      // drive not ready error if not open
-                    commandReturnCounter__ = 1;
+                    commandReturnCounter_ = 1;
+					commandReturnValue_ = 0;
                     masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                     updActivity_ = UPD_NONE;
                     return;
@@ -1191,7 +1281,8 @@ void Upd765::cycleUpd765()
                 
                 updActivity_ = UPD_NONE;
                 statusRegister0_ = drive_;
-                commandReturnCounter__ = 7;
+                commandReturnCounter_ = 7;
+				commandReturnValue_ = 0;
                 masterStatus_ = MS_FDC_BUSY | MS_DATA_IO | MS_REQUEST_FOR_MASTER;
                 diskFile.Close();
             }

@@ -48,8 +48,8 @@ BEGIN_EVENT_TABLE(GuiTMC2000, GuiEti)
 	EVT_BUTTON(XRCID("Chip8SWButtonTMC2000"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWTMC2000"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinTMC2000"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinTMC2000"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinTMC2000"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinTMC2000"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueTMC2000"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3TMC2000"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("CasButtonTMC2000"), GuiMain::onCassette)
@@ -92,8 +92,8 @@ BEGIN_EVENT_TABLE(GuiTMC2000, GuiEti)
 	EVT_BUTTON(XRCID("Chip8SWButtonTMC1800"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWTMC1800"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinTMC1800"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinTMC1800"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinTMC1800"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinTMC1800"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueTMC1800"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3TMC1800"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("CasButtonTMC1800"), GuiMain::onCassette)
@@ -184,7 +184,8 @@ void GuiTMC2000::readTMC2000Config()
 		XRCCTRL(*this, "ScreenDumpFileTMC2000", wxComboBox)->SetValue(conf[TMC2000].screenDumpFile_);
 		XRCCTRL(*this, "WavFileTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValueTMC2000", wxTextCtrl)->ChangeValue(conf[TMC2000].zoom_);
+        correctZoomAndValue(TMC2000, "TMC2000", SET_SPIN);
+
 		XRCCTRL(*this, "TurboTMC2000", wxCheckBox)->SetValue(conf[TMC2000].turbo_);
 		turboGui("TMC2000");
 		XRCCTRL(*this, "TurboClockTMC2000", wxTextCtrl)->SetValue(conf[TMC2000].turboClock_);
@@ -192,7 +193,8 @@ void GuiTMC2000::readTMC2000Config()
 
 		XRCCTRL(*this, "VolumeTMC2000", wxSlider)->SetValue(conf[TMC2000].volume_);
 		XRCCTRL(*this, "RamTMC2000", wxChoice)->SetSelection(conf[TMC2000].ramType_);
-		clockTextCtrl[TMC2000]->ChangeValue(conf[TMC2000].clock_);
+        if (clockTextCtrl[TMC2000] != NULL)
+            clockTextCtrl[TMC2000]->ChangeValue(conf[TMC2000].clock_);
 		XRCCTRL(*this, "KeyboardTMC2000", wxCheckBox)->SetValue(conf[TMC2000].useKeyboard_);
 		XRCCTRL(*this, "KeyMapTMC2000", wxButton)->Enable(!conf[TMC2000].useKeyboard_);
 	}
@@ -293,7 +295,8 @@ void GuiTMC2000::readTMC1800Config()
 		XRCCTRL(*this, "ScreenDumpFileTMC1800", wxComboBox)->SetValue(conf[TMC1800].screenDumpFile_);
 		XRCCTRL(*this, "WavFileTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValueTMC1800", wxTextCtrl)->ChangeValue(conf[TMC1800].zoom_);
+        correctZoomAndValue(TMC1800, "TMC1800", SET_SPIN);
+
 		XRCCTRL(*this, "TurboTMC1800", wxCheckBox)->SetValue(conf[TMC1800].turbo_);
 		turboGui("TMC1800");
 		XRCCTRL(*this, "TurboClockTMC1800", wxTextCtrl)->SetValue(conf[TMC1800].turboClock_);
@@ -301,7 +304,8 @@ void GuiTMC2000::readTMC1800Config()
 
 		XRCCTRL(*this, "VolumeTMC1800", wxSlider)->SetValue(conf[TMC1800].volume_);
 		XRCCTRL(*this, "RamTMC1800", wxChoice)->SetSelection(conf[TMC1800].ramType_);
-		clockTextCtrl[TMC1800]->ChangeValue(conf[TMC1800].clock_);
+        if (clockTextCtrl[TMC1800] != NULL)
+            clockTextCtrl[TMC1800]->ChangeValue(conf[TMC1800].clock_);
 
 		XRCCTRL(*this, "KeyboardTMC1800", wxCheckBox)->SetValue(conf[TMC1800].useKeyboard_);
 		XRCCTRL(*this, "KeyMapTMC1800", wxButton)->Enable(!conf[TMC1800].useKeyboard_);

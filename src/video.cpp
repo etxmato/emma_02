@@ -95,9 +95,9 @@ void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 
 void VideoScreen::onChar(wxKeyEvent& event)
 {
+	int key = event.GetKeyCode();
 	if (vt100_)
 	{
-		int key = event.GetKeyCode();
 		if (p_Vt100->charPressed(event))
 			return;
 		if (forceUpperCase_ && key >= 'a' && key <= 'z')
@@ -108,7 +108,28 @@ void VideoScreen::onChar(wxKeyEvent& event)
 			vtOut(key);
 		}
 	}
-    p_Computer->charEvent(event.GetKeyCode());
+	if (computerType_ == VIPII)
+	{
+#ifdef __WXMAC__
+        if (event.GetModifiers() == wxMOD_CONTROL)
+#else
+        if (event.GetModifiers() == wxMOD_ALT)
+#endif
+		{
+			if (key == 49 || key == 50 || key == 99 || key == 67)
+			{
+				p_Computer->onReset();
+				p_Computer->setClear(1);
+				p_Main->updateTitle();
+			}
+			if (key == 51)
+			{
+				p_Computer->setClear(0);
+				p_Main->updateTitle();
+			}
+		}
+	}
+    p_Computer->charEvent(key);
 }
 
 void VideoScreen::vtOut(int value)
@@ -490,6 +511,9 @@ void Video::setScreenSize()
 
 void Video::changeScreenSize()
 {
+	if (p_Main->isZoomEventOngoing())
+		return;
+
 	double zoomx, zoomy;
 
 	wxSize size = this->GetClientSize();
@@ -536,8 +560,10 @@ void Video::changeScreenSize()
 	double intPart;
 	zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
+#ifndef __linux__ // Looks like reDrawing on zooming will (sometimes) crash on linux
 	reDraw_ = true;
 	newBackGround_ = true;
+#endif
 
 	if (videoScreenPointer->isVt())
 		p_Main->zoomEventVt(zoom_);
@@ -619,7 +645,9 @@ void Video::setZoom(double zoom)
 	videoScreenPointer->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
 
 	videoScreenPointer->setZoom(zoom_);
+#ifndef __linux__
 	reBlit_ = true;
+#endif
 }
 
 void Video::drawExtraBackground(wxColour clr)

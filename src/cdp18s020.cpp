@@ -252,11 +252,11 @@ Cdp18s020::~Cdp18s020()
         case NOPROGRAM:
         case FPBBOOT:
             p_Main->saveScrtValues("");
-            break;
+        break;
             
         case FPBBASIC:
             p_Main->saveScrtValues("FPBBASIC");
-            break;
+        break;
     }
 
     if (cdp18s020Configuration.vtType != VTNONE)

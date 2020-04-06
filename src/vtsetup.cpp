@@ -123,6 +123,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 	}
 
     XRCCTRL(*this, "SerialLog", wxCheckBox)->SetValue(elfConfiguration_.serialLog);
+    XRCCTRL(*this, "ESCError", wxCheckBox)->SetValue(elfConfiguration_.escError);
 	switch (computerType_)
 	{
 		case ELF:
@@ -237,7 +238,8 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             elfConfiguration_.vtExternalSetUpFeature_ = SetUpFeature_;
 
     elfConfiguration_.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
-    
+    elfConfiguration_.escError = XRCCTRL(*this, "ESCError", wxCheckBox)->GetValue();
+
 	switch (computerType_)
 	{
 		case ELF:

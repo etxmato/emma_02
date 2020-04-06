@@ -339,6 +339,8 @@ bool Elf::keyUpReleased(int key)
 	}
 	onHexKeyUp(key);
 //    keyboardUp();
+	if (elfConfiguration.useKeyboard)
+		keyboardUp();
 	if (elfConfiguration.UsePS2)
 	{
 		keyUpPs2(key);

@@ -49,8 +49,8 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiCdp18s020)
 	EVT_BUTTON(XRCID("Chip8SWButtonVelf"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWVelf"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVelf"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVelf"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinVelf"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVelf"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueVelf"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Velf"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("CasButtonVelf"), GuiMain::onCassette)
@@ -87,8 +87,8 @@ BEGIN_EVENT_TABLE(GuiVelf, GuiCdp18s020)
 	EVT_CHECKBOX(XRCID("LatchVelf"), GuiVelf::onLatch)
 
 	EVT_CHOICE(XRCID("VTTypeVelf"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtVelf"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtVelf"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("VtSetupVelf"), GuiMain::onVtSetup)
 	EVT_CHECKBOX(XRCID("StretchDotVelf"), GuiMain::onStretchDot)
@@ -218,20 +218,22 @@ void GuiVelf::readVelfConfig()
         XRCCTRL(*this,"AddressText1Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this,"AddressText2Velf", wxStaticText)->Enable(elfConfiguration[VELF].useElfControlWindows);
         XRCCTRL(*this, "ControlWindowsVelf", wxCheckBox)->SetValue(elfConfiguration[VELF].useElfControlWindows);
-        XRCCTRL(*this, "ZoomValueVtVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoomVt_);
+        
+        correctZoomAndValue(VELF, "Velf", SET_SPIN);
+        correctZoomVtAndValue(VELF, "Velf", SET_SPIN);
 
-		XRCCTRL(*this, "ZoomValueVelf", wxTextCtrl)->ChangeValue(conf[VELF].zoom_);
 		XRCCTRL(*this, "LatchVelf", wxCheckBox)->SetValue(latch_);
 		XRCCTRL(*this, "TurboVelf", wxCheckBox)->SetValue(conf[VELF].turbo_);
 		turboGui("Velf");
 		XRCCTRL(*this, "TurboClockVelf", wxTextCtrl)->SetValue(conf[VELF].turboClock_);
 		XRCCTRL(*this, "AutoCasLoadVelf", wxCheckBox)->SetValue(conf[VELF].autoCassetteLoad_);
-		setPrinterState(VELF);
+        setPrinterState(VELF);
 		XRCCTRL(*this, "VolumeVelf", wxSlider)->SetValue(conf[VELF].volume_);
 		XRCCTRL(*this, "PrintModeVelf", wxChoice)->SetSelection((int)configPointer->Read("/Velf/Print_Mode", 1l));
 		setPrintMode();
-		clockTextCtrl[VELF]->ChangeValue(conf[VELF].clock_);
-		wxString beepFrequency;
+        if (clockTextCtrl[VELF] != NULL)
+            clockTextCtrl[VELF]->ChangeValue(conf[VELF].clock_);
+		 wxString beepFrequency;
 		beepFrequency.Printf("%d", conf[VELF].beepFrequency_);
 		XRCCTRL(*this, "BeepFrequencyVelf", wxTextCtrl)->ChangeValue(beepFrequency);
         XRCCTRL(*this, "ShowAddressVelf", wxTextCtrl)->ChangeValue(conf[VELF].ledTime_);

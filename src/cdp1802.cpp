@@ -224,7 +224,8 @@ void Cdp1802::machineCycle()
             break;
         }
     }
-    soundCycle();
+    if (!p_Main->isZoomEventOngoing())
+        soundCycle();
 }
 
 void Cdp1802::setMode()
@@ -1582,7 +1583,8 @@ void Cdp1802::singleStateStep()
 
 void Cdp1802::cpuCycleFetch()
 {
-    traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
+    if (trace_)
+    	traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
@@ -2728,7 +2730,7 @@ void Cdp1802::cpuCycleExecute1()
             bus_=n+16*n;
             programCounter_=n;
             address_=scratchpadRegister_[n];
-            p_Computer->writeMemLabelType(scratchpadRegister_[programCounter_], LABEL_TYPE_SUB);
+            p_Computer->writeMemLabelType(address_, LABEL_TYPE_SUB);
 		break;
 		case 0xe:
             bus_=n+16*n;
@@ -2862,7 +2864,7 @@ void Cdp1802::cpuCycleExecute1()
                     accumulator_=bus_;
 					if (trace_)
 					{
-						buffer.Printf("LDI  %02X",accumulator_);
+						buffer.Printf("LDI  %02X   D=%02X", accumulator_, accumulator_);
 						traceBuffer_ = traceBuffer_ + buffer;
 					}
 				break;
@@ -4203,7 +4205,25 @@ void Cdp1802::checkLoadedSoftware()
                 if (loadedProgram_ == NOPROGRAM)
                     p_Main->setScrtValues(true, 4, 0x8224, 5, 0x8236, "");
             break;
-                
+
+			case VIPII:
+                if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
+                {
+                    loadedProgram_ = FPBBASIC;
+                    p_Main->setScrtValues(true, 4, 0x28EF, 5, 0x23E7, "FPBBASIC");
+                    p_Main->eventEnableMemAccess(true);
+                }
+                else
+                {
+					if ((mainMemory_[0x9025] == 0x42) && (mainMemory_[0x9026] == 0x41) && (mainMemory_[0x9027] == 0x53) && (mainMemory_[0x9028] == 0x49))
+					{
+						loadedProgram_ = FPBBASIC_AT_8000;
+						p_Main->setScrtValues(true, 4, 0xA8EF, 5, 0xA3E7, "FPBBASIC_AT_8000");
+						p_Main->eventEnableMemAccess(true);
+					}
+				}
+			break;
+          
             case VIP2K:
                 if ((mainMemory_[0x1025] == 0x42) && (mainMemory_[0x1026] == 0x41) && (mainMemory_[0x1027] == 0x53) && (mainMemory_[0x1028] == 0x49))
                 {
@@ -4213,11 +4233,11 @@ void Cdp1802::checkLoadedSoftware()
                 }
                 else
                 {
-                    if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
-                    {
-                        loadedProgram_ = FPBBOOT;
-                        p_Main->setScrtValues(false, -1, -1, -1, -1, "");
-                    }
+					if ((mainMemory_[0xa0] == 0xd3) && (mainMemory_[0xa1] == 0xf8) && (mainMemory_[0xa2] == 0x40) && (mainMemory_[0xa3] == 0xb9))
+					{
+						loadedProgram_ = FPBBOOT;
+						p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+					}
                 }
                 if (loadedProgram_ == NOPROGRAM)
                     p_Main->setScrtValues(true, 4, 0x9DA, 5, 0x9EC, "");

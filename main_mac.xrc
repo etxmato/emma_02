@@ -354,7 +354,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -364,9 +363,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>3</selection>
+                                                                <selection>2</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -394,7 +392,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -404,9 +401,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>6</selection>
+                                                                <selection>5</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -434,7 +430,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -444,9 +439,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>2</selection>
+                                                                <selection>1</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -474,7 +468,6 @@
                                                                 </font>
                                                                 <style>wxCB_DROPDOWN</style>
                                                                 <content>
-                                                                    <item></item>
                                                                     <item>80column.1.0.bin</item>
                                                                     <item>80column.1.1.bin</item>
                                                                     <item>fdc.bin</item>
@@ -484,9 +477,8 @@
                                                                     <item>printer.bin</item>
                                                                     <item>rs232.bin</item>
                                                                     <item>thermal.bin</item>
-                                                                    <item>usb.bin</item>
                                                                 </content>
-                                                                <selection>4</selection>
+                                                                <selection>3</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -907,9 +899,9 @@
                                                                     <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                     <size>-1</size>
                                                                 </font>
-                                                                <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                <style>wxSP_VERTICAL</style>
                                                                 <value>0</value>
-                                                                <min>0</min>
+                                                                <min>1</min>
                                                                 <max>100</max>
                                                             </object>
                                                         </object>
@@ -1502,7 +1494,7 @@
                                 </font>
                                 <style>wxBK_DEFAULT|wxFULL_REPAINT_ON_RESIZE</style>
                                 <object class="choicebookpage">
-                                    <label>Elf 2000</label>
+                                    <label>Cosmac Elf 2000</label>
                                     <object class="wxPanel" name="PanelElf2K">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -1902,9 +1894,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtElf2K">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -2129,9 +2121,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinElf2K">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Elf 2000 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -2799,9 +2791,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtCosmicos">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -2988,9 +2980,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinCosmicos">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -4063,9 +4055,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtElf">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -4365,9 +4357,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinElf">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -5567,9 +5559,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtElfII">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -5862,9 +5854,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinElfII">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -7070,9 +7062,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtSuperElf">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -7365,9 +7357,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinSuperElf">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -8214,9 +8206,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMembership">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -8658,6 +8650,7 @@
                                                                                         <item>B</item>
                                                                                         <item>C</item>
                                                                                         <item>I</item>
+                                                                                        <item>J</item>
                                                                                     </content>
                                                                                     <selection>0</selection>
                                                                                 </object>
@@ -9159,9 +9152,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtVip2K">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -9435,9 +9428,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVip2K">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select VIP2K Membership Card screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -10107,9 +10100,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtVelf">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -10158,9 +10151,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVelf">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select VELF screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -10571,6 +10564,342 @@
                                                                             </font>
                                                                             <label>Auto Boot</label>
                                                                             <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                        </object>
+                                                    </object>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                </object>
+                                <object class="choicebookpage">
+                                    <label>Infinite UC1800</label>
+                                    <object class="wxPanel" name="PanelUC1800">
+                                        <font>
+                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                            <size>-1</size>
+                                        </font>
+                                        <style>wxTAB_TRAVERSAL</style>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxVERTICAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxHORIZONTAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                                        <border>3</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxVERTICAL</orient>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_TOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="RamSWButtonUC1800">
+                                                                            <tooltip>Browse for Infinite UC1800 RAM file </tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>RAM</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxComboBox" name="RamSWUC1800">
+                                                                            <size>192,-1</size>
+                                                                            <tooltip>Specify Infinite UC1800 RAM file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxCB_DROPDOWN</style>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="spacer">
+                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                                                <border>5</border>
+                                                                <size>5,1</size>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT</flag>
+                                                                <border>3</border>
+                                                                <object class="wxButton" name="KeyMapUC1800">
+                                                                    <tooltip>Open key map window</tooltip>
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>Key Map</label>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                <border>1</border>
+                                                                <object class="wxFlexGridSizer">
+                                                                    <cols>2</cols>
+                                                                    <rows>3</rows>
+                                                                    <vgap>0</vgap>
+                                                                    <hgap>2</hgap>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxStaticText" name="HexOutputTextUC1800">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Output, Display</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxSpinCtrl" name="HexOutputUC1800">
+                                                                            <size>40,-1</size>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <value>0</value>
+                                                                            <min>1</min>
+                                                                            <max>7</max>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxStaticText" name="HexInputTextUC1800">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Input, Read Data</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxSpinCtrl" name="HexInputUC1800">
+                                                                            <size>40,-1</size>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <value>0</value>
+                                                                            <min>0</min>
+                                                                            <max>7</max>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                        </object>
+                                                    </object>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                                        <border>3</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxVERTICAL</orient>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_TOP</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="AddressText1UC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Leds:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxTextCtrl" name="ShowAddressUC1800" subclass="IntEdit">
+                                                                                    <size>45,-1</size>
+                                                                                    <tooltip>Led updates in run mode every X ms</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <value>100</value>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxStaticText" name="AddressText2UC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>ms</label>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="spacer">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>5</border>
+                                                                        <size>5,5</size>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxCheckBox" name="AutoBootUC1800">
+                                                                                    <tooltip>Enable auto boot at specified address</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>Boot:</label>
+                                                                                    <checked>0</checked>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxTextCtrl" name="BootAddressUC1800" subclass="HexEdit">
+                                                                                    <size>50,-1</size>
+                                                                                    <tooltip>Specify auto boot address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <maxlength>4</maxlength>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxGROW</flag>
+                                                                <border>5</border>
+                                                                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                                                                    <orient>wxVERTICAL</orient>
+                                                                    <label>Memory Access</label>
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxFlexGridSizer">
+                                                                            <cols>3</cols>
+                                                                            <rows>2</rows>
+                                                                            <vgap>0</vgap>
+                                                                            <hgap>0</hgap>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="LoadButtonUC1800">
+                                                                                    <tooltip>Load .hex file into Infinite UC1800 emulator memory</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>LOAD</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxStaticText" name="TextStartUC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>Start</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxTextCtrl" name="SaveStartUC1800" subclass="HexEdit">
+                                                                                    <size>50,-1</size>
+                                                                                    <tooltip>Specify start address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <maxlength>4</maxlength>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="SaveButtonUC1800">
+                                                                                    <tooltip>Save Infinite UC1800 emulator memory to .hex file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>SAVE</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxStaticText" name="TextEndUC1800">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxALIGN_RIGHT</style>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>End</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxTextCtrl" name="SaveEndUC1800" subclass="HexEdit">
+                                                                                    <size>50,-1</size>
+                                                                                    <tooltip>Specify end address in hexadecimal</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <maxlength>4</maxlength>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                 </object>
@@ -11276,9 +11605,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinFRED1">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select FRED 1 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -12104,9 +12433,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinFRED1_5">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select FRED 1.5 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -13627,9 +13956,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtCDP18S020">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -13837,9 +14166,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinCDP18S020">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select CDP18S020 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -14714,9 +15043,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtVip">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -14765,9 +15094,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVip">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Cosmac VIP screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -15392,6 +15721,7 @@
                                                                             <content>
                                                                                 <item></item>
                                                                                 <item>fpb.rom</item>
+                                                                                <item>vipii_2020.bin</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -15607,6 +15937,75 @@
                                                                             <label>Key Map</label>
                                                                         </object>
                                                                     </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxTOP|wxBOTTOM</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>4</border>
+                                                                                <object class="wxStaticText" name="RamTextVipII">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <label>RAM:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxChoice" name="RamVipII">
+                                                                                    <tooltip>VIP II RAM size 8, 16, 32 KB</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>8 KB</item>
+                                                                                        <item>16 KB</item>
+                                                                                        <item>32 KB</item>
+                                                                                    </content>
+                                                                                    <selection>2</selection>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>3</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxStaticText" name="TypeTextVipII">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>VIP II Type:</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxChoice" name="ComputerVersionVipII">
+                                                                            <tooltip>Select VIP II Type</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>ED</item>
+                                                                                <item>RCA</item>
+                                                                            </content>
+                                                                            <selection>0</selection>
+                                                                        </object>
+                                                                    </object>
                                                                 </object>
                                                             </object>
                                                         </object>
@@ -15650,9 +16049,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVipII">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Cosmac VIP II screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -15685,6 +16084,48 @@
                                                                 <border>0</border>
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="AutoBootVipII">
+                                                                            <tooltip>Enable auto boot</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto Boot</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxChoice" name="AutoBootTypeVipII">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <content>
+                                                                                <item>ROM - FPB</item>
+                                                                                <item>RAM</item>
+                                                                                <item>Op Sys</item>
+                                                                            </content>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxTextCtrl" name="BootAddressVipII" subclass="HexEdit">
+                                                                            <size>50,-1</size>
+                                                                            <tooltip>Specify auto boot address in hexadecimal</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <maxlength>4</maxlength>
+                                                                        </object>
+                                                                    </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
@@ -16738,9 +17179,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinMicroboard">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Microboard V1870 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -17442,9 +17883,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMicroboard">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -18008,9 +18449,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMCDS">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -18567,9 +19008,10 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
-                                                                                <item>ut71.hex</item>
+                                                                                <item>ut70.bin</item>
+                                                                                <item>ut71.bin</item>
                                                                             </content>
-                                                                            <selection>1</selection>
+                                                                            <selection>2</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -19134,9 +19576,9 @@
                                                                                 <object class="wxSpinButton" name="ZoomSpinVtMS2000">
                                                                                     <size>-1,23</size>
                                                                                     <tooltip>Select Video Terminal screen size</tooltip>
-                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <style>wxSP_VERTICAL</style>
                                                                                     <value>0</value>
-                                                                                    <min>0</min>
+                                                                                    <min>1</min>
                                                                                     <max>100</max>
                                                                                 </object>
                                                                             </object>
@@ -19672,7 +20114,7 @@
                                                                             <tooltip>Select RCA Video Coin Arcade screen size</tooltip>
                                                                             <style>wxSP_VERTICAL|wxSP_WRAP</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -20009,9 +20451,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinStudio2">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select RCA Studio II screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -20491,9 +20933,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVictory">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Victory MPT-02 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -20930,9 +21372,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinStudioIV">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select StudioIV screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -21232,9 +21674,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinVisicom">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Visicom COM-100 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -21511,9 +21953,9 @@
                                                                     <object class="wxSpinButton" name="ZoomSpinCidelsa">
                                                                         <size>-1,23</size>
                                                                         <tooltip>Select Cidelsa screen size</tooltip>
-                                                                        <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                        <style>wxSP_VERTICAL</style>
                                                                         <value>0</value>
-                                                                        <min>0</min>
+                                                                        <min>1</min>
                                                                         <max>100</max>
                                                                     </object>
                                                                 </object>
@@ -22340,9 +22782,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinTMC600">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select TMC-600 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -23060,9 +23502,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinTMC1800">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Telmac 1800 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -23709,9 +24151,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinTMC2000">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Telmac 2000 screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -24344,9 +24786,9 @@
                                                                         <object class="wxSpinButton" name="ZoomSpinNano">
                                                                             <size>-1,23</size>
                                                                             <tooltip>Select Oscom Nano screen size</tooltip>
-                                                                            <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                            <style>wxSP_VERTICAL</style>
                                                                             <value>0</value>
-                                                                            <min>0</min>
+                                                                            <min>1</min>
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
@@ -24925,9 +25367,9 @@
                                                             <object class="wxSpinButton" name="ZoomSpinPecom">
                                                                 <size>-1,23</size>
                                                                 <tooltip>Select Pecom screen size</tooltip>
-                                                                <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                <style>wxSP_VERTICAL</style>
                                                                 <value>0</value>
-                                                                <min>0</min>
+                                                                <min>1</min>
                                                                 <max>100</max>
                                                             </object>
                                                         </object>
@@ -25561,9 +26003,9 @@
                                                             <object class="wxSpinButton" name="ZoomSpinEti">
                                                                 <size>-1,23</size>
                                                                 <tooltip>Select ETI 660 screen size</tooltip>
-                                                                <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                <style>wxSP_VERTICAL</style>
                                                                 <value>0</value>
-                                                                <min>0</min>
+                                                                <min>1</min>
                                                                 <max>100</max>
                                                             </object>
                                                         </object>

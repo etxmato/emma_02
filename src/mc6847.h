@@ -23,6 +23,7 @@ public:
 	void setMCBit(int bit, int selection);
 	void cycle6847();
 	void outMc6847(Byte value);
+    void setGraphicMode();
 	void copyScreen();
 	void drawScreen();
 
@@ -57,8 +58,8 @@ private:
 	int elementWidth_;
 	int charLine_;
 	int rows_;
-	int screenHeight_;
-	int screenWidth_;
+//	int screenHeight_;
+//	int screenWidth_;
 	int addLine_;
 
 	int cycleValue_;

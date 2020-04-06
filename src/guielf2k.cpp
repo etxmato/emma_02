@@ -53,11 +53,11 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
 	EVT_BUTTON(XRCID("EjectKeyFileElf2K"), GuiMain::onKeyFileEject)
 
 	EVT_CHOICE(XRCID("VTTypeElf2K"), GuiMain::onVT100)
-	EVT_SPIN_UP(XRCID("ZoomSpinElf2K"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinElf2K"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinElf2K"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinElf2K"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueElf2K"), GuiMain::onZoomValue)
-	EVT_SPIN_UP(XRCID("ZoomSpinVtElf2K"), GuiMain::onZoomUpVt)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVtElf2K"), GuiMain::onZoomDownVt)
+	EVT_SPIN_UP(XRCID("ZoomSpinVtElf2K"), GuiMain::onZoomVt)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVtElf2K"), GuiMain::onZoomVt)
 	EVT_TEXT(XRCID("ZoomValueVtElf2K"), GuiMain::onZoomValueVt)
 	EVT_BUTTON(XRCID("FullScreenF3Elf2K"), GuiMain::onFullScreen)
 	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeElf2K"), GuiMain::onVolume)
@@ -210,8 +210,10 @@ void GuiElf2K::readElf2KConfig()
         XRCCTRL(*this, "Elf2KAddressText2",wxStaticText)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
 
         XRCCTRL(*this, "Elf2KKeyboard", wxChoice)->SetSelection(elfConfiguration[ELF2K].keyboardType);
-		XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].zoom_);
-		XRCCTRL(*this, "ZoomValueVtElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].zoomVt_);
+        
+        correctZoomAndValue(ELF2K, "Elf2K", SET_SPIN);
+        correctZoomVtAndValue(ELF2K, "Elf2K", SET_SPIN);
+
 		XRCCTRL(*this, "ShowAddressElf2K", wxTextCtrl)->ChangeValue(conf[ELF2K].ledTime_);
 		XRCCTRL(*this, "Elf2KControlWindows", wxCheckBox)->SetValue(elfConfiguration[ELF2K].useElfControlWindows);
 		XRCCTRL(*this, "ShowAddressElf2K",wxTextCtrl)->Enable(elfConfiguration[ELF2K].useElfControlWindows);
@@ -229,9 +231,15 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "VolumeElf2K", wxSlider)->SetValue(conf[ELF2K].volume_);
 
 		if (conf[ELF2K].videoMode_ == VIDEOPIXIE)
-			clockTextCtrl[ELF2K]->ChangeValue(elf2KPixieClock_);
+        {
+            if (clockTextCtrl[ELF2K] != NULL)
+                clockTextCtrl[ELF2K]->ChangeValue(elf2KPixieClock_);
+        }
 		else
-			clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
+        {
+            if (clockTextCtrl[ELF2K] != NULL)
+                clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
+        }
 	}
 	setElf2KKeyboard(elfConfiguration[ELF2K].keyboardType);
 
@@ -525,7 +533,8 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(false);
 				XRCCTRL(*this,"CharRomButtonElf2K", wxButton)->Enable(false);
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(false);
-				clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
+                if (clockTextCtrl[ELF2K] != NULL)
+                    clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
 			}
 		break;
 
@@ -550,7 +559,8 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(false);
 				XRCCTRL(*this,"CharRomButtonElf2K", wxButton)->Enable(false);
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(false);
-				clockTextCtrl[ELF2K]->ChangeValue(elf2KPixieClock_);
+                if (clockTextCtrl[ELF2K] != NULL)
+                    clockTextCtrl[ELF2K]->ChangeValue(elf2KPixieClock_);
 			}
 		break;
 
@@ -582,7 +592,8 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(true);
 				XRCCTRL(*this,"CharRomButtonElf2K", wxButton)->Enable(true);
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(true);
-				clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
+                if (clockTextCtrl[ELF2K] != NULL)
+                    clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
 			}
 		break;
 	}

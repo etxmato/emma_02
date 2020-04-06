@@ -164,16 +164,19 @@ Byte Ms2000::ef(int flag)
         break;
                     
         case VT100EF:       // EF4
-            return vtPointer->ef();
+            if (p_Vt100 != NULL)
+	            return vtPointer->ef();
         break;
             
         case VTSERIALEF:
-            return p_Serial->ef();
+            if (p_Serial != NULL)
+	            return p_Serial->ef();
         break;
  
 		default:
 			return 1;
 	}
+    return 1;
 }
 
 Byte Ms2000::in(Byte port, Word WXUNUSED(address))

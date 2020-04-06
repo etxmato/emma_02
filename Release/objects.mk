@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -lSDL -lserialport -lX11 -lcurl
+LIBS := -lSDL -lX11 -lcurl
 

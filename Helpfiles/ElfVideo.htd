@@ -15,7 +15,7 @@ The MC6845 is a video chip for text based output. Different screen sizes can be 
 </p>
 <h3>MC6847</h3>
 <p>
-The MC6847 video chip provides both text and graphic modes. All modes are supported by the emulator but capability does depend on HW settings as defined via the device port button/window. For details see the MC6847 datasheet. The video RAM is 12 bits where bit 6 to 11 are possible to use as video mode settings. Note that using bit 6 could limit use of some of the graphic modes. Bit 6 and 7 are set by writing to the video RAM, bit 8 to 11 are set via bit 0 to 3 of OUT 5 followed by a write to video RAM (default is OUT 5 but this can also be changed in the device port window). Bit 4 to 7 of OUT 5 are definable as well but will not be stored in video RAM, these could best be used for A/G, GM0, GM1 and/or GM2 as these are not usable per character anyway. Video RAM size and location can be defined as well and larger sizes are needed for some graphic modes to work.
+The MC6847 video chip provides both text and graphic modes. All modes are supported by the emulator but capability does depend on HW settings as defined via the device port button/window. For details see the MC6847 datasheet. The video RAM is 12 bits where bit 6 to 11 are possible to use as video mode settings. Note that using bit 6 could limit use of some of the graphic modes. Bit 6 and 7 are set by writing to the video RAM, bit 8 to 11 are set via bit 0 to 3 of OUT 5 followed by a write to video RAM (default is OUT 5 but this can also be changed in the device port window to another OUT or writing to address FFxx). Bit 4 to 7 of OUT 5 are definable as well but will not be stored in video RAM, typically used for A/G, GM0, GM1 and/or GM2 as these are not usable per character anyway. Video RAM size and location can be defined as well, larger sizes might be needed for some graphic modes to work.
 </p>
 <p>
 Definition of settings:<br>
@@ -25,6 +25,9 @@ CSS: colour Select<br>
 A/S: Alphanumeric mode<br>
 A/G: Graphic mode selection<br>
 GM0-GM2: Graphic mode 0 to 7<br>
+</p>
+<p>
+Default all settings are defined as '0' unless set as 'force high' in the device port window.
 </p>
 <h3>TMS 9918</h3>
 <p>

@@ -244,7 +244,7 @@ void SuperScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	osx_stepButtonPointer->onPaint(dc);
 	osx_text_mpButtonPointer->onPaint(dc);
 	for (int i = 0; i<16; i++)
-    osx_buttonPointer[i]->onPaint(dc);
+		osx_buttonPointer[i]->onPaint(dc);
 #endif
 }
 
@@ -550,7 +550,6 @@ void Super::configureComputer()
     inKey1_ = p_Main->getDefaultInKey1("SuperElf");
     inKey2_ = p_Main->getDefaultInKey2("SuperElf");
     p_Main->getDefaultHexKeys(SUPERELF, "SuperElf", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
-
 
 	if (p_Main->getConfigBool("/SuperElf/GameAuto", true))
 		p_Main->loadKeyDefinition(p_Main->getRomFile(SUPERELF, MAINROM1), p_Main->getRomFile(SUPERELF, MAINROM2), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");

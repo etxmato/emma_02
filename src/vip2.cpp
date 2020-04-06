@@ -37,10 +37,22 @@ VipII::VipII(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	p_Printer->initVip(p_Printer);
 
 	cycleSize_ = (int) (((clock_ * 1000000) / 8) / tempo);
+	autoBooting_ = 0;
 }
 
 VipII::~VipII()
 {
+    switch (loadedProgram_)
+    {
+		case FPBBASIC_AT_8000:
+            p_Main->saveScrtValues("FPBBASIC_AT_8000");
+        break;
+            
+        case FPBBASIC:
+            p_Main->saveScrtValues("FPBBASIC");
+        break;
+    }
+
 	p_Printer->closeFrames();
 	delete p_Printer;
 	p_Main->setMainPos(VIPII, GetPosition());
@@ -243,7 +255,7 @@ void VipII::keyDown(int keycode)
 
 void VipII::keyUp(int keycode)
 {
-//	keyboardEf_ = 1;
+	keyboardEf_ = 1;
 	if (keyDefinition[keycode].defined)
 		vipKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
 }
@@ -333,7 +345,14 @@ Byte VipII::ef(int flag)
 
 Byte VipII::ef3()
 {
-	return (vipKeyState_[0][vipKeyPort_]) ? 0 : 1;
+	Byte ret = (vipKeyState_[0][vipKeyPort_]) ? 0 : 1;
+	if (autoBooting_ > 0 && ret == 0)
+	{
+		autoBooting_--;
+		if (autoBooting_ == 0)
+			vipKeyState_[0][vipKeyPort_] = 0;
+	}
+	return ret;
 }
 
 Byte VipII::ef4()
@@ -393,6 +412,8 @@ void VipII::out(Byte port, Word WXUNUSED(address), Byte value)
 
 		case VIPKEYOUT:
 			outVip(value);
+			if (computerVersion_ == VIPII_RCA)
+				addressLatch_ = 0;
 		break;
 
 		case VIPOUT3:
@@ -401,7 +422,8 @@ void VipII::out(Byte port, Word WXUNUSED(address), Byte value)
 		break;
 
 		case VIPOUT4:
-			addressLatch_ = 0;
+			if (computerVersion_ != VIPII_RCA)
+				addressLatch_ = 0;
 		break;
 
 		case VIPOUT5:
@@ -509,7 +531,7 @@ void VipII::cycleKey()
 	}
 	if ((vipRunCommand_ != 0) && (keyboardEf_ == 1))
 	{
-		if (scratchpadRegister_[programCounter_] == 0x08C6)
+		if (scratchpadRegister_[programCounter_] == 0x08C6 || scratchpadRegister_[programCounter_] == 0x88C6 )
 		{
 			if (vipRunCommand_ == 1)
 			{
@@ -585,39 +607,83 @@ void VipII::startComputer()
 	resetPressed_ = false;
 
 	p_Main->setSwName("");
+	long bootAddress = p_Main->getBootAddress("VipII", VIPII);
 
-    p_Main->checkAndReInstallFile(VIPII, "ROM 1", MAINROM1);
-    p_Main->checkAndReInstallFile(VIPII, "ROM 2", MAINROM2);
-	readProgram(p_Main->getRomDir(VIPII, MAINROM2), p_Main->getRomFile(VIPII, MAINROM2), ROM, 0x8000, NONAME);
-
-	runPressedAtStartup_ = p_Main->runPressed();
-	if (runPressedAtStartup_) 
+	computerVersion_ = p_Main->getComputerVersion(VIPII);
+	if (computerVersion_ == VIPII_ED)
 	{
-		addressLatch_ = 0x8000;
-		vipMode_ = true;
-		defineMemoryType(0, 0x7fff, RAM);
-        initRam(0x0, 0x7fff);
-		p_Main->assDefault("mycode", 0, 0xFFF);
-		readProgram(p_Main->getRamDir(VIPII), p_Main->getRamFile(VIPII), NOCHANGE, 0, SHOWNAME);
+		romMask_ = 0x81ff;
+	    p_Main->checkAndReInstallFile(VIPII, "ROM 2", MAINROM2);
+		readProgram(p_Main->getRomDir(VIPII, MAINROM2), p_Main->getRomFile(VIPII, MAINROM2), ROM, 0x8000, NONAME);
+		runPressedAtStartup_ = p_Main->runPressed();
+
+		if (runPressedAtStartup_) 
+		{
+			addressLatch_ = 0x8000;
+			vipMode_ = true;
+			defineMemoryType(0, 0x7fff, RAM);
+			initRam(0x0, 0x7fff);
+			p_Main->assDefault("mycode", 0, 0xFFF);
+			readProgram(p_Main->getRamDir(VIPII), p_Main->getRamFile(VIPII), NOCHANGE, 0, SHOWNAME);
+		}
+		else
+		{
+			addressLatch_ = 0;
+			vipMode_ = false;
+			readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
+			defineMemoryType(0x400, 0x7ff, RAM);
+			initRam(0x400, 0x7ff);
+			defineMemoryType(0xc00, 0xfff, RAM);
+			initRam(0xc00, 0xfff);
+			defineMemoryType(0x4000, 0x7fff, RAM);
+			initRam(0x4000, 0x7fff);
+			p_Main->assDefault("mycode", 0x4200, 0x51FF);
+			readProgram(p_Main->getRamDir(VIPII), p_Main->getRamFile(VIPII), NOCHANGE, 0x4000, SHOWNAME);
+		}
+		defineMemoryType(0xd000, 0xd3ff, COLOURRAM);
 	}
-	else
+	if (computerVersion_ == VIPII_RCA)
 	{
+		romMask_ = 0xbfff;
+		runPressedAtStartup_ = false;
+		addressLatch_ = 0x8000;
+		vipMode_ = false;
+		readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0x8000, NONAME);
+
+	    ramMask_ = ((1<<p_Main->getRamType(VIPII))<<13)-1;
+    
+		defineMemoryType(0x0, ramMask_, RAM);
+		if (ramMask_ != 0x7fff)
+			defineMemoryType(ramMask_+1, 0x7fff, MAPPEDRAM);
+    
+		initRam(0x0, ramMask_);
+
+		p_Main->assDefault("mycode", 0x0, ramMask_-0x1000);
+		readProgram(p_Main->getRamDir(VIPII), p_Main->getRamFile(VIPII), NOCHANGE, 0, SHOWNAME);
+
+		if (bootAddress == 2 || bootAddress == 0xc)
+		{
+			autoBooting_ = 2;
+			vipKeyState_[0][bootAddress] = 1;
+		}
+		defineMemoryType(0xc000, 0xc3ff, COLOURRAM);
+	}
+/*	if (computerVersion_ == 2)
+	{
+		romMask_ = 0xbfff;
+		runPressedAtStartup_ = false;
 		addressLatch_ = 0;
 		vipMode_ = false;
 		readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
-		defineMemoryType(0x400, 0x7ff, RAM);
-        initRam(0x400, 0x7ff);
-		defineMemoryType(0xc00, 0xfff, RAM);
-        initRam(0xc00, 0xfff);
-		defineMemoryType(0x4000, 0x7fff, RAM);
-        initRam(0x4000, 0x7fff);
+		defineMemoryType(0x4000, 0xbfff, RAM);
+		initRam(0x4000, 0xbfff);
 		p_Main->assDefault("mycode", 0x4200, 0x51FF);
 		readProgram(p_Main->getRamDir(VIPII), p_Main->getRamFile(VIPII), NOCHANGE, 0x4000, SHOWNAME);
-	}
-	
-	defineMemoryType(0xc000, 0xdfff, COLOURRAM);
-    pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+	}*/
 
+    p_Main->checkAndReInstallFile(VIPII, "ROM 1", MAINROM1);
+
+	pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     if (pseudoType_ == "CHIP8")
 	{
 		readProgram(p_Main->getChip8Dir(VIPII), p_Main->getChip8SW(VIPII), NOCHANGE, 0x200, SHOWNAME);
@@ -632,14 +698,20 @@ void VipII::startComputer()
 
 	double zoom = p_Main->getZoom();
 
+    if (vipMode_ || (computerVersion_ == VIPII_RCA && bootAddress == 3))
+        setClear(0);
+
 	configureKeyboard(); 
-	configurePixieVipII();
+    if (computerVersion_ == VIPII_RCA)
+    {
+        lastMode_ = cpuMode_;
+        configurePixieVipII(bootAddress != 3);
+    }
+    else
+        configurePixieVipII(false);
 	initPixie();
 	setZoom(zoom);
 	Show(true);
-
-	if (vipMode_)
-		setClear(0);
 
 	p_Main->updateTitle();
 
@@ -661,7 +733,7 @@ void VipII::writeMemDataType(Word address, Byte type)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 	else
-		address = address & 0x81ff;
+		address = address & romMask_;
 
 	if (address == 0)
 		address = 0;
@@ -675,6 +747,15 @@ void VipII::writeMemDataType(Word address, Byte type)
 				mainMemoryDataType_[address]=type;
 			}
 		break;
+
+            
+		case MAPPEDRAM:
+			if (mainMemoryDataType_[address & ramMask_] != type)
+			{
+				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
+				mainMemoryDataType_[address & ramMask_] = type;
+			}
+		break;
 	}
 }
 
@@ -683,13 +764,17 @@ Byte VipII::readMemDataType(Word address)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 	else
-		address = address & 0x81ff;
+		address = address & romMask_;
 
 	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
 			return mainMemoryDataType_[address];
+		break;
+
+        case MAPPEDRAM:
+			return mainMemoryDataType_[address & ramMask_];
 		break;
 	}
 	return MEM_TYPE_UNDEFINED;
@@ -700,12 +785,16 @@ Byte VipII::readMem(Word address)
 	if (address < 0x8000)
 		address = (address | addressLatch_);
 	else
-		address = address & 0x81ff;
+		address = address & romMask_;
 
 	switch (memoryType_[address/256])
 	{
 		case RAM:
 			return mainMemory_[address];
+		break;
+
+        case MAPPEDRAM:
+			return mainMemory_[address & ramMask_];
 		break;
 
 		case UNDEFINED:
@@ -717,7 +806,24 @@ Byte VipII::readMem(Word address)
 
 Byte VipII::readMemDebug(Word address)
 {
-    return readMem(address);
+	if (address >= 0x8000)
+		address = address & romMask_;
+
+	switch (memoryType_[address/256])
+	{
+		case RAM:
+			return mainMemory_[address];
+		break;
+
+        case MAPPEDRAM:
+			return mainMemory_[address & ramMask_];
+		break;
+
+		case UNDEFINED:
+			return 255;
+		break;
+	}
+	return mainMemory_[address];
 }
 
 void VipII::writeMem(Word address, Byte value, bool writeRom)
@@ -733,11 +839,17 @@ void VipII::writeMem(Word address, Byte value, bool writeRom)
 			p_Main->updateAssTabCheck(address);
 		break;
 
+		case MAPPEDRAM:
+			address = address & ramMask_;
+			if (mainMemory_[address]==value)
+				return;
+			mainMemory_[address]=value;
+			if (address >= memoryStart_ && address <(memoryStart_+256))
+				p_Main->updateDebugMemory(address);
+			p_Main->updateAssTabCheck(address);
+		break;
+
 		case COLOURRAM:
-			if ((address >= 0xc000) && (address < 0xd000))
-				colourMask_ = 0xe7;
-			else
-				colourMask_ = 0x3ff;  
 			colorMemory1864_[address&colourMask_] = value & 0xf;
 			if ((address&colourMask_) >= memoryStart_ && (address&colourMask_) <(memoryStart_+256))
 				p_Main->updateDebugMemory(address&colourMask_);
@@ -781,7 +893,7 @@ void VipII::cpuInstruction()
 	}
 	if (cpuMode_ == RUN)
 	{
-        cpuCycleStep();
+		cpuCycleStep();
 		if (runPressed_)
 		{
 			setClear(0);
@@ -806,25 +918,31 @@ void VipII::cpuInstruction()
 
 void VipII::resetPressed()
 {
-    runPressedAtStartup_ = p_Main->runPressed();
-    if (runPressedAtStartup_)
-    {
-        addressLatch_ = 0x8000;
-        vipMode_ = true;
-        defineMemoryType(0, 0x7fff, RAM);
-        setClear(0);
-        p_Main->eventUpdateTitle();
-    }
-    else
-    {
-        addressLatch_ = 0;
-        vipMode_ = false;
-        readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
-        defineMemoryType(0x400, 0x7ff, RAM);
-        defineMemoryType(0xc00, 0xfff, RAM);
-        defineMemoryType(0x4000, 0x7fff, RAM);
-    }
-    resetCpu();
+	if (computerVersion_ == VIPII_ED)
+	{
+		runPressedAtStartup_ = p_Main->runPressed();
+		if (runPressedAtStartup_)
+		{
+			addressLatch_ = 0x8000;
+			vipMode_ = true;
+			defineMemoryType(0, 0x7fff, RAM);
+			setClear(0);
+			p_Main->eventUpdateTitle();
+		}
+		else
+		{
+			addressLatch_ = 0;
+			vipMode_ = false;
+			readProgram(p_Main->getRomDir(VIPII, MAINROM1), p_Main->getRomFile(VIPII, MAINROM1), ROM, 0, NONAME);
+			defineMemoryType(0x400, 0x7ff, RAM);
+			defineMemoryType(0xc00, 0xfff, RAM);
+			defineMemoryType(0x4000, 0x7fff, RAM);
+		}
+	}
+	if (computerVersion_ == VIPII_RCA)
+		addressLatch_ = 0x8000;
+
+	resetCpu();
     resetPressed_ = false;
     //            addressLatch_ = 0x8000;
     initPixie();
@@ -838,40 +956,81 @@ void VipII::onReset()
 
 void VipII::checkComputerFunction()
 {
-	switch(scratchpadRegister_[programCounter_])
+	if (loadedProgram_ == FPBBASIC_AT_8000)
 	{
-		case 0x80c0:
-			p_Main->stopCassette();
-		break;
+		switch(scratchpadRegister_[programCounter_])
+		{
+			case 0x80c0:
+				p_Main->stopCassette();
+			break;
 
-		case 0x80ed:
-			p_Main->stopCassette();
-		break;
+			case 0x80ed:
+				p_Main->stopCassette();
+			break;
 
-		case 0x1038:	// READY
-			if (vipRunState_ != BASICSTATE)
-				vipRunState_ = BASICSTATE;
-		break;
+			case 0x9038:	// READY
+				if (vipRunState_ != BASICSTATE)
+					vipRunState_ = BASICSTATE;
+			break;
 
-		case 0x1ADE:	// RUN
-		case 0x2162:	// CALL
-		case 0x2165:	// USR
-			if (vipRunState_ != RUNSTATE)
-				vipRunState_ = RUNSTATE;
-		break;
+			case 0x9ADE:	// RUN
+			case 0xA162:	// CALL
+			case 0xA165:	// USR
+				if (vipRunState_ != RUNSTATE)
+					vipRunState_ = RUNSTATE;
+			break;
 
-		case 0x8091:	// SAVE
-			p_Main->startCassetteSave(0);
-		break;
+			case 0x8091:	// SAVE
+				p_Main->startCassetteSave(0);
+			break;
 
-		case 0x80c2:	// LOAD
-			p_Main->startCassetteLoad(0);
-		break;
+			case 0x80c2:	// LOAD
+				p_Main->startCassetteLoad(0);
+			break;
 
-		case 0x409f:
-		case 0x40a3: 
-                p_Main->eventShowMessage(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
-		break; 
+/*			case 0x7a9f:
+			case 0x7aa3: 
+					p_Main->eventShowMessage(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+			break; */
+		}
+	}
+	else
+	{
+		switch(scratchpadRegister_[programCounter_])
+		{
+			case 0x80c0:
+				p_Main->stopCassette();
+			break;
+
+			case 0x80ed:
+				p_Main->stopCassette();
+			break;
+
+			case 0x1038:	// READY
+				if (vipRunState_ != BASICSTATE)
+					vipRunState_ = BASICSTATE;
+			break;
+
+			case 0x1ADE:	// RUN
+			case 0x2162:	// CALL
+			case 0x2165:	// USR
+				if (vipRunState_ != RUNSTATE)
+					vipRunState_ = RUNSTATE;
+			break;
+
+			case 0x8091:	// SAVE
+				p_Main->startCassetteSave(0);
+			break;
+
+			case 0x80c2:	// LOAD
+				p_Main->startCassetteLoad(0);
+			break;
+
+	/*		case 0x409f:
+			case 0x40a3: 
+					p_Main->eventShowMessage(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+			break; */
+		}
 	}
 }
 

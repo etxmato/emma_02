@@ -150,6 +150,10 @@ Directory with some Elf Music software and Christmas songs, see also the chapter
 <p>
 Directory with Netronics Tiny Basic assembler code and manual.
 </p>
+<h3>Elf/VDU</h3>
+<p>
+Software supporting the ACE VDU board. Two configurations are provided VDU / Ascii keyboard and VDU / Hex keypad, the first for Tiny basic and Monitor, the second for the games.
+</p>
 <h3>Elf2K</h3>
 <p>
 Directory including Elf 2000 firmare and software.

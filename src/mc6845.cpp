@@ -478,7 +478,10 @@ void MC6845::write6845CharRom(Word addr, Byte value)
 
 void MC6845::copyScreen()
 {
-	CharacterList6845 *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
+
+    CharacterList6845 *temp;
 
 	if (reColour_)
 	{

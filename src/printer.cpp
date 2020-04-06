@@ -1022,8 +1022,6 @@ END_EVENT_TABLE()
 PrinterFrame::PrinterFrame(const wxString& title, const wxPoint& pos, const wxSize& size, int printerType)
 : wxFrame((wxFrame *)NULL, -1, title, pos, size)
 {
-	WindowInfo windowInfo = getWinSizeInfo();
-
 	plotterRomDir_ = p_Main->getPL80Data(0);
 	plotterRomFile_ = p_Main->getPL80Data(1);
 	plotterRomExtensionFile_ = p_Main->getPL80Data(2);
@@ -1051,7 +1049,7 @@ PrinterFrame::PrinterFrame(const wxString& title, const wxPoint& pos, const wxSi
 		break;
 	}
 
-	this->SetClientSize(wxSize(paperWidth_ + windowInfo.xPrint, size.GetHeight()));
+	this->SetClientSize(wxSize(paperWidth_ + p_Main->getPrintX(), size.GetHeight()));
 
 	printerCanvasPointer = new PrinterCanvas( this, wxID_ANY, pos, size, wxSUNKEN_BORDER, title);
 
@@ -1126,7 +1124,6 @@ void PrinterFrame::onFont(wxCommandEvent &event)
 
 void PrinterFrame::onRows(wxCommandEvent &event)
 {
-	WindowInfo windowInfo = getWinSizeInfo();
 	switch (event.GetSelection())
 	{
 		case 0:
@@ -1147,12 +1144,11 @@ void PrinterFrame::onRows(wxCommandEvent &event)
 	}
 	p_Main->setConfigItem("PrinterPaperWidth", paperWidth_);
 	printerCanvasPointer->changeSize(paperWidth_);
-	this->SetClientSize(wxSize(paperWidth_ + windowInfo.xPrint, 1408/4*3));
+	this->SetClientSize(wxSize(paperWidth_ + p_Main->getPrintX(), 1408/4*3));
 }
 
 void PrinterFrame::onPrinterPlotter(wxCommandEvent&WXUNUSED(event))
 {
-	WindowInfo windowInfo = getWinSizeInfo();
 	if (p_Main->getComxPrintMode() != COMXPRINTPRINTER)
 	{
 		p_Main->setComxPrintMode(COMXPRINTPRINTER);
@@ -1168,7 +1164,7 @@ void PrinterFrame::onPrinterPlotter(wxCommandEvent&WXUNUSED(event))
 		paperWidth_ = 960;
 	}
 	printerCanvasPointer->changeSize(paperWidth_);
-	this->SetClientSize(wxSize(paperWidth_ + windowInfo.xPrint, 1408/4*3));
+	this->SetClientSize(wxSize(paperWidth_ + p_Main->getPrintX(), 1408/4*3));
 }
 
 void PrinterFrame::onPlotterRomExtensionText(wxCommandEvent &WXUNUSED(event) )

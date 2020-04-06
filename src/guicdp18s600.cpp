@@ -151,8 +151,8 @@ BEGIN_EVENT_TABLE(GuiCdp18s600, GuiTMC2000)
     EVT_CHOICE(XRCID("Card5ChoiceMicroboard"), GuiCdp18s600::onMicroboardType5)
 
     EVT_CHOICE(XRCID("VTTypeMicroboard"), GuiMain::onVT100)
-    EVT_SPIN_UP(XRCID("ZoomSpinVtMicroboard"), GuiMain::onZoomUpVt)
-    EVT_SPIN_DOWN(XRCID("ZoomSpinVtMicroboard"), GuiMain::onZoomDownVt)
+    EVT_SPIN_UP(XRCID("ZoomSpinVtMicroboard"), GuiMain::onZoomVt)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinVtMicroboard"), GuiMain::onZoomVt)
     EVT_TEXT(XRCID("ZoomValueVtMicroboard"), GuiMain::onZoomValueVt)
     EVT_BUTTON(XRCID("FullScreenF3Microboard"), GuiMain::onFullScreen)
 
@@ -469,10 +469,13 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this, "VTBaudRChoiceMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].baudR);
         XRCCTRL(*this, "VTBaudTChoiceMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].baudT);
         
-        XRCCTRL(*this, "ZoomValueVtMicroboard", wxTextCtrl)->ChangeValue(conf[MICROBOARD].zoomVt_);
+        correctZoomAndValue(MICROBOARD, "Microboard", SET_SPIN);
+        correctZoomVtAndValue(MICROBOARD, "Microboard", SET_SPIN);
+
         XRCCTRL(*this, "StretchDotMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].stretchDot_);
         
-        clockTextCtrl[MICROBOARD]->ChangeValue(conf[MICROBOARD].clock_);
+        if (clockTextCtrl[MICROBOARD] != NULL)
+            clockTextCtrl[MICROBOARD]->ChangeValue(conf[MICROBOARD].clock_);
         
         XRCCTRL(*this, "UseLocationMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].useLoadLocation_);
         
@@ -493,8 +496,6 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this, "WavFileMicroboard", wxTextCtrl)->SetValue(conf[MICROBOARD].wavFile_[0]);
         XRCCTRL(*this, "WavFile1Microboard", wxTextCtrl)->SetValue(conf[MICROBOARD].wavFile_[1]);
         setTapeGui();
-
-        XRCCTRL(*this, "ZoomValueMicroboard", wxTextCtrl)->ChangeValue(conf[MICROBOARD].zoom_);
 
         XRCCTRL(*this, "PioMicroboard", wxCheckBox)->SetValue(elfConfiguration[MICROBOARD].usePio);
 

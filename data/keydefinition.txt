@@ -97,6 +97,25 @@ pad b1: KeyShift00, KeyShift01, KeyShift02, KeyShift03, KeyShift04, KeyShift05, 
 pad b2: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 game keys: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 
+name: UC1800 Default
+load: UC1800 on Character
+
+name: UC1800 on Character
+pad a1: A_C_0, A_C_1, A_C_2, A_C_3, A_C_4, A_C_5, A_C_6, A_C_7, A_C_8, A_C_9, 65, 66, 67, 68, 69, 70
+pad a2: 0, 0, 315, 0, 0, 314, 32, 316, 0, 0, 317, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 315, 0, 0, 314, 32, 316, 0, 0, 317, 0, 0, 0, 0, 0
+pad b1: KeyShift00, KeyShift01, KeyShift02, KeyShift03, KeyShift04, KeyShift05, KeyShift06, KeyShift07, KeyShift08, KeyShift09, KeyShift0A, KeyShift0B, KeyShift0C, KeyShift0D, KeyShift0E, KeyShift0F
+pad b2: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+name: UC1800 on Location
+pad a1: A_L_1, A_L_2, A_L_3, A_L_4, A_L_5, A_L_6, A_L_7, A_L_8, A_L_9, A_L_10, A_L_11, A_L_12, A_L_13, A_L_14, A_L_15, A_L_16, 
+pad a2: 0, 0, 315, 0, 0, 314, 32, 316, 0, 0, 317, 0, 0, 0, 0, 0
+pad a2 nnp: 0, 0, 315, 0, 0, 314, 32, 316, 0, 0, 317, 0, 0, 0, 0, 0
+pad b1: KeyShift00, KeyShift01, KeyShift02, KeyShift03, KeyShift04, KeyShift05, KeyShift06, KeyShift07, KeyShift08, KeyShift09, KeyShift0A, KeyShift0B, KeyShift0C, KeyShift0D, KeyShift0E, KeyShift0F
+pad b2: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
 name: Elf Default
 load: Elf on Character
 
@@ -717,6 +736,16 @@ FRED Games:
 
 name: Bowling.bin
 load: FRED on Character
+
+name: Computer Bowling.bin
+load: FRED on Character
+pad a2: 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 317, 316, 315
+pad a2 nnp: 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 317, 316, 315
+
+name: Curses Foiled Again.bin
+load: FRED on Character
+pad a2: 0, 0, 0, 0, 0, 0, 315, 0, 314, 32, 0, 317, 0, 316, 0, 0
+pad a2 nnp: 0, 0, 0, 0, 0, 0, 315, 0, 314, 32, 0, 0, 317, 316, 0, 0
 
 name: Life.bin
 load: FRED on Character

@@ -62,6 +62,7 @@ private:
 	bool runPressed_;
 	bool keyTimerExpired_;
 	bool vipMode_;
+	int computerVersion_;
 	bool runPressedAtStartup_;
 
 	bool cycleKeyOn_;
@@ -104,6 +105,9 @@ private:
 	wxString commandText_; 
 	int vipRunState_;
 	bool load_;
+
+	Word romMask_;
+	int autoBooting_;
 
 };
 

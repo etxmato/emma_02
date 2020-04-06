@@ -204,8 +204,8 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("EjectCasFRED1"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileFRED1"), GuiMain::onCassetteText)
 
-    EVT_SPIN_UP(XRCID("ZoomSpinFRED1"), GuiMain::onZoomUp)
-    EVT_SPIN_DOWN(XRCID("ZoomSpinFRED1"), GuiMain::onZoomDown)
+    EVT_SPIN_UP(XRCID("ZoomSpinFRED1"), GuiMain::onZoom)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinFRED1"), GuiMain::onZoom)
     EVT_TEXT(XRCID("ZoomValueFRED1"), GuiMain::onZoomValue)
     EVT_BUTTON(XRCID("FullScreenF3FRED1"), GuiMain::onFullScreen)
     EVT_BUTTON(XRCID("ScreenDumpF5FRED1"), GuiMain::onScreenDump)
@@ -252,8 +252,8 @@ BEGIN_EVENT_TABLE(GuiFred, GuiVip)
     EVT_BUTTON(XRCID("EjectCasFRED1_5"), GuiMain::onCassetteEject)
     EVT_TEXT(XRCID("WavFileFRED1_5"), GuiMain::onCassetteText)
 
-    EVT_SPIN_UP(XRCID("ZoomSpinFRED1_5"), GuiMain::onZoomUp)
-    EVT_SPIN_DOWN(XRCID("ZoomSpinFRED1_5"), GuiMain::onZoomDown)
+    EVT_SPIN_UP(XRCID("ZoomSpinFRED1_5"), GuiMain::onZoom)
+    EVT_SPIN_DOWN(XRCID("ZoomSpinFRED1_5"), GuiMain::onZoom)
     EVT_TEXT(XRCID("ZoomValueFRED1_5"), GuiMain::onZoomValue)
     EVT_BUTTON(XRCID("FullScreenF3FRED1_5"), GuiMain::onFullScreen)
     EVT_BUTTON(XRCID("ScreenDumpF5FRED1_5"), GuiMain::onScreenDump)
@@ -356,8 +356,11 @@ void GuiFred::readFred1Config()
     {
         XRCCTRL(*this, "RamSWFRED1", wxComboBox)->SetValue(conf[FRED1].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1", wxComboBox)->SetValue(conf[FRED1].screenDumpFile_);
-        XRCCTRL(*this, "ZoomValueFRED1", wxTextCtrl)->ChangeValue(conf[FRED1].zoom_);
-        clockTextCtrl[FRED1]->ChangeValue(conf[FRED1].clock_);
+        
+        correctZoomAndValue(FRED1, "FRED1", SET_SPIN);
+
+        if (clockTextCtrl[FRED1] != NULL)
+            clockTextCtrl[FRED1]->ChangeValue(conf[FRED1].clock_);
         XRCCTRL(*this, "TurboClockFRED1", wxTextCtrl)->SetValue(conf[FRED1].turboClock_);
         XRCCTRL(*this, "TurboFRED1", wxCheckBox)->SetValue(conf[FRED1].turbo_);
         turboGui("FRED1");
@@ -515,8 +518,11 @@ void GuiFred::readFred2Config()
     {
         XRCCTRL(*this, "RamSWFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].ram_);
         XRCCTRL(*this, "ScreenDumpFileFRED1_5", wxComboBox)->SetValue(conf[FRED1_5].screenDumpFile_);
-        XRCCTRL(*this, "ZoomValueFRED1_5", wxTextCtrl)->ChangeValue(conf[FRED1_5].zoom_);
-        clockTextCtrl[FRED1_5]->ChangeValue(conf[FRED1_5].clock_);
+
+        correctZoomAndValue(FRED1_5, "FRED1_5", SET_SPIN);
+
+        if (clockTextCtrl[FRED1_5] != NULL)
+            clockTextCtrl[FRED1_5]->ChangeValue(conf[FRED1_5].clock_);
         XRCCTRL(*this, "TurboClockFRED1_5", wxTextCtrl)->SetValue(conf[FRED1_5].turboClock_);
         XRCCTRL(*this, "TurboFRED1_5", wxCheckBox)->SetValue(conf[FRED1_5].turbo_);
         turboGui("FRED1_5");

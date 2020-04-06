@@ -320,7 +320,10 @@ void Tms9918::setCycle()
 
 void Tms9918::copyScreen()
 {
-	TileList *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
+
+    TileList *temp;
 
 	if (reColour_)
 	{

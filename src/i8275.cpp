@@ -583,7 +583,10 @@ void i8275::write8275VideoRam(Word addr, Byte value)
 
 void i8275::copyScreen()
 {
-	CharacterList8275 *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
+
+    CharacterList8275 *temp;
 
 	if (reColour_)
 	{

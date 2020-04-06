@@ -55,8 +55,8 @@ BEGIN_EVENT_TABLE(GuiVipII, GuiVip2K)
 	EVT_BUTTON(XRCID("Chip8SWButtonVipII"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWVipII"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinVipII"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinVipII"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinVipII"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinVipII"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueVipII"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3VipII"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("CasButtonVipII"), GuiMain::onCassette)
@@ -94,6 +94,13 @@ BEGIN_EVENT_TABLE(GuiVipII, GuiVip2K)
 
 	EVT_TEXT(XRCID("ShowAddressVipII"), GuiMain::onLedTimer)
 
+	EVT_CHOICE(XRCID("ComputerVersionVipII"), GuiVipII::onComputerVersion)
+
+    EVT_CHOICE(XRCID("RamVipII"), GuiMain::onChoiceRam)
+    EVT_CHECKBOX(XRCID("AutoBootVipII"), GuiVipII::onAutoBootVipII)
+    EVT_CHOICE(XRCID("AutoBootTypeVipII"), GuiVipII::onAutoBootTypeVipII)
+
+
 END_EVENT_TABLE()
 
 GuiVipII::GuiVipII(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
@@ -106,13 +113,6 @@ GuiVipII::GuiVipII(const wxString& title, const wxPoint& pos, const wxSize& size
 	conf[VIPII].pLoadSaveName_[1] = 'P';
 	conf[VIPII].pLoadSaveName_[2] = 'B';
 	conf[VIPII].pLoadSaveName_[3] = ' ';
-
-	conf[VIPII].defus_ = 0x4081;
-	conf[VIPII].eop_ = 0x4083;
-	conf[VIPII].string_ = 0x4092;
-	conf[VIPII].arrayValue_ = 0x4094;
-	conf[VIPII].eod_ = 0x4099;
-	conf[VIPII].basicRamAddress_ = 0x4200;
 
 	conf[VIPII].saveStartString_ = "";
 	conf[VIPII].saveEndString_ = "";
@@ -156,15 +156,26 @@ void GuiVipII::readVipIIConfig()
 
 	conf[VIPII].volume_ = (int)configPointer->Read("/VipII/Volume", 25l);
 	conf[VIPII].printMode_ = (int)configPointer->Read("/VipII/Print_Mode", 1l);
+	conf[VIPII].computerVersion_ = (int)configPointer->Read("/VipII/ComputerVersion", 0l);
+	setComputerVersion();
 
 	setRealCas(VIPII);
 
 	wxString defaultClock;
-	defaultClock.Printf("%1.4f", 1.7609);
+	defaultClock.Printf("%1.4f", 1.789773);
 	conf[VIPII].clock_ = configPointer->Read("/VipII/Clock_Speed", defaultClock);
 	wxString defaultTimer;
 	defaultTimer.Printf("%d", 100);
 	conf[VIPII].ledTime_ = configPointer->Read("/VipII/Led_Update_Frequency", defaultTimer);
+
+	conf[VIPII].ramType_ = (int)configPointer->Read("/VipII/Ram_Type", 2l);
+
+    configPointer->Read("/VipII/Enable_Auto_Boot", &conf[VIPII].autoBoot, true);
+    conf[VIPII].autoBootType = (int)configPointer->Read("/VipII/AutoBootType", 0l);
+	if (conf[VIPII].autoBoot)
+		setAutoBootTypeVipII();
+	else
+		conf[VIPII].bootAddress_ = 3;
 
 	if (mode_.gui)
 	{
@@ -175,14 +186,21 @@ void GuiVipII::readVipIIConfig()
 		XRCCTRL(*this, "ScreenDumpFileVipII", wxComboBox)->SetValue(conf[VIPII].screenDumpFile_);
 		XRCCTRL(*this, "WavFileVipII", wxTextCtrl)->SetValue(conf[VIPII].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValueVipII", wxTextCtrl)->ChangeValue(conf[VIPII].zoom_);
+        correctZoomAndValue(VIPII, "VipII", SET_SPIN);
+
 		XRCCTRL(*this, "TurboVipII", wxCheckBox)->SetValue(conf[VIPII].turbo_);
 		turboGui("VipII");
 		XRCCTRL(*this, "TurboClockVipII", wxTextCtrl)->SetValue(conf[VIPII].turboClock_);
 		XRCCTRL(*this, "AutoCasLoadVipII", wxCheckBox)->SetValue(conf[VIPII].autoCassetteLoad_);
 		XRCCTRL(*this, "VolumeVipII", wxSlider)->SetValue(conf[VIPII].volume_);
-		clockTextCtrl[VIPII]->ChangeValue(conf[VIPII].clock_);
+        if (clockTextCtrl[VIPII] != NULL)
+            clockTextCtrl[VIPII]->ChangeValue(conf[VIPII].clock_);
 		XRCCTRL(*this, "ShowAddressVipII", wxTextCtrl)->ChangeValue(conf[VIPII].ledTime_);
+		XRCCTRL(*this, "ComputerVersionVipII", wxChoice)->SetSelection(conf[VIPII].computerVersion_);
+
+        XRCCTRL(*this, "RamVipII", wxChoice)->SetSelection(conf[VIPII].ramType_);
+		XRCCTRL(*this, "AutoBootVipII", wxCheckBox)->SetValue(conf[VIPII].autoBoot);
+		XRCCTRL(*this, "AutoBootTypeVipII", wxChoice)->SetSelection(conf[VIPII].autoBootType);
 	}
 }
 
@@ -216,8 +234,12 @@ void GuiVipII::writeVipIIConfig()
 	configPointer->Write("/VipII/Volume", conf[VIPII].volume_);
 
 	configPointer->Write("/VipII/Print_Mode", conf[VIPII].printMode_);
+	configPointer->Write("/VipII/ComputerVersion", conf[VIPII].computerVersion_);
 	configPointer->Write("/VipII/Clock_Speed", conf[VIPII].clock_);
 	configPointer->Write("/VipII/Led_Update_Frequency", conf[VIPII].ledTime_);
+    configPointer->Write("/VipII/Ram_Type", conf[VIPII].ramType_);
+    configPointer->Write("/VipII/Enable_Auto_Boot", conf[VIPII].autoBoot);
+    configPointer->Write("/VipII/AutoBootType", conf[VIPII].autoBootType);
 }
 
 void GuiVipII::readVipIIWindowConfig()
@@ -260,4 +282,72 @@ void GuiVipII::pixieBarSizeEvent()
 	wxPostEvent(this, event);
 }
 
+void GuiVipII::onComputerVersion(wxCommandEvent&event)
+{
+	conf[VIPII].computerVersion_ =  event.GetSelection();
+	setComputerVersion();
+}
+
+void GuiVipII::setComputerVersion()
+{
+	if (conf[VIPII].computerVersion_ == VIPII_RCA)
+	{
+		conf[VIPII].defus_ = 0x7a81;
+		conf[VIPII].eop_ = 0x7a83;
+		conf[VIPII].string_ = 0x7a92;
+		conf[VIPII].arrayValue_ = 0x7a94;
+		conf[VIPII].eod_ = 0x7a99;
+		conf[VIPII].basicRamAddress_ = 0;
+	}
+	else
+	{
+		conf[VIPII].defus_ = 0x4081;
+		conf[VIPII].eop_ = 0x4083;
+		conf[VIPII].string_ = 0x4092;
+		conf[VIPII].arrayValue_ = 0x4094;
+		conf[VIPII].eod_ = 0x4099;
+		conf[VIPII].basicRamAddress_ = 0x4200;
+	}
+
+	if (mode_.gui)
+	{
+		XRCCTRL(*this,"MainRom2VipII", wxComboBox)->Enable(conf[VIPII].computerVersion_ == VIPII_ED);
+		XRCCTRL(*this,"RomButton2VipII", wxButton)->Enable(conf[VIPII].computerVersion_ == VIPII_ED);
+		XRCCTRL(*this,"RamTextVipII", wxStaticText)->Enable(conf[VIPII].computerVersion_ == VIPII_RCA);
+		XRCCTRL(*this,"RamVipII", wxChoice)->Enable(conf[VIPII].computerVersion_ == VIPII_RCA);
+		XRCCTRL(*this,"AutoBootTypeVipII", wxChoice)->Enable(conf[VIPII].computerVersion_ == VIPII_RCA);
+		XRCCTRL(*this,"AutoBootVipII", wxCheckBox)->Enable(conf[VIPII].computerVersion_ == VIPII_RCA);
+	}
+}
+
+void GuiVipII::onAutoBootVipII(wxCommandEvent&event)
+{
+    conf[VIPII].autoBoot = event.IsChecked();
+	if (conf[VIPII].autoBoot)
+		setAutoBootTypeVipII();
+	else
+		conf[VIPII].bootAddress_ = 3;
+}
+
+void GuiVipII::onAutoBootTypeVipII(wxCommandEvent&event)
+{
+    conf[VIPII].autoBootType = event.GetSelection();
+	setAutoBootTypeVipII();
+}
+
+void GuiVipII::setAutoBootTypeVipII()
+{
+    switch (conf[VIPII].autoBootType)
+	{
+		case 0:
+		    conf[VIPII].bootAddress_ = 1;
+		break;
+		case 1:
+		    conf[VIPII].bootAddress_ = 2;
+		break;
+		case 2:
+		    conf[VIPII].bootAddress_ = 0xc;
+		break;
+	}
+}
 

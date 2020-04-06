@@ -78,7 +78,8 @@ public:
 	}
 
     // accessors
-    bool GetBoolValue()			{ return boolValue_;}
+    bool GetBoolValue()            { return boolValue_;}
+    double GetDoubleValue()        { return doubleValue_;}
     Word GetWordValue1()		{ return wordValue1_;}
     Word GetWordValue2()		{ return wordValue2_;}
     Word GetWordValue3()		{ return wordValue3_;}
@@ -88,7 +89,8 @@ public:
     wxString GetStringValue3()	{ return stringValue3_;}
     wxString GetStringValue4()	{ return stringValue4_;}
     wxString GetStringValue5()	{ return stringValue5_;}
-    void SetBoolValue(bool boolValue)	{ boolValue_ = boolValue;}
+    void SetBoolValue(bool boolValue)    { boolValue_ = boolValue;}
+    void SetDoubleValue(double doubleValue)    { doubleValue_ = doubleValue;}
     void SetWordValue1(Word wordValue)	{ wordValue1_ = wordValue;}
     void SetWordValue2(Word wordValue)	{ wordValue2_ = wordValue;}
     void SetWordValue3(Word wordValue)	{ wordValue3_ = wordValue;}
@@ -103,7 +105,8 @@ public:
 	wxEvent *Clone(void) const { return new guiEvent(*this); }
 
 private:
-	bool boolValue_;
+    bool boolValue_;
+    double doubleValue_;
 	Word wordValue1_;
 	Word wordValue2_;
 	Word wordValue3_;
@@ -219,20 +222,14 @@ protected:
 #define SHOW_TEXT_MESSAGE 30
 #define DEBOUNCE_TIMER 31
 #define SET_STATIC_TEXT_VALUE 32
+#define ZOOM_CHANGE 33
+#define ZOOMVT_CHANGE 34
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
-#define OS_WINDOWS_VISTA 2
-#define OS_WINDOWS_7 3
-#define OS_WINDOWS_8 4
-#define OS_WINDOWS_10 5
-#define OS_LINUX_UBUNTU_11_04 10
-#define OS_LINUX_UBUNTU_11_10 11
-#define OS_LINUX_OPENSUSE_KDE 20
-#define OS_LINUX_OPENSUSE_GNOME 21
-#define OS_MAC 30
-#define OS_LINUX_FEDORA 40
-#define OS_LINUX_MINT 41
+#define OS_WINDOWS 2
+#define OS_LINUX 10
+#define OS_MAC 20
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -253,13 +250,58 @@ protected:
 class WindowInfo
 {
 public:
+    int mainwX, mainwY;
 	int xBorder, yBorder;
 	int xBorder2, yBorder2;
 	int xPrint;
-	int mainwX, mainwY;
-	int RegularClockY, RegularClockX;
-	int ChoiceClockY, ChoiceClockX;
 	int operatingSystem;
+    
+    int clockTextCorrectionSingleTabX;
+    int clockCorrectionSingleTabX;
+    int mhzTextCorrectionSingleTabX;
+    int stopCorrectionSingleTabX;
+    int startCorrectionSingleTabX;
+    int clockTextCorrectionX;
+    int clockCorrectionX;
+    int mhzTextCorrectionX;
+    int stopCorrectionX;
+    int startCorrectionX;
+    
+    int clockTextCorrectionSingleTabY;
+    int clockCorrectionSingleTabY;
+    int mhzTextCorrectionSingleTabY;
+    int stopCorrectionSingleTabY;
+    int startCorrectionSingleTabY;
+    int clockTextCorrectionY;
+    int clockCorrectionY;
+    int mhzTextCorrectionY;
+    int stopCorrectionY;
+    int startCorrectionY;
+    
+    int floatHeight;
+    int startHeight;
+
+    int clockSize;
+
+    int red;
+    int green;
+    int blue;
+    
+    int ledPosX1;
+    int ledPosX2;
+    int ledSpacing;
+    int ledPosY;
+    int ledPosDiagY;
+    int ledPosVip2Y;
+    
+    int statusBarElementMeasure[5];
+
+    wxString statusBarLeader;
+    wxString statusBarLeaderCidelsa;
+
+    bool packageDeb;
+    
+    wxString errorMessage;
 };
 
 class Mode
@@ -389,6 +431,7 @@ public:
 #include "cdp18s600.h"
 #include "hbelf.h"
 #include "member.h"
+#include "uc1800.h"
 #include "microtutor.h"
 #include "microtutor2.h"
 #include "elf2.h"
@@ -418,7 +461,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.34
+#define EMMA_VERSION 1.36
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -431,28 +474,29 @@ public:
 #define VELF 8
 #define MICROTUTOR 9
 #define MICROTUTOR2 10
-#define CDP18S020 11
-#define MICROBOARD 12
-#define LAST_LED_COMPUTER 12
-#define MS2000 13
-#define MCDS 14
-#define FRED1 15
-#define FRED1_5 16
-#define COMX 17
-#define STUDIO 18
-#define ETI 19
-#define CIDELSA 20
-#define TMC600 21
-#define TMC1800 22
-#define TMC2000 23
-#define NANO 24
-#define PECOM 25
-#define VISICOM 26
-#define VICTORY 27
-#define VIPII 28
-#define COINARCADE 29
-#define STUDIOIV 30
-#define DEBUGGER 31
+#define UC1800 11
+#define CDP18S020 12
+#define MICROBOARD 13
+#define LAST_LED_COMPUTER 13
+#define MS2000 14
+#define MCDS 15
+#define FRED1 16
+#define FRED1_5 17
+#define COMX 18
+#define STUDIO 19
+#define ETI 20
+#define CIDELSA 21
+#define TMC600 22
+#define TMC1800 23
+#define TMC2000 24
+#define NANO 25
+#define PECOM 26
+#define VISICOM 27
+#define VICTORY 28
+#define VIPII 29
+#define COINARCADE 30
+#define STUDIOIV 31
+#define DEBUGGER 32
 
 #define TELMACPRINTER 0
 #define PECOMPRINTER 3
@@ -507,7 +551,8 @@ public:
 #define MEMBERTAB 5
 #define VIP2KTAB 6
 #define VELFTAB 7
-#define LASTELFTAB 7
+#define UC1800TAB 8
+#define LASTELFTAB 8
 
 #define FRED1TAB 0
 #define FRED2TAB 1
@@ -644,6 +689,8 @@ public:
 
 #define SHOWNAME true
 #define NONAME false
+#define SET_SPIN true
+#define DO_NOT_SET_SPIN false
 
 #define HEX_UP 0
 #define HEX_LEFT 1
@@ -664,6 +711,7 @@ public:
 #define RCABASIC4 11
 #define FPBBASIC 13
 #define FPBBOOT 14
+#define FPBBASIC_AT_8000 15
 
 #define TINYBASIC 2
 #define MINIMON 4
@@ -909,6 +957,7 @@ public:
 #define FRONT_TYPE_B 0
 #define FRONT_TYPE_C 1
 #define FRONT_TYPE_I 2
+#define FRONT_TYPE_J 3
 
 #define VIDEO 0
 #define PIXIE 1
@@ -946,8 +995,6 @@ private:
     wxString applicationDirectory_;
 };
 
-WindowInfo getWinSizeInfo();
-
 class Main: public DebugWindow
 {
 public:
@@ -955,6 +1002,7 @@ public:
 	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~Main();
     
+    WindowInfo getWinSizeInfo(wxString appDir);
     wxSize getPosition(wxString control, wxSize size);
     wxSize getDefaultGuiSize();
     void windowSizeChanged(wxSizeEvent& event);
@@ -1123,6 +1171,15 @@ public:
     void showTextMessageEvent(guiEvent& event);
     void eventShowTextMessage(wxString messageText);
     
+    void setZoomChange(guiEvent& event);
+    void eventZoomChange(double zoom);
+    void zoomEventFinished();
+    bool isZoomEventOngoing();
+    
+    void setZoomVtChange(guiEvent& event);
+    void eventZoomVtChange(double zoom);
+    void zoomVtEventFinished();
+
     void printDefaultEvent(guiEvent& event);
 	void eventPrintDefault(Byte value);
 
@@ -1189,10 +1246,13 @@ public:
 
     void guiSizeTimeout(wxTimerEvent& event);
     
+    void guiRedrawBarTimeOut(wxTimerEvent& event);
+
     wxString getMultiCartGame(Byte msb, Byte lsb);
     bool loadKeyDefinition(wxString gameName1, wxString gameName2, int *, int *, int *, bool *, int *, bool *, int *, int *, int*, int*, wxString keyFileName);
     int getDefaultInKey1(wxString computerStr);
     int getDefaultInKey2(wxString computerStr);
+    int getDefaultInKey2(wxString computerStr, int defaultKey);
     void getDefaultHexKeys(int computerType, wxString computerStr, wxString player, int *, int *, int*);
 	void getTmc600Keys(int *, int *);
 	void getDefaultTmc600Keys(int *, int *);
@@ -1242,7 +1302,7 @@ private:
 
 	int functionKey_[13];
     CompletedSplashScreen *completedSplashScreen_;
-
+    
 	DECLARE_EVENT_TABLE()
 };
 

@@ -44,8 +44,8 @@ BEGIN_EVENT_TABLE(GuiEti, GuiNano)
 	EVT_BUTTON(XRCID("Chip8SWButtonEti"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWEti"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinEti"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinEti"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinEti"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinEti"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueEti"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Eti"), GuiMain::onFullScreen)
 	EVT_BUTTON(XRCID("CasButtonEti"), GuiMain::onCassette)
@@ -130,7 +130,7 @@ void GuiEti::readEtiConfig()
 		XRCCTRL(*this, "ScreenDumpFileEti", wxComboBox)->SetValue(conf[ETI].screenDumpFile_);
 		XRCCTRL(*this, "WavFileEti", wxTextCtrl)->SetValue(conf[ETI].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValueEti", wxTextCtrl)->ChangeValue(conf[ETI].zoom_);
+        correctZoomAndValue(ETI, "Eti", SET_SPIN);
 
 		XRCCTRL(*this, "TurboEti", wxCheckBox)->SetValue(conf[ETI].turbo_);
 		turboGui("Eti");
@@ -140,7 +140,8 @@ void GuiEti::readEtiConfig()
 		XRCCTRL(*this, "VolumeEti", wxSlider)->SetValue(conf[ETI].volume_);
 		XRCCTRL(*this, "RamEti", wxChoice)->SetSelection(conf[ETI].ramType_);
 
-		clockTextCtrl[ETI]->ChangeValue(conf[ETI].clock_);
+        if (clockTextCtrl[ETI] != NULL)
+            clockTextCtrl[ETI]->ChangeValue(conf[ETI].clock_);
 	}
 }
 

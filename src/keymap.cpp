@@ -195,11 +195,33 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             
             XRCCTRL(*this, "InButton", wxButton)->Hide();
             XRCCTRL(*this, "InButtonText", wxStaticText)->Hide();
-
             inButton1_ = 0;
             inButton2_ = 0;
         break;
+           
+		case UC1800:
+            keyDefGameHexA_[0] = 0xd;
+            keyDefGameHexA_[1] = 8;
+            keyDefGameHexA_[2] = 0xa;
+            keyDefGameHexA_[3] = 5;
+            keyDefGameHexA_[4] = 9;
+            keyDefGameHexB_[0] = 0xf;
+            keyDefGameHexB_[1] = 4;
+            keyDefGameHexB_[2] = 6;
+            keyDefGameHexB_[3] = 0xb;
+            keyDefGameHexB_[4] = 1;
             
+            wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialogUC1800"));
+            XRCCTRL(*this, "GameAutoLine", wxStaticLine)->Hide();
+            autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", false);
+            XRCCTRL(*this, "GameAuto", wxCheckBox)->Hide();
+            player2defined_ = false;
+            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            
+            inButton1_ = p_Main->getDefaultInKey1(computerTypeStr_);
+            inButton2_ = p_Main->getDefaultInKey2(computerTypeStr_, 313);
+        break;
+
         case COINARCADE:
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog5"));
             keyDefCoin_ = p_Main->getDefaultCoinArcadeKeys(keyDefGameHexA_, keyDefGameHexB_);
@@ -347,6 +369,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
                     
                 case FRED1:
                 case FRED1_5:
+                case UC1800:
                     p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getRamFile(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
                 break;
                     
@@ -874,7 +897,12 @@ void KeyMapDialog::onHexLocation(wxCommandEvent& WXUNUSED(event))
             if (computerTypeStr_ == "FRED1" || computerTypeStr_ == "FRED1_5")
                 keysFound = p_Main->loadKeyDefinition("", "fredonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
-                keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+			{
+				if (computerTypeStr_ == "UC1800")
+					keysFound = p_Main->loadKeyDefinition("", "uc1800onlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+				else
+					keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+			}
         }
     }
 
@@ -1083,7 +1111,12 @@ void KeyMapDialog::onHexChar(wxCommandEvent& WXUNUSED(event))
             if (computerTypeStr_ == "FRED1" || computerTypeStr_ == "FRED1_5")
                 keysFound = p_Main->loadKeyDefinition("", "fredoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
-                keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+			{
+				if (computerTypeStr_ == "UC1800")
+					keysFound = p_Main->loadKeyDefinition("", "uc1800oncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+				else
+					keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+			}
     }
 
     if (!keysFound)
@@ -1477,6 +1510,14 @@ void KeyMapDialog::onHexSwitchSet1(wxCommandEvent & WXUNUSED(event))
     else
         XRCCTRL(*this, "PadText", wxStaticText)->SetLabel("Hex Keypad Definition, Set 2");
     
+	if (computerTypeStr_ == "UC1800")
+	{
+		if (hexPadSet1_)
+			XRCCTRL(*this, "InButtonText", wxStaticText)->SetLabel("Enter Button");
+		else
+			XRCCTRL(*this, "InButtonText", wxStaticText)->SetLabel("Start/EF1 Button");
+	}
+
     updateButtons();
     inKey_ = -1;
     hexKey_ = -1;

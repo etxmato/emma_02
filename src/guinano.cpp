@@ -49,8 +49,8 @@ BEGIN_EVENT_TABLE(GuiNano, GuiCidelsa)
 	EVT_BUTTON(XRCID("Chip8SWButtonNano"), GuiMain::onChip8SW)
 	EVT_BUTTON(XRCID("EjectChip8SWNano"), GuiMain::onEjectChip8SW)
 
-	EVT_SPIN_UP(XRCID("ZoomSpinNano"), GuiMain::onZoomUp)
-	EVT_SPIN_DOWN(XRCID("ZoomSpinNano"), GuiMain::onZoomDown)
+	EVT_SPIN_UP(XRCID("ZoomSpinNano"), GuiMain::onZoom)
+	EVT_SPIN_DOWN(XRCID("ZoomSpinNano"), GuiMain::onZoom)
 	EVT_TEXT(XRCID("ZoomValueNano"), GuiMain::onZoomValue)
 	EVT_BUTTON(XRCID("FullScreenF3Nano"), GuiMain::onFullScreen)
 
@@ -139,8 +139,7 @@ void GuiNano::readNanoConfig()
 		XRCCTRL(*this, "ScreenDumpFileNano", wxComboBox)->SetValue(conf[NANO].screenDumpFile_);
 		XRCCTRL(*this, "WavFileNano", wxTextCtrl)->SetValue(conf[NANO].wavFile_[0]);
 
-		XRCCTRL(*this, "ZoomValueNano", wxTextCtrl)->ChangeValue(conf[NANO].zoom_);
-
+        correctZoomAndValue(NANO, "Nano", SET_SPIN);
 
 		XRCCTRL(*this, "TurboNano", wxCheckBox)->SetValue(conf[NANO].turbo_);
 		turboGui("Nano");
@@ -148,7 +147,8 @@ void GuiNano::readNanoConfig()
 		XRCCTRL(*this, "AutoCasLoadNano", wxCheckBox)->SetValue(conf[NANO].autoCassetteLoad_);
 
 		XRCCTRL(*this, "VolumeNano", wxSlider)->SetValue(conf[NANO].volume_);
-		clockTextCtrl[NANO]->ChangeValue(conf[NANO].clock_);
+        if (clockTextCtrl[NANO] != NULL)
+            clockTextCtrl[NANO]->ChangeValue(conf[NANO].clock_);
 
 		XRCCTRL(*this, "SoundNano", wxChoice)->SetSelection(conf[NANO].soundType_);
 	}

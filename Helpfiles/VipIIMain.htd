@@ -3,16 +3,10 @@
 <body>
 <h1>Cosmac VIP II Emulator</h1>
 <p>
-This emulator will emulate the (unreleased) Cosmac VIP II computer as build by Ed Keefe and described on his <a href="http://www.cosmacvip.com/VIP2/VIP2.php">Cosmac Vip II</a> page.
+This emulator will emulate the (unreleased) Cosmac VIP II computer.
 </p>
 <p>
-Default the VIP II will start up in Fixed Point Basic (FPB). To start-up in ROM Mode press the 'F12' key (run switch) while pressing 'Start', after this press the 'C' key and while keeping the 'C' pressed, press 'F12' again. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>. 
-</p>
-<p>
-In FPB mode FPB ROM is located from 0000 to 3FFF except for 0400 to 07FF and 0C000 to 0FFF which is RAM. Also 4000 to 7FFF is RAM. In ROM Mode RAM is located from 0000 to 7FFF. System ROM is loaded at 8000 for both modes.
-</p>
-<p>
-Emulation of the LEDs can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'LEDs' field. When 0 ms (or nothing) is specified the LEDs will be updated in real time.
+Two VIP II types can be emulated. The type 'ED' or 'RCA'. The 'ED' is as build by Ed Keefe and described on his <a href="http://www.cosmacvip.com/VIP2/VIP2.php">Cosmac Vip II</a> page. The 'RCA' will emulate the RCA version a bit closer based on schematics recently found at the Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials.
 </p>
 <p>
 This chapter includes:
@@ -22,5 +16,28 @@ This chapter includes:
 <a href="VipIIKeyboard.htm">Keyboard</a><br>
 <a href="VipIISW.htm">Pre SW load</a><br>
 <a href="VipIICassette.htm">Cassette Support</a><br>
+</p>
+<p>
+Emulation of the LEDs can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'LEDs' field. When 0 ms (or nothing) is specified the LEDs will be updated in real time.
+</p>
+<h2>ED</h2>
+<p>
+Default the Cosmac Vip II 'ED' will start up in Fixed Point Basic (FPB). To start-up in ROM Mode press the 'F12' key (run switch) while pressing 'Start', after this press the 'C' key and while keeping the 'C' pressed, press 'F12' again. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>. 
+</p>
+<p>
+In FPB mode FPB ROM is located from 0000 to 3FFF except for 0400 to 07FF and 0C000 to 0FFF which is RAM. Also 4000 to 7FFF is RAM. In ROM Mode RAM is located from 0000 to 7FFF. System ROM is loaded at 8000 for both modes.
+</p>
+<h2>RCA</h2>
+<p>
+Default the Cosmac Vip II 'RCA' will start up in Fixed Point Basic (FPB). It is also possible to boot in RAM or VIP operating system by steelcting 'Op Sys' or 'RAM' as auto boot mode 'ROM - FPB'. 
+</p>
+<p>
+In run time on Windows and Linux: 'Alt 1' will restart in FPB, 'Alt 2' in RAM, 'Alt C' in the VIP operating system and 'Alt 3' will halt the VIP II.
+</p>
+<p>
+In run time on Mac OSX: 'Command 1' will restart in FPB, 'Command 2' in RAM, 'Command C' in the VIP operating system and 'Command 3' will halt the VIP II.
+</p>
+<p>
+FPB and VIP System ROM is located from 8000 to BFFF. 0000 to 7FFF is reserved for RAM depending on selected size. 
 </p>
 </body></html>

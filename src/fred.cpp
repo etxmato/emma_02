@@ -1049,7 +1049,7 @@ void Fred::writeMemDataType(Word address, Byte type)
 		break;
             
 		case MAPPEDRAM:
-			address = address & 0x7ff;
+			address = address & ramMask_;
 			if (mainMemoryDataType_[address] != type)
 			{
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
@@ -1069,7 +1069,7 @@ Byte Fred::readMemDataType(Word address)
 		break;
 
         case MAPPEDRAM:
-            address = address & 0x7ff;
+            address = address & ramMask_;
 			return mainMemoryDataType_[address];
 		break;
 	}
@@ -1085,7 +1085,7 @@ Byte Fred::readMem(Word address)
 		break;
 
         case MAPPEDRAM:
-			address = address & 0x7ff;
+			address = address & ramMask_;
 		break;
  	}
     return mainMemory_[address];
@@ -1110,7 +1110,7 @@ void Fred::writeMem(Word address, Byte value, bool writeRom)
 		break;
             
 		case MAPPEDRAM:
-			address = address & 0x7ff;
+			address = address & ramMask_;
 			if (mainMemory_[address]==value)
 				return;
 			mainMemory_[address]=value;
