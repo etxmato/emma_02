@@ -100,8 +100,8 @@
             timestampString = "597704478.038702"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "4029"
-            endingLineNumber = "4029"
+            startingLineNumber = "4030"
+            endingLineNumber = "4030"
             landmarkName = "Main::loadComputerConfig(fileName)"
             landmarkType = "7">
          </BreakpointContent>
@@ -117,8 +117,8 @@
             timestampString = "597704478.039037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3981"
-            endingLineNumber = "3981"
+            startingLineNumber = "3982"
+            endingLineNumber = "3982"
             landmarkName = "Main::loadComputerConfig(fileName)"
             landmarkType = "7">
          </BreakpointContent>
@@ -219,8 +219,8 @@
             timestampString = "597704478.039414"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1607"
-            endingLineNumber = "1607"
+            startingLineNumber = "1608"
+            endingLineNumber = "1608"
             landmarkName = "Main::Main(title, pos, size, mode, dataDir, iniDir)"
             landmarkType = "7">
          </BreakpointContent>
@@ -475,8 +475,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7898"
-            endingLineNumber = "7898"
+            startingLineNumber = "7899"
+            endingLineNumber = "7899"
             landmarkName = "Main::eventSetSwName(swName)"
             landmarkType = "7">
          </BreakpointContent>
@@ -491,8 +491,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7883"
-            endingLineNumber = "7883"
+            startingLineNumber = "7884"
+            endingLineNumber = "7884"
             landmarkName = "unknown"
             landmarkType = "0">
          </BreakpointContent>
@@ -507,8 +507,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "2269"
-            endingLineNumber = "2269"
+            startingLineNumber = "2270"
+            endingLineNumber = "2270"
             landmarkName = "Main::writeConfig()"
             landmarkType = "7">
          </BreakpointContent>
@@ -571,8 +571,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7887"
-            endingLineNumber = "7887"
+            startingLineNumber = "7888"
+            endingLineNumber = "7888"
             landmarkName = "Main::setSwNameEvent(event)"
             landmarkType = "7">
          </BreakpointContent>
@@ -699,8 +699,8 @@
             filePath = "src/main.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7297"
-            endingLineNumber = "7297"
+            startingLineNumber = "7298"
+            endingLineNumber = "7298"
             landmarkName = "Main::enableGui(status)"
             landmarkType = "7">
          </BreakpointContent>
@@ -715,8 +715,8 @@
             filePath = "src/uc1800.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "177"
-            endingLineNumber = "177"
+            startingLineNumber = "179"
+            endingLineNumber = "179"
             landmarkName = "Uc1800Screen::onMouseRelease(event)"
             landmarkType = "7">
          </BreakpointContent>
@@ -731,8 +731,8 @@
             filePath = "src/uc1800.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "206"
+            endingLineNumber = "206"
             landmarkName = "Uc1800Screen::onMousePress(event)"
             landmarkType = "7">
          </BreakpointContent>
@@ -795,8 +795,8 @@
             filePath = "src/uc1800.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "736"
-            endingLineNumber = "736"
+            startingLineNumber = "738"
+            endingLineNumber = "738"
             landmarkName = "Uc1800::startComputer()"
             landmarkType = "7">
          </BreakpointContent>

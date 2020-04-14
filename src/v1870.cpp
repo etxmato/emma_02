@@ -1174,7 +1174,7 @@ void V1870::copyScreen()
 		{
 			while(characterListPointer != NULL)
 			{
-				videoScreenPointer->blit(offsetX_+videoWidth_-linesPerCharacters_-characterListPointer->y, offsetY_+characterListPointer->x, linesPerCharacters_, 6, &dcMemory, offsetX_+videoWidth_-linesPerCharacters_-characterListPointer->y, offsetY_+characterListPointer->x);
+                videoScreenPointer->blit(offsetX_+videoWidth_-linesPerCharacters_-characterListPointer->y, offsetY_+characterListPointer->x, linesPerCharacters_, 6, &dcMemory, offsetX_+videoWidth_-linesPerCharacters_-characterListPointer->y, offsetY_+characterListPointer->x);
 				temp = characterListPointer;
 				characterListPointer = temp->nextCharacter;
 				delete temp;

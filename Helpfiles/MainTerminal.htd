@@ -3,7 +3,7 @@
 <body>
 <h2>Video Terminal Simulation</h2>
 <p>
-Currently 2 video terminals can be simulated, the DEC VT52 and VT100. Note this is a simulation, i.e. all functionality is simulated and NOT running the original terminal software. Both terminals support all ESC sequences and full functionality (except for self test features and keyboard LEDs), however as I don't have Elf software supporting everything and also don't have an actual terminal not all functionality has been tested. Font roms are included, but not 100% original. For the VT52 there are 2 fonts vt52.a.bin and vt52.b.bin, not sure which is more correct. Please feel free to drop me an email with comments on functionality or font roms!
+Currently 2 video terminals can be simulated, the DEC VT52 and VT100. Note this is a simulation, i.e. all functionality is simulated and NOT running the original terminal software. Both terminals support all ESC sequences and full functionality (except for self test features and keyboard LEDs), however as I don't have software supporting everything and also don't have an actual terminal not all functionality has been tested. Font roms are included, but not 100% original. For the VT52 there are 2 fonts vt52.a.bin and vt52.b.bin, not sure which is more correct. Please feel free to drop me an email with comments on functionality or font roms!
 </p>
 <p>
 Next to the terminal simulation also external terminal software can be used, for more details see: <a href="MainExternalTerminal.htm">External Terminal</a>
@@ -83,7 +83,7 @@ To log all VT terminal output to a file (terminal.log) select the Log check box 
 <h3>VT100</h3>
 <h4>Set-up</h4>
 <p>
-VT100 Set-up screens are simulated and can be started by pressing F8 (see also chapter <a href="MainFunctionKeys.htm">Function and Hot Keys</a>). When saving settings with CTRL S they will be used next time a VT100 will be used for the Elf 2000.
+VT100 Set-up screens are simulated and can be started by pressing F8 (see also chapter <a href="MainFunctionKeys.htm">Function and Hot Keys</a>). When saving settings with CTRL S they will be used next time a VT100 will be used.
 </p>
 <h4>Key Mapping</h4>
 <pre>
@@ -91,6 +91,8 @@ VT100 Set-up screens are simulated and can be started by pressing F8 (see also c
 VT100			PC
 
 SET-UP			F8
+
+BREAK			ESC
 
 CTRL BREAK		CTRL B
 

@@ -80,7 +80,14 @@ public:
     // accessors
     bool GetBoolValue()            { return boolValue_;}
     double GetDoubleValue()        { return doubleValue_;}
-    Word GetWordValue1()		{ return wordValue1_;}
+    wxDC* GetDc()        { return dcValue_;}
+    wxCoord GetCoord1()        { return wxCoord1_;}
+    wxCoord GetCoord2()        { return wxCoord2_;}
+    wxCoord GetCoord3()        { return wxCoord3_;}
+    wxCoord GetCoord4()        { return wxCoord4_;}
+    wxCoord GetCoord5()        { return wxCoord5_;}
+    wxCoord GetCoord6()        { return wxCoord6_;}
+    Word GetWordValue1()        { return wordValue1_;}
     Word GetWordValue2()		{ return wordValue2_;}
     Word GetWordValue3()		{ return wordValue3_;}
     Byte GetByteValue1()		{ return byteValue1_;}
@@ -91,7 +98,14 @@ public:
     wxString GetStringValue5()	{ return stringValue5_;}
     void SetBoolValue(bool boolValue)    { boolValue_ = boolValue;}
     void SetDoubleValue(double doubleValue)    { doubleValue_ = doubleValue;}
-    void SetWordValue1(Word wordValue)	{ wordValue1_ = wordValue;}
+    void SetDc(wxDC *dcValue)    { dcValue_ = dcValue;}
+    void SetCoord1(wxCoord coordValue)    { wxCoord1_ = coordValue;}
+    void SetCoord2(wxCoord coordValue)    { wxCoord2_ = coordValue;}
+    void SetCoord3(wxCoord coordValue)    { wxCoord3_ = coordValue;}
+    void SetCoord4(wxCoord coordValue)    { wxCoord4_ = coordValue;}
+    void SetCoord5(wxCoord coordValue)    { wxCoord5_ = coordValue;}
+    void SetCoord6(wxCoord coordValue)    { wxCoord6_ = coordValue;}
+    void SetWordValue1(Word wordValue)    { wordValue1_ = wordValue;}
     void SetWordValue2(Word wordValue)	{ wordValue2_ = wordValue;}
     void SetWordValue3(Word wordValue)	{ wordValue3_ = wordValue;}
     void SetByteValue1(Byte byteValue)	{ byteValue1_ = byteValue;}
@@ -105,9 +119,16 @@ public:
 	wxEvent *Clone(void) const { return new guiEvent(*this); }
 
 private:
+    wxDC *dcValue_;
     bool boolValue_;
     double doubleValue_;
-	Word wordValue1_;
+    wxCoord wxCoord1_;
+    wxCoord wxCoord2_;
+    wxCoord wxCoord3_;
+    wxCoord wxCoord4_;
+    wxCoord wxCoord5_;
+    wxCoord wxCoord6_;
+    Word wordValue1_;
 	Word wordValue2_;
 	Word wordValue3_;
 	Byte byteValue1_;
@@ -224,6 +245,7 @@ protected:
 #define SET_STATIC_TEXT_VALUE 32
 #define ZOOM_CHANGE 33
 #define ZOOMVT_CHANGE 34
+#define DO_BLIT 35
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
@@ -1179,6 +1201,9 @@ public:
     void setZoomVtChange(guiEvent& event);
     void eventZoomVtChange(double zoom);
     void zoomVtEventFinished();
+
+    void setBlit(guiEvent& event);
+    void eventBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
 
     void printDefaultEvent(guiEvent& event);
 	void eventPrintDefault(Byte value);

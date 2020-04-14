@@ -536,6 +536,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
     EVT_GUI_MSG(ZOOM_CHANGE, Main::setZoomChange)
     EVT_GUI_MSG(ZOOMVT_CHANGE, Main::setZoomVtChange)
+    EVT_GUI_MSG(DO_BLIT, Main::setBlit)
 
 	EVT_COMMAND(wxID_ANY, KILL_COMPUTER, Main::killComputer)
 
@@ -8082,6 +8083,35 @@ void Main::eventZoomVtChange(double zoom)
 void Main::zoomVtEventFinished()
 {
     zoomEventOngoing_ = false;
+}
+
+void Main::setBlit(guiEvent&event)
+{
+    wxCoord xdest = event.GetCoord1();
+    wxCoord ydest = event.GetCoord2();
+    wxCoord width = event.GetCoord3();
+    wxCoord height = event.GetCoord4();
+    wxDC *source = event.GetDc();
+    wxCoord xsrc = event.GetCoord5();
+    wxCoord ysrc = event.GetCoord6();
+
+    p_Video->blitDirect(xdest, ydest, width, height, source, xsrc, ysrc);
+}
+
+void Main::eventBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
+{
+    guiEvent event(GUI_MSG, DO_BLIT);
+    event.SetEventObject(p_Main);
+
+    event.SetCoord1(xdest);
+    event.SetCoord2(ydest);
+    event.SetCoord3(width);
+    event.SetCoord4(height);
+    event.SetDc(source);
+    event.SetCoord4(xsrc);
+    event.SetCoord4(ysrc);
+
+    GetEventHandler()->AddPendingEvent(event);
 }
 
 void Main::printDefaultEvent(guiEvent&event)
