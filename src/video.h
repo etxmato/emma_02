@@ -20,6 +20,7 @@ public:
 	bool isVt() {return vt100_;};
 
 	void blit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
+    void blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
 	void drawLine(wxCoord x, wxCoord y, wxCoord width, wxCoord height, wxPen penCclr);
 	void drawExtraBackground(wxColour clr, int width, int height, wxCoord offsetX, wxCoord offsetY);
 	void drawRectangle(wxColour clr, int x, int y, wxCoord width, wxCoord height);
@@ -65,7 +66,8 @@ public:
 	void resetVideoSyncCount();
 	virtual void focus();
 	virtual void updateStatusLed(bool status);
-	virtual void dataAvailable();
+    virtual void dataAvailable();
+    virtual void dataAvailable(Byte value);
 	virtual void framingError(bool data);
 	bool isFullScreenSet() {return fullScreenSet_;};
 	virtual void setFullScreen(bool fullScreenSet);
@@ -117,6 +119,7 @@ public:
     void setInterruptEnable(bool status) {interruptEnabled_ = status;};
     Byte getPcbMask()  {return pcbMask_;};
     int getMaxLinesPerChar()  {return maxLinesPerCharacters_;};
+    void blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
 
 protected:
     Byte pageMemory_[4096];

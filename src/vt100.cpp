@@ -466,6 +466,7 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     elfRunCommand_ = 0;
     reverseEf_ = true;
     dataReadyFlag_ = 0;
+    vtOutBits_ = 10;
     
     tab_char = 0x7f;
 }
@@ -574,7 +575,7 @@ void Vt100::configureQandEfPolarity(int ef, bool vtEnable)
 
 Byte Vt100::ef()
 {
-	return(reverseEf_^vt100Ef_);
+    return(reverseEf_^vt100Ef_);
 }
 
 void Vt100::out(Byte value)
@@ -711,37 +712,45 @@ void Vt100::cycleVt()
 		if (vtOutCount_ > 0)
 		{
 			vtOutCount_--;
-			if (vtOutCount_ == 0)
-			{
-				p_Computer->dataAvailable(1);
-				uartStatus_[UART_DA] = 1;
-				vtOutCount_ = -1;
-			}
             if (computerType_ == MS2000)
             {
                 if (vtOutCount_ <= 0)
                 {
-                    vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
-                    vtOut_ = (vtOut_ >> 1) | 128;
-                    vtOutCount_ = baudRateT_;
-                    if (SetUpFeature_[VTPARITY])
-                    {
-                        if (vtOutBits_ == 3)
-                            vt100Ef_ = parity_;
-                        if (vtOutBits_ == 2)
-                            vt100Ef_ = 1;
-                    }
+                    if (vtOutBits_ == 10)
+                        vt100Ef_ = 0;
                     else
                     {
-                        if (vtOutBits_ == 2)
-                            vt100Ef_ = 1;
+                        vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
+                        if (vtOutBits_ > 10)
+                            vtOut_ = 0;
+                        else
+                            vtOut_ = (vtOut_ >> 1) | 128;
                     }
+                    vtOutCount_ = baudRateT_;
+                    if (vtOutBits_ == 2)
+                        vt100Ef_ = 1;
                     if (--vtOutBits_ == 0)
                     {
                         vtOut_ = 0;
-                        p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+                        uartStatus_[UART_DA] = 1;
                         vtOutCount_ = -1;
+                        vtOutBits_=10;
                     }
+                    if (vtOutBits_ == 11)
+                    {
+                        vt100Ef_ = 1;
+                        vtOutCount_ = -1;
+                        vtOutBits_=10;
+                    }
+                }
+            }
+            else
+            {
+                if (vtOutCount_ == 0)
+                {
+                    p_Computer->dataAvailable(1);
+                    uartStatus_[UART_DA] = 1;
+                    vtOutCount_ = -1;
                 }
             }
         }
@@ -2673,8 +2682,32 @@ void Vt100::escapeVT100(Byte byt)
 
 void Vt100::dataAvailable()
 {
-	if (uart_)
+    if (!uart_)
+        return;
+    
+    if (computerType_ != MS2000)
 		vtOutCount_ = baudRateT_ * 9;
+    else
+        vtOutCount_ = baudRateT_;
+}
+
+void Vt100::dataAvailable(Byte value)
+{
+    if (!uart_)
+        return;
+    
+    vtOut_ = value;
+    
+    if (vtOut_ == 27)
+    {
+        vtOut_ = 0;
+        vtOutBits_ = (58240/baudRateT_)+11;
+    }
+    
+    if (computerType_ != MS2000)
+        vtOutCount_ = baudRateT_ * 9;
+    else
+        vtOutCount_ = baudRateT_;
 }
 
 void Vt100::framingError(bool data)

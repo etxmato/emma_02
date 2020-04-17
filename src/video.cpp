@@ -138,7 +138,7 @@ void VideoScreen::vtOut(int value)
 	{
 		keyBuffer_[keyEnd_++] = value;
 		if (keyEnd_ == 26) keyEnd_ = 0;
-		p_Vt100->dataAvailable();
+		p_Vt100->dataAvailable(value);
 		if (value == 27) p_Vt100->framingError(1);
 	}
 }
@@ -271,18 +271,29 @@ Byte VideoScreen::getKey(Byte vtOut)
 	vtOut = keyBuffer_[keyStart_++];
 	if (keyStart_ == 26) keyStart_ = 0;
 	if (keyStart_ != keyEnd_)
-		p_Vt100->dataAvailable();
+		p_Vt100->dataAvailable(vtOut);
 	return vtOut;
 }
 
 void VideoScreen::blit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
 {
-	wxClientDC dcWindow(this);
-	dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
+    wxClientDC dcWindow(this);
+    dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
 #if defined(__WXMAC__)
 //    dcWindow.SetInterpolationQuality(wxINTERPOLATION_NONE);
 #endif
-	dcWindow.Blit(xdest, ydest, width, height, source, xsrc, ysrc);
+    dcWindow.Blit(xdest, ydest, width, height, source, xsrc, ysrc);
+//    p_Main->eventBlit(xdest, ydest, width, height, source, xsrc, ysrc);
+}
+
+void VideoScreen::blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
+{
+    wxClientDC dcWindow(this);
+    dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
+#if defined(__WXMAC__)
+//    dcWindow.SetInterpolationQuality(wxINTERPOLATION_NONE);
+#endif
+    dcWindow.Blit(xdest, ydest, width, height, source, xsrc, ysrc);
 }
 
 void VideoScreen::drawExtraBackground(wxColour clr, int width, int height, wxCoord offsetX, wxCoord offsetY)
@@ -402,6 +413,11 @@ void Video::updateStatusLed(bool WXUNUSED(status))
 void Video::dataAvailable()
 {
 	p_Main->message("Illegal call to vt-100 data available");
+}
+
+void Video::dataAvailable(Byte WXUNUSED(value))
+{
+    p_Main->message("Illegal call to vt-100 data available");
 }
 
 void Video::framingError(bool WXUNUSED(data))
@@ -802,6 +818,11 @@ void Video::writePramDirect(Word address, Byte value)
 {
     pageMemory_[address] = value;
     reDraw_ = true;
+}
+
+void Video::blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
+{
+    videoScreenPointer->blit(xdest, ydest, width, height, source, xsrc, ysrc);
 }
 
 

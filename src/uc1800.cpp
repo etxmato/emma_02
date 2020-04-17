@@ -114,11 +114,13 @@ void Uc1800Screen::init(bool powerButtonState)
     int yPos = 80;
     int xSize = 30;
     int ySize = 15;
+#if defined(__WXMSW__)
     int spacing = 12;
+#endif
 #if defined(__linux__)
     ySize = 28;
     yPos = 46;
-    spacing = 4;
+    int spacing = 4;
 #endif
 
 #if defined (__WXMAC__)

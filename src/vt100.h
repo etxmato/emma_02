@@ -44,8 +44,9 @@ public:
 	void Display(int byt, bool forceDisplay);
 	void escapeVT52(Byte byt);
 	void escapeVT100(Byte byt);
-	void dataAvailable(); 
-	void framingError(bool data); 
+    void dataAvailable();
+    void dataAvailable(Byte value);
+	void framingError(bool data);
 	void uartOut(Byte value); 
 	void uartControl(Byte value); 
 	Byte uartIn(); 
@@ -156,7 +157,7 @@ private:
 	Byte rs232_;
 	int vtOutBits_;
 	long vtOutCount_;
-	Byte vtOut_;
+    Byte vtOut_;
 
 	int cursorLine_;
 	int cursorPosition_;
