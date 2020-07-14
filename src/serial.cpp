@@ -40,11 +40,6 @@ int baudRateValueSerial_[] =
 	19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
 };
 
-#define UART_DA_SERIAL 0
-#define UART_FE_SERIAL 3
-#define UART_TSRE_SERIAL 6
-#define UART_THRE_SERIAL 7
-
 Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
 {
     elfConfiguration_ = elfConf;
@@ -55,8 +50,14 @@ Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
     SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
 
 	setCycle();
+    uartEf_ = false;
 
     serialOpen_ = false;
+    
+    uart_da_bit_ = 0;
+    uart_fe_bit_ = 3;
+    uart_tsre_bit_ = 6;
+    uart_thre_bit_ = 7;
 }
 
 Serial::~Serial()
@@ -171,8 +172,45 @@ void Serial::configureUart(ElfPortConfiguration elfPortConf)
     rs232_ = 0;
 }
 
+void Serial::configureRcasbc(int selectedBaudR, int selectedBaudT)
+{
+    uartEf_ = true;
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValueSerial_[selectedBaudR_]);
+    
+    p_Computer->setCycleType(SERIALCYCLE, VTSERIALCYCLE);
+    
+    p_Main->message("Configuring external terminal connected to UART1 with MSM82C51");
+    startSerial();
+    
+    p_Main->message("	A000-AFFF, 0: Data, 1: Status/Control Word");
+    p_Main->message("	EF4/INT: RxRDY (reversed), EF3: TxRDY");
+
+    wxString printBuffer;
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
+    p_Main->message(printBuffer);
+    
+    rs232_ = 0;
+    vtEnabled_ = 1;
+    vtCount_ = -1;
+    vtOutCount_ = -1;
+    vtOut_ = 0;
+    serialEf_ = 1;
+    reverseEf_ = true;
+    dataReadyFlag_ = 0;
+    
+    uart_da_bit_ = 7;
+    uart_fe_bit_ = 5;
+    uart_tsre_bit_ = 0;
+    uart_thre_bit_ = 2;
+}
+
 void Serial::configureMs2000(int selectedBaudR, int selectedBaudT)
 {
+    uartEf_ = true;
     selectedBaudT_ = selectedBaudT;
     selectedBaudR_ = selectedBaudR;
     
@@ -377,47 +415,56 @@ void Serial::cycleVt()
             
             rs232_ = 0;
             p_Computer->thrStatus(0);
-            uartStatus_[UART_THRE_SERIAL] = 1;
-			uartStatus_[UART_TSRE_SERIAL] = 1;
+            uartStatus_[uart_thre_bit_] = 1;
+			uartStatus_[uart_tsre_bit_] = 1;
 
 			vtCount_ = baudRateR_ * 9;
 		}
 		if (vtOutCount_ > 0)
 		{
-			vtOutCount_--;
-			if (vtOutCount_ == 0)
-			{
-				p_Computer->dataAvailable(1);
-				uartStatus_[UART_DA_SERIAL] = 1;
-				vtOutCount_ = -1;
-			}
-            if (computerType_ == MS2000)
+            vtOutCount_--;
+            if (uartEf_)
             {
-				if (vtOutCount_ <= 0)
-				{
-					serialEf_ = (vtOut_ & 1) ? 1 : 0;
-					vtOut_ = (vtOut_ >> 1) | 128;
-					vtOutCount_ = baudRateT_;
-					if (SetUpFeature_[VTPARITY])
-					{
-						if (vtOutBits_ == 3)
-							serialEf_ = parity_;
-						if (vtOutBits_ == 2)
-							serialEf_ = 1;
-					}
-					else
-					{
-						if (vtOutBits_ == 2)
-							serialEf_ = 1;
-					}
-					if (--vtOutBits_ == 0)
-					{
-						vtOut_ = 0;
-						p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
-						vtOutCount_ = -1;
-					}
-				}
-			}
+                if (vtOutCount_ <= 0)
+                {
+                    if (vtOutBits_ == 10)
+                        serialEf_ = 0;
+                    else
+                    {
+                        serialEf_ = (vtOut_ & 1) ? 1 : 0;
+                        if (vtOutBits_ > 10)
+                            vtOut_ = 0;
+                        else
+                            vtOut_ = (vtOut_ >> 1) | 128;
+                    }
+                    vtOutCount_ = baudRateT_;
+                    if (vtOutBits_ == 2)
+                        serialEf_ = 1;
+                    if (--vtOutBits_ == 0)
+                    {
+                        vtOut_ = 0;
+                        p_Computer->dataAvailableSerial(1);
+                        uartStatus_[uart_da_bit_] = 1;
+                        vtOutCount_ = -1;
+                        vtOutBits_=10;
+                    }
+                    if (vtOutBits_ == 11)
+                    {
+                        serialEf_ = 1;
+                        vtOutCount_ = -1;
+                        vtOutBits_=10;
+                    }
+                }
+            }
+            else
+            {
+                if (vtOutCount_ == 0)
+                {
+                    p_Computer->dataAvailableSerial(1);
+                    uartStatus_[uart_da_bit_] = 1;
+                    vtOutCount_ = -1;
+                }
+            }
         }
     }
     else  // if !uart
@@ -565,21 +612,45 @@ int Serial::Parity(int value)
 
 void Serial::dataAvailable()
 {
-	if (uart_)
-		vtOutCount_ = baudRateT_ * 9;
+    if (!uart_)
+        return;
+    
+    if (uartEf_)
+        vtOutCount_ = baudRateT_ * 9;
+    else
+        vtOutCount_ = baudRateT_;
+}
+
+void Serial::dataAvailable(Byte value)
+{
+    if (!uart_)
+        return;
+    
+    vtOut_ = value;
+    if (uartEf_)
+    {
+        if (vtOut_ == WXK_ESCAPE)
+        {
+            vtOut_ = 0;
+            vtOutBits_ = (58240/baudRateT_)+11;
+        }
+        vtOutCount_ = baudRateT_ * 9;
+    }
+    else
+        vtOutCount_ = baudRateT_;
 }
 
 void Serial::framingError(bool data)
 {
-	uartStatus_[UART_FE_SERIAL] = data;
+	uartStatus_[uart_fe_bit_] = data;
 }
 
 void Serial::uartOut(Byte value)
 {
 	rs232_ = value;
 	p_Computer->thrStatus(1);
-	uartStatus_[UART_THRE_SERIAL] = 0;
-	uartStatus_[UART_TSRE_SERIAL] = 0;
+	uartStatus_[uart_thre_bit_] = 0;
+	uartStatus_[uart_tsre_bit_] = 0;
 }
 
 void Serial::uartControl(Byte value)
@@ -591,8 +662,8 @@ void Serial::uartControl(Byte value)
 Byte Serial::uartIn()
 {
 	framingError(0);
-	uartStatus_[UART_DA_SERIAL] = 0;
-	p_Computer->dataAvailable(0);
+	uartStatus_[uart_da_bit_] = 0;
+	p_Computer->dataAvailableSerial(0);
 		
 	Byte input = 0;
 	sp_nonblocking_read(port, &input, 1);

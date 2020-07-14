@@ -1112,8 +1112,8 @@ void Elf::startComputer()
         ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
     
-    if (p_Vt100 != NULL)
-        p_Vt100->splashScreen();
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->splashScreen();
     else
         p_Video->splashScreen();
     
@@ -1516,10 +1516,10 @@ void Elf::configureElfExtensions()
 	{
 		double zoom = p_Main->getZoomVt();
         if (elfConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Elf - VT 52", p_Main->getVtPos(ELF), wxSize(640*zoom, 400*zoom), zoom, ELF, elfClockSpeed_, elfConfiguration);
+            vtPointer = new Vt100("Elf - VT 52", p_Main->getVtPos(ELF), wxSize(640*zoom, 400*zoom), zoom, ELF, elfClockSpeed_, elfConfiguration, UART1);
         else
-            vtPointer = new Vt100("Elf - VT 100", p_Main->getVtPos(ELF), wxSize(640*zoom, 400*zoom), zoom, ELF, elfClockSpeed_, elfConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Elf - VT 100", p_Main->getVtPos(ELF), wxSize(640*zoom, 400*zoom), zoom, ELF, elfClockSpeed_, elfConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
 		vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
 		vtPointer->Show(true);
 		vtPointer->drawScreen();

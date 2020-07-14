@@ -667,10 +667,10 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
 
 void Panel::onChar(wxKeyEvent& event)
 {
-	if (p_Vt100 != NULL)
+	if (p_Vt100[UART1] != NULL)
 	{
 		int key = event.GetKeyCode();
-		if (!p_Vt100->charPressed(event))
+		if (!p_Vt100[UART1]->charPressed(event))
 		{	
 			if (forceUpperCase_ && key >= 'a' && key <= 'z')
 				key -= 32;
@@ -690,8 +690,8 @@ void Panel::vtOut(int value)
 	{
 		keyBuffer_[keyEnd_++] = value;
 		if (keyEnd_ == 26) keyEnd_ = 0;
-		p_Vt100->dataAvailable();
-		if (value == 27) p_Vt100->framingError(1);
+		p_Vt100[UART1]->dataAvailable();
+		if (value == 27) p_Vt100[UART1]->framingError(1);
 	}
 }
 
@@ -700,7 +700,7 @@ void Panel::onKeyDown(wxKeyEvent& event)
 	int keycode;
 	keycode = event.GetKeyCode();
 
-	if (p_Vt100 != NULL)
+	if (p_Vt100[UART1] != NULL)
 	{
 		if (keycode == lastKey_)
 		{
@@ -709,14 +709,14 @@ void Panel::onKeyDown(wxKeyEvent& event)
 				if (event.GetModifiers() != wxMOD_CONTROL || keycode != WXK_HOME || keycode != WXK_ESCAPE || keycode != WXK_SCROLL || keycode != WXK_TAB || keycode != WXK_RETURN)
 				{
 					lastKey_ = keycode;
-					p_Vt100->keyDownPressed(event);
+					p_Vt100[UART1]->keyDownPressed(event);
 				}
 			}
 		}
 		else
 		{
 			lastKey_ = keycode;
-			p_Vt100->keyDownPressed(event);
+			p_Vt100[UART1]->keyDownPressed(event);
 		}
 	}
 	if (p_Main->checkFunctionKey(event))
@@ -731,10 +731,10 @@ void Panel::onKeyUp(wxKeyEvent& event)
 		p_Main->onKeyUp(event);
 	functionKeyReleaseTwo_ = !functionKeyReleaseTwo_;
 
-	if (p_Vt100 != NULL)
+	if (p_Vt100[UART1] != NULL)
 	{
 		lastKey_ = 0;
-		p_Vt100->keyUpPressed();
+		p_Vt100[UART1]->keyUpPressed();
 	}
 	if (!p_Computer->keyUpReleased(event.GetKeyCode()))
 		event.Skip();
@@ -747,7 +747,7 @@ Byte Panel::getKey(Byte vtOut)
 	vtOut = keyBuffer_[keyStart_++];
 	if (keyStart_ == 26) keyStart_ = 0;
 	if (keyStart_ != keyEnd_)
-		p_Vt100->dataAvailable();
+		p_Vt100[UART1]->dataAvailable();
 	return vtOut;
 }
 
@@ -1945,7 +1945,11 @@ void Computer::checkLoadedSoftware()
 {
 }
 
-void Computer::dataAvailable(bool WXUNUSED(data))
+void Computer::dataAvailableVt100(bool WXUNUSED(data), int WXUNUSED(uartNumber))
+{
+}
+
+void Computer::dataAvailableSerial(bool WXUNUSED(data))
 {
 }
 

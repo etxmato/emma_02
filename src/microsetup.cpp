@@ -326,11 +326,15 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
         case MICROBOARD_CDP18S603A:
             wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(MICROBOARD_CDP18S603)+ "_Setup_Dialog");
         break;
+
+        case RCASBC:
+            wxXmlResource::Get()->LoadDialog(this, parent, "RCASBC_Setup_Dialog");
+        break;
     }
     guiLoaded_ = true;
 
     this->SetTitle(p_Main->getMicroboardTypeStr(configuration_.microboardType_[0])+ " Setup");
-    
+  
     XRCCTRL(*this, "MainRomU21" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U21ROM]);
     XRCCTRL(*this, "MainRomU20" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U20ROM]);
 
@@ -344,6 +348,7 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "VtUartGroup", wxChoice)->SetSelection(elfConfiguration.uartGroup - 1);
             setOneSocketState();
             setFourSocketState();
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
         break;
  
         case MICROBOARD_CDP18S601:
@@ -355,6 +360,7 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "MainRomU18" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U18ROM]);
             XRCCTRL(*this, "MainRomU17" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U17ROM]);
             XRCCTRL(*this, "OneSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[ONE_SOCKET]);
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
         break;
 
         case MICROBOARD_CDP18S602:
@@ -368,6 +374,7 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "VtUartGroup", wxChoice)->SetSelection(elfConfiguration.uartGroup - 1);
             one602SocketBankGui();
             four602SocketBankGui();
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
         break;
 
         case MICROBOARD_CDP18S604B:
@@ -376,12 +383,14 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "RomBlock" + selectedComputerStr_, wxTextCtrl)->ChangeValue(configuration_.microChipBlock_[FOUR_SOCKET]);
             one604BSocketBankGui();
             four604BSocketBankGui();
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
+        break;
+
+        case RCASBC:
         break;
     }
 
     updateErrorStatus();
-
-    XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
 
     if (p_Main->isComputerRunning())
         XRCCTRL(*this, "MicroSetupSave", wxButton)->Disable();
@@ -481,6 +490,7 @@ void MicroboardSetupDialog::onRomU21(wxCommandEvent& WXUNUSED(event))
         case MICROBOARD_CDP18S608:
         case MICROBOARD_CDP18S609:
         case MICROBOARD_CDP18S610:
+        case RCASBC:
             romName = " RAM";
         break;
     }
@@ -544,6 +554,7 @@ void MicroboardSetupDialog::onRomU20(wxCommandEvent& WXUNUSED(event))
 
         case MICROBOARD_CDP18S604B:
         case MICROBOARD_CDP18S609:
+        case RCASBC:
             romName = " ROM";
         break;
     }

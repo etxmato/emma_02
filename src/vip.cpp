@@ -122,10 +122,10 @@ void Vip::configureComputer()
 	{
 		double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Cosmac Vip - VT 52", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
+            vtPointer = new Vt100("Cosmac Vip - VT 52", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration, UART1);
         else
-            vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
         
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(true);
@@ -616,7 +616,7 @@ void Vip::startComputer()
     }
     romMask_ |= 0x8000;
 
-	defineMemoryType(0x0, ramMask_, RAM);
+    defineMemoryType(0x0, ramMask_, RAM);
     initRam(0x0, ramMask_);
 
     for (int i=0x1000; i<0x8000; i+=0x1000)
@@ -625,7 +625,6 @@ void Vip::startComputer()
 		defineMemoryType((i+1)*0x1000, (i+1)*0x1000+0xfff, VP570RAM);
 	if (cdp1862_)
 		defineMemoryType(0xc000, 0xdfff, COLOURRAM);
-
 
 	ramMask_ |= 0xfff;
 	readProgram(p_Main->getRamDir(VIP), p_Main->getRamFile(VIP), NOCHANGE, 0, SHOWNAME);

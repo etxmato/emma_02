@@ -34,7 +34,7 @@
 BEGIN_EVENT_TABLE(MyAboutDialog, wxDialog)
     EVT_BUTTON(XRCID("AboutOk"), MyAboutDialog::onOkButton)
 END_EVENT_TABLE()
-//test 2
+
 MyAboutDialog::MyAboutDialog(wxWindow* parent)
 {
 	wxString version, subversion;

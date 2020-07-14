@@ -1,4 +1,4 @@
-/*
+ /*
  *******************************************************************
  *** This software is copyright 2008 by Marcel van Tongeren      ***
  *** You have permission to use, modify, copy, and distribute    ***
@@ -92,6 +92,9 @@ Comx::~Comx()
 		}
 	}
 	p_Main->setMainPos(COMX, GetPosition());
+    
+    p_Main->stopAssLog();
+
 //    keyLogFilePc_.Close();
 //    keyLogFile1802_.Close();
 //    keyLogFileCycle_.Close();
@@ -132,6 +135,8 @@ void Comx::initComputer()
     rawKeyCode_ = 0;
 
     keyboardCode_ = 0;
+    for (int i=0; i<5; i++)
+        secondKeyboardCodes[i] = 0;
 	previousKeyCode_ = (wxKeyCode) 0;
 
 	dmaCounter_ = -100;
@@ -1602,8 +1607,9 @@ void Comx::resetPressed()
 
 void Comx::charEvent(int keycode)
 {
-//	if (keyboardEf3_ == 0)  return;
-//
+	if (keyboardEf2_ == 0)
+        return;
+
 	keyboardCode_ = keycode;
 	keyboardEf3_ = 0;
 //    rawKeyCode_ = keycode;
@@ -1613,108 +1619,168 @@ void Comx::charEvent(int keycode)
 
 bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-//	if (keyboardEf3_ == 0)  return true;
-	previousKeyCode_ = (wxKeyCode) keycode;
+    if (keyboardEf2_ == 0)
+    {
+        if (keyboardCode_ != keycode)
+        {
+            switch (keycode)
+            {
+                case WXK_LEFT:
+                case WXK_UP:
+                case WXK_RIGHT:
+                case WXK_DOWN:
+                    secondKeyboardCodes[keycode-WXK_LEFT] = keycode;
+                break;
 
- 	switch(keycode)
-	{
-		case WXK_RETURN:
-			keyboardCode_ = 0x80;
-			keyboardEf3_ = 0;
-    //        keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
+                case WXK_SPACE:
+                    secondKeyboardCodes[4] = keycode;
+                break;
+            }
+        }
+        return false;
+    }
 
-		case WXK_NUMPAD_ENTER:
-			keyboardCode_ = 0x80;
-			keyboardEf3_ = 0;
-    //        keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
+    previousKeyCode_ = (wxKeyCode) keycode;
 
-		case WXK_ESCAPE:
-			keyboardCode_ = 0x81;
-			keyboardEf3_ = 0;
-     //       keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_BACK:
-			keyboardCode_ = 0x86;
-			keyboardEf3_ = 0;
-     //       keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_DELETE:
-			keyboardCode_ = 0x86;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_LEFT:
-			keyboardCode_ = 0x84;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_RIGHT:
-			keyboardCode_ = 0x83;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_UP:
-			keyboardCode_ = 0x82;
-			keyboardEf3_ = 0;
-       //     keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_DOWN:
-			keyboardCode_ = 0x85;
-			keyboardEf3_ = 0;
-     //       keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_NUMPAD_ADD:
-			if (event.GetModifiers() == wxMOD_SHIFT)
-				keyboardCode_ = 0xfb;
-			else
-				keyboardCode_ = 0xdb;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_NUMPAD_SUBTRACT:
-			if (event.GetModifiers() == wxMOD_SHIFT)
-				keyboardCode_ = 0xfc;
-			else
-				keyboardCode_ = 0xdc;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-	}
-	return false;
+    return keyCheck(keycode, event.GetModifiers());
 }
 
-void Comx::keyUp(int WXUNUSED(keycode))
+bool Comx::keyCheck(int keycode, int modifiers)
+{
+    switch(keycode)
+    {
+        case WXK_RETURN:
+            keyboardCode_ = 0x80;
+            keyboardEf3_ = 0;
+            //        keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_NUMPAD_ENTER:
+            keyboardCode_ = 0x80;
+            keyboardEf3_ = 0;
+            //        keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_ESCAPE:
+            keyboardCode_ = 0x81;
+            keyboardEf3_ = 0;
+            //       keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_BACK:
+            keyboardCode_ = 0x86;
+            keyboardEf3_ = 0;
+            //       keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_DELETE:
+            keyboardCode_ = 0x86;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_LEFT:
+            keyboardCode_ = 0x84;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_RIGHT:
+            keyboardCode_ = 0x83;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_UP:
+            keyboardCode_ = 0x82;
+            keyboardEf3_ = 0;
+            //     keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_DOWN:
+            keyboardCode_ = 0x85;
+            keyboardEf3_ = 0;
+            //       keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_NUMPAD_ADD:
+            if (modifiers == wxMOD_SHIFT)
+                keyboardCode_ = 0xfb;
+            else
+                keyboardCode_ = 0xdb;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_NUMPAD_SUBTRACT:
+            if (modifiers == wxMOD_SHIFT)
+                keyboardCode_ = 0xfc;
+            else
+                keyboardCode_ = 0xdc;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+    }
+    return false;
+}
+
+void Comx::keyUp(int keycode)
 {
     if (p_Main->isDiagOn(COMX) == 1)
     {
         if ((outValues_[1]) != 0)
             return;
     }
-	keyboardEf2_ = 1;
-//	keyboardEf3_ = 1;
-//	keyboardCode_ = 0;
-	previousKeyCode_ = (wxKeyCode) 0;
+    
+    switch(keycode)
+    {
+        case WXK_LEFT:
+        case WXK_UP:
+        case WXK_RIGHT:
+        case WXK_DOWN:
+            secondKeyboardCodes[keycode-WXK_LEFT] = 0;
+        break;
+            
+        case WXK_SPACE:
+            secondKeyboardCodes[4] = 0;
+        break;
+    }
+    
+    int keyNumber = 0, newKey = 0;
+    while (keyNumber != 5 && newKey == 0)
+    {
+        if (secondKeyboardCodes[keyNumber] != 0)
+            newKey = secondKeyboardCodes[keyNumber];
+        keyNumber++;
+    }
+    if (newKey != 0)
+    {
+        if (!keyCheck(newKey, 0))
+        {
+            keyboardEf3_ = 0;
+            keyboardCode_ = newKey;
+        }
+        previousKeyCode_ = (wxKeyCode) keyboardCode_;
+        keyboardEf2_ = 0;
+        return;
+    }
+ 
+    keyboardEf2_ = 1;
+//  keyboardEf3_ = 1;
+//  keyboardCode_ = 0;
+    previousKeyCode_ = (wxKeyCode) 0;
+
 }
 
 void Comx::keyClear()
@@ -1722,6 +1788,8 @@ void Comx::keyClear()
 	keyboardEf2_ = 1;
 	keyboardEf3_ = 1;
 	keyboardCode_ = 0;
+    for (int i=0; i<5; i++)
+        secondKeyboardCodes[i] = 0;
 	previousKeyCode_ = (wxKeyCode) 0;
 }
 

@@ -8,7 +8,7 @@ class VideoScreen : public wxWindow
 public:
 	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType);
 	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, double xZoomFactor);
-	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100);
+	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber);
 	~VideoScreen() {};
 
 	void onPaint(wxPaintEvent&event);
@@ -39,6 +39,7 @@ private:
 	int height_;
 
 	bool vt100_;
+    int uartNumber_;
 	char keyBuffer_[26];
 	int  keyStart_;
 	int  keyEnd_;
@@ -184,6 +185,8 @@ protected:
     bool interruptEnabled_;
     int maxLinesPerCharacters_;
     bool v1870Configured_;
+
+    int uartNumber_;
 
 private:
     SplashScreen *splashScreen_;

@@ -470,6 +470,7 @@ void Cidelsa::cycle(int type)
 
 void Cidelsa::startComputer()
 {
+    cidelsaGame_ = DRACO;
 	cid2_ = p_Main->getIn2Value();
 	cid2Draco_ = p_Main->getIn2ValueDraco();
 	resetPressed_ = false;
@@ -483,43 +484,75 @@ void Cidelsa::startComputer()
 	defineMemoryType(0xf400, 0xf7ff, CRAM1870);
 	defineMemoryType(0xf800, 0xffff, PRAM1870);
 
-	switch (readMem(0xEc6))
-	{
-		case 0x28:
-			cidelsaGame_ = ALTAIR;
+    if (p_Main->getCidelsaHwConfiguration() == 0)
+    {
+        if (readMem(0xEc6) == 0x28 && readMem(0x1201) == 0x12 && readMem(0x1878) == 0xc3)
+            cidelsaGame_ = ALTAIR;
+
+        if (readMem(0xEc6) == 0x77 && readMem(0x1201) == 0xe0 && readMem(0x1878) == 0x52)
+            cidelsaGame_ = DESTROYER1;
+
+        if (readMem(0xEc6) == 0 && readMem(0x1201) == 0xe0 && readMem(0x1878) == 0x52)
+            cidelsaGame_ = DESTROYER2;
+
+        if (readMem(0xEc6) == 0xfb && readMem(0x1201) == 0xac && readMem(0x1878) == 0xfa)
+            cidelsaGame_ = DRACO32;
+    }
+    else
+        cidelsaGame_ = p_Main->getCidelsaHwConfiguration() - 1;
+    
+    switch (cidelsaGame_)
+    {
+        case ALTAIR:
+            defineMemoryType(0x3100, 0x7fff, UNDEFINED);
 			defineMemoryType(0x3000, 0x30ff, RAM);
-			defineMemoryType(0x5000, 0x50ff, RAM);
             initRam(0x3000, 0x30ff);
-            initRam(0x5000, 0x50ff);
             p_Main->assDefault("altairrom", 0, 0x2FFF);
             p_Main->setScrtValues(true, 4, 0x94, 5, 0xa6, "Altair");
-		break;
+        break;
 
-		case 0x77:
-			cidelsaGame_ = DESTROYER1;
+        case ALTAIR24:
+            cidelsaGame_ = ALTAIR;
+            defineMemoryType(0x6100, 0x7fff, UNDEFINED);
+            defineMemoryType(0x6000, 0x60ff, RAM);
+            initRam(0x6000, 0x60ff);
+            p_Main->assDefault("altairrom", 0, 0x5FFF);
+            p_Main->setScrtValues(true, 4, 0x94, 5, 0xa6, "Altair");
+        break;
+
+        case DESTROYER1:
+            defineMemoryType(0x2100, 0x7fff, UNDEFINED);
 			defineMemoryType(0x2000, 0x20ff, RAM);
             initRam(0x2000, 0x20ff);
             p_Main->assDefault("destroyer_1_rom", 0, 0x1FFF);
             p_Main->setScrtValues(true, 4, 0x2b, 5, 0x3c, "Destroyer1");
-		break;
+        break;
 
-		case 0:
-			cidelsaGame_ = DESTROYER2;
+        case DESTROYER2:
+            defineMemoryType(0x3100, 0x7fff, UNDEFINED);
 			defineMemoryType(0x3000, 0x30ff, RAM);
             initRam(0x3000, 0x30ff);
             p_Main->assDefault("destroyer_2_rom", 0, 0x1FFF);
             p_Main->setScrtValues(true, 4, 0x2b, 5, 0x3c, "Destroyer2");
-		break;
+        break;
 
-		case 0xfb:
-			cidelsaGame_ = DRACO;
-			defineMemoryType(0x8000, 0x83ff, RAM);
+        case DRACO:
+            defineMemoryType(0x4400, 0x7fff, UNDEFINED);
+			defineMemoryType(0x4000, 0x43ff, RAM);
             p_Main->assDefault("dracorom", 0, 0x3FFF);
+            initRam(0x4000, 0x43ff);
+            p_Main->setScrtValues(true, 4, 0x54, 5, 0x202, "Draco");
+        break;
+
+        case DRACO32:
+            cidelsaGame_ = DRACO;
+            defineMemoryType(0x8000, 0x83ff, RAM);
+            p_Main->assDefault("dracorom", 0, 0x7FFF);
             initRam(0x8000, 0x83ff);
             p_Main->setScrtValues(true, 4, 0x54, 5, 0x202, "Draco");
-		break;
-	}
-
+        break;
+    }
+    
 	cid4_ = 0;
 	cid1_ = 0;
 
@@ -607,6 +640,8 @@ void Cidelsa::writeMem(Word address, Byte value, bool writeRom)
 
 		case CRAM1870:
 			writeCram(address, value);
+ //           if (value == 0x37)
+   //             p_Main->eventShowMessage(scratchpadRegister_[programCounter_]);
 		break;
 
 		case RAM:

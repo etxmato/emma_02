@@ -1,0 +1,260 @@
+ARD
+Rz , vv code=120zvv
+mkk , vv code=12kkvv
+/ARD
+ARG
+Rz , Rx code=20zx
+/ARG
+ARI
+Rz , kk code=Czkk
+/ARI
+ARX
+Rz , Rx code=21zx
+/ARX
+AV
+Vx , Vy code=22xy
+/AV
+AVI
+Vx , kk code=Exkk
+/AVI
+CHGS
+Rz code=390z
+mkk code=39kk
+/CHGS
+CLRTV
+code=0C
+/CLRTV
+COLOR
+Rz , Vx code=2Fzx
+/COLOR
+DO
+hex=0000-FFFF code=01jjjj
+/DO
+EML
+code=0E
+/EML
+EXEC
+hex=0000-FFFF  code=00jjjj
+/EXEC
+FIX
+Rz , mvv code=3B0zvv
+mkk , mvv code=3Bkkvv
+/FIX
+FADD
+mkk , mvv code=3Ckkvv
+/FADD
+FDIV
+mkk , mvv code=3Fkkvv
+/FDIV
+FLOAT
+mkk , Rz code=3Akk0z
+mkk , mvv code=3Akkvv
+/FLOAT
+FMOV
+mkk , mvv code=38kkvv
+/FMOV
+FMPY
+mkk , mvv code=3Ekkvv
+/FMPY
+FSUB
+mkk , mvv code=3Dkkvv
+/FSUB
+GO
+hex=0800-FFFF code=04jj
+/GO
+GOCR
+hex=0800-FFFF code=05jj
+/GOCR
+GOEZ
+Rz , hex=0800-FFFF code=170zjj
+mkk , hex=0800-FFFF code=17kkjj
+/GOEZ
+GOEQ
+V0 , kk , hex=0800-FFFF code=D0kkjj
+V1 , kk , hex=0800-FFFF code=D1kkjj
+V2 , kk , hex=0800-FFFF code=D2kkjj
+V3 , kk , hex=0800-FFFF code=D3kkjj
+V4 , kk , hex=0800-FFFF code=D4kkjj
+V5 , kk , hex=0800-FFFF code=D5kkjj
+V6 , kk , hex=0800-FFFF code=D6kkjj
+V7 , kk , hex=0800-FFFF code=D7kkjj
+V8 , kk , hex=0800-FFFF code=D8kkjj
+V9 , kk , hex=0800-FFFF code=D9kkjj
+VA , kk , hex=0800-FFFF code=DAkkjj
+VB , kk , hex=0800-FFFF code=DBkkjj
+VC , kk , hex=0800-FFFF code=DCkkjj
+VD , kk , hex=0800-FFFF code=DDkkjj
+VE , kk , hex=0800-FFFF code=DEkkjj
+VF , kk , hex=0800-FFFF code=DFkkjj
+/GOEQ
+GOGE
+Vx , vv , hex=0800-FFFF code=140xvvjj
+mkk , vv , hex=0800-FFFF code=14kkvvjj
+/GOGE
+GOLT
+Vx , vv , hex=0800-FFFF code=150xvvjj
+mkk , vv , hex=0800-FFFF code=15kkvvjj
+/GOLT
+GONC
+hex=0800-FFFF code=06jj
+/GONC
+GONE
+V0 , kk , hex=0800-FFFF code=F0kkjj
+V1 , kk , hex=0800-FFFF code=F1kkjj
+V2 , kk , hex=0800-FFFF code=F2kkjj
+V3 , kk , hex=0800-FFFF code=F3kkjj
+V4 , kk , hex=0800-FFFF code=F4kkjj
+V5 , kk , hex=0800-FFFF code=F5kkjj
+V6 , kk , hex=0800-FFFF code=F6kkjj
+V7 , kk , hex=0800-FFFF code=F7kkjj
+V8 , kk , hex=0800-FFFF code=F8kkjj
+V9 , kk , hex=0800-FFFF code=F9kkjj
+VA , kk , hex=0800-FFFF code=FAkkjj
+VB , kk , hex=0800-FFFF code=FBkkjj
+VC , kk , hex=0800-FFFF code=FCkkjj
+VD , kk , hex=0800-FFFF code=FDkkjj
+VE , kk , hex=0800-FFFF code=FEkkjj
+VF , kk , hex=0800-FFFF code=FFkkjj
+/GONE
+GONZ
+Vx , hex=0800-FFFF code=5xjj
+/GONZ
+GOTO
+hex=0000-FFFF code=03jjjj
+/GOTO
+GOZR
+Vx , hex=0800-FFFF code=4xjj
+/GOZR
+GOX
+Rz code=070z
+mkk code=07kk
+/GOX
+KEY
+Vx , hex=0800-FFFF code=0B0xjj
+mkk , hex=0800-FFFF code=0Bkkjj
+/KEY
+KEYT
+code=09
+/KEYT
+LRD
+Rz , hex=0800-FFFF code=7zjj
+/LRD
+LRG
+Rz , Rx code=26zx
+/LRG
+LRGI
+R0 , hex=0000-FFFF code=60jjjj
+R1 , hex=0000-FFFF code=62jjjj
+R2 , hex=0000-FFFF code=64jjjj
+R3 , hex=0000-FFFF code=66jjjj
+R4 , hex=0000-FFFF code=68jjjj
+R5 , hex=0000-FFFF code=6Ajjjj
+R6 , hex=0000-FFFF code=6Cjjjj
+R7 , hex=0000-FFFF code=6Ejjjj
+/LRGI
+LRX
+Rz , Rx code=27zx
+/LRX
+LV
+Vx , Vy code=28xy
+/LV
+LVD
+Vx , mkk code=9xkk
+/LVD
+LVI
+Vx , kk code=8xkk
+/LVI
+LVX
+Vx , Rz code=29xz
+/LVX
+OUTS
+Vx code 160x
+mkk code 16kk
+/OUTS
+OUTSI
+code=0F
+/OUTSI
+POPM
+Rz , vv code=1B0zvv
+mkk , vv code=1Bkkvv
+/POPM
+PUSHM
+Rz , vv code=1A0zvv
+mkk , vv code=1Akkvv
+/PUSHM
+RAND
+Vx code=190x
+mkk code=19kk
+/RAND
+RCR
+code=11
+/RCR
+RET
+code=02
+/RET
+RT
+Rz , Vy code=1Fzy
+/RT
+SCR
+code=10
+/SCR
+SHOW
+Rz , mvv , mww code=180zvvww
+mkk , mvv , mww code=18kkvvww
+/SHOW
+SIGN
+mkk code=37kk
+/SIGN
+SKSP
+Vx , Rz code=33xz
+/SKSP
+SRI
+Rz , vv code=130zvv
+mkk , vv code=13kkvv
+/SRI
+SRG
+Rz , Rx code=23zx
+/SRG
+RSHL
+Rz , l code=1Czl
+/RSHL
+RSHR
+Rz , l code=1Dzl
+/RSHR
+STRD
+Rz , mkk code=Azkk
+/STRD
+STRX
+Rz , Rx code=2Azx
+/STRX
+STVD
+Vx , mkk code=Bxkk
+/STVD
+STVX
+Vy , Rz code=2Byz
+/STVX
+SV
+Vx , Vy code=25xy
+/SV
+TAPE
+kk code=0Akk
+/TAPE
+TV
+Vx code=0D0x
+mkk code=0Dkk
+/TV
+VAND
+Vx , Vy code=2Cxy
+/VAND
+VOR
+Vx , Vy code=2Dxy
+/VOR
+WKEY
+code=08
+/WKEY
+WT
+Rz , Rx code=1Ezx
+/WT
+ZERO
+mkk , hex=0800-FFFF code=35kkjj
+/ZERO

@@ -821,8 +821,8 @@ void Membership::configureElfExtensions()
             
         case VT52:
             zoom = p_Main->getZoomVt();
-            vtPointer = new Vt100("Membership Card - VT 52", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
-            p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Membership Card - VT 52", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration, UART1);
+            p_Vt100[UART1] = vtPointer;
             vtPointer->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
             vtPointer->Show(true);
             vtPointer->drawScreen();
@@ -831,8 +831,8 @@ void Membership::configureElfExtensions()
 
         case VT100:
             zoom = p_Main->getZoomVt();
-            vtPointer = new Vt100("Membership Card - VT 100", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration);
-            p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Membership Card - VT 100", p_Main->getVtPos(MEMBER), wxSize(640*zoom, 400*zoom), zoom, MEMBER, clockSpeed_, elfConfiguration, UART1);
+            p_Vt100[UART1] = vtPointer;
             vtPointer->configureStandard(elfConfiguration.baudR, elfConfiguration.baudT, 3);
             vtPointer->Show(true);
             vtPointer->drawScreen();

@@ -803,8 +803,8 @@ void Elf2K::startComputer()
         ledCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * ms;
     ledCycleValue_ = ledCycleSize_;
 
-    if (p_Vt100 != NULL)
-        p_Vt100->splashScreen();
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->splashScreen();
     
     threadPointer->Run();
 }
@@ -996,10 +996,10 @@ void Elf2K::configureElfExtensions()
 	{
 		double zoom = p_Main->getZoomVt();
         if (elfConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Elf 2000 - VT 52", p_Main->getVtPos(ELF2K), wxSize(640*zoom, 400*zoom), zoom, ELF2K, elfClockSpeed_, elfConfiguration);
+            vtPointer = new Vt100("Elf 2000 - VT 52", p_Main->getVtPos(ELF2K), wxSize(640*zoom, 400*zoom), zoom, ELF2K, elfClockSpeed_, elfConfiguration, UART1);
         else
-            vtPointer = new Vt100("Elf 2000 - VT 100", p_Main->getVtPos(ELF2K), wxSize(640*zoom, 400*zoom), zoom, ELF2K, elfClockSpeed_, elfConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Elf 2000 - VT 100", p_Main->getVtPos(ELF2K), wxSize(640*zoom, 400*zoom), zoom, ELF2K, elfClockSpeed_, elfConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
 		vtPointer->configureVt2K(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
 		vtPointer->Show(true);
 	}
@@ -1302,9 +1302,14 @@ void Elf2K::setElf2KDivider(Byte value)
 	cycleValue_ = cycleSize_;
 }
 
-void Elf2K::dataAvailable(bool data)
+void Elf2K::dataAvailableVt100(bool data, int WXUNUSED(uartNumber))
 {
 	dataAvailableUart(data);
+}
+
+void Elf2K::dataAvailableSerial(bool data)
+{
+    dataAvailableUart(data);
 }
 
 void Elf2K::thrStatus(bool data)

@@ -201,8 +201,8 @@ Byte Elf2KDisk::inDisk()
 					}
 					else
 					{
-						if (p_Vt100 != NULL)
-							return p_Vt100->uartIn();
+						if (p_Vt100[UART1] != NULL)
+							return p_Vt100[UART1]->uartIn();
 						if (p_Serial != NULL)
 							return p_Serial->uartIn();
 					}
@@ -270,8 +270,8 @@ void Elf2KDisk::outDisk(Byte value)
 					}
 					else 
 					{
-						if (p_Vt100 != NULL)
-							p_Vt100->uartOut(value);
+						if (p_Vt100[UART1] != NULL)
+							p_Vt100[UART1]->uartOut(value);
 						if (p_Serial != NULL)
 							p_Serial->uartOut(value);
 					}

@@ -201,7 +201,8 @@ public:
 	int v1870X_, v1870Y_;
     int pixieX_, pixieY_;
 	int tmsX_, tmsY_;
-	int vtX_, vtY_;
+    int vtX_, vtY_;
+    int vtUart2X_, vtUart2Y_;
 	int mc6845X_, mc6845Y_;
 	int mc6847X_, mc6847Y_;
 	int i8275X_, i8275Y_;
@@ -482,8 +483,10 @@ public:
 	void setPixiePos(int computerType, wxPoint position);
 	wxPoint getTmsPos(int computerType);
 	void setTmsPos(int computerType, wxPoint position);
-	wxPoint getVtPos(int computerType);
-	void setVtPos(int computerType, wxPoint position);
+    wxPoint getVtPos(int computerType);
+    void setVtPos(int computerType, wxPoint position);
+    wxPoint getVtUart2Pos(int computerType);
+    void setVtUart2Pos(int computerType, wxPoint position);
 	wxPoint get6845Pos(int computerType);
 	void set6845Pos(int computerType, wxPoint position);
 	wxPoint get6847Pos(int computerType);
@@ -583,7 +586,7 @@ public:
     wxString getUpdFloppyDirSwitched(int fdcType, int drive);
     wxString getUpdFloppyDir(int fdcType, int drive);
     wxString getUpdFloppyFile(int fdcType, int drive);
-    void setUpdFloppyGui(int drive);
+    void setUpdFloppyGui(int drive, int computerType);
 
 protected:
 	Mode mode_;
@@ -598,6 +601,7 @@ protected:
     Cdp18s602 *p_Cdp18s602;
     Cdp18s603a *p_Cdp18s603a;
     Cdp18s604b *p_Cdp18s604b;
+    Rcasbc *p_Rcasbc;
 	Nano *p_Nano;
 	Tmc1800 *p_Tmc1800;
 	Tmc2000 *p_Tmc2000;

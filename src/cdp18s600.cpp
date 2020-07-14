@@ -75,8 +75,8 @@ Cdp18s600::~Cdp18s600()
     delete p_Printer;
     if (Cdp18s600Configuration.vtType != VTNONE)
     {
-        p_Main->setVtPos(computerType_, vtPointer->GetPosition());
-        vtPointer->Destroy();
+        p_Main->setVtPos(computerType_, vtPointer1->GetPosition());
+        vtPointer1->Destroy();
     }
     if (Cdp18s600Configuration.vtExternal)
         delete p_Serial;
@@ -136,7 +136,7 @@ void Cdp18s600::configureComputer()
     
     efType_[1] = CDP18SEF1;
     efType_[2] = CDP18SEF2;
-    efType_[3] = MS2000EF;
+    efType_[3] = CDP18SEF3;
 
     efState_[1] = 1;
     efState_[2] = 1;
@@ -217,14 +217,14 @@ void Cdp18s600::configureVt()
 {
     double zoom = p_Main->getZoomVt();
     if (Cdp18s600Configuration.vtType == VT52)
-        vtPointer = new Vt100(computerTypeStr_ + " - VT 52", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration);
+        vtPointer1 = new Vt100(computerTypeStr_ + " - VT 52", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration, UART1);
     else
-        vtPointer = new Vt100(computerTypeStr_ + " - VT 100", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration);
-    p_Vt100 = vtPointer;
+        vtPointer1 = new Vt100(computerTypeStr_ + " - VT 100", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration, UART1);
+    p_Vt100[UART1] = vtPointer1;
     if (Cdp18s600Configuration.useUart)
-        vtPointer->configureMs2000(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
+        vtPointer1->configureMs2000(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
     else
-        vtPointer->configureStandard(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT, 4);
+        vtPointer1->configureStandard(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT, 4);
 }
 
 void Cdp18s600::configurePio()
@@ -281,7 +281,9 @@ void Cdp18s600::initComputer()
     if (Cdp18s600Configuration.usev1870)
         init1870();
   
+    keyboardEf3_ = 1;
     keyboardCode_ = 0;
+    keyDown_ = false;
 
     addressLatch_ = 0;
     setCpuMode(RESET); // CLEAR = 0, WAIT = 1, CLEAR LED ON, WAIT LED OFF, RUN LED OFF
@@ -358,8 +360,8 @@ Byte Cdp18s600::ef(int flag)
         break;
             
         case VT100EF:       // EF4
-            if (p_Vt100 != NULL)
-                return vtPointer->ef();
+            if (p_Vt100[UART1] != NULL)
+                return vtPointer1->ef();
         break;
             
         case VTSERIALEF:
@@ -398,7 +400,7 @@ Byte Cdp18s600::ef(int flag)
             }
         break;
 
-        case MS2000EF:
+        case CDP18SEF3:
             if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
                 return efInterrupt();
             else
@@ -520,15 +522,15 @@ int Cdp18s600::defaultIn(Byte port)
     {
         if (port == Cdp18s600Configuration.elfPortConf.uartOut)
         {
-            if (p_Vt100 != NULL)
-                return p_Vt100->uartIn();
+            if (p_Vt100[UART1] != NULL)
+                return p_Vt100[UART1]->uartIn();
             if (p_Serial != NULL)
                 return p_Serial->uartIn();
         }
         if (port == Cdp18s600Configuration.elfPortConf.uartControl)
         {
-            if (p_Vt100 != NULL)
-                return p_Vt100->uartStatus();
+            if (p_Vt100[UART1] != NULL)
+                return p_Vt100[UART1]->uartStatus();
             if (p_Serial != NULL)
                 return p_Serial->uartStatus();
         }
@@ -638,15 +640,15 @@ void Cdp18s600::defaultOut(Byte port, Word address, Byte value)
     {
         if (port == Cdp18s600Configuration.elfPortConf.uartOut)
         {
-            if (p_Vt100 != NULL)
-                p_Vt100->uartOut(value);
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->uartOut(value);
             if (p_Serial != NULL)
                 p_Serial->uartOut(value);
         }
         if (port == Cdp18s600Configuration.elfPortConf.uartControl)
         {
-            if (p_Vt100 != NULL)
-                p_Vt100->uartControl(value);
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->uartControl(value);
             if (p_Serial != NULL)
                 p_Serial->uartControl(value);
         }
@@ -713,7 +715,6 @@ Byte Cdp18s600::keyboardIn()
 {
     Byte ret;
     
-    keyboardEf3_ = 1;
     ret = keyboardCode_;
     
     switch(ret)
@@ -750,7 +751,10 @@ void Cdp18s600::charEvent(int keycode)
 {
     if (!Cdp18s600Configuration.usev1870)
         return;
-    
+ 
+    if (keyDown_) return;
+
+    keyDown_ = true;
     keyboardCode_ = keycode;
     keyboardEf3_ = 0;
 }
@@ -760,81 +764,180 @@ bool Cdp18s600::keyDownExtended(int keycode, wxKeyEvent& event)
     if (!Cdp18s600Configuration.usev1870)
         return false;
 
+    if (keyDown_) return false;
+
     switch(keycode)
     {
         case WXK_RETURN:
             keyboardCode_ = 0x80;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_NUMPAD_ENTER:
             keyboardCode_ = 0x80;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_ESCAPE:
             keyboardCode_ = 0x81;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_BACK:
             keyboardCode_ = 0x86;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_DELETE:
             keyboardCode_ = 0x86;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_LEFT:
             keyboardCode_ = 0x84;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_RIGHT:
             keyboardCode_ = 0x83;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_UP:
             keyboardCode_ = 0x82;
             keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
             
         case WXK_DOWN:
             keyboardCode_ = 0x85;
             keyboardEf3_ = 0;
-            return true;
-        break;
-            
-        case WXK_NUMPAD_ADD:
-            if (event.GetModifiers() == wxMOD_SHIFT)
-                keyboardCode_ = 0xfb;
-            else
-                keyboardCode_ = 0xdb;
-            keyboardEf3_ = 0;
-            return true;
-        break;
-            
-        case WXK_NUMPAD_SUBTRACT:
-            if (event.GetModifiers() == wxMOD_SHIFT)
-                keyboardCode_ = 0xfc;
-            else
-                keyboardCode_ = 0xdc;
-            keyboardEf3_ = 0;
+            keyDown_ = true;
             return true;
         break;
     }
     return false;
+}
+
+void Cdp18s600::keyUp(int keycode)
+{
+    if (!Cdp18s600Configuration.usev1870)
+        return;
+
+    switch(keycode)
+    {
+        case WXK_RETURN:
+            if (keyboardCode_ == 0x80)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+            
+        case WXK_NUMPAD_ENTER:
+            if (keyboardCode_ == 0x80)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+
+        case WXK_ESCAPE:
+            if (keyboardCode_ == 0x81)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+
+        case WXK_BACK:
+            if (keyboardCode_ == 0x86)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+            
+        case WXK_DELETE:
+            if (keyboardCode_ == 0x86)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+            
+        case WXK_LEFT:
+            if (keyboardCode_ == 0x84)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+            
+        case WXK_RIGHT:
+            if (keyboardCode_ == 0x83)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+            
+        case WXK_UP:
+            if (keyboardCode_ == 0x82)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+            
+        case WXK_DOWN:
+            if (keyboardCode_ == 0x85)
+            {
+                keyDown_ = false;
+                keyboardCode_ = 0;
+                keyboardEf3_ = 1;
+            }
+            return;
+        break;
+    }
+    
+    if (keyDown_)
+    {
+        keyDown_ = false;
+        keyboardCode_ = 0;
+        keyboardEf3_ = 1;
+    }
 }
 
 void Cdp18s600::keyClear()
@@ -907,7 +1010,7 @@ void Cdp18s600::switchQ(int value)
     cdp18s640FramePointer->setQLed(value);
     
     if (Cdp18s600Configuration.vtType != VTNONE)
-        vtPointer->switchQ(value);
+        vtPointer1->switchQ(value);
     
     if (Cdp18s600Configuration.vtExternal)
         p_Serial->switchQ(value);
@@ -973,7 +1076,10 @@ void Cdp18s600::cycle(int type)
         break;
             
         case VT100CYCLE:
-            vtPointer->cycleVt();
+            if (p_Vt100[UART1] != NULL)
+                vtPointer1->cycleVt();
+            if (p_Vt100[UART2] != NULL)
+                vtPointer2->cycleVt();
         break;
             
         case VTSERIALCYCLE:
@@ -1022,8 +1128,8 @@ void Cdp18s600::startComputer()
     if (computerType_ == MICROBOARD)
         configureCards();
     
-    if (p_Vt100 != NULL)
-        p_Vt100->Show(true);
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->Show(true);
     
     if (Cdp18s600Configuration.autoBoot)
         autoBoot();
@@ -1456,13 +1562,20 @@ void Cdp18s600::resetPressed()
     if (Cdp18s600Configuration.autoBoot)
         autoBoot();
 
+    keyboardEf3_ = 1;
+    keyDown_ = false;
     resetPressed_ = false;
 }
 
 void Cdp18s600::moveWindows()
 {
     if (Cdp18s600Configuration.vtType != VTNONE)
-        vtPointer->Move(p_Main->getVtPos(computerType_));
+    {
+        if (p_Vt100[UART1] != NULL)
+            vtPointer1->Move(p_Main->getVtPos(computerType_));
+        if (p_Vt100[UART2] != NULL)
+            vtPointer2->Move(p_Main->getVtUart2Pos(computerType_));
+    }
     if (Cdp18s600Configuration.usePio)
         pioFramePointer->Move(p_Main->getSecondFramePos(computerType_));
     if (Cdp18s600Configuration.usePioWindow1Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
@@ -1476,7 +1589,12 @@ void Cdp18s600::moveWindows()
 void Cdp18s600::setForceUpperCase(bool status)
 {
     if (Cdp18s600Configuration.vtType != VTNONE)
-        vtPointer->setForceUCVt(status);
+    {
+        if (p_Vt100[UART1] != NULL)
+            vtPointer1->setForceUCVt(status);
+        if (p_Vt100[UART2] != NULL)
+            vtPointer2->setForceUCVt(status);
+    }
 }
 
 void Cdp18s600::setBootRam(bool status)
@@ -1487,9 +1605,9 @@ void Cdp18s600::setBootRam(bool status)
 void Cdp18s600::updateTitle(wxString Title)
 {
     if (Cdp18s600Configuration.vtType == VT52)
-        vtPointer->SetTitle(computerTypeStr_ + " - VT 52"+Title);
+        vtPointer1->SetTitle(computerTypeStr_ + " - VT 52"+Title);
     if (Cdp18s600Configuration.vtType == VT100)
-        vtPointer->SetTitle(computerTypeStr_ + " - VT 100"+Title);
+        vtPointer1->SetTitle(computerTypeStr_ + " - VT 100"+Title);
     if (Cdp18s600Configuration.useElfControlWindows)
         cdp18s640FramePointer->SetTitle(computerTypeStr_ + Title);
 }
@@ -1587,15 +1705,23 @@ void Cdp18s600::checkComputerFunction()
                         loadStarted_ = false;
                     }
                     
-                    if (p_Vt100 != NULL)
+                    if (p_Vt100[UART1] != NULL)
                     {
                         if (microDosRunning_)
-                            vtPointer->setTabChar(0x7f);
+                            vtPointer1->setTabChar(0x7f);
                         else
-                            vtPointer->setTabChar(8);
+                            vtPointer1->setTabChar(8);
                     }
-                
-                    microDosRunning_ = false;
+                    
+                    if (p_Vt100[UART2] != NULL)
+                    {
+                        if (microDosRunning_)
+                            vtPointer2->setTabChar(0x7f);
+                        else
+                            vtPointer2->setTabChar(8);
+                    }
+                    
+  //                  microDosRunning_ = false;
                 break;
             }
         break;
@@ -1630,8 +1756,8 @@ void Cdp18s600::setLedMs(long ms)
 
 void Cdp18s600::startComputerRun(bool load)
 {
-    if (p_Vt100 != NULL)
-        vtPointer->startMcdsRun(load);
+    if (p_Vt100[UART1] != NULL)
+        vtPointer1->startMcdsRun(load);
 }
 
 bool Cdp18s600::isComputerRunning()
@@ -2014,8 +2140,8 @@ void Cdp18s602::cycle(int type)
         break;
             
         case VT100CYCLE:
-            if (p_Vt100 != NULL)
-                vtPointer->cycleVt();
+            if (p_Vt100[UART1] != NULL)
+                vtPointer1->cycleVt();
         break;
             
         case VTSERIALCYCLE:
@@ -2058,8 +2184,8 @@ Byte Cdp18s602::ef(int flag)
         break;
             
         case VT100EF:       // EF4
-            if (p_Vt100 != NULL)
-                return vtPointer->ef();
+            if (p_Vt100[UART1] != NULL)
+                return vtPointer1->ef();
         break;
             
         case VTSERIALEF:
@@ -2081,7 +2207,7 @@ Byte Cdp18s602::ef(int flag)
             }
         break;
             
-        case MS2000EF:
+        case CDP18SEF3:
             if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
                 return efInterrupt();
             else
@@ -2256,7 +2382,7 @@ void Cdp18s602::releaseButtonOnScreen2(HexButton* buttonPointer, int WXUNUSED(bu
 void Cdp18s602::moveWindows()
 {
     if (Cdp18s600Configuration.vtType != VTNONE)
-        vtPointer->Move(p_Main->getVtPos(computerType_));
+        vtPointer1->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         cdp1852FramePointer->Move(p_Main->getSecondFramePos(computerType_));
     if (Cdp18s600Configuration.usePioWindow1Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
@@ -2361,8 +2487,8 @@ void Cdp18s604b::cycle(int type)
         break;
             
         case VT100CYCLE:
-            if (p_Vt100 != NULL)
-                vtPointer->cycleVt();
+            if (p_Vt100[UART1] != NULL)
+                vtPointer1->cycleVt();
         break;
             
         case VTSERIALCYCLE:
@@ -2423,8 +2549,8 @@ Byte Cdp18s604b::ef(int flag)
         break;
             
         case VT100EF:       // EF4
-            if (p_Vt100 != NULL)
-                return vtPointer->ef();
+            if (p_Vt100[UART1] != NULL)
+                return vtPointer1->ef();
         break;
             
         case VTSERIALEF:
@@ -2450,7 +2576,7 @@ Byte Cdp18s604b::ef(int flag)
             }
         break;
 
-        case MS2000EF:
+        case CDP18SEF3:
             if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
                 return efInterrupt();
             else
@@ -2624,8 +2750,8 @@ void Cdp18s604b::startComputer()
     if (computerType_ == MICROBOARD)
         configureCards();
     
-    if (p_Vt100 != NULL)
-        p_Vt100->Show(true);
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->Show(true);
     
     if (Cdp18s600Configuration.autoBoot)
         autoBoot();
@@ -2808,7 +2934,7 @@ void Cdp18s604b::releaseButtonOnScreen2(HexButton* buttonPointer, int WXUNUSED(b
 void Cdp18s604b::moveWindows()
 {
     if (Cdp18s600Configuration.vtType != VTNONE)
-        vtPointer->Move(p_Main->getVtPos(computerType_));
+        vtPointer1->Move(p_Main->getVtPos(computerType_));
     if (Cdp18s600Configuration.usePio)
         cdp1852FramePointer->Move(p_Main->getSecondFramePos(computerType_));
     if (Cdp18s600Configuration.usePioWindow1Cdp18s660 && Cdp18s600Configuration.useCdp18s660)
@@ -2825,3 +2951,670 @@ void Cdp18s604b::showPio(bool state)
     if (state)
         cdp1852FramePointer->refreshLeds();
 }
+
+Rcasbc::Rcasbc(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
+: Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf)
+{
+    uart1Reset_ = true;
+    uart1ModeWordNumber_ = 1;
+    uart2Reset_ = true;
+    uart2ModeWordNumber_ = 1;
+    
+    lastUart1In_ = 0;
+    lastUart2In_ = 0;
+}
+
+Rcasbc::~Rcasbc()
+{
+    p_Main->setVtUart2Pos(computerType_, vtPointer2->GetPosition());
+    vtPointer2->Destroy();
+}
+
+void Rcasbc::configureVt()
+{
+    double zoom = p_Main->getZoomVt();
+    if (Cdp18s600Configuration.vtType == VT52)
+        vtPointer1 = new Vt100(computerTypeStr_ + " UART1 - VT 52", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration, UART1);
+    else
+        vtPointer1 = new Vt100(computerTypeStr_ + " UART1 - VT 100", p_Main->getVtPos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration, UART1);
+    p_Vt100[UART1] = vtPointer1;
+    if (Cdp18s600Configuration.useUart)
+        vtPointer1->configureRcasbc(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
+    else
+        vtPointer1->configureStandard(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT, 4);
+}
+
+void Rcasbc::configureComputer()
+{
+    wxString messageStr;
+    
+    setCycleType(COMPUTERCYCLE, LEDCYCLE);
+    
+    inType_[1] = MS2000IOGROUP;
+    inType_[2] = MS2000IO2;
+    inType_[3] = MS2000IO3;
+    inType_[4] = MS2000IO4;
+    inType_[5] = MS2000IO5;
+    inType_[6] = MS2000IO6;
+    inType_[7] = MS2000IO7;
+    outType_[1] = MS2000IOGROUP;
+    outType_[2] = MS2000IO2;
+    outType_[3] = MS2000IO3;
+    outType_[4] = MS2000IO4;
+    outType_[5] = MS2000IO5;
+    outType_[6] = MS2000IO6;
+    outType_[7] = MS2000IO7;
+    
+    efType_[1] = CDP18SEF1;
+    efType_[2] = CDP18SEF2;
+    efType_[3] = CDP18SEF3;
+    efType_[4] = CDP18SEF4;
+
+    efState_[1] = 1;
+    efState_[2] = 1;
+    efState_[3] = 1;
+    efState_[4] = 1;
+
+    p_Main->message("Configuring " + computerTypeStr_ + " with " + p_Main->getMicroboardTypeStr(microboardType_));
+
+    if (p_Main->getPrinterStatus(computerType_) || Cdp18s600Configuration.useTape || Cdp18s600Configuration.useUpd765)
+        p_Main->message("    Output 1: set I/O group\n");
+    
+    if (p_Main->getPrinterStatus(computerType_))
+    {
+        messageStr.Printf("    I/O group %X: printer", Cdp18s600Configuration.printerGroup);
+        p_Main->message(messageStr);
+    }
+    
+    if (Cdp18s600Configuration.useTape)
+        p_Main->message("    I/O group 2: tape");
+    
+    if (Cdp18s600Configuration.useUpd765)
+    {
+        messageStr.Printf("    I/O group %X: CDP18S651 (using uPD765)", Cdp18s600Configuration.upd765Group);
+        p_Main->message(messageStr);
+    }
+    p_Main->message("");
+    
+    if (Cdp18s600Configuration.vtType != VTNONE)
+        configureVt();
+    
+    double zoom = p_Main->getZoomVt();
+    if (Cdp18s600Configuration.vtType == VT52)
+        vtPointer2 = new Vt100(computerTypeStr_ + " UART2 - VT 52", p_Main->getVtUart2Pos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration, UART2);
+    else
+        vtPointer2 = new Vt100(computerTypeStr_ + " UART2 - VT 100", p_Main->getVtUart2Pos(computerType_), wxSize(640*zoom, 400*zoom), zoom, computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration, UART2);
+    p_Vt100[UART2] = vtPointer2;
+    if (Cdp18s600Configuration.useUart)
+        vtPointer2->configureRcasbc(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
+    else
+        vtPointer2->configureStandard(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT, 4);
+
+    if (Cdp18s600Configuration.vtExternal)
+    {
+        p_Serial = new Serial(computerType_, Cdp18s600ClockSpeed_, Cdp18s600Configuration);
+        p_Serial->configureRcasbc(Cdp18s600Configuration.baudR, Cdp18s600Configuration.baudT);
+    }
+    
+    configurePio();
+    
+    if (p_Main->getPrinterStatus(computerType_))
+    {
+        messageStr.Printf("Configuring printer support on group %X", Cdp18s600Configuration.printerGroup);
+        p_Main->message(messageStr);
+        p_Main->message("    Output 6: write data, EF 1: data ready\n");
+    }
+    
+    if (Cdp18s600Configuration.useTape)
+    {
+        p_Main->message("Configuring tape support on group 2");
+        p_Main->message("    Output 4: tape motor, output 5: cassette out");
+        p_Main->message("    EF 2: cassette in\n");
+    }
+    
+    if (Cdp18s600Configuration.useUpd765)
+        configureUpd765(Cdp18s600Configuration.fdcType_);
+
+    if (Cdp18s600Configuration.useCdp18s660)
+        configureCdp18s660();
+
+    p_Main->message("");
+
+    resetCpu();
+}
+
+void Rcasbc::readRoms()
+{
+    Conf configuration = p_Main->getConfiguration(MICROBOARD);
+    
+    p_Main->setMemoryMapRcasbc(&configuration, -1, -1);
+}
+
+void Rcasbc::configurePio()
+{
+#if defined (__WXMAC__) || (__linux__)
+    pioFramePointer = new PioFrame("CDP1851 PIO", p_Main->getSecondFramePos(computerType_), wxSize(310, 180), 0);
+#else
+    pioFramePointer = new PioFrame("CDP1851 PIO", p_Main->getSecondFramePos(computerType_), wxSize(329, 180), 0);
+#endif
+    
+    p_Main->message("Configuring CDP1851 PIO");
+    p_Main->message("	Output 2: write to port A, output 3: write to port B");
+    p_Main->message("	Input 2: read port A, input 3: read port B");
+    p_Main->message("	Output 1: write control register, input 1: read status");
+    p_Main->message("");
+}
+
+Byte Rcasbc::ef(int flag)
+{
+    int defaultRet = defaultEf(flag);
+    if (defaultRet != -1)
+        return defaultRet;
+    
+    switch(efType_[flag])
+    {
+        case 0:
+            return 1;
+        break;
+            
+        case CDP18SEF1:
+            return efState_[1];
+        break;
+            
+        case CDP18SEF2:
+            switch (ioGroup_)
+            {
+                case IO_GRP_TAPE:
+                    if (Cdp18s600Configuration.useTape)
+                        return cassetteEf_;
+                break;
+                    
+                default:
+                    return 1;
+                break;
+            }
+        break;
+            
+        case CDP18SEF3:
+            if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
+                return efInterrupt();
+            else
+                return 1;
+        break;
+
+        case CDP18SEF4:
+            return efState_[4];
+        break;
+
+        default:
+            return 1;
+    }
+    return 1;
+}
+
+Byte Rcasbc::in(Byte port, Word WXUNUSED(address))
+{
+    Byte ret = 255;
+
+    int defaultRet = defaultIn(port);
+    if (defaultRet != -1)
+        return defaultRet;
+    
+    switch(inType_[port])
+    {
+        case 0:
+            ret = 255;
+        break;
+            
+        case MS2000IOGROUP:
+            return pioFramePointer->readStatusRegister();
+        break;
+            
+        case MS2000IO2:
+            return pioFramePointer->readPortA();
+        break;
+            
+        case MS2000IO3:
+            return pioFramePointer->readPortB();
+        break;
+            
+        case MS2000IO4:
+            if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
+                return inputMasterStatus();
+            
+            uart1Reset_ = true;
+            uart1ModeWordNumber_ = 1;
+            uart2Reset_ = true;
+            uart2ModeWordNumber_ = 1;
+        break;
+            
+        case MS2000IO5:
+            if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
+                return inputCommandStatus();
+        break;
+            
+        case MS2000IO6:
+        break;
+            
+        case MS2000IO7:
+        break;
+            
+        default:
+            ret = 255;
+    }
+    inValues_[port] = ret;
+    return ret;
+}
+
+void Rcasbc::out(Byte port, Word address, Byte value)
+{
+    outValues_[port] = value;
+    
+    defaultOut(port, address, value);
+    switch(outType_[port])
+    {
+        case 0:
+            return;
+        break;
+            
+        case MS2000IOGROUP:
+            ioGroup_ = value;
+            pioFramePointer->writeControlRegister(value);
+        break;
+            
+        case MS2000IO2:
+            pioFramePointer->writePortA(value);
+        break;
+            
+        case MS2000IO3:
+            pioFramePointer->writePortB(value);
+        break;
+            
+        case MS2000IO4:
+            if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
+                outputDmaControl(value);
+            switch (ioGroup_)
+            {
+                case IO_GRP_TAPE:
+                    if (Cdp18s600Configuration.useTape)
+                        tapeIo(value);
+                break;
+            }
+
+            uart1Reset_ = true;
+            uart1ModeWordNumber_ = 1;
+            uart2Reset_ = true;
+            uart2ModeWordNumber_ = 1;
+        break;
+            
+        case MS2000IO5:
+            if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
+                outputCommand(value);
+            switch (ioGroup_)
+            {
+                case IO_GRP_TAPE:
+                    if (Cdp18s600Configuration.useTape)
+                        psaveAmplitudeChange(value&1);
+                    break;
+            }
+        break;
+            
+        case MS2000IO6:
+        break;
+            
+        case MS2000IO7:
+            if  (ioGroup_ == Cdp18s600Configuration.upd765Group)
+                outputDmaCounter(value);
+        break;
+    }
+}
+
+void Rcasbc::startComputer()
+{
+    resetPressed_ = false;
+    readRoms();
+    
+    if (computerType_ == MICROBOARD)
+        configureCards();
+    
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->Show(true);
+    if (p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->Show(true);
+
+    if (Cdp18s600Configuration.autoBoot)
+        autoBoot();
+    
+    if (Cdp18s600Configuration.useUpd765)
+        setDiskNames();
+    
+    if (Cdp18s600Configuration.usev1870)
+    {
+        if (configure1870Microboard(Cdp18s600Configuration.v1870Group, Cdp18s600Configuration.pageMemSize, Cdp18s600Configuration.v1870VideoMode, Cdp18s600Configuration.v1870InterruptMode))
+        {
+            readChargenFile(p_Main->getCharRomDir(MICROBOARD), p_Main->getCharRomFile(MICROBOARD));
+        }
+        
+        Show(true);
+        
+        defineMemoryType(0xf400, 0xf7ff, CRAM1870);
+        defineMemoryType(0xf800, 0xffff, PRAM1870);
+    }
+    
+    defineMemoryType(0xa000, 0xafff, UART1_82C51);
+    defineMemoryType(0xb000, 0xbfff, UART2_82C51);
+
+    p_Main->setSwName("");
+    p_Main->updateTitle();
+    
+    cpuCycles_ = 0;
+    p_Main->startTime();
+    
+    int ms = (int) p_Main->getLedTimeMs(computerType_);
+    cdp18s640FramePointer->setLedMs(ms);
+    
+    if (ms == 0)
+        ledCycleSize_ = -1;
+    else
+        ledCycleSize_ = (((Cdp18s600ClockSpeed_ * 1000000) / 8) / 1000) * ms;
+    ledCycleValue_ = ledCycleSize_;
+    
+    if (Cdp18s600Configuration.usePio)
+        startPio(ms);
+    
+    if (Cdp18s600Configuration.useCdp18s660)
+        startCdp18s660(ms);
+    
+    if (Cdp18s600Configuration.useElfControlWindows)
+        cdp18s640FramePointer->Show(true);
+    
+    threadPointer->Run();
+}
+
+void Rcasbc::autoBoot()
+{
+    addressLatch_ = p_Main->getBootAddress(computerTypeStr_, computerType_) ^ 0x8000;
+    
+    addressLatchCounter_ = 64;
+    setCpuMode(RUN); // CLEAR = 1, WAIT = 1, CLEAR LED OFF, WAIT LED OFF, RUN LED ON
+}
+
+Byte Rcasbc::readMemDebug(Word address)
+{
+    if (address < 0x8000)
+        address = (address | addressLatch_);
+    
+    switch (memoryType_[address / 256])
+    {
+        case UNDEFINED:
+            return 255;
+        break;
+            
+        case ROM:
+        case RAM:
+            return mainMemory_[address];
+        break;
+            
+        case MAPPEDROM:
+            return mainMemory_[address&0xfbff];
+        break;
+            
+        case MAPPEDRAM:
+            return mainMemory_[address&0xf3ff];
+        break;
+            
+        case CPURAM:
+            return cpuRam_[address&0xff];
+        break;
+            
+        case PRAM1870:
+            return readPram(address);
+        break;
+            
+        case CRAM1870:
+            return readCram(address);
+        break;
+            
+        case UART1_82C51:
+            if ((address & 1) == 0)
+            {
+                efState_[4] = 1;
+                
+                return lastUart1In_;
+            }
+            else
+            {
+                if (p_Vt100[UART1] != NULL)
+                    return p_Vt100[UART1]->uartStatus();
+                if (p_Serial != NULL)
+                    return p_Serial->uartStatus();
+            }
+        break;
+        
+        case UART2_82C51:
+            if ((address & 1) == 0)
+            {
+                efState_[1] = 0;
+                
+                return lastUart2In_;
+            }
+            else
+            {
+                if (p_Vt100[UART2] != NULL)
+                    return p_Vt100[UART2]->uartStatus();
+            }
+        break;
+            
+        default:
+            return 255;
+        break;
+    }
+    return 255;
+}
+
+void Rcasbc::writeMemDebug(Word address, Byte value, bool writeRom)
+{
+    wxString valueStr;
+    valueStr.Printf("%02X",value);
+    switch (memoryType_[address/256])
+    {
+        case UNDEFINED:
+        case ROM:
+            if (writeRom)
+                mainMemory_[address]=value;
+        break;
+            
+        case RAM:
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= (memoryStart_) && address<((memoryStart_) +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+            
+        case MAPPEDRAM:
+            address &= 0xf3ff;
+            if (mainMemory_[address]==value)
+                return;
+            mainMemory_[address]=value;
+            if (address >= (memoryStart_) && address<((memoryStart_) +256))
+                p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+            
+        case MAPPEDROM:
+            if (writeRom)
+                mainMemory_[address&0xfbff]=value;
+        break;
+            
+        case CPURAM:
+            if (cpuRam_[address&0xff]==value)
+                return;
+            cpuRam_[address&0xff]=value;
+            p_Main->updateDebugMemory(address);
+            p_Main->updateAssTabCheck(address);
+        break;
+            
+        case PRAM1870:
+            if (writeRom)
+                mainMemory_[address]=value;
+            else
+                writePram(address, value);
+        break;
+            
+        case CRAM1870:
+            writeCram(address, value);
+        break;
+            
+        case UART1_82C51:
+            if ((address & 1) == 1)
+            {
+                if (uart1Reset_)
+                {
+                    switch (uart1ModeWordNumber_)
+                    {
+                        case 1:
+            //                p_Main->eventShowTextMessage("U1, MODE WORD 1: "+valueStr);
+                            if ((value & 0x40) == 0x40)
+                                uart1Reset_ = false;
+                            else
+                                uart1ModeWordNumber_++;
+                        break;
+ 
+                        case 2:
+             //               p_Main->eventShowTextMessage("U1, MODE WORD 2: "+valueStr);
+                            uart1ModeWordNumber_++;
+                        break;
+
+                        case 3:
+            //                p_Main->eventShowTextMessage("U1, MODE WORD 3: "+valueStr);
+                            uart1Reset_ = false;
+                        break;
+                    }
+                }
+                else
+                {
+                    if ((value & 0x40) == 0x40)
+                    {
+           //             p_Main->eventShowTextMessage("U1, RESET: "+valueStr);
+                        uart1Reset_ = true;
+                        uart1ModeWordNumber_ = 1;
+                    }
+          //          else
+          //              p_Main->eventShowTextMessage("U1, COMMAND WORD: "+valueStr);
+                }
+            }
+            else
+            {
+                if (p_Vt100[UART1] != NULL)
+                    p_Vt100[UART1]->uartOut(value);
+                if (p_Serial != NULL)
+                    p_Serial->uartOut(value);
+            }
+        break;
+            
+        case UART2_82C51:
+            if ((address & 1) == 1)
+            {
+                if (uart2Reset_)
+                {
+                    switch (uart2ModeWordNumber_)
+                    {
+                        case 1:
+             //               p_Main->eventShowTextMessage("U2, MODE WORD 1: "+valueStr);
+                            if ((value & 0x40) == 0x40)
+                                uart2Reset_ = false;
+                            else
+                                uart2ModeWordNumber_++;
+                            break;
+                            
+                        case 2:
+              //              p_Main->eventShowTextMessage("U2, MODE WORD 2: "+valueStr);
+                            uart2ModeWordNumber_++;
+                            break;
+                            
+                        case 3:
+              //              p_Main->eventShowTextMessage("U2, MODE WORD 3: "+valueStr);
+                            uart2Reset_ = false;
+                            break;
+                    }
+                }
+                else
+                {
+                    if ((value & 0x40) == 0x40)
+                    {
+              //          p_Main->eventShowTextMessage("U2, RESET: "+valueStr);
+                        uart2Reset_ = true;
+                        uart2ModeWordNumber_ = 1;
+                    }
+              //      else
+                //        p_Main->eventShowTextMessage("U2, COMMAND WORD: "+valueStr);
+                }
+            }
+            else
+            {
+                if (p_Vt100[UART2] != NULL)
+                    p_Vt100[UART2]->uartOut(value);
+            }
+        break;
+    }
+}
+
+void Rcasbc::dataAvailableVt100(bool data, int uartNumber)
+{
+    if (data == 1)
+    {
+        if (uartNumber == UART1)
+        {
+            p_Computer->interrupt();
+        
+            efState_[4] = 0;
+            
+            if (p_Vt100[UART1] != NULL)
+                lastUart1In_ = p_Vt100[UART1]->uartIn();
+        }
+        else
+        {
+            efState_[1] = 1;
+            
+            if (p_Vt100[UART2] != NULL)
+                lastUart2In_ = p_Vt100[UART2]->uartIn();
+        }
+    }
+}
+
+void Rcasbc::dataAvailableSerial(bool data)
+{
+    if (data == 1)
+    {
+        p_Computer->interrupt();
+        
+        efState_[4] = 0;
+
+        if (p_Serial != NULL)
+            lastUart1In_ = p_Serial->uartIn();
+    }
+}
+
+void Rcasbc::updateTitle(wxString Title)
+{
+    if (Cdp18s600Configuration.vtType == VT52)
+    {
+        if (p_Vt100[UART1] != NULL)
+            vtPointer1->SetTitle(computerTypeStr_ + " UART1 - VT 52"+Title);
+        if (p_Vt100[UART2] != NULL)
+            vtPointer2->SetTitle(computerTypeStr_ + " UART2 - VT 52"+Title);
+    }
+    if (Cdp18s600Configuration.vtType == VT100)
+    {
+        if (p_Vt100[UART1] != NULL)
+            vtPointer1->SetTitle(computerTypeStr_ + " UART1 - VT 100"+Title);
+        if (p_Vt100[UART2] != NULL)
+            vtPointer2->SetTitle(computerTypeStr_ + " UART2 - VT 100"+Title);
+    }
+    if (Cdp18s600Configuration.useElfControlWindows)
+        cdp18s640FramePointer->SetTitle(computerTypeStr_ + Title);
+}
+
+

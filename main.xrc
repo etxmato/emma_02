@@ -16710,6 +16710,7 @@
                                                                                 <item>CDP18S608 1805, Q/F &amp; PIO</item>
                                                                                 <item>CDP18S609 1805 &amp; 1852</item>
                                                                                 <item>CDP18S610 1805 &amp; UART</item>
+                                                                                <item>RCASBC 1806, UART &amp; PIO</item>
                                                                             </content>
                                                                             <selection>0</selection>
                                                                         </object>
@@ -21938,7 +21939,7 @@
                                             <object class="wxBoxSizer">
                                                 <orient>wxHORIZONTAL</orient>
                                                 <object class="sizeritem">
-                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                    <flag>wxALIGN_TOP|wxALL</flag>
                                                     <border>3</border>
                                                     <object class="wxBoxSizer">
                                                         <orient>wxVERTICAL</orient>
@@ -22150,6 +22151,43 @@
                                                             <flag>wxALIGN_CENTER_HORIZONTAL</flag>
                                                             <border>5</border>
                                                             <size>258,0</size>
+                                                        </object>
+                                                        <object class="sizeritem">
+                                                            <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                            <border>3</border>
+                                                            <object class="wxBoxSizer">
+                                                                <orient>wxHORIZONTAL</orient>
+                                                                <object class="sizeritem">
+                                                                    <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                    <border>2</border>
+                                                                    <object class="wxStaticText" name="CidelsaHwText">
+                                                                        <font>
+                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                            <size>-1</size>
+                                                                        </font>
+                                                                        <label>HW Configuration:</label>
+                                                                    </object>
+                                                                </object>
+                                                                <object class="sizeritem">
+                                                                    <flag>wxGROW|wxALL</flag>
+                                                                    <border>1</border>
+                                                                    <object class="wxChoice" name="CidelsaHw">
+                                                                        <font>
+                                                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                            <size>-1</size>
+                                                                        </font>
+                                                                        <content>
+                                                                            <item>Auto detect</item>
+                                                                            <item>Altair 12K</item>
+                                                                            <item>Altair 24K</item>
+                                                                            <item>Destroyer 8K</item>
+                                                                            <item>Destroyer 12K</item>
+                                                                            <item>Draco 16K</item>
+                                                                            <item>Draco 32K</item>
+                                                                        </content>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
                                                         </object>
                                                     </object>
                                                 </object>

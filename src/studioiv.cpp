@@ -426,8 +426,8 @@ void StudioIV::startComputer()
     p_Main->assDefault("studioivcart_1", 0x800, 0xFFF);
     p_Main->assDefault("studioivcart_2", 0x1000, 0x17FF);
 
-    defineMemoryType(0x2000, 0x2C00, RAM);
-    initRam(0x2000, 0x2C00);
+    defineMemoryType(0x1800, 0x2C00, RAM);
+    initRam(0x1800, 0x2C00);
 	defineMemoryType(0x2800, 0x2BFF, COLOURRAM);
     
 	double zoom = p_Main->getZoom();

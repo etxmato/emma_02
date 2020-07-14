@@ -173,6 +173,9 @@ public:
 	void enableDebugGui(bool status);
 	void updateAssTabCheck(Word address);
     void cyclePseudoDebug();
+    bool checkSingleCommand(Byte command);
+    bool checkTrippleCommand(Byte command);
+    bool checkQuadrupleCommand(Byte command);
 	bool chip8BreakPointCheck();
 	void showInstructionTrace();
 	void cycleDebug();
@@ -360,7 +363,8 @@ public:
 	void onAssCopy(wxCommandEvent&event);
 	void onAssDis(wxCommandEvent&event);
     void assDirOld(wxString fileName, long start, long end);
-	void assLog(Byte value);
+    void assLog(Byte value);
+    void addressLog(Word value);
 	void stopAssLog();
     void onAssTextChange(wxCommandEvent&event);
 	bool findWorkingRang();
@@ -604,6 +608,7 @@ private:
 
 	wxFile dirAssLogFile_;
 	bool dirAssLog_;
+    bool writingToLog_;
 	int lastLogValue_;
 
 	Word dirAssStart_;
@@ -636,10 +641,16 @@ private:
 
     size_t singleByteCommandNumber_;
     vector<Byte> singleByteCommand_;
-    
+
+    size_t trippleByteCommandNumber_;
+    vector<Byte> trippleByteCommand_;
+
+    size_t quadrupleByteCommandNumber_;
+    vector<Byte> quadrupleByteCommand_;
+
     size_t jumpCommandNumber_;
     vector<Byte> jumpCommand_;
-    vector<Byte> jumpMask_;
+    vector<Word> jumpMask_;
     vector<Word> jumpOffset_;
     
     size_t branchCommandNumber_;

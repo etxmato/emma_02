@@ -203,7 +203,7 @@ void GuiMS2000::readMS2000Config()
     if (mode_.gui)
 	{
         for (int drive=0; drive < 4; drive++)
-            setUpdFloppyGui(drive);
+            setUpdFloppyGui(drive, MS2000);
 
         XRCCTRL(*this, "MainRomMS2000", wxComboBox)->SetValue(conf[MS2000].rom_[MAINROM1]);
         XRCCTRL(*this, "KeyFileMS2000", wxTextCtrl)->SetValue(conf[MS2000].keyFile_);

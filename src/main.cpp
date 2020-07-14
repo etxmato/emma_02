@@ -4890,8 +4890,10 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
 		{
 			if (p_Video != NULL)
 				p_Video->onF5();
-			if (p_Vt100 != NULL)
-				p_Vt100->onF5();
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->onF5();
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->onF5();
 		}
 		return true;
 	}
@@ -4951,8 +4953,10 @@ void Main::activateMainWindow()
 {
 	if (computerRunning_)
 	{
-		if (p_Vt100 != NULL)
-			p_Vt100->activateMainWindow();
+        if (p_Vt100[UART1] != NULL)
+            p_Vt100[UART1]->activateMainWindow();
+        if (p_Vt100[UART2] != NULL)
+            p_Vt100[UART2]->activateMainWindow();
 		else if (p_Video != NULL)
 			p_Video->activateMainWindow();
 		else p_Computer->activateMainWindow();
@@ -4973,14 +4977,14 @@ void Main::fullScreenMenu()
 {
 	if (computerRunning_)
 	{
-		if ((p_Video != NULL) && (p_Vt100 != NULL))
+		if ((p_Video != NULL) && (p_Vt100[UART1] != NULL))
 		{
-			if (!p_Video->isFullScreenSet() && !p_Vt100->isFullScreenSet())
-				p_Vt100->onF3();
-			else if (p_Vt100->isFullScreenSet())
+			if (!p_Video->isFullScreenSet() && !p_Vt100[UART1]->isFullScreenSet())
+				p_Vt100[UART1]->onF3();
+			else if (p_Vt100[UART1]->isFullScreenSet())
 			{
-				p_Vt100->onF3();
-				while (p_Vt100->isFullScreenSet()) 
+				p_Vt100[UART1]->onF3();
+				while (p_Vt100[UART1]->isFullScreenSet()) 
 				{
 					wxSleep(1);
 				}
@@ -4993,10 +4997,31 @@ void Main::fullScreenMenu()
 		}
 		else
 		{
-			if (p_Video != NULL)
-				p_Video->onF3();
-			if (p_Vt100 != NULL)
-				p_Vt100->onF3();
+            if ((p_Vt100[UART1] != NULL) && (p_Vt100[UART2] != NULL))
+            {
+                if (!p_Vt100[UART1]->isFullScreenSet() && !p_Vt100[UART2]->isFullScreenSet())
+                    p_Vt100[UART1]->onF3();
+                else if (p_Vt100[UART1]->isFullScreenSet())
+                {
+                    p_Vt100[UART1]->onF3();
+                    while (p_Vt100[UART1]->isFullScreenSet())
+                    {
+                        wxSleep(1);
+                    }
+                    p_Vt100[UART2]->onF3();
+                }
+                else
+                {
+                    p_Vt100[UART2]->onF3();
+                }
+            }
+            else
+            {
+                if (p_Video != NULL)
+                    p_Video->onF3();
+                if (p_Vt100[UART1] != NULL)
+                    p_Vt100[UART1]->onF3();
+            }
 		}
 	}
 }
@@ -5312,6 +5337,8 @@ void Main::nonFixedWindowPosition()
     conf[CDP18S020].vtY_ = -1;
     conf[MICROBOARD].vtX_ = -1;
     conf[MICROBOARD].vtY_ = -1;
+    conf[MICROBOARD].vtUart2X_ = -1;
+    conf[MICROBOARD].vtUart2Y_ = -1;
     conf[MICROBOARD].secondFrameX_ = -1;
     conf[MICROBOARD].secondFrameY_ = -1;
     conf[MICROBOARD].v1870X_ = -1;
@@ -5428,6 +5455,8 @@ void Main::fixedWindowPosition()
     conf[CDP18S020].vtY_ = mainWindowY_;
     conf[MICROBOARD].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[MICROBOARD].vtY_ = mainWindowY_;
+    conf[MICROBOARD].vtUart2X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[MICROBOARD].vtUart2Y_ = mainWindowY_+ 530;
     conf[MICROBOARD].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
     conf[MICROBOARD].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 #if defined (__WXMAC__) || (__linux__)
@@ -5489,7 +5518,8 @@ void Main::onStart(int computer)
 	additionalChip8Details_ = false;
 
 	p_Video = NULL;
-	p_Vt100 = NULL;
+    p_Vt100[UART1] = NULL;
+    p_Vt100[UART2] = NULL;
 	p_Serial = NULL;
 
 	runningComputer_ = computer;
@@ -5697,6 +5727,12 @@ void Main::onStart(int computer)
                     p_Computer = p_Cdp18s604b;
                     p_Video = p_Cdp18s604b;
                break;
+
+                case RCASBC:
+                    p_Rcasbc = new Rcasbc(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Computer = p_Rcasbc;
+                    p_Video = p_Rcasbc;
+                break;
             }
 
         break;
@@ -5788,7 +5824,7 @@ void Main::onStart(int computer)
 			if (elfConfiguration[runningComputer_].vtType == VTNONE)
 				p_Main->eventVideoSetFullScreen(mode_.full_screen);
 			else
-				p_Main->eventVtSetFullScreen(mode_.full_screen);
+				p_Main->eventVtSetFullScreen(mode_.full_screen, UART1);
 		else	
 			p_Main->eventVideoSetFullScreen(mode_.full_screen);
 	}
@@ -5863,7 +5899,8 @@ void Main::killComputer(wxCommandEvent&WXUNUSED(event))
 	delete p_Computer;
 	p_Computer = NULL;
 	p_Video = NULL;
-	p_Vt100 = NULL;
+    p_Vt100[UART1] = NULL;
+    p_Vt100[UART2] = NULL;
 	p_Serial = NULL;
 	computerRunning_ = false;
 	enableGui(true);
@@ -6838,6 +6875,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->Enable(status);
         XRCCTRL(*this, "Card3ChoiceMicroboard", wxChoice)->Enable(status);
         XRCCTRL(*this, "Card4ChoiceMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "Card5ChoiceMicroboard", wxChoice)->Enable(status);
 
         XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
@@ -6858,6 +6896,8 @@ void Main::enableGui(bool status)
         XRCCTRL(*this, "VTBaudTChoiceMicroboard", wxChoice)->Enable(status);
         XRCCTRL(*this, "VTBaudTTextMicroboard", wxStaticText)->Enable(status);
         XRCCTRL(*this, "VtSetupMicroboard", wxButton)->Enable(status);
+        
+//        setCardType();
     }
 	if (runningComputer_ == STUDIO)
 	{
@@ -8063,19 +8103,21 @@ void Main::zoomEventFinished()
 void Main::setZoomVtChange(guiEvent&event)
 {
     double zoom = event.GetDoubleValue();
+    int uartNumber  = event.GetInt();
 
-    p_Vt100->setZoom(zoom);
+    p_Vt100[uartNumber]->setZoom(zoom);
 //    if (runningComputer_ != ELF2K && runningComputer_ != MEMBER)
-//        p_Vt100->copyScreen();
+//        p_Vt100[UART1]->copyScreen();
     zoomVtEventFinished();
 }
 
-void Main::eventZoomVtChange(double zoom)
+void Main::eventZoomVtChange(double zoom, int uartNumber)
 {
     guiEvent event(GUI_MSG, ZOOMVT_CHANGE);
     event.SetEventObject(p_Main);
 
     event.SetDoubleValue(zoom);
+    event.SetInt(uartNumber);
 
     GetEventHandler()->AddPendingEvent(event);
 }
@@ -8495,16 +8537,18 @@ void Main::eventVideoSetFullScreen(bool state)
 void Main::setVtFullScreenEvent(guiEvent&event)
 {
     bool status = event.GetBoolValue();
-	if (p_Vt100 != NULL)
-		p_Vt100->setFullScreen(status);
+    int uartNumber  = event.GetInt();
+	if (p_Vt100[uartNumber] != NULL)
+		p_Vt100[uartNumber]->setFullScreen(status);
 }
 
-void Main::eventVtSetFullScreen(bool state)
+void Main::eventVtSetFullScreen(bool state, int uartNumber)
 {
     guiEvent event(GUI_MSG, SET_VT_FULLSCREEN);
     event.SetEventObject( p_Main );
 
     event.SetBoolValue(state);
+    event.SetInt(uartNumber);
 
 	GetEventHandler()->AddPendingEvent(event);
 }

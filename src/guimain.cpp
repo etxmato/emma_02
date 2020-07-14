@@ -1126,10 +1126,15 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
 #endif
         conf[computerType].zoomVt_.Printf("%2.2f", zoom);
     }
-    if (runningComputer_ == computerType && p_Vt100 != NULL)
-        p_Main->eventZoomVtChange(zoom);
+    if (runningComputer_ == computerType && p_Vt100[UART1] != NULL)
+        p_Main->eventZoomVtChange(zoom, UART1);
 	else
-		zoomEventOngoing_ = false;
+    {
+        if (runningComputer_ == computerType && p_Vt100[UART2] != NULL)
+            p_Main->eventZoomVtChange(zoom, UART2);
+        else
+            zoomEventOngoing_ = false;
+    }
 }
 
 void GuiMain::onZoomVt(wxSpinEvent&event)
@@ -1183,8 +1188,10 @@ void GuiMain::onZoomValueVt(wxCommandEvent&event)
 
 void GuiMain::onFullScreen(wxCommandEvent&WXUNUSED(event))
 {
-	if (computerRunning_ && p_Vt100 != NULL)
-		p_Vt100->onF3();
+	if (computerRunning_ && p_Vt100[UART1] != NULL)
+		p_Vt100[UART1]->onF3();
+    if (computerRunning_ && p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->onF3();
 	else if (computerRunning_ && p_Video != NULL)
 		p_Video->onF3();
 }
@@ -1199,8 +1206,10 @@ void GuiMain::onInterlace(wxCommandEvent&event)
 void GuiMain::onStretchDot(wxCommandEvent&event)
 {
 	conf[selectedComputer_].stretchDot_ = event.IsChecked();
-	if (computerRunning_ && p_Vt100 != NULL)
-		p_Vt100->setStretchDot(event.IsChecked());
+	if (computerRunning_ && p_Vt100[UART1] != NULL)
+		p_Vt100[UART1]->setStretchDot(event.IsChecked());
+    if (computerRunning_ && p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->setStretchDot(event.IsChecked());
 }
 
 void GuiMain::onScreenDumpFile(wxCommandEvent& WXUNUSED(event))
@@ -1240,8 +1249,10 @@ void GuiMain::onScreenDump(wxCommandEvent&WXUNUSED(event))
 {
 	if (computerRunning_ && p_Video != NULL)
 		p_Video->onF5();
-	if (computerRunning_ && p_Vt100 != NULL)
-		p_Vt100->onF5();
+    if (computerRunning_ && p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->onF5();
+    if (computerRunning_ && p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->onF5();
 }
 
 void GuiMain::onDp(wxCommandEvent&WXUNUSED(event))
@@ -2255,8 +2266,10 @@ void GuiMain::setClock(int computerType)
 		setClockRate();
 		if (p_Video != NULL)
 			p_Video->setClock(conf[computerType].clockSpeed_);
-		if (p_Vt100 != NULL)
-			p_Vt100->setClock(conf[computerType].clockSpeed_);
+        if (p_Vt100[UART1] != NULL)
+            p_Vt100[UART1]->setClock(conf[computerType].clockSpeed_);
+        if (p_Vt100[UART2] != NULL)
+            p_Vt100[UART2]->setClock(conf[computerType].clockSpeed_);
 	}
 }
 
@@ -2521,6 +2534,27 @@ void GuiMain::setVtPos(int computerType, wxPoint position)
 		if (position.y > 0)
 			conf[computerType].vtY_ = position.y;
 	}
+}
+
+wxPoint GuiMain::getVtUart2Pos(int computerType)
+{
+    return wxPoint(conf[computerType].vtUart2X_, conf[computerType].vtUart2Y_);
+}
+
+void GuiMain::setVtUart2Pos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].vtUart2X_ = -1;
+        conf[computerType].vtUart2Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].vtUart2X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].vtUart2Y_ = position.y;
+    }
 }
 
 wxPoint GuiMain::get6845Pos(int computerType)
@@ -3804,6 +3838,7 @@ int GuiMain::getCpuType()
             case MICROBOARD_CDP18S608:
             case MICROBOARD_CDP18S609:
             case MICROBOARD_CDP18S610:
+            case RCASBC:
                 cpuType_ = CPU1805;
             break;
         }
@@ -4125,7 +4160,7 @@ void GuiMain::onUpdDiskEject0(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch0(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0];
-    setUpdFloppyGui(0);
+    setUpdFloppyGui(0, selectedComputer_);
 }
 
 void GuiMain::onUpdDisk1(wxCommandEvent& WXUNUSED(event) )
@@ -4203,7 +4238,7 @@ void GuiMain::onUpdDiskEject1(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch1(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1];
-    setUpdFloppyGui(1);
+    setUpdFloppyGui(1, selectedComputer_);
 }
 
 void GuiMain::onUpdDisk2(wxCommandEvent& WXUNUSED(event) )
@@ -4281,7 +4316,7 @@ void GuiMain::onUpdDiskEject2(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch2(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2];
-    setUpdFloppyGui(2);
+    setUpdFloppyGui(2, selectedComputer_);
 }
 
 void GuiMain::onUpdDisk3(wxCommandEvent& WXUNUSED(event) )
@@ -4359,7 +4394,7 @@ void GuiMain::onUpdDiskEject3(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch3(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3];
-    setUpdFloppyGui(3);
+    setUpdFloppyGui(3, selectedComputer_);
 }
 
 bool GuiMain::getDirectoryMode(int fdcType, int drive)
@@ -4387,39 +4422,39 @@ wxString GuiMain::getUpdFloppyFile(int fdcType, int drive)
     return floppy_[fdcType][drive];
 }
 
-void GuiMain::setUpdFloppyGui(int drive)
+void GuiMain::setUpdFloppyGui(int drive, int computerType)
 {
     wxString driveStr;
     driveStr.Printf("%d", drive);
     bool deActivateFdc;
     
-    if (selectedComputer_ == MICROBOARD)
+    if (computerType == MICROBOARD)
     {
-        deActivateFdc = !elfConfiguration[selectedComputer_].useUpd765;
-        XRCCTRL(*this, "FDC"+driveStr + "_Button"+ computerInfo[selectedComputer_].gui, wxButton)->Enable(!deActivateFdc);
-        XRCCTRL(*this, "FDC"+driveStr + "_Switch"+ computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(!deActivateFdc);
+        deActivateFdc = !elfConfiguration[computerType].useUpd765;
+        XRCCTRL(*this, "FDC"+driveStr + "_Button"+ computerInfo[computerType].gui, wxButton)->Enable(!deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr + "_Switch"+ computerInfo[computerType].gui, wxBitmapButton)->Enable(!deActivateFdc);
     }
     else
         deActivateFdc = false;
         
-    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][drive])
+    if (directoryMode_[elfConfiguration[computerType].fdcType_][drive])
     {
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetLabel("HD "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetToolTip("Browse for "+computerInfo[selectedComputer_].gui+" HD Directory "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(false);
-        wxFileName selectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][drive]);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetLabel("HD "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetToolTip("Browse for "+computerInfo[computerType].gui+" HD Directory "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[computerType].gui, wxBitmapButton)->Enable(false);
+        wxFileName selectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[computerType].fdcType_][drive]);
         wxArrayString dirArray = selectedDirFile.GetDirs();
         wxString dirName = dirArray.Last();
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(dirName);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->SetValue(dirName);
     }
     else
     {
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetLabel("FDC "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetToolTip("Browse for "+computerInfo[selectedComputer_].gui+" FDC "+driveStr+" image file");
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true & !deActivateFdc);
-        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(true & !deActivateFdc);
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][drive]);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetLabel("FDC "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetToolTip("Browse for "+computerInfo[computerType].gui+" FDC "+driveStr+" image file");
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->Enable(true & !deActivateFdc);
+        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[computerType].gui, wxBitmapButton)->Enable(true & !deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[computerType].fdcType_][drive]);
     }
 }
 

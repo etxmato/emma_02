@@ -1545,9 +1545,12 @@ wxString GuiComx::getAliasEmail(size_t number)
 
 void GuiComx::onLogComx(wxCommandEvent&event)
 {
-    conf[selectedComputer_].videoLog_ = event.IsChecked();
-    if (conf[selectedComputer_].videoLog_)
+    bool newLogValue = event.IsChecked();
+    if (newLogValue)
+    {
+        conf[selectedComputer_].videoLog_ = newLogValue;
         p_Main->AssInitLog();
+    }
     else
         p_Main->stopAssLog();
 }

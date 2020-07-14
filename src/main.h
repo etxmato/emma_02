@@ -484,7 +484,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.36
-#define EMMA_SUB_VERSION 0
+#define EMMA_SUB_VERSION 12
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -621,7 +621,8 @@ public:
 #define MICROBOARD_CDP18S608 9
 #define MICROBOARD_CDP18S609 10
 #define MICROBOARD_CDP18S610 11
-#define MICROBOARD_LAST 11
+#define RCASBC 12
+#define MICROBOARD_LAST 12
 
 #define VIDEONONE 0
 #define VIDEO1870 0
@@ -703,7 +704,9 @@ public:
 #define TESTCARTRIDGEROM 30
 #define REGSTORAGE 31
 #define CPURAM 32
-#define NOCHANGE 33
+#define UART1_82C51 33
+#define UART2_82C51 34
+#define NOCHANGE 35
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -830,6 +833,9 @@ public:
 #define VT52 1
 #define VT100 2
 #define EXTERNAL_TERMINAL 3
+
+#define UART1 0
+#define UART2 1
 
 	// 1 Scroll - repeat - screen reverse - cursor block line
 	// 2 bell - keyklick - ansi/vt52 - xon/xoff
@@ -1199,7 +1205,7 @@ public:
     bool isZoomEventOngoing();
     
     void setZoomVtChange(guiEvent& event);
-    void eventZoomVtChange(double zoom);
+    void eventZoomVtChange(double zoom, int uartNumber);
     void zoomVtEventFinished();
 
     void setBlit(guiEvent& event);
@@ -1254,7 +1260,7 @@ public:
 	void eventVideoSetFullScreen(bool state);
 
 	void setVtFullScreenEvent(guiEvent& event);
-	void eventVtSetFullScreen(bool state);
+	void eventVtSetFullScreen(bool state, int uartNumber);
  
 	void setChangeNoteBookEvent(guiEvent& event);
 	void eventChangeNoteBook();
@@ -1343,7 +1349,7 @@ private:
 
 EXT Main *p_Main;
 EXT Video *p_Video;
-EXT Video *p_Vt100;
+EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
 

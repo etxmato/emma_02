@@ -272,10 +272,10 @@ void Velf::configureComputer()
 	{
 		double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
-            vtPointer = new Vt100("VELF - VT 152", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration);
+            vtPointer = new Vt100("VELF - VT 152", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration, UART1);
         else
-            vtPointer = new Vt100("VELF - VT 100", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("VELF - VT 100", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 2);
 		vtPointer->Show(true);
 	}

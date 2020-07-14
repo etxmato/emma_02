@@ -888,8 +888,10 @@ void Sound::stopTape()
 	p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
 	if (computerType_ == FRED1 || computerType_ == FRED1_5 )
 		p_Computer->finishStopTape();
-	if (p_Vt100 != NULL)
-		p_Vt100->ResetIo();
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->ResetIo();
+    if (p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->ResetIo();
 }
 
 void Sound::pauseTape()

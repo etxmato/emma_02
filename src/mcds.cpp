@@ -105,10 +105,10 @@ void Mcds::configureComputer()
     {
         double zoom = p_Main->getZoomVt();
         if (McdsConfiguration.vtType == VT52)
-            vtPointer = new Vt100("MCDS - VT 52", p_Main->getVtPos(MCDS), wxSize(640*zoom, 400*zoom), zoom, MCDS, McdsClockSpeed_, McdsConfiguration);
+            vtPointer = new Vt100("MCDS - VT 52", p_Main->getVtPos(MCDS), wxSize(640*zoom, 400*zoom), zoom, MCDS, McdsClockSpeed_, McdsConfiguration, UART1);
         else
-            vtPointer = new Vt100("MCDS - VT 100", p_Main->getVtPos(MCDS), wxSize(640*zoom, 400*zoom), zoom, MCDS, McdsClockSpeed_, McdsConfiguration);
-        p_Vt100 = vtPointer;
+            vtPointer = new Vt100("MCDS - VT 100", p_Main->getVtPos(MCDS), wxSize(640*zoom, 400*zoom), zoom, MCDS, McdsClockSpeed_, McdsConfiguration, UART1);
+        p_Vt100[UART1] = vtPointer;
         vtPointer->configureStandard(McdsConfiguration.baudR, McdsConfiguration.baudT, 4);
     }
     
@@ -351,8 +351,8 @@ void Mcds::startComputer()
     p_Main->checkAndReInstallFile(MCDS, "BAS ROM", MAINROM3);
     readProgram(p_Main->getRomDir(MCDS, MAINROM3), p_Main->getRomFile(MCDS, MAINROM3), ROM, 0xB000, NONAME);
 
-    if (p_Vt100 != NULL)
-		p_Vt100->Show(true);
+    if (p_Vt100[UART1] != NULL)
+		p_Vt100[UART1]->Show(true);
 
     if (McdsConfiguration.bootRam)
         bootstrap_ = 0;
@@ -365,8 +365,8 @@ void Mcds::startComputer()
 	cpuCycles_ = 0;
 	p_Main->startTime();
 
-    if (p_Vt100 != NULL)
-        p_Vt100->splashScreen();
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->splashScreen();
     
     threadPointer->Run();
 }
@@ -568,7 +568,7 @@ void Mcds::sleepComputer(long ms)
 
 void Mcds::startComputerRun(bool load)
 {
-    if (p_Vt100 != NULL)
+    if (p_Vt100[UART1] != NULL)
 		vtPointer->startMcdsRun(load);
 }
 

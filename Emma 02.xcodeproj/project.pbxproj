@@ -152,6 +152,7 @@
 		9999EAC51CBA8B8900A50336 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9999EAC41CBA8B8800A50336 /* SDL2.framework */; };
 		999CFEDD1DCD33070094BEC8 /* guims2000.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999CFEDB1DCD33070094BEC8 /* guims2000.cpp */; };
 		999DE99E2066EA7E005B3A29 /* studioiv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 999DE99D2066EA7E005B3A29 /* studioiv.cpp */; };
+		999F67A324B8975B00863075 /* amvbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 999F67A224B8975A00863075 /* amvbas.syntax */; };
 		99A3116021A75B98003CB022 /* Chip8Vip2K.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99A3115F21A75B98003CB022 /* Chip8Vip2K.syntax */; };
 		99A502CB1E959040004218C8 /* splash.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99A502CA1E959040004218C8 /* splash.xrc */; };
 		99AA43FF20270FAD00474FB4 /* libserialport.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 99AA43FE20270FAD00474FB4 /* libserialport.a */; };
@@ -496,6 +497,7 @@
 		999DE99A20667EF2005B3A29 /* Linux build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Linux build"; sourceTree = "<group>"; };
 		999DE99C2066EA7E005B3A29 /* studioiv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = studioiv.h; path = src/studioiv.h; sourceTree = "<group>"; };
 		999DE99D2066EA7E005B3A29 /* studioiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv.cpp; path = src/studioiv.cpp; sourceTree = "<group>"; };
+		999F67A224B8975A00863075 /* amvbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = amvbas.syntax; sourceTree = "<group>"; };
 		99A307AC23BE9A0C00DE085B /* ubuntu.4.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.4.ini; sourceTree = "<group>"; };
 		99A307AD23BE9A1500DE085B /* ubuntu.3.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.3.ini; sourceTree = "<group>"; };
 		99A307AE23BE9A2A00DE085B /* ubuntu.2.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.2.ini; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				9909A22E1F2144D200B17E58 /* Configuration.pjd */,
 				9909A22F1F2144D200B17E58 /* Datadir.pjd */,
 				996C1614212F3F130061C30B /* pseudo.def */,
+				999F67A224B8975A00863075 /* amvbas.syntax */,
 				99D92E72211AA0AD007D868E /* CARDTRAN.syntax */,
 				99090B0E2118CFD7008B16DA /* FPL-2.syntax */,
 				99034D162130AFDC007F1BF3 /* FPL-4.syntax */,
@@ -1073,6 +1076,7 @@
 				99ABC2991E56538800850E94 /* menuMS2000.xrc in Resources */,
 				99CC30BC21DBF3ED00B04C7F /* menuMCDS.xrc in Resources */,
 				99792E0A1B88FF590044FDBB /* sb.xrc in Resources */,
+				999F67A324B8975B00863075 /* amvbas.syntax in Resources */,
 				997189701C3B19BC0061426E /* menuVip.xrc in Resources */,
 				99D3B15423847AD000DAF323 /* osx.ini in Resources */,
 				99F374721CADBBC2000DA615 /* Quest_license.txt in Resources */,

@@ -76,6 +76,7 @@ wxString microBoardStr[]=
     "CDP18S608",
     "CDP18S609",
     "CDP18S610",
+    "RCASBC",
     "CDP18S620",
     "CDP18S621",
     "CDP18S623A",
@@ -378,14 +379,14 @@ void GuiCdp18s600::readCdp18s600Config()
         microMemConf[card].chipBlockRom_[1] = configPointer->Read("/Microboard/Card" + cardNumberStr+"ChipBlockRom1", defaultBlock);
         microMemConf[card].socketSize_[0] = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"Socket0Size", 0l);
         microMemConf[card].socketSize_[1] = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"Socket1Size", 0l);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock00", &microMemConf[card].inhibitBlock_[0][0], false);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock01", &microMemConf[card].inhibitBlock_[0][1], false);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock02", &microMemConf[card].inhibitBlock_[0][2], false);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock03", &microMemConf[card].inhibitBlock_[0][3], false);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock10", &microMemConf[card].inhibitBlock_[1][0], false);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock11", &microMemConf[card].inhibitBlock_[1][1], false);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock12", &microMemConf[card].inhibitBlock_[1][2], false);
-        configPointer->Read("/Microboard/Card" + cardNumberStr + "/MemInhibitBlock13", &microMemConf[card].inhibitBlock_[1][3], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock00", &microMemConf[card].inhibitBlock_[0][0], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock01", &microMemConf[card].inhibitBlock_[0][1], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock02", &microMemConf[card].inhibitBlock_[0][2], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock03", &microMemConf[card].inhibitBlock_[0][3], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock10", &microMemConf[card].inhibitBlock_[1][0], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock11", &microMemConf[card].inhibitBlock_[1][1], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock12", &microMemConf[card].inhibitBlock_[1][2], false);
+        configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibitBlock13", &microMemConf[card].inhibitBlock_[1][3], false);
         microMemConf[card].inhibit64_ = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibit64", 0l);
         microMemConf[card].inhibit32Low_ = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibit32Low", 0l);
         microMemConf[card].inhibit32High_ = (int)configPointer->Read("/Microboard/Card" + cardNumberStr+"MemInhibit32High", 0l);
@@ -480,7 +481,7 @@ void GuiCdp18s600::readCdp18s600Config()
         XRCCTRL(*this, "UseLocationMicroboard", wxCheckBox)->SetValue(conf[MICROBOARD].useLoadLocation_);
         
         for (int drive=0; drive < 4; drive++)
-            setUpdFloppyGui(drive);
+            setUpdFloppyGui(drive, MICROBOARD);
 
         XRCCTRL(*this, "Card1ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[0]);
         XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->SetSelection(conf[MICROBOARD].microboardType_[1]);
@@ -698,6 +699,8 @@ void GuiCdp18s600::readCdp18s600WindowConfig()
 {
     conf[MICROBOARD].vtX_ = (int)configPointer->Read("/Microboard/Window_Position_Vt_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
     conf[MICROBOARD].vtY_ = (int)configPointer->Read("/Microboard/Window_Position_Vt_Y", mainWindowY_);
+    conf[MICROBOARD].vtUart2X_ = (int)configPointer->Read("/Microboard/Window_Position_VtUart2_X", mainWindowX_+windowInfo.mainwX+windowInfo.xBorder);
+    conf[MICROBOARD].vtUart2Y_ = (int)configPointer->Read("/Microboard/Window_Position_VtUart2_Y", mainWindowY_ + 530);
     conf[MICROBOARD].mainX_ = (int)configPointer->Read("/Microboard/Window_Position_X", mainWindowX_);
     conf[MICROBOARD].mainY_ = (int)configPointer->Read("/Microboard/Window_Position_Y", mainWindowY_+windowInfo.mainwY+windowInfo.yBorder);
     conf[MICROBOARD].secondFrameX_ = (int)configPointer->Read("/Microboard/Window_Position_SecondFrame_X", mainWindowX_ + 310 + windowInfo.xBorder2);
@@ -722,6 +725,10 @@ void GuiCdp18s600::writeCdp18s600WindowConfig()
         configPointer->Write("/Microboard/Window_Position_Vt_X", conf[MICROBOARD].vtX_);
     if (conf[MICROBOARD].vtY_ > 0)
         configPointer->Write("/Microboard/Window_Position_Vt_Y", conf[MICROBOARD].vtY_);
+    if (conf[MICROBOARD].vtUart2X_ > 0)
+        configPointer->Write("/Microboard/Window_Position_VtUart2_X", conf[MICROBOARD].vtUart2X_);
+    if (conf[MICROBOARD].vtUart2Y_ > 0)
+        configPointer->Write("/Microboard/Window_Position_VtUart2_Y", conf[MICROBOARD].vtUart2Y_);
     if (conf[MICROBOARD].mainX_ > 0)
         configPointer->Write("/Microboard/Window_Position_X", conf[MICROBOARD].mainX_);
     if (conf[MICROBOARD].mainY_ > 0)
@@ -926,23 +933,37 @@ void GuiCdp18s600::setCardType()
     
     if (mode_.gui)
     {
-        XRCCTRL(*this, "Pio" + computerInfo[selectedComputer_].gui, wxCheckBox)->Enable(true);
-        XRCCTRL(*this, "VTType" + computerInfo[selectedComputer_].gui, wxChoice)->Enable(true);
-        XRCCTRL(*this, "ZoomText" + computerInfo[selectedComputer_].gui, wxStaticText)->Enable(false);
-        XRCCTRL(*this, "ZoomValue" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "ZoomSpin" + computerInfo[selectedComputer_].gui, wxSpinButton)->Enable(false);
+        XRCCTRL(*this, "PioMicroboard", wxCheckBox)->Enable(true);
+        XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->Enable(true);
+        XRCCTRL(*this, "ZoomTextMicroboard", wxStaticText)->Enable(false);
+        XRCCTRL(*this, "ZoomValueMicroboard", wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "ZoomSpinMicroboard", wxSpinButton)->Enable(false);
 
-        switch (conf[selectedComputer_].microboardType_[0])
+        XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->Enable(true);
+        XRCCTRL(*this, "Card3ChoiceMicroboard", wxChoice)->Enable(true);
+        XRCCTRL(*this, "Card4ChoiceMicroboard", wxChoice)->Enable(true);
+        XRCCTRL(*this, "Card5ChoiceMicroboard", wxChoice)->Enable(true);
+        XRCCTRL(*this, "Card5Microboard", wxButton)->Enable(true);
+
+        switch (conf[MICROBOARD].microboardType_[0])
         {
             case MICROBOARD_CDP18S604B:
             case MICROBOARD_CDP18S609:
-                XRCCTRL(*this, "VTType" + computerInfo[selectedComputer_].gui, wxChoice)->Enable(false);
-                XRCCTRL(*this, "VTType" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(VTNONE);
+                XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->Enable(false);
+                XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(VTNONE);
             break;
                 
             case MICROBOARD_CDP18S605:
             case MICROBOARD_CDP18S610:
-                XRCCTRL(*this, "Pio" + computerInfo[selectedComputer_].gui, wxCheckBox)->Enable(false);
+                XRCCTRL(*this, "PioMicroboard", wxCheckBox)->Enable(false);
+            break;
+
+            case RCASBC:
+//                XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->Enable(false);
+//                XRCCTRL(*this, "Card3ChoiceMicroboard", wxChoice)->Enable(false);
+//                XRCCTRL(*this, "Card4ChoiceMicroboard", wxChoice)->Enable(false);
+//                XRCCTRL(*this, "Card5ChoiceMicroboard", wxChoice)->Enable(false);
+//                XRCCTRL(*this, "Card5Microboard", wxButton)->Enable(false);
             break;
         }
     
@@ -951,41 +972,43 @@ void GuiCdp18s600::setCardType()
         for (int card=1; card<=4; card++)
         {
             cardStr.Printf("%d", card+1);
-            XRCCTRL(*this, "Card"+cardStr + computerInfo[selectedComputer_].gui, wxButton)->Enable(true);
+//           if (conf[selectedComputer_].microboardType_[0] != RCASBC || card < 4)
+            if (card < 4)
+                XRCCTRL(*this, "Card"+cardStr + "Microboard", wxButton)->Enable(true);
             
             setButtonColor(cardStr, (conf[MICROBOARD].errorMemoryOverlapp_[card] != ""  && conf[MICROBOARD].errorMemoryOverlapp_[card].Right(4) != "card") || conf[MICROBOARD].errorDoubleBoard_[card] != "");
 
-            switch (conf[selectedComputer_].microboardType_[card])
+            switch (conf[MICROBOARD].microboardType_[card])
             {
                 case CARD_EMPTY:
                     if (card != 4)
-                        XRCCTRL(*this, "Card"+cardStr + computerInfo[selectedComputer_].gui, wxButton)->Enable(false);
+                        XRCCTRL(*this, "Card"+cardStr + "Microboard", wxButton)->Enable(false);
                 break;
                     
                 case CARD_CDP18S641:
-                    XRCCTRL(*this, "VTType" + computerInfo[selectedComputer_].gui, wxChoice)->Enable(true);
-                    XRCCTRL(*this, "VTType" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].vtType);
+                    XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->Enable(true);
+                    XRCCTRL(*this, "VTTypeMicroboard", wxChoice)->SetSelection(elfConfiguration[MICROBOARD].vtType);
                 break;
 
                 case CARD_CDP18S661B:
-                    XRCCTRL(*this, "ZoomText" + computerInfo[selectedComputer_].gui, wxStaticText)->Enable(true);
-                    XRCCTRL(*this, "ZoomValue" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true);
-                    XRCCTRL(*this, "ZoomSpin" + computerInfo[selectedComputer_].gui, wxSpinButton)->Enable(true);
+                    XRCCTRL(*this, "ZoomTextMicroboard", wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "ZoomValueMicroboard", wxTextCtrl)->Enable(true);
+                    XRCCTRL(*this, "ZoomSpinMicroboard", wxSpinButton)->Enable(true);
                 break;
 
                 case CARD_CDP18S661V3:
-                    XRCCTRL(*this, "ZoomText" + computerInfo[selectedComputer_].gui, wxStaticText)->Enable(true);
-                    XRCCTRL(*this, "ZoomValue" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true);
-                    XRCCTRL(*this, "ZoomSpin" + computerInfo[selectedComputer_].gui, wxSpinButton)->Enable(true);
+                    XRCCTRL(*this, "ZoomTextMicroboard", wxStaticText)->Enable(true);
+                    XRCCTRL(*this, "ZoomValueMicroboard", wxTextCtrl)->Enable(true);
+                    XRCCTRL(*this, "ZoomSpinMicroboard", wxSpinButton)->Enable(true);
                 break;
             }
         }
         
         for (int drive=0; drive < 4; drive++)
-            setUpdFloppyGui(drive);
+            setUpdFloppyGui(drive, MICROBOARD);
         
         setTapeGui();
-        setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, false);
+        setVtType(computerInfo[MICROBOARD].gui, MICROBOARD, elfConfiguration[MICROBOARD].vtType, false);
     }
 }
 
@@ -1110,6 +1133,11 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
             elfConfig->vtType = 0;
             elfConfig->useUart = false;
             setMemoryMapCDP18S604b(config, 0, config->microboardType_[0]);
+        break;
+            
+        case RCASBC:
+            elfConfig->useUart = true;
+            setMemoryMapRcasbc(config, 0, config->microboardType_[0]);
         break;
     }
 
@@ -1927,6 +1955,25 @@ void GuiCdp18s600::setMemoryMapCDP18S604b(Conf* config, int card, int boardType)
         setMemoryMap(config, startAddress, lastAddress, card, boardType);
 }
 
+void GuiCdp18s600::setMemoryMapRcasbc(Conf* config, int card, int boardType)
+{
+    if (boardType == -1)
+    {
+        p_Computer->readProgramMicro(config->romDir_[U21ROM], config->rom_[U21ROM], RAM, 0x8000, 0xA000, NONAME);
+        p_Computer->defineMemoryType(0x8000, 0x9fff, RAM);
+    }
+    else
+        setMemoryMap(config, 0x8000, 0x9fff, card, boardType);
+    
+    if (boardType == -1)
+    {
+        p_Computer->readProgramMicro(config->romDir_[U20ROM], config->rom_[U20ROM], ROM, 0, 0x8000, NONAME);
+        p_Computer->defineMemoryType(0, 0x7fff, ROM);
+    }
+    else
+        setMemoryMap(config, 0, 0x7fff, card, boardType);
+}
+
 void GuiCdp18s600::setMemoryMapCDP18S620(Conf* config, MicroMemoryConf memConf, int card, int boardType)
 {
     Word startAddress, socketSize;
@@ -2317,38 +2364,38 @@ void GuiCdp18s600::setButtonColor(wxString cardstring, bool error)
 #ifdef __WXMAC__
     if (!error)
     {
-        colour = XRCCTRL(*this, "Card1Choice" + computerInfo[selectedComputer_].gui, wxChoice)->GetBackgroundColour();
-        XRCCTRL(*this, "Card" + cardstring + computerInfo[selectedComputer_].gui, wxButton)->SetBackgroundColour(colour);
+        colour = XRCCTRL(*this, "Card1Choice" + computerInfo[MICROBOARD].gui, wxChoice)->GetBackgroundColour();
+        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetBackgroundColour(colour);
     }
     else
-        XRCCTRL(*this, "Card" + cardstring + computerInfo[selectedComputer_].gui, wxButton)->SetBackgroundColour(*wxRED);
+        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetBackgroundColour(*wxRED);
 #else
     if (!error)
     {
-        colour = XRCCTRL(*this, "Card1Choice" + computerInfo[selectedComputer_].gui, wxChoice)->GetForegroundColour();
-        XRCCTRL(*this, "Card" + cardstring + computerInfo[selectedComputer_].gui, wxButton)->SetForegroundColour(colour);
+        colour = XRCCTRL(*this, "Card1Choice" + computerInfo[MICROBOARD].gui, wxChoice)->GetForegroundColour();
+        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetForegroundColour(colour);
     }
     else
-        XRCCTRL(*this, "Card" + cardstring + computerInfo[selectedComputer_].gui, wxButton)->SetForegroundColour(*wxRED);
+        XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->SetForegroundColour(*wxRED);
 #endif
-    XRCCTRL(*this, "Card" + cardstring + computerInfo[selectedComputer_].gui, wxButton)->Refresh();
+    XRCCTRL(*this, "Card" + cardstring + computerInfo[MICROBOARD].gui, wxButton)->Refresh();
 }
 
 void GuiCdp18s600::setTapeGui()
 {
-    XRCCTRL(*this, "WavFileMicroboard", wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useTape);
-    XRCCTRL(*this, "WavFile1Microboard", wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useTape);
+    XRCCTRL(*this, "WavFileMicroboard", wxTextCtrl)->Enable(elfConfiguration[MICROBOARD].useTape);
+    XRCCTRL(*this, "WavFile1Microboard", wxTextCtrl)->Enable(elfConfiguration[MICROBOARD].useTape);
 
-    XRCCTRL(*this, "CasButtonMicroboard", wxButton)->Enable(elfConfiguration[selectedComputer_].useTape);
-    XRCCTRL(*this, "CasButton1Microboard", wxButton)->Enable(elfConfiguration[selectedComputer_].useTape);
+    XRCCTRL(*this, "CasButtonMicroboard", wxButton)->Enable(elfConfiguration[MICROBOARD].useTape);
+    XRCCTRL(*this, "CasButton1Microboard", wxButton)->Enable(elfConfiguration[MICROBOARD].useTape);
 
-    XRCCTRL(*this, "EjectCasMicroboard", wxBitmapButton)->Enable(elfConfiguration[selectedComputer_].useTape);
-    XRCCTRL(*this, "EjectCas1Microboard", wxBitmapButton)->Enable(elfConfiguration[selectedComputer_].useTape);
+    XRCCTRL(*this, "EjectCasMicroboard", wxBitmapButton)->Enable(elfConfiguration[MICROBOARD].useTape);
+    XRCCTRL(*this, "EjectCas1Microboard", wxBitmapButton)->Enable(elfConfiguration[MICROBOARD].useTape);
     
-    XRCCTRL(*this, "TurboMicroboard", wxCheckBox)->Enable(elfConfiguration[selectedComputer_].useTape);
-    XRCCTRL(*this, "AutoCasLoadMicroboard", wxCheckBox)->Enable(elfConfiguration[selectedComputer_].useTape);
-    XRCCTRL(*this, "TurboClockMicroboard", wxTextCtrl)->Enable(elfConfiguration[selectedComputer_].useTape);
-    XRCCTRL(*this, "TurboMhzTextMicroboard", wxStaticText)->Enable(elfConfiguration[selectedComputer_].useTape);
+    XRCCTRL(*this, "TurboMicroboard", wxCheckBox)->Enable(elfConfiguration[MICROBOARD].useTape);
+    XRCCTRL(*this, "AutoCasLoadMicroboard", wxCheckBox)->Enable(elfConfiguration[MICROBOARD].useTape);
+    XRCCTRL(*this, "TurboClockMicroboard", wxTextCtrl)->Enable(elfConfiguration[MICROBOARD].useTape);
+    XRCCTRL(*this, "TurboMhzTextMicroboard", wxStaticText)->Enable(elfConfiguration[MICROBOARD].useTape);
 
 }
 

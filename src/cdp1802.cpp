@@ -1587,6 +1587,7 @@ void Cdp1802::cpuCycleFetch()
     	traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
+// ** address log    p_Main->addressLog(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
     if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]) >= MEM_TYPE_OPCODE_RSHR)
     {
@@ -3513,10 +3514,10 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 					strValue.ToLong(&value, 16);
 					if (memoryType != NOCHANGE && memoryType != RAM)
 						defineMemoryType(address, memoryType);
-					if (address < end)
+		//			if (address < end)
 						writeMem(address,(Byte)value, true);
-					else
-						overloaded = true;
+		//			else
+		//				overloaded = true;
 					address++;
 				}
 				if (address > last)
@@ -3538,10 +3539,10 @@ bool Cdp1802::readIntelFile(wxString fileName, int memoryType, long end, bool sh
 							value &= 255;
 							if (memoryType != NOCHANGE && memoryType != RAM)
 								defineMemoryType(address, memoryType);
-							if (address < end)
+			//				if (address < end)
 								writeMem(address,(Byte)value, true);
-							else
-								overloaded = true;
+			//				else
+			//					overloaded = true;
 							address++;
 							i++;
 						}

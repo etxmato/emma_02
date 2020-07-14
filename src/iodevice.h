@@ -205,9 +205,10 @@
 #define CDP18SEF1 205
 #define CDP18SEF2 206
 #define CDP18SEF3 207
-#define UC1800IN 208
-#define UC1800OUT 209
-#define UC1800EF 210
+#define CDP18SEF4 208
+#define UC1800IN 209
+#define UC1800OUT 210
+#define UC1800EF 211
 
 #define COMPUTERCYCLE 0
 #define VIDEOCYCLE 1
@@ -216,9 +217,10 @@
 #define DISKCYCLEFDC 4
 #define DISKCYCLEIDE 5
 #define VTCYCLE 6
-#define VIDEOCYCLE1870 7
-#define KEYCYCLE 8
-#define MAXCYCLE 9
+#define SERIALCYCLE 7
+#define VIDEOCYCLE1870 8
+#define KEYCYCLE 9
+#define MAXCYCLE 10
 
 #ifndef IODEVICE_H
 #define IODEVICE_H

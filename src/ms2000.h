@@ -64,6 +64,7 @@ private:
     bool loadStarted_;
 	bool microDosRunning_;
     bool resetHdData_;
+    
 };
 
 #endif  // MS2000_H

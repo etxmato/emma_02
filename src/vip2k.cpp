@@ -78,10 +78,10 @@ void Vip2K::configureComputer()
 	{
 		double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Cosmac Vip 2K - VT 52", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration);
+            vtPointer = new Vt100("Cosmac Vip 2K - VT 52", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration, UART1);
         else
-            vtPointer = new Vt100("Cosmac Vip 2K - VT 100", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Cosmac Vip 2K - VT 100", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
         
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(vipConfiguration.vtShow);

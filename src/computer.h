@@ -473,7 +473,8 @@ public:
 	int getLoadedOs() {return loadedOs_;};
 	virtual int getRunState();
 	virtual void checkLoadedSoftware();
-	virtual void dataAvailable(bool data);
+    virtual void dataAvailableVt100(bool data, int uartNumber);
+    virtual void dataAvailableSerial(bool data);
 	virtual void thrStatus(bool data);
 	virtual void setTempo(int tempo);
 	virtual void switchQ(int value);

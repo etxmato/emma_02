@@ -33,7 +33,8 @@ public:
     void resetPressed();
 
 	void charEvent(int keycode);
-	bool keyDownExtended(int keycode, wxKeyEvent& event);
+    bool keyDownExtended(int keycode, wxKeyEvent& event);
+    bool keyCheck(int keycode, int modifiers);
 	void keyUp(int keycode);
 	void keyClear();
 
@@ -59,7 +60,8 @@ private:
 	Byte qMode_;
 
 	Byte lastKeyCode_;
-	int keyboardCode_;
+    int keyboardCode_;
+    int secondKeyboardCodes[5];
 	wxKeyCode previousKeyCode_;
 
     int keyCycles_;

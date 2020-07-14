@@ -79,6 +79,7 @@ public:
     void setMemoryMapCDP18S602(Conf* config, int card, int boardType);
     void setMemoryMapCDP18S603a(Conf* config, int card, int boardType);
     void setMemoryMapCDP18S604b(Conf* config, int card, int boardType);
+    void setMemoryMapRcasbc(Conf* config, int card, int boardType);
     void setMemoryMapCDP18S620(Conf* config, MicroMemoryConf memConf, int card, int boardType);
     void setMemoryMapCDP18S621(Conf* config, MicroMemoryConf memConf, int card, int boardType);
     void setMemoryMapCDP18S623a(Conf* config, MicroMemoryConf memConf, int card, int boardType);

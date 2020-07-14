@@ -52,13 +52,14 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
 	vt100_ = false;
 }
 
-VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100)
+VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber)
 : wxWindow(parent, wxID_ANY, wxDefaultPosition, size)
 {
 	zoom_ = zoom;
 	xZoomFactor_ = 1;
 	computerType_ = computerType;
 	vt100_ = vt100;
+    uartNumber_ = uartNumber;
 
 	keyStart_ = 0;
 	keyEnd_ = 0;
@@ -88,7 +89,10 @@ void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 {
 	wxPaintDC dcWindow(this);
 	if (vt100_)
-		p_Vt100->setReBlit();
+    {
+        if (p_Vt100[uartNumber_] != NULL)
+            p_Vt100[uartNumber_]->setReBlit();
+    }
 	else
 		p_Video->setReBlit();
 }
@@ -98,7 +102,7 @@ void VideoScreen::onChar(wxKeyEvent& event)
 	int key = event.GetKeyCode();
 	if (vt100_)
 	{
-		if (p_Vt100->charPressed(event))
+		if (p_Vt100[uartNumber_]->charPressed(event))
 			return;
 		if (forceUpperCase_ && key >= 'a' && key <= 'z')
 			key -= 32;
@@ -138,8 +142,8 @@ void VideoScreen::vtOut(int value)
 	{
 		keyBuffer_[keyEnd_++] = value;
 		if (keyEnd_ == 26) keyEnd_ = 0;
-		p_Vt100->dataAvailable(value);
-		if (value == 27) p_Vt100->framingError(1);
+		p_Vt100[uartNumber_]->dataAvailable(value);
+		if (value == 27) p_Vt100[uartNumber_]->framingError(1);
 	}
 }
 
@@ -171,7 +175,7 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
 			}
 		}
 		lastKey_ = keycode;
-		p_Vt100->keyDownPressed(event);
+		p_Vt100[uartNumber_]->keyDownPressed(event);
 	}
 	else
 	{
@@ -226,7 +230,7 @@ void VideoScreen::onKeyUp(wxKeyEvent& event)
 	if (vt100_)
 	{
 		lastKey_ = 0;
-		p_Vt100->keyUpPressed();
+		p_Vt100[uartNumber_]->keyUpPressed();
 		if (!p_Computer->keyUpReleased(event.GetKeyCode()))
 			event.Skip();
 	}
@@ -271,7 +275,7 @@ Byte VideoScreen::getKey(Byte vtOut)
 	vtOut = keyBuffer_[keyStart_++];
 	if (keyStart_ == 26) keyStart_ = 0;
 	if (keyStart_ != keyEnd_)
-		p_Vt100->dataAvailable(vtOut);
+		p_Vt100[uartNumber_]->dataAvailable(vtOut);
 	return vtOut;
 }
 

@@ -145,7 +145,10 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 		break;
 
 		case CIDELSA:
-			maxPageMemory_ = 1920;
+            if (cidelsaGame_ == DRACO)
+                maxPageMemory_ = 1920;
+            else
+                maxPageMemory_ = 1000;
 			videoWidth_ = 200;
 			videoHeight_ = 240;
 		break;
@@ -767,7 +770,11 @@ void V1870::out5_1870(Word address)
 	{
 		linesPerCharacters_ = ((register5_ & 0x8) == 0x8) ? 8 : 9;
 		linesPerCharacters_ = ((register5_ & 0x20) == 0x20) ? 16 : linesPerCharacters_;
-		pageMemoryMask_ = ((register5_ & 0x40) == 0x40) ? 0x7ff : 0x3ff;
+        pageMemoryMask_ = ((register5_ & 0x40) == 0x40) ? 0x7ff : 0x3ff;
+        if (computerType_ == CIDELSA)
+            maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : 1000;
+        else
+            maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : 960;
 		if ((linesPerCharacters_ == 16) || (linesPerCharacters_ == 9) || (computerType_ == COMX))
 			CmaMask_ = 0xf;
 		else
@@ -825,22 +832,27 @@ void V1870::out7_1870(Word address)
 	if (mc6845started_)  return;
 	if ((pixelWidth_ == 1) && (pixelHeight_ == 1) && ((computerType_ == COMX) || (computerType_ == TMC600) || (computerType_ == PECOM)  || (computerType_ == MICROBOARD)))
 	{
-		if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
-		{
-			dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
-			dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
-			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-			reBlit_ = true;
-			return;
-		}
-		if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
-		{
-			dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
-			dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
-			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-			reBlit_ = true;
-			return;
-		}
+        if (pageMemoryMask_ == 0x7ff)
+            reDraw_ = true;
+        else
+        {
+            if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
+            {
+                dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
+                dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
+                dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
+                reBlit_ = true;
+                return;
+            }
+            if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
+            {
+                dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
+                dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
+                dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
+                reBlit_ = true;
+                return;
+            }
+        }
 	}
 	reDraw_ = true;
 }
@@ -951,9 +963,9 @@ void V1870::writePram(Word address, Byte v)
 	if (address>= memoryStart_ && address<(memoryStart_+256))
 		p_Main->updateDebugMemory(address);
 
-	if ((address <(charactersPerRow_ * rowsPerScreen_)) || (pixelWidth_ == 2) || (pixelHeight_ == 2) || (computerType_ == CIDELSA))
+	if ((address <(charactersPerRow_ * rowsPerScreen_)) || (pixelWidth_ == 2) || (pixelHeight_ == 2) || (computerType_ == CIDELSA) || (computerType_ == MICROBOARD))
 	{
-		int a = address -((register7_ / charactersPerRow_) * charactersPerRow_);
+        int a = address - register7_;//((register7_ / charactersPerRow_) * charactersPerRow_);
 		while(a < 0) a += maxPageMemory_;
 		int x = (a % charactersPerRow_) * 6;
 		int y = (a / charactersPerRow_) * linesPerCharacters_;
@@ -964,9 +976,6 @@ void V1870::writePram(Word address, Byte v)
 
 void V1870::writeCram(Word address, Byte v)
 {
-    if (charMemoryIsRom_ && address >= romAddress_)
-        return;
-    
 	Word ac;
 	if (cmemAccessMode_)
 		ac = register6_ & pageMemoryMask_;
@@ -980,6 +989,10 @@ void V1870::writeCram(Word address, Byte v)
 
 	address &= CmaMask_;
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
+    
+    if (charMemoryIsRom_ && address >= romAddress_)
+        return;
+    
 	characterMemory_[address&charMemorySize_] = v;
 
 	if (address>= memoryStart_ && address<(memoryStart_+256))
@@ -991,7 +1004,7 @@ void V1870::writeCram(Word address, Byte v)
 	{
 		if ((pageMemory_[i]&pcbMask_) == (pageMemory_[ac]&pcbMask_))
 		{
-			int a = i -((register7_ / charactersPerRow_) * charactersPerRow_);
+			int a = i - ((register7_ / charactersPerRow_) * charactersPerRow_);
 			while(a < 0) a += maxPageMemory_;
 			int x = (a % charactersPerRow_) * 6;
 			int y = (a / charactersPerRow_) * linesPerCharacters_;
@@ -1208,7 +1221,7 @@ void V1870::drawScreen()
 	}
 	char_screen = charactersPerRow_ * rowsPerScreen_;
 	address = register7_;
-	address = (address/charactersPerRow_) * charactersPerRow_;
+	//address = (address/charactersPerRow_) * charactersPerRow_; this stops base address to be != 0x28, like F804
 	while(address<0) address += maxPageMemory_;
 	for (int i=0; i<char_screen; i++)
 	{
@@ -1280,22 +1293,26 @@ void V1870::drawLine(wxCoord x,wxCoord y,Byte v,Byte pcb, int address)
 
 	switch(register3_ & 0x60)
 	{
-		case 0x00:if (v & 0x40) clr += 4;
+		case 0x00:
+            if (v & 0x40) clr += 4;
 			if (v & 0x80) clr += 2;
 			if (pcb) clr += 1;
-			break;
-		case 0x20:if (v & 0x40) clr += 4;
+        break;
+		case 0x20:
+            if (v & 0x40) clr += 4;
 			if (pcb) clr += 2;
 			if (v & 0x80) clr += 1;
-			break;
-		case 0x40:if (pcb) clr += 4;
+        break;
+		case 0x40:
+            if (pcb) clr += 4;
 			if (v & 0x40) clr += 2;
 			if (v & 0x80) clr += 1;
-			break;
-		case 0x60:if (pcb) clr += 4;
+        break;
+		case 0x60:
+            if (pcb) clr += 4;
 			if (v & 0x40) clr += 2;
 			if (v & 0x80) clr += 1;
-			break;
+        break;
 	}
 	if (computerType_ == TMC600)
 	{

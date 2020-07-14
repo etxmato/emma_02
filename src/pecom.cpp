@@ -473,21 +473,25 @@ Byte Pecom::ef(int flag)
 		break;
 
 		case PECOMEF3:
-			return shiftEf3_;
+            if (!videoRAM_)
+                return shiftEf3_;
 		break;
 
 		case PECOMEF4:
-			return !escEf4_;
+            if (videoRAM_)
+                return !escEf4_;
 		break;
 
 		default:
 			return 1;
 	}
+    return 1;
 }
 
 Byte Pecom::in(Byte port, Word address)
 {
 	Byte ret;
+    ret = 255;
 
 //	p_Main->messageInt(port);
 	switch(inType_[port])
@@ -497,95 +501,97 @@ Byte Pecom::in(Byte port, Word address)
 		break;
 
 		case PECOMKEY:
-//			ret = keyValue_[address - 0x7cca] & 0x3;
-			ret = keyValue_[(address&0x3f) - 0xa] & 0x3;
+            if (!videoRAM_)
+            {
+//  			ret = keyValue_[address - 0x7cca] & 0x3;
+                ret = keyValue_[(address&0x3f) - 0xa] & 0x3;
 
-/*			if (inputKeyValue[keyboardCode_] == ((address & 0x3f) - 0xa))
-			{
-				if (!wxGetKeyState((wxKeyCode)keyboardCode_))
-				{
-					keyValue_[(address & 0x3f) - 0xa] = keyValue_[(address & 0x3f) - 0xa] & 0xfc;
-					keyboardCode_ = 0;
-				}
-			}*/
+/*			    if (inputKeyValue[keyboardCode_] == ((address & 0x3f) - 0xa))
+                {
+                    if (!wxGetKeyState((wxKeyCode)keyboardCode_))
+                    {
+                        keyValue_[(address & 0x3f) - 0xa] = keyValue_[(address & 0x3f) - 0xa] & 0xfc;
+                        keyboardCode_ = 0;
+                    }
+                }*/
 
-			if (pecomRunCommand_ != 0)
-			{
-				cycleValue_--;
-				if (cycleValue_ <= 0)
-				{
-					cycleValue_ = 52;
-					if (keyDown_)
-					{
-						keyUpFile();
-						if (pecomRunCommand_ >= 255)
-							pecomRunCommand_ = 0;
-					}
-					else
-					{
-						if (pecomRunCommand_ == 1)
-						{
-							int saveExec = p_Main->pload();
-							if (saveExec == 1)
-								pecomRunCommand_ = 0;
-							else
-							{
-								if (saveExec == 0)
-									commandText_ = "RUN";
-								else
-								{
-									wxString buffer;
-									buffer.Printf("%d", saveExec);
-									commandText_ = "CALL(" + buffer + ")";
-								}
-								pecomRunCommand_++;
-							}
-						}
-						else
-						{
-							if (load_)
-								pecomRunCommand_ = 0;
-							else
-							{
-								if ((pecomRunCommand_-1) <= commandText_.Len())
-								{
-									keyboardCode_ = commandText_.GetChar(pecomRunCommand_-2);
-									keyDownFile();
-									pecomRunCommand_++;
-								}
-								else
-								{
-									keyboardCode_ = 13;
-									keyDownFile();
-									pecomRunCommand_ = 255;
-								}
-							}
-						}
-					}
-				}
-			}
-
-			if (pecomKeyFileOpened_)
-			{
-				cycleValue_--;
-				if (cycleValue_ <= 0)
-				{
-					cycleValue_ = 52;
-					if (keyDown_)
-						keyUpFile();
-					else
-					{
-						if (pecomKeyFile_.Read(&keyboardCode_, 1) == 0)
-						{
-							pecomKeyFileOpened_ = false;
-							pecomKeyFile_.Close();
-						}
-						else
-							keyDownFile();
-					}
-				}
-			}
-
+                if (pecomRunCommand_ != 0)
+                {
+                    cycleValue_--;
+                    if (cycleValue_ <= 0)
+                    {
+                        cycleValue_ = 52;
+                        if (keyDown_)
+                        {
+                            keyUpFile();
+                            if (pecomRunCommand_ >= 255)
+                                pecomRunCommand_ = 0;
+                        }
+                        else
+                        {
+                            if (pecomRunCommand_ == 1)
+                            {
+                                int saveExec = p_Main->pload();
+                                if (saveExec == 1)
+                                    pecomRunCommand_ = 0;
+                                else
+                                {
+                                    if (saveExec == 0)
+                                        commandText_ = "RUN";
+                                    else
+                                    {
+                                        wxString buffer;
+                                        buffer.Printf("%d", saveExec);
+                                        commandText_ = "CALL(" + buffer + ")";
+                                    }
+                                    pecomRunCommand_++;
+                                }
+                            }
+                            else
+                            {
+                                if (load_)
+                                    pecomRunCommand_ = 0;
+                                else
+                                {
+                                    if ((pecomRunCommand_-1) <= commandText_.Len())
+                                    {
+                                        keyboardCode_ = commandText_.GetChar(pecomRunCommand_-2);
+                                        keyDownFile();
+                                        pecomRunCommand_++;
+                                    }
+                                    else
+                                    {
+                                        keyboardCode_ = 13;
+                                        keyDownFile();
+                                        pecomRunCommand_ = 255;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if (pecomKeyFileOpened_)
+                {
+                    cycleValue_--;
+                    if (cycleValue_ <= 0)
+                    {
+                        cycleValue_ = 52;
+                        if (keyDown_)
+                            keyUpFile();
+                        else
+                        {
+                            if (pecomKeyFile_.Read(&keyboardCode_, 1) == 0)
+                            {
+                                pecomKeyFileOpened_ = false;
+                                pecomKeyFile_.Close();
+                            }
+                            else
+                                keyDownFile();
+                        }
+                    }
+                }
+            }
 		break;
 
 		default:
@@ -623,27 +629,40 @@ void Pecom::out(Byte port, Word address, Byte value)
 		break;
 
 		case V1870OUT3:
-			out3_1870(value);
+            if (videoRAM_)
+                out3_1870(value);
 		break;
 
 		case V1870OUT4:
-			outValues_[port] = address;
-			out4_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out4_1870(address);
+            }
 		break;
 
 		case V1870OUT5:
-			outValues_[port] = address;
-			out5_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out5_1870(address);
+            }
 		break;
 
 		case V1870OUT6:
-			outValues_[port] = address;
-			out6_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out6_1870(address);
+            }
 		break;
 
 		case V1870OUT7:
-			outValues_[port] = address;
-			out7_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out7_1870(address);
+            }
 		break;
 	}
 }
