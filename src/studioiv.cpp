@@ -45,24 +45,27 @@ void StudioIV::configureComputer()
 {
     outType_[1] = VIPOUT4;
 	outType_[2] = STUDIOOUT;
+	outType_[7] = VIPIIOUT7;
 	victoryKeyPort_ = 0;
+	efType_[2] = VIPEF2;
 	efType_[3] = STUDIOEF3;
 	efType_[4] = STUDIOEF4;
 
-	for (int j=0; j<2; j++) for (int i=0; i<10; i++)
+	for (int j=0; j<2; j++) for (int i=0; i<16; i++)
 		victoryKeyState_[j][i] = 0;
 
 	p_Main->message("Configuring Studio IV");
     p_Main->message("	Output 1: tone latch");
-	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2\n");
+	p_Main->message("	Output 2: select port, EF 3: read selected port 1, EF4: read selected port 2");
+	p_Main->message("	output 7: cassette on/off, EF 2: cassette in\n");
 
 	p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 	p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
 
-    gameAuto_ = p_Main->getConfigBool("/StudioIV/GameAuto", true);
+    gameAuto_ = p_Main->getConfigBool("/StudioIV/GameAuto", false);
 
-	simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", true);
-    simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", true);
+	simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", false);
+    simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", false);
     
 	resetCpu();
 }
@@ -73,14 +76,15 @@ void StudioIV::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
 	{
 		keyDefinition[i].defined = false;
 	}
-	for (int i=0; i<10; i++)
+	for (int i=0; i<16; i++)
 	{
 		keyDefA1_[i] = hexKeyDefA1[i];
 		if (hexKeyDefA1[i] != 0)
 		{
 			keyDefinition[keyDefA1_[i]].defined = true;
 			keyDefinition[keyDefA1_[i]].player = 0;
-			keyDefinition[keyDefA1_[i]].key = i;
+            keyDefinition[keyDefA1_[i]].key = i;
+            keyDefinition[keyDefA1_[i]].shift = false;
 		}
 		keyDefA2_[i] = hexKeyDefA2[i];
 		if (hexKeyDefA2[i] != 0)
@@ -88,13 +92,14 @@ void StudioIV::reDefineKeysA(int hexKeyDefA1[], int hexKeyDefA2[])
 			keyDefinition[keyDefA2_[i]].defined = true;
 			keyDefinition[keyDefA2_[i]].player = 0;
 			keyDefinition[keyDefA2_[i]].key = i;
+            keyDefinition[keyDefA2_[i]].shift = true;
 		}
 	}
 }
 
 void StudioIV::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 {
-	for (int i = 0; i<10; i++)
+	for (int i = 0; i<16; i++)
 	{
 		keyDefB1_[i] = hexKeyDefB1[i];
 		if (hexKeyDefB1[i] != 0)
@@ -102,6 +107,7 @@ void StudioIV::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 			keyDefinition[keyDefB1_[i]].defined = true;
 			keyDefinition[keyDefB1_[i]].player = 1;
 			keyDefinition[keyDefB1_[i]].key = i;
+            keyDefinition[keyDefB1_[i]].shift = false;
 		}
 		keyDefB2_[i] = hexKeyDefB2[i];
 		if (hexKeyDefB2[i] != 0)
@@ -109,12 +115,19 @@ void StudioIV::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 			keyDefinition[keyDefB2_[i]].defined = true;
 			keyDefinition[keyDefB2_[i]].player = 1;
 			keyDefinition[keyDefB2_[i]].key = i;
+            keyDefinition[keyDefB2_[i]].shift = true;
 		}
 	}
 }
 
 void StudioIV::keyDown(int keycode)
 {
+    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+    {
+        victoryKeyState_[0][0xf] = 1;
+        victoryKeyState_[1][0xf] = 1;
+    }
+    
 	if (keyDefinition[keycode].defined)
 	{
 		if (simDefA2_)
@@ -260,13 +273,25 @@ void StudioIV::keyDown(int keycode)
 				}
 			}
 		}
-		victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
+        
+        victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
+        if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+        {
+            victoryKeyState_[0][0xf] = 1;
+            victoryKeyState_[1][0xf] = 1;
+        }
 	}
 }
 
 void StudioIV::keyUp(int keycode)
 {
-	if (simDefA2_)
+    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+    {
+        victoryKeyState_[0][0xf] = 0;
+        victoryKeyState_[1][0xf] = 0;
+    }
+
+    if (simDefA2_)
 	{
         if (keycode == keyDefA2_[2] || keycode == keyDefA2_[4] || keycode == keyDefA2_[6] || keycode == keyDefA2_[8])
         {
@@ -302,8 +327,13 @@ void StudioIV::keyUp(int keycode)
 				victoryKeyState_[1][keyDefinition[keyDefB2_[8]].key] = 1;
 		}
 	}
-	if (keyDefinition[keycode].defined)
-		victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
+    if (keyDefinition[keycode].defined)
+        victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
+    if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+    {
+        victoryKeyState_[0][0xf] = 0;
+        victoryKeyState_[1][0xf] = 0;
+    }
 }
 
 Byte StudioIV::ef(int flag)
@@ -316,6 +346,18 @@ Byte StudioIV::ef(int flag)
 
 		case PIXIEEF:
 			return efPixie();
+		break;
+
+		case VIPEF2:
+            if (tapeFinished_ > 0)
+            {
+                if ((tapeFinished_ & 0xff) == 0)
+                    cassetteEf_ = !cassetteEf_;
+                tapeFinished_--;
+                if (tapeFinished_ == 0)
+                    cassetteEf_ = 0;
+            }
+			return cassetteEf_;
 		break;
 
 		case STUDIOEF3:
@@ -333,14 +375,14 @@ Byte StudioIV::ef(int flag)
 
 Byte StudioIV::ef3()
 {
-	if (victoryKeyPort_<0 || victoryKeyPort_>9)
+	if (victoryKeyPort_<0 || victoryKeyPort_>16)
 		return 1;
 	return(victoryKeyState_[0][victoryKeyPort_]) ? 0 : 1;
 }
 
 Byte StudioIV::ef4()
 {
-	if (victoryKeyPort_<0 || victoryKeyPort_>9)
+	if (victoryKeyPort_<0 || victoryKeyPort_>16)
 		return 1;
 	return(victoryKeyState_[1][victoryKeyPort_]) ? 0 : 1;
 }
@@ -391,7 +433,26 @@ void StudioIV::out(Byte port, Word WXUNUSED(address), Byte value)
 		case STUDIOIVDMA:
             dmaEnable();
 		break;
+
+		case VIPIIOUT7:
+			if (value == 1)
+			{
+				p_Main->startCassetteLoad(0);
+				return;
+			}
+			if (value == 2)
+			{
+				p_Main->startCassetteSave(0);
+				return;
+			}
+			p_Main->stopCassette();
+		break;
 	}
+}
+
+void StudioIV::finishStopTape()
+{
+    tapeFinished_ = 10000;
 }
 
 void StudioIV::outStudioIV(Byte value)
@@ -426,9 +487,8 @@ void StudioIV::startComputer()
     p_Main->assDefault("studioivcart_1", 0x800, 0xFFF);
     p_Main->assDefault("studioivcart_2", 0x1000, 0x17FF);
 
-    defineMemoryType(0x1800, 0x2C00, RAM);
-    initRam(0x1800, 0x2C00);
-	defineMemoryType(0x2800, 0x2BFF, COLOURRAM);
+    defineMemoryType(0x1800, 0x27FF, RAM);
+    initRam(0x1800, 0x27FF);
     
 	double zoom = p_Main->getZoom();
 
@@ -441,11 +501,26 @@ void StudioIV::startComputer()
 	setWait(1);
 	setClear(1);
 
+	cassetteEf_ = 0;
+
     if (gameAuto_)
-        p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+        p_Main->loadKeyDefinition(p_Main->getRomFile(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
     readSt2Program(STUDIOIV);
+
+    if (pseudoType_ == "AM4KBASPLUS")
+    {
+        defineMemoryType(0x1000, 0x13FF, COLOURRAM);
+        initRam(0x1000, 0x13FF);
+        defineMemoryType(0x2800, 0x97FF, RAM);
+        initRam(0x2800, 0x97FF);
+    }
+    else
+    {
+        defineMemoryType(0x2800, 0x2BFF, COLOURRAM);
+        initRam(0x2800, 0x27FF);
+    }
 
 	reDefineKeysA(keyDefA1_, keyDefA2_);
 	reDefineKeysB(keyDefB1_, keyDefB2_);
@@ -580,7 +655,7 @@ void StudioIV::resetPressed()
     simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", true);
     
     if (gameAuto_)
-        p_Main->loadKeyDefinition("", p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+        p_Main->loadKeyDefinition(p_Main->getRomFile(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
     
     reDefineKeysA(keyDefA1_, keyDefA2_);
     reDefineKeysB(keyDefB1_, keyDefB2_);
@@ -596,3 +671,14 @@ void StudioIV::onReset()
 {
 	resetPressed_ = true;
 }
+
+void StudioIV::startComputerRun(bool load)
+{
+    p_Main->pload();
+}
+
+void StudioIV::sleepComputer(long ms)
+{
+    threadPointer->Sleep(ms);
+}
+

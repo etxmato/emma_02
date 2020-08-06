@@ -50,6 +50,7 @@ public:
 	void checkComputerFunction();
 	void startComputerRun(bool load);
 	void sleepComputer(long ms);
+    void finishStopTape();
 
 	Byte read1864ColorDirect(Word address);
 	void write1864ColorDirect(Word address, Byte value);
@@ -101,6 +102,8 @@ private:
 	wxString commandText_; 
 	int vipRunState_;
 	bool load_;
+    
+    int tapeFinished_;
 };
 
 #endif  // VIP_H

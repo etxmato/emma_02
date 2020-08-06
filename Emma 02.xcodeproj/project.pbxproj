@@ -167,6 +167,7 @@
 		99BE53221F155713006BD353 /* diag.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99BE53211F155713006BD353 /* diag.xrc */; };
 		99BE53251F156AA1006BD353 /* diagstatusbar.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99BE53231F156AA1006BD353 /* diagstatusbar.cpp */; };
 		99C3BFE81C0CF400006E3D82 /* guivelf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 99C3BFE61C0CF400006E3D82 /* guivelf.cpp */; };
+		99C567BC24CC4DFC00F11A84 /* am4kbas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */; };
 		99C9EABB2145C1FC00C1EA03 /* Test_Word.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */; };
 		99CC30BC21DBF3ED00B04C7F /* menuMCDS.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99CC30BB21DBF3ED00B04C7F /* menuMCDS.xrc */; };
 		99CC30BE21DBF5FE00B04C7F /* menuTMC600.xrc in Resources */ = {isa = PBXBuildFile; fileRef = 99CC30BD21DBF5FD00B04C7F /* menuTMC600.xrc */; };
@@ -496,7 +497,7 @@
 		999CFEDC1DCD33070094BEC8 /* guims2000.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guims2000.h; path = src/guims2000.h; sourceTree = "<group>"; };
 		999DE99A20667EF2005B3A29 /* Linux build */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Linux build"; sourceTree = "<group>"; };
 		999DE99C2066EA7E005B3A29 /* studioiv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = studioiv.h; path = src/studioiv.h; sourceTree = "<group>"; };
-		999DE99D2066EA7E005B3A29 /* studioiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv.cpp; path = src/studioiv.cpp; sourceTree = "<group>"; };
+		999DE99D2066EA7E005B3A29 /* studioiv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = studioiv.cpp; path = src/studioiv.cpp; sourceTree = "<group>"; wrapsLines = 0; };
 		999F67A224B8975A00863075 /* amvbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = amvbas.syntax; sourceTree = "<group>"; };
 		99A307AC23BE9A0C00DE085B /* ubuntu.4.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.4.ini; sourceTree = "<group>"; };
 		99A307AD23BE9A1500DE085B /* ubuntu.3.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = ubuntu.3.ini; sourceTree = "<group>"; };
@@ -531,6 +532,7 @@
 		99BE53241F156AA1006BD353 /* diagstatusbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = diagstatusbar.h; path = src/diagstatusbar.h; sourceTree = "<group>"; };
 		99C3BFE61C0CF400006E3D82 /* guivelf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = guivelf.cpp; path = src/guivelf.cpp; sourceTree = "<group>"; };
 		99C3BFE71C0CF400006E3D82 /* guivelf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = guivelf.h; path = src/guivelf.h; sourceTree = "<group>"; };
+		99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am4kbas.syntax; sourceTree = "<group>"; };
 		99C9EABA2145C1FC00C1EA03 /* Test_Word.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Test_Word.syntax; sourceTree = "<group>"; };
 		99CA2F7F23D262C500A268C4 /* suse.ini */ = {isa = PBXFileReference; lastKnownFileType = text; path = suse.ini; sourceTree = "<group>"; };
 		99CC30B721DBA0F800B04C7F /* Emma 02 mac.pjd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Emma 02 mac.pjd"; sourceTree = "<group>"; };
@@ -642,6 +644,7 @@
 				9909A22F1F2144D200B17E58 /* Datadir.pjd */,
 				996C1614212F3F130061C30B /* pseudo.def */,
 				999F67A224B8975A00863075 /* amvbas.syntax */,
+				99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */,
 				99D92E72211AA0AD007D868E /* CARDTRAN.syntax */,
 				99090B0E2118CFD7008B16DA /* FPL-2.syntax */,
 				99034D162130AFDC007F1BF3 /* FPL-4.syntax */,
@@ -1120,6 +1123,7 @@
 				99D5FCD7211C938E001F4391 /* Chip8X.syntax in Resources */,
 				99F374751CADBBC2000DA615 /* LGPL.txt in Resources */,
 				9997F7BD212494FA0036A1FC /* GPL-3.syntax in Resources */,
+				99C567BC24CC4DFC00F11A84 /* am4kbas.syntax in Resources */,
 				99792DE71B88A4200044FDBB /* configuration.xrc in Resources */,
 				99792DE11B88A3B10044FDBB /* about.xrc in Resources */,
 				995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */,

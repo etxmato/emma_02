@@ -1,0 +1,668 @@
+
+<html>
+<title>AMVBAS Syntax</title>
+<body>
+<h2>AMVBAS Syntax</h2>
+<h3>Information</h3>
+<p>
+AMVBAS is pseudo code used in RCA Tiny BASIC running on the VIP, the same syntax is used (AM4KBAS) when running RCA Tiny BASIC on the Studio IV.
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aaaa</TD>
+<TD WIDTH="400">16 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">aa</TD>
+<TD WIDTH="400">lower 8 bit of 16 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">Vx,Vy,Vz</TD>
+<TD WIDTH="400">8 bit register (x, y or z = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">Rx,Ry,Rz</TD>
+<TD WIDTH="400">16 bit register (x, y or z = 0 to 7), see Note 1.</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[aa],[bb],[cc]</TD>
+<TD WIDTH="400">memory value of address 11aa, see Note 2.</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[Ry],[Rz]</TD>
+<TD WIDTH="400">Memory value (8 bit) pointed to by 16 bit register (x, y or z = 0 to 7)</TD>
+</TR>
+</TABLE>
+<p>
+Note 1: V0 to VF are located on 1100-110F. R0-R7 are located on the same memory locations and as such: R0 is build up of V0 as high byte and V1 as low, R1=V2-V3 etc. Register value 'z' specified in the pseudo code is actually z*2, so R1 is indicated by cc02kk.
+</p>
+<p>
+Note 2: [aa] indicate 2 bytes in memory when using commands with R registers so memory location 11aa as well as 11aa+1 will be used.
+</p>
+<h3>Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">120zkk</TD>
+<TD WIDTH="40">ARD</TD>
+<TD WIDTH="100">Rz, kk</TD>
+<TD WIDTH="250">Rz = Rz + kk<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">12aakk</TD>
+<TD WIDTH="40">ARD</TD>
+<TD WIDTH="100">[aa], kk<br>aa, kk</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11aa/11aa+1] + kk<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">20yz</TD>
+<TD WIDTH="40">ARG</TD>
+<TD WIDTH="100">Ry, Rz</TD>
+<TD WIDTH="250">Ry = Ry + Rz<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxkk</TD>
+<TD WIDTH="40">ARI</TD>
+<TD WIDTH="100">Rx, kk</TD>
+<TD WIDTH="250">Rx = Rx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">21yz</TD>
+<TD WIDTH="40">ARX</TD>
+<TD WIDTH="100">Ry, [Rz]<br>Ry, Rz</TD>
+<TD WIDTH="250">Ry = Ry + [Rz]<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">22yz</TD>
+<TD WIDTH="40">AV</TD>
+<TD WIDTH="100">Vy, Vz</TD>
+<TD WIDTH="250">Vy = Vy + Vz<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Exkk</TD>
+<TD WIDTH="40">AVI</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">390z</TD>
+<TD WIDTH="40">CHGS</TD>
+<TD WIDTH="100">Rz</TD>
+<TD WIDTH="250">Rz = 0 - Rz<br>(change sign)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">39aa</TD>
+<TD WIDTH="40">CHGS</TD>
+<TD WIDTH="100">[aa]<br>aa</TD>
+<TD WIDTH="250">[11aa/11aa+1] = 0 - [11aa/11aa+1]<br>(change sign)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0C</TD>
+<TD WIDTH="40">CLRTV</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Clear TV screen</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2Fyz</TD>
+<TD WIDTH="40">COLOR</TD>
+<TD WIDTH="100">Ry, Vz</TD>
+<TD WIDTH="250">Color Vz on location Ry<br>((Ry.1 = x, Ry.0 = y)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">01aaaa</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">aaaa</TD>
+<TD WIDTH="250">Execute pseudo code at address aaaa, return with RET</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010700</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">CBDOUT</TD>
+<TD WIDTH="250">Convert binary to decimal and output</TD>
+</TR>
+<TR>
+<TD WIDTH="55">01073D</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">COLDOT</TD>
+<TD WIDTH="250">Color dot</TD>
+</TR>
+<TR>
+<TD WIDTH="55">01078F</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">DIGIT</TD>
+<TD WIDTH="250">Get digit</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0101D7</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">GOEZ</TD>
+<TD WIDTH="250">Goto address bb in the current page if [1Caa] = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010143</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">IADD</TD>
+<TD WIDTH="250">[1Caa/1Caa+1] = [1Caa/1Caa+1] + [1Cbb/1Cbb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">01017F</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">IFLOAT</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010763</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">INTEG</TD>
+<TD WIDTH="250">Get integer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0104ED</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">ISIGN</TD>
+<TD WIDTH="250">Set carry flag [1C10] if [1Caa/1Caa+1] is negative</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010152</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">ISUB</TD>
+<TD WIDTH="250">[1Caa/1Caa+1] = [1Caa/1Caa+1] - [1Cbb/1Cbb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010550</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">KEYOUT</TD>
+<TD WIDTH="250">Output keyword</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010520</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">LOOKUP</TD>
+<TD WIDTH="250">Lookup keyword</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010737</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">SETCOL</TD>
+<TD WIDTH="250">Set Color map to one color</TD>
+</TR>
+<TR>
+<TD WIDTH="55">010752</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">SKSP</TD>
+<TD WIDTH="250">Vy = next character from [Rz]<br>If space is found take next character<br>Rz will point to next character</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0101FD</TD>
+<TD WIDTH="40">DO</TD>
+<TD WIDTH="100">SYNC</TD>
+<TD WIDTH="250">Wait for sync, CPU in IDLE state</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0E</TD>
+<TD WIDTH="40">EML</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Execute following Machine Language</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00aaaa</TD>
+<TD WIDTH="40">EXEC</TD>
+<TD WIDTH="100">aaaa</TD>
+<TD WIDTH="250">Execute machine code at address aaaa, return with SEP R4</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00002C</TD>
+<TD WIDTH="40">EXEC</TD>
+<TD WIDTH="100">INIT</TD>
+<TD WIDTH="250">Initializatioon routine</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3B0zaa</TD>
+<TD WIDTH="40">FIX</TD>
+<TD WIDTH="100">Rz, [aa]<br>Rz, aa</TD>
+<TD WIDTH="250">Rz = [11aa/11aa+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3Baabb</TD>
+<TD WIDTH="40">FIX</TD>
+<TD WIDTH="100">[aa], [bb]<br>aa, bb</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3Caabb</TD>
+<TD WIDTH="40">FADD</TD>
+<TD WIDTH="100">[aa], [bb]<br>aa, bb</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11aa/11aa+1] + [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3Faabb</TD>
+<TD WIDTH="40">FDIV</TD>
+<TD WIDTH="100">[aa], [bb]<br>aa, bb</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11aa/11aa+1] / [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3Aaa0z</TD>
+<TD WIDTH="40">FLOAT</TD>
+<TD WIDTH="100">[aa], Rz<br>aa, Rz</TD>
+<TD WIDTH="250">[11aa/11aa+1] = Rz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3Aaabb</TD>
+<TD WIDTH="40">FLOAT</TD>
+<TD WIDTH="100">[aa], [bb]<br>aa, bb</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">38aabb</TD>
+<TD WIDTH="40">FMOV</TD>
+<TD WIDTH="100">[aa], [bb]<br>aa, bb</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3Eaabb</TD>
+<TD WIDTH="40">FMPY</TD>
+<TD WIDTH="100">[aa], [bb]<br>aa, bb</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11aa/11aa+1] * [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3Daabb</TD>
+<TD WIDTH="40">FSUB</TD>
+<TD WIDTH="100">[aa], [bb]<br>aa, bb</TD>
+<TD WIDTH="250">[11aa/11aa+1] = [11aa/11aa+1] - [11bb/11bb+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">04aa</TD>
+<TD WIDTH="40">GO</TD>
+<TD WIDTH="100">aa</TD>
+<TD WIDTH="250">Goto address aa in the current page</TD>
+</TR>
+<TR>
+<TD WIDTH="55">05aa</TD>
+<TD WIDTH="40">GOCR</TD>
+<TD WIDTH="100">aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if ...</TD>
+</TR>
+<TR>
+<TD WIDTH="55">170zaa</TD>
+<TD WIDTH="40">GOEZ</TD>
+<TD WIDTH="100">Rz, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if Rz = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">17aabb</TD>
+<TD WIDTH="40">GOEZ</TD>
+<TD WIDTH="100">[aa], bb<br>aa, bb</TD>
+<TD WIDTH="250">Goto address bb in the current page if [11aa] = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">35aabb</TD>
+<TD WIDTH="40">GOEZ</TD>
+<TD WIDTH="100">[aa], bb</TD>
+<TD WIDTH="250">Goto address bb in the current page if [11aa] = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dxkkaa</TD>
+<TD WIDTH="40">GOEQ</TD>
+<TD WIDTH="100">Vx, kk, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">140ykkaa</TD>
+<TD WIDTH="40">GOGE</TD>
+<TD WIDTH="100">Vy, kk, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if Vy >= kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">14kaakkbb</TD>
+<TD WIDTH="40">GOGE</TD>
+<TD WIDTH="100">[aa], kk, bb<br>aa, kk, bb</TD>
+<TD WIDTH="250">Goto address bb in the current page if [11aa] >= kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">150ykkaa</TD>
+<TD WIDTH="40">GOLT</TD>
+<TD WIDTH="100">Vy, kk, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if Vy &lt; kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">15aavvbb</TD>
+<TD WIDTH="40">GOLT</TD>
+<TD WIDTH="100">[aa], kk, bb<br>aa, kk, bb</TD>
+<TD WIDTH="250">Goto address bb in the current page if [11aa] &lt; kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">06aa</TD>
+<TD WIDTH="40">GONC</TD>
+<TD WIDTH="100">aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if no carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fxkkaa</TD>
+<TD WIDTH="40">GONE</TD>
+<TD WIDTH="100">Vx, kk, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xaa</TD>
+<TD WIDTH="40">GONZ</TD>
+<TD WIDTH="100">Vx, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if Vx != 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">03aaaa</TD>
+<TD WIDTH="40">GOTO</TD>
+<TD WIDTH="100">aaaa</TD>
+<TD WIDTH="250">Goto address aaaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xaa</TD>
+<TD WIDTH="40">GOZR</TD>
+<TD WIDTH="100">Vx, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if Vx = 0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">070z</TD>
+<TD WIDTH="40">GOX</TD>
+<TD WIDTH="100">Rz</TD>
+<TD WIDTH="250">Goto address in Rz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">07aa</TD>
+<TD WIDTH="40">GOX</TD>
+<TD WIDTH="100">[aa]<br>aa</TD>
+<TD WIDTH="250">Goto address [11aa/11aa+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0B0yaa</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">Vy, aa</TD>
+<TD WIDTH="250">Goto address aa in the current page if no key pressed, otherwise return key in Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0Baabb</TD>
+<TD WIDTH="40">KEY</TD>
+<TD WIDTH="100">[aa], bb<br>aa, bb</TD>
+<TD WIDTH="250">Goto address bb in the current page if no key pressed, otherwise return key in [11aa]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">09</TD>
+<TD WIDTH="40">KEYT</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Key tone - not implemented, simple sound board key tone is done in the WKEY routine </TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xaa</TD>
+<TD WIDTH="40">LRD</TD>
+<TD WIDTH="100">Rx, [aa]<br>Rx, aa</TD>
+<TD WIDTH="250">Rx = [11aa/11aa+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">26yz</TD>
+<TD WIDTH="40">LRG</TD>
+<TD WIDTH="100">Ry, Rz</TD>
+<TD WIDTH="250">Ry = Rz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xaaaa</TD>
+<TD WIDTH="40">LRGI</TD>
+<TD WIDTH="100">Rx, aaaa</TD>
+<TD WIDTH="250">Rx = aaaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">27yz</TD>
+<TD WIDTH="40">LRX</TD>
+<TD WIDTH="100">Ry, [Rz]<br>Ry, Rz</TD>
+<TD WIDTH="250">Ry = [Rz/Rz+1]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">28yz</TD>
+<TD WIDTH="40">LV</TD>
+<TD WIDTH="100">Vy, Vz</TD>
+<TD WIDTH="250">Vy = Vz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xaa</TD>
+<TD WIDTH="40">LVD</TD>
+<TD WIDTH="100">Vx, [aa]<br>Vx, aa</TD>
+<TD WIDTH="250">Vx = [11aa]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xkk</TD>
+<TD WIDTH="40">LVI</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">29yz</TD>
+<TD WIDTH="40">LVX</TD>
+<TD WIDTH="100">Vy, [Rz]<br>Vy, Rz</TD>
+<TD WIDTH="250">vy = [Rz]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">160z</TD>
+<TD WIDTH="40">OUTS</TD>
+<TD WIDTH="100">Vz</TD>
+<TD WIDTH="250">Output character in Vz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">16kk</TD>
+<TD WIDTH="40">OUTS</TD>
+<TD WIDTH="100">[aa]<br>aa</TD>
+<TD WIDTH="250">Output character on [11aa]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0F</TD>
+<TD WIDTH="40">OUTSI</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Output characters following command until character with b7=1 is detected</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1B0zkk</TD>
+<TD WIDTH="40">POPM</TD>
+<TD WIDTH="100">Rz, kk</TD>
+<TD WIDTH="250">Pop registers from stack starting with Rz and kk bytes</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1Baakk</TD>
+<TD WIDTH="40">POPM</TD>
+<TD WIDTH="100">[aa], kk<br>aa, kk</TD>
+<TD WIDTH="250">Pop memory values from stack starting with [aa] and kk bytes</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1A0zvv</TD>
+<TD WIDTH="40">PUSHM</TD>
+<TD WIDTH="100">Rz, kk</TD>
+<TD WIDTH="250">Oush registers to stack starting with Rz and kk bytes</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1Akkvv</TD>
+<TD WIDTH="40">PUSHM</TD>
+<TD WIDTH="100">[aa], kk<br>aa, kk</TD>
+<TD WIDTH="250">Push memory values to stack starting with [aa] and kk bytes</TD>
+</TR>
+<TR>
+<TD WIDTH="55">190z</TD>
+<TD WIDTH="40">RAND</TD>
+<TD WIDTH="100">Vz</TD>
+<TD WIDTH="250">Vz = random value</TD>
+</TR>
+<TR>
+<TD WIDTH="55">19aa</TD>
+<TD WIDTH="40">RAND</TD>
+<TD WIDTH="100">[aa]<br>aa</TD>
+<TD WIDTH="250">[aa] = random value</TD>
+</TR>
+<TR>
+<TD WIDTH="55">11</TD>
+<TD WIDTH="40">RCR</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Reset carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">02</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from DO</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1Fyz</TD>
+<TD WIDTH="40">RT</TD>
+<TD WIDTH="100">[Ry], Vz<br>Ry, Vz</TD>
+<TD WIDTH="250">Read Vz blocks from tape to [Ry]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">10</TD>
+<TD WIDTH="40">SCR</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Set carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">180zaabb</TD>
+<TD WIDTH="40">SHOW</TD>
+<TD WIDTH="100">Rz, [aa], [bb]<br>Rz, aa, bb</TD>
+<TD WIDTH="250">Show pattern on [Rz, 5 bytes] on position x = [aa] and y = [bb]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1Cyl</TD>
+<TD WIDTH="40">SHL</TD>
+<TD WIDTH="100">Ry, l</TD>
+<TD WIDTH="250">Shift left Ry l times</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1Dyl</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Ry, l</TD>
+<TD WIDTH="250">Shift right Ry l times</TD>
+</TR>
+</TR>
+<TR>
+<TD WIDTH="55">37aa</TD>
+<TD WIDTH="40">SIGN</TD>
+<TD WIDTH="100">[aa]<br>aa</TD>
+<TD WIDTH="250">Set carry flag [1110] if [11aa/11aa+1] is negative</TD>
+</TR>
+<TR>
+<TD WIDTH="55">33yz</TD>
+<TD WIDTH="40">SKSP</TD>
+<TD WIDTH="100">Vy, Rz<br>Vy, Rz</TD>
+<TD WIDTH="250">Vy = next character from [Rz]<br>If space is found take next character<br>Rz will point to next character</TD>
+</TR>
+<TR>
+<TD WIDTH="55">130zkk</TD>
+<TD WIDTH="40">SRI</TD>
+<TD WIDTH="100">Rz, kk</TD>
+<TD WIDTH="250">Rz = Rz - kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">13aabb</TD>
+<TD WIDTH="40">SRI</TD>
+<TD WIDTH="100">[aa],  kk<br>aa, kk</TD>
+<TD WIDTH="250">[1Caa/1Caa+1] = [1Caa/1Caa+1] - kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">23yz</TD>
+<TD WIDTH="40">SRG</TD>
+<TD WIDTH="100">Ry, Rz</TD>
+<TD WIDTH="250">Ry = Ry - Rz<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">24yz</TD>
+<TD WIDTH="40">SRX</TD>
+<TD WIDTH="100">Ry, [Rz]<br>Ry, Rz</TD>
+<TD WIDTH="250">Ry = Ry - [Rz]<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Axaa</TD>
+<TD WIDTH="40">STRD</TD>
+<TD WIDTH="100">[aa], Rx<br>aa, Rx</TD>
+<TD WIDTH="250">[11aa] = Rx.1, [11aa+1] = Rx.0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2Axy</TD>
+<TD WIDTH="40">STRX</TD>
+<TD WIDTH="100">[Ry], Rx<br>Ry, Rx</TD>
+<TD WIDTH="250">[Ry] = Rx.1, [Ry+1] = Rx.0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Bxaa</TD>
+<TD WIDTH="40">STVD</TD>
+<TD WIDTH="100">[aa], Vx<br>aa, Vx</TD>
+<TD WIDTH="250">[11aa] = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2Byz</TD>
+<TD WIDTH="40">STVX</TD>
+<TD WIDTH="100">Vy, [Rz]<br>Vy, Rz</TD>
+<TD WIDTH="250">Vy = [Rz]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">25yz</TD>
+<TD WIDTH="40">SV</TD>
+<TD WIDTH="100">Vy, Vz</TD>
+<TD WIDTH="250">Vy = Vy - Vz<br>[1110] = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">34</TD>
+<TD WIDTH="40">SYNC</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Wait for sync, CPU in IDLE state</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0Akk</TD>
+<TD WIDTH="40">TAPE</TD>
+<TD WIDTH="100">kk</TD>
+<TD WIDTH="250">Tape I/O, kk=0: stop, kk=1: load, kk=2: save</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0D0z</TD>
+<TD WIDTH="40">TV</TD>
+<TD WIDTH="100">Vz</TD>
+<TD WIDTH="250">Vz to TV output</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0Daa</TD>
+<TD WIDTH="40">TV</TD>
+<TD WIDTH="100">[aa]<br>aa</TD>
+<TD WIDTH="250">[11aa] to TV output</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2Cyz</TD>
+<TD WIDTH="40">VAND</TD>
+<TD WIDTH="100">Vy, Vz</TD>
+<TD WIDTH="250">Vy = Vy AND Vz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2Dyz</TD>
+<TD WIDTH="40">VOR</TD>
+<TD WIDTH="100">Vy, Vz</TD>
+<TD WIDTH="250">Vy = Vy OR Vz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2Eyz</TD>
+<TD WIDTH="40">VXOR</TD>
+<TD WIDTH="100">Vy, Vz</TD>
+<TD WIDTH="250">Vy = Vy XOR Vz</TD>
+</TR>
+<TR>
+<TD WIDTH="55">08</TD>
+<TD WIDTH="40">WKEY</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Wait until NO key is pressed and key beep sound when using simple sound card</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1Eyz</TD>
+<TD WIDTH="40">WT</TD>
+<TD WIDTH="100">[Ry], Rz<br>Ry, Rz</TD>
+<TD WIDTH="250">Write Vz blocks from tape from [Ry]</TD>
+</TR>
+</body>
+</html>
+

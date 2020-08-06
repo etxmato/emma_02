@@ -4183,6 +4183,15 @@ void Cdp1802::checkLoadedSoftware()
                         loadedProgram_ = FPBBOOT;
                         p_Main->setScrtValues(false, -1, -1, -1, -1, "");
                     }
+                    else
+                    {
+                     if ((mainMemory_[2] == 0xf8) && (mainMemory_[0xa8] == 0x5) && (mainMemory_[0x107] == 0xd4) && (mainMemory_[0x11b] == 0xb4))
+                        {
+                            loadedProgram_ = VIPTINY;
+                            p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                            p_Main->eventEnableMemAccess(true);
+                        }
+                    }
                 }
                 if (loadedProgram_ == NOPROGRAM)
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "");

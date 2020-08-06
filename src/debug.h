@@ -67,6 +67,8 @@ public:
 #define PSEUDO_DETAILS_X 0
 #define PSEUDO_DETAILS_I 1
 #define PSEUDO_DETAILS_MI 2
+#define PSEUDO_DETAILS_R 3
+#define PSEUDO_DETAILS_MR 4
 
 class PseudoCodeDetails
 {
@@ -527,9 +529,9 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2);
+    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4);
 	AssInput getAssInput(wxString buffer);
-	int checkParameterPseudo(AssInput assInput, Word* pseudoCode);
+	int checkParameterPseudo(AssInput assInput, int32_t* pseudoCode);
 	Byte getCardtranAddress(long address);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
 	int getByte(AssInput assInput, Byte* b2, bool allowX);

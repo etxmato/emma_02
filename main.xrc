@@ -14657,6 +14657,7 @@
                                                                                 <item></item>
                                                                                 <item>fpb_color.bin</item>
                                                                                 <item>fpb.bin</item>
+                                                                                <item>VP700_Tiny_BASIC.bin</item>
                                                                                 <item>chip8.ram</item>
                                                                                 <item>chip8x.ram</item>
                                                                                 <item>chip10.hex</item>
@@ -21267,7 +21268,7 @@
                                                                 <border>2</border>
                                                                 <object class="wxFlexGridSizer">
                                                                     <cols>2</cols>
-                                                                    <rows>4</rows>
+                                                                    <rows>5</rows>
                                                                     <vgap>2</vgap>
                                                                     <hgap>0</hgap>
                                                                     <object class="sizeritem">
@@ -21296,6 +21297,10 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
+                                                                                <item>am4kbas 32K 2020 PAL.bin</item>
+                                                                                <item>am4kbas 32K 2020 NTSC.bin</item>
+                                                                                <item>am4kbas 2020 PAL.bin</item>
+                                                                                <item>am4kbas 2020 NTSC.bin</item>
                                                                                 <item>Studio IV V3 PAL.bin</item>
                                                                                 <item>Studio IV V3 NTSC.bin</item>
                                                                             </content>
@@ -21373,6 +21378,46 @@
                                                                                     <tooltip>Save video dump to file (F5)</tooltip>
                                                                                     <enabled>0</enabled>
                                                                                     <bitmap>images/filesave.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxButton" name="CasButtonStudioIV">
+                                                                            <tooltip>Browse for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Cassette</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxTOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                                <border>1</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="WavFileStudioIV">
+                                                                                    <size>146,-1</size>
+                                                                                    <tooltip>Specify cassette file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxGROW|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="EjectCasStudioIV">
+                                                                                    <tooltip>Eject cassette file</tooltip>
+                                                                                    <bitmap>images/eject.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                         </object>
@@ -21534,6 +21579,15 @@
                                                                             <max>100</max>
                                                                         </object>
                                                                     </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxStaticBitmap" name="VuStudioIV">
+                                                                            <size>100,10</size>
+                                                                            <style>wxSTATIC_BORDER</style>
+                                                                            <bitmap>images/vu.png</bitmap>
+                                                                        </object>
+                                                                    </object>
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
@@ -21576,6 +21630,248 @@
                                                                             </font>
                                                                             <hidden>1</hidden>
                                                                             <label>Hz</label>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxGROW</flag>
+                                                                <border>5</border>
+                                                                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                                                                    <orient>wxVERTICAL</orient>
+                                                                    <label>Memory Access</label>
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxFlexGridSizer">
+                                                                            <cols>1</cols>
+                                                                            <rows>2</rows>
+                                                                            <vgap>0</vgap>
+                                                                            <hgap>0</hgap>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="LoadButtonStudioIV">
+                                                                                    <tooltip>Load .tiny file into Studio IV emulator memory</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>LOAD</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxButton" name="SaveButtonStudioIV">
+                                                                                    <tooltip>Save Studio IV emulator memory to .tiny file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <enabled>0</enabled>
+                                                                                    <label>SAVE</label>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_RIGHT|wxLEFT|wxRIGHT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticText" name="TextStartStudioIV">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxALIGN_RIGHT</style>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Start</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_RIGHT|wxLEFT|wxRIGHT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticText" name="TextEndStudioIV">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxALIGN_RIGHT</style>
+                                                                            <hidden>1</hidden>
+                                                                            <label>End</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_RIGHT|wxLEFT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxStaticText" name="TextExecStudioIV">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <style>wxALIGN_RIGHT</style>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Exec</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxTextCtrl" name="SaveStartStudioIV" subclass="HexEdit">
+                                                                            <size>50,-1</size>
+                                                                            <tooltip>Specify start address in hexadecimal</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <maxlength>4</maxlength>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxTextCtrl" name="SaveEndStudioIV" subclass="HexEdit">
+                                                                            <size>50,-1</size>
+                                                                            <tooltip>Specify end address in hexadecimal</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <maxlength>4</maxlength>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxTextCtrl" name="SaveExecStudioIV" subclass="HexEdit">
+                                                                            <size>50,21</size>
+                                                                            <tooltip>Specify machine code execution address in hexadecimal</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <maxlength>4</maxlength>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="UseLocationStudioIV">
+                                                                            <tooltip>Select to SAVE specific machine code address</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Specify Location</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxCheckBox" name="AutoCasLoadStudioIV">
+                                                                            <tooltip>Enable auto mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto LOAD/SAVE</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSaveStudioIV">
+                                                                            <tooltip>Start recording to cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/rec_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoadStudioIV">
+                                                                            <tooltip>Play cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/play_black.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStopStudioIV">
+                                                                            <tooltip>Stop cassette file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images/stop.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object platform="win" class="sizeritem">
+                                                                        <flag>wxGROW</flag>
+                                                                        <border>2</border>
+                                                                        <object platform="win" class="wxBitmapButton" name="RealCasLoadStudioIV">
+                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                            <style>wxBU_AUTODRAW</style>
+                                                                            <bitmap>images/real_cas_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>3</border>
+                                                                        <object class="wxCheckBox" name="TurboStudioIV">
+                                                                            <tooltip>Enable turbo mode for cassette file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Turbo LOAD/SAVE: </label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALL</flag>
+                                                                        <border>1</border>
+                                                                        <object class="wxTextCtrl" name="TurboClockStudioIV" subclass="IntEdit">
+                                                                            <size>35,-1</size>
+                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxStaticText" name="TurboMhzTextStudioIV">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>MHz</label>
                                                                         </object>
                                                                     </object>
                                                                 </object>

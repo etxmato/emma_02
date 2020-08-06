@@ -2727,8 +2727,9 @@ void Main::initConfig()
     colour[14] = "#00d0d0";
     colour[15] = "#fbfbfb";
 
+    borderY[VIDEOPIXIE] = 20; 
     setScreenInfo(STUDIOIV, 0, 16, colour, 2, borderX, borderY);
-    setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "");
+    setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "tiny");
     
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)
@@ -6960,6 +6961,8 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"FullScreenF3StudioIV", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5StudioIV", wxButton)->Enable(!status);
         XRCCTRL(*this,"VidModeStudioIV", wxChoice)->Enable(status);
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
     }
 	if (runningComputer_ == TMC2000)
 	{
@@ -8996,7 +8999,6 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         case STUDIO:
         case COINARCADE:
         case VICTORY:
-        case STUDIOIV:
 			keysFound = loadKeyDefinition("", "studiodefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
         break;
             
@@ -9010,6 +9012,10 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
                 keysFound = loadKeyDefinition("", "vipdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
                 keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        break;
+
+        case STUDIOIV:
+            keysFound = loadKeyDefinition("", "studioivdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
         case ELF:
@@ -9046,7 +9052,6 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case STUDIO:
             case COINARCADE:
             case VICTORY:
-            case STUDIOIV:
             case VISICOM:
                 if (player == "A")
                 {
@@ -9086,6 +9091,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case COSMICOS:
             case VIPII:
             case VELF:
+            case STUDIOIV:
                 if (player == "A")
                 {
                     for (int i=0; i<16; i++)

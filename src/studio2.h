@@ -8,6 +8,7 @@ class KeyDef
 {
 public:
 	bool defined;
+    bool shift;
 	int player;
 	int key;
 };

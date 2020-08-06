@@ -513,6 +513,18 @@
                                     <object class="sizeritem">
                                         <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                         <border>3</border>
+                                        <object class="wxButton" name="TinyBASIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <hidden>1</hidden>
+                                            <label>Tiny BASIC</label>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                        <border>3</border>
                                         <object class="wxButton" name="HexChar">
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>

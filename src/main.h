@@ -484,7 +484,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.36
-#define EMMA_SUB_VERSION 12
+#define EMMA_SUB_VERSION 13
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -737,6 +737,7 @@ public:
 #define FPBBASIC 13
 #define FPBBOOT 14
 #define FPBBASIC_AT_8000 15
+#define VIPTINY 17
 
 #define TINYBASIC 2
 #define MINIMON 4

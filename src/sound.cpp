@@ -886,7 +886,7 @@ void Sound::stopTape()
 		psaveOn_ = false;
 	}
 	p_Main->eventSetTapeState(TAPE_STOP, tapeNumber_);
-	if (computerType_ == FRED1 || computerType_ == FRED1_5 )
+	if (computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VIP || computerType_ == STUDIOIV)
 		p_Computer->finishStopTape();
     if (p_Vt100[UART1] != NULL)
         p_Vt100[UART1]->ResetIo();

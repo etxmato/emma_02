@@ -272,6 +272,7 @@ void Vip::initComputer()
 	colourMask_ = 0xff;
 	stateQ_ = 0;
 	printLatch_ = 0;
+    tapeFinished_ = 0;
 
 	vipRunCommand_ = 0;
 	vipRunState_ = RESETSTATE;
@@ -326,6 +327,14 @@ Byte Vip::ef(int flag)
 		break;
 
 		case VIPEF2:
+            if (tapeFinished_ > 0)
+            {
+                if ((tapeFinished_ & 0xff) == 0)
+                    cassetteEf_ = !cassetteEf_;
+                tapeFinished_--;
+                if (tapeFinished_ == 0)
+                    cassetteEf_ = 0;
+            }
 			return cassetteEf_;
 		break;
 
@@ -449,6 +458,11 @@ void Vip::out(Byte port, Word WXUNUSED(address), Byte value)
 			p_Main->stopCassette();
 		break;
 	}
+}
+
+void Vip::finishStopTape()
+{
+    tapeFinished_ = 10000;
 }
 
 void Vip::outVip(Byte value)
@@ -977,6 +991,11 @@ void Vip::checkComputerFunction()
 void Vip::startComputerRun(bool load)
 {
 //	p_Main->pload();
+    if (loadedProgram_ == VIPTINY)
+    {
+        p_Main->pload();
+        return;
+    }
 	load_ = load;
 	if (vipRunState_ == RESETSTATE)
 		vipRunCommand_ = 1;

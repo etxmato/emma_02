@@ -185,6 +185,41 @@ game keys: 2, 4, 6, 8, 0, 2, 4, 6, 8, 0
 sim a2
 sim b2
 
+name: Studioiv Default
+pad a1: 78, 65, 66, 67, 69, 70, 71, 73, 74, 75, 77, 79, 68, 72, 76, 0
+pad a2: 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 44, 59, 91, 61, 93, 0
+pad a2 nnp: 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 44, 59, 91, 61, 93, 0
+pad b1: 32, 80, 81, 82, 84, 85, 86, 88, 89, 90, 46, 8, 83, 87, 13, 0
+pad b2: 0, 0, 0, 0, 0, 0, 0, 47, 45, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 4, 6, 8, 0, 2, 4, 6, 8, 0
+
+name: am4kbas 2020 PAL.bin
+load: studioivdefault
+
+name: am4kbas 2020 NTSC.bin
+load: studioivdefault
+
+name: am4kbas 32K 2020 PAL.bin
+load: studioivdefault
+
+name: am4kbas 32K 2020 NTSC.bin
+load: studioivdefault
+
+name: Studioiv on Character
+pad a1: A_C_0, A_C_1, A_C_2, A_C_3, A_C_4, A_C_5, A_C_6, A_C_7, A_C_8, A_C_9, 65, 66, 67, 68, 69, 70
+pad a2: 32, 0, 315, 0, 314, 0, 316, 0, 317, 0, 0, 0, 0, 0, 0, 0
+pad b1: 324, 325, 326, 327, 328, 329, 330, 331, 332, 333, 392, 387, 390, 388, 370, 391
+pad b2: B_A_FIRE, 0, B_A_UP, 0, B_A_LEFT, 0, B_A_RIGHT, 0, B_A_DOWN, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 4, 6, 8, 0, 2, 4, 6, 8, 0
+
+name: Studioiv on Location
+pad a1: A_L_14, A_L_1, A_L_2, A_L_3, A_L_5, A_L_6, A_L_7, A_L_9, A_L_10, A_L_11, A_L_13, A_L_15, A_L_4, A_L_8, A_L_12, A_L_16
+pad a2: 32, 0, 315, 0, 314, 0, 316, 0, 317, 0, 0, 0, 0, 0, 0, 0
+pad b1: B_L_14, B_L_1, B_L_2, B_L_3, B_L_5, B_L_6, B_L_7, B_L_9, B_L_10, B_L_11, B_L_13, B_L_15, B_L_4, B_L_8, B_L_12, B_L_16
+pad b2: B_A_FIRE, 0, B_A_UP, 0, B_A_LEFT, 0, B_A_RIGHT, 0, B_A_DOWN, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 4, 6, 8, 0, 2, 4, 6, 8, 0
+
+
 Chip-8 Games:
 =============
 

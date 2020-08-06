@@ -41,6 +41,7 @@ BEGIN_EVENT_TABLE(KeyMapDialog, wxDialog)
    EVT_BUTTON(XRCID("HexSwitchPlayer"), KeyMapDialog::onSwitchPlayer)
    EVT_BUTTON(XRCID("HexLocation"), KeyMapDialog::onHexLocation)
    EVT_BUTTON(XRCID("HexChar"), KeyMapDialog::onHexChar)
+   EVT_BUTTON(XRCID("TinyBASIC"), KeyMapDialog::onTinyBASIC)
    EVT_BUTTON(XRCID("HexSwitchSet1"), KeyMapDialog::onHexSwitchSet1)
    EVT_BUTTON(XRCID("HexSwitchSet2"), KeyMapDialog::onHexSwitchSet2)
    EVT_BUTTON(XRCID("StudioSwitchSet"), KeyMapDialog::onSwitchSet)
@@ -230,7 +231,6 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
         case STUDIO:
 		case VISICOM:
         case VICTORY:
-        case STUDIOIV:
             keyDefGameHexA_[4] = 0;
             keyDefGameHexB_[0] = 2;
             keyDefGameHexB_[1] = 4;
@@ -308,6 +308,21 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
             XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
         break;
             
+        case STUDIOIV:
+            wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog1"));
+            XRCCTRL(*this, "InButton", wxButton)->Hide();
+            XRCCTRL(*this, "InButtonText", wxStaticText)->Hide();
+            XRCCTRL(*this, "TinyBASIC", wxButton)->Show();
+            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "A", hexKeyDefA1_, hexKeyDefA2_, dummy);
+            p_Main->getDefaultHexKeys(computerType, computerTypeStr_, "B", hexKeyDefB1_, hexKeyDefB2_, dummy);
+            
+            hexPadBdefined_ = true;
+            XRCCTRL(*this, "HexSwitchPlayer", wxButton)->Hide();
+
+            autoGame_ = p_Main->getConfigBool(computerTypeStr_+"/GameAuto", false);
+            XRCCTRL(*this, "GameAuto", wxCheckBox)->SetValue(autoGame_);
+        break;
+            
         case VELF:
             wxXmlResource::Get()->LoadDialog(this, parent, wxT("KeyMapDialog1"));
             
@@ -326,7 +341,7 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
 
     if (computerType != COINARCADE)
     {
-        if (computerType == STUDIO || computerType == VISICOM || computerType == VICTORY || computerType == STUDIOIV)
+        if (computerType == STUDIO || computerType == VISICOM || computerType == VICTORY )
         {
             simDefA2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalA2", true);
             simDefB2_ = p_Main->getConfigBool(computerTypeStr_+"/DiagonalB2", true);
@@ -365,6 +380,10 @@ KeyMapDialog::KeyMapDialog(wxWindow* parent)
                 case VIPII:
                 case VIP2K:
                    p_Main->loadKeyDefinition(p_Main->getRamFile(computerType), p_Main->getChip8SW(computerType), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                break;
+                    
+                case STUDIOIV:
+                    p_Main->loadKeyDefinition(p_Main->getRomFile(computerType, MAINROM1), p_Main->getRomFile(computerType, MAINROM1), hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
                 break;
                     
                 case FRED1:
@@ -800,13 +819,13 @@ void KeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 	if (p_Computer != NULL)
 	{
 		p_Computer->reDefineKeysA(hexKeyDefA1_, hexKeyDefA2_);
-		if (hexPadBdefined_ || player2defined_)
+		if (hexPadBdefined_ || player2defined_ )
         {
             p_Computer->reDefineKeysB(hexKeyDefB1_, hexKeyDefB2_);
         }
         p_Computer->reDefineInKey(inButton1_, inButton2_);
 	}
-    if (computerTypeStr_ == "Studio2" || computerTypeStr_ == "Visicom" || computerTypeStr_ == "Victory" || computerTypeStr_ == "StudioIV")
+    if (computerTypeStr_ == "Studio2" || computerTypeStr_ == "Visicom" || computerTypeStr_ == "Victory")
     {
         p_Main->setConfigBool(computerTypeStr_+"/DiagonalA2", simDefA2_);
         p_Main->setConfigBool(computerTypeStr_+"/DiagonalB2", simDefB2_);
@@ -901,7 +920,12 @@ void KeyMapDialog::onHexLocation(wxCommandEvent& WXUNUSED(event))
 				if (computerTypeStr_ == "UC1800")
 					keysFound = p_Main->loadKeyDefinition("", "uc1800onlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 				else
-					keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                {
+                    if (computerTypeStr_ == "StudioIV")
+                        keysFound = p_Main->loadKeyDefinition("", "studioivonlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                    else
+                        keysFound = p_Main->loadKeyDefinition("", "vipiionlocation", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                }
 			}
         }
     }
@@ -1025,7 +1049,7 @@ void KeyMapDialog::onHexLocation(wxCommandEvent& WXUNUSED(event))
             }
         }
         
-        if (computerTypeStr_ == "Vip" && (p_Main->getVipVp590() || p_Main->getVipVp580()))
+        if ((computerTypeStr_ == "Vip" && (p_Main->getVipVp590() || p_Main->getVipVp580())) || computerTypeStr_ == "Studio IV")
         {
             hexKeyDefA2_[0] = 32;
             hexKeyDefA2_[5] = 0;
@@ -1097,6 +1121,11 @@ void KeyMapDialog::onHexLocation(wxCommandEvent& WXUNUSED(event))
 	hexKey_ = -1;
 }
 
+void KeyMapDialog::onTinyBASIC(wxCommandEvent& WXUNUSED(event))
+{
+    p_Main->loadKeyDefinition("", "studioivdefault", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+}
+
 void KeyMapDialog::onHexChar(wxCommandEvent& WXUNUSED(event))
 {
     bool keysFound;
@@ -1115,7 +1144,12 @@ void KeyMapDialog::onHexChar(wxCommandEvent& WXUNUSED(event))
 				if (computerTypeStr_ == "UC1800")
 					keysFound = p_Main->loadKeyDefinition("", "uc1800oncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 				else
-					keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                {
+                    if (computerTypeStr_ == "StudioIV")
+                        keysFound = p_Main->loadKeyDefinition("", "studioivoncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                    else
+                        keysFound = p_Main->loadKeyDefinition("", "vipiioncharacter", hexKeyDefA1_, hexKeyDefB1_, hexKeyDefA2_, &simDefA2_, hexKeyDefB2_, &simDefB2_, &inButton1_, &inButton2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+                }
 			}
     }
 
@@ -1221,7 +1255,7 @@ void KeyMapDialog::onHexChar(wxCommandEvent& WXUNUSED(event))
             }
         }
         
-        if (computerTypeStr_ == "Vip" && (p_Main->getVipVp590() || p_Main->getVipVp580()))
+        if ((computerTypeStr_ == "Vip" && (p_Main->getVipVp590() || p_Main->getVipVp580())) || computerTypeStr_ == "Studio IV")
         {
             hexKeyDefA2_[0] = 32;
             hexKeyDefA2_[5] = 0;
@@ -2113,15 +2147,24 @@ void KeyMapDialog::enableAuto(bool status)
         XRCCTRL(*this, button, wxButton)->Enable(!status);
     }
     
-    if ((computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory") || (computerTypeStr_ == "StudioIV"))
+    if ((computerTypeStr_ == "Studio2") || (computerTypeStr_ == "Visicom") || (computerTypeStr_ == "Victory"))
     {
         XRCCTRL(*this, "StudioChar", wxButton)->Enable(!status);
         XRCCTRL(*this, "StudioLocation", wxButton)->Enable(!status);
     }
     else
     {
-        XRCCTRL(*this, "HexChar", wxButton)->Enable(!status);
-        XRCCTRL(*this, "HexLocation", wxButton)->Enable(!status);
+        if (computerTypeStr_ == "StudioIV")
+        {
+            XRCCTRL(*this, "TinyBASIC", wxButton)->Enable(!status);
+            XRCCTRL(*this, "HexChar", wxButton)->Enable(!status);
+            XRCCTRL(*this, "HexLocation", wxButton)->Enable(!status);
+        }
+        else
+        {
+            XRCCTRL(*this, "HexChar", wxButton)->Enable(!status);
+            XRCCTRL(*this, "HexLocation", wxButton)->Enable(!status);
+        }
     }
 }
 

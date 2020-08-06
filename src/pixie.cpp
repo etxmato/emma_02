@@ -346,7 +346,6 @@ void Pixie::configurePixieStudioIV()
     p_Computer->setOutType(4, PIXIEOUT);
     p_Computer->setOutType(6, PIXIEOUT);
     p_Computer->setOutType(5, STUDIOIVDMA);
-    p_Computer->setOutType(7, STUDIOIVDMA);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
 	p_Computer->setEfType(1, PIXIEEF);
 
@@ -357,7 +356,7 @@ void Pixie::configurePixieStudioIV()
 
     p_Main->message("	Output 4/6: bit 0-2 background colour, bit 3 white foreground");
     p_Main->message("	Output 4/6: bit 4-5 enable graphics, bit 6 PAL/NTSC");
-    p_Main->message("	Output 5/7, enable DMA");
+    p_Main->message("	Output 5, enable DMA");
 }
 
 void Pixie::configurePixieVictory()
@@ -486,7 +485,7 @@ Byte Pixie::inPixie()
 void Pixie::outPixie()
 {
 	graphicsOn_ = false;
-	if (computerType_ == ETI || computerType_ == STUDIOIV || computerType_ == VIPII)
+	if (computerType_ == ETI || computerType_ == STUDIOIV || computerType_ == VIPII || computerType_ == VIP)
 		videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
 }
 
@@ -572,7 +571,7 @@ void Pixie::outPixieStudioIV(int value)
 
 void Pixie::cyclePixie()
 {
-	int j;
+    int j;
 	Byte v, vram1, vram2;
 	int color;
 
@@ -657,7 +656,7 @@ void Pixie::cyclePixie()
 void Pixie::cyclePixieStudioIV()
 {
     studioIVFactor_ = !studioIVFactor_;
-    if (studioIVFactor_)
+    if (studioIVFactor_ || !graphicsOn_)
         return;
     
     if (graphicsNext_ == 0)
@@ -675,7 +674,6 @@ void Pixie::cyclePixieStudioIV()
             copyScreen();
             videoSyncCount_++;
         }
-        
     }
     
     if (graphicsNext_ == 18)
@@ -686,7 +684,7 @@ void Pixie::cyclePixieStudioIV()
             p_Computer->setCycle0();
         }
     }
-    if (graphicsMode_ >= startGraphicsMode_ && graphicsMode_ <=endGraphicsMode_ && graphicsOn_ && graphicsNext_ >=4 && graphicsNext_ <= 19)
+    if (graphicsMode_ >= startGraphicsMode_ && graphicsMode_ <=endGraphicsMode_ && graphicsNext_ >=4 && graphicsNext_ <= 19)
     {
         graphicsNext_ = 19;
         p_Computer->setCycle0();
@@ -871,7 +869,7 @@ void Pixie::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-	if (extraBackGround_ && newBackGround_) 
+    if (extraBackGround_ && newBackGround_)
 		drawExtraBackground(colour_[backGround_]);
 
 	if (reBlit_ || reDraw_ )

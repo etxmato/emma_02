@@ -36,10 +36,13 @@ public:
 	void cpuInstruction();
     void resetPressed();
 	void onReset();
+    void startComputerRun(bool load);
+    void sleepComputer(long ms);
+    void finishStopTape();
 
 private:
 	int victoryKeyPort_;
-	Byte victoryKeyState_[2][10];
+	Byte victoryKeyState_[2][16];
 
 	int keyDefA1_[16];
 	int keyDefB1_[16];
@@ -58,6 +61,7 @@ private:
     
     int buildInGame_;
     bool gameAuto_;
+    int tapeFinished_;
 };
 
 #endif  // STUDIOIV_H

@@ -1379,11 +1379,11 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
 	if (!guiInitialized_)
 		return;
 
-    if (conf[selectedComputer_].wavFile_[0] != "")
-    {
-        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]))
-            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]);
-    }
+//    if (conf[selectedComputer_].wavFile_[0] != "")
+//    {
+//        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]))
+//            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]);
+//    }
 }
 
 void GuiMain::onCassette1Text(wxCommandEvent&event)
@@ -1393,11 +1393,11 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 	if (!guiInitialized_)
 		return;
 
-    if (conf[selectedComputer_].wavFile_[1] != "")
-    {
-        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]))
-            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]);
-    }
+//    if (conf[selectedComputer_].wavFile_[1] != "")
+//    {
+//        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]))
+//            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]);
+//    }
 }
 
 void GuiMain::onAutoLoad(wxCommandEvent&event)
@@ -1509,27 +1509,6 @@ void GuiMain::onPsave(wxString fileName)
 		{
 			if (conf[runningComputer_].useLoadLocation_)
 			{
-/*				stringAdress = XRCCTRL(*this,"SaveStart"+computerInfo[runningComputer_].gui,wxTextCtrl)->GetValue();
-				if (!stringAdress.ToLong(&saveStart, 16))
-				{
-					(void)wxMessageBox( "Please specify start address in hexadecimal\n",
-										"Emma 02", wxICON_ERROR | wxOK );
-					return;
-				}
-				stringAdress = XRCCTRL(*this,"SaveEnd"+computerInfo[runningComputer_].gui,wxTextCtrl)->GetValue();
-				if (!stringAdress.ToLong(&saveEnd, 16))
-				{
-					(void)wxMessageBox( "Please specify end address in hexadecimal\n",
-										"Emma 02", wxICON_ERROR | wxOK );
-					return;
-				}
-				stringAdress = XRCCTRL(*this,"SaveExec"+computerInfo[runningComputer_].gui,wxTextCtrl)->GetValue();
-				if (!stringAdress.ToLong(&saveExec, 16))
-				{
-					(void)wxMessageBox( "Please specify exec address in hexadecimal\n",
-										"Emma 02", wxICON_ERROR | wxOK );
-					return;
-				}*/
 				buffer [0] = 1;
 				buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
 				buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
@@ -1801,10 +1780,17 @@ void GuiMain::onLoad(bool load)
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
 				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+                if (p_Computer->getLoadedProgram()==VIPTINY)
+                    extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
+                else
+                    extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
-		case COMX:
+        case STUDIOIV:
+            extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
+        break;
+
+        case COMX:
 		case PECOM:
 		case TMC600:
         case VIPII:
@@ -1858,6 +1844,7 @@ void GuiMain::onLoad(bool load)
 		case PECOM:
 		case TMC600:
 		case VIPII:
+        case STUDIOIV:
             p_Computer->startComputerRun(load);
 		break;
 
@@ -1917,6 +1904,10 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 			else
 				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
+
+        case STUDIOIV:
+            extension = "Tine BASIC Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
+        break;
 
 		case COMX:
 		case PECOM:
@@ -2871,16 +2862,22 @@ int GuiMain::pload()
 							address = 0x6700;
 						}
 					}
-					p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                    if (runningComputer_ != STUDIOIV)
+                    {
+                        if (p_Computer->getLoadedProgram() != VIPTINY)
+                        {
+                            p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                            p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
+                            p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
+                            p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
+                        }
+                    }
 					p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
 					p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
-					p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
-					p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
 					p_Main->eventSetLocation(false);
 					start = 15;
 				break;
@@ -3549,15 +3546,19 @@ void GuiMain::enableMemAccessGui(bool status)
 				conf[runningComputer_].basicRamAddress_ = 0x5700;
 				computerInfo[runningComputer_].ploadExtension = "rca";
 			break;
-			case FPBBASIC:
-				conf[runningComputer_].defus_ = 0x4081;
-				conf[runningComputer_].eop_ = 0x4083;
-				conf[runningComputer_].string_ = 0x4092;
-				conf[runningComputer_].arrayValue_ = 0x4094;
-				conf[runningComputer_].eod_ = 0x4099;
-				conf[runningComputer_].basicRamAddress_ = 0x4200;
-				computerInfo[runningComputer_].ploadExtension = "fpb";
-			break;
+            case FPBBASIC:
+                conf[runningComputer_].defus_ = 0x4081;
+                conf[runningComputer_].eop_ = 0x4083;
+                conf[runningComputer_].string_ = 0x4092;
+                conf[runningComputer_].arrayValue_ = 0x4094;
+                conf[runningComputer_].eod_ = 0x4099;
+                conf[runningComputer_].basicRamAddress_ = 0x4200;
+                computerInfo[runningComputer_].ploadExtension = "fpb";
+                conf[runningComputer_].pLoadSaveName_[0] = 'F';
+                conf[runningComputer_].pLoadSaveName_[1] = 'P';
+                conf[runningComputer_].pLoadSaveName_[2] = 'B';
+                conf[runningComputer_].pLoadSaveName_[3] = ' ';
+            break;
 			case FPBBASIC_AT_8000:
 				conf[runningComputer_].defus_ = 0x7a81;
 				conf[runningComputer_].eop_ = 0x7a83;
@@ -3569,6 +3570,23 @@ void GuiMain::enableMemAccessGui(bool status)
 			break;
 		}
 	}
+    if (runningComputer_ == VIP && computerRunning_)
+    {
+        if (p_Computer->getLoadedProgram() == VIPTINY)
+        {
+            conf[runningComputer_].defus_ = 0;
+            conf[runningComputer_].eop_ = 0x118e;
+            conf[runningComputer_].string_ = 0;
+            conf[runningComputer_].arrayValue_ = 0;
+            conf[runningComputer_].eod_ = 0;
+            conf[runningComputer_].basicRamAddress_ = 0x1200;
+            computerInfo[runningComputer_].ploadExtension = "tiny";
+            conf[runningComputer_].pLoadSaveName_[0] = 'T';
+            conf[runningComputer_].pLoadSaveName_[1] = 'I';
+            conf[runningComputer_].pLoadSaveName_[2] = 'N';
+            conf[runningComputer_].pLoadSaveName_[3] = 'Y';
+        }
+    }
 	if (!mode_.gui)
 		return;
 	if ((runningComputer_ == MICROBOARD) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
