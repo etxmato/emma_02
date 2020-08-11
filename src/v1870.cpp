@@ -963,7 +963,7 @@ void V1870::writePram(Word address, Byte v)
 	if (address>= memoryStart_ && address<(memoryStart_+256))
 		p_Main->updateDebugMemory(address);
 
-	if ((address <(charactersPerRow_ * rowsPerScreen_)) || (pixelWidth_ == 2) || (pixelHeight_ == 2) || (computerType_ == CIDELSA) || (computerType_ == MICROBOARD))
+	if ((address <(charactersPerRow_ * rowsPerScreen_)) || (pixelWidth_ == 2) || (pixelHeight_ == 2) || (computerType_ == CIDELSA))
 	{
         int a = address - register7_;//((register7_ / charactersPerRow_) * charactersPerRow_);
 		while(a < 0) a += maxPageMemory_;

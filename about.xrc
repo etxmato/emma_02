@@ -207,7 +207,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley</label>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri and Kevin Bunch</label>
+                                    <label>Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch and Fabrizio Caruso</label>
                                     <wrap>400</wrap>
                                 </object>
                             </object>
@@ -468,6 +468,104 @@ libcurl are licensed under a MIT/X derivate license</label>
                                             </font>
                                             <label>The following libraries are licensed under the GNU Lesser General Public License (LGPL): wxWidgets, wxCurl, Blargg's Blip Buffer library, libserialport, SDL (Simple DirectMedia Library) and SDL Audioin. Curl and libcurl are licensed under a MIT/X derivate license</label>
                                             <wrap>400</wrap>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxGROW|wxALL</flag>
+                                <border>2</border>
+                                <object class="wxStaticLine" name="wxID_STATIC">
+                                    <style>wxLI_HORIZONTAL</style>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxVERTICAL</orient>
+                                    <object platform="mac" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                        <border>1</border>
+                                        <object platform="mac" class="wxStaticText" name="wxID_STATIC">
+                                            <size>400,-1</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>CROSS-CHASE and CROSS-SHOOT games are build using:
+Crosslib library, 1802 devkit and the LCC1802 compiler</label>
+                                            <wrap>400</wrap>
+                                        </object>
+                                    </object>
+                                    <object platform="win|unix" class="sizeritem">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                        <border>1</border>
+                                        <object platform="win|unix" class="wxStaticText" name="wxID_STATIC">
+                                            <size>400,-1</size>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>CROSS-CHASE and CROSS-SHOOT games are build using:
+Crosslib library, 1802 devkit and the LCC1802 compiler</label>
+                                            <wrap>400</wrap>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                        <border>0</border>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxHORIZONTAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxBOTTOM</flag>
+                                                <border>1</border>
+                                                <object class="wxHyperlinkCtrl" name="ID_HYPERLINKCTRL2">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxHL_DEFAULT_STYLE</style>
+                                                    <label>CrossLib / CROSS CHASE</label>
+                                                    <url>https://github.com/Fabrizio-Caruso/CROSS-CHASE</url>
+                                                </object>
+                                            </object>
+                                            <object class="spacer">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>1</border>
+                                                <size>5,5</size>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxBOTTOM</flag>
+                                                <border>1</border>
+                                                <object class="wxHyperlinkCtrl" name="ID_HYPERLINKCTRL2">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxHL_DEFAULT_STYLE</style>
+                                                    <label>1802 devkit</label>
+                                                    <url>https://github.com/bill2009/lcc1802/tree/master/include/devkit</url>
+                                                </object>
+                                            </object>
+                                            <object class="spacer">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                <border>1</border>
+                                                <size>5,5</size>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT|wxBOTTOM</flag>
+                                                <border>1</border>
+                                                <object class="wxHyperlinkCtrl" name="ID_HYPERLINKCTRL2">
+                                                    <font>
+                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                        <size>-1</size>
+                                                    </font>
+                                                    <style>wxHL_DEFAULT_STYLE</style>
+                                                    <label>LCC1802</label>
+                                                    <url>https://sites.google.com/site/lcc1802/</url>
+                                                </object>
+                                            </object>
                                         </object>
                                     </object>
                                 </object>

@@ -4278,6 +4278,10 @@ void Cdp1802::checkLoadedSoftware()
                 {
                     loadedProgram_ = UT62;
                 }
+                if ((mainMemory_[0x8024] == 0xFB) && (mainMemory_[0x8030] == 0x47) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0x83))
+                {
+                    loadedProgram_ = UT63;
+                }
                 if ((mainMemory_[0x8111] == 0x55) && (mainMemory_[0x8112] == 0x54) && (mainMemory_[0x8113] == 0x37) && (mainMemory_[0x8114] == 0x31))
                 {
                     loadedProgram_ = UT71;

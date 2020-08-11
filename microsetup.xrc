@@ -9438,6 +9438,63 @@
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="keyText">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Keyboard, EF</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupKeyEf">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>EF2</item>
+                                        <item>EF3</item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="typeText">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>type</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupKeyType">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>VP601</item>
+                                        <item>COMX</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxGROW|wxALL</flag>
                         <border>1</border>
                         <object class="wxStaticLine" name="wxID_STATIC">
@@ -9648,6 +9705,63 @@
                         </object>
                     </object>
                     <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="keyText">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Keyboard, EF</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupKeyEf">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>EF2</item>
+                                        <item>EF3</item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="typeText">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>type</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupKeyType">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>VP601</item>
+                                        <item>COMX</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
                         <flag>wxGROW|wxALL</flag>
                         <border>1</border>
                         <object class="wxStaticLine" name="wxID_STATIC">
@@ -9705,7 +9819,7 @@
                                         <size>-1</size>
                                     </font>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -9721,7 +9835,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -9756,7 +9871,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -9772,7 +9887,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -9807,7 +9923,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -9823,7 +9939,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -9858,7 +9975,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -9874,7 +9991,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -9909,7 +10027,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -9925,7 +10043,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -9960,7 +10079,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -9976,7 +10095,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10011,7 +10131,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10027,7 +10147,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10062,7 +10183,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10078,7 +10199,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10113,7 +10235,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10129,7 +10251,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10164,7 +10287,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10180,7 +10303,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10215,7 +10339,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10231,7 +10355,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10266,7 +10391,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10282,7 +10407,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10317,7 +10443,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10333,7 +10459,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10368,7 +10495,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10384,7 +10511,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10419,7 +10547,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10435,7 +10563,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10470,7 +10599,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10486,7 +10615,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10521,7 +10651,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10537,7 +10667,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10572,7 +10703,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10588,7 +10719,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10623,7 +10755,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10639,7 +10771,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10674,7 +10807,7 @@
                                     </font>
                                     <enabled>0</enabled>
                                     <content>
-                                        <item>-- empty --</item>
+                                        <item>— empty —</item>
                                         <item>CDP18S620 4K RAM</item>
                                         <item>CDP18S621 16K RAM</item>
                                         <item>CDP18S623A 8K RAM</item>
@@ -10690,7 +10823,8 @@
                                         <item>CDP18S652 Memory &amp; Tape</item>
                                         <item>CDP18S660 Memory &amp; I/O</item>
                                         <item>CDP18S661B Video (NTSC)</item>
-                                        <item>CDP18S661V3 Video  (PAL)</item>
+                                        <item>CDP18S661V1 Video (NTSC)</item>
+                                        <item>CDP18S661V3 Video (PAL)</item>
                                     </content>
                                 </object>
                             </object>
@@ -10946,6 +11080,273 @@
                                     <content>
                                         <item></item>
                                         <item>rcasbc.hex</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>1</border>
+                        <object class="wxStaticLine" name="wxID_STATIC">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>8</border>
+                        <object class="wxButton" name="MicroSetupSave">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Save</label>
+                        </object>
+                    </object>
+                </object>
+            </object>
+        </object>
+    </object>
+    <object class="wxDialog" name="CDP18S661V1_Setup_Dialog">
+        <title>CDP18S661V1 Setup</title>
+        <object class="wxBoxSizer">
+            <orient>wxVERTICAL</orient>
+            <object class="sizeritem">
+                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                <border>5</border>
+                <object class="wxBoxSizer">
+                    <orient>wxVERTICAL</orient>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_LEFT|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxVERTICAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="DoubleBoardErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Double board error</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="MemoryErrorMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <hidden>1</hidden>
+                                    <fg>#FB0106</fg>
+                                    <label>Memory error</label>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxFlexGridSizer">
+                            <cols>2</cols>
+                            <rows>1</rows>
+                            <vgap>2</vgap>
+                            <hgap>0</hgap>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxStaticText" name="wxID_STATIC">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>I/O Group:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxGROW|wxALL</flag>
+                                <border>0</border>
+                                <object class="wxChoice" name="V1870IoGroupMicroboard">
+                                    <tooltip>Select CDP18S661 I/O Group</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>80</item>
+                                        <item>90</item>
+                                        <item>A0</item>
+                                        <item>B0</item>
+                                        <item>C0</item>
+                                        <item>D0</item>
+                                        <item>E0</item>
+                                        <item>F0</item>
+                                    </content>
+                                    <selection>0</selection>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>1</border>
+                        <object class="wxStaticLine" name="wxID_STATIC">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxTOP|wxBOTTOM</flag>
+                        <border>2</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>3</border>
+                                <object class="wxStaticText" name="VolumeTextMicroboard">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Volume:</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                <border>3</border>
+                                <object class="wxSlider" name="VolumeMicroboard">
+                                    <size>100,-1</size>
+                                    <tooltip>Change emulator sound volume</tooltip>
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <style>wxSL_HORIZONTAL</style>
+                                    <value>25</value>
+                                    <min>0</min>
+                                    <max>100</max>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>1</border>
+                        <object class="wxStaticLine" name="wxID_STATIC">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxLEFT</flag>
+                        <border>4</border>
+                        <object class="wxChoice" name="MicroSetupVideoPalMode">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <content>
+                                <item>1 - 128 6x8 Characters - 1 KB RAM</item>
+                                <item>2 - 64 6x16 Characters - 1 KB RAM</item>
+                            </content>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALL</flag>
+                        <border>1</border>
+                        <object class="wxStaticLine" name="wxID_STATIC">
+                            <style>wxLI_HORIZONTAL</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="InterruptModeText">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Interrupt Mode</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupInterruptMode">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>1</item>
+                                        <item>2</item>
+                                        <item>3</item>
+                                        <item>4</item>
+                                    </content>
+                                </object>
+                            </object>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                        <border>5</border>
+                        <object class="wxBoxSizer">
+                            <orient>wxHORIZONTAL</orient>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="keyText">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>Keyboard, EF</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupKeyEf">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>EF2</item>
+                                        <item>EF3</item>
+                                    </content>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxStaticText" name="typeText">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <label>type</label>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                <border>4</border>
+                                <object class="wxChoice" name="MicroSetupKeyType">
+                                    <font>
+                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                        <size>-1</size>
+                                    </font>
+                                    <content>
+                                        <item>VP601</item>
+                                        <item>COMX</item>
                                     </content>
                                 </object>
                             </object>

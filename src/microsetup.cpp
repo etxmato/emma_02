@@ -1457,14 +1457,28 @@ MicroboardCardSetupDialog::MicroboardCardSetupDialog(wxWindow* parent, Conf conf
             XRCCTRL(*this, "MicroSetupCharacterRom", wxComboBox)->SetValue(configuration_.charRom_);
             setVideoMode();
             XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->SetSelection(elfConfiguration_.v1870InterruptMode);
+            XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->SetSelection(elfConfiguration_.elfPortConf.keyboardEf-2);
+            XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->SetSelection(elfConfiguration_.keyboardType);
         break;
 
+        case CARD_CDP18S661V1:
+            wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S661V1_Setup_Dialog");
+            XRCCTRL(*this, "V1870IoGroupMicroboard", wxChoice)->SetSelection((elfConfiguration_.v1870Group >> 4) - 8);
+            XRCCTRL(*this, "VolumeMicroboard", wxSlider)->SetValue(configuration_.volume_);
+            XRCCTRL(*this, "MicroSetupVideoPalMode", wxChoice)->SetSelection(elfConfiguration_.v1870VideoMode-1);
+            XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->SetSelection(elfConfiguration_.v1870InterruptMode);
+            XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->SetSelection(elfConfiguration_.elfPortConf.keyboardEf-2);
+            XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->SetSelection(elfConfiguration_.keyboardType);
+        break;
+            
         case CARD_CDP18S661V3:
             wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S661V3_Setup_Dialog");
             XRCCTRL(*this, "V1870IoGroupMicroboard", wxChoice)->SetSelection((elfConfiguration_.v1870Group >> 4) - 8);
             XRCCTRL(*this, "VolumeMicroboard", wxSlider)->SetValue(configuration_.volume_);
             XRCCTRL(*this, "MicroSetupVideoPalMode", wxChoice)->SetSelection(elfConfiguration_.v1870VideoMode-1);
             XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->SetSelection(elfConfiguration_.v1870InterruptMode);
+            XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->SetSelection(elfConfiguration_.elfPortConf.keyboardEf-2);
+            XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->SetSelection(elfConfiguration_.keyboardType);
         break;
     }
     guiLoaded_ = true;
@@ -1496,11 +1510,16 @@ void MicroboardCardSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         case CARD_CDP18S661B:
             elfConfiguration_.pageMemSize = XRCCTRL(*this, "MicroSetupPageMemory", wxChoice)->GetSelection();
             elfConfiguration_.v1870InterruptMode = XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->GetSelection();
+            elfConfiguration_.elfPortConf.keyboardEf = XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->GetSelection() + 2;
+            elfConfiguration_.keyboardType = XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->GetSelection();
         break;
 
+        case CARD_CDP18S661V1:
         case CARD_CDP18S661V3:
             elfConfiguration_.v1870InterruptMode = XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->GetSelection();
             elfConfiguration_.v1870VideoMode = XRCCTRL(*this, "MicroSetupVideoPalMode", wxChoice)->GetSelection()+1;
+            elfConfiguration_.elfPortConf.keyboardEf = XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->GetSelection() + 2;
+            elfConfiguration_.keyboardType = XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->GetSelection();
         break;
     }
 

@@ -269,6 +269,9 @@ protected:
 #define FRED_BYTE_MODE 1
 #define FRED_HEX_PULSE_MODE 2
 
+#define MICROKEY_VIP601 0
+#define MICROKEY_COMX 1
+
 class WindowInfo
 {
 public:
@@ -484,7 +487,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.36
-#define EMMA_SUB_VERSION 13
+#define EMMA_SUB_VERSION 14
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -746,7 +749,8 @@ public:
 #define MONITOR_CHUCK_HIGH 10
 #define UT4 12
 #define UT62 14
-#define UT71 16
+#define UT63 16
+#define UT71 18
 
 #define BASICADDR_KEY 0
 #define BASICADDR_READY 1
@@ -880,6 +884,7 @@ public:
 #define RESETSTATECW 3
 #define BASICSTATE 1
 #define RUNSTATE 2
+#define COMMAND_C 3
 
 #define LEFTCHANNEL false
 #define RIGHTCHANNEL true

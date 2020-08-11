@@ -92,6 +92,7 @@ wxString microBoardStr[]=
     "CDP18S652",
     "CDP18S660",
     "CDP18S661B",
+    "CDP18S661V1"
     "CDP18S661V3"
 };
 
@@ -113,7 +114,8 @@ int cardBoardNumber[]= // Keep same order as in GUI, new board get next number
     12, // CARD_CDP18S652,
     16, // CARD_CDP18S660,
 	13, // CARD_CDP18S661B,
-	14, // CARD_CDP18S661V3,
+    17, // CARD_CDP18S661V1,
+    15, // CARD_CDP18S661V3,
 };
 
 int cardBoardId[]= // Order should NOT change add new one in the bottom
@@ -135,6 +137,7 @@ int cardBoardId[]= // Order should NOT change add new one in the bottom
 	CARD_CDP18S661V3, // CARD_CDP18S661V3,
     CARD_CDP18S646,  // CARD_CDP18S646
     CARD_CDP18S660,  // CARD_CDP18S660
+    CARD_CDP18S661V1, // CARD_CDP18S661V1,
 	// new card etc..
 };
 
@@ -424,6 +427,9 @@ void GuiCdp18s600::readCdp18s600Config()
     elfConfiguration[MICROBOARD].v1870InterruptMode = (int)configPointer->Read("/Microboard/V1870InterruptMode", 1l);
     elfConfiguration[MICROBOARD].v1870VideoMode = (int)configPointer->Read("/Microboard/V1870VideoMode", 1l);
     conf[MICROBOARD].printMode_ = (int)configPointer->Read("/Microboard/Print_Mode", 1l);
+
+    elfConfiguration[MICROBOARD].elfPortConf.keyboardEf = (int)configPointer->Read("/Microboard/KeyboardEF", 2l);
+    elfConfiguration[MICROBOARD].keyboardType = (int)configPointer->Read("/Microboard/KeyboardType", 0l);
     
     elfConfiguration[MICROBOARD].bellFrequency_ = (int)configPointer->Read("/Microboard/Bell_Frequency", 800);
     elfConfiguration[MICROBOARD].vt52SetUpFeature_ = configPointer->Read("/Microboard/VT52Setup", 0x00004092l);
@@ -676,6 +682,9 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/V1870VideoMode", elfConfiguration[MICROBOARD].v1870VideoMode);
     configPointer->Write("/Microboard/Print_Mode", conf[MICROBOARD].printMode_);
     configPointer->Write("/Microboard/Print_File", conf[MICROBOARD].printFile_);
+
+	configPointer->Write("/Microboard/KeyboardEF", elfConfiguration[MICROBOARD].elfPortConf.keyboardEf);
+	configPointer->Write("/Microboard/KeyboardType", elfConfiguration[MICROBOARD].keyboardType);
 
     configPointer->Write("/Microboard/Upd765Group", elfConfiguration[MICROBOARD].upd765Group);
     configPointer->Write("/Microboard/PrinterGroup", elfConfiguration[MICROBOARD].printerGroup);
@@ -996,6 +1005,7 @@ void GuiCdp18s600::setCardType()
                     XRCCTRL(*this, "ZoomSpinMicroboard", wxSpinButton)->Enable(true);
                 break;
 
+                case CARD_CDP18S661V1:
                 case CARD_CDP18S661V3:
                     XRCCTRL(*this, "ZoomTextMicroboard", wxStaticText)->Enable(true);
                     XRCCTRL(*this, "ZoomValueMicroboard", wxTextCtrl)->Enable(true);
@@ -1349,6 +1359,17 @@ void GuiCdp18s600::checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig,
                 config->videoMode_ = NTSC;
             break;
 
+            case CARD_CDP18S661V1:
+                checkBoardType(config, card, cardStr, v1870Card, v1870CardStr, elfConfig->usev1870);
+                
+                v1870CardStr = cardStr;
+                v1870Card = card;
+                elfConfig->usev1870 = true;
+                config->videoMode_ = NTSC;
+                if (elfConfig->v1870VideoMode > 2)
+                    elfConfig->v1870VideoMode = 1;
+            break;
+                
             case CARD_CDP18S661V3:
                 checkBoardType(config, card, cardStr, v1870Card, v1870CardStr, elfConfig->usev1870);
 

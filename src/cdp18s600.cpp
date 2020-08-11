@@ -137,10 +137,12 @@ void Cdp18s600::configureComputer()
     efType_[1] = CDP18SEF1;
     efType_[2] = CDP18SEF2;
     efType_[3] = CDP18SEF3;
+    efType_[4] = CDP18SEF4;
 
     efState_[1] = 1;
     efState_[2] = 1;
     efState_[3] = 1;
+    efState_[4] = 0;
 
     if (computerType_ == MICROBOARD)
         p_Main->message("Configuring " + computerTypeStr_ + " with " + p_Main->getMicroboardTypeStr(microboardType_));
@@ -407,6 +409,10 @@ Byte Cdp18s600::ef(int flag)
                 return 1;
         break;
 
+        case CDP18SEF4:
+            return efState_[4];
+        break;
+		
         default:
             return 1;
     }
@@ -420,7 +426,7 @@ int Cdp18s600::defaultEf(int flag)
         if (flag == 1)
             return ef1_1870();
         
-        if (flag == 3)
+        if (flag == Cdp18s600Configuration.elfPortConf.keyboardEf)
             return keyboardEf3_;
     }
     if  (ioGroup_ == Cdp18s600Configuration.printerGroup && p_Main->getPrinterStatus(computerType_))
@@ -717,33 +723,36 @@ Byte Cdp18s600::keyboardIn()
     
     ret = keyboardCode_;
     
-    switch(ret)
-    {
-        case '@':ret = 0x20; break;
-        case '#':ret = 0x23; break;
-        case '\'': ret = 0x27; break;
-        case '[':ret = 0x28; break;
-        case ']':ret = 0x29; break;
-        case ':':ret = 0x2a; break;
-        case ';':ret = 0x2b; break;
-        case '<':ret = 0x2c; break;
-        case '=':ret = 0x2d; break;
-        case '>':ret = 0x2e; break;
-        case '\\':ret = 0x2f; break;
-        case '.':ret = 0x3a; break;
-        case ',':ret = 0x3b; break;
-        case '(':ret = 0x3c; break;
-        case '^':ret = 0x3d; break;
-        case ')':ret = 0x3e; break;
-        case '_':ret = 0x3f; break;
-        case '?':ret = 0x40; break;
-        case '+':ret = 0x5b; break;
-        case '-':ret = 0x5c; break;
-        case '*':ret = 0x5d; break;
-        case '/':ret = 0x5e; break;
-        case ' ':ret = 0x5f; break;
-    }
-    if (ret >= 0x90)  ret &= 0x7f;
+	if (Cdp18s600Configuration.keyboardType == MICROKEY_COMX)
+	{
+		switch(ret)
+		{   case '@':ret = 0x20; break;
+			case '#':ret = 0x23; break;
+			case '\'': ret = 0x27; break;
+			case '[':ret = 0x28; break;
+			case ']':ret = 0x29; break;
+			case ':':ret = 0x2a; break;
+			case ';':ret = 0x2b; break;
+			case '<':ret = 0x2c; break;
+			case '=':ret = 0x2d; break;
+			case '>':ret = 0x2e; break;
+			case '\\':ret = 0x2f; break;
+			case '.':ret = 0x3a; break;
+			case ',':ret = 0x3b; break;
+			case '(':ret = 0x3c; break;
+			case '^':ret = 0x3d; break;
+			case ')':ret = 0x3e; break;
+			case '_':ret = 0x3f; break;
+			case '?':ret = 0x40; break;
+			case '+':ret = 0x5b; break;
+			case '-':ret = 0x5c; break;
+			case '*':ret = 0x5d; break;
+			case '/':ret = 0x5e; break;
+			case ' ':ret = 0x5f; break;
+		}
+		if (ret >= 0x90)  ret &= 0x7f;
+	}
+    keyboardEf3_ = 1;
     return ret;
 }
 
@@ -766,71 +775,74 @@ bool Cdp18s600::keyDownExtended(int keycode, wxKeyEvent& event)
 
     if (keyDown_) return false;
 
-    switch(keycode)
-    {
-        case WXK_RETURN:
-            keyboardCode_ = 0x80;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_NUMPAD_ENTER:
-            keyboardCode_ = 0x80;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_ESCAPE:
-            keyboardCode_ = 0x81;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_BACK:
-            keyboardCode_ = 0x86;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_DELETE:
-            keyboardCode_ = 0x86;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_LEFT:
-            keyboardCode_ = 0x84;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_RIGHT:
-            keyboardCode_ = 0x83;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_UP:
-            keyboardCode_ = 0x82;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-            
-        case WXK_DOWN:
-            keyboardCode_ = 0x85;
-            keyboardEf3_ = 0;
-            keyDown_ = true;
-            return true;
-        break;
-    }
+	if (keycode == WXK_ESCAPE)
+	{
+		efState_[4] = 1;
+        keyDown_ = true;
+        return true;
+	}
+
+	if (Cdp18s600Configuration.keyboardType == MICROKEY_COMX)
+	{
+		switch(keycode)
+		{
+			case WXK_RETURN:
+				keyboardCode_ = 0x80;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+	            
+			case WXK_NUMPAD_ENTER:
+				keyboardCode_ = 0x80;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+	            
+			case WXK_BACK:
+				keyboardCode_ = 0x86;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+	            
+			case WXK_DELETE:
+				keyboardCode_ = 0x86;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+	            
+			case WXK_LEFT:
+				keyboardCode_ = 0x84;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+	            
+			case WXK_RIGHT:
+				keyboardCode_ = 0x83;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+	            
+			case WXK_UP:
+				keyboardCode_ = 0x82;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+	            
+			case WXK_DOWN:
+				keyboardCode_ = 0x85;
+				keyboardEf3_ = 0;
+				keyDown_ = true;
+				return true;
+			break;
+		}
+	}
     return false;
 }
 
@@ -839,99 +851,98 @@ void Cdp18s600::keyUp(int keycode)
     if (!Cdp18s600Configuration.usev1870)
         return;
 
-    switch(keycode)
-    {
-        case WXK_RETURN:
-            if (keyboardCode_ == 0x80)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
-            
-        case WXK_NUMPAD_ENTER:
-            if (keyboardCode_ == 0x80)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
+	if (keycode == WXK_ESCAPE)
+	{
+		efState_[4] = 0;
+        keyDown_ = false;
+        return;
+	}
 
-        case WXK_ESCAPE:
-            if (keyboardCode_ == 0x81)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
+	if (Cdp18s600Configuration.keyboardType == MICROKEY_COMX)
+	{
+		switch(keycode)
+		{
+			case WXK_RETURN:
+				if (keyboardCode_ == 0x80)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
+	            
+			case WXK_NUMPAD_ENTER:
+				if (keyboardCode_ == 0x80)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
 
-        case WXK_BACK:
-            if (keyboardCode_ == 0x86)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
-            
-        case WXK_DELETE:
-            if (keyboardCode_ == 0x86)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
-            
-        case WXK_LEFT:
-            if (keyboardCode_ == 0x84)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
-            
-        case WXK_RIGHT:
-            if (keyboardCode_ == 0x83)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
-            
-        case WXK_UP:
-            if (keyboardCode_ == 0x82)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
-            
-        case WXK_DOWN:
-            if (keyboardCode_ == 0x85)
-            {
-                keyDown_ = false;
-                keyboardCode_ = 0;
-                keyboardEf3_ = 1;
-            }
-            return;
-        break;
-    }
-    
+			case WXK_BACK:
+				if (keyboardCode_ == 0x86)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
+	            
+			case WXK_DELETE:
+				if (keyboardCode_ == 0x86)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
+	            
+			case WXK_LEFT:
+				if (keyboardCode_ == 0x84)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
+	            
+			case WXK_RIGHT:
+				if (keyboardCode_ == 0x83)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
+	            
+			case WXK_UP:
+				if (keyboardCode_ == 0x82)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
+	            
+			case WXK_DOWN:
+				if (keyboardCode_ == 0x85)
+				{
+					keyDown_ = false;
+					keyboardCode_ = 0;
+					keyboardEf3_ = 1;
+				}
+				return;
+			break;
+		}
+	}    
     if (keyDown_)
     {
         keyDown_ = false;
@@ -1549,21 +1560,21 @@ void Cdp18s600::cpuInstruction()
 void Cdp18s600::resetPressed()
 {
     resetCpu();
-    init1870();
+//    init1870();
     initComputer();
-    out5_1870(0x0080);
+//    out5_1870(0x0088);
 
     p_Main->setSwName("");
     p_Main->eventUpdateTitle();
 
-    setCpuMode(RESET); // CLEAR = 0, WAIT = 1, CLEAR LED ON, WAIT LED OFF, RUN LED OFF
-    
+//    setCpuMode(RESET); // CLEAR = 0, WAIT = 1, CLEAR LED ON, WAIT LED OFF, RUN LED OFF
+ 
     showCycleData(0);
     if (Cdp18s600Configuration.autoBoot)
         autoBoot();
 
-    keyboardEf3_ = 1;
-    keyDown_ = false;
+//    keyboardEf3_ = 1;
+//    keyDown_ = false;
     resetPressed_ = false;
 }
 
@@ -1657,6 +1668,58 @@ void Cdp18s600::checkComputerFunction()
             }
         break;
     
+        case UT63:
+            switch (scratchpadRegister_[programCounter_])
+            {
+                case 0x8144: // key input
+                    if (saveStarted_)
+                    {
+                        stopPausedSave();
+                        saveStarted_ = false;
+                    }
+
+	                if (loadStarted_ && cdpRunState_ != COMMAND_C)
+                    {
+                        stopPausedLoad();
+                        loadStarted_ = false;
+                    }
+				break;
+
+				case 0x84FB: // UT63 - load done                    
+                    if (loadStarted_ && cdpRunState_ == COMMAND_C)
+                    {
+                        stopPausedLoad();
+                        loadStarted_ = false;
+                    }
+                break;
+
+				case 0x83ff:
+                    cdpRunState_ = COMMAND_C;
+                break;
+                
+
+                case 0xb011:
+                    cdpRunState_ = RESETSTATECW;
+                break;
+                    
+                case 0xb053:
+                    cdpRunState_ = BASICSTATE;
+                break;
+                    
+                case 0xC076:    // RUN
+                    cdpRunState_ = RUNSTATE;
+                break;
+                    
+                case 0xc79f:    // CALL
+                    cdpRunState_ = RUNSTATE;
+                break;
+                    
+                case 0xB225:    // BYE
+                    cdpRunState_ = RESETSTATE;
+                break;
+            }
+        break;
+
         case UT71:
             switch (scratchpadRegister_[programCounter_])
             {
@@ -2227,6 +2290,10 @@ Byte Cdp18s602::ef(int flag)
                 }
             }
         break;
+
+		case CDP18SEF4:
+            return efState_[4];
+        break;
             
         default:
             return 1;
@@ -2593,7 +2660,11 @@ Byte Cdp18s604b::ef(int flag)
                 }
             }
         break;
-            
+
+        case CDP18SEF4:
+            return efState_[4];
+        break;
+
         default:
             return 1;
     }

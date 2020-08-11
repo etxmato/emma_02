@@ -16740,7 +16740,7 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <content>
-                                                                                <item>-- empty --</item>
+                                                                                <item>— empty —</item>
                                                                                 <item>CDP18S620 4K RAM</item>
                                                                                 <item>CDP18S621 16K RAM</item>
                                                                                 <item>CDP18S623A 8K RAM</item>
@@ -16756,7 +16756,8 @@
                                                                                 <item>CDP18S652 Memory &amp; Tape</item>
                                                                                 <item>CDP18S660 Memory &amp; I/O</item>
                                                                                 <item>CDP18S661B Video (NTSC)</item>
-                                                                                <item>CDP18S661V3 Video  (PAL)</item>
+                                                                                <item>CDP18S661V1 Video (NTSC)</item>
+                                                                                <item>CDP18S661V3 Video (PAL)</item>
                                                                             </content>
                                                                             <selection>9</selection>
                                                                         </object>
@@ -16785,7 +16786,7 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <content>
-                                                                                <item>-- empty --</item>
+                                                                                <item>— empty —</item>
                                                                                 <item>CDP18S620 4K RAM</item>
                                                                                 <item>CDP18S621 16K RAM</item>
                                                                                 <item>CDP18S623A 8K RAM</item>
@@ -16801,7 +16802,8 @@
                                                                                 <item>CDP18S652 Memory &amp; Tape</item>
                                                                                 <item>CDP18S660 Memory &amp; I/O</item>
                                                                                 <item>CDP18S661B Video (NTSC)</item>
-                                                                                <item>CDP18S661V3 Video  (PAL)</item>
+                                                                                <item>CDP18S661V1 Video (NTSC)</item>
+                                                                                <item>CDP18S661V3 Video (PAL)</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -16829,7 +16831,7 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <content>
-                                                                                <item>-- empty --</item>
+                                                                                <item>— empty —</item>
                                                                                 <item>CDP18S620 4K RAM</item>
                                                                                 <item>CDP18S621 16K RAM</item>
                                                                                 <item>CDP18S623A 8K RAM</item>
@@ -16845,7 +16847,8 @@
                                                                                 <item>CDP18S652 Memory &amp; Tape</item>
                                                                                 <item>CDP18S660 Memory &amp; I/O</item>
                                                                                 <item>CDP18S661B Video (NTSC)</item>
-                                                                                <item>CDP18S661V3 Video  (PAL)</item>
+                                                                                <item>CDP18S661V1 Video (NTSC)</item>
+                                                                                <item>CDP18S661V3 Video (PAL)</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -16873,7 +16876,7 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <content>
-                                                                                <item>-- empty --</item>
+                                                                                <item>— empty —</item>
                                                                                 <item>CDP18S620 4K RAM</item>
                                                                                 <item>CDP18S621 16K RAM</item>
                                                                                 <item>CDP18S623A 8K RAM</item>
@@ -16889,7 +16892,8 @@
                                                                                 <item>CDP18S652 Memory &amp; Tape</item>
                                                                                 <item>CDP18S660 Memory &amp; I/O</item>
                                                                                 <item>CDP18S661B Video (NTSC)</item>
-                                                                                <item>CDP18S661V3 Video  (PAL)</item>
+                                                                                <item>CDP18S661V1 Video (NTSC)</item>
+                                                                                <item>CDP18S661V3 Video (PAL)</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>

@@ -1658,6 +1658,31 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     if (windowInfo.errorMessage != "")
         message(windowInfo.errorMessage);
 
+	wxString oldVersionString = configPointer->Read("/Main/OldVersion", "1.36");
+	double oldVersionDouble;
+	oldVersionString.ToDouble(&oldVersionDouble);
+
+	int oldVersion = (int)(oldVersionDouble * 100);
+
+	if ((int)(EMMA_VERSION*100) > oldVersion)
+	{
+		oldVersionString.Printf("%1.2f", EMMA_VERSION);
+		configPointer->Write("/Main/OldVersion", oldVersionString);
+
+		int answer = wxMessageBox("New release detected: \n\nRe-install of configuration files recommended\n\nThis will overwrite files in the configuration directory:\n"+iniDir_ + "Configurations" + pathSeparator_+"\n\nContinue to install default configuration files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+		if (answer == wxYES)
+		{
+			reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_, pathSeparator_);
+		}
+
+		answer = wxMessageBox("New release detected: \n\nRe-install of 1802 software files recommended\n\nThis will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+		if (answer == wxYES)
+		{
+			reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+			completedSplashScreen_ = new CompletedSplashScreen(this);
+		}
+	}
+
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
