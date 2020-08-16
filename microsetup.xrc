@@ -7591,7 +7591,7 @@
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <label>1K Block (0-63):</label>
+                                    <label>RAM Size:</label>
                                 </object>
                             </object>
                             <object class="sizeritem">
@@ -7601,16 +7601,18 @@
                                     <orient>wxHORIZONTAL</orient>
                                     <object class="sizeritem">
                                         <flag>wxGROW|wxALL</flag>
-                                        <border>3</border>
-                                        <object class="wxTextCtrl" name="RamBlockMicroboard" subclass="IntEdit">
-                                            <size>30,-1</size>
-                                            <tooltip>Block number</tooltip>
+                                        <border>0</border>
+                                        <object class="wxChoice" name="RamSizeMicroboard">
+                                            <tooltip>Set RAM size</tooltip>
                                             <font>
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <value>35</value>
-                                            <maxlength>2</maxlength>
+                                            <content>
+                                                <item>1Kx8</item>
+                                                <item>2Kx8</item>
+                                            </content>
+                                            <selection>0</selection>
                                         </object>
                                     </object>
                                     <object class="sizeritem">
@@ -7621,7 +7623,7 @@
                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                 <size>-1</size>
                                             </font>
-                                            <label>address: 4000-43FF</label>
+                                            <label>address: 8C00-8FFF</label>
                                         </object>
                                     </object>
                                 </object>
@@ -7669,244 +7671,195 @@
                         <border>5</border>
                         <object class="wxFlexGridSizer">
                             <cols>2</cols>
-                            <rows>5</rows>
+                            <rows>4</rows>
                             <vgap>2</vgap>
                             <hgap>0</hgap>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory size: </label>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
-                                <border>10</border>
-                                <object class="wxBoxSizer">
-                                    <orient>wxHORIZONTAL</orient>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxStaticText" name="wxID_STATIC">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <label>24K</label>
-                                        </object>
-                                    </object>
-                                    <object class="spacer">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                        <border>5</border>
-                                        <size>5,5</size>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxStaticText" name="wxID_STATIC">
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <label>Start location:</label>
-                                        </object>
-                                    </object>
-                                    <object class="sizeritem">
-                                        <flag>wxGROW|wxALL</flag>
-                                        <border>0</border>
-                                        <object class="wxChoice" name="LowHighMicroboard">
-                                            <tooltip>Select Memory Chip size</tooltip>
-                                            <font>
-                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                <size>-1</size>
-                                            </font>
-                                            <content>
-                                                <item>0000</item>
-                                                <item>8000</item>
-                                            </content>
-                                            <selection>0</selection>
-                                        </object>
-                                    </object>
-                                </object>
-                            </object>
                             <object class="sizeritem">
                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>1</border>
                                 <object class="wxButton" name="RomButtonSection1Microboard">
-                                    <tooltip>Browse for Microboard file for block 1</tooltip>
+                                    <tooltip>Browse for Microboard file for UT62 (U3) ROM file</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <label>ROM 1</label>
+                                    <label>UT62</label>
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RomSection1Microboard">
-                                    <size>220,-1</size>
-                                    <tooltip>Specify Microboard file for ROM block 1</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxVERTICAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxGROW|wxALL</flag>
+                                        <border>1</border>
+                                        <option>20</option>
+                                        <object class="wxComboBox" name="RomSection1Microboard">
+                                            <size>220,-1</size>
+                                            <tooltip>Specify Microboard file for ROM block 1</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxCB_DROPDOWN</style>
+                                            <content>
+                                                <item></item>
+                                            </content>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>address: 8000-87FF</label>
+                                        </object>
+                                    </object>
                                 </object>
                             </object>
                             <object class="sizeritem">
                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>1</border>
                                 <object class="wxButton" name="RomButtonSection2Microboard">
-                                    <tooltip>Browse for Microboard file for ROM block 2</tooltip>
+                                    <tooltip>Browse for Microboard file for EDIT/ASM (U4, 9, 10) ROM file</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <label>ROM 2</label>
+                                    <label>EDIT/ASM</label>
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RomSection2Microboard">
-                                    <size>220,-1</size>
-                                    <tooltip>Specify Microboard file for ROM block 2</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxVERTICAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxGROW|wxALL</flag>
+                                        <border>1</border>
+                                        <option>20</option>
+                                        <object class="wxComboBox" name="RomSection2Microboard">
+                                            <size>220,-1</size>
+                                            <tooltip>Specify Microboard file for ROM block 2</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxCB_DROPDOWN</style>
+                                            <content>
+                                                <item></item>
+                                            </content>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>address: 9000-A7FF</label>
+                                        </object>
+                                    </object>
                                 </object>
                             </object>
                             <object class="sizeritem">
                                 <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>1</border>
                                 <object class="wxButton" name="RomButtonSection3Microboard">
-                                    <tooltip>Browse for Microboard file for ROM block 3</tooltip>
+                                    <tooltip>Browse for Microboard file for BASIC3 (U1, 2, 7, 8, 15, 16) ROM file</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <label>ROM 3</label>
+                                    <label>BASIC3</label>
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxVERTICAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxGROW|wxALL</flag>
+                                        <border>1</border>
+                                        <option>20</option>
+                                        <object class="wxComboBox" name="RomSection3Microboard">
+                                            <size>220,-1</size>
+                                            <tooltip>Specify Microboard file for ROM block 3</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxCB_DROPDOWN</style>
+                                            <content>
+                                                <item></item>
+                                            </content>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>address: B000-DFFF</label>
+                                        </object>
+                                    </object>
+                                </object>
+                            </object>
+                            <object class="sizeritem">
+                                <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
                                 <border>1</border>
-                                <option>20</option>
-                                <object class="wxComboBox" name="RomSection3Microboard">
-                                    <size>220,-1</size>
-                                    <tooltip>Specify Microboard file for ROM block 3</tooltip>
+                                <object class="wxButton" name="RomButtonSection4Microboard">
+                                    <tooltip>Browse for Microboard file for U13-U14 ROM file</tooltip>
                                     <font>
                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                         <size>-1</size>
                                     </font>
-                                    <style>wxCB_DROPDOWN</style>
-                                    <content>
-                                        <item></item>
-                                    </content>
-                                </object>
-                            </object>
-                        </object>
-                    </object>
-                    <object class="sizeritem">
-                        <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
-                        <border>5</border>
-                        <object class="wxBoxSizer">
-                            <orient>wxHORIZONTAL</orient>
-                            <object class="sizeritem">
-                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxStaticText" name="wxID_STATIC">
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <label>Memory Inhibit:</label>
+                                    <label>U13-U14</label>
                                 </object>
                             </object>
                             <object class="sizeritem">
-                                <flag>wxGROW|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MemoryInhibit64Microboard">
-                                    <tooltip>Set Memory Inhibit section</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <hidden>1</hidden>
-                                    <content>
-                                        <item>None</item>
-                                        <item>E000-EFFF</item>
-                                        <item>F000-FFFF</item>
-                                        <item>E000-FFFF</item>
-                                        <item>E000-E3FF</item>
-                                        <item>E400-E7FF</item>
-                                        <item>E800-EBFF</item>
-                                        <item>EC00-EFFF</item>
-                                        <item>F000-F3FF</item>
-                                        <item>F400-F7FF</item>
-                                        <item>F800-FBFF</item>
-                                        <item>FC00-FFFF</item>
-                                    </content>
-                                    <selection>0</selection>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxGROW|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MemoryInhibit32LowMicroboard">
-                                    <tooltip>Set Memory Inhibit section</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>None</item>
-                                        <item>0000-07FF</item>
-                                        <item>0800-0FFF</item>
-                                        <item>0000-0FFF</item>
-                                        <item>0000-03FF</item>
-                                        <item>0400-07FF</item>
-                                        <item>0800-0BFF</item>
-                                        <item>0C00-0FFF</item>
-                                    </content>
-                                    <selection>0</selection>
-                                </object>
-                            </object>
-                            <object class="sizeritem">
-                                <flag>wxGROW|wxALL</flag>
-                                <border>0</border>
-                                <object class="wxChoice" name="MemoryInhibit32HighMicroboard">
-                                    <tooltip>Set Memory Inhibit section</tooltip>
-                                    <font>
-                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                        <size>-1</size>
-                                    </font>
-                                    <content>
-                                        <item>None</item>
-                                        <item>8000-87FF</item>
-                                        <item>8800-8FFF</item>
-                                        <item>8000-8FFF</item>
-                                        <item>8000-83FF</item>
-                                        <item>8400-87FF</item>
-                                        <item>8800-8BFF</item>
-                                        <item>8C00-8FFF</item>
-                                    </content>
-                                    <selection>0</selection>
+                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                <border>5</border>
+                                <object class="wxBoxSizer">
+                                    <orient>wxVERTICAL</orient>
+                                    <object class="sizeritem">
+                                        <flag>wxGROW|wxALL</flag>
+                                        <border>1</border>
+                                        <option>20</option>
+                                        <object class="wxComboBox" name="RomSection4Microboard">
+                                            <size>220,-1</size>
+                                            <tooltip>Specify Microboard file for ROM block 3</tooltip>
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <style>wxCB_DROPDOWN</style>
+                                            <content>
+                                                <item></item>
+                                            </content>
+                                        </object>
+                                    </object>
+                                    <object class="sizeritem">
+                                        <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                        <border>5</border>
+                                        <object class="wxStaticText" name="wxID_STATIC">
+                                            <font>
+                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                <size>-1</size>
+                                            </font>
+                                            <label>address: E000-EFFF</label>
+                                        </object>
+                                    </object>
                                 </object>
                             </object>
                         </object>

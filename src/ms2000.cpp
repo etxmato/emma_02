@@ -129,7 +129,7 @@ void Ms2000::configureComputer()
     p_Main->message("	Output 4: tape motor, output 5: cassette out");
     p_Main->message("	EF 2: cassette in\n");
 
-    configureUpd765(ms2000Configuration.fdcType_);
+    configureUpd765(ms2000Configuration.fdcType_, MS2000EF);
 	resetCpu();
 }
 

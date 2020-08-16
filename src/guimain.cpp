@@ -3170,6 +3170,8 @@ void GuiMain::startSave(int tapeNumber)
 {
 	wxString filePath, fileName, tapeString;
     tapeString.Printf("%d", tapeNumber);
+    if (tapeNumber == 0)
+        tapeString = "";
 
 	filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
 	fileName = conf[runningComputer_].wavFile_[tapeNumber];
@@ -3199,7 +3201,7 @@ void GuiMain::startSave(int tapeNumber)
 		conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
 		conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-		p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
+        p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
 
 		filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
 		filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
@@ -3242,6 +3244,7 @@ void GuiMain::startSave(int tapeNumber)
 			p_Computer->keyClear();
 	}
     
+    tapeString.Printf("%d", tapeNumber);
     if (tapeNumber == 0)
         p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
     else

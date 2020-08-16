@@ -1370,7 +1370,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 				case RAM:
 					expansionRom_[(expansionSlot_*0x2000) + (address & 0x1fff)] = value;
 //                    if (address == 0xdff8)
-//                        p_Main->messageHex(scratchpadRegister_[programCounter_]);
+//                        p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
 				break;
 
 				case MC6845RAM:
@@ -1551,7 +1551,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 //				p_Main->messageInt(value);
 //			if (address == 0x428b)
 //			{
-//				p_Main->messageHex(scratchpadRegister_[programCounter_]);
+//				p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
 //			}
 
 			if (mainMemory_[address]==value)
@@ -2071,8 +2071,8 @@ void Comx::checkComputerFunction()
             
 /*		case 0x429f:
 		case 0x42a3: 
-				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
-				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
+				p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+				p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
 		break; */
 
 //		case 0xeb0a:	// Quit 80 Colums

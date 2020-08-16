@@ -608,7 +608,7 @@ void Tmc600::out(Byte port, Word address, Byte value)
 //	if (port == 3 || port == 5)  return;
 //	if (port == 7 && (outValues_[port] &1) == 0) return;
 //	p_Main->messageInt(port);
-//	p_Main->messageHex(outValues_[port]);
+//	p_Main->eventMessageHex(outValues_[port]);
 }
 
 void Tmc600::cycle(int type)

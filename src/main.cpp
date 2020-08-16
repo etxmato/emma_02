@@ -7438,6 +7438,14 @@ void Main::messageHex(int value)
 	message(buffer);
 }
 
+void Main::eventMessageHex(int value)
+{
+    wxString buffer;
+    
+    buffer.Printf("%04X ", value);
+    eventShowTextMessage(buffer);
+}
+
 wxString Main::getApplicationDir()
 {
 	return applicationDirectory_;

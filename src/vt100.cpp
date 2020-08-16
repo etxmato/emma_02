@@ -35,6 +35,7 @@
 #include "app_icon.xpm"
 #endif
 
+#include <wx/clipbrd.h>
 #include "main.h"
 #include "vt100.h"
 
@@ -370,6 +371,7 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
 }
 
 void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)
@@ -403,6 +405,7 @@ void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataRead
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
 }
 
 void Vt100::configureUart(ElfPortConfiguration elfPortConf)
@@ -483,6 +486,7 @@ void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
     reverseEf_ = true;
     dataReadyFlag_ = 0;
     vtOutBits_ = 10;
@@ -533,6 +537,7 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
     reverseEf_ = true;
     dataReadyFlag_ = 0;
     vtOutBits_ = 10;
@@ -605,6 +610,7 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigura
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
 }
 
 void Vt100::configureQandEfPolarity(int ef, bool vtEnable)
@@ -946,7 +952,7 @@ void Vt100::cycleVt()
                     vtOutBits_++;
                 p_Computer->setGreenLed(vt100Ef_ ^ 1);
 //				p_Main->message("start");
-//				p_Main->messageHex(vtOut_);
+//				p_Main->eventMessageHex(vtOut_);
 			}
         }
 
@@ -994,7 +1000,7 @@ void Vt100::cycleVt()
 				{
 					vtCount_ = -1;
 					Display(rs232_ & 0x7f, false);
-//                    p_Main->messageHex(rs232_);
+//                    p_Main->eventMessageHex(rs232_);
 				}
 			}
 		}
@@ -2804,7 +2810,10 @@ Byte Vt100::uartIn()
 	framingError(0);
 	uartStatus_[uart_da_bit_] = 0;
 	p_Computer->dataAvailableVt100(0, uartNumber_);
-	return videoScreenPointer->getKey(0);
+    if (ctrlvText_ != 0)
+        return checkCtrlvTextUart();
+    else
+        return videoScreenPointer->getKey(0);
 }
 
 Byte Vt100::uartStatus()
@@ -2830,14 +2839,55 @@ void Vt100::getKey()
         {
             if (mcdsRunCommand_ != 0)
 				checkMcdsCommand();
-			else if (vtOutCount_ == -1)
-                vtOut_ = videoScreenPointer->getKey(vtOut_);
+			else
+			{
+				if (ctrlvText_ != 0)
+                {
+                    if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
+                        checkCtrlvText();
+                }
+				else if (vtOutCount_ == -1)
+					vtOut_ = videoScreenPointer->getKey(vtOut_);
+			}
         }
         if (vtOut_ != 0 && cursorPosition_ == (charactersPerRow_ - 9) && vtOut_ != 8)
 			bell();
         if (SetUpFeature_[VTLOCALECHO] && vtOut_ > 0)
             Display(vtOut_ & 0x7f, false);
 	}
+}
+
+void Vt100::checkCtrlvText()
+{
+    if (ctrlvText_ <= commandText_.Len())
+    {
+        vtOut_ = commandText_.GetChar(ctrlvText_ - 1);
+        if (vtOut_ == 10)
+            vtOut_ = 13;
+        ctrlvText_++;
+    }
+    else
+        ctrlvText_ = 0;
+}
+
+Byte Vt100::checkCtrlvTextUart()
+{
+    Byte key = 0;
+    
+    key = commandText_.GetChar(ctrlvText_ - 1);
+    if (key == 10)
+        key = 13;
+    ctrlvText_++;
+
+    if (ctrlvText_ <= commandText_.Len())
+    {
+        p_Computer->dataAvailableVt100(1, uartNumber_);
+        uartStatus_[uart_da_bit_] = 1;
+    }
+    else
+        ctrlvText_ = 0;
+
+    return key;
 }
 
 void Vt100::checkElfCommand()
@@ -2907,7 +2957,7 @@ void Vt100::checkMcdsCommand()
 		return;
 	}
 
-	if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) != 0x8145)
+	if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) != p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
 		return;
 
 	if (mcdsRunCommand_ > 3)
@@ -3653,6 +3703,25 @@ void Vt100::setUpA(int key)
 bool Vt100::charPressed(wxKeyEvent& event)
 {
 	int key = event.GetKeyCode();
+
+#if defined (__WXMAC__)
+    if (key == 86 && wxGetKeyState(WXK_COMMAND))
+#else
+    if (key == WXK_CONTROL_V)
+#endif
+	{
+		if (wxTheClipboard->Open())
+		{
+			if (wxTheClipboard->IsSupported( wxDF_TEXT ))
+			{
+				wxTextDataObject data;
+				wxTheClipboard->GetData( data );
+				commandText_ = data.GetText();
+				ctrlvText_ = 1;
+			}
+			wxTheClipboard->Close();
+		}
+	}
 
 //	click();
 	if (setUpMode_)

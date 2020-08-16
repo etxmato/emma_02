@@ -53,6 +53,7 @@ public:
     virtual void setCpuMode(int mode);
     virtual void cycle(int type);
     virtual void cycleLed();
+    void cycleKeyInput();
 
     virtual void startComputer();
     virtual void startPio(long ms);
@@ -131,6 +132,10 @@ private:
     wxString tapeNumber_;
 
     int keyboardCode_;
+    
+    bool load_;
+    size_t microRunCommand_;
+    wxString commandText_;
 };
 
 class Cdp18s601 : public Cdp18s600

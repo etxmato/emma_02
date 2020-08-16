@@ -54,6 +54,8 @@ public:
     Byte uartStatus();
     Byte uartThreStatus();
 	void getKey();
+    void checkCtrlvText();
+	Byte checkCtrlvTextUart();
 	void checkElfCommand();
 	void checkMcdsCommand();
 	void ResetVt();
@@ -205,6 +207,7 @@ private:
     int lastByte_;
 
 	bool load_;
+    size_t ctrlvText_;
     size_t elfRunCommand_;
     size_t mcdsRunCommand_;
     wxString commandText_;

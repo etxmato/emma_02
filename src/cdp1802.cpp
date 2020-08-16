@@ -4135,12 +4135,14 @@ void Cdp1802::checkLoadedSoftware()
                 if ((mainMemory_[0xc000] == 0x90) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xb5) && (mainMemory_[0xc003] == 0xfc))
                 {
                     loadedProgram_ = MINIMON;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc1a0;
                     p_Main->eventEnableMemAccess(true);
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "MINIMON");
                 }
                 if ((mainMemory_[0xc000] == 0xc4) && (mainMemory_[0xc001] == 0xb4) && (mainMemory_[0xc002] == 0xf8) && (mainMemory_[0xc003] == 0xc0))
                 {
                     loadedProgram_ = GOLDMON;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xc118;
                     p_Main->eventEnableMemAccess(true);
                     p_Main->setScrtValues(true, 4, 0xC0E0, 5, 0xC0F2, "GOLDMON");
                 }
@@ -4149,15 +4151,20 @@ void Cdp1802::checkLoadedSoftware()
                     loadedProgram_ = TINYBASIC;
                     p_Main->eventEnableMemAccess(true);
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "TINYBASIC");
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xa5d;
                 }
                 if (loadedProgram_ == NOPROGRAM)
+                {
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc98;
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "");
+                }
             break;
                 
             case COSMICOS:
                 if ((mainMemory_[0xc0f7] == 0x22) && (mainMemory_[0xc0f8] == 0x73) && (mainMemory_[0xc0f9] == 0x3e) && (mainMemory_[0xc0fa] == 0))
                 {
                     loadedProgram_ = HEXMON;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xC54f;
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "");
                 }
                 if ((mainMemory_[0xc084] == 0x4e) && (mainMemory_[0xc085] == 0x4f) && (mainMemory_[0xc086] == 0x20) && (mainMemory_[0xc087] == 0x43))
@@ -4213,7 +4220,10 @@ void Cdp1802::checkLoadedSoftware()
                     }
                 }
                 if (loadedProgram_ == NOPROGRAM)
+                {
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8275;
                     p_Main->setScrtValues(true, 4, 0x8224, 5, 0x8236, "");
+                }
             break;
 
 			case VIPII:
@@ -4257,12 +4267,26 @@ void Cdp1802::checkLoadedSoftware()
                 if ((mainMemory_[0x2f] == 0xd3) && (mainMemory_[0x30] == 0xbf) && (mainMemory_[0x31] == 0xe2) && (mainMemory_[0x32] == 0x86))
                 {
                     loadedProgram_ = MONITOR_CHUCK_LOW;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8a3;
                     p_Main->setScrtValues(true, 4, 0x30, 5, 0x42, "MONITOR_CHUCK_LOW");
                 }
                 if ((mainMemory_[0x802f] == 0xd3) && (mainMemory_[0x8030] == 0xbf) && (mainMemory_[0x8031] == 0xe2) && (mainMemory_[0x8032] == 0x86))
                 {
                     loadedProgram_ = MONITOR_CHUCK_HIGH;
-                    p_Main->setScrtValues(true, 4, 0x8030, 5, 0x8042, "MONITOR_CHUCK_LOW");
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x88a3;
+                    p_Main->setScrtValues(true, 4, 0x8030, 5, 0x8042, "MONITOR_CHUCK_HIGH");
+                }
+                if ((mainMemory_[0x2f] == 0x2c) && (mainMemory_[0x30] == 0x8b) && (mainMemory_[0x31] == 0x36) && (mainMemory_[0x32] == 0x37))
+                {
+                    loadedProgram_ = MONITOR_CHUCK_LOW;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x62;
+                    p_Main->setScrtValues(true, 4, 0xadb, 5, 0xaed, "MONITOR_CHUCK_J_LOW");
+                }
+                if ((mainMemory_[0x802f] == 0x2c) && (mainMemory_[0x8030] == 0x8b) && (mainMemory_[0x8031] == 0x36) && (mainMemory_[0x8032] == 0x37))
+                {
+                    loadedProgram_ = MONITOR_CHUCK_HIGH;
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8062;
+                    p_Main->setScrtValues(true, 4, 0x8adb, 5, 0x8aed, "MONITOR_CHUCK_J_HIGH");
                 }
                 if (loadedProgram_ == NOPROGRAM)
                     p_Main->setScrtValues(false, -1, -1, -1, -1, "");
@@ -4270,22 +4294,39 @@ void Cdp1802::checkLoadedSoftware()
                 
             case CDP18S020:
             case MICROBOARD:
+                p_Main->setScrtValues(false, -1, -1, -1, -1, "");
                 if ((mainMemory_[0x8024] == 0x51) && (mainMemory_[0x8030] == 0xe5) && (mainMemory_[0x8048] == 0xa3) && (mainMemory_[0x80d8] == 0x50))
                 {
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x814f;
                     loadedProgram_ = UT4;
                 }
                 if ((mainMemory_[0x8024] == 0x94) && (mainMemory_[0x8030] == 0x83) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0xae))
                 {
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
+                    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
                     loadedProgram_ = UT62;
                 }
                 if ((mainMemory_[0x8024] == 0xFB) && (mainMemory_[0x8030] == 0x47) && (mainMemory_[0x8048] == 0x1b) && (mainMemory_[0x80d8] == 0x83))
                 {
+                    basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8144;
+                    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT63");
                     loadedProgram_ = UT63;
                 }
                 if ((mainMemory_[0x8111] == 0x55) && (mainMemory_[0x8112] == 0x54) && (mainMemory_[0x8113] == 0x37) && (mainMemory_[0x8114] == 0x31))
                 {
+                    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT71");
                     loadedProgram_ = UT71;
                 }
+            break;
+         
+            case MCDS:
+                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0x8145;
+                p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT62");
+                loadedProgram_ = UT62;
+            break;
+
+            case ELF2K:
+                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = 0xfc9b;
             break;
         }
 	}

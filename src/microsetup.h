@@ -164,6 +164,7 @@ private:
     void onRomSec4(wxCommandEvent& event);
     void onRomSec4Text(wxCommandEvent& event);
 
+    void onRamSize(wxCommandEvent&event);
     void onRamBlock(wxCommandEvent&event);
     void ramSocketBankGui();
 

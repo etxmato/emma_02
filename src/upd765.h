@@ -24,7 +24,7 @@ public:
 	Upd765();
 	~Upd765() {};
 
-	void configureUpd765(int fdcType);
+	void configureUpd765(int fdcType, int efnumber);
 	Byte efInterrupt();
 	Byte inputMasterStatus();
     void outputCommand(Byte value);

@@ -696,7 +696,7 @@ void V1870::out3_1870(Byte value)
 	old = register3_;
 	register3_ = value;
 
-//	p_Main->messageHex(value);
+//	p_Main->eventMessageHex(value);
 	if (old != register3_)
 	{
 		pixelWidth_ = ((register3_ & 0x80) == 0x80) ? 1 : 2;

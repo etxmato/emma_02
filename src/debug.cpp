@@ -8323,13 +8323,13 @@ void DebugWindow::drawAssCharacter(Word address, int line, int count)
 		for (int i=0; i<9; i++)
 		{
 			if (runningComputer_ == COMX)
-				t = p_Comx->readCramDirect((p_Comx->readMemDebug(address)&0x7f)*16+i);
+				t = p_Comx->readCramDirect((p_Comx->readMemDebug(address)&0x7f)*p_Video->getMaxLinesPerChar()+i);
 			else if (runningComputer_ == TMC600)
-				t = p_Tmc600->readCramDirect((p_Tmc600->readMemDebug(address)&0xff)*16+i);
+				t = p_Tmc600->readCramDirect((p_Tmc600->readMemDebug(address)&0xff)*p_Video->getMaxLinesPerChar()+i);
 			else if (runningComputer_ == PECOM)
-				t = p_Pecom->readCramDirect((p_Pecom->readMemDebug(address)&0x7f)*16+i);
+				t = p_Pecom->readCramDirect((p_Pecom->readMemDebug(address)&0x7f)*p_Video->getMaxLinesPerChar()+i);
             else
-                t = p_Video->readCramDirect((p_Computer->readMemDebug(address)&0x7f)*16+i);
+                t = p_Video->readCramDirect((p_Computer->readMemDebug(address)&0x7f)*p_Video->getMaxLinesPerChar()+i);
 			bits[i] = (t & 0x1) << 5;
 			bits[i] |= (t & 0x2) << 3;
 			bits[i] |= (t & 0x4) << 1;
@@ -11555,28 +11555,28 @@ void DebugWindow::setScrtValues(bool Scrt, long CallReg, long CallAddress, long 
     if (conf[runningComputer_].debugCallReg_ == -1)
         valueString = "";
     else
-        valueString.Printf("%01X", (Byte)conf[runningComputer_].debugCallReg_);
+        valueString.Printf("%01X", (int)conf[runningComputer_].debugCallReg_);
     XRCCTRL(*this,"DebugCallReg",wxTextCtrl)->ChangeValue(valueString);
     
     conf[runningComputer_].debugCallAddress_ = configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugCallAddress" + Game, CallAddress);
     if (conf[runningComputer_].debugCallAddress_ == -1)
         valueString = "";
     else
-        valueString.Printf("%04X", (Word)conf[runningComputer_].debugCallAddress_);
+        valueString.Printf("%04X", (int)conf[runningComputer_].debugCallAddress_);
     XRCCTRL(*this,"DebugCallAddress",wxTextCtrl)->ChangeValue(valueString);
     
     conf[runningComputer_].debugRetReg_ = configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugRetReg" + Game, RetReg);
     if (conf[runningComputer_].debugRetReg_ == -1)
         valueString = "";
     else
-        valueString.Printf("%01X", (Byte)conf[runningComputer_].debugRetReg_);
+        valueString.Printf("%01X", (int)conf[runningComputer_].debugRetReg_);
     
     XRCCTRL(*this,"DebugRetReg",wxTextCtrl)->ChangeValue(valueString);
     conf[runningComputer_].debugRetAddress_ = configPointer->Read("/" + computerInfo[runningComputer_].gui + "/DebugRetAddress" + Game, RetAddress);
     if (conf[runningComputer_].debugRetAddress_ == -1)
         valueString = "";
     else
-        valueString.Printf("%04X", (Word)conf[runningComputer_].debugRetAddress_);
+        valueString.Printf("%04X", (int)conf[runningComputer_].debugRetAddress_);
     XRCCTRL(*this,"DebugRetAddress",wxTextCtrl)->ChangeValue(valueString);
 }
 
@@ -15969,7 +15969,7 @@ void DebugWindow::definePseudoCommands()
                         if (subCommand.ToLong(&commandLong, 16))
                         {
                             commandFound = false;
-                            for (int i=0; i<trippleByteCommandNumber_; i++)
+                            for (size_t i=0; i<trippleByteCommandNumber_; i++)
                             {
                                 if (trippleByteCommand_[i] == (Byte)commandLong)
                                     commandFound = true;
@@ -16250,7 +16250,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
             registerX = 0xff;
             
     //      for (int i=0; i<((pseudoCodeDetails_[pseudoNr].length*2)-1); i++)
-            for (int i=0; i<pseudoCodeDetails_[pseudoNr].subCommand.Len(); i++)
+            for (size_t i=0; i<pseudoCodeDetails_[pseudoNr].subCommand.Len(); i++)
             {
                 currentChar = pseudoCodeDetails_[pseudoNr].subCommand.GetChar(i);
                 

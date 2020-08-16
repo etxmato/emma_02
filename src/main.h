@@ -487,7 +487,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.36
-#define EMMA_SUB_VERSION 14
+#define EMMA_SUB_VERSION 16
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -821,6 +821,12 @@ public:
 #define BASICADDR_ROUTINE1_RCA4 0x529f
 #define BASICADDR_ROUTINE2_RCA4 0x52a3
 
+#define BASICADDR_READY_MCDS 0xb053
+#define BASICADDR_RUN_MCDS 0xc076
+#define BASICADDR_CALL_MCDS 0xc79f
+#define BASICADDR_ROUTINE1_MCDS 0x9f
+#define BASICADDR_ROUTINE2_MCDS 0xa3
+
 #define BASICADDR_VT_RESTART_RCA 0xfc19
 #define BASICADDR_VT_INPUT_RCA 0xfc98
 
@@ -1142,7 +1148,8 @@ public:
 	void message(wxString buffer);
 	void messageNoReturn(wxString buffer);
 	void messageInt(int value);
-	void messageHex(int value);
+    void messageHex(int value);
+    void eventMessageHex(int value);
 	void initConfig();
 	void readConfig();
 	void writeConfig();

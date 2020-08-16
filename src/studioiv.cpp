@@ -672,7 +672,7 @@ void StudioIV::onReset()
 	resetPressed_ = true;
 }
 
-void StudioIV::startComputerRun(bool load)
+void StudioIV::startComputerRun(bool WXUNUSED(load))
 {
     p_Main->pload();
 }

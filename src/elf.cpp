@@ -227,7 +227,7 @@ void MainElf::checkComputerFunction()
 
 		/*		case BASICADDR_ROUTINE1_SB1: 
 				case BASICADDR_ROUTINE2_SB1: 
-						p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+						p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
 				break; */
 			}
 		break;
@@ -259,7 +259,7 @@ void MainElf::checkComputerFunction()
 
 		/*		case BASICADDR_ROUTINE1_SB3: 
 				case BASICADDR_ROUTINE2_SB3: 
-						p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+						p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
 				break; */
 			}
 		break;
@@ -303,7 +303,7 @@ void MainElf::checkComputerFunction()
 
 		/*		case BASICADDR_ROUTINE1_SB5: 
 				case BASICADDR_ROUTINE2_SB5: 
-						p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+						p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
 				break; */
 			}
 		break;
@@ -354,7 +354,7 @@ void MainElf::checkComputerFunction()
 
 		/*		case BASICADDR_ROUTINE1_RCA3: 
 				case BASICADDR_ROUTINE2_RCA3: 
-						p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+						p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
 				break; */
 			}
 		break;
@@ -373,7 +373,7 @@ void MainElf::checkComputerFunction()
 
 		/*		case BASICADDR_ROUTINE1_RCA4: 
 				case BASICADDR_ROUTINE2_RCA4: 
-						p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+						p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
 				break; */
 			}
 		break;

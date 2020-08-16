@@ -205,7 +205,7 @@ void Cdp18s600::configureComputer()
     }
 
     if (Cdp18s600Configuration.useUpd765)
-        configureUpd765(Cdp18s600Configuration.fdcType_);
+        configureUpd765(Cdp18s600Configuration.fdcType_, CDP18SEF3);
 
     configurePio();
     
@@ -293,6 +293,7 @@ void Cdp18s600::initComputer()
     ioGroup_ = 0;
     cassetteEf_ = 0;
 
+    microRunCommand_ = 0;
     cdpRunState_ = RESETSTATE;
 }
 
@@ -768,7 +769,7 @@ void Cdp18s600::charEvent(int keycode)
     keyboardEf3_ = 0;
 }
 
-bool Cdp18s600::keyDownExtended(int keycode, wxKeyEvent& event)
+bool Cdp18s600::keyDownExtended(int keycode, wxKeyEvent&WXUNUSED(event))
 {
     if (!Cdp18s600Configuration.usev1870)
         return false;
@@ -1107,6 +1108,8 @@ void Cdp18s600::cycle(int type)
                 pioFramePointer1->interruptCycle();
                 pioFramePointer2->interruptCycle();
             }
+            if (Cdp18s600Configuration.usev1870)
+                cycleKeyInput();
         break;
     }
 }
@@ -1126,6 +1129,72 @@ void Cdp18s600::cycleLed()
             {
                 pioFramePointer1->ledTimeout();
                 pioFramePointer2->ledTimeout();
+            }
+        }
+    }
+}
+
+void Cdp18s600::cycleKeyInput()
+{
+    int saveExec;
+    
+    if ((microRunCommand_ != 0) && (keyboardEf3_ == 1))
+    {
+        if (scratchpadRegister_[programCounter_] == basicExecAddress_[BASICADDR_KEY_VT_INPUT])
+        {
+            switch (microRunCommand_)
+            {
+                case 1:
+                    keyboardCode_ = 'B';
+                    keyboardEf3_ = 0;
+                    microRunCommand_++;
+                break;
+                
+                case 2:
+                    keyboardCode_ = 'C';
+                    keyboardEf3_ = 0;
+                    microRunCommand_++;
+                break;
+                    
+                case 3:
+                    saveExec = p_Main->pload();
+                    if (saveExec == 1)
+                        microRunCommand_ = 0;
+                    else
+                    {
+                        if (saveExec == 0)
+                            commandText_ = "run";
+                        else
+                        {
+                            wxString buffer;
+                            buffer.Printf("%04x", saveExec);
+                            commandText_ = "call(@" + buffer + ")";
+                        }
+                        if (load_)
+                            microRunCommand_ = 0;
+                        else
+                        {
+                            keyboardCode_ = commandText_.GetChar(microRunCommand_ - 3);
+                            keyboardEf3_ = 0;
+                            microRunCommand_++;
+                        }
+                    }
+                break;
+
+                default:
+                    if ((microRunCommand_ - 2) <= commandText_.Len())
+                    {
+                        keyboardCode_ = commandText_.GetChar(microRunCommand_ - 3);
+                        keyboardEf3_ = 0;
+                        microRunCommand_++;
+                    }
+                    else
+                    {
+                        keyboardCode_ = 13;
+                        keyboardEf3_ = 0;
+                        microRunCommand_ = 0;
+                    }
+                break;
             }
         }
     }
@@ -1315,8 +1384,11 @@ void Cdp18s600::readMicro(int romNumber, Word startAddress, Word lastAddress )
     switch (p_Main->getMicroChipMemory(computerType_, romNumber))
     {
         case MICRO_ROM:
-            readProgramMicro(p_Main->getRomDir(computerType_, romNumber), p_Main->getRomFile(computerType_, romNumber), ROM, startAddress, lastAddress+1, NONAME);
-            defineMemoryType(startAddress, lastAddress, ROM);
+            if (p_Main->getRomFile(computerType_, romNumber) != "")
+            {
+                readProgramMicro(p_Main->getRomDir(computerType_, romNumber), p_Main->getRomFile(computerType_, romNumber), ROM, startAddress, lastAddress+1, NONAME);
+                defineMemoryType(startAddress, lastAddress, ROM);
+            }
         break;
 
         case MICRO_RAM:
@@ -1685,7 +1757,7 @@ void Cdp18s600::checkComputerFunction()
                     }
 				break;
 
-				case 0x84FB: // UT63 - load done                    
+				case 0x84FB: // UT63 - C load done
                     if (loadStarted_ && cdpRunState_ == COMMAND_C)
                     {
                         stopPausedLoad();
@@ -1696,10 +1768,10 @@ void Cdp18s600::checkComputerFunction()
 				case 0x83ff:
                     cdpRunState_ = COMMAND_C;
                 break;
-                
 
                 case 0xb011:
                     cdpRunState_ = RESETSTATECW;
+                    p_Main->setScrtValues(true, 4, 0xc6bc, 5, 0xc6dd, "UT63_BASIC");
                 break;
                     
                 case 0xb053:
@@ -1716,7 +1788,22 @@ void Cdp18s600::checkComputerFunction()
                     
                 case 0xB225:    // BYE
                     cdpRunState_ = RESETSTATE;
+                    p_Main->setScrtValues(true, 4, 0x8364, 5, 0x8374, "UT63");
                 break;
+
+                case 0xB9d5:    // Change SCRT
+                    p_Main->setScrtValues(true, 4, 0xBBE3, 5, 0xBBF3, "UT63_BASIC2");
+                break;
+
+                case 0xBFFA:    // Change SCRT
+                    p_Main->setScrtValues(true, 4, 0xc6bc, 5, 0xc6dd, "UT63_BASIC2");
+                break;
+
+//                case 0x9f:
+//                case 0xa3:
+//                     p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+//                     p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
+//                break;
             }
         break;
 
@@ -1821,6 +1908,16 @@ void Cdp18s600::startComputerRun(bool load)
 {
     if (p_Vt100[UART1] != NULL)
         vtPointer1->startMcdsRun(load);
+    
+    if (loadedProgram_ == UT63)
+    {
+        load_ = load;
+        microRunCommand_ = 1;
+        if (cdpRunState_ == RESETSTATECW)
+            microRunCommand_ = 2;
+        if (cdpRunState_ == BASICSTATE)
+            microRunCommand_ = 3;
+    }
 }
 
 bool Cdp18s600::isComputerRunning()
@@ -3144,7 +3241,7 @@ void Rcasbc::configureComputer()
     }
     
     if (Cdp18s600Configuration.useUpd765)
-        configureUpd765(Cdp18s600Configuration.fdcType_);
+        configureUpd765(Cdp18s600Configuration.fdcType_, CDP18SEF3);
 
     if (Cdp18s600Configuration.useCdp18s660)
         configureCdp18s660();

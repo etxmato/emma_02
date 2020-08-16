@@ -530,15 +530,15 @@ void Mcds::checkComputerFunction()
             mcdsRunState_ = RESETSTATECW;
         break;
     
-        case 0xb053:
+        case BASICADDR_READY_MCDS:
             mcdsRunState_ = BASICSTATE;
         break;
 
-        case 0xC076:	// RUN
+        case BASICADDR_RUN_MCDS:	// RUN
             mcdsRunState_ = RUNSTATE;
         break;
             
-        case 0xc79f:	// CALL
+        case BASICADDR_CALL_MCDS:	// CALL
             mcdsRunState_ = RUNSTATE;
         break;
             
