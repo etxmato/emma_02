@@ -541,7 +541,6 @@ Note 2: [aa] indicate 2 bytes in memory when using commands with R registers so 
 <TD WIDTH="100">Ry, l</TD>
 <TD WIDTH="250">Shift right Ry l times</TD>
 </TR>
-</TR>
 <TR>
 <TD WIDTH="55">37aa</TD>
 <TD WIDTH="40">SIGN</TD>

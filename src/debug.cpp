@@ -1057,7 +1057,7 @@ void DebugWindow::readDebugConfig()
 	dirAssConfigFileDir_ = readConfigDir("/Dir/Main/DebugConfig", dataDir_);
 	debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
 
-    numberOfDebugLines_ = EDIT_ROW;
+//    numberOfDebugLines_ = EDIT_ROW;
 
 	if (!mode_.gui)
 		return;
