@@ -6894,7 +6894,18 @@ void DebugWindow::onClear(wxCommandEvent& WXUNUSED(event))
 
 void DebugWindow::onTrace(wxCommandEvent& WXUNUSED(event))
 {
-	trace_ = !trace_;
+    trace_ = !trace_;
+    if (computerRunning_)
+    {
+        p_Computer->setTraceStatus(trace_);
+        enableDebugGui(true);
+    }
+    SetDebugMode();
+}
+
+void DebugWindow::onTrace(bool state)
+{
+	trace_ = state;
 	if (computerRunning_)
 	{
 		p_Computer->setTraceStatus(trace_);

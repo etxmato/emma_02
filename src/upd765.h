@@ -44,7 +44,9 @@ protected:
 private:
     void doCommand();
     void doRead();
+    void hdRead();
     void doWrite();
+    void hdWrite();
     void doFormatWrite();
 	int selectHdCommand();
 	void startHdCommand(int commandPos);
@@ -89,6 +91,8 @@ private:
     int updActivity_;
     int sectorsPerTrack_;
     int fdcType_;
+    
+    bool startTrace_;
 };
 
 #endif  // UPD_H

@@ -196,7 +196,8 @@ public:
 
 	void onLog(wxCommandEvent&event);
 	void onClear(wxCommandEvent&event);
-	void onTrace(wxCommandEvent&event);
+    void onTrace(wxCommandEvent&event);
+    void onTrace(bool state);
 	void onTraceDma(wxCommandEvent&event);
 	void onTraceInt(wxCommandEvent&event);
 	void onChip8TraceInt(wxCommandEvent&event);
