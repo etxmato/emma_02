@@ -3704,24 +3704,29 @@ bool Vt100::charPressed(wxKeyEvent& event)
 {
 	int key = event.GetKeyCode();
 
+    if (p_Main->getUseCtrlvKey())
+    {
 #if defined (__WXMAC__)
-    if (key == 86 && wxGetKeyState(WXK_COMMAND))
+        if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND))
 #else
-    if (key == WXK_CONTROL_V)
+        if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL))
 #endif
-	{
-		if (wxTheClipboard->Open())
-		{
-			if (wxTheClipboard->IsSupported( wxDF_TEXT ))
-			{
-				wxTextDataObject data;
-				wxTheClipboard->GetData( data );
-				commandText_ = data.GetText();
-				ctrlvText_ = 1;
-			}
-			wxTheClipboard->Close();
-		}
-	}
+        {
+            if (wxTheClipboard->Open())
+            {
+                if (wxTheClipboard->IsSupported( wxDF_TEXT ))
+                {
+                    wxTextDataObject data;
+                    wxTheClipboard->GetData( data );
+                    commandText_ = data.GetText();
+                    ctrlvText_ = 1;
+                }
+                wxTheClipboard->Close();
+                if (!uart_)
+                    return true;
+            }
+        }
+    }
 
 //	click();
 	if (setUpMode_)

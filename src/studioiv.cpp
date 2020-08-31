@@ -51,6 +51,8 @@ void StudioIV::configureComputer()
 	efType_[3] = STUDIOEF3;
 	efType_[4] = STUDIOEF4;
 
+    cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
+
 	for (int j=0; j<2; j++) for (int i=0; i<16; i++)
 		victoryKeyState_[j][i] = 0;
 
@@ -66,6 +68,8 @@ void StudioIV::configureComputer()
 
 	simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", false);
     simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", false);
+    
+    keyboardValue_ = 0;
     
 	resetCpu();
 }
@@ -281,6 +285,7 @@ void StudioIV::keyDown(int keycode)
             victoryKeyState_[1][0xf] = 1;
         }
 	}
+//    keyboardValue_ = 0;
 }
 
 void StudioIV::keyUp(int keycode)
@@ -462,7 +467,7 @@ void StudioIV::outStudioIV(Byte value)
 
 void StudioIV::cycle(int type)
 {
-	switch(cycleType_[type])
+    switch(cycleType_[type])
 	{
 		case 0:
 			return;
@@ -471,7 +476,80 @@ void StudioIV::cycle(int type)
 		case PIXIECYCLE:
 			cyclePixieStudioIV();
 		break;
-	}
+            
+        case VIPIIKEYCYCLE:
+            if (ctrlvTextCharNum_ != 0)
+            {
+                if (keyboardValue_ == 0)
+                {
+                    if (scratchpadRegister_[programCounter_] == 0x5CE)
+                    {
+                        keyboardValue_ = translateKey(getCtrlvChar());
+
+                        if (keyboardValue_ != 0)
+                            keyDown(keyboardValue_);
+                    }
+                }
+                else
+                {
+                    if (scratchpadRegister_[programCounter_] == 0x3F0)
+                    {
+                        keyUp(keyboardValue_);
+                        keyboardValue_ = 0;
+                        victoryKeyState_[0][0xf] = 0;
+                        victoryKeyState_[1][0xf] = 0;
+                    }
+                }
+            }
+        break;
+    }
+}
+
+int StudioIV::translateKey(int key)
+{
+    int returnKey = 0;
+    
+    if (key >= 'a' && key <= 'z')
+        returnKey =  key - 32;
+    if (key >= 'A' && key <= 'Z')
+        returnKey =  key;
+    
+    switch(key)
+    {
+        case '1': victoryKeyState_[0][0xf] = 1; returnKey = 'A'; break;
+        case '2': victoryKeyState_[0][0xf] = 1; returnKey = 'B'; break;
+        case '3': victoryKeyState_[0][0xf] = 1; returnKey = 'C'; break;
+        case '<': victoryKeyState_[0][0xf] = 1; returnKey = 'D'; break;
+        case '4': victoryKeyState_[0][0xf] = 1; returnKey = 'E'; break;
+        case '5': victoryKeyState_[0][0xf] = 1; returnKey = 'F'; break;
+        case '6': victoryKeyState_[0][0xf] = 1; returnKey = 'G'; break;
+        case '=': victoryKeyState_[0][0xf] = 1; returnKey = 'H'; break;
+        case '7': victoryKeyState_[0][0xf] = 1; returnKey = 'I'; break;
+        case '8': victoryKeyState_[0][0xf] = 1; returnKey = 'J'; break;
+        case '9': victoryKeyState_[0][0xf] = 1; returnKey = 'K'; break;
+        case '>': victoryKeyState_[0][0xf] = 1; returnKey = 'L'; break;
+        case ',': victoryKeyState_[0][0xf] = 1; returnKey = 'M'; break;
+        case '0': victoryKeyState_[0][0xf] = 1; returnKey = 'N'; break;
+        case ';': victoryKeyState_[0][0xf] = 1; returnKey = 'O'; break;
+        case '!': victoryKeyState_[1][0xf] = 1; returnKey = 'P'; break;
+        case '"': victoryKeyState_[1][0xf] = 1; returnKey = 'Q'; break;
+        case '#': victoryKeyState_[1][0xf] = 1; returnKey = 'R'; break;
+        case '$': victoryKeyState_[1][0xf] = 1; returnKey = 'S'; break;
+        case '%': victoryKeyState_[1][0xf] = 1; returnKey = 'T'; break;
+        case '(': victoryKeyState_[1][0xf] = 1; returnKey = 'U'; break;
+        case ')': victoryKeyState_[1][0xf] = 1; returnKey = 'V'; break;
+        case '*': victoryKeyState_[1][0xf] = 1; returnKey = 'W'; break;
+        case '/': victoryKeyState_[1][0xf] = 1; returnKey = 'X'; break;
+        case '-': victoryKeyState_[1][0xf] = 1; returnKey = 'Y'; break;
+        case ':': victoryKeyState_[1][0xf] = 1; returnKey = 'Z'; break;
+        case '?': victoryKeyState_[1][0xf] = 1; returnKey = 13; break;
+        case '+': victoryKeyState_[1][0xf] = 1; returnKey = '.'; break;
+        case 13: returnKey = 13; break;
+        case ' ': returnKey = ' '; break;
+        case 0x201c: victoryKeyState_[1][0xf] = 1; returnKey = 'Q'; break;
+        case 0x201d: victoryKeyState_[1][0xf] = 1; returnKey = 'Q'; break;
+    }
+    return returnKey;
 }
 
 void StudioIV::startComputer()

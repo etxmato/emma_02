@@ -1418,6 +1418,7 @@ Computer::Computer()
     pseudoLoaded_ = false;
     inKey1_ = -1;
     inKey2_ = -1;
+    ctrlvTextCharNum_ = 0;
 	for (int i = 0; i<16; i++)
 		chip8Register[i] = -1;
 
@@ -2220,3 +2221,25 @@ void Computer::showControlWindow(bool WXUNUSED(state))
 void Computer::setAddressLatch(Word WXUNUSED(bootAddress))
 {
 }
+
+void Computer::ctrlvText(wxString text)
+{
+    ctrlvTextStr_ = text;
+    ctrlvTextCharNum_ = 1;
+}
+
+int Computer::getCtrlvChar()
+{
+    int character = 0;
+    
+    if (ctrlvTextCharNum_ <= ctrlvTextStr_.Len())
+    {
+        character = ctrlvTextStr_.GetChar(ctrlvTextCharNum_ - 1);
+        ctrlvTextCharNum_++;
+    }
+    else
+        ctrlvTextCharNum_ = 0;
+    
+    return character;
+}
+

@@ -167,7 +167,17 @@ void Keyboard::cycleKeyboard()
 		}
 	}
 
-	if (elfKeyFileOpen_ && keyboardEf_ == 1 && keyCycles_ == 0) 
+    if (p_Computer->getCtrlvCharNum() != 0  && keyboardEf_ == 1)
+    {
+        if ((p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY)) || (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == 0xf63d))
+        {
+            rawKeyCode_ = p_Computer->getCtrlvChar();
+            if (rawKeyCode_ != 0)
+                keyboardEf_ = 0;
+        }
+    }
+    
+    if (elfKeyFileOpen_ && keyboardEf_ == 1 && keyCycles_ == 0)
 	{
 		if (elfKeyFile_.Read(&rawKeyCode_, 1) == 0)
 		{

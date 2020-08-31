@@ -487,7 +487,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.36
-#define EMMA_SUB_VERSION 16
+#define EMMA_SUB_VERSION 17
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1163,8 +1163,11 @@ public:
 	void setPsaveData(int item, int data);
 	int getFunctionKey(int item);
 	void setFunctionKey(int item, int value);
-	bool getUseExitKey() {return useExitKey_;};
-	void setUseExitKey(bool status) {useExitKey_ = status;};
+    bool getUseExitKey() {return useExitKey_;};
+    bool getUseCtrlvKey() {return useCtrlvKey_;};
+    int getCtrlvKey() {return functionKey_[13];};
+    void setUseExitKey(bool status) {useExitKey_ = status;};
+    void setUseCtrlvKey(bool status) {useCtrlvKey_ = status;};
     void traceTimeout(wxTimerEvent& event);
     void vuTimeout(wxTimerEvent& event);
 	void updateMemoryTab();
@@ -1344,7 +1347,7 @@ private:
 	bool rowChanged_[16];
 	bool memoryChanged_[16][16];
 
-	int functionKey_[13];
+	int functionKey_[14];
     CompletedSplashScreen *completedSplashScreen_;
     
 	DECLARE_EVENT_TABLE()

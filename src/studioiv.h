@@ -23,6 +23,7 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void outStudioIV(Byte value);
 	void cycle(int type);
+    int translateKey(int key);
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
@@ -62,6 +63,8 @@ private:
     int buildInGame_;
     bool gameAuto_;
     int tapeFinished_;
+
+    int keyboardValue_;
 };
 
 #endif  // STUDIOIV_H

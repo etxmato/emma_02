@@ -555,6 +555,9 @@ public:
     virtual void showCdp18s660Pio2(bool state);
     virtual void showControlWindow(bool state);
     virtual void setAddressLatch(Word bootAddress);
+    void ctrlvText(wxString text);
+    virtual int getCtrlvChar();
+    size_t getCtrlvCharNum() {return ctrlvTextCharNum_;};
 
 protected:
 	RunComputer *threadPointer;
@@ -589,6 +592,9 @@ protected:
     int inKey1_;
     int inKey2_;
 
+    wxString ctrlvTextStr_;
+    size_t ctrlvTextCharNum_;
+    
 private:
 	int chip8Register[16];
 

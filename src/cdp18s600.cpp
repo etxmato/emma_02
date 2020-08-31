@@ -1198,6 +1198,17 @@ void Cdp18s600::cycleKeyInput()
             }
         }
     }
+    
+    if (ctrlvTextCharNum_ != 0 && keyboardEf3_ == 1)
+    {
+        if (scratchpadRegister_[programCounter_] == basicExecAddress_[BASICADDR_KEY_VT_INPUT])
+        {
+            keyboardCode_ = getCtrlvChar();
+                        
+            if (keyboardCode_ != 0)
+                keyboardEf3_ = 0;
+        }
+    }
 }
 
 void Cdp18s600::startComputer()

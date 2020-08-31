@@ -651,7 +651,7 @@ void Tmc600::cycleTelmac()
 		if (cycleValue_ == 0)
 		{
 			keyDown_ = false;
-			if (telmacKeyFileOpened_)
+			if (telmacKeyFileOpened_ || ctrlvTextCharNum_ != 0)
 			{
 				keyUpFile();
 			}
@@ -731,6 +731,32 @@ void Tmc600::cycleTelmac()
 		}
 	}
 
+    if (ctrlvTextCharNum_ != 0)
+    {
+        if ((keyLatch_ == 0x3f) && !keyDown_)
+        {
+            if (ctrlvTextCharNum_ <= 3)
+            {
+                ctrlvTextCharNum_++;
+                keyboardCode_ = 0;
+                keyDown_ = true;
+                cycleValue_ = 50000;
+                keyDownFile();
+            }
+            else
+            {
+                keyboardCode_ = getCtrlvChar();
+            
+                if (keyboardCode_ != 0)
+                {
+                    keyDown_ = true;
+                    cycleValue_ = 50000;
+                    keyDownFile();
+                }
+            }
+        }
+    }
+
 	if (telmacKeyFileOpened_)
 	{
 		if ((keyLatch_ == 0x3f) && !keyDown_)
@@ -748,6 +774,21 @@ void Tmc600::cycleTelmac()
 			}
 		}
 	}
+}
+
+int Tmc600::getCtrlvChar()
+{
+    int character = 0;
+    
+    if (ctrlvTextCharNum_ <= (ctrlvTextStr_.Len() + 3))
+    {
+        character = ctrlvTextStr_.GetChar(ctrlvTextCharNum_ - 4);
+        ctrlvTextCharNum_++;
+    }
+    else
+        ctrlvTextCharNum_ = 0;
+    
+    return character;
 }
 
 void Tmc600::startComputer()

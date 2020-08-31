@@ -2352,7 +2352,8 @@ void Main::writeConfig()
 	configPointer->Write("/Main/Check_For_Update", checkForUpdate_);
     configPointer->Write("/Main/Floating_Point_Zoom", fullScreenFloat_);
     configPointer->Write("/Main/Use_Num_Pad", useNumPad_);
-	configPointer->Write("/Main/Use_Exit_Key", useExitKey_);
+    configPointer->Write("/Main/Use_Exit_Key", useExitKey_);
+    configPointer->Write("/Main/Use_Ctrlv_Key", useCtrlvKey_);
 	configPointer->Write("/Main/Exit_Key", functionKey_[0]);
 	configPointer->Write("/Main/Help_Key", functionKey_[1]);
 	configPointer->Write("/Main/Activate_Main_Key", functionKey_[2]);
@@ -2362,7 +2363,8 @@ void Main::writeConfig()
 	configPointer->Write("/Main/Debug_Mode_Key", functionKey_[6]);
     configPointer->Write("/Main/Menu_Key", functionKey_[7]);
     configPointer->Write("/Main/VT_Setup", functionKey_[8]);
-	configPointer->Write("/Main/Start_Reset_Key", functionKey_[12]);
+    configPointer->Write("/Main/Start_Reset_Key", functionKey_[12]);
+    configPointer->Write("/Main/Ctrlv_Key", functionKey_[13]);
 	configPointer->Write("/Main/Psave_Volume", psaveData_[0]);
 	configPointer->Write("/Main/Psave_Bit_Rate", psaveData_[1]);
 	configPointer->Write("/Main/Psave_Bits_Per_Sample", psaveData_[2]);
@@ -3081,7 +3083,8 @@ void Main::readConfig()
     configPointer->Read("/Main/Save_On_Exit", &saveOnExit_, true);
 	configPointer->Read("/Main/Check_For_Update", &checkForUpdate_, true);
     configPointer->Read("/Main/Use_Num_Pad", &useNumPad_, true);
-	configPointer->Read("/Main/Use_Exit_Key", &useExitKey_, false);
+    configPointer->Read("/Main/Use_Exit_Key", &useExitKey_, false);
+    configPointer->Read("/Main/Use_Ctrlv_Key", &useCtrlvKey_, true);
 	runPressed_ = false;
 	functionKey_[0] = (int)configPointer->Read("/Main/Exit_Key", (long)WXK_ESCAPE);
 	functionKey_[1] = (int)configPointer->Read("/Main/Help_Key", (long)WXK_F1);
@@ -3093,6 +3096,7 @@ void Main::readConfig()
     functionKey_[7] = (int)configPointer->Read("/Main/Menu_Key", (long)WXK_F7);
     functionKey_[8] = (int)configPointer->Read("/Main/VT_Setup", (long)WXK_F8);
 	functionKey_[12] = (int)configPointer->Read("/Main/Start_Reset_Key", (long)WXK_F12);
+    functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)86);
 
     wxString cpuTypeString = configPointer->Read("/Main/Cpu_Type", "CDP1805");
     wxString cpuStartupRegistersString = configPointer->Read("/Main/Cpu_StartupRegisters", "StartupRegistersRandom");

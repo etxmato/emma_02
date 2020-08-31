@@ -581,8 +581,18 @@ void Vip::cycleKey()
 					}
 				}
 			}
-		}
+        }
 	}
+    if ((ctrlvTextCharNum_ != 0) && (keyboardEf_ == 1))
+    {
+        if ((scratchpadRegister_[programCounter_] == 0x08C6 && loadedProgram_ == FPBBASIC) || (scratchpadRegister_[programCounter_] == 0x5C9 && loadedProgram_ == VIPTINY))
+        {
+            keyboardValue_ = getCtrlvChar();
+
+            if (keyboardValue_ != 0)
+                keyboardEf_ = 0;
+        }
+    }
 }
 
 void Vip::cycleVP550()

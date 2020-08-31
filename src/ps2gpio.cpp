@@ -92,6 +92,13 @@ void Ps2gpio::cyclePs2gpio()
 		startUp_--;
 		return;
 	}
+    if (p_Computer->getCtrlvCharNum() != 0  && keyboardEf_ == 1)
+    {
+        keyboardValue_ = p_Computer->getCtrlvChar();
+        if (keyboardValue_ != 0)
+            keyboardEf_ = 0;
+        return;
+    }
 	if (elfKeyFileOpen_ && keyboardEf_ == 1 && keyCycles_ == 0) 
 	{
 		if (elfKeyFile_.Read(&rawKeyCode_, 1) == 0)

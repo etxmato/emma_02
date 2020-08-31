@@ -52,7 +52,7 @@ public:
     void switchQ(int value);
 
     int getDmaCounter() {return dmaCounter_;};
-    
+
 private:
 	Byte keyboardEf2_;
 	Byte keyboardEf3_;
@@ -75,6 +75,7 @@ private:
 	wxFile comxKeyFile_;
 	bool comxKeyFileOpened_;
 	size_t comxRunCommand_;
+    size_t ctrlvText_;
 	wxString commandText_; 
 	int comxRunState_;
 

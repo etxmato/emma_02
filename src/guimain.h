@@ -672,6 +672,7 @@ protected:
     wxString keyboardType_;
     wxString keyboardTypeMenuItem_;
 
+    bool useCtrlvKey_;
     bool useExitKey_;
 
 	WindowInfo windowInfo;

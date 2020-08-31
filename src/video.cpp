@@ -21,6 +21,7 @@
     #include "wx/wx.h"
 #endif
 
+#include <wx/clipbrd.h>
 #include "wx/frame.h"
 #include "wx/graphics.h"
 
@@ -112,6 +113,30 @@ void VideoScreen::onChar(wxKeyEvent& event)
 			vtOut(key);
 		}
 	}
+    else
+    {
+        if (p_Main->getUseCtrlvKey())
+        {
+#if defined (__WXMAC__)
+            if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND))
+#else
+            if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL))
+#endif
+            {
+                if (wxTheClipboard->Open())
+                {
+                    if (wxTheClipboard->IsSupported( wxDF_TEXT ))
+                    {
+                        wxTextDataObject data;
+                        wxTheClipboard->GetData( data );
+                        p_Computer->ctrlvText(data.GetText());
+                    }
+                    wxTheClipboard->Close();
+                }
+                return;
+            }
+        }
+    }
 	if (computerType_ == VIPII)
 	{
 #ifdef __WXMAC__
@@ -205,19 +230,39 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
 
             case FRED1:
             case FRED1_5:
-            case VIP2K:
                 if (p_Main->checkFunctionKey(event))
                     return;
-                if (keycode != lastKey_)
+                if (keycode != lastKey_)    
                     p_Computer->keyDown(event.GetKeyCode());
                 lastKey_ = keycode;
                 event.Skip();
             break;
-                
+
+            case VIP2K:
+                if (p_Main->checkFunctionKey(event))
+                    return;
+                if (keycode != lastKey_)
+                {
+#if defined (__WXMAC__)
+                    if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND)))
+#else
+                    if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL)))
+#endif
+                        p_Computer->keyDown(event.GetKeyCode());
+                }
+                lastKey_ = keycode;
+                event.Skip();
+            break;
+
 			default:
 				if (p_Main->checkFunctionKey(event))
 					return;
-				p_Computer->keyDown(event.GetKeyCode());
+#if defined (__WXMAC__)
+                if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND)))
+#else
+                if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL)))
+#endif
+                    p_Computer->keyDown(event.GetKeyCode());
 				event.Skip();
 			break;
 		}

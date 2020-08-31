@@ -591,6 +591,25 @@ Byte Pecom::in(Byte port, Word address)
                         }
                     }
                 }
+                
+                if (ctrlvTextCharNum_ != 0)
+                {
+                    cycleValue_--;
+                    if (cycleValue_ <= 0)
+                    {
+                        cycleValue_ = 52;
+                        if (keyDown_)
+                            keyUpFile();
+                        else
+                        {
+                            keyboardCode_ = getCtrlvChar();
+                        
+                             if (keyboardCode_ != 0)
+                                 keyDownFile();
+                        }
+                    }
+                }
+
             }
 		break;
 

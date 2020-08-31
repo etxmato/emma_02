@@ -630,7 +630,7 @@ void Comx::cycleComx()
 
 	if ((comxRunCommand_ != 0) && (keyboardEf3_ == 1))
 	{
-		if ((scratchpadRegister_[programCounter_] == 0x039a) || (scratchpadRegister_[programCounter_] == 0xeeb5) || (scratchpadRegister_[programCounter_] == 0x01bc) || (scratchpadRegister_[programCounter_] == 0x0193) || (scratchpadRegister_[programCounter_] == 0x5344) || (scratchpadRegister_[programCounter_] == 0xc10c))
+		if ((scratchpadRegister_[programCounter_] == 0x039a) || (scratchpadRegister_[programCounter_] == 0xeeb5) || (scratchpadRegister_[programCounter_] == 0x01bc) || (scratchpadRegister_[programCounter_] == 0x0193) || (scratchpadRegister_[programCounter_] == 0x5344) || (scratchpadRegister_[programCounter_] == 0xc10c) || (scratchpadRegister_[programCounter_] == 0xb042))
 		{
 			if (comxRunCommand_ == 1)
 			{
@@ -680,6 +680,28 @@ void Comx::cycleComx()
 			}
 		}
 	}
+
+    if (ctrlvTextCharNum_ != 0 && keyboardEf3_ == 1)
+    {
+        if ((scratchpadRegister_[programCounter_] == 0x039a) || (scratchpadRegister_[programCounter_] == 0xeeb5) || (scratchpadRegister_[programCounter_] == 0x01bc) || (scratchpadRegister_[programCounter_] == 0x0193) || (scratchpadRegister_[programCounter_] == 0x5344) || (scratchpadRegister_[programCounter_] == 0xc10c) || (scratchpadRegister_[programCounter_] == 0xb042))
+        {
+            keyboardCode_ = getCtrlvChar();
+            
+            if (keyboardCode_ == 13)
+                keyboardCode_ = 128;
+            
+            if (keyboardCode_ >= 'a' && keyboardCode_ <= 'z')
+                keyboardCode_ -= 32;
+            else
+            {
+                if (keyboardCode_ >= 'A' && keyboardCode_ <= 'Z')
+                    keyboardCode_ += 32;
+            }
+
+            if (keyboardCode_ != 0)
+                keyboardEf3_ = 0;
+        }
+    }
 
 	if ((comxKeyFileOpened_) && (keyboardEf3_ == 1))
 	{
