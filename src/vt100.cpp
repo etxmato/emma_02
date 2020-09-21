@@ -3706,11 +3706,7 @@ bool Vt100::charPressed(wxKeyEvent& event)
 
     if (p_Main->getUseCtrlvKey())
     {
-#if defined (__WXMAC__)
-        if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND))
-#else
-        if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL))
-#endif
+        if (key == p_Main->getCtrlvKey() && event.GetModifiers() == CTRL_V)
         {
             if (wxTheClipboard->Open())
             {

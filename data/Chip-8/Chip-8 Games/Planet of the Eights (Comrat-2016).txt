@@ -1,0 +1,5 @@
+The last 32-bit register is trying to survive on the terrible planet of the Eights using air balloon.
+
+    Use 5/7/8/9 (WASD) keys to control air balloon
+    If you will reach the earth - i will die
+    Press "8" tto start a game.

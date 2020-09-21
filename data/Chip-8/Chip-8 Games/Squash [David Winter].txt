@@ -1,0 +1,2 @@
+Exactely same as WALL, except that you have 5 balls, which are
+          not to be lost..

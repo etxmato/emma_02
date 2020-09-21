@@ -1,0 +1,6 @@
+Defend your planet from alien invaders by blowing them to bits.
+Don’t let any ships get past you or it’s game over!
+
+Controls
+
+5 (W) and 8 (D) move up and down, press 6 (E) to fire.

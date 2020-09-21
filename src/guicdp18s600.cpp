@@ -92,7 +92,7 @@ wxString microBoardStr[]=
     "CDP18S652",
     "CDP18S660",
     "CDP18S661B",
-    "CDP18S661V1"
+    "CDP18S661V1",
     "CDP18S661V3"
 };
 
@@ -115,7 +115,7 @@ int cardBoardNumber[]= // Keep same order as in GUI, new board get next number
     16, // CARD_CDP18S660,
 	13, // CARD_CDP18S661B,
     17, // CARD_CDP18S661V1,
-    15, // CARD_CDP18S661V3,
+    14, // CARD_CDP18S661V3,
 };
 
 int cardBoardId[]= // Order should NOT change add new one in the bottom
@@ -290,7 +290,7 @@ void GuiCdp18s600::readCdp18s600Config()
     elfConfiguration[MICROBOARD].cdp18s660Group1 = (int)configPointer->Read("/Microboard/Pio1Group", 0x10l);
     elfConfiguration[MICROBOARD].cdp18s660Group2 = (int)configPointer->Read("/Microboard/Pio2Group", 0x20l);
 
-    elfConfiguration[MICROBOARD].vtType = (int)configPointer->Read("/Microboard/VT_Type", 2l);
+    elfConfiguration[MICROBOARD].vtType = (int)configPointer->Read("/Microboard/VT_Type", 0l);
     floppyDir_[elfConfiguration[MICROBOARD].fdcType_][0] = readConfigDir("/Dir/Microboard/FDC0_File", dataDir_ + "Microboard" + pathSeparator_);
     floppyDir_[elfConfiguration[MICROBOARD].fdcType_][1] = readConfigDir("/Dir/Microboard/FDC1_File", dataDir_ + "Microboard" + pathSeparator_);
     floppyDir_[elfConfiguration[MICROBOARD].fdcType_][2] = readConfigDir("/Dir/Microboard/FDC2_File", dataDir_ + "Microboard" + pathSeparator_);
@@ -312,7 +312,7 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].printFile_ = configPointer->Read("/Microboard/Print_File", "printerout.txt");
 
     conf[MICROBOARD].microboardType_[0] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType0", 0l)];
-    conf[MICROBOARD].microboardType_[1] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType1", 9l)];
+    conf[MICROBOARD].microboardType_[1] = cardBoardId[(int)configPointer->Read("/Microboard/MicroboardType1", 14l)];
 
     for (int card=2; card<24; card++)
     {
@@ -327,7 +327,7 @@ void GuiCdp18s600::readCdp18s600Config()
     defaultClock.Printf("%1.4f", 4.9152);
 
     conf[MICROBOARD].rom_[U21ROM] = configPointer->Read("/Microboard/Main_Rom_File21", "");
-    conf[MICROBOARD].rom_[U20ROM] = configPointer->Read("/Microboard/Main_Rom_File20", "");
+    conf[MICROBOARD].rom_[U20ROM] = configPointer->Read("/Microboard/Main_Rom_File20", "FULL_microboard_pal2.hex");
     conf[MICROBOARD].rom_[U19ROM] = configPointer->Read("/Microboard/Main_Rom_File19", "");
     conf[MICROBOARD].rom_[U18ROM] = configPointer->Read("/Microboard/Main_Rom_File18", "");
     conf[MICROBOARD].rom_[U17ROM] = configPointer->Read("/Microboard/Main_Rom_File17", "");
@@ -338,19 +338,19 @@ void GuiCdp18s600::readCdp18s600Config()
     conf[MICROBOARD].microChipMemory_[U21ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU21", 1l);
     configPointer->Read("/Microboard/MicroChiDisableU21", &conf[MICROBOARD].microChipDisable_[U21ROM], false);
     
-    conf[MICROBOARD].microChipMemory_[U20ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU20", 0l);
+    conf[MICROBOARD].microChipMemory_[U20ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU20", 1l);
     configPointer->Read("/Microboard/MicroChiDisableU20", &conf[MICROBOARD].microChipDisable_[U20ROM], false);
     
     conf[MICROBOARD].microChipMemory_[U19ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU19", 1l);
     configPointer->Read("/Microboard/MicroChiDisableU19", &conf[MICROBOARD].microChipDisable_[U19ROM], false);
     
-    conf[MICROBOARD].microChipMemory_[U18ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU18", 0l);
+    conf[MICROBOARD].microChipMemory_[U18ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU18", 1l);
     configPointer->Read("/Microboard/MicroChiDisableU18", &conf[MICROBOARD].microChipDisable_[U18ROM], false);
     
-    conf[MICROBOARD].microChipMemory_[U17ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU17", 0l);
+    conf[MICROBOARD].microChipMemory_[U17ROM] = (int)configPointer->Read("/Microboard/MicroChipMemoryU17", 1l);
     configPointer->Read("/Microboard/MicroChiDisableU17", &conf[MICROBOARD].microChipDisable_[U17ROM], false);
 
-    conf[MICROBOARD].microChipLocation_[ONE_SOCKET] = (int)configPointer->Read("/Microboard/MicroChipLocationOneSocket", 20l);
+    conf[MICROBOARD].microChipLocation_[ONE_SOCKET] = (int)configPointer->Read("/Microboard/MicroChipLocationOneSocket", 16l);
     conf[MICROBOARD].microChipLocation_[FOUR_SOCKET_ROM1] = (int)configPointer->Read("/Microboard/MicroChipLocationRom1Socket", 0l);
     conf[MICROBOARD].microChipLocation_[FOUR_SOCKET_ROM2] = (int)configPointer->Read("/Microboard/MicroChipLocationRom2Socket", 8l);
 
@@ -360,7 +360,7 @@ void GuiCdp18s600::readCdp18s600Config()
     defaultBlock.Printf("%d", 0);
     conf[MICROBOARD].microChipBlock_[FOUR_SOCKET] = configPointer->Read("/Microboard/MicroBlockFourSocket", defaultBlock);
     
-    configPointer->Read("/Microboard/Pio_Windows", &elfConfiguration[MICROBOARD].usePio, true);
+    configPointer->Read("/Microboard/Pio_Windows", &elfConfiguration[MICROBOARD].usePio, false);
     configPointer->Read("/Microboard/Pio1_Windows", &elfConfiguration[MICROBOARD].usePioWindow1Cdp18s660, true);
     configPointer->Read("/Microboard/Pio2_Windows", &elfConfiguration[MICROBOARD].usePioWindow2Cdp18s660, true);
     
@@ -460,7 +460,7 @@ void GuiCdp18s600::readCdp18s600Config()
     elfConfiguration[MICROBOARD].vtCharRom_ = configPointer->Read("/Microboard/Vt_Font_Rom_File", "vt100.bin");
     
     configPointer->Read("/Microboard/Enable_Auto_Boot", &elfConfiguration[MICROBOARD].autoBoot, true);
-    elfConfiguration[MICROBOARD].autoBootType = (int)configPointer->Read("/Microboard/AutoBootType", 0l);
+    elfConfiguration[MICROBOARD].autoBootType = (int)configPointer->Read("/Microboard/AutoBootType", 1l);
     if (elfConfiguration[MICROBOARD].autoBootType == 0)
         conf[MICROBOARD].bootAddress_ = 0x8000;
     else

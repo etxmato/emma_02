@@ -1,0 +1,1 @@
+Press "B" to start. Press "4" to go LEFT and "6" to go RIGHT.

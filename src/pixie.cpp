@@ -98,7 +98,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         }
         studioIVFactor_ = true;
     }
-	if ( (computerType == VIP && p_Main->getVipHighRes()) | (computerType_ == STUDIOIV))
+	if ( (computerType == VIP && p_Main->getVipHighRes()) || (computerType_ == STUDIOIV))
 	{
 		highRes_ = 2;
 		xZoomFactor_ = zoomfactor/highRes_;

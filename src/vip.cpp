@@ -664,7 +664,12 @@ void Vip::startComputer()
         if (pseudoType_ == "CHIP8X")
 			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x300, SHOWNAME);
 		else
-			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
+        {
+            if (pseudoType_ == "SUPERCHIP")
+                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x400, SHOWNAME);
+            else
+                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
+        }
 	}
 
     addressLatch_ = setLatch_;

@@ -1,0 +1,11 @@
+Use the number "1", "2" or "3" to choose an initial door. When asked if you want to switch, enter 
+a number again.
+
+In the upper right corner, the first number is the number of wins, and the second number is the 
+total number of tries.
+
+In short, it is always better to switch doors once a door is opened for you. Information on why 
+can be found on the web: https://en.wikipedia.org/wiki/Monty_Hall_problem
+
+I thought it would be interesting to experience this first-hand. And I swear, I'm not messing with 
+the random numbers! :)

@@ -1658,15 +1658,13 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     if (windowInfo.errorMessage != "")
         message(windowInfo.errorMessage);
 
-	wxString oldVersionString = configPointer->Read("/Main/OldVersion", "1.36");
-	double oldVersionDouble;
-	oldVersionString.ToDouble(&oldVersionDouble);
+	wxString oldVersionString = configPointer->Read("/Main/OldVersion", "13600");
+	double oldVersion;
+	oldVersionString.ToDouble(&oldVersion);
 
-	int oldVersion = (int)(oldVersionDouble * 100);
-
-	if ((int)(EMMA_VERSION*100) > oldVersion)
+	if ((int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION) > (int)oldVersion)
 	{
-		oldVersionString.Printf("%1.2f", EMMA_VERSION);
+        oldVersionString.Printf("%d", (int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION));
 		configPointer->Write("/Main/OldVersion", oldVersionString);
 
 		int answer = wxMessageBox("New release detected: \n\nRe-install of configuration files recommended\n\nThis will overwrite files in the configuration directory:\n"+iniDir_ + "Configurations" + pathSeparator_+"\n\nContinue to install default configuration files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
@@ -3096,8 +3094,12 @@ void Main::readConfig()
     functionKey_[7] = (int)configPointer->Read("/Main/Menu_Key", (long)WXK_F7);
     functionKey_[8] = (int)configPointer->Read("/Main/VT_Setup", (long)WXK_F8);
 	functionKey_[12] = (int)configPointer->Read("/Main/Start_Reset_Key", (long)WXK_F12);
+#ifdef __WXMAC__
     functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)86);
-
+#else
+    functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)WXK_CONTROL_V);
+#endif
+    
     wxString cpuTypeString = configPointer->Read("/Main/Cpu_Type", "CDP1805");
     wxString cpuStartupRegistersString = configPointer->Read("/Main/Cpu_StartupRegisters", "StartupRegistersRandom");
     wxString cpuStartupRamString = configPointer->Read("/Main/Cpu_StartupRam", "StartupRamZeroed");
@@ -4476,6 +4478,10 @@ void Main::setDefaultSettings()
 
     configPointer->Write("/Main/Save_On_Exit", saveOnExit_);
     
+    wxString oldVersionString;
+    oldVersionString.Printf("%d", (int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION));
+    configPointer->Write("/Main/OldVersion", oldVersionString);
+
     
     if (mode_.gui)
     {

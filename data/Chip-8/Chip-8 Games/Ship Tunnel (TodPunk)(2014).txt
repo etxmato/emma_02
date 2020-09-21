@@ -1,0 +1,2 @@
+Inspired by a BASIC game I had on my TI-82 calculator, use 5/7/8/9 (WASD) to dodge the enclosing 
+walls until you barely have room to maneuver any longer. Plays just like my calculator used to!

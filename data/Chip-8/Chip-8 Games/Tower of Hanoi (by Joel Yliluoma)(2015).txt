@@ -1,0 +1,4 @@
+To pick up a piece from a tower to another, press and hold "1" for Tower 1, press and hold "2" for
+Tower 2, press and hold "3" for Tower 3. to move a pices from a tower to another, press "4 to go 
+left and press "6" to go right.
+

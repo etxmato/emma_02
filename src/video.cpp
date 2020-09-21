@@ -117,11 +117,7 @@ void VideoScreen::onChar(wxKeyEvent& event)
     {
         if (p_Main->getUseCtrlvKey())
         {
-#if defined (__WXMAC__)
-            if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND))
-#else
-            if (key == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL))
-#endif
+            if (key == p_Main->getCtrlvKey() && event.GetModifiers() == CTRL_V)
             {
                 if (wxTheClipboard->Open())
                 {
@@ -243,11 +239,7 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
                     return;
                 if (keycode != lastKey_)
                 {
-#if defined (__WXMAC__)
-                    if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND)))
-#else
-                    if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL)))
-#endif
+                    if (!(keycode == p_Main->getCtrlvKey() && event.GetModifiers() == CTRL_V))
                         p_Computer->keyDown(event.GetKeyCode());
                 }
                 lastKey_ = keycode;
@@ -257,11 +249,7 @@ void VideoScreen::onKeyDown(wxKeyEvent& event)
 			default:
 				if (p_Main->checkFunctionKey(event))
 					return;
-#if defined (__WXMAC__)
-                if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_COMMAND)))
-#else
-                if (!(keycode == p_Main->getCtrlvKey() && wxGetKeyState(WXK_CONTROL)))
-#endif
+                if (!(keycode == p_Main->getCtrlvKey() && event.GetModifiers() == CTRL_V))
                     p_Computer->keyDown(event.GetKeyCode());
 				event.Skip();
 			break;

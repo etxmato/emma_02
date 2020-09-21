@@ -487,7 +487,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.36
-#define EMMA_SUB_VERSION 17
+#define EMMA_SUB_VERSION 18
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1007,8 +1007,10 @@ public:
 
 #if defined(__WXMAC__)
 #define IMAGES_FOLDER "images_osx"
+#define CTRL_V wxMOD_CMD
 #else
 #define IMAGES_FOLDER "images"
+#define CTRL_V wxMOD_CONTROL
 #endif
 
 class Emu1802: public wxApp

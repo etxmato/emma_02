@@ -364,13 +364,15 @@ void GuiVip::onSound(wxCommandEvent&event)
 void GuiVip::onRamSWVip(wxCommandEvent&event)
 {
 	onRamSW(event);
-	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex");
+    highRes_ = (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex") || (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "super-chip.bin");
+	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(highRes_);
 }
 
 void GuiVip::onRamSWTextVip(wxCommandEvent& WXUNUSED(event))
 {
 	conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSWVip", wxComboBox)->GetValue();
-	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex");
+    highRes_ = (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex") || (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "super-chip.bin");
+	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(highRes_);
 }
 
 void GuiVip::setSoundGui(int sound)

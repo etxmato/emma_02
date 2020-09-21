@@ -1,2 +1,5 @@
 Shooting Stars, by: Philip Baltzer
 
+Press "2" to go UP, "4" to go LEFT, "6" to go RIGHT and "8" to go DOWN.
+
+

@@ -16274,9 +16274,18 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                 }
                 if (currentChar == 's' && i == 0)
                 {
-                    if (address >= 0x200)
-                        address += 0x100;
-                    address = address | ((address & 0x800) >> 1);
+                    
+                    if (pseudoType_ == "SUPERCHIP")
+                    {
+                        if (address >= 0x200)
+                            address += 0x200;
+                    }
+                    else
+                    {
+                        if (address >= 0x200)
+                            address += 0x100;
+                        address = address | ((address & 0x800) >> 1);
+                    }
                 }
                 if (currentChar == 'd')
                 {

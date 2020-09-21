@@ -34,7 +34,7 @@ public:
 	bool getVipVp590() {return vipVp590_;}; 
 	int getVipStereo() {return stereo_;};
 	int getLatch() {return latch_;};
-	int getVipHighRes() {return highRes_;};
+	bool getVipHighRes() {return highRes_;};
 
 	void onVipBaudR(wxCommandEvent& event);
 	void onVipBaudT(wxCommandEvent& event);

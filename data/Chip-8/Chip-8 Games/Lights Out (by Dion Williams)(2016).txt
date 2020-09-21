@@ -1,0 +1,368 @@
+/*
+===============================================================================
+  LIGHTS OUT for CHIP-8
+    by Dion Williams
+===============================================================================
+Written in 2017 by Dion Williams
+
+To the extent possible under law, the author(s) have dedicated all copyright
+and related and neighboring rights to this software to the public domain
+worldwide. This software is distributed without any warranty.
+
+You should have received a copy of the CC0 Public Domain Dedication along with
+this software. If not, see <http://creativecommons.org/publicdomain/zero/1.0/>.
+===============================================================================
+*/
+
+// Keys 1-9 on a CHIP-8 hex keypad are used to control a 3x3 grid of lights.
+// Pressing a key toggles that light and any horizontally/vertically adjacent
+// lights. The game is won when all lights have been turned off.
+
+// The code is annotated as pseudo-assembly, similar to the syntax in Cowgod's
+// Chip-8 Technical Reference: http://devernay.free.fr/hacks/chip8/C8TECH10.HTM
+// Other sources referenced when creating this game:
+// * Mastering CHIP-8 by Matthew Mikolay:
+//     http://mattmik.com/files/chip8/mastering/chip8.html
+// * Chip-8 on the COSMAC VIP blog posts by Laurence Scotford:
+//     http://laurencescotford.co.uk/?cat=3
+
+// Register Usage
+// --------------
+// V0 - Used as offset with Bnnn instructions
+// V1-V9 - Boolean state of the lights (1 - 9)
+// VA - Temp X coordinate for drawing
+// VB - Temp Y coordinate for drawing
+// VC - Last pressed key / light
+// VD - General purpose
+// VE - General purpose
+// VF - Reserved as carry flag only
+
+// Draw "LIGHTS"
+[0x200]:  6B03  LD VB, 3
+[0x202]:  6A05  LD VA, 5
+[0x204]:  A50C  LD I, sprite["L"]
+[0x206]:  DAB5  DRW VA, VB, 5
+[0x208]:  6A09  LD VA, 9
+[0x20A]:  A511  LD I, sprite["I"]
+[0x20C]:  DAB5  DRW VA, VB, 5
+[0x20E]:  6A0D  LD VA, 13
+[0x210]:  A516  LD I, sprite["G"]
+[0x212]:  DAB5  DRW VA, VB, 5
+[0x214]:  6A11  LD VA, 17
+[0x216]:  A51B  LD I, sprite["H"]
+[0x218]:  DAB5  DRW VA, VB, 5
+[0x21A]:  6A15  LD VA, 21
+[0x21C]:  A520  LD I, sprite["T"]
+[0x21E]:  DAB5  DRW VA, VB, 5
+[0x220]:  6A19  LD VA, 25
+[0x222]:  A525  LD I, sprite["S"]
+[0x224]:  DAB5  DRW VA, VB, 5
+
+// Draw "OUT"
+[0x226]:  6B09  LD VB, 9
+[0x228]:  6A0B  LD VA, 11
+[0x22A]:  A52A  LD I, sprite["O"]
+[0x22C]:  DAB5  DRW VA, VB, 5
+[0x22E]:  6A0F  LD VA, 15
+[0x230]:  A52F  LD I, sprite["U"]
+[0x232]:  DAB5  DRW VA, VB, 5
+[0x234]:  6A13  LD VA, 19
+[0x236]:  A520  LD I, sprite["T"]
+[0x238]:  DAB5  DRW VA, VB, 5
+
+// Draw Button Outlines
+[0x23A]:  A500  LD I, sprite["Button Outline"]
+[0x23C]:  6B03  LD VB, 3
+[0x23E]:  6A21  LD VA, 33
+[0x240]:  DAB8  DRW VA, VB, 8
+[0x242]:  6A2A  LD VA, 42
+[0x244]:  DAB8  DRW VA, VB, 8
+[0x246]:  6A33  LD VA, 51
+[0x248]:  DAB8  DRW VA, VB, 8
+[0x24A]:  6B0C  LD VB, 12
+[0x24C]:  6A21  LD VA, 33
+[0x24E]:  DAB8  DRW VA, VB, 8
+[0x250]:  6A2A  LD VA, 42
+[0x252]:  DAB8  DRW VA, VB, 8
+[0x254]:  6A33  LD VA, 51
+[0x256]:  DAB8  DRW VA, VB, 8
+[0x258]:  6B15  LD VB, 21
+[0x25A]:  6A21  LD VA, 33
+[0x25C]:  DAB8  DRW VA, VB, 8
+[0x25E]:  6A2A  LD VA, 42
+[0x260]:  DAB8  DRW VA, VB, 8
+[0x262]:  6A33  LD VA, 51
+[0x264]:  DAB8  DRW VA, VB, 8
+
+// Set up random configuration
+board_setup:
+[0x266]:  CE01  RND VE, 1
+[0x268]:  6D01  LD VD, 1
+[0x26A]:  3E00  SE VE, 0
+[0x26C]:  2480  CALL ToggleButton
+[0x26E]:  CE01  RND VE, 1
+[0x270]:  6D02  LD VD, 2
+[0x272]:  3E00  SE VE, 0
+[0x274]:  2480  CALL ToggleButton
+[0x276]:  CE01  RND VE, 1
+[0x278]:  6D03  LD VD, 3
+[0x27A]:  3E00  SE VE, 0
+[0x27C]:  2480  CALL ToggleButton
+[0x27E]:  CE01  RND VE, 1
+[0x280]:  6D04  LD VD, 4
+[0x282]:  3E00  SE VE, 0
+[0x284]:  2480  CALL ToggleButton
+[0x286]:  CE01  RND VE, 1
+[0x288]:  6D05  LD VD, 5
+[0x28A]:  3E00  SE VE, 0
+[0x28C]:  2480  CALL ToggleButton
+[0x28E]:  CE01  RND VE, 1
+[0x290]:  6D06  LD VD, 6
+[0x292]:  3E00  SE VE, 0
+[0x294]:  2480  CALL ToggleButton
+[0x296]:  CE01  RND VE, 1
+[0x298]:  6D07  LD VD, 7
+[0x29A]:  3E00  SE VE, 0
+[0x29C]:  2480  CALL ToggleButton
+[0x29E]:  CE01  RND VE, 1
+[0x2A0]:  6D08  LD VD, 8
+[0x2A2]:  3E00  SE VE, 0
+[0x2A4]:  2480  CALL ToggleButton
+[0x2A6]:  CE01  RND VE, 1
+[0x2A8]:  6D09  LD VD, 9
+[0x2AA]:  3E00  SE VE, 0
+[0x2AC]:  2480  CALL ToggleButton
+[0x2AE]:  1300  JP check_key
+
+// Check key routine
+check_key:
+[0x300]:  FC0A  LD VC, K
+[0x302]:  4C00  SNE VC, 0
+[0x304]:  1300  JP check_key // Key was 0, check again
+[0x306]:  6D0A  LD VD, 10
+[0x308]:  8DC7  SUBN VD, VC // Using SUBN to keep VC unchanged
+[0x30A]:  3F00  SE VF, 0
+[0x30C]:  1300  JP check_key // Key was >= 10, check again
+
+// Key between 1-9 has been pressed
+try_key_1:
+[0x30E]:  3C01  SE VC, 1
+[0x310]:  1320  JP try_key_2
+[0x312]:  6D01  LD VD, 1
+[0x314]:  2480  CALL ToggleButton
+[0x316]:  6D02  LD VD, 2
+[0x318]:  2480  CALL ToggleButton
+[0x31A]:  6D04  LD VD, 4
+[0x31C]:  2480  CALL ToggleButton
+[0x31E]:  1400  JP check_win
+try_key_2:
+[0x320]:  3C02  SE VC, 2
+[0x322]:  1336  JP try_key_3
+[0x324]:  6D01  LD VD, 1
+[0x326]:  2480  CALL ToggleButton
+[0x328]:  6D02  LD VD, 2
+[0x32A]:  2480  CALL ToggleButton
+[0x32C]:  6D03  LD VD, 3
+[0x32E]:  2480  CALL ToggleButton
+[0x330]:  6D05  LD VD, 5
+[0x332]:  2480  CALL ToggleButton
+[0x334]:  1400  JP check_win
+try_key_3:
+[0x336]:  3C03  SE VC, 3
+[0x338]:  1348  JP try_key_4
+[0x33A]:  6D02  LD VD, 2
+[0x33C]:  2480  CALL ToggleButton
+[0x33E]:  6D03  LD VD, 3
+[0x340]:  2480  CALL ToggleButton
+[0x342]:  6D06  LD VD, 6
+[0x344]:  2480  CALL ToggleButton
+[0x346]:  1400  JP check_win
+try_key_4:
+[0x348]:  3C04  SE VC, 4
+[0x34A]:  135E  JP try_key_5
+[0x34C]:  6D01  LD VD, 1
+[0x34E]:  2480  CALL ToggleButton
+[0x350]:  6D04  LD VD, 4
+[0x352]:  2480  CALL ToggleButton
+[0x354]:  6D05  LD VD, 5
+[0x356]:  2480  CALL ToggleButton
+[0x358]:  6D07  LD VD, 7
+[0x35A]:  2480  CALL ToggleButton
+[0x35C]:  1400  JP check_win
+try_key_5:
+[0x35E]:  3C05  SE VC, 5
+[0x360]:  1378  JP try_key_6
+[0x362]:  6D02  LD VD, 2
+[0x364]:  2480  CALL ToggleButton
+[0x366]:  6D04  LD VD, 4
+[0x368]:  2480  CALL ToggleButton
+[0x36A]:  6D05  LD VD, 5
+[0x36C]:  2480  CALL ToggleButton
+[0x36E]:  6D06  LD VD, 6
+[0x370]:  2480  CALL ToggleButton
+[0x372]:  6D08  LD VD, 8
+[0x374]:  2480  CALL ToggleButton
+[0x376]:  1400  JP check_win
+try_key_6:
+[0x378]:  3C06  SE VC, 6
+[0x37A]:  138E  JP try_key_7
+[0x37C]:  6D03  LD VD, 3
+[0x37E]:  2480  CALL ToggleButton
+[0x380]:  6D05  LD VD, 5
+[0x382]:  2480  CALL ToggleButton
+[0x384]:  6D06  LD VD, 6
+[0x386]:  2480  CALL ToggleButton
+[0x388]:  6D09  LD VD, 9
+[0x38A]:  2480  CALL ToggleButton
+[0x38C]:  1400  JP check_win
+try_key_7:
+[0x38E]:  3C07  SE VC, 7
+[0x390]:  13A0  JP try_key_8
+[0x392]:  6D04  LD VD, 4
+[0x394]:  2480  CALL ToggleButton
+[0x396]:  6D07  LD VD, 7
+[0x398]:  2480  CALL ToggleButton
+[0x39A]:  6D08  LD VD, 8
+[0x39C]:  2480  CALL ToggleButton
+[0x39E]:  1400  JP check_win
+try_key_8:
+[0x3A0]:  3C08  SE VC, 8
+[0x3A2]:  13B6  JP try_key_9
+[0x3A4]:  6D05  LD VD, 5
+[0x3A6]:  2480  CALL ToggleButton
+[0x3A8]:  6D07  LD VD, 7
+[0x3AA]:  2480  CALL ToggleButton
+[0x3AC]:  6D08  LD VD, 8
+[0x3AE]:  2480  CALL ToggleButton
+[0x3B0]:  6D09  LD VD, 9
+[0x3B2]:  2480  CALL ToggleButton
+[0x3B4]:  1400  JP check_win
+try_key_9:
+[0x3B6]:  6D06  LD VD, 6
+[0x3B8]:  2480  CALL ToggleButton
+[0x3BA]:  6D08  LD VD, 8
+[0x3BC]:  2480  CALL ToggleButton
+[0x3BE]:  6D09  LD VD, 9
+[0x3C0]:  2480  CALL ToggleButton
+[0x3C2]:  1400  JP check_win
+
+// Check for win condition
+check_win:
+[0x400]:  8D10  LD VD, V1
+[0x402]:  8D21  OR VD, V2
+[0x404]:  8D31  OR VD, V3
+[0x406]:  8D41  OR VD, V4
+[0x408]:  8D51  OR VD, V5
+[0x40A]:  8D61  OR VD, V6
+[0x40C]:  8D71  OR VD, V7
+[0x40E]:  8D81  OR VD, V8
+[0x410]:  8D91  OR VD, V9
+[0x412]:  3D00  SE VD, 0
+[0x414]:  1300  JP check_key // At least one button has a light - No win
+
+// WINNER!
+[0x416]:  6B13  LD VB, 19
+[0x418]:  6A03  LD VA, 3
+[0x41A]:  A534  LD I, sprite["WI"]
+[0x41C]:  DAB7  DRW VA, VB, 7
+[0x41E]:  6A0B  LD VA, 11
+[0x420]:  A53B  LD I, sprite["NN"]
+[0x422]:  DAB7  DRW VA, VB, 7
+[0x424]:  6A13  LD VA, 19
+[0x426]:  A542  LD I, sprite["ER"]
+[0x428]:  DAB7  DRW VA, VB, 7
+[0x42A]:  6A1B  LD VA, 27
+[0x42C]:  A549  LD I, sprite["!"]
+[0x42E]:  DAB7  DRW VA, VB, 7
+
+// Restart on any key
+[0x430]:  FC0A  LD VC, K
+[0x432]:  6100  LD V1, 0
+[0x434]:  6200  LD V2, 0
+[0x436]:  6300  LD V3, 0
+[0x438]:  6400  LD V4, 0
+[0x43A]:  6500  LD V5, 0
+[0x43C]:  6600  LD V6, 0
+[0x43E]:  6700  LD V7, 0
+[0x440]:  6800  LD V8, 0
+[0x442]:  6900  LD V9, 0
+[0x444]:  00E0  CLS
+[0x446]:  1200  JP 0x200
+
+// Toggle Button Function
+// Input:
+//   VD  Cell number (1-9 please)
+// --------------------------------------------------
+ToggleButton:
+[0x480]:  6E01  LD VE, 1
+[0x482]:  80DE  SHL V0, VD // Some impls. don't handle 8xyE properly. Oh well.
+[0x484]:  800E  SHL V0, V0
+[0x486]:  800E  SHL V0, V0
+[0x488]:  B484  JP V0, 0x482
+
+try_toggle_1:
+[0x48A]:  6B05  LD VB, 5
+[0x48C]:  6A23  LD VA, 35
+[0x48E]:  81E3  XOR V1, VE
+[0x490]:  14D0  JP toggle_light_sprite
+try_toggle_2:
+[0x492]:  6B05  LD VB, 5
+[0x494]:  6A2C  LD VA, 44
+[0x496]:  82E3  XOR V2, VE
+[0x498]:  14D0  JP toggle_light_sprite
+try_toggle_3:
+[0x49A]:  6B05  LD VB, 5
+[0x49C]:  6A35  LD VA, 53
+[0x49E]:  83E3  XOR V3, VE
+[0x4A0]:  14D0  JP toggle_light_sprite
+try_toggle_4:
+[0x4A2]:  6B0E  LD VB, 14
+[0x4A4]:  6A23  LD VA, 35
+[0x4A6]:  84E3  XOR V4, VE
+[0x4A8]:  14D0  JP toggle_light_sprite
+try_toggle_5:
+[0x4AA]:  6B0E  LD VB, 14
+[0x4AC]:  6A2C  LD VA, 44
+[0x4AE]:  85E3  XOR V5, VE
+[0x4B0]:  14D0  JP toggle_light_sprite
+try_toggle_6:
+[0x4B2]:  6B0E  LD VB, 14
+[0x4B4]:  6A35  LD VA, 53
+[0x4B6]:  86E3  XOR V6, VE
+[0x4B8]:  14D0  JP toggle_light_sprite
+try_toggle_7:
+[0x4BA]:  6B17  LD VB, 23
+[0x4BC]:  6A23  LD VA, 35
+[0x4BE]:  87E3  XOR V7, VE
+[0x4C0]:  14D0  JP toggle_light_sprite
+try_toggle_8:
+[0x4C2]:  6B17  LD VB, 23
+[0x4C4]:  6A2C  LD VA, 44
+[0x4C6]:  88E3  XOR V8, VE
+[0x4C8]:  14D0  JP toggle_light_sprite
+try_toggle_9:
+[0x4CA]:  6B17  LD VB, 23
+[0x4CC]:  6A35  LD VA, 53
+[0x4CE]:  89E3  XOR V9, VE
+
+toggle_light_sprite:
+[0x4D0]:  A508  LD I, sprite["Button Light"]
+[0x4D2]:  DAB4  DRW VA, VB, 4
+[0x4D4]:  00EE  RET
+// --------------------------------------------------
+
+// Sprite Section
+[0x500]: 0xFF, 0x81, 0x81, 0x81, 0x81, 0x81, 0x81, 0xFF, // Button Outline
+[0x508]: 0xF0, 0xF0, 0xF0, 0xF0, // Button Light
+[0x50C]: 0x80, 0x80, 0x80, 0x80, 0xE0, // L
+[0x511]: 0xE0, 0x40, 0x40, 0x40, 0xE0, // I
+[0x516]: 0xE0, 0x80, 0xA0, 0xA0, 0xE0, // G
+[0x51B]: 0xA0, 0xA0, 0xE0, 0xA0, 0xA0, // H
+[0x520]: 0xE0, 0x40, 0x40, 0x40, 0x40, // T
+[0x525]: 0xE0, 0x80, 0xE0, 0x20, 0xE0, // S
+[0x52A]: 0xE0, 0xA0, 0xA0, 0xA0, 0xE0, // O
+[0x52F]: 0xA0, 0xA0, 0xA0, 0xA0, 0xE0, // U
+[0x534]: 0x55, 0x55, 0x55, 0x55, 0x29, 0x00, 0xFF, // WI
+[0x53B]: 0x77, 0x55, 0x55, 0x55, 0x55, 0x00, 0xFF, // NN
+[0x542]: 0x77, 0x45, 0x76, 0x45, 0x75, 0x00, 0xFF, // ER
+[0x549]: 0x40, 0x40, 0x40, 0x00, 0x40, 0x00, 0xE0, // !

@@ -181,17 +181,21 @@ void FunctionKeyMapDialog::LoadAndCompare(int computerType, wxString computer)
 void FunctionKeyMapDialog::LoadAndCompareStudio(int computerType, wxString computer)
 {
     int dummy[5];
-	int hexKeyDef1[10];
-	int hexKeyDef2[10];
+	int hexKeyDef1[16];
+	int hexKeyDef2[16];
 
+    int numberOfKeys = 10;
+    if (computerType == STUDIOIV)
+        numberOfKeys = 16;
+    
     p_Main->getDefaultHexKeys(computerType, computer, "A", hexKeyDef1, hexKeyDef2, dummy);
-    for (int i=0; i<10; i++)
+    for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
     }
     p_Main->getDefaultHexKeys(computerType, computer, "B", hexKeyDef1, hexKeyDef2, dummy);
-    for (int i=0; i<10; i++)
+    for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
@@ -247,9 +251,6 @@ void FunctionKeyMapDialog::updateButtons()
     setLabel("FunctionKey%01X", 12, functionKey_[12]);
     compareButtons(12, functionKey_[12]);
     setLabel("FunctionKey%01X", 13, functionKey_[13]);
-#ifndef __WXMAC__
-    compareButtons(13, functionKey_[13]);
-#endif
 }
 
 void FunctionKeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
@@ -320,8 +321,12 @@ void FunctionKeyMapDialog::onDefault(wxCommandEvent& WXUNUSED(event))
 	functionKey_[10] = WXK_F10;
 	functionKey_[11] = WXK_F11;
     functionKey_[12] = WXK_F12;
+#ifdef __WXMAC__
     functionKey_[13] = 86;
-
+#else
+    functionKey_[13] = WXK_CONTROL_V;
+#endif
+    
 	updateButtons();
 
     useExitKey_ = false;
@@ -338,8 +343,28 @@ void FunctionKeyMapDialog::onDefault(wxCommandEvent& WXUNUSED(event))
 void FunctionKeyMapDialog::onKeyDown(wxKeyEvent &event)
 {
 	int key = event.GetKeyCode();
-	if (key == WXK_SHIFT)
+	if (key == WXK_SHIFT || key == 0)
 		return;
+    
+    if (fKey_ == 13)
+    {
+#ifdef __WXMAC__
+        if (key >= 'a' && key <='z')
+            key-=32;
+   
+        if (key < 'A' || key >'Z')
+            return;
+#else
+        if (key >= 'a' && key <='z')
+            key-=96;
+
+        if (key >= 'A' && key <='Z')
+            key-=64;
+
+        if (key < 1 || key >26)
+            return;
+#endif
+    }
 
 	if (fKey_ != -1)
 	{
@@ -823,10 +848,7 @@ void FunctionKeyMapDialog::setLabel(wxString printStr, long button, int key)
     if (button == 13)
 #if defined __WXMAC__
         keyStr = "⌘" + keyStr;
-#else
-        keyStr = "Control " + keyStr;
 #endif
-    else
         keyStr = keyStr + keyStrNum;
 
 	XRCCTRL(*this, buttonStr, wxButton)->SetLabel(keyStr);

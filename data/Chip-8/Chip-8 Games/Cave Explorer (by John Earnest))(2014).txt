@@ -1,0 +1,4 @@
+Traverse a sprawling 16-screen overworld, solve puzzles, move crates around and, with a little luck, watch an incredible ending sequence! Move with 5/7/8/9 (WASD), and in platform levels use 6 (E) to pick up/drop crates and 4 (Q) to reset the level.
+
+Do you have what it takes to be a Cave Explorer?
+
