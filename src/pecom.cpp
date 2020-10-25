@@ -202,14 +202,35 @@ bool Pecom::keyDownExtended(int keycode, wxKeyEvent& event)
 				keyValue_[0] &= 0xfe; 
 
 			if (keyboardCode_ > 26)
-				keyValue_[inputKeyValue[keyboardCode_]]  &= ((bitValue[keyboardCode_]&0xff)  ^ 0xff); 
+				keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
 			keyboardCode_ = 0;
 		}
 		pecomRunCommand_ = 0;
 	}
 
-	if (keyDown_) return false;
-
+    if (keyDown_)
+    {
+        if (keyboardCode_ != keycode)
+        {
+            switch (keycode)
+            {
+                case WXK_LEFT:
+                case WXK_UP:
+                case WXK_RIGHT:
+                case WXK_DOWN:
+                    secondKeyboardCodes[keycode-WXK_LEFT] = keycode;
+                break;
+                    
+                case WXK_SPACE:
+                    secondKeyboardCodes[4] = keycode;
+                break;
+            }
+        }
+        return false;
+    }
+    
+    keyboardCode_ = keycode;
+    
 	Byte shiftPressed = 0;
 	switch (event.GetModifiers())
 	{
@@ -279,6 +300,20 @@ bool Pecom::keyDownExtended(int keycode, wxKeyEvent& event)
 
 void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
 {
+    switch(keycode)
+    {
+        case WXK_LEFT:
+        case WXK_UP:
+        case WXK_RIGHT:
+        case WXK_DOWN:
+            secondKeyboardCodes[keycode-WXK_LEFT] = 0;
+        break;
+            
+        case WXK_SPACE:
+            secondKeyboardCodes[4] = 0;
+        break;
+    }
+    
 	switch (keycode)
 	{
         case WXK_ESCAPE:
@@ -290,59 +325,111 @@ void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
 			keyValue_[0] &= 0xfe;
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
         case WXK_END:
 			keyValue_[1] &= 0xfe;
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_HOME:
 			keyValue_[0] &= 0xfd; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
+        case WXK_SPACE:
+            keyValue_[inputKeyValue[32]]  &= ((bitValue[32]&0xff) ^ 0xff);
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
+            
 		case WXK_DOWN:
 			keyValue_[23] &= 0xfd; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_LEFT:
 			keyValue_[24] &= 0xfe; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_RIGHT:
 			keyValue_[24] &= 0xfd; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_UP:
 			keyValue_[25] &= 0xfe; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 	}
 
+    int keyNumber = 0, newKey = 0;
+    while (keyNumber != 5 && newKey == 0)
+    {
+        if (secondKeyboardCodes[keyNumber] != 0)
+            newKey = secondKeyboardCodes[keyNumber];
+        keyNumber++;
+    }
+    if (newKey != 0)
+    {
+        switch (newKey)
+        {
+            case WXK_SPACE:
+                keyboardCode_ = newKey;
+                keyValue_[inputKeyValue[32]] |= (bitValue[32]&0xff);
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+
+            case WXK_DOWN:
+                keyboardCode_ = newKey;
+                keyValue_[23] |= 2;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+                
+            case WXK_LEFT:
+                keyboardCode_ = newKey;
+                keyValue_[24] |= 1;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+                
+            case WXK_RIGHT:
+                keyboardCode_ = newKey;
+                keyValue_[24] |= 2;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+                
+            case WXK_UP:
+                keyboardCode_ = newKey;
+                keyValue_[25] |= 1;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+        }
+    }
+    
 	if (keyDown_)
 	{
 		keyDown_ = false;
 		ctrlEf1_ = 0;
 		shiftEf2_ = 0;
 		shiftEf3_ = 0;
-		keyValue_[inputKeyValue[keyboardCode_]]  &= ((bitValue[keyboardCode_]&0xff) ^ 0xff); 
+		keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff) ^ 0xff);
 		keyboardCode_ = 0;
 	}
 }
@@ -357,13 +444,13 @@ void Pecom::keyDownFile()
 
 	if (keyboardCode_ > 26)
 	{
-		keyValue_[inputKeyValue[keyboardCode_]] |= (bitValue[keyboardCode_]&0xff); 
-		if (keyValue_[inputKeyValue[keyboardCode_]] != 0)
+		keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] |= (bitValue[(unsigned char)keyboardCode_]&0xff);
+		if (keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] != 0)
 		{
 			keyDown_ = true;
-			ctrlEf1_ = ctrlKey[keyboardCode_];
-			shiftEf2_ = shiftKey[keyboardCode_];
-			shiftEf3_ = shiftKey2[keyboardCode_];
+			ctrlEf1_ = ctrlKey[(unsigned char)keyboardCode_];
+			shiftEf2_ = shiftKey[(unsigned char)keyboardCode_];
+			shiftEf3_ = shiftKey2[(unsigned char)keyboardCode_];
 		}
 	}
 }
@@ -380,7 +467,7 @@ void Pecom::keyUpFile()
 			keyValue_[0] &= 0xfe; 
 
 		if (keyboardCode_ > 26)
-			keyValue_[inputKeyValue[keyboardCode_]]  &= ((bitValue[keyboardCode_]&0xff)  ^ 0xff); 
+			keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
 		keyboardCode_ = 0;
 	}
 }
@@ -416,6 +503,9 @@ void Pecom::initComputer()
 
 	for (int i=0; i<26; i++)
 		keyValue_[i]=0;
+
+    for (int i=0; i<5; i++)
+        secondKeyboardCodes[i] = 0;
 
 	addressLatch_ = 0x8000;
 	keyboardCount_ = 0;
@@ -506,7 +596,7 @@ Byte Pecom::in(Byte port, Word address)
 //  			ret = keyValue_[address - 0x7cca] & 0x3;
                 ret = keyValue_[(address&0x3f) - 0xa] & 0x3;
 
-/*			    if (inputKeyValue[keyboardCode_] == ((address & 0x3f) - 0xa))
+/*			    if (inputKeyValue[(unsigned char)keyboardCode_] == ((address & 0x3f) - 0xa))
                 {
                     if (!wxGetKeyState((wxKeyCode)keyboardCode_))
                     {

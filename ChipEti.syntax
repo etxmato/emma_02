@@ -10,7 +10,7 @@ CALL
 hex=0000-0FFF code=2jjj
 /CALL
 CLS
-code=0E00
+code=00E0
 /CLS
 DRW
 Vx , Vy , n code=Dxyn

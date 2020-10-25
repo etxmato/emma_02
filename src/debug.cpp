@@ -1398,7 +1398,7 @@ bool DebugWindow::chip8BreakPointCheck()
     if (pseudoType_ == "CARDTRAN")
         chip8PC = p_Computer->getScratchpadRegister(CARDTRAN_PC);
     else
-        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC) & 0xfff;
+        chip8PC = p_Computer->getScratchpadRegister(CHIP8_PC) & 0xffff;
     
 	if (chip8Steps_ != 0 && numberOfChip8BreakPoints_ > 0 && !performChip8Step_)
 	{
@@ -1687,8 +1687,12 @@ void DebugWindow::updateChip8Window()
         if (pseudoType_ == "STIV")
             buffer.Printf("%04X", scratchpadRegister);
         else
-            buffer.Printf("%03X", scratchpadRegister&0xfff);
-        
+        {
+            if (pseudoType_ == "SUPERCHIP")
+                buffer.Printf("%04X", scratchpadRegister&0xffff);
+            else
+                buffer.Printf("%03X", scratchpadRegister&0xfff);
+        }
         p_Main->eventSetTextValue("Chip8PC", buffer);
 		lastPC_ = scratchpadRegister;
 	}
@@ -1703,7 +1707,12 @@ void DebugWindow::updateChip8Window()
             if (pseudoType_ == "STIV")
                 buffer.Printf("%04X", scratchpadRegister);
             else
-                buffer.Printf("%03X", scratchpadRegister&0xfff);
+            {
+                if (pseudoType_ == "SUPERCHIP")
+                    buffer.Printf("%04X", scratchpadRegister&0xffff);
+                else
+                    buffer.Printf("%03X", scratchpadRegister&0xfff);
+            }
             p_Main->eventSetTextValue("Chip8I", buffer);
             lastI_ = scratchpadRegister;
         }
@@ -4464,7 +4473,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
 					lowStr.ToLong(&low, 16);
 					highStr.ToLong(&high, 16);
 
-                    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+                    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
                     {
                         if (high == 0xff)
                         {
@@ -4513,16 +4522,31 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     lowStr.ToLong(&low, 16);
                     highStr.ToLong(&high, 16);
                     
+                    if (pseudoType_ == "SUPERCHIP")
+                        high += 0x600;
+
                     if (assInput.parameterValue[parameterNumber] < low || assInput.parameterValue[parameterNumber] > high)
                         errorValue = ERROR_INCORR_ADDRESS;
                     else
                     {
                         parameterFound = true;
                         hexValue = assInput.parameterValue[parameterNumber];
-                        if (hexValue >= 0xc00)
-                            hexValue = hexValue & 0xfbff;
-                        if (hexValue >= 0x300)
-                            hexValue -= 0x100;
+                        if (pseudoType_ == "SUPERCHIP")
+                        {
+                            if (hexValue >= 0x200)
+                            {
+                                hexValue -= 0x600;
+                                if (hexValue < 0)
+                                    hexValue = 0;
+                            }
+                        }
+                        else
+                        {
+                            if (hexValue >= 0xc00)
+                                hexValue = hexValue & 0xfbff;
+                            if (hexValue >= 0x300)
+                                hexValue -= 0x100;
+                        }
                         parameterNumber++;
                     }
                 }
@@ -4988,7 +5012,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                     {
                         if (commandStr.GetChar(i) == 'a' || commandStr.GetChar(i) == 'j' || commandStr.GetChar(i) == 'b')
                         {
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
                             {
                                 if (i == 1)
                                 {
@@ -5019,7 +5043,7 @@ int DebugWindow::checkParameterPseudo(AssInput assInput, int32_t* pseudoCode)
                         }
                         if (commandStr.GetChar(i) == 'k')
                         {
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
                             {
                                 i++;
                                 *pseudoCode |= ( (kkValue & 0xff) << ((pseudoLength-2)*8) );
@@ -12408,7 +12432,7 @@ void DebugWindow::onAssDis(wxCommandEvent&WXUNUSED(event))
 
                     while (line.Len() <= 24)
                         line += " ";
-                    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+                    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
                         line = line + ";"+ tempLine.Left(6)+tempLine.Right(tempLine.Len()-15);
                     else
                         line = line + ";"+ tempLine.Left(6)+tempLine.Right(tempLine.Len()-11);
@@ -16055,7 +16079,12 @@ void DebugWindow::definePseudoCommands()
                             if (pseudoLine.Left(10) == "I , hex=30")
                                 jumpOffset_[jumpCommandNumber_-1] = 0x3000;
                             if (subCommand.GetChar(2) == 's')
-                                jumpOffset_[jumpCommandNumber_-1] = 0x100;
+                            {
+                                if (pseudoType_ == "SUPERCHIP")
+                                    jumpOffset_[jumpCommandNumber_-1] = 0x600;
+                                else
+                                    jumpOffset_[jumpCommandNumber_-1] = 0x100;
+                            }
 
                             if (command.ToLong(&commandLong, 16))
                             {
@@ -16185,7 +16214,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
     Word valueI, RegisterA, RegisterB;
     
-    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
     {
         chip8_opcode3 = p_Computer->readMemDebug(dis_address + 2);
         chip8_opcode4 = p_Computer->readMemDebug(dis_address + 3);
@@ -16239,7 +16268,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
 
     if (showOpcode)
     {
-        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
             addressStr.Printf("%04X: %02X%02X    ", dis_address, chip8_opcode1, chip8_opcode2);
         else
             addressStr.Printf("%04X: %02X%02X", dis_address, chip8_opcode1, chip8_opcode2);
@@ -16274,11 +16303,10 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                 }
                 if (currentChar == 's' && i == 0)
                 {
-                    
                     if (pseudoType_ == "SUPERCHIP")
                     {
                         if (address >= 0x200)
-                            address += 0x200;
+                            address += 0x600;
                     }
                     else
                     {
@@ -16371,7 +16399,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                     switch (pseudoCodeDetails_[pseudoNr].length)
                     {
                         case 1:
-                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+                            if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
                                 addressStr.Printf("%04X: %02X      ", dis_address, chip8_opcode1);
                             else
                                 addressStr.Printf("%04X: %02X  ", dis_address, chip8_opcode1);
@@ -16480,7 +16508,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                                 {
                                     if (parameter.Mid(4,1) == "0")
                                     {
-                                        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+                                        if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
                                         {
                                             charBufferStr.Printf("%01X", (dis_address&0xF00)>>8);
                                             parameterStr = charBufferStr + parameterStr;
@@ -16851,7 +16879,7 @@ wxString DebugWindow::pseudoDisassemble(Word dis_address, bool includeDetails, b
                   
                     if (!parameterFound)
                         parameterStr = parameter;
-                    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
+                    if (pseudoType_ == "AMVBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS")
                         parameterStr.Replace(" ","",true);
                     buffer += parameterStr;
 				}
@@ -17037,7 +17065,7 @@ void DebugWindow::onChip8BreakPointSet(wxCommandEvent&WXUNUSED(event))
 		return;
 	}
 
-	long chip8BreakPointAddress = get12BitValue("Chip8BreakPointAddress");
+    long chip8BreakPointAddress = get16BitValue("Chip8BreakPointAddress");
 	if (chip8BreakPointAddress == -1)
 	{
 		(void)wxMessageBox( "No Break Point value specified\n",

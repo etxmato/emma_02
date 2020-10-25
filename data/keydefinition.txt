@@ -205,6 +205,9 @@ load: studioivdefault
 name: am4kbas 32K 2020 NTSC.bin
 load: studioivdefault
 
+name: am4kbas 1978.bin
+load: studioivdefault
+
 name: Studioiv on Character
 pad a1: A_C_0, A_C_1, A_C_2, A_C_3, A_C_4, A_C_5, A_C_6, A_C_7, A_C_8, A_C_9, 65, 66, 67, 68, 69, 70
 pad a2: 32, 0, 315, 0, 314, 0, 316, 0, 317, 0, 0, 0, 0, 0, 0, 0
@@ -243,16 +246,52 @@ load: VIPII on Character
 pad a2: 0, 0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0
 game keys: 10, 10, 10, 10, 8, 10, 10, 10, 10, 10
 
+name: Alien (by Jonas Lindstedt)(199x).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 314, 0, 0, 0, 0, 0, 0, 32, 0, 316, 0, 0, 0
+game keys: 10, 3, C, 10, A, 10, 10, 10, 10, 10
+
+name: Alien (shift fix)(by Jonas Lindstedt)(199x).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 314, 0, 0, 0, 0, 0, 0, 32, 0, 316, 0, 0, 0
+game keys: 10, 3, C, 10, A, 10, 10, 10, 10, 10
+
+name: Alien Hunter (by Hans)(2015).sc8
+load: WASD
+
+name: Ant - In Search of Coke (by Erin S. Catto)(199x).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 314, 0, 0, 0, 0, 0, 0, 32, 0, 316, 0, 0, 0
+game keys: 10, 3, C, 10, A, 10, 10, 10, 10, 10
+
+name: Ant - In Search of Coke (shift fix)(by Erin S. Catto)(199x).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 314, 0, 0, 0, 0, 0, 0, 32, 0, 316, 0, 0, 0
+game keys: 10, 3, C, 10, A, 10, 10, 10, 10, 10
+
 name: Astro Dodge [Revival Studios,  2008].ch8
 elfosname: astrodoge
 load: VIPII on Character
 game keys: 2, 4, 6, 8, 5, 10, 10, 10, 10, 10
+
+name: Black Rainbow (by John Earnest)(2016).sc8
+load: WASD
 
 name: Blinky [Hans Christian Egeberg,  1991].ch8
 elfosname: blinky
 load: VIPII on Character
 pad a2: 0, 0, 0, 0, 314, 317, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
 game keys: 8, 4, 6, 5, 10, 10, 10, 10, 10, 10
+
+name: Blinky (shift fix)(by Hans Christian Egeberg)(1991).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 315, 0, 0, 317, 314, 316, 0, 0, 0, 0, 0, 0, 0
+game keys: 3, 7, 8, 6, 10, 10, 10, 10, 10, 10
+
+name: Blinky (by Hans Christian Egeberg)(1991).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 315, 0, 0, 317, 314, 316, 0, 0, 0, 0, 0, 0, 0
+game keys: 3, 7, 8, 6, 10, 10, 10, 10, 10, 10
 
 name: Blitz [David Winter].ch8
 elfosname: blitz
@@ -294,10 +333,20 @@ elfosname: brix
 load: VIPII on Character
 game keys: 10, 4, 6, 10, 10, 10, 10, 10, 10, 10
 
+name: C-Tetris (by Klaus von Sengbusch )(1994).sc8
+load: VIPII on Character
+pad a2: 0, 315, 0, 0, 314, 32, 0, 317, 0, 316, 0, 0, 0, 0, 0, 0
+game keys: 1, 4, 9, 7, 5, 10, 10, 10, 10, 10
+
 name: C-Zero (by Ethan Pini)(2019).ch8
 load: VIPII on Character
 pad a2: 0, 0, 0, 0, 0, 32, 0, 314, 0, 316, 0, 0, 0, 0, 0, 0
 game keys: 10, 7, 9, 10, 5, 10, 10, 10, 10, 10
+
+name: Car Race (by Klaus von Sengbusch)(1994).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 0, 0, 314, 316, 0aa, 0, 0, 0, 0, 0, 0
+game keys: 10, 7, 8, 10, 10, 10, 10, 10, 10, 10
 
 name: Cave.ch8
 elfosname: cave
@@ -311,10 +360,16 @@ load: VIPII on Character
 pad a2: 0, 315, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 game keys: 10, 1, 10, 10, 10, 10, 10, 10, 10, 10
 
+name: Codegrid (by Xikka)(2015).sc8
+load: WASD
+
 name: Connect 4 [David Winter].ch8
 elfosname: connect4
 load: VIPII on Character
 game keys: 10, 4, 6, 10, 5, 10, 10, 10, 10, 10
+
+name: Chipcross (by buffi)(2018).sc8
+load: WASD
 
 name: Danm8ku (by buffis)(2015).ch8
 load: WASD
@@ -325,10 +380,13 @@ load: WASD
 name: Ded-Lok (by ParityB1t)(2016).ch8
 load: WASD
 
+name: Ded-Lok (by parityb1t)(2015).sc8
+load: WASD
+
 name: Deep8 (by John Earnest)(2014).ch8
 load: VIPII on Character
-pad a2: 0, 32, 0, 0, 314, 0, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
-game keys: 10, 4, 6, 10, 1, 10, 10, 10, 10, 10
+pad a2: 0, 0, 0, 0, 0, 0, 0, 314, 32, 316, 0, 0, 0, 0, 0, 0
+game keys: 10, 7, 9, 10, 8, 10, 10, 10, 10, 10
 
 name: Down8 (by this is not a team)(2015).ch8
 load: WASD
@@ -347,8 +405,16 @@ name: Deflection [John Fort].ch8
 elfosname: deflection
 load: VIPII on Character
 
+name: Eaty the Alien (by John Earnest)(2015).sc8
+load: WASD
+
 name: Etch-a-sketch (KrzysztofJeszke)(2020).ch8
 load: WASD
+
+name: Field! (by Al Roland)(199x).sc8
+load: VIPII on Location
+pad a2: 32, 0, 0, 0, 0, 0, 0, 314, 316, 0, 0, 0, 315, 317, 0, 0
+game keys: C, 7, 8, D, 0, 10, 10, 10, 10, 10
 
 name: Figures.ch8
 elfosname: figures
@@ -359,6 +425,9 @@ name: Filter.ch8
 elfosname: filter
 load: VIPII on Character
 game keys: 10, 4, 6, 10, 10, 10, 10, 10, 10, 10
+
+name: First depth search of Maze (by AKouZ1)(2017).sc8
+load: WASD
 
 name: Flappy Pong (by cnelmortimer)(2017).ch8
 load: WASD
@@ -391,6 +460,14 @@ load: WASD
 name: Grave Digger (by TomR)(2017).ch8
 load: WASD
 
+name: H8 (by Mastigophoran)(2017).sc8
+load: WASD
+
+name: H. Piper (by Paul Raines)(1995).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 315, 32, 0, 317, 314, 316, 0, 0, 0, 0, 0, 0, 0
+game keys: 3, 7, 2, 6, 4, 10, 10, 10, 10, 10
+
 name: Hedgehog the Drug Dog.ch8
 load: VIPII on Character
 pad a2: 0, 0, 0, 0, 32, 315, 0, 314, 317, 316, 0, 0, 0, 0, 0, 0
@@ -400,22 +477,46 @@ name: Hidden [David Winter,  1996].ch8
 elfosname: hidden
 load: VIPII on Character
 
+name: Horsey Jump (by Team Horse)(2015).sc8
+load: VIPII on Character
+pad a2: 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 10, 10, 10, 10, 0, 10, 10, 10, 10, 10
+
+name: Joust (by Erin S. Catto)(199x).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 314, 0, 0, 0, 0, 0, 0, 32, 0, 316, 0, 0, 0
+game keys: A, 3, C, 10, 10, 10, 10, 10, 10, 10
+
 name: Kaleidoscope [Joseph Weisbecker,  1978].ch8
 elfosname: kaleidoscope
 load: VIPII on Character, fire on 0
 
+name: Knight (by Simon Klit-Johnson)(2016).sc8
+load: WASD
+
+name: Knight (fix?)by Simon Klit-Johnson)(2016).sc8
+load: WASD
+
+name: knight.ch8
+load: WASD
+
 name: Lombat Lombat Asoy! (by Razka173 Team)(2018).ch8
 load: WASD
 
-name: Masquer8 (Undead Cuttlefish)(2015).ch8
+name: Loopz (by Andreas Daumann)(1993).sc8
 load: VIPII on Location
+pad a2: 0, 0, 0, 0, 0, 32, 0, 314, 316, 0, 0, 0, 315, 317, 0, 0
+game keys: C, 7, 8, D, 5, 10, 10, 10, 10, 10
 
-name: Mastermind (William Donnelly)(2015).ch8
+name: Loopz (fix int exit)(by Andreas Daumann)(1993).sc8
 load: VIPII on Location
+pad a2: 0, 0, 0, 0, 0, 32, 0, 314, 316, 0, 0, 0, 315, 317, 0, 0
+game keys: C, 7, 8, D, 5, 10, 10, 10, 10, 10
 
-name: Modified Kaleidoscope [TCNJ S.572.3].ch8
-elfosname: kaleidoscope
-load: VIPII on Character, fire on 0
+name: Loopz (with difficulty select) (by hap)(2006).sc8
+load: VIPII on Location
+pad a2: 0, 0, 0, 0, 0, 32, 0, 314, 316, 0, 0, 0, 315, 317, 0, 0
+game keys: C, 7, 8, D, 5, 10, 10, 10, 10, 10
 
 name: Landing.ch8
 elfosname: landing
@@ -430,6 +531,25 @@ name: Lunar Lander (Udo Pernisz,  1979).ch8
 elfosname: lunarlander
 load: VIPII on Character
 game keys: 2, 4, 6, 10, 10, 10, 10, 10, 10, 10
+
+name: Magic Square (by David Winter)(199x).sc8
+load: VIPII on Location
+
+name: Masquer8 (Undead Cuttlefish)(2015).ch8
+load: VIPII on Location
+
+name: Mastermind (William Donnelly)(2015).ch8
+load: VIPII on Location
+
+name: Modified Kaleidoscope [TCNJ S.572.3].ch8
+elfosname: kaleidoscope
+load: VIPII on Character, fire on 0
+
+name: Mines! - The minehunter (by David Winter)(199x).sc8
+load: VIPII on Character
+
+name: Minesweeper (by AKouZ1)(2017).sc8
+load: WASD
 
 name: Minesweep8r (James Kohli aka Hottie Pippen)(2014).ch8
 load: WASD
@@ -450,10 +570,16 @@ name: Most Dangerous Game [Peter Maruhnic].ch8
 elfosname: dangerous
 load: VIPII on Character, fire on 0
 
+name: Mr. Worm (by Ryan Hitchman)(2014).sc8
+load: WASD
+
 name: Octo Bird (by Cody Hoover)(2016).ch8
 load: WASD
 
 name: Octo Rancher (by SysL)(2018).ch8
+load: WASD
+
+name: Octo Slam (by Dupersaurus)(2017).sc8
 load: WASD
 
 name: Octo-A Chip8 Story (System Logoff)(2014).ch8
@@ -461,8 +587,19 @@ load: VIPII on Location
 pad a2: 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 314, 316, 0, 0, 0, 0
 game keys: 10, A, B, 10, 0, 10, 10, 10, 10, 10
 
+name: Octopeg (by Undead Cuttlefish)(2015).sc8
+load: WASD
+
+name: OctoRoads (by abbeyj)(2017).sc8
+load: WASD
+
 name: Outlaw (by John Earnest)(2014).ch8
 load: WASD
+
+name: Octovore (by Pangasaurus Rex)(2015).sc8
+load: VIPII on Location
+pad a2: 317, 0, 0, 0, 0, 0, 0, 0, 315, 0, 314, 316, 0, 0, 0, 0
+game keys: 8, A, B, 0, 10, 10, 10, 10, 10, 10
 
 name: Paddles.ch8
 elfosname: paddles
@@ -532,6 +669,11 @@ name: Rocket Launcher.ch8
 elfosname: rocketlauncher
 load: VIPII on Character, fire on F
 
+name: Rockto (by supSuper)(2014).sc8
+load: VIPII on Location
+pad a2: 0, 32, 0, 0, 0, 315, 0, 314, 317, 316, 0, 0, 0, 0, 0, 0
+game keys: 5, 7, 9, 8, 1, 10, 10, 10, 10, 10
+
 name: Rush Hour [Hap, 2006].ch8
 elfosname: rushhour
 load: VIPII on Character
@@ -542,6 +684,9 @@ name: Rush Hour [Hap, 2006] (alt).ch8
 load: VIPII on Character
 pad a2: 0, B_A_FIRE, 0, 0, 0, 315, 0, 314, 317, 316, 32, 0, 0, 0, 0, 0
 game keys: 5, 7, 9, 8, A, 10, 10, 10, 10, 1
+
+name: Sens8tion (by Mastigophoran)(2016).ch8
+load: WASD
 
 name: Ship Tunnel (TodPunk)(2014).ch8
 load: WASD
@@ -562,11 +707,18 @@ load: VIPII on Character
 name: Slippery Slope (by John Earnest)(2018).ch8
 load: WASD
 
-name: Snafu (Shendo)(2010).ch8
-elfosname: reversi
+name: Single Dragon (Bomber Section) (by David Nurser)(199x).sc8
+load: WASD
+pad a2: 0, 0, 315, 0, 0, 32, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 10, 10, 8, 5, 10, 10, 10, 10, 10
+
+name: Single Dragon (Stages 1-2) (by David Nurser)(199x).sc8
 load: VIPII on Character
-pad a2: 0, 0, 315, 0, 314, 32, 316, 0, 317, 0, 0, 0, 0, 0, 0, B_A_FIRE
-game keys: 2, 4, 6, 8, 5, 10, 10, 10, 10, F
+pad a2: 314, 32, 0, 0, 0, 0, 0, 0, 0, 315, 0, 317, 0, 0, 0, 316
+game keys: 9, 0, F, B, 1, 10, 10, 10, 10, 10
+
+name: Snafu (Shendo)(2010).ch8
+load: WASD
 
 name: Snake (by Daniel Jianoran)(2018).ch8
 load: WASD
@@ -582,12 +734,25 @@ game keys: 10, 8, 9, 10, 10, 10, 10, 10, 10, 10
 name: Snake (Timo Triisa)(2014).ch8
 load: WASD
 
+name: SNEK (by glitchland)(2020).ch8
+load: VIPII on Location
+pad a2: 0, 315, 0, 314, 317, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 4, 6, 5, 10, 10, 10, 10, 10, 10
+
 name: Soccer.ch8
 elfosname: soccer
 load: VIPII on Character
 pad a2: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 332, 326, 0, 0
 pad a2 nnp: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, B_A_UP, B_A_DOWN, 0, 0
 game keys: 1, 10, 10, 4, 10, C, 10, 10, D, 10
+
+name: Sokoban (by hap)(2006).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 315, 0, 314, 317, 316, 32, 0, 0, 0, 0, 0
+game keys: 5, 7, 9, 8, A, 10, 10, 10, 10, 10
+
+name: Sokoban1 (by Daniel Jianoran)(2018).ch8
+load: WASD
 
 name: Space Defense! (Jim South-2014).ch8
 load: WASD
@@ -598,6 +763,11 @@ load: VIPII on Character
 pad a2: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 332, 326, 32, 370
 pad a2 nnp: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, B_A_UP, B_A_DOWN, 32, B_A_FIRE
 game keys: 1, 10, 10, 4, F, 10, 10, 10, 10, E
+
+name: Spacefight 2091 (by Carsten Soerensen)(1992).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 314, 0, 0, 0, 0, 0, 0, 32, 0, 316, 0, 0, 0
+game keys: 0, 3, C, 10, A, 10, 10, 10, 10, 10
 
 name: Space Intercept [Joseph Weisbecker,  1978].ch8
 elfosname: intercept
@@ -629,6 +799,37 @@ name: Submarine [Carmelo Cortez,  1978].ch8
 elfosname: submarine
 load: VIPII on Character
 
+name: Sub-Terr8nia (2017).sc8
+load: WASD
+
+name: Super Astro Dodge (by Revival Studios)(2008).sc8
+load: VIPII on Character
+game keys: 2, 4, 6, 8, 5, 10, 10, 10, 10, 10
+
+name: Super Gem Catcher (by Dakota Hernandez)(2018).sc8
+load: WASD
+
+name: Super Block (by Joshua Barretto)(2019).ch8
+load: WASD
+
+name: Super Square (by Tann)(2014).sc8
+load: WASD
+
+name: SuperWorm V3 (by RB)(1992).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 0, 0, 0, 314, 316, 0, 0, 0, 0, 0, 0
+game keys: 10, 8, 9, 10, 10, 10, 10, 10, 10, 10
+
+name: SuperWorm V4 (by RB & Revival Studios)(2007).sc8
+load: VIPII on Character
+pad a2: 0, 0, 315, 0, 314, 0, 316, 0, 317, 0, 0, 0, 0, 0, 0, 0
+game keys: 2, 4, 6, 8, 10, 10, 10, 10, 10, 10
+
+name: Sw8 Copter (by John Earnest)(2014).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0
+game keys: 10, 10, 10, 10, 6, 10, 10, 10, 10, 10
+
 name: Syzygy [Roy Trevino,  1990].ch8
 elfosname: syzygy
 load: VIPII on Character
@@ -641,6 +842,9 @@ elfosname: tank
 load: VIPII on Character
 pad a2: 0, 0, 317, 0, 314, 32, 316, 0, 315, 0, 0, 0, 0, 0, 0, 0
 game keys: 8, 4, 6, 2, 5, 10, 10, 10, 10, 10
+
+name: Tank! (by RectusSA)(2018).ch8
+load: WASD
 
 name: Tapeworm [JDR, 1999].ch8
 elfosname: tapeworm
@@ -657,6 +861,9 @@ pad a2: 0, 317, 0, 0, 314, 316, 0, 317, 0, 0, 0, 0, 0, 32, 0, 0
 game keys: 10, 4, 5, 7, D, 10, 10, 10, 10, 10
 
 name: The Maze (Ian Schert)(2020).ch8
+load: WASD
+
+name: The Rude Street (by SystemLogoff)(2019).sc8
 load: WASD
 
 name: Thom8s Was Alone (jusion)(2014).ch8
@@ -677,11 +884,22 @@ pad a2: 32, 315, 0, 314, 317, 0, 0, 332, 0, 328, 326, 370, 316, 0, 330, 0
 pad a2 nnp: 32, 315, 0, 314, 317, 0, 0, B_A_UP, 0, B_A_LEFT, B_A_DOWN, B_A_FIRE, 316, 0, B_A_RIGHT, 0
 game keys: 1, 3, C, 4, 0, 7, 9, E, A, B
 
+name: Turnover77 (by Dr.Stab)(2014).sc8
+load: WASD
+
+name: U-Boat (by Michael Kemper)(1994).sc8
+load: VIPII on Character
+pad a2: 0, 0, 0, 0, 0, 0, 0, 315, 314, 316, 0, 0, 0, 0, 32, 0
+game keys: 7, 8, 9, 10, E, 10, 10, 10, 10, 10
+
 name: UFO [Lutz V, 1992].ch8
 elfosname: ufo
 load: VIPII on Character
 pad a2: 0, 0, 0, 0, 314, 315, 316, 0, 0, 0, 0, 0, 0, 0, 0, 0
 game keys: 5, 4, 6, 10 , 10, 10, 10, 10, 10, 10
+
+name: Ultimate Tic-Tac-Toe (by yournamehere)(2014).sc8
+load: WASD
 
 name: Vers [JMN, 1991].ch8
 elfosname: vers
@@ -700,6 +918,10 @@ elfosname: wall
 load: VIPII on Character
 pad a2: 0, 315, 0, 0, 317, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 game keys: 1, 10, 10, 4, 10, 10, 10, 10, 10, 10
+
+name: Warshaws Revenge (by Ethan Pini)(2019).ch8
+pad a2: 0, 0, 0, 0, 0, 315, 0, 314, 317, 316, 0, 32, 0, 0, 0, 0
+game keys: 5, 7, 9, 8, B, 10, 10, 10, 10, 10
 
 name: Wipe Off [Joseph Weisbecker].ch8
 elfosname: wipeoff

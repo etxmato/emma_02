@@ -70,6 +70,7 @@ void StudioIV::configureComputer()
     simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", false);
     
     keyboardValue_ = 0;
+    shiftKey_ = 0;
     
 	resetCpu();
 }
@@ -126,7 +127,7 @@ void StudioIV::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 
 void StudioIV::keyDown(int keycode)
 {
-    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
     {
         victoryKeyState_[0][0xf] = 1;
         victoryKeyState_[1][0xf] = 1;
@@ -278,19 +279,22 @@ void StudioIV::keyDown(int keycode)
 			}
 		}
         
-        victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
-        if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+        if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
         {
             victoryKeyState_[0][0xf] = 1;
             victoryKeyState_[1][0xf] = 1;
+            keyboardValue_ = keycode;
+            shiftKey_ = 5000;
         }
+        else
+            victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 1;
 	}
 //    keyboardValue_ = 0;
 }
 
 void StudioIV::keyUp(int keycode)
 {
-    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
     {
         victoryKeyState_[0][0xf] = 0;
         victoryKeyState_[1][0xf] = 0;
@@ -334,7 +338,7 @@ void StudioIV::keyUp(int keycode)
 	}
     if (keyDefinition[keycode].defined)
         victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
-    if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBASPLUS"))
+    if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
     {
         victoryKeyState_[0][0xf] = 0;
         victoryKeyState_[1][0xf] = 0;
@@ -467,6 +471,8 @@ void StudioIV::outStudioIV(Byte value)
 
 void StudioIV::cycle(int type)
 {
+    int address = 0x3F0;
+    
     switch(cycleType_[type])
 	{
 		case 0:
@@ -492,7 +498,10 @@ void StudioIV::cycle(int type)
                 }
                 else
                 {
-                    if (scratchpadRegister_[programCounter_] == 0x3F0)
+                    if (pseudoType_ == "AM4KBAS1978")
+                        address = 0x600;
+                    
+                    if (scratchpadRegister_[programCounter_] == address)
                     {
                         keyUp(keyboardValue_);
                         keyboardValue_ = 0;
@@ -500,6 +509,13 @@ void StudioIV::cycle(int type)
                         victoryKeyState_[1][0xf] = 0;
                     }
                 }
+            }
+            if (shiftKey_ > 0)
+            {
+                shiftKey_--;
+                
+                if (shiftKey_ == 0)
+                    victoryKeyState_[keyDefinition[keyboardValue_].player][keyDefinition[keyboardValue_].key] = 1;
             }
         break;
     }
@@ -560,7 +576,7 @@ void StudioIV::startComputer()
 
     p_Main->checkAndReInstallMainRom(STUDIOIV);
     readProgram(p_Main->getRomDir(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, MAINROM1), ROM, 0, NONAME);
-    
+
     p_Main->assDefault("studioivrom", 0x000, 0x7FF);
     p_Main->assDefault("studioivcart_1", 0x800, 0xFFF);
     p_Main->assDefault("studioivcart_2", 0x1000, 0x17FF);
@@ -582,10 +598,14 @@ void StudioIV::startComputer()
 	cassetteEf_ = 0;
 
     if (gameAuto_)
-        p_Main->loadKeyDefinition(p_Main->getRomFile(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
+        p_Main->loadKeyDefinition(p_Main->getRomFile(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, CARTROM), keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
-    readSt2Program(STUDIOIV);
+
+    if (pseudoType_ == "SUPERCHIP")
+        readProgram(p_Main->getRomDir(STUDIOIV, CARTROM), p_Main->getRomFile(STUDIOIV, CARTROM), ROM, 0x800, SHOWNAME);
+    else
+        readSt2Program(STUDIOIV);
 
     if (pseudoType_ == "AM4KBASPLUS")
     {
@@ -597,7 +617,7 @@ void StudioIV::startComputer()
     else
     {
         defineMemoryType(0x2800, 0x2BFF, COLOURRAM);
-        initRam(0x2800, 0x27FF);
+        initRam(0x2800, 0x2BFF);
     }
 
 	reDefineKeysA(keyDefA1_, keyDefA2_);

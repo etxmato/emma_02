@@ -132,7 +132,8 @@ private:
     wxString tapeNumber_;
 
     int keyboardCode_;
-    
+    int secondKeyboardCodes[5];
+
     bool load_;
     size_t microRunCommand_;
     wxString commandText_;

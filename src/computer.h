@@ -595,6 +595,8 @@ protected:
     wxString ctrlvTextStr_;
     size_t ctrlvTextCharNum_;
     
+    int shiftKey_;
+    
 private:
 	int chip8Register[16];
 

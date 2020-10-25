@@ -14566,6 +14566,7 @@
                                                                                 <item>fpb.bin</item>
                                                                                 <item>VP700_Tiny_BASIC.bin</item>
                                                                                 <item>chip8.ram</item>
+                                                                                <item>super-chip.bin</item>
                                                                                 <item>chip8x.ram</item>
                                                                                 <item>chip10.hex</item>
                                                                                 <item>pin-8.ram</item>
@@ -21197,12 +21198,15 @@
                                                                             <style>wxCB_DROPDOWN</style>
                                                                             <content>
                                                                                 <item></item>
+                                                                                <item>am4kbas 1978.bin</item>
                                                                                 <item>am4kbas 32K 2020 PAL.bin</item>
                                                                                 <item>am4kbas 32K 2020 NTSC.bin</item>
                                                                                 <item>am4kbas 2020 PAL.bin</item>
                                                                                 <item>am4kbas 2020 NTSC.bin</item>
                                                                                 <item>Studio IV V3 PAL.bin</item>
                                                                                 <item>Studio IV V3 NTSC.bin</item>
+                                                                                <item>super-chip PAL.bin</item>
+                                                                                <item>super-chip NTSC.bin</item>
                                                                             </content>
                                                                         </object>
                                                                     </object>
@@ -30448,7 +30452,7 @@
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                                 <border>0</border>
                                                                                                 <object class="wxTextCtrl" name="Chip8PC" subclass="HexEdit">
-                                                                                                    <size>27,13</size>
+                                                                                                    <size>32,13</size>
                                                                                                     <font>
                                                                                                         <size>10</size>
                                                                                                         <family>swiss</family>
@@ -30456,7 +30460,7 @@
                                                                                                     <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                                                     <enabled>0</enabled>
                                                                                                     <bg>#E5E5E5</bg>
-                                                                                                    <maxlength>3</maxlength>
+                                                                                                    <maxlength>4</maxlength>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="spacer">
@@ -30489,7 +30493,7 @@
                                                                                                 <flag>wxALIGN_CENTER_VERTICAL</flag>
                                                                                                 <border>0</border>
                                                                                                 <object class="wxTextCtrl" name="Chip8I" subclass="HexEdit">
-                                                                                                    <size>27,13</size>
+                                                                                                    <size>32,13</size>
                                                                                                     <font>
                                                                                                         <size>10</size>
                                                                                                         <family>swiss</family>
@@ -30497,7 +30501,7 @@
                                                                                                     <style>wxTE_PROCESS_ENTER|wxTE_CENTRE|wxNO_BORDER</style>
                                                                                                     <enabled>0</enabled>
                                                                                                     <bg>#E5E5E5</bg>
-                                                                                                    <maxlength>3</maxlength>
+                                                                                                    <maxlength>4</maxlength>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="spacer">
@@ -31184,7 +31188,7 @@
                                                                                                                 <size>-1</size>
                                                                                                             </font>
                                                                                                             <style>wxTE_PROCESS_ENTER</style>
-                                                                                                            <maxlength>3</maxlength>
+                                                                                                            <maxlength>4</maxlength>
                                                                                                         </object>
                                                                                                     </object>
                                                                                                     <object class="sizeritem">

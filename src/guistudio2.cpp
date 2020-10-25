@@ -751,7 +751,11 @@ void GuiStudio2::onStudioIVVideoMode(wxCommandEvent&event)
         if (conf[STUDIOIV].videoMode_ == PAL && conf[STUDIOIV].rom_[MAINROM1] == "am4kbas 32K 2020 NTSC.bin")
             conf[STUDIOIV].rom_[MAINROM1] = "am4kbas 32K 2020 PAL.bin";
         if (conf[STUDIOIV].videoMode_ == NTSC && conf[STUDIOIV].rom_[MAINROM1] == "am4kbas 32K 2020 PAL.bin")
-            conf[STUDIOIV].rom_[MAINROM1] = "am4kbas 32K 2020 NTSC.bin";
+            conf[STUDIOIV].rom_[MAINROM1] = "super-chip NTSC.bin";
+        if (conf[STUDIOIV].videoMode_ == PAL && conf[STUDIOIV].rom_[MAINROM1] == "super-chip NTSC.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "super-chip PAL.bin";
+        if (conf[STUDIOIV].videoMode_ == NTSC && conf[STUDIOIV].rom_[MAINROM1] == "super-chip PAL.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "super-chip NTSC.bin";
 
         if (conf[STUDIOIV].videoMode_ == PAL )
             conf[STUDIOIV].xScale_ = "4";

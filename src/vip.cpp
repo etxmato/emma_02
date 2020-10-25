@@ -666,7 +666,7 @@ void Vip::startComputer()
 		else
         {
             if (pseudoType_ == "SUPERCHIP")
-                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x400, SHOWNAME);
+                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x800, SHOWNAME);
             else
                 readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
         }

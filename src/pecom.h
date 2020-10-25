@@ -61,7 +61,8 @@ private:
 	wxFile pecomKeyFile_;
 	bool pecomKeyFileOpened_;
 	bool keyDown_;
-	unsigned char keyboardCode_;
+    int keyboardCode_;
+    int secondKeyboardCodes[5];
 	int keyboardCount_;
 
 	int cycleValue_;

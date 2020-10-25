@@ -10,11 +10,17 @@ CALL
 s-hex=0000-0FFF code=2sss
 /CALL
 CLS
-code=0E00
+code=00E0
 /CLS
+COMP
+code=00FA
+/COMP
 DRW
 Vx , Vy , n code=Dxyn
 /DRW
+HIGH
+code=00FF
+/HIGH
 JP
 s-hex=0000-0FFF code=1sss
 V0 , s-hex=0000-0FFF code=Bsss
@@ -22,7 +28,8 @@ V0 , s-hex=0000-0FFF code=Bsss
 LD
 B , Vx det code=Fx33
 DT , Vx det code=Fx15
-F , Vx det code=Fx29
+F1 , Vx det code=Fx29
+F2 , Vx det code=Fx30
 I , s-hex=0000-0FFF code=Asss
 ST , Vx det code=Fx18
 Vx , DT det code=Fx07
@@ -32,15 +39,33 @@ Vx , Vy det code=8xy0
 Vx , [I] code=Fx65
 [I] , Vx code=Fx55
 /LD
+LOW
+code=00FE
+/LOW
+NOP
+code=00FD
+/NOP
 OR
 Vx , Vy det code=8xy1
 /OR
+READ
+Vx code=Fx85
+/READ
 RETURN
 code=00EE
 /RETURN
 RND
 Vx , kk det code=Cxkk
 /RND
+SCL
+code=00FC
+/SCL
+SCR
+code=00FB
+/SCR
+SCD
+n code=00Cn
+/SCD
 SE
 Vx , kk code=3xkk
 Vx , Vy code=5xy.
@@ -63,6 +88,9 @@ SNE
 Vx , kk code=4xkk
 Vx , Vy code=9xy.
 /SNE
+STORE
+Vx code=Fx75
+/STORE
 SUB
 Vx , Vy det code=8xy5
 /SUB

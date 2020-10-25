@@ -25,7 +25,7 @@ CLRL
 Vx / Vx1 , Vy code=Bxy0
 /CLRL
 CLS
-code=0E00
+code=00E0
 /CLS
 DRW
 Vx , Vy , n code=Dxyn
