@@ -7,13 +7,16 @@
 <p>
 The Super-chip interpreter for the modified VIP (chip10 modification) and Studio IV was designed by me. It should support Super-CHIP 1.1, 00FA instruction from chip8run and also somewhat follows SCHIP/SCHPC however with some selectable options/quirks:</p>
 <p>
-<UL>
+<OL>
 <LI>SHIFT: When selected Vy will be ignored for SHL/SHR Vx, Vy instructions
 <LI>LOAD: When selected I will NOT be incremented for LD VX,[I] and LD [i], Vx
 <LI>BXNN: When selected JP B,aaa will jump to address xaa + V0 instead of aaa + V0
 <LI>VBLNK: When selected interpreter will wait for VBLaNK before drawing a sprite
 <LI>CLIPS: When selected Sprites will be CLIPed at top/bottom of screen 
-</UL>
+</OL>
+</p>
+<p>
+Note depending on keypad mapping 4 and 5 might be mapped to PC keys Q and W. To start the chip8 or Super-chip game press any key other than 1 to 5.
 </p>
 <p>
 For chip8 games use: SHIFT, LOAD, BXNN not selected, VBLNK, CLIPS selected<br>
@@ -23,15 +26,15 @@ For most Super-chip games use: SHIFT, LOAD, BXNN selected, VBLNK, CLIPS not sele
 Some Super-chip games need the following setting:
 <UL>
 <LI>Chipcross: SHIFT selected, LOAD not selected, BNNN selected, VBLNK & CLIPS not selected
-<LI>Eaty the Alien: All not selected 
-<LI>Grad School Simulator: All not selected  
-<LI>Codegrid: All not selected  
-<LI>Mr. Worm: All not selected 
-<LI>Octopeg: All not selected 
-<LI>Sub-Terr8nia: All not selected 
+<LI>Eaty the Alien: No options selected 
+<LI>Grad School Simulator: No options selected
+<LI>Codegrid: No options selected
+<LI>Mr. Worm: No options selected
+<LI>Octopeg: No options selected
+<LI>Sub-Terr8nia: No options selected
 </p>
 <p>
-Super-chip code should be located from 800-17FF, address 800 is seen as 200 by the interpreter. So a command 2200 will do a call to address 800. Video memory is located from 1C00 to 1FFF and Vx-Vy from 1BF0 to 1BFF.
+Super-chip code should be located from 800-17FF. Note that address 800 is seen as 200 by the interpreter. So a command 2200 will do a call to address 800 instead of 200. Video memory is located from 1C00 to 1FFF and Vx-Vy are stored from 1BF0 to 1BFF.
 </p>
 <h3>Definitions</h3>
 <TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >

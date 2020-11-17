@@ -451,7 +451,7 @@ void GuiComx::writeSbConfig()
 
 void GuiComx::writeComxDirConfig()
 {
-        if (!conf[COMX].sbActive_)
+    if (!conf[COMX].sbActive_)
     {
         writeConfigDir("/Dir/Comx/Main_Rom_File", conf[COMX].romDir_[MAINROM1]);
         writeConfigDir("/Dir/Comx/Expansion_Rom_File", conf[COMX].romDir_[EXPROM]);

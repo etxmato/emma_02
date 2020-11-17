@@ -1677,7 +1677,6 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		if (answer == wxYES)
 		{
 			reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
-			completedSplashScreen_ = new CompletedSplashScreen(this);
 		}
 	}
 
@@ -6996,6 +6995,8 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"FullScreenF3StudioIV", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5StudioIV", wxButton)->Enable(!status);
         XRCCTRL(*this,"VidModeStudioIV", wxChoice)->Enable(status);
+        XRCCTRL(*this, "2020StudioIV", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"CartSwitchStudioIV", wxButton)->Enable(status);
         enableLoadGui(!status);
         setRealCas2(runningComputer_);
     }

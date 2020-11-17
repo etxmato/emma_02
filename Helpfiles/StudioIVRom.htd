@@ -13,10 +13,10 @@ Similar as for the main ROM any cartridge ROM can be specified via the 'CART' bu
 </p>
 <h3>Tiny BASIC</h3>
 <p>
-Tiny BASIC as released on the VIP VP700 board was also ported by RCA to the Studio IV. Unfortunately only half (second 2K) of the original code has been discovered however I have been able to port the VIP routines for the missing half to the Studio IV. So the code provided here is not fully original.
+Tiny BASIC as released on the VIP VP700 board was also ported by RCA to the Studio IV. Initially only half (second 2K) of the original code was discovered at the time I was able to port the VIP routines for the missing half to the Studio IV. So the code provided for these versions is not fully original.
 </p>
 <p>
-Four versions are provided:
+Four '2020' versions are provided:
 </p>
 <OL>
 <LI>PAL for use with 32K RAM
@@ -26,6 +26,19 @@ Four versions are provided:
 </OL>
 <p>
 My assumption is that 4K was as developed by RCA as Studio IV color memory is located at address 0x2800 limiting the RAM options. For the 32K RAM version I moved the color memory to 0x1000.
+</p>
+<p>
+Recently sources for the second half of Tiny BASIC was found at the Hagley Museum and Library. Which means we now also have the original code which was only written for an NTSC version and max 4K RAM. This version is inlcuded as 'am4kbas 1978.bin'.
 </p> 
+<h3>Super-chip</h3>
+<p>
+The Super-chip interpreter was designed by me. I started this during the covid-19 pandemic in 2020. Initially for a modified VIP (same HW mod as for the chip10 interpreter) but now also ported to the Studio IV. 
+</p>
+<p>
+The Studio IV port was actually fairly easy, however as Super-Chip is supposed to run from RAM it is not compatible with a real Studio IV if we would ever find one. Instead it runs from RAM but from cartridge ROM location in memory. For this a switch button is added to switch from CART ROM to CART RAM. 
+</p>
+<p>
+For more details and explanations for start-up settings see <a href="DebuggerSyntaxSuperchip.htm">Super-chip Syntax</a>.
+</p>
 </BODY>
 </HTML>

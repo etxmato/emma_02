@@ -25,7 +25,8 @@ public:
 	void cycle(int type);
     int translateKey(int key);
 
-	void startComputer();
+    void startComputer();
+    void startComputer2020();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
 	Byte readMem(Word address);
@@ -39,6 +40,7 @@ public:
 	void onReset();
     void startComputerRun(bool load);
     void sleepComputer(long ms);
+    void checkComputerFunction();
     void finishStopTape();
 
 private:
@@ -65,6 +67,7 @@ private:
     int tapeFinished_;
 
     int keyboardValue_;
+    bool st2020Active_;
 };
 
 #endif  // STUDIOIV_H

@@ -64,14 +64,15 @@ void StudioIV::configureComputer()
 	p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "A", keyDefA1_, keyDefA2_, keyDefGameHexA_);
 	p_Main->getDefaultHexKeys(STUDIOIV, "StudioIV", "B", keyDefB1_, keyDefB2_, keyDefGameHexB_);
 
-    gameAuto_ = p_Main->getConfigBool("/StudioIV/GameAuto", false);
+    gameAuto_ = p_Main->getConfigBool("/StudioIV/GameAuto", true);
 
 	simDefA2_ = p_Main->getConfigBool("/StudioIV/DiagonalA2", false);
     simDefB2_ = p_Main->getConfigBool("/StudioIV/DiagonalB2", false);
     
     keyboardValue_ = 0;
     shiftKey_ = 0;
-    
+    addressLatch_ = 0x8000;
+
 	resetCpu();
 }
 
@@ -127,7 +128,7 @@ void StudioIV::reDefineKeysB(int hexKeyDefB1[], int hexKeyDefB2[])
 
 void StudioIV::keyDown(int keycode)
 {
-    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
+    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020"))
     {
         victoryKeyState_[0][0xf] = 1;
         victoryKeyState_[1][0xf] = 1;
@@ -279,7 +280,7 @@ void StudioIV::keyDown(int keycode)
 			}
 		}
         
-        if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
+        if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020"))
         {
             victoryKeyState_[0][0xf] = 1;
             victoryKeyState_[1][0xf] = 1;
@@ -294,7 +295,7 @@ void StudioIV::keyDown(int keycode)
 
 void StudioIV::keyUp(int keycode)
 {
-    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
+    if (keycode == WXK_SHIFT && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020"))
     {
         victoryKeyState_[0][0xf] = 0;
         victoryKeyState_[1][0xf] = 0;
@@ -338,7 +339,7 @@ void StudioIV::keyUp(int keycode)
 	}
     if (keyDefinition[keycode].defined)
         victoryKeyState_[keyDefinition[keycode].player][keyDefinition[keycode].key] = 0;
-    if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS"))
+    if (keyDefinition[keycode].shift && (pseudoType_ == "AM4KBAS" || pseudoType_ == "AM4KBAS1978" || pseudoType_ == "AM4KBASPLUS" || pseudoType_ == "AM4KBAS2020"))
     {
         victoryKeyState_[0][0xf] = 0;
         victoryKeyState_[1][0xf] = 0;
@@ -575,6 +576,13 @@ void StudioIV::startComputer()
 	p_Main->setSwName("");
 
     p_Main->checkAndReInstallMainRom(STUDIOIV);
+    
+    st2020Active_ = p_Main->is2020Active();
+    if (st2020Active_)
+    {
+        startComputer2020();
+        return;
+    }
     readProgram(p_Main->getRomDir(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, MAINROM1), ROM, 0, NONAME);
 
     p_Main->assDefault("studioivrom", 0x000, 0x7FF);
@@ -603,9 +611,26 @@ void StudioIV::startComputer()
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
     if (pseudoType_ == "SUPERCHIP")
-        readProgram(p_Main->getRomDir(STUDIOIV, CARTROM), p_Main->getRomFile(STUDIOIV, CARTROM), ROM, 0x800, SHOWNAME);
+    {
+        if (p_Main->getLoadromModeStudio() == RAM)
+        {
+            defineMemoryType(0x800, 0x17FF, RAM);
+            initRam(0x800, 0x17FF);
+            readProgram(p_Main->getRomDir(STUDIOIV, CARTROM), p_Main->getRomFile(STUDIOIV, CARTROM), RAM, 0x800, SHOWNAME);
+        }
+        else
+        {
+            defineMemoryType(0x800, 0x17FF, ROM);
+            readProgram(p_Main->getRomDir(STUDIOIV, CARTROM), p_Main->getRomFile(STUDIOIV, CARTROM), ROM, 0x800, SHOWNAME);
+        }
+    }
     else
-        readSt2Program(STUDIOIV);
+    {
+        if (p_Main->getLoadromModeStudio() == RAM)
+            readSt2Program(STUDIOIV, RAM);
+        else
+            readSt2Program(STUDIOIV, CARTRIDGEROM);
+    }
 
     if (pseudoType_ == "AM4KBASPLUS")
     {
@@ -629,6 +654,46 @@ void StudioIV::startComputer()
 	p_Main->startTime();
 
 	threadPointer->Run();
+}
+
+void StudioIV::startComputer2020()
+{
+    readProgram(p_Main->getRomDir(STUDIOIV, MAINROM1), p_Main->getRomFile(STUDIOIV, MAINROM1), ROM, 0x8000, NONAME);
+
+    defineMemoryType(0, 0x7bFF, RAM);
+    initRam(0, 0x7bFF);
+    defineMemoryType(0x7C00, 0x7FFF, COLOURRAM);
+//    initRam(0xBC00, 0xBFFF);
+
+    double zoom = p_Main->getZoom();
+    
+    configurePixieStudioIV();
+    initPixie();
+    setZoom(zoom);
+    Show(true);
+    setWait(1);
+    setClear(0);
+    setWait(1);
+    setClear(1);
+    
+    cassetteEf_ = 0;
+        
+    reDefineKeysA(keyDefA1_, keyDefA2_);
+    reDefineKeysB(keyDefB1_, keyDefB2_);
+    
+    p_Main->updateTitle();
+    
+    cpuCycles_ = 0;
+    p_Main->startTime();
+ 
+    pseudoType_ = "AM4KBAS2020";
+    chip8baseVar_ = 0x7b00;
+    chip8mainLoop_ = 0xA0AB;
+    chip8register12bit_ = false;
+    pseudoLoaded_ = true;
+    p_Main->forcePseudoDefinition(pseudoType_, "am2020bas.syntax", "AM4KBAS 2020");
+
+    threadPointer->Run();
 }
 
 void StudioIV::writeMemDataType(Word address, Byte type)
@@ -660,6 +725,12 @@ Byte StudioIV::readMemDataType(Word address)
 
 Byte StudioIV::readMem(Word address)
 {
+    if (address >= 0x8000)
+        addressLatch_ = 0;
+    
+    if (st2020Active_)
+        address |= addressLatch_;
+    
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -673,11 +744,38 @@ Byte StudioIV::readMem(Word address)
             
     }
 
+//    if ((address < 0x1000 && address > 0x8a) || address < 0x2c)
+//        p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
 	return mainMemory_[address];
 }
 
 Byte StudioIV::readMemDebug(Word address)
 {
+/*    if (address >= 0x8000)
+        addressLatch_ = 0;
+    
+    if (st2020Active_)
+        address |= addressLatch_;
+    
+    switch (memoryType_[address/256])
+    {
+        case UNDEFINED:
+            return 255;
+            break;
+            
+        case COLOURRAM:
+            if (st2020Active_)
+                return mainMemory_[address];
+            else
+            {
+                address = (address&0xf) +  ((address&0x3c0) >> 2);
+                return colorMemory1864_[address] & 0xf;
+            }
+            break;
+            
+    }
+    
+    return mainMemory_[address];*/
     return readMem(address);
 }
 
@@ -757,7 +855,9 @@ void StudioIV::resetPressed()
     
     reDefineKeysA(keyDefA1_, keyDefA2_);
     reDefineKeysB(keyDefB1_, keyDefB2_);
-    
+   
+    addressLatch_ = 0x8000;
+
     setWait(1);
     setClear(0);
     setWait(1);
@@ -780,3 +880,30 @@ void StudioIV::sleepComputer(long ms)
     threadPointer->Sleep(ms);
 }
 
+void StudioIV::checkComputerFunction()
+{
+    switch (scratchpadRegister_[programCounter_])
+    {
+        case 0:
+ //           pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
+        break;
+         
+        case 0xa00a:
+            pseudoType_ = "AM4KBAS2020";
+            chip8baseVar_ = 0x7b00;
+            chip8mainLoop_ = 0xA0AB;
+            chip8register12bit_ = false;
+            pseudoLoaded_ = true;
+            p_Main->forcePseudoDefinition(pseudoType_, "am2020bas.syntax", "AM4KBAS 2020");
+        break;
+
+        case 0xb00a:
+            pseudoType_ = "AM4KBAS2020";
+            chip8baseVar_ = 0x7b00;
+            chip8mainLoop_ = 0xB0A3;
+            chip8register12bit_ = false;
+            pseudoLoaded_ = true;
+            p_Main->forcePseudoDefinition(pseudoType_, "am2020bas.syntax", "AM4KBAS 2020");
+        break;
+    }
+}

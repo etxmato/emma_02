@@ -455,7 +455,7 @@ void Victory::startComputer()
 	{
         if (!multiCart_)
         {
-            readSt2Program(VICTORY);
+            readSt2Program(VICTORY, CARTRIDGEROM);
             p_Main->assDefault("victorycart", 0x400, 0x7FF);
         }
         else

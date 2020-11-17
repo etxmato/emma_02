@@ -208,6 +208,9 @@ load: studioivdefault
 name: am4kbas 1978.bin
 load: studioivdefault
 
+name: studio_2020.bin
+load: studioivdefault
+
 name: Studioiv on Character
 pad a1: A_C_0, A_C_1, A_C_2, A_C_3, A_C_4, A_C_5, A_C_6, A_C_7, A_C_8, A_C_9, 65, 66, 67, 68, 69, 70
 pad a2: 32, 0, 315, 0, 314, 0, 316, 0, 317, 0, 0, 0, 0, 0, 0, 0

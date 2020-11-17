@@ -49,14 +49,20 @@ public:
     void readStudioIVWindowConfig();
     void writeStudioIVWindowConfig();
     void onStudioIVVideoMode(wxCommandEvent&event);
-    
     int getStudioVideoMode(int computer);
+
+    void onCartSwitch(wxCommandEvent& event);
+    int getLoadromModeStudio();
     
+    bool is2020Active();
+    void on2020Active(wxCommandEvent&event);
+
 	void onSt2Rom(wxCommandEvent& event);
 	void onSt2RomEject(wxCommandEvent& event);
 
 private:
 	wxString studio2St2RomDir_;
+    int loadromMode_;
 
 	DECLARE_EVENT_TABLE()
 };

@@ -170,9 +170,12 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
     EVT_BUTTON(XRCID("KeyMapStudioIV"), Main::onHexKeyDef)
     EVT_BUTTON(XRCID("ColoursStudioIV"), Main::onColoursDef)
     EVT_CHOICE(XRCID("VidModeStudioIV"), GuiStudio2::onStudioIVVideoMode)
+    EVT_CHECKBOX(XRCID("2020StudioIV"), GuiComx::on2020Active)
 
     EVT_BUTTON(XRCID("SaveButtonStudioIV"), GuiMain::onSaveButton)
     EVT_BUTTON(XRCID("LoadButtonStudioIV"), GuiMain::onLoadButton)
+
+    EVT_BUTTON(XRCID("CartSwitchStudioIV"), GuiElf::onCartSwitch)
 
 END_EVENT_TABLE()
 
@@ -614,6 +617,8 @@ void GuiStudio2::onVictoryVideoMode(wxCommandEvent&event)
 
 void GuiStudio2::readStudioIVConfig()
 {
+    bool romMode;
+
     conf[STUDIOIV].loadFileNameFull_ = "";
     conf[STUDIOIV].loadFileName_ = "";
     
@@ -672,6 +677,28 @@ void GuiStudio2::readStudioIVConfig()
     conf[STUDIOIV].xScale_ = configPointer->Read("/StudioIV/Window_Scale_Factor_X", defaultScale);
     conf[STUDIOIV].realCassetteLoad_ = false;
     
+    configPointer->Read("/StudioIV/Enable_2020", &conf[STUDIOIV].st2020Active_, false);
+    configPointer->Read("/StudioIV/Load_Mode_Rom", &romMode, false);
+
+    if (romMode)
+    {
+        loadromMode_ = ROM;
+        if (mode_.gui)
+        {
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART ROM");
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge ROM file");
+        }
+    }
+    else
+    {
+        loadromMode_ = RAM;
+        if (mode_.gui)
+        {
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART RAM");
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge RAM file");
+        }
+    }
+
     if (mode_.gui)
     {
         XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
@@ -691,6 +718,7 @@ void GuiStudio2::readStudioIVConfig()
         XRCCTRL(*this, "VolumeStudioIV", wxSlider)->SetValue(conf[STUDIOIV].volume_);
         
         XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);
+        XRCCTRL(*this, "2020StudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].st2020Active_);
     }
 }
 
@@ -719,6 +747,8 @@ void GuiStudio2::writeStudioIVConfig()
 	configPointer->Write("/StudioIV/Turbo_Clock_Speed", conf[STUDIOIV].turboClock_);
 	configPointer->Write("/StudioIV/Enable_Auto_Cassette", conf[STUDIOIV].autoCassetteLoad_);
 	configPointer->Write("/StudioIV/Enable_Real_Cassette", conf[STUDIOIV].realCassetteLoad_);
+    configPointer->Write("/StudioIV/Enable_2020", conf[STUDIOIV].st2020Active_);
+    configPointer->Write("/StudioIV/Load_Mode_Rom", (loadromMode_ == ROM));
 }
 
 void GuiStudio2::readStudioIVWindowConfig()
@@ -772,3 +802,35 @@ int GuiStudio2::getStudioVideoMode(int computer)
 {
     return conf[computer].videoMode_;
 }
+
+void GuiStudio2::onCartSwitch(wxCommandEvent& event)
+{
+    if (loadromMode_ == ROM)
+    {
+        loadromMode_ = RAM;
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART RAM");
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge RAM file");
+    }
+    else
+    {
+        loadromMode_ = ROM;
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART ROM");
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge ROM file");
+    }
+}
+
+int GuiStudio2::getLoadromModeStudio()
+{
+    return loadromMode_;
+}
+
+bool GuiStudio2::is2020Active()
+{
+    return conf[STUDIOIV].st2020Active_;
+}
+
+void GuiStudio2::on2020Active(wxCommandEvent&event)
+{
+    conf[STUDIOIV].st2020Active_ = event.IsChecked();
+}
+

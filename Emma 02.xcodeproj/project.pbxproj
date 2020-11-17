@@ -22,6 +22,7 @@
 		9942DD6D1F3B4D3E00569242 /* base.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6B1F3B4D3E00569242 /* base.cpp */; };
 		9942DD701F3B4D6B00569242 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9942DD6E1F3B4D6B00569242 /* http.cpp */; };
 		99431DEB1F22213400F5A2D4 /* images_osx in Resources */ = {isa = PBXBuildFile; fileRef = 99431DEA1F22213400F5A2D4 /* images_osx */; };
+		995E0CE3254E1378001BA0F8 /* am2020bas.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E0CE2254E1378001BA0F8 /* am2020bas.syntax */; };
 		995E76F022B2E5D300817B08 /* Chip8Elf.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */; };
 		995FE8912516136400F96DB8 /* SuperChip.syntax in Resources */ = {isa = PBXBuildFile; fileRef = 995FE8902516136300F96DB8 /* SuperChip.syntax */; };
 		99605651230AF26F009FF74F /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9960564F230AF26E009FF74F /* pio.cpp */; };
@@ -261,6 +262,7 @@
 		9942DD751F3B4DBE00569242 /* SDL_audioin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SDL_audioin.h; path = src/SDL_audioin.h; sourceTree = "<group>"; };
 		99431DEA1F22213400F5A2D4 /* images_osx */ = {isa = PBXFileReference; lastKnownFileType = folder; path = images_osx; sourceTree = "<group>"; };
 		9943A6691F3E42F2001F0222 /* Emma 02.rc */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Emma 02.rc"; sourceTree = "<group>"; };
+		995E0CE2254E1378001BA0F8 /* am2020bas.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = am2020bas.syntax; sourceTree = "<group>"; };
 		995E76EF22B2E5D200817B08 /* Chip8Elf.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Chip8Elf.syntax; sourceTree = "<group>"; };
 		995FE8902516136300F96DB8 /* SuperChip.syntax */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = SuperChip.syntax; sourceTree = "<group>"; };
 		9960564F230AF26E009FF74F /* pio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pio.cpp; path = src/pio.cpp; sourceTree = "<group>"; };
@@ -646,6 +648,7 @@
 				9909A22F1F2144D200B17E58 /* Datadir.pjd */,
 				996C1614212F3F130061C30B /* pseudo.def */,
 				999F67A224B8975A00863075 /* amvbas.syntax */,
+				995E0CE2254E1378001BA0F8 /* am2020bas.syntax */,
 				99C567BB24CC4DFB00F11A84 /* am4kbas.syntax */,
 				99D92E72211AA0AD007D868E /* CARDTRAN.syntax */,
 				99090B0E2118CFD7008B16DA /* FPL-2.syntax */,
@@ -1123,6 +1126,7 @@
 				99792DF31B88FF340044FDBB /* keymap.xrc in Resources */,
 				99090B112118D720008B16DA /* GPL-A_RAM.syntax in Resources */,
 				995FE8912516136400F96DB8 /* SuperChip.syntax in Resources */,
+				995E0CE3254E1378001BA0F8 /* am2020bas.syntax in Resources */,
 				99A502CB1E959040004218C8 /* splash.xrc in Resources */,
 				99D5FCD7211C938E001F4391 /* Chip8X.syntax in Resources */,
 				99F374751CADBBC2000DA615 /* LGPL.txt in Resources */,
@@ -1625,7 +1629,7 @@
 				PRODUCT_NAME = "Emma 02";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = NO;
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
-				VALID_ARCHS = "i386 x86_64";
+				VALID_ARCHS = x86_64;
 				WARNING_LDFLAGS = "";
 				WXROOT = "../wxWidgets-3.0.3";
 			};

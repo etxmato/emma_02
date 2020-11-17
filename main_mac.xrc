@@ -15144,7 +15144,7 @@
                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                         <size>-1</size>
                                                                     </font>
-                                                                    <label>CDP1861 / Chip 10 - High resolution</label>
+                                                                    <label>Super-chip / Chip 10 - High resolution</label>
                                                                     <checked>0</checked>
                                                                 </object>
                                                             </object>
@@ -21211,29 +21211,48 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxALIGN_TOP|wxALL</flag>
+                                                                        <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object class="wxButton" name="CartRomButtonStudioIV">
-                                                                            <tooltip>Browse for cartridge ST2 ROM file</tooltip>
+                                                                            <tooltip>Browse for cartridge ROM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>CART</label>
+                                                                            <label>CART ROM</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <option>20</option>
-                                                                        <object class="wxComboBox" name="CartRomStudioIV">
-                                                                            <size>192,-1</size>
-                                                                            <tooltip>Specify cartridge ST2 ROM file</tooltip>
-                                                                            <font>
-                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                <size>-1</size>
-                                                                            </font>
-                                                                            <style>wxCB_DROPDOWN</style>
+                                                                        <flag>wxGROW|wxALIGN_TOP</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="CartSwitchStudioIV">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Toggle ROM/RAM</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxComboBox" name="CartRomStudioIV">
+                                                                                    <size>166,-1</size>
+                                                                                    <tooltip>Specify cartridge ST2 ROM file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <style>wxCB_DROPDOWN</style>
+                                                                                    <content>
+                                                                                        <item></item>
+                                                                                    </content>
+                                                                                </object>
+                                                                            </object>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -21340,6 +21359,26 @@
                                                                         <size>-1</size>
                                                                     </font>
                                                                     <label>Key Map</label>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>3</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxCheckBox" name="2020StudioIV">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <hidden>1</hidden>
+                                                                            <label>Studio 2020</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
                                                                 </object>
                                                             </object>
                                                         </object>

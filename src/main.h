@@ -486,8 +486,8 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.36
-#define EMMA_SUB_VERSION 20
+#define EMMA_VERSION 1.37
+#define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2

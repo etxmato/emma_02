@@ -4473,7 +4473,7 @@ bool Cdp1802::readProgramPecom(wxString romDir, wxString rom, int memoryType, Wo
 	return readProgram(romDir, rom, memoryType, address, showFilename);
 }
 
-void Cdp1802::readSt2Program(int computerType)
+void Cdp1802::readSt2Program(int computerType, int memoryType)
 {
 	wxString fileName, file;
 	wxFFile inFile;
@@ -4517,7 +4517,7 @@ void Cdp1802::readSt2Program(int computerType)
                     else
                     {
                         inFile.Read((&mainMemory_[st2Header.offsets[i-1] << 8]),256);
-                        defineMemoryType(st2Header.offsets[i-1] << 8, CARTRIDGEROM);
+                        defineMemoryType(st2Header.offsets[i-1] << 8, memoryType);
                     }
 				}
 				inFile.Close();

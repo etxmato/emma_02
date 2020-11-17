@@ -186,7 +186,8 @@ public:
 	bool autoCassetteLoad_;
 	bool turbo_;
 	bool interlace_;
-	bool sbActive_;
+    bool st2020Active_;
+    bool sbActive_;
 	bool diagActive_;
 	int diagOn_;
 	bool videoLog_;

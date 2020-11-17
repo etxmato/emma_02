@@ -474,7 +474,7 @@ void Studio2::startComputer()
     {
         if (!multiCart_)
         {
-            readSt2Program(STUDIO);
+            readSt2Program(STUDIO, CARTRIDGEROM);
             p_Main->assDefault("studiocart", 0x400, 0x7FF);
         }
         else
