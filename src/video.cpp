@@ -88,14 +88,29 @@ VideoScreen::VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int 
 
 void VideoScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 {
+    if (p_Main->emuClosing())
+        return;
+    
 	wxPaintDC dcWindow(this);
 	if (vt100_)
     {
+#ifdef __WXMAC__
+        if (p_Vt100[uartNumber_] != NULL)
+            p_Vt100[uartNumber_]->reBlit(dcWindow);
+#else
         if (p_Vt100[uartNumber_] != NULL)
             p_Vt100[uartNumber_]->setReBlit();
+#endif
     }
 	else
+    {
+#ifdef __WXMAC__
+        dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
+        p_Video->reBlit(dcWindow);
+#else
 		p_Video->setReBlit();
+#endif
+    }
 }
 
 void VideoScreen::onChar(wxKeyEvent& event)
@@ -315,22 +330,15 @@ Byte VideoScreen::getKey(Byte vtOut)
 void VideoScreen::blit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
 {
     wxClientDC dcWindow(this);
+
     dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
-#if defined(__WXMAC__)
-//    dcWindow.SetInterpolationQuality(wxINTERPOLATION_NONE);
-#endif
     dcWindow.Blit(xdest, ydest, width, height, source, xsrc, ysrc);
-//    p_Main->eventBlit(xdest, ydest, width, height, source, xsrc, ysrc);
 }
 
-void VideoScreen::blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
+void VideoScreen::refreshVideo()
 {
-    wxClientDC dcWindow(this);
-    dcWindow.SetUserScale((double)zoom_*xZoomFactor_, zoom_);
-#if defined(__WXMAC__)
-//    dcWindow.SetInterpolationQuality(wxINTERPOLATION_NONE);
-#endif
-    dcWindow.Blit(xdest, ydest, width, height, source, xsrc, ysrc);
+    this->Refresh();
+    this->Update();
 }
 
 void VideoScreen::drawExtraBackground(wxColour clr, int width, int height, wxCoord offsetX, wxCoord offsetY)
@@ -388,6 +396,7 @@ Video::Video(const wxString& title, const wxPoint& pos, const wxSize& size)
 	zoomChanged_ = 0;
 	videoType_ = 0;
 	videoSyncCount_ = 0;
+    memoryDCvalid_ = true;
 }
 
 void Video::onClose(wxCloseEvent&WXUNUSED(event) )
@@ -558,8 +567,10 @@ void Video::setScreenSize()
 {
 	if (fullScreenSet_)
 		return;
-	SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-	changeScreenSize();
+    if (wxIsMainThread())
+        SetClientSize(destinationWidth_, destinationHeight_);
+    else
+        p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, CALL_CHANGE_SCREEN_SIZE, videoScreenPointer->isVt(), uartNumber_);
 }
 
 void Video::changeScreenSize()
@@ -567,9 +578,15 @@ void Video::changeScreenSize()
 	if (p_Main->isZoomEventOngoing())
 		return;
 
+    memoryDCvalid_ = false;
+
 	double zoomx, zoomy;
 
-	wxSize size = this->GetClientSize();
+    wxSize size;
+    if (wxIsMainThread())
+        size = p_Video->GetClientSize();
+    else
+        size = p_Main->eventGetClientSize();
 	destinationWidth_ = size.x;
 	destinationHeight_ = size.y;
 
@@ -597,11 +614,15 @@ void Video::changeScreenSize()
 		 extraBackGround_ = true;
 
 	videoScreenPointer->setZoom(zoom_);
-	videoScreenPointer->SetClientSize(destinationWidth_, destinationHeight_);
+    if (wxIsMainThread())
+        SetClientSize(destinationWidth_, destinationHeight_);
+    else
+        p_Main->eventSetClientSize(destinationWidth_, destinationHeight_, DON_T_CALL_CHANGE_SCREEN_SIZE, videoScreenPointer->isVt(), uartNumber_);
 
 	dcMemory.SelectObject(wxNullBitmap);
 	delete screenCopyPointer;
 	screenCopyPointer = new wxBitmap(2*offsetX_+videoWidth_, 2*offsetY_+videoHeight_);
+    
 	dcMemory.SelectObject(*screenCopyPointer);
     
 #ifdef __WXMAC__
@@ -618,10 +639,17 @@ void Video::changeScreenSize()
 	newBackGround_ = true;
 #endif
 
-	if (videoScreenPointer->isVt())
-		p_Main->zoomEventVt(zoom_);
-	else
-		p_Main->zoomEvent(zoom_);
+    if (wxIsMainThread())
+    {
+        if (videoScreenPointer->isVt())
+            p_Main->zoomEventVt(zoom_);
+        else
+            p_Main->zoomEvent(zoom_);
+    }
+    else
+        p_Main->eventZoom(zoom_, videoScreenPointer->isVt());
+    
+    memoryDCvalid_ = true;
 }
 
 void Video::onF3()
@@ -701,6 +729,30 @@ void Video::setZoom(double zoom)
 #ifndef __linux__
 	reBlit_ = true;
 #endif
+}
+
+void Video::reBlit(wxDC &dc)
+{
+    if (!memoryDCvalid_)
+        return;
+    
+    dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+    
+    if (extraBackGround_ && newBackGround_)
+    {
+        wxSize size = wxGetDisplaySize();
+
+        dc.SetBrush(wxBrush(colour_[backGround_]));
+        dc.SetPen(wxPen(colour_[backGround_]));
+
+        int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
+        dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
+
+        int yStart = (int)((2*offsetY_+videoHeight_)*zoom_);
+        dc.DrawRectangle(0, yStart, size.x, size.y-yStart);
+
+        newBackGround_ = false;
+    }
 }
 
 void Video::drawExtraBackground(wxColour clr)
@@ -857,11 +909,12 @@ void Video::writePramDirect(Word address, Byte value)
     reDraw_ = true;
 }
 
-void Video::blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
+void Video::refreshVideo()
 {
-    videoScreenPointer->blit(xdest, ydest, width, height, source, xsrc, ysrc);
+    videoScreenPointer->refreshVideo();
 }
 
-
-
-
+void Video::setClientSize(wxSize size)
+{
+    this->SetClientSize(size);
+}

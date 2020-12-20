@@ -48,7 +48,8 @@ public:
     void setRunLed(int status) {cdp18s640ScreenPointer->setRunLed(status);};
     void ledTimeout() {cdp18s640ScreenPointer->ledTimeout();};
     void setLedMs(long ms) {cdp18s640ScreenPointer->setLedMs(ms);};
-    
+    void refreshPanel();
+
 private:
     class Cdp18s640Screen *cdp18s640ScreenPointer;
     

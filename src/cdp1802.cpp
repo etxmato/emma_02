@@ -1587,7 +1587,8 @@ void Cdp1802::cpuCycleFetch()
     	traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
     instructionCode_=readMem(scratchpadRegister_[programCounter_]);
-// ** address log    p_Main->addressLog(scratchpadRegister_[programCounter_]);
+// ** address log
+//    p_Main->addressLog(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
     if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]) >= MEM_TYPE_OPCODE_RSHR)
     {

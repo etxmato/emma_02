@@ -155,6 +155,10 @@ void ElfScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+        
     for (int i=0; i<4; i++)
     {
         efSwitchButton[i]->onPaint(dc);
@@ -1838,4 +1842,10 @@ void Elf::onNumberKeyUp()
     ef3State_ = 1;
 }
 
+void Elf::refreshPanel()
+{
+    elfScreenPointer->refreshPanel();
+    if (elfConfiguration.useLedModule && !ledModuleClosed_)
+        ledModulePointer->refreshPanel();
+}
 

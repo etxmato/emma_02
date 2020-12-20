@@ -92,6 +92,7 @@ public:
     void removePio(int pioNumber);
     void setHeaderTitle(const wxString& title);
     void showControlWindow(bool state);
+    void refreshPanel();
 
 protected:
     Byte efState_[5];

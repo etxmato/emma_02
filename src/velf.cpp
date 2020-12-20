@@ -104,6 +104,7 @@ void VelfScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.DrawRectangle(0, 0, 310, 180);
 #if defined(__WXMAC__)
 	wxFont defaultFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    rePaintLeds(dc);
 #else
 	wxFont defaultFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
@@ -953,4 +954,8 @@ void Velf::setLedMs(long ms)
     ledCycleValue_ = ledCycleSize_;
 }
 
+void Velf::refreshPanel()
+{
+    velfScreenPointer->refreshPanel();
+}
 

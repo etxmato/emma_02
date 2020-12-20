@@ -79,8 +79,8 @@ public:
 
     // accessors
     bool GetBoolValue()            { return boolValue_;}
+    bool GetBoolValue1()            { return boolValue1_;}
     double GetDoubleValue()        { return doubleValue_;}
-    wxDC* GetDc()        { return dcValue_;}
     wxCoord GetCoord1()        { return wxCoord1_;}
     wxCoord GetCoord2()        { return wxCoord2_;}
     wxCoord GetCoord3()        { return wxCoord3_;}
@@ -95,10 +95,11 @@ public:
     wxString GetStringValue2()	{ return stringValue2_;}
     wxString GetStringValue3()	{ return stringValue3_;}
     wxString GetStringValue4()	{ return stringValue4_;}
-    wxString GetStringValue5()	{ return stringValue5_;}
+    wxString GetStringValue5()    { return stringValue5_;}
+    wxSize GetSizeValue()    { return sizeValue_;}
     void SetBoolValue(bool boolValue)    { boolValue_ = boolValue;}
+    void SetBoolValue1(bool boolValue)    { boolValue1_ = boolValue;}
     void SetDoubleValue(double doubleValue)    { doubleValue_ = doubleValue;}
-    void SetDc(wxDC *dcValue)    { dcValue_ = dcValue;}
     void SetCoord1(wxCoord coordValue)    { wxCoord1_ = coordValue;}
     void SetCoord2(wxCoord coordValue)    { wxCoord2_ = coordValue;}
     void SetCoord3(wxCoord coordValue)    { wxCoord3_ = coordValue;}
@@ -113,14 +114,15 @@ public:
     void SetStringValue2(wxString stringValue2)	{ stringValue2_ = stringValue2;}
     void SetStringValue3(wxString stringValue3)	{ stringValue3_ = stringValue3;}
     void SetStringValue4(wxString stringValue4)	{ stringValue4_ = stringValue4;}
-    void SetStringValue5(wxString stringValue5)	{ stringValue5_ = stringValue5;}
+    void SetStringValue5(wxString stringValue5)    { stringValue5_ = stringValue5;}
+    void SetSizeValue(wxSize sizeValue)    { sizeValue_ = sizeValue;}
 
     // required for sending with wxPostEvent()
 	wxEvent *Clone(void) const { return new guiEvent(*this); }
 
 private:
-    wxDC *dcValue_;
     bool boolValue_;
+    bool boolValue1_;
     double doubleValue_;
     wxCoord wxCoord1_;
     wxCoord wxCoord2_;
@@ -137,6 +139,7 @@ private:
     wxString stringValue3_;
     wxString stringValue4_;
     wxString stringValue5_;
+    wxSize sizeValue_;
 };
 
 wxDEFINE_EVENT(GUI_MSG, guiEvent);
@@ -245,13 +248,18 @@ protected:
 #define SET_STATIC_TEXT_VALUE 32
 #define ZOOM_CHANGE 33
 #define ZOOMVT_CHANGE 34
-#define DO_BLIT 35
+#define GET_CLIENT_SIZE 35
+#define SET_CLIENT_SIZE 36
+#define REFRESH_VIDEO 37
+#define REFRESH_PANEL 38
+#define EVENT_ZOOM 39
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
 #define OS_WINDOWS 2
 #define OS_LINUX 10
 #define OS_MAC 20
+#define OS_MAC_PRE_10_9 21
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -487,7 +495,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.37
-#define EMMA_SUB_VERSION 0
+#define EMMA_SUB_VERSION 7
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1005,6 +1013,9 @@ public:
 #define TIL311 0
 #define TIL313 1
 
+#define CALL_CHANGE_SCREEN_SIZE true
+#define DON_T_CALL_CHANGE_SCREEN_SIZE false
+
 #if defined(__WXMAC__)
 #define IMAGES_FOLDER "images_osx"
 #define CTRL_V wxMOD_CMD
@@ -1226,8 +1237,8 @@ public:
     void eventZoomVtChange(double zoom, int uartNumber);
     void zoomVtEventFinished();
 
-    void setBlit(guiEvent& event);
-    void eventBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
+    void SetZoomEvent(guiEvent& event);
+    void eventZoom(double zoom, bool isVt);
 
     void printDefaultEvent(guiEvent& event);
 	void eventPrintDefault(Byte value);
@@ -1251,9 +1262,22 @@ public:
     void printPecomEvent(guiEvent& event);
     void eventPrintPecom(Byte value);
 
+    void refreshVideoEvent(guiEvent& event);
+    void eventRefreshVideo(bool isVt, int uartNumber);
+
+    void refreshPanelEvent(guiEvent& event);
+    void eventRefreshPanel();
+
 	void ShowMessageBoxEvent(guiEvent& event);
 	int eventShowMessageBox(wxString message, wxString caption, int style);
 	void setMessageBoxAnswer(int answer);
+
+    void GetClientSizeEvent(guiEvent& event);
+    wxSize eventGetClientSize();
+
+    void SetClientSizeEvent(guiEvent& event);
+    void eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
+    void eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uartNumber);
 
 	void ShowAddressPopupEvent(guiEvent& event);
 	int eventShowAddressPopup(Word specifiedStartAddress);
@@ -1326,6 +1350,9 @@ private:
 
 	bool thermalEf_;
 	bool statusLedUpdate_;
+
+    bool panelRefreshOngoing_;
+    bool videoRefreshOngoing_;
 
 	bool emuClosing_;
 	bool emmaClosing_;

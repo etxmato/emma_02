@@ -136,8 +136,12 @@ void MemberScreen::init(int front)
 void MemberScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 {
 	wxPaintDC dc(this);
-	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
+    dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+    
 	for (int i=0; i<8; i++)
 	{
 		ledPointer[i]->onPaint(dc);
@@ -985,4 +989,9 @@ void Membership::setGreenLed(int status)
 {
 	qLedStatus_ = (qLedStatus_ & 1) | ((status & 1) << 1);
 	memberScreenPointer->setQLed(qLedStatus_);
+}
+
+void Membership::refreshPanel()
+{
+    memberScreenPointer->refreshPanel();
 }

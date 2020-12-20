@@ -176,6 +176,10 @@ void CosmicosScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
 	for (int i=0; i<8; i++)
 	{
 		ledPointer[i]->onPaint(dc);
@@ -1310,3 +1314,7 @@ void Cosmicos::releaseButtonOnScreen(HexButton* buttonPointer, int buttonType)
         cosmicosScreenPointer->releaseButtonOnScreen(buttonPointer);
 }
 
+void Cosmicos::refreshPanel()
+{
+    cosmicosScreenPointer->refreshPanel();
+}

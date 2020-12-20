@@ -20,7 +20,7 @@ public:
 	bool isVt() {return vt100_;};
 
 	void blit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
-    void blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
+    void refreshVideo();
 	void drawLine(wxCoord x, wxCoord y, wxCoord width, wxCoord height, wxPen penCclr);
 	void drawExtraBackground(wxColour clr, int width, int height, wxCoord offsetX, wxCoord offsetY);
 	void drawRectangle(wxColour clr, int x, int y, wxCoord width, wxCoord height);
@@ -46,7 +46,7 @@ private:
 	int lastKey_;
 	bool repeat_;
 	bool forceUpperCase_;
-
+    
 	DECLARE_EVENT_TABLE()
 };
 
@@ -90,7 +90,7 @@ public:
 	void reColour() {reColour_ = true;};
 
 	virtual void setScreenSize();
-	virtual void changeScreenSize();
+    virtual void changeScreenSize();
 	virtual void onF3();
 	virtual void onF5();
 	double getZoom() {return zoom_;};
@@ -120,7 +120,11 @@ public:
     void setInterruptEnable(bool status) {interruptEnabled_ = status;};
     Byte getPcbMask()  {return pcbMask_;};
     int getMaxLinesPerChar()  {return maxLinesPerCharacters_;};
-    void blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
+
+    void refreshVideo();
+    void setClientSize(wxSize size);
+
+    virtual void reBlit(wxDC &dc);
 
 protected:
     Byte pageMemory_[4096];
@@ -166,7 +170,8 @@ protected:
 	wxBitmap *screenFilePointer;
 	bool changeScreenSize_;
 	double zoomChanged_;
-
+    bool memoryDCvalid_;
+    
 	double zoom_;
 	bool zoomFraction_;
 	double xZoomFactor_;

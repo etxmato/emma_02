@@ -94,7 +94,11 @@ void MicrotutorScreen::init()
 void MicrotutorScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 {
 	wxPaintDC dc(this);
-	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
+    dc.DrawBitmap(*mainBitmapPointer, 0, 0);
+
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
 
 	for (int i=0; i<2; i++)
 	{
@@ -587,4 +591,9 @@ void Microtutor::activateMainWindow()
 	Raise();
 	Show(true);
 	Maximize(maximize);
+}
+
+void Microtutor::refreshPanel()
+{
+    microtutorScreenPointer->refreshPanel();
 }

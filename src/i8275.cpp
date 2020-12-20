@@ -586,8 +586,6 @@ void i8275::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    CharacterList8275 *temp;
-
 	if (reColour_)
 	{
 		for (int i=0; i<numberOfColours_; i++)
@@ -622,13 +620,22 @@ void i8275::copyScreen()
 	if (reBlink_)
 		blinkScreen8275();
 
-	if (extraBackGround_ && newBackGround_) 
-		drawExtraBackground(colour_[backGround_]);
+#if defined(__WXMAC__)
+    if (reBlit_ || reBlitAfterReDraw || reBlink_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reBlink_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(colour_[backGround_]);
+
+    CharacterList8275 *temp;
 
     if (reBlit_ || reBlitAfterReDraw || reBlink_)
-	{
+    {
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, verticalRowsPerFrame_*linesPerCharacterRow_*videoM_+2*offsetY_, &dcMemory, 0, 0);
-
         reBlit_ = false;
 		reBlink_ = false;
 		if (updateCharacter8275_ > 0)
@@ -653,6 +660,7 @@ void i8275::copyScreen()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void i8275::drawScreen()

@@ -1061,7 +1061,7 @@ void DebugWindow::readDebugConfig()
 
 	if (!mode_.gui)
 		return;
-#if defined (__WXMSW__) || (__WXMAC__)
+#if defined (__WXMSW__)
 	breakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
 	chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
 	tregWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);

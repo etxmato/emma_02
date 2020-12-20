@@ -103,6 +103,7 @@ public:
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    void refreshPanel();
 
 private:
 	class Elf2Screen *elf2ScreenPointer;

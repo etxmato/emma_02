@@ -98,6 +98,7 @@ public:
     void setKeyPadMode(int keyPadMode);
     void setTapeFormat(int tapeFormat);
     void cardButton(int cardValue);
+    void refreshPanel();
 
 private:
     PixieFred *pixiePointer;

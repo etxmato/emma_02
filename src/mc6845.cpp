@@ -481,8 +481,6 @@ void MC6845::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    CharacterList6845 *temp;
-
 	if (reColour_)
 	{
 		for (int i=0; i<numberOfColours_; i++)
@@ -509,10 +507,20 @@ void MC6845::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-	if (extraBackGround_ && newBackGround_) 
-		drawExtraBackground(colour_[backGround_]);
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(colour_[backGround_]);
 
-	if (reBlit_ || reDraw_)
+    CharacterList6845 *temp;
+
+    if (reBlit_ || reDraw_)
 	{
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
 		reBlit_ = false;
@@ -539,6 +547,7 @@ void MC6845::copyScreen()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void MC6845::drawScreen()
@@ -740,5 +749,29 @@ void MC6845::onF3()
 {
 	fullScreenSet_ = !fullScreenSet_;
 	p_Main->eventVideoSetFullScreen(fullScreenSet_);
+}
+
+void MC6845::reBlit(wxDC &dc)
+{
+    if (!memoryDCvalid_)
+        return;
+    
+    dc.Blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
+    
+    if (extraBackGround_ && newBackGround_)
+    {
+        wxSize size = wxGetDisplaySize();
+
+        dc.SetBrush(wxBrush(colour_[backGround_]));
+        dc.SetPen(wxPen(colour_[backGround_]));
+
+        int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
+        dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
+
+        int yStart = (int)((2*offsetY_+videoHeight_)*zoom_);
+        dc.DrawRectangle(0, yStart, size.x, size.y-yStart);
+
+        newBackGround_ = false;
+    }
 }
 

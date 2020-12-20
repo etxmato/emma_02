@@ -714,6 +714,9 @@ protected:
 	wxString fileSelectorAnswer_;
 	int messageAddressPopupAnswer_;
 
+    wxSize clientSize_;
+    bool sizeChanged_;
+    
     bool terminalSave_;
     bool terminalLoad_;
 

@@ -583,8 +583,8 @@ void V1870::configure6845()
 	}
 	else
 	{
-		this->SetClientSize(p_Main->get6845Size(computerType_));
-		changeScreenSize();
+		p_Main->eventSetClientSize(p_Main->get6845Size(computerType_), CALL_CHANGE_SCREEN_SIZE, false, 0);
+        
 		p_Main->v1870BarSizeEvent();
 	}
 }
@@ -609,9 +609,9 @@ void V1870::stop6845()
 	}
 	else
 	{
-		this->SetClientSize(p_Main->getMainSize(computerType_));
-		changeScreenSize();
-		p_Main->v1870BarSizeEvent();
+		p_Main->eventSetClientSize(p_Main->getMainSize(computerType_), CALL_CHANGE_SCREEN_SIZE, false, 0);
+
+        p_Main->v1870BarSizeEvent();
 	}
 }
 
@@ -880,7 +880,12 @@ void V1870::cycle1870()
 			nonDisplay_ = false;
 		if (changeScreenSize_)
 		{
-			wxSize size = this->GetClientSize();
+            wxSize size;
+            if (wxIsMainThread())
+                size = GetClientSize();
+            else
+                size = p_Main->eventGetClientSize();
+
 			if (mc6845started_)
 				p_Main->set6845Size(computerType_, size);
 			else
@@ -970,6 +975,7 @@ void V1870::writePram(Word address, Byte v)
 		int x = (a % charactersPerRow_) * 6;
 		int y = (a / charactersPerRow_) * linesPerCharacters_;
 		drawCharacterAndBackground(x, y, v, address);
+// ** address log, comment out next line
 		p_Main->assLog(v);
 	}
 }
@@ -1132,8 +1138,6 @@ void V1870::copyScreen()
 {
     if (p_Main->isZoomEventOngoing())
         return;
-    
-	CharacterList *temp;
 
 	if (reColour_)
 	{
@@ -1161,14 +1165,24 @@ void V1870::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-	if (extraBackGround_ && newBackGround_) 
-		drawExtraBackground(colour_[backGround_]);
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(colour_[backGround_]);
 
-	if (reBlit_ || reDraw_)
-	{
+    CharacterList *temp;
+
+    if (reBlit_ || reDraw_)
+    {
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-		reBlit_ = false;
-		reDraw_ = false;
+        reBlit_ = false;
+        reDraw_ = false;
 		if (updateCharacter_)
 		{
 			updateCharacter_ = false;
@@ -1204,6 +1218,7 @@ void V1870::copyScreen()
 			}
 		}
 	}
+#endif
 }
 
 void V1870::drawScreen()
@@ -1701,7 +1716,9 @@ void V1870::blink6845()
 	if (blinkValue6845_ <= 0)
 	{
 		blinkValue6845_ = blinkSize6845_;
+//#ifndef __WXMAC__
 		copyScreen6845();
+//#endif
 		videoSyncCount_++;
 		blink_--;
 		if (blink_ <= 0)
@@ -1715,8 +1732,12 @@ void V1870::blink6845()
 					cursorBlinkOn_ = true;
 			}
 		}
+#ifndef __WXMAC__
 		if (cursorOn_)
 			drawCursor6845(cursorAddress_, cursorBlinkOn_);
+#else
+        p_Main->eventRefreshVideo(false, 0);
+#endif
 	}
 }
 
@@ -1743,7 +1764,8 @@ void V1870::write6845CharRom(Word addr, Byte value)
 
 void V1870::copyScreen6845()
 {
-	CharacterList *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
 
 	if (reColour_)
 	{
@@ -1771,14 +1793,22 @@ void V1870::copyScreen6845()
 	if (reDraw_)
 		drawScreen6845();
 
-	if (extraBackGround_ && newBackGround_) 
-		drawExtraBackground(colour_[BACK]);
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(colour_[BACK]);
 
-	if (reBlit_ || reDraw_)
-	{
+    CharacterList *temp;
+
+    if (reBlit_ || reDraw_)
+    {
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
-		reBlit_ = false;
-		reDraw_ = false;
 		if (updateCharacter6845_ > 0 )
 		{
 			updateCharacter6845_ = 0;
@@ -1789,6 +1819,8 @@ void V1870::copyScreen6845()
 				delete temp;
 			}
 		}
+        reBlit_ = false;
+        reDraw_ = false;
 	}
 	if (updateCharacter6845_ > 0)
 	{
@@ -1801,6 +1833,7 @@ void V1870::copyScreen6845()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void V1870::drawScreen6845()
@@ -1821,6 +1854,12 @@ void V1870::draw6845(Word addr, Byte value)
 {
 	mc6845ram_[addr] = value;
 
+    if (p_Main->isZoomEventOngoing())
+    {
+        reDraw_ = true;
+        return;
+    }
+    
 	addr = (addr - startAddress_) & 0x7ff;
 
 	int y = (addr/charLine_)*scanLine_*videoM_;
@@ -1947,6 +1986,79 @@ void V1870::drawCursor6845(Word addr, bool status)
 	}
 #if defined(__linux__)
 	this->Update();
+#endif
+}
+
+void V1870::drawCursor6845(wxDC &dc, Word addr, bool status)
+{
+    Byte v;
+    int line_byte, line;
+    wxColour clr;
+
+    addr = (addr - startAddress_) & 0x7ff;
+
+    int y = (addr/charLine_)*scanLine_*videoM_;
+     int x = (addr%charLine_)*MC6845CHARW;
+
+    v = mc6845ram_[addr];
+    line = cursorStartLine_;
+    for (int yLine = y + cursorStartLine_*videoM_; yLine <= (y + cursorEndLine_*videoM_); yLine+=videoM_)
+    {
+        if (yLine == (y + (scanLine_-1)*videoM_))
+        {
+            if (v<0x80)
+            {
+                if (status)
+                    clr = colour_[FORE];
+                else
+                    clr = colour_[backGround_];
+            }
+            else
+            {
+                if (status)
+                    clr = colour_[backGround_];
+                else
+                    clr = colour_[FORE];
+            }
+            dc.SetBrush(wxBrush(clr));
+            dc.SetPen(wxPen(clr));
+            if (interlace_ & !(videoM_ == 1))
+                dc.DrawRectangle((x+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, MC6845CHARW*zoom_, 2*zoom_);
+            else
+                dc.DrawRectangle((x+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, MC6845CHARW*zoom_, zoom_);
+        }
+        else
+        {
+            line_byte =    mc6845CharRom_[v*8+line];
+            for (wxCoord i=x; i<x+MC6845CHARW; i++)
+            {
+                if (line_byte & 128)
+                {
+                    if (status)
+                        clr = colour_[backGround_];
+                    else
+                        clr = colour_[FORE];
+                }
+                else
+                {
+                    if (status)
+                        clr = colour_[FORE];
+                    else
+                        clr = colour_[backGround_];
+                }
+                dc.SetBrush(wxBrush(clr));
+                dc.SetPen(wxPen(clr));
+                if (interlace_ & !(videoM_ == 1))
+                    dc.DrawRectangle((i+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, zoom_, 2*zoom_);
+                else
+                    dc.DrawRectangle((i+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, zoom_, zoom_);
+                line_byte <<= 1;
+            }
+        }
+        line++;
+    }
+#if defined(__linux__)
+    this->Update();
 #endif
 }
 
@@ -2078,5 +2190,37 @@ void V1870::onF3()
 {
 	fullScreenSet_ = !fullScreenSet_;
 	p_Main->eventVideoSetFullScreen(fullScreenSet_);
+}
+
+void V1870::reBlit(wxDC &dc)
+{
+    if (!v1870Configured_)
+        return;
+
+    if (!memoryDCvalid_)
+        return;
+    
+    if (videoType_ != VIDEO80COL)
+        dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+    else
+        dc.Blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
+    
+    if (extraBackGround_ && newBackGround_)
+    {
+        wxSize size = wxGetDisplaySize();
+
+        dc.SetBrush(wxBrush(colour_[backGround_]));
+        dc.SetPen(wxPen(colour_[backGround_]));
+
+        int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
+        dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
+
+        int yStart = (int)((2*offsetY_+videoHeight_)*zoom_);
+        dc.DrawRectangle(0, yStart, size.x, size.y-yStart);
+
+        newBackGround_ = false;
+    }
+    if (videoType_ == VIDEO80COL)
+        drawCursor6845(dc, cursorAddress_, cursorBlinkOn_);
 }
 

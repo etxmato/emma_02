@@ -1164,6 +1164,9 @@ void Cdp18s600::cycle(int type)
 
 void Cdp18s600::cycleLed()
 {
+//    if (!Cdp18s600Configuration.useElfControlWindows)
+  //      return;
+    
     if (ledCycleValue_ > 0)
     {
         ledCycleValue_ --;
@@ -2073,6 +2076,12 @@ void Cdp18s600::showControlWindow(bool state)
 {
     cdp18s640FramePointer->Show(state);
 }
+
+void Cdp18s600::refreshPanel()
+{
+    cdp18s640FramePointer->refreshPanel();
+}
+
 
 Cdp18s601::Cdp18s601(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf)
 : Cdp18s600(title, pos, size, zoomLevel, computerType, clock, conf)

@@ -1055,8 +1055,6 @@ void Vt100::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    CharacterList *temp;
-
 	if (reColour_)
 	{
 		for (int i=0; i<numberOfColours_; i++)
@@ -1086,10 +1084,21 @@ void Vt100::copyScreen()
 	if (reBlink_)
 		blinkScreen();
 
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_ || reBlink_)
+    {
+        p_Main->eventRefreshVideo(true, uartNumber_);
+        reBlit_ = false;
+        reDraw_ = false;
+        reBlink_ = false;
+    }
+#else
 	if (extraBackGround_ && newBackGround_) 
 		drawExtraBackground(colour_[colourIndex_+1]);
 
-	if (reBlit_ || reDraw_ || reBlink_)
+    CharacterList *temp;
+
+    if (reBlit_ || reDraw_ || reBlink_)
 	{
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
 		reBlit_ = false;
@@ -1117,6 +1126,7 @@ void Vt100::copyScreen()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void Vt100::startElfRun(bool load, bool overRide)

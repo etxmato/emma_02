@@ -212,6 +212,10 @@ void SuperScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+        
     if (tilType_ == TIL311)
     {
         addressPointer[3]->onPaint(dc);
@@ -2053,4 +2057,9 @@ void Super::activateMainWindow()
 void Super::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
 {
 	superScreenPointer->releaseButtonOnScreen(buttonPointer);
+}
+
+void Super::refreshPanel()
+{
+    superScreenPointer->refreshPanel();
 }

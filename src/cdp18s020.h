@@ -78,6 +78,7 @@ public:
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void setAddressLatch(Word bootAddress);
     void setForceUpperCase(bool status);
+    void refreshPanel();
 
 private:
 	ElfConfiguration cdp18s020Configuration;

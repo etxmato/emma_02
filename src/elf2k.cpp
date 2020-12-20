@@ -103,6 +103,10 @@ void Elf2KScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
 	for (int i=0; i<4; i++)
 	{
 		addressPointer[i]->onPaint(dc);
@@ -1370,4 +1374,7 @@ void Elf2K::onNumberKeyDown(int i)
         p_Elf2Khex->onNumberKeyDown(i);
 }
 
-
+void Elf2K::refreshPanel()
+{
+    elf2KScreenPointer->refreshPanel();
+}

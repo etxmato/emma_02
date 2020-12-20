@@ -43,6 +43,7 @@ public:
 	bool readCharRomFile(wxString romDir, wxString romFile);
 	void setFullScreen(bool fullScreenSet);
 	void onF3();
+    void reBlit(wxDC &dc);
 
 private:
 	Byte mc6845ram_[2048];

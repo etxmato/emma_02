@@ -134,6 +134,7 @@ public:
 	virtual void init(int computerType);
 	void connectKeyEvent(wxWindow* pclComponent);
 	virtual void onPaint(wxPaintEvent&event);
+    void refreshPanel();
 	void onChar(wxKeyEvent&event);
 	void vtOut(int value);
 	void onKeyDown(wxKeyEvent&event);
@@ -142,6 +143,7 @@ public:
 	virtual void onMousePress(wxMouseEvent& event);
 	virtual void onMouseRelease(wxMouseEvent& event);
 	void ledTimeout();
+    void rePaintLeds(wxDC& dc);
 	void setLedMs(long ms);
 
     void setReadyLed(int status);
@@ -368,7 +370,7 @@ protected:
 	int lastKey_;
 	bool repeat_;
 	bool forceUpperCase_;
-
+    
 private:
 	bool functionKeyReleaseTwo_;
 
@@ -558,6 +560,8 @@ public:
     void ctrlvText(wxString text);
     virtual int getCtrlvChar();
     size_t getCtrlvCharNum() {return ctrlvTextCharNum_;};
+
+    virtual void refreshPanel() {};
 
 protected:
 	RunComputer *threadPointer;

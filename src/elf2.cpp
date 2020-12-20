@@ -154,6 +154,10 @@ void Elf2Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
     if (tilType_ == TIL311)
     {
         for (int i=0; i<2; i++)
@@ -1783,4 +1787,9 @@ void Elf2::activateMainWindow()
 void Elf2::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
 {
     elf2ScreenPointer->releaseButtonOnScreen(buttonPointer);
+}
+
+void Elf2::refreshPanel()
+{
+    elf2ScreenPointer->refreshPanel();
 }

@@ -128,6 +128,7 @@ void Cdp18s020Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 #endif
 
     dc.DrawBitmap(*mainBitmapPointer, 245, 13);
+
     wxString number;
     dc.SetTextForeground(*wxBLACK);
     dc.SetFont(defaultFont);
@@ -161,6 +162,10 @@ void Cdp18s020Screen::onPaint(wxPaintEvent&WXUNUSED(event))
         dc.DrawText(number, 14+17*(7-i), 92);
     }
     
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
     for (int i=0; i<24; i++)
         ledPointer[i]->onPaint(dc);
     for (int i=0; i<4; i++)
@@ -798,4 +803,8 @@ void Cdp18s020::setForceUpperCase(bool status)
         vtPointer->setForceUCVt(status);
 }
 
+void Cdp18s020::refreshPanel()
+{
+    cdp18s020ScreenPointer->refreshPanel();
+}
 

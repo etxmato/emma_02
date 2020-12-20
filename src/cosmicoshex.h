@@ -62,6 +62,7 @@ public:
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
     void releaseButtonOnScreen(HexButton* buttonPointer);
+    void refreshPanel();
 
 private:
 	class CosmicoshexScreen *cosmicoshexScreenPointer;

@@ -106,6 +106,10 @@ void Cdp1852Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 
     dc.SetTextForeground(colour.Find("GREY"));
     
+#if defined (__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
     for (int i=0; i<8; i++)
     {
         ledPointer[i]->onPaint(dc);

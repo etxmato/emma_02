@@ -536,7 +536,11 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
     EVT_GUI_MSG(ZOOM_CHANGE, Main::setZoomChange)
     EVT_GUI_MSG(ZOOMVT_CHANGE, Main::setZoomVtChange)
-    EVT_GUI_MSG(DO_BLIT, Main::setBlit)
+    EVT_GUI_MSG(GET_CLIENT_SIZE, Main::GetClientSizeEvent)
+    EVT_GUI_MSG(SET_CLIENT_SIZE, Main::SetClientSizeEvent)
+    EVT_GUI_MSG(REFRESH_VIDEO, Main::refreshVideoEvent)
+    EVT_GUI_MSG(REFRESH_PANEL, Main::refreshPanelEvent)
+    EVT_GUI_MSG(EVENT_ZOOM, Main::SetZoomEvent)
 
 	EVT_COMMAND(wxID_ANY, KILL_COMPUTER, Main::killComputer)
 
@@ -1748,6 +1752,8 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
 
 	guiInitialized_ = true;
+    panelRefreshOngoing_ = false;
+    videoRefreshOngoing_ = false;
 }
 
 Main::~Main()
@@ -1835,6 +1841,8 @@ WindowInfo Main::getWinSizeInfo(wxString appDir)
     wxString appName = "emma_02";
     
     returnValue.operatingSystem = OS_MAC;
+    if (major == 10 && minor <= 8)
+        returnValue.operatingSystem = OS_MAC_PRE_10_9;
 #endif
    
     wxLinuxDistributionInfo distInfo;
@@ -3486,7 +3494,10 @@ bool Main::updateEmma()
 		}
 		return true;
 #elif defined(__WXMAC__)
-		::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
+        if (windowInfo.operatingSystem == OS_MAC_PRE_10_9)
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
+        else
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=18");
 		return true;
 #else
 		if (wxIsPlatform64Bit())
@@ -8169,38 +8180,32 @@ void Main::eventZoomVtChange(double zoom, int uartNumber)
     GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::SetZoomEvent(guiEvent& event)
+{
+    bool isVt = event.GetBoolValue1();
+    double zoom = event.GetDoubleValue();
+
+    if (isVt)
+        p_Main->zoomEventVt(zoom);
+    else
+        p_Main->zoomEvent(zoom);
+
+}
+
+void Main::eventZoom(double zoom, bool isVt)
+{
+    guiEvent event(GUI_MSG, EVENT_ZOOM);
+    event.SetEventObject(p_Main);
+
+    event.SetBoolValue1(isVt);
+    event.SetDoubleValue(zoom);
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
 void Main::zoomVtEventFinished()
 {
     zoomEventOngoing_ = false;
-}
-
-void Main::setBlit(guiEvent&event)
-{
-    wxCoord xdest = event.GetCoord1();
-    wxCoord ydest = event.GetCoord2();
-    wxCoord width = event.GetCoord3();
-    wxCoord height = event.GetCoord4();
-    wxDC *source = event.GetDc();
-    wxCoord xsrc = event.GetCoord5();
-    wxCoord ysrc = event.GetCoord6();
-
-    p_Video->blitDirect(xdest, ydest, width, height, source, xsrc, ysrc);
-}
-
-void Main::eventBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
-{
-    guiEvent event(GUI_MSG, DO_BLIT);
-    event.SetEventObject(p_Main);
-
-    event.SetCoord1(xdest);
-    event.SetCoord2(ydest);
-    event.SetCoord3(width);
-    event.SetCoord4(height);
-    event.SetDc(source);
-    event.SetCoord4(xsrc);
-    event.SetCoord4(ysrc);
-
-    GetEventHandler()->AddPendingEvent(event);
 }
 
 void Main::printDefaultEvent(guiEvent&event)
@@ -8344,6 +8349,51 @@ void Main::eventPrintPecom(Byte value)
 	GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::refreshVideoEvent(guiEvent&event)
+{
+    bool isVt = event.GetBoolValue1();
+    bool uartNumber = event.GetInt();
+
+    if (isVt)
+        p_Vt100[uartNumber]->refreshVideo();
+    else
+        p_Video->refreshVideo();
+    videoRefreshOngoing_ = false;
+}
+
+void Main::eventRefreshVideo(bool isVt, int uartNumber)
+{
+    if (videoRefreshOngoing_)
+        return;
+    
+    videoRefreshOngoing_ = true;
+    guiEvent event(GUI_MSG, REFRESH_VIDEO);
+    event.SetEventObject( p_Main );
+
+    event.SetBoolValue1(isVt);
+    event.SetInt(uartNumber);
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::refreshPanelEvent(guiEvent&event)
+{
+    p_Computer->refreshPanel();
+    panelRefreshOngoing_ = false;
+}
+
+void Main::eventRefreshPanel()
+{
+    if (panelRefreshOngoing_)
+        return;
+    
+    panelRefreshOngoing_ = true;
+    guiEvent event(GUI_MSG, REFRESH_PANEL);
+    event.SetEventObject( p_Main );
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
 void Main::ShowMessageBoxEvent(guiEvent&event)
 {
     wxString message = event.GetString();
@@ -8391,6 +8441,102 @@ void Main::setMessageBoxAnswer(int answer)
 {
     messageBoxAnswer_ = answer;
 }
+
+void Main::GetClientSizeEvent(guiEvent&event)
+{
+    clientSize_ = p_Video->GetClientSize();
+}
+
+wxSize Main::eventGetClientSize()
+{
+    guiEvent event(GUI_MSG, GET_CLIENT_SIZE);
+    event.SetEventObject( p_Main );
+
+    clientSize_.x = -1;
+    
+    GetEventHandler()->AddPendingEvent(event);
+    
+    while (clientSize_.x == -1)
+    {
+        if (isComputerRunning())
+            p_Computer->sleepComputer(1);
+        else
+            wxYield();
+    }
+    return clientSize_;
+}
+
+void Main::SetClientSizeEvent(guiEvent&event)
+{
+    wxSize size = event.GetSizeValue();
+    bool changeScreenSize = event.GetBoolValue();
+    bool isVt = event.GetBoolValue1();
+    bool uartNumber = event.GetInt();
+
+    if (isVt)
+    {
+        p_Vt100[uartNumber]->setClientSize(size);
+        if (changeScreenSize)
+            p_Vt100[uartNumber]->changeScreenSize();
+    }
+    else
+    {
+        p_Video->setClientSize(size);
+        if (changeScreenSize)
+            p_Video->changeScreenSize();
+    }
+    sizeChanged_ = true;
+}
+
+void Main::eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber)
+{
+    sizeChanged_ = false;
+    guiEvent event(GUI_MSG, SET_CLIENT_SIZE);
+    event.SetEventObject( p_Main );
+   
+    event.SetBoolValue(changeScreenSize);
+    event.SetBoolValue1(isVt);
+    event.SetSizeValue(size);
+    event.SetInt(uartNumber);
+
+    GetEventHandler()->AddPendingEvent(event);
+
+    while (!sizeChanged_)
+    {
+        if (isComputerRunning())
+            p_Computer->sleepComputer(1);
+        else
+            wxYield();
+    }
+}
+
+void Main::eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uartNumber)
+{
+    sizeChanged_ = false;
+    guiEvent event(GUI_MSG, SET_CLIENT_SIZE);
+    event.SetEventObject( p_Main );
+   
+    event.SetBoolValue(changeScreenSize);
+    event.SetBoolValue1(isVt);
+    event.SetInt(uartNumber);
+
+    wxSize size;
+    size.x = sizex;
+    size.y = sizey;
+
+    event.SetSizeValue(size);
+
+    GetEventHandler()->AddPendingEvent(event);
+    
+    while (!sizeChanged_)
+    {
+        if (isComputerRunning())
+            p_Computer->sleepComputer(1);
+        else
+            wxYield();
+    }
+}
+
 
 void Main::ShowAddressPopupEvent(guiEvent&event)
 {

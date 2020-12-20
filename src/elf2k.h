@@ -115,6 +115,7 @@ public:
 	void activateMainWindow();
 	void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void onNumberKeyDown(int i);
+    void refreshPanel();
 
 private:
 	class Elf2KScreen *elf2KScreenPointer;

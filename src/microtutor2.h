@@ -67,6 +67,7 @@ public:
 	void setMicrotutorClockSpeed(double clock) {microtutorClockSpeed_ = clock;};
 	void setLedMs(long ms);
 	void activateMainWindow();
+    void refreshPanel();
 
 private:
 	class Microtutor2Screen *microtutorScreenPointer;
