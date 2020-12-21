@@ -586,7 +586,7 @@ void Video::changeScreenSize()
     if (wxIsMainThread())
         size = p_Video->GetClientSize();
     else
-        size = p_Main->eventGetClientSize();
+        size = p_Main->eventGetClientSize(videoScreenPointer->isVt(), uartNumber_);
 	destinationWidth_ = size.x;
 	destinationHeight_ = size.y;
 

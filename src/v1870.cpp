@@ -884,7 +884,7 @@ void V1870::cycle1870()
             if (wxIsMainThread())
                 size = GetClientSize();
             else
-                size = p_Main->eventGetClientSize();
+                size = p_Main->eventGetClientSize(false, 0);
 
 			if (mc6845started_)
 				p_Main->set6845Size(computerType_, size);

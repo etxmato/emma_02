@@ -8444,13 +8444,22 @@ void Main::setMessageBoxAnswer(int answer)
 
 void Main::GetClientSizeEvent(guiEvent&event)
 {
-    clientSize_ = p_Video->GetClientSize();
+    bool isVt = event.GetBoolValue1();
+    bool uartNumber = event.GetInt();
+
+    if (isVt)
+        clientSize_ = p_Vt100[uartNumber]->GetClientSize();
+    else
+        clientSize_ = p_Video->GetClientSize();
 }
 
-wxSize Main::eventGetClientSize()
+wxSize Main::eventGetClientSize(bool isVt, int uartNumber)
 {
     guiEvent event(GUI_MSG, GET_CLIENT_SIZE);
     event.SetEventObject( p_Main );
+    
+    event.SetBoolValue1(isVt);
+    event.SetInt(uartNumber);
 
     clientSize_.x = -1;
     

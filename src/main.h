@@ -495,7 +495,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.37
-#define EMMA_SUB_VERSION 7
+#define EMMA_SUB_VERSION 8
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1273,7 +1273,7 @@ public:
 	void setMessageBoxAnswer(int answer);
 
     void GetClientSizeEvent(guiEvent& event);
-    wxSize eventGetClientSize();
+    wxSize eventGetClientSize(bool isVt, int uartNumber);
 
     void SetClientSizeEvent(guiEvent& event);
     void eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
