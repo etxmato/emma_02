@@ -607,7 +607,12 @@ void Comx::cycleComx()
 	{
 		qMode_ = 1;
 		if (dmaCounter_ == -100)
-			dmaCounter_ = DMACYCLE;
+        {
+            if (p_Main->isDramActive(COMX))
+                dmaCounter_ = DMACYCLE;
+            else
+                dmaCounter_ = -50;
+        }
 	}
 
 	if (debounceCounter_ > 0)
@@ -877,7 +882,7 @@ void Comx::startComputer()
 
 	expansionSlot_ = 0;
 	defineExpansionMemoryType(0, 0, 0x1fff, ROM);
-    if (!((p_Main->getExpansionRamSlot()-1) == 0) && useExpansionRam_)
+    if (!((p_Main->getExpansionRamSlot()-1) == 0) && p_Main->getUseExpansionRam())
         readProgram(p_Main->getRomDir(COMX, CARTROM1), p_Main->getRomFile(COMX, CARTROM1), COMXEXPBOX, 0xC000, NONAME);
 	configure1870Comx(expansionRomLoaded_, expansionRom_[1]);
 

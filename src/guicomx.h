@@ -47,7 +47,8 @@ public:
 	void onComxPrintMode(wxCommandEvent& event);
 	void onComxPrintButton(wxCommandEvent& event);
 	void onComxVideoMode(wxCommandEvent& event);
-	void onComxExpansionRam(wxCommandEvent& event);
+    void onComxDram(wxCommandEvent& event);
+    void onComxExpansionRam(wxCommandEvent& event);
 	void onComxExpansionRamSlot(wxSpinEvent&event);
 	void setLocation(bool state, Word saveStart, Word saveEnd, Word saveExec);
 	void onEpromDialog(wxCommandEvent& event);
@@ -114,6 +115,7 @@ public:
 	int getSbCaseDir() {return sbCaseDir_;}; 
     int getSbFwVersion() {return sbFwVersion_;};
 	bool isDiagActive(int computer) { return conf[computer].diagActive_; };
+    bool isDramActive(int computer) { return conf[computer].dram_; };
 	int isDiagOn(int computer);
     int getDiagRomChecksum() {return diagRomChecksum_;};
     int getDiagFactory() {return diagFactory_;};

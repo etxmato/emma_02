@@ -138,6 +138,8 @@ void GuiMcds::readMcdsConfig()
 {
 	selectedComputer_ = MCDS;
 
+    readElfPortConfig(MCDS, "Mcds");
+
 	conf[MCDS].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MCDS" + pathSeparator_;
 
     conf[MCDS].mainDir_ = readConfigDir("/Dir/Mcds/Main", dataDir_ + "MCDS" + pathSeparator_);
@@ -161,8 +163,7 @@ void GuiMcds::readMcdsConfig()
     conf[MCDS].wavFile_[1] = configPointer->Read("/Mcds/Wav_File1", "");
     conf[MCDS].volume_ = (int)configPointer->Read("/Mcds/Volume", 25l);
     
-	getConfigBool("/Mcds/SerialLog", false);
-
+    configPointer->Read("/Mcds/SerialLog", &elfConfiguration[MCDS].serialLog, false);
 	configPointer->Read("/Mcds/Enable_Vt_Stretch_Dot", &conf[MCDS].stretchDot_, false);
     configPointer->Read("/Mcds/Enable_Vt_External", &elfConfiguration[MCDS].vtExternal, false);
 
@@ -271,6 +272,7 @@ void GuiMcds::writeMcdsConfig()
     configPointer->Write("/Mcds/Wav_File1", conf[MCDS].wavFile_[1]);
     configPointer->Write("/Mcds/VtSerialPortChoice", elfConfiguration[MCDS].serialPort_);
 
+    configPointer->Write("/Mcds/SerialLog", elfConfiguration[MCDS].serialLog);
 	configPointer->Write("/Mcds/Bell_Frequency", elfConfiguration[MCDS].bellFrequency_);
 	configPointer->Write("/Mcds/VT_Type", elfConfiguration[MCDS].vtType);
     

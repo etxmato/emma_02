@@ -156,6 +156,8 @@ void Cdp1802::initCpu(int computerType)
     skipTrace_ = false;
     singleStateStep_ = false;
     interruptRequested_ = false;
+    stopHiddenTrace_ = false;
+    startHiddenTrace_ = false;
 }
 
 void Cdp1802::resetCpu()
@@ -2180,6 +2182,8 @@ void Cdp1802::cpuCycleExecute1()
 			{
 				bus_ = readMem(scratchpadRegister_[dataPointer_]++);
 				out(n, scratchpadRegister_[dataPointer_]-1, bus_);
+                if (p_Main->getLapTimeTrigger() == (LAPTIME_OUT - 1 + n))
+                    p_Main->lapTime();
 				if (trace_)
 				{
 					switch (computerType_)
@@ -2497,6 +2501,8 @@ void Cdp1802::cpuCycleExecute1()
                         }
                         address_=scratchpadRegister_[programCounter_];
                         switchQ(1);
+                        if (p_Main->getLapTimeTrigger() == LAPTIME_Q)
+                            p_Main->lapTime();
                         if (computerType_ != MS2000 && computerType_ != FRED1 && computerType_ != FRED1_5)
                             psaveAmplitudeChange(1);
                     }

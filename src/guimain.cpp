@@ -37,6 +37,27 @@
 #include "vtsetup.h"
 #include "psave.h"
 #include "wx/stdpaths.h"
+#include "wx/fileconf.h"
+
+#if defined (__WXMSW__)
+// RTL_OSVERSIONINFOEXW is defined in winnt.h
+BOOL GetOsVersion(RTL_OSVERSIONINFOEXW* pk_OsVer)
+{
+    typedef LONG(WINAPI* tRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
+
+    memset(pk_OsVer, 0, sizeof(RTL_OSVERSIONINFOEXW));
+    pk_OsVer->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
+
+    HMODULE h_NtDll = GetModuleHandleW(L"ntdll.dll");
+    tRtlGetVersion f_RtlGetVersion = (tRtlGetVersion)GetProcAddress(h_NtDll, "RtlGetVersion");
+
+    if (!f_RtlGetVersion)
+        return FALSE; // This will never happen (all processes load ntdll.dll)
+
+    LONG Status = f_RtlGetVersion(pk_OsVer);
+    return Status == 0; // STATUS_SUCCESS;
+}
+#endif
 
 BEGIN_EVENT_TABLE(GuiMain, wxFrame)
 
@@ -83,7 +104,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     }
 #endif
 
-    windowInfo = p_Main->getWinSizeInfo(applicationDirectory_);
+    windowInfo = getWinSizeInfo(applicationDirectory_);
 
     wxDir checkDirForFiles;
     bool dataDirEmpty = true;
@@ -127,6 +148,175 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     position_[ELF].x = 0;
     position_[ELFII].x = 0;
     position_[SUPERELF].x = 0;
+}
+
+WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
+{
+    WindowInfo returnValue;
+    wxString windowInfoFile;
+    int major, minor;
+    
+    returnValue.errorMessage = "";
+    wxGetOsVersion(&major, &minor);
+    
+    wxConfigBase *windowConfigPointer;
+    
+#if defined (__WXMAC__)
+    windowInfoFile = "osx.ini";
+    wxString appName = "emma_02";
+    
+    returnValue.operatingSystem = OS_MAC;
+    if (major == 10 && minor <= 8)
+        returnValue.operatingSystem = OS_MAC_PRE_10_9;
+#endif
+   
+    wxLinuxDistributionInfo distInfo;
+
+#if defined (__linux__)
+    distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
+
+    if (distInfo.Id == "Ubuntu")
+    {
+        switch (major)
+        {
+            case 2:
+                distInfo.Id += ".2";
+            break;
+                
+            case 3:
+                distInfo.Id += ".3";
+            break;
+
+            default:
+                distInfo.Id += ".4";
+            break;
+        }
+    }
+
+    windowInfoFile = distInfo.Id + ".ini";
+
+    if (distInfo.Id == "")
+    {
+        distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
+        if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
+            windowInfoFile = "fedora.ini";
+        if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
+            windowInfoFile = "suse.ini";
+    }
+    
+    wxString appName = "emma_02";
+    
+    returnValue.operatingSystem = OS_LINUX;
+#endif
+    
+#if defined (__WXMSW__)
+    wxString appName = "Emma 02";
+    returnValue.operatingSystem = OS_WINDOWS;
+    
+    RTL_OSVERSIONINFOEXW osVersion;
+    GetOsVersion(&osVersion);
+    
+    switch (osVersion.dwMajorVersion)
+    {
+        case OS_MAJOR_XP_2000:
+            if (osVersion.dwMinorVersion == OS_MINOR_2000)
+            {
+                windowInfoFile = "win2000.ini";
+                returnValue.operatingSystem = OS_WINDOWS_2000;
+            }
+            else
+                windowInfoFile = "winxp.ini";
+        break;
+            
+        case OS_MAJOR_VISTA_8_1:
+            windowInfoFile = "win8.ini";
+        break;
+            
+        default:
+            windowInfoFile = "win10.ini";
+        break;
+    }
+#endif
+    
+    windowInfoFile = windowInfoFile.MakeLower();
+    
+    bool fileExists = wxFile::Exists(appDir + windowInfoFile);
+    if (!fileExists)
+    {
+        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' not found, loading default configuration\n";
+
+        windowInfoFile = "linuxdefault.ini";
+    }
+
+    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);
+    
+    wxConfigBase *currentConfigPointer = wxConfigBase::Set(pConfig);
+    windowConfigPointer = wxConfigBase::Get();
+    
+    returnValue.xBorder = (int)windowConfigPointer->Read("/Border/x", 1);
+    returnValue.yBorder = (int)windowConfigPointer->Read("/Border/y", 1);
+    returnValue.xBorder2 = (int)windowConfigPointer->Read("/Border/x2", 1);
+    returnValue.yBorder2 = (int)windowConfigPointer->Read("/Border/y2", 24);
+    returnValue.xPrint = (int)windowConfigPointer->Read("/Print/x", 19);
+    
+    returnValue.clockTextCorrectionX = (int)windowConfigPointer->Read("/Correction/clockTextX", 315);
+    returnValue.clockTextCorrectionY = (int)windowConfigPointer->Read("/Correction/clockTextY", 121);
+    returnValue.clockTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabX", 316);
+    returnValue.clockTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabY", 97);
+    
+    returnValue.clockCorrectionX = (int)windowConfigPointer->Read("/Correction/clockX", 279);
+    returnValue.clockCorrectionY = (int)windowConfigPointer->Read("/Correction/clockY", 124);
+    returnValue.clockCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockSingleTabX", 280);
+    returnValue.clockCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockSingleTabY", 100);
+    
+    returnValue.mhzTextCorrectionX = (int)windowConfigPointer->Read("/Correction/mhzTextX", 230);
+    returnValue.mhzTextCorrectionY = (int)windowConfigPointer->Read("/Correction/mhzTextY", 121);
+    returnValue.mhzTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabX", 231);
+    returnValue.mhzTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabY", 97);
+    
+    returnValue.stopCorrectionX = (int)windowConfigPointer->Read("/Correction/stopX", 202);
+    returnValue.stopCorrectionY = (int)windowConfigPointer->Read("/Correction/stopY", 124);
+    returnValue.stopCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/stopSingleTabX", 203);
+    returnValue.stopCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/stopSingleTabY", 100);
+    
+    returnValue.startCorrectionX = (int)windowConfigPointer->Read("/Correction/startX", 119);
+    returnValue.startCorrectionY = (int)windowConfigPointer->Read("/Correction/startY", 124);
+    returnValue.startCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/startSingleTabX", 120);
+    returnValue.startCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/startSingleTabY", 100);
+    
+    returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
+    returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
+    returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
+    returnValue.ledSpacing = (int)windowConfigPointer->Read("/Bar/ledSpacing", 1);
+    returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
+    returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
+    
+    returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
+    returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
+
+    returnValue.statusBarLeaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
+    returnValue.statusBarLeaderCidelsa = returnValue.statusBarLeaderCidelsa.Mid (1, returnValue.statusBarLeaderCidelsa.Len()-2);
+
+    returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 40);
+    returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 70);
+    returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 80);
+    returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 100);
+    returnValue.statusBarElementMeasure[4] = (int)windowConfigPointer->Read("/Bar/ElementMeasure4", 150);
+
+    returnValue.floatHeight = (int)windowConfigPointer->Read("/Correction/floatHeight", 21);
+    returnValue.startHeight = (int)windowConfigPointer->Read("/Correction/startHeight", -1);
+    returnValue.clockSize = (int)windowConfigPointer->Read("/Correction/clockSize", 47);
+    
+    returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
+    returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
+    returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
+    
+    windowConfigPointer->Read("/Package/deb", &returnValue.packageDeb, true);
+    
+    delete pConfig;
+    wxConfigBase::Set(currentConfigPointer);
+
+    return returnValue;
 }
 
 void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)

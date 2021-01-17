@@ -568,26 +568,6 @@ int main(int argc, char *argv[])
 IMPLEMENT_APP(Emu1802)
 #endif
 
-#if defined (__WXMSW__)
-// RTL_OSVERSIONINFOEXW is defined in winnt.h
-BOOL GetOsVersion(RTL_OSVERSIONINFOEXW* pk_OsVer)
-{
-	typedef LONG(WINAPI* tRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
-
-	memset(pk_OsVer, 0, sizeof(RTL_OSVERSIONINFOEXW));
-	pk_OsVer->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
-
-	HMODULE h_NtDll = GetModuleHandleW(L"ntdll.dll");
-	tRtlGetVersion f_RtlGetVersion = (tRtlGetVersion)GetProcAddress(h_NtDll, "RtlGetVersion");
-
-	if (!f_RtlGetVersion)
-		return FALSE; // This will never happen (all processes load ntdll.dll)
-
-	LONG Status = f_RtlGetVersion(pk_OsVer);
-	return Status == 0; // STATUS_SUCCESS;
-}
-#endif
-
 class MyFrame : public wxFrame
 {
 public:
@@ -1754,6 +1734,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 	guiInitialized_ = true;
     panelRefreshOngoing_ = false;
     videoRefreshOngoing_ = false;
+    emuClosing_ = false;
 }
 
 Main::~Main()
@@ -1823,388 +1804,6 @@ Main::~Main()
 			wxThread::This()->Sleep(1);
 		}
 	}
-}
-
-WindowInfo Main::getWinSizeInfo(wxString appDir)
-{
-    WindowInfo returnValue;
-    wxString windowInfoFile;
-    int major, minor;
-    
-    returnValue.errorMessage = "";
-    wxGetOsVersion(&major, &minor);
-    
-    wxConfigBase *windowConfigPointer;
-    
-#if defined (__WXMAC__)
-    windowInfoFile = "osx.ini";
-    wxString appName = "emma_02";
-    
-    returnValue.operatingSystem = OS_MAC;
-    if (major == 10 && minor <= 8)
-        returnValue.operatingSystem = OS_MAC_PRE_10_9;
-#endif
-   
-    wxLinuxDistributionInfo distInfo;
-
-#if defined (__linux__)
-    distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
-
-    if (distInfo.Id == "Ubuntu")
-    {
-        switch (major)
-        {
-            case 2:
-                distInfo.Id += ".2";
-            break;
-                
-            case 3:
-                distInfo.Id += ".3";
-            break;
-
-            default:
-                distInfo.Id += ".4";
-            break;
-        }
-    }
-
-    windowInfoFile = distInfo.Id + ".ini";
-
-    if (distInfo.Id == "")
-    {
-        distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
-        if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
-            windowInfoFile = "fedora.ini";
-        if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
-            windowInfoFile = "suse.ini";
-    }
-    
-    wxString appName = "emma_02";
-    
-    returnValue.operatingSystem = OS_LINUX;
-#endif
-    
-#if defined (__WXMSW__)
-    wxString appName = "Emma 02";
-    returnValue.operatingSystem = OS_WINDOWS;
-    
-    RTL_OSVERSIONINFOEXW osVersion;
-    GetOsVersion(&osVersion);
-    
-    switch (osVersion.dwMajorVersion)
-    {
-        case OS_MAJOR_XP_2000:
-            if (osVersion.dwMinorVersion == OS_MINOR_2000)
-            {
-                windowInfoFile = "win2000.ini";
-                returnValue.operatingSystem = OS_WINDOWS_2000;
-            }
-            else
-                windowInfoFile = "winxp.ini";
-        break;
-            
-        case OS_MAJOR_VISTA_8_1:
-            windowInfoFile = "win8.ini";
-        break;
-            
-        default:
-            windowInfoFile = "win10.ini";
-        break;
-    }
-#endif
-    
-    windowInfoFile = windowInfoFile.MakeLower();
-    
-    bool fileExists = wxFile::Exists(appDir + windowInfoFile);
-    if (!fileExists)
-    {
-        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' not found, loading default configuration\n";
-       
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Id + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Release + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.CodeName + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Description + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + wxPlatformInfo::Get().GetOperatingSystemDescription() + "\n";
-
-        windowInfoFile = "linuxdefault.ini";
-    }
-/*    else
-    {
-        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' loaded\n";
-        returnValue.errorMessage = returnValue.errorMessage + distInfo.Id + "\n";
-    }*/
-
-    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);
-    
-    wxConfigBase *currentConfigPointer = wxConfigBase::Set(pConfig);
-    windowConfigPointer = wxConfigBase::Get();
-    
-    returnValue.xBorder = (int)windowConfigPointer->Read("/Border/x", 1);
-    returnValue.yBorder = (int)windowConfigPointer->Read("/Border/y", 1);
-    returnValue.xBorder2 = (int)windowConfigPointer->Read("/Border/x2", 1);
-    returnValue.yBorder2 = (int)windowConfigPointer->Read("/Border/y2", 24);
-    returnValue.xPrint = (int)windowConfigPointer->Read("/Print/x", 19);
-    
-    returnValue.clockTextCorrectionX = (int)windowConfigPointer->Read("/Correction/clockTextX", 315);
-    returnValue.clockTextCorrectionY = (int)windowConfigPointer->Read("/Correction/clockTextY", 121);
-    returnValue.clockTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabX", 316);
-    returnValue.clockTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabY", 97);
-    
-    returnValue.clockCorrectionX = (int)windowConfigPointer->Read("/Correction/clockX", 279);
-    returnValue.clockCorrectionY = (int)windowConfigPointer->Read("/Correction/clockY", 124);
-    returnValue.clockCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockSingleTabX", 280);
-    returnValue.clockCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockSingleTabY", 100);
-    
-    returnValue.mhzTextCorrectionX = (int)windowConfigPointer->Read("/Correction/mhzTextX", 230);
-    returnValue.mhzTextCorrectionY = (int)windowConfigPointer->Read("/Correction/mhzTextY", 121);
-    returnValue.mhzTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabX", 231);
-    returnValue.mhzTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabY", 97);
-    
-    returnValue.stopCorrectionX = (int)windowConfigPointer->Read("/Correction/stopX", 202);
-    returnValue.stopCorrectionY = (int)windowConfigPointer->Read("/Correction/stopY", 124);
-    returnValue.stopCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/stopSingleTabX", 203);
-    returnValue.stopCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/stopSingleTabY", 100);
-    
-    returnValue.startCorrectionX = (int)windowConfigPointer->Read("/Correction/startX", 119);
-    returnValue.startCorrectionY = (int)windowConfigPointer->Read("/Correction/startY", 124);
-    returnValue.startCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/startSingleTabX", 120);
-    returnValue.startCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/startSingleTabY", 100);
-    
-    returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
-    returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
-    returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
-    returnValue.ledSpacing = (int)windowConfigPointer->Read("/Bar/ledSpacing", 1);
-    returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
-    returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
-    
-    returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
-    returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
-
-    returnValue.statusBarLeaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
-    returnValue.statusBarLeaderCidelsa = returnValue.statusBarLeaderCidelsa.Mid (1, returnValue.statusBarLeaderCidelsa.Len()-2);
-
-    returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 40);
-    returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 70);
-    returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 80);
-    returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 100);
-    returnValue.statusBarElementMeasure[4] = (int)windowConfigPointer->Read("/Bar/ElementMeasure4", 150);
-
-    returnValue.floatHeight = (int)windowConfigPointer->Read("/Correction/floatHeight", 21);
-    returnValue.startHeight = (int)windowConfigPointer->Read("/Correction/startHeight", -1);
-    returnValue.clockSize = (int)windowConfigPointer->Read("/Correction/clockSize", 47);
-    
-    returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
-    returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
-    returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
-    
-    windowConfigPointer->Read("/Package/deb", &returnValue.packageDeb, true);
-    
-    delete pConfig;
-    wxConfigBase::Set(currentConfigPointer);
-    
-    /*
-     #if defined (__linux__)
-     wxString var, value;
-     
-     if (distInfo.Id == "Ubuntu")
-     {
-     if (major > 2)
-     {    // Ubuntu >= 11.10
-     returnValue.mainwY = 600;
-     var = "UBUNTU_MENUPROXY";
-     if (wxGetEnv(var , &value))
-     {
-     if (value == "libappmenu.so")
-     returnValue.mainwY = 594;
-     }
-     returnValue.xBorder = 2;
-     returnValue.yBorder = 30;
-     returnValue.xBorder2 = 1;
-     returnValue.yBorder2 = 60;
-     returnValue.mainwX = 640;
-     returnValue.xPrint = 2;
-     returnValue.RegularClockY = 515;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 474;
-     returnValue.ChoiceClockX = 334;
-     if (major >= 4 && minor >= 15)
-     returnValue.operatingSystem = OS_LINUX_UBUNTU_18;
-     else
-     returnValue.operatingSystem = OS_LINUX_UBUNTU_11_10;
-     }
-     else
-     {    // Ubuntu <= 11.04
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     returnValue.xBorder2 = 0;
-     returnValue.yBorder2 = 30;
-     returnValue.mainwX = 640;
-     returnValue.mainwY = 670;
-     returnValue.xPrint = 2;
-     returnValue.RegularClockY = 515;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 474;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_LINUX_UBUNTU_11_04;
-     }
-     }
-     else
-     {
-     returnValue.xBorder = 2;
-     returnValue.yBorder = 30;
-     returnValue.xBorder2 = 1;
-     returnValue.yBorder2 = 60;
-     returnValue.mainwX = 640;
-     returnValue.mainwY = 670;
-     returnValue.xPrint = 2;
-     returnValue.RegularClockY = 515;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 474;
-     returnValue.ChoiceClockX = 334;
-     
-     returnValue.operatingSystem = OS_LINUX_FEDORA;
-     if (distInfo.Id == "LinuxMint")
-     returnValue.operatingSystem = OS_LINUX_MINT;
-     
-     wxString desktop = wxPlatformInfo::Get().GetDesktopEnvironment();
-     if (desktop == "KDE")
-     { // openSUSE KDE
-     returnValue.xBorder = 6;
-     returnValue.yBorder = 27;
-     returnValue.xBorder2 = 6;
-     returnValue.yBorder2 = 54;
-     returnValue.mainwY = 470;
-     returnValue.mainwX = 551;
-     returnValue.xPrint = 21;
-     returnValue.RegularClockY = 383;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 354;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_LINUX_OPENSUSE_KDE;
-     }
-     if (desktop == "GNOME")
-     { // openSUSE GNOME
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     returnValue.xBorder2 = 2;
-     returnValue.yBorder2 = 36;
-     returnValue.mainwY = 510;
-     returnValue.mainwX = 545;
-     returnValue.xPrint = 20;
-     returnValue.RegularClockY = 365;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 334;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_LINUX_OPENSUSE_GNOME;
-     }
-     }
-     #endif*/
-    
-    /*
-     #if defined (__WXMAC__)
-     wxOperatingSystemId operatingSystemId;
-     operatingSystemId = wxGetOsVersion(&major, &minor);
-     
-     returnValue.xBorder = 1;
-     returnValue.yBorder = 1;
-     returnValue.xBorder2 = 1;
-     returnValue.yBorder2 = 24;
-     returnValue.xPrint = 19;
-     returnValue.RegularClockY = 375;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 351;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_MAC;
-     #endif*/
-    /*
-     #if defined (__WXMSW__)
-     RTL_OSVERSIONINFOEXW osVersion;
-     GetOsVersion(&osVersion);
-     
-     switch (osVersion.dwMajorVersion)
-     {
-     case OS_MAJOR_XP_2000:
-     switch (osVersion.dwMinorVersion)
-     {
-     case OS_MINOR_2000:
-     returnValue.xBorder2 = 8;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_2000;
-     break;
-     
-     case OS_MINOR_XP:
-     returnValue.xBorder2 = 8;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_XP;
-     break;
-     
-     default:
-     returnValue.xBorder2 = 8;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_2000;
-     break;
-     }
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     break;
-     
-     case OS_MAJOR_VISTA_8_1:
-     switch (osVersion.dwMinorVersion)
-     {
-     case OS_MINOR_VISTA:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_VISTA;
-     break;
-     
-     case OS_MINOR_7:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_7;
-     break;
-     
-     case OS_MINOR_8:
-     case OS_MINOR_8_1:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_8;
-     break;
-     
-     default:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_VISTA;
-     break;
-     }
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     break;
-     
-     case OS_MAJOR_10:
-     returnValue.xBorder2 = 2;
-     returnValue.yBorder2 = 9;
-     returnValue.operatingSystem = OS_WINDOWS_10;
-     returnValue.xBorder = -14;
-     returnValue.yBorder = -7;
-     break;
-     
-     default:
-     returnValue.xBorder2 = 2;
-     returnValue.yBorder2 = 9;
-     returnValue.mainwY = 494;
-     returnValue.operatingSystem = OS_WINDOWS_10;
-     returnValue.xBorder = -14;
-     returnValue.yBorder = -7;
-     break;
-     }
-     returnValue.RegularClockY = 370;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 343;
-     returnValue.ChoiceClockX = 333;
-     returnValue.xPrint = 21;
-     #endif*/
-    
-    return returnValue;
 }
 
 wxSize Main::getPosition(wxString control, wxSize size)
@@ -2352,7 +1951,8 @@ void Main::writeConfig()
 			configPointer->Write("/DataDir", dataDir_);
 		}
 	}
-	configPointer->Write("/Main/Save_Debug_File", saveDebugFile_);
+    configPointer->Write("/Main/LapTimeTrigger", lapTimeTrigger_);
+    configPointer->Write("/Main/Save_Debug_File", saveDebugFile_);
     configPointer->Write("/Main/Save_On_Exit", saveOnExit_);
 	configPointer->Write("/Main/Check_For_Update", checkForUpdate_);
     configPointer->Write("/Main/Floating_Point_Zoom", fullScreenFloat_);
@@ -3084,6 +2684,7 @@ void Main::readConfig()
 	else
 		nonFixedWindowPosition();
 
+    lapTimeTrigger_ = (int)configPointer->Read("/Main/LapTimeTrigger", (long)LAPTIME_OFF);
 	configPointer->Read("/Main/Save_Debug_File", &saveDebugFile_, false);
     configPointer->Read("/Main/Save_On_Exit", &saveOnExit_, true);
 	configPointer->Read("/Main/Check_For_Update", &checkForUpdate_, true);
@@ -3123,7 +2724,8 @@ void Main::readConfig()
 
 	if (mode_.gui)
 	{
-		XRCCTRL(*this, "AssSaveDebugFile", wxCheckBox)->SetValue(saveDebugFile_);
+        XRCCTRL(*this, "LapTimeTrigger", wxChoice)->SetSelection(lapTimeTrigger_);
+        XRCCTRL(*this, "AssSaveDebugFile", wxCheckBox)->SetValue(saveDebugFile_);
         menubarPointer->Check(XRCID(GUISAVEONEXIT), saveOnExit_);
 		menubarPointer->Check(XRCID("MI_UpdateCheck"), checkForUpdate_);
 		menubarPointer->Check(XRCID("MI_FullScreenFloat"), fullScreenFloat_);
@@ -3385,7 +2987,7 @@ void Main::adjustGuiSize()
 
 void Main::onHelp(wxCommandEvent& WXUNUSED(event))
 {
-	wxSetWorkingDirectory(p_Main->getApplicationDir());
+    wxSetWorkingDirectory(p_Main->getApplicationDir());
 	help_->DisplayContents();
 }
 /*
@@ -6641,7 +6243,8 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ScreenDumpF5Comx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3Comx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ExpRamComx", wxCheckBox)->Enable(status&!conf[COMX].diagActive_);
-		XRCCTRL(*this, "SbActiveComx", wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "SbActiveComx", wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "DramComx", wxCheckBox)->Enable(status);
 		XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
@@ -6704,6 +6307,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"FullScreenF3Pecom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"MainRomPecom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonPecom", wxButton)->Enable(status);
+        XRCCTRL(*this, "DramPecom", wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
@@ -7748,7 +7352,9 @@ void Main::cpuTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::startTime()
 {
-	startTime_ = wxGetLocalTime();
+    startTime_ = wxGetLocalTime();
+    lapTime_ = 0;
+    lapTimeStart_ = 0;
     lastNumberOfCpuCycles_ = -1;
 }
 
@@ -7788,6 +7394,24 @@ void Main::showTime()
 		XRCCTRL(*this, "RunTime", wxStaticText)->SetLabel(print_buffer);
 #endif
 
+        if (lapTime_ != 0)
+        {
+            s = (int)(lapTime_);
+            h = s / 3600;
+            s -= (h * 3600);
+            m = s / 60;
+            s -= (m * 60);
+
+            print_buffer.Printf("%02d:%02d:%02d",h,m,s);
+#if wxCHECK_VERSION(2, 9, 0)
+            XRCCTRL(*this, "LapTime", wxStaticText)->SetLabelText(print_buffer);
+#else
+            XRCCTRL(*this, "LapTime", wxStaticText)->SetLabel(print_buffer);
+#endif
+            lapTime_ = 0;
+            lapTimeStart_ = 0;
+        }
+        
 		print_buffer.Printf("%6.3f MHz",f1);
 #if wxCHECK_VERSION(2, 9, 0)
 		XRCCTRL(*this, "EffectiveClock", wxStaticText)->SetLabelText(print_buffer);
@@ -7813,6 +7437,21 @@ void Main::showTime()
 #endif
 	}
     lastNumberOfCpuCycles_ = cpuCycles;
+}
+
+void Main::lapTime()
+{
+    if (lapTimeStart_ == 0)
+    {
+        lapTimeStart_ = wxGetLocalTime();
+    }
+    else
+    {
+        time_t endTime;
+
+        endTime = wxGetLocalTime();
+        lapTime_ = (int)(endTime - lapTimeStart_);
+    }
 }
 
 void Main::vuSet(wxString item, int gaugeValue)
@@ -8352,7 +7991,7 @@ void Main::eventPrintPecom(Byte value)
 void Main::refreshVideoEvent(guiEvent&event)
 {
     bool isVt = event.GetBoolValue1();
-    bool uartNumber = event.GetInt();
+    int uartNumber = event.GetInt();
 
     if (isVt)
         p_Vt100[uartNumber]->refreshVideo();
@@ -8376,7 +8015,7 @@ void Main::eventRefreshVideo(bool isVt, int uartNumber)
     GetEventHandler()->AddPendingEvent(event);
 }
 
-void Main::refreshPanelEvent(guiEvent&event)
+void Main::refreshPanelEvent(guiEvent&WXUNUSED(event))
 {
     p_Computer->refreshPanel();
     panelRefreshOngoing_ = false;
@@ -8445,7 +8084,7 @@ void Main::setMessageBoxAnswer(int answer)
 void Main::GetClientSizeEvent(guiEvent&event)
 {
     bool isVt = event.GetBoolValue1();
-    bool uartNumber = event.GetInt();
+    int uartNumber = event.GetInt();
 
     if (isVt)
         clientSize_ = p_Vt100[uartNumber]->GetClientSize();
@@ -8480,7 +8119,7 @@ void Main::SetClientSizeEvent(guiEvent&event)
     wxSize size = event.GetSizeValue();
     bool changeScreenSize = event.GetBoolValue();
     bool isVt = event.GetBoolValue1();
-    bool uartNumber = event.GetInt();
+    int uartNumber = event.GetInt();
 
     if (isVt)
     {

@@ -910,7 +910,7 @@ wxDateTime wxCurlBase::GetDateFromString(const wxString& szDate)
 
 wxString wxCurlBase::GetURLEncodedString(const wxString& szData)
 {
-    char* pszRetVal = curl_escape((const char*)(szData.c_str()), szData.Len());
+    char* pszRetVal = curl_escape((const char*)(szData.c_str()), (int)szData.Len());
 
     if(pszRetVal)
     {
@@ -926,7 +926,7 @@ wxString wxCurlBase::GetURLEncodedString(const wxString& szData)
 
 wxString wxCurlBase::GetStringFromURLEncoded(const wxString& szData)
 {
-    char* pszRetVal = curl_unescape((const char*)(szData.c_str()), szData.Len());
+    char* pszRetVal = curl_unescape((const char*)(szData.c_str()), (int)szData.Len());
 
     if(pszRetVal)
     {

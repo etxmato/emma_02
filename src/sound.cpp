@@ -414,6 +414,9 @@ void Sound::beepOff()
 
 void Sound::changeBeepFrequency(int frequency)
 {
+    if (frequency == 0)
+        frequency = 1;
+    
 	beepFrequency_ = frequency;
 	beepPeriod_ = (int)((soundClock_ * 1000000) / beepFrequency_ / 2);
 }

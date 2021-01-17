@@ -313,7 +313,9 @@ public:
 	void onAssMark(wxCommandEvent&event);
 	int markType(long *address, int type);
 	void onSaveDebugFile(wxCommandEvent&event);
-	bool getSaveDebugFile() {return saveDebugFile_;};
+    void onLaptimeTrigger(wxCommandEvent&event);
+    bool getSaveDebugFile() {return saveDebugFile_;};
+    int getLapTimeTrigger() {return lapTimeTrigger_;};
 	void onClearErrorLog(wxCommandEvent&event);
 	Byte getOut1();
 	void setOut1(Byte out1);
@@ -505,6 +507,7 @@ protected:
 
 	double percentageClock_;
 	bool saveDebugFile_;
+    int lapTimeTrigger_;
     wxString traceString_;
     wxString chipTraceString_;
 

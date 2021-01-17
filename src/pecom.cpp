@@ -40,7 +40,7 @@
 #define PRW_STOP 2
 #define PRBUSY 3
 
-#define DMACYCLE 5
+#define DMACYCLE 2
 #define PRINTCYCLEVALUE 6
 
 int inputKeyValue[] =
@@ -568,7 +568,7 @@ Byte Pecom::ef(int flag)
 		break;
 
 		case PECOMEF4:
-            if (videoRAM_)
+            if (!videoRAM_)
                 return !escEf4_;
 		break;
 
@@ -721,7 +721,12 @@ void Pecom::out(Byte port, Word address, Byte value)
 
 		case PECOMBANK:
 			if (dmaCounter_ == -100)
-				dmaCounter_ = DMACYCLE ;
+            {
+                if (p_Main->isDramActive(PECOM))
+                    dmaCounter_ = DMACYCLE;
+                else
+                    dmaCounter_ = -50;
+            }
 			addressLatch_ = 0;
 			if (value == 2)
 			{

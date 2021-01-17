@@ -1,0 +1,11 @@
+<html>
+<title>COMIX-35 Emulator</title>
+<body>
+<h1>COMIX-35 Emulator</h1>
+<P>
+This emulator will emulate the COMIX-35 computer, which is an open-source clone of the <a href="ComxMain.htm">COMX-35</a>. Additional information about the COMIX can be found on the <a href="https://github.com/schlae/comix-35">COMIX GitHub page</a>. The only difference in the Emma 02 emulation between the COMX and COMIX is the DRAM refresh which is not available (or needed) on the COMIX as the COMIX doesn't use Dynamic RAM. Due to this the COMIX will run a lot faster than the COMX.
+<P>
+This chapter includes:
+<P>
+<a href="ComixConfigurations.htm">COMIX Conifgurations</a><br>
+</body></html>

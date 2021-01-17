@@ -1084,8 +1084,8 @@ void Pixie::reBlit(wxDC &dc)
     {
         wxSize size = wxGetDisplaySize();
 
-        dc.SetBrush(wxBrush(colour_[backGround_]));
-        dc.SetPen(wxPen(colour_[backGround_]));
+        dc.SetBrush(wxBrush(colour_[0]));
+        dc.SetPen(wxPen(colour_[0]));
 
         int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
         dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);

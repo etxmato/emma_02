@@ -185,7 +185,8 @@ public:
 	bool useLoadLocation_;
 	bool autoCassetteLoad_;
 	bool turbo_;
-	bool interlace_;
+    bool interlace_;
+    bool dram_;
     bool st2020Active_;
     bool sbActive_;
 	bool diagActive_;
@@ -267,6 +268,8 @@ public:
 
 	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMain() {};
+
+    WindowInfo getWinSizeInfo(wxString appDir);
 
     void readElfPortConfig(int elfType, wxString elfTypeStr);
     void writeElfPortConfig(int elfType, wxString elfTypeStr);

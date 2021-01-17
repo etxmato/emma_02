@@ -1,7 +1,7 @@
 [DEBREATE-0.7.13]
 <<CTRL>>
 Package: emma-02
-Version: 1.37
+Version: 1.38
 Maintainer: Marcel van Tongeren <marcel.v.tongeren@gmail.com>
 Homepage: http://www.emma02.hobby-site.com
 Architecture: amd64
@@ -152,7 +152,7 @@ fi
 <</SCRIPTS>>
 <<CHANGELOG>>
 <<DEST>>DEFAULT<</DEST>>
-emma-02 (1.37) xenial; urgency=medium
+emma-02 (1.38) xenial; urgency=medium
 
   * See http://www.emma02.hobby-site.com
 
@@ -161,7 +161,7 @@ emma-02 (1.37) xenial; urgency=medium
 <</CHANGELOG>>
 <<COPYRIGHT>>
 Emma 02 Emulator 
-Copyright (C) 2007-2020 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
+Copyright (C) 2007-2021 Marcel van Tongeren, core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley
 
 ElfOS BIOS, Edt/Asm, Rc/Forth, Rc/Lisp and Rc/Basic
 Copyright (C) 2004 by Michael H Riley

@@ -122,6 +122,9 @@ GuiMS2000::GuiMS2000(const wxString& title, const wxPoint& pos, const wxSize& si
 void GuiMS2000::readMS2000Config()
 {
 	selectedComputer_ = MS2000;
+
+    readElfPortConfig(MS2000, "MS2000");
+
     elfConfiguration[MS2000].fdcType_ = FDCTYPE_MS2000;
     
 	conf[MS2000].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "MS2000" + pathSeparator_;
@@ -153,8 +156,7 @@ void GuiMS2000::readMS2000Config()
     conf[MS2000].wavFile_[0] = configPointer->Read("/MS2000/Wav_File", "");
     conf[MS2000].volume_ = (int)configPointer->Read("/MS2000/Volume", 25l);
     
-	getConfigBool("/MS2000/SerialLog", false);
-
+    configPointer->Read("/MS2000/SerialLog", &elfConfiguration[MS2000].serialLog, false);
 	configPointer->Read("/MS2000/Enable_Vt_Stretch_Dot", &conf[MS2000].stretchDot_, false);
     configPointer->Read("/MS2000/Enable_Vt_External", &elfConfiguration[MS2000].vtExternal, false);
 
@@ -272,6 +274,7 @@ void GuiMS2000::writeMS2000Config()
     configPointer->Write("/MS2000/Wav_File", conf[MS2000].wavFile_[0]);
     configPointer->Write("/MS2000/VtSerialPortChoice", elfConfiguration[MS2000].serialPort_);
   
+    configPointer->Write("/MS2000/SerialLog", elfConfiguration[MS2000].serialLog);
 	configPointer->Write("/MS2000/Bell_Frequency", elfConfiguration[MS2000].bellFrequency_);
 	configPointer->Write("/MS2000/VT_Type", elfConfiguration[MS2000].vtType);
     

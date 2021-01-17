@@ -656,6 +656,8 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_TEXT(XRCID("AssProgramEnd"), DebugWindow::onAssTextChange)
 	EVT_TEXT(XRCID("AssProgramSlot"), DebugWindow::onAssTextChange)
 
+    EVT_CHOICE(XRCID("LapTimeTrigger"), DebugWindow::onLaptimeTrigger)
+
 	EVT_TEXT(XRCID("DebugDisplayPage"), DebugWindow::onDebugDisplayPage)
 #ifdef __WXMAC__
     EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
@@ -9435,7 +9437,12 @@ int DebugWindow::markType(long *addrLong, int type)
 
 void DebugWindow::onSaveDebugFile(wxCommandEvent&event)
 {
-	saveDebugFile_ = event.IsChecked();
+    saveDebugFile_ = event.IsChecked();
+}
+
+void DebugWindow::onLaptimeTrigger(wxCommandEvent&event)
+{
+    lapTimeTrigger_ = event.GetSelection();
 }
 
 void DebugWindow::onClearErrorLog(wxCommandEvent&WXUNUSED(event))
@@ -16106,7 +16113,8 @@ void DebugWindow::forcePseudoDefinition(wxString pseudoType, wxString filename, 
     pseudoType_ = pseudoType;
     pseudoLoaded_ = true;
     commandSyntaxFile_ = applicationDirectory_ + filename;
-    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoName);
+//    XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel(pseudoName);
+    p_Main->eventSetStaticTextValue("Chip8Type", pseudoName);
     p_Main->definePseudoCommands();
 }
 

@@ -1050,7 +1050,7 @@
 		997646B61A61D16300FB9B33 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1230;
 				ORGANIZATIONNAME = "Marcel van Tongeren";
 				TargetAttributes = {
 					997646BD1A61D16300FB9B33 = {
@@ -1292,7 +1292,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1312,6 +1312,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1335,9 +1336,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
@@ -1349,7 +1350,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "-";
@@ -1359,6 +1360,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
 				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(WX_PREPROCESSOR_DEFINITIONS)",
@@ -1374,6 +1376,7 @@
 					"wxUSE_UNICODE_UTF8=0",
 					"wxUSE_UNICODE_WCHAR=1",
 				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -1390,10 +1393,10 @@
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I$(WXROOT)/build-release/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I$(WXROOT)/build-release/lib/wx/include/osx_cocoa-unicode-static-3.1",
 					"-I$(WXROOT)/include",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D__WXMAC__",
@@ -1430,21 +1433,22 @@
 					System,
 					"-framework",
 					OpenGL,
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_qa-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu_net-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_html-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_adv-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_core-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu_xml-3.0.a",
-					"$(WXROOT)/build-release/lib/libwx_baseu-3.0.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_xrc-3.1.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_qa-3.1.a",
+					"$(WXROOT)/build-release/lib/libwx_baseu_net-3.1.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_html-3.1.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_adv-3.1.a",
+					"$(WXROOT)/build-release/lib/libwx_osx_cocoau_core-3.1.a",
+					"$(WXROOT)/build-release/lib/libwx_baseu_xml-3.1.a",
+					"$(WXROOT)/build-release/lib/libwx_baseu-3.1.a",
 					"-framework",
 					WebKit,
 					"-lexpat",
-					"-lwxregexu-3.0",
-					"-lwxtiff-3.0",
-					"-lwxjpeg-3.0",
-					"-lwxpng-3.0",
+					"-lwxregexu-3.1",
+					"-lwxtiff-3.1",
+					"-lwxjpeg-3.1",
+					"-lwxpng-3.1",
+					"-lwxzlib-3.1",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1458,7 +1462,7 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
 				VALID_ARCHS = x86_64;
 				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-3.0.5";
+				WXROOT = "../wxWidgets-3.1.4";
 			};
 			name = "Release - libc";
 		};
@@ -1486,6 +1490,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1544,6 +1549,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1813,7 +1819,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1833,6 +1839,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1857,9 +1864,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
@@ -1871,7 +1878,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD)";
 				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "-";
@@ -1881,6 +1888,7 @@
 					"$(LOCAL_LIBRARY_DIR)/Frameworks",
 					"$(PROJECT_DIR)",
 				);
+				GCC_INLINES_ARE_PRIVATE_EXTERN = NO;
 				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(WX_PREPROCESSOR_DEFINITIONS)",
@@ -1912,10 +1920,10 @@
 					"$(PROJECT_DIR)/images",
 					"$(PROJECT_DIR)/images_osx",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
-					"-I$(WXROOT)/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.0",
+					"-I$(WXROOT)/build-debug/lib/wx/include/osx_cocoa-unicode-static-3.1",
 					"-I$(WXROOT)/include",
 					"-D_FILE_OFFSET_BITS=64",
 					"-D__WXMAC__",
@@ -1952,21 +1960,22 @@
 					System,
 					"-framework",
 					OpenGL,
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_xrc-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_qa-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_net-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_html-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_adv-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_core-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu_xml-3.0.a",
-					"$(WXROOT)/build-debug/lib/libwx_baseu-3.0.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_xrc-3.1.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_qa-3.1.a",
+					"$(WXROOT)/build-debug/lib/libwx_baseu_net-3.1.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_html-3.1.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_adv-3.1.a",
+					"$(WXROOT)/build-debug/lib/libwx_osx_cocoau_core-3.1.a",
+					"$(WXROOT)/build-debug/lib/libwx_baseu_xml-3.1.a",
+					"$(WXROOT)/build-debug/lib/libwx_baseu-3.1.a",
 					"-framework",
 					WebKit,
 					"-lexpat",
-					"-lwxregexu-3.0",
-					"-lwxtiff-3.0",
-					"-lwxjpeg-3.0",
-					"-lwxpng-3.0",
+					"-lwxregexu-3.1",
+					"-lwxtiff-3.1",
+					"-lwxjpeg-3.1",
+					"-lwxpng-3.1",
+					"-lwxzlib-3.1",
 					"-lz",
 					"-lpthread",
 					"-liconv",
@@ -1980,7 +1989,7 @@
 				USER_HEADER_SEARCH_PATHS = "\"$(WXROOT)/include\" \"$(WXROOT)/src/zlib\" \"$(WXROOT)/src/jpeg\" \"$(WXROOT)/src/png\" \"$(WXROOT)/src/regex\" \"$(WXROOT)/src/expat/lib\" \"$(WXROOT)/src/tiff/libtiff\" \"$(WXROOT)/src/stc/scintilla/src\" \"$(WXROOT)/src/stc/scintilla/include\" \"$(WXROOT)/src/stc/scintilla/lexlib\"";
 				VALID_ARCHS = x86_64;
 				WARNING_LDFLAGS = "";
-				WXROOT = "../wxWidgets-3.0.5";
+				WXROOT = "../wxWidgets-3.1.4";
 			};
 			name = "Debug - libc";
 		};

@@ -3,18 +3,18 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.37.1
-AppVersion=1.37
+AppVerName=Emma 02 - V1.38
+AppVersion=1.38
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.37.1
+OutputBaseFilename=Emma_02_x64_setup_v1.38
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
 UninstallDisplayIcon={app}\images\app.ico
-DisableDirPage=false
+DisableDirPage=false   he
 FlatComponentsList=false
 InfoBeforeFile=..\copyright.rtf
 WizardImageBackColor=clWhite

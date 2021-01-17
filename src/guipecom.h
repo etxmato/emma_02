@@ -16,6 +16,9 @@ public:
     void readPecomWindowConfig();
     void writePecomWindowConfig();
 
+    void onPecomDram(wxCommandEvent& event);
+    bool isDramActive(int computer) { return conf[computer].dram_; };
+
 private:
 
 	DECLARE_EVENT_TABLE()

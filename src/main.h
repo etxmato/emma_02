@@ -494,8 +494,8 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.37
-#define EMMA_SUB_VERSION 8
+#define EMMA_VERSION 1.38
+#define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1013,6 +1013,10 @@ public:
 #define TIL311 0
 #define TIL313 1
 
+#define LAPTIME_OFF 0
+#define LAPTIME_Q 1
+#define LAPTIME_OUT 2
+
 #define CALL_CHANGE_SCREEN_SIZE true
 #define DON_T_CALL_CHANGE_SCREEN_SIZE false
 
@@ -1055,7 +1059,6 @@ public:
 	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~Main();
     
-    WindowInfo getWinSizeInfo(wxString appDir);
     wxSize getPosition(wxString control, wxSize size);
     wxSize getDefaultGuiSize();
     void windowSizeChanged(wxSizeEvent& event);
@@ -1191,6 +1194,7 @@ public:
 	void updateCheckTimeout(wxTimerEvent& event);
 	void startTime();
 	void showTime();
+    void lapTime();
 	void zoomEvent(double zoom);
 	void zoomEventVt(double zoom);
     void vuSet(wxString Item, int value);
@@ -1365,6 +1369,8 @@ private:
 
 	wxString message_;
     time_t startTime_;
+    time_t lapTime_;
+    time_t lapTimeStart_;
     long lastNumberOfCpuCycles_;
 
 	int eventNumber_;

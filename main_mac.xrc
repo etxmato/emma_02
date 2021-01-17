@@ -294,8 +294,9 @@
                                                                 <content>
                                                                     <item>comx35.bin</item>
                                                                     <item>comx35.1.1.bin</item>
+                                                                    <item>comx35.1.2.bin</item>
                                                                 </content>
-                                                                <selection>1</selection>
+                                                                <selection>2</selection>
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
@@ -846,7 +847,7 @@
                                                     <object class="wxBoxSizer">
                                                         <orient>wxHORIZONTAL</orient>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
                                                             <border>4</border>
                                                             <object class="wxCheckBox" name="InterlaceComx">
                                                                 <size>-1,24</size>
@@ -856,6 +857,20 @@
                                                                     <size>-1</size>
                                                                 </font>
                                                                 <label>80 Column Card Interlace</label>
+                                                                <checked>0</checked>
+                                                            </object>
+                                                        </object>
+                                                        <object class="sizeritem">
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                            <border>4</border>
+                                                            <object class="wxCheckBox" name="DramComx">
+                                                                <size>-1,24</size>
+                                                                <tooltip>Enable DRAM refresh (unselect for COMIX mode)</tooltip>
+                                                                <font>
+                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                    <size>-1</size>
+                                                                </font>
+                                                                <label>DRAM refresh</label>
                                                                 <checked>0</checked>
                                                             </object>
                                                         </object>
@@ -26136,6 +26151,27 @@
                                                         </object>
                                                     </object>
                                                 </object>
+                                                <object class="sizeritem">
+                                                    <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                    <border>3</border>
+                                                    <object class="wxBoxSizer">
+                                                        <orient>wxHORIZONTAL</orient>
+                                                        <object class="sizeritem">
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                            <border>0</border>
+                                                            <object class="wxCheckBox" name="DramPecom">
+                                                                <size>-1,24</size>
+                                                                <tooltip>Enable DRAM refresh</tooltip>
+                                                                <font>
+                                                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                    <size>-1</size>
+                                                                </font>
+                                                                <label>DRAM refresh</label>
+                                                                <checked>0</checked>
+                                                            </object>
+                                                        </object>
+                                                    </object>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>
@@ -26728,7 +26764,7 @@
                                 </font>
                                 <style>wxBK_DEFAULT|wxFULL_REPAINT_ON_RESIZE</style>
                                 <object class="choicebookpage">
-                                    <label>Messages</label>
+                                    <label>Timing &amp; Specification</label>
                                     <object class="wxPanel" name="Message">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -26750,163 +26786,255 @@
                                                             <object class="sizeritem">
                                                                 <flag>wxGROW|wxBOTTOM</flag>
                                                                 <border>3</border>
+                                                                <option>200</option>
                                                                 <object class="wxStaticBoxSizer" name="wxID_ANY">
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <label></label>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxVERTICAL</orient>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                                <flag>wxGROW|wxALL</flag>
                                                                                 <border>0</border>
                                                                                 <object class="wxBoxSizer">
-                                                                                    <orient>wxVERTICAL</orient>
+                                                                                    <orient>wxHORIZONTAL</orient>
                                                                                     <object class="sizeritem">
-                                                                                        <flag>wxALIGN_LEFT</flag>
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxBoxSizer">
-                                                                                            <orient>wxHORIZONTAL</orient>
+                                                                                            <orient>wxVERTICAL</orient>
                                                                                             <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                                                <border>5</border>
-                                                                                                <object class="wxStaticText" name="RunningComputer">
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>No computer started</label>
+                                                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                                                <border>0</border>
+                                                                                                <object class="wxBoxSizer">
+                                                                                                    <orient>wxVERTICAL</orient>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_LEFT</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <object class="wxBoxSizer">
+                                                                                                            <orient>wxHORIZONTAL</orient>
+                                                                                                            <object class="sizeritem">
+                                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                                                <border>3</border>
+                                                                                                                <object class="wxStaticText" name="RunningComputer">
+                                                                                                                    <font>
+                                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                        <size>-1</size>
+                                                                                                                    </font>
+                                                                                                                    <label>No computer started</label>
+                                                                                                                </object>
+                                                                                                            </object>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_LEFT</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <object class="wxBoxSizer">
+                                                                                                            <orient>wxHORIZONTAL</orient>
+                                                                                                            <object class="sizeritem">
+                                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                                                <border>3</border>
+                                                                                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                                                                                    <font>
+                                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                        <size>-1</size>
+                                                                                                                    </font>
+                                                                                                                    <label>Cycles executed: </label>
+                                                                                                                </object>
+                                                                                                            </object>
+                                                                                                            <object class="sizeritem">
+                                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                                                                <border>3</border>
+                                                                                                                <object class="wxStaticText" name="CpuCycles">
+                                                                                                                    <font>
+                                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                        <size>-1</size>
+                                                                                                                    </font>
+                                                                                                                    <label></label>
+                                                                                                                </object>
+                                                                                                            </object>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                                                        <border>0</border>
+                                                                                                        <object class="wxBoxSizer">
+                                                                                                            <orient>wxHORIZONTAL</orient>
+                                                                                                            <object class="sizeritem">
+                                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                                                <border>0</border>
+                                                                                                                <object class="wxBoxSizer">
+                                                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                                                    <object class="sizeritem">
+                                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                                                        <border>3</border>
+                                                                                                                        <object class="wxStaticText" name="wxID_STATIC">
+                                                                                                                            <font>
+                                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                                <size>-1</size>
+                                                                                                                            </font>
+                                                                                                                            <label>Run time: </label>
+                                                                                                                        </object>
+                                                                                                                    </object>
+                                                                                                                    <object class="sizeritem">
+                                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                                                                        <border>3</border>
+                                                                                                                        <object class="wxStaticText" name="RunTime">
+                                                                                                                            <font>
+                                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                                <size>-1</size>
+                                                                                                                            </font>
+                                                                                                                            <label></label>
+                                                                                                                        </object>
+                                                                                                                    </object>
+                                                                                                                </object>
+                                                                                                            </object>
+                                                                                                        </object>
+                                                                                                    </object>
                                                                                                 </object>
+                                                                                            </object>
+                                                                                            <object class="spacer">
+                                                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
+                                                                                                <border>5</border>
+                                                                                                <size>261,0</size>
                                                                                             </object>
                                                                                         </object>
                                                                                     </object>
                                                                                     <object class="sizeritem">
-                                                                                        <flag>wxALIGN_LEFT</flag>
+                                                                                        <flag>wxALIGN_BOTTOM|wxALL</flag>
                                                                                         <border>0</border>
                                                                                         <object class="wxBoxSizer">
-                                                                                            <orient>wxHORIZONTAL</orient>
+                                                                                            <orient>wxVERTICAL</orient>
                                                                                             <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                                                <border>5</border>
-                                                                                                <object class="wxStaticText" name="wxID_STATIC">
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>Cycles executed: </label>
+                                                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                                                <border>0</border>
+                                                                                                <object class="wxBoxSizer">
+                                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                                        <border>3</border>
+                                                                                                        <object class="wxStaticText" name="wxID_STATIC">
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>Effective CPU clock:</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                                                        <border>3</border>
+                                                                                                        <object class="wxStaticText" name="EffectiveClock">
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label></label>
+                                                                                                        </object>
+                                                                                                    </object>
                                                                                                 </object>
                                                                                             </object>
                                                                                             <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                                                <border>5</border>
-                                                                                                <object class="wxStaticText" name="CpuCycles">
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label></label>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxBoxSizer">
-                                                                                            <orient>wxHORIZONTAL</orient>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                                                <border>5</border>
-                                                                                                <object class="wxStaticText" name="wxID_STATIC">
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label>Run time: </label>
-                                                                                                </object>
-                                                                                            </object>
-                                                                                            <object class="sizeritem">
-                                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                                                <border>5</border>
-                                                                                                <object class="wxStaticText" name="RunTime">
-                                                                                                    <font>
-                                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                        <size>-1</size>
-                                                                                                    </font>
-                                                                                                    <label></label>
+                                                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                                                <border>0</border>
+                                                                                                <object class="wxBoxSizer">
+                                                                                                    <orient>wxHORIZONTAL</orient>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                                                        <border>3</border>
+                                                                                                        <object class="wxStaticText" name="wxID_STATIC">
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label>Vertical video frequency:</label>
+                                                                                                        </object>
+                                                                                                    </object>
+                                                                                                    <object class="sizeritem">
+                                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                                                        <border>3</border>
+                                                                                                        <object class="wxStaticText" name="VideoFrequency">
+                                                                                                            <font>
+                                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                                <size>-1</size>
+                                                                                                            </font>
+                                                                                                            <label></label>
+                                                                                                        </object>
+                                                                                                    </object>
                                                                                                 </object>
                                                                                             </object>
                                                                                         </object>
                                                                                     </object>
                                                                                 </object>
                                                                             </object>
-                                                                            <object class="spacer">
-                                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                                <border>5</border>
-                                                                                <size>258,0</size>
-                                                                            </object>
-                                                                        </object>
-                                                                    </object>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_BOTTOM|wxALL</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBoxSizer">
-                                                                            <orient>wxVERTICAL</orient>
-                                                                            <object class="spacer">
-                                                                                <flag>wxALIGN_CENTER_HORIZONTAL</flag>
-                                                                                <border>5</border>
-                                                                                <size>258,0</size>
-                                                                            </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_LEFT|wxALL</flag>
-                                                                                <border>0</border>
-                                                                                <object class="wxBoxSizer">
-                                                                                    <orient>wxHORIZONTAL</orient>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
-                                                                                        <border>5</border>
-                                                                                        <object class="wxStaticText" name="wxID_STATIC">
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <label>Effective CPU clock:</label>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                                        <border>5</border>
-                                                                                        <object class="wxStaticText" name="EffectiveClock">
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <label></label>
-                                                                                        </object>
-                                                                                    </object>
+                                                                                <flag>wxGROW|wxALL</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxStaticLine" name="wxID_STATIC">
+                                                                                    <style>wxLI_HORIZONTAL</style>
                                                                                 </object>
                                                                             </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                            <object class="spacer">
+                                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
                                                                                 <border>0</border>
+                                                                                <size>558,0</size>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxTOP</flag>
+                                                                                <border>2</border>
                                                                                 <object class="wxBoxSizer">
                                                                                     <orient>wxHORIZONTAL</orient>
                                                                                     <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
-                                                                                        <border>5</border>
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                                                                        <border>3</border>
                                                                                         <object class="wxStaticText" name="wxID_STATIC">
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                 <size>-1</size>
                                                                                             </font>
-                                                                                            <label>Vertical video frequency:</label>
+                                                                                            <label>Trigger: </label>
                                                                                         </object>
                                                                                     </object>
                                                                                     <object class="sizeritem">
-                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                                        <flag>wxALIGN_BOTTOM|wxRIGHT</flag>
                                                                                         <border>5</border>
-                                                                                        <object class="wxStaticText" name="VideoFrequency">
+                                                                                        <object class="wxChoice" name="LapTimeTrigger">
+                                                                                            <tooltip>Interval time trigger type</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <content>
+                                                                                                <item>OFF</item>
+                                                                                                <item>Q</item>
+                                                                                                <item>OUT1</item>
+                                                                                                <item>OUT2</item>
+                                                                                                <item>OUT3</item>
+                                                                                                <item>OUT4</item>
+                                                                                                <item>OUT5</item>
+                                                                                                <item>OUT6</item>
+                                                                                                <item>OUT7</item>
+                                                                                            </content>
+                                                                                            <selection>0</selection>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                                                                        <border>3</border>
+                                                                                        <object class="wxStaticText" name="wxID_STATIC">
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <label>Interval:</label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT|wxTOP|wxBOTTOM</flag>
+                                                                                        <border>3</border>
+                                                                                        <object class="wxStaticText" name="LapTime">
                                                                                             <font>
                                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                 <size>-1</size>

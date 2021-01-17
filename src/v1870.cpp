@@ -93,6 +93,7 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
 	offsetX_ = 0;
 	offsetY_ = 0;
+    
 	pixelWidth_ = 2;
 	pixelHeight_ = 2;
 	videoMode_ = PAL;
@@ -672,6 +673,7 @@ void V1870::init1870()
 	reDraw_ = true;
 	reBlit_ = false;
 	newBackGround_ = false;
+    extraBackGround_ = false;
 	updateCharacter_ = false;
 	updateCharacter6845_ = 0;
 	vismacBlink_ = false;
@@ -2199,7 +2201,7 @@ void V1870::reBlit(wxDC &dc)
 
     if (!memoryDCvalid_)
         return;
-    
+
     if (videoType_ != VIDEO80COL)
         dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
     else

@@ -453,11 +453,24 @@ void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
 	{
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("3");
 	}
-	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO)
+	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == NANO)
 	{
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("4");
 		scaleString = "4";
 	}
+    if (computerType_ == STUDIOIV)
+    {
+        if (p_Main->getVideoMode(computerType_) == NTSC)
+        {
+            XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("3");
+            scaleString = "3";
+        }
+        else
+        {
+            XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("4");
+            scaleString = "4";
+        }
+    }
     if (computerType_ == FRED1 || computerType_ == FRED1_5)
     {
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("1");

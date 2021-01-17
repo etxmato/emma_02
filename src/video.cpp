@@ -587,8 +587,8 @@ void Video::changeScreenSize()
         size = p_Video->GetClientSize();
     else
         size = p_Main->eventGetClientSize(videoScreenPointer->isVt(), uartNumber_);
-	destinationWidth_ = size.x;
-	destinationHeight_ = size.y;
+    destinationWidth_ = size.x;
+    destinationHeight_ = size.y;
 
     if (p_Main->isFullScreenFloat())
 	{
@@ -604,7 +604,7 @@ void Video::changeScreenSize()
 		zoom_ = zoomx;
 	else
 		zoom_ = zoomy;
-	offsetX_ = (destinationWidth_/(zoom_*xZoomFactor_) - videoWidth_) / 2;
+    offsetX_ = (destinationWidth_/(zoom_*xZoomFactor_) - videoWidth_) / 2;
     offsetY_ = (destinationHeight_/zoom_ - videoHeight_) / 2;
 
 	extraBackGround_ = false;
@@ -722,8 +722,16 @@ void Video::setZoom(double zoom)
 	double intPart;
 	zoomFraction_ = (modf(zoom_, &intPart) != 0);
 
-	this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
-	videoScreenPointer->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+    if (fullScreenSet_)
+    {
+        this->SetClientSize(destinationWidth_, destinationHeight_);
+        videoScreenPointer->SetClientSize(destinationWidth_, destinationHeight_);
+    }
+    else
+    {
+        this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+        videoScreenPointer->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+    }
 
 	videoScreenPointer->setZoom(zoom_);
 #ifndef __linux__

@@ -826,7 +826,7 @@ void Panel::setReadyLed(int status)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updateReadyLed(*clientDc_);
+            updateReadyLed(dc);
 #endif
         }
     }
@@ -844,7 +844,7 @@ void Panel::setStopLed(int status)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updateStopLed(*clientDc_);
+            updateStopLed(dc);
 #endif
         }
     }
@@ -871,7 +871,7 @@ void Panel::setErrorLed(int status)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateErrorLed(*clientDc_);
+			updateErrorLed(dc);
 #endif
         }
 	}
@@ -898,7 +898,7 @@ void Panel::setQLed(int status)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateQLed(*clientDc_);
+			updateQLed(dc);
 #endif
         }
 	}
@@ -925,7 +925,7 @@ void Panel::setResetLed(int status)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateResetLed(*clientDc_);
+			updateResetLed(dc);
 #endif
         }
 	}
@@ -952,7 +952,7 @@ void Panel::setPauseLed(int status)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updatePauseLed(*clientDc_);
+			updatePauseLed(dc);
 #endif
         }
 	}
@@ -979,7 +979,7 @@ void Panel::setRunLed(int status)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateRunLed(*clientDc_);
+			updateRunLed(dc);
 #endif
         }
 	}
@@ -1006,7 +1006,7 @@ void Panel::setLoadLed(int status)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateLoadLed(*clientDc_);
+			updateLoadLed(dc);
 #endif
         }
 	}
@@ -1033,7 +1033,7 @@ void Panel::setLed(int i, int status)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateLed(*clientDc_, i);
+			updateLed(dc, i);
 #endif
         }
 	}
@@ -1066,7 +1066,7 @@ void Panel::setStateLed(int i, int status)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updateStateLed(*clientDc_, i);
+            updateStateLed(dc, i);
 #endif
         }
     }
@@ -1093,7 +1093,7 @@ void Panel::showData(Byte value)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateData(*clientDc_);
+			updateData(dc);
 #endif
         }
 	}
@@ -1121,7 +1121,7 @@ void Panel::showDataTil313(Byte value)
             p_Main->eventRefreshPanel();
 #else
 			wxClientDC dc(this);
-			updateDataTil313(*clientDc_);
+			updateDataTil313(dc);
 #endif
         }
 	}
@@ -1149,7 +1149,7 @@ void Panel::showDataTil313Italic(Byte value)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updateDataTil313Italic(*clientDc_);
+            updateDataTil313Italic(dc);
 #endif
         }
     }
@@ -1177,7 +1177,7 @@ void Panel::showDp313Italic(bool status)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updateDp313Italic(*clientDc_);
+            updateDp313Italic(dc);
 #endif
         }
     }
@@ -1258,7 +1258,7 @@ void Panel::showAddressTil313(Word address)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updateAddressTil313(*dc);
+            updateAddressTil313(dc);
 #endif
         }
     }
@@ -1276,7 +1276,7 @@ if (addressTil313StatusItalic != address)
             p_Main->eventRefreshPanel();
 #else
             wxClientDC dc(this);
-            updateAddressTil313Italic(*dc);
+            updateAddressTil313Italic(dc);
 #endif
         }
     }
@@ -1335,7 +1335,7 @@ void Panel::inSetState(bool state)
     p_Main->eventRefreshPanel();
 #else
     wxClientDC dc(this);
-    inSwitchButton->setState(*dc, state);
+    inSwitchButton->setState(dc, state);
 #endif
 }
 
@@ -1345,7 +1345,7 @@ void Panel::clearSetState(bool state)
     p_Main->eventRefreshPanel();
 #else
     wxClientDC dc(this);
-    clearSwitchButton->setState(*dc, state);
+    clearSwitchButton->setState(dc, state);
 #endif
 }
 
@@ -1355,7 +1355,7 @@ void Panel::resetSetState(bool state)
     p_Main->eventRefreshPanel();
 #else
     wxClientDC dc(this);
-    resetSwitchButton->setState(*dc, state);
+    resetSwitchButton->setState(dc, state);
 #endif
 }
 
@@ -1365,7 +1365,7 @@ void Panel::waitSetState(bool state)
     p_Main->eventRefreshPanel();
 #else
     wxClientDC dc(this);
-    waitSwitchButton->setState(*dc, state);
+    waitSwitchButton->setState(dc, state);
 #endif
 }
 
@@ -2212,7 +2212,7 @@ void Computer::readDebugFile(wxString dir, wxString name, wxString number, Word 
 		wxFFileInputStream in(dir+name);
 		wxZipInputStream zip(in);
 
-		while (entry.reset(zip.GetNextEntry()), entry.get() != NULL)
+        while (static_cast<void>(entry.reset(zip.GetNextEntry())), entry.get() != NULL)
 		{
 			// access meta-data
 			name = entry->GetName();

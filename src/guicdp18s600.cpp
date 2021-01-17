@@ -235,7 +235,9 @@ GuiCdp18s600::GuiCdp18s600(const wxString& title, const wxPoint& pos, const wxSi
 void GuiCdp18s600::readCdp18s600Config()
 {
     wxString cardNumberStr;
-    
+ 
+    readElfPortConfig(MICROBOARD, "Microboard");
+
     selectedComputer_ = MICROBOARD;
     elfConfiguration[MICROBOARD].fdcType_ = FDCTYPE_MICROBOARD;
     
@@ -272,8 +274,7 @@ void GuiCdp18s600::readCdp18s600Config()
     
     conf[MICROBOARD].screenDumpFile_ = configPointer->Read("/Microboard/Video_Dump_File", "screendump.png");
     
-    getConfigBool("/Microboard/SerialLog", false);
-    
+    configPointer->Read("/Microboard/SerialLog", &elfConfiguration[MICROBOARD].serialLog, false);
     configPointer->Read("/Microboard/Enable_Vt_Stretch_Dot", &conf[MICROBOARD].stretchDot_, false);
     configPointer->Read("/Microboard/Enable_Vt_External", &elfConfiguration[MICROBOARD].vtExternal, false);
     
@@ -571,6 +572,7 @@ void GuiCdp18s600::writeCdp18s600Config()
     configPointer->Write("/Microboard/Video_Dump_File", conf[MICROBOARD].screenDumpFile_);
     configPointer->Write("/Microboard/VtSerialPortChoice", elfConfiguration[MICROBOARD].serialPort_);
     
+    configPointer->Write("/Microboard/SerialLog", elfConfiguration[MICROBOARD].serialLog);
     configPointer->Write("/Microboard/Bell_Frequency", elfConfiguration[MICROBOARD].bellFrequency_);
     configPointer->Write("/Microboard/VT_Type", elfConfiguration[MICROBOARD].vtType);
     

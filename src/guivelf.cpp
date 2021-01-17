@@ -160,6 +160,7 @@ void GuiVelf::readVelfConfig()
 	defaultScale.Printf("%i", 3);
 	conf[VELF].xScale_ = configPointer->Read("/Velf/Window_Scale_Factor_X", defaultScale);
 
+    configPointer->Read("/Velf/SerialLog", &elfConfiguration[VELF].serialLog, false);
 	configPointer->Read("/Velf/Enable_Vt_Stretch_Dot", &conf[VELF].stretchDot_, false);
 	configPointer->Read("/Velf/Enable_Turbo_Cassette", &conf[VELF].turbo_, true);
 	configPointer->Read("/Velf/Enable_Auto_Cassette", &conf[VELF].autoCassetteLoad_, true);
@@ -267,6 +268,7 @@ void GuiVelf::writeVelfConfig()
 	configPointer->Write("/Velf/Vt_Wav_File", elfConfiguration[VELF].vtWavFile_);
     configPointer->Write("/Velf/VtSerialPortChoice", elfConfiguration[VELF].serialPort_);
 
+    configPointer->Write("/Velf/SerialLog", elfConfiguration[VELF].serialLog);
 	configPointer->Write("/Velf/VtEf", elfConfiguration[VELF].vtEf);
 	configPointer->Write("/Velf/VtQ", elfConfiguration[VELF].vtQ);
 	configPointer->Write("/Velf/Bell_Frequency", elfConfiguration[VELF].bellFrequency_);
