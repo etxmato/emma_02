@@ -7394,23 +7394,23 @@ void Main::showTime()
 		XRCCTRL(*this, "RunTime", wxStaticText)->SetLabel(print_buffer);
 #endif
 
-        if (lapTime_ != 0)
+        if (lapTimeStart_ != 0)
         {
-            s = (int)(lapTime_);
-            h = s / 3600;
-            s -= (h * 3600);
-            m = s / 60;
-            s -= (m * 60);
-
-            print_buffer.Printf("%02d:%02d:%02d",h,m,s);
-#if wxCHECK_VERSION(2, 9, 0)
-            XRCCTRL(*this, "LapTime", wxStaticText)->SetLabelText(print_buffer);
-#else
-            XRCCTRL(*this, "LapTime", wxStaticText)->SetLabel(print_buffer);
-#endif
-            lapTime_ = 0;
-            lapTimeStart_ = 0;
+            endTime = wxGetLocalTime();
+            lapTime_ = (int)(endTime - lapTimeStart_);
         }
+        s = (int)(lapTime_);
+        h = s / 3600;
+        s -= (h * 3600);
+        m = s / 60;
+        s -= (m * 60);
+
+        print_buffer.Printf("%02d:%02d:%02d",h,m,s);
+#if wxCHECK_VERSION(2, 9, 0)
+        XRCCTRL(*this, "LapTime", wxStaticText)->SetLabelText(print_buffer);
+#else
+        XRCCTRL(*this, "LapTime", wxStaticText)->SetLabel(print_buffer);
+#endif
         
 		print_buffer.Printf("%6.3f MHz",f1);
 #if wxCHECK_VERSION(2, 9, 0)
@@ -7442,15 +7442,15 @@ void Main::showTime()
 void Main::lapTime()
 {
     if (lapTimeStart_ == 0)
-    {
         lapTimeStart_ = wxGetLocalTime();
-    }
     else
     {
         time_t endTime;
 
         endTime = wxGetLocalTime();
         lapTime_ = (int)(endTime - lapTimeStart_);
+
+        lapTimeStart_ = 0;
     }
 }
 
