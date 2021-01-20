@@ -7,29 +7,39 @@ The Emma 02 emulator runs on Windows 2000, XP, Vista, Windows 7, Mac OS X and Li
 
 The Emma 02 emulator is currently emulating the following computers:
 
+CDP18S020 Evaluation Kit<br>
+Cidelsa<br>
 COMX-35<br>
-Cosmac Elf 2000<br>
-Cosmicos<br>
+COMIX-35<br>
 Cosmac Elf<br>
-Netronics Elf II<br>
-Quest Super Elf<br>
-Membership Card<br>
-VELF<br>
-Microtutor<br>
+Cosmac Elf 2000<br>
 Cosmac VIP<br>
-Cosmac VIP II<br>
+Cosmac VIP II, supporting two versions 'ED' and 'RCA'<br>
+Cosmicos<br>
+ETI 660<br>
+FRED 1<br>
+FRED 1.5<br>
+Infinite UC1800<br>
 MCDS, Microboard Computer Development System<br>
+Membership Card<br>
+Microboard System, supporting CPU boards CDP18S600 to CDP18S610<br>
+Microtutor<br>
+Microtutor II<br>
 MS 2000, MicroDisk Development System<br>
-RCA Video Coin Arcade
+Netronics Elf II<br>
+Oscom Nano<br>
+Pecom 32 and 64<br>
+Quest Super Elf<br>
+RCA Coin Arcade<br>
 RCA Studio II<br>
 RCA Studio III / Victory MPT-02<br>
-Visicom COM-100<br>
-Cidelsa<br>
+RCA Studio IV<br>
 Telmac TMC-600<br>
 Telmac 1800<br>
 Telmac 2000<br>
-Pecom 32 and 64<br>
-ETI 660<br>
+VELF<br>
+VIP2K Membership Card<br>
+Visicom COM-100<br>
 
 For detailed information, documentation and software about the COMX-35 please see our <a href="http://www.comxclub.hobby-site.com/COMX-Club.htm">COMX Club</a> pages.
 
