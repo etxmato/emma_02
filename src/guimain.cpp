@@ -37,6 +37,27 @@
 #include "vtsetup.h"
 #include "psave.h"
 #include "wx/stdpaths.h"
+#include "wx/fileconf.h"
+
+#if defined (__WXMSW__)
+// RTL_OSVERSIONINFOEXW is defined in winnt.h
+BOOL GetOsVersion(RTL_OSVERSIONINFOEXW* pk_OsVer)
+{
+    typedef LONG(WINAPI* tRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
+
+    memset(pk_OsVer, 0, sizeof(RTL_OSVERSIONINFOEXW));
+    pk_OsVer->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
+
+    HMODULE h_NtDll = GetModuleHandleW(L"ntdll.dll");
+    tRtlGetVersion f_RtlGetVersion = (tRtlGetVersion)GetProcAddress(h_NtDll, "RtlGetVersion");
+
+    if (!f_RtlGetVersion)
+        return FALSE; // This will never happen (all processes load ntdll.dll)
+
+    LONG Status = f_RtlGetVersion(pk_OsVer);
+    return Status == 0; // STATUS_SUCCESS;
+}
+#endif
 
 BEGIN_EVENT_TABLE(GuiMain, wxFrame)
 
@@ -83,7 +104,7 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     }
 #endif
 
-    windowInfo = p_Main->getWinSizeInfo(applicationDirectory_);
+    windowInfo = getWinSizeInfo(applicationDirectory_);
 
     wxDir checkDirForFiles;
     bool dataDirEmpty = true;
@@ -127,6 +148,175 @@ GuiMain::GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, 
     position_[ELF].x = 0;
     position_[ELFII].x = 0;
     position_[SUPERELF].x = 0;
+}
+
+WindowInfo GuiMain::getWinSizeInfo(wxString appDir)
+{
+    WindowInfo returnValue;
+    wxString windowInfoFile;
+    int major, minor;
+    
+    returnValue.errorMessage = "";
+    wxGetOsVersion(&major, &minor);
+    
+    wxConfigBase *windowConfigPointer;
+    
+#if defined (__WXMAC__)
+    windowInfoFile = "osx.ini";
+    wxString appName = "emma_02";
+    
+    returnValue.operatingSystem = OS_MAC;
+    if (major == 10 && minor <= 8)
+        returnValue.operatingSystem = OS_MAC_PRE_10_9;
+#endif
+   
+    wxLinuxDistributionInfo distInfo;
+
+#if defined (__linux__)
+    distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
+
+    if (distInfo.Id == "Ubuntu")
+    {
+        switch (major)
+        {
+            case 2:
+                distInfo.Id += ".2";
+            break;
+                
+            case 3:
+                distInfo.Id += ".3";
+            break;
+
+            default:
+                distInfo.Id += ".4";
+            break;
+        }
+    }
+
+    windowInfoFile = distInfo.Id + ".ini";
+
+    if (distInfo.Id == "")
+    {
+        distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
+        if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
+            windowInfoFile = "fedora.ini";
+        if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
+            windowInfoFile = "suse.ini";
+    }
+    
+    wxString appName = "emma_02";
+    
+    returnValue.operatingSystem = OS_LINUX;
+#endif
+    
+#if defined (__WXMSW__)
+    wxString appName = "Emma 02";
+    returnValue.operatingSystem = OS_WINDOWS;
+    
+    RTL_OSVERSIONINFOEXW osVersion;
+    GetOsVersion(&osVersion);
+    
+    switch (osVersion.dwMajorVersion)
+    {
+        case OS_MAJOR_XP_2000:
+            if (osVersion.dwMinorVersion == OS_MINOR_2000)
+            {
+                windowInfoFile = "win2000.ini";
+                returnValue.operatingSystem = OS_WINDOWS_2000;
+            }
+            else
+                windowInfoFile = "winxp.ini";
+        break;
+            
+        case OS_MAJOR_VISTA_8_1:
+            windowInfoFile = "win8.ini";
+        break;
+            
+        default:
+            windowInfoFile = "win10.ini";
+        break;
+    }
+#endif
+    
+    windowInfoFile = windowInfoFile.MakeLower();
+    
+    bool fileExists = wxFile::Exists(appDir + windowInfoFile);
+    if (!fileExists)
+    {
+        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' not found, loading default configuration\n";
+
+        windowInfoFile = "linuxdefault.ini";
+    }
+
+    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);
+    
+    wxConfigBase *currentConfigPointer = wxConfigBase::Set(pConfig);
+    windowConfigPointer = wxConfigBase::Get();
+    
+    returnValue.xBorder = (int)windowConfigPointer->Read("/Border/x", 1);
+    returnValue.yBorder = (int)windowConfigPointer->Read("/Border/y", 1);
+    returnValue.xBorder2 = (int)windowConfigPointer->Read("/Border/x2", 1);
+    returnValue.yBorder2 = (int)windowConfigPointer->Read("/Border/y2", 24);
+    returnValue.xPrint = (int)windowConfigPointer->Read("/Print/x", 19);
+    
+    returnValue.clockTextCorrectionX = (int)windowConfigPointer->Read("/Correction/clockTextX", 315);
+    returnValue.clockTextCorrectionY = (int)windowConfigPointer->Read("/Correction/clockTextY", 121);
+    returnValue.clockTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabX", 316);
+    returnValue.clockTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabY", 97);
+    
+    returnValue.clockCorrectionX = (int)windowConfigPointer->Read("/Correction/clockX", 279);
+    returnValue.clockCorrectionY = (int)windowConfigPointer->Read("/Correction/clockY", 124);
+    returnValue.clockCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockSingleTabX", 280);
+    returnValue.clockCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockSingleTabY", 100);
+    
+    returnValue.mhzTextCorrectionX = (int)windowConfigPointer->Read("/Correction/mhzTextX", 230);
+    returnValue.mhzTextCorrectionY = (int)windowConfigPointer->Read("/Correction/mhzTextY", 121);
+    returnValue.mhzTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabX", 231);
+    returnValue.mhzTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabY", 97);
+    
+    returnValue.stopCorrectionX = (int)windowConfigPointer->Read("/Correction/stopX", 202);
+    returnValue.stopCorrectionY = (int)windowConfigPointer->Read("/Correction/stopY", 124);
+    returnValue.stopCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/stopSingleTabX", 203);
+    returnValue.stopCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/stopSingleTabY", 100);
+    
+    returnValue.startCorrectionX = (int)windowConfigPointer->Read("/Correction/startX", 119);
+    returnValue.startCorrectionY = (int)windowConfigPointer->Read("/Correction/startY", 124);
+    returnValue.startCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/startSingleTabX", 120);
+    returnValue.startCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/startSingleTabY", 100);
+    
+    returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
+    returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
+    returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
+    returnValue.ledSpacing = (int)windowConfigPointer->Read("/Bar/ledSpacing", 1);
+    returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
+    returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
+    
+    returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
+    returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
+
+    returnValue.statusBarLeaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
+    returnValue.statusBarLeaderCidelsa = returnValue.statusBarLeaderCidelsa.Mid (1, returnValue.statusBarLeaderCidelsa.Len()-2);
+
+    returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 40);
+    returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 70);
+    returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 80);
+    returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 100);
+    returnValue.statusBarElementMeasure[4] = (int)windowConfigPointer->Read("/Bar/ElementMeasure4", 150);
+
+    returnValue.floatHeight = (int)windowConfigPointer->Read("/Correction/floatHeight", 21);
+    returnValue.startHeight = (int)windowConfigPointer->Read("/Correction/startHeight", -1);
+    returnValue.clockSize = (int)windowConfigPointer->Read("/Correction/clockSize", 47);
+    
+    returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
+    returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
+    returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
+    
+    windowConfigPointer->Read("/Package/deb", &returnValue.packageDeb, true);
+    
+    delete pConfig;
+    wxConfigBase::Set(currentConfigPointer);
+
+    return returnValue;
 }
 
 void GuiMain::readElfPortConfig(int elfType, wxString elfTypeStr)
@@ -1126,10 +1316,15 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
 #endif
         conf[computerType].zoomVt_.Printf("%2.2f", zoom);
     }
-    if (runningComputer_ == computerType && p_Vt100 != NULL)
-        p_Main->eventZoomVtChange(zoom);
+    if (runningComputer_ == computerType && p_Vt100[UART1] != NULL)
+        p_Main->eventZoomVtChange(zoom, UART1);
 	else
-		zoomEventOngoing_ = false;
+    {
+        if (runningComputer_ == computerType && p_Vt100[UART2] != NULL)
+            p_Main->eventZoomVtChange(zoom, UART2);
+        else
+            zoomEventOngoing_ = false;
+    }
 }
 
 void GuiMain::onZoomVt(wxSpinEvent&event)
@@ -1183,8 +1378,10 @@ void GuiMain::onZoomValueVt(wxCommandEvent&event)
 
 void GuiMain::onFullScreen(wxCommandEvent&WXUNUSED(event))
 {
-	if (computerRunning_ && p_Vt100 != NULL)
-		p_Vt100->onF3();
+	if (computerRunning_ && p_Vt100[UART1] != NULL)
+		p_Vt100[UART1]->onF3();
+    if (computerRunning_ && p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->onF3();
 	else if (computerRunning_ && p_Video != NULL)
 		p_Video->onF3();
 }
@@ -1199,8 +1396,10 @@ void GuiMain::onInterlace(wxCommandEvent&event)
 void GuiMain::onStretchDot(wxCommandEvent&event)
 {
 	conf[selectedComputer_].stretchDot_ = event.IsChecked();
-	if (computerRunning_ && p_Vt100 != NULL)
-		p_Vt100->setStretchDot(event.IsChecked());
+	if (computerRunning_ && p_Vt100[UART1] != NULL)
+		p_Vt100[UART1]->setStretchDot(event.IsChecked());
+    if (computerRunning_ && p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->setStretchDot(event.IsChecked());
 }
 
 void GuiMain::onScreenDumpFile(wxCommandEvent& WXUNUSED(event))
@@ -1240,8 +1439,10 @@ void GuiMain::onScreenDump(wxCommandEvent&WXUNUSED(event))
 {
 	if (computerRunning_ && p_Video != NULL)
 		p_Video->onF5();
-	if (computerRunning_ && p_Vt100 != NULL)
-		p_Vt100->onF5();
+    if (computerRunning_ && p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->onF5();
+    if (computerRunning_ && p_Vt100[UART2] != NULL)
+        p_Vt100[UART2]->onF5();
 }
 
 void GuiMain::onDp(wxCommandEvent&WXUNUSED(event))
@@ -1368,11 +1569,11 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
 	if (!guiInitialized_)
 		return;
 
-    if (conf[selectedComputer_].wavFile_[0] != "")
-    {
-        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]))
-            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]);
-    }
+//    if (conf[selectedComputer_].wavFile_[0] != "")
+//    {
+//        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]))
+//            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[0] + conf[selectedComputer_].wavFile_[0]);
+//    }
 }
 
 void GuiMain::onCassette1Text(wxCommandEvent&event)
@@ -1382,11 +1583,11 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 	if (!guiInitialized_)
 		return;
 
-    if (conf[selectedComputer_].wavFile_[1] != "")
-    {
-        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]))
-            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]);
-    }
+//    if (conf[selectedComputer_].wavFile_[1] != "")
+//    {
+//        if (wxFile::Exists(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]))
+//            p_Main->checkWavFile(conf[selectedComputer_].wavFileDir_[1] + conf[selectedComputer_].wavFile_[1]);
+//    }
 }
 
 void GuiMain::onAutoLoad(wxCommandEvent&event)
@@ -1498,27 +1699,6 @@ void GuiMain::onPsave(wxString fileName)
 		{
 			if (conf[runningComputer_].useLoadLocation_)
 			{
-/*				stringAdress = XRCCTRL(*this,"SaveStart"+computerInfo[runningComputer_].gui,wxTextCtrl)->GetValue();
-				if (!stringAdress.ToLong(&saveStart, 16))
-				{
-					(void)wxMessageBox( "Please specify start address in hexadecimal\n",
-										"Emma 02", wxICON_ERROR | wxOK );
-					return;
-				}
-				stringAdress = XRCCTRL(*this,"SaveEnd"+computerInfo[runningComputer_].gui,wxTextCtrl)->GetValue();
-				if (!stringAdress.ToLong(&saveEnd, 16))
-				{
-					(void)wxMessageBox( "Please specify end address in hexadecimal\n",
-										"Emma 02", wxICON_ERROR | wxOK );
-					return;
-				}
-				stringAdress = XRCCTRL(*this,"SaveExec"+computerInfo[runningComputer_].gui,wxTextCtrl)->GetValue();
-				if (!stringAdress.ToLong(&saveExec, 16))
-				{
-					(void)wxMessageBox( "Please specify exec address in hexadecimal\n",
-										"Emma 02", wxICON_ERROR | wxOK );
-					return;
-				}*/
 				buffer [0] = 1;
 				buffer [1] = conf[runningComputer_].pLoadSaveName_[0];
 				buffer [2] = conf[runningComputer_].pLoadSaveName_[1];
@@ -1790,10 +1970,17 @@ void GuiMain::onLoad(bool load)
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
 				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+                if (p_Computer->getLoadedProgram()==VIPTINY)
+                    extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
+                else
+                    extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
-		case COMX:
+        case STUDIOIV:
+            extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
+        break;
+
+        case COMX:
 		case PECOM:
 		case TMC600:
         case VIPII:
@@ -1847,6 +2034,7 @@ void GuiMain::onLoad(bool load)
 		case PECOM:
 		case TMC600:
 		case VIPII:
+        case STUDIOIV:
             p_Computer->startComputerRun(load);
 		break;
 
@@ -1906,6 +2094,10 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 			else
 				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
+
+        case STUDIOIV:
+            extension = "Tine BASIC Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
+        break;
 
 		case COMX:
 		case PECOM:
@@ -2255,8 +2447,10 @@ void GuiMain::setClock(int computerType)
 		setClockRate();
 		if (p_Video != NULL)
 			p_Video->setClock(conf[computerType].clockSpeed_);
-		if (p_Vt100 != NULL)
-			p_Vt100->setClock(conf[computerType].clockSpeed_);
+        if (p_Vt100[UART1] != NULL)
+            p_Vt100[UART1]->setClock(conf[computerType].clockSpeed_);
+        if (p_Vt100[UART2] != NULL)
+            p_Vt100[UART2]->setClock(conf[computerType].clockSpeed_);
 	}
 }
 
@@ -2521,6 +2715,27 @@ void GuiMain::setVtPos(int computerType, wxPoint position)
 		if (position.y > 0)
 			conf[computerType].vtY_ = position.y;
 	}
+}
+
+wxPoint GuiMain::getVtUart2Pos(int computerType)
+{
+    return wxPoint(conf[computerType].vtUart2X_, conf[computerType].vtUart2Y_);
+}
+
+void GuiMain::setVtUart2Pos(int computerType, wxPoint position)
+{
+    if (!mode_.window_position_fixed)
+    {
+        conf[computerType].vtUart2X_ = -1;
+        conf[computerType].vtUart2Y_ = -1;
+    }
+    else
+    {
+        if (position.x > 0)
+            conf[computerType].vtUart2X_ = position.x;
+        if (position.y > 0)
+            conf[computerType].vtUart2Y_ = position.y;
+    }
 }
 
 wxPoint GuiMain::get6845Pos(int computerType)
@@ -2837,16 +3052,22 @@ int GuiMain::pload()
 							address = 0x6700;
 						}
 					}
-					p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                    if (runningComputer_ != STUDIOIV)
+                    {
+                        if (p_Computer->getLoadedProgram() != VIPTINY)
+                        {
+                            p_Computer->setRam(conf[runningComputer_].defus_, (Byte)buffer[5]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].defus_+1, (Byte)buffer[6]);
+                            p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
+                            p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
+                            p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
+                            p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
+                        }
+                    }
 					p_Computer->setRam(conf[runningComputer_].eop_, (Byte)buffer[7]+fAndMBasicOffset+highRamAddress);
 					p_Computer->setRam(conf[runningComputer_].eop_+1, (Byte)buffer[8]);
-					p_Computer->setRam(conf[runningComputer_].string_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].string_+1, (Byte)buffer[10]);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_, (Byte)buffer[11]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].arrayValue_+1, (Byte)buffer[12]);
-					p_Computer->setRam(conf[runningComputer_].eod_, (Byte)buffer[9]+fAndMBasicOffset+highRamAddress);
-					p_Computer->setRam(conf[runningComputer_].eod_+1, (Byte)buffer[10]);
 					p_Main->eventSetLocation(false);
 					start = 15;
 				break;
@@ -3139,6 +3360,8 @@ void GuiMain::startSave(int tapeNumber)
 {
 	wxString filePath, fileName, tapeString;
     tapeString.Printf("%d", tapeNumber);
+    if (tapeNumber == 0)
+        tapeString = "";
 
 	filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
 	fileName = conf[runningComputer_].wavFile_[tapeNumber];
@@ -3168,7 +3391,7 @@ void GuiMain::startSave(int tapeNumber)
 		conf[runningComputer_].wavFile_[tapeNumber] = FullPath.GetFullName();
 		conf[runningComputer_].wavFileDir_[tapeNumber] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
 
-		p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
+        p_Main->eventSetTextValue("WavFile"+tapeString+computerInfo[runningComputer_].gui, conf[runningComputer_].wavFile_[tapeNumber]);
 
 		filePath = conf[runningComputer_].wavFileDir_[tapeNumber];
 		filePath.operator += (conf[runningComputer_].wavFile_[tapeNumber]);
@@ -3211,6 +3434,7 @@ void GuiMain::startSave(int tapeNumber)
 			p_Computer->keyClear();
 	}
     
+    tapeString.Printf("%d", tapeNumber);
     if (tapeNumber == 0)
         p_Main->eventSetTapeState(TAPE_RECORD, tapeString);
     else
@@ -3515,15 +3739,19 @@ void GuiMain::enableMemAccessGui(bool status)
 				conf[runningComputer_].basicRamAddress_ = 0x5700;
 				computerInfo[runningComputer_].ploadExtension = "rca";
 			break;
-			case FPBBASIC:
-				conf[runningComputer_].defus_ = 0x4081;
-				conf[runningComputer_].eop_ = 0x4083;
-				conf[runningComputer_].string_ = 0x4092;
-				conf[runningComputer_].arrayValue_ = 0x4094;
-				conf[runningComputer_].eod_ = 0x4099;
-				conf[runningComputer_].basicRamAddress_ = 0x4200;
-				computerInfo[runningComputer_].ploadExtension = "fpb";
-			break;
+            case FPBBASIC:
+                conf[runningComputer_].defus_ = 0x4081;
+                conf[runningComputer_].eop_ = 0x4083;
+                conf[runningComputer_].string_ = 0x4092;
+                conf[runningComputer_].arrayValue_ = 0x4094;
+                conf[runningComputer_].eod_ = 0x4099;
+                conf[runningComputer_].basicRamAddress_ = 0x4200;
+                computerInfo[runningComputer_].ploadExtension = "fpb";
+                conf[runningComputer_].pLoadSaveName_[0] = 'F';
+                conf[runningComputer_].pLoadSaveName_[1] = 'P';
+                conf[runningComputer_].pLoadSaveName_[2] = 'B';
+                conf[runningComputer_].pLoadSaveName_[3] = ' ';
+            break;
 			case FPBBASIC_AT_8000:
 				conf[runningComputer_].defus_ = 0x7a81;
 				conf[runningComputer_].eop_ = 0x7a83;
@@ -3535,6 +3763,23 @@ void GuiMain::enableMemAccessGui(bool status)
 			break;
 		}
 	}
+    if (runningComputer_ == VIP && computerRunning_)
+    {
+        if (p_Computer->getLoadedProgram() == VIPTINY)
+        {
+            conf[runningComputer_].defus_ = 0;
+            conf[runningComputer_].eop_ = 0x118e;
+            conf[runningComputer_].string_ = 0;
+            conf[runningComputer_].arrayValue_ = 0;
+            conf[runningComputer_].eod_ = 0;
+            conf[runningComputer_].basicRamAddress_ = 0x1200;
+            computerInfo[runningComputer_].ploadExtension = "tiny";
+            conf[runningComputer_].pLoadSaveName_[0] = 'T';
+            conf[runningComputer_].pLoadSaveName_[1] = 'I';
+            conf[runningComputer_].pLoadSaveName_[2] = 'N';
+            conf[runningComputer_].pLoadSaveName_[3] = 'Y';
+        }
+    }
 	if (!mode_.gui)
 		return;
 	if ((runningComputer_ == MICROBOARD) || (runningComputer_ == MCDS) || (runningComputer_ == COMX) || (runningComputer_ == PECOM) || (runningComputer_ == TMC600) || (runningComputer_ == VIPII) || (runningComputer_ == VIP)|| superBasic || disableAll)
@@ -3804,6 +4049,7 @@ int GuiMain::getCpuType()
             case MICROBOARD_CDP18S608:
             case MICROBOARD_CDP18S609:
             case MICROBOARD_CDP18S610:
+            case RCASBC:
                 cpuType_ = CPU1805;
             break;
         }
@@ -4125,7 +4371,7 @@ void GuiMain::onUpdDiskEject0(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch0(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][0];
-    setUpdFloppyGui(0);
+    setUpdFloppyGui(0, selectedComputer_);
 }
 
 void GuiMain::onUpdDisk1(wxCommandEvent& WXUNUSED(event) )
@@ -4203,7 +4449,7 @@ void GuiMain::onUpdDiskEject1(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch1(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][1];
-    setUpdFloppyGui(1);
+    setUpdFloppyGui(1, selectedComputer_);
 }
 
 void GuiMain::onUpdDisk2(wxCommandEvent& WXUNUSED(event) )
@@ -4281,7 +4527,7 @@ void GuiMain::onUpdDiskEject2(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch2(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][2];
-    setUpdFloppyGui(2);
+    setUpdFloppyGui(2, selectedComputer_);
 }
 
 void GuiMain::onUpdDisk3(wxCommandEvent& WXUNUSED(event) )
@@ -4359,7 +4605,7 @@ void GuiMain::onUpdDiskEject3(wxCommandEvent& WXUNUSED(event) )
 void GuiMain::onUpdDiskDirSwitch3(wxCommandEvent&WXUNUSED(event))
 {
     directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3] = !directoryMode_[elfConfiguration[selectedComputer_].fdcType_][3];
-    setUpdFloppyGui(3);
+    setUpdFloppyGui(3, selectedComputer_);
 }
 
 bool GuiMain::getDirectoryMode(int fdcType, int drive)
@@ -4387,39 +4633,39 @@ wxString GuiMain::getUpdFloppyFile(int fdcType, int drive)
     return floppy_[fdcType][drive];
 }
 
-void GuiMain::setUpdFloppyGui(int drive)
+void GuiMain::setUpdFloppyGui(int drive, int computerType)
 {
     wxString driveStr;
     driveStr.Printf("%d", drive);
     bool deActivateFdc;
     
-    if (selectedComputer_ == MICROBOARD)
+    if (computerType == MICROBOARD)
     {
-        deActivateFdc = !elfConfiguration[selectedComputer_].useUpd765;
-        XRCCTRL(*this, "FDC"+driveStr + "_Button"+ computerInfo[selectedComputer_].gui, wxButton)->Enable(!deActivateFdc);
-        XRCCTRL(*this, "FDC"+driveStr + "_Switch"+ computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(!deActivateFdc);
+        deActivateFdc = !elfConfiguration[computerType].useUpd765;
+        XRCCTRL(*this, "FDC"+driveStr + "_Button"+ computerInfo[computerType].gui, wxButton)->Enable(!deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr + "_Switch"+ computerInfo[computerType].gui, wxBitmapButton)->Enable(!deActivateFdc);
     }
     else
         deActivateFdc = false;
         
-    if (directoryMode_[elfConfiguration[selectedComputer_].fdcType_][drive])
+    if (directoryMode_[elfConfiguration[computerType].fdcType_][drive])
     {
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetLabel("HD "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetToolTip("Browse for "+computerInfo[selectedComputer_].gui+" HD Directory "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(false);
-        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(false);
-        wxFileName selectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[selectedComputer_].fdcType_][drive]);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetLabel("HD "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetToolTip("Browse for "+computerInfo[computerType].gui+" HD Directory "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->Enable(false);
+        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[computerType].gui, wxBitmapButton)->Enable(false);
+        wxFileName selectedDirFile = wxFileName(floppyDirSwitched_[elfConfiguration[computerType].fdcType_][drive]);
         wxArrayString dirArray = selectedDirFile.GetDirs();
         wxString dirName = dirArray.Last();
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(dirName);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->SetValue(dirName);
     }
     else
     {
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetLabel("FDC "+driveStr);
-        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[selectedComputer_].gui, wxButton)->SetToolTip("Browse for "+computerInfo[selectedComputer_].gui+" FDC "+driveStr+" image file");
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->Enable(true & !deActivateFdc);
-        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[selectedComputer_].gui, wxBitmapButton)->Enable(true & !deActivateFdc);
-        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[selectedComputer_].fdcType_][drive]);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetLabel("FDC "+driveStr);
+        XRCCTRL(*this, "FDC"+driveStr+"_Button" + computerInfo[computerType].gui, wxButton)->SetToolTip("Browse for "+computerInfo[computerType].gui+" FDC "+driveStr+" image file");
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->Enable(true & !deActivateFdc);
+        XRCCTRL(*this, "Eject_FDC"+driveStr + computerInfo[computerType].gui, wxBitmapButton)->Enable(true & !deActivateFdc);
+        XRCCTRL(*this, "FDC"+driveStr+"_File" + computerInfo[computerType].gui, wxTextCtrl)->SetValue(floppy_[elfConfiguration[computerType].fdcType_][drive]);
     }
 }
 

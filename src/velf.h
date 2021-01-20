@@ -76,7 +76,8 @@ public:
 	void reDefineKeysA(int *, int *);
 
     void setLedMs(long ms);
-
+    void refreshPanel();
+    
 private:
 	ElfConfiguration vipConfiguration;
 	Vt100 *vtPointer;

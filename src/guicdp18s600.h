@@ -72,6 +72,8 @@ public:
     void setCardType();
     void checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig);
     void checkAllBoardTypes(Conf* config, ElfConfiguration* elfConfig, MicroMemoryConf microMemoryConfCardx, int cardx);
+    void setLoadMemoryMap(wxString romDir, wxString rom, int memoryType1, int memoryType2, long startAddress, long lastAddress, long inhibitStart, long inhibitEnd, Conf* config, int card, int boardType);
+    void setLoadMemoryMap(wxString romDir, wxString rom, int memoryType1, int memoryType2, int memoryType3, long startAddress, long lastAddress, long inhibitStart, long inhibitEnd, Conf* config, int card, int boardType, int memType);
     void setMemoryMap(Conf* config, long start, long end, int card, int boardType);
     void setMemoryMap(Conf* config, long start, long end, int card, int boardType, long inhibitStart, long inhibitEnd);
     void setMemoryMapCDP18S600(Conf* config, int card, int boardType);
@@ -79,6 +81,7 @@ public:
     void setMemoryMapCDP18S602(Conf* config, int card, int boardType);
     void setMemoryMapCDP18S603a(Conf* config, int card, int boardType);
     void setMemoryMapCDP18S604b(Conf* config, int card, int boardType);
+    void setMemoryMapRcasbc(Conf* config, int card, int boardType);
     void setMemoryMapCDP18S620(Conf* config, MicroMemoryConf memConf, int card, int boardType);
     void setMemoryMapCDP18S621(Conf* config, MicroMemoryConf memConf, int card, int boardType);
     void setMemoryMapCDP18S623a(Conf* config, MicroMemoryConf memConf, int card, int boardType);

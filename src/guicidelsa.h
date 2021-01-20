@@ -25,13 +25,16 @@ public:
 	void onCidelsaLivesDraco(wxCommandEvent&event);
 	void onCidelsaCoinDraco(wxCommandEvent&event);
 	void onCidelsaDracoDouble(wxCommandEvent&event);
+    void onCidelsaHw(wxCommandEvent&event);
 
 	Byte getIn2Value() {return in2Value_;};
 	Byte getIn2ValueDraco() {return in2ValueDraco_;};
+    Byte getCidelsaHwConfiguration() {return hwConfiguration_;};
 
 protected:
 	Byte in2Value_;
 	Byte in2ValueDraco_;
+    Byte hwConfiguration_;
 
 private:
 	

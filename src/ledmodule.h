@@ -27,6 +27,7 @@ public:
 	void ledTimeout();
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
+    void refreshPanel();
 
 private:
 	class LedModuleScreen *ledModuleScreenPointer;

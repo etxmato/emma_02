@@ -87,6 +87,7 @@ public:
     void terminalSave(wxString fileName);
     void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
     void terminalStop();
+    void refreshPanel();
 
 private:
 	class MemberScreen *memberScreenPointer;

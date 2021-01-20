@@ -323,8 +323,6 @@ void Tms9918::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    TileList *temp;
-
 	if (reColour_)
 	{
 		for (int i=0; i<numberOfColours_; i++)
@@ -351,8 +349,18 @@ void Tms9918::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-	if (extraBackGround_ && newBackGround_) 
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+	if (extraBackGround_ && newBackGround_)
 		drawExtraBackground(colour_[(registers_[7] & 0xf)+16]);
+
+    TileList *temp;
 
 	if (reBlit_ || reDraw_)
 	{
@@ -381,6 +389,7 @@ void Tms9918::copyScreen()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void Tms9918::drawTile(Word tile)
@@ -531,3 +540,26 @@ void Tms9918::onF3()
 	p_Main->eventVideoSetFullScreen(fullScreenSet_);
 }
 
+void Tms9918::reBlit(wxDC &dc)
+{
+    if (!memoryDCvalid_)
+        return;
+    
+    dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+    
+    if (extraBackGround_ && newBackGround_)
+    {
+        wxSize size = wxGetDisplaySize();
+
+        dc.SetBrush(wxBrush(colour_[(registers_[7] & 0xf)+16]));
+        dc.SetPen(wxPen(colour_[(registers_[7] & 0xf)+16]));
+
+        int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
+        dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
+
+        int yStart = (int)((2*offsetY_+videoHeight_)*zoom_);
+        dc.DrawRectangle(0, yStart, size.x, size.y-yStart);
+
+        newBackGround_ = false;
+    }
+}

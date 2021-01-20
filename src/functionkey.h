@@ -21,12 +21,14 @@ private:
 	void compareButtons(int toBeCheckedButton, int toBeCheckedValue);
 	void updateButtons();
 	void setLabel(wxString printStr, long button, int key);
-	void onEnableEscape(wxCommandEvent&event);
+    void onEnableEscape(wxCommandEvent&event);
+    void onEnableCtrlv(wxCommandEvent&event);
 
-	int functionKey_[13];
+	int functionKey_[14];
 	long fKey_;
 
-	bool useExitKey_;
+    bool useCtrlvKey_;
+    bool useExitKey_;
     wxTimer *focusTimer;
 
     DECLARE_EVENT_TABLE()

@@ -1,0 +1,2 @@
+Code correction done by Marcel van Tongeren:
+Replaced SYS 0FF @200 with JP 202 as SYS 0FF is an invalid Chip 8 instruction and crashes the VIP

@@ -92,6 +92,10 @@ void Microtutor2Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+    
 	for (int i=0; i<2; i++)
 	{
 		dataTil313PointerItalic[i]->onPaint(dc);
@@ -691,4 +695,9 @@ void Microtutor2::activateMainWindow()
 	Raise();
 	Show(true);
 	Maximize(maximize);
+}
+
+void Microtutor2::refreshPanel()
+{
+    microtutorScreenPointer->refreshPanel();
 }

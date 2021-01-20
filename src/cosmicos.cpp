@@ -176,6 +176,10 @@ void CosmicosScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
 	for (int i=0; i<8; i++)
 	{
 		ledPointer[i]->onPaint(dc);
@@ -1109,10 +1113,10 @@ void Cosmicos::configureElfExtensions()
 	{
 		double zoom = p_Main->getZoomVt();
         if (cosmicosConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Cosmicos - VT 52", p_Main->getVtPos(COSMICOS), wxSize(640*zoom, 400*zoom), zoom, COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration);
+            vtPointer = new Vt100("Cosmicos - VT 52", p_Main->getVtPos(COSMICOS), wxSize(640*zoom, 400*zoom), zoom, COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration, UART1);
         else
-            vtPointer = new Vt100("Cosmicos - VT 100", p_Main->getVtPos(COSMICOS), wxSize(640*zoom, 400*zoom), zoom, COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Cosmicos - VT 100", p_Main->getVtPos(COSMICOS), wxSize(640*zoom, 400*zoom), zoom, COSMICOS, cosmicosClockSpeed_, cosmicosConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
 		vtPointer->configureStandard(cosmicosConfiguration.baudR, cosmicosConfiguration.baudT, 4);
 		vtPointer->Show(true);
 	}
@@ -1310,3 +1314,7 @@ void Cosmicos::releaseButtonOnScreen(HexButton* buttonPointer, int buttonType)
         cosmicosScreenPointer->releaseButtonOnScreen(buttonPointer);
 }
 
+void Cosmicos::refreshPanel()
+{
+    cosmicosScreenPointer->refreshPanel();
+}

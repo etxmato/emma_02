@@ -581,6 +581,16 @@ void VipII::cycleKey()
 			}
 		}
 	}
+    if ((ctrlvTextCharNum_ != 0) && (keyboardEf_ == 1))
+    {
+        if (scratchpadRegister_[programCounter_] == 0x08C6 && loadedProgram_ == FPBBASIC)
+        {
+            keyboardValue_ = getCtrlvChar();
+            
+            if (keyboardValue_ != 0)
+                keyboardEf_ = 0;
+        }
+    }
 }
 
 void VipII::cycleLed()
@@ -702,9 +712,9 @@ void VipII::startComputer()
         setClear(0);
 
 	configureKeyboard(); 
+    lastMode_ = cpuMode_;
     if (computerVersion_ == VIPII_RCA)
     {
-        lastMode_ = cpuMode_;
         configurePixieVipII(bootAddress != 3);
     }
     else

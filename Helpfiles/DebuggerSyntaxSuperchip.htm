@@ -1,0 +1,368 @@
+
+<html>
+<title>Super-chip Syntax</title>
+<body>
+<h2>Super-chip Syntax</h2>
+<h3>Information</h3>
+<p>
+The Super-chip interpreter for the modified VIP (chip10 modification) and Studio IV was designed by me. It should support Super-CHIP 1.1, 00FA instruction from chip8run and also somewhat follows SCHIP/SCHPC however with some selectable options/quirks:</p>
+<p>
+<OL>
+<LI>SHIFT: When selected Vy will be ignored for SHL/SHR Vx, Vy instructions
+<LI>LOAD: When selected I will NOT be incremented for LD VX,[I] and LD [i], Vx
+<LI>BXNN: When selected JP B,aaa will jump to address xaa + V0 instead of aaa + V0
+<LI>VBLNK: When selected interpreter will wait for VBLaNK before drawing a sprite
+<LI>CLIPS: When selected Sprites will be CLIPed at top/bottom of screen 
+</OL>
+</p>
+<p>
+Note depending on keypad mapping 4 and 5 might be mapped to PC keys Q and W. To start the chip8 or Super-chip game press any key other than 1 to 5.
+</p>
+<p>
+For chip8 games use: SHIFT, LOAD, BXNN not selected, VBLNK, CLIPS selected<br>
+For most Super-chip games use: SHIFT, LOAD, BXNN selected, VBLNK, CLIPS not selected<br>
+</p>
+<p>
+Some Super-chip games need the following setting:
+<UL>
+<LI>Chipcross: SHIFT selected, LOAD not selected, BNNN selected, VBLNK & CLIPS not selected
+<LI>Eaty the Alien: No options selected 
+<LI>Grad School Simulator: No options selected
+<LI>Codegrid: No options selected
+<LI>Mr. Worm: No options selected
+<LI>Octopeg: No options selected
+<LI>Sub-Terr8nia: No options selected
+</p>
+<p>
+Super-chip code should be located from 800-17FF. Note that address 800 is seen as 200 by the interpreter. So a command 2200 will do a call to address 800 instead of 200. Video memory is located from 1C00 to 1FFF and Vx-Vy are stored from 1BF0 to 1BFF.
+</p>
+<h3>Definitions</h3>
+<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="70">aaa</TD>
+<TD WIDTH="400">12 bit address</TD>
+</TR>
+<TR>
+<TD WIDTH="70">kk</TD>
+<TD WIDTH="400">8 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">n</TD>
+<TD WIDTH="400">4 bit constant</TD>
+</TR>
+<TR>
+<TD WIDTH="70">x</TD>
+<TD WIDTH="400">Register number Vx (x = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">y</TD>
+<TD WIDTH="400">Register number Vy (y = 0 to F)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">I</TD>
+<TD WIDTH="400">Register I (12 bit)</TD>
+</TR>
+<TR>
+<TD WIDTH="70">[I]</TD>
+<TD WIDTH="400">Memory value of address in register I</TD>
+</TR>
+<TR>
+<TD WIDTH="70">NH</TD>
+<TD WIDTH="400">Bit 0-3 Horizontal Location<BR>Bit 4-7, Horizontal width</TD>
+</TR>
+<TR>
+<TD WIDTH="70">NV</TD>
+<TD WIDTH="400">Bit 0-3 Vertical Location<BR>Bit 4-7, Vertical height</TD>
+</TR>
+<TR>
+<TD WIDTH="70">1..9, A..F</TD>
+<TD WIDTH="400">Hexadecimal digits</TD>
+</TR>
+</TABLE>
+<h3>Syntax</h3>
+<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<TR>
+<TD WIDTH="55">Fx1E</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">I, Vx</TD>
+<TD WIDTH="250">I = I + Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">7xkk</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = Vx + kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy4</TD>
+<TD WIDTH="40">ADD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx + Vy, VF = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy2</TD>
+<TD WIDTH="40">AND</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx AND Vy, VF undefined</TD>
+</TR>
+<TR>
+<TD WIDTH="55">2aaa</TD>
+<TD WIDTH="40">CALL</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call subroutine at aaa (16 levels)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00E0</TD>
+<TD WIDTH="40">CLS</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Clear display</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00FA</TD>
+<TD WIDTH="40">COMP</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Set compatibility mode for FX55 and FX65; running this changes the behavior of those instructions so they no longer change I</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Dxyn</TD>
+<TD WIDTH="40">DRW</TD>
+<TD WIDTH="100">Vx, Vy, n</TD>
+<TD WIDTH="250">Draw n byte sprite stored at [I] at Vx, Vy. Set VF = collision<br>If n=0 a 16x16 sprite is drwan in high res mode and a 8x16 sprite in low res mode</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00FF</TD>
+<TD WIDTH="40">HIGH</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">High-resolution mode</TD>
+</TR>
+<TR>
+<TD WIDTH="55">1aaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Jump to address aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Baaa</TD>
+<TD WIDTH="40">JP</TD>
+<TD WIDTH="100">V0, aaa</TD>
+<TD WIDTH="250">BXNN option NOT selected:<br>Jump to address aaa + V0<br>BXNN option selected:<br>Jump to address xaa + V0</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx33</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">B, Vx</TD>
+<TD WIDTH="250">Store BCD value of Vx in [I], [I+1], [I+2]</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx15</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">DT, Vx</TD>
+<TD WIDTH="250">Delaytimer = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx29</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">F1, Vx</TD>
+<TD WIDTH="250">Point I to 5 byte numeric sprite for value in Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx29</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">F2, Vx</TD>
+<TD WIDTH="250">Point I to 10 byte numeric sprite for value in Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Aaaa</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">I, aaa</TD>
+<TD WIDTH="250">I = aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx18</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">ST, Vx</TD>
+<TD WIDTH="250">Soundtimer = Vx</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx07</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, DT</TD>
+<TD WIDTH="250">Vx = Delaytimer</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx0A</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, K</TD>
+<TD WIDTH="250">Vx = key, wait for keypress</TD>
+</TR>
+<TR>
+<TD WIDTH="55">6xkk</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Vx = kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy0</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy, VF undefined</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx65</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">Vx, [I]</TD>
+<TD WIDTH="250">Read V0 .. Vx from [I] .. [I+x]<br>LOAD option NOT selected:<br>register I will be incremented<br>LOAD option selected:<br>register I will not be incremented</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx55</TD>
+<TD WIDTH="40">LD</TD>
+<TD WIDTH="100">[I], Vx</TD>
+<TD WIDTH="250">Store V0 .. Vx in [I] .. [I+x]<br>LOAD option NOT selected:<br>register I will be incremented<br>LOAD option selected:<br>register I will not be incremented</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00FE</TD>
+<TD WIDTH="40">LOW</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Low-resolution mode</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00FD</TD>
+<TD WIDTH="40">NOP</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">No operation, for backward compatibility to the Super-Chip 1.0 Exit interpreter command</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy1</TD>
+<TD WIDTH="40">OR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx OR Vy, VF undefined</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx85</TD>
+<TD WIDTH="40">READ</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Read V0..VX from RPL user flags (X &lt;= 7), RPL is stored on 1BE0-1BE7</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00EE</TD>
+<TD WIDTH="40">RETURN</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Return from subroutine (16 levels)</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Cxkk</TD>
+<TD WIDTH="40">RND</TD>
+<TD WIDTH="100">Vx , kk</TD>
+<TD WIDTH="250">Vx = random AND kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00CN</TD>
+<TD WIDTH="40">SCD</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Scroll display N pixels down; in low resolution mode, N/2 pixels</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00FC</TD>
+<TD WIDTH="40">SCL</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Scroll left by 4 pixels; in low resolution mode, 2 pixels</TD>
+</TR>
+<TR>
+<TD WIDTH="55">00FB</TD>
+<TD WIDTH="40">SCR</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Scroll right by 4 pixels; in low resolution mode, 2 pixels</TD>
+</TR>
+<TR>
+<TD WIDTH="55">3xkk</TD>
+<TD WIDTH="40">SE</TD>
+<TD WIDTH="100">Vx , kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx == kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">5xy0</TD>
+<TD WIDTH="40">SE</TD>
+<TD WIDTH="100">Vx , Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx == Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xxE</TD>
+<TD WIDTH="40">SHL</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx &lt;&lt; 1, VF = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xyE</TD>
+<TD WIDTH="40">SHL</TD>
+<TD WIDTH="100">Vx , Vy</TD>
+<TD WIDTH="250">SHIFT option NOT selected:<br>Vx = Vy &lt;&lt; 1, VF = carry<br>SHIFT option selected:<br>Vx = Vx &lt;&lt; 1, VF = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xx6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Vx = Vx &gt;&gt; 1, VF = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy6</TD>
+<TD WIDTH="40">SHR</TD>
+<TD WIDTH="100">Vx , Vy</TD>
+<TD WIDTH="250">SHIFT option NOT selected:<br>Vx = Vy &gt;&gt; 1, VF = carry<br>SHIFT option selected:<br>Vx = Vx &gt;&gt; 1, VF = carry</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Ex9E</TD>
+<TD WIDTH="40">SKP</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Skip next instruction if key Vx down</TD>
+</TR>
+<TR>
+<TD WIDTH="55">ExA1</TD>
+<TD WIDTH="40">SKNP</TD>
+<TD WIDTH="100">Vx</TD>
+<TD WIDTH="250">Skip next instruction if key Vx up</TD>
+</TR>
+<TR>
+<TD WIDTH="55">4xkk</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, kk</TD>
+<TD WIDTH="250">Skip next instruction if Vx != kk</TD>
+</TR>
+<TR>
+<TD WIDTH="55">9xy0</TD>
+<TD WIDTH="40">SNE</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Skip next instruction if Vx != Vy</TD>
+</TR>
+<TR>
+<TD WIDTH="55">Fx75</TD>
+<TD WIDTH="40">STORE</TD>
+<TD WIDTH="100"></TD>
+<TD WIDTH="250">Store V0..VX in RPL user flags (X &lt;= 7), RPL is stored on 1BE0-1BE7</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy5</TD>
+<TD WIDTH="40">SUB</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx - Vy, VF = !borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy7</TD>
+<TD WIDTH="40">SUBN</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vy - Vx, VF = !borrow</TD>
+</TR>
+<TR>
+<TD WIDTH="55">0aaa</TD>
+<TD WIDTH="40">SYS</TD>
+<TD WIDTH="100">aaa</TD>
+<TD WIDTH="250">Call CDP1802 code at aaa</TD>
+</TR>
+<TR>
+<TD WIDTH="55">8xy3</TD>
+<TD WIDTH="40">XOR</TD>
+<TD WIDTH="100">Vx, Vy</TD>
+<TD WIDTH="250">Vx = Vx XOR Vy, VF undefined</TD>
+</TR>
+</body>
+</html>
+

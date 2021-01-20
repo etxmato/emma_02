@@ -1,4 +1,4 @@
-/*
+ /*
  *******************************************************************
  *** This software is copyright 2008 by Marcel van Tongeren      ***
  *** You have permission to use, modify, copy, and distribute    ***
@@ -92,6 +92,9 @@ Comx::~Comx()
 		}
 	}
 	p_Main->setMainPos(COMX, GetPosition());
+    
+    p_Main->stopAssLog();
+
 //    keyLogFilePc_.Close();
 //    keyLogFile1802_.Close();
 //    keyLogFileCycle_.Close();
@@ -132,6 +135,8 @@ void Comx::initComputer()
     rawKeyCode_ = 0;
 
     keyboardCode_ = 0;
+    for (int i=0; i<5; i++)
+        secondKeyboardCodes[i] = 0;
 	previousKeyCode_ = (wxKeyCode) 0;
 
 	dmaCounter_ = -100;
@@ -602,7 +607,12 @@ void Comx::cycleComx()
 	{
 		qMode_ = 1;
 		if (dmaCounter_ == -100)
-			dmaCounter_ = DMACYCLE;
+        {
+            if (p_Main->isDramActive(COMX))
+                dmaCounter_ = DMACYCLE;
+            else
+                dmaCounter_ = -50;
+        }
 	}
 
 	if (debounceCounter_ > 0)
@@ -625,7 +635,7 @@ void Comx::cycleComx()
 
 	if ((comxRunCommand_ != 0) && (keyboardEf3_ == 1))
 	{
-		if ((scratchpadRegister_[programCounter_] == 0x039a) || (scratchpadRegister_[programCounter_] == 0xeeb5) || (scratchpadRegister_[programCounter_] == 0x01bc) || (scratchpadRegister_[programCounter_] == 0x0193) || (scratchpadRegister_[programCounter_] == 0x5344) || (scratchpadRegister_[programCounter_] == 0xc10c))
+		if ((scratchpadRegister_[programCounter_] == 0x039a) || (scratchpadRegister_[programCounter_] == 0xeeb5) || (scratchpadRegister_[programCounter_] == 0x01bc) || (scratchpadRegister_[programCounter_] == 0x0193) || (scratchpadRegister_[programCounter_] == 0x5344) || (scratchpadRegister_[programCounter_] == 0xc10c) || (scratchpadRegister_[programCounter_] == 0xb042))
 		{
 			if (comxRunCommand_ == 1)
 			{
@@ -675,6 +685,28 @@ void Comx::cycleComx()
 			}
 		}
 	}
+
+    if (ctrlvTextCharNum_ != 0 && keyboardEf3_ == 1)
+    {
+        if ((scratchpadRegister_[programCounter_] == 0x039a) || (scratchpadRegister_[programCounter_] == 0xeeb5) || (scratchpadRegister_[programCounter_] == 0x01bc) || (scratchpadRegister_[programCounter_] == 0x0193) || (scratchpadRegister_[programCounter_] == 0x5344) || (scratchpadRegister_[programCounter_] == 0xc10c) || (scratchpadRegister_[programCounter_] == 0xb042))
+        {
+            keyboardCode_ = getCtrlvChar();
+            
+            if (keyboardCode_ == 13)
+                keyboardCode_ = 128;
+            
+            if (keyboardCode_ >= 'a' && keyboardCode_ <= 'z')
+                keyboardCode_ -= 32;
+            else
+            {
+                if (keyboardCode_ >= 'A' && keyboardCode_ <= 'Z')
+                    keyboardCode_ += 32;
+            }
+
+            if (keyboardCode_ != 0)
+                keyboardEf3_ = 0;
+        }
+    }
 
 	if ((comxKeyFileOpened_) && (keyboardEf3_ == 1))
 	{
@@ -850,7 +882,7 @@ void Comx::startComputer()
 
 	expansionSlot_ = 0;
 	defineExpansionMemoryType(0, 0, 0x1fff, ROM);
-    if (!((p_Main->getExpansionRamSlot()-1) == 0) && useExpansionRam_)
+    if (!((p_Main->getExpansionRamSlot()-1) == 0) && p_Main->getUseExpansionRam())
         readProgram(p_Main->getRomDir(COMX, CARTROM1), p_Main->getRomFile(COMX, CARTROM1), COMXEXPBOX, 0xC000, NONAME);
 	configure1870Comx(expansionRomLoaded_, expansionRom_[1]);
 
@@ -1365,7 +1397,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 				case RAM:
 					expansionRom_[(expansionSlot_*0x2000) + (address & 0x1fff)] = value;
 //                    if (address == 0xdff8)
-//                        p_Main->messageHex(scratchpadRegister_[programCounter_]);
+//                        p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
 				break;
 
 				case MC6845RAM:
@@ -1546,7 +1578,7 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 //				p_Main->messageInt(value);
 //			if (address == 0x428b)
 //			{
-//				p_Main->messageHex(scratchpadRegister_[programCounter_]);
+//				p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
 //			}
 
 			if (mainMemory_[address]==value)
@@ -1602,8 +1634,9 @@ void Comx::resetPressed()
 
 void Comx::charEvent(int keycode)
 {
-//	if (keyboardEf3_ == 0)  return;
-//
+	if (keyboardEf2_ == 0)
+        return;
+
 	keyboardCode_ = keycode;
 	keyboardEf3_ = 0;
 //    rawKeyCode_ = keycode;
@@ -1613,108 +1646,168 @@ void Comx::charEvent(int keycode)
 
 bool Comx::keyDownExtended(int keycode, wxKeyEvent& event)
 {
-//	if (keyboardEf3_ == 0)  return true;
-	previousKeyCode_ = (wxKeyCode) keycode;
+    if (keyboardEf2_ == 0)
+    {
+        if (keyboardCode_ != keycode)
+        {
+            switch (keycode)
+            {
+                case WXK_LEFT:
+                case WXK_UP:
+                case WXK_RIGHT:
+                case WXK_DOWN:
+                    secondKeyboardCodes[keycode-WXK_LEFT] = keycode;
+                break;
 
- 	switch(keycode)
-	{
-		case WXK_RETURN:
-			keyboardCode_ = 0x80;
-			keyboardEf3_ = 0;
-    //        keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
+                case WXK_SPACE:
+                    secondKeyboardCodes[4] = keycode;
+                break;
+            }
+        }
+        return false;
+    }
 
-		case WXK_NUMPAD_ENTER:
-			keyboardCode_ = 0x80;
-			keyboardEf3_ = 0;
-    //        keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
+    previousKeyCode_ = (wxKeyCode) keycode;
 
-		case WXK_ESCAPE:
-			keyboardCode_ = 0x81;
-			keyboardEf3_ = 0;
-     //       keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_BACK:
-			keyboardCode_ = 0x86;
-			keyboardEf3_ = 0;
-     //       keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_DELETE:
-			keyboardCode_ = 0x86;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_LEFT:
-			keyboardCode_ = 0x84;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_RIGHT:
-			keyboardCode_ = 0x83;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_UP:
-			keyboardCode_ = 0x82;
-			keyboardEf3_ = 0;
-       //     keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_DOWN:
-			keyboardCode_ = 0x85;
-			keyboardEf3_ = 0;
-     //       keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_NUMPAD_ADD:
-			if (event.GetModifiers() == wxMOD_SHIFT)
-				keyboardCode_ = 0xfb;
-			else
-				keyboardCode_ = 0xdb;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-
-		case WXK_NUMPAD_SUBTRACT:
-			if (event.GetModifiers() == wxMOD_SHIFT)
-				keyboardCode_ = 0xfc;
-			else
-				keyboardCode_ = 0xdc;
-			keyboardEf3_ = 0;
-      //      keyLogFilePc_.Write(&keyboardCode_, 1);
-			return true;
-		break;
-	}
-	return false;
+    return keyCheck(keycode, event.GetModifiers());
 }
 
-void Comx::keyUp(int WXUNUSED(keycode))
+bool Comx::keyCheck(int keycode, int modifiers)
+{
+    switch(keycode)
+    {
+        case WXK_RETURN:
+            keyboardCode_ = 0x80;
+            keyboardEf3_ = 0;
+            //        keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_NUMPAD_ENTER:
+            keyboardCode_ = 0x80;
+            keyboardEf3_ = 0;
+            //        keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_ESCAPE:
+            keyboardCode_ = 0x81;
+            keyboardEf3_ = 0;
+            //       keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_BACK:
+            keyboardCode_ = 0x86;
+            keyboardEf3_ = 0;
+            //       keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_DELETE:
+            keyboardCode_ = 0x86;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_LEFT:
+            keyboardCode_ = 0x84;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_RIGHT:
+            keyboardCode_ = 0x83;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_UP:
+            keyboardCode_ = 0x82;
+            keyboardEf3_ = 0;
+            //     keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_DOWN:
+            keyboardCode_ = 0x85;
+            keyboardEf3_ = 0;
+            //       keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_NUMPAD_ADD:
+            if (modifiers == wxMOD_SHIFT)
+                keyboardCode_ = 0xfb;
+            else
+                keyboardCode_ = 0xdb;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+            
+        case WXK_NUMPAD_SUBTRACT:
+            if (modifiers == wxMOD_SHIFT)
+                keyboardCode_ = 0xfc;
+            else
+                keyboardCode_ = 0xdc;
+            keyboardEf3_ = 0;
+            //      keyLogFilePc_.Write(&keyboardCode_, 1);
+            return true;
+        break;
+    }
+    return false;
+}
+
+void Comx::keyUp(int keycode)
 {
     if (p_Main->isDiagOn(COMX) == 1)
     {
         if ((outValues_[1]) != 0)
             return;
     }
-	keyboardEf2_ = 1;
-//	keyboardEf3_ = 1;
-//	keyboardCode_ = 0;
-	previousKeyCode_ = (wxKeyCode) 0;
+    
+    switch(keycode)
+    {
+        case WXK_LEFT:
+        case WXK_UP:
+        case WXK_RIGHT:
+        case WXK_DOWN:
+            secondKeyboardCodes[keycode-WXK_LEFT] = 0;
+        break;
+            
+        case WXK_SPACE:
+            secondKeyboardCodes[4] = 0;
+        break;
+    }
+    
+    int keyNumber = 0, newKey = 0;
+    while (keyNumber != 5 && newKey == 0)
+    {
+        if (secondKeyboardCodes[keyNumber] != 0)
+            newKey = secondKeyboardCodes[keyNumber];
+        keyNumber++;
+    }
+    if (newKey != 0)
+    {
+        if (!keyCheck(newKey, 0))
+        {
+            keyboardEf3_ = 0;
+            keyboardCode_ = newKey;
+        }
+        previousKeyCode_ = (wxKeyCode) keyboardCode_;
+        keyboardEf2_ = 0;
+        return;
+    }
+ 
+    keyboardEf2_ = 1;
+//  keyboardEf3_ = 1;
+//  keyboardCode_ = 0;
+    previousKeyCode_ = (wxKeyCode) 0;
+
 }
 
 void Comx::keyClear()
@@ -1722,6 +1815,8 @@ void Comx::keyClear()
 	keyboardEf2_ = 1;
 	keyboardEf3_ = 1;
 	keyboardCode_ = 0;
+    for (int i=0; i<5; i++)
+        secondKeyboardCodes[i] = 0;
 	previousKeyCode_ = (wxKeyCode) 0;
 }
 
@@ -2003,8 +2098,8 @@ void Comx::checkComputerFunction()
             
 /*		case 0x429f:
 		case 0x42a3: 
-				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
-				p_Main->messageHex(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
+				p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+1]*256+mainMemory_[scratchpadRegister_[programCounter_]+2]);
+				p_Main->eventMessageHex(mainMemory_[scratchpadRegister_[programCounter_]+5]*256+mainMemory_[scratchpadRegister_[programCounter_]+6]);
 		break; */
 
 //		case 0xeb0a:	// Quit 80 Colums

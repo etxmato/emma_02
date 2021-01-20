@@ -98,7 +98,7 @@ Pixie::Pixie(const wxString& title, const wxPoint& pos, const wxSize& size, doub
         }
         studioIVFactor_ = true;
     }
-	if ( (computerType == VIP && p_Main->getVipHighRes()) | (computerType_ == STUDIOIV))
+	if ( (computerType == VIP && p_Main->getVipHighRes()) || (computerType_ == STUDIOIV))
 	{
 		highRes_ = 2;
 		xZoomFactor_ = zoomfactor/highRes_;
@@ -188,7 +188,11 @@ Pixie::~Pixie()
 void Pixie::reset()
 {
 	graphicsOn_ = false;
+#if defined(__WXMAC__)
+    p_Main->eventRefreshVideo(false, 0);
+#else
     videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+#endif
 }
 
 void Pixie::configurePixie(ElfPortConfiguration portConf)
@@ -346,7 +350,6 @@ void Pixie::configurePixieStudioIV()
     p_Computer->setOutType(4, PIXIEOUT);
     p_Computer->setOutType(6, PIXIEOUT);
     p_Computer->setOutType(5, STUDIOIVDMA);
-    p_Computer->setOutType(7, STUDIOIVDMA);
 	p_Computer->setCycleType(VIDEOCYCLE, PIXIECYCLE);
 	p_Computer->setEfType(1, PIXIEEF);
 
@@ -357,7 +360,7 @@ void Pixie::configurePixieStudioIV()
 
     p_Main->message("	Output 4/6: bit 0-2 background colour, bit 3 white foreground");
     p_Main->message("	Output 4/6: bit 4-5 enable graphics, bit 6 PAL/NTSC");
-    p_Main->message("	Output 5/7, enable DMA");
+    p_Main->message("	Output 5, enable DMA");
 }
 
 void Pixie::configurePixieVictory()
@@ -467,7 +470,11 @@ void Pixie::initPixie()
 	backGround_ = backGroundInit_;
 
 	changeScreenSize();
+#if defined(__WXMAC__)
+    p_Main->eventRefreshVideo(false, 0);
+#else
 	videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+#endif
     drawScreen();
 }
 
@@ -486,8 +493,14 @@ Byte Pixie::inPixie()
 void Pixie::outPixie()
 {
 	graphicsOn_ = false;
-	if (computerType_ == ETI || computerType_ == STUDIOIV || computerType_ == VIPII)
+	if (computerType_ == ETI || computerType_ == STUDIOIV || computerType_ == VIPII || computerType_ == VIP)
+    {
+#if defined(__WXMAC__)
+        p_Main->eventRefreshVideo(false, 0);
+#else
 		videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+#endif
+    }
 }
 
 void Pixie::switchVideoMode(int videoMode)
@@ -513,7 +526,7 @@ void Pixie::switchVideoMode(int videoMode)
         endScreen_ = 262;
         videoHeight_ = 128;
     }
-    this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+    p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, 0);
 }
 
 void Pixie::outPixieBackGround()
@@ -572,7 +585,7 @@ void Pixie::outPixieStudioIV(int value)
 
 void Pixie::cyclePixie()
 {
-	int j;
+    int j;
 	Byte v, vram1, vram2;
 	int color;
 
@@ -657,7 +670,7 @@ void Pixie::cyclePixie()
 void Pixie::cyclePixieStudioIV()
 {
     studioIVFactor_ = !studioIVFactor_;
-    if (studioIVFactor_)
+    if (studioIVFactor_ || !graphicsOn_)
         return;
     
     if (graphicsNext_ == 0)
@@ -675,7 +688,6 @@ void Pixie::cyclePixieStudioIV()
             copyScreen();
             videoSyncCount_++;
         }
-        
     }
     
     if (graphicsNext_ == 18)
@@ -686,7 +698,7 @@ void Pixie::cyclePixieStudioIV()
             p_Computer->setCycle0();
         }
     }
-    if (graphicsMode_ >= startGraphicsMode_ && graphicsMode_ <=endGraphicsMode_ && graphicsOn_ && graphicsNext_ >=4 && graphicsNext_ <= 19)
+    if (graphicsMode_ >= startGraphicsMode_ && graphicsMode_ <=endGraphicsMode_ && graphicsNext_ >=4 && graphicsNext_ <= 19)
     {
         graphicsNext_ = 19;
         p_Computer->setCycle0();
@@ -842,8 +854,6 @@ void Pixie::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    PlotList *temp;
-
 	if (!graphicsOn_ && (computerType_ == ETI))  return;
 
 	if (reColour_)
@@ -871,8 +881,18 @@ void Pixie::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-	if (extraBackGround_ && newBackGround_) 
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
 		drawExtraBackground(colour_[backGround_]);
+
+    PlotList *temp;
 
 	if (reBlit_ || reDraw_ )
 	{
@@ -901,6 +921,7 @@ void Pixie::copyScreen()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void Pixie::drawScreen()
@@ -1051,6 +1072,39 @@ void Pixie::setInterlace(bool status)
     interlace_ = status;
     reDraw_ = true;
 }
+
+void Pixie::reBlit(wxDC &dc)
+{
+    if (!memoryDCvalid_)
+        return;
+    
+    dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+    
+    if (extraBackGround_ && newBackGround_)
+    {
+        wxSize size = wxGetDisplaySize();
+
+        dc.SetBrush(wxBrush(colour_[0]));
+        dc.SetPen(wxPen(colour_[0]));
+
+        int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
+        dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
+
+        int yStart = (int)((2*offsetY_+videoHeight_)*zoom_);
+        dc.DrawRectangle(0, yStart, size.x, size.y-yStart);
+
+        newBackGround_ = false;
+    }
+    if (!graphicsOn_)
+    {
+        dc.SetUserScale(zoom_*xZoomFactor_, zoom_);
+        dc.SetBrush(wxBrush(colour_[backGround_]));
+        dc.SetPen(wxPen(colour_[backGround_]));
+        dc.DrawRectangle(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+    }
+}
+
+
 
 PixieFred::PixieFred(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, double zoomfactor, int computerType)
 : Pixie(title, pos, size, zoom, zoomfactor, computerType)
@@ -1377,7 +1431,7 @@ void PixieVip2K::executeSequencer(Byte sequencerValue)
         {
             videoHeight_ = viewableLines_ + additionalTopPalLines_ + additionalBottomPalLines_;
             
-            this->SetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_);
+            p_Main->eventSetClientSize((videoWidth_+2*borderX_[videoType_])*zoom_*xZoomFactor_, (videoHeight_+2*borderY_[videoType_])*zoom_, DON_T_CALL_CHANGE_SCREEN_SIZE, false, 0);
             changeScreenSize_ = true;
         }
         
@@ -1422,12 +1476,11 @@ Byte PixieVip2K::inPixie()
 void PixieVip2K::outPixie()
 {
     graphicsOn_ = false;
+#if defined(__WXMAC__)
+    p_Main->eventRefreshVideo(false, 0);
+#else
     videoScreenPointer->disableScreen(colour_[backGround_], videoWidth_+2*offsetX_, videoHeight_+2*offsetY_);
+#endif
     sequencerAddress_ &= 0x3fff;
 }
-
-
-
-
-
 

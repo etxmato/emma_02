@@ -139,9 +139,9 @@ wxString Encrypt::md5(wxString inputString)
         msg[offset] = 0; // append "0" bits
     
     // append the len in bits at the end of the buffer.
-    to_bytes(initial_len*8, msg + new_len);
+    to_bytes((uint32_t)initial_len*8, msg + new_len);
     // initial_len>>29 == initial_len*8>>32, but avoids overflow.
-    to_bytes(initial_len>>29, msg + new_len + 4);
+    to_bytes((uint32_t)initial_len>>29, msg + new_len + 4);
     
     // Process the message in successive 512-bit chunks:
     //for each 512-bit chunk of message:

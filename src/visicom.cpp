@@ -443,7 +443,7 @@ void Visicom::startComputer()
 	}
     p_Main->checkAndReInstallMainRom(VISICOM);
 	readProgram(p_Main->getRomDir(VISICOM, MAINROM1), p_Main->getRomFile(VISICOM, MAINROM1), ROM, 0, NONAME);
-	readSt2Program(VISICOM);
+	readSt2Program(VISICOM, CARTRIDGEROM);
 	defineMemoryType(0x800, 0xfff, CARTRIDGEROM);
     p_Main->assDefault("visicomcart", 0x800, 0xFFF);
 	defineMemoryType(0x1000, 0x11ff, RAM);

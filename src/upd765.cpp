@@ -114,7 +114,7 @@ Upd765::Upd765()
 /*
  Configure UPD 765 for use with MS2000 and initialize startup values for internal variables
 */
-void Upd765::configureUpd765(int fdcType)
+void Upd765::configureUpd765(int fdcType, int efnumber)
 {
     fdcType_ = fdcType;
     
@@ -125,7 +125,7 @@ void Upd765::configureUpd765(int fdcType)
         diskCreated_[i] = false;
     }
     
-    p_Computer->setEfType(3, MS2000EF);
+    p_Computer->setEfType(3, efnumber);
 
     p_Main->message("Configuring 18S651 and uPD765 Disk Controller");
     p_Main->message("	Output 4: DMA control, output 7: DMA count, input 4: uPD765 status");

@@ -51,7 +51,7 @@ ComxStatusBar::ComxStatusBar(wxWindow *parent)
 
     offsetField_ = 1;
 
-    offsetX_ = ledPosX2_;
+    ledOffsetX_ = ledPosX2_;
     lastLedPosX_ = -1;
 
     leaderString_ = p_Main->getBarLeader();
@@ -157,17 +157,17 @@ void ComxStatusBar::displayLeds()
 		{
 #if defined(__linux__)
 			ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
-							         wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+offsetX_+(card*3), linux_led_pos_y_), wxSize(-1, -1),
+							         wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_+(card*3), linux_led_pos_y_), wxSize(-1, -1),
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMAC__)
 			ledBitmapPointers [card][i] = new PushBitmapButton(this, number, *ledOffPointer,
-							         wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+offsetX_+(card*3), 4), wxSize(-1, -1),
+							         wxPoint((card+offsetField_)*((int)rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_+(card*3), 4), wxSize(-1, -1),
 							         wxNO_BORDER | wxBU_EXACTFIT | wxBU_TOP);
 #endif
 #if defined(__WXMSW__)
 			ledBitmapPointers [card][i] = new PushButton(this, number, wxEmptyString,
-							         wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+offsetX_, 9), wxSize(LED_SIZE_X, LED_SIZE_Y),
+							         wxPoint((card+offsetField_)*(rect.GetWidth()+ledSpacing_)+i*14+ledOffsetX_, 9), wxSize(LED_SIZE_X, LED_SIZE_Y),
 							         wxBORDER_NONE);
 			ledBitmapPointers [card][i]->SetBitmap(*ledOffPointer);
 #endif
@@ -328,7 +328,7 @@ void ComxStatusBar::updateStatusBarText()
                     if (lastLedPosX_ != ledPosX1_)
                     {
                         lastLedPosX_ = ledPosX1_;
-                        offsetX_ = ledPosX1_;
+                        ledOffsetX_ = ledPosX1_;
                         offsetField_ = 1;
                         displayLeds();
                     }
@@ -339,7 +339,7 @@ void ComxStatusBar::updateStatusBarText()
                     if (lastLedPosX_ != ledPosX2_)
                     {
                         lastLedPosX_ = ledPosX2_;
-                        offsetX_ = ledPosX2_;
+                        ledOffsetX_ = ledPosX2_;
                         offsetField_ = 1;
                         displayLeds();
                     }
@@ -351,7 +351,7 @@ void ComxStatusBar::updateStatusBarText()
                 if (lastLedPosX_ != ledPosX2_)
                 {
                     lastLedPosX_ = ledPosX2_;
-                    offsetX_ = ledPosX2_;
+                    ledOffsetX_ = ledPosX2_;
                     offsetField_ = 1;
                     displayLeds();
                 }

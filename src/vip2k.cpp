@@ -69,6 +69,8 @@ void Vip2K::configureComputer()
 	efType_[2] = VIP2KEF2;
 	efType_[3] = VIP2KEF3;
 
+    cycleType_[COMPUTERCYCLE] = VIPIIKEYCYCLE;
+
 	p_Main->message("Configuring VIP2K Membership Card");
     
     p_Main->message("	Input 1-5: keyboard input keycol 1-5");
@@ -78,10 +80,10 @@ void Vip2K::configureComputer()
 	{
 		double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Cosmac Vip 2K - VT 52", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration);
+            vtPointer = new Vt100("Cosmac Vip 2K - VT 52", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration, UART1);
         else
-            vtPointer = new Vt100("Cosmac Vip 2K - VT 100", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Cosmac Vip 2K - VT 100", p_Main->getVtPos(VIP2K), wxSize(640*zoom, 400*zoom), zoom, VIP2K, clock_, vipConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
         
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(vipConfiguration.vtShow);
@@ -92,7 +94,9 @@ void Vip2K::configureComputer()
         p_Serial = new Serial(VIP2K, clock_, vipConfiguration);
         p_Serial->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
     }
-    
+ 
+    keyboardValue_ = 0;
+
 	resetCpu();
 }
 
@@ -376,6 +380,14 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
             ret = vipKeyState_[5];
             if ((scratchpadRegister_[3] & 0xf000) == 0)
                 vipKeyState_[5] = 0xff;
+            if (keyboardValue_ != 0)
+            {
+                keyboardValue_ = 0;
+                shiftEf_ = 1;
+                ctlEf_ = 1;
+                for (int i=1; i<6; i++)
+                    vipKeyState_[i] = 0xff;
+            }
         break;
             
 		case PIXIEIN:
@@ -468,7 +480,76 @@ void Vip2K::cycle(int type)
         case VTSERIALCYCLE:
             p_Serial->cycleVt();
         break;
+            
+        case VIPIIKEYCYCLE:
+            if (ctrlvTextCharNum_ != 0 && keyboardValue_ == 0)
+            {
+                if (scratchpadRegister_[programCounter_] == 0x7A)
+                {
+                    keyboardValue_ = translateKey(getCtrlvChar());
+                    
+                    if (keyboardValue_ != 0)
+                        keyDown(keyboardValue_);
+                }
+            }
+        break;
     }
+}
+
+int Vip2K::translateKey(int key)
+{
+    int returnKey = 0;
+    
+    if (key >= 'a' && key <= 'z')
+    {
+        returnKey = key - 32;
+        shiftEf_ = 0;
+    }
+    if (key >= 'A' && key <= 'Z')
+        returnKey =  key;
+    if (key >= '0' && key <= '9')
+        returnKey =  key;
+
+    switch(key)
+    {
+        case '!': shiftEf_ = 0; returnKey = '1'; break;
+        case '@': shiftEf_ = 0; returnKey = '2'; break;
+        case '#': shiftEf_ = 0; returnKey = '3'; break;
+        case '$': shiftEf_ = 0; returnKey = '4'; break;
+        case '%': shiftEf_ = 0; returnKey = '5'; break;
+        case '^': shiftEf_ = 0; returnKey = '6'; break;
+        case '&': shiftEf_ = 0; returnKey = '7'; break;
+        case '*': shiftEf_ = 0; returnKey = '8'; break;
+        case '(': shiftEf_ = 0; returnKey = '9'; break;
+        case ')': shiftEf_ = 0; returnKey = '0'; break;
+        case ',': ctlEf_ = 0; returnKey = '2'; break;
+        case ';': ctlEf_ = 0; returnKey = '3'; break;
+        case '?': ctlEf_ = 0; returnKey = '4'; break;
+        case ':': ctlEf_ = 0; returnKey = '5'; break;
+        case '+': ctlEf_ = 0; returnKey = '6'; break;
+        case '-': ctlEf_ = 0; returnKey = '7'; break;
+        case '/': ctlEf_ = 0; returnKey = '9'; break;
+        case '=': ctlEf_ = 0; returnKey = '0'; break;
+        case '"': ctlEf_ = 0; returnKey = 'Q'; break;
+        case 0x2018: ctlEf_ = 0; returnKey = 'W'; break;
+        case '~': ctlEf_ = 0; returnKey = 'E'; break;
+        case '|': ctlEf_ = 0; returnKey = 'I'; break;
+        case 0x2019: ctlEf_ = 0; returnKey = 'O'; break;
+        case '\\': ctlEf_ = 0; returnKey = 'A'; break;
+        case '_': ctlEf_ = 0; returnKey = 'S'; break;
+        case '[': ctlEf_ = 0; returnKey = 'F'; break;
+        case ']': ctlEf_ = 0; returnKey = 'G'; break;
+        case '}': ctlEf_ = 0; returnKey = 'J'; break;
+        case '{': ctlEf_ = 0; returnKey = 'K'; break;
+        case '<': ctlEf_ = 0; returnKey = 'M'; break;
+        case '>': ctlEf_ = 0; returnKey = '.'; break;
+        case '.': returnKey = '.'; break;
+        case 13: returnKey = 13; break;
+        case ' ': returnKey = ' '; break;
+        case 0x201c: ctlEf_ = 0; returnKey = 'Q'; break;
+        case 0x201d: ctlEf_ = 0; returnKey = 'Q'; break;
+    }
+    return returnKey;
 }
 
 void Vip2K::startComputer()

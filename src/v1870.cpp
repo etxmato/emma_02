@@ -93,6 +93,7 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
 	offsetX_ = 0;
 	offsetY_ = 0;
+    
 	pixelWidth_ = 2;
 	pixelHeight_ = 2;
 	videoMode_ = PAL;
@@ -145,7 +146,10 @@ V1870::V1870(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 		break;
 
 		case CIDELSA:
-			maxPageMemory_ = 1920;
+            if (cidelsaGame_ == DRACO)
+                maxPageMemory_ = 1920;
+            else
+                maxPageMemory_ = 1000;
 			videoWidth_ = 200;
 			videoHeight_ = 240;
 		break;
@@ -580,8 +584,8 @@ void V1870::configure6845()
 	}
 	else
 	{
-		this->SetClientSize(p_Main->get6845Size(computerType_));
-		changeScreenSize();
+		p_Main->eventSetClientSize(p_Main->get6845Size(computerType_), CALL_CHANGE_SCREEN_SIZE, false, 0);
+        
 		p_Main->v1870BarSizeEvent();
 	}
 }
@@ -606,9 +610,9 @@ void V1870::stop6845()
 	}
 	else
 	{
-		this->SetClientSize(p_Main->getMainSize(computerType_));
-		changeScreenSize();
-		p_Main->v1870BarSizeEvent();
+		p_Main->eventSetClientSize(p_Main->getMainSize(computerType_), CALL_CHANGE_SCREEN_SIZE, false, 0);
+
+        p_Main->v1870BarSizeEvent();
 	}
 }
 
@@ -669,6 +673,7 @@ void V1870::init1870()
 	reDraw_ = true;
 	reBlit_ = false;
 	newBackGround_ = false;
+    extraBackGround_ = false;
 	updateCharacter_ = false;
 	updateCharacter6845_ = 0;
 	vismacBlink_ = false;
@@ -693,7 +698,7 @@ void V1870::out3_1870(Byte value)
 	old = register3_;
 	register3_ = value;
 
-//	p_Main->messageHex(value);
+//	p_Main->eventMessageHex(value);
 	if (old != register3_)
 	{
 		pixelWidth_ = ((register3_ & 0x80) == 0x80) ? 1 : 2;
@@ -767,7 +772,11 @@ void V1870::out5_1870(Word address)
 	{
 		linesPerCharacters_ = ((register5_ & 0x8) == 0x8) ? 8 : 9;
 		linesPerCharacters_ = ((register5_ & 0x20) == 0x20) ? 16 : linesPerCharacters_;
-		pageMemoryMask_ = ((register5_ & 0x40) == 0x40) ? 0x7ff : 0x3ff;
+        pageMemoryMask_ = ((register5_ & 0x40) == 0x40) ? 0x7ff : 0x3ff;
+        if (computerType_ == CIDELSA)
+            maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : 1000;
+        else
+            maxPageMemory_ = ((register5_ & 0x40) == 0x40) ? 1920 : 960;
 		if ((linesPerCharacters_ == 16) || (linesPerCharacters_ == 9) || (computerType_ == COMX))
 			CmaMask_ = 0xf;
 		else
@@ -825,22 +834,27 @@ void V1870::out7_1870(Word address)
 	if (mc6845started_)  return;
 	if ((pixelWidth_ == 1) && (pixelHeight_ == 1) && ((computerType_ == COMX) || (computerType_ == TMC600) || (computerType_ == PECOM)  || (computerType_ == MICROBOARD)))
 	{
-		if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
-		{
-			dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
-			dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
-			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-			reBlit_ = true;
-			return;
-		}
-		if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
-		{
-			dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
-			dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
-			dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
-			reBlit_ = true;
-			return;
-		}
+        if (pageMemoryMask_ == 0x7ff)
+            reDraw_ = true;
+        else
+        {
+            if ((register7_ == (old+40)) || ((register7_ == 0) && (old == 920)))
+            {
+                dcScroll.Blit(0, 0, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, linesPerCharacters_+offsetY_);
+                dcScroll.Blit(0, videoHeight_-linesPerCharacters_, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, 0);
+                dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
+                reBlit_ = true;
+                return;
+            }
+            if ((register7_ == (old-40)) || ((register7_ == 920) && (old == 0)))
+            {
+                dcScroll.Blit(0, linesPerCharacters_, videoWidth_, videoHeight_-linesPerCharacters_, &dcMemory, offsetX_, offsetY_);
+                dcScroll.Blit(0, 0, videoWidth_, linesPerCharacters_, &dcMemory, offsetX_, videoHeight_-linesPerCharacters_+offsetY_);
+                dcMemory.Blit(offsetX_, offsetY_, videoWidth_, videoHeight_, &dcScroll, 0, 0);
+                reBlit_ = true;
+                return;
+            }
+        }
 	}
 	reDraw_ = true;
 }
@@ -868,7 +882,12 @@ void V1870::cycle1870()
 			nonDisplay_ = false;
 		if (changeScreenSize_)
 		{
-			wxSize size = this->GetClientSize();
+            wxSize size;
+            if (wxIsMainThread())
+                size = GetClientSize();
+            else
+                size = p_Main->eventGetClientSize(false, 0);
+
 			if (mc6845started_)
 				p_Main->set6845Size(computerType_, size);
 			else
@@ -953,20 +972,18 @@ void V1870::writePram(Word address, Byte v)
 
 	if ((address <(charactersPerRow_ * rowsPerScreen_)) || (pixelWidth_ == 2) || (pixelHeight_ == 2) || (computerType_ == CIDELSA))
 	{
-		int a = address -((register7_ / charactersPerRow_) * charactersPerRow_);
+        int a = address - register7_;//((register7_ / charactersPerRow_) * charactersPerRow_);
 		while(a < 0) a += maxPageMemory_;
 		int x = (a % charactersPerRow_) * 6;
 		int y = (a / charactersPerRow_) * linesPerCharacters_;
 		drawCharacterAndBackground(x, y, v, address);
+// ** address log, comment out next line
 		p_Main->assLog(v);
 	}
 }
 
 void V1870::writeCram(Word address, Byte v)
 {
-    if (charMemoryIsRom_ && address >= romAddress_)
-        return;
-    
 	Word ac;
 	if (cmemAccessMode_)
 		ac = register6_ & pageMemoryMask_;
@@ -980,6 +997,10 @@ void V1870::writeCram(Word address, Byte v)
 
 	address &= CmaMask_;
     address += ((pageMemory_[ac]&pcbMask_) * maxLinesPerCharacters_);
+    
+    if (charMemoryIsRom_ && address >= romAddress_)
+        return;
+    
 	characterMemory_[address&charMemorySize_] = v;
 
 	if (address>= memoryStart_ && address<(memoryStart_+256))
@@ -991,7 +1012,7 @@ void V1870::writeCram(Word address, Byte v)
 	{
 		if ((pageMemory_[i]&pcbMask_) == (pageMemory_[ac]&pcbMask_))
 		{
-			int a = i -((register7_ / charactersPerRow_) * charactersPerRow_);
+			int a = i - ((register7_ / charactersPerRow_) * charactersPerRow_);
 			while(a < 0) a += maxPageMemory_;
 			int x = (a % charactersPerRow_) * 6;
 			int y = (a / charactersPerRow_) * linesPerCharacters_;
@@ -1119,8 +1140,6 @@ void V1870::copyScreen()
 {
     if (p_Main->isZoomEventOngoing())
         return;
-    
-	CharacterList *temp;
 
 	if (reColour_)
 	{
@@ -1148,14 +1167,24 @@ void V1870::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-	if (extraBackGround_ && newBackGround_) 
-		drawExtraBackground(colour_[backGround_]);
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(colour_[backGround_]);
 
-	if (reBlit_ || reDraw_)
-	{
+    CharacterList *temp;
+
+    if (reBlit_ || reDraw_)
+    {
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
-		reBlit_ = false;
-		reDraw_ = false;
+        reBlit_ = false;
+        reDraw_ = false;
 		if (updateCharacter_)
 		{
 			updateCharacter_ = false;
@@ -1191,6 +1220,7 @@ void V1870::copyScreen()
 			}
 		}
 	}
+#endif
 }
 
 void V1870::drawScreen()
@@ -1208,7 +1238,7 @@ void V1870::drawScreen()
 	}
 	char_screen = charactersPerRow_ * rowsPerScreen_;
 	address = register7_;
-	address = (address/charactersPerRow_) * charactersPerRow_;
+	//address = (address/charactersPerRow_) * charactersPerRow_; this stops base address to be != 0x28, like F804
 	while(address<0) address += maxPageMemory_;
 	for (int i=0; i<char_screen; i++)
 	{
@@ -1280,22 +1310,26 @@ void V1870::drawLine(wxCoord x,wxCoord y,Byte v,Byte pcb, int address)
 
 	switch(register3_ & 0x60)
 	{
-		case 0x00:if (v & 0x40) clr += 4;
+		case 0x00:
+            if (v & 0x40) clr += 4;
 			if (v & 0x80) clr += 2;
 			if (pcb) clr += 1;
-			break;
-		case 0x20:if (v & 0x40) clr += 4;
+        break;
+		case 0x20:
+            if (v & 0x40) clr += 4;
 			if (pcb) clr += 2;
 			if (v & 0x80) clr += 1;
-			break;
-		case 0x40:if (pcb) clr += 4;
+        break;
+		case 0x40:
+            if (pcb) clr += 4;
 			if (v & 0x40) clr += 2;
 			if (v & 0x80) clr += 1;
-			break;
-		case 0x60:if (pcb) clr += 4;
+        break;
+		case 0x60:
+            if (pcb) clr += 4;
 			if (v & 0x40) clr += 2;
 			if (v & 0x80) clr += 1;
-			break;
+        break;
 	}
 	if (computerType_ == TMC600)
 	{
@@ -1684,7 +1718,9 @@ void V1870::blink6845()
 	if (blinkValue6845_ <= 0)
 	{
 		blinkValue6845_ = blinkSize6845_;
+//#ifndef __WXMAC__
 		copyScreen6845();
+//#endif
 		videoSyncCount_++;
 		blink_--;
 		if (blink_ <= 0)
@@ -1698,8 +1734,12 @@ void V1870::blink6845()
 					cursorBlinkOn_ = true;
 			}
 		}
+#ifndef __WXMAC__
 		if (cursorOn_)
 			drawCursor6845(cursorAddress_, cursorBlinkOn_);
+#else
+        p_Main->eventRefreshVideo(false, 0);
+#endif
 	}
 }
 
@@ -1726,7 +1766,8 @@ void V1870::write6845CharRom(Word addr, Byte value)
 
 void V1870::copyScreen6845()
 {
-	CharacterList *temp;
+    if (p_Main->isZoomEventOngoing())
+        return;
 
 	if (reColour_)
 	{
@@ -1754,14 +1795,22 @@ void V1870::copyScreen6845()
 	if (reDraw_)
 		drawScreen6845();
 
-	if (extraBackGround_ && newBackGround_) 
-		drawExtraBackground(colour_[BACK]);
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+    if (extraBackGround_ && newBackGround_)
+        drawExtraBackground(colour_[BACK]);
 
-	if (reBlit_ || reDraw_)
-	{
+    CharacterList *temp;
+
+    if (reBlit_ || reDraw_)
+    {
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
-		reBlit_ = false;
-		reDraw_ = false;
 		if (updateCharacter6845_ > 0 )
 		{
 			updateCharacter6845_ = 0;
@@ -1772,6 +1821,8 @@ void V1870::copyScreen6845()
 				delete temp;
 			}
 		}
+        reBlit_ = false;
+        reDraw_ = false;
 	}
 	if (updateCharacter6845_ > 0)
 	{
@@ -1784,6 +1835,7 @@ void V1870::copyScreen6845()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void V1870::drawScreen6845()
@@ -1804,6 +1856,12 @@ void V1870::draw6845(Word addr, Byte value)
 {
 	mc6845ram_[addr] = value;
 
+    if (p_Main->isZoomEventOngoing())
+    {
+        reDraw_ = true;
+        return;
+    }
+    
 	addr = (addr - startAddress_) & 0x7ff;
 
 	int y = (addr/charLine_)*scanLine_*videoM_;
@@ -1930,6 +1988,79 @@ void V1870::drawCursor6845(Word addr, bool status)
 	}
 #if defined(__linux__)
 	this->Update();
+#endif
+}
+
+void V1870::drawCursor6845(wxDC &dc, Word addr, bool status)
+{
+    Byte v;
+    int line_byte, line;
+    wxColour clr;
+
+    addr = (addr - startAddress_) & 0x7ff;
+
+    int y = (addr/charLine_)*scanLine_*videoM_;
+     int x = (addr%charLine_)*MC6845CHARW;
+
+    v = mc6845ram_[addr];
+    line = cursorStartLine_;
+    for (int yLine = y + cursorStartLine_*videoM_; yLine <= (y + cursorEndLine_*videoM_); yLine+=videoM_)
+    {
+        if (yLine == (y + (scanLine_-1)*videoM_))
+        {
+            if (v<0x80)
+            {
+                if (status)
+                    clr = colour_[FORE];
+                else
+                    clr = colour_[backGround_];
+            }
+            else
+            {
+                if (status)
+                    clr = colour_[backGround_];
+                else
+                    clr = colour_[FORE];
+            }
+            dc.SetBrush(wxBrush(clr));
+            dc.SetPen(wxPen(clr));
+            if (interlace_ & !(videoM_ == 1))
+                dc.DrawRectangle((x+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, MC6845CHARW*zoom_, 2*zoom_);
+            else
+                dc.DrawRectangle((x+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, MC6845CHARW*zoom_, zoom_);
+        }
+        else
+        {
+            line_byte =    mc6845CharRom_[v*8+line];
+            for (wxCoord i=x; i<x+MC6845CHARW; i++)
+            {
+                if (line_byte & 128)
+                {
+                    if (status)
+                        clr = colour_[backGround_];
+                    else
+                        clr = colour_[FORE];
+                }
+                else
+                {
+                    if (status)
+                        clr = colour_[FORE];
+                    else
+                        clr = colour_[backGround_];
+                }
+                dc.SetBrush(wxBrush(clr));
+                dc.SetPen(wxPen(clr));
+                if (interlace_ & !(videoM_ == 1))
+                    dc.DrawRectangle((i+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, zoom_, 2*zoom_);
+                else
+                    dc.DrawRectangle((i+offsetX_)*zoom_, (yLine+offsetY_)*zoom_, zoom_, zoom_);
+                line_byte <<= 1;
+            }
+        }
+        line++;
+    }
+#if defined(__linux__)
+    this->Update();
 #endif
 }
 
@@ -2061,5 +2192,37 @@ void V1870::onF3()
 {
 	fullScreenSet_ = !fullScreenSet_;
 	p_Main->eventVideoSetFullScreen(fullScreenSet_);
+}
+
+void V1870::reBlit(wxDC &dc)
+{
+    if (!v1870Configured_)
+        return;
+
+    if (!memoryDCvalid_)
+        return;
+
+    if (videoType_ != VIDEO80COL)
+        dc.Blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
+    else
+        dc.Blit(0, 0, videoWidth_+2*offsetX_, rows_*scanLine_*videoM_+2*offsetY_, &dcMemory, 0, 0);
+    
+    if (extraBackGround_ && newBackGround_)
+    {
+        wxSize size = wxGetDisplaySize();
+
+        dc.SetBrush(wxBrush(colour_[backGround_]));
+        dc.SetPen(wxPen(colour_[backGround_]));
+
+        int xStart = (int)((2*offsetX_+videoWidth_)*zoom_*xZoomFactor_);
+        dc.DrawRectangle(xStart, 0, size.x-xStart, size.y);
+
+        int yStart = (int)((2*offsetY_+videoHeight_)*zoom_);
+        dc.DrawRectangle(0, yStart, size.x, size.y-yStart);
+
+        newBackGround_ = false;
+    }
+    if (videoType_ == VIDEO80COL)
+        drawCursor6845(dc, cursorAddress_, cursorBlinkOn_);
 }
 

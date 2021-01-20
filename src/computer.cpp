@@ -4,7 +4,7 @@
  *** You have permission to use, modify, copy, and distribute    ***
  *** this software so long as this copyright notice is retained. ***
  *** This software may not be used in commercial applications    ***
- *** without express written permission from the author.         ***
+ *** wFthout express written permission from the author.         ***
  ***                                                             ***
  *** 1802 Code based on elf emulator by Michael H Riley with     ***
  *** copyright as below                                          ***
@@ -543,7 +543,7 @@ void SwitchButton::enable(wxDC& dc, bool enabled)
 
 void *RunComputer::Entry()
 {
-	while(!p_Main->emuClosing())
+    while(!p_Main->emuClosing())
 	{
 		p_Computer->cpuInstruction();
 	}
@@ -665,12 +665,18 @@ void Panel::onPaint(wxPaintEvent&WXUNUSED(event))
 {
 }
 
+void Panel::refreshPanel()
+{
+    this->Refresh();
+    this->Update();
+}
+
 void Panel::onChar(wxKeyEvent& event)
 {
-	if (p_Vt100 != NULL)
+	if (p_Vt100[UART1] != NULL)
 	{
 		int key = event.GetKeyCode();
-		if (!p_Vt100->charPressed(event))
+		if (!p_Vt100[UART1]->charPressed(event))
 		{	
 			if (forceUpperCase_ && key >= 'a' && key <= 'z')
 				key -= 32;
@@ -690,8 +696,8 @@ void Panel::vtOut(int value)
 	{
 		keyBuffer_[keyEnd_++] = value;
 		if (keyEnd_ == 26) keyEnd_ = 0;
-		p_Vt100->dataAvailable();
-		if (value == 27) p_Vt100->framingError(1);
+		p_Vt100[UART1]->dataAvailable();
+		if (value == 27) p_Vt100[UART1]->framingError(1);
 	}
 }
 
@@ -700,7 +706,7 @@ void Panel::onKeyDown(wxKeyEvent& event)
 	int keycode;
 	keycode = event.GetKeyCode();
 
-	if (p_Vt100 != NULL)
+	if (p_Vt100[UART1] != NULL)
 	{
 		if (keycode == lastKey_)
 		{
@@ -709,14 +715,14 @@ void Panel::onKeyDown(wxKeyEvent& event)
 				if (event.GetModifiers() != wxMOD_CONTROL || keycode != WXK_HOME || keycode != WXK_ESCAPE || keycode != WXK_SCROLL || keycode != WXK_TAB || keycode != WXK_RETURN)
 				{
 					lastKey_ = keycode;
-					p_Vt100->keyDownPressed(event);
+					p_Vt100[UART1]->keyDownPressed(event);
 				}
 			}
 		}
 		else
 		{
 			lastKey_ = keycode;
-			p_Vt100->keyDownPressed(event);
+			p_Vt100[UART1]->keyDownPressed(event);
 		}
 	}
 	if (p_Main->checkFunctionKey(event))
@@ -731,10 +737,10 @@ void Panel::onKeyUp(wxKeyEvent& event)
 		p_Main->onKeyUp(event);
 	functionKeyReleaseTwo_ = !functionKeyReleaseTwo_;
 
-	if (p_Vt100 != NULL)
+	if (p_Vt100[UART1] != NULL)
 	{
 		lastKey_ = 0;
-		p_Vt100->keyUpPressed();
+		p_Vt100[UART1]->keyUpPressed();
 	}
 	if (!p_Computer->keyUpReleased(event.GetKeyCode()))
 		event.Skip();
@@ -747,7 +753,7 @@ Byte Panel::getKey(Byte vtOut)
 	vtOut = keyBuffer_[keyStart_++];
 	if (keyStart_ == 26) keyStart_ = 0;
 	if (keyStart_ != keyEnd_)
-		p_Vt100->dataAvailable();
+		p_Vt100[UART1]->dataAvailable();
 	return vtOut;
 }
 
@@ -761,22 +767,31 @@ void Panel::onMouseRelease(wxMouseEvent& WXUNUSED(event))
 
 void Panel::ledTimeout()
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
     wxClientDC dc(this);
+    rePaintLeds(dc);
+#endif
+}
+
+void Panel::rePaintLeds(wxDC& dc)
+{
     updateReadyLed(dc);
     updateStopLed(dc);
     updateErrorLed(dc);
     updateQLed(dc);
-	updateResetLed(dc);
-	updatePauseLed(dc);
-	updateRunLed(dc);
-	updateLoadLed(dc);
+    updateResetLed(dc);
+    updatePauseLed(dc);
+    updateRunLed(dc);
+    updateLoadLed(dc);
     for (int i=0; i<24; i++)
         updateLed(dc, i);
     for (int i=0; i<4; i++)
         updateStateLed(dc, i);
     for (int i=0; i<8; i++)
-		updateSeg(dc, i);
-	updateData(dc);
+        updateSeg(dc, i);
+    updateData(dc);
     updateDataTil313(dc);
     updateDataTil313Italic(dc);
     updateDp313Italic(dc);
@@ -807,8 +822,12 @@ void Panel::setReadyLed(int status)
         updateReadyLed_ = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateReadyLed(dc);
+#endif
         }
     }
 }
@@ -821,8 +840,12 @@ void Panel::setStopLed(int status)
         updateStopLed_ = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateStopLed(dc);
+#endif
         }
     }
 }
@@ -844,9 +867,13 @@ void Panel::setErrorLed(int status)
 		updateErrorLed_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateErrorLed(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -867,9 +894,13 @@ void Panel::setQLed(int status)
 		updateQLed_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateQLed(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -890,9 +921,13 @@ void Panel::setResetLed(int status)
 		updateResetLed_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateResetLed(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -913,9 +948,13 @@ void Panel::setPauseLed(int status)
 		updatePauseLed_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updatePauseLed(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -936,9 +975,13 @@ void Panel::setRunLed(int status)
 		updateRunLed_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateRunLed(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -959,9 +1002,13 @@ void Panel::setLoadLed(int status)
 		updateLoadLed_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateLoadLed(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -982,9 +1029,13 @@ void Panel::setLed(int i, int status)
 		updateLed_[i] = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateLed(dc, i);
-		}
+#endif
+        }
 	}
 }
 
@@ -1011,8 +1062,12 @@ void Panel::setStateLed(int i, int status)
         updateStateLed_[i] = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateStateLed(dc, i);
+#endif
         }
     }
 }
@@ -1034,9 +1089,13 @@ void Panel::showData(Byte value)
 		updateData_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateData(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -1058,9 +1117,13 @@ void Panel::showDataTil313(Byte value)
 		updateDataTil313_ = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateDataTil313(dc);
-		}
+#endif
+        }
 	}
 }
 
@@ -1082,8 +1145,12 @@ void Panel::showDataTil313Italic(Byte value)
         updateDataTil313Italic_ = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateDataTil313Italic(dc);
+#endif
         }
     }
 }
@@ -1106,8 +1173,12 @@ void Panel::showDp313Italic(bool status)
         updateDp313_ = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateDp313Italic(dc);
+#endif
         }
     }
 }
@@ -1138,9 +1209,13 @@ void Panel::showSeg(int number, Byte value)
 		updateSeg_[number] = true;
 		if (ms_ == 0)
 		{
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
 			wxClientDC dc(this);
 			updateSeg(dc, number);
-		}
+#endif
+        }
 	}
 }
 
@@ -1161,8 +1236,12 @@ void Panel::showAddress(Word address)
         updateAddress_ = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateAddress(dc);
+#endif
         }
     }
 }
@@ -1175,8 +1254,12 @@ void Panel::showAddressTil313(Word address)
         updateAddressTil313_ = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateAddressTil313(dc);
+#endif
         }
     }
 }
@@ -1189,8 +1272,12 @@ if (addressTil313StatusItalic != address)
         updateAddressTil313Italic_ = true;
         if (ms_ == 0)
         {
+#if defined(__WXMAC__)
+            p_Main->eventRefreshPanel();
+#else
             wxClientDC dc(this);
             updateAddressTil313Italic(dc);
+#endif
         }
     }
 }
@@ -1244,26 +1331,42 @@ void Panel::inDown()
 
 void Panel::inSetState(bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
     wxClientDC dc(this);
     inSwitchButton->setState(dc, state);
+#endif
 }
 
 void Panel::clearSetState(bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
     wxClientDC dc(this);
     clearSwitchButton->setState(dc, state);
+#endif
 }
 
 void Panel::resetSetState(bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
     wxClientDC dc(this);
     resetSwitchButton->setState(dc, state);
+#endif
 }
 
 void Panel::waitSetState(bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
     wxClientDC dc(this);
     waitSwitchButton->setState(dc, state);
+#endif
 }
 
 void Panel::runUp()
@@ -1286,8 +1389,12 @@ void Panel::runDown()
 
 void Panel::runSetState(bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
 	wxClientDC dc(this);
 	runSwitchButton->setState(dc, state);
+#endif
 }
 
 void Panel::mpUp()
@@ -1310,8 +1417,12 @@ void Panel::mpDown()
 
 void Panel::mpSetState(bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
 	wxClientDC dc(this);
 	mpSwitchButton->setState(dc, state);
+#endif
 }
 
 void Panel::powerUp()
@@ -1352,8 +1463,12 @@ void Panel::loadDown()
 
 void Panel::loadSetState(bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
 	wxClientDC dc(this);
 	loadSwitchButton->setState(dc, state);
+#endif
 }
 
 void Panel::dataUp(int number)
@@ -1376,8 +1491,12 @@ void Panel::dataDown(int number)
 
 void Panel::dataSetState(int number, bool state)
 {
+#if defined(__WXMAC__)
+    p_Main->eventRefreshPanel();
+#else
 	wxClientDC dc(this);
 	dataSwitchButton[number]->setState(dc, state);
+#endif
 }
 
 void Panel::efUp(int number)
@@ -1418,6 +1537,7 @@ Computer::Computer()
     pseudoLoaded_ = false;
     inKey1_ = -1;
     inKey2_ = -1;
+    ctrlvTextCharNum_ = 0;
 	for (int i = 0; i<16; i++)
 		chip8Register[i] = -1;
 
@@ -1499,9 +1619,9 @@ int Computer::getComxExpansionType(int WXUNUSED(card))
 	return 0;
 }
 
-void Computer::sleepComputer(long WXUNUSED(ms))
+void Computer::sleepComputer(long ms)
 {
-    p_Main->message("Illegal call to sleep computer");
+    threadPointer->Sleep(ms);
 }
 
 void Computer::pauseComputer()
@@ -1945,7 +2065,11 @@ void Computer::checkLoadedSoftware()
 {
 }
 
-void Computer::dataAvailable(bool WXUNUSED(data))
+void Computer::dataAvailableVt100(bool WXUNUSED(data), int WXUNUSED(uartNumber))
+{
+}
+
+void Computer::dataAvailableSerial(bool WXUNUSED(data))
 {
 }
 
@@ -2088,7 +2212,7 @@ void Computer::readDebugFile(wxString dir, wxString name, wxString number, Word 
 		wxFFileInputStream in(dir+name);
 		wxZipInputStream zip(in);
 
-		while (entry.reset(zip.GetNextEntry()), entry.get() != NULL)
+        while (static_cast<void>(entry.reset(zip.GetNextEntry())), entry.get() != NULL)
 		{
 			// access meta-data
 			name = entry->GetName();
@@ -2216,3 +2340,25 @@ void Computer::showControlWindow(bool WXUNUSED(state))
 void Computer::setAddressLatch(Word WXUNUSED(bootAddress))
 {
 }
+
+void Computer::ctrlvText(wxString text)
+{
+    ctrlvTextStr_ = text;
+    ctrlvTextCharNum_ = 1;
+}
+
+int Computer::getCtrlvChar()
+{
+    int character = 0;
+    
+    if (ctrlvTextCharNum_ <= ctrlvTextStr_.Len())
+    {
+        character = ctrlvTextStr_.GetChar(ctrlvTextCharNum_ - 1);
+        ctrlvTextCharNum_++;
+    }
+    else
+        ctrlvTextCharNum_ = 0;
+    
+    return character;
+}
+

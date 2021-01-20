@@ -104,6 +104,7 @@ void VelfScreen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.DrawRectangle(0, 0, 310, 180);
 #if defined(__WXMAC__)
 	wxFont defaultFont(18, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
+    rePaintLeds(dc);
 #else
 	wxFont defaultFont(14, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD);
 #endif
@@ -272,10 +273,10 @@ void Velf::configureComputer()
 	{
 		double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
-            vtPointer = new Vt100("VELF - VT 152", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration);
+            vtPointer = new Vt100("VELF - VT 152", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration, UART1);
         else
-            vtPointer = new Vt100("VELF - VT 100", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("VELF - VT 100", p_Main->getVtPos(VELF), wxSize(640*zoom, 400*zoom), zoom, VELF, velfClockSpeed_, vipConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 2);
 		vtPointer->Show(true);
 	}
@@ -953,4 +954,8 @@ void Velf::setLedMs(long ms)
     ledCycleValue_ = ledCycleSize_;
 }
 
+void Velf::refreshPanel()
+{
+    velfScreenPointer->refreshPanel();
+}
 

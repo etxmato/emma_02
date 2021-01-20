@@ -62,6 +62,7 @@ public:
 	void reDrawBar();
 	void updateLedStatus(int led, bool status);
     void setInterlace(bool status);
+    void reBlit(wxDC &dc);
 
 protected:
     Byte pbacking_[384][208];

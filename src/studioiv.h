@@ -23,8 +23,10 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void outStudioIV(Byte value);
 	void cycle(int type);
+    int translateKey(int key);
 
-	void startComputer();
+    void startComputer();
+    void startComputer2020();
 	void writeMemDataType(Word address, Byte type);
 	Byte readMemDataType(Word address);
 	Byte readMem(Word address);
@@ -36,10 +38,14 @@ public:
 	void cpuInstruction();
     void resetPressed();
 	void onReset();
+    void startComputerRun(bool load);
+    void sleepComputer(long ms);
+    void checkComputerFunction();
+    void finishStopTape();
 
 private:
 	int victoryKeyPort_;
-	Byte victoryKeyState_[2][10];
+	Byte victoryKeyState_[2][16];
 
 	int keyDefA1_[16];
 	int keyDefB1_[16];
@@ -58,6 +64,10 @@ private:
     
     int buildInGame_;
     bool gameAuto_;
+    int tapeFinished_;
+
+    int keyboardValue_;
+    bool st2020Active_;
 };
 
 #endif  // STUDIOIV_H

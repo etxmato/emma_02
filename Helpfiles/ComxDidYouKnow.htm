@@ -13,7 +13,7 @@ The most famous bug in the COMX basic rom: type line number 65535 in BASIC and t
 A similar thing as when using line number 65535 is typing in 'READY', after this the COMX is not 'READY' anymore! F&M (that is me and my brother) discovered this one when they designed the F&M screen editor and pressed 'CR' (return) on the 'READY' prompt. As such they decided to change the prompt into 'OK' to avoid too many accidental hangings when using a screen editor. After some tracing in the emulator I discovered this is actually caused by the basic READ command, when a READ Y (or any other READ x) instruction is given when there is no DATA statement in the loaded basic program the COMX hangs.
 </p>
 <p>
-Another bug we recently rediscovered, is that the '!' in the original COMX has a funny red dot. I corrected that in the rom file comx35.1.1.bin which is now the default rom file for the emulator.
+Another bug we rediscovered, is that the '!' in the original COMX has a funny red dot. I corrected that in the rom file comx35.1.1.bin. I also recently created a comx35.1.2.bin, this version doesn't really fix a bug but is a rom file to handle the lack of DRAM refresh in the COMIX. The only difference with 1.1 is that the interrupt executes one extra LDA R0 which will secure that R0 is constantly incremented (be it with a slower speed compared to the COMX). The 1.2 version is now the default rom file for the emulator. 
 </p>
 <p>
 If you manage to play 'Eet een wurm' long enough it will eventually run out of places to put new 'food' and as such slow down the game almost to a stop! F&M managed to do this and also solved this bug at the time. The corrected game including some additional improvements is included in the emulator installation package as 'Eet een wurm 2'.

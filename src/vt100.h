@@ -10,12 +10,13 @@ class Vt100 : public Video
 {
 public:
 
-	Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConfiguration);
+	Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConfiguration, int uartNumber);
 	~Vt100();
 
 	void configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf);
 	void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
 	void configureUart(ElfPortConfiguration elfPortConf);
+    void configureRcasbc(int selectedBaudR, int selectedBaudT);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void setTabChar(Byte value);
     void configureVt2K(int SelectedBaudR, int SelectedBaudT, ElfPortConfiguration elfPortConf);
@@ -53,6 +54,8 @@ public:
     Byte uartStatus();
     Byte uartThreStatus();
 	void getKey();
+    void checkCtrlvText();
+	Byte checkCtrlvTextUart();
 	void checkElfCommand();
 	void checkMcdsCommand();
 	void ResetVt();
@@ -197,12 +200,14 @@ private:
 	Byte vt100Ef_;
 	Byte vtEnabled_;
 
+    bool uartEf_;
 	int reverseEf_;
 	bool serialLog_;
 	int reverseQ_;
     int lastByte_;
 
 	bool load_;
+    size_t ctrlvText_;
     size_t elfRunCommand_;
     size_t mcdsRunCommand_;
     wxString commandText_;
@@ -234,6 +239,11 @@ private:
     Byte previousByte_;
     
     int tab_char;
+    
+    int uart_da_bit_;
+    int uart_fe_bit_;
+    int uart_tsre_bit_;
+    int uart_thre_bit_;
 };
 
 #endif  // VT100_H

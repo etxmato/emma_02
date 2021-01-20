@@ -170,6 +170,7 @@ void GuiCdp18s020::readCdp18s020Config()
     defaultTimer.Printf("%d", 500);
     conf[CDP18S020].ledTime_ = configPointer->Read("/CDP18S020/Led_Update_Frequency", defaultTimer);
     
+    configPointer->Read("/CDP18S020/SerialLog", &elfConfiguration[CDP18S020].serialLog, false);
 	elfConfiguration[CDP18S020].bellFrequency_ = (int)configPointer->Read("/CDP18S020/Bell_Frequency", 800);
     elfConfiguration[CDP18S020].useUart = false;
 	elfConfiguration[CDP18S020].vtType = (int)configPointer->Read("/CDP18S020/VT_Type", 2l);
@@ -251,6 +252,7 @@ void GuiCdp18s020::writeCdp18s020Config()
 	configPointer->Write("/CDP18S020/Vt_Wav_File", elfConfiguration[CDP18S020].vtWavFile_);
     configPointer->Write("/CDP18S020/VtSerialPortChoice", elfConfiguration[CDP18S020].serialPort_);
 
+    configPointer->Write("/CDP18S020/SerialLog", elfConfiguration[CDP18S020].serialLog);
 	configPointer->Write("/CDP18S020/Bell_Frequency", elfConfiguration[CDP18S020].bellFrequency_);
 	configPointer->Write("/CDP18S020/VT_Type", elfConfiguration[CDP18S020].vtType);
 

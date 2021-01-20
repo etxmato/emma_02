@@ -128,7 +128,12 @@ void CosmicoshexScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.SetBackground(wxBrush(wxColour(255,255,255)));
 	dc.DrawRectangle(0, 0, 185, 160);
-	for (int i=0; i<8; i++)
+
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
+    for (int i=0; i<8; i++)
 	{
 		segPointer[i]->onPaint(dc);
 	}
@@ -445,4 +450,8 @@ void Cosmicoshex::releaseButtonOnScreen(HexButton* buttonPointer)
     cosmicoshexScreenPointer->releaseButtonOnScreen(buttonPointer);
 }
 
+void Cosmicoshex::refreshPanel()
+{
+    cosmicoshexScreenPointer->refreshPanel();
+}
 

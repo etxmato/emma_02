@@ -219,8 +219,8 @@ void Eti::out(Byte port, Word address, Byte value)
 		break;
 
 		case ETICOLOURRAM:
-//			p_Main->messageHex(address);
-//			p_Main->messageHex(value);
+//			p_Main->eventMessageHex(address);
+//			p_Main->eventMessageHex(value);
 //			colorMemory1864_[address&0xff] = value &0xf;
 			addr = ((address >> 1) & 0xf8) + (address & 0x7);
 			colorMemory1864_[addr] = value &0xf;
@@ -348,7 +348,7 @@ Byte Eti::inEti(Word address)
 
 			ret &= inputKeyLatch_;
 			ret |= (outputKeyValue_&outputKeyLatch_);
-//			p_Main->messageHex(ret);
+//			p_Main->eventMessageHex(ret);
 		}
 	}
 //	else
@@ -371,7 +371,7 @@ void Eti::outEti(Word address, Byte value)
 //			p_Main->message("Output Register Selected");
 			DataDirection_ = false;
 		}
-//		p_Main->messageHex(value);
+//		p_Main->eventMessageHex(value);
 	}
 
 	if ((address&0x3) == 0)
@@ -379,7 +379,7 @@ void Eti::outEti(Word address, Byte value)
 		if (DataDirection_)	// Data Direction A
 		{
 //			p_Main->message("Data Direction Register");
-//			p_Main->messageHex(value);
+//			p_Main->eventMessageHex(value);
 			outputKeyLatch_ = value;
 			inputKeyLatch_ = value^0xff;
 		}
@@ -388,7 +388,7 @@ void Eti::outEti(Word address, Byte value)
 //			p_Main->message("Output Register");
 			outputKeyValue_ = value&outputKeyLatch_;
 			outputKeyValue_ |= inputKeyLatch_;
-//			p_Main->messageHex(outputKeyValue_);
+//			p_Main->eventMessageHex(outputKeyValue_);
 		}
 	}
 }

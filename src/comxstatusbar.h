@@ -47,7 +47,7 @@ private:
     int offsetField_;
     int ledSpacing_;
 
-    int offsetX_;
+    int ledOffsetX_;
     
     int statusBarElementMeasure[5];
     wxString leaderString_;

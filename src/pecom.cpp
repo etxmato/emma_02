@@ -40,7 +40,7 @@
 #define PRW_STOP 2
 #define PRBUSY 3
 
-#define DMACYCLE 5
+#define DMACYCLE 2
 #define PRINTCYCLEVALUE 6
 
 int inputKeyValue[] =
@@ -202,14 +202,35 @@ bool Pecom::keyDownExtended(int keycode, wxKeyEvent& event)
 				keyValue_[0] &= 0xfe; 
 
 			if (keyboardCode_ > 26)
-				keyValue_[inputKeyValue[keyboardCode_]]  &= ((bitValue[keyboardCode_]&0xff)  ^ 0xff); 
+				keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
 			keyboardCode_ = 0;
 		}
 		pecomRunCommand_ = 0;
 	}
 
-	if (keyDown_) return false;
-
+    if (keyDown_)
+    {
+        if (keyboardCode_ != keycode)
+        {
+            switch (keycode)
+            {
+                case WXK_LEFT:
+                case WXK_UP:
+                case WXK_RIGHT:
+                case WXK_DOWN:
+                    secondKeyboardCodes[keycode-WXK_LEFT] = keycode;
+                break;
+                    
+                case WXK_SPACE:
+                    secondKeyboardCodes[4] = keycode;
+                break;
+            }
+        }
+        return false;
+    }
+    
+    keyboardCode_ = keycode;
+    
 	Byte shiftPressed = 0;
 	switch (event.GetModifiers())
 	{
@@ -279,6 +300,20 @@ bool Pecom::keyDownExtended(int keycode, wxKeyEvent& event)
 
 void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
 {
+    switch(keycode)
+    {
+        case WXK_LEFT:
+        case WXK_UP:
+        case WXK_RIGHT:
+        case WXK_DOWN:
+            secondKeyboardCodes[keycode-WXK_LEFT] = 0;
+        break;
+            
+        case WXK_SPACE:
+            secondKeyboardCodes[4] = 0;
+        break;
+    }
+    
 	switch (keycode)
 	{
         case WXK_ESCAPE:
@@ -290,59 +325,111 @@ void Pecom::keyUpExtended(int keycode, wxKeyEvent& WXUNUSED(event))
 			keyValue_[0] &= 0xfe;
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
         case WXK_END:
 			keyValue_[1] &= 0xfe;
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_HOME:
 			keyValue_[0] &= 0xfd; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
+        case WXK_SPACE:
+            keyValue_[inputKeyValue[32]]  &= ((bitValue[32]&0xff) ^ 0xff);
+            keyDown_ = false;
+            shiftEf2_ = 0;
+        break;
+            
 		case WXK_DOWN:
 			keyValue_[23] &= 0xfd; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_LEFT:
 			keyValue_[24] &= 0xfe; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_RIGHT:
 			keyValue_[24] &= 0xfd; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 
 		case WXK_UP:
 			keyValue_[25] &= 0xfe; 
 			keyDown_ = false;
 			shiftEf2_ = 0;
-			return;
 		break;
 	}
 
+    int keyNumber = 0, newKey = 0;
+    while (keyNumber != 5 && newKey == 0)
+    {
+        if (secondKeyboardCodes[keyNumber] != 0)
+            newKey = secondKeyboardCodes[keyNumber];
+        keyNumber++;
+    }
+    if (newKey != 0)
+    {
+        switch (newKey)
+        {
+            case WXK_SPACE:
+                keyboardCode_ = newKey;
+                keyValue_[inputKeyValue[32]] |= (bitValue[32]&0xff);
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+
+            case WXK_DOWN:
+                keyboardCode_ = newKey;
+                keyValue_[23] |= 2;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+                
+            case WXK_LEFT:
+                keyboardCode_ = newKey;
+                keyValue_[24] |= 1;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+                
+            case WXK_RIGHT:
+                keyboardCode_ = newKey;
+                keyValue_[24] |= 2;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+                
+            case WXK_UP:
+                keyboardCode_ = newKey;
+                keyValue_[25] |= 1;
+                keyDown_ = true;
+                shiftEf2_ = 0;
+                return;
+            break;
+        }
+    }
+    
 	if (keyDown_)
 	{
 		keyDown_ = false;
 		ctrlEf1_ = 0;
 		shiftEf2_ = 0;
 		shiftEf3_ = 0;
-		keyValue_[inputKeyValue[keyboardCode_]]  &= ((bitValue[keyboardCode_]&0xff) ^ 0xff); 
+		keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff) ^ 0xff);
 		keyboardCode_ = 0;
 	}
 }
@@ -357,13 +444,13 @@ void Pecom::keyDownFile()
 
 	if (keyboardCode_ > 26)
 	{
-		keyValue_[inputKeyValue[keyboardCode_]] |= (bitValue[keyboardCode_]&0xff); 
-		if (keyValue_[inputKeyValue[keyboardCode_]] != 0)
+		keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] |= (bitValue[(unsigned char)keyboardCode_]&0xff);
+		if (keyValue_[inputKeyValue[(unsigned char)keyboardCode_]] != 0)
 		{
 			keyDown_ = true;
-			ctrlEf1_ = ctrlKey[keyboardCode_];
-			shiftEf2_ = shiftKey[keyboardCode_];
-			shiftEf3_ = shiftKey2[keyboardCode_];
+			ctrlEf1_ = ctrlKey[(unsigned char)keyboardCode_];
+			shiftEf2_ = shiftKey[(unsigned char)keyboardCode_];
+			shiftEf3_ = shiftKey2[(unsigned char)keyboardCode_];
 		}
 	}
 }
@@ -380,7 +467,7 @@ void Pecom::keyUpFile()
 			keyValue_[0] &= 0xfe; 
 
 		if (keyboardCode_ > 26)
-			keyValue_[inputKeyValue[keyboardCode_]]  &= ((bitValue[keyboardCode_]&0xff)  ^ 0xff); 
+			keyValue_[inputKeyValue[(unsigned char)keyboardCode_]]  &= ((bitValue[(unsigned char)keyboardCode_]&0xff)  ^ 0xff);
 		keyboardCode_ = 0;
 	}
 }
@@ -416,6 +503,9 @@ void Pecom::initComputer()
 
 	for (int i=0; i<26; i++)
 		keyValue_[i]=0;
+
+    for (int i=0; i<5; i++)
+        secondKeyboardCodes[i] = 0;
 
 	addressLatch_ = 0x8000;
 	keyboardCount_ = 0;
@@ -473,21 +563,25 @@ Byte Pecom::ef(int flag)
 		break;
 
 		case PECOMEF3:
-			return shiftEf3_;
+            if (!videoRAM_)
+                return shiftEf3_;
 		break;
 
 		case PECOMEF4:
-			return !escEf4_;
+            if (!videoRAM_)
+                return !escEf4_;
 		break;
 
 		default:
 			return 1;
 	}
+    return 1;
 }
 
 Byte Pecom::in(Byte port, Word address)
 {
 	Byte ret;
+    ret = 255;
 
 //	p_Main->messageInt(port);
 	switch(inType_[port])
@@ -497,95 +591,116 @@ Byte Pecom::in(Byte port, Word address)
 		break;
 
 		case PECOMKEY:
-//			ret = keyValue_[address - 0x7cca] & 0x3;
-			ret = keyValue_[(address&0x3f) - 0xa] & 0x3;
+            if (!videoRAM_)
+            {
+//  			ret = keyValue_[address - 0x7cca] & 0x3;
+                ret = keyValue_[(address&0x3f) - 0xa] & 0x3;
 
-/*			if (inputKeyValue[keyboardCode_] == ((address & 0x3f) - 0xa))
-			{
-				if (!wxGetKeyState((wxKeyCode)keyboardCode_))
-				{
-					keyValue_[(address & 0x3f) - 0xa] = keyValue_[(address & 0x3f) - 0xa] & 0xfc;
-					keyboardCode_ = 0;
-				}
-			}*/
+/*			    if (inputKeyValue[(unsigned char)keyboardCode_] == ((address & 0x3f) - 0xa))
+                {
+                    if (!wxGetKeyState((wxKeyCode)keyboardCode_))
+                    {
+                        keyValue_[(address & 0x3f) - 0xa] = keyValue_[(address & 0x3f) - 0xa] & 0xfc;
+                        keyboardCode_ = 0;
+                    }
+                }*/
 
-			if (pecomRunCommand_ != 0)
-			{
-				cycleValue_--;
-				if (cycleValue_ <= 0)
-				{
-					cycleValue_ = 52;
-					if (keyDown_)
-					{
-						keyUpFile();
-						if (pecomRunCommand_ >= 255)
-							pecomRunCommand_ = 0;
-					}
-					else
-					{
-						if (pecomRunCommand_ == 1)
-						{
-							int saveExec = p_Main->pload();
-							if (saveExec == 1)
-								pecomRunCommand_ = 0;
-							else
-							{
-								if (saveExec == 0)
-									commandText_ = "RUN";
-								else
-								{
-									wxString buffer;
-									buffer.Printf("%d", saveExec);
-									commandText_ = "CALL(" + buffer + ")";
-								}
-								pecomRunCommand_++;
-							}
-						}
-						else
-						{
-							if (load_)
-								pecomRunCommand_ = 0;
-							else
-							{
-								if ((pecomRunCommand_-1) <= commandText_.Len())
-								{
-									keyboardCode_ = commandText_.GetChar(pecomRunCommand_-2);
-									keyDownFile();
-									pecomRunCommand_++;
-								}
-								else
-								{
-									keyboardCode_ = 13;
-									keyDownFile();
-									pecomRunCommand_ = 255;
-								}
-							}
-						}
-					}
-				}
-			}
+                if (pecomRunCommand_ != 0)
+                {
+                    cycleValue_--;
+                    if (cycleValue_ <= 0)
+                    {
+                        cycleValue_ = 52;
+                        if (keyDown_)
+                        {
+                            keyUpFile();
+                            if (pecomRunCommand_ >= 255)
+                                pecomRunCommand_ = 0;
+                        }
+                        else
+                        {
+                            if (pecomRunCommand_ == 1)
+                            {
+                                int saveExec = p_Main->pload();
+                                if (saveExec == 1)
+                                    pecomRunCommand_ = 0;
+                                else
+                                {
+                                    if (saveExec == 0)
+                                        commandText_ = "RUN";
+                                    else
+                                    {
+                                        wxString buffer;
+                                        buffer.Printf("%d", saveExec);
+                                        commandText_ = "CALL(" + buffer + ")";
+                                    }
+                                    pecomRunCommand_++;
+                                }
+                            }
+                            else
+                            {
+                                if (load_)
+                                    pecomRunCommand_ = 0;
+                                else
+                                {
+                                    if ((pecomRunCommand_-1) <= commandText_.Len())
+                                    {
+                                        keyboardCode_ = commandText_.GetChar(pecomRunCommand_-2);
+                                        keyDownFile();
+                                        pecomRunCommand_++;
+                                    }
+                                    else
+                                    {
+                                        keyboardCode_ = 13;
+                                        keyDownFile();
+                                        pecomRunCommand_ = 255;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                if (pecomKeyFileOpened_)
+                {
+                    cycleValue_--;
+                    if (cycleValue_ <= 0)
+                    {
+                        cycleValue_ = 52;
+                        if (keyDown_)
+                            keyUpFile();
+                        else
+                        {
+                            if (pecomKeyFile_.Read(&keyboardCode_, 1) == 0)
+                            {
+                                pecomKeyFileOpened_ = false;
+                                pecomKeyFile_.Close();
+                            }
+                            else
+                                keyDownFile();
+                        }
+                    }
+                }
+                
+                if (ctrlvTextCharNum_ != 0)
+                {
+                    cycleValue_--;
+                    if (cycleValue_ <= 0)
+                    {
+                        cycleValue_ = 52;
+                        if (keyDown_)
+                            keyUpFile();
+                        else
+                        {
+                            keyboardCode_ = getCtrlvChar();
+                        
+                             if (keyboardCode_ != 0)
+                                 keyDownFile();
+                        }
+                    }
+                }
 
-			if (pecomKeyFileOpened_)
-			{
-				cycleValue_--;
-				if (cycleValue_ <= 0)
-				{
-					cycleValue_ = 52;
-					if (keyDown_)
-						keyUpFile();
-					else
-					{
-						if (pecomKeyFile_.Read(&keyboardCode_, 1) == 0)
-						{
-							pecomKeyFileOpened_ = false;
-							pecomKeyFile_.Close();
-						}
-						else
-							keyDownFile();
-					}
-				}
-			}
-
+            }
 		break;
 
 		default:
@@ -606,7 +721,12 @@ void Pecom::out(Byte port, Word address, Byte value)
 
 		case PECOMBANK:
 			if (dmaCounter_ == -100)
-				dmaCounter_ = DMACYCLE ;
+            {
+                if (p_Main->isDramActive(PECOM))
+                    dmaCounter_ = DMACYCLE;
+                else
+                    dmaCounter_ = -50;
+            }
 			addressLatch_ = 0;
 			if (value == 2)
 			{
@@ -623,27 +743,40 @@ void Pecom::out(Byte port, Word address, Byte value)
 		break;
 
 		case V1870OUT3:
-			out3_1870(value);
+            if (videoRAM_)
+                out3_1870(value);
 		break;
 
 		case V1870OUT4:
-			outValues_[port] = address;
-			out4_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out4_1870(address);
+            }
 		break;
 
 		case V1870OUT5:
-			outValues_[port] = address;
-			out5_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out5_1870(address);
+            }
 		break;
 
 		case V1870OUT6:
-			outValues_[port] = address;
-			out6_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out6_1870(address);
+            }
 		break;
 
 		case V1870OUT7:
-			outValues_[port] = address;
-			out7_1870(address);
+            if (videoRAM_)
+            {
+                outValues_[port] = address;
+                out7_1870(address);
+            }
 		break;
 	}
 }

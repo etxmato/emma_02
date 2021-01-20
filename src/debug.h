@@ -67,6 +67,8 @@ public:
 #define PSEUDO_DETAILS_X 0
 #define PSEUDO_DETAILS_I 1
 #define PSEUDO_DETAILS_MI 2
+#define PSEUDO_DETAILS_R 3
+#define PSEUDO_DETAILS_MR 4
 
 class PseudoCodeDetails
 {
@@ -173,6 +175,9 @@ public:
 	void enableDebugGui(bool status);
 	void updateAssTabCheck(Word address);
     void cyclePseudoDebug();
+    bool checkSingleCommand(Byte command);
+    bool checkTrippleCommand(Byte command);
+    bool checkQuadrupleCommand(Byte command);
 	bool chip8BreakPointCheck();
 	void showInstructionTrace();
 	void cycleDebug();
@@ -191,7 +196,8 @@ public:
 
 	void onLog(wxCommandEvent&event);
 	void onClear(wxCommandEvent&event);
-	void onTrace(wxCommandEvent&event);
+    void onTrace(wxCommandEvent&event);
+    void onTrace(bool state);
 	void onTraceDma(wxCommandEvent&event);
 	void onTraceInt(wxCommandEvent&event);
 	void onChip8TraceInt(wxCommandEvent&event);
@@ -307,7 +313,9 @@ public:
 	void onAssMark(wxCommandEvent&event);
 	int markType(long *address, int type);
 	void onSaveDebugFile(wxCommandEvent&event);
-	bool getSaveDebugFile() {return saveDebugFile_;};
+    void onLaptimeTrigger(wxCommandEvent&event);
+    bool getSaveDebugFile() {return saveDebugFile_;};
+    int getLapTimeTrigger() {return lapTimeTrigger_;};
 	void onClearErrorLog(wxCommandEvent&event);
 	Byte getOut1();
 	void setOut1(Byte out1);
@@ -360,7 +368,8 @@ public:
 	void onAssCopy(wxCommandEvent&event);
 	void onAssDis(wxCommandEvent&event);
     void assDirOld(wxString fileName, long start, long end);
-	void assLog(Byte value);
+    void assLog(Byte value);
+    void addressLog(Word value);
 	void stopAssLog();
     void onAssTextChange(wxCommandEvent&event);
 	bool findWorkingRang();
@@ -427,6 +436,7 @@ public:
 	void onChip8StepButton(wxCommandEvent&event);
     void pseudoTrace(Word address);
 	wxString getPseudoDefinition(Word* pseudoBaseVar, Word* pseudoMainLoop, bool* chip8register12bit, bool* pseudoLoaded);
+    void forcePseudoDefinition(wxString pseudoType, wxString filename, wxString pseudoName);
     void definePseudoCommands();
     wxString pseudoDisassemble(Word address, bool includeDetails, bool showOpcode);
     wxString addDetails();
@@ -497,6 +507,7 @@ protected:
 
 	double percentageClock_;
 	bool saveDebugFile_;
+    int lapTimeTrigger_;
     wxString traceString_;
     wxString chipTraceString_;
 
@@ -523,9 +534,9 @@ private:
     wxString getLoadAddress(Word address);
     wxString getCurrentAddresssLabel(Word address);
     wxString getHexByte(Word address, bool textAssembler);
-    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2);
+    int assemblePseudo(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4);
 	AssInput getAssInput(wxString buffer);
-	int checkParameterPseudo(AssInput assInput, Word* pseudoCode);
+	int checkParameterPseudo(AssInput assInput, int32_t* pseudoCode);
 	Byte getCardtranAddress(long address);
 	int assemble(wxString *buffer, Byte* b1, Byte* b2, Byte* b3, Byte* b4, Byte* b5, Byte* b6, Byte* b7, bool allowX);
 	int getByte(AssInput assInput, Byte* b2, bool allowX);
@@ -604,6 +615,7 @@ private:
 
 	wxFile dirAssLogFile_;
 	bool dirAssLog_;
+    bool writingToLog_;
 	int lastLogValue_;
 
 	Word dirAssStart_;
@@ -636,10 +648,16 @@ private:
 
     size_t singleByteCommandNumber_;
     vector<Byte> singleByteCommand_;
-    
+
+    size_t trippleByteCommandNumber_;
+    vector<Byte> trippleByteCommand_;
+
+    size_t quadrupleByteCommandNumber_;
+    vector<Byte> quadrupleByteCommand_;
+
     size_t jumpCommandNumber_;
     vector<Byte> jumpCommand_;
-    vector<Byte> jumpMask_;
+    vector<Word> jumpMask_;
     vector<Word> jumpOffset_;
     
     size_t branchCommandNumber_;

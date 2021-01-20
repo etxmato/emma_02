@@ -31,6 +31,7 @@ public:
 	void out(Byte port, Word address, Byte value);
 	void cycle(int type);
 	void cycleTelmac();
+    int getCtrlvChar();
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);

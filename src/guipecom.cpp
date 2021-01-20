@@ -80,6 +80,8 @@ BEGIN_EVENT_TABLE(GuiPecom, GuiMain)
 	EVT_COMMAND(wxID_ANY, OPEN_PRINTER_WINDOW, GuiMain::openPrinterFrame) 
 	EVT_BUTTON(XRCID("ColoursPecom"), Main::onColoursDef)
 
+    EVT_CHECKBOX(XRCID("DramPecom"), GuiPecom::onPecomDram)
+
 END_EVENT_TABLE()
 
 GuiPecom::GuiPecom(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir)
@@ -141,6 +143,8 @@ void GuiPecom::readPecomConfig()
 	defaultClock.Printf("%1.3f", 2.813);
 	conf[PECOM].clock_ = configPointer->Read("/Pecom/Clock_Speed", defaultClock);
 
+    configPointer->Read("/Pecom/Dram", &conf[PECOM].dram_, true);
+
 	setRealCas(PECOM);
 
 	if (mode_.gui)
@@ -165,6 +169,7 @@ void GuiPecom::readPecomConfig()
 		XRCCTRL(*this, "PrintModePecom", wxChoice)->SetSelection((int)configPointer->Read("/Pecom/Print_Mode", 1l));
 		setPrintMode();
 		XRCCTRL(*this, "UseLocationPecom", wxCheckBox)->SetValue(false);
+        XRCCTRL(*this, "DramPecom", wxCheckBox)->SetValue(conf[PECOM].dram_);
 	}
 }
 
@@ -196,6 +201,7 @@ void GuiPecom::writePecomConfig()
 	configPointer->Write("/Pecom/Enable_Auto_Cassette", conf[PECOM].autoCassetteLoad_);
 	configPointer->Write("/Pecom/Enable_Real_Cassette", conf[PECOM].realCassetteLoad_);
 	configPointer->Write("/Pecom/Print_Mode", conf[PECOM].printMode_);
+    configPointer->Write("/Pecom/Dram", conf[PECOM].dram_);
 }
 
 void GuiPecom::readPecomWindowConfig()
@@ -210,4 +216,9 @@ void GuiPecom::writePecomWindowConfig()
         configPointer->Write("/Pecom/Window_Position_X", conf[PECOM].mainX_);
     if (conf[PECOM].mainY_ > 0)
         configPointer->Write("/Pecom/Window_Position_Y", conf[PECOM].mainY_);
+}
+
+void GuiPecom::onPecomDram(wxCommandEvent&event)
+{
+    conf[PECOM].dram_ = event.IsChecked();
 }

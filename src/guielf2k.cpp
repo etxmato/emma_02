@@ -136,8 +136,7 @@ void GuiElf2K::readElf2KConfig()
 	conf[ELF2K].volume_ = (int)configPointer->Read("/Elf2K/Volume", 25l);
 	conf[ELF2K].videoMode_ = (int)configPointer->Read("/Elf2K/Video_Type", 2l);
 
-	getConfigBool("/Elf2K/SerialLog", false);
-
+    configPointer->Read("/Elf2K/SerialLog", &elfConfiguration[ELF2K].serialLog, false);
 	configPointer->Read("/Elf2K/Enable_Interlace", &conf[ELF2K].interlace_, true);
 	configPointer->Read("/Elf2K/Enable_Vt_Stretch_Dot", &conf[ELF2K].stretchDot_, false);
     configPointer->Read("/Elf2K/Enable_Vt_External", &elfConfiguration[ELF2K].vtExternal, false);
@@ -295,6 +294,7 @@ void GuiElf2K::writeElf2KConfig()
 	configPointer->Write("/Elf2K/Zoom", conf[ELF2K].zoom_);
 	configPointer->Write("/Elf2K/Vt_Zoom", conf[ELF2K].zoomVt_);
     configPointer->Write("/Elf2K/Force_Uppercase", elfConfiguration[ELF2K].forceUpperCase);
+    configPointer->Write("/Elf2K/SerialLog", elfConfiguration[ELF2K].serialLog);
     configPointer->Write("/Elf2K/Uart", elfConfiguration[ELF2K].useUart);
     configPointer->Write("/Elf2K/Led_Update_Frequency", conf[ELF2K].ledTime_);
 	configPointer->Write("/Elf2K/Use_Real_Time_Clock", elfConfiguration[ELF2K].rtc);

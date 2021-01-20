@@ -100,6 +100,7 @@ BEGIN_EVENT_TABLE(GuiComx, GuiElf)
 	EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("VolumeComx"), GuiMain::onVolume)
 	EVT_COMMAND_SCROLL_CHANGED(XRCID("VolumeComx"), GuiMain::onVolume)
 	EVT_CHECKBOX(XRCID("InterlaceComx"), GuiMain::onInterlace)
+    EVT_CHECKBOX(XRCID("DramComx"), GuiComx::onComxDram)
 	EVT_CHECKBOX(XRCID("ExpRamComx"), GuiComx::onComxExpansionRam)
 	EVT_SPINCTRL(XRCID("ExpRamSlotComx"), GuiComx::onComxExpansionRamSlot)
 	EVT_CHECKBOX(XRCID("UseLocationComx"), GuiMain::onUseLocation)
@@ -181,7 +182,7 @@ void GuiComx::readComxConfig()
     conf[COMX].mainDir_ = readConfigDir("/Dir/Comx/Main", dataDir_ + "Comx" + pathSeparator_);
 
     conf[COMX].romDir_[MAINROM1] = readConfigDir("/Dir/Comx/Main_Rom_File", dataDir_ + "Comx" + pathSeparator_);
-    conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.1.bin");
+    conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.2.bin");
     conf[COMX].romDir_[EXPROM] = readConfigDir("/Dir/Comx/Expansion_Rom_File", dataDir_ + "Comx" + pathSeparator_);
     conf[COMX].rom_[EXPROM] = configPointer->Read("/Comx/Expansion_Rom_File", "f&m.expansion.3.2.bin");
     conf[COMX].romDir_[CARTROM4] = readConfigDir("/Dir/Comx/Card_4_Rom_File", dataDir_ + "Comx" + pathSeparator_);
@@ -235,7 +236,8 @@ void GuiComx::readComxConfig()
 	configPointer->Read("/Comx/Enable_Turbo_Cassette", &conf[COMX].turbo_, true);
 	configPointer->Read("/Comx/Enable_Auto_Cassette", &conf[COMX].autoCassetteLoad_, true);
 	configPointer->Read("/Comx/Enable_Real_Cassette", &conf[COMX].realCassetteLoad_, false);
-	configPointer->Read("/Comx/Enable_80_Column_Interlace", &conf[COMX].interlace_, true);
+    configPointer->Read("/Comx/Enable_80_Column_Interlace", &conf[COMX].interlace_, true);
+    configPointer->Read("/Comx/Dram", &conf[COMX].dram_, true);
 	configPointer->Read("/Comx/Disk_Rom_Loaded", &diskRomLoaded_, true);
 	conf[COMX].useLoadLocation_ = false;
 
@@ -289,7 +291,8 @@ void GuiComx::readComxConfig()
 		turboGui("Comx");
 		XRCCTRL(*this, "AutoCasLoadComx", wxCheckBox)->SetValue(conf[COMX].autoCassetteLoad_);
 
-		XRCCTRL(*this, "InterlaceComx", wxCheckBox)->SetValue(conf[COMX].interlace_);
+        XRCCTRL(*this, "InterlaceComx", wxCheckBox)->SetValue(conf[COMX].interlace_);
+        XRCCTRL(*this, "DramComx", wxCheckBox)->SetValue(conf[COMX].dram_);
 		XRCCTRL(*this, "SbActiveComx", wxCheckBox)->SetValue(conf[COMX].sbActive_);
 		XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->SetValue(conf[COMX].diagActive_);
 		XRCCTRL(*this, "DiagOnComx", wxChoice)->SetSelection(conf[COMX].diagOn_);
@@ -451,7 +454,7 @@ void GuiComx::writeSbConfig()
 
 void GuiComx::writeComxDirConfig()
 {
-        if (!conf[COMX].sbActive_)
+    if (!conf[COMX].sbActive_)
     {
         writeConfigDir("/Dir/Comx/Main_Rom_File", conf[COMX].romDir_[MAINROM1]);
         writeConfigDir("/Dir/Comx/Expansion_Rom_File", conf[COMX].romDir_[EXPROM]);
@@ -516,7 +519,8 @@ void GuiComx::writeComxConfig()
 	configPointer->Write("/Comx/Zoom", conf[COMX].zoom_);
 	configPointer->Write("/Comx/Enable_Auto_Cassette", conf[COMX].autoCassetteLoad_);
 	configPointer->Write("/Comx/Enable_Real_Cassette", conf[COMX].realCassetteLoad_);
-	configPointer->Write("/Comx/Enable_80_Column_Interlace", conf[COMX].interlace_);
+    configPointer->Write("/Comx/Enable_80_Column_Interlace", conf[COMX].interlace_);
+    configPointer->Write("/Comx/Dram", conf[COMX].dram_);
 	configPointer->Write("/Comx/Enable_SB", conf[COMX].sbActive_);
 	configPointer->Write("/Comx/Enable_DIAG", conf[COMX].diagActive_);
 	configPointer->Write("/Comx/Enable_DIAG_ON", conf[COMX].diagOn_);
@@ -907,24 +911,37 @@ void GuiComx::onComxPrintButton(wxCommandEvent&WXUNUSED(event))
 
 void GuiComx::onComxVideoMode(wxCommandEvent&event)
 {
-	conf[COMX].videoMode_ = event.GetSelection();
+    wxString turboClock;
+
+    conf[COMX].videoMode_ = event.GetSelection();
 	switch(conf[COMX].videoMode_)
 	{
 		case PAL:
+//            turboClock.Printf("%1.4f", 3.5795);
+//            if (comxNtscClock_ == turboClock)
+//                comxPalClock_.Printf("%1.4f", 4.4335);
+            
             if (clockTextCtrl[COMX] != NULL)
                 clockTextCtrl[COMX]->ChangeValue(comxPalClock_);
+            conf[COMX].clock_ = comxPalClock_;
 		break;
 
 		case NTSC:
+//            turboClock.Printf("%1.4f", 4.4335);
+//            if (comxPalClock_ == turboClock)
+//                comxNtscClock_.Printf("%1.4f", 3.5795);
+
             if (clockTextCtrl[COMX] != NULL)
                 clockTextCtrl[COMX]->ChangeValue(comxNtscClock_);
+            conf[COMX].clock_ = comxNtscClock_;
 		break;
 	}
-    if (conf[COMX].videoMode_ == PAL)
-        conf[COMX].clock_ = comxPalClock_;
-    else
-        conf[COMX].clock_ = comxNtscClock_;
     diagSbChange();
+}
+
+void GuiComx::onComxDram(wxCommandEvent&event)
+{
+    conf[COMX].dram_ = event.IsChecked();
 }
 
 void GuiComx::onComxExpansionRam(wxCommandEvent&event)
@@ -1361,7 +1378,7 @@ void GuiComx::diagSbChange()
 	}
 
 	conf[COMX].romDir_[MAINROM1] = readConfigDir("/Dir/Comx/Main_Rom_File", dataDir_ + "Comx" + pathSeparator_);
-	conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.1.bin");
+	conf[COMX].rom_[MAINROM1] = configPointer->Read("/Comx/Main_Rom_File", "comx35.1.2.bin");
 	conf[COMX].romDir_[EXPROM] = readConfigDir("/Dir/Comx/Expansion_Rom_File", dataDir_ + "Comx" + pathSeparator_);
 	conf[COMX].rom_[EXPROM] = configPointer->Read("/Comx/Expansion_Rom_File", "f&m.expansion.3.2.bin");
 	conf[COMX].romDir_[CARTROM1] = readConfigDir("/Dir/Comx/Card_1_Rom_File", dataDir_ + "Comx" + pathSeparator_);
@@ -1545,9 +1562,12 @@ wxString GuiComx::getAliasEmail(size_t number)
 
 void GuiComx::onLogComx(wxCommandEvent&event)
 {
-    conf[selectedComputer_].videoLog_ = event.IsChecked();
-    if (conf[selectedComputer_].videoLog_)
+    bool newLogValue = event.IsChecked();
+    if (newLogValue)
+    {
+        conf[selectedComputer_].videoLog_ = newLogValue;
         p_Main->AssInitLog();
+    }
     else
         p_Main->stopAssLog();
 }

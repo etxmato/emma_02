@@ -172,6 +172,7 @@ void GuiVip::readVipConfig()
 	defaultScale.Printf("%i", 3);
 	conf[VIP].xScale_ = configPointer->Read("/Vip/Window_Scale_Factor_X", defaultScale);
 
+    configPointer->Read("/Vip/SerialLog", &elfConfiguration[VIP].serialLog, false);
 	configPointer->Read("/Vip/Enable_Vt_Stretch_Dot", &conf[VIP].stretchDot_, false);
     configPointer->Read("/Vip/Enable_Vt_External", &elfConfiguration[VIP].vtExternal, false);
 	configPointer->Read("/Vip/Enable_Turbo_Cassette", &conf[VIP].turbo_, true);
@@ -286,6 +287,7 @@ void GuiVip::writeVipConfig()
 	configPointer->Write("/Vip/Vt_Wav_File", elfConfiguration[VIP].vtWavFile_);
     configPointer->Write("/Vip/VtSerialPortChoice", elfConfiguration[VIP].serialPort_);
 
+    configPointer->Write("/Vip/SerialLog", elfConfiguration[VIP].serialLog);
 	configPointer->Write("/Vip/VtEf", elfConfiguration[VIP].vtEf);
 	configPointer->Write("/Vip/VtQ", elfConfiguration[VIP].vtQ);
 	configPointer->Write("/Vip/Bell_Frequency", elfConfiguration[VIP].bellFrequency_);
@@ -364,13 +366,15 @@ void GuiVip::onSound(wxCommandEvent&event)
 void GuiVip::onRamSWVip(wxCommandEvent&event)
 {
 	onRamSW(event);
-	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex");
+    highRes_ = (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex") || (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "super-chip.bin");
+	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(highRes_);
 }
 
 void GuiVip::onRamSWTextVip(wxCommandEvent& WXUNUSED(event))
 {
 	conf[selectedComputer_].ram_ = XRCCTRL(*this, "RamSWVip", wxComboBox)->GetValue();
-	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex");
+    highRes_ = (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "chip10.hex") || (XRCCTRL(*this,"RamSWVip", wxComboBox)->GetValue() == "super-chip.bin");
+	XRCCTRL(*this,"HighResVip", wxCheckBox)->SetValue(highRes_);
 }
 
 void GuiVip::setSoundGui(int sound)

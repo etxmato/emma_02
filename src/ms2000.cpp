@@ -108,10 +108,10 @@ void Ms2000::configureComputer()
     {
         double zoom = p_Main->getZoomVt();
         if (ms2000Configuration.vtType == VT52)
-            vtPointer = new Vt100("MS2000 - VT 52", p_Main->getVtPos(MS2000), wxSize(640*zoom, 400*zoom), zoom, MS2000, ms2000ClockSpeed_, ms2000Configuration);
+            vtPointer = new Vt100("MS2000 - VT 52", p_Main->getVtPos(MS2000), wxSize(640*zoom, 400*zoom), zoom, MS2000, ms2000ClockSpeed_, ms2000Configuration, UART1);
         else
-            vtPointer = new Vt100("MS2000 - VT 100", p_Main->getVtPos(MS2000), wxSize(640*zoom, 400*zoom), zoom, MS2000, ms2000ClockSpeed_, ms2000Configuration);
-        p_Vt100 = vtPointer;
+            vtPointer = new Vt100("MS2000 - VT 100", p_Main->getVtPos(MS2000), wxSize(640*zoom, 400*zoom), zoom, MS2000, ms2000ClockSpeed_, ms2000Configuration, UART1);
+        p_Vt100[UART1] = vtPointer;
         vtPointer->configureMs2000(ms2000Configuration.baudR, ms2000Configuration.baudT);
     }
     
@@ -129,7 +129,7 @@ void Ms2000::configureComputer()
     p_Main->message("	Output 4: tape motor, output 5: cassette out");
     p_Main->message("	EF 2: cassette in\n");
 
-    configureUpd765(ms2000Configuration.fdcType_);
+    configureUpd765(ms2000Configuration.fdcType_, MS2000EF);
 	resetCpu();
 }
 
@@ -164,7 +164,7 @@ Byte Ms2000::ef(int flag)
         break;
                     
         case VT100EF:       // EF4
-            if (p_Vt100 != NULL)
+            if (p_Vt100[UART1] != NULL)
 	            return vtPointer->ef();
         break;
             
@@ -198,8 +198,8 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100 != NULL)
-						return p_Vt100->uartIn();
+					if (p_Vt100[UART1] != NULL)
+						return p_Vt100[UART1]->uartIn();
 					if (p_Serial != NULL)
 						return p_Serial->uartIn();
 //                    return vtPointer->uartIn();
@@ -214,8 +214,8 @@ Byte Ms2000::in(Byte port, Word WXUNUSED(address))
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100 != NULL)
-						return p_Vt100->uartStatus();
+					if (p_Vt100[UART1] != NULL)
+						return p_Vt100[UART1]->uartStatus();
 					if (p_Serial != NULL)
 						return p_Serial->uartStatus();
 //                    return vtPointer->uartStatus();
@@ -282,8 +282,8 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100 != NULL)
-						p_Vt100->uartOut(value);
+					if (p_Vt100[UART1] != NULL)
+						p_Vt100[UART1]->uartOut(value);
 					if (p_Serial != NULL)
 						p_Serial->uartOut(value);
 //                    vtPointer->uartOut(value);
@@ -295,8 +295,8 @@ void Ms2000::out(Byte port, Word WXUNUSED(address), Byte value)
             switch (ioGroup_)
             {
                 case IO_GRP_UART:
-					if (p_Vt100 != NULL)
-						p_Vt100->uartControl(value);
+					if (p_Vt100[UART1] != NULL)
+						p_Vt100[UART1]->uartControl(value);
 					if (p_Serial != NULL)
 						p_Serial->uartControl(value);
 //                    vtPointer->uartControl(value);
@@ -413,8 +413,8 @@ void Ms2000::startComputer()
     p_Main->checkAndReInstallMainRom(MS2000);
 	readProgram(p_Main->getRomDir(MS2000, MAINROM1), p_Main->getRomFile(MS2000, MAINROM1), ROM, 0x8000, NONAME);
     
-    if (p_Vt100 != NULL)
-	    p_Vt100->Show(true);
+    if (p_Vt100[UART1] != NULL)
+	    p_Vt100[UART1]->Show(true);
 
     if (ms2000Configuration.bootRam)
         bootstrap_ = 0;
@@ -539,7 +539,8 @@ Byte Ms2000::readMemDebug(Word address)
 void Ms2000::writeMem(Word address, Byte value, bool writeRom)
 {
 	address = address | bootstrap_;
-
+ //   wxString textMessage;
+    
 	switch (memoryType_[address/256])
 	{
 		case UNDEFINED:
@@ -555,6 +556,15 @@ void Ms2000::writeMem(Word address, Byte value, bool writeRom)
 			if (address >= (memoryStart_ | bootstrap_) && address<((memoryStart_ | bootstrap_ ) +256))
 				p_Main->updateDebugMemory(address);
 			p_Main->updateAssTabCheck(address);
+            
+//            if (microDosRunning_)
+//            {
+//                if (address >= 0x9000 && address <= 0xBFFF)
+//                {
+//                    textMessage.Printf("%04X write to %04X", scratchpadRegister_[programCounter_], address);
+//                    p_Main->eventShowTextMessage(textMessage);
+//                }
+//           }
 		break;
 	}
 }
@@ -658,7 +668,7 @@ void Ms2000::checkComputerFunction()
                 loadStarted_ = false;
             }
             
-		    if (p_Vt100 != NULL)
+		    if (p_Vt100[UART1] != NULL)
 			{
 				if (microDosRunning_)
 					vtPointer->setTabChar(0x7f);
@@ -666,7 +676,7 @@ void Ms2000::checkComputerFunction()
 					vtPointer->setTabChar(8);
 			}
 
-            microDosRunning_ = false;
+    //        microDosRunning_ = false;
         break;
     }
 }

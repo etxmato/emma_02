@@ -149,6 +149,10 @@ void Uc1800Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
 	for (int i=0; i<2; i++)
 	{
 		dataTil313PointerItalic[i]->onPaint(dc);
@@ -941,4 +945,9 @@ void Uc1800::activateMainWindow()
 void Uc1800::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
 {
     uc1800ScreenPointer->releaseButtonOnScreen(buttonPointer);
+}
+
+void Uc1800::refreshPanel()
+{
+    uc1800ScreenPointer->refreshPanel();
 }

@@ -1,0 +1,43 @@
+Please note due to a bug in Octo the game only works in the Octo emulator 
+(it's not our emulator because we tested it on a different emulator with 
+the same issue)
+
+
+
+Mastermind is a puzzle game. computer will randomly generate 3 repeatable 
+numbers from 1 to 6, show as question marks  in the top of screen. Player 
+needs to guess what is correct number and correct order. Player has most 
+5 chances to guess the answer, and input guess by use numbers in chip8 
+keyboard. After input there will be hint in the right of the screen. 
+If it is a cycle, it means player put right answer in right box. if it 
+is triangle,  it means right number put in wrong box. If it is X, it 
+means this number does not in right answer. After 5 tries or player input 
+right answer, questionmarks will show the answer in the top of screen. 
+
+If player wants to play this game again, press 9 on chip8 keyboard.
+
+
+======================================================================================
+
+
+CMPT 276 Spring 2019 Group 8 CHIP8 Project
+
+Group Members: Yiming Cai, Richard Fu, Gurnoor Grewal, Peter Luong, Anuvrat Sharma
+
+This project document describes the conditions and planning of the product produced 
+by the CMPT 276 Surrey Spring 2019 Group 8 Team.
+
+Two complete CHIP8 games:
+
+* An action shooter game called "Shooter" similar to "Space Invaders" with rules to 
+  play in readme file.
+
+* A puzzle game called "RulerBrain" similar to "Mastermind" created with Octo with 
+  rules to play in readme file.
+
+
+
+======================================================================================
+
+https://github.com/dpluong/chip-8
+

@@ -146,6 +146,10 @@ void PioScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 
     dc.SetTextForeground(colour.Find("GREY"));
     
+#if defined (__WXMAC__)
+    rePaintLeds(dc);
+#endif
+    
     for (int i=0; i<20; i++)
     {
         ledPointer[i]->onPaint(dc);
@@ -1008,5 +1012,7 @@ void PioFrame::onBrdyButton(wxCommandEvent&WXUNUSED(event))
 	pioScreenPointer->onBrdyButton();
 };
 
-
-
+void PioFrame::refreshPanel()
+{
+    pioScreenPointer->refreshPanel();
+}

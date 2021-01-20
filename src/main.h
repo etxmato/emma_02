@@ -79,8 +79,8 @@ public:
 
     // accessors
     bool GetBoolValue()            { return boolValue_;}
+    bool GetBoolValue1()            { return boolValue1_;}
     double GetDoubleValue()        { return doubleValue_;}
-    wxDC* GetDc()        { return dcValue_;}
     wxCoord GetCoord1()        { return wxCoord1_;}
     wxCoord GetCoord2()        { return wxCoord2_;}
     wxCoord GetCoord3()        { return wxCoord3_;}
@@ -95,10 +95,11 @@ public:
     wxString GetStringValue2()	{ return stringValue2_;}
     wxString GetStringValue3()	{ return stringValue3_;}
     wxString GetStringValue4()	{ return stringValue4_;}
-    wxString GetStringValue5()	{ return stringValue5_;}
+    wxString GetStringValue5()    { return stringValue5_;}
+    wxSize GetSizeValue()    { return sizeValue_;}
     void SetBoolValue(bool boolValue)    { boolValue_ = boolValue;}
+    void SetBoolValue1(bool boolValue)    { boolValue1_ = boolValue;}
     void SetDoubleValue(double doubleValue)    { doubleValue_ = doubleValue;}
-    void SetDc(wxDC *dcValue)    { dcValue_ = dcValue;}
     void SetCoord1(wxCoord coordValue)    { wxCoord1_ = coordValue;}
     void SetCoord2(wxCoord coordValue)    { wxCoord2_ = coordValue;}
     void SetCoord3(wxCoord coordValue)    { wxCoord3_ = coordValue;}
@@ -113,14 +114,15 @@ public:
     void SetStringValue2(wxString stringValue2)	{ stringValue2_ = stringValue2;}
     void SetStringValue3(wxString stringValue3)	{ stringValue3_ = stringValue3;}
     void SetStringValue4(wxString stringValue4)	{ stringValue4_ = stringValue4;}
-    void SetStringValue5(wxString stringValue5)	{ stringValue5_ = stringValue5;}
+    void SetStringValue5(wxString stringValue5)    { stringValue5_ = stringValue5;}
+    void SetSizeValue(wxSize sizeValue)    { sizeValue_ = sizeValue;}
 
     // required for sending with wxPostEvent()
 	wxEvent *Clone(void) const { return new guiEvent(*this); }
 
 private:
-    wxDC *dcValue_;
     bool boolValue_;
+    bool boolValue1_;
     double doubleValue_;
     wxCoord wxCoord1_;
     wxCoord wxCoord2_;
@@ -137,6 +139,7 @@ private:
     wxString stringValue3_;
     wxString stringValue4_;
     wxString stringValue5_;
+    wxSize sizeValue_;
 };
 
 wxDEFINE_EVENT(GUI_MSG, guiEvent);
@@ -245,13 +248,18 @@ protected:
 #define SET_STATIC_TEXT_VALUE 32
 #define ZOOM_CHANGE 33
 #define ZOOMVT_CHANGE 34
-#define DO_BLIT 35
+#define GET_CLIENT_SIZE 35
+#define SET_CLIENT_SIZE 36
+#define REFRESH_VIDEO 37
+#define REFRESH_PANEL 38
+#define EVENT_ZOOM 39
 
 #define OS_WINDOWS_2000 0
 #define OS_WINDOWS_XP 1
 #define OS_WINDOWS 2
 #define OS_LINUX 10
 #define OS_MAC 20
+#define OS_MAC_PRE_10_9 21
 
 #define OS_MAJOR_XP_2000 5
 #define OS_MAJOR_VISTA_8_1 6
@@ -268,6 +276,9 @@ protected:
 #define FRED_HEX_MODE 0
 #define FRED_BYTE_MODE 1
 #define FRED_HEX_PULSE_MODE 2
+
+#define MICROKEY_VIP601 0
+#define MICROKEY_COMX 1
 
 class WindowInfo
 {
@@ -483,7 +494,7 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.36
+#define EMMA_VERSION 1.38
 #define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
@@ -621,7 +632,8 @@ public:
 #define MICROBOARD_CDP18S608 9
 #define MICROBOARD_CDP18S609 10
 #define MICROBOARD_CDP18S610 11
-#define MICROBOARD_LAST 11
+#define RCASBC 12
+#define MICROBOARD_LAST 12
 
 #define VIDEONONE 0
 #define VIDEO1870 0
@@ -703,7 +715,9 @@ public:
 #define TESTCARTRIDGEROM 30
 #define REGSTORAGE 31
 #define CPURAM 32
-#define NOCHANGE 33
+#define UART1_82C51 33
+#define UART2_82C51 34
+#define NOCHANGE 35
 
 #define MICRO_ROM 0
 #define MICRO_RAM 1
@@ -734,6 +748,7 @@ public:
 #define FPBBASIC 13
 #define FPBBOOT 14
 #define FPBBASIC_AT_8000 15
+#define VIPTINY 17
 
 #define TINYBASIC 2
 #define MINIMON 4
@@ -742,7 +757,8 @@ public:
 #define MONITOR_CHUCK_HIGH 10
 #define UT4 12
 #define UT62 14
-#define UT71 16
+#define UT63 16
+#define UT71 18
 
 #define BASICADDR_KEY 0
 #define BASICADDR_READY 1
@@ -813,6 +829,12 @@ public:
 #define BASICADDR_ROUTINE1_RCA4 0x529f
 #define BASICADDR_ROUTINE2_RCA4 0x52a3
 
+#define BASICADDR_READY_MCDS 0xb053
+#define BASICADDR_RUN_MCDS 0xc076
+#define BASICADDR_CALL_MCDS 0xc79f
+#define BASICADDR_ROUTINE1_MCDS 0x9f
+#define BASICADDR_ROUTINE2_MCDS 0xa3
+
 #define BASICADDR_VT_RESTART_RCA 0xfc19
 #define BASICADDR_VT_INPUT_RCA 0xfc98
 
@@ -830,6 +852,9 @@ public:
 #define VT52 1
 #define VT100 2
 #define EXTERNAL_TERMINAL 3
+
+#define UART1 0
+#define UART2 1
 
 	// 1 Scroll - repeat - screen reverse - cursor block line
 	// 2 bell - keyklick - ansi/vt52 - xon/xoff
@@ -873,6 +898,7 @@ public:
 #define RESETSTATECW 3
 #define BASICSTATE 1
 #define RUNSTATE 2
+#define COMMAND_C 3
 
 #define LEFTCHANNEL false
 #define RIGHTCHANNEL true
@@ -987,10 +1013,19 @@ public:
 #define TIL311 0
 #define TIL313 1
 
+#define LAPTIME_OFF 0
+#define LAPTIME_Q 1
+#define LAPTIME_OUT 2
+
+#define CALL_CHANGE_SCREEN_SIZE true
+#define DON_T_CALL_CHANGE_SCREEN_SIZE false
+
 #if defined(__WXMAC__)
 #define IMAGES_FOLDER "images_osx"
+#define CTRL_V wxMOD_CMD
 #else
 #define IMAGES_FOLDER "images"
+#define CTRL_V wxMOD_CONTROL
 #endif
 
 class Emu1802: public wxApp
@@ -1024,7 +1059,6 @@ public:
 	Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~Main();
     
-    WindowInfo getWinSizeInfo(wxString appDir);
     wxSize getPosition(wxString control, wxSize size);
     wxSize getDefaultGuiSize();
     void windowSizeChanged(wxSizeEvent& event);
@@ -1130,7 +1164,8 @@ public:
 	void message(wxString buffer);
 	void messageNoReturn(wxString buffer);
 	void messageInt(int value);
-	void messageHex(int value);
+    void messageHex(int value);
+    void eventMessageHex(int value);
 	void initConfig();
 	void readConfig();
 	void writeConfig();
@@ -1144,8 +1179,11 @@ public:
 	void setPsaveData(int item, int data);
 	int getFunctionKey(int item);
 	void setFunctionKey(int item, int value);
-	bool getUseExitKey() {return useExitKey_;};
-	void setUseExitKey(bool status) {useExitKey_ = status;};
+    bool getUseExitKey() {return useExitKey_;};
+    bool getUseCtrlvKey() {return useCtrlvKey_;};
+    int getCtrlvKey() {return functionKey_[13];};
+    void setUseExitKey(bool status) {useExitKey_ = status;};
+    void setUseCtrlvKey(bool status) {useCtrlvKey_ = status;};
     void traceTimeout(wxTimerEvent& event);
     void vuTimeout(wxTimerEvent& event);
 	void updateMemoryTab();
@@ -1156,6 +1194,7 @@ public:
 	void updateCheckTimeout(wxTimerEvent& event);
 	void startTime();
 	void showTime();
+    void lapTime();
 	void zoomEvent(double zoom);
 	void zoomEventVt(double zoom);
     void vuSet(wxString Item, int value);
@@ -1199,11 +1238,11 @@ public:
     bool isZoomEventOngoing();
     
     void setZoomVtChange(guiEvent& event);
-    void eventZoomVtChange(double zoom);
+    void eventZoomVtChange(double zoom, int uartNumber);
     void zoomVtEventFinished();
 
-    void setBlit(guiEvent& event);
-    void eventBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
+    void SetZoomEvent(guiEvent& event);
+    void eventZoom(double zoom, bool isVt);
 
     void printDefaultEvent(guiEvent& event);
 	void eventPrintDefault(Byte value);
@@ -1227,9 +1266,22 @@ public:
     void printPecomEvent(guiEvent& event);
     void eventPrintPecom(Byte value);
 
+    void refreshVideoEvent(guiEvent& event);
+    void eventRefreshVideo(bool isVt, int uartNumber);
+
+    void refreshPanelEvent(guiEvent& event);
+    void eventRefreshPanel();
+
 	void ShowMessageBoxEvent(guiEvent& event);
 	int eventShowMessageBox(wxString message, wxString caption, int style);
 	void setMessageBoxAnswer(int answer);
+
+    void GetClientSizeEvent(guiEvent& event);
+    wxSize eventGetClientSize(bool isVt, int uartNumber);
+
+    void SetClientSizeEvent(guiEvent& event);
+    void eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber);
+    void eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uartNumber);
 
 	void ShowAddressPopupEvent(guiEvent& event);
 	int eventShowAddressPopup(Word specifiedStartAddress);
@@ -1254,7 +1306,7 @@ public:
 	void eventVideoSetFullScreen(bool state);
 
 	void setVtFullScreenEvent(guiEvent& event);
-	void eventVtSetFullScreen(bool state);
+	void eventVtSetFullScreen(bool state, int uartNumber);
  
 	void setChangeNoteBookEvent(guiEvent& event);
 	void eventChangeNoteBook();
@@ -1303,6 +1355,9 @@ private:
 	bool thermalEf_;
 	bool statusLedUpdate_;
 
+    bool panelRefreshOngoing_;
+    bool videoRefreshOngoing_;
+
 	bool emuClosing_;
 	bool emmaClosing_;
 	int bass_;
@@ -1314,6 +1369,8 @@ private:
 
 	wxString message_;
     time_t startTime_;
+    time_t lapTime_;
+    time_t lapTimeStart_;
     long lastNumberOfCpuCycles_;
 
 	int eventNumber_;
@@ -1325,7 +1382,7 @@ private:
 	bool rowChanged_[16];
 	bool memoryChanged_[16][16];
 
-	int functionKey_[13];
+	int functionKey_[14];
     CompletedSplashScreen *completedSplashScreen_;
     
 	DECLARE_EVENT_TABLE()
@@ -1343,7 +1400,7 @@ private:
 
 EXT Main *p_Main;
 EXT Video *p_Video;
-EXT Video *p_Vt100;
+EXT Video *p_Vt100[2];
 EXT Serial *p_Serial;
 EXT Cdp1802 *p_Computer;
 

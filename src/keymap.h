@@ -24,6 +24,7 @@ private:
     void onSwitchPad( wxCommandEvent &event );
     void onSwitchPlayer( wxCommandEvent &event );
     void onHexLocation( wxCommandEvent &event );
+    void onTinyBASIC( wxCommandEvent &event );
     void onHexChar( wxCommandEvent &event );
     void onSwitchStudio( wxCommandEvent &event );
     void onSwitchSet( wxCommandEvent &event );

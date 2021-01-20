@@ -212,6 +212,10 @@ void SuperScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 	wxPaintDC dc(this);
 	dc.DrawBitmap(*mainBitmapPointer, 0, 0);
 
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+        
     if (tilType_ == TIL311)
     {
         addressPointer[3]->onPaint(dc);
@@ -1329,8 +1333,8 @@ void Super::startComputer()
     goCycleSize_ = (((elfClockSpeed_ * 1000000) / 8) / 1000) * 500;
     goCycleValue_ = -1;
 
-    if (p_Vt100 != NULL)
-        p_Vt100->splashScreen();
+    if (p_Vt100[UART1] != NULL)
+        p_Vt100[UART1]->splashScreen();
     else
         p_Video->splashScreen();
     
@@ -1793,10 +1797,10 @@ void Super::configureElfExtensions()
 	{
 		double zoom = p_Main->getZoomVt();
         if (elfConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Super Elf - VT 52", p_Main->getVtPos(SUPERELF), wxSize(640*zoom, 400*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration);
+            vtPointer = new Vt100("Super Elf - VT 52", p_Main->getVtPos(SUPERELF), wxSize(640*zoom, 400*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration, UART1);
         else
-            vtPointer = new Vt100("Super Elf - VT 100", p_Main->getVtPos(SUPERELF), wxSize(640*zoom, 400*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Super Elf - VT 100", p_Main->getVtPos(SUPERELF), wxSize(640*zoom, 400*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
 		vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
 		vtPointer->Show(true);
 		vtPointer->drawScreen();
@@ -2053,4 +2057,9 @@ void Super::activateMainWindow()
 void Super::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonType))
 {
 	superScreenPointer->releaseButtonOnScreen(buttonPointer);
+}
+
+void Super::refreshPanel()
+{
+    superScreenPointer->refreshPanel();
 }

@@ -17,7 +17,7 @@
                 <border>5</border>
                 <object class="wxFlexGridSizer">
                     <cols>4</cols>
-                    <rows>5</rows>
+                    <rows>6</rows>
                     <vgap>3</vgap>
                     <hgap>0</hgap>
                     <object class="sizeritem">
@@ -235,6 +235,29 @@
                         <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
                         <border>0</border>
                         <object class="wxButton" name="FunctionKeyC">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <style>wxWANTS_CHARS</style>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                        <border>5</border>
+                        <object class="wxCheckBox" name="EnableCtrlv">
+                            <font>
+                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                <size>-1</size>
+                            </font>
+                            <label>Paste</label>
+                            <checked>0</checked>
+                        </object>
+                    </object>
+                    <object class="sizeritem">
+                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                        <border>0</border>
+                        <object class="wxButton" name="FunctionKeyD">
                             <font>
                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                 <size>-1</size>

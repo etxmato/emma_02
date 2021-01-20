@@ -128,6 +128,7 @@ void Cdp18s020Screen::onPaint(wxPaintEvent&WXUNUSED(event))
 #endif
 
     dc.DrawBitmap(*mainBitmapPointer, 245, 13);
+
     wxString number;
     dc.SetTextForeground(*wxBLACK);
     dc.SetFont(defaultFont);
@@ -161,6 +162,10 @@ void Cdp18s020Screen::onPaint(wxPaintEvent&WXUNUSED(event))
         dc.DrawText(number, 14+17*(7-i), 92);
     }
     
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
     for (int i=0; i<24; i++)
         ledPointer[i]->onPaint(dc);
     for (int i=0; i<4; i++)
@@ -286,10 +291,10 @@ void Cdp18s020::configureComputer()
 	{
 		double zoom = p_Main->getZoomVt();
         if (cdp18s020Configuration.vtType == VT52)
-            vtPointer = new Vt100("CDP18S020 - VT 152", p_Main->getVtPos(CDP18S020), wxSize(640*zoom, 400*zoom), zoom, CDP18S020, cdp18s020ClockSpeed_, cdp18s020Configuration);
+            vtPointer = new Vt100("CDP18S020 - VT 152", p_Main->getVtPos(CDP18S020), wxSize(640*zoom, 400*zoom), zoom, CDP18S020, cdp18s020ClockSpeed_, cdp18s020Configuration, UART1);
         else
-            vtPointer = new Vt100("CDP18S020 - VT 100", p_Main->getVtPos(CDP18S020), wxSize(640*zoom, 400*zoom), zoom, CDP18S020, cdp18s020ClockSpeed_, cdp18s020Configuration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("CDP18S020 - VT 100", p_Main->getVtPos(CDP18S020), wxSize(640*zoom, 400*zoom), zoom, CDP18S020, cdp18s020ClockSpeed_, cdp18s020Configuration, UART1);
+		p_Vt100[UART1] = vtPointer;
         vtPointer->configureStandard(cdp18s020Configuration.baudR, cdp18s020Configuration.baudT, 4);
 		vtPointer->Show(true);
 	}
@@ -798,4 +803,8 @@ void Cdp18s020::setForceUpperCase(bool status)
         vtPointer->setForceUCVt(status);
 }
 
+void Cdp18s020::refreshPanel()
+{
+    cdp18s020ScreenPointer->refreshPanel();
+}
 

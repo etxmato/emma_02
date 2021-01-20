@@ -437,8 +437,6 @@ void mc6847::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    CharacterList6847 *temp;
-
 	if (reColour_)
 	{
 		for (int i=0; i<numberOfColours_; i++)
@@ -465,10 +463,20 @@ void mc6847::copyScreen()
 	if (reDraw_)
 		drawScreen();
 
-	if (extraBackGround_ && newBackGround_) 
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_)
+    {
+        p_Main->eventRefreshVideo(false, 0);
+        reBlit_ = false;
+        reDraw_ = false;
+    }
+#else
+	if (extraBackGround_ && newBackGround_)
 		drawExtraBackground(colour_[backGround_]);
 
-	if (reBlit_ || reDraw_)
+    CharacterList6847 *temp;
+
+    if (reBlit_ || reDraw_)
 	{
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
 		reBlit_ = false;
@@ -495,6 +503,7 @@ void mc6847::copyScreen()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void mc6847::setClock(double clock)

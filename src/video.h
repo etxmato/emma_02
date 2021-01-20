@@ -8,7 +8,7 @@ class VideoScreen : public wxWindow
 public:
 	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType);
 	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, double xZoomFactor);
-	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100);
+	VideoScreen(wxWindow *parent, const wxSize& size, double zoom, int computerType, bool vt100, int uartNumber);
 	~VideoScreen() {};
 
 	void onPaint(wxPaintEvent&event);
@@ -20,7 +20,7 @@ public:
 	bool isVt() {return vt100_;};
 
 	void blit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
-    void blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
+    void refreshVideo();
 	void drawLine(wxCoord x, wxCoord y, wxCoord width, wxCoord height, wxPen penCclr);
 	void drawExtraBackground(wxColour clr, int width, int height, wxCoord offsetX, wxCoord offsetY);
 	void drawRectangle(wxColour clr, int x, int y, wxCoord width, wxCoord height);
@@ -39,13 +39,14 @@ private:
 	int height_;
 
 	bool vt100_;
+    int uartNumber_;
 	char keyBuffer_[26];
 	int  keyStart_;
 	int  keyEnd_;
 	int lastKey_;
 	bool repeat_;
 	bool forceUpperCase_;
-
+    
 	DECLARE_EVENT_TABLE()
 };
 
@@ -89,7 +90,7 @@ public:
 	void reColour() {reColour_ = true;};
 
 	virtual void setScreenSize();
-	virtual void changeScreenSize();
+    virtual void changeScreenSize();
 	virtual void onF3();
 	virtual void onF5();
 	double getZoom() {return zoom_;};
@@ -119,7 +120,11 @@ public:
     void setInterruptEnable(bool status) {interruptEnabled_ = status;};
     Byte getPcbMask()  {return pcbMask_;};
     int getMaxLinesPerChar()  {return maxLinesPerCharacters_;};
-    void blitDirect(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc);
+
+    void refreshVideo();
+    void setClientSize(wxSize size);
+
+    virtual void reBlit(wxDC &dc);
 
 protected:
     Byte pageMemory_[4096];
@@ -165,7 +170,8 @@ protected:
 	wxBitmap *screenFilePointer;
 	bool changeScreenSize_;
 	double zoomChanged_;
-
+    bool memoryDCvalid_;
+    
 	double zoom_;
 	bool zoomFraction_;
 	double xZoomFactor_;
@@ -184,6 +190,8 @@ protected:
     bool interruptEnabled_;
     int maxLinesPerCharacters_;
     bool v1870Configured_;
+
+    int uartNumber_;
 
 private:
     SplashScreen *splashScreen_;

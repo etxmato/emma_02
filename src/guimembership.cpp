@@ -101,7 +101,7 @@ void GuiMembership::readMembershipConfig()
 	bool romMode;
 	selectedComputer_ = MEMBER;
 
-	getConfigBool("/Membership/SerialLog", false);
+    configPointer->Read("/Membership/SerialLog", &elfConfiguration[MEMBER].serialLog, false);
 	configPointer->Read("/Membership/VtEf", &elfConfiguration[MEMBER].vtEf, true);
 	configPointer->Read("/Membership/VtQ", &elfConfiguration[MEMBER].vtQ, true);
 	elfConfiguration[MEMBER].bellFrequency_ = (int)configPointer->Read("/Membership/Bell_Frequency", 800);
@@ -247,6 +247,7 @@ void GuiMembership::writeMembershipConfig()
     configPointer->Write("/Membership/Vt_Wav_File", elfConfiguration[MEMBER].vtWavFile_);
     configPointer->Write("/Membership/VtSerialPortChoice", elfConfiguration[MEMBER].serialPort_);
 
+    configPointer->Write("/Membership/SerialLog", elfConfiguration[MEMBER].serialLog);
 	configPointer->Write("/Membership/Load_Mode_Rom", (loadromMode_ == ROM));
 	configPointer->Write("/Membership/VtEf", elfConfiguration[MEMBER].vtEf);
 	configPointer->Write("/Membership/VtQ", elfConfiguration[MEMBER].vtQ);

@@ -1,0 +1,3 @@
+Player 1: Press "B" to move up and "A" to move down.
+Player 2: Press "2" to move up and "8" to move down.
+Press "F" to start moving the ball.

@@ -111,6 +111,7 @@ public:
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void onNumberKeyDown(int i);
     void onNumberKeyUp();
+    void refreshPanel();
 
 private:
 	class ElfScreen *elfScreenPointer;

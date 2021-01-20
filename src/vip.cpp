@@ -122,10 +122,10 @@ void Vip::configureComputer()
 	{
 		double zoom = p_Main->getZoomVt();
         if (vipConfiguration.vtType == VT52)
-            vtPointer = new Vt100("Cosmac Vip - VT 52", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
+            vtPointer = new Vt100("Cosmac Vip - VT 52", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration, UART1);
         else
-            vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration);
-		p_Vt100 = vtPointer;
+            vtPointer = new Vt100("Cosmac Vip - VT 100", p_Main->getVtPos(VIP), wxSize(640*zoom, 400*zoom), zoom, VIP, clock_, vipConfiguration, UART1);
+		p_Vt100[UART1] = vtPointer;
         
         vtPointer->configureStandard(vipConfiguration.baudR, vipConfiguration.baudT, 4);
 		vtPointer->Show(true);
@@ -272,6 +272,7 @@ void Vip::initComputer()
 	colourMask_ = 0xff;
 	stateQ_ = 0;
 	printLatch_ = 0;
+    tapeFinished_ = 0;
 
 	vipRunCommand_ = 0;
 	vipRunState_ = RESETSTATE;
@@ -326,6 +327,14 @@ Byte Vip::ef(int flag)
 		break;
 
 		case VIPEF2:
+            if (tapeFinished_ > 0)
+            {
+                if ((tapeFinished_ & 0xff) == 0)
+                    cassetteEf_ = !cassetteEf_;
+                tapeFinished_--;
+                if (tapeFinished_ == 0)
+                    cassetteEf_ = 0;
+            }
 			return cassetteEf_;
 		break;
 
@@ -451,6 +460,11 @@ void Vip::out(Byte port, Word WXUNUSED(address), Byte value)
 	}
 }
 
+void Vip::finishStopTape()
+{
+    tapeFinished_ = 10000;
+}
+
 void Vip::outVip(Byte value)
 {
 	vipKeyPort_ = value&0xf;
@@ -567,8 +581,18 @@ void Vip::cycleKey()
 					}
 				}
 			}
-		}
+        }
 	}
+    if ((ctrlvTextCharNum_ != 0) && (keyboardEf_ == 1))
+    {
+        if ((scratchpadRegister_[programCounter_] == 0x08C6 && loadedProgram_ == FPBBASIC) || (scratchpadRegister_[programCounter_] == 0x5C9 && loadedProgram_ == VIPTINY))
+        {
+            keyboardValue_ = getCtrlvChar();
+
+            if (keyboardValue_ != 0)
+                keyboardEf_ = 0;
+        }
+    }
 }
 
 void Vip::cycleVP550()
@@ -616,7 +640,7 @@ void Vip::startComputer()
     }
     romMask_ |= 0x8000;
 
-	defineMemoryType(0x0, ramMask_, RAM);
+    defineMemoryType(0x0, ramMask_, RAM);
     initRam(0x0, ramMask_);
 
     for (int i=0x1000; i<0x8000; i+=0x1000)
@@ -625,7 +649,6 @@ void Vip::startComputer()
 		defineMemoryType((i+1)*0x1000, (i+1)*0x1000+0xfff, VP570RAM);
 	if (cdp1862_)
 		defineMemoryType(0xc000, 0xdfff, COLOURRAM);
-
 
 	ramMask_ |= 0xfff;
 	readProgram(p_Main->getRamDir(VIP), p_Main->getRamFile(VIP), NOCHANGE, 0, SHOWNAME);
@@ -641,7 +664,12 @@ void Vip::startComputer()
         if (pseudoType_ == "CHIP8X")
 			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x300, SHOWNAME);
 		else
-			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
+        {
+            if (pseudoType_ == "SUPERCHIP")
+                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x800, SHOWNAME);
+            else
+                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
+        }
 	}
 
     addressLatch_ = setLatch_;
@@ -978,6 +1006,11 @@ void Vip::checkComputerFunction()
 void Vip::startComputerRun(bool load)
 {
 //	p_Main->pload();
+    if (loadedProgram_ == VIPTINY)
+    {
+        p_Main->pload();
+        return;
+    }
 	load_ = load;
 	if (vipRunState_ == RESETSTATE)
 		vipRunCommand_ = 1;

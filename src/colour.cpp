@@ -160,7 +160,7 @@ ColourDialog::ColourDialog(wxWindow* parent)
 //	XRCCTRL(*this, "ColourText", wxStaticText)->SetFont(font);
 	colourChanged_ = false;
 	
-	if (p_Video == NULL && p_Vt100 == NULL)
+	if (p_Video == NULL && p_Vt100[UART1] == NULL && p_Vt100[UART2] == NULL)
 		XRCCTRL(*this, "ColourTest", wxButton)->Hide();
 
 	XRCCTRL(*this, "ColourTest", wxButton)->Enable(false);
@@ -223,7 +223,7 @@ ColourDialog::~ColourDialog()
 {
 	if (!colourChanged_)
 		return;
-	if (p_Video != NULL || p_Vt100 != NULL)
+	if (p_Video != NULL || p_Vt100[UART1] != NULL || p_Vt100[UART2] != NULL)
 	{
 		wxColour colour;
 		wxString button;
@@ -236,8 +236,10 @@ ColourDialog::~ColourDialog()
 			colour = p_Main->getConfigItem(computerTypeStr_+"/Colour"+button, screenInfo_.defaultColour[i]);
 			if (p_Video != NULL)
 				p_Video->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
-			if (p_Vt100 != NULL)
-				p_Vt100->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+			if (p_Vt100[UART1] != NULL)
+				p_Vt100[UART1]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
 		}
 		for (int i=0; i<screenInfo_.numberVideo; i++)
 		{
@@ -247,8 +249,10 @@ ColourDialog::~ColourDialog()
 			borderY = p_Main->getConfigItem(computerTypeStr_+"/BorderY"+button, screenInfo_.borderY[i]);
 			if (p_Video != NULL)
 				p_Video->setBorder(i, borderX, borderY);
-			if (p_Vt100 != NULL)
-				p_Vt100->setBorder(i, borderX, borderY);
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->setBorder(i, borderX, borderY);
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->setBorder(i, borderX, borderY);
 		}
 		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
 		{
@@ -280,8 +284,10 @@ ColourDialog::~ColourDialog()
 		}
 		if (p_Video != NULL)
 			p_Video->reColour();
-		if (p_Vt100 != NULL)
-			p_Vt100->reColour();
+        if (p_Vt100[UART1] != NULL)
+            p_Vt100[UART1]->reColour();
+        if (p_Vt100[UART2] != NULL)
+            p_Vt100[UART2]->reColour();
 	}
 }
 
@@ -350,7 +356,7 @@ void ColourDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
 {
 	wxString scaleString;
-	if (p_Video != NULL || p_Vt100 != NULL)
+	if (p_Video != NULL || p_Vt100[UART1] != NULL || p_Vt100[UART2] != NULL)
 	{
 		wxColour colour;
 		wxString button;
@@ -363,8 +369,10 @@ void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
 			colour = XRCCTRL(*this, "ColourButton"+button, wxColourPickerCtrl)->GetColour();
 			if (p_Video != NULL)
 				p_Video->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
-			if (p_Vt100 != NULL)
-				p_Vt100->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->setColour(i, colour.GetAsString(wxC2S_HTML_SYNTAX));
 		}
 
 		if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO || computerType_ == VIP ||  computerType_ == VIP2K || computerType_ == VIPII || computerType_ == VELF || computerType_ == ELF || computerType_ == ELFII || computerType_ == SUPERELF || computerType_ == ELF2K || computerType_ == MS2000 || computerType_ == MCDS || computerType_ == TMC1800 || computerType_ == STUDIO || computerType_ == COINARCADE || computerType_ == FRED1 || computerType_ == FRED1_5 || computerType_ == VISICOM)
@@ -416,13 +424,17 @@ void ColourDialog::onTest( wxCommandEvent& WXUNUSED(event) )
 			borderY = XRCCTRL(*this, "BorderY"+button, wxSpinCtrl)->GetValue();
 			if (p_Video != NULL)
 				p_Video->setBorder(i, (int)borderX, borderY);
-			if (p_Vt100 != NULL)
-				p_Vt100->setBorder(i, (int)borderX, borderY);
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->setBorder(i, (int)borderX, borderY);
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->setBorder(i, (int)borderX, borderY);
 		}
 		if (p_Video != NULL)
 			p_Video->reColour();
-		if (p_Vt100 != NULL)
-			p_Vt100->reColour();
+        if (p_Vt100[UART1] != NULL)
+            p_Vt100[UART1]->reColour();
+        if (p_Vt100[UART2] != NULL)
+            p_Vt100[UART2]->reColour();
 	}
 }
 
@@ -441,11 +453,24 @@ void ColourDialog::onDefault1( wxCommandEvent& WXUNUSED(event) )
 	{
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("3");
 	}
-	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == STUDIOIV || computerType_ == NANO)
+	if (computerType_ == COSMICOS || computerType_ == TMC2000 || computerType_ == ETI || computerType_ == VICTORY || computerType_ == NANO)
 	{
 		XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("4");
 		scaleString = "4";
 	}
+    if (computerType_ == STUDIOIV)
+    {
+        if (p_Main->getVideoMode(computerType_) == NTSC)
+        {
+            XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("3");
+            scaleString = "3";
+        }
+        else
+        {
+            XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("4");
+            scaleString = "4";
+        }
+    }
     if (computerType_ == FRED1 || computerType_ == FRED1_5)
     {
         XRCCTRL(*this, "ScaleXText", wxTextCtrl)->ChangeValue("1");

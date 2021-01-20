@@ -103,7 +103,7 @@ public:
 	bool readProgramCidelsa(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramTmc600(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
 	bool readProgramPecom(wxString romDir, wxString rom, int memoryType, Word address, bool showFilename);
-	void readSt2Program(int computerType);
+	void readSt2Program(int computerType, int memoryType);
     bool readFile(wxString fileName, int memoryType, Word address, long end, long inhibitStart, long inhibitEnd);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename);
     bool readFile(wxString fileName, int memoryType, Word address, long end, bool showFilename, bool showAddressPopup, Word specifiedStartAddress);

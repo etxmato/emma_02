@@ -134,6 +134,7 @@ public:
 	virtual void init(int computerType);
 	void connectKeyEvent(wxWindow* pclComponent);
 	virtual void onPaint(wxPaintEvent&event);
+    void refreshPanel();
 	void onChar(wxKeyEvent&event);
 	void vtOut(int value);
 	void onKeyDown(wxKeyEvent&event);
@@ -142,6 +143,7 @@ public:
 	virtual void onMousePress(wxMouseEvent& event);
 	virtual void onMouseRelease(wxMouseEvent& event);
 	void ledTimeout();
+    void rePaintLeds(wxDC& dc);
 	void setLedMs(long ms);
 
     void setReadyLed(int status);
@@ -368,7 +370,7 @@ protected:
 	int lastKey_;
 	bool repeat_;
 	bool forceUpperCase_;
-
+    
 private:
 	bool functionKeyReleaseTwo_;
 
@@ -473,7 +475,8 @@ public:
 	int getLoadedOs() {return loadedOs_;};
 	virtual int getRunState();
 	virtual void checkLoadedSoftware();
-	virtual void dataAvailable(bool data);
+    virtual void dataAvailableVt100(bool data, int uartNumber);
+    virtual void dataAvailableSerial(bool data);
 	virtual void thrStatus(bool data);
 	virtual void setTempo(int tempo);
 	virtual void switchQ(int value);
@@ -554,6 +557,11 @@ public:
     virtual void showCdp18s660Pio2(bool state);
     virtual void showControlWindow(bool state);
     virtual void setAddressLatch(Word bootAddress);
+    void ctrlvText(wxString text);
+    virtual int getCtrlvChar();
+    size_t getCtrlvCharNum() {return ctrlvTextCharNum_;};
+
+    virtual void refreshPanel() {};
 
 protected:
 	RunComputer *threadPointer;
@@ -588,6 +596,11 @@ protected:
     int inKey1_;
     int inKey2_;
 
+    wxString ctrlvTextStr_;
+    size_t ctrlvTextCharNum_;
+    
+    int shiftKey_;
+    
 private:
 	int chip8Register[16];
 

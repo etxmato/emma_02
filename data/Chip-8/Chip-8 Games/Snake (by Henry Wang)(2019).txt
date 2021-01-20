@@ -1,0 +1,1 @@
+Classic Snake game without walls. Use W, A, S and D to move. Press any key to start over.

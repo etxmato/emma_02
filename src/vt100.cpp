@@ -35,6 +35,7 @@
 #include "app_icon.xpm"
 #endif
 
+#include <wx/clipbrd.h>
 #include "main.h"
 #include "vt100.h"
 
@@ -54,20 +55,16 @@ int baudRateFactor_[] =
 //	38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200,  150,  134,  110,  75,   50
 };
 
-#define UART_DA 0
-#define UART_FE 3
-#define UART_TSRE 6
-#define UART_THRE 7
-
-Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConf)
+Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, double zoom, int computerType, double clock, ElfConfiguration elfConf, int uartNumber)
 : Video(title, pos, size)
 {
     elfConfiguration_ = elfConf;
 	computerType_ = computerType;
 	vtType_ = elfConfiguration_.vtType;
 	clock_ = clock;
-
-    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, true);
+    uartNumber_ = uartNumber;
+    
+    videoScreenPointer = new VideoScreen(this, size, zoom, computerType, true, uartNumber);
 #ifndef __WXMAC__
     SetIcon(wxICON(app_icon));
 #endif
@@ -75,6 +72,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 
     colourIndex_ = 2;
     videoType_ = VIDEOVT;
+    uartEf_ = false;
 	switch(computerType_)
 	{
 		case ELF:
@@ -116,12 +114,14 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
             computerTypeStr_ = "Microboard";
             colourIndex_ = 64;
             videoType_ = VIDEOMICROVT;
+            uartEf_ = true;
         break;
 		case MCDS:
 			computerTypeStr_ = "MCDS";
 		break;
 		case MS2000:
             computerTypeStr_ = "MS2000";
+            uartEf_ = true;
         break;
     }
 	readCharRomFile(computerType_, p_Main->getVtCharRomDir(computerType_), p_Main->getVtCharRomFile(computerType_));
@@ -281,6 +281,11 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
     }
     mcdsRunCommand_ = 0;
     serialOpen_ = false;
+    
+    uart_da_bit_ = 0;
+    uart_fe_bit_ = 3;
+    uart_tsre_bit_ = 6;
+    uart_thre_bit_ = 7;
 }
 
 Vt100::~Vt100()
@@ -366,6 +371,7 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
 }
 
 void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag)
@@ -399,6 +405,7 @@ void Vt100::configureStandard(int selectedBaudR, int selectedBaudT, int dataRead
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
 }
 
 void Vt100::configureUart(ElfPortConfiguration elfPortConf)
@@ -424,6 +431,72 @@ void Vt100::configureUart(ElfPortConfiguration elfPortConf)
     printBuffer.Printf("	Output %d: load control, input %d: read status", elfPortConf.uartControl, elfPortConf.uartStatus);
     p_Main->message(printBuffer);
     rs232_ = 0;
+}
+
+void Vt100::configureRcasbc(int selectedBaudR, int selectedBaudT)
+{
+    wxString message;
+    
+    selectedBaudT_ = selectedBaudT;
+    selectedBaudR_ = selectedBaudR;
+    
+    baudRateT_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudT_]);
+    baudRateR_ = (int) (((clock_ * 1000000) / 8) / baudRateValue_[selectedBaudR_]);
+    
+    p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+    
+    wxString printBuffer;
+    printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
+
+    if (uartNumber_ == UART1)
+    {
+        if (vtType_ == VT52)
+            p_Main->message("Configuring VT52 terminal connected to UART1 with MSM82C51");
+        else
+            p_Main->message("Configuring VT100 terminal connected to UART1 with MSM82C51");
+
+        p_Main->message("	A000-AFFF, 0: Data, 1: Status/Control Word");
+        p_Main->message("	EF4/INT: RxRDY (reversed), EF3: TxRDY");
+    }
+    else
+    {
+        if (vtType_ == VT52)
+            p_Main->message("Configuring VT52 terminal connected to UART2 with MSM82C51");
+        else
+            p_Main->message("Configuring VT100 terminal connected to UART2 with MSM82C51");
+
+        p_Main->message("	B000-BFFF, 0: Data, 1: Status/Control Word");
+        p_Main->message("	EF1: RxRDY, EF2: TxRDY");
+    }
+    
+    p_Main->message(printBuffer);
+
+/*    if (vtType_ == VT52)
+        p_Main->message("Configuring VT52 terminal with MSM82C51/UART2");
+    else
+        p_Main->message("Configuring VT100 terminal with MSM82C51/UART2");
+    p_Main->message("	B000-BFFF, 0: Data, 1: Status/Control Word");
+    p_Main->message("	EF 1: RxRDY, EF2: TxRDY");
+    p_Main->message(printBuffer);*/
+    
+    rs232_ = 0;
+    vtEnabled_ = 1;
+    vtCount_ = -1;
+    vtOutCount_ = -1;
+    vtOut_ = 0;
+    vt100Ef_ = 1;
+    elfRunCommand_ = 0;
+    ctrlvText_ = 0;
+    reverseEf_ = true;
+    dataReadyFlag_ = 0;
+    vtOutBits_ = 10;
+    
+    tab_char = 0x7f;
+
+    uart_da_bit_ = 7;
+    uart_fe_bit_ = 5;
+    uart_tsre_bit_ = 0;
+    uart_thre_bit_ = 2;
 }
 
 void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
@@ -464,6 +537,7 @@ void Vt100::configureMs2000(int selectedBaudR, int selectedBaudT)
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
     reverseEf_ = true;
     dataReadyFlag_ = 0;
     vtOutBits_ = 10;
@@ -536,6 +610,7 @@ void Vt100::configureVt2K(int selectedBaudR, int selectedBaudT, ElfPortConfigura
     vtOut_ = 0;
     vt100Ef_ = 1;
     elfRunCommand_ = 0;
+    ctrlvText_ = 0;
 }
 
 void Vt100::configureQandEfPolarity(int ef, bool vtEnable)
@@ -704,15 +779,15 @@ void Vt100::cycleVt()
             
             rs232_ = 0;
             p_Computer->thrStatus(0);
-            uartStatus_[UART_THRE] = 1;
-            uartStatus_[UART_TSRE] = 1;
+            uartStatus_[uart_thre_bit_] = 1;
+            uartStatus_[uart_tsre_bit_] = 1;
 			
 			vtCount_ = baudRateR_ * 9;
 		}
 		if (vtOutCount_ > 0)
 		{
 			vtOutCount_--;
-            if (computerType_ == MS2000)
+            if (uartEf_)
             {
                 if (vtOutCount_ <= 0)
                 {
@@ -732,7 +807,8 @@ void Vt100::cycleVt()
                     if (--vtOutBits_ == 0)
                     {
                         vtOut_ = 0;
-                        uartStatus_[UART_DA] = 1;
+                        p_Computer->dataAvailableVt100(1, uartNumber_);
+                        uartStatus_[uart_da_bit_] = 1;
                         vtOutCount_ = -1;
                         vtOutBits_=10;
                     }
@@ -748,8 +824,8 @@ void Vt100::cycleVt()
             {
                 if (vtOutCount_ == 0)
                 {
-                    p_Computer->dataAvailable(1);
-                    uartStatus_[UART_DA] = 1;
+                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                    uartStatus_[uart_da_bit_] = 1;
                     vtOutCount_ = -1;
                 }
             }
@@ -876,7 +952,7 @@ void Vt100::cycleVt()
                     vtOutBits_++;
                 p_Computer->setGreenLed(vt100Ef_ ^ 1);
 //				p_Main->message("start");
-//				p_Main->messageHex(vtOut_);
+//				p_Main->eventMessageHex(vtOut_);
 			}
         }
 
@@ -924,7 +1000,7 @@ void Vt100::cycleVt()
 				{
 					vtCount_ = -1;
 					Display(rs232_ & 0x7f, false);
-//                    p_Main->messageHex(rs232_);
+//                    p_Main->eventMessageHex(rs232_);
 				}
 			}
 		}
@@ -979,8 +1055,6 @@ void Vt100::copyScreen()
     if (p_Main->isZoomEventOngoing())
         return;
 
-    CharacterList *temp;
-
 	if (reColour_)
 	{
 		for (int i=0; i<numberOfColours_; i++)
@@ -1010,10 +1084,21 @@ void Vt100::copyScreen()
 	if (reBlink_)
 		blinkScreen();
 
+#if defined(__WXMAC__)
+    if (reBlit_ || reDraw_ || reBlink_)
+    {
+        p_Main->eventRefreshVideo(true, uartNumber_);
+        reBlit_ = false;
+        reDraw_ = false;
+        reBlink_ = false;
+    }
+#else
 	if (extraBackGround_ && newBackGround_) 
 		drawExtraBackground(colour_[colourIndex_+1]);
 
-	if (reBlit_ || reDraw_ || reBlink_)
+    CharacterList *temp;
+
+    if (reBlit_ || reDraw_ || reBlink_)
 	{
 		videoScreenPointer->blit(0, 0, videoWidth_+2*offsetX_, videoHeight_+2*offsetY_, &dcMemory, 0, 0);
 		reBlit_ = false;
@@ -1041,6 +1126,7 @@ void Vt100::copyScreen()
 			delete temp;
 		}
 	}
+#endif
 }
 
 void Vt100::startElfRun(bool load, bool overRide)
@@ -1323,7 +1409,7 @@ void Vt100::setFullScreen(bool fullScreenSet)
 void Vt100::onF3()
 {
 	fullScreenSet_ = !fullScreenSet_;
-	p_Main->eventVtSetFullScreen(fullScreenSet_);
+	p_Main->eventVtSetFullScreen(fullScreenSet_, uartNumber_);
 }
 
 void Vt100::scrollLine()
@@ -2685,7 +2771,7 @@ void Vt100::dataAvailable()
     if (!uart_)
         return;
     
-    if (computerType_ != MS2000)
+    if (uartEf_)
 		vtOutCount_ = baudRateT_ * 9;
     else
         vtOutCount_ = baudRateT_;
@@ -2697,30 +2783,30 @@ void Vt100::dataAvailable(Byte value)
         return;
     
     vtOut_ = value;
-    
-    if (vtOut_ == 27)
+    if (uartEf_)
     {
-        vtOut_ = 0;
-        vtOutBits_ = (58240/baudRateT_)+11;
-    }
-    
-    if (computerType_ != MS2000)
+        if (vtOut_ == WXK_ESCAPE)
+        {
+            vtOut_ = 0;
+            vtOutBits_ = (58240/baudRateT_)+11;
+        }
         vtOutCount_ = baudRateT_ * 9;
+    }
     else
         vtOutCount_ = baudRateT_;
 }
 
 void Vt100::framingError(bool data)
 {
-	uartStatus_[UART_FE] = data;
+	uartStatus_[uart_fe_bit_] = data;
 }
 
 void Vt100::uartOut(Byte value)
 {
 	rs232_ = value;
 	p_Computer->thrStatus(1);
-	uartStatus_[UART_THRE] = 0;
-	uartStatus_[UART_TSRE] = 0;
+	uartStatus_[uart_thre_bit_] = 0;
+	uartStatus_[uart_tsre_bit_] = 0;
 }
 
 void Vt100::uartControl(Byte value)
@@ -2732,9 +2818,12 @@ void Vt100::uartControl(Byte value)
 Byte Vt100::uartIn()
 {
 	framingError(0);
-	uartStatus_[UART_DA] = 0;
-	p_Computer->dataAvailable(0);
-	return videoScreenPointer->getKey(0);
+	uartStatus_[uart_da_bit_] = 0;
+	p_Computer->dataAvailableVt100(0, uartNumber_);
+    if (ctrlvText_ != 0)
+        return checkCtrlvTextUart();
+    else
+        return videoScreenPointer->getKey(0);
 }
 
 Byte Vt100::uartStatus()
@@ -2744,7 +2833,7 @@ Byte Vt100::uartStatus()
 
 Byte Vt100::uartThreStatus()
 {
-    return uartStatus_[UART_THRE];
+    return uartStatus_[uart_thre_bit_];
 }
 
 void Vt100::getKey()
@@ -2760,14 +2849,55 @@ void Vt100::getKey()
         {
             if (mcdsRunCommand_ != 0)
 				checkMcdsCommand();
-			else if (vtOutCount_ == -1)
-                vtOut_ = videoScreenPointer->getKey(vtOut_);
+			else
+			{
+				if (ctrlvText_ != 0)
+                {
+                    if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) == p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
+                        checkCtrlvText();
+                }
+				else if (vtOutCount_ == -1)
+					vtOut_ = videoScreenPointer->getKey(vtOut_);
+			}
         }
         if (vtOut_ != 0 && cursorPosition_ == (charactersPerRow_ - 9) && vtOut_ != 8)
 			bell();
         if (SetUpFeature_[VTLOCALECHO] && vtOut_ > 0)
             Display(vtOut_ & 0x7f, false);
 	}
+}
+
+void Vt100::checkCtrlvText()
+{
+    if (ctrlvText_ <= commandText_.Len())
+    {
+        vtOut_ = commandText_.GetChar(ctrlvText_ - 1);
+        if (vtOut_ == 10)
+            vtOut_ = 13;
+        ctrlvText_++;
+    }
+    else
+        ctrlvText_ = 0;
+}
+
+Byte Vt100::checkCtrlvTextUart()
+{
+    Byte key = 0;
+    
+    key = commandText_.GetChar(ctrlvText_ - 1);
+    if (key == 10)
+        key = 13;
+    ctrlvText_++;
+
+    if (ctrlvText_ <= commandText_.Len())
+    {
+        p_Computer->dataAvailableVt100(1, uartNumber_);
+        uartStatus_[uart_da_bit_] = 1;
+    }
+    else
+        ctrlvText_ = 0;
+
+    return key;
 }
 
 void Vt100::checkElfCommand()
@@ -2837,7 +2967,7 @@ void Vt100::checkMcdsCommand()
 		return;
 	}
 
-	if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) != 0x8145)
+	if (p_Computer->getScratchpadRegister(p_Computer->getProgramCounter()) != p_Computer->getBasicExecAddr(BASICADDR_KEY_VT_INPUT))
 		return;
 
 	if (mcdsRunCommand_ > 3)
@@ -3583,6 +3713,26 @@ void Vt100::setUpA(int key)
 bool Vt100::charPressed(wxKeyEvent& event)
 {
 	int key = event.GetKeyCode();
+
+    if (p_Main->getUseCtrlvKey())
+    {
+        if (key == p_Main->getCtrlvKey() && event.GetModifiers() == CTRL_V)
+        {
+            if (wxTheClipboard->Open())
+            {
+                if (wxTheClipboard->IsSupported( wxDF_TEXT ))
+                {
+                    wxTextDataObject data;
+                    wxTheClipboard->GetData( data );
+                    commandText_ = data.GetText();
+                    ctrlvText_ = 1;
+                }
+                wxTheClipboard->Close();
+                if (!uart_)
+                    return true;
+            }
+        }
+    }
 
 //	click();
 	if (setUpMode_)

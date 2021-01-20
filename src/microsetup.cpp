@@ -326,11 +326,15 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
         case MICROBOARD_CDP18S603A:
             wxXmlResource::Get()->LoadDialog(this, parent, p_Main->getMicroboardTypeStr(MICROBOARD_CDP18S603)+ "_Setup_Dialog");
         break;
+
+        case RCASBC:
+            wxXmlResource::Get()->LoadDialog(this, parent, "RCASBC_Setup_Dialog");
+        break;
     }
     guiLoaded_ = true;
 
     this->SetTitle(p_Main->getMicroboardTypeStr(configuration_.microboardType_[0])+ " Setup");
-    
+  
     XRCCTRL(*this, "MainRomU21" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U21ROM]);
     XRCCTRL(*this, "MainRomU20" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U20ROM]);
 
@@ -344,6 +348,7 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "VtUartGroup", wxChoice)->SetSelection(elfConfiguration.uartGroup - 1);
             setOneSocketState();
             setFourSocketState();
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
         break;
  
         case MICROBOARD_CDP18S601:
@@ -355,6 +360,7 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "MainRomU18" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U18ROM]);
             XRCCTRL(*this, "MainRomU17" + selectedComputerStr_, wxComboBox)->SetValue(configuration_.rom_[U17ROM]);
             XRCCTRL(*this, "OneSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[ONE_SOCKET]);
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
         break;
 
         case MICROBOARD_CDP18S602:
@@ -368,6 +374,7 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "VtUartGroup", wxChoice)->SetSelection(elfConfiguration.uartGroup - 1);
             one602SocketBankGui();
             four602SocketBankGui();
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
         break;
 
         case MICROBOARD_CDP18S604B:
@@ -376,12 +383,14 @@ MicroboardSetupDialog::MicroboardSetupDialog(wxWindow* parent, Conf configuratio
             XRCCTRL(*this, "RomBlock" + selectedComputerStr_, wxTextCtrl)->ChangeValue(configuration_.microChipBlock_[FOUR_SOCKET]);
             one604BSocketBankGui();
             four604BSocketBankGui();
+            XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
+        break;
+
+        case RCASBC:
         break;
     }
 
     updateErrorStatus();
-
-    XRCCTRL(*this, "FourSocketBank" + selectedComputerStr_, wxChoice)->SetSelection(configuration_.microChipType_[FOUR_SOCKET]);
 
     if (p_Main->isComputerRunning())
         XRCCTRL(*this, "MicroSetupSave", wxButton)->Disable();
@@ -481,6 +490,7 @@ void MicroboardSetupDialog::onRomU21(wxCommandEvent& WXUNUSED(event))
         case MICROBOARD_CDP18S608:
         case MICROBOARD_CDP18S609:
         case MICROBOARD_CDP18S610:
+        case RCASBC:
             romName = " RAM";
         break;
     }
@@ -544,6 +554,7 @@ void MicroboardSetupDialog::onRomU20(wxCommandEvent& WXUNUSED(event))
 
         case MICROBOARD_CDP18S604B:
         case MICROBOARD_CDP18S609:
+        case RCASBC:
             romName = " ROM";
         break;
     }
@@ -1134,6 +1145,7 @@ BEGIN_EVENT_TABLE(MicroboardCardSetupDialog, wxDialog)
     EVT_COMBOBOX(XRCID("RomSection4Microboard"), MicroboardCardSetupDialog::onRomSec4Text)
     EVT_BUTTON(XRCID("RomButtonSection4Microboard"), MicroboardCardSetupDialog::onRomSec4)
 
+    EVT_CHOICE(XRCID("RamSizeMicroboard"), MicroboardCardSetupDialog::onRamSize)
     EVT_TEXT(XRCID("RamBlockMicroboard"), MicroboardCardSetupDialog::onRamBlock)
 
     EVT_TEXT(XRCID("Rom1Block625Microboard"), MicroboardCardSetupDialog::onRom1Block625)
@@ -1398,17 +1410,17 @@ MicroboardCardSetupDialog::MicroboardCardSetupDialog(wxWindow* parent, Conf conf
         case CARD_CDP18S652:
             wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S652_Setup_Dialog");
             XRCCTRL(*this, "RamSection1Microboard", wxComboBox)->SetValue(microMemConfigutation.ram_);
-            XRCCTRL(*this, "RamBlockMicroboard", wxTextCtrl)->ChangeValue(microMemConfigutation.chipBlockRam_);
+            XRCCTRL(*this, "RamSizeMicroboard", wxChoice)->SetSelection(microMemConfigutation.socketSize_[0]);
 
-            ramSocketBankGui();
+            if (microMemConfigutation_.socketSize_[0] == 0)
+                XRCCTRL(*this, "RamAddress"+selectedComputerStr_, wxStaticText)->SetLabel("address: 8C00-8FFF");
+            else
+                XRCCTRL(*this, "RamAddress"+selectedComputerStr_, wxStaticText)->SetLabel("address: 8800-8FFF");
 
             XRCCTRL(*this, "RomSection1Microboard", wxComboBox)->SetValue(microMemConfigutation.rom_[CDP626_SEC1]);
             XRCCTRL(*this, "RomSection2Microboard", wxComboBox)->SetValue(microMemConfigutation.rom_[CDP626_SEC2]);
             XRCCTRL(*this, "RomSection3Microboard", wxComboBox)->SetValue(microMemConfigutation.rom_[CDP626_SEC3]);
-            XRCCTRL(*this, "LowHighMicroboard", wxChoice)->SetSelection(microMemConfigutation.memLocation_[0]);
-            XRCCTRL(*this, "MemoryInhibit32LowMicroboard", wxChoice)->SetSelection(microMemConfigutation.inhibit32Low_);
-            XRCCTRL(*this, "MemoryInhibit32HighMicroboard", wxChoice)->SetSelection(microMemConfigutation.inhibit32High_);
-            setInhibit();
+            XRCCTRL(*this, "RomSection4Microboard", wxComboBox)->SetValue(microMemConfigutation.rom_[CDP626_SEC4]);
 
             XRCCTRL(*this, "MemoryDisableMicroboard", wxCheckBox)->SetValue(microMemConfigutation.disableCardMemory_);
         break;
@@ -1446,14 +1458,28 @@ MicroboardCardSetupDialog::MicroboardCardSetupDialog(wxWindow* parent, Conf conf
             XRCCTRL(*this, "MicroSetupCharacterRom", wxComboBox)->SetValue(configuration_.charRom_);
             setVideoMode();
             XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->SetSelection(elfConfiguration_.v1870InterruptMode);
+            XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->SetSelection(elfConfiguration_.elfPortConf.keyboardEf-2);
+            XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->SetSelection(elfConfiguration_.keyboardType);
         break;
 
+        case CARD_CDP18S661V1:
+            wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S661V1_Setup_Dialog");
+            XRCCTRL(*this, "V1870IoGroupMicroboard", wxChoice)->SetSelection((elfConfiguration_.v1870Group >> 4) - 8);
+            XRCCTRL(*this, "VolumeMicroboard", wxSlider)->SetValue(configuration_.volume_);
+            XRCCTRL(*this, "MicroSetupVideoPalMode", wxChoice)->SetSelection(elfConfiguration_.v1870VideoMode-1);
+            XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->SetSelection(elfConfiguration_.v1870InterruptMode);
+            XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->SetSelection(elfConfiguration_.elfPortConf.keyboardEf-2);
+            XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->SetSelection(elfConfiguration_.keyboardType);
+        break;
+            
         case CARD_CDP18S661V3:
             wxXmlResource::Get()->LoadDialog(this, parent, "CDP18S661V3_Setup_Dialog");
             XRCCTRL(*this, "V1870IoGroupMicroboard", wxChoice)->SetSelection((elfConfiguration_.v1870Group >> 4) - 8);
             XRCCTRL(*this, "VolumeMicroboard", wxSlider)->SetValue(configuration_.volume_);
             XRCCTRL(*this, "MicroSetupVideoPalMode", wxChoice)->SetSelection(elfConfiguration_.v1870VideoMode-1);
             XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->SetSelection(elfConfiguration_.v1870InterruptMode);
+            XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->SetSelection(elfConfiguration_.elfPortConf.keyboardEf-2);
+            XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->SetSelection(elfConfiguration_.keyboardType);
         break;
     }
     guiLoaded_ = true;
@@ -1485,11 +1511,16 @@ void MicroboardCardSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         case CARD_CDP18S661B:
             elfConfiguration_.pageMemSize = XRCCTRL(*this, "MicroSetupPageMemory", wxChoice)->GetSelection();
             elfConfiguration_.v1870InterruptMode = XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->GetSelection();
+            elfConfiguration_.elfPortConf.keyboardEf = XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->GetSelection() + 2;
+            elfConfiguration_.keyboardType = XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->GetSelection();
         break;
 
+        case CARD_CDP18S661V1:
         case CARD_CDP18S661V3:
             elfConfiguration_.v1870InterruptMode = XRCCTRL(*this, "MicroSetupInterruptMode", wxChoice)->GetSelection();
             elfConfiguration_.v1870VideoMode = XRCCTRL(*this, "MicroSetupVideoPalMode", wxChoice)->GetSelection()+1;
+            elfConfiguration_.elfPortConf.keyboardEf = XRCCTRL(*this, "MicroSetupKeyEf", wxChoice)->GetSelection() + 2;
+            elfConfiguration_.keyboardType = XRCCTRL(*this, "MicroSetupKeyType", wxChoice)->GetSelection();
         break;
     }
 
@@ -1713,27 +1744,21 @@ void MicroboardCardSetupDialog::setInhibit()
         XRCCTRL(*this, "MemoryInhibit64Microboard", wxChoice)->Enable();
         XRCCTRL(*this, "MemoryInhibit32LowMicroboard", wxChoice)->Disable();
         XRCCTRL(*this, "MemoryInhibit32HighMicroboard", wxChoice)->Disable();
-        if (configuration_.microboardType_[cardNumber_] != CARD_CDP18S652)
-        {
-            XRCCTRL(*this, "MemorySection1Microboard", wxChoice)->Disable();
-            XRCCTRL(*this, "MemorySection1Microboard", wxChoice)->SetSelection(1);
-            XRCCTRL(*this, "MemorySection2Microboard", wxChoice)->Disable();
-            XRCCTRL(*this, "MemorySection2Microboard", wxChoice)->SetSelection(1);
-            XRCCTRL(*this, "MemorySection3Microboard", wxChoice)->Disable();
-            XRCCTRL(*this, "MemorySection3Microboard", wxChoice)->SetSelection(1);
-            XRCCTRL(*this, "MemorySection4Microboard", wxChoice)->Disable();
-            XRCCTRL(*this, "MemorySection4Microboard", wxChoice)->SetSelection(1);
-        }
+        XRCCTRL(*this, "MemorySection1Microboard", wxChoice)->Disable();
+        XRCCTRL(*this, "MemorySection1Microboard", wxChoice)->SetSelection(1);
+        XRCCTRL(*this, "MemorySection2Microboard", wxChoice)->Disable();
+        XRCCTRL(*this, "MemorySection2Microboard", wxChoice)->SetSelection(1);
+        XRCCTRL(*this, "MemorySection3Microboard", wxChoice)->Disable();
+        XRCCTRL(*this, "MemorySection3Microboard", wxChoice)->SetSelection(1);
+        XRCCTRL(*this, "MemorySection4Microboard", wxChoice)->Disable();
+        XRCCTRL(*this, "MemorySection4Microboard", wxChoice)->SetSelection(1);
     }
     else
     {
-        if (configuration_.microboardType_[cardNumber_] != CARD_CDP18S652)
-        {
-            XRCCTRL(*this, "MemorySection1Microboard", wxChoice)->Enable();
-            XRCCTRL(*this, "MemorySection2Microboard", wxChoice)->Enable();
-            XRCCTRL(*this, "MemorySection3Microboard", wxChoice)->Enable();
-            XRCCTRL(*this, "MemorySection4Microboard", wxChoice)->Enable();
-        }
+        XRCCTRL(*this, "MemorySection1Microboard", wxChoice)->Enable();
+        XRCCTRL(*this, "MemorySection2Microboard", wxChoice)->Enable();
+        XRCCTRL(*this, "MemorySection3Microboard", wxChoice)->Enable();
+        XRCCTRL(*this, "MemorySection4Microboard", wxChoice)->Enable();
         XRCCTRL(*this, "LowHighMicroboard", wxChoice)->Enable();
         XRCCTRL(*this, "MemoryInhibit64Microboard", wxChoice)->Disable();
         if (microMemConfigutation_.memLocation_[0] == 0)
@@ -2024,6 +2049,21 @@ void MicroboardCardSetupDialog::onRomSec4Text(wxCommandEvent& WXUNUSED(event))
     microMemConfigutation_.rom_[CDP626_SEC4] = XRCCTRL(*this, "RomSection4"+selectedComputerStr_, wxComboBox)->GetValue();
 }
 
+void MicroboardCardSetupDialog::onRamSize(wxCommandEvent&event)
+{
+    if (!guiLoaded_)
+        return;
+    
+    microMemConfigutation_.socketSize_[0] = event.GetSelection();
+    
+    if (microMemConfigutation_.socketSize_[0] == 0)
+        XRCCTRL(*this, "RamAddress"+selectedComputerStr_, wxStaticText)->SetLabel("address: 8C00-8FFF");
+    else
+        XRCCTRL(*this, "RamAddress"+selectedComputerStr_, wxStaticText)->SetLabel("address: 8800-8FFF");
+
+    checkErrorStatus();
+}
+
 void MicroboardCardSetupDialog::onRamBlock(wxCommandEvent&event)
 {
     if (!guiLoaded_)
@@ -2045,7 +2085,7 @@ void MicroboardCardSetupDialog::onRamBlock(wxCommandEvent&event)
     microMemConfigutation_.chipBlockRam_ = stringBlock;
     
     ramSocketBankGui();
-
+    
     checkErrorStatus();
 }
 

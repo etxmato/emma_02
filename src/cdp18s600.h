@@ -20,8 +20,8 @@ public:
     
     void onClose(wxCloseEvent&WXUNUSED(event));
     
-    void configureComputer();
-    void configureVt();
+    virtual void configureComputer();
+    virtual void configureVt();
     virtual void configurePio();
     void configureCdp18s660();
     void initComputer();
@@ -29,7 +29,7 @@ public:
     void onRunButton();
     void onRunPButton();
     void onRun();
-    void autoBoot();
+    virtual void autoBoot();
     void setAddressLatch(Word bootAddress);
     void onSingleStep();
 
@@ -43,6 +43,7 @@ public:
     Byte keyboardIn();
     void charEvent(int keycode);
     bool keyDownExtended(int keycode, wxKeyEvent& event);
+    void keyUp(int keycode);
     void keyClear();
     void tapeIo(Byte value);
     void switchQ(int value);
@@ -52,6 +53,7 @@ public:
     virtual void setCpuMode(int mode);
     virtual void cycle(int type);
     virtual void cycleLed();
+    void cycleKeyInput();
 
     virtual void startComputer();
     virtual void startPio(long ms);
@@ -71,7 +73,7 @@ public:
     virtual void moveWindows();
     void setForceUpperCase(bool status);
     void setBootRam(bool status);
-    void updateTitle(wxString Title);
+    virtual void updateTitle(wxString Title);
     void onReset();
     void sleepComputer(long ms);
     virtual void setLedMs(long ms);
@@ -90,6 +92,7 @@ public:
     void removePio(int pioNumber);
     void setHeaderTitle(const wxString& title);
     void showControlWindow(bool state);
+    void refreshPanel();
 
 protected:
     Byte efState_[5];
@@ -99,7 +102,8 @@ protected:
     wxString computerTypeStr_;
     wxString pioMessage_;
     double Cdp18s600ClockSpeed_;
-    Vt100 *vtPointer;
+    Vt100 *vtPointer1;
+    Vt100 *vtPointer2;
     int ioGroup_;
     class PioFrame *pioFramePointer;
     class PioFrame *pioFramePointer1;
@@ -112,6 +116,9 @@ protected:
     int microboardType_;
     Byte keyboardEf3_;
     Byte printEf_;
+    bool keyDown_;
+
+    int addressLatchCounter_;
 
 private:
     Word lastAddress_;
@@ -124,9 +131,13 @@ private:
     bool resetHdData_;
 
     wxString tapeNumber_;
-    int addressLatchCounter_;
 
     int keyboardCode_;
+    int secondKeyboardCodes[5];
+
+    bool load_;
+    size_t microRunCommand_;
+    wxString commandText_;
 };
 
 class Cdp18s601 : public Cdp18s600
@@ -210,6 +221,40 @@ private:
     int counterCycleSize_;
     bool counterPaused_;
     bool counterSquare_;
+};
+
+class Rcasbc : public Cdp18s600
+{
+public:
+    Rcasbc(const wxString& title, const wxPoint& pos, const wxSize& size, double zoomLevel, int computerType, double clock, ElfConfiguration conf);
+    ~Rcasbc();
+    
+    void configureVt();
+    void configureComputer();
+    void configurePio();
+    Byte ef(int flag);
+    Byte in(Byte port, Word address);
+    void out(Byte port, Word address, Byte value);
+    void startComputer();
+
+    Byte readMemDebug(Word address);
+    void writeMemDebug(Word address, Byte value, bool writeRom);
+
+    void readRoms();
+    void autoBoot();
+    void dataAvailableVt100(bool data, int uartNumber);
+    void dataAvailable2Vt100(bool data);
+    void dataAvailableSerial(bool data);
+    void updateTitle(wxString Title);
+
+private:
+    bool uart1Reset_;
+    int uart1ModeWordNumber_;
+    bool uart2Reset_;
+    int uart2ModeWordNumber_;
+    
+    Byte lastUart1In_;
+    Byte lastUart2In_;
 };
 
 

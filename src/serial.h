@@ -14,6 +14,7 @@ public:
 	void configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration elfPortConf);
 	void configureStandard(int selectedBaudR, int selectedBaudT, int dataReadyFlag);
 	void configureUart(ElfPortConfiguration elfPortConf);
+    void configureRcasbc(int selectedBaudR, int selectedBaudT);
     void configureMs2000(int selectedBaudR, int selectedBaudT);
     void configureVt2K(int SelectedBaudR, int SelectedBaudT, ElfPortConfiguration elfPortConf);
     void startSerial();
@@ -26,6 +27,7 @@ public:
 	void setCycle();
 	int Parity(int value);
 	void dataAvailable();
+    void dataAvailable(Byte value);
 	void framingError(bool data); 
 	void uartOut(Byte value); 
 	void uartControl(Byte value); 
@@ -58,6 +60,7 @@ private:
 	Byte serialEf_;
 	Byte vtEnabled_;
 
+    bool uartEf_;
 	int reverseEf_;
 	int reverseQ_;
 
@@ -69,6 +72,11 @@ private:
 	bitset<32> SetUpFeature_;
     
 	int dataReadyFlag_;
+
+    int uart_da_bit_;
+    int uart_fe_bit_;
+    int uart_tsre_bit_;
+    int uart_thre_bit_;
 };
 
 #endif  // SERIAL_H

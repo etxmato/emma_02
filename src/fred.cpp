@@ -129,7 +129,11 @@ void FredScreen::init()
 void FredScreen::onPaint(wxPaintEvent&WXUNUSED(event))
 {
     wxPaintDC dc(this);
-    
+
+#if defined(__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
     dc.SetPen(*wxWHITE_PEN);
     dc.SetBrush(*wxWHITE_BRUSH);
     dc.DrawRectangle(0, 0, 310, 180);
@@ -1594,4 +1598,9 @@ void Fred::cardButton(int cardValue)
 		keyValue_ = cardValue;
 		ef1State_ = 0;
 	}
+}
+
+void Fred::refreshPanel()
+{
+    fredScreenPointer->refreshPanel();
 }

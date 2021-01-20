@@ -106,14 +106,16 @@ public:
 	void clearBootstrap() {bootstrap_ = 0;};
 	void setElf2KDivider(Byte value);
 	void setElf2KClockSpeed(double clock) {elfClockSpeed_ = clock;};
-	void dataAvailable(bool data); 
-	void thrStatus(bool data); 
+    void dataAvailableVt100(bool data, int uartNumber);
+    void dataAvailableSerial(bool data);
+	void thrStatus(bool data);
     void sleepComputer(long ms);
 	void setLedMs(long ms);
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
 	void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void onNumberKeyDown(int i);
+    void refreshPanel();
 
 private:
 	class Elf2KScreen *elf2KScreenPointer;

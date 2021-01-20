@@ -149,6 +149,17 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
     EVT_TEXT(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
     EVT_COMBOBOX(XRCID("ScreenDumpFileStudioIV"), GuiMain::onScreenDumpFileText)
 
+	EVT_BUTTON(XRCID("CasButtonStudioIV"), GuiMain::onCassette)
+	EVT_BUTTON(XRCID("EjectCasStudioIV"), GuiMain::onCassetteEject)
+	EVT_TEXT(XRCID("WavFileStudioIV"), GuiMain::onCassetteText)
+	EVT_BUTTON(XRCID("RealCasLoadStudioIV"), GuiMain::onRealCas)
+	EVT_BUTTON(XRCID("CasLoadStudioIV"), GuiMain::onCassetteLoad)
+	EVT_BUTTON(XRCID("CasSaveStudioIV"), GuiMain::onCassetteSave)
+	EVT_BUTTON(XRCID("CasStopStudioIV"), GuiMain::onCassetteStop)
+	EVT_CHECKBOX(XRCID("TurboStudioIV"), GuiMain::onTurbo)
+	EVT_TEXT(XRCID("TurboClockStudioIV"), GuiMain::onTurboClock)
+	EVT_CHECKBOX(XRCID("AutoCasLoadStudioIV"), GuiMain::onAutoLoad)
+
     EVT_SPIN_UP(XRCID("ZoomSpinStudioIV"), GuiMain::onZoom)
     EVT_SPIN_DOWN(XRCID("ZoomSpinStudioIV"), GuiMain::onZoom)
     EVT_TEXT(XRCID("ZoomValueStudioIV"), GuiMain::onZoomValue)
@@ -159,6 +170,12 @@ BEGIN_EVENT_TABLE(GuiStudio2, GuiFred)
     EVT_BUTTON(XRCID("KeyMapStudioIV"), Main::onHexKeyDef)
     EVT_BUTTON(XRCID("ColoursStudioIV"), Main::onColoursDef)
     EVT_CHOICE(XRCID("VidModeStudioIV"), GuiStudio2::onStudioIVVideoMode)
+    EVT_CHECKBOX(XRCID("2020StudioIV"), GuiComx::on2020Active)
+
+    EVT_BUTTON(XRCID("SaveButtonStudioIV"), GuiMain::onSaveButton)
+    EVT_BUTTON(XRCID("LoadButtonStudioIV"), GuiMain::onLoadButton)
+
+    EVT_BUTTON(XRCID("CartSwitchStudioIV"), GuiElf::onCartSwitch)
 
 END_EVENT_TABLE()
 
@@ -600,6 +617,27 @@ void GuiStudio2::onVictoryVideoMode(wxCommandEvent&event)
 
 void GuiStudio2::readStudioIVConfig()
 {
+    bool romMode;
+
+    conf[STUDIOIV].loadFileNameFull_ = "";
+    conf[STUDIOIV].loadFileName_ = "";
+    
+    conf[STUDIOIV].pLoadSaveName_[0] = 'T';
+    conf[STUDIOIV].pLoadSaveName_[1] = 'I';
+    conf[STUDIOIV].pLoadSaveName_[2] = 'N';
+    conf[STUDIOIV].pLoadSaveName_[3] = 'Y';
+    
+    conf[STUDIOIV].defus_ = 0;
+    conf[STUDIOIV].eop_ = 0x1C8E;
+    conf[STUDIOIV].string_ = 0;
+    conf[STUDIOIV].arrayValue_ = 0;
+    conf[STUDIOIV].eod_ = 0;
+    conf[STUDIOIV].basicRamAddress_ = 0x1D00;
+    
+    conf[STUDIOIV].saveStartString_ = "";
+    conf[STUDIOIV].saveEndString_ = "";
+    conf[STUDIOIV].saveExecString_ = "";
+
     selectedComputer_ = STUDIOIV;
     
     conf[STUDIOIV].configurationDir_ = iniDir_ + "Configurations" + pathSeparator_ + "StudioIV" + pathSeparator_;
@@ -608,11 +646,18 @@ void GuiStudio2::readStudioIVConfig()
     conf[STUDIOIV].romDir_[MAINROM1] = readConfigDir("/Dir/StudioIV/Main_Rom_File", dataDir_ + "StudioIV"  + pathSeparator_);
     conf[STUDIOIV].romDir_[CARTROM] = readConfigDir("/Dir/StudioIV/St2_File", dataDir_ + "StudioIV" + pathSeparator_);
     conf[STUDIOIV].screenDumpFileDir_ = readConfigDir("/Dir/StudioIV/Video_Dump_File", dataDir_ + "StudioIV" + pathSeparator_);
-    
-    conf[STUDIOIV].rom_[MAINROM1] = configPointer->Read("/StudioIV/Main_Rom_File", "Studio IV V3 PAL.bin");
+   	conf[STUDIOIV].wavFileDir_[0] = readConfigDir("/Dir/StudioIV/Wav_File", dataDir_ + "StudioIV" + pathSeparator_);
+ 
+    conf[STUDIOIV].rom_[MAINROM1] = configPointer->Read("/StudioIV/Main_Rom_File", "am4kbas 32K 2020 PAL.bin");
     conf[STUDIOIV].rom_[CARTROM] = configPointer->Read("/StudioIV/St2_File", "");
     conf[STUDIOIV].screenDumpFile_ = configPointer->Read("/StudioIV/Video_Dump_File", "screendump.png");
-    
+    conf[STUDIOIV].wavFile_[0] = configPointer->Read("/StudioIV/Wav_File", "");
+
+	configPointer->Read("/StudioIV/Enable_Turbo_Cassette", &conf[STUDIOIV].turbo_, true);
+	configPointer->Read("/StudioIV/Enable_Auto_Cassette", &conf[STUDIOIV].autoCassetteLoad_, true);
+	configPointer->Read("/StudioIV/Enable_Real_Cassette", &conf[STUDIOIV].realCassetteLoad_, false);
+	conf[STUDIOIV].turboClock_ = configPointer->Read("/StudioIV/Turbo_Clock_Speed", "15");
+
     wxString defaultZoom;
     defaultZoom.Printf("%2.2f", 2.0);
     conf[STUDIOIV].zoom_ = configPointer->Read("/StudioIV/Zoom", defaultZoom);
@@ -621,19 +666,51 @@ void GuiStudio2::readStudioIVConfig()
     conf[STUDIOIV].clock_ = configPointer->Read("/StudioIV/Clock_Speed", defaultClock);
     conf[STUDIOIV].volume_ = (int)configPointer->Read("/StudioIV/Volume", 25l);
     
+    conf[STUDIOIV].videoMode_ = (int)configPointer->Read("/StudioIV/Video_Mode", 0l);
+    
     wxString defaultScale;
-    defaultScale.Printf("%i", 4);
+    if (conf[STUDIOIV].videoMode_ == PAL)
+        defaultScale.Printf("%i", 4);
+    else
+        defaultScale.Printf("%i", 3);
+    
     conf[STUDIOIV].xScale_ = configPointer->Read("/StudioIV/Window_Scale_Factor_X", defaultScale);
     conf[STUDIOIV].realCassetteLoad_ = false;
     
-    conf[STUDIOIV].videoMode_ = (int)configPointer->Read("/StudioIV/Video_Mode", 0l);
+    configPointer->Read("/StudioIV/Enable_2020", &conf[STUDIOIV].st2020Active_, false);
+    configPointer->Read("/StudioIV/Load_Mode_Rom", &romMode, false);
+
+    if (romMode)
+    {
+        loadromMode_ = ROM;
+        if (mode_.gui)
+        {
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART ROM");
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge ROM file");
+        }
+    }
+    else
+    {
+        loadromMode_ = RAM;
+        if (mode_.gui)
+        {
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART RAM");
+            XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge RAM file");
+        }
+    }
 
     if (mode_.gui)
     {
         XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
         XRCCTRL(*this, "CartRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[CARTROM]);
         XRCCTRL(*this, "ScreenDumpFileStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].screenDumpFile_);
-        
+  		XRCCTRL(*this, "WavFileStudioIV", wxTextCtrl)->SetValue(conf[STUDIOIV].wavFile_[0]);
+  
+		XRCCTRL(*this, "TurboStudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].turbo_);
+		turboGui("StudioIV");
+		XRCCTRL(*this, "TurboClockStudioIV", wxTextCtrl)->SetValue(conf[STUDIOIV].turboClock_);
+		XRCCTRL(*this, "AutoCasLoadStudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].autoCassetteLoad_);
+
         correctZoomAndValue(STUDIOIV, "StudioIV", SET_SPIN);
 
         if (clockTextCtrl[STUDIOIV] != NULL)
@@ -641,6 +718,7 @@ void GuiStudio2::readStudioIVConfig()
         XRCCTRL(*this, "VolumeStudioIV", wxSlider)->SetValue(conf[STUDIOIV].volume_);
         
         XRCCTRL(*this, "VidModeStudioIV", wxChoice)->SetSelection(conf[STUDIOIV].videoMode_);
+        XRCCTRL(*this, "2020StudioIV", wxCheckBox)->SetValue(conf[STUDIOIV].st2020Active_);
     }
 }
 
@@ -650,6 +728,7 @@ void GuiStudio2::writeStudioIVDirConfig()
     writeConfigDir("/Dir/StudioIV/Main_Rom_File", conf[STUDIOIV].romDir_[MAINROM1]);
     writeConfigDir("/Dir/StudioIV/St2_File", conf[STUDIOIV].romDir_[CARTROM]);
     writeConfigDir("/Dir/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFileDir_);
+	writeConfigDir("/Dir/StudioIV/Wav_File", conf[STUDIOIV].wavFileDir_[0]);
 }
 
 void GuiStudio2::writeStudioIVConfig()
@@ -657,12 +736,19 @@ void GuiStudio2::writeStudioIVConfig()
     configPointer->Write("/StudioIV/Main_Rom_File",conf[STUDIOIV].rom_[MAINROM1]);
     configPointer->Write("/StudioIV/St2_File", conf[STUDIOIV].rom_[CARTROM]);
     configPointer->Write("/StudioIV/Video_Dump_File", conf[STUDIOIV].screenDumpFile_);
-    
+ 	configPointer->Write("/StudioIV/Wav_File", conf[STUDIOIV].wavFile_[0]);
+   
     configPointer->Write("/StudioIV/Zoom", conf[STUDIOIV].zoom_);
     configPointer->Write("/StudioIV/Clock_Speed", conf[STUDIOIV].clock_);
     configPointer->Write("/StudioIV/Volume", conf[STUDIOIV].volume_);
     
     configPointer->Write("/StudioIV/Video_Mode", conf[STUDIOIV].videoMode_);
+	configPointer->Write("/StudioIV/Enable_Turbo_Cassette", conf[STUDIOIV].turbo_);
+	configPointer->Write("/StudioIV/Turbo_Clock_Speed", conf[STUDIOIV].turboClock_);
+	configPointer->Write("/StudioIV/Enable_Auto_Cassette", conf[STUDIOIV].autoCassetteLoad_);
+	configPointer->Write("/StudioIV/Enable_Real_Cassette", conf[STUDIOIV].realCassetteLoad_);
+    configPointer->Write("/StudioIV/Enable_2020", conf[STUDIOIV].st2020Active_);
+    configPointer->Write("/StudioIV/Load_Mode_Rom", (loadromMode_ == ROM));
 }
 
 void GuiStudio2::readStudioIVWindowConfig()
@@ -684,10 +770,30 @@ void GuiStudio2::onStudioIVVideoMode(wxCommandEvent&event)
     conf[STUDIOIV].videoMode_ = event.GetSelection();
     if (mode_.gui)
     {
-        if (conf[STUDIOIV].videoMode_ == PAL)
+        if (conf[STUDIOIV].videoMode_ == PAL && conf[STUDIOIV].rom_[MAINROM1] == "Studio IV V3 NTSC.bin")
             conf[STUDIOIV].rom_[MAINROM1] = "Studio IV V3 PAL.bin";
-        else
+        if (conf[STUDIOIV].videoMode_ == NTSC && conf[STUDIOIV].rom_[MAINROM1] == "Studio IV V3 PAL.bin")
             conf[STUDIOIV].rom_[MAINROM1] = "Studio IV V3 NTSC.bin";
+        if (conf[STUDIOIV].videoMode_ == PAL && conf[STUDIOIV].rom_[MAINROM1] == "am4kbas 2020 NTSC.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "am4kbas 2020 PAL.bin";
+        if (conf[STUDIOIV].videoMode_ == NTSC && conf[STUDIOIV].rom_[MAINROM1] == "am4kbas 2020 PAL.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "am4kbas 2020 NTSC.bin";
+        if (conf[STUDIOIV].videoMode_ == PAL && conf[STUDIOIV].rom_[MAINROM1] == "am4kbas 32K 2020 NTSC.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "am4kbas 32K 2020 PAL.bin";
+        if (conf[STUDIOIV].videoMode_ == NTSC && conf[STUDIOIV].rom_[MAINROM1] == "am4kbas 32K 2020 PAL.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "super-chip NTSC.bin";
+        if (conf[STUDIOIV].videoMode_ == PAL && conf[STUDIOIV].rom_[MAINROM1] == "super-chip NTSC.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "super-chip PAL.bin";
+        if (conf[STUDIOIV].videoMode_ == NTSC && conf[STUDIOIV].rom_[MAINROM1] == "super-chip PAL.bin")
+            conf[STUDIOIV].rom_[MAINROM1] = "super-chip NTSC.bin";
+
+        if (conf[STUDIOIV].videoMode_ == PAL )
+            conf[STUDIOIV].xScale_ = "4";
+        else
+            conf[STUDIOIV].xScale_ = "3";
+ 
+        configPointer->Write("/StudioIV/Window_Scale_Factor_X", conf[STUDIOIV].xScale_);
+
         XRCCTRL(*this, "MainRomStudioIV", wxComboBox)->SetValue(conf[STUDIOIV].rom_[MAINROM1]);
     }
 }
@@ -696,3 +802,35 @@ int GuiStudio2::getStudioVideoMode(int computer)
 {
     return conf[computer].videoMode_;
 }
+
+void GuiStudio2::onCartSwitch(wxCommandEvent& event)
+{
+    if (loadromMode_ == ROM)
+    {
+        loadromMode_ = RAM;
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART RAM");
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge RAM file");
+    }
+    else
+    {
+        loadromMode_ = ROM;
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetLabel("CART ROM");
+        XRCCTRL(*this, "CartRomButtonStudioIV", wxButton)->SetToolTip("Browse for cartridge ROM file");
+    }
+}
+
+int GuiStudio2::getLoadromModeStudio()
+{
+    return loadromMode_;
+}
+
+bool GuiStudio2::is2020Active()
+{
+    return conf[STUDIOIV].st2020Active_;
+}
+
+void GuiStudio2::on2020Active(wxCommandEvent&event)
+{
+    conf[STUDIOIV].st2020Active_ = event.IsChecked();
+}
+

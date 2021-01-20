@@ -121,6 +121,7 @@ public:
 	Byte getKey(Byte vtOut);
 	void activateMainWindow();
 	void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    void refreshPanel();
 
 private:
 	class SuperScreen *superScreenPointer;

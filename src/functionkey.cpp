@@ -91,7 +91,9 @@ BEGIN_EVENT_TABLE(FunctionKeyMapDialog, wxDialog)
    EVT_BUTTON(XRCID("FunctionKey6"), FunctionKeyMapDialog::onFunctionKey)
    EVT_BUTTON(XRCID("FunctionKey7"), FunctionKeyMapDialog::onFunctionKey)
    EVT_BUTTON(XRCID("FunctionKey8"), FunctionKeyMapDialog::onFunctionKey)
-   EVT_BUTTON(XRCID("FunctionKeyC"), FunctionKeyMapDialog::onFunctionKey)
+   EVT_BUTTON(XRCID("FunctionKeyA"), FunctionKeyMapDialog::onFunctionKey)
+   EVT_BUTTON(XRCID("FunctionKeyD"), FunctionKeyMapDialog::onFunctionKey)
+   EVT_CHECKBOX(XRCID("EnableCtrlv"), FunctionKeyMapDialog::onEnableCtrlv)
    EVT_CHECKBOX(XRCID("EnableEscape"), FunctionKeyMapDialog::onEnableEscape)
 #ifdef __WXMAC__
    EVT_TIMER(wxID_ANY, FunctionKeyMapDialog::onFocusTimer)
@@ -107,7 +109,7 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
 
 	XRCCTRL(*this, "Save", wxButton)->SetFocus();
 
-	for (int i=0; i<13; i++)
+	for (int i=0; i<14; i++)
 		functionKey_[i] = p_Main->getFunctionKey(i);
 
 	this->connectKeyDownEvent(this);
@@ -115,6 +117,10 @@ FunctionKeyMapDialog::FunctionKeyMapDialog(wxWindow* parent)
     useExitKey_ = p_Main->getUseExitKey();
 	XRCCTRL(*this, "EnableEscape", wxCheckBox)->SetValue(useExitKey_);
 	XRCCTRL(*this, "FunctionKey0", wxButton)->Enable(useExitKey_);
+
+    useCtrlvKey_ = p_Main->getUseCtrlvKey();
+    XRCCTRL(*this, "EnableCtrlv", wxCheckBox)->SetValue(useCtrlvKey_);
+    XRCCTRL(*this, "FunctionKeyD", wxButton)->Enable(useCtrlvKey_);
 
     LoadAndCompare(ELF, "Elf");
     LoadAndCompare(ELFII, "ElfII");
@@ -175,17 +181,21 @@ void FunctionKeyMapDialog::LoadAndCompare(int computerType, wxString computer)
 void FunctionKeyMapDialog::LoadAndCompareStudio(int computerType, wxString computer)
 {
     int dummy[5];
-	int hexKeyDef1[10];
-	int hexKeyDef2[10];
+	int hexKeyDef1[16];
+	int hexKeyDef2[16];
 
+    int numberOfKeys = 10;
+    if (computerType == STUDIOIV)
+        numberOfKeys = 16;
+    
     p_Main->getDefaultHexKeys(computerType, computer, "A", hexKeyDef1, hexKeyDef2, dummy);
-    for (int i=0; i<10; i++)
+    for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
     }
     p_Main->getDefaultHexKeys(computerType, computer, "B", hexKeyDef1, hexKeyDef2, dummy);
-    for (int i=0; i<10; i++)
+    for (int i=0; i<numberOfKeys; i++)
     {
         keyUsed[hexKeyDef1[i]] = 1;
         keyUsed[hexKeyDef2[i]] = 1;
@@ -204,7 +214,7 @@ void FunctionKeyMapDialog::compareButtons(int toBeCheckedButton, int toBeChecked
         XRCCTRL(*this, button, wxButton)->SetForegroundColour(wxColour(255,128,0));
 #endif
 	}
-	for (int i=0; i<13; i++)
+	for (int i=0; i<14; i++)
 	{
 		if (i != toBeCheckedButton && functionKey_[i] == toBeCheckedValue)
 		{
@@ -238,16 +248,18 @@ void FunctionKeyMapDialog::updateButtons()
     compareButtons(7, functionKey_[7]);
     setLabel("FunctionKey%01X", 8, functionKey_[8]);
     compareButtons(8, functionKey_[8]);
-	setLabel("FunctionKey%01X", 12, functionKey_[12]);
-	compareButtons(12, functionKey_[12]);
+    setLabel("FunctionKey%01X", 12, functionKey_[12]);
+    compareButtons(12, functionKey_[12]);
+    setLabel("FunctionKey%01X", 13, functionKey_[13]);
 }
 
 void FunctionKeyMapDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 {
-	for (int i=0; i<13; i++)
+	for (int i=0; i<14; i++)
 		p_Main->setFunctionKey(i, functionKey_[i]);
 
-	 p_Main->setUseExitKey(useExitKey_);
+    p_Main->setUseExitKey(useExitKey_);
+    p_Main->setUseCtrlvKey(useCtrlvKey_);
 
 	EndModal( wxID_OK );
 }
@@ -308,17 +320,51 @@ void FunctionKeyMapDialog::onDefault(wxCommandEvent& WXUNUSED(event))
 	functionKey_[9] = WXK_F9;
 	functionKey_[10] = WXK_F10;
 	functionKey_[11] = WXK_F11;
-	functionKey_[12] = WXK_F12;
-
+    functionKey_[12] = WXK_F12;
+#ifdef __WXMAC__
+    functionKey_[13] = 86;
+#else
+    functionKey_[13] = WXK_CONTROL_V;
+#endif
+    
 	updateButtons();
-	fKey_ = -1;
+
+    useExitKey_ = false;
+    XRCCTRL(*this, "EnableEscape", wxCheckBox)->SetValue(useExitKey_);
+    XRCCTRL(*this, "FunctionKey0", wxButton)->Enable(useExitKey_);
+    
+    useCtrlvKey_ = true;
+    XRCCTRL(*this, "EnableCtrlv", wxCheckBox)->SetValue(useCtrlvKey_);
+    XRCCTRL(*this, "FunctionKeyD", wxButton)->Enable(useCtrlvKey_);
+    
+    fKey_ = -1;
 }
 
 void FunctionKeyMapDialog::onKeyDown(wxKeyEvent &event)
 {
 	int key = event.GetKeyCode();
-	if (key == WXK_SHIFT)
+	if (key == WXK_SHIFT || key == 0)
 		return;
+    
+    if (fKey_ == 13)
+    {
+#ifdef __WXMAC__
+        if (key >= 'a' && key <='z')
+            key-=32;
+   
+        if (key < 'A' || key >'Z')
+            return;
+#else
+        if (key >= 'a' && key <='z')
+            key-=96;
+
+        if (key >= 'A' && key <='Z')
+            key-=64;
+
+        if (key < 1 || key >26)
+            return;
+#endif
+    }
 
 	if (fKey_ != -1)
 	{
@@ -358,95 +404,95 @@ void FunctionKeyMapDialog::setLabel(wxString printStr, long button, int key)
 	{
         case WXK_CONTROL_A:
             keyStr = "Control A";
-            break;
+        break;
             
         case WXK_CONTROL_B:
             keyStr = "Control B";
-            break;
+        break;
             
         case WXK_CONTROL_C:
             keyStr = "Control C";
-            break;
+        break;
             
         case WXK_CONTROL_D:
             keyStr = "Control D";
-            break;
+        break;
             
         case WXK_CONTROL_E:
             keyStr = "Control E";
-            break;
+        break;
             
         case WXK_CONTROL_F:
             keyStr = "Control F";
-            break;
+        break;
             
         case WXK_CONTROL_G:
             keyStr = "Control G";
-            break;
+        break;
             
         case WXK_CONTROL_J:
             keyStr = "Control J";
-            break;
+        break;
             
         case WXK_CONTROL_K:
             keyStr = "Control K";
-            break;
+        break;
             
         case WXK_CONTROL_L:
             keyStr = "Control L";
-            break;
+        break;
             
         case WXK_CONTROL_N:
             keyStr = "Control N";
-            break;
+        break;
             
         case WXK_CONTROL_O:
             keyStr = "Control O";
-            break;
+        break;
             
         case WXK_CONTROL_P:
             keyStr = "Control P";
-            break;
+        break;
             
         case WXK_CONTROL_Q:
             keyStr = "Control Q";
-            break;
+        break;
             
         case WXK_CONTROL_R:
             keyStr = "Control R";
-            break;
+        break;
             
         case WXK_CONTROL_S:
             keyStr = "Control S";
-            break;
+        break;
             
         case WXK_CONTROL_T:
             keyStr = "Control T";
-            break;
+        break;
             
         case WXK_CONTROL_U:
             keyStr = "Control U";
-            break;
+        break;
             
         case WXK_CONTROL_V:
             keyStr = "Control V";
-            break;
+        break;
             
         case WXK_CONTROL_W:
             keyStr = "Control W";
-            break;
+        break;
             
         case WXK_CONTROL_X:
             keyStr = "Control X";
-            break;
+        break;
             
         case WXK_CONTROL_Y:
             keyStr = "Control Y";
-            break;
+        break;
             
         case WXK_CONTROL_Z:
             keyStr = "Control Z";
-            break;
+        break;
             
 		case WXK_NUMPAD0:
             keyStr = "Pd 0";
@@ -793,13 +839,18 @@ void FunctionKeyMapDialog::setLabel(wxString printStr, long button, int key)
 		break;
 	}
     keyStrNum.Printf("(%i)", key);
-    keyStr = keyStr + keyStrNum;
     
 	if (button < 16)
 		buttonStr.Printf(printStr, (int)button);
 	else
 		buttonStr = printStr;
     
+    if (button == 13)
+#if defined __WXMAC__
+        keyStr = "⌘" + keyStr;
+#endif
+        keyStr = keyStr + keyStrNum;
+
 	XRCCTRL(*this, buttonStr, wxButton)->SetLabel(keyStr);
 #ifdef __WXMAC__
 	XRCCTRL(*this, buttonStr, wxButton)->SetBackgroundColour(wxNullColour);
@@ -812,4 +863,10 @@ void FunctionKeyMapDialog::onEnableEscape(wxCommandEvent&event)
 {
 	useExitKey_ = event.IsChecked();
 	XRCCTRL(*this, "FunctionKey0", wxButton)->Enable(useExitKey_);
+}
+
+void FunctionKeyMapDialog::onEnableCtrlv(wxCommandEvent&event)
+{
+    useCtrlvKey_ = event.IsChecked();
+    XRCCTRL(*this, "FunctionKeyD", wxButton)->Enable(useCtrlvKey_);
 }

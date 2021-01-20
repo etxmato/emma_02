@@ -88,6 +88,7 @@ public:
 	void setLedMs(long ms);
 	void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
+    void refreshPanel();
 
 private:
 	class Uc1800Screen *uc1800ScreenPointer;

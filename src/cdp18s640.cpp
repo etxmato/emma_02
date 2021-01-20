@@ -147,6 +147,10 @@ void Cdp18s640Screen::onPaint(wxPaintEvent&WXUNUSED(event))
     dc.DrawText("Q", 201, 84);
     dc.DrawText("RUN", 229, 84);
 
+#if defined (__WXMAC__)
+    rePaintLeds(dc);
+#endif
+
     addressTil313PointerItalic[3]->onPaint(dc);
     addressTil313PointerItalic[2]->onPaint(dc);
     addressTil313PointerItalic[1]->onPaint(dc);
@@ -255,5 +259,9 @@ void Cdp18s640Frame::onResetButton(wxCommandEvent&WXUNUSED(event))
     p_Computer->onReset();
 }
 
+void Cdp18s640Frame::refreshPanel()
+{
+    cdp18s640ScreenPointer->refreshPanel();
+}
 
 

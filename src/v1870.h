@@ -81,6 +81,7 @@ public:
 	void draw6845(Word addr, Byte value);
 	void drawCharacter6845(int x, int y, Byte value);
 	void drawCursor6845(Word addr, bool status);
+    void drawCursor6845(wxDC &dc, Word addr, bool status);
 	void v1870BarSize();
 	void setInterlace(bool status);
 	void setClock(double clock);
@@ -88,6 +89,8 @@ public:
 	void setFullScreen(bool fullScreenSet);
 	void onF3();
     void updateDiagLedStatus(int led, bool status);
+
+    void reBlit(wxDC &dc);
 
 protected:
 	int videoMode_;

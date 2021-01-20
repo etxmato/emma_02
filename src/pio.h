@@ -114,7 +114,8 @@ public:
     void onArdyButton(wxCommandEvent&event);
     void onBrdyButton(wxCommandEvent&event);
     void releaseButtonOnScreen(HexButton* buttonPoint) {pioScreenPointer->releaseButtonOnScreen(buttonPoint);};
-    
+    void refreshPanel();
+
 private:
     class PioScreen *pioScreenPointer;
 

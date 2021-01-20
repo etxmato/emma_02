@@ -33,7 +33,8 @@ public:
     void resetPressed();
 
 	void charEvent(int keycode);
-	bool keyDownExtended(int keycode, wxKeyEvent& event);
+    bool keyDownExtended(int keycode, wxKeyEvent& event);
+    bool keyCheck(int keycode, int modifiers);
 	void keyUp(int keycode);
 	void keyClear();
 
@@ -51,7 +52,7 @@ public:
     void switchQ(int value);
 
     int getDmaCounter() {return dmaCounter_;};
-    
+
 private:
 	Byte keyboardEf2_;
 	Byte keyboardEf3_;
@@ -59,7 +60,8 @@ private:
 	Byte qMode_;
 
 	Byte lastKeyCode_;
-	int keyboardCode_;
+    int keyboardCode_;
+    int secondKeyboardCodes[5];
 	wxKeyCode previousKeyCode_;
 
     int keyCycles_;
@@ -73,6 +75,7 @@ private:
 	wxFile comxKeyFile_;
 	bool comxKeyFileOpened_;
 	size_t comxRunCommand_;
+    size_t ctrlvText_;
 	wxString commandText_; 
 	int comxRunState_;
 

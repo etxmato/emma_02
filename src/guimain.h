@@ -72,8 +72,9 @@
 #define CARD_CDP18S652 13
 #define CARD_CDP18S660 14
 #define CARD_CDP18S661B 15
-#define CARD_CDP18S661V3 16
-#define CARD_LAST 16
+#define CARD_CDP18S661V1 16
+#define CARD_CDP18S661V3 17
+#define CARD_LAST 17
 
 #define FDCTYPE_MS2000 0
 #define FDCTYPE_MICROBOARD 1
@@ -184,8 +185,10 @@ public:
 	bool useLoadLocation_;
 	bool autoCassetteLoad_;
 	bool turbo_;
-	bool interlace_;
-	bool sbActive_;
+    bool interlace_;
+    bool dram_;
+    bool st2020Active_;
+    bool sbActive_;
 	bool diagActive_;
 	int diagOn_;
 	bool videoLog_;
@@ -201,7 +204,8 @@ public:
 	int v1870X_, v1870Y_;
     int pixieX_, pixieY_;
 	int tmsX_, tmsY_;
-	int vtX_, vtY_;
+    int vtX_, vtY_;
+    int vtUart2X_, vtUart2Y_;
 	int mc6845X_, mc6845Y_;
 	int mc6847X_, mc6847Y_;
 	int i8275X_, i8275Y_;
@@ -264,6 +268,8 @@ public:
 
 	GuiMain(const wxString& title, const wxPoint& pos, const wxSize& size, Mode mode, wxString dataDir, wxString iniDir);
 	~GuiMain() {};
+
+    WindowInfo getWinSizeInfo(wxString appDir);
 
     void readElfPortConfig(int elfType, wxString elfTypeStr);
     void writeElfPortConfig(int elfType, wxString elfTypeStr);
@@ -482,8 +488,10 @@ public:
 	void setPixiePos(int computerType, wxPoint position);
 	wxPoint getTmsPos(int computerType);
 	void setTmsPos(int computerType, wxPoint position);
-	wxPoint getVtPos(int computerType);
-	void setVtPos(int computerType, wxPoint position);
+    wxPoint getVtPos(int computerType);
+    void setVtPos(int computerType, wxPoint position);
+    wxPoint getVtUart2Pos(int computerType);
+    void setVtUart2Pos(int computerType, wxPoint position);
 	wxPoint get6845Pos(int computerType);
 	void set6845Pos(int computerType, wxPoint position);
 	wxPoint get6847Pos(int computerType);
@@ -583,7 +591,7 @@ public:
     wxString getUpdFloppyDirSwitched(int fdcType, int drive);
     wxString getUpdFloppyDir(int fdcType, int drive);
     wxString getUpdFloppyFile(int fdcType, int drive);
-    void setUpdFloppyGui(int drive);
+    void setUpdFloppyGui(int drive, int computerType);
 
 protected:
 	Mode mode_;
@@ -598,6 +606,7 @@ protected:
     Cdp18s602 *p_Cdp18s602;
     Cdp18s603a *p_Cdp18s603a;
     Cdp18s604b *p_Cdp18s604b;
+    Rcasbc *p_Rcasbc;
 	Nano *p_Nano;
 	Tmc1800 *p_Tmc1800;
 	Tmc2000 *p_Tmc2000;
@@ -667,6 +676,7 @@ protected:
     wxString keyboardType_;
     wxString keyboardTypeMenuItem_;
 
+    bool useCtrlvKey_;
     bool useExitKey_;
 
 	WindowInfo windowInfo;
@@ -707,6 +717,9 @@ protected:
 	wxString fileSelectorAnswer_;
 	int messageAddressPopupAnswer_;
 
+    wxSize clientSize_;
+    bool sizeChanged_;
+    
     bool terminalSave_;
     bool terminalLoad_;
 

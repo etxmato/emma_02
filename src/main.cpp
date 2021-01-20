@@ -536,7 +536,11 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_GUI_MSG(DEBOUNCE_TIMER, Main::setDebounceTimer)
     EVT_GUI_MSG(ZOOM_CHANGE, Main::setZoomChange)
     EVT_GUI_MSG(ZOOMVT_CHANGE, Main::setZoomVtChange)
-    EVT_GUI_MSG(DO_BLIT, Main::setBlit)
+    EVT_GUI_MSG(GET_CLIENT_SIZE, Main::GetClientSizeEvent)
+    EVT_GUI_MSG(SET_CLIENT_SIZE, Main::SetClientSizeEvent)
+    EVT_GUI_MSG(REFRESH_VIDEO, Main::refreshVideoEvent)
+    EVT_GUI_MSG(REFRESH_PANEL, Main::refreshPanelEvent)
+    EVT_GUI_MSG(EVENT_ZOOM, Main::SetZoomEvent)
 
 	EVT_COMMAND(wxID_ANY, KILL_COMPUTER, Main::killComputer)
 
@@ -562,26 +566,6 @@ int main(int argc, char *argv[])
 }
 #else
 IMPLEMENT_APP(Emu1802)
-#endif
-
-#if defined (__WXMSW__)
-// RTL_OSVERSIONINFOEXW is defined in winnt.h
-BOOL GetOsVersion(RTL_OSVERSIONINFOEXW* pk_OsVer)
-{
-	typedef LONG(WINAPI* tRtlGetVersion)(RTL_OSVERSIONINFOEXW*);
-
-	memset(pk_OsVer, 0, sizeof(RTL_OSVERSIONINFOEXW));
-	pk_OsVer->dwOSVersionInfoSize = sizeof(RTL_OSVERSIONINFOEXW);
-
-	HMODULE h_NtDll = GetModuleHandleW(L"ntdll.dll");
-	tRtlGetVersion f_RtlGetVersion = (tRtlGetVersion)GetProcAddress(h_NtDll, "RtlGetVersion");
-
-	if (!f_RtlGetVersion)
-		return FALSE; // This will never happen (all processes load ntdll.dll)
-
-	LONG Status = f_RtlGetVersion(pk_OsVer);
-	return Status == 0; // STATUS_SUCCESS;
-}
 #endif
 
 class MyFrame : public wxFrame
@@ -1658,6 +1642,28 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     if (windowInfo.errorMessage != "")
         message(windowInfo.errorMessage);
 
+	wxString oldVersionString = configPointer->Read("/Main/OldVersion", "13600");
+	double oldVersion;
+	oldVersionString.ToDouble(&oldVersion);
+
+	if ((int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION) > (int)oldVersion)
+	{
+        oldVersionString.Printf("%d", (int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION));
+		configPointer->Write("/Main/OldVersion", oldVersionString);
+
+		int answer = wxMessageBox("New release detected: \n\nRe-install of configuration files recommended\n\nThis will overwrite files in the configuration directory:\n"+iniDir_ + "Configurations" + pathSeparator_+"\n\nContinue to install default configuration files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+		if (answer == wxYES)
+		{
+			reInstall(applicationDirectory_ + "Configurations" + pathSeparator_, iniDir_ + "Configurations" + pathSeparator_, pathSeparator_);
+		}
+
+		answer = wxMessageBox("New release detected: \n\nRe-install of 1802 software files recommended\n\nThis will overwrite files in the 1802 software directory:\n"+dataDir_+"\n\nContinue to install default 1802 software files?", "Emma 02",  wxICON_EXCLAMATION | wxYES_NO);
+		if (answer == wxYES)
+		{
+			reInstall(applicationDirectory_ + "data" + pathSeparator_, dataDir_, pathSeparator_);
+		}
+	}
+
     bool softwareDirInstalled;
     for (int computer=2; computer<NO_COMPUTER; computer++)
     {
@@ -1726,6 +1732,9 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
 		updateCheckPointer->Start(10000, wxTIMER_ONE_SHOT);
 
 	guiInitialized_ = true;
+    panelRefreshOngoing_ = false;
+    videoRefreshOngoing_ = false;
+    emuClosing_ = false;
 }
 
 Main::~Main()
@@ -1795,386 +1804,6 @@ Main::~Main()
 			wxThread::This()->Sleep(1);
 		}
 	}
-}
-
-WindowInfo Main::getWinSizeInfo(wxString appDir)
-{
-    WindowInfo returnValue;
-    wxString windowInfoFile;
-    int major, minor;
-    
-    returnValue.errorMessage = "";
-    wxGetOsVersion(&major, &minor);
-    
-    wxConfigBase *windowConfigPointer;
-    
-#if defined (__WXMAC__)
-    windowInfoFile = "osx.ini";
-    wxString appName = "emma_02";
-    
-    returnValue.operatingSystem = OS_MAC;
-#endif
-   
-    wxLinuxDistributionInfo distInfo;
-
-#if defined (__linux__)
-    distInfo = wxPlatformInfo::Get().GetLinuxDistributionInfo();
-
-    if (distInfo.Id == "Ubuntu")
-    {
-        switch (major)
-        {
-            case 2:
-                distInfo.Id += ".2";
-            break;
-                
-            case 3:
-                distInfo.Id += ".3";
-            break;
-
-            default:
-                distInfo.Id += ".4";
-            break;
-        }
-    }
-
-    windowInfoFile = distInfo.Id + ".ini";
-
-    if (distInfo.Id == "")
-    {
-        distInfo.Id = wxPlatformInfo::Get().GetOperatingSystemDescription();
-        if (distInfo.Id.Find("fc") != wxNOT_FOUND) // Fedor is something like: Linux 4.11.11-300.fc26.x86_64 x86_64
-            windowInfoFile = "fedora.ini";
-        if (distInfo.Id.Find("lp") != wxNOT_FOUND) // openSUSE: Linux 4.12.14-lp151.27-default x86_64
-            windowInfoFile = "suse.ini";
-    }
-    
-    wxString appName = "emma_02";
-    
-    returnValue.operatingSystem = OS_LINUX;
-#endif
-    
-#if defined (__WXMSW__)
-    wxString appName = "Emma 02";
-    returnValue.operatingSystem = OS_WINDOWS;
-    
-    RTL_OSVERSIONINFOEXW osVersion;
-    GetOsVersion(&osVersion);
-    
-    switch (osVersion.dwMajorVersion)
-    {
-        case OS_MAJOR_XP_2000:
-            if (osVersion.dwMinorVersion == OS_MINOR_2000)
-            {
-                windowInfoFile = "win2000.ini";
-                returnValue.operatingSystem = OS_WINDOWS_2000;
-            }
-            else
-                windowInfoFile = "winxp.ini";
-        break;
-            
-        case OS_MAJOR_VISTA_8_1:
-            windowInfoFile = "win8.ini";
-        break;
-            
-        default:
-            windowInfoFile = "win10.ini";
-        break;
-    }
-#endif
-    
-    windowInfoFile = windowInfoFile.MakeLower();
-    
-    bool fileExists = wxFile::Exists(appDir + windowInfoFile);
-    if (!fileExists)
-    {
-        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' not found, loading default configuration\n";
-       
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Id + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Release + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.CodeName + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + distInfo.Description + "\n";
-//        returnValue.errorMessage = returnValue.errorMessage + wxPlatformInfo::Get().GetOperatingSystemDescription() + "\n";
-
-        windowInfoFile = "linuxdefault.ini";
-    }
-/*    else
-    {
-        returnValue.errorMessage = "Configuration file '" + windowInfoFile + "' loaded\n";
-        returnValue.errorMessage = returnValue.errorMessage + distInfo.Id + "\n";
-    }*/
-
-    wxFileConfig *pConfig = new wxFileConfig(appName, "Marcel van Tongeren", appDir + windowInfoFile);
-    
-    wxConfigBase *currentConfigPointer = wxConfigBase::Set(pConfig);
-    windowConfigPointer = wxConfigBase::Get();
-    
-    returnValue.xBorder = (int)windowConfigPointer->Read("/Border/x", 1);
-    returnValue.yBorder = (int)windowConfigPointer->Read("/Border/y", 1);
-    returnValue.xBorder2 = (int)windowConfigPointer->Read("/Border/x2", 1);
-    returnValue.yBorder2 = (int)windowConfigPointer->Read("/Border/y2", 24);
-    returnValue.xPrint = (int)windowConfigPointer->Read("/Print/x", 19);
-    
-    returnValue.clockTextCorrectionX = (int)windowConfigPointer->Read("/Correction/clockTextX", 315);
-    returnValue.clockTextCorrectionY = (int)windowConfigPointer->Read("/Correction/clockTextY", 121);
-    returnValue.clockTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabX", 316);
-    returnValue.clockTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockTextSingleTabY", 97);
-    
-    returnValue.clockCorrectionX = (int)windowConfigPointer->Read("/Correction/clockX", 279);
-    returnValue.clockCorrectionY = (int)windowConfigPointer->Read("/Correction/clockY", 124);
-    returnValue.clockCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/clockSingleTabX", 280);
-    returnValue.clockCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/clockSingleTabY", 100);
-    
-    returnValue.mhzTextCorrectionX = (int)windowConfigPointer->Read("/Correction/mhzTextX", 230);
-    returnValue.mhzTextCorrectionY = (int)windowConfigPointer->Read("/Correction/mhzTextY", 121);
-    returnValue.mhzTextCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabX", 231);
-    returnValue.mhzTextCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/mhzTextSingleTabY", 97);
-    
-    returnValue.stopCorrectionX = (int)windowConfigPointer->Read("/Correction/stopX", 202);
-    returnValue.stopCorrectionY = (int)windowConfigPointer->Read("/Correction/stopY", 124);
-    returnValue.stopCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/stopSingleTabX", 203);
-    returnValue.stopCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/stopSingleTabY", 100);
-    
-    returnValue.startCorrectionX = (int)windowConfigPointer->Read("/Correction/startX", 119);
-    returnValue.startCorrectionY = (int)windowConfigPointer->Read("/Correction/startY", 124);
-    returnValue.startCorrectionSingleTabX = (int)windowConfigPointer->Read("/Correction/startSingleTabX", 120);
-    returnValue.startCorrectionSingleTabY = (int)windowConfigPointer->Read("/Correction/startSingleTabY", 100);
-    
-    returnValue.ledPosY = (int)windowConfigPointer->Read("/Bar/ledPosY", 2);
-    returnValue.ledPosX1 = (int)windowConfigPointer->Read("/Bar/ledPosX1", 0l);
-    returnValue.ledPosX2 = (int)windowConfigPointer->Read("/Bar/ledPosX2", 19);
-    returnValue.ledSpacing = (int)windowConfigPointer->Read("/Bar/ledSpacing", 1);
-    returnValue.ledPosDiagY = (int)windowConfigPointer->Read("/Bar/ledPosDiagY", -2);
-    returnValue.ledPosVip2Y = (int)windowConfigPointer->Read("/Bar/ledPosVip2Y", -1);
-    
-    returnValue.statusBarLeader = windowConfigPointer->Read("/Bar/leader", "%d:           X");
-    returnValue.statusBarLeader = returnValue.statusBarLeader.Left (returnValue.statusBarLeader.Len()-1);
-
-    returnValue.statusBarLeaderCidelsa = windowConfigPointer->Read("/Bar/leaderCidelsa", "      X");
-    returnValue.statusBarLeaderCidelsa = returnValue.statusBarLeaderCidelsa.Mid (1, returnValue.statusBarLeaderCidelsa.Len()-2);
-
-    returnValue.statusBarElementMeasure[0] = (int)windowConfigPointer->Read("/Bar/ElementMeasure0", 40);
-    returnValue.statusBarElementMeasure[1] = (int)windowConfigPointer->Read("/Bar/ElementMeasure1", 70);
-    returnValue.statusBarElementMeasure[2] = (int)windowConfigPointer->Read("/Bar/ElementMeasure2", 80);
-    returnValue.statusBarElementMeasure[3] = (int)windowConfigPointer->Read("/Bar/ElementMeasure3", 100);
-    returnValue.statusBarElementMeasure[4] = (int)windowConfigPointer->Read("/Bar/ElementMeasure4", 150);
-
-    returnValue.floatHeight = (int)windowConfigPointer->Read("/Correction/floatHeight", 21);
-    returnValue.startHeight = (int)windowConfigPointer->Read("/Correction/startHeight", -1);
-    returnValue.clockSize = (int)windowConfigPointer->Read("/Correction/clockSize", 47);
-    
-    returnValue.red = (int)windowConfigPointer->Read("/Colour/red", 219);
-    returnValue.green = (int)windowConfigPointer->Read("/Colour/green", 219);
-    returnValue.blue = (int)windowConfigPointer->Read("/Colour/blue", 219);
-    
-    windowConfigPointer->Read("/Package/deb", &returnValue.packageDeb, true);
-    
-    delete pConfig;
-    wxConfigBase::Set(currentConfigPointer);
-    
-    /*
-     #if defined (__linux__)
-     wxString var, value;
-     
-     if (distInfo.Id == "Ubuntu")
-     {
-     if (major > 2)
-     {    // Ubuntu >= 11.10
-     returnValue.mainwY = 600;
-     var = "UBUNTU_MENUPROXY";
-     if (wxGetEnv(var , &value))
-     {
-     if (value == "libappmenu.so")
-     returnValue.mainwY = 594;
-     }
-     returnValue.xBorder = 2;
-     returnValue.yBorder = 30;
-     returnValue.xBorder2 = 1;
-     returnValue.yBorder2 = 60;
-     returnValue.mainwX = 640;
-     returnValue.xPrint = 2;
-     returnValue.RegularClockY = 515;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 474;
-     returnValue.ChoiceClockX = 334;
-     if (major >= 4 && minor >= 15)
-     returnValue.operatingSystem = OS_LINUX_UBUNTU_18;
-     else
-     returnValue.operatingSystem = OS_LINUX_UBUNTU_11_10;
-     }
-     else
-     {    // Ubuntu <= 11.04
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     returnValue.xBorder2 = 0;
-     returnValue.yBorder2 = 30;
-     returnValue.mainwX = 640;
-     returnValue.mainwY = 670;
-     returnValue.xPrint = 2;
-     returnValue.RegularClockY = 515;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 474;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_LINUX_UBUNTU_11_04;
-     }
-     }
-     else
-     {
-     returnValue.xBorder = 2;
-     returnValue.yBorder = 30;
-     returnValue.xBorder2 = 1;
-     returnValue.yBorder2 = 60;
-     returnValue.mainwX = 640;
-     returnValue.mainwY = 670;
-     returnValue.xPrint = 2;
-     returnValue.RegularClockY = 515;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 474;
-     returnValue.ChoiceClockX = 334;
-     
-     returnValue.operatingSystem = OS_LINUX_FEDORA;
-     if (distInfo.Id == "LinuxMint")
-     returnValue.operatingSystem = OS_LINUX_MINT;
-     
-     wxString desktop = wxPlatformInfo::Get().GetDesktopEnvironment();
-     if (desktop == "KDE")
-     { // openSUSE KDE
-     returnValue.xBorder = 6;
-     returnValue.yBorder = 27;
-     returnValue.xBorder2 = 6;
-     returnValue.yBorder2 = 54;
-     returnValue.mainwY = 470;
-     returnValue.mainwX = 551;
-     returnValue.xPrint = 21;
-     returnValue.RegularClockY = 383;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 354;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_LINUX_OPENSUSE_KDE;
-     }
-     if (desktop == "GNOME")
-     { // openSUSE GNOME
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     returnValue.xBorder2 = 2;
-     returnValue.yBorder2 = 36;
-     returnValue.mainwY = 510;
-     returnValue.mainwX = 545;
-     returnValue.xPrint = 20;
-     returnValue.RegularClockY = 365;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 334;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_LINUX_OPENSUSE_GNOME;
-     }
-     }
-     #endif*/
-    
-    /*
-     #if defined (__WXMAC__)
-     wxOperatingSystemId operatingSystemId;
-     operatingSystemId = wxGetOsVersion(&major, &minor);
-     
-     returnValue.xBorder = 1;
-     returnValue.yBorder = 1;
-     returnValue.xBorder2 = 1;
-     returnValue.yBorder2 = 24;
-     returnValue.xPrint = 19;
-     returnValue.RegularClockY = 375;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 351;
-     returnValue.ChoiceClockX = 334;
-     returnValue.operatingSystem = OS_MAC;
-     #endif*/
-    /*
-     #if defined (__WXMSW__)
-     RTL_OSVERSIONINFOEXW osVersion;
-     GetOsVersion(&osVersion);
-     
-     switch (osVersion.dwMajorVersion)
-     {
-     case OS_MAJOR_XP_2000:
-     switch (osVersion.dwMinorVersion)
-     {
-     case OS_MINOR_2000:
-     returnValue.xBorder2 = 8;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_2000;
-     break;
-     
-     case OS_MINOR_XP:
-     returnValue.xBorder2 = 8;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_XP;
-     break;
-     
-     default:
-     returnValue.xBorder2 = 8;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_2000;
-     break;
-     }
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     break;
-     
-     case OS_MAJOR_VISTA_8_1:
-     switch (osVersion.dwMinorVersion)
-     {
-     case OS_MINOR_VISTA:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_VISTA;
-     break;
-     
-     case OS_MINOR_7:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_7;
-     break;
-     
-     case OS_MINOR_8:
-     case OS_MINOR_8_1:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_8;
-     break;
-     
-     default:
-     returnValue.xBorder2 = 16;
-     returnValue.yBorder2 = 36;
-     returnValue.operatingSystem = OS_WINDOWS_VISTA;
-     break;
-     }
-     returnValue.xBorder = 0;
-     returnValue.yBorder = 0;
-     break;
-     
-     case OS_MAJOR_10:
-     returnValue.xBorder2 = 2;
-     returnValue.yBorder2 = 9;
-     returnValue.operatingSystem = OS_WINDOWS_10;
-     returnValue.xBorder = -14;
-     returnValue.yBorder = -7;
-     break;
-     
-     default:
-     returnValue.xBorder2 = 2;
-     returnValue.yBorder2 = 9;
-     returnValue.mainwY = 494;
-     returnValue.operatingSystem = OS_WINDOWS_10;
-     returnValue.xBorder = -14;
-     returnValue.yBorder = -7;
-     break;
-     }
-     returnValue.RegularClockY = 370;
-     returnValue.RegularClockX = 333;
-     returnValue.ChoiceClockY = 343;
-     returnValue.ChoiceClockX = 333;
-     returnValue.xPrint = 21;
-     #endif*/
-    
-    return returnValue;
 }
 
 wxSize Main::getPosition(wxString control, wxSize size)
@@ -2322,12 +1951,14 @@ void Main::writeConfig()
 			configPointer->Write("/DataDir", dataDir_);
 		}
 	}
-	configPointer->Write("/Main/Save_Debug_File", saveDebugFile_);
+    configPointer->Write("/Main/LapTimeTrigger", lapTimeTrigger_);
+    configPointer->Write("/Main/Save_Debug_File", saveDebugFile_);
     configPointer->Write("/Main/Save_On_Exit", saveOnExit_);
 	configPointer->Write("/Main/Check_For_Update", checkForUpdate_);
     configPointer->Write("/Main/Floating_Point_Zoom", fullScreenFloat_);
     configPointer->Write("/Main/Use_Num_Pad", useNumPad_);
-	configPointer->Write("/Main/Use_Exit_Key", useExitKey_);
+    configPointer->Write("/Main/Use_Exit_Key", useExitKey_);
+    configPointer->Write("/Main/Use_Ctrlv_Key", useCtrlvKey_);
 	configPointer->Write("/Main/Exit_Key", functionKey_[0]);
 	configPointer->Write("/Main/Help_Key", functionKey_[1]);
 	configPointer->Write("/Main/Activate_Main_Key", functionKey_[2]);
@@ -2337,7 +1968,8 @@ void Main::writeConfig()
 	configPointer->Write("/Main/Debug_Mode_Key", functionKey_[6]);
     configPointer->Write("/Main/Menu_Key", functionKey_[7]);
     configPointer->Write("/Main/VT_Setup", functionKey_[8]);
-	configPointer->Write("/Main/Start_Reset_Key", functionKey_[12]);
+    configPointer->Write("/Main/Start_Reset_Key", functionKey_[12]);
+    configPointer->Write("/Main/Ctrlv_Key", functionKey_[13]);
 	configPointer->Write("/Main/Psave_Volume", psaveData_[0]);
 	configPointer->Write("/Main/Psave_Bit_Rate", psaveData_[1]);
 	configPointer->Write("/Main/Psave_Bits_Per_Sample", psaveData_[2]);
@@ -2727,8 +2359,9 @@ void Main::initConfig()
     colour[14] = "#00d0d0";
     colour[15] = "#fbfbfb";
 
+    borderY[VIDEOPIXIE] = 20; 
     setScreenInfo(STUDIOIV, 0, 16, colour, 2, borderX, borderY);
-    setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "");
+    setComputerInfo(STUDIOIV, "StudioIV", "Studio IV", "tiny");
     
 	wxFont smallFont(6, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #if defined(__WXMAC__)
@@ -3051,11 +2684,13 @@ void Main::readConfig()
 	else
 		nonFixedWindowPosition();
 
+    lapTimeTrigger_ = (int)configPointer->Read("/Main/LapTimeTrigger", (long)LAPTIME_OFF);
 	configPointer->Read("/Main/Save_Debug_File", &saveDebugFile_, false);
     configPointer->Read("/Main/Save_On_Exit", &saveOnExit_, true);
 	configPointer->Read("/Main/Check_For_Update", &checkForUpdate_, true);
     configPointer->Read("/Main/Use_Num_Pad", &useNumPad_, true);
-	configPointer->Read("/Main/Use_Exit_Key", &useExitKey_, false);
+    configPointer->Read("/Main/Use_Exit_Key", &useExitKey_, false);
+    configPointer->Read("/Main/Use_Ctrlv_Key", &useCtrlvKey_, true);
 	runPressed_ = false;
 	functionKey_[0] = (int)configPointer->Read("/Main/Exit_Key", (long)WXK_ESCAPE);
 	functionKey_[1] = (int)configPointer->Read("/Main/Help_Key", (long)WXK_F1);
@@ -3067,7 +2702,12 @@ void Main::readConfig()
     functionKey_[7] = (int)configPointer->Read("/Main/Menu_Key", (long)WXK_F7);
     functionKey_[8] = (int)configPointer->Read("/Main/VT_Setup", (long)WXK_F8);
 	functionKey_[12] = (int)configPointer->Read("/Main/Start_Reset_Key", (long)WXK_F12);
-
+#ifdef __WXMAC__
+    functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)86);
+#else
+    functionKey_[13] = (int)configPointer->Read("/Main/Ctrlv_Key", (long)WXK_CONTROL_V);
+#endif
+    
     wxString cpuTypeString = configPointer->Read("/Main/Cpu_Type", "CDP1805");
     wxString cpuStartupRegistersString = configPointer->Read("/Main/Cpu_StartupRegisters", "StartupRegistersRandom");
     wxString cpuStartupRamString = configPointer->Read("/Main/Cpu_StartupRam", "StartupRamZeroed");
@@ -3084,7 +2724,8 @@ void Main::readConfig()
 
 	if (mode_.gui)
 	{
-		XRCCTRL(*this, "AssSaveDebugFile", wxCheckBox)->SetValue(saveDebugFile_);
+        XRCCTRL(*this, "LapTimeTrigger", wxChoice)->SetSelection(lapTimeTrigger_);
+        XRCCTRL(*this, "AssSaveDebugFile", wxCheckBox)->SetValue(saveDebugFile_);
         menubarPointer->Check(XRCID(GUISAVEONEXIT), saveOnExit_);
 		menubarPointer->Check(XRCID("MI_UpdateCheck"), checkForUpdate_);
 		menubarPointer->Check(XRCID("MI_FullScreenFloat"), fullScreenFloat_);
@@ -3346,7 +2987,7 @@ void Main::adjustGuiSize()
 
 void Main::onHelp(wxCommandEvent& WXUNUSED(event))
 {
-	wxSetWorkingDirectory(p_Main->getApplicationDir());
+    wxSetWorkingDirectory(p_Main->getApplicationDir());
 	help_->DisplayContents();
 }
 /*
@@ -3455,7 +3096,10 @@ bool Main::updateEmma()
 		}
 		return true;
 #elif defined(__WXMAC__)
-		::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
+        if (windowInfo.operatingSystem == OS_MAC_PRE_10_9)
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=15");
+        else
+            ::wxLaunchDefaultBrowser("https://www.emma02.hobby-site.com/ccount/click.php?id=18");
 		return true;
 #else
 		if (wxIsPlatform64Bit())
@@ -4446,6 +4090,10 @@ void Main::setDefaultSettings()
 
     configPointer->Write("/Main/Save_On_Exit", saveOnExit_);
     
+    wxString oldVersionString;
+    oldVersionString.Printf("%d", (int)(EMMA_VERSION*10000 + EMMA_SUB_VERSION));
+    configPointer->Write("/Main/OldVersion", oldVersionString);
+
     
     if (mode_.gui)
     {
@@ -4890,8 +4538,10 @@ bool Main::checkFunctionKey(wxKeyEvent& event)
 		{
 			if (p_Video != NULL)
 				p_Video->onF5();
-			if (p_Vt100 != NULL)
-				p_Vt100->onF5();
+            if (p_Vt100[UART1] != NULL)
+                p_Vt100[UART1]->onF5();
+            if (p_Vt100[UART2] != NULL)
+                p_Vt100[UART2]->onF5();
 		}
 		return true;
 	}
@@ -4951,8 +4601,10 @@ void Main::activateMainWindow()
 {
 	if (computerRunning_)
 	{
-		if (p_Vt100 != NULL)
-			p_Vt100->activateMainWindow();
+        if (p_Vt100[UART1] != NULL)
+            p_Vt100[UART1]->activateMainWindow();
+        if (p_Vt100[UART2] != NULL)
+            p_Vt100[UART2]->activateMainWindow();
 		else if (p_Video != NULL)
 			p_Video->activateMainWindow();
 		else p_Computer->activateMainWindow();
@@ -4973,14 +4625,14 @@ void Main::fullScreenMenu()
 {
 	if (computerRunning_)
 	{
-		if ((p_Video != NULL) && (p_Vt100 != NULL))
+		if ((p_Video != NULL) && (p_Vt100[UART1] != NULL))
 		{
-			if (!p_Video->isFullScreenSet() && !p_Vt100->isFullScreenSet())
-				p_Vt100->onF3();
-			else if (p_Vt100->isFullScreenSet())
+			if (!p_Video->isFullScreenSet() && !p_Vt100[UART1]->isFullScreenSet())
+				p_Vt100[UART1]->onF3();
+			else if (p_Vt100[UART1]->isFullScreenSet())
 			{
-				p_Vt100->onF3();
-				while (p_Vt100->isFullScreenSet()) 
+				p_Vt100[UART1]->onF3();
+				while (p_Vt100[UART1]->isFullScreenSet()) 
 				{
 					wxSleep(1);
 				}
@@ -4993,10 +4645,31 @@ void Main::fullScreenMenu()
 		}
 		else
 		{
-			if (p_Video != NULL)
-				p_Video->onF3();
-			if (p_Vt100 != NULL)
-				p_Vt100->onF3();
+            if ((p_Vt100[UART1] != NULL) && (p_Vt100[UART2] != NULL))
+            {
+                if (!p_Vt100[UART1]->isFullScreenSet() && !p_Vt100[UART2]->isFullScreenSet())
+                    p_Vt100[UART1]->onF3();
+                else if (p_Vt100[UART1]->isFullScreenSet())
+                {
+                    p_Vt100[UART1]->onF3();
+                    while (p_Vt100[UART1]->isFullScreenSet())
+                    {
+                        wxSleep(1);
+                    }
+                    p_Vt100[UART2]->onF3();
+                }
+                else
+                {
+                    p_Vt100[UART2]->onF3();
+                }
+            }
+            else
+            {
+                if (p_Video != NULL)
+                    p_Video->onF3();
+                if (p_Vt100[UART1] != NULL)
+                    p_Vt100[UART1]->onF3();
+            }
 		}
 	}
 }
@@ -5312,6 +4985,8 @@ void Main::nonFixedWindowPosition()
     conf[CDP18S020].vtY_ = -1;
     conf[MICROBOARD].vtX_ = -1;
     conf[MICROBOARD].vtY_ = -1;
+    conf[MICROBOARD].vtUart2X_ = -1;
+    conf[MICROBOARD].vtUart2Y_ = -1;
     conf[MICROBOARD].secondFrameX_ = -1;
     conf[MICROBOARD].secondFrameY_ = -1;
     conf[MICROBOARD].v1870X_ = -1;
@@ -5428,6 +5103,8 @@ void Main::fixedWindowPosition()
     conf[CDP18S020].vtY_ = mainWindowY_;
     conf[MICROBOARD].vtX_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
     conf[MICROBOARD].vtY_ = mainWindowY_;
+    conf[MICROBOARD].vtUart2X_ = mainWindowX_+windowInfo.mainwX+windowInfo.xBorder;
+    conf[MICROBOARD].vtUart2Y_ = mainWindowY_+ 530;
     conf[MICROBOARD].secondFrameX_ = mainWindowX_ + 310 + windowInfo.xBorder2;
     conf[MICROBOARD].secondFrameY_ = mainWindowY_+windowInfo.mainwY+windowInfo.yBorder;
 #if defined (__WXMAC__) || (__linux__)
@@ -5489,7 +5166,8 @@ void Main::onStart(int computer)
 	additionalChip8Details_ = false;
 
 	p_Video = NULL;
-	p_Vt100 = NULL;
+    p_Vt100[UART1] = NULL;
+    p_Vt100[UART2] = NULL;
 	p_Serial = NULL;
 
 	runningComputer_ = computer;
@@ -5697,6 +5375,12 @@ void Main::onStart(int computer)
                     p_Computer = p_Cdp18s604b;
                     p_Video = p_Cdp18s604b;
                break;
+
+                case RCASBC:
+                    p_Rcasbc = new Rcasbc(computerInfo[MICROBOARD].name, wxPoint(conf[MICROBOARD].v1870X_, conf[MICROBOARD].v1870Y_), wxSize(240 * zoom, 216 * zoom), zoom, MICROBOARD,conf[MICROBOARD].clockSpeed_, elfConfiguration[MICROBOARD]);
+                    p_Computer = p_Rcasbc;
+                    p_Video = p_Rcasbc;
+                break;
             }
 
         break;
@@ -5788,7 +5472,7 @@ void Main::onStart(int computer)
 			if (elfConfiguration[runningComputer_].vtType == VTNONE)
 				p_Main->eventVideoSetFullScreen(mode_.full_screen);
 			else
-				p_Main->eventVtSetFullScreen(mode_.full_screen);
+				p_Main->eventVtSetFullScreen(mode_.full_screen, UART1);
 		else	
 			p_Main->eventVideoSetFullScreen(mode_.full_screen);
 	}
@@ -5863,7 +5547,8 @@ void Main::killComputer(wxCommandEvent&WXUNUSED(event))
 	delete p_Computer;
 	p_Computer = NULL;
 	p_Video = NULL;
-	p_Vt100 = NULL;
+    p_Vt100[UART1] = NULL;
+    p_Vt100[UART2] = NULL;
 	p_Serial = NULL;
 	computerRunning_ = false;
 	enableGui(true);
@@ -6558,7 +6243,8 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"ScreenDumpF5Comx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"FullScreenF3Comx", wxButton)->Enable(!status);
 		XRCCTRL(*this,"ExpRamComx", wxCheckBox)->Enable(status&!conf[COMX].diagActive_);
-		XRCCTRL(*this, "SbActiveComx", wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "SbActiveComx", wxCheckBox)->Enable(status);
+        XRCCTRL(*this, "DramComx", wxCheckBox)->Enable(status);
 		XRCCTRL(*this, "DiagActiveComx", wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
@@ -6621,6 +6307,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"FullScreenF3Pecom", wxButton)->Enable(!status);
 		XRCCTRL(*this,"MainRomPecom", wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButtonPecom", wxButton)->Enable(status);
+        XRCCTRL(*this, "DramPecom", wxCheckBox)->Enable(status);
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
 	}
@@ -6838,6 +6525,7 @@ void Main::enableGui(bool status)
         XRCCTRL(*this, "Card2ChoiceMicroboard", wxChoice)->Enable(status);
         XRCCTRL(*this, "Card3ChoiceMicroboard", wxChoice)->Enable(status);
         XRCCTRL(*this, "Card4ChoiceMicroboard", wxChoice)->Enable(status);
+        XRCCTRL(*this, "Card5ChoiceMicroboard", wxChoice)->Enable(status);
 
         XRCCTRL(*this, "Chip8TraceButton", wxToggleButton)->SetValue(false);
         XRCCTRL(*this, "Chip8DebugMode", wxCheckBox)->SetValue(false);
@@ -6858,6 +6546,8 @@ void Main::enableGui(bool status)
         XRCCTRL(*this, "VTBaudTChoiceMicroboard", wxChoice)->Enable(status);
         XRCCTRL(*this, "VTBaudTTextMicroboard", wxStaticText)->Enable(status);
         XRCCTRL(*this, "VtSetupMicroboard", wxButton)->Enable(status);
+        
+//        setCardType();
     }
 	if (runningComputer_ == STUDIO)
 	{
@@ -6920,6 +6610,10 @@ void Main::enableGui(bool status)
         XRCCTRL(*this,"FullScreenF3StudioIV", wxButton)->Enable(!status);
         XRCCTRL(*this,"ScreenDumpF5StudioIV", wxButton)->Enable(!status);
         XRCCTRL(*this,"VidModeStudioIV", wxChoice)->Enable(status);
+        XRCCTRL(*this, "2020StudioIV", wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"CartSwitchStudioIV", wxButton)->Enable(status);
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
     }
 	if (runningComputer_ == TMC2000)
 	{
@@ -7370,6 +7064,14 @@ void Main::messageHex(int value)
 	message(buffer);
 }
 
+void Main::eventMessageHex(int value)
+{
+    wxString buffer;
+    
+    buffer.Printf("%04X ", value);
+    eventShowTextMessage(buffer);
+}
+
 wxString Main::getApplicationDir()
 {
 	return applicationDirectory_;
@@ -7650,7 +7352,9 @@ void Main::cpuTimeout(wxTimerEvent&WXUNUSED(event))
 
 void Main::startTime()
 {
-	startTime_ = wxGetLocalTime();
+    startTime_ = wxGetLocalTime();
+    lapTime_ = 0;
+    lapTimeStart_ = 0;
     lastNumberOfCpuCycles_ = -1;
 }
 
@@ -7690,6 +7394,24 @@ void Main::showTime()
 		XRCCTRL(*this, "RunTime", wxStaticText)->SetLabel(print_buffer);
 #endif
 
+        if (lapTimeStart_ != 0)
+        {
+            endTime = wxGetLocalTime();
+            lapTime_ = (int)(endTime - lapTimeStart_);
+        }
+        s = (int)(lapTime_);
+        h = s / 3600;
+        s -= (h * 3600);
+        m = s / 60;
+        s -= (m * 60);
+
+        print_buffer.Printf("%02d:%02d:%02d",h,m,s);
+#if wxCHECK_VERSION(2, 9, 0)
+        XRCCTRL(*this, "LapTime", wxStaticText)->SetLabelText(print_buffer);
+#else
+        XRCCTRL(*this, "LapTime", wxStaticText)->SetLabel(print_buffer);
+#endif
+        
 		print_buffer.Printf("%6.3f MHz",f1);
 #if wxCHECK_VERSION(2, 9, 0)
 		XRCCTRL(*this, "EffectiveClock", wxStaticText)->SetLabelText(print_buffer);
@@ -7715,6 +7437,21 @@ void Main::showTime()
 #endif
 	}
     lastNumberOfCpuCycles_ = cpuCycles;
+}
+
+void Main::lapTime()
+{
+    if (lapTimeStart_ == 0)
+        lapTimeStart_ = wxGetLocalTime();
+    else
+    {
+        time_t endTime;
+
+        endTime = wxGetLocalTime();
+        lapTime_ = (int)(endTime - lapTimeStart_);
+
+        lapTimeStart_ = 0;
+    }
 }
 
 void Main::vuSet(wxString item, int gaugeValue)
@@ -8063,18 +7800,43 @@ void Main::zoomEventFinished()
 void Main::setZoomVtChange(guiEvent&event)
 {
     double zoom = event.GetDoubleValue();
+    int uartNumber  = event.GetInt();
 
-    p_Vt100->setZoom(zoom);
+    p_Vt100[uartNumber]->setZoom(zoom);
 //    if (runningComputer_ != ELF2K && runningComputer_ != MEMBER)
-//        p_Vt100->copyScreen();
+//        p_Vt100[UART1]->copyScreen();
     zoomVtEventFinished();
 }
 
-void Main::eventZoomVtChange(double zoom)
+void Main::eventZoomVtChange(double zoom, int uartNumber)
 {
     guiEvent event(GUI_MSG, ZOOMVT_CHANGE);
     event.SetEventObject(p_Main);
 
+    event.SetDoubleValue(zoom);
+    event.SetInt(uartNumber);
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::SetZoomEvent(guiEvent& event)
+{
+    bool isVt = event.GetBoolValue1();
+    double zoom = event.GetDoubleValue();
+
+    if (isVt)
+        p_Main->zoomEventVt(zoom);
+    else
+        p_Main->zoomEvent(zoom);
+
+}
+
+void Main::eventZoom(double zoom, bool isVt)
+{
+    guiEvent event(GUI_MSG, EVENT_ZOOM);
+    event.SetEventObject(p_Main);
+
+    event.SetBoolValue1(isVt);
     event.SetDoubleValue(zoom);
 
     GetEventHandler()->AddPendingEvent(event);
@@ -8083,35 +7845,6 @@ void Main::eventZoomVtChange(double zoom)
 void Main::zoomVtEventFinished()
 {
     zoomEventOngoing_ = false;
-}
-
-void Main::setBlit(guiEvent&event)
-{
-    wxCoord xdest = event.GetCoord1();
-    wxCoord ydest = event.GetCoord2();
-    wxCoord width = event.GetCoord3();
-    wxCoord height = event.GetCoord4();
-    wxDC *source = event.GetDc();
-    wxCoord xsrc = event.GetCoord5();
-    wxCoord ysrc = event.GetCoord6();
-
-    p_Video->blitDirect(xdest, ydest, width, height, source, xsrc, ysrc);
-}
-
-void Main::eventBlit(wxCoord xdest, wxCoord ydest, wxCoord width, wxCoord height, wxDC *source, wxCoord xsrc, wxCoord ysrc)
-{
-    guiEvent event(GUI_MSG, DO_BLIT);
-    event.SetEventObject(p_Main);
-
-    event.SetCoord1(xdest);
-    event.SetCoord2(ydest);
-    event.SetCoord3(width);
-    event.SetCoord4(height);
-    event.SetDc(source);
-    event.SetCoord4(xsrc);
-    event.SetCoord4(ysrc);
-
-    GetEventHandler()->AddPendingEvent(event);
 }
 
 void Main::printDefaultEvent(guiEvent&event)
@@ -8255,6 +7988,51 @@ void Main::eventPrintPecom(Byte value)
 	GetEventHandler()->AddPendingEvent(event);
 }
 
+void Main::refreshVideoEvent(guiEvent&event)
+{
+    bool isVt = event.GetBoolValue1();
+    int uartNumber = event.GetInt();
+
+    if (isVt)
+        p_Vt100[uartNumber]->refreshVideo();
+    else
+        p_Video->refreshVideo();
+    videoRefreshOngoing_ = false;
+}
+
+void Main::eventRefreshVideo(bool isVt, int uartNumber)
+{
+    if (videoRefreshOngoing_)
+        return;
+    
+    videoRefreshOngoing_ = true;
+    guiEvent event(GUI_MSG, REFRESH_VIDEO);
+    event.SetEventObject( p_Main );
+
+    event.SetBoolValue1(isVt);
+    event.SetInt(uartNumber);
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
+void Main::refreshPanelEvent(guiEvent&WXUNUSED(event))
+{
+    p_Computer->refreshPanel();
+    panelRefreshOngoing_ = false;
+}
+
+void Main::eventRefreshPanel()
+{
+    if (panelRefreshOngoing_)
+        return;
+    
+    panelRefreshOngoing_ = true;
+    guiEvent event(GUI_MSG, REFRESH_PANEL);
+    event.SetEventObject( p_Main );
+
+    GetEventHandler()->AddPendingEvent(event);
+}
+
 void Main::ShowMessageBoxEvent(guiEvent&event)
 {
     wxString message = event.GetString();
@@ -8302,6 +8080,111 @@ void Main::setMessageBoxAnswer(int answer)
 {
     messageBoxAnswer_ = answer;
 }
+
+void Main::GetClientSizeEvent(guiEvent&event)
+{
+    bool isVt = event.GetBoolValue1();
+    int uartNumber = event.GetInt();
+
+    if (isVt)
+        clientSize_ = p_Vt100[uartNumber]->GetClientSize();
+    else
+        clientSize_ = p_Video->GetClientSize();
+}
+
+wxSize Main::eventGetClientSize(bool isVt, int uartNumber)
+{
+    guiEvent event(GUI_MSG, GET_CLIENT_SIZE);
+    event.SetEventObject( p_Main );
+    
+    event.SetBoolValue1(isVt);
+    event.SetInt(uartNumber);
+
+    clientSize_.x = -1;
+    
+    GetEventHandler()->AddPendingEvent(event);
+    
+    while (clientSize_.x == -1)
+    {
+        if (isComputerRunning())
+            p_Computer->sleepComputer(1);
+        else
+            wxYield();
+    }
+    return clientSize_;
+}
+
+void Main::SetClientSizeEvent(guiEvent&event)
+{
+    wxSize size = event.GetSizeValue();
+    bool changeScreenSize = event.GetBoolValue();
+    bool isVt = event.GetBoolValue1();
+    int uartNumber = event.GetInt();
+
+    if (isVt)
+    {
+        p_Vt100[uartNumber]->setClientSize(size);
+        if (changeScreenSize)
+            p_Vt100[uartNumber]->changeScreenSize();
+    }
+    else
+    {
+        p_Video->setClientSize(size);
+        if (changeScreenSize)
+            p_Video->changeScreenSize();
+    }
+    sizeChanged_ = true;
+}
+
+void Main::eventSetClientSize(wxSize size, bool changeScreenSize, bool isVt, int uartNumber)
+{
+    sizeChanged_ = false;
+    guiEvent event(GUI_MSG, SET_CLIENT_SIZE);
+    event.SetEventObject( p_Main );
+   
+    event.SetBoolValue(changeScreenSize);
+    event.SetBoolValue1(isVt);
+    event.SetSizeValue(size);
+    event.SetInt(uartNumber);
+
+    GetEventHandler()->AddPendingEvent(event);
+
+    while (!sizeChanged_)
+    {
+        if (isComputerRunning())
+            p_Computer->sleepComputer(1);
+        else
+            wxYield();
+    }
+}
+
+void Main::eventSetClientSize(int sizex, int sizey, bool changeScreenSize, bool isVt, int uartNumber)
+{
+    sizeChanged_ = false;
+    guiEvent event(GUI_MSG, SET_CLIENT_SIZE);
+    event.SetEventObject( p_Main );
+   
+    event.SetBoolValue(changeScreenSize);
+    event.SetBoolValue1(isVt);
+    event.SetInt(uartNumber);
+
+    wxSize size;
+    size.x = sizex;
+    size.y = sizey;
+
+    event.SetSizeValue(size);
+
+    GetEventHandler()->AddPendingEvent(event);
+    
+    while (!sizeChanged_)
+    {
+        if (isComputerRunning())
+            p_Computer->sleepComputer(1);
+        else
+            wxYield();
+    }
+}
+
 
 void Main::ShowAddressPopupEvent(guiEvent&event)
 {
@@ -8495,16 +8378,18 @@ void Main::eventVideoSetFullScreen(bool state)
 void Main::setVtFullScreenEvent(guiEvent&event)
 {
     bool status = event.GetBoolValue();
-	if (p_Vt100 != NULL)
-		p_Vt100->setFullScreen(status);
+    int uartNumber  = event.GetInt();
+	if (p_Vt100[uartNumber] != NULL)
+		p_Vt100[uartNumber]->setFullScreen(status);
 }
 
-void Main::eventVtSetFullScreen(bool state)
+void Main::eventVtSetFullScreen(bool state, int uartNumber)
 {
     guiEvent event(GUI_MSG, SET_VT_FULLSCREEN);
     event.SetEventObject( p_Main );
 
     event.SetBoolValue(state);
+    event.SetInt(uartNumber);
 
 	GetEventHandler()->AddPendingEvent(event);
 }
@@ -8952,7 +8837,6 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
         case STUDIO:
         case COINARCADE:
         case VICTORY:
-        case STUDIOIV:
 			keysFound = loadKeyDefinition("", "studiodefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition_studio.txt");
         break;
             
@@ -8966,6 +8850,10 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
                 keysFound = loadKeyDefinition("", "vipdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
             else
                 keysFound = loadKeyDefinition("", "vipiidefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
+        break;
+
+        case STUDIOIV:
+            keysFound = loadKeyDefinition("", "studioivdefault", keyDefA1_, keyDefB1_, keyDefA2_, &simDefA2_, keyDefB2_, &simDefB2_, &inKey1_, &inKey2_, keyDefGameHexA_, keyDefGameHexB_, "keydefinition.txt");
         break;
 
         case ELF:
@@ -9002,7 +8890,6 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case STUDIO:
             case COINARCADE:
             case VICTORY:
-            case STUDIOIV:
             case VISICOM:
                 if (player == "A")
                 {
@@ -9042,6 +8929,7 @@ void Main::getDefaultHexKeys(int computerType, wxString computerStr, wxString pl
             case COSMICOS:
             case VIPII:
             case VELF:
+            case STUDIOIV:
                 if (player == "A")
                 {
                     for (int i=0; i<16; i++)

@@ -62,6 +62,7 @@ BEGIN_EVENT_TABLE(GuiCidelsa, GuiTelmac)
 	EVT_CHOICE(XRCID("CidelsaBonusDraco"), GuiCidelsa::onCidelsaBonusDraco)
 	EVT_CHOICE(XRCID("CidelsaLivesDraco"), GuiCidelsa::onCidelsaLivesDraco)
 	EVT_CHOICE(XRCID("CidelsaCoinDraco"), GuiCidelsa::onCidelsaCoinDraco)
+    EVT_CHOICE(XRCID("CidelsaHw"), GuiCidelsa::onCidelsaHw)
 
 END_EVENT_TABLE()
 
@@ -97,6 +98,8 @@ void GuiCidelsa::readCidelsaConfig()
 	in2ValueDraco_ = (in2ValueDraco_ & 0x0f) | ((configPointer->Read("/Cidelsa/Number_Of_Lives_Draco", 1l) << 4) ^ 0x10);
 	in2ValueDraco_ = (in2ValueDraco_ & 0x1f) | dracoCoin[configPointer->Read("/Cidelsa/Coins_Draco", 7l)];
 
+    hwConfiguration_ = configPointer->Read("/Cidelsa/HwConfiguration", 0l);
+
 	wxString defaultClock;
 	defaultClock.Printf("%1.3f", 3.579);
 	conf[CIDELSA].clock_ = configPointer->Read("/Cidelsa/Clock_Speed", defaultClock);
@@ -111,6 +114,7 @@ void GuiCidelsa::readCidelsaConfig()
 		XRCCTRL(*this, "VolumeCidelsa", wxSlider)->SetValue(conf[CIDELSA].volume_);
 		XRCCTRL(*this, "ScreenDumpFileCidelsa", wxComboBox)->SetValue(conf[CIDELSA].screenDumpFile_);
 		
+        XRCCTRL(*this, "CidelsaHw", wxChoice)->SetSelection(hwConfiguration_);
 		XRCCTRL(*this, "CidelsaDifficulty", wxChoice)->SetSelection((in2Value_ & 0x03) ^ 0x3);
 		XRCCTRL(*this, "CidelsaBonus", wxChoice)->SetSelection(((in2Value_ & 0xc) >> 2) ^ 0x3);
 		XRCCTRL(*this, "CidelsaLives", wxChoice)->SetSelection(((in2Value_ & 0x30) >> 4) ^ 0x3);
@@ -147,7 +151,8 @@ void GuiCidelsa::writeCidelsaConfig()
 	configPointer->Write("/Cidelsa/Coins", ((in2Value_ & 0xc0) >> 6) ^ 0x3);
 	configPointer->Write("/Cidelsa/Difficulty_Draco", ((in2ValueDraco_ & 0x3) ^ 0x3) - 1);
 	configPointer->Write("/Cidelsa/Bonus_Lives_Draco", ((in2ValueDraco_ & 0xc) >> 2) ^ 0x3);
-	configPointer->Write("/Cidelsa/Number_Of_Lives_Draco", ((in2ValueDraco_ & 0x10) >> 4) ^ 0x1);
+    configPointer->Write("/Cidelsa/Number_Of_Lives_Draco", ((in2ValueDraco_ & 0x10) >> 4) ^ 0x1);
+    configPointer->Write("/Cidelsa/HwConfiguration", hwConfiguration_);
 	int i = 0;
 	while (dracoCoin[i] != (in2ValueDraco_ & 0xe0) && i <= 7)
 		i++;
@@ -225,4 +230,10 @@ void GuiCidelsa::onCidelsaCoinDraco(wxCommandEvent&event)
 	if (runningComputer_ == CIDELSA)
 		p_Cidelsa->setIn2ValueDraco(in2ValueDraco_);
 }
+
+void GuiCidelsa::onCidelsaHw(wxCommandEvent&event)
+{
+    hwConfiguration_ = event.GetSelection();
+}
+
 

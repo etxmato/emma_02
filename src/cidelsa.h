@@ -4,9 +4,11 @@
 #include "v1870.h"
 
 #define ALTAIR 0
-#define DESTROYER1 1
-#define DESTROYER2 2
-#define DRACO 3
+#define ALTAIR24 1
+#define DESTROYER1 2
+#define DESTROYER2 3
+#define DRACO 4
+#define DRACO32 5
 
 class Cidelsa : public V1870
 {

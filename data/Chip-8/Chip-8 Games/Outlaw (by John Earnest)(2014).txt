@@ -1,0 +1,5 @@
+An adaptation of the Atari 2600 game "Outlaw" for the Chip8.
+
+Move with 5/7/8/9 (ASWD) and fire with 6 (E). Holding a direction while firing will
+fire an angled shot, which ricochets.
+

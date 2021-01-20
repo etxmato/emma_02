@@ -4,13 +4,42 @@
 <BODY>
 <h2>ROM Files</h2>
 <p>
-To run the RCA Studio IV emulator the ROM dump from the original Studio IV should be specified in the 'ROM' field. Default Studio IV ROM location is the StudioIV directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) and the default filename is 'Studio IV V3 PAL.bin'. To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
+To run the RCA Studio IV emulator the ROM dump from the original Studio IV should be specified in the 'ROM' field. Default Studio IV ROM location is the StudioIV directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) and the default filename is 'am4kbas 32K 2020.bin'. To change the location use the 'ROM' button to browse for the file, do the same to change the filename or type in a new file name in the text field.
 </p>
 <p>
 The binary, Intel hex and RCS Elf Emulator hex format are supported.
 </p>
 <p>
-Similar as for the main ROM any cartridge ROM can be specified via the 'CART' button. Some cartridge games are included in ST2 format in the above described directory. 
+Similar as for the main ROM any cartridge ROM can be specified via the 'CART' button. No cartridge games are included as none have been discovered. 
+</p>
+<h3>Tiny BASIC</h3>
+<p>
+Tiny BASIC as released on the VIP VP700 board was also ported by RCA to the Studio IV. Initially only half (second 2K) of the original code was discovered at the time I was able to port the VIP routines for the missing half to the Studio IV. So the code provided for these versions is not fully original.
+</p>
+<p>
+Four '2020' versions are provided:
+</p>
+<OL>
+<LI>PAL for use with 32K RAM
+<LI>NTSC for use with 32K RAM
+<LI>PAL for use with 4K RAM
+<LI>NTSC for use with 4K RAM
+</OL>
+<p>
+My assumption is that 4K was as developed by RCA as Studio IV color memory is located at address 0x2800 limiting the RAM options. For the 32K RAM version I moved the color memory to 0x1000.
+</p>
+<p>
+Recently sources for the second half of Tiny BASIC was found at the Hagley Museum and Library. Which means we now also have the original code which was only written for an NTSC version and max 4K RAM. This version is inlcuded as 'am4kbas 1978.bin'.
+</p> 
+<h3>Super-chip</h3>
+<p>
+The Super-chip interpreter was designed by me. I started this during the covid-19 pandemic in 2020. Initially for a modified VIP (same HW mod as for the chip10 interpreter) but now also ported to the Studio IV. 
+</p>
+<p>
+The Studio IV port was actually fairly easy, however as Super-Chip is supposed to run from RAM it is not compatible with a real Studio IV if we would ever find one. Instead it runs from RAM but from cartridge ROM location in memory. For this a switch button is added to switch from CART ROM to CART RAM. 
+</p>
+<p>
+For more details and explanations for start-up settings see <a href="DebuggerSyntaxSuperchip.htm">Super-chip Syntax</a>.
 </p>
 </BODY>
 </HTML>

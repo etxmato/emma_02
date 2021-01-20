@@ -26,6 +26,7 @@ public:
 	void switchQ(int value);
 	void cycle(int type);
 	void cycleKey();
+    int translateKey(int key);
 
 	void startComputer();
 	void writeMemDataType(Word address, Byte type);
