@@ -8343,11 +8343,21 @@ void DebugWindow::directAss()
 	dcAss.SelectObject(wxNullBitmap);
 	XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetBitmap(*assBmp);
 	int range = XRCCTRL(*this,"AssRangeType",wxChoice)->GetCurrentSelection();
+    if (range == -1)
+    {
+        range = 0;
+        XRCCTRL(*this,"AssRangeType",wxChoice)->SetSelection(range);
+    }
 	if (range == 0)
 	{
 		printBufferAddress.Printf("%04X", dirAssAddress_);
 		XRCCTRL(*this, "AssStartType", wxTextCtrl)->SetValue(printBufferAddress);
 	}
+    if (XRCCTRL(*this,"AssDataView",wxChoice)->GetCurrentSelection() == -1)
+        XRCCTRL(*this,"AssDataView",wxChoice)->SetSelection(0);
+    if (XRCCTRL(*this,"AssType",wxChoice)->GetCurrentSelection() == -1)
+        XRCCTRL(*this,"AssType",wxChoice)->SetSelection(0);
+
 }
 
 void DebugWindow::drawAssCharacter(Word address, int line, int count)

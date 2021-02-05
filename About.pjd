@@ -1371,7 +1371,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley"</string>
                   <string name="proxy-Id name">"wxID_STATIC"</string>
                   <long name="proxy-Id value">5105</long>
                   <string name="proxy-Implementation filename">""</string>
-                  <string name="proxy-Label">"Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso and Branko Trenkoski"</string>
+                  <string name="proxy-Label">"Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski and Craig Ledbetter"</string>
                   <string name="proxy-Member variable name">""</string>
                   <string name="proxy-Name">""</string>
                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>

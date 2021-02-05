@@ -136,12 +136,16 @@ void VideoScreen::onChar(wxKeyEvent& event)
             {
                 if (wxTheClipboard->Open())
                 {
+//#ifndef __WXMAC__
                     if (wxTheClipboard->IsSupported( wxDF_TEXT ))
                     {
+//#endif
                         wxTextDataObject data;
                         wxTheClipboard->GetData( data );
                         p_Computer->ctrlvText(data.GetText());
+//#ifndef __WXMAC__
                     }
+//#endif
                     wxTheClipboard->Close();
                 }
                 return;

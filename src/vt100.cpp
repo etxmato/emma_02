@@ -2821,7 +2821,10 @@ Byte Vt100::uartIn()
 	uartStatus_[uart_da_bit_] = 0;
 	p_Computer->dataAvailableVt100(0, uartNumber_);
     if (ctrlvText_ != 0)
+    {
+        videoScreenPointer->getKey(0);
         return checkCtrlvTextUart();
+    }
     else
         return videoScreenPointer->getKey(0);
 }
@@ -3720,13 +3723,17 @@ bool Vt100::charPressed(wxKeyEvent& event)
         {
             if (wxTheClipboard->Open())
             {
+//#ifndef __WXMAC__
                 if (wxTheClipboard->IsSupported( wxDF_TEXT ))
                 {
+//#endif
                     wxTextDataObject data;
                     wxTheClipboard->GetData( data );
                     commandText_ = data.GetText();
                     ctrlvText_ = 1;
+//#ifndef __WXMAC__
                 }
+//#endif
                 wxTheClipboard->Close();
                 if (!uart_)
                     return true;

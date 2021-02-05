@@ -844,7 +844,8 @@ void GuiElf::onElfKeyboard(wxCommandEvent&event)
 void GuiElf::onForceUpperCase(wxCommandEvent&event)
 {
 	elfConfiguration[selectedComputer_].forceUpperCase = event.IsChecked();
-    p_Computer->setForceUpperCase(event.IsChecked());
+    if (computerRunning_)
+        p_Computer->setForceUpperCase(event.IsChecked());
 }
 
 void GuiElf::onGiantBoardMapping(wxCommandEvent&event)
