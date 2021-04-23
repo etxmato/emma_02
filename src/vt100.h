@@ -61,10 +61,10 @@ public:
 	void ResetVt();
 	void ResetIo();
 	void setForceUCVt(bool status);
-    void terminalSaveVt(wxString fileName);
-    void terminalSaveCdp18s020Vt(wxString fileName);
-    void terminalLoadVt(wxString fileNamee, bool binaryFile);
-    void terminalLoadCdp18s020Vt(wxString fileNamee, bool binaryFile);
+    void terminalSaveVt(wxString fileName, int protocol);
+    void terminalSaveCdp18s020Vt(wxString fileName, int protocol);
+    void terminalLoadVt(wxString fileNamee, int protocol);
+    void terminalLoadCdp18s020Vt(wxString fileNamee, int protocol);
     void terminalStopVt();
     void startElfRun(bool load, bool overRide);
     void startMcdsRun(bool load);
@@ -231,7 +231,11 @@ private:
     bool terminalSave_;
     bool terminalLoad_;
     bool terminalFileCdp18s020_;
-    bool binaryFile_;
+    int protocol_;
+    unsigned char xmodemBuffer_[132];
+    int xmodemBufferPointer_;
+    Byte terminalAck_;
+    int xmodemPacketNumber_;
     wxFile outputTerminalFile;
     wxFFile inputTerminalFile;
     wxString terminalInputFileLine_;

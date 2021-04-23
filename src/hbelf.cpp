@@ -471,7 +471,7 @@ void Elf::configureComputer()
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
-	if (elfConfiguration.useTape)
+	if (elfConfiguration.useTape  && !elfConfiguration.useXmodem)
 	{
 		efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
 		printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
@@ -548,6 +548,7 @@ void Elf::initComputer()
 	hexKeypadClosed_ = false;
 	ledModuleClosed_ = false;
 	elfRunState_ = RESETSTATE;
+    bootstrap_ = 0;
 }
 
 Byte Elf::ef(int flag)
@@ -943,6 +944,9 @@ int Elf::getMpButtonState()
 
 void Elf::onRun()
 {
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
 	if (runButtonState_)
 	{
 		elfScreenPointer->runSetState(BUTTON_DOWN);
@@ -1071,6 +1075,9 @@ void Elf::startComputer()
     wxString fileName = p_Main->getRomFile(ELF, MAINROM1);
     if (fileName.Right(4) == ".ch8")
         offset = 0x200;
+    
+    if (elfConfiguration.bootStrap)
+        offset = 0x8000;
     if (!elfConfiguration.useRomMapper)
         readProgram(p_Main->getRomDir(ELF, MAINROM1), p_Main->getRomFile(ELF, MAINROM1), p_Main->getLoadromMode(ELF, 0), offset, NONAME);
   
@@ -1120,12 +1127,16 @@ void Elf::startComputer()
         p_Vt100[UART1]->splashScreen();
     else
         p_Video->splashScreen();
-    
+
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
     threadPointer->Run();
 }
 
 void Elf::writeMemDataType(Word address, Byte type)
 {
+    address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1196,6 +1207,8 @@ void Elf::writeMemDataType(Word address, Byte type)
 
 Byte Elf::readMemDataType(Word address)
 {
+    address = address | bootstrap_;
+
 	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1254,12 +1267,17 @@ Byte Elf::readMem(Word address)
 
 Byte Elf::readMemDebug(Word address)
 {
+    if ((address & 0x8000) == 0x8000)
+        bootstrap_ = 0;
+
+    address = address | bootstrap_;
+
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address);
     else
         elfScreenPointer->showAddressTil313Italic(address);
 
-	switch (memoryType_[address/256])
+    switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
 			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
@@ -1360,6 +1378,8 @@ void Elf::writeMem(Word address, Byte value, bool writeRom)
 
 void Elf::writeMemDebug(Word address, Byte value, bool writeRom)
 {
+    address = address | bootstrap_;
+
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address);
     else
@@ -1498,8 +1518,14 @@ void Elf::cpuInstruction()
 
 void Elf::resetPressed()
 {
+    if (!elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
+    p_Main->stopTerminal();
+    terminalStop();
+
     resetCpu();
-    if (elfConfiguration.use8275)
+     if (elfConfiguration.use8275)
         i8275Pointer->cRegWrite(0x40);
     if (elfConfiguration.autoBoot)
     {

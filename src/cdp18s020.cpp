@@ -774,16 +774,16 @@ void Cdp18s020::setLedMs(long ms)
     ledCycleValue_ = ledCycleSize_;
 }
 
-void Cdp18s020::terminalSave(wxString fileName)
+void Cdp18s020::terminalSave(wxString fileName, int protocol)
 {
     if (cdp18s020Configuration.vtType != VTNONE)
-        vtPointer->terminalSaveCdp18s020Vt(fileName);
+        vtPointer->terminalSaveCdp18s020Vt(fileName, protocol);
 }
 
-void Cdp18s020::terminalLoad(wxString filePath, wxString fileName, bool binaryFile)
+void Cdp18s020::terminalLoad(wxString filePath, wxString fileName, int protocol)
 {
     if (cdp18s020Configuration.vtType != VTNONE)
-        vtPointer->terminalLoadCdp18s020Vt(filePath, binaryFile);
+        vtPointer->terminalLoadCdp18s020Vt(filePath, protocol);
 }
 
 void Cdp18s020::terminalStop()

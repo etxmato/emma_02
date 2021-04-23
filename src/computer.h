@@ -523,8 +523,8 @@ public:
 	void writeDebugFile(wxString dir, wxString name, Word start, Word end);
 	void readDebugFile(wxString dir, wxString name, wxString number, Word start);
 
-    virtual void terminalSave(wxString fileName);
-    virtual void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
+    virtual void terminalSave(wxString fileName, int protocol);
+    virtual void terminalLoad(wxString filePath, wxString fileName, int protocol);
     virtual void terminalStop();
     
 	virtual void deleteAllBackup(wxString dir, bool sub);

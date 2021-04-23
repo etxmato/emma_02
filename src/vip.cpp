@@ -651,26 +651,40 @@ void Vip::startComputer()
 		defineMemoryType(0xc000, 0xdfff, COLOURRAM);
 
 	ramMask_ |= 0xfff;
-	readProgram(p_Main->getRamDir(VIP), p_Main->getRamFile(VIP), NOCHANGE, 0, SHOWNAME);
+	readProgram(p_Main->getRamDir(VIP), p_Main->getRamFile(VIP), NOCHANGE, 0, &lastAddress,  SHOWNAME);
     
     addressLatch_ = 0;
 
     pseudoType_ = p_Main->getPseudoDefinition(&chip8baseVar_, &chip8mainLoop_, &chip8register12bit_, &pseudoLoaded_);
 
+    bool stackErrorGiven = false;
+    if (lastAddress >= 0xFFF)
+    {
+        if (mainMemory_[0x8010] == 0x0f)
+            p_Main->errorMessage("System ROM will destroy 0xFFF during RAM check. This will potentially currupt " + p_Main->getRamFile(VIP) + ".\n\nRecommendation: use vip.32.rom instead of vip.rom.");
+        stackErrorGiven = true;
+    }
+
     if (pseudoType_ == "CHIP8")
-		readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
+		readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, &lastAddress, SHOWNAME);
 	else
 	{
         if (pseudoType_ == "CHIP8X")
-			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x300, SHOWNAME);
+			readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x300, &lastAddress, SHOWNAME);
 		else
         {
             if (pseudoType_ == "SUPERCHIP")
-                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x800, SHOWNAME);
+                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x800, &lastAddress, SHOWNAME);
             else
-                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, SHOWNAME);
+                readProgram(p_Main->getChip8Dir(VIP), p_Main->getChip8SW(VIP), NOCHANGE, 0x200, &lastAddress, SHOWNAME);
         }
 	}
+    
+    if (lastAddress >= 0xFFF && !stackErrorGiven)
+    {
+        if (mainMemory_[0x8010] == 0x0f)
+            p_Main->errorMessage("System ROM will destroy 0xFFF during RAM check. This will potentially currupt " + p_Main->getChip8SW(VIP) + ".\n\nRecommendation: use vip.32.rom instead of vip.rom.");
+    }
 
     addressLatch_ = setLatch_;
 

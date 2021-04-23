@@ -550,7 +550,7 @@ void GuiMain::onMainRom1(wxCommandEvent& WXUNUSED(event))
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -581,7 +581,7 @@ void GuiMain::onMainRom2(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -612,7 +612,7 @@ void GuiMain::onMainRom3(wxCommandEvent& WXUNUSED(event))
 		"",
 		wxString::Format
 		(
-			"Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+			"Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
 			wxFileSelectorDefaultWildcardStr,
 			wxFileSelectorDefaultWildcardStr
 			),
@@ -674,7 +674,7 @@ void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -721,7 +721,7 @@ void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -1461,13 +1461,23 @@ void GuiMain::onVolume(wxScrollEvent&event)
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
  	wxString fileName;
-
-	fileName = wxFileSelector( "Select the WAV file to save/load",
+    wxString typeStr = "WAV";
+    wxString formatStr = "WAV File (*.wav)|*.wav|All files (%s)|%s";
+    
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    {
+        if (elfConfiguration[selectedComputer_].useXmodem)
+        {
+            typeStr = "ElfOs";
+            formatStr = "All files (%s)|%s";
+        }
+    }
+	fileName = wxFileSelector( "Select the "+typeStr+" file to save/load",
                                conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
                                "wav",
                                wxString::Format
                               (
-                                   "WAV File (*.wav)|*.wav|All files (%s)|%s",
+                                   formatStr,
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -1647,7 +1657,17 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
     if (runningComputer_ == FRED1 ||runningComputer_ == FRED1_5)
         p_Fred->startLoad(true);
     else
+    {
+        if (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF)
+        {
+            if (p_Main->getUseXmodem(runningComputer_))
+            {
+                startTerminalLoad(TERM_XMODEM_LOAD);
+                return;
+            }
+        }
         startLoad(0);
+    }
 }
 
 void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
@@ -1660,7 +1680,15 @@ void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
 {
-	startSave(0);
+    if (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF)
+    {
+        if (p_Main->getUseXmodem(runningComputer_))
+        {
+            startTerminalSave(TERM_XMODEM_SAVE);
+            return;
+        }
+    }
+    startSave(0);
 }
 
 void GuiMain::onCassetteSave1(wxCommandEvent& WXUNUSED(event))
@@ -1670,7 +1698,16 @@ void GuiMain::onCassetteSave1(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
 {
-	p_Computer->stopSaveLoad();
+    if (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF)
+    {
+        if (p_Main->getUseXmodem(runningComputer_))
+        {
+            stopTerminal();
+            p_Computer->terminalStop();
+            return;
+        }
+    }
+    p_Computer->stopSaveLoad();
 }
 
 void GuiMain::onCassettePause(wxCommandEvent& WXUNUSED(event))
@@ -1963,17 +2000,17 @@ void GuiMain::onLoad(bool load)
 		case TMC1800:
 		case TMC2000:
 		case NANO:
-			extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case VIP:
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
                 if (p_Computer->getLoadedProgram()==VIPTINY)
                     extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
                 else
-                    extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+                    extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case STUDIOIV:
@@ -1993,13 +2030,13 @@ void GuiMain::onLoad(bool load)
 		case ELFII:
 		case ELF:
 			if (p_Computer->getLoadedProgram()&0x1)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
 		default:
-			extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 	}
 
@@ -2090,9 +2127,9 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 
         case VIP:
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case STUDIOIV:
@@ -2113,16 +2150,16 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case ELF:
 			if (p_Computer->getLoadedProgram()&0x1)
 			{
-				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			}
 			else
 			{
-				extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			}
 		break;
 
 		default:
-			extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 	}
 
@@ -3444,24 +3481,24 @@ void GuiMain::startSave(int tapeNumber)
 
 void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))
 {
-    startTerminalSave();
+    startTerminalSave(TERM_HEX);
 }
 
 void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 {
-    startTerminalLoad(false);
+    startTerminalLoad(TERM_HEX);
 }
 
-void GuiMain::startAutoTerminalLoad(bool binaryFile)
+void GuiMain::startAutoTerminalLoad(int protocol)
 {
-	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
-		startTerminalLoad(binaryFile);
+		startTerminalLoad(protocol);
 }
 
-void GuiMain::startTerminalLoad(bool binaryFile)
+void GuiMain::startTerminalLoad(int protocol)
 {
     if (terminalSave_ || terminalLoad_)
         return;
@@ -3479,7 +3516,7 @@ void GuiMain::startTerminalLoad(bool binaryFile)
         if (wxFile::Exists(filePath))
         {
             p_Main->eventSetTapeState(TAPE_PLAY, "");
-            p_Computer->terminalLoad(filePath, fileName, binaryFile);
+            p_Computer->terminalLoad(filePath, fileName, protocol);
         }
     }
 }
@@ -3513,16 +3550,16 @@ void GuiMain::stopTerminal()
     p_Main->eventSetTapeState(TAPE_STOP, "");
 }
 
-void GuiMain::startAutoTerminalSave()
+void GuiMain::startAutoTerminalSave(int protocol)
 {
-    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
-        startTerminalSave();
+        startTerminalSave(protocol);
 }
 
-void GuiMain::startTerminalSave()
+void GuiMain::startTerminalSave(int protocol)
 {
     if (terminalSave_ || terminalLoad_)
         return;
@@ -3594,7 +3631,7 @@ void GuiMain::startTerminalSave()
  //           wxRemoveFile(filePath);
     }
     p_Main->eventSetTapeState(TAPE_RECORD, "");
-    p_Computer->terminalSave(filePath);
+    p_Computer->terminalSave(filePath, protocol);
 }
 
 void GuiMain::turboOn()
@@ -3811,7 +3848,12 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 	XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
 	XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 #if defined(__WXMSW__)
-    XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
+    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF)
+    {
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
+    }
+    else
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
 #endif
 //	XRCCTRL(*this, "Volume"+computerInfo[computerType].gui, wxSlider)->Enable(status);
 //	XRCCTRL(*this, "VolumeText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);

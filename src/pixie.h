@@ -28,7 +28,7 @@ public:
     void configurePixieCoinArcade();
     void configurePixieVisicom();
     void configurePixieVip();
-	void configurePixieVelf();
+    void configurePixieVelf();
 	void configurePixieVipII(bool runLed);
 	void configurePixieTmc1800();
 	void configurePixieTelmac();

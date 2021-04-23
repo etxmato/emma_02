@@ -400,9 +400,9 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
             if (programCounter_ == 3)
             {
                 if (mainMemory_[scratchpadRegister_[7]+0xb] == 0x4c && mainMemory_[scratchpadRegister_[7]+0xc] == 0x4f && mainMemory_[scratchpadRegister_[7]+0xd] == 0x41 && mainMemory_[scratchpadRegister_[7]+0xe] == 0x44)
-                    p_Main->startAutoTerminalLoad(false);
+                    p_Main->startAutoTerminalLoad(TERM_HEX);
                 if (mainMemory_[scratchpadRegister_[7]+0xb] == 0x53 && mainMemory_[scratchpadRegister_[7]+0xc] == 0x41 && mainMemory_[scratchpadRegister_[7]+0xd] == 0x56 && mainMemory_[scratchpadRegister_[7]+0xe] == 0x45)
-                    p_Main->startAutoTerminalSave();
+                    p_Main->startAutoTerminalSave(TERM_HEX);
              
                 address = scratchpadRegister_[programCounter_];
                     
@@ -410,10 +410,10 @@ Byte Vip2K::in(Byte port, Word WXUNUSED(address))
                     address--;
                     
                 if (mainMemory_[address+0xe] == 0x4c && mainMemory_[address+0xf] == 0x4f && mainMemory_[address+0x10] == 0x41 && mainMemory_[address+0x11] == 0x44)
-                    p_Main->startAutoTerminalLoad(true);
+                    p_Main->startAutoTerminalLoad(TERM_BIN);
                     
                 if (mainMemory_[address+0xe] == 0x53 && mainMemory_[address+0xf] == 0x41 && mainMemory_[address+0x10] == 0x56 && mainMemory_[address+0x11] == 0x45)
-                    p_Main->startAutoTerminalSave();
+                    p_Main->startAutoTerminalSave(TERM_BIN);
             }
         break;
             
@@ -739,16 +739,16 @@ void Vip2K::sleepComputer(long ms)
 	threadPointer->Sleep(ms);
 }
 
-void Vip2K::terminalSave(wxString fileName)
+void Vip2K::terminalSave(wxString fileName, int protocol)
 {
     if (vipConfiguration.vtType != VTNONE)
-        vtPointer->terminalSaveVt(fileName);
+        vtPointer->terminalSaveVt(fileName, protocol);
 }
 
-void Vip2K::terminalLoad(wxString filePath, wxString fileName, bool binaryFile)
+void Vip2K::terminalLoad(wxString filePath, wxString fileName, int protocol)
 {
     if (vipConfiguration.vtType != VTNONE)
-        vtPointer->terminalLoadVt(filePath, binaryFile);
+        vtPointer->terminalLoadVt(filePath, protocol);
     
     fileName = fileName.Left(fileName.Len()-3)+"ch8";
     

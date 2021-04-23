@@ -2263,11 +2263,11 @@ void Computer::releaseButtonOnScreen2(HexButton* WXUNUSED(buttonPointer), int WX
 {
 }
 
-void Computer::terminalSave(wxString WXUNUSED(fileName))
+void Computer::terminalSave(wxString WXUNUSED(fileName), int WXUNUSED(protocol))
 {
 }
 
-void Computer::terminalLoad(wxString WXUNUSED(fileName), wxString WXUNUSED(fileName), bool WXUNUSED(binaryFile))
+void Computer::terminalLoad(wxString WXUNUSED(fileName), wxString WXUNUSED(fileName), int WXUNUSED(protocol))
 {
 }
 

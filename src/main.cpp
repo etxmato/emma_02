@@ -490,7 +490,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("TelmacChoiceBook"), Main::onTelmacChoiceBook)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("ElfChoiceBook"), Main::onElfChoiceBook)
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("RcaChoiceBook"), Main::onRcaChoiceBook)
-	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
+	EVT_NOTEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
 	EVT_TIMER(902, Main::vuTimeout)
 	EVT_TIMER(903, Main::cpuTimeout)
 	EVT_TIMER(905, Main::updateCheckTimeout)
@@ -1879,7 +1879,7 @@ void Main::writeConfig()
         configPointer->Write("/Main/Selected_Rca_Tab", XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Studio_Tab", XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Telmac_Tab", XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->GetSelection());
-		configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->GetSelection());
+		configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->GetSelection());
 
         if (menubarPointer->IsChecked(XRCID("SYSTEM00")))
             configPointer->Write("/Main/Cpu_Type", "SYSTEM00");
@@ -2836,7 +2836,7 @@ void Main::readConfig()
         selected_tab = configPointer->Read("/Main/Selected_Debugger_Tab", 0l);
         if (selected_tab > LASTDEBUGGERTAB)
             selected_tab = 0;
-		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetSelection(selected_tab);
+		XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetSelection(selected_tab);
 
         selected_tab = configPointer->Read("/Main/Selected_Tab", 0l);
         if (selected_tab > DEBUGGERTAB)
@@ -2850,7 +2850,7 @@ void Main::readConfig()
         XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 		XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 		XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
-		XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
+		XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x - offset, mainWindowSize.y - offset);
 
 #if defined (__WXMSW__)
 		if (windowInfo.operatingSystem != OS_WINDOWS_2000 )
@@ -2953,7 +2953,7 @@ void Main::adjustGuiSize()
         XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
-        XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
+        XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->SetClientSize(mainWindowSize.x-borderSizeX, mainWindowSize.y-borderSizeY);
         
         wxPoint position, positionBreakPointWindow, positionBreakPointWindowText;
         
@@ -4102,7 +4102,7 @@ void Main::setDefaultSettings()
         configPointer->Write("/Main/Selected_Rca_Tab", XRCCTRL(*this, "RcaChoiceBook", wxChoicebook)->GetSelection());
 		configPointer->Write("/Main/Selected_Studio_Tab", XRCCTRL(*this, "StudioChoiceBook", wxChoicebook)->GetSelection());
         configPointer->Write("/Main/Selected_Telmac_Tab", XRCCTRL(*this, "TelmacChoiceBook", wxChoicebook)->GetSelection());
-        configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->GetSelection());
+        configPointer->Write("/Main/Selected_Debugger_Tab", XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->GetSelection());
         
         if (menubarPointer->IsChecked(XRCID("Flat")))
             configPointer->Write("/Main/Equalization", "Flat");
@@ -5514,7 +5514,7 @@ void Main::stopComputer()
             case VIP2K:
 			case VIPII:
             case VELF:
-			case COSMICOS:
+            case COSMICOS:
 			case TMC600:
 			case TMC1800:
 			case TMC2000:
@@ -5612,7 +5612,6 @@ void Main::onComputer(wxNotebookEvent&event)
 				case UC1800TAB:
 					elfChoice_ = UC1800;
 				break;
-
             }
 			selectedComputer_ = elfChoice_;
 		break;
@@ -5729,7 +5728,7 @@ void Main::onComputer(wxNotebookEvent&event)
 
 		case DEBUGGERTAB:
             menubarPointer->Enable(XRCID(GUISAVECOMPUTERCONFIG), false);
-			switch(XRCCTRL(*this, "DebuggerChoiceBook", wxChoicebook)->GetSelection())
+			switch(XRCCTRL(*this, "DebuggerChoiceBook", wxNotebook)->GetSelection())
 			{
 				case MESSAGETAB:
 					debuggerChoice_ = MESSAGETAB;
@@ -5874,7 +5873,7 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
         case UC1800TAB:
             elfChoice_ = UC1800;
 		break;
-	}
+    }
 	selectedComputer_ = elfChoice_;
 	setConfigurationMenu();
 }
@@ -5933,7 +5932,7 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
 	setConfigurationMenu();
 }
 
-void Main::onDebuggerChoiceBook(wxChoicebookEvent&event)
+void Main::onDebuggerChoiceBook(wxNotebookEvent&event)
 {
 	switch(event.GetSelection())
 	{
@@ -6719,7 +6718,6 @@ void Main::enableGui(bool status)
 		}
 		enableLoadGui(!status);
 		setRealCas2(runningComputer_);
-		XRCCTRL(*this,"Tape"+elfTypeStr, wxBitmapButton)->Enable(status);
 		XRCCTRL(*this,"MainRom"+elfTypeStr, wxComboBox)->Enable(status);
 		XRCCTRL(*this,"MainRom2"+elfTypeStr, wxComboBox)->Enable(status);
 		XRCCTRL(*this,"RomButton"+elfTypeStr, wxButton)->Enable(status);
@@ -6753,6 +6751,7 @@ void Main::enableGui(bool status)
 			XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(false);
 		else
 			XRCCTRL(*this,"PortExt"+elfTypeStr, wxCheckBox)->Enable(status);
+        XRCCTRL(*this,"BootStrap"+elfTypeStr, wxCheckBox)->Enable(status);
 
 		if (elfConfiguration[runningComputer_].usePager || elfConfiguration[runningComputer_].useEms || elfConfiguration[runningComputer_].useRomMapper)
 		{

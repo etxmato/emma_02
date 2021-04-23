@@ -39,6 +39,9 @@
 #include "main.h"
 #include "vt100.h"
 
+#define XMODEM_ACK 6
+#define XMODEM_NACK 0x15
+
 int baudRateValue_[] =
 {
 	38400, 19200, 9600, 4800, 3600, 2400, 2000, 1800, 1200, 600, 300, 200, 150, 134, 110, 75, 50
@@ -866,80 +869,148 @@ void Vt100::cycleVt()
 		}
 		else
         {
-            if (terminalLoad_)
+            size_t numberOfBytes = 0;
+            bool dataReady = false;
+
+            if (terminalLoad_ || (terminalSave_ && protocol_ == TERM_XMODEM_SAVE))
             {
                 if (vtOut_ == 0)
                 {
-                    if (binaryFile_)
+                    switch (protocol_)
                     {
-                        if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
-                        {
-                            size_t numberOfBytes;
-                            numberOfBytes = inputTerminalFile.Read(saveBuffer, 1);
-                        
-                            if (numberOfBytes == 1)
+                        case TERM_BIN:
+                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
                             {
-                                vtOut_ = saveBuffer[0];
-                                previousByte_ = vtOut_;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
-                        {
-                            bool eof=false;
-                            size_t numberOfBytes;
-                            int seek = -2;
+                                numberOfBytes = inputTerminalFile.Read(saveBuffer, 1);
                             
-                            numberOfBytes = inputTerminalFile.Read(saveBuffer, 3);
-
-                            if (inputTerminalFile.Eof())
-                            {
-                                switch(numberOfBytes)
+                                if (numberOfBytes == 1)
                                 {
-                                    case 0:
-                                        eof = true;
-                                    break;
-                                        
-                                    case 1:
-                                        if (saveBuffer[0] == 0xa)
-                                        {
-                                            saveBuffer[0] = 0xd;
-                                            eof = true;
-                                        }
-                                        seek = 0;
-                                    break;
-                                        
-                                    case 2:
-                                        if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa && !terminalFileCdp18s020_)
-                                            eof = true;
-                                        seek = -1;
-                                    break;
+                                    vtOut_ = saveBuffer[0];
+                                    dataReady = true;
+                                    previousByte_ = vtOut_;
                                 }
                             }
-                            
-                            if (saveBuffer[0] == 0xa && previousByte_ != 0xd)
-                                saveBuffer[0] = 0xd;
-                            
-                            if (eof)
+                        break;
+
+                        case TERM_XMODEM_SAVE:
+                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
                             {
-                                terminalLoad_ = false;
-                                inputTerminalFile.Close();
-                                p_Main->stopTerminal();
-                            }
-                            else
-                            {
-                                inputTerminalFile.Seek(seek, wxFromCurrent);
-                                vtOut_ = saveBuffer[0];
+                                if (terminalAck_ & 0x80)
+                                {
+                                    terminalStopVt();
+                                    p_Main->stopTerminal();
+                                }
+                                vtOut_ = terminalAck_ & 0x7f;
+
+                                dataReady = true;
                                 previousByte_ = vtOut_;
+                                xmodemBufferPointer_ = 0;
+                                xmodemBuffer_[131] = 0;
                             }
-                        }
+                        break;
+
+                        case TERM_XMODEM_LOAD:
+                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
+                            {
+                                if (terminalAck_ == XMODEM_ACK)
+                                 {
+                                    terminalAck_ = 0;
+                                    for (int i=0; i<131; i++)
+                                        xmodemBuffer_[i] = 0x1a;
+                                    xmodemBuffer_[131] = 0;
+
+                                    numberOfBytes = inputTerminalFile.Read(&xmodemBuffer_[3], 128);
+                                    xmodemBufferPointer_ = 0;
+                                    xmodemPacketNumber_++;
+
+                                    if (numberOfBytes == 0)
+                                    {
+                                        xmodemBuffer_[0] = 4;
+                                        terminalLoad_ = false;
+                                        p_Main->turboOff();
+                                        inputTerminalFile.Close();
+                                        p_Main->stopTerminal();
+                                    }
+                                    else
+                                    {
+                                        xmodemBuffer_[0] = 1;
+                                        for (int i=3; i<131; i++)
+                                            xmodemBuffer_[131] += xmodemBuffer_[i];
+                                    }
+
+                                    xmodemBuffer_[1] = xmodemPacketNumber_;
+                                    xmodemBuffer_[2] = 255-xmodemPacketNumber_;
+                                }
+                                if (terminalAck_ == XMODEM_NACK && xmodemBufferPointer_ == 132)
+                                {
+                                    xmodemBufferPointer_ = 0;
+                                }
+                                if (xmodemBufferPointer_ != 132)
+                                {
+                                    terminalAck_ = 0;
+                                    vtOut_ = xmodemBuffer_[xmodemBufferPointer_++];
+                                    dataReady = true;
+                                    previousByte_ = vtOut_;
+                                }
+                            }
+                        break;
+
+                        default:
+                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
+                            {
+                                bool eof=false;
+                                int seek = -2;
+                                
+                                numberOfBytes = inputTerminalFile.Read(saveBuffer, 3);
+
+                                if (inputTerminalFile.Eof())
+                                {
+                                    switch(numberOfBytes)
+                                    {
+                                        case 0:
+                                            eof = true;
+                                        break;
+                                            
+                                        case 1:
+                                            if (saveBuffer[0] == 0xa)
+                                            {
+                                                saveBuffer[0] = 0xd;
+                                                eof = true;
+                                            }
+                                            seek = 0;
+                                        break;
+                                            
+                                        case 2:
+                                            if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa && !terminalFileCdp18s020_)
+                                                eof = true;
+                                            seek = -1;
+                                        break;
+                                    }
+                                }
+                                
+                                if (saveBuffer[0] == 0xa && previousByte_ != 0xd)
+                                    saveBuffer[0] = 0xd;
+                                
+                                if (eof)
+                                {
+                                    terminalLoad_ = false;
+                                    inputTerminalFile.Close();
+                                    p_Main->stopTerminal();
+                                }
+                                else
+                                {
+                                    inputTerminalFile.Seek(seek, wxFromCurrent);
+                                    vtOut_ = saveBuffer[0];
+                                    dataReady = true;
+                                    previousByte_ = vtOut_;
+                                }
+                            }
+                        break;
                     }
                 }
             }
             
-            if (vtOut_ != 0 && vtEnabled_)
+            if ((vtOut_ != 0 || dataReady) && vtEnabled_)
             {
                 vt100Ef_ = 0;
                 parity_ = Parity(vtOut_);
@@ -955,55 +1026,58 @@ void Vt100::cycleVt()
 //				p_Main->eventMessageHex(vtOut_);
 			}
         }
+        if (vtCount_ >= 0)
+        { // output to terminal
+            //wxString buffer;
+            //buffer.Printf("%d", p_Computer->getFlipFlopQ());
+            //p_Main->messageNoReturn(buffer);
 
-		if (vtCount_ >= 0)
-		{ // output to terminal
-			//wxString buffer;
-			//buffer.Printf("%d", p_Computer->getFlipFlopQ());
-			//p_Main->messageNoReturn(buffer);
-
-			vtCount_--; 
-			if (vtCount_ <= 0)
-			{
-				//p_Main->messageInt(p_Computer->getFlipFlopQ());
-				//p_Main->message("");
-				if (SetUpFeature_[VTPARITY])
-				{
-					if (vtBits_ > 2)
-					{
-						rs232_ >>= 1;
-						rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
-					}
-					if (vtBits_ == 2)
-					{
-						if (!SetUpFeature_[VTBITS])
-							rs232_ >>= 1;
-						if (Parity(rs232_) != p_Computer->getFlipFlopQ())
-							rs232_ = 2;
-					}
-				}
-				else
-				{
-					if (vtBits_ > 1)
-					{
-						rs232_ >>= 1;
-						rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
-					}
-					if (vtBits_ == 1)
-					{
-						if (!SetUpFeature_[VTBITS])
-							rs232_ >>= 1;
-					}
-				}
-				vtCount_ = baudRateR_;
-				if (--vtBits_ == 0)
-				{
-					vtCount_ = -1;
-					Display(rs232_ & 0x7f, false);
+            vtCount_--;
+            if (vtCount_ <= 0)
+            {
+                //p_Main->messageInt(p_Computer->getFlipFlopQ());
+                //p_Main->message("");
+                if (SetUpFeature_[VTPARITY])
+                {
+                    if (vtBits_ > 2)
+                    {
+                        rs232_ >>= 1;
+                        rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
+                    }
+                    if (vtBits_ == 2)
+                    {
+                        if (!SetUpFeature_[VTBITS])
+                            rs232_ >>= 1;
+                        if (Parity(rs232_) != p_Computer->getFlipFlopQ())
+                            rs232_ = 2;
+                    }
+                }
+                else
+                {
+                    if (vtBits_ > 1)
+                    {
+                        rs232_ >>= 1;
+                        rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
+                    }
+                    if (vtBits_ == 1)
+                    {
+                        if (!SetUpFeature_[VTBITS])
+                            rs232_ >>= 1;
+                    }
+                }
+                vtCount_ = baudRateR_;
+                if (--vtBits_ == 0)
+                {
+                    vtCount_ = -1;
+                    if (terminalSave_ || terminalLoad_)
+                        Display(rs232_, false);
+                    else
+                        Display(rs232_ & 0x7f, false);
 //                    p_Main->eventMessageHex(rs232_);
-				}
-			}
-		}
+                }
+            }
+        }
+
 	}
 }
 
@@ -1444,9 +1518,9 @@ void Vt100::Display(int byt, bool forceDisplay)
 		}
 	}
 
-	if (terminalSave_)
+	if (terminalSave_  || (terminalLoad_ && protocol_ == TERM_XMODEM_LOAD))
 	{
-        char buffer[1];
+        unsigned char buffer[1];
 		buffer[0] = byt;
         if (terminalFileCdp18s020_)
         {
@@ -1487,7 +1561,47 @@ void Vt100::Display(int byt, bool forceDisplay)
         }
         else
         {
-            outputTerminalFile.Write(buffer, 1);
+            switch (protocol_)
+            {
+                case TERM_XMODEM_SAVE:
+                     switch (xmodemBufferPointer_)
+                    {
+                        case 0:
+                            if (byt == 4)
+                                terminalAck_ = 0x86;
+                            xmodemBufferPointer_++;
+                        break;
+                            
+                        case 1:
+                        case 2:
+                            xmodemBufferPointer_++;
+                        break;
+
+                        case 131:
+                            if (xmodemBuffer_[131] == byt)
+                                terminalAck_ = XMODEM_ACK;
+                            else
+                                terminalAck_ = XMODEM_NACK;
+                            xmodemBufferPointer_ = 0;
+                            xmodemBuffer_[131] = 0;
+                            outputTerminalFile.Seek(outputTerminalFile.Tell()-128);
+                        break;
+                            
+                        default:
+                            outputTerminalFile.Write(buffer, 1);
+                            xmodemBuffer_[131] += byt;
+                            xmodemBufferPointer_++;
+                        break;
+                    }
+                break;
+
+                case TERM_XMODEM_LOAD:
+                    terminalAck_ = byt;
+                break;
+
+                default:
+                    outputTerminalFile.Write(buffer, 1);
+            }
             return;
         }
 	}
@@ -3048,25 +3162,31 @@ void Vt100::setForceUCVt(bool status)
     videoScreenPointer->setForceUCVt(status);
 }
 
-void Vt100::terminalSaveVt(wxString fileName)
+void Vt100::terminalSaveVt(wxString fileName, int protocol)
 {
+    p_Main->turboOn();
     if (!fileName.empty())
     {
         if (outputTerminalFile.Create(fileName, true))
         {
             terminalSave_ = true;
 			terminalLine_ = "";
+            protocol_ = protocol;
+            p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+            previousByte_ = 0;
+            terminalAck_ = XMODEM_NACK;
         }
     }
 }
 
-void Vt100::terminalSaveCdp18s020Vt(wxString fileName)
+void Vt100::terminalSaveCdp18s020Vt(wxString fileName, int protocol)
 {
     if (!fileName.empty())
     {
         if (outputTerminalFile.Create(fileName, true))
         {
             terminalSave_ = true;
+            protocol_ = protocol;
             terminalFileCdp18s020_ = true;
             lastByte_ = -1;
             terminalLine_ = "";
@@ -3074,21 +3194,25 @@ void Vt100::terminalSaveCdp18s020Vt(wxString fileName)
     }
 }
 
-void Vt100::terminalLoadVt(wxString fileName, bool binaryFile)
+void Vt100::terminalLoadVt(wxString fileName, int protocol)
 {
+    p_Main->turboOn();
     if (!fileName.empty())
     {
         if (inputTerminalFile.Open(fileName, _("rb")))
         {
             terminalLoad_ = true;
-            binaryFile_ = binaryFile;
+            protocol_ = protocol;
+            terminalAck_ = XMODEM_ACK;
             p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
+            xmodemBufferPointer_ = 132;
+            xmodemPacketNumber_  = 0;
         }
     }
 }
 
-void Vt100::terminalLoadCdp18s020Vt(wxString fileName, bool binaryFile)
+void Vt100::terminalLoadCdp18s020Vt(wxString fileName, int protocol)
 {
     if (!fileName.empty())
     {
@@ -3096,7 +3220,7 @@ void Vt100::terminalLoadCdp18s020Vt(wxString fileName, bool binaryFile)
         {
             terminalLoad_ = true;
             terminalFileCdp18s020_ = true;
-            binaryFile_ = binaryFile;
+            protocol_ = protocol;
             p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
         }
@@ -3105,6 +3229,7 @@ void Vt100::terminalLoadCdp18s020Vt(wxString fileName, bool binaryFile)
 
 void Vt100::terminalStopVt()
 {
+    p_Main->turboOff();
     terminalFileCdp18s020_ = false;
     if (terminalSave_)
     {

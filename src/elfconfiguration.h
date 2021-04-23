@@ -149,7 +149,8 @@ public:
 	bool nvr;
 	bool useSwitch;
 	bool useHex;
-	bool useTape;
+    bool useTape;
+    bool useXmodem;
     bool vtShow;
     bool autoKeyDef;
 

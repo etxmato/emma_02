@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.38.05
-AppVersion=1.38.05
+AppVerName=Emma 02 - V1.38.09
+AppVersion=1.38.09
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.38.5
+OutputBaseFilename=Emma_02_x64_setup_v1.38.9
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -149,6 +149,7 @@ Source: ..\data\Comx\Usb FW Development\sb*.bin; DestDir: {app}\data\Comx\Usb FW
 Source: ..\data\Comx\Usb FW Development\*.debug; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Comx\Usb FW\sb.config; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Cosmicos\*.*; DestDir: {app}\data\Cosmicos; Components: MAIN
+Source: ..\data\Elf\*.*; DestDir: {app}\data\Elf; Components: MAIN
 Source: ..\data\Elf\Biosio\*.*; DestDir: {app}\data\Elf\Biosio; Components: MAIN
 Source: ..\data\Elf\biosioPS2\*.*; DestDir: {app}\data\Elf\BiosioPS2; Components: MAIN
 Source: ..\data\Elf\elf-emulation.com\*.*; DestDir: {app}\data\Elf\elf-emulation.com; Components: MAIN

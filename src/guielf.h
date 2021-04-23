@@ -48,7 +48,8 @@ public:
 	void setVideoType(wxString elfTypeStr, int elfType, int Selection);
 	void setTapeType(wxString elfTypeStr, int elfType);
 
-	bool getUpperCase(int elfType) {return elfConfiguration[elfType].forceUpperCase;};
+    bool getUpperCase(int elfType) {return elfConfiguration[elfType].forceUpperCase;};
+    bool getUseXmodem(int elfType) {return elfConfiguration[elfType].useXmodem;};
 	bool getUseElfControlWindows(int elfType) {return elfConfiguration[elfType].useElfControlWindows;};
 	bool getUseSwitch(int elfType) {return elfConfiguration[elfType].useSwitch;};
 	bool getUseHex(int elfType) {return elfConfiguration[elfType].useHex;};

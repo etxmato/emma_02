@@ -15756,8 +15756,8 @@ void DebugWindow::updateTitle()
             if (p_Velf->getClear()==0)
                 title = title + " ** CPU STOPPED **";
             p_Velf->SetTitle("VELF" + title);
-			p_Velf->updateTitle(title);
-			p_Velf->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
+            p_Velf->updateTitle(title);
+            p_Velf->setDebugMode(debugMode_, chip8DebugMode_, trace_, traceDma_, traceInt_, traceChip8Int_);
         break;
             
 		case TMC2000:

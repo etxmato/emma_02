@@ -181,6 +181,41 @@ void MainElf::checkComputerFunction()
                 activateElfOsChip8();
             }
 		}
+        if (scratchpadRegister_[programCounter_] == 0x20bd)
+        { // xr (Pico Elf)
+            if ((mainMemory_[0x380] == 0x78) && (mainMemory_[0x381] == 0x72) && (mainMemory_[0x382] == 0) && (mainMemory_[0x234b]== 0x3d))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2681)
+        { // yr (Pico Elf)
+            if ((mainMemory_[0x380] == 0x79) && (mainMemory_[0x381] == 0x72) && (mainMemory_[0x382] == 0) && (mainMemory_[0x2681]== 0x35))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        } // Memory load diskless ROM (Pico Elf)
+        if (scratchpadRegister_[programCounter_] == 0x844b)
+        {
+            if ((mainMemory_[0x8700] == 0x8c) && (mainMemory_[0x8701] == 0x73) && (mainMemory_[0x874b] == 0x3d) && (mainMemory_[0x874c]== 0x4b))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x20da)
+        { // xs (Pico Elf)
+            if ((mainMemory_[0x380] == 0x78) && (mainMemory_[0x381] == 0x73) && (mainMemory_[0x382] == 0) && (mainMemory_[0x234d]== 0x3d))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        } // Memory dump diskless ROM (Pico Elf)
+        if (scratchpadRegister_[programCounter_] == 0x8800)
+        {
+            if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        }
 	}
 
 	switch (loadedProgram_)
@@ -462,21 +497,21 @@ void MainElf::checkComputerFunction()
 			switch (scratchpadRegister_[programCounter_])
 			{
 				case 0xf4e:		// LOAD L
-					p_Main->startAutoTerminalLoad(false);
+					p_Main->startAutoTerminalLoad(TERM_HEX);
 				break;
 
                 case 0x1300:	// LOAD I
-                    p_Main->startAutoTerminalLoad(false);
+                    p_Main->startAutoTerminalLoad(TERM_HEX);
                 break;
                     
                 case 0x102D:	// SAVE S
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
                 break;
                     
                 case 0x11EA:	// SAVE C
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
                 break;
 
                 case 0x10C5:	// STOP SAVE S & C
@@ -490,21 +525,21 @@ void MainElf::checkComputerFunction()
 			switch (scratchpadRegister_[programCounter_])
 			{
 				case 0x8f4e:	// LOAD L
-					p_Main->startAutoTerminalLoad(false);
+					p_Main->startAutoTerminalLoad(TERM_HEX);
 				break;
 
                 case 0x9300:	// LOAD I
-                    p_Main->startAutoTerminalLoad(false);
+                    p_Main->startAutoTerminalLoad(TERM_HEX);
                 break;
                     
 				case 0x902D:	// SAVE S
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
 				break;
 
                 case 0x91EA:	// SAVE C
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
                 break;
                     
 				case 0x90C5:	// STOP SAVE S & C
@@ -566,5 +601,23 @@ bool MainElf::isComputerRunning()
 		return true;
 	else
 		return false;
+}
+
+void MainElf::terminalSave(wxString fileName, int protocol)
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalSaveVt(fileName, protocol);
+}
+
+void MainElf::terminalLoad(wxString filePath, wxString fileName, int protocol)
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalLoadVt(filePath, protocol);
+}
+
+void MainElf::terminalStop()
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalStopVt();
 }
 

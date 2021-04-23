@@ -102,7 +102,7 @@ void EpromDialog::epromButton(int number)
                                "",
                                wxString::Format
                               (
-                                    "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                    "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                     wxFileSelectorDefaultWildcardStr,
                                     wxFileSelectorDefaultWildcardStr
                                ),

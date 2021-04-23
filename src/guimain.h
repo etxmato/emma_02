@@ -522,12 +522,12 @@ public:
 	void onTerminalSave(wxCommandEvent&event);
 	void onTerminalLoad(wxCommandEvent&event);
 	void onTerminalStop(wxCommandEvent&event);
-    void startAutoTerminalLoad(bool binaryFile);
-    void startTerminalLoad(bool binaryFile);
+    void startAutoTerminalLoad(int protocol);
+    void startTerminalLoad(int protocol);
     void stopAutoTerminal();
     void stopTerminal();
-    void startAutoTerminalSave();
-    void startTerminalSave();
+    void startAutoTerminalSave(int protocol);
+    void startTerminalSave(int protocol);
 	void turboOn();
 	void turboOff();
 	void enableStartButtonGui(bool status);

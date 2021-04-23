@@ -564,6 +564,7 @@ void Cdp1802::pixieInterrupt()
 		if (traceInt_)
 		{
 			p_Main->debugTrace("----  Interrupt");
+ //           p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
 		}
 		if (traceChip8Int_)
 		{

@@ -44,8 +44,8 @@ public:
 	void startComputerRun(bool load);
 	void sleepComputer(long ms);
 
-    void terminalSave(wxString fileName);
-    void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
+    void terminalSave(wxString fileName, int protocol);
+    void terminalLoad(wxString filePath, wxString fileName, int protocol);
     void terminalStop();
     
     void setAutoKeyDef(bool autoKeyDef);

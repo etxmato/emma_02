@@ -535,7 +535,7 @@ void Super::configureComputer()
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
-	if (elfConfiguration.useTape)
+	if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
 	{
 		efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
 		printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
@@ -599,6 +599,7 @@ void Super::initComputer()
 	ef4State_ = 1;
 	elfRunState_ = RESETSTATE;
 	cassetteEf_ = 0;
+    bootstrap_  = 0;
 }
 
 Byte Super::ef(int flag)
@@ -1048,7 +1049,10 @@ void Super::onRunButton()
 
 void Super::onRun()
 {
-	stopTape();
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
+    stopTape();
 	if (getClear()==0)
 	{
 		setClear(1);
@@ -1274,15 +1278,13 @@ void Super::startComputer()
 
     p_Main->enableDebugGuiMemory();
 
-    if (elfConfiguration.bootStrap)
-        bootstrap_ = 0x8000;
-    else
-        bootstrap_ = 0;
-    
     Word offset = 0;
     wxString fileName = p_Main->getRomFile(SUPERELF, MAINROM1);
     if (fileName.Right(4) == ".ch8")
         offset = 0x200;
+
+    if (elfConfiguration.bootStrap)
+        offset = 0x8000;
     if (!elfConfiguration.useRomMapper)
         readProgram(p_Main->getRomDir(SUPERELF, MAINROM1), p_Main->getRomFile(SUPERELF, MAINROM1), p_Main->getLoadromMode(SUPERELF, 0), offset, NONAME);
 
@@ -1337,6 +1339,9 @@ void Super::startComputer()
         p_Vt100[UART1]->splashScreen();
     else
         p_Video->splashScreen();
+    
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
     
     threadPointer->Run();
 }
@@ -1467,10 +1472,7 @@ Byte Super::readMemDataType(Word address)
 
 Byte Super::readMem(Word address)
 {
-    if ((address & 0x8000) == 0x8000)
-        bootstrap_ = 0;
-
-    address_ = address | bootstrap_;
+    address_ = address;
     
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
@@ -1590,7 +1592,7 @@ Byte Super::readMemDebug(Word address)
 
 void Super::writeMem(Word address, Byte value, bool writeRom)
 {
-    address_ = address | bootstrap_;
+    address_ = address;
     
     if (elfConfiguration.tilType == TIL311)
         superScreenPointer->showAddress(address_);
@@ -1769,12 +1771,13 @@ void Super::cpuInstruction()
 
 void Super::resetPressed()
 {
-    resetCpu();
     if (elfConfiguration.bootStrap)
         bootstrap_ = 0x8000;
-    else
-        bootstrap_ = 0;
     
+    p_Main->stopTerminal();
+    terminalStop();
+
+    resetCpu();
     if (elfConfiguration.use8275)
         i8275Pointer->cRegWrite(0x40);
     if (elfConfiguration.autoBoot)

@@ -220,7 +220,7 @@ void PopupDialog::init()
             setEndLocation(p_Main->getSaveEndString(computer_));
         break;
             
-		case COSMICOS:
+        case COSMICOS:
 			XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
 			XRCCTRL(*this, "ControlWindowsPopupCosmicos", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
 			XRCCTRL(*this, "HexPopupCosmicos", wxCheckBox)->SetValue(p_Main->getUseHex(computer_));
@@ -233,6 +233,8 @@ void PopupDialog::init()
 		case SUPERELF:
 			setTapeType(p_Main->getUseTape(computer_));
 			enableMemAccessGui(true);
+            if (p_Main->getUseXmodem(computer_))
+                XRCCTRL(*this, "CasButton", wxButton)->SetLabel("XMODEM");
 			XRCCTRL(*this, "WavFile", wxTextCtrl)->SetValue(p_Main->getWaveFile(computer_));
 			XRCCTRL(*this, "ControlWindowsPopupElf", wxCheckBox)->SetValue(p_Main->getUseElfControlWindows(computer_));
 			setLocation(p_Main->getUseLoadLocation(computer_), p_Main->getSaveStartString(computer_), p_Main->getSaveEndString(computer_), p_Main->getSaveExecString(computer_));

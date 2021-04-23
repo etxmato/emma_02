@@ -393,7 +393,7 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
     }
     
 	XRCCTRL(*this, "TapeEf", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tapeEf);
-	if (!elfConfiguration.useTape)
+	if (!elfConfiguration.useTape || elfConfiguration.useXmodem)
 	{
 		XRCCTRL(*this, "TapeEf", wxSpinCtrl)->Enable(false);
 		XRCCTRL(*this, "TapeEfText", wxStaticText)->Enable(false);

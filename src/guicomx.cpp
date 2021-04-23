@@ -592,7 +592,7 @@ void GuiComx::onExpansionRom(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                    "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                    "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                     wxFileSelectorDefaultWildcardStr,
                                     wxFileSelectorDefaultWildcardStr
                                ),
@@ -649,7 +649,7 @@ void GuiComx::onCard1Rom(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                    "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                    "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                     wxFileSelectorDefaultWildcardStr,
                                     wxFileSelectorDefaultWildcardStr
                                ),
@@ -680,7 +680,7 @@ void GuiComx::onCard2Rom(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                    "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                    "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                     wxFileSelectorDefaultWildcardStr,
                                     wxFileSelectorDefaultWildcardStr
                                ),
@@ -711,7 +711,7 @@ void GuiComx::onCard3Rom(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                    "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                    "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                     wxFileSelectorDefaultWildcardStr,
                                     wxFileSelectorDefaultWildcardStr
                                ),
@@ -742,7 +742,7 @@ void GuiComx::onCard4Rom(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                    "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                    "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                     wxFileSelectorDefaultWildcardStr,
                                     wxFileSelectorDefaultWildcardStr
                                ),

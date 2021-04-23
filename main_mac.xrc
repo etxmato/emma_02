@@ -3809,7 +3809,8 @@
                                                                                 <border>3</border>
                                                                                 <object class="wxBitmapButton" name="TapeElf">
                                                                                     <size>26,27</size>
-                                                                                    <bitmap>images_osx/tick.png</bitmap>
+                                                                                    <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -4869,14 +4870,14 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxCheckBox" name="UseLedModule">
-                                                                            <tooltip>Enable LED module</tooltip>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="BootStrapElf">
+                                                                            <tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Led</label>
+                                                                            <label>Bootstrap</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -4888,8 +4889,8 @@
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="HexEfElf">
                                                                             <tooltip>Enable EF Hex keyboard</tooltip>
                                                                             <font>
@@ -4897,6 +4898,19 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <label>EF Hex Key</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="UseLedModule">
+                                                                            <tooltip>Enable LED module</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Led</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -5306,7 +5320,8 @@
                                                                                 <border>3</border>
                                                                                 <object class="wxBitmapButton" name="TapeElfII">
                                                                                     <size>26,27</size>
-                                                                                    <bitmap>images_osx/tick.png</bitmap>
+                                                                                    <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -6340,7 +6355,7 @@
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="PortExtElfII">
                                                                             <tooltip>Enable extended ports support</tooltip>
                                                                             <font>
@@ -6353,7 +6368,7 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="UpperCaseElfII">
                                                                             <tooltip>Force keyboard in uppercase</tooltip>
                                                                             <font>
@@ -6366,14 +6381,14 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxCheckBox" name="GiantElfII">
-                                                                            <tooltip>Enable Giant Board ROM mapping</tooltip>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="BootStrapElfII">
+                                                                            <tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Giant</label>
+                                                                            <label>Bootstrap</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -6386,7 +6401,7 @@
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="HexEfElfII">
                                                                             <tooltip>Enable EF Hex keyboard</tooltip>
                                                                             <font>
@@ -6399,7 +6414,7 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="EFButtonsElfII">
                                                                             <tooltip>Enable EF3/EF push buttons</tooltip>
                                                                             <font>
@@ -6407,6 +6422,19 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <label>EF Buttons</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="GiantElfII">
+                                                                            <tooltip>Enable Giant Board ROM mapping</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Giant</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -6809,7 +6837,8 @@
                                                                                 <border>3</border>
                                                                                 <object class="wxBitmapButton" name="TapeSuperElf">
                                                                                     <size>26,27</size>
-                                                                                    <bitmap>images_osx/tick.png</bitmap>
+                                                                                    <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -7822,7 +7851,7 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>3</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="InterlaceSuperElf">
                                                                             <tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
                                                                             <font>
@@ -7870,7 +7899,7 @@
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>5</border>
                                                                         <object class="wxCheckBox" name="BootStrapSuperElf">
-                                                                            <tooltip>Activate bootstrap for use with Super Monitor</tooltip>
+                                                                            <tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -7887,8 +7916,8 @@
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="HexEfSuperElf">
                                                                             <tooltip>Enable EF Hex keyboard</tooltip>
                                                                             <font>
@@ -10545,12 +10574,12 @@
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
                                                                         <object class="wxCheckBox" name="ControlWindowsVelf">
-                                                                            <tooltip>Show Velf control window</tooltip>
+                                                                            <tooltip>Show VELF control window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Velf Window</label>
+                                                                            <label>VELF Window</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -26749,15 +26778,15 @@
                                 <size>-1</size>
                             </font>
                             <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
-                            <object class="wxChoicebook" name="DebuggerChoiceBook">
+                            <object class="wxNotebook" name="DebuggerChoiceBook">
                                 <size>2000,2000</size>
                                 <font>
+                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                     <size>-1</size>
-                                    <family>swiss</family>
                                 </font>
                                 <style>wxBK_DEFAULT|wxFULL_REPAINT_ON_RESIZE</style>
-                                <object class="choicebookpage">
-                                    <label>Timing &amp; Specification</label>
+                                <object class="notebookpage">
+                                    <label>Timing &amp;&amp; Specification</label>
                                     <object class="wxPanel" name="Message">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27060,7 +27089,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Direct Assembler</label>
                                     <object class="wxPanel" name="PanelDirectAssembler">
                                         <font>
@@ -27897,7 +27926,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Debug 1802</label>
                                     <object class="wxPanel" name="PanelTrace">
                                         <font>
@@ -30499,7 +30528,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Debug Pseudo</label>
                                     <object class="wxPanel" name="PanelChip8">
                                         <font>
@@ -31511,7 +31540,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Memory Dump</label>
                                     <object class="wxPanel" name="PanelMemory">
                                         <font>

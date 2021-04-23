@@ -27,6 +27,10 @@ public:
 	bool isComputerRunning();
     wxString getRunningGame(){return runningGame_;};
 
+    void terminalSave(wxString fileName, int protocol);
+    void terminalLoad(wxString filePath, wxString fileName, int protocol);
+    void terminalStop();
+
 protected:
 	Vt100 *vtPointer;
     
