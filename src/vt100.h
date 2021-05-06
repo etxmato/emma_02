@@ -27,6 +27,10 @@ public:
 	void setInterlace(bool status);
 	void setStretchDot(bool status);
 
+    void readBuffer();
+    void readFilename();
+    void readEndFrame();
+    int calcrc(char *ptr, int count);
     void switchQ(int value);
 	void setClock(double clock);
 	void setCycle();
@@ -232,10 +236,15 @@ private:
     bool terminalLoad_;
     bool terminalFileCdp18s020_;
     int protocol_;
-    unsigned char xmodemBuffer_[132];
+    char xmodemBuffer_[1029];
+    int xmodemBufferSize_;
     int xmodemBufferPointer_;
     Byte terminalAck_;
+    bool sendPacket_;
+    bool useCrc_;
+    int sendingMode_;
     int xmodemPacketNumber_;
+    int xmodemFileNumber_;
     wxFile outputTerminalFile;
     wxFFile inputTerminalFile;
     wxString terminalInputFileLine_;

@@ -11,7 +11,7 @@ I expect GPL-A stands for Game Programming Language, version A.
 GPL-A (2K ROM) is used in the gamed 'Tag-Bowling' and 'Katch' running on the RCA Video Coin Arcade machine (and FRED 1.5). Katch looks like an early version of Tag-Bowling.
 </p>
 <p>
-The two GPL-A versions described here are very similar, obviously the 2K RAM version will fit into that whereas the 2K ROM version will need RAM located at 0800-09FF as it uses screen location 0900-09FF and V0-F are stored on 0880-088F. Interrupt routines are different and they have slightly different code for the timers. Command syntax is more or less the same for both with differences in:
+The two GPL-A versions described here are very similar, obviously the 2K RAM version will fit into that whereas the 2K ROM version will need RAM located at hex 800-9FF as it uses screen location hex 900-9FF and V0-F are stored on hex 880-88F. Interrupt routines are different and they have slightly different code for the timers. Command syntax is more or less the same for both with differences in:
 <UL>
 <LI>SUB Vz, Vy-Vx on GPL 1 and SUB Vz, Vx-Vy on GPL 2
 <LI>SE Vx, [6aa] on GPL 1 and SNE Vx, kk on GPL 2
@@ -88,7 +88,7 @@ The two GPL-A versions described here are very similar, obviously the 2K RAM ver
 <TD WIDTH="55">Bxyx</TD>
 <TD WIDTH="40">ADD8</TD>
 <TD WIDTH="100">Vx, Vy, Vz</TD>
-<TD WIDTH="250">If (Vx+Vy)&amp;0x7 = 8 THEN Vz = 0xFF ELSE Vx = Vx+Vy</TD>
+<TD WIDTH="250">If (Vx+Vy)&amp;7 = 8 THEN Vz = hex FF ELSE Vx = Vx+Vy</TD>
 </TR>
 <TR>
 <TD WIDTH="55">9dkk</TD>
@@ -113,7 +113,7 @@ The two GPL-A versions described here are very similar, obviously the 2K RAM ver
 <br>- bit 0 defines the lower byte of graphic memory location bit 3
 <br>- bit 1-3 defines page number 0=Page 5, 1=Page 4, 2=Page 3, 3=Page 2 etc.
 <br>- bit 4-7 defines the lower byte of graphic memory location bit 4-7 e.g. B0 points to memory 5B0, B2 points to 4B0, B3 points to 4B8. 
-<br>Graphic memory location bit 0-2 are always 0, the graphic memory should contain 8 bytes to make up the 8*8 graphic which will be stored on screen location Vy-0xA0. Where A0 is top left corner A8 to right corner, D0 bottom left corner and D8 bottom right corner. The memory location values used (from page 6) are copied to 08A0-08D8 RAM</TD>
+<br>Graphic memory location bit 0-2 are always 0, the graphic memory should contain 8 bytes to make up the 8*8 graphic which will be stored on screen location Vy-hex A0. Where hex A0 is top left corner, hex A8 the right corner, hex D0 bottom left corner and hex D8 bottom right corner. The memory location values used (from page 6) are copied to hex 8A0-8D8 RAM</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Faaa</TD>

@@ -49,7 +49,8 @@ public:
 	void setTapeType(wxString elfTypeStr, int elfType);
 
     bool getUpperCase(int elfType) {return elfConfiguration[elfType].forceUpperCase;};
-    bool getUseXmodem(int elfType) {return elfConfiguration[elfType].useXmodem;};
+    bool getUseXmodem(int elfType);
+    bool getUsePacketSize1K(int elfType) {return elfConfiguration[elfType].usePacketSize1K;};
 	bool getUseElfControlWindows(int elfType) {return elfConfiguration[elfType].useElfControlWindows;};
 	bool getUseSwitch(int elfType) {return elfConfiguration[elfType].useSwitch;};
 	bool getUseHex(int elfType) {return elfConfiguration[elfType].useHex;};

@@ -9,7 +9,7 @@ To use the Giant Board either load the Giant Board configuration via the 'File/C
 - giantboard.hex or supermon.hex is loaded as ROM file<br>
 - Cassette support is enabled by checkbox 'Cassette'<br>
 - Autoboot is enabled and set to hex F000 for the giant board and hex 8000 for the supermon<br>
-- Giant is enabled to map (or ghost) the Giant Board ROM from @F000 to @FF00
+- Giant is enabled to map (or ghost) the Giant Board ROM from hex F000 to hex FF00
 </p>
 <p>
 For specifics on how to use the cassette emulation also see the chapter on <a href="ElfCassette.htm">Cassette Support</a>.
@@ -18,7 +18,7 @@ For specifics on how to use the cassette emulation also see the chapter on <a hr
 Instead of automatic booting it is also possible to start the monitor manually via the Elf control window as follows: turn off the Run, Load and M/P (memory protect) switches to reset the 1802. Place the load switch in the on position and, using the keypad, enter C0 F0 00. Set the load switch in the off position. When the Run switch is turned on, the monitor will come into play. The next input will determine the monitor mode: 00 is execute, 01 is memory examine, 02 is memory change, 03 is cassette write, 04 is cassette read, and 05 is memory scan.
 </p>
 <p>
-To execute (run) a program from a memory location other than 0000, enter the monitor and then enter 00. Insert the two-byte address of the beginning location. When the Input switch is depressed, the program executes from the memory location specified.
+To execute (run) a program from a memory location other than address 0, enter the monitor and then enter 00. Insert the two-byte address of the beginning location. When the Input switch is depressed, the program executes from the memory location specified.
 </p>
 <p>
 To examine a memory location, enter the monitor and key in 01. Insert the two-byte address of the memory to be examined, then depress and release the Input switch. The byte stored at that memory location will be displayed. Depress and hold the Input switch down and the low-order address of the next byte is displayed, followed by the memory byte when the Input switch is released.

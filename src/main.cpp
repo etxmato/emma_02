@@ -8278,12 +8278,20 @@ wxString Main::eventShowFileSelector(wxString message, wxString default_path, wx
         
         while (fileSelectorAnswer_ == "")
             p_Computer->sleepComputer(1);
+
+        if (fileSelectorCancel_)
+            fileSelectorAnswer_ = "";
     }
+
     return fileSelectorAnswer_;
 }
 
 void Main::setFileSelectorAnswer(wxString answer)
 {
+    fileSelectorCancel_ = (answer == "");
+    if (fileSelectorCancel_)
+        answer = "CANCEL";
+    
     fileSelectorAnswer_ = answer;
 }
 

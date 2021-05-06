@@ -5,7 +5,7 @@
 <p>
 The CDP18S640A and CDP18S640A1 boards include:
 <UL>
-<LI>A 1 KB RAM (8C00-8FFF) and 2 KB ROM socket (8000-87FF)
+<LI>A 1 KB RAM (hex 8C00-8FFF) and 2 KB ROM socket (hex 8000-87FF)
 <LI>Four control switches: RESET, RUN P, RUN U, STEP/CONT
 <LI>Six hexadecimal display digits
 <LI>Six LED status displays
@@ -31,7 +31,7 @@ RESET - Places the CPU into the reset state
 RUN P - Execute program in RAM at address 0
 </p>
 <p>
-RUN U - Execute program in ROM at address 8000
+RUN U - Execute program in ROM at address hex 8000
 </p>
 <p>
 STEP/CONT - STEP mode will single step the processor by executing next CPU cycle and then entering Wait mode

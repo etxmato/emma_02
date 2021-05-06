@@ -4,17 +4,17 @@
 <h2>Memory</h2>
 <h3>RAM Address</h3>
 <p>
-To specify the size and location of the Elf RAM specify RAM 'start' end 'end' address in hexadecimal format. Default is 0 to FFFF resulting in 64KB RAM at any location where there is no ROM loaded. Note that when starting the Elf emulation the start address will be set with the lower byte to 0 and the end address to FF; so if the start address is set to 120 and the end 1A0 the actual RAM location will be set from 100 to 1FF.
+To specify the size and location of the Elf RAM specify RAM 'start' end 'end' address in hexadecimal format. Default is 0 to FFFF resulting in 64KB RAM at any location where there is no ROM loaded. Note that when starting the Elf emulation the start address will be set with the lower byte to 0 and the end address to hex FF; so if the start address is set to 120 and the end 1A0 the actual RAM location will be set from hex 100-1FF.
 </p>
 <p>
-If RAM 'end' address is lower than 8000 the specified RAM is mapped. For example when specifying RAM 0000-0FFF, memory locations 0000-0FFF will be repeated at 1000, 2000 etc. No mapping is done when memory is used for ROM, EMS memory or the RAM pager. Also no mapping is done for the Netronics Elf II unless 256 byte RAM is specified from 0 to FF.
+If RAM 'end' address is lower than 8000 the specified RAM is mapped. For example when specifying RAM 0000-0FFF, memory locations 0 to hex FFF will be repeated at hex 1000, hex 2000 etc. No mapping is done when memory is used for ROM, EMS memory or the RAM pager. Also no mapping is done for the Netronics Elf II unless 256 byte RAM is specified from 0 to hex FF.
 </p>
 <p>
 When using EMS memory, the RAM or ROM Mapper the RAM fields will be disabled and all available memory will be set to RAM execept location where ROM is loaded.
 </p>
 <h3>EMS - 512 KB</h3>
 <p>
-RAM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 16K slot from any large RAM chip. Selected RAM is swicthed to 8000-BFFF by using A15 from bit 0 on port 7, A16 from bit 1 up to a max of 5 bits. 
+RAM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 16K slot from any large RAM chip. Selected RAM is swicthed to 0 to hex BFFF by using A15 from bit 0 on port 7, A16 from bit 1 up to a max of 5 bits. 
 </p>
 <h3>RAM Mapper - 1 MB</h3>
 <p>
@@ -22,7 +22,7 @@ Mike's 1MB Memory Mapper, for more details see <a href="http://www.elf-emulation
 </p>
 <h3>ROM Mapper</h3>
 <p>
-Richard's ROM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 32K slot from any large ROM chip. Selected ROM is swicthed to 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. To start Richard's ROM Mapper program, first load one of the configuration under the 'File/Configuration/Load/Rom Mapper' menu. Then after starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+Richard's ROM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 32K slot from any large ROM chip. Selected ROM is swicthed to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. To start Richard's ROM Mapper program, first load one of the configuration under the 'File/Configuration/Load/Rom Mapper' menu. Then after starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
 </p>
 </BODY>
 </HTML>

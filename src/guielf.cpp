@@ -377,6 +377,9 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	conf[elfType].printFile_ = configPointer->Read(elfTypeStr+"/Print_File", "printerout.txt");
 	conf[elfType].screenDumpFile_ = configPointer->Read(elfTypeStr+"/Video_Dump_File", "screendump.png");
 	conf[elfType].wavFile_[0] = configPointer->Read(elfTypeStr+"/Wav_File", "");
+    conf[elfType].terminalFiles_.Add(conf[elfType].wavFile_[0]);
+    conf[elfType].terminalPaths_.Add(conf[elfType].wavFileDir_[0]+conf[elfType].wavFile_[0]);
+    conf[elfType].numberOfTerminalFiles_ = 1;
 	elfConfiguration[elfType].vtWavFile_ = configPointer->Read(elfTypeStr + "/Vt_Wav_File", "");
     elfConfiguration[elfType].serialPort_ = configPointer->Read(elfTypeStr + "/VtSerialPortChoice", "");
 
@@ -438,6 +441,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Cassette", &conf[elfType].autoCassetteLoad_, true);
     configPointer->Read(elfTypeStr+"/Enable_Cassette", &elfConfiguration[elfType].useTape, false);
     configPointer->Read(elfTypeStr+"/Enable_Xmodem", &elfConfiguration[elfType].useXmodem, false);
+    configPointer->Read(elfTypeStr+"/Enable_Ymodem", &elfConfiguration[elfType].usePacketSize1K, true);
 	configPointer->Read(elfTypeStr+"/Enable_Real_Cassette", &conf[elfType].realCassetteLoad_, false);
 	conf[elfType].volume_ = (int)configPointer->Read(elfTypeStr+"/Volume", 25l);
 
@@ -732,6 +736,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Enable_Real_Cassette", conf[elfType].realCassetteLoad_);
     configPointer->Write(elfTypeStr+"/Enable_Cassette", elfConfiguration[elfType].useTape);
     configPointer->Write(elfTypeStr+"/Enable_Xmodem", elfConfiguration[elfType].useXmodem);
+    configPointer->Write(elfTypeStr+"/Enable_Ymodem", elfConfiguration[elfType].usePacketSize1K);
 	configPointer->Write(elfTypeStr+"/Volume", conf[elfType].volume_);
 }
 
@@ -1381,9 +1386,8 @@ void GuiElf::onTape(wxCommandEvent&WXUNUSED(event))
         elfConfiguration[selectedComputer_].useTape = true;
     else
     {
-        if (elfConfiguration[selectedComputer_].useTape && !elfConfiguration[selectedComputer_].useXmodem)
+        if (!elfConfiguration[selectedComputer_].useXmodem)
         {
-            elfConfiguration[selectedComputer_].useTape = true;
             elfConfiguration[selectedComputer_].useXmodem = true;
         }
         else
@@ -1399,32 +1403,21 @@ void GuiElf::setTapeType(wxString elfTypeStr, int elfType)
 {
     if (elfConfiguration[selectedComputer_].useXmodem)
     {
-//        XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->Disable();
         XRCCTRL(*this, "CasButton"+elfTypeStr, wxButton)->wxAnyButton::SetLabel("XMODEM");
     }
     else
     {
-  /*      if (elfConfiguration[elfType].useTape)
-        {
-            XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->SetBitmapLabel(tapeOnBitmap);
-            XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->SetBitmapDisabled (tapeOnBitmap);
-            XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->SetToolTip("Disable cassette support");
-        }
-        else
-        {
-            XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->SetBitmapLabel(tapeOffBitmap);
-            XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->SetBitmapDisabled (tapeOffBitmap);
-            XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->SetToolTip("Enable cassette support");
-        }*/
-    //    XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->Enable();
         XRCCTRL(*this, "CasButton"+elfTypeStr, wxButton)->wxAnyButton::SetLabel("Cassette");
     }
-//    else
-  //  {
-    //    XRCCTRL(*this, "Tape"+elfTypeStr, wxBitmapButton)->Disable();
-      //  XRCCTRL(*this, "CasButton"+elfTypeStr, wxButton)->wxAnyButton::SetLabel("XMODEM");
-   // }
     enableTapeGui(elfConfiguration[elfType].useTape, elfType);
+}
+
+bool GuiElf::getUseXmodem(int elfType)
+{
+    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+        return elfConfiguration[elfType].useXmodem;
+    else
+        return false;
 }
 
 void GuiElf::onQsound(wxCommandEvent&event)

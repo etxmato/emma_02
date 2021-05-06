@@ -13,11 +13,11 @@ I have only listed SW below where I have some sort of description. Feel free to 
 <p>
 Use punch cards as follows:
 <UL>
-<LI>0: 0xBD - new game & player one card,
-<LI>1: 0xCC - Give player one card
-<LI>2: 0x78 - Give dealer one card 
-<LI>3: 0x73 - Show hand player
-<LI>4: 0xB1 - Show hand dealer
+<LI>0: hex BD - new game & player one card,
+<LI>1: hex CC - Give player one card
+<LI>2: hex 78 - Give dealer one card 
+<LI>3: hex 73 - Show hand player
+<LI>4: hex B1 - Show hand dealer
 </UL>
 </p>
 <h3>21 II</h3>
@@ -38,7 +38,7 @@ Two playing card values appear in the upper left corner. $25 appears in the uppe
 </p>
 <h3>Add Drill</h3>
 <p>
-This SW needs spoken text and tones recorded on the original tape and included in Add Drill.wav (if not available it will be downloaded). Start card will be requested which card '0' (code 0xFE). Press the start card 2 times and after the tone a 3rd time. Then type the sum of the 'add' question when one pops up.
+This SW needs spoken text and tones recorded on the original tape and included in Add Drill.wav (if not available it will be downloaded). Start card will be requested which card '0' (code hex FE). Press the start card 2 times and after the tone a 3rd time. Then type the sum of the 'add' question when one pops up.
 </p>
 <h3>Animate demo</h3>
 <p>
@@ -100,7 +100,7 @@ Drawing program, screen is divided in 4 x 4 array. To draw first press array pos
 </p>
 <h3>Flip I</h3>
 <p>
-Start game with card '0' (twice). The game uses two players, white and black square. First player to get 8 squares of his type wins. Centre square indicates which player gets the next turn. Use card 1 (0x6d), 2 (0x97) or 3 (0x9e) to flip squares. If no player wins by turn 50 the player with the most squares wins.
+Start game with card '0' (twice). The game uses two players, white and black square. First player to get 8 squares of his type wins. Centre square indicates which player gets the next turn. Use card 1 (hex 6d), 2 (hex 97) or 3 (hex 9e) to flip squares. If no player wins by turn 50 the player with the most squares wins.
 </p>
 <h3>Flip II</h3>
 <p>
@@ -161,12 +161,12 @@ This SW needs spoken text and tones recorded on original tapes and included in P
 </p>
 <h3>Slide Puzzle I</h3>
 <p>
-Start game with card 0 (value 0) followed by card 1 (0x31), 2 (0x33) or 3 (0x35). Card 1, 2 or 3 will select the game type. Move squares with card:
+Start game with card 0 (value 0) followed by card 1 (hex 31), 2 (hex 33) or 3 (hex 35). Card 1, 2 or 3 will select the game type. Move squares with card:
 <UL>
-<LI>6 (0x6): up
-<LI>12 (0x1): left
-<LI>13 (0xff): right
-<LI>18 (0xfa): down
+<LI>6 (6): up
+<LI>12 (1): left
+<LI>13 (hex ff): right
+<LI>18 (hex fa): down
 </UL>
 </p>
 <p>

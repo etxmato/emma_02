@@ -40,7 +40,13 @@
 #include "vt100.h"
 
 #define XMODEM_ACK 6
-#define XMODEM_NACK 0x15
+#define XMODEM_NAK 21
+#define XMODEM_CRC 67
+
+#define YMODEM_HEADER 1
+#define YMODEM_DATA 2
+#define XMODEM_DATA 3
+#define YMODEM_END_FRAME 4
 
 int baudRateValue_[] =
 {
@@ -905,50 +911,32 @@ void Vt100::cycleVt()
                                 dataReady = true;
                                 previousByte_ = vtOut_;
                                 xmodemBufferPointer_ = 0;
-                                xmodemBuffer_[131] = 0;
+                                xmodemBuffer_[xmodemBufferSize_-1] = 0;
                             }
                         break;
 
                         case TERM_XMODEM_LOAD:
                             if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
                             {
-                                if (terminalAck_ == XMODEM_ACK)
-                                 {
-                                    terminalAck_ = 0;
-                                    for (int i=0; i<131; i++)
-                                        xmodemBuffer_[i] = 0x1a;
-                                    xmodemBuffer_[131] = 0;
-
-                                    numberOfBytes = inputTerminalFile.Read(&xmodemBuffer_[3], 128);
-                                    xmodemBufferPointer_ = 0;
-                                    xmodemPacketNumber_++;
-
-                                    if (numberOfBytes == 0)
-                                    {
-                                        xmodemBuffer_[0] = 4;
-                                        terminalLoad_ = false;
-                                        p_Main->turboOff();
-                                        inputTerminalFile.Close();
-                                        p_Main->stopTerminal();
-                                    }
-                                    else
-                                    {
-                                        xmodemBuffer_[0] = 1;
-                                        for (int i=3; i<131; i++)
-                                            xmodemBuffer_[131] += xmodemBuffer_[i];
-                                    }
-
-                                    xmodemBuffer_[1] = xmodemPacketNumber_;
-                                    xmodemBuffer_[2] = 255-xmodemPacketNumber_;
-                                }
-                                if (terminalAck_ == XMODEM_NACK && xmodemBufferPointer_ == 132)
+                                if (xmodemBufferPointer_ == xmodemBufferSize_)
                                 {
-                                    xmodemBufferPointer_ = 0;
+                                    sendPacket_ = false;
                                 }
-                                if (xmodemBufferPointer_ != 132)
+                                if (sendPacket_)
                                 {
-                                    terminalAck_ = 0;
                                     vtOut_ = xmodemBuffer_[xmodemBufferPointer_++];
+                                    if (xmodemBuffer_[0] == 4)
+                                    {
+                                        if (useCrc_)
+                                            xmodemBufferPointer_ = 133;
+                                        else
+                                        {
+                                            terminalLoad_ = false;
+                                            p_Main->turboOff();
+                                            inputTerminalFile.Close();
+                                            p_Main->stopTerminal();
+                                        }
+                                    }
                                     dataReady = true;
                                     previousByte_ = vtOut_;
                                 }
@@ -1079,6 +1067,142 @@ void Vt100::cycleVt()
         }
 
 	}
+}
+
+void Vt100::readBuffer()
+{
+    size_t numberOfBytes = 0;
+    int crc;
+
+    xmodemPacketNumber_++;
+  
+    if (useCrc_)
+    {
+        if (p_Main->getUsePacketSize1K(computerType_))
+            xmodemBufferSize_ = 1029;
+        else
+            xmodemBufferSize_ = 133;
+
+        for (int i=0; i<(xmodemBufferSize_-2); i++)
+            xmodemBuffer_[i] = 0x1a;
+        xmodemBuffer_[xmodemBufferSize_-2] = 0;
+        xmodemBuffer_[xmodemBufferSize_-1] = 0;
+        numberOfBytes = inputTerminalFile.Read(&xmodemBuffer_[3], xmodemBufferSize_-5);
+    }
+    else
+    {
+        for (int i=0; i<(xmodemBufferSize_-1); i++)
+            xmodemBuffer_[i] = 0x1a;
+        xmodemBuffer_[xmodemBufferSize_-1] = 0;
+        numberOfBytes = inputTerminalFile.Read(&xmodemBuffer_[3], xmodemBufferSize_-4);
+    }
+
+    if (numberOfBytes == 0)
+        xmodemBuffer_[0] = 4;
+    else
+    {
+        if (useCrc_)
+        {
+            if (xmodemBufferSize_ == 133)
+                xmodemBuffer_[0] = 1;
+            else
+                xmodemBuffer_[0] = 2;
+
+            crc = calcrc(&xmodemBuffer_[3], xmodemBufferSize_-5);
+            xmodemBuffer_[xmodemBufferSize_-2] = (crc >> 8) & 0xff;
+            xmodemBuffer_[xmodemBufferSize_-1] = crc & 0xff;
+        }
+        else
+        {
+            if (xmodemBufferSize_ == 132)
+                xmodemBuffer_[0] = 1;
+            else
+                xmodemBuffer_[0] = 2;
+
+            for (int i=3; i<(xmodemBufferSize_-1); i++)
+                xmodemBuffer_[xmodemBufferSize_-1] += xmodemBuffer_[i];
+        }
+    }
+
+    xmodemBuffer_[1] = xmodemPacketNumber_;
+    xmodemBuffer_[2] = 255-xmodemPacketNumber_;
+}
+
+void Vt100::readFilename()
+{
+    int crc;
+
+    for (int i=0; i<(xmodemBufferSize_-1); i++)
+        xmodemBuffer_[i] = 0;
+    xmodemBuffer_[xmodemBufferSize_-1] = 0;
+    xmodemBuffer_[xmodemBufferSize_-2] = 0;
+    
+    size_t index = 0;
+
+    xmodemBuffer_[index++] = 1;
+    xmodemBuffer_[index++] = 0;
+    xmodemBuffer_[index++] = 0xff;
+    
+    wxArrayString terminalFiles = p_Main->getTerminalFiles(computerType_);
+    for (int i=0; i<terminalFiles[xmodemFileNumber_-1].Len(); i++)
+        xmodemBuffer_[index++] = terminalFiles[xmodemFileNumber_-1].GetChar(i);
+	
+	xmodemBuffer_[index++] = 0;
+
+    size_t length = inputTerminalFile.Length();
+    wxString lengthStr;
+    lengthStr.Printf("%d", (int)length);
+    
+    for (int i=0; i<lengthStr.Len(); i++)
+        xmodemBuffer_[index++] = lengthStr.GetChar(i);
+    
+	xmodemBuffer_[index++] = 0;
+
+    crc = calcrc(&xmodemBuffer_[3], xmodemBufferSize_-5);
+    xmodemBuffer_[xmodemBufferSize_-2] = (crc >> 8) & 0xff;
+    xmodemBuffer_[xmodemBufferSize_-1] = crc & 0xff;
+}
+
+void Vt100::readEndFrame()
+{
+    int crc;
+
+    xmodemBufferSize_ = 133;
+
+    for (int i=0; i<(xmodemBufferSize_-1); i++)
+        xmodemBuffer_[i] = 0;
+    xmodemBuffer_[xmodemBufferSize_-1] = 0;
+    xmodemBuffer_[xmodemBufferSize_-2] = 0;
+    
+    size_t index = 0;
+
+    xmodemBuffer_[index++] = 1;
+    xmodemBuffer_[index++] = 0;
+    xmodemBuffer_[index++] = 0xff;
+        
+    crc = calcrc(&xmodemBuffer_[3], xmodemBufferSize_-5);
+    xmodemBuffer_[xmodemBufferSize_-2] = (crc >> 8) & 0xff;
+    xmodemBuffer_[xmodemBufferSize_-1] = crc & 0xff;
+}
+
+int Vt100::calcrc(char *ptr, int count)
+{
+    int  crc;
+    char i;
+    crc = 0;
+    while (--count >= 0)
+    {
+        crc = crc ^ (int) *ptr++ << 8;
+        i = 8;
+        do
+        {
+            if (crc & 0x8000)
+                crc = crc << 1 ^ 0x1021;
+            else
+                crc = crc << 1;
+        } while(--i);
+    }
+    return (crc);
 }
 
 void Vt100::switchQ(int value)
@@ -1500,6 +1624,7 @@ void Vt100::Display(int byt, bool forceDisplay)
 {
 	int oldPos;
 	wxString character;
+    wxString fileName;
 
 	if ((serialLog_ && !forceDisplay))
 	{
@@ -1578,25 +1703,144 @@ void Vt100::Display(int byt, bool forceDisplay)
                         break;
 
                         case 131:
-                            if (xmodemBuffer_[131] == byt)
-                                terminalAck_ = XMODEM_ACK;
+                            if (xmodemBufferSize_ == 132)
+                            {
+                                if (xmodemBuffer_[xmodemBufferSize_-1] == (char) byt)
+                                    terminalAck_ = XMODEM_ACK;
+                                else
+                                {
+                                    terminalAck_ = XMODEM_NAK;
+                                    outputTerminalFile.Seek(outputTerminalFile.Tell()-(xmodemBufferSize_-4));
+                                    xmodemBufferPointer_ = 0;
+                                    xmodemBuffer_[xmodemBufferSize_-1] = 0;
+                                }
+                            }
                             else
-                                terminalAck_ = XMODEM_NACK;
-                            xmodemBufferPointer_ = 0;
-                            xmodemBuffer_[131] = 0;
-                            outputTerminalFile.Seek(outputTerminalFile.Tell()-128);
+                            {
+                                outputTerminalFile.Write(buffer, 1);
+                                xmodemBuffer_[xmodemBufferSize_-1] += byt;
+                                xmodemBufferPointer_++;
+                            }
                         break;
                             
+                        case 1027:
+                            if (xmodemBuffer_[xmodemBufferSize_-1] == byt)
+                                terminalAck_ = XMODEM_ACK;
+                            else
+                            {
+                                terminalAck_ = XMODEM_NAK;
+                                outputTerminalFile.Seek(outputTerminalFile.Tell()-(xmodemBufferSize_-4));
+                                xmodemBufferPointer_ = 0;
+                                xmodemBuffer_[xmodemBufferSize_-1] = 0;
+                            }
+                        break;
+ 
                         default:
                             outputTerminalFile.Write(buffer, 1);
-                            xmodemBuffer_[131] += byt;
+                            xmodemBuffer_[xmodemBufferSize_-1] += byt;
                             xmodemBufferPointer_++;
                         break;
                     }
                 break;
 
                 case TERM_XMODEM_LOAD:
-                    terminalAck_ = byt;
+                    switch (byt)
+                    {
+                        case XMODEM_NAK:
+                            useCrc_ = false;
+                            xmodemBufferPointer_ = 0;
+                            if (xmodemPacketNumber_ == 0)
+                                readBuffer();
+                            sendPacket_ = true;
+                            sendingMode_ = XMODEM_DATA;
+                        break;
+
+                        case XMODEM_CRC:
+                            switch (sendingMode_)
+                            {
+                                case YMODEM_HEADER:
+                                    useCrc_ = true;
+                                    xmodemBufferPointer_ = 0;
+                                    xmodemBufferSize_++;
+                                    readFilename();
+                                    sendPacket_ = true;
+                                break;
+
+                                case YMODEM_DATA:
+                                    xmodemBufferPointer_ = 0;
+                                    readBuffer();
+                                    sendPacket_ = true;
+                                break;
+
+                                case YMODEM_END_FRAME:
+                                    xmodemBufferPointer_ = 0;
+                                    readEndFrame();
+                                    sendPacket_ = true;
+//                                    terminalLoad_ = false;
+  //                                  Display(byt, false);
+    //                                terminalLoad_ = true;
+                                break;
+                            }
+                         break;
+
+                        case XMODEM_ACK:
+                            switch (sendingMode_)
+                            {
+                                case YMODEM_HEADER:
+                                    sendingMode_ = YMODEM_DATA;
+                                break;
+
+                                case YMODEM_DATA:
+                                    if (xmodemBuffer_[0] == 4)
+                                    {
+                                        if (xmodemFileNumber_ < p_Main->getNumberOfTerminalFiles(computerType_))
+                                        {
+                                            inputTerminalFile.Close();
+                                            xmodemFileNumber_++;
+                                            fileName = p_Main->getTerminalPath(computerType_, xmodemFileNumber_-1);
+                                            if (!fileName.empty())
+                                            {
+                                                if (inputTerminalFile.Open(fileName, _("rb")))
+                                                {
+                                                    terminalLoad_ = true;
+                                                    sendPacket_ = false;
+                                                    xmodemBufferSize_ = 132;
+                                                    p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+                                                    previousByte_ = 0;
+                                                    xmodemBufferPointer_ = xmodemBufferSize_;
+                                                    xmodemPacketNumber_  = 0;
+                                                    sendingMode_ = YMODEM_HEADER;
+                                                    return;
+                                                }
+                                            }
+                                        }
+                                        sendingMode_ = YMODEM_END_FRAME;
+                                        return;
+                                    }
+                                    else
+                                    {
+                                        xmodemBufferPointer_ = 0;
+                                        readBuffer();
+                                        sendPacket_ = true;
+                                    }
+                                break;
+
+                                case XMODEM_DATA:
+                                    xmodemBufferPointer_ = 0;
+                                    readBuffer();
+                                    sendPacket_ = true;
+                                break;
+                            }
+                        break;
+                            
+                        default:
+                            terminalLoad_ = false;
+                            p_Main->turboOff();
+                            inputTerminalFile.Close();
+                            p_Main->stopTerminal();
+                        break;
+
+                    }
                 break;
 
                 default:
@@ -3171,10 +3415,11 @@ void Vt100::terminalSaveVt(wxString fileName, int protocol)
         {
             terminalSave_ = true;
 			terminalLine_ = "";
+            terminalAck_ = XMODEM_NAK;
+            xmodemBufferSize_ = 132;
             protocol_ = protocol;
             p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
-            terminalAck_ = XMODEM_NACK;
         }
     }
 }
@@ -3202,12 +3447,15 @@ void Vt100::terminalLoadVt(wxString fileName, int protocol)
         if (inputTerminalFile.Open(fileName, _("rb")))
         {
             terminalLoad_ = true;
+            sendPacket_ = false;
+            xmodemBufferSize_ = 132;
             protocol_ = protocol;
-            terminalAck_ = XMODEM_ACK;
             p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
-            xmodemBufferPointer_ = 132;
+            xmodemBufferPointer_ = xmodemBufferSize_;
             xmodemPacketNumber_  = 0;
+            xmodemFileNumber_ = 1;
+            sendingMode_ = YMODEM_HEADER;
         }
     }
 }

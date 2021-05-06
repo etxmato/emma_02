@@ -188,7 +188,8 @@ void MainElf::checkComputerFunction()
                 p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
             }
         }
-        if (scratchpadRegister_[programCounter_] == 0x2681)
+    //    if (scratchpadRegister_[programCounter_] == 0x2681)
+            if (scratchpadRegister_[programCounter_] == 0x207E)
         { // yr (Pico Elf)
             if ((mainMemory_[0x380] == 0x79) && (mainMemory_[0x381] == 0x72) && (mainMemory_[0x382] == 0) && (mainMemory_[0x2681]== 0x35))
             {

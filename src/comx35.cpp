@@ -1576,10 +1576,10 @@ void Comx::writeMem(Word address, Byte value, bool writeRom)
 
 //			if (address == 0x42a0)
 //				p_Main->messageInt(value);
-//			if (address == 0x428b)
+//            if (address == 0x428b)
 //			{
 //				p_Main->eventMessageHex(scratchpadRegister_[programCounter_]);
-//			}
+//            }
 
 			if (mainMemory_[address]==value)
 				return;

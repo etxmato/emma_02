@@ -11,44 +11,44 @@ To use the chip 8 interpreter in Emma 02 load the configuration 'Chip 8' or 'Mul
 <p>
 On HW this chip 8 interpreter can run on a RCA Studio III / Victory MPT-02 with the 40th Anniversary Multi-Cart as designed by FLiP. Due to HW differences of the RCA Studio III / Victory MPT-02 compared with the VIP there are some limitations:
 <UL>
-<LI>Free RAM is limited to 0x9F bytes. Chip 8 code writing to memory will try to emulate writing to RAM by changing register I to a value within 0xB00 and 0xB9F (addressing RCA Studio III / Victory MPT-02 memory 0x800-0x89F). This will work for the simplest cases but most SW will need re-coding if RAM is used.
-<LI>Chip 8 size should be lass than 0xB00 bytes.
+<LI>Free RAM is limited to hex 9F bytes. Chip 8 code writing to memory will try to emulate writing to RAM by changing register I to a value within hex B00 and hex B9F (addressing RCA Studio III / Victory MPT-02 memory hex 800-89F). This will work for the simplest cases but most SW will need re-coding if RAM is used.
+<LI>Chip 8 size should be lass than hex B00 bytes.
 <LI>Keys A to F do not exist on a RCA Studio III / Victory MPT-02, these keys are mapped to keypad two 1 (A) to 6 (F).
 </UL>
 <pre>
 Memory map:
 
-    0 - 0x2FF:  Interpreter
-0x300 - 0x7FF:  Chip 8 SW using an offset of 0x100 
-		mapped to chip 8 memory 0x200 - 0x6FF.
-                i.e. a JP to address 0x200 in chip 8 
-		code will jump to Victory MPT-02  
-		address 0x300.
-0x800 - 0x89F:  RAM free to use by chip 8 SW with an 1
-		offset of 0x300. i.e. to address RAM 
-		register I should contain a value 
-		between 0xB00-0xB9F.
-0x8A0 - 0x8CF:  Chip 8 Stack
-0x8D0 - 0x8EF:  Chip 8 interpreter work area
-0x8F0 - 0x8FF:  Content V0 - VF
-0x900 - 0x9FF:  Display RAM
-0xA00 - 0xBFF:  Not used
-0xC00 - 0xFFF:  Chip 8 SW using an offset of 0x500 
-		mapped to chip 8 memory 0x700 - 0xAFF.
-                i.e. a JP to address 0x700 in chip 8 
-		code will jump to Victory MPT-02  
-		address 0xC00.
+  0 - 2FF:  Interpreter
+300 - 7FF:  Chip 8 SW using an offset of hex 100 
+	    mapped to chip 8 memory hex 200-6FF.
+            i.e. a JP to address hex 200 in chip 8 
+  	    code will jump to Victory MPT-02 
+            address hex 300.
+800 - 89F:  RAM free to use by chip 8 SW with an 1
+	    offset of hex 300. i.e. to address RAM 
+	    register I should contain a value 
+	    between hex B00-B9F.
+8A0 - 8CF:  Chip 8 Stack
+8D0 - 8EF:  Chip 8 interpreter work area
+8F0 - 8FF:  Content V0 - VF
+900 - 9FF:  Display RAM
+A00 - BFF:  Not used
+C00 - FFF:  Chip 8 SW using an offset of hex 500 
+	    mapped to chip 8 memory hex 700-AFF.
+            i.e. a JP to address hex 700 in chip 8 
+	    code will jump to Victory MPT-02  
+            hex C00.
 </pre>
-Note: JP or CALL in Studio II chip 8 is not possible to address range 0x800-0xBFF.
+Note: JP or CALL in Victory MPT-02 chip 8 is not possible to address range hex 800-BFF.
 <pre>
 Memory map as seen by the chip 8 interpreter:
 
-0x200 - 0x6FF:  Chip 8 SW stored in Victory MPT-02  
-		memory 0x300 - 0x7FF
-0x700 - 0xAFF:  Chip 8 SW stored in Victory MPT-02 
-		memory 0xC00 - 0xFFF
-0xB00 - 0xB9F:  RAM free to use by chip 8 SW stored 
-		in Victory MPT-02 Memory 0x800 - 0x89F
+200 - 6FF:  Chip 8 SW stored in Victory MPT-02  
+	    memory hex 300-7FF
+700 - AFF:  Chip 8 SW stored in Victory MPT-02  
+	    memory hex C00-FFF
+B00 - B9F:  RAM free to use by chip 8 SW stored 
+	    in Victory MPT-02 memory hex 800-89F
 </pre>
 </p>
 </body>

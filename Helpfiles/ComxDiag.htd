@@ -9,11 +9,11 @@ To run the COMX emulator with the Diagnostic Board select checkbox 'Diagboard'. 
 <p>
 By default the following ROMs will be selected:
 <ul>
-<li>diag_pal1.bin, mapped to 0000-0FFF instead of BASIC ROM (if the diagnostic board is set to 'on'). BASIC ROM will be switched back 
+<li>diag_pal1.bin, mapped to hex 0-FFF instead of BASIC ROM (if the diagnostic board is set to 'on'). BASIC ROM will be switched back 
  on the first INP 1 instruction.
-<li>diag_pal2_v1.1.bin, mapped to C0000-D7FF. This v1.1 version will perform the extended ROM check on BASIC ROM file comx35.1.1.bin.
+<li>diag_pal2_v1.1.bin, mapped to hex C0000-D7FF. This v1.1 version will perform the extended ROM check on BASIC ROM file comx35.1.1.bin.
 </ul>
-Next to this additional RAM will be selected from D800-DFFF.
+Next to this additional RAM will be selected from hex D800-DFFF.
 </p>
 <p>
 The following alternative ROMs can be used:

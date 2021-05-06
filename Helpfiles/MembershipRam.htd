@@ -15,7 +15,7 @@ To select the memory configuration select the memory choiche button. The followi
 <LI>32 KB RAM - 32 KB ROM
 </UL>
 <p>
-For the 32 KB ROM - 32 KB RAM configurations 32 KB ROM is configred from @0000 to @7FFF and 32 KB RAM from @8000 to @FFFF. For the 32 KB RAM - 32 KB ROM configurations 32 KB RAM is configred from @0000 to @7FFF and 32 KB ROM from @8000 to @FFFF.
+For the 32 KB ROM - 32 KB RAM configurations 32 KB ROM is configred from 0 to hex 7FFF and 32 KB RAM from hex 8000 to FFFF. For the 32 KB RAM - 32 KB ROM configurations 32 KB RAM is configred from 0 to hex 7FFF and 32 KB ROM from hex 8000 to FFFF.
 </p>
 </BODY>
 </HTML>

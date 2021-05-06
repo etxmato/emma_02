@@ -184,6 +184,15 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(false);
 	}
 
+    if (elfConfiguration_.useXmodem)
+    {
+        XRCCTRL(*this, "XmodemLine", wxStaticLine)->Show();
+        XRCCTRL(*this, "VtXmodemPacketSizeText", wxStaticText)->Show();
+        XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->Show();
+        if (elfConfiguration_.usePacketSize1K)
+            XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->SetSelection(1);
+    }
+    
 	wxString box;
 	for (int i=0; i<17; i++)
 	{
@@ -239,6 +248,11 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 
     elfConfiguration_.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
     elfConfiguration_.escError = XRCCTRL(*this, "ESCError", wxCheckBox)->GetValue();
+
+    if (elfConfiguration_.useXmodem)
+    {
+        elfConfiguration_.usePacketSize1K = (XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->GetSelection() == 1);
+    }
 
 	switch (computerType_)
 	{

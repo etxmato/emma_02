@@ -138,6 +138,10 @@ public:
 	wxString printFile_;
     wxString configurationDir_;
     
+    wxArrayString terminalPaths_;
+    wxArrayString terminalFiles_;
+    size_t numberOfTerminalFiles_;
+
     ConfigurationInfo configurationInfo_;
     
     wxMenu *configurationMenu;
@@ -326,7 +330,9 @@ public:
 	void onScreenDump(wxCommandEvent& event);
 	void onDp(wxCommandEvent& event);
 	void onVolume(wxScrollEvent&event);
-	void onCassette(wxCommandEvent& event);
+    void onCassette(wxCommandEvent& event);
+    void onCassetteFileDialog();
+    void onCassetteFileSelector();
     void onCassette1(wxCommandEvent& event);
 	void onTerminalFile(wxCommandEvent& event);
     void onCassetteEject(wxCommandEvent& event);
@@ -379,6 +385,10 @@ public:
 	wxString getCharRomDir(int computerType) {return conf[computerType].charRomDir_;};
 	wxString getVtCharRomDir(int computerType) {return elfConfiguration[computerType].vtCharRomDir_;};
 	wxString getWaveDir(int computerType) {return conf[computerType].wavFileDir_[0];};
+    wxArrayString getTerminalPaths(int computerType) {return conf[computerType].terminalPaths_;}
+    wxString getTerminalPath(int computerType, int filenumber) {return conf[computerType].terminalPaths_[filenumber];}
+    wxArrayString getTerminalFiles(int computerType) {return conf[computerType].terminalFiles_;}
+    size_t getNumberOfTerminalFiles(int computerType) {return conf[computerType].numberOfTerminalFiles_;}
 	bool getAutCassetteLoad() {return conf[runningComputer_].autoCassetteLoad_;};
 	bool getPrinterStatus(int computerType) {return conf[computerType].printerOn_;};
 
@@ -715,6 +725,7 @@ protected:
  
 	int messageBoxAnswer_;
 	wxString fileSelectorAnswer_;
+    bool fileSelectorCancel_;
 	int messageAddressPopupAnswer_;
 
     wxSize clientSize_;

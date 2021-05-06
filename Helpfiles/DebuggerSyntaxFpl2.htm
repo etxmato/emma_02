@@ -97,7 +97,7 @@ V0-F are stored on memory locations 0690-06AF.
 <TD WIDTH="40">DRW</TD>
 <TD WIDTH="100">Vx, kk</TD>
 <TD WIDTH="250">Draw 8*8 graphics:
-<br>Draw on screen location kk (i.e. memory address 7kk). Pattern location will be fetched from memory [6aa] (and onwards) where aa is stored on 06[Vx|0x80]. </TD>
+<br>Draw on screen location kk (i.e. memory address 7kk). Pattern location will be fetched from memory [6aa] (and onwards) where aa is stored on 06[Vx|hex 80]. </TD>
 </TR>
 <TR>
 <TD WIDTH="55">Bxyn</TD>
@@ -118,14 +118,14 @@ V0-F are stored on memory locations 0690-06AF.
 <TD WIDTH="40">DRW1</TD>
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Draw 16*24 graphics:
-<br>Draw on screen location Vx (i.e. memory address 7aa, where aa is stored in Vx). Pattern location will be fetched from [5aa] (and onwards) where aa is stored on [6bb] where bb = 0x50 + highest nibble Vy. </TD>
+<br>Draw on screen location Vx (i.e. memory address 7aa, where aa is stored in Vx). Pattern location will be fetched from [5aa] (and onwards) where aa is stored on [6bb] where bb = hex 50 + highest nibble Vy. </TD>
 </TR>
 <TR>
 <TD WIDTH="55">Cxy2</TD>
 <TD WIDTH="40">DRW2</TD>
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Draw 16*24 graphics:
-<br>Draw on screen location Vx (i.e. memory address 7aa, where aa is stored in Vx). Pattern location will be fetched from [5aa] (and onwards) where aa is stored on [6bb] where bb = 0x54 + highest nibble Vy. </TD>
+<br>Draw on screen location Vx (i.e. memory address 7aa, where aa is stored in Vx). Pattern location will be fetched from [5aa] (and onwards) where aa is stored on [6bb] where bb = hex 54 + highest nibble Vy. </TD>
 </TR>
 <TR>
 <TD WIDTH="55">Cxy4</TD>

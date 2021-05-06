@@ -495,7 +495,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.38
-#define EMMA_SUB_VERSION 13
+#define EMMA_SUB_VERSION 14
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1031,7 +1031,9 @@ public:
 #define TERM_HEX 1
 #define TERM_BIN 2
 #define TERM_XMODEM_LOAD 3
-#define TERM_XMODEM_SAVE 4
+//#define TERM_XMODEM_LOAD_128 4
+#define TERM_XMODEM_SAVE 5
+//#define TERM_XMODEM_SAVE_128 6
 
 class Emu1802: public wxApp
 {
