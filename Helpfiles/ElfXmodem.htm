@@ -4,7 +4,7 @@
 <BODY>
 <h2>XMODEM Support </h2>
 <p>
-Default and simplest method to transfer files over the XMODEM into the Elf (Cosmac Elf, Netronics Elf II or Quest Super Elf) emulator is by making sure both options 'Turbo' and 'Auto' are checked. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
+Default and simplest method to transfer files over the XMODEM to/from the Elf (Cosmac Elf, Netronics Elf II or Quest Super Elf) emulator is by making sure both options 'Turbo' and 'Auto' are checked. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
 </p>
 <p>
 Also make sure 'XMODEM' is enabled and shown by pressing the 'Toggle: Casette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. XMODEM support is not enabled by default! The Pico/Elf configurations which includes a working XMODEM configuration can be loaded via the 'File/Configuration/Load/Pico/Elf' menu.
@@ -17,10 +17,10 @@ For details on the Pico/Elf also see the chapter on <a href="PicoMain.htm">Pico/
 Default settings, to use this make sure 'Auto' is checked. The automatic mode will work with the Pico/Elf Elf/OS 0.3.2 (xr, xs and yr commands) as well as the load and save functions in the diskless ROM v1.1.
 </p>
 <p>
-To transfer a file to or from the Pico/Elf select the file in the file selctor window by pressing the XMODEM button. After that give the xr, xs or yr command in Elf/OS or start the load/save function in the diskless ROM. For the yr comment it is possible to select multiple file in the file selector window, Emma 02 will also send the filenames to Elf/OS. For all other file transfers only one file will be used, if multiple were selected Emma 02 will use the first.
+To transfer a file to or from the Pico/Elf select the file in the file selector window by pressing the XMODEM button. After that give the xr, xs or yr command in Elf/OS or start the load/save function in the diskless ROM. For the yr comment it is possible to select multiple file in the file selector window, Emma 02 will also send the filenames to Elf/OS. For all other file transfers only one file will be used, if multiple were selected the first will be used.
 </p>
 <p>
-If no file is specified before starting the file transfer the Pico/Elf will wait for the transfer to start, unselect the auto checkbox and try a manual transfer.</p>
+If no file is specified before starting the file transfer the Pico/Elf will wait for the transfer to start. If this happens unselect the auto checkbox and try a manual transfer.</p>
 </p>
 <h3>Manual file transfer</h3>
 <p>
@@ -33,7 +33,7 @@ To transfer a file to or from the Pico/Elf select the file in the file selctor w
 <p>
 When Turbo is selected the emulator will increase speed during file transfer to allow faster file transferlity in the emulator. The speed of the Turbo mode can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. 
 </p>
-<h3>YMMODEM Receive (yr) Packet Size</h3>
+<h3>YMODEM Receive (yr) Packet Size</h3>
 <p>
 Via the VT Setup button it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to 1024 ansd is changeable to 128 like is used in XMODEM commands like xr and xs.
 </p>
