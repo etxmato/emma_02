@@ -137,6 +137,7 @@ Vt100::Vt100(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	stretchDot_ = p_Main->getStretchDot(computerType_);
     serialLog_ = elfConfiguration_.serialLog;
     uart_ = elfConfiguration_.useUart;
+    uart16450_ = elfConfiguration_.useUart16450;
 
 	fullScreenSet_ = false;
 	zoom_ = zoom;
@@ -341,34 +342,48 @@ void Vt100::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguration
     }
     else
     {
-        reverseEf_ = elfPortConf.vt100ReverseEf;
-        reverseQ_ = elfPortConf.vt100ReverseQ;
-        
-        p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
-        p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
-        
-        dataReadyFlag_ = elfPortConf.vt100Ef;
-        p_Computer->setEfType(dataReadyFlag_, VT100EF);
-        
-        if (reverseQ_) p_Computer->setFlipFlopQ(1);
-        
-        wxString printEfReverse = ", ";
-        wxString printQ = "Serial out: Q";
-        
-        if (reverseEf_ == 0)
-            printEfReverse = "(reversed), ";
-        
-        if (reverseQ_ == 1)
-            printQ = "Serial out: reversed Q";
-        
-        if (vtType_ == VT52)
-            p_Main->message("Configuring VT52 terminal");
+        if (uart16450_)
+        {
+            p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+            
+            if (vtType_ == VT52)
+                p_Main->message("Configuring VT52 terminal with 16450/550 UART");
+            else
+                p_Main->message("Configuring VT100 terminal with 16450/550 UART");
+            
+            rs232_ = 0;
+        }
         else
-            p_Main->message("Configuring VT100 terminal");
-        
-        printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
-        printBuffer = printBuffer + printEfReverse + printQ;
-        p_Main->message(printBuffer);
+        {
+            reverseEf_ = elfPortConf.vt100ReverseEf;
+            reverseQ_ = elfPortConf.vt100ReverseQ;
+            
+            p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+            p_Computer->setOutType(elfPortConf.vt100Output, VT100OUT);
+            
+            dataReadyFlag_ = elfPortConf.vt100Ef;
+            p_Computer->setEfType(dataReadyFlag_, VT100EF);
+            
+            if (reverseQ_) p_Computer->setFlipFlopQ(1);
+            
+            wxString printEfReverse = ", ";
+            wxString printQ = "Serial out: Q";
+            
+            if (reverseEf_ == 0)
+                printEfReverse = "(reversed), ";
+            
+            if (reverseQ_ == 1)
+                printQ = "Serial out: reversed Q";
+            
+            if (vtType_ == VT52)
+                p_Main->message("Configuring VT52 terminal");
+            else
+                p_Main->message("Configuring VT100 terminal");
+            
+            printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
+            printBuffer = printBuffer + printEfReverse + printQ;
+            p_Main->message(printBuffer);
+        }
     }
     
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValue_[selectedBaudT_], baudRateValue_[selectedBaudR_]);
@@ -670,7 +685,6 @@ void Vt100::out(Byte value)
 
 void Vt100::cycleVt()
 {
-    char saveBuffer[3];
 	cycleValue_--;
 	if (cycleValue_ <= 0)
 	{
@@ -778,223 +792,31 @@ void Vt100::cycleVt()
 	if (setUpMode_)
 		return;
 
-	if (uart_)
+	if (uart_ || uart16450_)
 	{
-		vtCount_--;
-		if (vtCount_ <= 0)
-		{
-			if (rs232_ != 0)
-				Display(rs232_ & 0x7f, false);
-            
-            rs232_ = 0;
-            p_Computer->thrStatus(0);
-            uartStatus_[uart_thre_bit_] = 1;
-            uartStatus_[uart_tsre_bit_] = 1;
-			
-			vtCount_ = baudRateR_ * 9;
-		}
 		if (vtOutCount_ > 0)
-		{
-			vtOutCount_--;
-            if (uartEf_)
-            {
-                if (vtOutCount_ <= 0)
-                {
-                    if (vtOutBits_ == 10)
-                        vt100Ef_ = 0;
-                    else
-                    {
-                        vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
-                        if (vtOutBits_ > 10)
-                            vtOut_ = 0;
-                        else
-                            vtOut_ = (vtOut_ >> 1) | 128;
-                    }
-                    vtOutCount_ = baudRateT_;
-                    if (vtOutBits_ == 2)
-                        vt100Ef_ = 1;
-                    if (--vtOutBits_ == 0)
-                    {
-                        vtOut_ = 0;
-                        p_Computer->dataAvailableVt100(1, uartNumber_);
-                        uartStatus_[uart_da_bit_] = 1;
-                        vtOutCount_ = -1;
-                        vtOutBits_=10;
-                    }
-                    if (vtOutBits_ == 11)
-                    {
-                        vt100Ef_ = 1;
-                        vtOutCount_ = -1;
-                        vtOutBits_=10;
-                    }
-                }
-            }
-            else
-            {
-                if (vtOutCount_ == 0)
-                {
-                    p_Computer->dataAvailableVt100(1, uartNumber_);
-                    uartStatus_[uart_da_bit_] = 1;
-                    vtOutCount_ = -1;
-                }
-            }
+            uartVtOut();
+        else
+        {
+            if (terminalLoad_)
+                p_Computer->dataAvailableVt100(1, uartNumber_);
         }
+
+        uartVtIn();
     }
     else  // if !uart
     {
         if (vtOutCount_ > 0)
-		{
-			vtOutCount_--;
-			if (vtOutCount_ <= 0)
-			{ // input from terminal
-				vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
-				vtOut_ = (vtOut_ >> 1) | 128;
-				vtOutCount_ = baudRateT_;
-				if (SetUpFeature_[VTPARITY])
-				{
-					if (vtOutBits_ == 3)
-						vt100Ef_ = parity_;
-					if (vtOutBits_ == 2)
-						vt100Ef_ = 1;
-				}
-				else
-				{
-					if (vtOutBits_ == 2) 
-						vt100Ef_ = 1;
-				}
-				if (--vtOutBits_ == 0)
-				{
-					vtOut_ = 0;
-                    p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
-					vtOutCount_ = -1;
-				}
-//				else
-//					p_Main->messageInt(vt100Ef_);
-                p_Computer->setGreenLed(vt100Ef_ ^ 1);
-			}
-		}
+            serialVtOut();
 		else
         {
-            size_t numberOfBytes = 0;
             bool dataReady = false;
-
             if (terminalLoad_ || (terminalSave_ && protocol_ == TERM_XMODEM_SAVE))
             {
                 if (vtOut_ == 0)
                 {
-                    switch (protocol_)
-                    {
-                        case TERM_BIN:
-                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
-                            {
-                                numberOfBytes = inputTerminalFile.Read(saveBuffer, 1);
-                            
-                                if (numberOfBytes == 1)
-                                {
-                                    vtOut_ = saveBuffer[0];
-                                    dataReady = true;
-                                    previousByte_ = vtOut_;
-                                }
-                            }
-                        break;
-
-                        case TERM_XMODEM_SAVE:
-                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
-                            {
-                                if (terminalAck_ & 0x80)
-                                {
-                                    terminalStopVt();
-                                    p_Main->stopTerminal();
-                                }
-                                vtOut_ = terminalAck_ & 0x7f;
-
-                                dataReady = true;
-                                previousByte_ = vtOut_;
-                                xmodemBufferPointer_ = 0;
-                                xmodemBuffer_[xmodemBufferSize_-1] = 0;
-                            }
-                        break;
-
-                        case TERM_XMODEM_LOAD:
-                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
-                            {
-                                if (xmodemBufferPointer_ == xmodemBufferSize_)
-                                {
-                                    sendPacket_ = false;
-                                }
-                                if (sendPacket_)
-                                {
-                                    vtOut_ = xmodemBuffer_[xmodemBufferPointer_++];
-                                    if (xmodemBuffer_[0] == 4)
-                                    {
-                                        if (useCrc_)
-                                            xmodemBufferPointer_ = 133;
-                                        else
-                                        {
-                                            terminalLoad_ = false;
-                                            p_Main->turboOff();
-                                            inputTerminalFile.Close();
-                                            p_Main->stopTerminal();
-                                        }
-                                    }
-                                    dataReady = true;
-                                    previousByte_ = vtOut_;
-                                }
-                            }
-                        break;
-
-                        default:
-                            if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
-                            {
-                                bool eof=false;
-                                int seek = -2;
-                                
-                                numberOfBytes = inputTerminalFile.Read(saveBuffer, 3);
-
-                                if (inputTerminalFile.Eof())
-                                {
-                                    switch(numberOfBytes)
-                                    {
-                                        case 0:
-                                            eof = true;
-                                        break;
-                                            
-                                        case 1:
-                                            if (saveBuffer[0] == 0xa)
-                                            {
-                                                saveBuffer[0] = 0xd;
-                                                eof = true;
-                                            }
-                                            seek = 0;
-                                        break;
-                                            
-                                        case 2:
-                                            if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa && !terminalFileCdp18s020_)
-                                                eof = true;
-                                            seek = -1;
-                                        break;
-                                    }
-                                }
-                                
-                                if (saveBuffer[0] == 0xa && previousByte_ != 0xd)
-                                    saveBuffer[0] = 0xd;
-                                
-                                if (eof)
-                                {
-                                    terminalLoad_ = false;
-                                    inputTerminalFile.Close();
-                                    p_Main->stopTerminal();
-                                }
-                                else
-                                {
-                                    inputTerminalFile.Seek(seek, wxFromCurrent);
-                                    vtOut_ = saveBuffer[0];
-                                    dataReady = true;
-                                    previousByte_ = vtOut_;
-                                }
-                            }
-                        break;
-                    }
+                    if (p_Computer->isReadyToReceiveData(dataReadyFlag_-1))
+                        dataReady = getTerminalLoadByte(&vtOut_);
                 }
             }
             
@@ -1014,59 +836,280 @@ void Vt100::cycleVt()
 //				p_Main->eventMessageHex(vtOut_);
 			}
         }
-        if (vtCount_ >= 0)
-        { // output to terminal
-            //wxString buffer;
-            //buffer.Printf("%d", p_Computer->getFlipFlopQ());
-            //p_Main->messageNoReturn(buffer);
+        serialVtIn();
+	}
+}
 
-            vtCount_--;
-            if (vtCount_ <= 0)
+void Vt100::uartVtOut()
+{
+    vtOutCount_--;
+    if (uartEf_)
+    {
+        if (vtOutCount_ <= 0)
+        {
+            if (vtOutBits_ == 10)
+                vt100Ef_ = 0;
+            else
             {
-                //p_Main->messageInt(p_Computer->getFlipFlopQ());
-                //p_Main->message("");
-                if (SetUpFeature_[VTPARITY])
-                {
-                    if (vtBits_ > 2)
-                    {
-                        rs232_ >>= 1;
-                        rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
-                    }
-                    if (vtBits_ == 2)
-                    {
-                        if (!SetUpFeature_[VTBITS])
-                            rs232_ >>= 1;
-                        if (Parity(rs232_) != p_Computer->getFlipFlopQ())
-                            rs232_ = 2;
-                    }
-                }
+                vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
+                if (vtOutBits_ > 10)
+                    vtOut_ = 0;
                 else
-                {
-                    if (vtBits_ > 1)
-                    {
-                        rs232_ >>= 1;
-                        rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
-                    }
-                    if (vtBits_ == 1)
-                    {
-                        if (!SetUpFeature_[VTBITS])
-                            rs232_ >>= 1;
-                    }
-                }
-                vtCount_ = baudRateR_;
-                if (--vtBits_ == 0)
-                {
-                    vtCount_ = -1;
-                    if (terminalSave_ || terminalLoad_)
-                        Display(rs232_, false);
-                    else
-                        Display(rs232_ & 0x7f, false);
-//                    p_Main->eventMessageHex(rs232_);
-                }
+                    vtOut_ = (vtOut_ >> 1) | 128;
+            }
+            vtOutCount_ = baudRateT_;
+            if (vtOutBits_ == 2)
+                vt100Ef_ = 1;
+            if (--vtOutBits_ == 0)
+            {
+                vtOut_ = 0;
+                p_Computer->dataAvailableVt100(1, uartNumber_);
+                uartStatus_[uart_da_bit_] = 1;
+                vtOutCount_ = -1;
+                vtOutBits_=10;
+            }
+            if (vtOutBits_ == 11)
+            {
+                vt100Ef_ = 1;
+                vtOutCount_ = -1;
+                vtOutBits_=10;
             }
         }
+    }
+    else
+    {
+        if (vtOutCount_ == 0)
+        {
+            p_Computer->dataAvailableVt100(1, uartNumber_);
+            uartStatus_[uart_da_bit_] = 1;
+            vtOutCount_ = -1;
+        }
+    }
+}
 
-	}
+void Vt100::uartVtIn()
+{
+    vtCount_--;
+    if (vtCount_ <= 0)
+    {
+        if (terminalSave_ || terminalLoad_)
+        {
+            if (receivePacket_ || rs232_ != 0)
+                Display(rs232_, false);
+        }
+        else
+        {
+            if (rs232_ != 0)
+                Display(rs232_ & 0x7f, false);
+        }
+        
+        rs232_ = 0;
+        p_Computer->thrStatus(0);
+        uartStatus_[uart_thre_bit_] = 1;
+        uartStatus_[uart_tsre_bit_] = 1;
+        
+        vtCount_ = baudRateR_ * 9;
+    }
+}
+
+void Vt100::serialVtOut()
+{
+    vtOutCount_--;
+    if (vtOutCount_ <= 0)
+    { // input from terminal
+        vt100Ef_ = (vtOut_ & 1) ? 1 : 0;
+        vtOut_ = (vtOut_ >> 1) | 128;
+        vtOutCount_ = baudRateT_;
+        if (SetUpFeature_[VTPARITY])
+        {
+            if (vtOutBits_ == 3)
+                vt100Ef_ = parity_;
+            if (vtOutBits_ == 2)
+                vt100Ef_ = 1;
+        }
+        else
+        {
+            if (vtOutBits_ == 2)
+                vt100Ef_ = 1;
+        }
+        if (--vtOutBits_ == 0)
+        {
+            vtOut_ = 0;
+            p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+            vtOutCount_ = -1;
+        }
+//                else
+//                    p_Main->messageInt(vt100Ef_);
+        p_Computer->setGreenLed(vt100Ef_ ^ 1);
+    }
+}
+
+void Vt100::serialVtIn()
+{
+    if (vtCount_ >= 0)
+    { // output to terminal
+        //wxString buffer;
+        //buffer.Printf("%d", p_Computer->getFlipFlopQ());
+        //p_Main->messageNoReturn(buffer);
+
+        vtCount_--;
+        if (vtCount_ <= 0)
+        {
+            //p_Main->messageInt(p_Computer->getFlipFlopQ());
+            //p_Main->message("");
+            if (SetUpFeature_[VTPARITY])
+            {
+                if (vtBits_ > 2)
+                {
+                    rs232_ >>= 1;
+                    rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
+                }
+                if (vtBits_ == 2)
+                {
+                    if (!SetUpFeature_[VTBITS])
+                        rs232_ >>= 1;
+                    if (Parity(rs232_) != p_Computer->getFlipFlopQ())
+                        rs232_ = 2;
+                }
+            }
+            else
+            {
+                if (vtBits_ > 1)
+                {
+                    rs232_ >>= 1;
+                    rs232_ |= (p_Computer->getFlipFlopQ() ^ reverseQ_) ? 0 : 128;
+                }
+                if (vtBits_ == 1)
+                {
+                    if (!SetUpFeature_[VTBITS])
+                        rs232_ >>= 1;
+                }
+            }
+            vtCount_ = baudRateR_;
+            if (--vtBits_ == 0)
+            {
+                vtCount_ = -1;
+                if (terminalSave_ || terminalLoad_)
+                    Display(rs232_, false);
+                else
+                    Display(rs232_ & 0x7f, false);
+//                    p_Main->eventMessageHex(rs232_);
+            }
+        }
+    }
+}
+
+int Vt100::getTerminalLoadByte(Byte* value)
+{
+    char saveBuffer[3];
+    size_t numberOfBytes = 0;
+    bool dataReady = false;
+
+    switch (protocol_)
+    {
+        case TERM_BIN:
+            numberOfBytes = inputTerminalFile.Read(saveBuffer, 1);
+        
+            if (numberOfBytes == 1)
+            {
+                *value = saveBuffer[0];
+                dataReady = true;
+                previousByte_ = *value;
+            }
+        break;
+
+        case TERM_XMODEM_SAVE:
+            if (terminalAck_ & 0x80)
+            {
+                terminalStopVt();
+                p_Main->stopTerminal();
+            }
+            *value = terminalAck_ & 0x7f;
+
+            dataReady = true;
+            previousByte_ = *value;
+            xmodemBufferPointer_ = 0;
+            xmodemBuffer_[xmodemBufferSize_-1] = 0;
+        break;
+
+        case TERM_XMODEM_LOAD:
+            if (xmodemBufferPointer_ == xmodemBufferSize_)
+            {
+                sendPacket_ = false;
+            }
+            if (sendPacket_)
+            {
+                *value = xmodemBuffer_[xmodemBufferPointer_++];
+                if (xmodemBuffer_[0] == 4)
+                {
+                    if (useCrc_)
+                        xmodemBufferPointer_ = 133;
+                    else
+                    {
+                        if (!uart_ && !uart16450_)
+                        {
+                            terminalLoad_ = false;
+                            p_Main->turboOff();
+                            inputTerminalFile.Close();
+                            p_Main->stopTerminal();
+                        }
+                    }
+                }
+                dataReady = true;
+                previousByte_ = *value;
+            }
+        break;
+
+        default:
+            bool eof=false;
+            int seek = -2;
+            
+            numberOfBytes = inputTerminalFile.Read(saveBuffer, 3);
+
+            if (inputTerminalFile.Eof())
+            {
+                switch(numberOfBytes)
+                {
+                    case 0:
+                        eof = true;
+                    break;
+                        
+                    case 1:
+                        if (saveBuffer[0] == 0xa)
+                        {
+                            saveBuffer[0] = 0xd;
+                            eof = true;
+                        }
+                        seek = 0;
+                    break;
+                        
+                    case 2:
+                        if (saveBuffer[0] == 0xd && saveBuffer[1] == 0xa && !terminalFileCdp18s020_)
+                            eof = true;
+                        seek = -1;
+                    break;
+                }
+            }
+            
+            if (saveBuffer[0] == 0xa && previousByte_ != 0xd)
+                saveBuffer[0] = 0xd;
+            
+            if (eof)
+            {
+                terminalLoad_ = false;
+                inputTerminalFile.Close();
+                p_Main->stopTerminal();
+            }
+            else
+            {
+                inputTerminalFile.Seek(seek, wxFromCurrent);
+                *value = saveBuffer[0];
+                dataReady = true;
+                previousByte_ = *value;
+            }
+        break;
+    }
+    return dataReady;
 }
 
 void Vt100::readBuffer()
@@ -1207,7 +1250,7 @@ int Vt100::calcrc(char *ptr, int count)
 
 void Vt100::switchQ(int value)
 {
-    if(uart_)
+    if(uart_ || uart16450_)
         return;
     
     if (vtCount_ < 0)
@@ -1689,20 +1732,28 @@ void Vt100::Display(int byt, bool forceDisplay)
             switch (protocol_)
             {
                 case TERM_XMODEM_SAVE:
-                     switch (xmodemBufferPointer_)
+                    switch (xmodemBufferPointer_)
                     {
                         case 0:
+                            receivePacket_ = true;
                             if (byt == 4)
+                            {
                                 terminalAck_ = 0x86;
+                                if (uart_ || uart16450_)
+                                    p_Computer->dataAvailableVt100(1, uartNumber_);
+                            }
+                            xmodemBuffer_[xmodemBufferPointer_] = byt;
                             xmodemBufferPointer_++;
                         break;
                             
                         case 1:
                         case 2:
+                            xmodemBuffer_[xmodemBufferPointer_] = byt;
                             xmodemBufferPointer_++;
                         break;
 
                         case 131:
+                            receivePacket_ = false;
                             if (xmodemBufferSize_ == 132)
                             {
                                 if (xmodemBuffer_[xmodemBufferSize_-1] == (char) byt)
@@ -1714,6 +1765,8 @@ void Vt100::Display(int byt, bool forceDisplay)
                                     xmodemBufferPointer_ = 0;
                                     xmodemBuffer_[xmodemBufferSize_-1] = 0;
                                 }
+                                if (uart_ || uart16450_)
+                                    p_Computer->dataAvailableVt100(1, uartNumber_);
                             }
                             else
                             {
@@ -1724,6 +1777,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                         break;
                             
                         case 1027:
+                            receivePacket_ = false;
                             if (xmodemBuffer_[xmodemBufferSize_-1] == byt)
                                 terminalAck_ = XMODEM_ACK;
                             else
@@ -1733,10 +1787,13 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 xmodemBufferPointer_ = 0;
                                 xmodemBuffer_[xmodemBufferSize_-1] = 0;
                             }
+                            if (uart_ || uart16450_)
+                                p_Computer->dataAvailableVt100(1, uartNumber_);
                         break;
- 
+                            
                         default:
                             outputTerminalFile.Write(buffer, 1);
+                            xmodemBuffer_[xmodemBufferPointer_] = byt;
                             xmodemBuffer_[xmodemBufferSize_-1] += byt;
                             xmodemBufferPointer_++;
                         break;
@@ -1832,8 +1889,13 @@ void Vt100::Display(int byt, bool forceDisplay)
                                 break;
                             }
                         break;
-                            
+                     
+                        case 0:
+                        break;
+
                         default:
+                            if (uart_ || uart16450_)
+                                p_Computer->dataAvailableVt100(0, uartNumber_);
                             terminalLoad_ = false;
                             p_Main->turboOff();
                             inputTerminalFile.Close();
@@ -3126,7 +3188,7 @@ void Vt100::escapeVT100(Byte byt)
 
 void Vt100::dataAvailable()
 {
-    if (!uart_)
+    if (!uart_ && !uart16450_)
         return;
     
     if (uartEf_)
@@ -3137,7 +3199,7 @@ void Vt100::dataAvailable()
 
 void Vt100::dataAvailable(Byte value)
 {
-    if (!uart_)
+    if (!uart_ && !uart16450_)
         return;
     
     vtOut_ = value;
@@ -3184,7 +3246,16 @@ Byte Vt100::uartIn()
         return checkCtrlvTextUart();
     }
     else
-        return videoScreenPointer->getKey(0);
+    {
+        Byte loadByte = 0;
+        if (terminalLoad_ || (terminalSave_ && protocol_ == TERM_XMODEM_SAVE))
+        {
+            getTerminalLoadByte(&loadByte);
+            return loadByte;
+        }
+        else
+            return videoScreenPointer->getKey(0);
+    }
 }
 
 Byte Vt100::uartStatus()
@@ -3416,9 +3487,14 @@ void Vt100::terminalSaveVt(wxString fileName, int protocol)
             terminalSave_ = true;
 			terminalLine_ = "";
             terminalAck_ = XMODEM_NAK;
+            xmodemBuffer_[0] = 0;
+            receivePacket_ = false;
             xmodemBufferSize_ = 132;
             protocol_ = protocol;
-            p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+            if (!uart_ && !uart16450_)
+                p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+            else
+                p_Computer->dataAvailableVt100(1, uartNumber_);
             previousByte_ = 0;
         }
     }
@@ -3450,7 +3526,8 @@ void Vt100::terminalLoadVt(wxString fileName, int protocol)
             sendPacket_ = false;
             xmodemBufferSize_ = 132;
             protocol_ = protocol;
-            p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
+            if (!uart_ && !uart16450_)
+                p_Computer->setNotReadyToReceiveData(dataReadyFlag_-1);
             previousByte_ = 0;
             xmodemBufferPointer_ = xmodemBufferSize_;
             xmodemPacketNumber_  = 0;
@@ -4108,7 +4185,7 @@ bool Vt100::charPressed(wxKeyEvent& event)
                 }
 //#endif
                 wxTheClipboard->Close();
-                if (!uart_)
+                if (!uart_ && !uart16450_)
                     return true;
             }
         }

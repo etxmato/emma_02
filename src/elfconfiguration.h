@@ -137,6 +137,7 @@ public:
 	wxString vtCharRom_;
     wxString serialPort_;
     bool useUart;
+    bool useUart16450;
     int uartGroup;
 	int baudR;
 	int baudT;

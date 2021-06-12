@@ -96,6 +96,16 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
     EVT_CHOICE(XRCID("VTBaudTChoiceElf2K"), GuiElf2K::onElf2KBaudT)
     EVT_CHOICE(XRCID("VTBaudRChoiceElf2K"), GuiElf2K::onElf2KBaudR)
 
+    EVT_BUTTON(XRCID("CasButtonElf2K"), GuiMain::onCassette)
+    EVT_BUTTON(XRCID("EjectCasElf2K"), GuiMain::onCassetteEject)
+    EVT_TEXT(XRCID("WavFileElf2K"), GuiMain::onCassetteText)
+    EVT_BUTTON(XRCID("CasLoadElf2K"), GuiMain::onCassetteLoad)
+    EVT_BUTTON(XRCID("CasSaveElf2K"), GuiMain::onCassetteSave)
+    EVT_BUTTON(XRCID("CasStopElf2K"), GuiMain::onCassetteStop)
+    EVT_CHECKBOX(XRCID("TurboElf2K"), GuiMain::onTurbo)
+    EVT_TEXT(XRCID("TurboClockElf2K"), GuiMain::onTurboClock)
+    EVT_CHECKBOX(XRCID("AutoCasLoadElf2K"), GuiMain::onAutoLoad)
+
     EVT_COMMAND(wxID_ANY, ON_UART_ELF2K, GuiElf::onElf2KUart)
 
 END_EVENT_TABLE()
@@ -124,13 +134,17 @@ void GuiElf2K::readElf2KConfig()
 	conf[ELF2K].ideDir_ = readConfigDir("/Dir/Elf2K/Ide_File", dataDir_ + "Elf2K" + pathSeparator_);
 	conf[ELF2K].keyFileDir_ = readConfigDir("/Dir/Elf2K/Key_File", dataDir_ + "Elf2K" + pathSeparator_);
 	conf[ELF2K].screenDumpFileDir_ = readConfigDir("/Dir/Elf2K/Video_Dump_File", dataDir_ + "Elf2K" + pathSeparator_);
+    conf[ELF2K].wavFileDir_[0] = readConfigDir("/Dir/Elf2K/Wav_File", dataDir_ + "Elf2K" + pathSeparator_);
 	elfConfiguration[ELF2K].vtWavFileDir_ = readConfigDir("/Dir/Elf2K/Vt_Wav_File", dataDir_ + "Elf2K" + pathSeparator_);
  
-	conf[ELF2K].rom_[MAINROM1] = configPointer->Read("/Elf2K/Main_Rom_File", "v88b.bin");
+	conf[ELF2K].rom_[MAINROM1] = configPointer->Read("/Elf2K/Main_Rom_File", "Elf2Kv110A");
 	conf[ELF2K].charRom_ = configPointer->Read("/Elf2K/I8275_Font_Rom_File", "intel8275.bin");
 	conf[ELF2K].ide_ = configPointer->Read("/Elf2K/Ide_File", "elf2k.ide");
 	conf[ELF2K].keyFile_ = configPointer->Read("/Elf2K/Key_File", "");
 	conf[ELF2K].screenDumpFile_ = configPointer->Read("/Elf2K/Video_Dump_File", "screendump.png");
+    conf[ELF2K].wavFile_[0] = configPointer->Read("/Elf2K/Wav_File", "");
+    conf[ELF2K].terminalFiles_.Add(conf[ELF2K].wavFile_[0]);
+    conf[ELF2K].terminalPaths_.Add(conf[ELF2K].wavFileDir_[0]+conf[ELF2K].wavFile_[0]);
 	elfConfiguration[ELF2K].vtWavFile_ = configPointer->Read("/Elf2K/Vt_Wav_File", "");
     elfConfiguration[ELF2K].serialPort_ = configPointer->Read("/Elf2K/VtSerialPortChoice", "");
 	conf[ELF2K].volume_ = (int)configPointer->Read("/Elf2K/Volume", 25l);
@@ -143,8 +157,8 @@ void GuiElf2K::readElf2KConfig()
     conf[ELF2K].beepFrequency_ = (int)configPointer->Read("/Elf2K/Beep_Frequency", 250);
     
 	elfConfiguration[ELF2K].bellFrequency_ = (int)configPointer->Read("/Elf2K/Bell_Frequency", 800);
-	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 4l);
-	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 4l);
+	elfConfiguration[ELF2K].baudR = (int)configPointer->Read("/Elf2K/Vt_Baud_Receive", 3l);
+	elfConfiguration[ELF2K].baudT = (int)configPointer->Read("/Elf2K/Vt_Baud_Transmit", 3l);
 	elfConfiguration[ELF2K].vtType = (int)configPointer->Read("/Elf2K/VT_Type", 0l);
     elfConfiguration[ELF2K].vt52SetUpFeature_ = configPointer->Read("/Elf2K/VT52Setup", 0x00004092l);
     elfConfiguration[ELF2K].vt100SetUpFeature_ = configPointer->Read("/Elf2K/VT100Setup", 0x0000ca52l);
@@ -183,6 +197,14 @@ void GuiElf2K::readElf2KConfig()
 	else
 		conf[ELF2K].clock_ = elf2K8275Clock_;
 
+    configPointer->Read("/Elf2K/Enable_Turbo_Cassette", &conf[ELF2K].turbo_, true);
+    conf[ELF2K].turboClock_ = configPointer->Read("/Elf2K/Turbo_Clock_Speed", "15");
+    configPointer->Read("/Elf2K/Enable_Auto_Cassette", &conf[ELF2K].autoCassetteLoad_, true);
+    configPointer->Read("/Elf2K/Enable_Xmodem", &elfConfiguration[ELF2K].useXmodem, false);
+    configPointer->Read("/Elf2K/Enable_Ymodem", &elfConfiguration[ELF2K].usePacketSize1K, true);
+    conf[ELF2K].realCassetteLoad_ =  false;
+    elfConfiguration[ELF2K].useTape = true;
+
 	if (mode_.gui)
 		setBaudChoiceElf2K();
 
@@ -190,7 +212,7 @@ void GuiElf2K::readElf2KConfig()
 	setElf2KVideoType(conf[ELF2K].videoMode_);
 
 	elfConfiguration[ELF2K].vtCharRom_ = configPointer->Read("/Elf2K/Vt_Font_Rom_File", "vt52.a.bin");
-
+    
 	if (mode_.gui)
 	{
 		XRCCTRL(*this, "MainRomElf2K", wxComboBox)->SetValue(conf[ELF2K].rom_[MAINROM1]);
@@ -198,6 +220,7 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "IdeFileElf2K", wxTextCtrl)->SetValue(conf[ELF2K].ide_);
 		XRCCTRL(*this, "KeyFileElf2K", wxTextCtrl)->SetValue(conf[ELF2K].keyFile_);
 		XRCCTRL(*this, "ScreenDumpFileElf2K", wxComboBox)->SetValue(conf[ELF2K].screenDumpFile_);
+        XRCCTRL(*this, "WavFileElf2K", wxTextCtrl)->SetValue(conf[ELF2K].wavFile_[0]);
 
 		XRCCTRL(*this, "VTTypeElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].vtType);
 		XRCCTRL(*this, "Elf2KVideoType", wxChoice)->SetSelection(conf[ELF2K].videoMode_);
@@ -228,6 +251,13 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "Elf2KClearRtc", wxCheckBox)->SetValue(elfConfiguration[ELF2K].clearRtc);
 		XRCCTRL(*this, "Elf2KBootRam", wxCheckBox)->SetValue(elfConfiguration[ELF2K].bootRam);
 		XRCCTRL(*this, "VolumeElf2K", wxSlider)->SetValue(conf[ELF2K].volume_);
+
+        XRCCTRL(*this, "TurboElf2K", wxCheckBox)->SetValue(conf[ELF2K].turbo_);
+        turboGui("Elf2K");
+
+        XRCCTRL(*this, "TurboClockElf2K", wxTextCtrl)->SetValue(conf[ELF2K].turboClock_);
+        XRCCTRL(*this, "AutoCasLoadElf2K", wxCheckBox)->SetValue(conf[ELF2K].autoCassetteLoad_);
+        enableTapeGui(elfConfiguration[ELF2K].useTape, ELF2K);
 
 		if (conf[ELF2K].videoMode_ == VIDEOPIXIE)
         {
@@ -261,6 +291,7 @@ void GuiElf2K::writeElf2KDirConfig()
 	writeConfigDir("/Dir/Elf2K/Ide_File", conf[ELF2K].ideDir_);
 	writeConfigDir("/Dir/Elf2K/Key_File", conf[ELF2K].keyFileDir_);
 	writeConfigDir("/Dir/Elf2K/Video_Dump_File", conf[ELF2K].screenDumpFileDir_);
+    writeConfigDir("/Dir/Elf2K/Wav_File", conf[ELF2K].wavFileDir_[0]);
 	writeConfigDir("/Dir/Elf2K/Vt_Wav_File", elfConfiguration[ELF2K].vtWavFileDir_);
 }
 
@@ -274,6 +305,7 @@ void GuiElf2K::writeElf2KConfig()
 	configPointer->Write("/Elf2K/Ide_File", conf[ELF2K].ide_);
 	configPointer->Write("/Elf2K/Key_File", conf[ELF2K].keyFile_);
 	configPointer->Write("/Elf2K/Video_Dump_File", conf[ELF2K].screenDumpFile_);
+    configPointer->Write("/Elf2K/Wav_File", conf[ELF2K].wavFile_[0]);
 	configPointer->Write("/Elf2K/Vt_Wav_File", elfConfiguration[ELF2K].vtWavFile_);
     configPointer->Write("/Elf2K/VtSerialPortChoice", elfConfiguration[ELF2K].serialPort_);
 
@@ -306,6 +338,11 @@ void GuiElf2K::writeElf2KConfig()
 	configPointer->Write("/Elf2K/Enable_Interlace", conf[ELF2K].interlace_);
 	configPointer->Write("/Elf2K/Enable_Vt_Stretch_Dot", conf[ELF2K].stretchDot_);
     configPointer->Write("/Elf2K/Enable_Vt_External", elfConfiguration[ELF2K].vtExternal);
+    configPointer->Write("/Elf2K/Enable_Turbo_Cassette", conf[ELF2K].turbo_);
+    configPointer->Write("/Elf2K/Turbo_Clock_Speed", conf[ELF2K].turboClock_);
+    configPointer->Write("/Elf2K/Enable_Auto_Cassette", conf[ELF2K].autoCassetteLoad_);
+    configPointer->Write("/Elf2K/Enable_Xmodem", elfConfiguration[ELF2K].useXmodem);
+    configPointer->Write("/Elf2K/Enable_Ymodem", elfConfiguration[ELF2K].usePacketSize1K);
 	configPointer->Write("/Elf2K/Volume", conf[ELF2K].volume_);
 
 	configPointer->Write("/Elf2K/Clock_Speed_When_Using_Pixie", elf2KPixieClock_);
@@ -535,7 +572,9 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(false);
                 if (clockTextCtrl[ELF2K] != NULL)
                     clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
-			}
+
+                elfConfiguration[ELF2K].useXmodem = true;
+            }
 		break;
 
 		case VIDEOPIXIE:
@@ -561,6 +600,8 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(false);
                 if (clockTextCtrl[ELF2K] != NULL)
                     clockTextCtrl[ELF2K]->ChangeValue(elf2KPixieClock_);
+
+                elfConfiguration[ELF2K].useXmodem = true;
 			}
 		break;
 
@@ -594,10 +635,23 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(true);
                 if (clockTextCtrl[ELF2K] != NULL)
                     clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
-			}
+
+                elfConfiguration[ELF2K].useXmodem = false;
+        }
 		break;
 	}
-	setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
+
+    XRCCTRL(*this,"CasButtonElf2K", wxButton)->Enable(elfConfiguration[ELF2K].useXmodem);
+    XRCCTRL(*this,"WavFileElf2K", wxTextCtrl)->Enable(elfConfiguration[ELF2K].useXmodem);
+    XRCCTRL(*this,"EjectCasElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
+    XRCCTRL(*this,"AutoCasLoadElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].useXmodem);
+    XRCCTRL(*this,"TurboElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].useXmodem);
+    XRCCTRL(*this,"TurboMhzTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].useXmodem);
+//    XRCCTRL(*this,"CasSaveElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
+  //  XRCCTRL(*this,"CasLoadElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
+    //XRCCTRL(*this,"CasStopElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
+
+    setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
 }
 
 wxPoint GuiElf2K::getElf2KswitchPos()

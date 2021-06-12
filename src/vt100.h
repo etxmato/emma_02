@@ -27,6 +27,12 @@ public:
 	void setInterlace(bool status);
 	void setStretchDot(bool status);
 
+    void uartVtOut();
+    void uartVtIn();
+    void serialVtOut();
+    void serialVtIn();
+    int getTerminalLoadByte(Byte* value);
+
     void readBuffer();
     void readFilename();
     void readEndFrame();
@@ -218,7 +224,8 @@ private:
 
 	Byte uartControl_;
 	bitset<8> uartStatus_;
-	bool uart_;
+    bool uart_;
+    bool uart16450_;
     bool serialOpen_;
 
 	char displayBuffer_[VTBUFFER];
@@ -241,6 +248,7 @@ private:
     int xmodemBufferPointer_;
     Byte terminalAck_;
     bool sendPacket_;
+    bool receivePacket_;
     bool useCrc_;
     int sendingMode_;
     int xmodemPacketNumber_;

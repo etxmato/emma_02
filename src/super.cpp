@@ -370,6 +370,7 @@ BEGIN_EVENT_TABLE(Super, wxFrame)
 	EVT_COMMAND(13, wxEVT_ButtonUpEvent, Super::onNumberKeyUp)
 	EVT_COMMAND(14, wxEVT_ButtonUpEvent, Super::onNumberKeyUp)
 	EVT_COMMAND(15, wxEVT_ButtonUpEvent, Super::onNumberKeyUp)
+    EVT_TIMER(900, Elf::OnRtcTimer)
 END_EVENT_TABLE()
 
 Super::Super(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
@@ -389,11 +390,18 @@ Super::Super(const wxString& title, const wxPoint& pos, const wxSize& size, doub
 	this->SetClientSize(size);
 	lastAddress_ = 0;
 
+    rtcTimerPointer = new wxTimer(this, 900);
+    cycleValue_ = -1;
+    cycleSize_ = -1;
+
     runningGame_ = "";
 }
 
 Super::~Super()
 {
+    saveRtc();
+    rtcTimerPointer->Stop();
+    delete rtcTimerPointer;
 	if (elfConfiguration.usePixie)
 	{
 		p_Main->setPixiePos(SUPERELF, pixiePointer->GetPosition());
@@ -747,6 +755,14 @@ Byte Super::in(Byte port, Word WXUNUSED(address))
 			return p_Serial->uartStatus();
 		break;
 
+        case ELF2KDISKREADREGISTER:
+            return inDisk();
+        break;
+
+        case ELF2KDISKREADSTATUS:
+            return readDiskStatus();
+        break;
+
 		default:
 			ret = 255;
 	}
@@ -862,6 +878,14 @@ void Super::out(Byte port, Word WXUNUSED(address), Byte value)
         case EMSMAPPEROUT:
             setEmsPage(value);
         break;
+
+        case ELF2KDISKSELECTREGISTER:
+            selectDiskRegister(value);
+        break;
+
+        case ELF2KDISKWRITEREGISTER:
+            outDisk(value);
+        break;
     }
 }
 
@@ -947,6 +971,15 @@ void Super::cycle(int type)
 
 void Super::cycleLed()
 {
+    if (cycleValue_ > 0)
+    {
+        cycleValue_ --;
+        if (cycleValue_ <= 0)
+        {
+            cycleValue_ = cycleSize_;
+            rtcRam_[0xc] |= 0x40;
+        }
+    }
     if (ledCycleValue_ > 0)
     {
         ledCycleValue_ --;
@@ -1324,6 +1357,10 @@ void Super::startComputer()
 
 	cpuCycles_ = 0;
 	p_Main->startTime();
+
+    loadRtc();
+    rtcCycle_ = 4;
+    rtcTimerPointer->Start(250, wxTIMER_CONTINUOUS);
 
     int ms = (int) p_Main->getLedTimeMs(SUPERELF);
     superScreenPointer->setLedMs(ms);
@@ -1805,6 +1842,8 @@ void Super::configureElfExtensions()
             vtPointer = new Vt100("Super Elf - VT 100", p_Main->getVtPos(SUPERELF), wxSize(640*zoom, 400*zoom), zoom, SUPERELF, elfClockSpeed_, elfConfiguration, UART1);
 		p_Vt100[UART1] = vtPointer;
 		vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        if (elfConfiguration.useUart16450)
+            configureUart16450(elfConfiguration.elfPortConf);
 		vtPointer->Show(true);
 		vtPointer->drawScreen();
 	}
@@ -2065,4 +2104,30 @@ void Super::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonT
 void Super::refreshPanel()
 {
     superScreenPointer->refreshPanel();
+}
+
+void Super::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
+{
+    rtcCycle_--;
+
+    if (rtcCycle_ == 1)
+        rtcRam_[0xa] |= 0x80;
+
+    if (rtcCycle_ > 0)
+        return;
+    
+    rtcRam_[0xa] &= 0x7f;
+    rtcCycle_ = 4;
+
+    wxDateTime now = wxDateTime::Now();
+    
+    writeRtc(0, now.GetSecond());
+    writeRtc(2, now.GetMinute());
+    writeRtc(4, now.GetHour());
+    writeRtc(6, now.GetWeekDay());
+    writeRtc(7, now.GetDay());
+    writeRtc(8, now.GetMonth()+1);
+    writeRtc(9, now.GetYear()-1972);
+
+    rtcRam_[0xc] |= 0x10;
 }

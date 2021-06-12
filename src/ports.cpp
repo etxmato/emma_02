@@ -177,7 +177,7 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 	}
 	XRCCTRL(*this, "Vt100ReverseEf", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.vt100ReverseEf != 1);
 	XRCCTRL(*this, "Vt100ReverseQ", wxCheckBox)->SetValue(elfConfiguration.elfPortConf.vt100ReverseQ != 0);
-	if ((elfConfiguration.vtType == VTNONE) || elfConfiguration.useUart)
+	if ((elfConfiguration.vtType == VTNONE) || elfConfiguration.useUart || elfConfiguration.useUart16450)
 	{
 		XRCCTRL(*this, "Vt100Q", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "Vt100Output", wxSpinCtrl)->Enable(false);
@@ -193,7 +193,7 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 	XRCCTRL(*this, "UartIn", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartIn);
 	XRCCTRL(*this, "UartControl", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartControl);
 	XRCCTRL(*this, "UartStatus", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.uartStatus);
-	if (!elfConfiguration.useUart || (elfTypeStr_ == "Elf2K"))
+	if ((!elfConfiguration.useUart && !elfConfiguration.useUart16450) || (elfTypeStr_ == "Elf2K"))
 	{
 		XRCCTRL(*this, "UartOutText", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "UartOut", wxSpinCtrl)->Enable(false);
@@ -203,7 +203,14 @@ DevicePortsDialog::DevicePortsDialog(wxWindow* parent)
 		XRCCTRL(*this, "UartControl", wxSpinCtrl)->Enable(false);
 		XRCCTRL(*this, "UartStatusText", wxStaticText)->Enable(false);
 		XRCCTRL(*this, "UartStatus", wxSpinCtrl)->Enable(false);
-	}	
+	}
+    if (elfConfiguration.useUart16450 && (elfTypeStr_ != "Elf2K"))
+    {
+        XRCCTRL(*this, "UartOutText", wxStaticText)->SetLabel("Output, Select port");
+        XRCCTRL(*this, "UartInText", wxStaticText)->SetLabel("Input, Read status");
+        XRCCTRL(*this, "UartControlText", wxStaticText)->SetLabel("Output, Write selected port");
+        XRCCTRL(*this, "UartStatusText", wxStaticText)->SetLabel("Input, Read selected port");
+    }
 
 	XRCCTRL(*this, "TmsModeHighOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeHighOutput);
 	XRCCTRL(*this, "TmsModeLowOutput", wxSpinCtrl)->SetValue(elfConfiguration.elfPortConf.tmsModeLowOutput);

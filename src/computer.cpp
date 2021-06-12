@@ -1648,7 +1648,7 @@ void Computer::printOutPecom(int WXUNUSED(q))
 	p_Main->message("Illegal call to send Q bit to PECOM printer");
 }
 
-void Computer::setElf2KDivider(Byte WXUNUSED(value))
+void Computer::setDivider(Byte WXUNUSED(value))
 {
 	p_Main->message("Illegal call to set Elf 2000 divider value");
 }

@@ -104,6 +104,7 @@ public:
 	void activateMainWindow();
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void refreshPanel();
+    void OnRtcTimer(wxTimerEvent& event);
 
 private:
 	class Elf2Screen *elf2ScreenPointer;
@@ -137,8 +138,6 @@ private:
 	int keyDefGameHexA_[5];
 	int keyDefGameHexB_[5];
 	
-	double elfClockSpeed_;
-
 	long offset_;
 
 	DECLARE_EVENT_TABLE()

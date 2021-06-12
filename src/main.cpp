@@ -2370,189 +2370,6 @@ void Main::initConfig()
 	wxFont defaultFont(8, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 #endif
 
-//   windowInfo.clockSize = 47;
-/*#if defined(__WXMAC__)
-    windowInfo.clockTextCorrectionSingleTabX = 316;
-    windowInfo.clockTextCorrectionSingleTabY = 97;
-    windowInfo.clockCorrectionSingleTabX = 280;
-    windowInfo.clockCorrectionSingleTabY = 100;
-    windowInfo.mhzTextCorrectionSingleTabX = 231;
-    windowInfo.mhzTextCorrectionSingleTabY = 97;
-    windowInfo.stopCorrectionSingleTabX = 203;
-    windowInfo.stopCorrectionSingleTabY = 100;
-    windowInfo.startCorrectionSingleTabX = 120;
-    windowInfo.startCorrectionSingleTabY = 100;
-    windowInfo.floatHeight = 21;
-    windowInfo.startHeight = -1;
-
-    windowInfo.clockTextCorrectionX = 315;
-    windowInfo.clockTextCorrectionY = 121;
-    windowInfo.clockCorrectionX = 279;
-    windowInfo.clockCorrectionY = 124;
-    windowInfo.mhzTextCorrectionX = 230;
-    windowInfo.mhzTextCorrectionY = 121;
-    windowInfo.stopCorrectionX = 202;
-    windowInfo.stopCorrectionY = 124;
-    windowInfo.startCorrectionX = 119;
-    windowInfo.startCorrectionY = 124;
-#endif
-#if defined(__WXMSW__)
-	windowInfo.clockTextCorrectionSingleTabX = 317;
-	windowInfo.clockTextCorrectionSingleTabY = 107;
-	windowInfo.clockCorrectionSingleTabX = 279;
-	windowInfo.clockCorrectionSingleTabY = 110;
-	windowInfo.mhzTextCorrectionSingleTabX = 230;
-	windowInfo.mhzTextCorrectionSingleTabY = 107;
-    windowInfo.stopCorrectionSingleTabX = 202;
-    windowInfo.stopCorrectionSingleTabY = 111;
-    windowInfo.startCorrectionSingleTabX = 120;
-    windowInfo.startCorrectionSingleTabY = 111;
-	windowInfo.floatHeight = 23;
-	windowInfo.startHeight = 25;
-
-	windowInfo.clockTextCorrectionX = 317;
-	windowInfo.clockTextCorrectionY = 135;
-	windowInfo.clockCorrectionX = 279;
-	windowInfo.clockCorrectionY = 138;
-	windowInfo.mhzTextCorrectionX = 230;
-    windowInfo.mhzTextCorrectionY = 135;
-    windowInfo.stopCorrectionX = 202;
-    windowInfo.stopCorrectionY = 139;
-    windowInfo.startCorrectionX = 120;
-    windowInfo.startCorrectionY = 139;
-#endif
-#if defined(__linux__)
-    windowInfo.clockTextCorrectionSingleTabY;
-    windowInfo.clockCorrectionSingleTabY;
-    windowInfo.mhzTextCorrectionSingleTabY;
-    windowInfo.stopCorrectionSingleTabY;
-    windowInfo.startCorrectionSingleTabY;
-    windowInfo.clockTextCorrectionY;
-    windowInfo.clockCorrectionY;
-    windowInfo.mhzTextCorrectionY;
-    windowInfo.stopCorrectionY;
-    windowInfo.startCorrectionY;
-    
-    windowInfo.clockTextCorrectionSingleTabX;
-    windowInfo.clockCorrectionSingleTabX;
-    windowInfo.mhzTextCorrectionSingleTabX;
-    windowInfo.stopCorrectionSingleTabX;
-    windowInfo.startCorrectionSingleTabX;
-    windowInfo.clockTextCorrectionX;
-    windowInfo.clockCorrectionX;
-    windowInfo.mhzTextCorrectionX;
-    windowInfo.stopCorrectionX;
-    windowInfo.startCorrectionX;
-    
-    switch (windowInfo.operatingSystem)
-    {
-            
-        case OS_LINUX_UBUNTU_11_04:
-        case OS_LINUX_UBUNTU_11_10:
-            windowInfo.clockTextCorrectionSingleTabY = 90;
-            windowInfo.clockCorrectionSingleTabY = 95;
-            windowInfo.mhzTextCorrectionSingleTabY = 90;
-            windowInfo.stopCorrectionSingleTabY = 96;
-            windowInfo.startCorrectionSingleTabY = 96;
-            windowInfo.clockTextCorrectionY = 126;
-            windowInfo.clockCorrectionY = 131;
-            windowInfo.mhzTextCorrectionY = 126;
-            windowInfo.stopCorrectionY = 132;
-            windowInfo.startCorrectionY = 132;
-            windowInfo.clockSize = 59;
-            
-            windowInfo.clockTextCorrectionSingleTabX = 320;
-            windowInfo.clockCorrectionSingleTabX = 279;
-            windowInfo.mhzTextCorrectionSingleTabX = 220;
-            windowInfo.stopCorrectionSingleTabX = 188;
-            windowInfo.startCorrectionSingleTabX = 106;
-            windowInfo.clockTextCorrectionX = 320;
-            windowInfo.clockCorrectionX = 279;
-            windowInfo.mhzTextCorrectionX = 220;
-            windowInfo.stopCorrectionX = 188;
-            windowInfo.startCorrectionX = 106;
-        break;
- 
-        case OS_LINUX_UBUNTU_18:
-            windowInfo.clockTextCorrectionSingleTabY = 120;
-            windowInfo.clockCorrectionSingleTabY = 125;
-            windowInfo.mhzTextCorrectionSingleTabY = 120;
-            windowInfo.stopCorrectionSingleTabY = 126;
-            windowInfo.startCorrectionSingleTabY = 126;
-            windowInfo.clockTextCorrectionY = 156;
-            windowInfo.clockCorrectionY = 161;
-            windowInfo.mhzTextCorrectionY = 156;
-            windowInfo.stopCorrectionY = 162;
-            windowInfo.startCorrectionY = 162;
-            windowInfo.clockSize = 59;
-            
-            windowInfo.clockTextCorrectionSingleTabX = 320;
-            windowInfo.clockCorrectionSingleTabX = 279;
-            windowInfo.mhzTextCorrectionSingleTabX = 220;
-            windowInfo.stopCorrectionSingleTabX = 188;
-            windowInfo.startCorrectionSingleTabX = 106;
-            windowInfo.clockTextCorrectionX = 320;
-            windowInfo.clockCorrectionX = 279;
-            windowInfo.mhzTextCorrectionX = 220;
-            windowInfo.stopCorrectionX = 188;
-            windowInfo.startCorrectionX = 106;
-       break;
-            
-        case OS_LINUX_MINT:
-            windowInfo.clockTextCorrectionSingleTabY = 111;
-            windowInfo.clockCorrectionSingleTabY = 116;
-            windowInfo.mhzTextCorrectionSingleTabY = 111;
-            windowInfo.stopCorrectionSingleTabY = 117;
-            windowInfo.startCorrectionSingleTabY = 117;
-            windowInfo.clockTextCorrectionY = 147;
-            windowInfo.clockCorrectionY = 152;
-            windowInfo.mhzTextCorrectionY = 147;
-            windowInfo.stopCorrectionY = 153;
-            windowInfo.startCorrectionY = 153;
-            windowInfo.clockSize = 59;
-            
-            windowInfo.clockTextCorrectionSingleTabX = 320;
-            windowInfo.clockCorrectionSingleTabX = 279;
-            windowInfo.mhzTextCorrectionSingleTabX = 220;
-            windowInfo.stopCorrectionSingleTabX = 188;
-            windowInfo.startCorrectionSingleTabX = 106;
-            windowInfo.clockTextCorrectionX = 320;
-            windowInfo.clockCorrectionX = 279;
-            windowInfo.mhzTextCorrectionX = 220;
-            windowInfo.stopCorrectionX = 188;
-            windowInfo.startCorrectionX = 106;
-        break;
-
-        default:
-            windowInfo.clockTextCorrectionSingleTabY = 127;
-            windowInfo.clockCorrectionSingleTabY = 135;
-            windowInfo.mhzTextCorrectionSingleTabY = 127;
-            windowInfo.stopCorrectionSingleTabY = 136;
-            windowInfo.startCorrectionSingleTabY = 136;
-            windowInfo.clockTextCorrectionY = 168;
-            windowInfo.clockCorrectionY = 176;
-            windowInfo.mhzTextCorrectionY = 168;
-            windowInfo.stopCorrectionY = 177;
-            windowInfo.startCorrectionY = 177;
-            windowInfo.clockSize = 59;
-            
-            windowInfo.clockTextCorrectionSingleTabX = 320;
-            windowInfo.clockCorrectionSingleTabX = 279;
-            windowInfo.mhzTextCorrectionSingleTabX = 220;
-            windowInfo.stopCorrectionSingleTabX = 188;
-            windowInfo.startCorrectionSingleTabX = 106;
-            windowInfo.clockTextCorrectionX = 320;
-            windowInfo.clockCorrectionX = 279;
-            windowInfo.mhzTextCorrectionX = 220;
-            windowInfo.stopCorrectionX = 188;
-            windowInfo.startCorrectionX = 106;
-        break;
-    }
-
-    windowInfo.floatHeight = -1;
-    windowInfo.startHeight = -1;
-#endif*/
-  
 	if (mode_.gui)
 	{
 		for (int computer = 0; computer < NO_COMPUTER; computer++)
@@ -5613,7 +5430,7 @@ void Main::onComputer(wxNotebookEvent&event)
 					elfChoice_ = UC1800;
 				break;
             }
-			selectedComputer_ = elfChoice_;
+            selectedComputer_ = elfChoice_;
 		break;
 
 		case RCATAB:
@@ -5788,6 +5605,11 @@ void Main::onStudioChoiceBook(wxChoicebookEvent&event)
 
         case STUDIOIVTAB:
             studioChoice_ = STUDIOIV;
+            if (guiInitialized_)
+            {
+                vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
+                vuSet("Vu"+computerInfo[selectedComputer_].gui, 0);
+            }
         break;
 
         case VISICOMTAB:
@@ -5825,6 +5647,11 @@ void Main::onTelmacChoiceBook(wxChoicebookEvent&event)
 		break;
 	}
 	selectedComputer_ = telmacChoice_;
+    if (guiInitialized_)
+    {
+        vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
+        vuSet("Vu"+computerInfo[selectedComputer_].gui, 0);
+    }
     setConfigurationMenu();
 }
 
@@ -5875,6 +5702,21 @@ void Main::onElfChoiceBook(wxChoicebookEvent&event)
 		break;
     }
 	selectedComputer_ = elfChoice_;
+    if (guiInitialized_)
+    {
+        switch (selectedComputer_)
+        {
+            case COSMICOS:
+            case ELF:
+            case ELFII:
+            case SUPERELF:
+            case VIP2K:
+            case VELF:
+                vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
+                vuSet("Vu"+computerInfo[selectedComputer_].gui, 0);
+            break;
+        }
+    }
 	setConfigurationMenu();
 }
 
@@ -5929,6 +5771,19 @@ void Main::onRcaChoiceBook(wxChoicebookEvent&event)
         break;
     }
 	selectedComputer_ = rcaChoice_;
+    if (guiInitialized_)
+    {
+        switch (selectedComputer_)
+        {
+            case FRED1:
+            case FRED1_5:
+            case VIP:
+            case VIPII:
+                vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
+                vuSet("Vu"+computerInfo[selectedComputer_].gui, 0);
+            break;
+        }
+    }
 	setConfigurationMenu();
 }
 
@@ -6770,7 +6625,7 @@ void Main::enableGui(bool status)
 		XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->Enable(status);
 		if (XRCCTRL(*this,"VTType"+elfTypeStr,wxChoice)->GetSelection() != VTNONE)
 		{
-			if (elfConfiguration[runningComputer_].useUart)
+			if (elfConfiguration[runningComputer_].useUart || elfConfiguration[runningComputer_].useUart16450)
 			{
 				XRCCTRL(*this, "VTBaudRText" + elfTypeStr, wxStaticText)->Enable(status);
 				XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->Enable(status);
@@ -6837,6 +6692,8 @@ void Main::enableGui(bool status)
         }
 		XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(status&elfConfiguration[ELF2K].use8275);
 		XRCCTRL(*this,"Elf2KRtc", wxCheckBox)->Enable(status);
+        enableLoadGui(!status);
+        setRealCas2(runningComputer_);
 	}
     if (runningComputer_ == MS2000)
     {

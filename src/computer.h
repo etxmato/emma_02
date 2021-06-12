@@ -404,7 +404,7 @@ public:
 	virtual void checkCaps();
 	virtual void finishStopTape();
 	virtual void printOutPecom(int q);
-	virtual void setElf2KDivider(Byte value);
+	virtual void setDivider(Byte value);
 	virtual void removeElf2KSwitch();
 	virtual void removeElfHex();
     virtual void removePio(int pioNumber);

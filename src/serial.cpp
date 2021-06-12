@@ -47,6 +47,7 @@ Serial::Serial(int computerType, double clock, ElfConfiguration elfConf)
 	clock_ = clock;
 
     uart_ = elfConfiguration_.useUart;
+    uart16450_ = elfConfiguration_.useUart16450;
     SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
 
 	setCycle();
@@ -82,32 +83,42 @@ void Serial::configure(int selectedBaudR, int selectedBaudT, ElfPortConfiguratio
     }
     else
     {
-        reverseEf_ = elfPortConf.vt100ReverseEf;
-        reverseQ_ = elfPortConf.vt100ReverseQ;
-        
-        p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
-        p_Computer->setOutType(elfPortConf.vt100Output, VTOUTSERIAL);
-        
-        dataReadyFlag_ = elfPortConf.vt100Ef;
-        p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
-        
-        if (reverseQ_) p_Computer->setFlipFlopQ(1);
-        
-        wxString printEfReverse = ", ";
-        wxString printQ = "Serial out: Q";
-        
-        if (reverseEf_ == 0)
-            printEfReverse = "(reversed), ";
-        
-        if (reverseQ_ == 1)
-            printQ = "Serial out: reversed Q";
-        
-        p_Main->message("Configuring external terminal");
-        startSerial();
-        
-        printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
-        printBuffer = printBuffer + printEfReverse + printQ;
-        p_Main->message(printBuffer);
+        if (uart16450_)
+        {
+            p_Computer->setCycleType(VTCYCLE, VT100CYCLE);
+            
+            p_Main->message("Configuring external terminal with 16450/550 UART");
+            rs232_ = 0;
+        }
+        else
+        {
+            reverseEf_ = elfPortConf.vt100ReverseEf;
+            reverseQ_ = elfPortConf.vt100ReverseQ;
+            
+            p_Computer->setCycleType(VTCYCLE, VTSERIALCYCLE);
+            p_Computer->setOutType(elfPortConf.vt100Output, VTOUTSERIAL);
+            
+            dataReadyFlag_ = elfPortConf.vt100Ef;
+            p_Computer->setEfType(dataReadyFlag_, VTSERIALEF);
+            
+            if (reverseQ_) p_Computer->setFlipFlopQ(1);
+            
+            wxString printEfReverse = ", ";
+            wxString printQ = "Serial out: Q";
+            
+            if (reverseEf_ == 0)
+                printEfReverse = "(reversed), ";
+            
+            if (reverseQ_ == 1)
+                printQ = "Serial out: reversed Q";
+            
+            p_Main->message("Configuring external terminal");
+            startSerial();
+            
+            printBuffer.Printf("	Output %d: vtEnable, EF %d: serial input", elfPortConf.vt100Output, elfPortConf.vt100Ef);
+            printBuffer = printBuffer + printEfReverse + printQ;
+            p_Main->message(printBuffer);
+        }
     }
     
     printBuffer.Printf("	Transmit baud rate: %d, receive baud rate: %d\n", baudRateValueSerial_[selectedBaudT_], baudRateValueSerial_[selectedBaudR_]);
@@ -384,7 +395,7 @@ void Serial::cycleVt()
 	if (cycleValue_ <= 0)
 	{
 		size_t numberOfBytes;
-		if (uart_)
+		if (uart_ || uart16450_)
 		{
 			numberOfBytes = sp_input_waiting(port);
 			if (numberOfBytes >= 1)
@@ -401,7 +412,7 @@ void Serial::cycleVt()
 		cycleValue_ = cycleSize_;
 	}
 
-	if (uart_)
+	if (uart_ || uart16450_)
 	{
 		vtCount_--;
 		if (vtCount_ <= 0)
@@ -612,7 +623,7 @@ int Serial::Parity(int value)
 
 void Serial::dataAvailable()
 {
-    if (!uart_)
+    if (!uart_ && !uart16450_)
         return;
     
     if (uartEf_)
@@ -623,7 +634,7 @@ void Serial::dataAvailable()
 
 void Serial::dataAvailable(Byte value)
 {
-    if (!uart_)
+    if (!uart_ && !uart16450_)
         return;
     
     vtOut_ = value;

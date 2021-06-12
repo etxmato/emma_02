@@ -15,6 +15,8 @@ private:
 	void onVtCharRom(wxCommandEvent& event);
 	void onVtCharRomText(wxCommandEvent& event);
     void listPorts();
+    void onUart1854(wxCommandEvent&event);
+    void onUart16450(wxCommandEvent&event);
 
  	wxString computerTypeStr_;
 	int computerType_;

@@ -1053,9 +1053,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 			elfConfiguration[elfType].vtCharRom_ = "vt52.a.bin";
 			if (mode_.gui)
 			{
-				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
 				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
@@ -1090,9 +1090,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 			elfConfiguration[elfType].vtCharRom_ = "vt100.bin";
 			if (mode_.gui)
 			{
-				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
 				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
@@ -1117,9 +1117,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
     
         case EXTERNAL_TERMINAL:
-            XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+            XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
             XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-            XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+            XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
             XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
             XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
             if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
@@ -1460,7 +1460,7 @@ void GuiMain::onVolume(wxScrollEvent&event)
 
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == ELF2K)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -1629,8 +1629,8 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
         return;
     
-	if (!guiInitialized_)
-		return;
+//	if (!guiInitialized_)
+//		return;
 
 //    if (conf[selectedComputer_].wavFile_[0] != "")
 //    {
@@ -1643,8 +1643,8 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 {
     conf[selectedComputer_].wavFile_[1] = event.GetString();
     
-	if (!guiInitialized_)
-		return;
+//	if (!guiInitialized_)
+//		return;
 
 //    if (conf[selectedComputer_].wavFile_[1] != "")
 //    {
@@ -2318,7 +2318,7 @@ void GuiMain::onBaudR(wxCommandEvent&event)
 void GuiMain::onBaudT(wxCommandEvent&event)
 {
 	elfConfiguration[selectedComputer_].baudT = event.GetSelection();
-	if (!elfConfiguration[selectedComputer_].useUart)
+	if (!elfConfiguration[selectedComputer_].useUart && !elfConfiguration[selectedComputer_].useUart16450)
 	{
 		elfConfiguration[selectedComputer_].baudR = event.GetSelection();
 		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
@@ -3535,7 +3535,7 @@ void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 
 void GuiMain::startAutoTerminalLoad(int protocol)
 {
-	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3545,7 +3545,10 @@ void GuiMain::startAutoTerminalLoad(int protocol)
 void GuiMain::startTerminalLoad(int protocol)
 {
     if (terminalSave_ || terminalLoad_)
-        return;
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+    }
 
     wxString filePath, fileName;
     
@@ -3596,7 +3599,7 @@ void GuiMain::stopTerminal()
 
 void GuiMain::startAutoTerminalSave(int protocol)
 {
-    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
@@ -3606,7 +3609,10 @@ void GuiMain::startAutoTerminalSave(int protocol)
 void GuiMain::startTerminalSave(int protocol)
 {
     if (terminalSave_ || terminalLoad_)
-        return;
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+    }
 
     wxString filePath, fileName;
     
@@ -4082,8 +4088,8 @@ ScreenInfo GuiMain::getScreenInfo(int id)
 
 void GuiMain::setBaudChoice(int computerType)
 {
-    XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(elfConfiguration[computerType].useUart);
-    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(elfConfiguration[computerType].useUart);
+    XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(elfConfiguration[computerType].useUart || elfConfiguration[computerType].useUart16450);
+    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(elfConfiguration[computerType].useUart|| elfConfiguration[computerType].useUart16450);
 }
 
 void GuiMain::setBaud(int baudR, int baudT)

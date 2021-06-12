@@ -403,6 +403,8 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Read(elfTypeStr+"/SerialLog", &elfConfiguration[elfType].serialLog, false);
     configPointer->Read(elfTypeStr+"/ESCError", &elfConfiguration[elfType].escError, false);
     configPointer->Read(elfTypeStr+"/Uart", &elfConfiguration[elfType].useUart, false);
+    configPointer->Read(elfTypeStr+"/Uart16450", &elfConfiguration[elfType].useUart16450, false);
+    elfConfiguration[elfType].clearRtc = false;
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Boot", &elfConfiguration[elfType].autoBoot, true);
     configPointer->Read(elfTypeStr+"/Force_Uppercase", &elfConfiguration[elfType].forceUpperCase, true);
 	configPointer->Read(elfTypeStr+"/Enable_Printer", &conf[elfType].printerOn_, false);
@@ -697,6 +699,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/SerialLog", elfConfiguration[elfType].serialLog);
     configPointer->Write(elfTypeStr+"/ESCError", elfConfiguration[elfType].escError);
     configPointer->Write(elfTypeStr+"/Uart", elfConfiguration[elfType].useUart);
+    configPointer->Write(elfTypeStr+"/Uart16450", elfConfiguration[elfType].useUart16450);
     configPointer->Write(elfTypeStr+"/Enable_Auto_Boot", elfConfiguration[elfType].autoBoot);
 	buffer.Printf("%04X", (unsigned int)conf[elfType].bootAddress_);
 	configPointer->Write(elfTypeStr+"/Boot_Address", buffer);

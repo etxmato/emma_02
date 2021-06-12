@@ -11,14 +11,15 @@ public:
 	~Elf2KDisk() {};
 
 	void configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bool uart, ElfPortConfiguration elfPortConf, bool use8275);
+    void configureUart16450(ElfPortConfiguration elfPortConf);
     void initializeIde(wxString ideFile);
 	Byte inDisk();
 	Byte readDiskStatus() {return 255;};
 	void outDisk(Byte value);
 	void selectDiskRegister(Byte value);
 	void cycleDisk();
-	void writeRtc(int address, Byte value);
-	void dataAvailableUart(bool data); 
+    void writeRtc(int address, Byte value);
+	void dataAvailableUart(bool data);
 	void thrStatusUart(bool data); 
 
 protected:
@@ -58,7 +59,8 @@ private:
 	long ideCycles_;
 
 	bool rtc_;
-	bool uart_;
+    bool uart_;
+    bool disk_;
     bool use8275_;
     bool ideChecked_;
 
