@@ -449,6 +449,7 @@ void Ide::onCommand()
 				readId();
 				bufferPosition_ = 0;
 				status_ |= IDE_STAT_DRQ;
+                status_ &= (~IDE_STAT_BSY);
 			break;
 
 			case IDE_CMD_READ:
@@ -463,7 +464,6 @@ void Ide::onCommand()
 				if (bufferPosition_ >= 512) 
 				{
                     status_ &= (~IDE_STAT_DRQ);
-                    status_ &= (~IDE_STAT_BSY);
                     command_ = 0;
 				}
 			break;
@@ -480,7 +480,6 @@ void Ide::onCommand()
 				{
                     error_ = 0;
                     writeSector();
-                    status_ &= (~IDE_STAT_BSY);
                     command_ = 0;
 				}
 			break;

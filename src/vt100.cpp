@@ -999,7 +999,7 @@ void Vt100::serialVtIn()
     }
 }
 
-int Vt100::getTerminalLoadByte(Byte* value)
+bool Vt100::getTerminalLoadByte(Byte* value)
 {
     char saveBuffer[3];
     size_t numberOfBytes = 0;
@@ -1187,7 +1187,7 @@ void Vt100::readFilename()
     xmodemBuffer_[index++] = 0xff;
     
     wxArrayString terminalFiles = p_Main->getTerminalFiles(computerType_);
-    for (int i=0; i<terminalFiles[xmodemFileNumber_-1].Len(); i++)
+    for (size_t i=0; i<terminalFiles[xmodemFileNumber_-1].Len(); i++)
         xmodemBuffer_[index++] = terminalFiles[xmodemFileNumber_-1].GetChar(i);
 	
 	xmodemBuffer_[index++] = 0;
@@ -1196,7 +1196,7 @@ void Vt100::readFilename()
     wxString lengthStr;
     lengthStr.Printf("%d", (int)length);
     
-    for (int i=0; i<lengthStr.Len(); i++)
+    for (size_t i=0; i<lengthStr.Len(); i++)
         xmodemBuffer_[index++] = lengthStr.GetChar(i);
     
 	xmodemBuffer_[index++] = 0;

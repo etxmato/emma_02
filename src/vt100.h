@@ -31,7 +31,7 @@ public:
     void uartVtIn();
     void serialVtOut();
     void serialVtIn();
-    int getTerminalLoadByte(Byte* value);
+    bool getTerminalLoadByte(Byte* value);
 
     void readBuffer();
     void readFilename();
@@ -252,7 +252,7 @@ private:
     bool useCrc_;
     int sendingMode_;
     int xmodemPacketNumber_;
-    int xmodemFileNumber_;
+    size_t xmodemFileNumber_;
     wxFile outputTerminalFile;
     wxFFile inputTerminalFile;
     wxString terminalInputFileLine_;
