@@ -1751,6 +1751,15 @@
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxHORIZONTAL</orient>
                                                                             <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="TapeElf2K">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Toggle: XMODEM - HEX</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
                                                                                 <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                                 <border>0</border>
                                                                                 <option>20</option>

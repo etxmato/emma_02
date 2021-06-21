@@ -105,6 +105,7 @@ BEGIN_EVENT_TABLE(GuiElf2K, GuiMS2000)
     EVT_CHECKBOX(XRCID("TurboElf2K"), GuiMain::onTurbo)
     EVT_TEXT(XRCID("TurboClockElf2K"), GuiMain::onTurboClock)
     EVT_CHECKBOX(XRCID("AutoCasLoadElf2K"), GuiMain::onAutoLoad)
+    EVT_BUTTON(XRCID("TapeElf2K"), GuiElf2K::onTape)
 
     EVT_COMMAND(wxID_ANY, ON_UART_ELF2K, GuiElf::onElf2KUart)
 
@@ -137,7 +138,7 @@ void GuiElf2K::readElf2KConfig()
     conf[ELF2K].wavFileDir_[0] = readConfigDir("/Dir/Elf2K/Wav_File", dataDir_ + "Elf2K" + pathSeparator_);
 	elfConfiguration[ELF2K].vtWavFileDir_ = readConfigDir("/Dir/Elf2K/Vt_Wav_File", dataDir_ + "Elf2K" + pathSeparator_);
  
-	conf[ELF2K].rom_[MAINROM1] = configPointer->Read("/Elf2K/Main_Rom_File", "Elf2Kv110");
+	conf[ELF2K].rom_[MAINROM1] = configPointer->Read("/Elf2K/Main_Rom_File", "Elf2Kv110.bin");
 	conf[ELF2K].charRom_ = configPointer->Read("/Elf2K/I8275_Font_Rom_File", "intel8275.bin");
 	conf[ELF2K].ide_ = configPointer->Read("/Elf2K/Ide_File", "elf2k.ide");
 	conf[ELF2K].keyFile_ = configPointer->Read("/Elf2K/Key_File", "");
@@ -200,7 +201,8 @@ void GuiElf2K::readElf2KConfig()
     configPointer->Read("/Elf2K/Enable_Turbo_Cassette", &conf[ELF2K].turbo_, true);
     conf[ELF2K].turboClock_ = configPointer->Read("/Elf2K/Turbo_Clock_Speed", "15");
     configPointer->Read("/Elf2K/Enable_Auto_Cassette", &conf[ELF2K].autoCassetteLoad_, true);
-    configPointer->Read("/Elf2K/Enable_Xmodem", &elfConfiguration[ELF2K].useXmodem, false);
+    configPointer->Read("/Elf2K/Enable_Xmodem", &elfConfiguration[ELF2K].useXmodem, true);
+    configPointer->Read("/Elf2K/Enable_HexModem", &elfConfiguration[ELF2K].useHexModem, false);
     configPointer->Read("/Elf2K/Enable_Ymodem", &elfConfiguration[ELF2K].usePacketSize1K, true);
     conf[ELF2K].realCassetteLoad_ =  false;
     elfConfiguration[ELF2K].useTape = true;
@@ -253,12 +255,15 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "VolumeElf2K", wxSlider)->SetValue(conf[ELF2K].volume_);
 
         XRCCTRL(*this, "TurboElf2K", wxCheckBox)->SetValue(conf[ELF2K].turbo_);
-        turboGui("Elf2K");
 
         XRCCTRL(*this, "TurboClockElf2K", wxTextCtrl)->SetValue(conf[ELF2K].turboClock_);
         XRCCTRL(*this, "AutoCasLoadElf2K", wxCheckBox)->SetValue(conf[ELF2K].autoCassetteLoad_);
-        enableTapeGui(elfConfiguration[ELF2K].useTape, ELF2K);
-
+        if (elfConfiguration[runningComputer_].useXmodem || elfConfiguration[runningComputer_].useHexModem)
+        {
+            turboGui("Elf2K");
+            enableTapeGui(elfConfiguration[ELF2K].useTape, ELF2K);
+        }
+        
 		if (conf[ELF2K].videoMode_ == VIDEOPIXIE)
         {
             if (clockTextCtrl[ELF2K] != NULL)
@@ -269,6 +274,7 @@ void GuiElf2K::readElf2KConfig()
             if (clockTextCtrl[ELF2K] != NULL)
                 clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
         }
+        setTape();
 	}
 	setElf2KKeyboard(elfConfiguration[ELF2K].keyboardType);
 
@@ -342,6 +348,7 @@ void GuiElf2K::writeElf2KConfig()
     configPointer->Write("/Elf2K/Turbo_Clock_Speed", conf[ELF2K].turboClock_);
     configPointer->Write("/Elf2K/Enable_Auto_Cassette", conf[ELF2K].autoCassetteLoad_);
     configPointer->Write("/Elf2K/Enable_Xmodem", elfConfiguration[ELF2K].useXmodem);
+    configPointer->Write("/Elf2K/Enable_HexModem", elfConfiguration[ELF2K].useHexModem);
     configPointer->Write("/Elf2K/Enable_Ymodem", elfConfiguration[ELF2K].usePacketSize1K);
 	configPointer->Write("/Elf2K/Volume", conf[ELF2K].volume_);
 
@@ -474,6 +481,29 @@ void GuiElf2K::onClearRtc(wxCommandEvent&event)
 	elfConfiguration[ELF2K].clearRtc = event.IsChecked();
 }
 
+void GuiElf2K::onTape(wxCommandEvent&WXUNUSED(event))
+{
+    if (!elfConfiguration[selectedComputer_].useXmodem)
+    {
+        elfConfiguration[selectedComputer_].useXmodem = true;
+        elfConfiguration[selectedComputer_].useHexModem = false;
+    }
+    else
+    {
+        elfConfiguration[selectedComputer_].useXmodem = false;
+        elfConfiguration[selectedComputer_].useHexModem = true;
+    }
+    setTape();
+}
+
+void GuiElf2K::setTape()
+{
+    if (elfConfiguration[selectedComputer_].useXmodem)
+        XRCCTRL(*this, "CasButtonElf2K", wxButton)->wxAnyButton::SetLabel("XMODEM");
+    else
+        XRCCTRL(*this, "CasButtonElf2K", wxButton)->wxAnyButton::SetLabel("HEX");
+}
+
 void GuiElf2K::onElf2KControlWindows(wxCommandEvent&event)
 {
 	elfConfiguration[ELF2K].useElfControlWindows = event.IsChecked();
@@ -558,13 +588,7 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			elfConfiguration[ELF2K].use8275 = false;
 			if (mode_.gui)
 			{
-//				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(true);
-//				XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//                XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//                XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//                XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
                 XRCCTRL(*this, "ZoomTextElf2K", wxStaticText)->Enable(false);
-//				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 				XRCCTRL(*this, "ZoomSpinElf2K", wxSpinButton)->Enable(false);
 				XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->Enable(false);
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(false);
@@ -572,9 +596,9 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(false);
                 if (clockTextCtrl[ELF2K] != NULL)
                     clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
-
-                elfConfiguration[ELF2K].useXmodem = true;
             }
+            if (!elfConfiguration[ELF2K].useHexModem && !elfConfiguration[ELF2K].useXmodem)
+                elfConfiguration[ELF2K].useXmodem = true;
 		break;
 
 		case VIDEOPIXIE:
@@ -586,13 +610,7 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			elfConfiguration[ELF2K].use8275 = false;
 			if (mode_.gui)
 			{
-//				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(true);
-//				XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//                XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//                XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//				XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
                 XRCCTRL(*this, "ZoomTextElf2K", wxStaticText)->Enable(true);
-//				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 				XRCCTRL(*this, "ZoomSpinElf2K", wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(false);
@@ -600,9 +618,9 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(false);
                 if (clockTextCtrl[ELF2K] != NULL)
                     clockTextCtrl[ELF2K]->ChangeValue(elf2KPixieClock_);
-
+            }
+            if (!elfConfiguration[ELF2K].useHexModem && !elfConfiguration[ELF2K].useXmodem)
                 elfConfiguration[ELF2K].useXmodem = true;
-			}
 		break;
 
 		case VIDEO2KI8275:
@@ -615,19 +633,9 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 			elfConfiguration[ELF2K].vtType = VTNONE;
 			if (mode_.gui)
 			{
-//				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->Enable(false);
-//                XRCCTRL(*this, "VTBaudTTextElf2K", wxStaticText)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//                XRCCTRL(*this, "VTBaudRTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//                XRCCTRL(*this, "ZoomTextVtElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
                 XRCCTRL(*this, "ZoomTextElf2K", wxStaticText)->Enable(true);
-//				XRCCTRL(*this, "ZoomValueVtElf2K", wxTextCtrl)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//				XRCCTRL(*this, "ZoomSpinVtElf2K", wxSpinButton)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//				XRCCTRL(*this, "StretchDotElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
 				XRCCTRL(*this, "VTTypeElf2K", wxChoice)->SetSelection(0);
 				elfConfiguration[ELF2K].vtExternal = false;
-//				XRCCTRL(*this, "VTBaudRChoiceElf2K", wxChoice)->Enable((elfConfiguration[ELF2K].vtType != VTNONE) && elfConfiguration[ELF2K].useUart);
-//				XRCCTRL(*this, "VTBaudTChoiceElf2K", wxChoice)->Enable(elfConfiguration[ELF2K].vtType != VTNONE);
-//				XRCCTRL(*this, "VtSetupElf2K", wxButton)->Enable(false);
 				XRCCTRL(*this, "ZoomSpinElf2K", wxSpinButton)->Enable(true);
 				XRCCTRL(*this, "ZoomValueElf2K", wxTextCtrl)->Enable(true);
 				XRCCTRL(*this, "InterlaceElf2K", wxCheckBox)->Enable(true);
@@ -635,22 +643,23 @@ void GuiElf2K::setElf2KVideoType(int Selection)
 				XRCCTRL(*this,"CharRomElf2K", wxComboBox)->Enable(true);
                 if (clockTextCtrl[ELF2K] != NULL)
                     clockTextCtrl[ELF2K]->ChangeValue(elf2K8275Clock_);
-
-                elfConfiguration[ELF2K].useXmodem = false;
-        }
+            }
+            elfConfiguration[ELF2K].useXmodem = false;
+            elfConfiguration[ELF2K].useHexModem = false;
 		break;
 	}
 
-    XRCCTRL(*this,"CasButtonElf2K", wxButton)->Enable(elfConfiguration[ELF2K].useXmodem);
-    XRCCTRL(*this,"WavFileElf2K", wxTextCtrl)->Enable(elfConfiguration[ELF2K].useXmodem);
-    XRCCTRL(*this,"EjectCasElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
-    XRCCTRL(*this,"AutoCasLoadElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].useXmodem);
-    XRCCTRL(*this,"TurboElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].useXmodem);
-    XRCCTRL(*this,"TurboMhzTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].useXmodem);
-//    XRCCTRL(*this,"CasSaveElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
-  //  XRCCTRL(*this,"CasLoadElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
-    //XRCCTRL(*this,"CasStopElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem);
-
+    if (mode_.gui)
+    {
+        XRCCTRL(*this,"TapeElf2K", wxButton)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+        XRCCTRL(*this,"CasButtonElf2K", wxButton)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+        XRCCTRL(*this,"WavFileElf2K", wxTextCtrl)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+        XRCCTRL(*this,"EjectCasElf2K", wxBitmapButton)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+        XRCCTRL(*this,"AutoCasLoadElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+        XRCCTRL(*this,"TurboElf2K", wxCheckBox)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+        XRCCTRL(*this,"TurboClockElf2K", wxTextCtrl)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+        XRCCTRL(*this,"TurboMhzTextElf2K", wxStaticText)->Enable(elfConfiguration[ELF2K].useXmodem | elfConfiguration[ELF2K].useHexModem);
+    }
     setVtType("Elf2K", ELF2K, elfConfiguration[ELF2K].vtType, false);
 }
 

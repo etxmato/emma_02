@@ -1417,8 +1417,16 @@ void GuiElf::setTapeType(wxString elfTypeStr, int elfType)
 
 bool GuiElf::getUseXmodem(int elfType)
 {
-    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
+    if (elfType == ELF || elfType == ELFII || elfType == SUPERELF || elfType == ELF2K)
         return elfConfiguration[elfType].useXmodem;
+    else
+        return false;
+}
+
+bool GuiElf::getUseHexModem(int elfType)
+{
+    if (elfType == ELF2K)
+        return elfConfiguration[elfType].useHexModem;
     else
         return false;
 }

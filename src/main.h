@@ -495,7 +495,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.39
-#define EMMA_SUB_VERSION 4
+#define EMMA_SUB_VERSION 5
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2

@@ -1758,6 +1758,15 @@
                                                                         <object class="wxBoxSizer">
                                                                             <orient>wxHORIZONTAL</orient>
                                                                             <object class="sizeritem">
+                                                                                <flag>wxGROW</flag>
+                                                                                <border>4</border>
+                                                                                <object class="wxBitmapButton" name="TapeElf2K">
+                                                                                    <tooltip>Toggle: XMODEM - HEX</tooltip>
+                                                                                    <style>wxBU_AUTODRAW</style>
+                                                                                    <bitmap>images/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
                                                                                 <flag>wxGROW|wxTOP|wxBOTTOM</flag>
                                                                                 <border>2</border>
                                                                                 <option>20</option>

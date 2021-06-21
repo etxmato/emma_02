@@ -152,6 +152,7 @@ public:
 	bool useHex;
     bool useTape;
     bool useXmodem;
+    bool useHexModem;
     bool usePacketSize1K;
     bool vtShow;
     bool autoKeyDef;

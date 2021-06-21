@@ -1097,6 +1097,7 @@ bool Vt100::getTerminalLoadByte(Byte* value)
             if (eof)
             {
                 terminalLoad_ = false;
+                p_Main->turboOff();
                 inputTerminalFile.Close();
                 p_Main->stopTerminal();
             }

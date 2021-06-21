@@ -1460,7 +1460,7 @@ void GuiMain::onVolume(wxScrollEvent&event)
 
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
-    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF || selectedComputer_ == ELF2K)
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
     {
         if (elfConfiguration[selectedComputer_].useXmodem)
         {
@@ -1468,6 +1468,12 @@ void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
             return;
         }
     }
+    if (selectedComputer_ == ELF2K)
+    {
+        onCassetteFileDialog();
+        return;
+    }
+
     onCassetteFileSelector();
 }
 
@@ -1659,8 +1665,11 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
 	if (computerRunning_ && (selectedComputer_ == runningComputer_))
 	{
 		XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-		XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-        
+        if (runningComputer_ != ELF2K)
+            XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+        else
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_ && !elfConfiguration[runningComputer_].useHexModem);
+
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasLoad1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
@@ -1716,6 +1725,12 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
             startTerminalLoad(TERM_XMODEM_LOAD);
             return;
         }
+        if (p_Main->getUseHexModem(runningComputer_))
+        {
+            startTerminalLoad(TERM_HEX);
+            return;
+        }
+
         startLoad(0);
     }
 }
@@ -1745,7 +1760,7 @@ void GuiMain::onCassetteSave1(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
 {
-    if (p_Main->getUseXmodem(runningComputer_))
+    if (p_Main->getUseXmodem(runningComputer_) || p_Main->getUseHexModem(runningComputer_))
     {
         stopTerminal();
         p_Computer->terminalStop();
@@ -3903,7 +3918,10 @@ void GuiMain::enableTapeGui(bool status, int computerType)
         XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
     }
     else
-        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
+    {
+        if (computerType != ELF2K)
+            XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
+    }
 #endif
 //	XRCCTRL(*this, "Volume"+computerInfo[computerType].gui, wxSlider)->Enable(status);
 //	XRCCTRL(*this, "VolumeText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
@@ -3917,8 +3935,15 @@ void GuiMain::enableLoadGui(bool status)
 		enableTapeGui(false, runningComputer_);
 		return;
 	}
+    if (runningComputer_ == ELF2K && !(elfConfiguration[runningComputer_].useXmodem || elfConfiguration[runningComputer_].useHexModem))
+    {
+        enableTapeGui(false, runningComputer_);
+        return;
+    }
 	if (computerRunning_)
 	{
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+            XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
 		XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
@@ -3937,6 +3962,8 @@ void GuiMain::enableLoadGui(bool status)
 	}
 	else
 	{
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+            XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
 		XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
 		XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
 		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
@@ -3950,8 +3977,13 @@ void GuiMain::enableLoadGui(bool status)
 		if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
-		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+        if (runningComputer_ == ELF2K)
+        {
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!elfConfiguration[runningComputer_].useHexModem);
+        }
+        else
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
@@ -3990,7 +4022,9 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
     }
     
-	XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+        XRCCTRL(*this, "Tape"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+    XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "EjectCas"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
@@ -4033,7 +4067,8 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
-		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+        if (!(runningComputer_ == ELF2K && elfConfiguration[runningComputer_].useHexModem))
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
