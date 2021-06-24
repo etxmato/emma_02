@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleGetInfoString</key>
-	<string>$(PRODUCT_NAME) version 1.39, (c) 2007-2021 Marcel van Tongeren</string>
+	<string>$(PRODUCT_NAME) version 1.40, (c) 2007-2021 Marcel van Tongeren</string>
 	<key>CFBundleIconFile</key>
 	<string>images/app.icns</string>
 	<key>CFBundleIdentifier</key>
@@ -22,7 +22,7 @@
 		<string>it</string>
 	</array>
 	<key>CFBundleLongVersionString</key>
-	<string>1.39, (c) 2007-2021 Marcel van Tongeren</string>
+	<string>1.40, (c) 2007-2021 Marcel van Tongeren</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>

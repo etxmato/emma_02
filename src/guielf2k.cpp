@@ -499,9 +499,9 @@ void GuiElf2K::onTape(wxCommandEvent&WXUNUSED(event))
 void GuiElf2K::setTape()
 {
     if (elfConfiguration[selectedComputer_].useXmodem)
-        XRCCTRL(*this, "CasButtonElf2K", wxButton)->wxAnyButton::SetLabel("XMODEM");
+        XRCCTRL(*this, "CasButtonElf2K", wxButton)->SetLabel("XMODEM");
     else
-        XRCCTRL(*this, "CasButtonElf2K", wxButton)->wxAnyButton::SetLabel("HEX");
+        XRCCTRL(*this, "CasButtonElf2K", wxButton)->SetLabel("HEX");
 }
 
 void GuiElf2K::onElf2KControlWindows(wxCommandEvent&event)

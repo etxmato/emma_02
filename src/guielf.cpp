@@ -1406,11 +1406,11 @@ void GuiElf::setTapeType(wxString elfTypeStr, int elfType)
 {
     if (elfConfiguration[selectedComputer_].useXmodem)
     {
-        XRCCTRL(*this, "CasButton"+elfTypeStr, wxButton)->wxAnyButton::SetLabel("XMODEM");
+        XRCCTRL(*this, "CasButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("XMODEM");
     }
     else
     {
-        XRCCTRL(*this, "CasButton"+elfTypeStr, wxButton)->wxAnyButton::SetLabel("Cassette");
+        XRCCTRL(*this, "CasButton"+computerInfo[selectedComputer_].gui, wxButton)->SetLabel("Cassette");
     }
     enableTapeGui(elfConfiguration[elfType].useTape, elfType);
 }
