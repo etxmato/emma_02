@@ -22,7 +22,7 @@ Pressing the STEP button again will show you the next location. Pressing it repe
 You can change the contents of any location by putting its address on the screen, and then entering the value that you want using the keyboard.
 </p>
 <p>
-You can enter a series of values into successive memory locations by pressing STEP between entries. So to enter 12 into location 0600, 34 into 0601, and 56 into 0602, you would press RESET, then 0, then 0600, then STEP, then 12, STEP, 34, STEP, 56.
+You can enter a series of values into successive memory locations by pressing STEP between entries. So to enter 12 into location hex 600, 34 into hex 601, and 56 into hex 602, you would press RESET, then 0, then 0600, then STEP, then 12, STEP, 34, STEP, 56.
 </p>
 <p>
 You can get out of MI&M mode by pressing RESET - this will not affect the values that you've put into memory. 
@@ -34,7 +34,7 @@ So, after you've worked out what the various bytes of your CHIP-8 program are to
 Once you have entered them, you can pass control to the CHIP-8 interpreter by pressing key 8 (after the machine has been RESET).
 </p>
 <p>
-The CHIP-8 interpreter will look for the first CHIP-8 instruction at memory location 0600. The locations available to you to use for a CHIP-8 program are from 0600 to 0FFF.
+The CHIP-8 interpreter will look for the first CHIP-8 instruction at memory location hex 600. The locations available to you to use for a CHIP-8 program are from hex 600-FFF.
 </p>
 <p>
 Key 2 and 4 are used for storing on cassette, see <a href="EtiCassette.htm">Cassette Support</a><br>

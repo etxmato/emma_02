@@ -92,14 +92,14 @@ V0-F are stored on memory locations 0800-080F.
 <TD WIDTH="55">A1yz</TD>
 <TD WIDTH="40">DRW</TD>
 <TD WIDTH="100">Vx/Vy, Vz</TD>
-<TD WIDTH="250">Draw 4*8 patterns from the pattern table starting at location VxVy (Vy=Vx+1), end of pattern table should be 0xff, drawing on screen position Vz. 
+<TD WIDTH="250">Draw 4*8 patterns from the pattern table starting at location VxVy (Vy=Vx+1), end of pattern table should be hex ff, drawing on screen position Vz. 
 </TD>
 </TR>
 <TR>
 <TD WIDTH="55">A2yz</TD>
 <TD WIDTH="40">DRW</TD>
 <TD WIDTH="100">B, Vy, Vz</TD>
-<TD WIDTH="250">Draw 4*8 BCD value of Vy to screen. If Vz contains 0xA draw on bottom left otherwise draw on right of the screen. Value is extended with two zeros, i.e. 5 digits.
+<TD WIDTH="250">Draw 4*8 BCD value of Vy to screen. If Vz contains hex A draw on bottom left otherwise draw on right of the screen. Value is extended with two zeros, i.e. 5 digits.
 </TD>
 </TR>
 <TR>

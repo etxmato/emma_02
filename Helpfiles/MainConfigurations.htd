@@ -83,7 +83,7 @@ A configuration save in any of the Cosmac Elf, Elf II and Super Elf computers ca
 </p> 
 <h4>Chip 8 Mode</h4>
 <p>
-Chip-8 configuration for the Elf, default Blinky is selected as chip 8 game. The Chip-8 interpreter will be loaded from address 0 to 1FF as well as E00 to E6D. The selected chip-8 SW will load from 200.
+Chip-8 configuration for the Elf, default Blinky is selected as chip 8 game. The Chip-8 interpreter will be loaded from address 0 to hex 1FF as well as hex E00-E6D. The selected chip-8 SW will load from hex 200.
 </p>
 <h4>Elf/Os - BIOSIO</h4>
 <p>
@@ -121,6 +121,19 @@ Basic configuration to run the Music Maker and Christmas songs as all published 
 <p>
 These configuration will load and run Netronics Tiny Basic, either on Pixie video or a vt-100 terminal. Note that to start the basic you will need to press 'return' when using the Pixie version and press return twice on the vt-100 version.
 </p>
+<h4>Pico/Elf</h4>
+<p>
+Following configurations are available:
+<UL>
+<LI>Diskless
+<LI>Install Elf/Os 0.3.0
+<LI>Install Elf/Os 0.3.2
+<LI>Runtime Elf/Os
+<LI>Runtime Elf/Os - UART
+<LI>STG Runtime Elf/Os
+<LI>STG Runtime Elf/Os - UART
+</UL>
+</p>
 <h4>Quest Super Basic</h4>
 <p>
 These configurations will load and run Quest Super Basic (version is indicated in the filename) on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the chapter on <a href="ElfSuperBasic.htm">Quest Super Basic</a>.
@@ -139,7 +152,7 @@ RCA Monitor program as described in IPSO facto number 10.
 </p>
 <h4>ROM Mapper</h4>
 <p>
-Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM chip. Selected ROM is swicthed to 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. After starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM chip. Selected ROM is swicthed to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. After starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
 </p>
 <h4>Tiny Basic Interpreter V2 - MC6847</h4>
 <p>
@@ -159,9 +172,9 @@ Richard's BascomM3
 Chuck's Membership Card monitor in 4 different configurations:
 <UL>
 <LI>64 KB RAM and monitor loaded at address 0
-<LI>64 KB RAM and monitor loaded at address @8000
+<LI>64 KB RAM and monitor loaded at address hex 8000
 <LI>32 KB ROM at address 0 with monitor loaded in ROM
-<LI>32 KB ROM at address @8000 with monitor loaded in ROM
+<LI>32 KB ROM at address hex 8000 with monitor loaded in ROM
 </UL>
 </p>
 <h4>Program 3</h4>
@@ -250,11 +263,11 @@ Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a
 </p>
 <h4>CDP18S693 MCDS</h4>
 <p>
-RCA's low cost Microboard Computer Developmen System (MCDS) CDP18S693. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from 8000-87FF, BASIC 3 from B000-DFFF and a 1K RAM at 8C00.
+RCA's low cost Microboard Computer Developmen System (MCDS) CDP18S693. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
 </p>
 <h4>CDP18S694 MCDS</h4>
 <p>
-RCA's Higher-Performance Microboard Computer Developmen System (MCDS) CDP18S694. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from 8000-87FF, Assembler / Editor from 900-AFFF, BASIC 3 from B000-DFFF and a 1K RAM at 8C00.
+RCA's Higher-Performance Microboard Computer Developmen System (MCDS) CDP18S694. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
 </p>
 <p>
 This configuration should be identical to the MCDS emulator however the implementation in Emma 02 is slightly different.

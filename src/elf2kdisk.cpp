@@ -95,6 +95,7 @@ void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bo
 
 	rtc_ = rtc;
 	uart_ = uart;
+    disk_ = true;
     use8275_ = use8275;
     ideChecked_ = false;
 
@@ -121,20 +122,47 @@ void Elf2KDisk::configureDisk(wxString ideFile1, wxString ideFile2, bool rtc, bo
 	printBuffer.Printf("	Input %d: read status, input %d: read selected", portConf.ideStatus, portConf.ideInput);
 	p_Main->message(printBuffer);
 
-	printBuffer.Printf("	Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
-	p_Main->message(printBuffer);
+    printBuffer.Printf("	Disk geometry: %d tracks, %d heads, %d sectors\n", portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
+    p_Main->message(printBuffer);
 
-	setGeometry(portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
+    setGeometry(portConf.ideTracks, portConf.ideHeads, portConf.ideSectors);
 
-	driveName_[0] = ideFile1;
-	driveName_[1] = ideFile2;
+    driveName_[0] = ideFile1;
+    driveName_[1] = ideFile2;
 
-	for (int i=0; i<2; i++)
-	{
-		driveCreated_[i] = wxFile::Exists(driveName_[i]);
-	}
+    for (int i=0; i<2; i++)
+    {
+        driveCreated_[i] = wxFile::Exists(driveName_[i]);
+    }
 
-	initDisk();
+    initDisk();
+}
+
+void Elf2KDisk::configureUart16450(ElfPortConfiguration portConf)
+{
+    wxString runningComp = p_Main->getRunningComputerStr();
+
+    rtc_ = true;
+    uart_ = true;
+    disk_ = false;
+    use8275_ = false;
+    ideChecked_ = false;
+
+    p_Computer->setInType(portConf.uartStatus, ELF2KDISKREADREGISTER); //7
+    p_Computer->setInType(portConf.uartIn, ELF2KDISKREADSTATUS); //6
+    p_Computer->setOutType(portConf.uartOut, ELF2KDISKSELECTREGISTER); //6
+    p_Computer->setOutType(portConf.uartControl, ELF2KDISKWRITEREGISTER); //7
+
+    wxString printBuffer;
+    p_Main->message("Configuring 16450 Uart Expansion Board");
+
+    printBuffer.Printf("    Output %d: device/register select, output %d: write selected", portConf.uartControl, portConf.uartOut);
+    p_Main->message(printBuffer);
+
+    printBuffer.Printf("    Input %d: read status, input %d: read selected\n", portConf.uartStatus, portConf.uartIn);
+    p_Main->message(printBuffer);
+
+    initDisk();
 }
 
 void Elf2KDisk::initializeIde(wxString ideFile)
@@ -164,8 +192,8 @@ void Elf2KDisk::initDisk()
 	deviceSelect_ = 0;
 	registerSelect_ = 0;
 	for (int i = 0; i<128; i++)
-		rtcRam_[i] = 0xff;
-	rtcRam_[0xa] = 0;
+		rtcRam_[i] = 0;
+	rtcRam_[0xa] = 0x20;
 	rtcRam_[0xb] = 0x6;
 	rtcRam_[0xc] = 0;
 	rtcRam_[0xd] = 0x80;
@@ -181,6 +209,8 @@ Byte Elf2KDisk::inDisk()
 	switch (deviceSelect_)
 	{
 		case IDE_SELECTED:
+            if (!disk_)
+                return 0;
 //			p_Main->message("IDE IN");
 //			p_Main->messageInt(registerSelect_);
 			ret = readIdeRegister(registerSelect_);
@@ -223,23 +253,17 @@ Byte Elf2KDisk::inDisk()
 		break;
 
 		case RTC_SELECTED:
-//			p_Main->message("IN");
-//			p_Main->messageInt(registerSelect_);
-//			p_Main->messageInt(rtcRam_[registerSelect_]);
+//			p_Main->eventShowTextMessage("IN");
+//			p_Main->eventShowMessage(registerSelect_);
+//            p_Main->eventShowMessage(rtcRam_[registerSelect_]);
 			if (!rtc_)
 				return 0xff;
 
-			if (registerSelect_ == 0xa)
-			{
-				if (rtcRam_[registerSelect_] & 0x80)
-					rtcRam_[registerSelect_] &= 0x7f;
-				else
-					rtcRam_[registerSelect_] |= 0x80;
-			}
-
 			ret = rtcRam_[registerSelect_];
+            
 			if (registerSelect_ == 0xc)
-				rtcRam_[registerSelect_] &= 0xbf;
+                rtcRam_[registerSelect_] = 0;
+            
 			return ret;
 		break;
 	}
@@ -251,6 +275,8 @@ void Elf2KDisk::outDisk(Byte value)
 	switch (deviceSelect_)
 	{
 		case IDE_SELECTED:
+            if (!disk_)
+                return;
 //			p_Main->message("IDE OUT");
 //			p_Main->messageInt(registerSelect_);
 //			p_Main->messageInt(value);
@@ -295,10 +321,10 @@ void Elf2KDisk::outDisk(Byte value)
 		case RTC_SELECTED:
 			writeRtc(registerSelect_, value);
 			if (registerSelect_ == 0xa)
-				p_Computer->setElf2KDivider(value&0xf);
-//			p_Main->message("OUT");
-//			p_Main->messageInt(registerSelect_);
-//			p_Main->messageInt(value);
+				p_Computer->setDivider(value&0xf);
+//			p_Main->eventShowTextMessage("OUT");
+//			p_Main->eventShowMessage(registerSelect_);
+//			p_Main->eventShowMessage(value);
 		break;
 	}
 }
@@ -321,7 +347,7 @@ void Elf2KDisk::selectDiskRegister(Byte value)
 		case 0x90:
 			registerSelect_ = value &0x7f;
 			deviceSelect_ = RTC_SELECTED;
-//			p_Main->message("RTC");
+//			p_Main->eventShowTextMessage("RTC");
 		break;
 
 	}
@@ -501,7 +527,13 @@ void Elf2KDisk::setGeometry(int cyl, int hd, int sc)
 
 void Elf2KDisk::writeRtc(int address, Byte value)
 {
-	rtcRam_[address] = value;
+    if (address == 0xc || address == 0xd)
+        return;
+    
+    if (address == 0xa)
+        rtcRam_[address] = (rtcRam_[address] & 0x80) | (value & 0x7f);
+    else
+        rtcRam_[address] = value;
 }
 
 void Elf2KDisk::writeIdeRegister(int reg, Word value)
@@ -661,6 +693,7 @@ void Elf2KDisk::onCommand()
 				readId();
 				bufferPosition_ = 0;
 				status_ |= IDE_STAT_DRQ;
+                status_ &= (~IDE_STAT_BSY);
 			break;
 
 			case IDE_CMD_READ:
@@ -668,12 +701,12 @@ void Elf2KDisk::onCommand()
 				readSector();
 				bufferPosition_ = 0;
 				status_ |= IDE_STAT_DRQ;
+                status_ &= (~IDE_STAT_BSY);
 			break;
 
 			case IDE_CMD_READ_1:
 				if (bufferPosition_ >= 512)
 				{
-						status_ &= (~IDE_STAT_BSY);
 						status_ &= (~IDE_STAT_DRQ);
 						command_ = 0;
 				}
@@ -683,6 +716,7 @@ void Elf2KDisk::onCommand()
 				command_ = IDE_CMD_WRITE_1;
 				bufferPosition_ = 0;
 				status_ |= IDE_STAT_DRQ;
+                status_ &= (~IDE_STAT_BSY);
 			break;
 
 			case IDE_CMD_WRITE_1:
@@ -690,7 +724,6 @@ void Elf2KDisk::onCommand()
 				{
 						error_ = 0;
 						writeSector();
-						status_ &= (~IDE_STAT_BSY);
 						command_ = 0;
 				}
 			break;

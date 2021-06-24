@@ -500,7 +500,7 @@ void MicroboardSetupDialog::onRomU21(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -564,7 +564,7 @@ void MicroboardSetupDialog::onRomU20(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -622,7 +622,7 @@ void MicroboardSetupDialog::onRomU19(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -673,7 +673,7 @@ void MicroboardSetupDialog::onRomU18(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -724,7 +724,7 @@ void MicroboardSetupDialog::onRomU17(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -1806,7 +1806,7 @@ void MicroboardCardSetupDialog::onRamSec1(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -1843,7 +1843,7 @@ void MicroboardCardSetupDialog::onRomSec1(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -1880,7 +1880,7 @@ void MicroboardCardSetupDialog::onCharacterRom(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -1950,7 +1950,7 @@ void MicroboardCardSetupDialog::onRomSec2(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -1987,7 +1987,7 @@ void MicroboardCardSetupDialog::onRomSec3(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),
@@ -2024,7 +2024,7 @@ void MicroboardCardSetupDialog::onRomSec4(wxCommandEvent& WXUNUSED(event))
                               "",
                               wxString::Format
                               (
-                               "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
+                               "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|All files (%s)|%s",
                                wxFileSelectorDefaultWildcardStr,
                                wxFileSelectorDefaultWildcardStr
                                ),

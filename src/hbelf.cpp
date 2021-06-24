@@ -47,6 +47,7 @@
 
 #include "hbelf.h"
 
+
 ElfScreen::ElfScreen(wxWindow *parent, const wxSize& size, int tilType)
 : Panel(parent, size)
 {
@@ -232,6 +233,7 @@ void ElfScreen::onMouseRelease(wxMouseEvent&event)
 
 BEGIN_EVENT_TABLE(Elf, wxFrame)
 	EVT_CLOSE (Elf::onClose)
+    EVT_TIMER(900, Elf::OnRtcTimer)
 END_EVENT_TABLE()
 
 Elf::Elf(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
@@ -251,11 +253,18 @@ Elf::Elf(const wxString& title, const wxPoint& pos, const wxSize& size, double c
 	elfScreenPointer = new ElfScreen(this, size, elfConfiguration.tilType);
 	elfScreenPointer->init();
     
+    rtcTimerPointer = new wxTimer(this, 900);
+    cycleValue_ = -1;
+    cycleSize_ = -1;
+
     runningGame_ = "";
 }
 
 Elf::~Elf()
 {
+    saveRtc();
+    rtcTimerPointer->Stop();
+    delete rtcTimerPointer;
 	if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
 	{
 		p_Main->setKeypadPos(ELF, keypadPointer->GetPosition());
@@ -471,7 +480,7 @@ void Elf::configureComputer()
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
-	if (elfConfiguration.useTape)
+	if (elfConfiguration.useTape  && !elfConfiguration.useXmodem)
 	{
 		efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
 		printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
@@ -548,6 +557,7 @@ void Elf::initComputer()
 	hexKeypadClosed_ = false;
 	ledModuleClosed_ = false;
 	elfRunState_ = RESETSTATE;
+    bootstrap_ = 0;
 }
 
 Byte Elf::ef(int flag)
@@ -698,7 +708,15 @@ Byte Elf::in(Byte port, Word WXUNUSED(address))
 			return p_Serial->uartStatus();
 		break;
 
-		default:
+        case ELF2KDISKREADREGISTER:
+            return inDisk();
+        break;
+
+        case ELF2KDISKREADSTATUS:
+            return readDiskStatus();
+        break;
+
+        default:
 			ret = 255;
 	}
 	inValues_[port] = ret;
@@ -817,6 +835,14 @@ void Elf::out(Byte port, Word WXUNUSED(address), Byte value)
         case EMSMAPPEROUT:
             setEmsPage(value);
         break;
+
+        case ELF2KDISKSELECTREGISTER:
+            selectDiskRegister(value);
+        break;
+
+        case ELF2KDISKWRITEREGISTER:
+            outDisk(value);
+        break;
     }
 }
 
@@ -886,6 +912,7 @@ void Elf::cycle(int type)
 
 		case IDECYCLE:
 			cycleIde();
+            cycleDisk();
 		break;
 
         case LEDCYCLE:
@@ -896,6 +923,15 @@ void Elf::cycle(int type)
 
 void Elf::cycleLed()
 {
+    if (cycleValue_ > 0)
+    {
+        cycleValue_ --;
+        if (cycleValue_ <= 0)
+        {
+            cycleValue_ = cycleSize_;
+            rtcRam_[0xc] |= 0x40;
+        }
+    }
     if (ledCycleValue_ > 0)
     {
         ledCycleValue_ --;
@@ -943,6 +979,9 @@ int Elf::getMpButtonState()
 
 void Elf::onRun()
 {
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
 	if (runButtonState_)
 	{
 		elfScreenPointer->runSetState(BUTTON_DOWN);
@@ -1071,6 +1110,9 @@ void Elf::startComputer()
     wxString fileName = p_Main->getRomFile(ELF, MAINROM1);
     if (fileName.Right(4) == ".ch8")
         offset = 0x200;
+    
+    if (elfConfiguration.bootStrap)
+        offset = 0x8000;
     if (!elfConfiguration.useRomMapper)
         readProgram(p_Main->getRomDir(ELF, MAINROM1), p_Main->getRomFile(ELF, MAINROM1), p_Main->getLoadromMode(ELF, 0), offset, NONAME);
   
@@ -1104,6 +1146,10 @@ void Elf::startComputer()
 	cpuCycles_ = 0;
 	p_Main->startTime();
 
+    loadRtc();
+    rtcCycle_ = 4;
+    rtcTimerPointer->Start(250, wxTIMER_CONTINUOUS);
+
     int ms = (int) p_Main->getLedTimeMs(ELF);
     elfScreenPointer->setLedMs(ms);
     if (elfConfiguration.useHexKeyboard && !hexKeypadClosed_)
@@ -1120,12 +1166,16 @@ void Elf::startComputer()
         p_Vt100[UART1]->splashScreen();
     else
         p_Video->splashScreen();
-    
+
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
     threadPointer->Run();
 }
 
 void Elf::writeMemDataType(Word address, Byte type)
 {
+    address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1196,6 +1246,8 @@ void Elf::writeMemDataType(Word address, Byte type)
 
 Byte Elf::readMemDataType(Word address)
 {
+    address = address | bootstrap_;
+
 	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1254,12 +1306,17 @@ Byte Elf::readMem(Word address)
 
 Byte Elf::readMemDebug(Word address)
 {
+    if ((address & 0x8000) == 0x8000)
+        bootstrap_ = 0;
+
+    address = address | bootstrap_;
+
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address);
     else
         elfScreenPointer->showAddressTil313Italic(address);
 
-	switch (memoryType_[address/256])
+    switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
 			switch (emsMemoryType_[((address & 0x3fff) |(emsPage_ << 14))/256])
@@ -1360,6 +1417,8 @@ void Elf::writeMem(Word address, Byte value, bool writeRom)
 
 void Elf::writeMemDebug(Word address, Byte value, bool writeRom)
 {
+    address = address | bootstrap_;
+
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address);
     else
@@ -1498,8 +1557,14 @@ void Elf::cpuInstruction()
 
 void Elf::resetPressed()
 {
+    if (!elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
+    p_Main->stopTerminal();
+    terminalStop();
+
     resetCpu();
-    if (elfConfiguration.use8275)
+     if (elfConfiguration.use8275)
         i8275Pointer->cRegWrite(0x40);
     if (elfConfiguration.autoBoot)
     {
@@ -1525,6 +1590,8 @@ void Elf::configureElfExtensions()
             vtPointer = new Vt100("Elf - VT 100", p_Main->getVtPos(ELF), wxSize(640*zoom, 400*zoom), zoom, ELF, elfClockSpeed_, elfConfiguration, UART1);
 		p_Vt100[UART1] = vtPointer;
 		vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        if (elfConfiguration.useUart16450)
+            configureUart16450(elfConfiguration.elfPortConf);
 		vtPointer->Show(true);
 		vtPointer->drawScreen();
 	}
@@ -1849,3 +1916,28 @@ void Elf::refreshPanel()
         ledModulePointer->refreshPanel();
 }
 
+void Elf::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
+{
+    rtcCycle_--;
+
+    if (rtcCycle_ == 1)
+        rtcRam_[0xa] |= 0x80;
+
+    if (rtcCycle_ > 0)
+        return;
+    
+    rtcRam_[0xa] &= 0x7f;
+    rtcCycle_ = 4;
+
+    wxDateTime now = wxDateTime::Now();
+    
+    writeRtc(0, now.GetSecond());
+    writeRtc(2, now.GetMinute());
+    writeRtc(4, now.GetHour());
+    writeRtc(6, now.GetWeekDay());
+    writeRtc(7, now.GetDay());
+    writeRtc(8, now.GetMonth()+1);
+    writeRtc(9, now.GetYear()-1972);
+
+    rtcRam_[0xc] |= 0x10;
+}

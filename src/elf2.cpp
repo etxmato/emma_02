@@ -272,6 +272,7 @@ BEGIN_EVENT_TABLE(Elf2, wxFrame)
 	EVT_COMMAND(15, wxEVT_ButtonUpEvent, Elf2::onNumberKeyUp)
 	EVT_COMMAND(20, wxEVT_ButtonDownEvent, Elf2::onButtonPress)
 	EVT_COMMAND(20, wxEVT_ButtonUpEvent, Elf2::onButtonRelease)
+    EVT_TIMER(900, Elf::OnRtcTimer)
 END_EVENT_TABLE()
 
 Elf2::Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double clock, ElfConfiguration conf)
@@ -291,11 +292,18 @@ Elf2::Elf2(const wxString& title, const wxPoint& pos, const wxSize& size, double
 
 	offset_ = 0;
 
+    rtcTimerPointer = new wxTimer(this, 900);
+    cycleValue_ = -1;
+    cycleSize_ = -1;
+
     runningGame_ = "";
 }
 
 Elf2::~Elf2()
 {
+    saveRtc();
+    rtcTimerPointer->Stop();
+    delete rtcTimerPointer;
 	if (elfConfiguration.usePixie)
 	{
 		p_Main->setPixiePos(ELFII, pixiePointer->GetPosition());
@@ -438,7 +446,7 @@ void Elf2::configureComputer()
         p_Computer->setOutType(elfConfiguration.elfPortConf.emsOutput, EMSMAPPEROUT);
         p_Main->message(printBuffer);
     }
-    if (elfConfiguration.useTape)
+    if (elfConfiguration.useTape && !elfConfiguration.useXmodem)
     {
         efType_[elfConfiguration.elfPortConf.tapeEf] = ELF2EF2;
         printBuffer.Printf("	EF %d: cassette in", elfConfiguration.elfPortConf.tapeEf);
@@ -509,6 +517,7 @@ void Elf2::initComputer()
     ef4Button_ = 1;
 	switches_ = 0;
 	elfRunState_ = RESETSTATE;
+    bootstrap_ = 0;
 }
 
 Byte Elf2::ef(int flag)
@@ -665,6 +674,14 @@ Byte Elf2::in(Byte port, Word WXUNUSED(address))
 			return p_Serial->uartStatus();
 		break;
 
+        case ELF2KDISKREADREGISTER:
+            return inDisk();
+        break;
+
+        case ELF2KDISKREADSTATUS:
+            return readDiskStatus();
+        break;
+
 		default:
 			ret = 255;
 	}
@@ -784,6 +801,14 @@ void Elf2::out(Byte port, Word WXUNUSED(address), Byte value)
         case EMSMAPPEROUT:
             setEmsPage(value);
         break;
+
+        case ELF2KDISKSELECTREGISTER:
+            selectDiskRegister(value);
+        break;
+
+        case ELF2KDISKWRITEREGISTER:
+            outDisk(value);
+        break;
     }
 }
 
@@ -863,6 +888,15 @@ void Elf2::cycle(int type)
 
 void Elf2::cycleLed()
 {
+    if (cycleValue_ > 0)
+    {
+        cycleValue_ --;
+        if (cycleValue_ <= 0)
+        {
+            cycleValue_ = cycleSize_;
+            rtcRam_[0xc] |= 0x40;
+        }
+    }
     if (ledCycleValue_ > 0)
     {
         ledCycleValue_ --;
@@ -899,6 +933,9 @@ int Elf2::getMpButtonState()
 
 void Elf2::onRun()
 {
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
 	stopTape();
 	if (runButtonState_)
 	{
@@ -1081,6 +1118,9 @@ void Elf2::startComputer()
     wxString fileName = p_Main->getRomFile(ELFII, MAINROM1);
     if (fileName.Right(4) == ".ch8")
         offset = 0x200;
+    
+    if (elfConfiguration.bootStrap)
+        offset = 0x8000;
     if (!elfConfiguration.useRomMapper)
         readProgram(p_Main->getRomDir(ELFII, MAINROM1), p_Main->getRomFile(ELFII, MAINROM1), p_Main->getLoadromMode(ELFII, 0), offset, NONAME);
 
@@ -1107,6 +1147,10 @@ void Elf2::startComputer()
 	cpuCycles_ = 0;
 	p_Main->startTime();
 
+    loadRtc();
+    rtcCycle_ = 4;
+    rtcTimerPointer->Start(250, wxTIMER_CONTINUOUS);
+
     int ms = (int) p_Main->getLedTimeMs(ELFII);
     elf2ScreenPointer->setLedMs(ms);
     if (ms == 0)
@@ -1119,12 +1163,16 @@ void Elf2::startComputer()
         p_Vt100[UART1]->splashScreen();
     else
         p_Video->splashScreen();
-    
+
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
     threadPointer->Run();
 }
 
 void Elf2::writeMemDataType(Word address, Byte type)
 {
+    address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
         case EMSMEMORY:
@@ -1198,6 +1246,7 @@ void Elf2::writeMemDataType(Word address, Byte type)
 
 Byte Elf2::readMemDataType(Word address)
 {
+    address = address | bootstrap_;
 	switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1259,6 +1308,11 @@ Byte Elf2::readMem(Word address)
 
 Byte Elf2::readMemDebug(Word address)
 {
+    if ((address & 0x8000) == 0x8000)
+        bootstrap_ = 0;
+
+    address = address | bootstrap_;
+
     switch (memoryType_[address/256])
 	{
 		case EMSMEMORY:
@@ -1363,7 +1417,9 @@ void Elf2::writeMem(Word address, Byte value, bool writeRom)
 
 void Elf2::writeMemDebug(Word address, Byte value, bool writeRom)
 {
-	if (emsMemoryDefined_)
+    address = address | bootstrap_;
+
+    if (emsMemoryDefined_)
 	{
 		if (address>=0xc000 && address <=0xffff)
 		{
@@ -1502,6 +1558,12 @@ void Elf2::cpuInstruction()
 
 void Elf2::resetPressed()
 {
+    if (elfConfiguration.bootStrap)
+        bootstrap_ = 0x8000;
+
+    p_Main->stopTerminal();
+    terminalStop();
+
     resetCpu();
     if (elfConfiguration.use8275)
         i8275Pointer->cRegWrite(0x40);
@@ -1530,6 +1592,8 @@ void Elf2::configureElfExtensions()
             vtPointer = new Vt100("Elf II - VT 100", p_Main->getVtPos(ELFII), wxSize(800*zoom, 500*zoom), zoom, ELFII, elfClockSpeed_, elfConfiguration, UART1);
 		p_Vt100[UART1] = vtPointer;
 		vtPointer->configure(elfConfiguration.baudR, elfConfiguration.baudT, elfConfiguration.elfPortConf);
+        if (elfConfiguration.useUart16450)
+            configureUart16450(elfConfiguration.elfPortConf);
 		vtPointer->Show(true);
 		vtPointer->drawScreen();
 	}
@@ -1792,4 +1856,30 @@ void Elf2::releaseButtonOnScreen(HexButton* buttonPointer, int WXUNUSED(buttonTy
 void Elf2::refreshPanel()
 {
     elf2ScreenPointer->refreshPanel();
+}
+
+void Elf2::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
+{
+    rtcCycle_--;
+
+    if (rtcCycle_ == 1)
+        rtcRam_[0xa] |= 0x80;
+
+    if (rtcCycle_ > 0)
+        return;
+    
+    rtcRam_[0xa] &= 0x7f;
+    rtcCycle_ = 4;
+
+    wxDateTime now = wxDateTime::Now();
+    
+    writeRtc(0, now.GetSecond());
+    writeRtc(2, now.GetMinute());
+    writeRtc(4, now.GetHour());
+    writeRtc(6, now.GetWeekDay());
+    writeRtc(7, now.GetDay());
+    writeRtc(8, now.GetMonth()+1);
+    writeRtc(9, now.GetYear()-1972);
+
+    rtcRam_[0xc] |= 0x10;
 }

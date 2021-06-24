@@ -6,10 +6,10 @@
 To run the COMX emulator with the F&M EPROM Switchboad card select f&m.eprom.board.1.1.bin  in any available slot (CARD 1 if no expansion box is used). Default slot 2 is used, this means that for all CARD Sx commands mentioned in this chapter CARD S2 should be used.
 </p>
 <p>
-The EPROM Switchboard includes one 2 KB EPROM with the firmware and up to five 8 KB EPROMs with additional software. The 2 KB firmware ROM is placed at address @F800 - @FFFF, this location is also used by the CDP 1870 but the CDP 1870 in the COMX architecture did not allow reading of page memory so selecting an EPROM at this location was actually possible.
+The EPROM Switchboard includes one 2 KB EPROM with the firmware and up to five 8 KB EPROMs with additional software. The 2 KB firmware ROM is placed at address hex F800-FFFF, this location is also used by the CDP 1870 but the CDP 1870 in the COMX architecture did not allow reading of page memory so selecting an EPROM at this location was actually possible.
 </p>
 <p>
-The 8 KB EPROMs are all mapped at address @C000 - @DFFF. The first 8 KB EPROM will always be loaded with f&m.utilities.bin as additional firmware is included in this EPROM. To select what software is loaded into the additional 4 EPROMs press the F&M EPROM Switchboad 'Setup' button. A new window will open showing the default EPROM files. Note EPROM software can only be change if the COMX emulator is not running.
+The 8 KB EPROMs are all mapped at address hex C000-DFFF. The first 8 KB EPROM will always be loaded with f&m.utilities.bin as additional firmware is included in this EPROM. To select what software is loaded into the additional 4 EPROMs press the F&M EPROM Switchboad 'Setup' button. A new window will open showing the default EPROM files. Note EPROM software can only be change if the COMX emulator is not running.
 </p>
 <h3>Firmware Commands</h3>
 <h4>CARD Sx or CALL(@F800)</h4>
@@ -38,7 +38,7 @@ For example when the EPROM Switchboard is defined in expansion box slot 2:
 <pre>
 CARD S2 4
 </pre>
-will result in selection of EPROM 4 between address @C000 - @DFFF
+will result in selection of EPROM 4 between address hex C000-DFFF
 </p>
 <h4>CARD Sx CAT or CALL(@F800) CAT</h4>
 <p>
@@ -65,7 +65,7 @@ F&M EPROM SWITCHBOARD
   04:F&M INIT		@B000 / @B5FF
   05:STARTUP		@4400 / @479F
 </pre>
-Where 'x, y, z...' indicates which EPROM numbers are used/defined (0, 1, 2, 3 and/or 4), 'size' is the total size of all EPROMs (10K to 42K). In the above example 5 programs are loaded in the EPROMs, where 'OLD' and 'CHAR' indicate 'NONE' meaning no RAM is used when executing these programs, in other words they RUN in EPROM memory. In the other cases the addresses of the used RAM is indicated. Any software that indicates use of RAM from @4400 like 'STARTUP' above will be copied to RAM and overwrite any BASIC software in COMX memory.
+Where 'x, y, z...' indicates which EPROM numbers are used/defined (0, 1, 2, 3 and/or 4), 'size' is the total size of all EPROMs (10K to 42K). In the above example 5 programs are loaded in the EPROMs, where 'OLD' and 'CHAR' indicate 'NONE' meaning no RAM is used when executing these programs, in other words they RUN in EPROM memory. In the other cases the addresses of the used RAM is indicated. Any software that indicates use of RAM from hex 4400 like 'STARTUP' above will be copied to RAM and overwrite any BASIC software in COMX memory.
 </p>
 <h4>CARD Sx "software" or CALL(@F800) "software"</h4>
 <p>

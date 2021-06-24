@@ -550,7 +550,7 @@ void GuiMain::onMainRom1(wxCommandEvent& WXUNUSED(event))
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.arc;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.arc|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -581,7 +581,7 @@ void GuiMain::onMainRom2(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -612,7 +612,7 @@ void GuiMain::onMainRom3(wxCommandEvent& WXUNUSED(event))
 		"",
 		wxString::Format
 		(
-			"Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+			"Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
 			wxFileSelectorDefaultWildcardStr,
 			wxFileSelectorDefaultWildcardStr
 			),
@@ -674,7 +674,7 @@ void GuiMain::onRamSW(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -721,7 +721,7 @@ void GuiMain::onChip8SW(wxCommandEvent& WXUNUSED(event) )
                                "",
                                wxString::Format
                               (
-                                   "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s",
+                                   "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s",
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -1053,9 +1053,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 			elfConfiguration[elfType].vtCharRom_ = "vt52.a.bin";
 			if (mode_.gui)
 			{
-				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
 				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
@@ -1090,9 +1090,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 			elfConfiguration[elfType].vtCharRom_ = "vt100.bin";
 			if (mode_.gui)
 			{
-				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+				XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
 				XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+                XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
                 XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "ZoomTextVt"+elfTypeStr, wxStaticText)->Enable(true);
                 XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
@@ -1117,9 +1117,9 @@ void GuiMain::setVtType(wxString elfTypeStr, int elfType, int Selection, bool Gu
 		break;
     
         case EXTERNAL_TERMINAL:
-            XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart);
+            XRCCTRL(*this, "VTBaudRChoice"+elfTypeStr, wxChoice)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
             XRCCTRL(*this, "VTBaudTChoice"+elfTypeStr, wxChoice)->Enable(true);
-            XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart);
+            XRCCTRL(*this, "VTBaudRText"+elfTypeStr, wxStaticText)->Enable(elfConfiguration[elfType].useUart || elfConfiguration[elfType].useUart16450);
             XRCCTRL(*this, "VTBaudTText"+elfTypeStr, wxStaticText)->Enable(true);
             XRCCTRL(*this, "VtSetup"+elfTypeStr, wxButton)->Enable(true);
             if (elfType == ELF || elfType == ELFII || elfType == SUPERELF)
@@ -1460,14 +1460,43 @@ void GuiMain::onVolume(wxScrollEvent&event)
 
 void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 {
- 	wxString fileName;
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    {
+        if (elfConfiguration[selectedComputer_].useXmodem)
+        {
+            onCassetteFileDialog();
+            return;
+        }
+    }
+    if (selectedComputer_ == ELF2K)
+    {
+        onCassetteFileDialog();
+        return;
+    }
 
-	fileName = wxFileSelector( "Select the WAV file to save/load",
+    onCassetteFileSelector();
+}
+
+void GuiMain::onCassetteFileSelector()
+{
+    wxString fileName;
+    wxString typeStr = "WAV";
+    wxString formatStr = "WAV File (*.wav)|*.wav|All files (%s)|%s";
+    
+    if (selectedComputer_ == ELF || selectedComputer_ == ELFII || selectedComputer_ == SUPERELF)
+    {
+        if (elfConfiguration[selectedComputer_].useXmodem)
+        {
+            typeStr = "ElfOs";
+            formatStr = "All files (%s)|%s";
+        }
+    }
+	fileName = wxFileSelector( "Select the "+typeStr+" file to save/load",
                                conf[selectedComputer_].wavFileDir_[0], conf[selectedComputer_].wavFile_[0],
                                "wav",
                                wxString::Format
                               (
-                                   "WAV File (*.wav)|*.wav|All files (%s)|%s",
+                                   formatStr,
                                    wxFileSelectorDefaultWildcardStr,
                                    wxFileSelectorDefaultWildcardStr
                                ),
@@ -1485,6 +1514,46 @@ void GuiMain::onCassette(wxCommandEvent& WXUNUSED(event))
 
 	if (mode_.gui)
 		XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->SetValue(conf[selectedComputer_].wavFile_[0]);
+}
+
+void GuiMain::onCassetteFileDialog()
+{
+    wxString fileName;
+    
+    wxFileDialog openFileDialog(this,
+                                "Select the ElfOs file(s) to save/load",
+                                conf[selectedComputer_].wavFileDir_[0],
+                                conf[selectedComputer_].wavFile_[0],
+                                "All files (*.*)|*.*",
+                                wxFD_OPEN|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_MULTIPLE
+                               );
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return;     // the user changed idea...
+
+    conf[selectedComputer_].terminalPaths_.Clear();
+    conf[selectedComputer_].terminalFiles_.Clear();
+    openFileDialog.GetPaths(conf[selectedComputer_].terminalPaths_);
+    openFileDialog.GetFilenames(conf[selectedComputer_].terminalFiles_);
+
+    conf[selectedComputer_].numberOfTerminalFiles_ = conf[selectedComputer_].terminalPaths_.GetCount();
+    
+    wxFileName FullPath;
+    fileName = "";
+    for (int i=0; i<conf[selectedComputer_].numberOfTerminalFiles_; i++)
+    {
+        FullPath = wxFileName(conf[selectedComputer_].terminalPaths_[i], wxPATH_NATIVE);
+        if (i == 0)
+        {
+            conf[selectedComputer_].wavFileDir_[0] = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
+            conf[selectedComputer_].wavFile_[0] = FullPath.GetFullName();
+        }
+        fileName += conf[selectedComputer_].terminalFiles_[i];
+        fileName += " ";
+    }
+
+    if (mode_.gui)
+        XRCCTRL(*this, "WavFile"+computerInfo[selectedComputer_].gui, wxTextCtrl)->ChangeValue(fileName);
 }
 
 void GuiMain::onCassette1(wxCommandEvent& WXUNUSED(event))
@@ -1566,8 +1635,8 @@ void GuiMain::onCassetteText(wxCommandEvent&event)
     if (selectedComputer_ == VIP2K || selectedComputer_ == MEMBER || selectedComputer_ == CDP18S020)
         return;
     
-	if (!guiInitialized_)
-		return;
+//	if (!guiInitialized_)
+//		return;
 
 //    if (conf[selectedComputer_].wavFile_[0] != "")
 //    {
@@ -1580,8 +1649,8 @@ void GuiMain::onCassette1Text(wxCommandEvent&event)
 {
     conf[selectedComputer_].wavFile_[1] = event.GetString();
     
-	if (!guiInitialized_)
-		return;
+//	if (!guiInitialized_)
+//		return;
 
 //    if (conf[selectedComputer_].wavFile_[1] != "")
 //    {
@@ -1596,8 +1665,11 @@ void GuiMain::onAutoLoad(wxCommandEvent&event)
 	if (computerRunning_ && (selectedComputer_ == runningComputer_))
 	{
 		XRCCTRL(*this, "CasLoad"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-		XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
-        
+        if (runningComputer_ != ELF2K)
+            XRCCTRL(*this, "CasSave"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
+        else
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_ && !elfConfiguration[runningComputer_].useHexModem);
+
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasLoad1"+computerInfo[selectedComputer_].gui, wxButton)->Enable(!conf[runningComputer_].autoCassetteLoad_);
@@ -1647,7 +1719,20 @@ void GuiMain::onCassetteLoad(wxCommandEvent& WXUNUSED(event))
     if (runningComputer_ == FRED1 ||runningComputer_ == FRED1_5)
         p_Fred->startLoad(true);
     else
+    {
+        if (p_Main->getUseXmodem(runningComputer_))
+        {
+            startTerminalLoad(TERM_XMODEM_LOAD);
+            return;
+        }
+        if (p_Main->getUseHexModem(runningComputer_))
+        {
+            startTerminalLoad(TERM_HEX);
+            return;
+        }
+
         startLoad(0);
+    }
 }
 
 void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
@@ -1660,7 +1745,12 @@ void GuiMain::onCassetteLoad1(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteSave(wxCommandEvent& WXUNUSED(event))
 {
-	startSave(0);
+    if (p_Main->getUseXmodem(runningComputer_))
+    {
+        startTerminalSave(TERM_XMODEM_SAVE);
+        return;
+    }
+    startSave(0);
 }
 
 void GuiMain::onCassetteSave1(wxCommandEvent& WXUNUSED(event))
@@ -1670,7 +1760,13 @@ void GuiMain::onCassetteSave1(wxCommandEvent& WXUNUSED(event))
 
 void GuiMain::onCassetteStop(wxCommandEvent& WXUNUSED(event))
 {
-	p_Computer->stopSaveLoad();
+    if (p_Main->getUseXmodem(runningComputer_) || p_Main->getUseHexModem(runningComputer_))
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+        return;
+    }
+    p_Computer->stopSaveLoad();
 }
 
 void GuiMain::onCassettePause(wxCommandEvent& WXUNUSED(event))
@@ -1963,17 +2059,17 @@ void GuiMain::onLoad(bool load)
 		case TMC1800:
 		case TMC2000:
 		case NANO:
-			extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case VIP:
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
                 if (p_Computer->getLoadedProgram()==VIPTINY)
                     extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|All files (%s)|%s";
                 else
-                    extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+                    extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case STUDIOIV:
@@ -1993,13 +2089,13 @@ void GuiMain::onLoad(bool load)
 		case ELFII:
 		case ELF:
 			if (p_Computer->getLoadedProgram()&0x1)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
 		default:
-			extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 	}
 
@@ -2090,9 +2186,9 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 
         case VIP:
 			if (p_Computer->getLoadedProgram()==FPBBASIC)
-				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			else
-				extension = "Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 
         case STUDIOIV:
@@ -2113,16 +2209,16 @@ void GuiMain::onSaveButton(wxCommandEvent& WXUNUSED(event))
 		case ELF:
 			if (p_Computer->getLoadedProgram()&0x1)
 			{
-				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
+				extension = computerInfo[selectedComputer_].name+" Program File (*."+computerInfo[selectedComputer_].ploadExtension+")|*."+computerInfo[selectedComputer_].ploadExtension+"|Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			}
 			else
 			{
-				extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+				extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 			}
 		break;
 
 		default:
-			extension = "Intel Hex File|*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|All files (%s)|%s";
+			extension = "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos;*.c8;*.ch8;*.c8x;*.ch10|Intel Hex File|*.hex|All files (%s)|%s";
 		break;
 	}
 
@@ -2237,7 +2333,7 @@ void GuiMain::onBaudR(wxCommandEvent&event)
 void GuiMain::onBaudT(wxCommandEvent&event)
 {
 	elfConfiguration[selectedComputer_].baudT = event.GetSelection();
-	if (!elfConfiguration[selectedComputer_].useUart)
+	if (!elfConfiguration[selectedComputer_].useUart && !elfConfiguration[selectedComputer_].useUart16450)
 	{
 		elfConfiguration[selectedComputer_].baudR = event.GetSelection();
 		XRCCTRL(*this, "VTBaudRChoice" + computerInfo[selectedComputer_].gui, wxChoice)->SetSelection(elfConfiguration[selectedComputer_].baudR);
@@ -3444,30 +3540,31 @@ void GuiMain::startSave(int tapeNumber)
 
 void GuiMain::onTerminalSave(wxCommandEvent&WXUNUSED(event))
 {
-    startTerminalSave();
+    startTerminalSave(TERM_HEX);
 }
 
 void GuiMain::onTerminalLoad(wxCommandEvent&WXUNUSED(event))
 {
-    startTerminalLoad(false);
+    startTerminalLoad(TERM_HEX);
 }
 
-void GuiMain::startAutoTerminalLoad(bool binaryFile)
+void GuiMain::startAutoTerminalLoad(int protocol)
 {
-	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020)
+	if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
-		startTerminalLoad(binaryFile);
+		startTerminalLoad(protocol);
 }
 
-void GuiMain::startTerminalLoad(bool binaryFile)
+void GuiMain::startTerminalLoad(int protocol)
 {
     if (terminalSave_ || terminalLoad_)
-        return;
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+    }
 
-    terminalLoad_ = true;
-    
     wxString filePath, fileName;
     
     filePath = conf[runningComputer_].wavFileDir_[0];
@@ -3478,8 +3575,10 @@ void GuiMain::startTerminalLoad(bool binaryFile)
     {
         if (wxFile::Exists(filePath))
         {
+            terminalLoad_ = true;
+            
             p_Main->eventSetTapeState(TAPE_PLAY, "");
-            p_Computer->terminalLoad(filePath, fileName, binaryFile);
+            p_Computer->terminalLoad(filePath, fileName, protocol);
         }
     }
 }
@@ -3513,21 +3612,22 @@ void GuiMain::stopTerminal()
     p_Main->eventSetTapeState(TAPE_STOP, "");
 }
 
-void GuiMain::startAutoTerminalSave()
+void GuiMain::startAutoTerminalSave(int protocol)
 {
-    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020)
+    if (runningComputer_ != MEMBER && runningComputer_ != VIP2K && runningComputer_ != CDP18S020 && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF && runningComputer_ != ELF2K)
 		return;
 
 	if (conf[runningComputer_].autoCassetteLoad_)
-        startTerminalSave();
+        startTerminalSave(protocol);
 }
 
-void GuiMain::startTerminalSave()
+void GuiMain::startTerminalSave(int protocol)
 {
     if (terminalSave_ || terminalLoad_)
-        return;
-
-    terminalSave_ = true;
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+    }
 
     wxString filePath, fileName;
     
@@ -3593,8 +3693,10 @@ void GuiMain::startTerminalSave()
  //       if (messageBoxAnswer_ == wxYES)
  //           wxRemoveFile(filePath);
     }
+    terminalSave_ = true;
+
     p_Main->eventSetTapeState(TAPE_RECORD, "");
-    p_Computer->terminalSave(filePath);
+    p_Computer->terminalSave(filePath, protocol);
 }
 
 void GuiMain::turboOn()
@@ -3811,7 +3913,15 @@ void GuiMain::enableTapeGui(bool status, int computerType)
 	XRCCTRL(*this, "TurboClock"+computerInfo[computerType].gui, wxTextCtrl)->Enable(status);
 	XRCCTRL(*this, "TurboMhzText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
 #if defined(__WXMSW__)
-    XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
+    if (computerType == ELF || computerType == ELFII || computerType == SUPERELF)
+    {
+        XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status&(!elfConfiguration[computerType].useXmodem));
+    }
+    else
+    {
+        if (computerType != ELF2K)
+            XRCCTRL(*this, "RealCasLoad"+computerInfo[computerType].gui, wxBitmapButton)->Enable(status);
+    }
 #endif
 //	XRCCTRL(*this, "Volume"+computerInfo[computerType].gui, wxSlider)->Enable(status);
 //	XRCCTRL(*this, "VolumeText"+computerInfo[computerType].gui, wxStaticText)->Enable(status);
@@ -3825,8 +3935,15 @@ void GuiMain::enableLoadGui(bool status)
 		enableTapeGui(false, runningComputer_);
 		return;
 	}
+    if (runningComputer_ == ELF2K && !(elfConfiguration[runningComputer_].useXmodem || elfConfiguration[runningComputer_].useHexModem))
+    {
+        enableTapeGui(false, runningComputer_);
+        return;
+    }
 	if (computerRunning_)
 	{
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+            XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
 		XRCCTRL(*this, "WavFile"+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(status);
 		XRCCTRL(*this, "EjectCas"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
@@ -3845,6 +3962,8 @@ void GuiMain::enableLoadGui(bool status)
 	}
 	else
 	{
+        if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+            XRCCTRL(*this, "Tape"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
 		XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
 		XRCCTRL(*this, "Turbo"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable(true);
 		XRCCTRL(*this, "CasButton"+computerInfo[runningComputer_].gui, wxButton)->Enable(true);
@@ -3858,8 +3977,13 @@ void GuiMain::enableLoadGui(bool status)
 		if (runningComputer_ == FRED1 || runningComputer_ == FRED1_5)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
-		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
-		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
+        XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!conf[runningComputer_].realCassetteLoad_);
+        if (runningComputer_ == ELF2K)
+        {
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status&!elfConfiguration[runningComputer_].useHexModem);
+        }
+        else
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(status);
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(false);
@@ -3898,7 +4022,9 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
             XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
     }
     
-	XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+    if (runningComputer_ == ELFII || runningComputer_ == SUPERELF || runningComputer_ == ELF || runningComputer_ == ELF2K)
+        XRCCTRL(*this, "Tape"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+    XRCCTRL(*this, "CasButton"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "WavFile"+tapeNumber+computerInfo[runningComputer_].gui, wxTextCtrl)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "EjectCas"+tapeNumber+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
 	XRCCTRL(*this, "AutoCasLoad"+computerInfo[runningComputer_].gui, wxCheckBox)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
@@ -3941,7 +4067,8 @@ void GuiMain::setTapeState(int tapeState, wxString tapeNumber)
 			XRCCTRL(*this, "CasPause"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasStop"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
 		XRCCTRL(*this, "CasLoad"+computerInfo[runningComputer_].gui, wxButton)->Enable((tapeState == TAPE_STOP)&!conf[runningComputer_].realCassetteLoad_);
-		XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
+        if (!(runningComputer_ == ELF2K && elfConfiguration[runningComputer_].useHexModem))
+            XRCCTRL(*this, "CasSave"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState == TAPE_STOP);
         if (runningComputer_ == MCDS)
         {
             XRCCTRL(*this, "CasStop1"+computerInfo[runningComputer_].gui, wxButton)->Enable(tapeState != TAPE_STOP);
@@ -3996,8 +4123,8 @@ ScreenInfo GuiMain::getScreenInfo(int id)
 
 void GuiMain::setBaudChoice(int computerType)
 {
-    XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(elfConfiguration[computerType].useUart);
-    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(elfConfiguration[computerType].useUart);
+    XRCCTRL(*this, "VTBaudRText" + computerInfo[computerType].gui, wxStaticText)->Enable(elfConfiguration[computerType].useUart || elfConfiguration[computerType].useUart16450);
+    XRCCTRL(*this, "VTBaudRChoice" + computerInfo[computerType].gui, wxChoice)->Enable(elfConfiguration[computerType].useUart|| elfConfiguration[computerType].useUart16450);
 }
 
 void GuiMain::setBaud(int baudR, int baudT)

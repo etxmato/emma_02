@@ -70,7 +70,7 @@ V0-F are stored on memory locations 0FD0.
 <TD WIDTH="55">Bx..</TD>
 <TD WIDTH="40">INP</TD>
 <TD WIDTH="100">WORD</TD>
-<TD WIDTH="250">Input word (ASCII text until space / 0x20) from keyboard and store at address with high byte from 300+Vx and low byte from 380+Vx</TD>
+<TD WIDTH="250">Input word (ASCII text until space / hex 20) from keyboard and store at address with high byte from hex 300+Vx and low byte from hex 380+Vx</TD>
 </TR>
 <TR>
 <TD WIDTH="55">1aaa</TD>
@@ -124,13 +124,13 @@ V0-F are stored on memory locations 0FD0.
 <TD WIDTH="55">Dx00</TD>
 <TD WIDTH="40">PRINT</TD>
 <TD WIDTH="100">WORD</TD>
-<TD WIDTH="250">Print word (ASCII text until space / 0x20) from address with high byte from 300+Vx and low byte from 380+Vx</TD>
+<TD WIDTH="250">Print word (ASCII text until space / hex 20) from address with high byte from hex 300+Vx and low byte from hex 380+Vx</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Eaaa</TD>
 <TD WIDTH="40">PRINT</TD>
 <TD WIDTH="100">WORDS</TD>
-<TD WIDTH="250">Print words from pointers stored at address aaa, stopping at code 0xff. Words (ASCII text until space / 0x20) are stored at address with high byte from 300+pointer and low byte from 380+pointer</TD>
+<TD WIDTH="250">Print words from pointers stored at address aaa, stopping at code hex ff. Words (ASCII text until space / hex 20) are stored at address with high byte from 300+pointer and low byte from 380+pointer</TD>
 </TR>
 <TR>
 <TD WIDTH="55">00A7</TD>

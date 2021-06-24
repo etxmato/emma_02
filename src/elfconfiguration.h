@@ -137,6 +137,7 @@ public:
 	wxString vtCharRom_;
     wxString serialPort_;
     bool useUart;
+    bool useUart16450;
     int uartGroup;
 	int baudR;
 	int baudT;
@@ -149,7 +150,10 @@ public:
 	bool nvr;
 	bool useSwitch;
 	bool useHex;
-	bool useTape;
+    bool useTape;
+    bool useXmodem;
+    bool useHexModem;
+    bool usePacketSize1K;
     bool vtShow;
     bool autoKeyDef;
 

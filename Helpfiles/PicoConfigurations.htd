@@ -1,0 +1,20 @@
+<html>
+<title>Pico/Elf V2 Conifgurations</title>
+<body>
+<h2>Pico/Elf V2 Conifgurations</h2>
+<p>
+To emulate the Pico/Elf V2 first select one of the Elf tabs (Cosmac Elf, Netronics Elf II or Quest Super Elf). Next load one of the pre defined Pico/Elf V2 configuration under the menu 'File/Configuration/Load/Pico/Elf'. Following configurations are available:
+<UL>
+<LI>Diskless
+<LI>Install Elf/Os 0.3.0
+<LI>Install Elf/Os 0.3.2
+<LI>Runtime Elf/Os
+<LI>Runtime Elf/Os - UART
+<LI>STG Runtime Elf/Os
+<LI>STG Runtime Elf/Os - UART
+</UL>
+</p>
+<p>
+A basic Elf/Os ide file (pico-installation.ide) is provided in the installation package and when installed (File/Re-Install/1802 Software Files or on initial startup) will be used as default ide file (pico.ide) unless that file already exists. 
+</p>
+</body></html>

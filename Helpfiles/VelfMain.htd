@@ -11,16 +11,16 @@ The V-ELF is a combination of the COSMAC VIP and COSMAC ELF systems. With the fl
 <p>
 In ELF mode:
 <UL>
-<LI>32K of RAM is mapped to 0 - @7FFF
-<LI>32K of ROM is mapped to @8000 - @FFFF
+<LI>32K of RAM is mapped to hex 0-7FFF
+<LI>32K of ROM is mapped to hex 8000-FFFF
 </UL>
 The system doesn't do much on it's own and requires you to enter a program via the input switches or execute what ever program has been put/left in RAM from the VIP Monitor or VELF Bios ROM.
 </p>
 <p>
 In VIP mode:
 <UL>
-<LI>32K of RAM is mapped out until A15 goes high (a Long Branch to @8200 does this)
-<LI>32K of ROM is mapped to both 0 - @7FFF and @8000 - @FFFF
+<LI>32K of RAM is mapped out until A15 goes high (a Long Branch to hex 8200 does this)
+<LI>32K of ROM is mapped to both hex 0-7FFF and hex 8000-FFFF
 </UL>
 </p>
 <p>

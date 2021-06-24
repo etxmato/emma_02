@@ -449,6 +449,7 @@ void Ide::onCommand()
 				readId();
 				bufferPosition_ = 0;
 				status_ |= IDE_STAT_DRQ;
+                status_ &= (~IDE_STAT_BSY);
 			break;
 
 			case IDE_CMD_READ:
@@ -456,14 +457,14 @@ void Ide::onCommand()
 				readSector();
 				bufferPosition_ = 0;
 				status_ |= IDE_STAT_DRQ;
+                status_ &= (~IDE_STAT_BSY);
 			break;
 
 			case IDE_CMD_READ_1:
 				if (bufferPosition_ >= 512) 
 				{
-						status_ &= (~IDE_STAT_BSY);
-						status_ &= (~IDE_STAT_DRQ);
-						command_ = 0;
+                    status_ &= (~IDE_STAT_DRQ);
+                    command_ = 0;
 				}
 			break;
 
@@ -471,15 +472,15 @@ void Ide::onCommand()
 				command_ = IDE_CMD_WRITE_1;
 				bufferPosition_ = 0;
 				status_ |= IDE_STAT_DRQ;
+                status_ &= (~IDE_STAT_BSY);
 			break;
 
 			case IDE_CMD_WRITE_1:
 				if (bufferPosition_ >= 512) 
 				{
-						error_ = 0;
-						writeSector();
-						status_ &= (~IDE_STAT_BSY);
-						command_ = 0;
+                    error_ = 0;
+                    writeSector();
+                    command_ = 0;
 				}
 			break;
 

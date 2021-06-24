@@ -28,6 +28,8 @@
 
 #include "main.h"
 
+const int freq [16] = {0, 256, 128, 8192, 4096, 2048, 1024, 512, 256, 128, 64, 32, 16, 8, 4, 2};
+
 MainElf::MainElf()
 {
     p_Main->stopTerminal();
@@ -181,6 +183,55 @@ void MainElf::checkComputerFunction()
                 activateElfOsChip8();
             }
 		}
+        if (scratchpadRegister_[programCounter_] == 0x20bd)
+        { // xr (Pico Elf)
+            if ((mainMemory_[0x380] == 0x78) && (mainMemory_[0x381] == 0x72) && (mainMemory_[0x382] == 0) && (mainMemory_[0x234b]== 0x3d))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2093)
+        { // xrb (Pico Elf)
+            if ((mainMemory_[0x380] == 0x78) && (mainMemory_[0x381] == 0x72) && (mainMemory_[0x382] == 'b') && (mainMemory_[0x383]== 0))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x207E)
+        { // yr (Pico Elf)
+            if ((mainMemory_[0x380] == 0x79) && (mainMemory_[0x381] == 0x72) && (mainMemory_[0x382] == 0) && (mainMemory_[0x2681]== 0x35))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        } // Memory load diskless ROM (Pico Elf)
+        if (scratchpadRegister_[programCounter_] == 0x844b)
+        {
+            if ((mainMemory_[0x8700] == 0x8c) && (mainMemory_[0x8701] == 0x73) && (mainMemory_[0x874b] == 0x3d) && (mainMemory_[0x874c]== 0x4b))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x20da)
+        { // xs (Pico Elf)
+            if ((mainMemory_[0x380] == 0x78) && (mainMemory_[0x381] == 0x73) && (mainMemory_[0x382] == 0) && (mainMemory_[0x234d]== 0x3d))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2079)
+        { // xsb (Pico Elf)
+            if ((mainMemory_[0x380] == 0x78) && (mainMemory_[0x381] == 0x73) && (mainMemory_[0x382] == 'b') && (mainMemory_[0x383]== 0))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x8800)
+        { // Memory dump diskless ROM (Pico Elf)
+            if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        }
 	}
 
 	switch (loadedProgram_)
@@ -462,21 +513,21 @@ void MainElf::checkComputerFunction()
 			switch (scratchpadRegister_[programCounter_])
 			{
 				case 0xf4e:		// LOAD L
-					p_Main->startAutoTerminalLoad(false);
+					p_Main->startAutoTerminalLoad(TERM_HEX);
 				break;
 
                 case 0x1300:	// LOAD I
-                    p_Main->startAutoTerminalLoad(false);
+                    p_Main->startAutoTerminalLoad(TERM_HEX);
                 break;
                     
                 case 0x102D:	// SAVE S
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
                 break;
                     
                 case 0x11EA:	// SAVE C
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
                 break;
 
                 case 0x10C5:	// STOP SAVE S & C
@@ -490,21 +541,21 @@ void MainElf::checkComputerFunction()
 			switch (scratchpadRegister_[programCounter_])
 			{
 				case 0x8f4e:	// LOAD L
-					p_Main->startAutoTerminalLoad(false);
+					p_Main->startAutoTerminalLoad(TERM_HEX);
 				break;
 
                 case 0x9300:	// LOAD I
-                    p_Main->startAutoTerminalLoad(false);
+                    p_Main->startAutoTerminalLoad(TERM_HEX);
                 break;
                     
 				case 0x902D:	// SAVE S
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
 				break;
 
                 case 0x91EA:	// SAVE C
                     if (scratchpadRegister_[7]==0x2fd)
-                        p_Main->startAutoTerminalSave();
+                        p_Main->startAutoTerminalSave(TERM_HEX);
                 break;
                     
 				case 0x90C5:	// STOP SAVE S & C
@@ -566,5 +617,104 @@ bool MainElf::isComputerRunning()
 		return true;
 	else
 		return false;
+}
+
+void MainElf::terminalSave(wxString fileName, int protocol)
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalSaveVt(fileName, protocol);
+}
+
+void MainElf::terminalLoad(wxString filePath, wxString fileName, int protocol)
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalLoadVt(filePath, protocol);
+}
+
+void MainElf::terminalStop()
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalStopVt();
+}
+
+void MainElf::setDivider(Byte value)
+{
+    if (value == 0)
+        cycleSize_ = -1;
+    else
+        cycleSize_ = (int) (((elfClockSpeed_ * 1000000) / 8) / freq [value]);
+    cycleValue_ = cycleSize_;
+}
+
+void MainElf::dataAvailableVt100(bool data, int WXUNUSED(uartNumber))
+{
+    dataAvailableUart(data);
+}
+
+void MainElf::dataAvailableSerial(bool data)
+{
+    dataAvailableUart(data);
+}
+
+void MainElf::thrStatus(bool data)
+{
+    thrStatusUart(data);
+}
+
+void MainElf::saveRtc()
+{
+    ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(computerType_);
+    if (!currentElfConfig.useUart16450)
+        return;
+
+    Byte value;
+    wxFile outputFile;
+
+    wxString fileName = p_Main->getMainDir()+"rtcdump.bin";
+
+    if (wxFile::Exists(fileName))
+        outputFile.Open(fileName, wxFile::write);
+    else
+        outputFile.Create(fileName);
+    for (int address = 0; address < 128; address++)
+    {
+        value = rtcRam_[address];
+        outputFile.Write(&value, 1);
+    }
+    outputFile.Close();
+}
+
+void MainElf::loadRtc()
+{
+    ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(computerType_);
+    if (currentElfConfig.clearRtc)
+    {
+        for (int i = 0; i<128; i++)
+            rtcRam_[i] = 0xff;
+        rtcRam_[0xa] = 0x20;
+        rtcRam_[0xb] = 0x6;
+        rtcRam_[0xc] = 0;
+        rtcRam_[0xd] = 0x80;
+        currentElfConfig.clearRtc = false;
+        p_Main->setElfConfiguration(currentElfConfig);
+        return;
+    }
+    if (!currentElfConfig.useUart16450)
+        return;
+
+    wxFFile inFile;
+    size_t length;
+    char buffer[128];
+
+    if (wxFile::Exists(p_Main->getMainDir()+"rtcdump.bin"))
+    {
+        if (inFile.Open(p_Main->getMainDir()+"rtcdump.bin", _("rb")))
+        {
+            length = inFile.Read(buffer, 128);
+            for (size_t i=0; i<length; i++)
+                rtcRam_[i] = (Byte)buffer[i];
+            inFile.Close();
+        }
+    }
 }
 

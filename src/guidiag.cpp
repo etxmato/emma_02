@@ -107,7 +107,7 @@ void DiagDialog::DiagPalButton(int number, wxString textMessage)
                                "",
                                wxString::Format
                               (
-                                    "Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+                                    "Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
                                     wxFileSelectorDefaultWildcardStr,
                                     wxFileSelectorDefaultWildcardStr
                                ),
@@ -134,7 +134,7 @@ void DiagDialog::DiagNtscButton(int number, wxString textMessage)
 		"",
 		wxString::Format
 		(
-			"Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
+			"Binary & Hex|*.bin;*.rom;*.ram;*.cos;*.hex|Binary File|*.bin;*.rom;*.ram;*.cos|Intel Hex File|*.hex|All files (%s)|%s",
 			wxFileSelectorDefaultWildcardStr,
 			wxFileSelectorDefaultWildcardStr
 			),

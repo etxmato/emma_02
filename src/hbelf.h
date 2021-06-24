@@ -112,6 +112,7 @@ public:
     void onNumberKeyDown(int i);
     void onNumberKeyUp();
     void refreshPanel();
+    void OnRtcTimer(wxTimerEvent& event);
 
 private:
 	class ElfScreen *elfScreenPointer;
@@ -153,8 +154,6 @@ private:
     
 	int keyDefGameHexA_[5];
 	int keyDefGameHexB_[5];
-
-	double elfClockSpeed_;
 
 	DECLARE_EVENT_TABLE()
 };

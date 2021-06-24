@@ -122,6 +122,7 @@ public:
 	void activateMainWindow();
 	void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void refreshPanel();
+    void OnRtcTimer(wxTimerEvent& event);
 
 private:
 	class SuperScreen *superScreenPointer;

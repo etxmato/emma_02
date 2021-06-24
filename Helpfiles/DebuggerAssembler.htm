@@ -156,7 +156,7 @@ For example:
 <br>(Program) end: 81FF
 </p>
 <p>
-This will define a code area of 8000 to 80FF and a data area between 8100 to 81FF. After this configuration is defined a 'Save' will store a binary file 'test.bin' of memory locations 8000 to 81FF as well as save 'type' information a file test.debug. When 'Save' is pressed a configuration file name is also requested which will save all configuration data like program name, directory, code start etc. 
+This will define a code area of hex 8000-80FF and a data area between hex 8100-81FF. After this configuration is defined a 'Save' will store a binary file 'test.bin' of memory locations hex 8000-81FF as well as save 'type' information a file test.debug. When 'Save' is pressed a configuration file name is also requested which will save all configuration data like program name, directory, code start etc. 
 </p>
 <p>
 It is recommended to keep all data either at the start of the code area; or after in the data area between 'Code end' and '(Program) end'. Data can also be used mixed in with code as long as the 'LVL' macro is used to load the data address (see also chapter 'LDL, LDV and RLDL instructions'). If no data is needed in the pure data area 'Code end' and '(Program) end' can be equal.
@@ -187,7 +187,7 @@ Bits 0 and 5 to 7 are only used in combination with the SB FW.
 The Elf EMS Page is the page number 0 to 1F.
 </p>
 <p>
-Note that any configuration range in a COMX Slot should always be between C000 and DFFF and the ELf Page between 8000 and BFFF.
+Note that any configuration range in a COMX Slot should always be between hex C000 and hex DFFF and the ELf Page between hex 8000 and hex BFFF.
 </p>
 <h4>Program configuration Number</h4>
 <p>
@@ -208,7 +208,7 @@ Insert and Delete functions can be used after defining a program configuration. 
 Pressing the 'Insert' button will insert one 'NOP', i.e instruction C4 when used on an address with code, otherwise a '0' will be inserted. 
 </p>
 <p>
-The insert feature will check all code and data areas (defined in program configurations) for branches, branch data (see chapter 'Branch location') and LDL/RLDL instructions (see chapter 'LDL, LDV and RLDL instructions). All branches found that need to 'change' due to the insert instruction will be corrected. e.g. if an insert is done on 8002 in the code below:
+The insert feature will check all code and data areas (defined in program configurations) for branches, branch data (see chapter 'Branch location') and LDL/RLDL instructions (see chapter 'LDL, LDV and RLDL instructions). All branches found that need to 'change' due to the insert instruction will be corrected. e.g. if an insert is done on hex 8002 in the code below:
 <pre>
 8000: BR <FONT COLOR="FOREST GREEN">03</FONT>
 8002: NOP
@@ -221,10 +221,10 @@ it will change to:
 8003: NOP
 8004: LDI 10
 </pre>
-if however the insert is done on or after address 8003 the BR 03 will stay the same. 
+if however the insert is done on or after address hex 8003 the BR 03 will stay the same. 
 </p>
 <p>
-If any short branch can NOT be changed due to the insert it will be changed to a long branch, e.g. if an insert is done on 8002 in the code below:
+If any short branch can NOT be changed due to the insert it will be changed to a long branch, e.g. if an insert is done on hex 8002 in the code below:
 <pre>
 8000: BR <FONT COLOR="FOREST GREEN">FF</FONT>
 8002: NOP
@@ -237,7 +237,7 @@ it will change to:
 8004: NOP
 8005: LDI 10
 </pre>
-Note that the branch has changed to 8101 and NOT 8100 as an extra byte had to be inserted to fit the 3 byte long LBR instruction.
+Note that the branch has changed to hex 8101 and NOT hex 8100 as an extra byte had to be inserted to fit the 3 byte long LBR instruction.
 </p>
 <p>
 Not all short branches have equivalent long branch instructions (i.e. B1, B2 etc). If any of these branches cause a possible problem they will be listed in the 'message' area (just below the 'Command line input') as 'Check: address'.
@@ -247,7 +247,7 @@ Not all short branches have equivalent long branch instructions (i.e. B1, B2 etc
 Pressing the 'Delete' button will delete the current instruction or byte, one or more '0's will be stored just before the code or program end. 
 </p>
 <p>
-The delete feature will check all code and data areas (defined in program configurations) for branches, branch data (see chapter 'Branch location') and LDL/RLDL instructions (see chapter 'LDL, LDV and RLDL instructions). All branches found that need to 'change' due to the delete instruction will be corrected. e.g. if a delete is done on 8002 in the code below:
+The delete feature will check all code and data areas (defined in program configurations) for branches, branch data (see chapter 'Branch location') and LDL/RLDL instructions (see chapter 'LDL, LDV and RLDL instructions). All branches found that need to 'change' due to the delete instruction will be corrected. e.g. if a delete is done on hex 8002 in the code below:
 <pre>
 8000: BR <FONT COLOR="FOREST GREEN">04</FONT>
 8002: NOP
@@ -260,7 +260,7 @@ it will change to:
 8002: NOP
 8003: LDI 10
 </pre>
-If any long branch can be changed to a short branch due to the delete it will be changed automatically, e.g. if a delete is done on 8003 in the code below:
+If any long branch can be changed to a short branch due to the delete it will be changed automatically, e.g. if a delete is done on hex 8003 in the code below:
 <pre>
 8000: LBR <FONT COLOR="FOREST GREEN">8100</FONT>
 8003: NOP
@@ -324,7 +324,7 @@ If ST4 code is used within the program configuration that code will also be corr
 </UL>
 </p>
 <p>
-Note that if a CALL will change to an addres outside 600-8FF or 1000-11FF address ranges, the command itself will change as the pseudo code will change to 65kk, 69kk, 0Fkk or 12kk. LD I instructions will change within a range of 0FFF, so LI I, 0aaa will not change outside 0aaa range.
+Note that if a CALL will change to an addres outside hex 600-8FF or hex 1000-11FF address ranges, the command itself will change as the pseudo code will change to 65kk, 69kk, 0Fkk or 12kk. LD I instructions will change within a range of hex 0FFF, so LI I, 0aaa will not change outside 0aaa range.
 </p>
 <h4>Coin Bowling, FEL - Insert and Delete</h4>
 <p>
@@ -383,15 +383,15 @@ If Scramble or Swords code is used within the program configuration that code wi
 To copy data or code first specify start and end address in the fields just next to the 'Dis' button. Then fill in the destination after the 'To:' text. Press the 'Copy' button to execute the copy. 
 </p>
 <p>
-If code is copied to the same lower 8 bit start address also all long branches, LDL/RLDL instructions (see chapter 'LDL, LDV and RLDL instructions'), branch data (see chapter 'Branch data'), Chip 8 long branches and ST2 long branches (as listed in 'Chip and ST2 - Insert and Delete' chapters) will be converted. I.e if 8000 contains:
+If code is copied to the same lower 8 bit start address also all long branches, LDL/RLDL instructions (see chapter 'LDL, LDV and RLDL instructions'), branch data (see chapter 'Branch data'), Chip 8 long branches and ST2 long branches (as listed in 'Chip and ST2 - Insert and Delete' chapters) will be converted. I.e if hex 8000 contains:
 <pre>
 8000: LBR <FONT COLOR="FOREST GREEN">8010</FONT>
 </pre>
-A copy 8000-8100 To: 8200; will result in code at 8200 of:
+A copy 8000-8100 To: 8200; will result in code at hex 8200 of:
 <pre>
 8200: LBR <FONT COLOR="FOREST GREEN">8210</FONT>
 </pre>
-In the above also the fact that 8000 contains an 1802 instruction will be copied to 8200 showing 1802 code at 8200 as well. A copy 8000-8100 To: 8210; will however result in code at 8210 of:
+In the above also the fact that hex 8000 contains an 1802 instruction will be copied to hex 8200 showing 1802 code at hex 8200 as well. A copy 8000-8100 To: 8210; will however result in code at hex 8210 of:
 <pre>
 8210: <FONT COLOR="BLUE">C0 80 10</FONT>, i.e. just data bytes
 </pre>
@@ -401,7 +401,7 @@ In the above also the fact that 8000 contains an 1802 instruction will be copied
 Some code will need branch tables or use 2 bytes to identify an address location. As an example COMX BASIC uses R4/R5 for subroutine handling. Where SEP R4 is a subroutine call to the address specified in the 2 bytes following. SEP R5 is used as subroutine return. For these cases the 'branch data' bytes can be defined in the Direct assembler by typing ':address' or marking the data bytes as 'Branch' via the procedure described in chapter 'Marking specific types'. By doing this also the branch data will be corrected when using insert, delete or copy commands. All 'Branch data' will be shown in <FONT COLOR="FOREST GREEN">green</FONT> text.
 </p>
 <p>
-For example doing an insert on address 8000 in the following example:
+For example doing an insert on address hex 8000 in the following example:
 <pre>
 8000: NOP
 8001: LDI 10

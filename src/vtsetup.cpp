@@ -38,6 +38,8 @@ BEGIN_EVENT_TABLE(VtSetupDialog, wxDialog)
     EVT_TEXT(XRCID("VtSetupCharRom"), VtSetupDialog::onVtCharRomText)
     EVT_COMBOBOX(XRCID("VtSetupCharRom"), VtSetupDialog::onVtCharRomText)
     EVT_BUTTON(XRCID("VtSetupCharRomButton"), VtSetupDialog::onVtCharRom)
+    EVT_CHECKBOX(XRCID("Uart1854"), VtSetupDialog::onUart1854)
+    EVT_CHECKBOX(XRCID("Uart16450"), VtSetupDialog::onUart16450)
 
 END_EVENT_TABLE()
 
@@ -129,8 +131,9 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-            XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart CDP1854");
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->SetValue(elfConfiguration_.clearRtc);
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
 		break;
@@ -140,29 +143,37 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         case MICROBOARD:
             XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-            XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
         break;
             
 		case MS2000:
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
-			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
 		break;
 
 		case ELF2K:
-            XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-			XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart 16450");
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart);
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetLabel("Uart 16450");
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
 			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
 		break;
 
         case VIP:
         case VIP2K:
-            XRCCTRL(*this, "Uart", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart", wxCheckBox)->SetLabel("Uart");
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetLabel("Uart");
             XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
             XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
             XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
         break;
             
 		case COSMICOS:
@@ -170,7 +181,9 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         case VELF:
 			XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
 			XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
-			XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
 		break;
 	}
 
@@ -184,6 +197,15 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(false);
 	}
 
+    if (elfConfiguration_.useXmodem)
+    {
+        XRCCTRL(*this, "XmodemLine", wxStaticLine)->Show();
+        XRCCTRL(*this, "VtXmodemPacketSizeText", wxStaticText)->Show();
+        XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->Show();
+        if (elfConfiguration_.usePacketSize1K)
+            XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->SetSelection(1);
+    }
+    
 	wxString box;
 	for (int i=0; i<17; i++)
 	{
@@ -240,12 +262,20 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
     elfConfiguration_.serialLog = XRCCTRL(*this, "SerialLog", wxCheckBox)->GetValue();
     elfConfiguration_.escError = XRCCTRL(*this, "ESCError", wxCheckBox)->GetValue();
 
+    if (elfConfiguration_.useXmodem)
+    {
+        elfConfiguration_.usePacketSize1K = (XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->GetSelection() == 1);
+    }
+
+    elfConfiguration_.useUart16450 = false;
 	switch (computerType_)
 	{
 		case ELF:
 		case ELFII:
 		case SUPERELF:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
+            elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
+            elfConfiguration_.useUart16450 = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
+            elfConfiguration_.clearRtc = XRCCTRL(*this, "VtRtcClear", wxCheckBox)->GetValue();
         break;
 
         case CDP18S020:
@@ -261,7 +291,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 		break;
 
 		case ELF2K:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
+            elfConfiguration_.useUart = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
             
             if (originalUartValue_ != elfConfiguration_.useUart)
             {
@@ -271,7 +301,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 		break;
 
         case VIP:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
+            elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
             
             if (originalUartValue_ != elfConfiguration_.useUart)
             {
@@ -283,7 +313,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
         break;
 
         case VIP2K:
-            elfConfiguration_.useUart = XRCCTRL(*this, "Uart", wxCheckBox)->GetValue();
+            elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
             
             if (originalUartValue_ != elfConfiguration_.useUart)
             {
@@ -432,3 +462,14 @@ void VtSetupDialog::listPorts()
         XRCCTRL(*this, "VtSerialPortChoice", wxChoice)->SetSelection(selection);
 }
 
+void VtSetupDialog::onUart1854(wxCommandEvent&event)
+{
+    if (event.IsChecked())
+        XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(false);
+}
+
+void VtSetupDialog::onUart16450(wxCommandEvent&event)
+{
+    if (event.IsChecked())
+        XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(false);
+}

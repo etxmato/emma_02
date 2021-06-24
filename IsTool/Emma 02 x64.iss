@@ -3,13 +3,13 @@
 
 [Setup]
 AppName=Emma 02
-AppVerName=Emma 02 - V1.38.05
-AppVersion=1.38.05
+AppVerName=Emma 02 - V1.40
+AppVersion=1.40
 AppPublisher=Marcel van Tongeren
 DefaultDirName={pf}\Emma 02
 DefaultGroupName=Emma 02
 OutputDir=x64
-OutputBaseFilename=Emma_02_x64_setup_v1.38.5
+OutputBaseFilename=Emma_02_x64_setup_v1.40
 Compression=lzma
 SolidCompression=true
 SetupIconFile=..\images\app.ico
@@ -149,6 +149,7 @@ Source: ..\data\Comx\Usb FW Development\sb*.bin; DestDir: {app}\data\Comx\Usb FW
 Source: ..\data\Comx\Usb FW Development\*.debug; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Comx\Usb FW\sb.config; DestDir: {app}\data\Comx\Usb FW; Components: MAIN
 Source: ..\data\Cosmicos\*.*; DestDir: {app}\data\Cosmicos; Components: MAIN
+Source: ..\data\Elf\*.*; DestDir: {app}\data\Elf; Components: MAIN
 Source: ..\data\Elf\Biosio\*.*; DestDir: {app}\data\Elf\Biosio; Components: MAIN
 Source: ..\data\Elf\biosioPS2\*.*; DestDir: {app}\data\Elf\BiosioPS2; Components: MAIN
 Source: ..\data\Elf\elf-emulation.com\*.*; DestDir: {app}\data\Elf\elf-emulation.com; Components: MAIN
@@ -161,6 +162,7 @@ Source: ..\data\Elf\Fig Forth 1802\*.*; DestDir: {app}\data\Elf\Fig Forth 1802; 
 Source: ..\data\Elf\Games\*.*; DestDir: {app}\data\Elf\Games; Components: MAIN
 Source: ..\data\Elf\Music\*.*; DestDir: {app}\data\Elf\Music; Components: MAIN
 Source: ..\data\Elf\Netronics Tiny Basic\*.*; DestDir: {app}\data\Elf\Netronics Tiny Basic; Components: MAIN
+Source: ..\data\Elf\Pico Elf\*.*; DestDir: {app}\data\Elf\Pico Elf; Components: MAIN
 Source: ..\data\Elf\QuestData\*.*; DestDir: {app}\data\Elf\QuestData; Components: MAIN
 Source: ..\data\Elf\SuperBasic\*.*; DestDir: {app}\data\Elf\SuperBasic; Components: MAIN
 Source: ..\data\Elf\TinyBasic\*.*; DestDir: {app}\data\Elf\TinyBasic; Components: MAIN

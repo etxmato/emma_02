@@ -1648,7 +1648,7 @@ void Computer::printOutPecom(int WXUNUSED(q))
 	p_Main->message("Illegal call to send Q bit to PECOM printer");
 }
 
-void Computer::setElf2KDivider(Byte WXUNUSED(value))
+void Computer::setDivider(Byte WXUNUSED(value))
 {
 	p_Main->message("Illegal call to set Elf 2000 divider value");
 }
@@ -2263,11 +2263,11 @@ void Computer::releaseButtonOnScreen2(HexButton* WXUNUSED(buttonPointer), int WX
 {
 }
 
-void Computer::terminalSave(wxString WXUNUSED(fileName))
+void Computer::terminalSave(wxString WXUNUSED(fileName), int WXUNUSED(protocol))
 {
 }
 
-void Computer::terminalLoad(wxString WXUNUSED(fileName), wxString WXUNUSED(fileName), bool WXUNUSED(binaryFile))
+void Computer::terminalLoad(wxString WXUNUSED(fileName), wxString WXUNUSED(fileName), int WXUNUSED(protocol))
 {
 }
 

@@ -66,7 +66,8 @@ private:
 
 	Byte uartControl_;
 	bitset<8> uartStatus_;
-	bool uart_;
+    bool uart_;
+    bool uart16450_;
     bool serialOpen_;
 
 	bitset<32> SetUpFeature_;

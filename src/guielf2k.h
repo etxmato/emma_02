@@ -31,8 +31,11 @@ public:
 	void onElf2KClock(wxCommandEvent& event);
 	void onBootRam(wxCommandEvent& event);
 	void onClearRtc(wxCommandEvent& event);
+    void onTape(wxCommandEvent& event);
 
-	void setElf2KKeyboard(int Selection);
+    void setTape();
+
+    void setElf2KKeyboard(int Selection);
 	void setElf2KVideoType(int Selection);
 
 	wxPoint getElf2KswitchPos();

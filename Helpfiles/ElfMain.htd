@@ -21,6 +21,7 @@ This chapter includes:
 <a href="ElfPorts.htm">Device Ports</a><br>
 <a href="ElfPrinter.htm">Printer Support</a><br>
 <a href="ElfCassette.htm">Cassette Support</a><br>
+<a href="ElfXmodem.htm">XMODEM Support</a><br>
 <a href="ElfSuperBasic.htm">Quest Super Basic</a><br>
 <a href="ElfRcaBasic.htm">RCA Basic</a><br>
 <a href="ElfGiant.htm">Giant Board</a><br>

@@ -951,7 +951,7 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                             <border>3</border>
                                                             <object class="wxSlider" name="VolumeComx">
                                                                 <size>100,24</size>
@@ -967,8 +967,8 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                            <border>0</border>
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                            <border>3</border>
                                                             <object class="wxStaticBitmap" name="VuComx">
                                                                 <size>100,10</size>
                                                                 <style>wxSTATIC_BORDER</style>
@@ -1565,8 +1565,9 @@
                                                                                 <item></item>
                                                                                 <item>v87a.bin</item>
                                                                                 <item>v88b.bin</item>
+                                                                                <item>Elf2Kv110.bin</item>
                                                                             </content>
-                                                                            <selection>2</selection>
+                                                                            <selection>3</selection>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -1735,15 +1736,162 @@
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL</flag>
                                                                         <border>3</border>
-                                                                        <object class="wxButton" name="DP_ButtonElf2K">
-                                                                            <tooltip>Open device ports definition window</tooltip>
+                                                                        <object class="wxButton" name="CasButtonElf2K">
+                                                                            <tooltip>Browse for XMODEM file</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>DevicePorts</label>
+                                                                            <label>XMODEM</label>
                                                                         </object>
                                                                     </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxGROW|wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                                <border>3</border>
+                                                                                <object class="wxBitmapButton" name="TapeElf2K">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Toggle: XMODEM - HEX</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <option>20</option>
+                                                                                <object class="wxTextCtrl" name="WavFileElf2K">
+                                                                                    <size>120,-1</size>
+                                                                                    <tooltip>Specify XMODEM file</tooltip>
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBitmapButton" name="EjectCasElf2K">
+                                                                                    <size>26,27</size>
+                                                                                    <tooltip>Eject XMODEM file</tooltip>
+                                                                                    <bitmap>images_osx/eject.png</bitmap>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxHORIZONTAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxCheckBox" name="AutoCasLoadElf2K">
+                                                                            <tooltip>Enable auto mode for XMODEM file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Auto</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxCheckBox" name="TurboElf2K">
+                                                                            <tooltip>Enable turbo mode for XMODEM file</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Turbo:</label>
+                                                                            <checked>1</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>4</border>
+                                                                        <object class="wxTextCtrl" name="TurboClockElf2K" subclass="IntEdit">
+                                                                            <size>35,-1</size>
+                                                                            <tooltip>Specify turbo clock speed in MHz</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxLEFT</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxStaticText" name="TurboMhzTextElf2K">
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>MHz</label>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasSaveElf2K">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Start save to XMODEM file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/rec_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasLoadElf2K">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Start load from XMODEM file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/play_black.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBitmapButton" name="CasStopElf2K">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Stop XMODEM file</tooltip>
+                                                                            <enabled>0</enabled>
+                                                                            <bitmap>images_osx/stop.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBitmapButton" name="RealCasLoadElf2K">
+                                                                            <size>26,27</size>
+                                                                            <tooltip>Disable / Enable real cassette loading</tooltip>
+                                                                            <style>wxBU_AUTODRAW</style>
+                                                                            <hidden>1</hidden>
+                                                                            <bitmap>images_osx/real_cas_off.png</bitmap>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_LEFT</flag>
+                                                                <border>3</border>
+                                                                <object class="wxButton" name="DP_ButtonElf2K">
+                                                                    <tooltip>Open device ports definition window</tooltip>
+                                                                    <font>
+                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                        <size>-1</size>
+                                                                    </font>
+                                                                    <label>DevicePorts</label>
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
@@ -1937,74 +2085,6 @@
                                                                 <flag>wxALIGN_CENTER_HORIZONTAL</flag>
                                                                 <border>5</border>
                                                                 <size>258,0</size>
-                                                            </object>
-                                                            <object class="sizeritem">
-                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
-                                                                <border>2</border>
-                                                                <object class="wxStaticBoxSizer" name="wxID_ANY">
-                                                                    <orient>wxVERTICAL</orient>
-                                                                    <label>Control Windows</label>
-                                                                    <object class="sizeritem">
-                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
-                                                                        <border>0</border>
-                                                                        <object class="wxBoxSizer">
-                                                                            <orient>wxHORIZONTAL</orient>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
-                                                                                <border>5</border>
-                                                                                <object class="wxBoxSizer">
-                                                                                    <orient>wxVERTICAL</orient>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_LEFT|wxALL</flag>
-                                                                                        <border>0</border>
-                                                                                        <object class="wxCheckBox" name="Elf2KControlWindows">
-                                                                                            <tooltip>Show Elf 2000 main board window</tooltip>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <label>Main board</label>
-                                                                                            <checked>0</checked>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                </object>
-                                                                            </object>
-                                                                            <object class="sizeritem">
-                                                                                <flag>wxALIGN_TOP|wxALL</flag>
-                                                                                <border>0</border>
-                                                                                <object class="wxBoxSizer">
-                                                                                    <orient>wxVERTICAL</orient>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
-                                                                                        <border>5</border>
-                                                                                        <object class="wxCheckBox" name="Elf2KSwitch">
-                                                                                            <tooltip>Show Elf 2000 switch panel</tooltip>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <label>Switch Panel</label>
-                                                                                            <checked>0</checked>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                    <object class="sizeritem">
-                                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
-                                                                                        <border>5</border>
-                                                                                        <object class="wxCheckBox" name="Elf2KHex">
-                                                                                            <tooltip>Show Elf 2000 hex panel</tooltip>
-                                                                                            <font>
-                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
-                                                                                                <size>-1</size>
-                                                                                            </font>
-                                                                                            <label>Hex Panel</label>
-                                                                                            <checked>0</checked>
-                                                                                        </object>
-                                                                                    </object>
-                                                                                </object>
-                                                                            </object>
-                                                                        </object>
-                                                                    </object>
-                                                                </object>
                                                             </object>
                                                         </object>
                                                     </object>
@@ -2477,6 +2557,74 @@
                                                                 <flag>wxALIGN_CENTER_HORIZONTAL</flag>
                                                                 <border>5</border>
                                                                 <size>258,0</size>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxGROW|wxTOP|wxBOTTOM</flag>
+                                                                <border>2</border>
+                                                                <object class="wxStaticBoxSizer" name="wxID_ANY">
+                                                                    <orient>wxVERTICAL</orient>
+                                                                    <label>Control Windows</label>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+                                                                        <border>0</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_TOP|wxLEFT|wxRIGHT</flag>
+                                                                                <border>5</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxVERTICAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_LEFT|wxALL</flag>
+                                                                                        <border>0</border>
+                                                                                        <object class="wxCheckBox" name="Elf2KControlWindows">
+                                                                                            <tooltip>Show Elf 2000 main board window</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <label>Main board</label>
+                                                                                            <checked>0</checked>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_TOP|wxALL</flag>
+                                                                                <border>0</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxVERTICAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+                                                                                        <border>5</border>
+                                                                                        <object class="wxCheckBox" name="Elf2KSwitch">
+                                                                                            <tooltip>Show Elf 2000 switch panel</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <label>Switch Panel</label>
+                                                                                            <checked>0</checked>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+                                                                                        <border>5</border>
+                                                                                        <object class="wxCheckBox" name="Elf2KHex">
+                                                                                            <tooltip>Show Elf 2000 hex panel</tooltip>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <label>Hex Panel</label>
+                                                                                            <checked>0</checked>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
                                                             </object>
                                                         </object>
                                                     </object>
@@ -3073,8 +3221,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeCosmicos">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -3085,8 +3233,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuCosmicos">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -3809,7 +3957,8 @@
                                                                                 <border>3</border>
                                                                                 <object class="wxBitmapButton" name="TapeElf">
                                                                                     <size>26,27</size>
-                                                                                    <bitmap>images_osx/tick.png</bitmap>
+                                                                                    <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -4443,7 +4592,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>3</border>
                                                                         <object class="wxSlider" name="VolumeElf">
                                                                             <size>100,24</size>
@@ -4455,8 +4604,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuElf">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -4869,14 +5018,14 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>3</border>
-                                                                        <object class="wxCheckBox" name="UseLedModule">
-                                                                            <tooltip>Enable LED module</tooltip>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="BootStrapElf">
+                                                                            <tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Led</label>
+                                                                            <label>Bootstrap</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -4888,8 +5037,8 @@
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="HexEfElf">
                                                                             <tooltip>Enable EF Hex keyboard</tooltip>
                                                                             <font>
@@ -4897,6 +5046,19 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <label>EF Hex Key</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="UseLedModule">
+                                                                            <tooltip>Enable LED module</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Led</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -5306,7 +5468,8 @@
                                                                                 <border>3</border>
                                                                                 <object class="wxBitmapButton" name="TapeElfII">
                                                                                     <size>26,27</size>
-                                                                                    <bitmap>images_osx/tick.png</bitmap>
+                                                                                    <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -5940,7 +6103,7 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>3</border>
                                                                         <object class="wxSlider" name="VolumeElfII">
                                                                             <size>100,24</size>
@@ -5952,8 +6115,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuElfII">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -6340,7 +6503,7 @@
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="PortExtElfII">
                                                                             <tooltip>Enable extended ports support</tooltip>
                                                                             <font>
@@ -6353,7 +6516,7 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="UpperCaseElfII">
                                                                             <tooltip>Force keyboard in uppercase</tooltip>
                                                                             <font>
@@ -6366,14 +6529,14 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
-                                                                        <object class="wxCheckBox" name="GiantElfII">
-                                                                            <tooltip>Enable Giant Board ROM mapping</tooltip>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="BootStrapElfII">
+                                                                            <tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Giant</label>
+                                                                            <label>Bootstrap</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -6386,7 +6549,7 @@
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="HexEfElfII">
                                                                             <tooltip>Enable EF Hex keyboard</tooltip>
                                                                             <font>
@@ -6399,7 +6562,7 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>2</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="EFButtonsElfII">
                                                                             <tooltip>Enable EF3/EF push buttons</tooltip>
                                                                             <font>
@@ -6407,6 +6570,19 @@
                                                                                 <size>-1</size>
                                                                             </font>
                                                                             <label>EF Buttons</label>
+                                                                            <checked>0</checked>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxCheckBox" name="GiantElfII">
+                                                                            <tooltip>Enable Giant Board ROM mapping</tooltip>
+                                                                            <font>
+                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                <size>-1</size>
+                                                                            </font>
+                                                                            <label>Giant</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -6809,7 +6985,8 @@
                                                                                 <border>3</border>
                                                                                 <object class="wxBitmapButton" name="TapeSuperElf">
                                                                                     <size>26,27</size>
-                                                                                    <bitmap>images_osx/tick.png</bitmap>
+                                                                                    <tooltip>Toggle: Casette - XMODEM - Off</tooltip>
+                                                                                    <bitmap>images_osx/switch.png</bitmap>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -7443,8 +7620,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>5</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeSuperElf">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -7454,8 +7631,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuSuperElf">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -7822,7 +7999,7 @@
                                                                     </object>
                                                                     <object class="sizeritem">
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
-                                                                        <border>3</border>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="InterlaceSuperElf">
                                                                             <tooltip>Enable interlace mode MC 6845 or intel 8275 video</tooltip>
                                                                             <font>
@@ -7870,7 +8047,7 @@
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
                                                                         <border>5</border>
                                                                         <object class="wxCheckBox" name="BootStrapSuperElf">
-                                                                            <tooltip>Activate bootstrap for use with Super Monitor</tooltip>
+                                                                            <tooltip>Load ROM 1 at 8000 and bootstrap ROM</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
@@ -7887,8 +8064,8 @@
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>3</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxRIGHT</flag>
+                                                                        <border>5</border>
                                                                         <object class="wxCheckBox" name="HexEfSuperElf">
                                                                             <tooltip>Enable EF Hex keyboard</tooltip>
                                                                             <font>
@@ -10220,8 +10397,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_BOTTOM|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_BOTTOM|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeVelf">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -10232,8 +10409,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuVelf">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -10545,12 +10722,12 @@
                                                                         <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
                                                                         <border>4</border>
                                                                         <object class="wxCheckBox" name="ControlWindowsVelf">
-                                                                            <tooltip>Show Velf control window</tooltip>
+                                                                            <tooltip>Show VELF control window</tooltip>
                                                                             <font>
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Velf Window</label>
+                                                                            <label>VELF Window</label>
                                                                             <checked>0</checked>
                                                                         </object>
                                                                     </object>
@@ -11660,8 +11837,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeFRED1">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -11672,8 +11849,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuFRED1">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -12488,8 +12665,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeFRED1_5">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -12500,8 +12677,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuFRED1_5">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -15268,8 +15445,8 @@
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_BOTTOM|wxALL</flag>
-                                                                                <border>0</border>
+                                                                                <flag>wxALIGN_BOTTOM|wxRIGHT</flag>
+                                                                                <border>3</border>
                                                                                 <object class="wxSlider" name="VolumeVip">
                                                                                     <size>90,24</size>
                                                                                     <tooltip>Change emulator sound volume</tooltip>
@@ -15280,8 +15457,8 @@
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
-                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                                <border>0</border>
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                                <border>3</border>
                                                                                 <object class="wxStaticBitmap" name="VuVip">
                                                                                     <size>100,10</size>
                                                                                     <style>wxSTATIC_BORDER</style>
@@ -16190,8 +16367,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeVipII">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -16202,8 +16379,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuVipII">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -21510,8 +21687,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeStudioIV">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -21522,8 +21699,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuStudioIV">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -23225,8 +23402,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeTMC600">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -23237,8 +23414,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuTMC600">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -23945,8 +24122,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeTMC1800">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -23957,8 +24134,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuTMC1800">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -24594,8 +24771,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeTMC2000">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -24606,8 +24783,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuTMC2000">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -25229,8 +25406,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_TOP|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxSlider" name="VolumeNano">
                                                                             <size>100,24</size>
                                                                             <tooltip>Change emulator sound volume</tooltip>
@@ -25241,8 +25418,8 @@
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
-                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                                        <border>0</border>
+                                                                        <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                                        <border>3</border>
                                                                         <object class="wxStaticBitmap" name="VuNano">
                                                                             <size>100,10</size>
                                                                             <style>wxSTATIC_BORDER</style>
@@ -25810,8 +25987,8 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_TOP|wxALL</flag>
-                                                            <border>0</border>
+                                                            <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                            <border>3</border>
                                                             <object class="wxSlider" name="VolumePecom">
                                                                 <size>100,24</size>
                                                                 <tooltip>Change emulator sound volume</tooltip>
@@ -25822,8 +25999,8 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                            <border>0</border>
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                            <border>3</border>
                                                             <object class="wxStaticBitmap" name="VuPecom">
                                                                 <size>100,10</size>
                                                                 <style>wxSTATIC_BORDER</style>
@@ -26467,8 +26644,8 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_TOP|wxALL</flag>
-                                                            <border>0</border>
+                                                            <flag>wxALIGN_TOP|wxRIGHT</flag>
+                                                            <border>3</border>
                                                             <object class="wxSlider" name="VolumeEti">
                                                                 <size>100,24</size>
                                                                 <tooltip>Change emulator sound volume</tooltip>
@@ -26479,8 +26656,8 @@
                                                             </object>
                                                         </object>
                                                         <object class="sizeritem">
-                                                            <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
-                                                            <border>0</border>
+                                                            <flag>wxALIGN_CENTER_VERTICAL|wxBOTTOM</flag>
+                                                            <border>3</border>
                                                             <object class="wxStaticBitmap" name="VuEti">
                                                                 <size>100,10</size>
                                                                 <style>wxSTATIC_BORDER</style>
@@ -26749,15 +26926,15 @@
                                 <size>-1</size>
                             </font>
                             <style>wxNO_BORDER|wxTAB_TRAVERSAL</style>
-                            <object class="wxChoicebook" name="DebuggerChoiceBook">
+                            <object class="wxNotebook" name="DebuggerChoiceBook">
                                 <size>2000,2000</size>
                                 <font>
+                                    <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                     <size>-1</size>
-                                    <family>swiss</family>
                                 </font>
                                 <style>wxBK_DEFAULT|wxFULL_REPAINT_ON_RESIZE</style>
-                                <object class="choicebookpage">
-                                    <label>Timing &amp; Specification</label>
+                                <object class="notebookpage">
+                                    <label>Timing &amp;&amp; Specification</label>
                                     <object class="wxPanel" name="Message">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -27060,7 +27237,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Direct Assembler</label>
                                     <object class="wxPanel" name="PanelDirectAssembler">
                                         <font>
@@ -27897,7 +28074,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Debug 1802</label>
                                     <object class="wxPanel" name="PanelTrace">
                                         <font>
@@ -30499,7 +30676,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Debug Pseudo</label>
                                     <object class="wxPanel" name="PanelChip8">
                                         <font>
@@ -31511,7 +31688,7 @@
                                         </object>
                                     </object>
                                 </object>
-                                <object class="choicebookpage">
+                                <object class="notebookpage">
                                     <label>Memory Dump</label>
                                     <object class="wxPanel" name="PanelMemory">
                                         <font>

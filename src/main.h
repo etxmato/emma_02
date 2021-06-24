@@ -494,8 +494,8 @@ public:
 #include "video.h"
 #include "serial.h"
 
-#define EMMA_VERSION 1.38
-#define EMMA_SUB_VERSION 5
+#define EMMA_VERSION 1.40
+#define EMMA_SUB_VERSION 0
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1028,6 +1028,13 @@ public:
 #define CTRL_V wxMOD_CONTROL
 #endif
 
+#define TERM_HEX 1
+#define TERM_BIN 2
+#define TERM_XMODEM_LOAD 3
+//#define TERM_XMODEM_LOAD_128 4
+#define TERM_XMODEM_SAVE 5
+//#define TERM_XMODEM_SAVE_128 6
+
 class Emu1802: public wxApp
 {
 	virtual bool OnInit();
@@ -1150,7 +1157,7 @@ public:
 	void onTelmacChoiceBook(wxChoicebookEvent& event);
 	void onElfChoiceBook(wxChoicebookEvent& event);
     void onRcaChoiceBook(wxChoicebookEvent& event);
-	void onDebuggerChoiceBook(wxChoicebookEvent& event);
+	void onDebuggerChoiceBook(wxNotebookEvent& event);
     void setConfigurationMenu();
 	void setNoteBook();
 	void onStart(wxCommandEvent& event);

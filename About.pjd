@@ -584,13 +584,13 @@
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
                     <string name="proxy-Label">"Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, 
-Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K 
-Memberhip Card, VELF, Infinite UC1800, FRED 1, FRED 1.5, Microtutor, 
-Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, 
-Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA 
-Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, 
-Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, 
-Pecom 64 and ETI 660 "</string>
+Cosmac Elf, Netronics ELF II, Quest Super Elf, Pico/Elf V2, Membership 
+Card, VIP2K Memberhip Card, VELF, Infinite UC1800, FRED 1, FRED 1.5, 
+Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, 
+Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin 
+Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom 
+COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, 
+Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMAC__"</string>
@@ -661,7 +661,7 @@ Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Membership Card, VIP2K Membership Card, VELF, Inifinite UC1800, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
+                    <string name="proxy-Label">"Emma 02 is emulating the COMX-35, COMIX-35, Elf 2000, Cosmicos, Cosmac Elf, Netronics ELF II, Quest Super Elf, Pico/Elf V2, Membership Card, VIP2K Membership Card, VELF, Inifinite UC1800, FRED 1, FRED 1.5, Microtutor, Microtutor II, CDP18S020 Evaluation Kit, Cosmac VIP, Cosmac VIPII, Microboard System, MCDS, MS2000, RCA Video Coin Arcade, RCA Studio II, RCA Studio III, Victory MPT-02, Visicom COM-100, Cidelsa, Telmac TMC-600, Telmac 1800, Telmac 2000, Oscam Nano, Pecom 32, Pecom 64 and ETI 660 "</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMSW__,__UNIX__"</string>
@@ -1371,7 +1371,7 @@ core based on RCS Elf Emulator copyright (C) 2006 by Michael H Riley"</string>
                   <string name="proxy-Id name">"wxID_STATIC"</string>
                   <long name="proxy-Id value">5105</long>
                   <string name="proxy-Implementation filename">""</string>
-                  <string name="proxy-Label">"Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski and Craig Ledbetter"</string>
+                  <string name="proxy-Label">"Special Thanks to: Niamh Barrett, Mike Riley, Dennis Heijmans, Shay Green, Frank van Tongeren, Peter de Vroomen, Barend Scholtus, Stefan de Bruin, Han de Bruin, Richard Peters, Bob Armstrong, Curt Coder, Miodrag Milanovic, Bruce Czerniec, Ray Sills, Sly DC, Paul Messinger, Eric Tchong, Martijn Wenting, Lee Romanow, Matthew Mikolay, Lee Hart, David Winter, Brolly, William Donnelly, Ed Keefe, Paul Robson, Chuck Yakym, Bernie Murphy, David Schultz, Bill Rowe, FLiP, Herb Johnson, Mark Abene, Andy Modla, Florencia Pierri, Kevin Bunch, Fabrizio Caruso, Branko Trenkoski, Craig Ledbetter, Gaston Williams and David Madole"</string>
                   <string name="proxy-Member variable name">""</string>
                   <string name="proxy-Name">""</string>
                   <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
@@ -2966,7 +2966,7 @@ libcurl are licensed under a MIT/X derivate license"</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"CROSS-CHASE and CROSS-SHOOT games are build using:
+                    <string name="proxy-Label">"Xchase, Xshoot, Xbomber, Xsnake and Xhorde games are build using: 
 Crosslib library, 1802 devkit and the LCC1802 compiler"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
@@ -3038,8 +3038,7 @@ Crosslib library, 1802 devkit and the LCC1802 compiler"</string>
                     <string name="proxy-Id name">"wxID_STATIC"</string>
                     <long name="proxy-Id value">5105</long>
                     <string name="proxy-Implementation filename">""</string>
-                    <string name="proxy-Label">"CROSS-CHASE and CROSS-SHOOT games are build using:
-Crosslib library, 1802 devkit and the LCC1802 compiler"</string>
+                    <string name="proxy-Label">"Xchase, Xshoot, Xbomber, Xsnake and Xhorde games are build using: Crosslib library, 1802 devkit and the LCC1802 compiler"</string>
                     <string name="proxy-Member variable name">""</string>
                     <string name="proxy-Name">""</string>
                     <string name="proxy-Platform">"__WXMSW__,__UNIX__"</string>

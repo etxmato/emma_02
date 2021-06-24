@@ -84,8 +84,8 @@ public:
 	void activateMainWindow();
     void setGreenLed(int status);
 
-    void terminalSave(wxString fileName);
-    void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
+    void terminalSave(wxString fileName, int protocol);
+    void terminalLoad(wxString filePath, wxString fileName, int protocol);
     void terminalStop();
     void refreshPanel();
 

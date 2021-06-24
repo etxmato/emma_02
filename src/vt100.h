@@ -27,6 +27,16 @@ public:
 	void setInterlace(bool status);
 	void setStretchDot(bool status);
 
+    void uartVtOut();
+    void uartVtIn();
+    void serialVtOut();
+    void serialVtIn();
+    bool getTerminalLoadByte(Byte* value);
+
+    void readBuffer();
+    void readFilename();
+    void readEndFrame();
+    int calcrc(char *ptr, int count);
     void switchQ(int value);
 	void setClock(double clock);
 	void setCycle();
@@ -61,10 +71,10 @@ public:
 	void ResetVt();
 	void ResetIo();
 	void setForceUCVt(bool status);
-    void terminalSaveVt(wxString fileName);
-    void terminalSaveCdp18s020Vt(wxString fileName);
-    void terminalLoadVt(wxString fileNamee, bool binaryFile);
-    void terminalLoadCdp18s020Vt(wxString fileNamee, bool binaryFile);
+    void terminalSaveVt(wxString fileName, int protocol);
+    void terminalSaveCdp18s020Vt(wxString fileName, int protocol);
+    void terminalLoadVt(wxString fileNamee, int protocol);
+    void terminalLoadCdp18s020Vt(wxString fileNamee, int protocol);
     void terminalStopVt();
     void startElfRun(bool load, bool overRide);
     void startMcdsRun(bool load);
@@ -214,7 +224,8 @@ private:
 
 	Byte uartControl_;
 	bitset<8> uartStatus_;
-	bool uart_;
+    bool uart_;
+    bool uart16450_;
     bool serialOpen_;
 
 	char displayBuffer_[VTBUFFER];
@@ -231,7 +242,17 @@ private:
     bool terminalSave_;
     bool terminalLoad_;
     bool terminalFileCdp18s020_;
-    bool binaryFile_;
+    int protocol_;
+    char xmodemBuffer_[1029];
+    int xmodemBufferSize_;
+    int xmodemBufferPointer_;
+    Byte terminalAck_;
+    bool sendPacket_;
+    bool receivePacket_;
+    bool useCrc_;
+    int sendingMode_;
+    int xmodemPacketNumber_;
+    size_t xmodemFileNumber_;
     wxFile outputTerminalFile;
     wxFFile inputTerminalFile;
     wxString terminalInputFileLine_;

@@ -110,14 +110,14 @@ V0-F are stored on memory locations 0800-080F.
 <TD WIDTH="55">A2yz</TD>
 <TD WIDTH="40">DRW</TD>
 <TD WIDTH="100">Vx/Vy, Vz</TD>
-<TD WIDTH="250">Draw 4*8 patterns from the pattern table starting at location VxVy (Vy=Vx+1), end of pattern table should be 0xff, drawing on screen position Vz. 
+<TD WIDTH="250">Draw 4*8 patterns from the pattern table starting at location VxVy (Vy=Vx+1), end of pattern table should be hex ff, drawing on screen position Vz. 
 </TD>
 </TR>
 <TR>
 <TD WIDTH="55">A3yz</TD>
 <TD WIDTH="40">DRW</TD>
 <TD WIDTH="100">B, Vy, Vz</TD>
-<TD WIDTH="250">Draw 4*8 BCD value of Vy to screen. If Vz contains 0xA draw on bottom left otherwise draw on right of the screen. Value is extended with two zeros, i.e. 5 digits.
+<TD WIDTH="250">Draw 4*8 BCD value of Vy to screen. If Vz contains hex A draw on bottom left otherwise draw on right of the screen. Value is extended with two zeros, i.e. 5 digits.
 </TD>
 </TR>
 <TR>
@@ -209,7 +209,7 @@ V0-F are stored on memory locations 0800-080F.
 <TD WIDTH="55">AF</TD>
 <TD WIDTH="40">SCR</TD>
 <TD WIDTH="100">XOR</TD>
-<TD WIDTH="250">XOR screen content with 0xFF</TD>
+<TD WIDTH="250">XOR screen content with hex FF</TD>
 </TR>
 <TR>
 <TD WIDTH="55">Expq</TD>
@@ -268,7 +268,7 @@ Pos 4: Sprite pattern location; i.e. reference to sprite pattern table on 7kk. F
 <TD WIDTH="55">7aaa</TD>
 <TD WIDTH="40">SYS</TD>
 <TD WIDTH="100">aaa</TD>
-<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4). Most games include 2 routines. One to check bit 0/1 from PAR and return value in RF which is likely used for game end score check (the higher RF the higher the end score). A second routine will skip next instruction if test mode is not active (INP5 != 0x8), the next instruction is a jump to address A00, this will cause a crash as no 'test ROM' is loaded at that location!</TD>
+<TD WIDTH="250">Call CDP1801 code at aaa. The subroutine must end in a RET (D4). Most games include 2 routines. One to check bit 0/1 from PAR and return value in RF which is likely used for game end score check (the higher RF the higher the end score). A second routine will skip next instruction if test mode is not active (INP5 != 8), the next instruction is a jump to address hex A00, this will cause a crash as no 'test ROM' is loaded at that location!</TD>
 </TR>
 </TABLE>
 </body>

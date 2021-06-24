@@ -71,8 +71,8 @@ public:
 
     void setLedMs(long ms);
 
-    void terminalSave(wxString fileName);
-    void terminalLoad(wxString filePath, wxString fileName, bool binaryFile);
+    void terminalSave(wxString fileName, int protocol);
+    void terminalLoad(wxString filePath, wxString fileName, int protocol);
     void terminalStop();
     
     void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);

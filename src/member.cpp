@@ -872,16 +872,16 @@ void Membership::setForceUpperCase(bool status)
 		vtPointer->setForceUCVt(status);
 }
 
-void Membership::terminalSave(wxString fileName)
+void Membership::terminalSave(wxString fileName, int protocol)
 {
     if (elfConfiguration.vtType != VTNONE)
-        vtPointer->terminalSaveVt(fileName);
+        vtPointer->terminalSaveVt(fileName, protocol);
 }
 
-void Membership::terminalLoad(wxString filePath, wxString fileName, bool binaryFile)
+void Membership::terminalLoad(wxString filePath, wxString fileName, int protocol)
 {
     if (elfConfiguration.vtType != VTNONE)
-        vtPointer->terminalLoadVt(filePath, binaryFile);
+        vtPointer->terminalLoadVt(filePath, protocol);
 }
 
 void Membership::terminalStop()

@@ -104,7 +104,7 @@ public:
 	void removeElfHex();
 	void showModules(bool useSwitch, bool useHex);
 	void clearBootstrap() {bootstrap_ = 0;};
-	void setElf2KDivider(Byte value);
+	void setDivider(Byte value);
 	void setElf2KClockSpeed(double clock) {elfClockSpeed_ = clock;};
     void dataAvailableVt100(bool data, int uartNumber);
     void dataAvailableSerial(bool data);
@@ -116,13 +116,21 @@ public:
 	void releaseButtonOnScreen(HexButton* buttonPointer, int buttonType);
     void onNumberKeyDown(int i);
     void refreshPanel();
+    void terminalSave(wxString fileName, int protocol);
+    void terminalLoad(wxString filePath, wxString fileName, int protocol);
+    void terminalStop();
+    void checkComputerFunction();
+    void activateElfOsChip8();
+    void fetchFileName(Word address, size_t length);
 
 private:
 	class Elf2KScreen *elf2KScreenPointer;
 	Pixie *pixiePointer;
 	i8275 *i8275Pointer;
 	Vt100 *vtPointer;
-	wxTimer *rtcTimerPointer;
+
+    wxTimer *rtcTimerPointer;
+    int rtcCycle_;
 
 	Elf2Kswitch *p_Elf2Kswitch;
 	Elf2Khex *p_Elf2Khex;
