@@ -715,6 +715,7 @@ protected:
     wxTimer *traceTimeoutPointer;
     wxTimer *keyDebounceTimeoutPointer;
     wxTimer *vuPointer;
+    wxTimer *directAssPointer;
     wxTimer *guiSizeTimeoutPointer;
     wxTimer *guiRedrawBarTimeOutPointer;
     bool guiSizeTimerStarted_;

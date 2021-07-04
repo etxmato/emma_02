@@ -45,18 +45,19 @@ public:
 
 #define CPU_MEMORY 0
 #define CPU_TYPE 1
-#define CDP_1870_P 2
-#define CDP_1870_C 3
-#define CDP_1870_COLOUR 4
-#define V_6845 5
-#define V_6847 6
-#define V_6847_RAM 7
-#define TMS_MEMORY 8
-#define VT_RAM 9
-#define CDP_1864 10
-#define I_8275 11
-#define I_8275_RAM 12
-#define VIP2KSEQUENCER 13
+#define CPU_PROFILER 2
+#define CDP_1870_P 3
+#define CDP_1870_C 4
+#define CDP_1870_COLOUR 5
+#define V_6845 6
+#define V_6847 7
+#define V_6847_RAM 8
+#define TMS_MEMORY 9
+#define VT_RAM 10
+#define CDP_1864 11
+#define I_8275 12
+#define I_8275_RAM 13
+#define VIP2KSEQUENCER 14
 
 #define TEXT_ASSEMBLER true
 #define DIRECT_ASSEMBLER false
@@ -292,10 +293,16 @@ public:
 	void RF(wxCommandEvent&event);
 
 	void directAss();
+    void setProfileColor(Byte executedColor);
+    void onProfilerType(wxCommandEvent&event);
+    void onProfilerCounter(wxCommandEvent&event);
+    int getProfilerType()  {return profilerType_;};
+    int getProfilerCounter()  {return profilerCounter_;};
 	void drawAssCharacter(Word address, int line, int count);
 	void onAssEnter(wxCommandEvent&event);
 	int setMemLabel(Word address, bool removeMemLabel);
-	void onAssAddress(wxCommandEvent&event); 
+    void onAssAddress(wxCommandEvent&event);
+    void onProfilerAddress(wxCommandEvent&event);
 	void onAssSpinUp(wxSpinEvent&event);
 	void assSpinUp();
 	void onAssSpinDown(wxSpinEvent&event);
@@ -376,11 +383,12 @@ public:
     void paintDebugBackground();
     void changeNumberOfDebugLines(int height);
 
-	void onDebugDisplayPage(wxCommandEvent&event); 
+//	void onDebugDisplayPage(wxCommandEvent&event); 
 	void onDebugDisplayPageSpinUp(wxSpinEvent&event);
 	void debugDisplayPageSpinUp(); 
 	void onDebugDisplayPageSpinDown(wxSpinEvent&event);
-	void DebugDisplayPage(); 
+    void DebugDisplayPage();
+    void DebugDisplayProfiler();
 	void ShowCharacters(Word address, int y);
 	void DebugDisplayMap();
 	void DebugDisplay();
@@ -514,13 +522,17 @@ protected:
     wxString dirAssNewDir_;
     bool pseudoLoaded_;
 
+    int profilerType_;
+    int profilerCounter_;
+
 private:
 	wxMemoryDC dcLine, dcChar, dcAss;
 	bool updatingTraceString_;
 
 	wxBitmap *lineBmp[16];
-	wxBitmap *assBmp;
-	wxString extractWord(wxString *buffer); 
+    wxBitmap *assBmp;
+    wxBitmap *profilerBmp;
+	wxString extractWord(wxString *buffer);
 	wxString extractNextWord(wxString *buffer, wxString *seperator);
 	void addBreakPoint(); 
 	void addChip8BreakPoint(); 

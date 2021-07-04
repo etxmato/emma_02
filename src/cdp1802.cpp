@@ -895,6 +895,7 @@ void Cdp1802::cpuCycleExecute2_1805()
     Byte i, n;
 	int tempWord;
 	tempWord = 0;
+    uint64_t executed;
 
     n = instructionCode_ & 15;
 	i = instructionCode_>>4;
@@ -1320,7 +1321,7 @@ void Cdp1802::cpuCycleExecute2_1805()
 			scratchpadRegister_[n] = (registerT_ << 8) + registerB_;
 			if (trace_)
 			{
-				if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-3) == MEM_TYPE_OPCODE_RLDL)
+				if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-3, &executed) == MEM_TYPE_OPCODE_RLDL)
  					buffer.Printf("RLDL R%X,%04X", n, scratchpadRegister_[n]);
 				else
  					buffer.Printf("RLDI R%X,%04X", n, scratchpadRegister_[n]);
@@ -1586,6 +1587,8 @@ void Cdp1802::singleStateStep()
 
 void Cdp1802::cpuCycleFetch()
 {
+    uint64_t executed;
+    
     if (trace_)
     	traceBuffer_.Printf("%04X: ",scratchpadRegister_[programCounter_]);
     
@@ -1593,9 +1596,9 @@ void Cdp1802::cpuCycleFetch()
 // ** address log
 //    p_Main->addressLog(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
-    if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]) >= MEM_TYPE_OPCODE_RSHR)
+    if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_], &executed) >= MEM_TYPE_OPCODE_RSHR)
     {
-        switch (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]))
+        switch (p_Computer->readMemDataType(scratchpadRegister_[programCounter_], &executed))
         {
             case MEM_TYPE_OPCODE_RSHR:
                 if (instructionCode_ != 0x76)
@@ -1688,6 +1691,7 @@ void Cdp1802::cpuCycleExecute1()
     Byte i, n;
     int tempWord;
     Byte df1;
+    uint64_t executed;
 
     stopHiddenTrace_ = false;
     startHiddenTrace_ = false;
@@ -1871,11 +1875,11 @@ void Cdp1802::cpuCycleExecute1()
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BPZ)
+						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2, &executed) == MEM_TYPE_OPCODE_BPZ)
 								buffer.Printf("BPZ  %02X",bus_);
 						else
 						{
-							if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BGE)
+							if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2, &executed) == MEM_TYPE_OPCODE_BGE)
 								buffer.Printf("BGE  %02X",bus_);
 							else
 								buffer.Printf("BDF  %02X",bus_);
@@ -1956,7 +1960,7 @@ void Cdp1802::cpuCycleExecute1()
                     scratchpadRegister_[programCounter_]++;
                     if (trace_)
                     {
-                        if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_SKP)
+                        if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_SKP)
                             buffer.Printf("SKP");
                         else
                             buffer.Printf("NBR");
@@ -2019,11 +2023,11 @@ void Cdp1802::cpuCycleExecute1()
 						scratchpadRegister_[programCounter_]++;
 					if (trace_)
 					{
-						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BM)
+						if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2, &executed) == MEM_TYPE_OPCODE_BM)
 								buffer.Printf("BM   %02X",bus_);
 						else
 						{
-							if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2) == MEM_TYPE_OPCODE_BL)
+							if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-2, &executed) == MEM_TYPE_OPCODE_BL)
 								buffer.Printf("BL   %02X",bus_);
 							else
 								buffer.Printf("BNF  %02X",bus_);
@@ -2388,7 +2392,7 @@ void Cdp1802::cpuCycleExecute1()
                         accumulator_ = (accumulator_ >> 1) | df1;
                         if (trace_)
                         {
-                            if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_RSHR)
+                            if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_RSHR)
                                 buffer.Printf("RSHR      D=%02X", accumulator_);
                             else
                                 buffer.Printf("SHRC      D=%02X", accumulator_);
@@ -2589,7 +2593,7 @@ void Cdp1802::cpuCycleExecute1()
                         accumulator_ = (accumulator_ << 1) | df1;
                         if (trace_)
                         {
-                            if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1) == MEM_TYPE_OPCODE_RSHL)
+                            if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_]-1, &executed) == MEM_TYPE_OPCODE_RSHL)
                                 buffer.Printf("RSHL      D=%02X", accumulator_);
                             else
                                 buffer.Printf("SHLC      D=%02X", accumulator_);
@@ -3092,6 +3096,7 @@ void Cdp1802::cpuCycleExecute1_LBR()
 void Cdp1802::cpuCycleExecute2_LBR()
 {
     wxString buffer;
+    uint64_t executed;
 
     Byte n = instructionCode_ & 0xf;
     
@@ -3106,7 +3111,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
     switch(n)
     {
         case 0:
-            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            if (p_Computer->readMemDataType(instructionAddress, &executed) != MEM_TYPE_OPCODE_LBR_SLOT)
             {
                 p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
                 p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
@@ -3122,7 +3127,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             }
         break;
         case 1:
-            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            if (p_Computer->readMemDataType(instructionAddress, &executed) != MEM_TYPE_OPCODE_LBR_SLOT)
             {
                 p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
                 p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
@@ -3141,7 +3146,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             }
         break;
         case 2:
-            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            if (p_Computer->readMemDataType(instructionAddress, &executed) != MEM_TYPE_OPCODE_LBR_SLOT)
             {
                 p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
                 p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
@@ -3160,7 +3165,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             }
         break;
         case 3:
-            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            if (p_Computer->readMemDataType(instructionAddress, &executed) != MEM_TYPE_OPCODE_LBR_SLOT)
             {
                 p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
                 p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
@@ -3231,7 +3236,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             bus_=lowByteBranchAddress;
             if (trace_)
             {
-                if (p_Computer->readMemDataType(instructionAddress) == MEM_TYPE_OPCODE_LSKP)
+                if (p_Computer->readMemDataType(instructionAddress, &executed) == MEM_TYPE_OPCODE_LSKP)
                     buffer.Printf("LSKP");
                 else
                     buffer.Printf("NLBR");
@@ -3239,7 +3244,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             }
         break;
         case 9:
-            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            if (p_Computer->readMemDataType(instructionAddress, &executed) != MEM_TYPE_OPCODE_LBR_SLOT)
             {
                 p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
                 p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
@@ -3258,7 +3263,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             }
         break;
         case 0xa:
-            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            if (p_Computer->readMemDataType(instructionAddress, &executed) != MEM_TYPE_OPCODE_LBR_SLOT)
             {
                 p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
                 p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
@@ -3277,7 +3282,7 @@ void Cdp1802::cpuCycleExecute2_LBR()
             }
         break;
         case 0xb:
-            if (p_Computer->readMemDataType(instructionAddress) != MEM_TYPE_OPCODE_LBR_SLOT)
+            if (p_Computer->readMemDataType(instructionAddress, &executed) != MEM_TYPE_OPCODE_LBR_SLOT)
             {
                 p_Computer->writeMemDataType(firstOperandAddress, MEM_TYPE_OPERAND);
                 p_Computer->writeMemDataType(secondOperandAddress, MEM_TYPE_OPERAND);
@@ -5411,4 +5416,130 @@ void Cdp1802::updateTitle(wxString WXUNUSED(Title))
 {
 }
 
+void Cdp1802::increaseExecutedMainMemory(long address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (mainMemoryExecuted_[address] < 18446744073709551615)
+            mainMemoryExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedExpansionRom(long address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (expansionRomExecuted_[address] < 18446744073709551615)
+            expansionRomExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedExpansionRam(Word address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (expansionRamExecuted_[address] < 18446744073709551615)
+            expansionRamExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedExpansionEprom(Word address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (expansionEpromExecuted_[address] < 18446744073709551615)
+            expansionEpromExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedExpansionSuper(Word address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (expansionSuperExecuted_[address] < 18446744073709551615)
+            expansionSuperExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedCpuRam(Word address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (cpuRamExecuted_[address] < 18446744073709551615)
+            cpuRamExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedMultiCartRom(Word address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (multiCartRomExecuted_[address] < 18446744073709551615)
+            multiCartRomExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedTestCartRom(Word address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (testCartRomExecuted_[address] < 18446744073709551615)
+            testCartRomExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::increaseExecutedEmsRam(long address, Byte type)
+{
+    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    {
+        if (emsRamExecuted_[address] < 18446744073709551615)
+            emsRamExecuted_[address]++;
+        p_Main->updateAssTabCheck(address);
+    }
+}
+
+void Cdp1802::clearProfiler(int type)
+{
+    if (profilerCounter_ == PROFILER_OFF)
+        return;
+
+    for (int i=0; i<65536; i++)
+        mainMemoryExecuted_[i] = 0;
+    for (int i=0; i<255; i++)
+        cpuRamExecuted_[i] = 0;
+    if (comxExpansionMemoryDefined_)
+    {
+        for (int i=0; i<32768; i++)
+            expansionRomExecuted_[i] = 0;
+        for (int i=0; i<32768; i++)
+            expansionRamExecuted_[i] = 0;
+        for (int i=0; i<40960; i++)
+            expansionEpromExecuted_[i] = 0;
+        for (int i=0; i<131072; i++)
+            expansionSuperExecuted_[i] = 0;
+    }
+    if (emsMemoryDefined_)
+    {
+        for (int i=0; i<524288; i++)
+            emsRamExecuted_[i] = 0;
+    }
+    if (multiCartMemoryDefined_)
+    {
+        for (int i=0; i<1048576; i++)
+            multiCartRomExecuted_[i] = 0;
+    }
+    if (romMapperDefined_)
+    {
+        for (int i=0; i<8388608; i++)
+            expansionRomExecuted_[i] = 0;
+    }
+}
 

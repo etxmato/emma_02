@@ -32,17 +32,16 @@ To change the location of these files use the menu item 'File/Configuration/Chan
 <p>
 Directory including Chip 8, Chip 8X and Chip 10 software. This software can be used in the Cosmac Vip, TMC 2000, Nano, Studio II, Studio III / Victory MPT-02 and where indicated in the ETI660. Sub directories include: 
 </p>
-<UL>- Chip-8 Demos</UL>
-<UL>- Chip-8 ETI660 Hybrids, SW only running on ETI660 (not compatible with other chip 8 interpreters)</UL>
-<UL>- Chip-8 Games</UL>
-<UL>- Chip-8 Hires, SW using an adapted chip-8 interpreter allowing for a higher resolution</UL>
-<UL>- Chip-8 Hybrids, SW combining 1802 and Chip 8</UL>
-<UL>- Chip-8 Programs</UL>
-<UL>- Chip-8X, SW using the chip-8X interpreter</UL>
-<UL>- Chip-10, SW using the chip-10 interpreter and HW</UL>
-<p>
-Whenever possible the Chip 8 directory will be build up of the same software as available in the Chip 8 Program Pack on <a href="http://www.chip8.com">CHIP8.COM</a>.
-</p>
+<UL>
+<li>Chip-8 Demos
+<li>Chip-8 ETI660 Hybrids, SW only running on ETI660 (not compatible with other chip 8 interpreters)
+<li>Chip-8 Games
+<li>Chip-8 Hires, SW using an adapted chip-8 interpreter allowing for a higher resolution
+<li>Chip-8 Hybrids, SW combining 1802 and Chip 8
+<li>Chip-8 Programs
+<li>Chip-8X, SW using the chip-8X interpreter
+<li>Chip-10, SW using the chip-10 interpreter and HW
+</UL>
 <h3>CDP18S020</h3>
 <p>
 Directory including the CDP18S020 UT4 ROM and Tiny Basic version for the CDP18S020.
@@ -119,7 +118,7 @@ Directory including some Cosmicos software including the Ascii monitor, hex and 
 <p>
 Directory including some Elf software including ElfOs, BiosIo, Giant Board Monitor and Quest Super Basic (for copyright details see <a href="ElfSuperBasic.htm">Quest Super Basic</a>)
 </p>
-<h3>Elf/elf-emulation.com</h3>
+<h4>Elf/elf-emulation.com</h4>
 <p>
 Directory including Elf software available on the <a href="http://www.elf-emulation.com">Elf/1802 Emulation</a> site. Most software is included with source and help files, stored in sub directories. All software in this directory is copyright by Michael H Riley
 </p>
@@ -138,23 +137,23 @@ To run the following software make sure to select bios1.0.4.rom as main ROM and 
 'Dice Rolling.hex' and 'Extended ETOPS' both start at hex 0 and do not need the bios. Note that 
 dice rolling only works on the Cosmac Elf version.
 </p>
-<h3>Elf/Games</h3>
+<h4>Elf/Games</h4>
 <p>
 Directory with some Elf Games, easiest way to run these games is to load the Game Mode configuration via the 'File/Configuration/Load/Game Mode' menu.
 </p>
-<h3>Elf/Music</h3>
+<h4>Elf/Music</h4>
 <p>
-Directory with some Elf Music software and Christmas songs, see also the chapter on the <a href="ElfConfig.htm">Configurations</a>
+Directory with some Elf Music software and Christmas songs, see also the chapter on the <a href="MainConfigurations.htm">Configurations</a>
 </p>
-<h3>Elf/Netronics Tiny Basic</h3>
+<h4>Elf/Netronics Tiny Basic</h4>
 <p>
 Directory with Netronics Tiny Basic assembler code and manual.
 </p>
-<h3>Elf/VDU</h3>
+<h4>Elf/VDU</h4>
 <p>
 Software supporting the ACE VDU board. Two configurations are provided VDU / Ascii keyboard and VDU / Hex keypad, the first for Tiny basic and Monitor, the second for the games.
 </p>
-<h3>Elf2K</h3>
+<h4>Elf2K</h4>
 <p>
 Directory including Elf 2000 firmare and software.
 </p>

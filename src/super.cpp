@@ -1398,6 +1398,7 @@ void Super::writeMemDataType(Word address, Byte type)
 						p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 						emsRamDataType_[(long) ((address & 0x3fff) |(emsPage_ << 14))] = type;
 					}
+                    increaseExecutedEmsRam((long) ((address & 0x3fff) |(emsPage_ << 14)), type);
 				break;
 			}
 		break;
@@ -1414,7 +1415,8 @@ void Super::writeMemDataType(Word address, Byte type)
                             p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                             expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))] = type;
                         }
-                    break;
+                        increaseExecutedExpansionRom((long) ((address & 0x7fff) |(emsPage_ << 15)), type);
+                   break;
                 }
             }
         break;
@@ -1425,6 +1427,7 @@ void Super::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
 		case MAPPEDRAM:
@@ -1435,6 +1438,7 @@ void Super::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
 		case PAGER:
@@ -1447,6 +1451,7 @@ void Super::writeMemDataType(Word address, Byte type)
 						p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 						mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)] = type;
 					}
+                    increaseExecutedMainMemory((getPager(address>>12) << 12) |(address &0xfff), type);
 				break;
 			}
 		break;
@@ -1454,7 +1459,7 @@ void Super::writeMemDataType(Word address, Byte type)
 	}
 }
 
-Byte Super::readMemDataType(Word address)
+Byte Super::readMemDataType(Word address, uint64_t* executed)
 {
     address = address | bootstrap_;
 	switch (memoryType_[address/256])
@@ -1464,6 +1469,8 @@ Byte Super::readMemDataType(Word address)
 			{
 				case ROM:
 				case RAM:
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = emsRamExecuted_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
 					return emsRamDataType_[(long) ((address & 0x3fff) |(emsPage_ << 14))];
 				break;
 			}
@@ -1476,6 +1483,8 @@ Byte Super::readMemDataType(Word address)
                 {
                     case ROM:
                     case RAM:
+                        if (profilerCounter_ != PROFILER_OFF)
+                            *executed = expansionRomExecuted_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
                         return expansionRomDataType_[(long) ((address & 0x7fff) |(emsPage_ << 15))];
                     break;
                 }
@@ -1485,12 +1494,16 @@ Byte Super::readMemDataType(Word address)
         break;
             
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
 		case MAPPEDRAM:
 		case RAM:
 			address = (address & ramMask_) + ramStart_;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
@@ -1499,6 +1512,8 @@ Byte Super::readMemDataType(Word address)
 			{
 				case ROM:
 				case RAM:
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = mainMemoryExecuted_[(getPager(address>>12) << 12) |(address &0xfff)];
 					return mainMemoryDataType_[(getPager(address>>12) << 12) |(address &0xfff)];
 				break;
 			}

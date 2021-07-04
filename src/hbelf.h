@@ -76,7 +76,7 @@ public:
 	void showModules(bool status);
 	void removeElfHex() {hexKeypadClosed_ = true;};
 	void writeMemDataType(Word address, Byte type);
-	Byte readMemDataType(Word address);
+	Byte readMemDataType(Word address, uint64_t* executed);
 	Byte readMem(Word address);
 	void writeMem(Word address, Byte value, bool writeRom);
     Byte readMemDebug(Word address);

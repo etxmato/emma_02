@@ -707,16 +707,19 @@ void StudioIV::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
     }
 }
 
-Byte StudioIV::readMemDataType(Word address)
+Byte StudioIV::readMemDataType(Word address, uint64_t* executed)
 {
 	switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
     }

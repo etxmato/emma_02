@@ -297,12 +297,13 @@ void Tmc1800::writeMemDataType(Word address, Byte type)
 			{
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
+                increaseExecutedMainMemory(address, type);
 			}
 		break;
 	}
 }
 
-Byte Tmc1800::readMemDataType(Word address)
+Byte Tmc1800::readMemDataType(Word address, uint64_t* executed)
 {
 	if (address < 0x8000)
 		address = (address | addressLatch_) & (ramMask_ | 0x8000);
@@ -313,6 +314,8 @@ Byte Tmc1800::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}

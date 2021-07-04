@@ -33,7 +33,7 @@ To start Super Basic 1.4x on the vt-100 use the following:
 To start Super basic on Super Video just press 'C' for a cold start and 'W' for a warm start.
 </p>
 <p>
-Super Basic emulation supports loading program and data files with .super extension as described in <a href="GenMemAccess.htm">Memory Access</a>
+Super Basic emulation supports loading program and data files with .super extension as described in <a href="MainMemAccess.htm">Memory Access</a>
 </p>
 </BODY>
 </HTML>

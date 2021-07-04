@@ -26934,7 +26934,7 @@
                                 </font>
                                 <style>wxBK_DEFAULT|wxFULL_REPAINT_ON_RESIZE</style>
                                 <object class="notebookpage">
-                                    <label>Timing &amp;&amp; Specification</label>
+                                    <label>Timing &amp;&amp; Spec</label>
                                     <object class="wxPanel" name="Message">
                                         <font>
                                             <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
@@ -28067,6 +28067,170 @@
                                                         <border>0</border>
                                                         <object class="wxStaticText" name="AssBottomRight">
                                                             <label></label>
+                                                        </object>
+                                                    </object>
+                                                </object>
+                                            </object>
+                                        </object>
+                                    </object>
+                                </object>
+                                <object class="notebookpage">
+                                    <label>Profiler</label>
+                                    <object class="wxPanel" name="PanelProfiler">
+                                        <font>
+                                            <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                            <size>-1</size>
+                                        </font>
+                                        <style>wxTAB_TRAVERSAL</style>
+                                        <object class="wxBoxSizer">
+                                            <orient>wxHORIZONTAL</orient>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_TOP|wxALL</flag>
+                                                <border>0</border>
+                                                <object class="wxStaticBitmap" name="ProfilerBitmap">
+                                                    <size>468,367</size>
+                                                    <bg>#000000</bg>
+                                                </object>
+                                            </object>
+                                            <object class="sizeritem">
+                                                <flag>wxALIGN_TOP|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                                <border>2</border>
+                                                <object class="wxBoxSizer">
+                                                    <orient>wxVERTICAL</orient>
+                                                    <object class="sizeritem">
+                                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                        <border>2</border>
+                                                        <object class="wxBoxSizer">
+                                                            <orient>wxHORIZONTAL</orient>
+                                                            <object class="spacer">
+                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                <border>0</border>
+                                                                <size>0,168</size>
+                                                            </object>
+                                                            <object class="sizeritem">
+                                                                <flag>wxALIGN_TOP|wxALL</flag>
+                                                                <border>0</border>
+                                                                <object class="wxBoxSizer">
+                                                                    <orient>wxVERTICAL</orient>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxVERTICAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                                                    <label>Counters:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxChoice" name="ProfilerCounter">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>Off</item>
+                                                                                        <item>On</item>
+                                                                                    </content>
+                                                                                    <selection>0</selection>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxLEFT|wxRIGHT</flag>
+                                                                        <border>5</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxHORIZONTAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxLEFT|wxRIGHT</flag>
+                                                                                <border>1</border>
+                                                                                <object class="wxSpinButton" name="ProfilerSpinPage">
+                                                                                    <size>-1,64</size>
+                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP|wxBORDER_THEME</style>
+                                                                                    <value>0</value>
+                                                                                    <min>0</min>
+                                                                                    <max>100</max>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>1</border>
+                                                                                <object class="wxSpinButton" name="ProfilerSpin">
+                                                                                    <style>wxSP_VERTICAL|wxSP_WRAP</style>
+                                                                                    <value>0</value>
+                                                                                    <min>0</min>
+                                                                                    <max>100</max>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_CENTER_VERTICAL|wxALL</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxBoxSizer">
+                                                                                    <orient>wxVERTICAL</orient>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                                        <border>5</border>
+                                                                                        <object class="wxStaticText" name="wxID_STATIC">
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <label>Move to:</label>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                    <object class="sizeritem">
+                                                                                        <flag>wxALIGN_LEFT</flag>
+                                                                                        <border>5</border>
+                                                                                        <object class="wxTextCtrl" name="ProfilerAddress" subclass="HexEdit">
+                                                                                            <size>40,21</size>
+                                                                                            <font>
+                                                                                                <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                                <size>-1</size>
+                                                                                            </font>
+                                                                                            <value>0000</value>
+                                                                                            <maxlength>4</maxlength>
+                                                                                        </object>
+                                                                                    </object>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                    <object class="sizeritem">
+                                                                        <flag>wxALIGN_LEFT|wxTOP|wxBOTTOM</flag>
+                                                                        <border>2</border>
+                                                                        <object class="wxBoxSizer">
+                                                                            <orient>wxVERTICAL</orient>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxLEFT|wxTOP|wxBOTTOM</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxStaticText" name="wxID_STATIC">
+                                                                                    <label>Type:</label>
+                                                                                </object>
+                                                                            </object>
+                                                                            <object class="sizeritem">
+                                                                                <flag>wxALIGN_LEFT|wxLEFT</flag>
+                                                                                <border>2</border>
+                                                                                <object class="wxChoice" name="ProfilerType">
+                                                                                    <font>
+                                                                                        <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
+                                                                                        <size>-1</size>
+                                                                                    </font>
+                                                                                    <content>
+                                                                                        <item>Linear</item>
+                                                                                        <item>Log</item>
+                                                                                    </content>
+                                                                                    <selection>0</selection>
+                                                                                </object>
+                                                                            </object>
+                                                                        </object>
+                                                                    </object>
+                                                                </object>
+                                                            </object>
                                                         </object>
                                                     </object>
                                                 </object>
@@ -32227,7 +32391,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR0">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -32493,7 +32657,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR1">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -32759,7 +32923,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR2">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -33025,7 +33189,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR3">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -33291,7 +33455,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR4">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -33557,7 +33721,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR5">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -33823,7 +33987,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR6">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -34089,7 +34253,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR7">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -34355,7 +34519,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR8">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -34621,7 +34785,7 @@
                                                                         <object class="wxStaticBitmap" name="CHAR9">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -34887,7 +35051,7 @@
                                                                         <object class="wxStaticBitmap" name="CHARA">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -35153,7 +35317,7 @@
                                                                         <object class="wxStaticBitmap" name="CHARB">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -35419,7 +35583,7 @@
                                                                         <object class="wxStaticBitmap" name="CHARC">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -35685,7 +35849,7 @@
                                                                         <object class="wxStaticBitmap" name="CHARD">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -35951,7 +36115,7 @@
                                                                         <object class="wxStaticBitmap" name="CHARE">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -36217,7 +36381,7 @@
                                                                         <object class="wxStaticBitmap" name="CHARF">
                                                                             <size>128,16</size>
                                                                             <style>wxNO_BORDER</style>
-                                                                            <bitmap>images/empty.png</bitmap>
+                                                                            <bitmap>images_osx/empty.png</bitmap>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -36266,7 +36430,7 @@
                                                                                                 <border>1</border>
                                                                                                 <object class="wxChoice" name="DebugMemType">
                                                                                                     <size>-1,23</size>
-                                                                                                    <tooltip>Show CPU, Video Memory or CPU Memory Type</tooltip>
+                                                                                                    <tooltip>Show CPU, CPU Memory Type, Profiler or Video Memory</tooltip>
                                                                                                     <font>
                                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                                         <size>-1</size>
@@ -36274,6 +36438,7 @@
                                                                                                     <content>
                                                                                                         <item>CPU</item>
                                                                                                         <item>Type</item>
+                                                                                                        <item>Profiler</item>
                                                                                                         <item>1870 Page</item>
                                                                                                         <item>1870 Character</item>
                                                                                                         <item>1870 Colour</item>

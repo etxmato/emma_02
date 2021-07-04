@@ -949,6 +949,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 								p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 								expansionRamDataType_[(ramBank_*0x2000) + (address & 0x1fff)] = type;
 							}
+                            increaseExecutedExpansionRam((ramBank_*0x2000) + (address & 0x1fff), type);
 						break;
 					}
 				break;
@@ -963,6 +964,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 								p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 								expansionEpromDataType_[(epromBank_*0x2000) + (address & 0x1fff)] = type;
 							}
+                            increaseExecutedExpansionEprom((epromBank_*0x2000) + (address & 0x1fff), type);
 						break;
 					}
 				break;
@@ -977,6 +979,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 								p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 								expansionSuperDataType_[((epromBank_+(8*ramSwitched_))*0x2000) + (address & 0x1fff)] = type;
 							}
+                            increaseExecutedExpansionSuper(((epromBank_+(8*ramSwitched_))*0x2000) + (address & 0x1fff), type);
 						break;
 					}
 				break;
@@ -987,6 +990,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 						p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 						expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0x1fff)] = type;
 					}
+                    increaseExecutedExpansionRom((expansionSlot_*0x2000) + (address & 0x1fff), type);
 				break;
 			}
 		break;
@@ -1000,6 +1004,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 					mainMemoryDataType_[address] = type;
 				}
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
 		case COMXEXPROM:
@@ -1012,6 +1017,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
 		case COPYCOMXEXPROM:
@@ -1020,6 +1026,7 @@ void Comx::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[(address & 0xfff) | 0xe000] = type;
 			}
+            increaseExecutedMainMemory((address & 0xfff) | 0xe000, type);
 		break;
 
 		case COPYFLOPROM: 
@@ -1032,6 +1039,7 @@ void Comx::writeMemDataType(Word address, Byte type)
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                         expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)] = type;
                     }
+                    increaseExecutedExpansionRom((expansionSlot_*0x2000) + (address & 0xfff), type);
                 }
                 if (expansionSlot_ == networkSlot_)
                 {
@@ -1040,6 +1048,7 @@ void Comx::writeMemDataType(Word address, Byte type)
                         p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                         mainMemoryDataType_[address + 0xE000] = type;
                     }
+                    increaseExecutedMainMemory(address + 0xE000, type);
                 }
 			}
 			else
@@ -1049,12 +1058,13 @@ void Comx::writeMemDataType(Word address, Byte type)
 					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 					mainMemoryDataType_[address] = type;
 				}
+                increaseExecutedMainMemory(address, type);
 			}
 		break;
 	}
 }
 
-Byte Comx::readMemDataType(Word address)
+Byte Comx::readMemDataType(Word address, uint64_t* executed)
 {
 	switch (memoryType_[address/256])
 	{
@@ -1066,6 +1076,8 @@ Byte Comx::readMemDataType(Word address)
 					{
 						case ROM:
 						case RAM:
+                            if (profilerCounter_ != PROFILER_OFF)
+                                *executed = expansionRamExecuted_[(ramBank_*0x2000) + (address & 0x1fff)];
 							return expansionRamDataType_[(ramBank_*0x2000) + (address & 0x1fff)];
 						break;
 					}
@@ -1076,6 +1088,8 @@ Byte Comx::readMemDataType(Word address)
 					{
 						case ROM:
 						case RAM:
+                            if (profilerCounter_ != PROFILER_OFF)
+                                *executed = expansionEpromExecuted_[(epromBank_*0x2000) + (address & 0x1fff)];
 							return expansionEpromDataType_[(epromBank_*0x2000) + (address & 0x1fff)];
 						break;
 					}
@@ -1086,6 +1100,8 @@ Byte Comx::readMemDataType(Word address)
 					{
 						case ROM:
 						case RAM:
+                            if (profilerCounter_ != PROFILER_OFF)
+                                *executed = expansionSuperExecuted_[((epromBank_+(8*ramSwitched_))*0x2000) + (address & 0x1fff)];
 							return expansionSuperDataType_[((epromBank_+(8*ramSwitched_))*0x2000) + (address & 0x1fff)];
 						break;
 					}
@@ -1093,6 +1109,8 @@ Byte Comx::readMemDataType(Word address)
 
 				case ROM:
 				case RAM:
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = expansionRomExecuted_[(expansionSlot_*0x2000) + (address & 0x1fff)];
 					return expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0x1fff)];
 				break;
 			}
@@ -1103,17 +1121,25 @@ Byte Comx::readMemDataType(Word address)
 		case NVRAM:
 		case RAM:
 		case COMXEXPROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
 		case PRAM1870:
 			if (epromSlot_ != 0xff || superSlot_ != 0xff)
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = mainMemoryExecuted_[address];
 				return mainMemoryDataType_ [address];
+            }
 			else
 				return MEM_TYPE_UNDEFINED;
 		break;
 
 		case COPYCOMXEXPROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[(address & 0xfff) | 0xe000];
 			return mainMemoryDataType_[(address & 0xfff) | 0xe000];
 		break;
 
@@ -1121,13 +1147,23 @@ Byte Comx::readMemDataType(Word address)
             if (expansionSlot_ == fdcSlot_)
             {
                 if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
+                {
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = expansionRomExecuted_[(expansionSlot_*0x2000) + (address & 0xfff)];
                     return expansionRomDataType_[(expansionSlot_*0x2000) + (address & 0xfff)];
+                }
             }
             if (expansionSlot_ == networkSlot_)
             {
                 if (((address & 0xff) >= 0xd0) &&((address & 0xff) <= 0xdf))
+                {
+                    if (profilerCounter_ != PROFILER_OFF)
+                        *executed = mainMemoryExecuted_[address + 0xE000];
                     return mainMemoryDataType_[address + 0xE000];
+                }
             }
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
 		break;
 	}			

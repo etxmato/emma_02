@@ -786,6 +786,7 @@ void Uc1800::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address] = type;
             }
+            increaseExecutedMainMemory(address, type);
         break;
  
         case MAPPEDRAM:
@@ -794,19 +795,24 @@ void Uc1800::writeMemDataType(Word address, Byte type)
                 p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                 mainMemoryDataType_[address & 0xff] = type;
             }
+            increaseExecutedMainMemory(address & 0xff, type);
         break;
     }
 }
 
-Byte Uc1800::readMemDataType(Word address)
+Byte Uc1800::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256])
     {
         case RAM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
             return mainMemoryDataType_[address];
         break;
             
         case MAPPEDRAM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address & 0xff];
             return mainMemoryDataType_[address & 0xff];
         break;
     }

@@ -756,6 +756,7 @@ void VipII::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address]=type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
             
@@ -765,11 +766,12 @@ void VipII::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address & ramMask_] = type;
 			}
+            increaseExecutedMainMemory(address & ramMask_, type);
 		break;
 	}
 }
 
-Byte VipII::readMemDataType(Word address)
+Byte VipII::readMemDataType(Word address, uint64_t* executed)
 {
 	if (address < 0x8000)
 		address = (address | addressLatch_);
@@ -780,10 +782,14 @@ Byte VipII::readMemDataType(Word address)
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
         case MAPPEDRAM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address & ramMask_];
 			return mainMemoryDataType_[address & ramMask_];
 		break;
 	}

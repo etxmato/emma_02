@@ -515,7 +515,7 @@ public:
 	wxString getPseudoType() {return pseudoType_;};
 	void showChip8Registers();
 	virtual void writeMemDataType(Word address, Byte type);
-	virtual Byte readMemDataType(Word address);
+	virtual Byte readMemDataType(Word address, uint64_t* executed);
 	virtual int getAds(int i){return i;};
 	virtual int getAdi(int i){return i;};
 

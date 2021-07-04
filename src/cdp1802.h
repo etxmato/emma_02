@@ -164,6 +164,17 @@ public:
     virtual void setHeaderTitle(const wxString& title);
     virtual void updateTitle(wxString Title);
 
+    void increaseExecutedMainMemory(long address, Byte type);
+    void increaseExecutedExpansionRom(long address, Byte type);
+    void increaseExecutedExpansionRam(Word address, Byte type);
+    void increaseExecutedExpansionEprom(Word address, Byte type);
+    void increaseExecutedExpansionSuper(Word address, Byte type);
+    void increaseExecutedCpuRam(Word address, Byte type);
+    void increaseExecutedMultiCartRom(Word address, Byte type);
+    void increaseExecutedTestCartRom(Word address, Byte type);
+    void increaseExecutedEmsRam(long address, Byte type);
+    void clearProfiler(int type);
+
 protected:
 	Byte cycle0_;
     Byte cpuMode_;
@@ -211,7 +222,7 @@ protected:
     Word romMask_;
     
     bool interruptRequested_;
-    
+  
 private:
 	void setMode();
 	void decCounter();

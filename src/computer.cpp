@@ -2160,8 +2160,9 @@ void Computer::writeMemDataType(Word WXUNUSED(address), Byte  WXUNUSED(type))
 {
 }
 
-Byte Computer::readMemDataType(Word WXUNUSED(address))
+Byte Computer::readMemDataType(Word WXUNUSED(address), uint64_t* executed)
 {
+    *executed = 0;
 	return 0;
 }
 
@@ -2175,6 +2176,7 @@ void Computer::writeDebugFileExit(wxString dir, wxString name, Word start, Word 
 
 void Computer::writeDebugFile(wxString dir, wxString name, Word start, Word end)
 {
+    uint64_t executed;
 	wxFileName FullPath = wxFileName(dir+name, wxPATH_NATIVE);
     dir = FullPath.GetPath(wxPATH_GET_VOLUME|wxPATH_GET_SEPARATOR, wxPATH_NATIVE);
     name = FullPath.GetName() + ".debug";
@@ -2186,7 +2188,7 @@ void Computer::writeDebugFile(wxString dir, wxString name, Word start, Word end)
 	zip.PutNextEntry(FullPath.GetName()+".deb");
 
 	for (size_t i=start; i<=end; i++)
-		data << p_Computer->readMemDataType(i);
+		data << p_Computer->readMemDataType(i, &executed);
 
     zip.PutNextEntry(FullPath.GetName()+".lab");
     

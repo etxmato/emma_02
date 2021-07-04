@@ -558,6 +558,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
             
         case MULTICART:
@@ -568,6 +569,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
 					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 					mainMemoryDataType_[address] = type;
 				}
+                increaseExecutedMainMemory(address, type);
 			}
 			else
 			{
@@ -576,6 +578,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
 					p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 					multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
 				}
+                increaseExecutedMultiCartRom((address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_, type);
 			}
         break;
             
@@ -588,6 +591,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
                     p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                     mainMemoryDataType_[address] = type;
                 }
+                increaseExecutedMainMemory(address, type);
             }
             else
             {
@@ -596,6 +600,7 @@ void Studio2::writeMemDataType(Word address, Byte type)
                     p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                     multiCartRomDataType_[(address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_] = type;
                 }
+                increaseExecutedMultiCartRom((address + multiCartLsb_ * 0x1000 + multiCartMsb_ * 0x10000)&multiCartMask_, type);
             }
         break;
             
@@ -606,11 +611,12 @@ void Studio2::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Studio2::readMemDataType(Word address)
+Byte Studio2::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256])
 	{
@@ -618,26 +624,46 @@ Byte Studio2::readMemDataType(Word address)
 		case ROM:
         case MAPPEDROM:
 		case CARTRIDGEROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
         case MULTICART:
 			if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = mainMemoryExecuted_[address];
 				return mainMemoryDataType_[address];
+            }
 			else
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = multiCartRomExecuted_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
 				return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+            }
         break;
             
         case MAPPEDMULTICART:
             address = address & 0xfff;
             if ((address < 0x400) && !disableSystemRom_)
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = mainMemoryExecuted_[address];
                 return mainMemoryDataType_[address];
+            }
             else
+            {
+                if (profilerCounter_ != PROFILER_OFF)
+                    *executed = multiCartRomExecuted_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
                 return multiCartRomDataType_[(address+multiCartLsb_*0x1000+multiCartMsb_*0x10000)&multiCartMask_];
+            }
         break;
             
         case MAPPEDRAM:
 			address = (address & 0x1ff) | 0x800;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}

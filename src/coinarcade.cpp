@@ -320,6 +320,7 @@ void CoinArcade::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
             
 		case MAPPEDRAM:
@@ -329,21 +330,26 @@ void CoinArcade::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte CoinArcade::readMemDataType(Word address)
+Byte CoinArcade::readMemDataType(Word address, uint64_t* executed)
 {
     switch (memoryType_[address/256])
 	{
 		case RAM:
 		case ROM:
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 
         case MAPPEDRAM:
-			address = (address & 0x1ff) | 0x800;
+            address = (address & 0x1ff) | 0x800;
+            if (profilerCounter_ != PROFILER_OFF)
+                *executed = mainMemoryExecuted_[address];
 			return mainMemoryDataType_[address];
 		break;
 	}

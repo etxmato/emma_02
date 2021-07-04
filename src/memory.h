@@ -1,6 +1,10 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#ifdef __WXMSW__
+typedef unsigned __int64 uint64_t;
+#endif
+
 class Memory
 {
 public:
@@ -63,8 +67,9 @@ public:
 
 protected: 
 	Word address_;
+    int profilerCounter_;
 	Byte* mainMemory_;
-	Byte* mainMemoryDataType_;
+    Byte* mainMemoryDataType_;
 	Byte* mainMemoryLabelType_;
 	int memoryType_[256];
 	int expansionMemoryType_[128];
@@ -83,34 +88,44 @@ protected:
 	Byte sequencerMemory_[2048];
 	
 	Byte* expansionRom_;
-	Byte* expansionRomDataType_;
+    Byte* expansionRomDataType_;
 	Byte* expansionRomLabelType_;
 	Byte* expansionRam_;
-	Byte* expansionRamDataType_;
+    Byte* expansionRamDataType_;
 	Byte* expansionRamLabelType_;
 	Byte* expansionEprom_;
-	Byte* expansionEpromDataType_;
+    Byte* expansionEpromDataType_;
 	Byte* expansionEpromLabelType_;
 	Byte* expansionSuper_;
-	Byte* expansionSuperDataType_;
+    Byte* expansionSuperDataType_;
 	Byte* expansionSuperLabelType_;
     Byte* cpuRam_;
     Byte* cpuRamDataType_;
     Byte* cpuRamLabelType_;
 
     Byte* multiCartRom_;
-	Byte* multiCartRomDataType_;
+    Byte* multiCartRomDataType_;
 	Byte* multiCartRomLabelType_;
     Byte* testCartRom_;
     Byte* testCartRomDataType_;
     Byte* testCartRomLabelType_;
 	Byte* emsRam_;
-	Byte* emsRamDataType_;
+    Byte* emsRamDataType_;
 	Byte* emsRamLabelType_;
 	Byte emsPage_;
 	Byte multiCartMsb_;
     Byte multiCartLsb_;
         
+    uint64_t* mainMemoryExecuted_;
+    uint64_t* expansionRomExecuted_;
+    uint64_t* expansionRamExecuted_;
+    uint64_t* expansionEpromExecuted_;
+    uint64_t* expansionSuperExecuted_;
+    uint64_t* cpuRamExecuted_;
+    uint64_t* multiCartRomExecuted_;
+    uint64_t* testCartRomExecuted_;
+    uint64_t* emsRamExecuted_;
+
     size_t multiCartMask_;
     wxFileOffset romMapperSize_;
     Byte maxNumberOfPages_;
@@ -120,9 +135,9 @@ protected:
     bool emsMemoryDefined_;
 	bool pagerDefined_;
     bool romMapperDefined_;
+    bool comxExpansionMemoryDefined_;
 
 private:
-	bool comxExpansionMemoryDefined_;
 	int pager_[16];
     
     Word randomAddress_;

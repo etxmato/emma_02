@@ -584,6 +584,7 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 
         case REGSTORAGE:
@@ -594,6 +595,7 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
                     p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
                     mainMemoryDataType_[address] = type;
                 }
+                increaseExecutedMainMemory(address, type);
             }
         break;
             
@@ -603,14 +605,18 @@ void Cdp18s020::writeMemDataType(Word address, Byte type)
 				p_Main->updateAssTabCheck(scratchpadRegister_[programCounter_]);
 				mainMemoryDataType_[address] = type;
 			}
+            increaseExecutedMainMemory(address, type);
 		break;
 	}
 }
 
-Byte Cdp18s020::readMemDataType(Word address)
+Byte Cdp18s020::readMemDataType(Word address, uint64_t* executed)
 {
 	if (address < 0x8000)
 		address = (address | addressLatch_);
+
+    if (profilerCounter_ != PROFILER_OFF)
+        *executed = mainMemoryExecuted_[address];
 
 	switch (memoryType_[address/256])
 	{

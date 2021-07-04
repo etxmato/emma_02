@@ -491,13 +491,14 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
 	EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("ElfChoiceBook"), Main::onElfChoiceBook)
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("RcaChoiceBook"), Main::onRcaChoiceBook)
 	EVT_NOTEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
-	EVT_TIMER(902, Main::vuTimeout)
+    EVT_TIMER(902, Main::vuTimeout)
 	EVT_TIMER(903, Main::cpuTimeout)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
     EVT_TIMER(908, Main::guiSizeTimeout)
     EVT_TIMER(909, Main::guiRedrawBarTimeOut)
+    EVT_TIMER(910, Main::directAssTimeout)
 
 	EVT_KEY_DOWN(Main::onKeyDown)
 	EVT_KEY_UP(Main::onKeyUp)
@@ -583,6 +584,8 @@ bool Emu1802::OnInit()
 	if (!wxApp::OnInit())
         return false;
     
+    locale.Init();
+
 	wxSystemOptions::SetOption("msw.window.no-clip-children", 1);
     
     int ubuntuOffsetX;
@@ -1718,6 +1721,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
     guiSizeTimeoutPointer = new wxTimer(this, 908);
     guiRedrawBarTimeOutPointer = new wxTimer(this, 909);
+    directAssPointer = new wxTimer(this, 910);
     guiSizeTimerStarted_ = false;
     
     if (mode_.gui)
@@ -1769,6 +1773,7 @@ Main::~Main()
 	}
 
 	delete vuPointer;
+    delete directAssPointer;
 	delete cpuPointer;
 	delete updateCheckPointer;
     delete traceTimeoutPointer;
@@ -2569,7 +2574,7 @@ void Main::readConfig()
 		cpuType_ = CPU1805;
 
     defaultCpuType_ = cpuType_;
-    
+
     if (cpuStartupRegistersString == "StartupRegistersZeroed")
         cpuStartupRegisters_ = STARTUP_ZEROED;
     if (cpuStartupRegistersString == "StartupRegistersRandom")
@@ -4221,7 +4226,7 @@ void Main::onKeyDown(wxKeyEvent& event)
 	int key = event.GetKeyCode();
 	if (key == WXK_UP)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageUp();
@@ -4236,7 +4241,7 @@ void Main::onKeyDown(wxKeyEvent& event)
 
 	if (key == WXK_DOWN)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageDown();
@@ -4258,7 +4263,7 @@ void Main::onWheel(wxMouseEvent& event)
 	int rot = event.GetWheelRotation ();
 	if (rot > 0)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageUp();
@@ -4273,7 +4278,7 @@ void Main::onWheel(wxMouseEvent& event)
 
 	if (rot < 0)
 	{
-		if (computerRunning_ && selectedComputer_ == DEBUGGER && debuggerChoice_ == DIRECTASSTAB)
+		if (computerRunning_ && selectedComputer_ == DEBUGGER && (debuggerChoice_ == DIRECTASSTAB || debuggerChoice_ == PROFILERTAB))
 		{
 			if (event.GetModifiers() == wxMOD_SHIFT)
 				onAssSpinPageDown();
@@ -4973,7 +4978,7 @@ void Main::onStart(int computer)
     int x, y;
 
 	updateAssPage_ = true;
-	updateMemoryPage_ = true;
+//	updateMemoryPage_ = true;
 	emuClosing_ = false;
 	thermalEf_ = false;
 	statusLedUpdate_ = true;
@@ -5254,6 +5259,7 @@ void Main::onStart(int computer)
     {
         XRCCTRL(*this, "Message_Window", wxTextCtrl)->Clear();
         vuPointer->Start(100, wxTIMER_CONTINUOUS);
+        directAssPointer->Start(1000, wxTIMER_CONTINUOUS);
 #if defined(__WXMAC__) || defined(__linux__)
         traceTimeoutPointer->Start(100, wxTIMER_CONTINUOUS);
 #endif
@@ -5311,7 +5317,8 @@ void Main::stopComputer()
 	popupDialog_ = NULL;
 	if (mode_.gui)
 	{
-		vuPointer->Stop();
+        directAssPointer->Stop();
+        vuPointer->Stop();
 		cpuPointer->Stop();
 		switch (runningComputer_)
 		{
@@ -5564,8 +5571,9 @@ void Main::onComputer(wxNotebookEvent&event)
 					memoryDisplay();
 				break;
 
-				case ASSTAB:
-					debuggerChoice_ = ASSTAB;
+				case PROFILERTAB:
+					debuggerChoice_ = PROFILERTAB;
+                    directAss();
 				break;
 
 				case DIRECTASSTAB:
@@ -5810,8 +5818,9 @@ void Main::onDebuggerChoiceBook(wxNotebookEvent&event)
 			memoryDisplay();
 		break;
 
-		case ASSTAB:
-			debuggerChoice_ = ASSTAB;
+		case PROFILERTAB:
+			debuggerChoice_ = PROFILERTAB;
+            directAss();
 		break;
 
 		case DIRECTASSTAB:
@@ -6049,6 +6058,8 @@ void Main::enableGui(bool status)
 	menubarPointer->Enable(XRCID(GUIDEFAULT), status);
 	menubarPointer->Enable(XRCID("MI_ActivateMain"), !status);
 	menubarPointer->Enable(XRCID("MI_FullScreen"), !status);
+    menubarPointer->Enable(XRCID("SYSTEM00"), status);
+    menubarPointer->Enable(XRCID("CDP1801"), status);
 	menubarPointer->Enable(XRCID("CDP1802"), status);
 	menubarPointer->Enable(XRCID("CDP1804"), status);
     menubarPointer->Enable(XRCID("CDP1805"), status);
@@ -6066,6 +6077,8 @@ void Main::enableGui(bool status)
     menubarPointer->Enable(XRCID("KeyboardSwedish"), status);
     menubarPointer->Enable(XRCID("KeyboardUs"), status);
     menubarPointer->Enable(XRCID("KeyboardUserDefined"), status);
+
+    XRCCTRL(*this,"ProfilerCounter", wxChoice)->Enable(status);
 
     enableColorbutton(status);
 	if (runningComputer_ == COMX)
@@ -7036,98 +7049,83 @@ void Main::traceTimeout(wxTimerEvent&WXUNUSED(event))
     }
 }
 
-void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
+void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
 {
-	switch (runningComputer_)
-	{
-        case FRED1:
-        case FRED1_5:
-		case COSMICOS:
-		case ELF: 
-		case ELFII:
-		case SUPERELF:
-		case COMX:
-		case VIP: 
-        case VIPII:
-        case VIP2K:
-        case VELF:
-		case TMC600:
-		case TMC1800:
-		case TMC2000:
-		case PECOM:
-		case ETI:
-		case NANO:
-			vuSet("Vu"+computerInfo[runningComputer_].gui, p_Computer->getGaugeValue());
-		break;
-	}
-
-	if (selectedComputer_ == DEBUGGER)
-	{
-		switch (debuggerChoice_)
-		{
-			case TRACETAB:
+    if (selectedComputer_ == DEBUGGER)
+    {
+        switch (debuggerChoice_)
+        {
+            case TRACETAB:
                 if (percentageClock_ == 1)
-					p_Main->updateWindow();
-			break;
+                    p_Main->updateWindow();
+            break;
 
-			case DIRECTASSTAB:
-				if (updateAssPage_)
-				{
-					directAss();
-					updateAssPage_ = false;
-				}
-			break;
+            case DIRECTASSTAB:
+                if (updateAssPage_)
+                {
+                    directAss();
+                    updateAssPage_ = false;
+                }
+            break;
 
-			case MEMORYTAB:
-				if (updateMemoryPage_)
-				{
-					memoryDisplay();
-					updateMemoryPage_ = false;
-				}
+            case PROFILERTAB:
+                if (updateAssPage_)
+                {
+                    directAss();
+                    updateAssPage_ = false;
+                }
+            break;
 
-				if (updateSlotinfo_)
-				{
-					wxString slotValue;
-					switch (runningComputer_)
-					{
-						case COMX:
-							XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->changeNumber(p_Comx->getComxExpansionSlot()+1);
-							if (p_Comx->isRamCardActive())
-								XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->changeNumber(p_Comx->getComxExpansionRamBank());
-							if (p_Comx->isEpromBoardLoaded() || p_Comx->isSuperBoardLoaded())
-								XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->changeNumber(p_Comx->getComxExpansionEpromBank());
-						break;
-						case ELF:
-						case ELFII:
-						case SUPERELF:
-							if (elfConfiguration[runningComputer_].usePager)
-							{
-								XRCCTRL(*this, "DebugPager", HexEdit)->changeNumber(p_Computer->getPager(portExtender_));
-								XRCCTRL(*this, "DebugPortExtender", HexEdit)->changeNumber(portExtender_);
-							}
-							if (elfConfiguration[runningComputer_].useEms)
-								XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
-						break;
-					}
-					updateSlotinfo_ = false;
-				}
+            case MEMORYTAB:
+//                if (updateMemoryPage_)
+  //              {
+                    memoryDisplay();
+     //               updateMemoryPage_ = false;
+    //            }
 
-				if (updateMemory_ && memoryDisplay_ != CPU_TYPE)
-				{
-					updateMemory_ = false;
-					wxString idReference, valueStr;
-					for (int y=0; y<16; y++)
-					{
-						if (rowChanged_[y])
-						{
-							rowChanged_[y] = false;
-							ShowCharacters(memoryStart_+(y*16), y);
-							for (int x=0; x<16; x++)
-							{
-								if (memoryChanged_[x][y])
-								{
-									memoryChanged_[x][y] = false;
-									idReference.Printf("MEM%01X%01X", y, x);
+                if (updateSlotinfo_)
+                {
+                    wxString slotValue;
+                    switch (runningComputer_)
+                    {
+                        case COMX:
+                            XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->changeNumber(p_Comx->getComxExpansionSlot()+1);
+                            if (p_Comx->isRamCardActive())
+                                XRCCTRL(*this, "DebugExpansionRam", SlotEdit)->changeNumber(p_Comx->getComxExpansionRamBank());
+                            if (p_Comx->isEpromBoardLoaded() || p_Comx->isSuperBoardLoaded())
+                                XRCCTRL(*this, "DebugExpansionEprom", HexEdit)->changeNumber(p_Comx->getComxExpansionEpromBank());
+                        break;
+                        case ELF:
+                        case ELFII:
+                        case SUPERELF:
+                            if (elfConfiguration[runningComputer_].usePager)
+                            {
+                                XRCCTRL(*this, "DebugPager", HexEdit)->changeNumber(p_Computer->getPager(portExtender_));
+                                XRCCTRL(*this, "DebugPortExtender", HexEdit)->changeNumber(portExtender_);
+                            }
+                            if (elfConfiguration[runningComputer_].useEms)
+                                XRCCTRL(*this, "DebugEmsPage", HexEdit)->changeNumber(p_Computer->getEmsPage());
+                        break;
+                    }
+                    updateSlotinfo_ = false;
+                }
+
+                if (updateMemory_ && memoryDisplay_ != CPU_TYPE)
+                {
+                    updateMemory_ = false;
+                    wxString idReference, valueStr;
+                    for (int y=0; y<16; y++)
+                    {
+                        if (rowChanged_[y])
+                        {
+                            rowChanged_[y] = false;
+                            ShowCharacters(memoryStart_+(y*16), y);
+                            for (int x=0; x<16; x++)
+                            {
+                                if (memoryChanged_[x][y])
+                                {
+                                    memoryChanged_[x][y] = false;
+                                    idReference.Printf("MEM%01X%01X", y, x);
 
                                     switch (memoryDisplay_)
                                     {
@@ -7152,20 +7150,46 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
                                             XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
                                         break;
                                     }
-								}
-							}
-						}
-					}
-				}
-			break;
-		}
-	}
+                                }
+                            }
+                        }
+                    }
+                }
+            break;
+        }
+    }
 }
 
+void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
+{
+	switch (runningComputer_)
+	{
+        case FRED1:
+        case FRED1_5:
+		case COSMICOS:
+		case ELF: 
+		case ELFII:
+		case SUPERELF:
+		case COMX:
+		case VIP: 
+        case VIPII:
+        case VIP2K:
+        case VELF:
+		case TMC600:
+		case TMC1800:
+		case TMC2000:
+		case PECOM:
+		case ETI:
+		case NANO:
+			vuSet("Vu"+computerInfo[runningComputer_].gui, p_Computer->getGaugeValue());
+		break;
+	}
+}
+/*
 void Main::updateMemoryTab()
 {
 	updateMemoryPage_ = true;
-}
+}*/
 
 void Main::updateAssTab()
 {
@@ -7175,7 +7199,7 @@ void Main::updateAssTab()
 void Main::updateSlotInfo()
 {
 	updateSlotinfo_ = true;
-	updateMemoryTab();
+//	updateMemoryTab();
 	updateAssTab();
 }
 

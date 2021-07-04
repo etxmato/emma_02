@@ -1855,7 +1855,7 @@ void Vt100::Display(int byt, bool forceDisplay)
                                         {
                                             inputTerminalFile.Close();
                                             xmodemFileNumber_++;
-                                            fileName = p_Main->getTerminalPath(computerType_, xmodemFileNumber_-1);
+                                            fileName = p_Main->getTerminalPath(computerType_, (int)xmodemFileNumber_-1);
                                             if (!fileName.empty())
                                             {
                                                 if (inputTerminalFile.Open(fileName, _("rb")))

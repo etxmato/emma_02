@@ -495,7 +495,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.40
-#define EMMA_SUB_VERSION 0
+#define EMMA_SUB_VERSION 3
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -614,10 +614,10 @@ public:
 
 #define MESSAGETAB 0
 #define DIRECTASSTAB 1
-#define TRACETAB 2
-#define CHIP8TAB 3
-#define MEMORYTAB 4
-#define ASSTAB 5
+#define PROFILERTAB 2
+#define TRACETAB 3
+#define CHIP8TAB 4
+#define MEMORYTAB 5
 #define LASTDEBUGGERTAB 5
 
 #define MICROBOARD_CDP18S600 0
@@ -961,6 +961,10 @@ public:
 #define CPU1802 3
 #define CPU1804 4
 #define CPU1805 5
+#define PROFILERTYPELIN 0
+#define PROFILERTYPELOG 1
+#define PROFILER_OFF 0
+#define PROFILER_ON 1
 
 #define STARTUP_ZEROED 0
 #define STARTUP_RANDOM 1
@@ -1046,6 +1050,7 @@ class Emu1802: public wxApp
 	void checkXrc(wxString xrcFile);
 
 private:
+    wxLocale locale;
 	wxConfigBase *configPointer;
 
 	Mode mode_;
@@ -1192,8 +1197,9 @@ public:
     void setUseExitKey(bool status) {useExitKey_ = status;};
     void setUseCtrlvKey(bool status) {useCtrlvKey_ = status;};
     void traceTimeout(wxTimerEvent& event);
+    void directAssTimeout(wxTimerEvent& event);
     void vuTimeout(wxTimerEvent& event);
-	void updateMemoryTab();
+//	void updateMemoryTab();
 	void updateAssTab();
 	void updateSlotInfo();
 	void ledTimeout(wxTimerEvent& event);
@@ -1383,7 +1389,7 @@ private:
 	int eventNumber_;
 
 	bool updateMemory_;
-	bool updateMemoryPage_;
+//	bool updateMemoryPage_;
 	bool updateAssPage_;
 	bool updateSlotinfo_;
 	bool rowChanged_[16];
