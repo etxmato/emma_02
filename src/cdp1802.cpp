@@ -188,6 +188,7 @@ void Cdp1802::resetEffectiveClock()
 {
     p_Main->startTime();
     cpuCycles_ = 0;
+	instructionCounter_ = 0;
     if (p_Video != NULL)
         p_Video->resetVideoSyncCount();
 }
@@ -280,6 +281,7 @@ void Cdp1802::dmaIn(Byte value)
 	idle_=0;
     cpuState_ = STATE_FETCH_1;
 	cpuCycles_++;
+	instructionCounter_++;
 //	machineCycle(); // Using this will crash Elfs when tying in keys with Q sound on 'Hardware'
     if (singleStateStep_)
     {
@@ -304,6 +306,7 @@ Byte Cdp1802::dmaOut()
 	idle_=0;
     cpuState_ = STATE_FETCH_1;
 	cpuCycles_++;
+	instructionCounter_++;
 	machineCycle();
     
     if (singleStateStep_)
@@ -368,6 +371,7 @@ Byte Cdp1802::pixieDmaOut(int *color)
 	idle_=0;
     cpuState_ = STATE_FETCH_1;
 	cpuCycles_++;
+	instructionCounter_++;
 	soundCycle();
 
     if (singleStateStep_)
@@ -395,6 +399,7 @@ void Cdp1802::visicomDmaOut(Byte *vram1, Byte *vram2)
 	idle_=0;
     cpuState_ = STATE_FETCH_1;
 	cpuCycles_++;
+	instructionCounter_++;
 	soundCycle();
 }
 
@@ -414,6 +419,7 @@ Byte Cdp1802::pixieDmaOut()
 	idle_=0;
     cpuState_ = STATE_FETCH_1;
 	cpuCycles_++;
+	instructionCounter_++;
 	soundCycle();
 
     if (singleStateStep_)
@@ -537,6 +543,7 @@ void Cdp1802::interrupt()
 		programCounter_=1;
 		interruptEnable_=0;
 		cpuCycles_++;
+		instructionCounter_++;
 		machineCycle();
         
         cpuState_ = STATE_FETCH_1;
@@ -575,6 +582,7 @@ void Cdp1802::pixieInterrupt()
 		programCounter_=1;
 		interruptEnable_=0;
 		cpuCycles_++;
+		instructionCounter_++;
 //      Adding a 'machineCycle()' here will mess up the Pixie screens on at least the Elfs. The machineCycle is however done as part of the cpuCycleStep routine if cycle0 is set to 1.
         
         cpuState_ = STATE_FETCH_1;
@@ -1596,72 +1604,78 @@ void Cdp1802::cpuCycleFetch()
 // ** address log
 //    p_Main->addressLog(scratchpadRegister_[programCounter_]);
     bus_=instructionCode_;
-    if (p_Computer->readMemDataType(scratchpadRegister_[programCounter_], &executed) >= MEM_TYPE_OPCODE_RSHR)
+	instructionCounter_++;
+
+	Byte mem_type = p_Computer->readMemDataType(scratchpadRegister_[programCounter_], &executed);
+
+    if (mem_type >= MEM_TYPE_OPCODE_RSHR)
     {
         switch (p_Computer->readMemDataType(scratchpadRegister_[programCounter_], &executed))
         {
             case MEM_TYPE_OPCODE_RSHR:
                 if (instructionCode_ != 0x76)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_RSHL:
                 if (instructionCode_ != 0x7E)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_BPZ:
                 if (instructionCode_ != 0x33)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_BGE:
                 if (instructionCode_ != 0x33)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_BM:
                 if (instructionCode_ != 0x3b)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_BL:
                 if (instructionCode_ != 0x3b)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_LSKP:
                 if (instructionCode_ != 0xc8)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_SKP:
                 if (instructionCode_ != 0x38)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_LBR_SLOT:
                 if ((instructionCode_&0xf0) != 0xC0)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
-            break;
+ 					mem_type = MEM_TYPE_OPCODE;
+           break;
             case MEM_TYPE_OPCODE_LDV:
             case MEM_TYPE_OPCODE_LDL:
             case MEM_TYPE_OPCODE_LDL_SLOT:
                 if (instructionCode_ != 0xF8)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPERAND_LD_2:
                 if ((instructionCode_&0xf0) != 0xB0)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPERAND_LD_3:
                 if (instructionCode_ != 0xF8)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPERAND_LD_5:
                 if ((instructionCode_&0xf0) != 0xA0)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
             case MEM_TYPE_OPCODE_RLDL:
                 if (instructionCode_ != 68 && (readMem(scratchpadRegister_[programCounter_]+1)&0xf0) != 0xc0)
-                    p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+ 					mem_type = MEM_TYPE_OPCODE;
             break;
         }
     }
     else
-        p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], MEM_TYPE_OPCODE);
+		mem_type = MEM_TYPE_OPCODE;
+ 
+	p_Computer->writeMemDataType(scratchpadRegister_[programCounter_], mem_type);
     
     scratchpadRegister_[programCounter_]++;
 
@@ -5418,7 +5432,7 @@ void Cdp1802::updateTitle(wxString WXUNUSED(Title))
 
 void Cdp1802::increaseExecutedMainMemory(long address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (mainMemoryExecuted_[address] < 18446744073709551615)
             mainMemoryExecuted_[address]++;
@@ -5428,7 +5442,7 @@ void Cdp1802::increaseExecutedMainMemory(long address, Byte type)
 
 void Cdp1802::increaseExecutedExpansionRom(long address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (expansionRomExecuted_[address] < 18446744073709551615)
             expansionRomExecuted_[address]++;
@@ -5438,7 +5452,7 @@ void Cdp1802::increaseExecutedExpansionRom(long address, Byte type)
 
 void Cdp1802::increaseExecutedExpansionRam(Word address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (expansionRamExecuted_[address] < 18446744073709551615)
             expansionRamExecuted_[address]++;
@@ -5448,7 +5462,7 @@ void Cdp1802::increaseExecutedExpansionRam(Word address, Byte type)
 
 void Cdp1802::increaseExecutedExpansionEprom(Word address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (expansionEpromExecuted_[address] < 18446744073709551615)
             expansionEpromExecuted_[address]++;
@@ -5458,7 +5472,7 @@ void Cdp1802::increaseExecutedExpansionEprom(Word address, Byte type)
 
 void Cdp1802::increaseExecutedExpansionSuper(Word address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (expansionSuperExecuted_[address] < 18446744073709551615)
             expansionSuperExecuted_[address]++;
@@ -5468,7 +5482,7 @@ void Cdp1802::increaseExecutedExpansionSuper(Word address, Byte type)
 
 void Cdp1802::increaseExecutedCpuRam(Word address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (cpuRamExecuted_[address] < 18446744073709551615)
             cpuRamExecuted_[address]++;
@@ -5478,7 +5492,7 @@ void Cdp1802::increaseExecutedCpuRam(Word address, Byte type)
 
 void Cdp1802::increaseExecutedMultiCartRom(Word address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (multiCartRomExecuted_[address] < 18446744073709551615)
             multiCartRomExecuted_[address]++;
@@ -5488,7 +5502,7 @@ void Cdp1802::increaseExecutedMultiCartRom(Word address, Byte type)
 
 void Cdp1802::increaseExecutedTestCartRom(Word address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (testCartRomExecuted_[address] < 18446744073709551615)
             testCartRomExecuted_[address]++;
@@ -5498,7 +5512,7 @@ void Cdp1802::increaseExecutedTestCartRom(Word address, Byte type)
 
 void Cdp1802::increaseExecutedEmsRam(long address, Byte type)
 {
-    if (type == MEM_TYPE_OPCODE && profilerCounter_ != PROFILER_OFF)
+    if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
         if (emsRamExecuted_[address] < 18446744073709551615)
             emsRamExecuted_[address]++;
@@ -5506,7 +5520,7 @@ void Cdp1802::increaseExecutedEmsRam(long address, Byte type)
     }
 }
 
-void Cdp1802::clearProfiler(int type)
+void Cdp1802::clearProfiler()
 {
     if (profilerCounter_ == PROFILER_OFF)
         return;

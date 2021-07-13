@@ -77,7 +77,8 @@ protected:
 	Byte flipFlopQ_;
 	int vipSound_;
 	bool realCassetteLoad_;
-	long cpuCycles_;
+	uint64_t cpuCycles_;
+	uint64_t instructionCounter_;
 	double soundClock_;
 	double percentageClock_;
     int computerType_;

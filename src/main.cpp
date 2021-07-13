@@ -42,6 +42,7 @@
 #include "wx/fileconf.h"
 #include "wx/cmdline.h"
 #include "wx/sstream.h"
+#include "wx/numformatter.h"
 
 #if defined(__linux__)
 #include <X11/Xlib.h>
@@ -76,6 +77,16 @@ IMPLEMENT_DYNAMIC_CLASS(SlotEdit, wxTextCtrl)
 IMPLEMENT_DYNAMIC_CLASS(HexEdit, wxTextCtrl) 
 IMPLEMENT_DYNAMIC_CLASS(HexEditX, wxTextCtrl) 
 IMPLEMENT_DYNAMIC_CLASS(MemEdit, wxTextCtrl) 
+
+wxString cpuName[] =
+{
+	"",
+	"SYSTEM00",
+	"RCA CDP1801",
+	"RCA CDP1802",
+	"RCA CDP1804",
+	"RCA CDP1805"
+};
 
 wxString guiSizers[] =
 {
@@ -492,7 +503,7 @@ BEGIN_EVENT_TABLE(Main, DebugWindow)
     EVT_CHOICEBOOK_PAGE_CHANGED(XRCID("RcaChoiceBook"), Main::onRcaChoiceBook)
 	EVT_NOTEBOOK_PAGE_CHANGED(XRCID("DebuggerChoiceBook"), Main::onDebuggerChoiceBook)
     EVT_TIMER(902, Main::vuTimeout)
-	EVT_TIMER(903, Main::cpuTimeout)
+//	EVT_TIMER(903, Main::cpuTimeout)
 	EVT_TIMER(905, Main::updateCheckTimeout)
     EVT_TIMER(906, Main::traceTimeout)
     EVT_TIMER(907, Main::debounceTimeout)
@@ -1715,7 +1726,7 @@ Main::Main(const wxString& title, const wxPoint& pos, const wxSize& size, Mode m
     
     oldGauge_ = 1;
     vuPointer = new wxTimer(this, 902);
-    cpuPointer = new wxTimer(this, 903);
+ //   cpuPointer = new wxTimer(this, 903);
     updateCheckPointer = new wxTimer(this, 905);
     traceTimeoutPointer = new wxTimer(this, 906);
     keyDebounceTimeoutPointer = new wxTimer(this, 907);
@@ -1774,7 +1785,7 @@ Main::~Main()
 
 	delete vuPointer;
     delete directAssPointer;
-	delete cpuPointer;
+//	delete cpuPointer;
 	delete updateCheckPointer;
     delete traceTimeoutPointer;
     delete keyDebounceTimeoutPointer;
@@ -4232,7 +4243,7 @@ void Main::onKeyDown(wxKeyEvent& event)
 				onAssSpinPageUp();
 			else
 			{
-				assSpinUp();
+				assSpinUpScroll();
 				directAss();
 			}
 			return;
@@ -4247,7 +4258,7 @@ void Main::onKeyDown(wxKeyEvent& event)
 				onAssSpinPageDown();
 			else
 			{
-				assSpinDown();
+				assSpinDownScroll();
 				directAss();
 			}
 			return;
@@ -4269,7 +4280,7 @@ void Main::onWheel(wxMouseEvent& event)
 				onAssSpinPageUp();
 			else
 			{
-				assSpinUp();
+				assSpinUpScroll();
 				directAss();
 			}
 			return;
@@ -4284,7 +4295,7 @@ void Main::onWheel(wxMouseEvent& event)
 				onAssSpinPageDown();
 			else
 			{
-				assSpinDown();
+				assSpinDownScroll();
 				directAss();
 			}
 			return;
@@ -4978,7 +4989,7 @@ void Main::onStart(int computer)
     int x, y;
 
 	updateAssPage_ = true;
-//	updateMemoryPage_ = true;
+	updateMemoryPage_ = true;
 	emuClosing_ = false;
 	thermalEf_ = false;
 	statusLedUpdate_ = true;
@@ -5263,7 +5274,7 @@ void Main::onStart(int computer)
 #if defined(__WXMAC__) || defined(__linux__)
         traceTimeoutPointer->Start(100, wxTIMER_CONTINUOUS);
 #endif
-        cpuPointer->Start(1000, wxTIMER_CONTINUOUS);
+ //       cpuPointer->Start(1000, wxTIMER_CONTINUOUS);
     }
 
     enableGui(false);
@@ -5282,9 +5293,11 @@ void Main::onStart(int computer)
 	{
 		p_Main->resetDisplay();
 #if wxCHECK_VERSION(2, 9, 0)
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Running computer: "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Running computer:  "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabelText("Running CPU:  "+cpuName[cpuType_]);
 #else
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Running computer: "+computerInfo[runningComputer_].name);
+		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Running computer:  "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabel("Running CPU:  "+cpuName[cpuType_]);
 #endif
 	    assNew(0);
 	}
@@ -5319,7 +5332,7 @@ void Main::stopComputer()
 	{
         directAssPointer->Stop();
         vuPointer->Stop();
-		cpuPointer->Stop();
+//		cpuPointer->Stop();
 		switch (runningComputer_)
 		{
 			case COMX:
@@ -5355,9 +5368,11 @@ void Main::stopComputer()
 			break;
 		}
 #if wxCHECK_VERSION(2, 9, 0)
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Last executed computer: "+computerInfo[runningComputer_].name);
+		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabelText("Last computer: "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabelText("Last CPU:  "+cpuName[cpuType_]);
 #else
-		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Last executed computer: "+computerInfo[runningComputer_].name);
+		XRCCTRL(*this, "RunningComputer", wxStaticText)->SetLabel("Last computer: "+computerInfo[runningComputer_].name);
+        XRCCTRL(*this, "RunningCpu", wxStaticText)->SetLabel("Last CPU:  "+cpuName[cpuType_]);
 #endif
 		showTime();
 	}
@@ -7055,6 +7070,9 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
     {
         switch (debuggerChoice_)
         {
+			case MESSAGETAB:
+            break;
+
             case TRACETAB:
                 if (percentageClock_ == 1)
                     p_Main->updateWindow();
@@ -7069,6 +7087,7 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
             break;
 
             case PROFILERTAB:
+                showTime();
                 if (updateAssPage_)
                 {
                     directAss();
@@ -7077,11 +7096,11 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
             break;
 
             case MEMORYTAB:
-//                if (updateMemoryPage_)
-  //              {
+                if (updateMemoryPage_)
+                {
                     memoryDisplay();
-     //               updateMemoryPage_ = false;
-    //            }
+                    updateMemoryPage_ = false;
+                }
 
                 if (updateSlotinfo_)
                 {
@@ -7185,11 +7204,11 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 		break;
 	}
 }
-/*
+
 void Main::updateMemoryTab()
 {
 	updateMemoryPage_ = true;
-}*/
+}
 
 void Main::updateAssTab()
 {
@@ -7199,7 +7218,7 @@ void Main::updateAssTab()
 void Main::updateSlotInfo()
 {
 	updateSlotinfo_ = true;
-//	updateMemoryTab();
+	updateMemoryTab();
 	updateAssTab();
 }
 
@@ -7223,19 +7242,21 @@ void Main::updateCheckTimeout(wxTimerEvent&WXUNUSED(event))
 	}
 }
 
+/*
 void Main::cpuTimeout(wxTimerEvent&WXUNUSED(event))
 {
 	if (selectedComputer_ == DEBUGGER && debuggerChoice_ == MESSAGETAB)
 		showTime();
-
-}
+}*/
 
 void Main::startTime()
 {
     startTime_ = wxGetLocalTime();
     lapTime_ = 0;
     lapTimeStart_ = 0;
-    lastNumberOfCpuCycles_ = -1;
+    lastNumberOfCpuCycles_ = 0;
+	lastInstructionCounter_= 0;
+	cpuCyclesOverflow_ = false;
 }
 
 void Main::showTime()
@@ -7246,11 +7267,46 @@ void Main::showTime()
 	float videoFreq;
 	time_t endTime;
 
-	long cpuCycles = p_Computer->getCpuCycles();
+	uint64_t cpuCycles = p_Computer->getCpuCycles();
+	uint64_t instructionCounter = p_Computer->getInstructionCounter();
+
+    endTime = wxGetLocalTime();
+    s = (int)(endTime - startTime_);
+    
+	if (instructionCounter != 0 && lastInstructionCounter_ != instructionCounter)
+	{
+		if (instructionCounter < lastInstructionCounter_)
+			instructionCounterOverflow_ = true;
+
+		if (instructionCounterOverflow_)
+			print_buffer = "---";
+		else
+			print_buffer.Printf(wxNumberFormatter::ToString((double)instructionCounter, 0));
+
+#if wxCHECK_VERSION(2, 9, 0)
+		XRCCTRL(*this, "InstructionCounter", wxStaticText)->SetLabelText(print_buffer);
+#else
+		XRCCTRL(*this, "InstructionCounter", wxStaticText)->SetLabel(print_buffer);
+#endif
+
+        if (instructionCounterOverflow_)
+            print_buffer = "---";
+        else
+            print_buffer.Printf(wxNumberFormatter::ToString((double)instructionCounter/s, 0));
+
+#if wxCHECK_VERSION(2, 9, 0)
+        XRCCTRL(*this, "InstructionsPerSecond", wxStaticText)->SetLabelText(print_buffer);
+#else
+        XRCCTRL(*this, "InstructionsPerSecond", wxStaticText)->SetLabel(print_buffer);
+#endif
+	}
+	lastInstructionCounter_ = instructionCounter;
+
 	if (cpuCycles != 0 && lastNumberOfCpuCycles_ != cpuCycles)
 	{
-		endTime = wxGetLocalTime();
-		s = (int)(endTime - startTime_);
+		if (cpuCycles < lastNumberOfCpuCycles_)
+			cpuCyclesOverflow_ = true;
+
 		h = s / 3600;
 		s -= (h * 3600);
 		m = s / 60;
@@ -7260,7 +7316,11 @@ void Main::showTime()
 		f1 /= f2;
 		f1 = f1 / 1000000 * 8;
 
-		print_buffer.Printf("%ld", cpuCycles);
+		if (cpuCyclesOverflow_)
+			print_buffer = "---";
+		else
+			print_buffer.Printf(wxNumberFormatter::ToString((double)cpuCycles, 0));
+
 #if wxCHECK_VERSION(2, 9, 0)
 		XRCCTRL(*this, "CpuCycles", wxStaticText)->SetLabelText(print_buffer);
 #else
@@ -7292,7 +7352,10 @@ void Main::showTime()
         XRCCTRL(*this, "LapTime", wxStaticText)->SetLabel(print_buffer);
 #endif
         
-		print_buffer.Printf("%6.3f MHz",f1);
+		if (cpuCyclesOverflow_)
+			print_buffer = "---";
+		else
+			print_buffer.Printf("%6.3f MHz",f1);
 #if wxCHECK_VERSION(2, 9, 0)
 		XRCCTRL(*this, "EffectiveClock", wxStaticText)->SetLabelText(print_buffer);
 #else

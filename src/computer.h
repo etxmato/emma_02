@@ -498,7 +498,7 @@ public:
 	virtual void reDefineKeysB(int *, int *, int *);
 	virtual void reDefineKeysA(int *, int *);
 	virtual void reDefineKeysB(int *, int *);
-	virtual long getCpuCycles() { return 0; };
+	virtual uint64_t getCpuCycles() { return 0; };
 	void setQsound(int status) {qSound_ = status;};
 
 	virtual void onNumberKeyDown(wxCommandEvent& event);

@@ -651,6 +651,7 @@ void StudioIV::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();
@@ -684,6 +685,7 @@ void StudioIV::startComputer2020()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
  
     pseudoType_ = "AM4KBAS2020";
@@ -838,6 +840,7 @@ void StudioIV::cpuInstruction()
 	{
 		initPixie();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 	}
 }

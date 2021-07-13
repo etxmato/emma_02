@@ -437,6 +437,7 @@ void Microtutor::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(MICROTUTOR);

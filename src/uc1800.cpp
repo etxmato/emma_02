@@ -760,6 +760,7 @@ void Uc1800::startComputer()
     uc1800ScreenPointer->showAddressTil313Italic(address_);
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(UC1800);
@@ -900,6 +901,7 @@ void Uc1800::cpuInstruction()
 		machineCycle();
 		machineCycle();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{

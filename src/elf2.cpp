@@ -1145,6 +1145,7 @@ void Elf2::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     loadRtc();
@@ -1562,6 +1563,7 @@ void Elf2::cpuInstruction()
 		machineCycle();
 		machineCycle();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{

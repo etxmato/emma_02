@@ -918,6 +918,7 @@ void Comx::startComputer()
 	p_Main->enableDiskRomGui(diskRomLoaded_);
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	day_ = comxTime_.GetDay();

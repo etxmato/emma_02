@@ -469,6 +469,7 @@ void Ms2000::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     threadPointer->Run();

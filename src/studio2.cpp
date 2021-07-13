@@ -540,6 +540,7 @@ void Studio2::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();
@@ -786,6 +787,7 @@ void Studio2::cpuInstruction()
 	{
 		initPixie();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 	}
 }

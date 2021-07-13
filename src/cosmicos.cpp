@@ -933,6 +933,7 @@ void Cosmicos::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(COSMICOS);
@@ -1082,6 +1083,7 @@ void Cosmicos::cpuInstruction()
 	{
         cycleLed();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{

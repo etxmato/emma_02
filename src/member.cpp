@@ -658,6 +658,7 @@ void Membership::startComputer()
 	address_ = 0;
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(MEMBER);
@@ -787,6 +788,7 @@ void Membership::cpuInstruction()
 		machineCycle();
 		machineCycle();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{

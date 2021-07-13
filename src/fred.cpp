@@ -1017,6 +1017,7 @@ void Fred::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(computerType_);
@@ -1156,7 +1157,8 @@ void Fred::cpuInstruction()
 	else
 	{
         cpuCycles_ = 0;
-        
+	 	instructionCounter_= 0;
+       
         machineCycle();
         machineCycle();
         cpuCycles_ += 2;

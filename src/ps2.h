@@ -29,7 +29,7 @@ private:
 	int ps2KeyStart_;
 	int ps2KeyEnd_;
 	char ps2KeyboardMode_;
-	long ps2Cycles_;
+	uint64_t ps2Cycles_;
 	Byte ps2Parity_;
 	bool usePS2_;
 	bool ps2Interrupt_;	

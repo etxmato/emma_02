@@ -58,21 +58,24 @@
 #define EDIT_ROW 16
 #define LINE_SPACE 13
 #define ASS_WIDTH 268
-#define PROFILER_WIDTH 468
+#define PROFILER_WIDTH 460
+#define PROFILER_OFFSET 6
 #define CHAR_WIDTH 8
 #endif
 #if defined (__WXMSW__)
 #define EDIT_ROW 17
 #define LINE_SPACE 11
 #define ASS_WIDTH 268
-#define PROFILER_WIDTH 468
+#define PROFILER_WIDTH 460
+#define PROFILER_OFFSET 6
 #define CHAR_WIDTH 8
 #endif
 #if defined (__WXMAC__)
 #define EDIT_ROW 16
 #define LINE_SPACE 11
 #define ASS_WIDTH 268
-#define PROFILER_WIDTH 468
+#define PROFILER_WIDTH 460
+#define PROFILER_OFFSET 6
 #define CHAR_WIDTH 8
 #endif
 
@@ -511,6 +514,7 @@ Word chip8Sprite[] =
 
 int locationCorrection[]=
 {
+#if defined(__WXMAC__)
     0, 0, 0,
     -1, -1, -1, -1,
     -2, -2, -2, -2,
@@ -518,6 +522,15 @@ int locationCorrection[]=
     -4, -4, -4, -4,
     -5, -5, -5, -5,
     -5, -5, -6, -6,
+#else
+    -6, -6, -6,
+    -6, -6, -6, -6,
+    -6, -6, -6, -6,
+    -6, -6, -6, -6,
+    -6, -6, -6, -6,
+    -6, -6, -6, -6,
+    -6, -6, -6, -6,
+#endif
 };
 
 BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
@@ -640,14 +653,10 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 
     EVT_TEXT(XRCID("AssAddress"), DebugWindow::onAssAddress)
     EVT_TEXT(XRCID("ProfilerAddress"), DebugWindow::onProfilerAddress)
-	EVT_SPIN_UP(XRCID("AssSpin"), DebugWindow::onAssSpinUp)
-    EVT_SPIN_UP(XRCID("ProfilerSpin"), DebugWindow::onAssSpinUp)
-	EVT_SPIN_DOWN(XRCID("AssSpin"), DebugWindow::onAssSpinDown)
-    EVT_SPIN_DOWN(XRCID("ProfilerSpin"), DebugWindow::onAssSpinDown)
-	EVT_SPIN_UP(XRCID("AssSpinPage"), DebugWindow::onAssSpinPageUp)
-    EVT_SPIN_UP(XRCID("ProfilerSpinPage"), DebugWindow::onAssSpinPageUp)
-	EVT_SPIN_DOWN(XRCID("AssSpinPage"), DebugWindow::onAssSpinPageDown)
-    EVT_SPIN_DOWN(XRCID("ProfilerSpinPage"), DebugWindow::onAssSpinPageDown)
+//	EVT_SPIN_UP(XRCID("AssSpin"), DebugWindow::onAssSpinUp)
+//	EVT_SPIN_DOWN(XRCID("AssSpin"), DebugWindow::onAssSpinDown)
+//	EVT_SPIN_UP(XRCID("AssSpinPage"), DebugWindow::onAssSpinPageUp)
+//	EVT_SPIN_DOWN(XRCID("AssSpinPage"), DebugWindow::onAssSpinPageDown)
 	EVT_TEXT_ENTER(XRCID("AssInputWindow"), DebugWindow::onAssEnter)
 	EVT_BUTTON(XRCID("AssMarkType"), DebugWindow::onAssMark)
 	EVT_CHECKBOX(XRCID("AssSaveDebugFile"), DebugWindow::onSaveDebugFile)
@@ -668,6 +677,7 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_SPIN_UP(XRCID("AssRangeSpin"), DebugWindow::onAssRangeSpinUp)
 	EVT_SPIN_DOWN(XRCID("AssRangeSpin"), DebugWindow::onAssRangeSpinDown)
 	EVT_CHOICE(XRCID("AssDataView"), DebugWindow::onAssDataView)
+    EVT_CHOICE(XRCID("ProfilerDataView"), DebugWindow::onProfilerDataView)
 	EVT_BUTTON(XRCID("AssCopy"), DebugWindow::onAssCopy)
 	EVT_BUTTON(XRCID("AssDis"), DebugWindow::onAssDis)
 	EVT_TEXT(XRCID("AssFileName"), DebugWindow::onAssTextChange)
@@ -676,9 +686,21 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 	EVT_TEXT(XRCID("AssProgramEnd"), DebugWindow::onAssTextChange)
 	EVT_TEXT(XRCID("AssProgramSlot"), DebugWindow::onAssTextChange)
 
+    EVT_COMMAND_SCROLL_PAGEDOWN(XRCID("ProfilerScrollbar"), DebugWindow::onProfilerSpinPageDown)
+    EVT_COMMAND_SCROLL_PAGEUP(XRCID("ProfilerScrollbar"), DebugWindow::onProfilerSpinPageUp)
+    EVT_COMMAND_SCROLL_LINEDOWN(XRCID("ProfilerScrollbar"), DebugWindow::onAssSpinDown)
+    EVT_COMMAND_SCROLL_LINEUP(XRCID("ProfilerScrollbar"), DebugWindow::onAssSpinUp)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("ProfilerScrollbar"), DebugWindow::onProfilerThumbTrack)
+
+    EVT_COMMAND_SCROLL_PAGEDOWN(XRCID("AssScrollbar"), DebugWindow::onAssSpinPageDown)
+    EVT_COMMAND_SCROLL_PAGEUP(XRCID("AssScrollbar"), DebugWindow::onAssSpinPageUp)
+    EVT_COMMAND_SCROLL_LINEDOWN(XRCID("AssScrollbar"), DebugWindow::onAssSpinDown)
+    EVT_COMMAND_SCROLL_LINEUP(XRCID("AssScrollbar"), DebugWindow::onAssSpinUp)
+    EVT_COMMAND_SCROLL_THUMBTRACK(XRCID("AssScrollbar"), DebugWindow::onAssThumbTrack)
+
     EVT_CHOICE(XRCID("LapTimeTrigger"), DebugWindow::onLaptimeTrigger)
 
-//	EVT_TEXT(XRCID("DebugDisplayPage"), DebugWindow::onDebugDisplayPage)
+	EVT_TEXT(XRCID("DebugDisplayPage"), DebugWindow::onDebugDisplayPage)
 #ifdef __WXMAC__
     EVT_SPIN_UP(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinDown)
     EVT_SPIN_DOWN(XRCID("DebugDisplayPageSpinButton"), DebugWindow::onDebugDisplayPageSpinUp)
@@ -994,6 +1016,7 @@ BEGIN_EVENT_TABLE(DebugWindow, GuiComx)
 
     EVT_CHOICE(XRCID("ProfilerType"), DebugWindow::onProfilerType)
     EVT_CHOICE(XRCID("ProfilerCounter"), DebugWindow::onProfilerCounter)
+    EVT_BUTTON(XRCID("ProfilerClear"), DebugWindow::onProfilerClear)
 
 END_EVENT_TABLE()
 
@@ -1032,7 +1055,8 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 	swName_ = "";
 	spinning_ = false;
 	showInstructionTrap_ = false;
-	dataViewDump = true;
+    dataViewDump = true;
+    dataViewProfiler = true;
 	selectedBreakPoint_ = -1;
 	selectedChip8BreakPoint_ = -1;
 	selectedTreg_ = -1;
@@ -1061,7 +1085,7 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
     numberOfDebugLines_ = 32;
 
     assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
-    profilerBmp = new wxBitmap(PROFILER_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
+    profilerBmp = new wxBitmap(PROFILER_WIDTH, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4, 24);
 }
 
 DebugWindow::~DebugWindow()
@@ -7826,6 +7850,8 @@ void DebugWindow::directAss()
 	wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
 	wxFont exactFontBold(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD );
 #endif
+    
+    int numberOfDebugLines = numberOfDebugLines_;
     switch (debuggerChoice_)
     {
         case DIRECTASSTAB:
@@ -7836,19 +7862,23 @@ void DebugWindow::directAss()
         case PROFILERTAB:
             bitmapWidth = PROFILER_WIDTH;
             dcAss.SelectObject(*profilerBmp);
+            numberOfDebugLines -= PROFILER_OFFSET;
         break;
     }
 
     dcAss.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcAss.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcAss.SetTextBackground(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue));
-	dcAss.DrawRectangle(0, 0, bitmapWidth, numberOfDebugLines_*LINE_SPACE+4);
+    dcAss.DrawRectangle(0, 0, bitmapWidth, numberOfDebugLines*LINE_SPACE+4);
 
-	if (dirAssStart_ == dirAssEnd_)
-	{
-		for (int i=0; i<EDIT_ROW; i++)
-			assSpinUp();
-	}
+    if (debuggerChoice_ == DIRECTASSTAB)
+    {
+        if (dirAssStart_ == dirAssEnd_)
+        {
+            for (int i=0; i<EDIT_ROW; i++)
+                assSpinUp();
+        }
+    }
 
 	Word address = dirAssStart_;
 
@@ -7857,10 +7887,10 @@ void DebugWindow::directAss()
 	wxString line2;
 	wxString printBufferAddress, printBufferOpcode;
 
-	for (int line=0; line <numberOfDebugLines_; line ++)
+	for (int line=0; line <numberOfDebugLines; line ++)
 	{
 		wxColourDatabase colour;
-		if (line == EDIT_ROW)
+		if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
 		{
 			dcAss.SetFont(exactFontBold);
 			dirAssAddress_ = address;
@@ -8116,7 +8146,7 @@ void DebugWindow::directAss()
                 if (debuggerChoice_ == PROFILERTAB)
                     dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
 				line += 1;
-				if (line == EDIT_ROW)
+				if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
 				{
 					dcAss.SetFont(exactFontBold);
 					dirAssAddress_ = address - 3;
@@ -8125,7 +8155,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < numberOfDebugLines_)
+				if (line < numberOfDebugLines)
 				{
                     setProfileColor(executedColor);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-3));
@@ -8152,7 +8182,7 @@ void DebugWindow::directAss()
                 if (debuggerChoice_ == PROFILERTAB)
                     dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
 				line += 1;
-				if (line == EDIT_ROW)
+				if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
 				{
 					dcAss.SetFont(exactFontBold);
 					dirAssAddress_ = address - 3;
@@ -8161,7 +8191,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < numberOfDebugLines_)
+				if (line < numberOfDebugLines)
 				{
                     setProfileColor(executedColor);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-3));
@@ -8188,7 +8218,7 @@ void DebugWindow::directAss()
                 if (debuggerChoice_ == PROFILERTAB)
                     dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
 				line += 1;
-				if (line == EDIT_ROW)
+				if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
 				{
 					dcAss.SetFont(exactFontBold);
 					dirAssAddress_ = address - 3;
@@ -8197,7 +8227,7 @@ void DebugWindow::directAss()
 				}
 				else
 					dcAss.SetFont(exactFont);
-				if (line < numberOfDebugLines_)
+				if (line < numberOfDebugLines)
 				{
                     setProfileColor(executedColor);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-3));
@@ -8317,7 +8347,7 @@ void DebugWindow::directAss()
             break;*/
                 
             default:
-				if (dataViewDump)
+				if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB))
 				{
 					printBufferAddress.Printf("%04X: ", address);
 					dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
@@ -8400,6 +8430,8 @@ void DebugWindow::directAss()
 	}
     if (XRCCTRL(*this,"AssDataView",wxChoice)->GetCurrentSelection() == -1)
         XRCCTRL(*this,"AssDataView",wxChoice)->SetSelection(0);
+    if (XRCCTRL(*this,"ProfilerDataView",wxChoice)->GetCurrentSelection() == -1)
+        XRCCTRL(*this,"ProfilerDataView",wxChoice)->SetSelection(0);
     if (XRCCTRL(*this,"AssType",wxChoice)->GetCurrentSelection() == -1)
         XRCCTRL(*this,"AssType",wxChoice)->SetSelection(0);
 
@@ -8418,11 +8450,18 @@ void DebugWindow::setProfileColor(Byte executedColor)
 void DebugWindow::onProfilerType(wxCommandEvent&event)
 {
     profilerType_ = event.GetSelection();
+	directAss();
 }
 
 void DebugWindow::onProfilerCounter(wxCommandEvent&event)
 {
     profilerCounter_ = event.GetSelection();
+}
+
+void DebugWindow::onProfilerClear(wxCommandEvent&WXUNUSED(event))
+{
+    p_Computer->clearProfiler();
+    directAss();
 }
 
 void DebugWindow::drawAssCharacter(Word address, int line, int count)
@@ -8544,7 +8583,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
 			p_Computer->writeMemDebug(addressValue, character, true);
 			p_Computer->writeMemDataType(addressValue++, MEM_TYPE_TEXT);
 			assInputWindowPointer->Clear();
-			if (dataViewDump)
+            if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB))
 			{
 				dataViewCount--;
 				if (dataViewCount <= 0)
@@ -8597,7 +8636,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
                     maskByte = maskByte >> 8;
 
                     assInputWindowPointer->Clear();
-                    if (dataViewDump)
+                    if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB))
                     {
                         dataViewCount--;
                         if (dataViewCount <= 0)
@@ -8804,7 +8843,7 @@ void DebugWindow::onAssEnter(wxCommandEvent&WXUNUSED(event))
         }
 
         assInputWindowPointer->Clear();
-		if (dataViewDump || typeOpcode == MEM_TYPE_OPCODE || typeOpcode == MEM_TYPE_JUMP   || typeOpcode == MEM_TYPE_JUMP_REV || typeOpcode == MEM_TYPE_OPCODE_LDL_SLOT || (typeOpcode >= MEM_TYPE_OPCODE_RSHR && typeOpcode <= MEM_TYPE_OPCODE_LDL))
+		if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB) || typeOpcode == MEM_TYPE_OPCODE || typeOpcode == MEM_TYPE_JUMP   || typeOpcode == MEM_TYPE_JUMP_REV || typeOpcode == MEM_TYPE_OPCODE_LDL_SLOT || (typeOpcode >= MEM_TYPE_OPCODE_RSHR && typeOpcode <= MEM_TYPE_OPCODE_LDL))
 		{
 			assSpinDown();
 			if (typeOpcode == MEM_TYPE_OPCODE_LDV || typeOpcode == MEM_TYPE_OPCODE_LDL || typeOpcode == MEM_TYPE_OPCODE_LDL_SLOT)
@@ -8993,11 +9032,33 @@ void DebugWindow::onProfilerAddress(wxCommandEvent&WXUNUSED(event))
 
     dirAssStart_ = address;
 
-    for (int i=0; i<EDIT_ROW; i++)
-        assSpinUp();
-
     if (xmlLoaded_)
         p_Main->updateAssTab();
+}
+
+void DebugWindow::onAssThumbTrack(wxScrollEvent&event)
+{
+    long address = event.GetPosition();
+    if (address == -1)  return;
+
+    dirAssStart_ = address;
+
+	for (int i=0; i<EDIT_ROW; i++)
+		assSpinUp();
+
+    directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::onProfilerThumbTrack(wxScrollEvent&event)
+{
+    long address = event.GetPosition();
+    if (address == -1)  return;
+
+    dirAssStart_ = address;
+
+    directAss();
+    assErrorDisplay("");
 }
 
 void DebugWindow::onAssSpinDown(wxSpinEvent&WXUNUSED(event))
@@ -9009,6 +9070,41 @@ void DebugWindow::onAssSpinDown(wxSpinEvent&WXUNUSED(event))
 
 	directAss();
 	assErrorDisplay("");
+}
+
+void DebugWindow::onAssSpinDown(wxScrollEvent&WXUNUSED(event))
+{
+    if (!computerRunning_)
+        return;
+
+    assSpinDown();
+
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+	directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::onProfilerSpinDown(wxScrollEvent&WXUNUSED(event))
+{
+    if (!computerRunning_)
+        return;
+
+    assSpinDown();
+
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+	directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::assSpinDownScroll()
+{
+    assSpinDown();
+    if (debuggerChoice_ == PROFILERTAB)
+        XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+	else
+        XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
 }
 
 void DebugWindow::assSpinDown()
@@ -9069,7 +9165,7 @@ void DebugWindow::assSpinDown()
         case MEM_TYPE_DATA:
         case MEM_TYPE_TEXT:
         case MEM_TYPE_UNDEFINED:
-			if (dataViewDump)
+            if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB))
 			{
 				count = 0;
 				while (count < 4 && (p_Computer->readMemDataType(dirAssStart_, &executed) == MEM_TYPE_DATA || p_Computer->readMemDataType(dirAssStart_, &executed) == MEM_TYPE_TEXT || p_Computer->readMemDataType(dirAssStart_, &executed) == MEM_TYPE_UNDEFINED))
@@ -9102,6 +9198,41 @@ void DebugWindow::onAssSpinUp(wxSpinEvent&WXUNUSED(event))
 
 	directAss();
 	assErrorDisplay("");
+}
+
+void DebugWindow::onAssSpinUp(wxScrollEvent&WXUNUSED(event))
+{
+    if (!computerRunning_)
+        return;
+
+    assSpinUp();
+
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+	directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::onProfilerSpinUp(wxScrollEvent&WXUNUSED(event))
+{
+    if (!computerRunning_)
+        return;
+
+    assSpinUp();
+
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+	directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::assSpinUpScroll()
+{
+    assSpinUp();
+    if (debuggerChoice_ == PROFILERTAB)
+        XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+	else
+        XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
 }
 
 void DebugWindow::assSpinUp()
@@ -9148,7 +9279,7 @@ void DebugWindow::assSpinUp()
         case MEM_TYPE_DATA:
         case MEM_TYPE_TEXT:
         case MEM_TYPE_UNDEFINED:
-			if (dataViewDump)
+            if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB))
 			{
 				count = 0;
 				while (count < 3 && (p_Computer->readMemDataType((dirAssStart_-1)&0xFFFF, &executed) == MEM_TYPE_DATA || p_Computer->readMemDataType((dirAssStart_-1)&0xFFFF, &executed) == MEM_TYPE_TEXT || p_Computer->readMemDataType((dirAssStart_-1)&0xFFFF, &executed) == MEM_TYPE_UNDEFINED))
@@ -9164,20 +9295,53 @@ void DebugWindow::assSpinUp()
 
 void DebugWindow::onAssSpinPageDown(wxSpinEvent&WXUNUSED(event))
 {
-	if (!computerRunning_)
-		return;
+    if (!computerRunning_)
+        return;
 
-	dirAssStart_ = dirAssEnd_;
-	dirAssEnd_++;
+    dirAssStart_ = dirAssEnd_;
+    dirAssEnd_++;
 
-	directAss();
-	assErrorDisplay("");
+    directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::onAssSpinPageDown(wxScrollEvent&WXUNUSED(event))
+{
+    if (!computerRunning_)
+        return;
+
+    dirAssStart_ = dirAssEnd_;
+    dirAssEnd_++;
+
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+    directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::onProfilerSpinPageDown(wxScrollEvent&WXUNUSED(event))
+{
+    if (!computerRunning_)
+        return;
+
+    dirAssStart_ = dirAssEnd_;
+    dirAssEnd_++;
+
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+    directAss();
+    assErrorDisplay("");
 }
 
 void DebugWindow::onAssSpinPageDown()
 {
 	dirAssStart_ = dirAssEnd_;
 	dirAssEnd_++;
+
+    if (debuggerChoice_ == PROFILERTAB)
+        XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+	else
+        XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
 
 	directAss();
 	assErrorDisplay("");
@@ -9188,19 +9352,76 @@ void DebugWindow::onAssSpinPageUp(wxSpinEvent&WXUNUSED(event))
 	if (!computerRunning_)
 		return;
 
-	for (int i=0; i<numberOfDebugLines_; i++)
+    int numberOfDebugLines;
+    if (debuggerChoice_ == PROFILERTAB)
+        numberOfDebugLines = numberOfDebugLines_-PROFILER_OFFSET;
+    else
+        numberOfDebugLines = numberOfDebugLines_;
+
+    for (int i=0; i<numberOfDebugLines; i++)
 		assSpinUp();
 
 	directAss();
 	assErrorDisplay("");
 }
 
-void DebugWindow::onAssSpinPageUp()
+void DebugWindow::onAssSpinPageUp(wxScrollEvent&WXUNUSED(event))
 {
-	for (int i=0; i<numberOfDebugLines_; i++)
-		assSpinUp();
+    if (!computerRunning_)
+        return;
+
+    int numberOfDebugLines;
+    if (debuggerChoice_ == PROFILERTAB)
+        numberOfDebugLines = numberOfDebugLines_-PROFILER_OFFSET;
+    else
+        numberOfDebugLines = numberOfDebugLines_;
+
+    for (int i=0; i<numberOfDebugLines; i++)
+        assSpinUp();
+
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
 
 	directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::onProfilerSpinPageUp(wxScrollEvent&WXUNUSED(event))
+{
+    if (!computerRunning_)
+        return;
+
+    int numberOfDebugLines;
+    if (debuggerChoice_ == PROFILERTAB)
+        numberOfDebugLines = numberOfDebugLines_-PROFILER_OFFSET;
+    else
+        numberOfDebugLines = numberOfDebugLines_;
+
+    for (int i=0; i<numberOfDebugLines; i++)
+        assSpinUp();
+
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+	directAss();
+    assErrorDisplay("");
+}
+
+void DebugWindow::onAssSpinPageUp()
+{
+    int numberOfDebugLines;
+    if (debuggerChoice_ == PROFILERTAB)
+        numberOfDebugLines = numberOfDebugLines_-PROFILER_OFFSET;
+    else
+        numberOfDebugLines = numberOfDebugLines_;
+
+	for (int i=0; i<numberOfDebugLines; i++)
+		assSpinUp();
+
+    if (debuggerChoice_ == PROFILERTAB)
+        XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+	else
+        XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetThumbPosition((int)dirAssStart_);
+
+    directAss();
 	assErrorDisplay("");
 }
 
@@ -9333,6 +9554,24 @@ void DebugWindow::onAssDataView(wxCommandEvent&event)
 		assSpinUp();
 
 	directAss();
+}
+
+void DebugWindow::onProfilerDataView(wxCommandEvent&event)
+{
+    if (event.GetSelection() == 0)
+        dataViewProfiler = true;
+    else
+        dataViewProfiler = false;
+
+    if (!computerRunning_)
+        return;
+
+//    dirAssStart_ = dirAssAddress_;
+
+//    for (int i=0; i<EDIT_ROW; i++)
+//        assSpinUp();
+
+    directAss();
 }
 
 int DebugWindow::markType(long *addrLong, int type)
@@ -12984,7 +13223,7 @@ void DebugWindow::assDirOld(wxString fileName, long start, long end)
                 
             default:
                 characters = "";
-                if (dataViewDump)
+                if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB))
                 {
                     line.Printf("%04X: ", address);
                     int count = 0;
@@ -13110,13 +13349,15 @@ void DebugWindow::paintDebugBackground()
     dcDebugBackground.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     
     dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, numberOfDebugLines_*LINE_SPACE+4);
     
     dcDebugBackground.SelectObject(*profilerBmp);
     dcDebugBackground.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcDebugBackground.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     
-    dcDebugBackground.DrawRectangle(0, 0, PROFILER_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
-    
+    dcDebugBackground.DrawRectangle(0, 0, PROFILER_WIDTH, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4);
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4);
+
     dcDebugBackground.SelectObject(wxNullBitmap);
     if (xmlLoaded_)
     {
@@ -13135,18 +13376,21 @@ void DebugWindow::changeNumberOfDebugLines(int height)
     numberOfDebugLines_ = (int) (height / LINE_SPACE);
     
     assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
-    profilerBmp = new wxBitmap(PROFILER_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, numberOfDebugLines_*LINE_SPACE+4);
+
+    profilerBmp = new wxBitmap(PROFILER_WIDTH, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4, 24);
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4);
 
     paintDebugBackground();
     directAss();
 }
 
-/*
+
 void DebugWindow::onDebugDisplayPage(wxCommandEvent&WXUNUSED(event))
 {
 	if (xmlLoaded_)
 		p_Main->updateMemoryTab();
-}*/
+}
 
 void DebugWindow::DebugDisplayPage()
 {
@@ -13332,7 +13576,7 @@ void DebugWindow::DebugDisplayProfiler()
             XRCCTRL(*this, idReference, MemEdit)->ChangeValue("");
             if (executedColor != 0)
             {
-                value.Printf("%02X", executedColor);
+                value.Printf("%d", executedColor);
                 XRCCTRL(*this, idReference, MemEdit)->SetForegroundColour(wxColour(executedColor+34,221-executedColor,0));
                 XRCCTRL(*this, idReference, MemEdit)->ChangeValue(value);
             }
@@ -13341,31 +13585,6 @@ void DebugWindow::DebugDisplayProfiler()
             while (start > ramMask)
                 start -=  (ramMask + 1);
         }
-        
-        idReference.Printf("CHAR%01X", y);
-        wxBitmap line(128, 16, 24);
-        wxMemoryDC dcMapLine;
-
-        dcMapLine.SelectObject(line);
-#if defined(__linux__)
-        dcMapLine.SetPen(wxPen(wxColour(0xfb, 0xf8, 0xf1)));
-        dcMapLine.SetBrush(wxBrush(wxColour(0xfb, 0xf8, 0xf1)));
-        dcMapLine.SetTextBackground(wxColour(0xfb, 0xf8, 0xf1));
-#else
-#if defined(__WXMAC__)
-        dcMapLine.SetPen(wxPen(wxColour(214, 214, 214)));
-        dcMapLine.SetBrush(wxBrush(wxColour(214, 214, 214)));
-        dcMapLine.SetTextBackground(wxColour(214, 214, 214));
-#else
-        dcMapLine.SetPen(*wxWHITE_PEN);
-        dcMapLine.SetBrush(*wxWHITE_BRUSH);
-        dcMapLine.SetTextBackground(wxColour(255,255,255));
-#endif
-#endif
-        dcMapLine.DrawRectangle(0, 0, 128, 16);
-
-        dcMapLine.SelectObject(wxNullBitmap);
-        XRCCTRL(*this, idReference, wxStaticBitmap)->SetBitmap(line);
     }
 }
 
@@ -14923,6 +15142,45 @@ void DebugWindow::setMemoryType(int id, int setType)
 	}
 }
 
+void DebugWindow::memoryDisplaySetGuiSize(int offset)
+{
+    wxPoint originalPosition;
+    wxSize originalSize;
+    wxString idReference;
+    int positionOffset;
+    
+    XRCCTRL(*this, "MEM00", MemEdit)->GetSize(&originalSize.x, &originalSize.y);
+
+    XRCCTRL(*this, "MEM_Message", wxStaticText)->Show(offset < 0);
+
+    positionOffset = 0;
+    for (int x=0; x<16; x++)
+    {
+        idReference.Printf("TOP_HEADER%01X", x);
+        XRCCTRL(*this, idReference, wxStaticText)->SetSize(originalSize.x+offset, -1);
+        XRCCTRL(*this, idReference, wxStaticText)->GetPosition(&originalPosition.x, &originalPosition.y);
+        originalPosition.x += positionOffset;
+        positionOffset += offset;
+        XRCCTRL(*this, idReference, wxStaticText)->Move(originalPosition.x, originalPosition.y);
+    }
+    
+    for (int y=0; y<16; y++)
+    {
+        idReference.Printf("CHAR%01X", y);
+        XRCCTRL(*this, idReference, wxStaticBitmap)->Show(offset < 0);
+
+        positionOffset = 0;
+        for (int x=0; x<16; x++)
+        {
+            idReference.Printf("MEM%01X%01X", y, x);
+            XRCCTRL(*this, idReference, MemEdit)->SetSize(originalSize.x+offset, -1);
+            XRCCTRL(*this, idReference, MemEdit)->GetPosition(&originalPosition.x, &originalPosition.y);
+            originalPosition.x += positionOffset;
+            positionOffset += offset;
+            XRCCTRL(*this, idReference, MemEdit)->Move(originalPosition.x, originalPosition.y);
+        }
+    }
+}
 
 void DebugWindow::memoryDisplay()
 {
@@ -15120,7 +15378,20 @@ Word DebugWindow::getAddressMask()
 
 void DebugWindow::onDebugMemType(wxCommandEvent&event)
 {
-	memoryDisplay_ = event.GetSelection();
+    if (memoryDisplay_ == CPU_PROFILER)
+#if defined(__WXMAC__)
+        memoryDisplaySetGuiSize(-9);
+#else
+        memoryDisplaySetGuiSize(-7);
+#endif
+    memoryDisplay_ = event.GetSelection();
+
+    if (memoryDisplay_ == CPU_PROFILER)
+#if defined(__WXMAC__)
+        memoryDisplaySetGuiSize(9);
+#else
+        memoryDisplaySetGuiSize(7);
+#endif
 
 	memoryDisplay();
 

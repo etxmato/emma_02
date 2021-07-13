@@ -524,6 +524,7 @@ void Victory::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();
@@ -810,6 +811,7 @@ void Victory::cpuInstruction()
 	{
 		initPixie();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 	}
 }

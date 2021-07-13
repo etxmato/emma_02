@@ -363,6 +363,7 @@ void Mcds::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     if (p_Vt100[UART1] != NULL)

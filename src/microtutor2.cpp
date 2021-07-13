@@ -462,6 +462,7 @@ void Microtutor2::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     int ms = (int) p_Main->getLedTimeMs(MICROTUTOR2);
@@ -655,7 +656,8 @@ void Microtutor2::cpuInstruction()
         machineCycle();
         machineCycle();
         cpuCycles_ = 0;
-        p_Main->startTime();
+	 	instructionCounter_= 0;
+       p_Main->startTime();
         if (cpuMode_ == LOAD)
         {
             showData(readMem(address_));

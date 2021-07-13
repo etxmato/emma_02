@@ -454,6 +454,7 @@ void Eti::startComputer()
 	Show(true);
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
 	threadPointer->Run();

@@ -610,6 +610,7 @@ void Vip2K::startComputer()
 	p_Main->updateTitle();
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 	
 //	p_Video->splashScreen();

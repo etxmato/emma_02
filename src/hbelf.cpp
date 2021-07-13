@@ -1144,6 +1144,7 @@ void Elf::startComputer()
         elfScreenPointer->showAddressTil313Italic(0);
 
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 
     loadRtc();
@@ -1560,6 +1561,7 @@ void Elf::cpuInstruction()
 		machineCycle();
 		machineCycle();
 		cpuCycles_ = 0;
+		instructionCounter_= 0;
 		p_Main->startTime();
 		if (cpuMode_ == LOAD)
 		{

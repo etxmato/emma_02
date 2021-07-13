@@ -190,8 +190,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "8054"
-            endingLineNumber = "8054"
+            startingLineNumber = "8068"
+            endingLineNumber = "8068"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,8 +206,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7961"
-            endingLineNumber = "7961"
+            startingLineNumber = "7975"
+            endingLineNumber = "7975"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -272,7 +272,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "4229"
             endingLineNumber = "4229"
-            landmarkName = "Main::onKeyDown(event)"
+            landmarkName = "Main::onChar(event)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -286,8 +286,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7858"
-            endingLineNumber = "7858"
+            startingLineNumber = "7871"
+            endingLineNumber = "7871"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -302,8 +302,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7955"
-            endingLineNumber = "7955"
+            startingLineNumber = "7969"
+            endingLineNumber = "7969"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,8 +318,8 @@
             filePath = "src/debug.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "7954"
-            endingLineNumber = "7954"
+            startingLineNumber = "7968"
+            endingLineNumber = "7968"
             landmarkName = "DebugWindow::directAss()"
             landmarkType = "7">
          </BreakpointContent>
@@ -336,7 +336,87 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "5424"
             endingLineNumber = "5424"
-            landmarkName = "Cdp1802::increaseExecutedMainMemory(address, type)"
+            landmarkName = "unknown"
+            landmarkType = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "31AACEC6-ACB0-4441-A400-661D2C529EC9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4228"
+            endingLineNumber = "4228"
+            landmarkName = "Main::onChar(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "38B34279-6EEC-499B-9DFC-2FB3DB5B8473"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/functionkey.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "349"
+            endingLineNumber = "349"
+            landmarkName = "FunctionKeyMapDialog::onKeyDown(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "82DD1CFD-A6FC-4ABE-90B9-34C76CDF01DC"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/video.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "195"
+            endingLineNumber = "195"
+            landmarkName = "VideoScreen::onKeyDown(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "60F62647-CB36-4134-8CC5-E6CBD32EA865"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/main.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "4265"
+            endingLineNumber = "4265"
+            landmarkName = "Main::onKeyDown(event)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8A39A778-2CA1-41F2-A6DC-51CA91C8D8A9"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15317"
+            endingLineNumber = "15317"
+            landmarkName = "DebugWindow::getAddressMask()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

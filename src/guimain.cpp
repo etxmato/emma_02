@@ -1540,7 +1540,7 @@ void GuiMain::onCassetteFileDialog()
     
     wxFileName FullPath;
     fileName = "";
-    for (int i=0; i<conf[selectedComputer_].numberOfTerminalFiles_; i++)
+    for (int i=0; i<(int)conf[selectedComputer_].numberOfTerminalFiles_; i++)
     {
         FullPath = wxFileName(conf[selectedComputer_].terminalPaths_[i], wxPATH_NATIVE);
         if (i == 0)

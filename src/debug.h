@@ -296,6 +296,7 @@ public:
     void setProfileColor(Byte executedColor);
     void onProfilerType(wxCommandEvent&event);
     void onProfilerCounter(wxCommandEvent&event);
+    void onProfilerClear(wxCommandEvent&event);
     int getProfilerType()  {return profilerType_;};
     int getProfilerCounter()  {return profilerCounter_;};
 	void drawAssCharacter(Word address, int line, int count);
@@ -303,13 +304,25 @@ public:
 	int setMemLabel(Word address, bool removeMemLabel);
     void onAssAddress(wxCommandEvent&event);
     void onProfilerAddress(wxCommandEvent&event);
-	void onAssSpinUp(wxSpinEvent&event);
-	void assSpinUp();
-	void onAssSpinDown(wxSpinEvent&event);
-	void assSpinDown();
-	void onAssSpinPageUp(wxSpinEvent&event);
+    void onAssThumbTrack(wxScrollEvent&event);
+    void onProfilerThumbTrack(wxScrollEvent&event);
+    void onAssSpinUp(wxSpinEvent&event);
+    void onAssSpinUp(wxScrollEvent&event);
+    void onProfilerSpinUp(wxScrollEvent&event);
+    void assSpinUp();
+    void assSpinUpScroll();
+    void onAssSpinDown(wxSpinEvent&event);
+    void onAssSpinDown(wxScrollEvent&event);
+    void onProfilerSpinDown(wxScrollEvent&event);
+    void assSpinDown();
+    void assSpinDownScroll();
+    void onAssSpinPageUp(wxSpinEvent&event);
+    void onAssSpinPageUp(wxScrollEvent&event);
+    void onProfilerSpinPageUp(wxScrollEvent&event);
 	void onAssSpinPageUp();
-	void onAssSpinPageDown(wxSpinEvent&event);
+    void onAssSpinPageDown(wxSpinEvent&event);
+    void onAssSpinPageDown(wxScrollEvent&event);
+    void onProfilerSpinPageDown(wxScrollEvent&event);
 	void onAssSpinPageDown();
 	void checkSlotAddressWarning(Word branchAddress);
 	bool slotAddress(Word branchAddress);
@@ -367,7 +380,8 @@ public:
     void onAssDir(wxCommandEvent&event);
 	bool saveAll(wxString configFile);
 	void saveAll();
-	void onAssDataView(wxCommandEvent&event);
+    void onAssDataView(wxCommandEvent&event);
+    void onProfilerDataView(wxCommandEvent&event);
 	void AssAddConfig(wxString dir, wxString name, Word programStart, Word programEnd, Word dataEnd, Byte slot);
 	void AssStoreConfig(int range, wxString dir, wxString name, Word programStart, Word programEnd, Word dataEnd, Byte slot);
     void AssInitConfig();
@@ -383,7 +397,7 @@ public:
     void paintDebugBackground();
     void changeNumberOfDebugLines(int height);
 
-//	void onDebugDisplayPage(wxCommandEvent&event); 
+	void onDebugDisplayPage(wxCommandEvent&event); 
 	void onDebugDisplayPageSpinUp(wxSpinEvent&event);
 	void debugDisplayPageSpinUp(); 
 	void onDebugDisplayPageSpinDown(wxSpinEvent&event);
@@ -413,6 +427,7 @@ public:
 	void onEditMemory(wxCommandEvent&event);
 
 	void setMemoryType(int id, int setType);
+    void memoryDisplaySetGuiSize(int offset);
 	void memoryDisplay();
 	Word getAddressMask();
 	void DebugDisplayVip2kSequencer();
@@ -611,7 +626,8 @@ private:
 	wxString pseudoType_;
 
 	bool showInstructionTrap_;
-	bool dataViewDump;
+    bool dataViewDump;
+    bool dataViewProfiler;
 	Word showInstructionTrapAddress_;
 	
 	int selectedBreakPoint_;

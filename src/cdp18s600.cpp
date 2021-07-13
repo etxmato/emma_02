@@ -1296,6 +1296,7 @@ void Cdp18s600::startComputer()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
     
     int ms = (int) p_Main->getLedTimeMs(computerType_);
@@ -3028,6 +3029,7 @@ void Cdp18s604b::startComputer()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
     
     int ms = (int) p_Main->getLedTimeMs(computerType_);
@@ -3567,6 +3569,7 @@ void Rcasbc::startComputer()
     p_Main->updateTitle();
     
     cpuCycles_ = 0;
+	instructionCounter_= 0;
     p_Main->startTime();
     
     int ms = (int) p_Main->getLedTimeMs(computerType_);

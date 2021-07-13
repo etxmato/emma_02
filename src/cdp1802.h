@@ -138,7 +138,8 @@ public:
     void setCounterInterruptEnable(Byte cie) {cie_ = cie;};
 	Byte getEfFlags() {return efFlags_;};
 	void setCycle0() {cycle0_ = 1;};
-	long getCpuCycles() {return cpuCycles_;};
+	uint64_t getCpuCycles() {return cpuCycles_;};
+	uint64_t getInstructionCounter() {return instructionCounter_;};
 	long getSteps(){return steps_;};
 	void setSteps(long steps);
 	void setTraceStatus(bool trace) {trace_ = trace;};
@@ -173,7 +174,7 @@ public:
     void increaseExecutedMultiCartRom(Word address, Byte type);
     void increaseExecutedTestCartRom(Word address, Byte type);
     void increaseExecutedEmsRam(long address, Byte type);
-    void clearProfiler(int type);
+    void clearProfiler();
 
 protected:
 	Byte cycle0_;

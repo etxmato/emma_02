@@ -803,7 +803,7 @@ int GuiStudio2::getStudioVideoMode(int computer)
     return conf[computer].videoMode_;
 }
 
-void GuiStudio2::onCartSwitch(wxCommandEvent& event)
+void GuiStudio2::onCartSwitch(wxCommandEvent& WXUNUSED(event))
 {
     if (loadromMode_ == ROM)
     {

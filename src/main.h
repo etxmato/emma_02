@@ -495,7 +495,7 @@ public:
 #include "serial.h"
 
 #define EMMA_VERSION 1.40
-#define EMMA_SUB_VERSION 3
+#define EMMA_SUB_VERSION 5
 #define ELF 0
 #define ELFII 1
 #define SUPERELF 2
@@ -1199,11 +1199,11 @@ public:
     void traceTimeout(wxTimerEvent& event);
     void directAssTimeout(wxTimerEvent& event);
     void vuTimeout(wxTimerEvent& event);
-//	void updateMemoryTab();
+	void updateMemoryTab();
 	void updateAssTab();
 	void updateSlotInfo();
 	void ledTimeout(wxTimerEvent& event);
-	void cpuTimeout(wxTimerEvent& event);
+//	void cpuTimeout(wxTimerEvent& event);
 	void updateCheckTimeout(wxTimerEvent& event);
 	void startTime();
 	void showTime();
@@ -1375,7 +1375,7 @@ private:
 	bool emmaClosing_;
 	int bass_;
 	int treble_;
-	wxTimer *cpuPointer;
+//	wxTimer *cpuPointer;
 	wxTimer *updateCheckPointer;
 	bool updateCheckStarted_;
 	int oldGauge_;
@@ -1384,12 +1384,15 @@ private:
     time_t startTime_;
     time_t lapTime_;
     time_t lapTimeStart_;
-    long lastNumberOfCpuCycles_;
+    uint64_t lastNumberOfCpuCycles_;
+    uint64_t lastInstructionCounter_;
+	bool cpuCyclesOverflow_;
+	bool instructionCounterOverflow_;
 
 	int eventNumber_;
 
 	bool updateMemory_;
-//	bool updateMemoryPage_;
+	bool updateMemoryPage_;
 	bool updateAssPage_;
 	bool updateSlotinfo_;
 	bool rowChanged_[16];

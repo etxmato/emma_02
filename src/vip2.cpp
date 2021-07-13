@@ -733,6 +733,7 @@ void VipII::startComputer()
     ledCycleValue_ = ledCycleSize_;
     
 	cpuCycles_ = 0;
+	instructionCounter_= 0;
 	p_Main->startTime();
 	reDrawBar();
 	threadPointer->Run();
