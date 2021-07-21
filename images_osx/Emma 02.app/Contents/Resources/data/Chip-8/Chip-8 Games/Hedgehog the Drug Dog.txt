@@ -1,0 +1,5 @@
+5/7/8/9 (WASD) to move. 4 (Q) to bark.
+
+30 cycles per frame easy mode. 100 cycles per frame hard mode.
+
+For the drug warriors, a word from a dog is enough.

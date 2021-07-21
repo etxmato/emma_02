@@ -55,11 +55,11 @@
 #define CHIP8_PC 5
 #define CARDTRAN_PC 0xf
 #if defined (__linux__)
-#define EDIT_ROW 16
+#define EDIT_ROW 17
 #define LINE_SPACE 13
 #define ASS_WIDTH 268
 #define PROFILER_WIDTH 460
-#define PROFILER_OFFSET 6
+#define PROFILER_OFFSET 4
 #define CHAR_WIDTH 8
 #endif
 #if defined (__WXMSW__)

@@ -1,0 +1,33 @@
+                                ======
+ 								Pacman
+                                ======
+
+23-26 March 2013
+
+This is my "Pacman" game for the RCA Studio II - it is 1.5k
+long and as such the first RCAS2 program that is outside the
+standard $400-$7FF ROM area. It also uses the area $C00-$DFF.
+
+Keys :
+		Up 		[2, Left  Pad]
+        Left    [4, Left  Pad]
+        Right   [6, Left  Pad]
+        Down 	[8, Right Pad]
+        Start 	[0, Left  Pad]
+
+The controls are very much directional in the way that Pacman was,
+i.e. it is used to change direction not to fix a direction.
+
+It has most of the standard features of Pacman but none of the fancy bits
+either down to memory or video resolution or processor time. There are
+no bonus lives for reaching 10,000 points (or whatever). If you lose a life
+you have to start again with the whole maze filled in.
+
+This game is freeware.
+
+The source is included. This is written in 1802 Assembler code, and
+will assemble using the cross assembler "asmx" v2.05, and ST2 format
+files can be built using the included python program.
+
+Paul Robson (paul@robsons.org.uk)
+

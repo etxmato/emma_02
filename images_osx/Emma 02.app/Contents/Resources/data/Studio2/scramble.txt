@@ -1,0 +1,30 @@
+                                ========
+                                Scramble
+                                ========
+
+2-13 April 2013
+
+This is my "Scramble" game for the RCA Studio II - it is 1.5k
+long. It also uses the area $C00-$DFF for the extra ROM space.
+
+Keys : (either pad can be used)
+
+		Up		[2]
+        Brake   [4]
+        Down    [8]
+        Fire 	[0] (Fires bomb if 4 pressed, missile otherwise.)
+
+Press 6 on either pad to start each level.
+
+At the start it displays G?. Press 2 for easy, 4 for medium, 6 for hard.
+
+You will need to refuel periodically by shooting/bombing fuel dumps.
+
+This game is freeware.
+
+The source is included. This is written in 1802 Assembler code, and
+will assemble using the cross assembler "asmx" v2.05, and ST2 format
+files can be built using the included python program.
+
+Paul Robson (paul@robsons.org.uk)
+

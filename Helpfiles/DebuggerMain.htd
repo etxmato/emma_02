@@ -4,56 +4,19 @@
 <body>
 <h2>Debugger</h2>
 <p>
-The debugger gives you an inside view of what is going on in the Emma 02 emulator. To use the debugger select the 'Debugger' tab.
+The debugger gives you an inside view of what is going on in the emulated machine. To use the debugger select the 'Tools' tab (yellow ellipse) followed by one of the following (orange ellipse):
 </p>
 <p>
-The debugger consists of 5 parts:
-</p>
 <OL>
-<LI>'Timing &amp; Specification' containing timing and specification about the current running computer
-<LI>'Direct Assembler' to assemble and disassemble 1802 or pseudo code directly from and to memory
-<LI>'Debug 1802' to perform tracing commands on the 1802 CPU
-<LI>'Debug Pseudo' to perform tracing commands on Chip-8, ST2, ST4, FEL and CARDTRAN
-<LI>'Memory Dump' to inspect and change the CPU and video memory. 
+<LI>'<a href="DebuggerTrace.htm">Debug 1802</a>' to perform tracing, set breakpoints or other use debug commands on the 1802 CPU
+<LI>'<a href="DebuggerChip8.htm">Debug Pseudo</a>' to perform tracing, set breakpoints or other use debug commands on pseudo code like Chip-8, ST2, ST4, FEL-1, CARDTRAN etc.
 </OL>
-<p>
-all on the running 1802 computer.
 </p>
 <p>
-Note: None of the settings in the debugger windows are saved in the configuration, so at every start of the Emma 02 emulator all debugger settings are set to default.
+<IMG SRC="images/debugger.png" BORDER="0">
 </p>
 <p>
-This chapter includes:
-</p>
-<p>
-<a href="DebuggerTiming.htm">Timing &amp; Specification</a><br>
-<a href="DebuggerAssembler.htm">Direct Assembler</a><br>
-<a href="DebuggerExampleConfig.htm">Program Configuration - Example</a><br>
-<a href="DebuggerExistingCode.htm">Debugging Existing Code - Example</a><br>
-<a href="DebuggerTrace.htm">Debug 1802</a><br>
-<a href="DebuggerChip8.htm">Debug Pseudo</a><br>
-<a href="DebuggerMemory.htm">Memory Dump</a><br>
-<a href="DebuggerSyntaxSystem00.htm">SYSTEM00 Syntax</a><br>
-<a href="DebuggerSyntax1801.htm">1801 Syntax</a><br>
-<a href="DebuggerSyntax180x.htm">1802, 1804 and 1805 Syntax</a><br>
-<a href="DebuggerSyntaxCardtran.htm">CARDTRAN Syntax</a><br>
-<a href="DebuggerSyntaxFPA-1.htm">FPA-1 Syntax</a><br>
-<a href="DebuggerSyntaxFpl2.htm">FPL-2 Syntax</a><br>
-<a href="DebuggerSyntaxFpl4.htm">FPL-4 Syntax</a><br>
-<a href="DebuggerSyntaxGplARAM.htm">GPL-A (2K RAM) Syntax</a><br>
-<a href="DebuggerSyntaxGplAROM.htm">GPL-A (2K ROM) Syntax</a><br>
-<a href="DebuggerSyntaxGpl2.htm">GPL-2 Syntax</a><br>
-<a href="DebuggerSyntaxGpl3.htm">GPL-3 Syntax</a><br>
-<a href="DebuggerSyntaxGpl4.htm">GPL-4 Syntax</a><br>
-<a href="DebuggerSyntaxFel1.htm">FEL-1 Syntax</a><br>
-<a href="DebuggerSyntaxStk.htm">STK Syntax</a><br>
-<a href="DebuggerSyntaxTestWord.htm">Test-Word Syntax</a><br>
-<a href="DebuggerSyntaxSt.htm">ST2 Syntax</a><br>
-<a href="DebuggerSyntaxSt4.htm">ST4 Syntax</a><br>
-<a href="DebuggerSyntaxChip.htm">Chip-8, 8X, ETI and Elf Syntax</a><br>
-<a href="DebuggerSyntaxSuperchip.htm">Super-chip Syntax</a><br>
-<a href="DebuggerSyntaxAmvbas.htm">AMVBAS Syntax</a><br>
-<a href="DebuggerSyntaxAm4kbas.htm">AM4KBAS Syntax</a><br>
+Note: none of the settings in the Debug 1802/Pseudo tabs are saved in the Emma 02 configuration, so at every start of the Emma 02 emulator these settings are set to default.
 </p>
 </body>
 </html>

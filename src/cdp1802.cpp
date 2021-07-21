@@ -5434,7 +5434,7 @@ void Cdp1802::increaseExecutedMainMemory(long address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (mainMemoryExecuted_[address] < 18446744073709551615)
+        if (mainMemoryExecuted_[address] < UINT64_MAX)
             mainMemoryExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5444,7 +5444,7 @@ void Cdp1802::increaseExecutedExpansionRom(long address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (expansionRomExecuted_[address] < 18446744073709551615)
+        if (expansionRomExecuted_[address] < UINT64_MAX)
             expansionRomExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5454,7 +5454,7 @@ void Cdp1802::increaseExecutedExpansionRam(Word address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (expansionRamExecuted_[address] < 18446744073709551615)
+        if (expansionRamExecuted_[address] < UINT64_MAX)
             expansionRamExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5464,7 +5464,7 @@ void Cdp1802::increaseExecutedExpansionEprom(Word address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (expansionEpromExecuted_[address] < 18446744073709551615)
+        if (expansionEpromExecuted_[address] < UINT64_MAX)
             expansionEpromExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5474,7 +5474,7 @@ void Cdp1802::increaseExecutedExpansionSuper(Word address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (expansionSuperExecuted_[address] < 18446744073709551615)
+        if (expansionSuperExecuted_[address] < UINT64_MAX)
             expansionSuperExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5484,7 +5484,7 @@ void Cdp1802::increaseExecutedCpuRam(Word address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (cpuRamExecuted_[address] < 18446744073709551615)
+        if (cpuRamExecuted_[address] < UINT64_MAX)
             cpuRamExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5494,7 +5494,7 @@ void Cdp1802::increaseExecutedMultiCartRom(Word address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (multiCartRomExecuted_[address] < 18446744073709551615)
+        if (multiCartRomExecuted_[address] < UINT64_MAX)
             multiCartRomExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5504,7 +5504,7 @@ void Cdp1802::increaseExecutedTestCartRom(Word address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (testCartRomExecuted_[address] < 18446744073709551615)
+        if (testCartRomExecuted_[address] < UINT64_MAX)
             testCartRomExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }
@@ -5514,7 +5514,7 @@ void Cdp1802::increaseExecutedEmsRam(long address, Byte type)
 {
     if ((type == MEM_TYPE_OPCODE || type >= MEM_TYPE_OPCODE_RSHR) && profilerCounter_ != PROFILER_OFF)
     {
-        if (emsRamExecuted_[address] < 18446744073709551615)
+        if (emsRamExecuted_[address] < UINT64_MAX)
             emsRamExecuted_[address]++;
         p_Main->updateAssTabCheck(address);
     }

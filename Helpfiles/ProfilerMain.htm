@@ -1,0 +1,74 @@
+
+</body>
+</html><html>
+<title>Profiler</title>
+<body>
+<h1>Profiler</h1>
+<p>
+Main purpose of this tab is to find hot code spots, dead code and analyse code & test coverage as well as analyze timing for the running computer and CPU. 
+</p>
+<p>
+To reach the Profiler tab, first select the 'Tools' tab and then the 'Profiler' sub tab. Note that the profiler only runs and shows active data when an emulator is running.
+</p>
+<p>
+Before starting an emulator the profiler can be switched off with the 'Counters On/Off' selector. During run time the 'Counters Clear' button will reset all counters to 0.
+</p>
+<h2>Timing</h2>
+<p>
+<IMG SRC="images/profiler_timing.png" BORDER="0">
+</p>
+<p>
+The top part (yellow ellipse) shows the following timing details:
+</p>
+<ul>
+<li>Running computer & CPU type
+<li>Number of executed CPU cycles and instructions
+<li>Time the computer has been running
+<li>Effective CPU clock
+<li>Number of instructions executed per second
+<li>Vertical video frequency
+</ul>
+<h2>Profiler</h2>
+<p>
+<IMG SRC="images/profiler.png" BORDER="0">
+</p>
+<p>
+The bottum left part (orange ellipse) shows the profiler which can be used for the following:
+</p>
+<ul>
+<li>To find "<a href="ProfilerHotSpots.htm">Hot Code Spots</a>" in any running software
+<li>To find "<a href="ProfilerDeadCode.htm">Dead Code Spots</a>" in any running software
+<li>As a "<a href="ProfilerCodeCoverage.htm">Code Coverage Tool</a>" to confirm that all code is executed during testing
+<li>Measuring a <a href="ProfilerTimer.htm">time interval</a> between two triggers (with Q flag or OUT x)
+</ul>
+<h2>Memory Dump</h2>
+<p>
+On the profiler tab only a small number of locations are shown at anyone time, to be able to scan through memory quicker the profiler on the Memory Dump tab can be used:
+</p>
+<p>
+<IMG SRC="images/profiler_memory_dump.png" BORDER="0">
+</p>
+<p>
+To select the memory dump profiler, first select the Memory Dump tab and then as 'Memory' select 'Profiler' (yellow ellipse). Then 256 addresses will be shown (red ellipse) each containing one counter value between 1 and 255 in the same color as used on the profiler tab with 'redder' color instructions beinig executed more frequently. The shown counter uses the same logartihmic scale as the color definition. Formula used is 5*ln(number of executions).
+</p>
+<p>
+To change to the previous or next page use the buttons in the orange ellipse, alternatively specify a specific address in the field in the blue ellipse.
+</p>
+<p>
+For additional details about the Memory Dump tab see also the <a href="DumpMain.htm">Memory Dump</a> chapter.
+</p>
+<h2>Additional Information</h2>
+<p>
+Additional Information can be found in the following sub-chapters:
+</p>
+<p>
+<a href="ProfilerNavigation.htm">Navigation</a><br>
+<a href="ProfilerView.htm">Data View</a><br>
+<a href="ProfilerLinear.htm">Linear & Logarithmic Counters</a><br>
+<a href="ProfilerHotSpots.htm">Hot Code Spots</a><br>
+<a href="ProfilerDeadCode.htm">Dead Code Spots</a><br>
+<a href="ProfilerCodeCoverage.htm">Code Coverage</a><br>
+<a href="ProfilerTimer.htm">Interval Timer</a><br>
+</p>
+</body>
+</html>

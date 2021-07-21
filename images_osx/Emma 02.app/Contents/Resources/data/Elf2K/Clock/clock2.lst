@@ -1,0 +1,193 @@
+1802 -> Native
+2 Classes read.
+199 Patterns read.
+    1 0000:             	;  PROGRAM 7.6	-- TV DIGITAL CLOCK
+    2 0000:             	;
+    3 0000: 90          REST:	GHI 0	  ; INITIALIZE R1, R2, R3
+    4 0001: b1          	PHI 1
+    5 0002: b2          	PHI 2
+    6 0003: b3          	PHI 3
+    7 0004: f8 1b       	LDI INTS  ; R1 = INTERRUPT PC
+    8 0006: a1          	PLO 1
+    9 0007: f8 ff       	LDI 0FFH  ; R2 = STACK
+   10 0009: a2          	PLO 2
+   11 000a: f8 0f       	LDI MAIN  ; R3 = MAIN PC
+   12 000c: a3          	PLO 3
+   13 000d: 70          	RET	  ; X=0!
+   14 000e: 23          	DB 023H	  ; SET X=2, P=3
+   15 000f: 69          MAIN:	INP 1	  ; TURN ON TV
+   16 0010: 30 ac       	BR TEST	  ; DO DIAGNOSTIC
+   17 0012:             
+   18 0012:             ;  DISPLAY REFRESH
+   19 0012:             
+   20 0012: 12          DONE:	INC 2	  ; ASSUME X=2!
+   21 0013: 42          	LDA 2	  ; RESTORE DF
+   22 0014: f6          	SHR
+   23 0015: 42          	LDA 2	  ; RESTORE R7
+   24 0016: b7          	PHI 7
+   25 0017: 42          	LDA 2
+   26 0018: a7          	PLO 7
+   27 0019: 42          	LDA 2	  ; NOW D
+   28 001a: 70          	RET	  ; RESTORE X AND P
+   29 001b: c4          INTS:	NOP	  ; EVEN OUT CYCLES
+   30 001c: 22          	DEC 2	  ; PUSH STACK, TO
+   31 001d: 78          	SAV	  ; SAVE X AND P (IN T)
+   32 001e: 22          	DEC 2
+   33 001f: 73          	STXD	  ; SAVE D
+   34 0020: 87          	GLO 7	  ; SAVE R7
+   35 0021: 73          	STXD
+   36 0022: 97          	GHI 7
+   37 0023: 73          	STXD
+   38 0024: 7e          	SHLC	  ; SAVE DF
+   39 0025: 73          	STXD
+   40 0026: f8 c8       	LDI BUFF  ; SET UP R0
+   41 0028: 34 28       	B1  $	  ; WAIT FOR DISPLAY
+   42 002a: a0          ROW:	PLO 0     ; DMA HERE
+   43 002b: a0          	PLO 0	  ; RESET R0
+   44 002c: b7          	PHI 7
+   45 002d: f8 0b       	LDI 11	  ; (RASTER COUNT - 3)/2
+   46 002f: a7          	PLO 7
+   47 0030: 97          	GHI 7	  ; KEEP FIXING R0
+   48 0031: a0          	PLO 0
+   49 0032: 27          REPT:	DEC 7	  ; COUNTER RASTERS
+   50 0033: 97          	GHI 7
+   51 0034: a0          	PLO 0
+   52 0035: a0          	PLO 0
+   53 0036: 87          	GLO 7	  ; TWO LINES PER LOOP
+   54 0037: 3a 32       	BNZ REPT
+   55 0039: 80          	GLO 0	  ; IF LAST TIME,
+   56 003a: 3c 2a       	BN1 ROW
+   57 003c: a0          	PLO 0	  ; JUST BLANK IT
+   58 003d: 34 3c       	B1 $-1	  ; (3 LINES)
+   59 003f:             
+   60 003f:             ; l  SECONDS CLOCK
+   61 003f:             
+   62 003f: 90          	GHI 0
+   63 0040: b7          	PHI 7
+   64 0041: f8 c7       	LDI FRCT  ; POINT TO FRAME COUNT
+   65 0043: a7          	PLO 7	  ; R7 IS AVAILABLE
+   66 0044: 07          	LDN 7
+   67 0045: fc 01       	ADI 1	  ; BUMP COUNTER
+   68 0047: 57          	STR 7
+   69 0048: ff 3d       	SMI 61	  ; MOD 61
+   70 004a: 3b 12       	BNF DONE  ; NOT OVER
+   71 004c: e7          	SEX 7
+   72 004d: 73          	STXD	  ; ROLL OVER
+   73 004e: f0          	LDX	  ; TO SECONDS
+   74 004f: fc 03       	ADI 3
+   75 0051: 57          	STR 7
+   76 0052: 3b 69       	BNF UNIT  ; GO DISPLAY
+   77 0054: f8 e2       	LDI -30	  ; ROLL OVER
+   78 0056: 73          	STXD
+   79 0057: f0          	LDX	  ; TO TENS
+   80 0058: fc 03       	ADI 3
+   81 005a: 57          	STR 7
+   82 005b: fc 0c       	ADI 12	  ; (OVERFLOW AT 60)
+   83 005d: 3b 62       	BNF TENS
+   84 005f: f8 e2       	LDI -30	  ; ONE MINUTE!
+   85 0061: 57          	STR 7     ; COULD DO MINUTES, HOURS;.
+   86 0062: f8 c8       TENS:	LDI BUFF  ; POINT TO LEFT DIGIT
+   87 0064: 30 6b       	BR UNIT+2
+   88 0066: f8 c6       	LDI SECS  ; (POINT TO COUNTER)
+   89 0068: a7          	PLO 7
+   90 0069: f8 cc       UNIT:	LDI BRIT  ; OR RIGHT DIGIT
+   91 006b: a0          	PLO 0
+   92 006c: 47          	LDA 7	  ; POINT TO DIGITS
+   93 006d: fc ac       	ADI TABL  ; (TABLE OFFSET)
+   94 006f: a7          	PLO 7
+   95 0070: 47          DOWN:	LDA 7	  ; GET DOTS
+   96 0071: 52          	STR 2	  ; (SAVE)
+   97 0072: e2          	SEX 2
+   98 0073: f0          HALF:	LDX	  ; CONVERT A DOT
+   99 0074: fe          	SHL	  ; FROM A BIT
+  100 0075: 52          	STR 2
+  101 0076: 75          	SDB	  ; =00 IF DF=1, =FF IF DF=0
+  102 0077: 50          	STR 0	  ; STORE INTO BUFFER
+  103 0078: 10          	INC 0
+  104 0079: 80          	GLO 0
+  105 007a: fa 03       	ANI 3	  ; DO THIS 4 TIMES
+  106 007c: 3a 73       	BNZ HALF  ; (9*4 INSTRUCTIONS)
+  107 007e: 10          	INC 0
+  108 007f: 10          	INC 0
+  109 0080: 10          	INC 0
+  110 0081: 10          	INC 0
+  111 0082: f0          	LDX	  ; CHECK FOR SECOND 4 BITS
+  112 0083: 3a 73       	BNZ HALF  ; ((36+6)*2)
+  113 0085: 80          	GLO 0	  ; REPEAT IF THIS WAS LEFT
+  114 0086: ff f8       	SMI BEND
+  115 0088: 3b 70       	BNF DOWN  ; ((84+6)*3)
+  116 008a: 32 66       	BZ UNIT-3 ; ((270+9)*2)
+  117 008c: 30 12       	BR DONE	  ; MAX TOTAL <600 INSTRUCTIONS
+  118 008e:             
+  119 008e:             ;  DOT TABLE FOR DIGITS
+  120 008e:             
+  121 008e: da          	DB 0DAH
+  122 008f: aa          	DB 0AAH
+  123 0090: df          	DB 0DFH	  ; 0
+  124 0091: d9          	DB 0D9H
+  125 0092: dd          	DB 0DDH
+  126 0093: 8f          	DB 08FH	  ; 1
+  127 0094: 9e          	DB 09EH
+  128 0095: db          	DB 0DBH
+  129 0096: 8f          	DB 08FH	  ; 2
+  130 0097: 9e          	DB 09EH
+  131 0098: de          	DB 0DEH
+  132 0099: 9f          	DB 09FH	  ; 3
+  133 009a: ea          	DB 0EAH
+  134 009b: a8          	DB 0A8H
+  135 009c: ef          	DB 0EFH	  ; 4
+  136 009d: 8b          	DB 08BH
+  137 009e: 9e          	DB 09EH
+  138 009f: 9f          	DB 09FH	  ; 5
+  139 00a0: cb          	DB 0CBH
+  140 00a1: 9a          	DB 09AH
+  141 00a2: df          	DB 0DFH	  ; 6
+  142 00a3: 8e          	DB 08EH
+  143 00a4: db          	DB 0DBH
+  144 00a5: bf          	DB 0BFH   ; 7
+  145 00a6: da          	DB 0DAH
+  146 00a7: da          	DB 0DAH
+  147 00a8: df          	DB 0DFH	  ; 8
+  148 00a9: da          	DB 0DAH
+  149 00aa: ce          	DB 0CEH
+  150 00ab: df          	DB 0DFH	  ; 9
+  151 00ac:             
+  152 00ac:             
+  153 00ac:             ;  MINI DIAGNOSTIC
+  154 00ac:             TABL:	
+  155 00ac: e7          TEST:	SEX 7	  ; SET UP R7
+  156 00ad: a7          	PLO 7	  ; AS COUNTER
+  157 00ae: 3b b1       	BNF PLUS
+  158 00b0: 17          	INC 7
+  159 00b1: 60          PLUS:	IRX
+  160 00b2: 7c 01       	ADCI 1	  ; IN PARALLEL WITH D
+  161 00b4: 3a b1       	BNZ PLUS
+  162 00b6: e2          	SEX 2	  ; WHEN D=00,
+  163 00b7: 87          	GLO 7	  ; COMPARE THEM:
+  164 00b8: 22          	DEC 2
+  165 00b9: 52          	STR 2
+  166 00ba: 64          	OUT 4	  ; DISPLAY DIFFERENCE
+  167 00bb: 32 bf       	BZ $+4	  ; EQUAL CONTINUES,
+  168 00bd: 3f bd       	BN4 $	  ; UNEQUAL WAITS
+  169 00bf: 37 bf       	B4  $	  ; WAIT FOR RELEASE
+  170 00c1: 6c          	INP 4	  ; GET NEW COUNT
+  171 00c2: fe          	SHL	  ; SET DF
+  172 00c3: 30 ac       	BR TEST	  ; REPEAT
+  173 00c5:             
+  174 00c5:             ;  TIME COUNTERS AND DISPLAY BUFFER
+  175 00c5:             
+  176 00c5: e2          STEN:	DB 0E2H	  ; MUST INITIALIZE
+  177 00c6: e2          SECS:	DB 0E2H
+  178 00c7: 00          FRCT:	DB 000H
+  179 00c8:             
+  180 00c8:             BUFF:	 EQU 0C8H	  ; EMPTY BUFFER
+  181 00c8:             BRIT:	 EQU 0CCH
+  182 00c8:             BEND:	 EQU 0F8H
+  183 00c8:             
+
+
+183 Lines assembled
+0 Errors
+19 Labels
+Object Code:200 bytes
+

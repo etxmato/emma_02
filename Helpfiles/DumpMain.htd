@@ -1,0 +1,70 @@
+<html>
+<title>Memory</title>
+<body>
+<h1>Memory Dump</h1>
+<p>
+The Memory Dump tool shows 256 bytes of memory on the GUI both in hexadecimal format and as ASCII characters. Multiple memory options are available including CPU memory, video memory, memory type and profiler information.</p>
+<p>
+To reach the Memory Dump tab, first select the 'Tools' (yellow ellispe) tab and then the 'Memory Dump' (orange ellipse) sub tab.
+</p>
+<p>
+<IMG SRC="images/dump.png" BORDER="0">
+</p>
+<p>
+The default view will show the first 256 bytes of main CPU memory (yellow ellipse below showing content in bytes and orange ellipse showing ASCII) from the emulated computer. To show another part of memory type in any address value in the top left address field or use the spin buttons to step through memory (red ellipse).  
+</p>
+<p>
+<IMG SRC="images/dump_navigation.png" BORDER="0">
+</p>
+<p>
+Note that the text in red '<FONT COLOR="RED">No emulation running</FONT>' indicates that no emulator was started and as such the data shown is not acctive and changing address value will not have any effect.
+</p>
+<p>
+To change any address value (yellow ellipse) select the value and just change it. Note both ROM and RAM values can be changed! 
+</p>
+<p>
+When running a COMX, TMC600 or Pecom emulation the actual CDP 1870 characters will be shown, other computers will show ASCII (orange ellipse)
+</p>
+<p>
+Next to the main CPU memory other memory dump options are available by changing the 'Memory' choice button:
+</p>
+<p>
+<IMG SRC="images/dump_type.png" BORDER="0">
+</p>
+<UL>
+<LI>Type: memory types defined for the main CPU memory, see also '<a href="DumpMemoryType.htm">Memory Type</a>' chapter.
+<LI>Profiler: see <a href="ProfilerMain.htm">Profiler</a>
+<LI>1870 Page: CDP 1870 Page memory
+<LI>1870 Character: CDP 1870 Character memory, for the Telmac TMC-600 Character ROM is shown and for both TMC-600 and Cidelsa only 6 bits are used.
+<LI>1870 Colour: CDP 1870 Colour RAM used by the Telmac TMC-600 and Cidelsa. The TMC-600 uses one nibble (4 bits) to define colour and blink mode of the character on the same location in page memory. the Cidelsa uses 3 bits to define the colour of the charcater and line in the same location in character memory.
+<LI>6845 Character: MC6845 Character ROM
+<LI>6847 Character: MC6847 Character RAM, both internal and external roms are shown; internal from hexadecimal address 0 to 1FF and external from 200 to 7FF. 
+<LI>6847 Video RAM: The first half will show bits 0 to 7 of and the second half bit 8 to 11.
+<LI>TMS Video RAM: Only 16384 addresses will be viewable.
+<LI>VT Video RAM: VT50/VT100 video RAM
+<LI>1862/1864 Colour: CDP 1862 or CDP 11864 colour RAM
+<LI>8275 Character: Intel 8275 character RAM
+<LI>8275 Video RAM: Intel 8275 video RAM
+<LI>VIP Video Sequencer: VIP2K Membership video sequencer ROM
+</UL>
+<p>
+In all modes except 'Type' and 'Profiler', memory values are shown and can be changed per memory page of 256 bytes, in 'Type' mode memory types (ROM, RAM, Video RAM etc) is shown and can be changed. 
+</p>
+<p>
+The following additional features are available on windows and OS X, currently not implemented in the Linux version: After editing one byte the next address will be selected automatically. After the last byte of the page is changed the next page will be shown. 
+</p>
+<p>
+Note 1: when using the any of the video modes above only the used address will be shown, the number of addresses depends on the emulated computer and video settings.
+<br>
+Note 2: None of the settings in the Memory Dump tab are saved in the Emma 02 configuration, so at every start of the Emma 02 emulator these settings are set to default.
+</p>
+This chapter also includes:
+</p>
+<p>
+<a href="DumpComx.htm">COMX Memory Map</a><br>
+<a href="DumpElf.htm">Elf Memory Map</a><br>
+<a href="DumpSave.htm">Save</a><br>
+<a href="DumpCopy.htm">Copy</a><br>
+</p>
+</body>
+</html>

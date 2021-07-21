@@ -1,0 +1,32 @@
+C
+10 REM VÄRIESITTTELYOHJELMA	   
+20 DEFINT Z			   
+30 BKG 0:Y=1: CURSOR 1:	CLS	   
+40 REM			   
+58 COLOR Y			   
+60 PRINT "       ********"	   
+70 PRINT "      *        *"	   
+80 PRINT "     *   ***    *  **"	   
+90 PRINT "    *            **  **"	   
+100 PRINT "   *    *  *         *"	   
+110 PRINT "   ****              *  *"	   
+120 PRINT "  *****                 *"	   
+130 PRINT "  ******               *"	   
+140 PRINT "  *******            **"	   
+150 PRINT "  ***** ***   *******"	   
+160 PRINT "  *****   *   *"	   
+170 PRINT "  *****   *****"	   
+180 PRINT "   ***    *   *"	   
+190 PRINT "    *    *     *"	   
+200 PRINT "        *       *"	   
+210 PRINT "        *       *"	   
+220 PRINT "       ***       *"	   
+230 PRINT "      *  * *     *"	   
+240 PRINT "     *   * *    *"	   
+250 PRINT "     *   * * ********"	   
+260 PRINT "    **   * **    *   **"	   
+270 PRINT "   *** ***   * ** * ** *"	   
+280 PRINT "  ** *   *   *  * *  * *"	   
+290 PRINT "   *********************"	   
+300 MOVE(26,14)"SNOOPY"		   
+310 WAIT(500): CLS: Y=Y+1: GOTO 40	 

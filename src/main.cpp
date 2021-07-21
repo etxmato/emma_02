@@ -5015,6 +5015,12 @@ void Main::onStart(int computer)
 	if (!fullScreenFloat_)
 		zoom = (int) zoom;
 
+    wxDisplaySize(&x, &y);
+    if (conf[runningComputer_].mainX_ >= x)
+        conf[runningComputer_].mainX_ = -1;
+    if (conf[runningComputer_].mainY_ >= y)
+        conf[runningComputer_].mainY_ = -1;
+
     XRCCTRL(*this, "Chip8Type", wxStaticText)->SetLabel("");
 	switch (runningComputer_)
 	{

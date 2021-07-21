@@ -1,8 +1,13 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#if defined (__linux__)
+#include <stdint.h>
+#endif
+
 #ifdef __WXMSW__
 typedef unsigned __int64 uint64_t;
+#define UINT64_MAX   _UI64_MAX
 #endif
 
 class Memory

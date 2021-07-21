@@ -1,0 +1,48 @@
+ADD
+c-mem=0200-02C6 , DR code=40dd
+c-hex=0200-02C6 , DR code=40dd
+/ADD
+DISP0
+c-mem=0200-02C6 code=70dd
+c-hex=0200-02C6 code=70dd
+/DISP0
+DISP1
+c-mem=0200-02C6 code=71dd
+c-hex=0200-02C6 code=71dd
+/DISP1
+INPUT
+c-mem=0200-02C6 code=10dd
+c-hex=0200-02C6 code=10dd
+/INPUT
+JNZ
+c-hex=0200-02C6 code=22dd
+DR , c-hex=0200-02C6 code=22dd
+/JNZ 
+JP
+c-hex=0200-02C6 code=20dd
+/JP 
+JZ
+c-hex=0200-02C6 code=21dd
+DR , c-hex=0200-02C6 code=21dd
+/JZ 
+LD
+c-mem=0200-02C6 , DR code=60dd
+c-hex=0200-02C6 , DR code=60dd
+DR , c-mem=0200-02C6 code=30dd
+DR , c-hex=0200-02C6 code=30dd
+/LD
+LDD
+c-mem=0200-02C6 , DR code=90dd
+c-hex=0200-02C6 , DR code=90dd
+/LDD
+SKIP
+code=0...
+/SKIP
+SUB
+c-mem=0200-02C6 , DR code=50dd
+c-hex=0200-02C6 , DR code=50dd
+/SUB
+RSH
+c-mem=0200-02C6 code=80dd
+c-hex=0200-02C6 code=80dd
+/RSH

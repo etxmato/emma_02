@@ -1,0 +1,2 @@
+Another BRIX variant, but quite hard to play. Move with 4 and 6.
+          Your score is shown when you lose all your lives.

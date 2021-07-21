@@ -1,0 +1,20 @@
+<html>
+<title>Data View</title>
+<body>
+<h1>Data View</h1>
+<p>
+Two data views are possible, dump or single. This can be switched with the 'Data view" selector (blue elipse) resulting in one of the following:
+</p>
+<p>
+Dump:<br>
+<IMG SRC="images/profiler_dump.png" BORDER="0">
+</p>
+<p>
+Single:<br>
+<IMG SRC="images/profiler_single.png" BORDER="0">
+</p>
+<p>
+Difference is that dump shows 4 bytes & 4 characters per line and single 1 byte & 1 character.
+</p>
+</body>
+</html>

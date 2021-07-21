@@ -1,0 +1,61 @@
+Edt/Asm is a basic editor with integrated in-memory assembler.  Edt/Asm was
+designed so that it could be run from ROM.  The default assembly is at 8000h,
+with the text editor buffer at 1000h.  In this configuration programs can be
+assembled from 0000h-0FFFh.  There are two ORG addresses in the Edt/Asm source
+the first specifies where Edt/Asm will be assembled, the second one (near the
+end of the source file) specifies where Edt/Asm's data begins.  Any memory
+below the second ORG value is available for assembled programs.
+A restart address is provided 3 bytes above the normal entry point.  The 
+restart address resets the baud rate and nothing else.  This entry can be used
+either in non-volitile memory systems to recover the current edit buffer, or
+can be used by assembly language programs to return control to Edt/Asm without
+losing the editor contents.
+
+Editor Commands:
+----------------
+          A       - Assemble the program
+          B       - Move to bottom of buffer
+          D       - Move down one line
+        ,nD       - Move down n lines
+          Itext   - Insert text at current location
+         nItext   - Move to line n, then insert text
+          I       - Enter multi-line insert mode, end with <CTRL><C>
+         nI       - Enter multi-line insert mode starting at line n,
+                    end with <CTRL><C>
+         nG       - Make line n the current line
+          K       - Kill (delete) the current line
+         nK       - Move to line n, and then delete line
+        ,nK       - Kill n lines starting from current line
+       n,mK       - Kill m lines starting from line n, n becomes current
+          N       - New file - clears buffer
+          P       - Print the current line
+         nP       - Print line n
+        ,nP       - Print n lines starting from current line
+       n,mP       - Print m lines starting from line n
+          R       - Run program
+          T       - Move to top line of buffer
+          U       - Move up one line
+        ,nU       - Move up n lines
+          Q       - Quit to monitor (0F900h, or 08003h on Elf2K)
+
+Assembler Line Format:
+----------------------
+label:   OPCODE   ARGUMENTS      ; Comments
+
+Labels and comments are optional, and not all opcodes have arguments.  In 
+addition to the 1802 instruction set, Edt/Asm provides 4 pseudo-opcodes:
+
+ORG    addr            Specify address for assembly
+DB     b1,b2,...bn     Define a list of bytes in memory
+DW     w1,w2,...wn     Define a list of words in memory
+END    start           End of assembly, also specifies atart address
+
+Edt/Asm currently only supports simple arguments, arithmetic expressions
+cannot be used.  When specifying registers, the register number may (but need
+not) begin with R, for example:    LDN    R8
+
+The high byte of a value can be obtained by addeing .1 to the end of a label,
+for example:    LDI    STACK.1     will load the high byte of the address of
+STACK.  .0 will obtain the low byte of a value, for example:   LDI   STACK.0
+
+

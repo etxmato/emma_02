@@ -1,0 +1,38 @@
+<html>
+<title>Changing Address Usage</title>
+<body>
+<h1>Changing Address Usage</h1>
+<p>
+Emma 02 will automatically select the correct memory usage type as long as the code is 'executed'. So to look at disassembled code just make sure the code is actually executed once in the current session.
+</p>
+<p>
+The type can also be changed manually, as follows:
+<OL>
+<LI>Select the desired type via the choice button at the top right of the Direct Assembler tab (showing 1802 as default)
+<LI>Select either 'One' or 'Range' depending if one location or a range of locations need to be changed
+<LI>Fill in the location to be changed (next to the 'One/Range' choice button), default this is the current 'working' location
+<LI>Press 'Mark'
+</OL>
+</p>
+<p>
+The newly selected type should be shown directly in the left half of the Direct Assembler tab.
+</p>
+<p>
+To save type information please see chapter 'Program configurations' below.
+</p>
+<p>
+The following choices are available:
+<UL>
+<LI>1802: Use for RCA 1802, 1804 or 1805 code
+<LI>Data: Use for data values
+<LI>Text: ASCII text
+<LI>Branch: Use for memory locations containing another memory location (order used high byte and then low byte), see also chapter 'Branch data'.
+<LI>Rev Br: Use for memory locations containing another memory location (order used low byte and then high byte)
+<LI>LDL: LDL Macro, see also chapter 'LDL, LDV and RLDL instructions'
+<LI>LDV: LDV Macro, see also chapter 'LDL, LDV and RLDL instructions'
+<LI>Switch: Switch to other mnemonic, see also chapter 'Switch mnemonic'
+<LI>Pseudo: Chip 8, ST2, ST4 or FEL code
+</UL>
+</p>
+</body>
+</html>

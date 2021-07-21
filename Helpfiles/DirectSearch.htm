@@ -1,0 +1,32 @@
+
+<html>
+<title>Search</title>
+<body>
+<h1>Search</h1>
+<p>
+Three search options are available as described below
+</p>
+<h2>Branch</h2>
+<p>
+Pressing the 'Branch' button will search all code and data areas (defined in program configurations) for branches to the current working address. The branches will be listed in the 'message' area just below the 'Command line input'.
+</p>
+<h2>Load L</h2>
+<p>
+Pressing the 'Load L' button will search all code and data areas (defined in program configurations) for instructions (LDL and RLDL) loading the location of the current working address. The locations will be listed in the 'message' area just below the 'Command line input'.
+</p>
+<h2>Load V</h2>
+<p>
+Pressing the 'Load V' button will search all code and data areas (defined in program configurations) for instructions loading the location or value of the current working address. The locations will be listed in the 'message' area just below the 'Command line input'. Note that with Load V all possible load instructions will be listed as follows:
+<UL>
+<LI>LD H-L: instuction sequence LDI xx, PHI RN, LDI xx, PLO RN
+<LI>LD L-H: instuction sequence LDI xx, PLO RN, LDI xx, PHI RN
+<LI>RLDI: RLDI RN,xxxx
+<LI>LD H: instuction sequence LDI xx, PHI RN (only loading high byte current address)
+<LI>LD L: instuction sequence LDI xx, PLO RN (only loading low byte current address)
+<LI>LDV: LDV macro
+<LI>LDL: LDL macro
+<LI>RLDL: RLDL macro
+</UL>
+</p>
+</body>
+</html>

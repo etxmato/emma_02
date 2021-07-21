@@ -1,0 +1,30 @@
+<html>
+<title>LDL, LDV and RLDL instructions</title>
+<body>
+<h1>LDL, LDV and RLDL instructions</h1>
+<p>
+Some code will need to load locations into registers and use the location in the register to load data. This can be done by using the LDL (LoaD Location) macro in the Direct assembler or marking correct 1802 code as 'LDL' via the procedure described in chapter 'Marking specific types'. By doing this also the location data will be corrected when using insert, delete or copy commands. All 'location data' will be shown in <FONT COLOR="DARK ORCHID">purple</FONT> text.
+</p>
+<p>
+For example doing an insert on address 8006 in the following example:
+<pre>
+8000: 	F8 <FONT COLOR="DARK ORCHID">80</FONT> B8	LDL R8,<FONT COLOR="DARK ORCHID">8007</FONT>
+	F8 <FONT COLOR="DARK ORCHID">07</FONT> A8
+8006: 	C4		NOP
+8007:	AA
+</pre>
+<br>will result in:
+<pre>
+8000: 	F8 <FONT COLOR="DARK ORCHID">80</FONT> B8	LDL R8,<FONT COLOR="DARK ORCHID">8008</FONT>
+	F8 <FONT COLOR="DARK ORCHID">08</FONT> A8
+8006: 	C4		NOP
+8007: 	C4		NOP
+8008:	AA
+</pre>
+A similar LDV (LoaD Value) macro is available resulting in the same 1802 code sequence however for this macro the value is NOT changed by any insert, delete or copy commands. LDV value data is also NOT shown in <FONT COLOR="DARK ORCHID">purple</FONT>.
+</p>
+<p>
+For use with 1804 or 1805 code there is also a macro RLDL. RLDL will generate the same 1804/1805 code as RLDI however the Direct Assemlber will treat RLDL as a location load similar to LDL.
+</p>
+</body>
+</html>

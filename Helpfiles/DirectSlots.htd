@@ -1,0 +1,42 @@
+<html>
+<title>Branching to COMX slots and Elf EMS pages</title>
+<body>
+<h1>Branching to COMX slots and Elf EMS pages</h1>
+<p>
+Any long branch instruction or branch data <U>from</U> a slot or EMS page to a NON slot/page memory location will be corrected if affected by an insert or delete. However branches from NON slot/page memory <U>to</U> a slot or EMS page area will only be corrected if:
+<UL>
+<LI>The same slot or page code is used for both configuration ranges
+<LI>A 'LBR Sxx,yyyy' macro is used for branch instructions
+<LI>A ': Sxx,yyyy' macro is used for branch data
+<LI>A 'LDL Sxx,Rx,yyyy' macro is used for loading a data location
+</UL> 
+</p>
+<p>
+The 'LBR Sxx,yyyy' macro can be used for any long branch instruction (LBDF, LBNF, LBNQ, LBNZ, LBQ, LBR or LBZ). 'Sxx' specifies the slot code or EMS page where the branch should jump to and 'yyyy' defines the branch address.
+</p>
+<p>
+For example, using a COMX with SB and including configuration ranges for:
+<UL>
+<LI>RAM bank 0, with slot code (S/F) = 11, code start = C000, code end = C100
+<LI>RAM bank 1, with slot code (S/F) = 31, code start = C000, code end = C100
+<LI>RAM, no slot code (default 10 will be used), code start = BFE0, code end = BFFF
+</UL>
+</p>
+<p>
+with the following code in RAM:
+<pre>
+BFE0: 	C0 <FONT COLOR="DARK ORCHID">C0 80</FONT>	LBR S11,<FONT COLOR="DARK ORCHID">C080</FONT>
+BFE3:	C0 <FONT COLOR="DARK ORCHID">C0 80</FONT>	LBR S31,<FONT COLOR="DARK ORCHID">C080</FONT>
+</pre>
+<br>Now giving an 'insert' on address C010 in RAM bank 0 (slot code 11) will result in:
+<pre>
+BFE0: 	C0 <FONT COLOR="DARK ORCHID">C0 80</FONT>	LBR S11,<FONT COLOR="DARK ORCHID">C081</FONT>
+BFE3:	C0 <FONT COLOR="DARK ORCHID">C0 80</FONT>	LBR S31,<FONT COLOR="DARK ORCHID">C080</FONT>
+</pre>
+So the S11 branch is corrected as a byte is inserted in that slot but the S31 branch will remain unchanged. 
+</p>
+<p>
+The ': Sxx,yyyy' and 'LDL Sxx,Rx,yyyy' macro work the same as the 'LBR Sxx,yyyy' macro. Except they are used for branch addresses and loading memory locations. 
+</p>
+</body>
+</html>

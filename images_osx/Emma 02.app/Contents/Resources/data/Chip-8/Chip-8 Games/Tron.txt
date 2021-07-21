@@ -1,0 +1,2 @@
+B=with borders. F=without borders. 0=start. Player 1: 1/4 3/C.
+	  Player 2: 7/A 9/E.

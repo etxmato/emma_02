@@ -6,7 +6,7 @@
 This emulator will emulate the FRED 1.5 computer. The FRED (Flexible Recreational and Educational Device) concept was used by RCA for multiple prototype computers eventually resulting in the release of computers like the VIP and Studio II. The FRED 1.5 emulated by Emma 02 is based on the information found in this <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a> as well as Paul Robson's <a href="https://github.com/paulscottrobson/fred">FRED emulator</a>. 
 </p>
 <p>
-The FRED 1.5 is very similar to the FRED 1 but is running on the CDP 1801 instead of the SYSTEM 00 chip set and as such is able to run variants of pseudo cosed FEL, FPL, GPL, STK and Test-Word, see also <a href="DebuggerMain.htm">Debugger</a>. Additional information about the FRED 1.5 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+The FRED 1.5 is very similar to the FRED 1 but is running on the CDP 1801 instead of the SYSTEM 00 chip set and as such is able to run variants of pseudo cosed FEL, FPL, GPL, STK and Test-Word, see also <a href="SyntaxMain.htm">Syntax</a>. Additional information about the FRED 1.5 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
 The Interlace checkbox will change from the 'dot' screen to full use of all pixels. According to the FRED documentation the dotted screen was used.

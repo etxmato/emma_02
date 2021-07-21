@@ -34,27 +34,6 @@ The configuration files location is:
 <LI>Mac OSX: ~/Library/Preferences/Emma 02
 <LI>Linux: ~/.emma_02
 </UL>
-<h3>COMX-35</h3>
-<h4>COMIX</h4>
-<p>
-COMIX-35 computer which is an open-source clone of the COMX-35. Both a bare and SB versions are included.
-</p>
-<h4>F&M Eprom Board</h4>
-<p>
-COMX-35 with F&M Eprom Board support as well as COMX-35 BASIC ROM 1.1 (small corrections) F&M expansion 3.2, floppy, printer (F&M version 1.2) and 80 column support 
-</p>
-<h4>Original/Bare</h4>
-<p>
-COMX-35 as it was in the box! No corrections included on the BASIC ROM and no expansion boards
-</p>
-<h4>Original/Loaded</h4>
-<p>
-COMX-35 as it was in the box! Original expansion box ROM is also included with floppy, printer, 32K RAM and 80 column support. All using original ROMs without any corrections.
-</p>
-<h4>SuperBoard</h4>
-<p>
-COMX-35 with Super Board support as well as floppy, printer and 80 column support 
-</p>
 <h3>Elf 2000</h3>
 <h4>Intel 8275</h4>
 <p>
@@ -120,19 +99,6 @@ Basic configuration to run the Music Maker and Christmas songs as all published 
 <h4>Netronics Tiny Basic</h4>
 <p>
 These configuration will load and run Netronics Tiny Basic, either on Pixie video or a vt-100 terminal. Note that to start the basic you will need to press 'return' when using the Pixie version and press return twice on the vt-100 version.
-</p>
-<h4>Pico/Elf</h4>
-<p>
-Following configurations are available:
-<UL>
-<LI>Diskless
-<LI>Install Elf/Os 0.3.0
-<LI>Install Elf/Os 0.3.2
-<LI>Runtime Elf/Os
-<LI>Runtime Elf/Os - UART
-<LI>STG Runtime Elf/Os
-<LI>STG Runtime Elf/Os - UART
-</UL>
 </p>
 <h4>Quest Super Basic</h4>
 <p>
@@ -213,81 +179,6 @@ Basic configuration with only 256 Bytes RAM.
 Default configuration using the mini OS 'TOPS' and the 'utility' memory concept.
 </p>
 <h3>Microboard System</h3>
-<h4>CDP18S600</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s600.htm">CDP18S600</a>
-</p>
-<h4>CDP18S601</h4>
-<p>
-Basic system with a CDP18S601 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s601.htm">CDP18S601</a>
-</p>
-<h4>CDP18S602</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s602.htm">CDP18S602</a>
-</p>
-<h4>CDP18S603</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s603.htm">CDP18S603</a>
-</p>
-<h4>CDP18S603A</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s603a.htm">CDP18S603A</a>
-</p>
-<h4>CDP18S604B</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s604b.htm">CDP18S604B</a>
-</p>
-<h4>CDP18S605</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s605.htm">CDP18S605</a>
-</p>
-<h4>CDP18S606</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s606.htm">CDP18S606</a>
-</p>
-<h4>CDP18S607</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s607.htm">CDP18S607</a>
-</p>
-<h4>CDP18S608</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s608.htm">CDP18S608</a>
-</p>
-<h4>CDP18S609</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s609.htm">CDP18S609</a>
-</p>
-<h4>CDP18S610</h4>
-<p>
-Basic system with a CDP18S600 CPU board and CDP18S640 Display board. See also <a href="MicroboardCdp18s610.htm">CDP18S610</a>
-</p>
-<h4>CDP18S693 MCDS</h4>
-<p>
-RCA's low cost Microboard Computer Developmen System (MCDS) CDP18S693. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
-</p>
-<h4>CDP18S694 MCDS</h4>
-<p>
-RCA's Higher-Performance Microboard Computer Developmen System (MCDS) CDP18S694. This system includes the CDP18S601 CPU board and the CDP18S652 Memory & tape board. The CDP18S601 board includes 4K RAM but no ROM. The CDP18S652 includes the UT62 from hex 8000-87FF, Assembler / Editor from hex 9000-AFFF, BASIC 3 from hex B000-DFFF and a 1K RAM at hex 8C00.
-</p>
-<p>
-This configuration should be identical to the MCDS emulator however the implementation in Emma 02 is slightly different.
-</p>
-<h4>COMX NTSC - Demo</h4>
-<p>
-Demo configuration loading a COMX like configuration including a CDP18S661B Video board. Note this is not a complete COMX configuration as the COMX has slightly different HW compared to the Microboard System but this shows working of the NTSC video board.
-</p>
-<h4>COMX PAL - Demo</h4>
-<p>
-Demo configuration loading a COMX like configuration including a CDP18S661V3 Video board. Note this is not a complete COMX configuration as the COMX has slightly different HW compared to the Microboard System but this shows working of the PAL video board.
-</p>
-<h4>MS2000 - FDC</h4>
-<p>
-System defined as the MS2000 using FDC image files, this configuration should be identical to the MS2000 emulator however the implementation in Emma 02 is slightly different.
-</p>
-<h4>MS2000 - HD</h4>
-<p>
-System defined as the MS2000 using HD Directory simulation, this configuration should be identical to the MS2000 emulator however the implementation in Emma 02 is slightly different.
-</p>
 <h3>MS2000</h3>
 <h4>FDC</h4>
 <p>

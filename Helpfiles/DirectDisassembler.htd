@@ -1,0 +1,31 @@
+<html>
+<title>Disassembler</title>
+<body>
+<h1>Disassembler</h1>
+<p>
+All code shown in the left side of the Direct Assembler tab is disassembled in real time. Any part of memory can also be disassembled to an assembler (.asm or .txt) file by pressing the 'Dis' button. The first two text boxes on the right of the 'Dis' button will be used as start and end address.
+</p>
+<p>
+Code will be disassmbled based on 'execution' by the CPU. So only code that has been executed is marked as 180x code and will be disassembled. Main advantage of this is that 'data' will be shown as bytes instead of 180x code. This does mean that for a complete disassembly all code should first be executed as much as possible. Parts of code that are 'less easy' to execute can however be marked as code manually; see also chapter 'Marking Specific types'. Executed 'pseudo' code will be shown as 'DB' in the output file with the pseudo code shown as comments.
+</p>
+<p>
+Next to marking code it is also possible to:
+<UL>
+<LI>mark ASCII text which in the output file will be shown as DB 'text'.
+<LI>mark subroutines like SEP 4 xxyy, where xxyy is marked with 'Branch' which will be shown in the output file as DW label. With the label defined at addess xxyy.
+<LI>mark loading of an address location with LDL, which will be shown as LOAD Rx,label in the output file.
+</UL>
+</p>
+<p>
+The output file is fully compatible with the A18 assembler.
+</p>
+<p>
+The disassembler output will include lists for:
+<UL>
+<LI>Labels: showing all labels used in the disassebled code.
+<LI>Unused or indirect labels: showing labels for which no branches or subroutine calls are found in the code. Most likely SEP Rx instructions exist in the code which cause jumps to these labels.
+<LI>Out of range branches or addresses: showing which branches refer to addresses outside the disassembled code.
+</UL> 
+</p>
+</body>
+</html>

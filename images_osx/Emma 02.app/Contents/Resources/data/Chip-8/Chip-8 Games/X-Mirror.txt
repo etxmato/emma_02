@@ -1,0 +1,1 @@
+Draws symmetric patterns using 2 4 6 8.

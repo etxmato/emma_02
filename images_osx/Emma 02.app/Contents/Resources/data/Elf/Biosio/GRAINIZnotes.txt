@@ -1,0 +1,54 @@
+GRAINIZ by Richard E. Peters, richard11092000@cox.net
+01/11/2005 version 1
+
+GRAINIZ has been designed to load the TMS9118 Video Display Processors
+Video Ram with a 7x7 font and puts the VDP in to graphics 1 mode, to make it 
+useable as an output device.
+Upper and lowercase letters are supported along with, inverse characters
+denoted by MSB Set or in this case patterns. 
+
+To complete the process, BiosioV9 has been modified to be used after
+this program has started the screen.
+
+Also GRAINIZ has a second and third entry point, which is setup to take
+advantage of Mike Rileys new ELF/OS (0.2.4) software, and the TMS
+screen can be used as an INPUT/OUTPUT or OUTPUT only screen. 
+For this to work BiosioV9 must be in ROM/RAM.
+
+GRAINIZ can be use 3 different ways just by starting it at different
+address.
+
+7000  Just start tms graphic 1 screen and load fonts
+70A2  Change ELF/OS INPUT/OUTPUT Vectors to BIOSIO (See BIOSIO Document)
+70B8  Change ELF/OS OUTPUT Vector to BIOSIO 
+
+GRAINIZ.ROM can then be saved to IDE, with:
+SAVE
+START address:7000
+END address:748F
+EXEC address:7000
+FILE NAME:GRAINIZ
+
+SAVE
+START address:7000
+END address:748F
+EXEC address:70A2
+FILE NAME:GRAINIZOS
+
+SAVE
+START address:7000
+END address:748F
+EXEC address:70B8
+FILE NAME:GRAINIZOT
+
+useage: 
+GRAINIZ will start up display for use with programs, that use BIOSIO    
+GRAINIZOS will start up display and switch ELF/OS to use BIOSIO
+GRAINIZOT will start up display and only switch OUTPUT of ELF/OS
+
+GRAINIZOS can be renamed to INIT and ELF/OS (0.2.5) would start
+using the display,and keyboard at startup.
+
+Any question or comments just email me 
+
+Richard

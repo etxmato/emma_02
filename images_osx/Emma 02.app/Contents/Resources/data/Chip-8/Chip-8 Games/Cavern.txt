@@ -1,0 +1,26 @@
+
+New CHIP8 Game: Cavern
+----------------------
+by Matt aka mikolaym
+
+Jan 12, 2014
+
+cavern.ch8 (3Kb)
+
+
+Hello all!
+
+I recently finished a new game implemented in CHIP8. It's called Cavern, and is conceptually based 
+upon the CHIP8 game Cave.
+
+Cavern allows the player to select one of three speeds for gameplay, though the easiest setting is 
+still pretty challenging. I suppose Cavern could be considered a game suitable for individuals who 
+found Cave too easy.
+
+The in-game controls are 2, 4, 6, and 8 to move the sprite on screen.
+
+I've attached the .ch8 file for anyone interested in playing. It has been tested on the Emma emulator. 
+If anybody comes across any bugs, please let me know!
+
+Best,
+Matt

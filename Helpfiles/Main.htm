@@ -4,49 +4,46 @@
 <body>
 <h1>Emma 02</h1>
 <p>
-The Emma 02 emulator is able to emulate different computers all based on the <a href="Main1802.htm">RCA 1802</a> microprocessor. Additional information about this emulator can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+The Emma 02 emulator is able to emulate multiple computers all based on the <a href="Main1802.htm">RCA 1802</a> microprocessor. Additional information about this emulator can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-Contents: 
+These help pages describe all computers and tools avalable in Emma 02. See following sub-chapters for an overiew, also note the short <a href="FaqMain.htm">FAQ</a> and <a href="MainGeneral.htm">General Information</a> for common fucntions for most computers is included.
+</p>
+<h2>Computers</h2>
+<p>
+For a summary of available computers and explanation how to navigate the GUI to your favorite one please read <a href="ComputersMain.htm">Computers</a>. When you have selected your computer a default configuration should be loaded, you can manually change settings as required and most computers have an option to load different pre-configured configuration as described in the <a href="MainConfigurations.htm">Configurations</a> chapter.
 </p>
 <p>
-<a href="MainGeneral.htm">General Information</a><br>
-<a href="FaqMain.htm">FAQ</a><br>
-<a href="Cdp18s020Main.htm">CDP18S020 Evaluation Kit</a><br>
-<a href="CidelsaMain.htm">Cidelsa</a><br>
-<a href="ComxMain.htm">COMX</a><br>
-<a href="ComixMain.htm">COMIX</a><br>
-<a href="Elf2KMain.htm">Cosmac Elf 2000</a><br>
-<a href="VipMain.htm">Cosmac VIP</a><br>
-<a href="VipIIMain.htm">Cosmac VIP II</a><br>
-<a href="CosmicosMain.htm">Cosmicos</a><br>
-<a href="ElfMain.htm">Elf:</a><br>
-- <a href="CosmacMain.htm">Cosmac Elf</a><br>
-- <a href="ElfIIMain.htm">Netronices Elf II</a><br>
-- <a href="SuperMain.htm">Quest Super Elf</a><br>
-<a href="EtiMain.htm">ETI 660</a><br>
-<a href="Fred1Main.htm">FRED 1</a><br>
-<a href="Fred1.5Main.htm">FRED 1.5</a><br>
-<a href="Uc1800Main.htm">Infinite UC1800</a><br>
-<a href="McdsMain.htm">MCDS</a><br>
-<a href="MembershipMain.htm">Membership Card</a><br>
-<a href="MicroboardMain.htm">Microboard System</a><br>
-<a href="MicrotutorMain.htm">Microtutor</a><br>
-<a href="Microtutor2Main.htm">Microtutor II</a><br>
-<a href="MS2000Main.htm">MS2000</a><br>
-<a href="NanoMain.htm">OscomNano</a><br>
-<a href="PecomMain.htm">Pecom 32/64</a><br>
-<a href="PicoMain.htm">Pico/Elf V2</a><br>
-<a href="CoinMain.htm">RCA Video Coin Arcade</a><br>
-<a href="StudioMain.htm">RCA Studio II</a><br>
-<a href="VictoryMain.htm">RCA Studio III / Victory MPT-02</a><br>
-<a href="StudioIVMain.htm">RCA Studio IV</a><br>
-<a href="TMC-600Main.htm">Telmac TMC-600</a><br>
-<a href="TMC-2000Main.htm">Telmac TMC-1800/2000</a><br>
-<a href="VelfMain.htm">VELF</a><br>
-<a href="Vip2KMain.htm">VIP2K Membership Card</a><br>
-<a href="VisicomMain.htm">Visicom COM-100</a><br>
-<a href="DebuggerMain.htm">Debugger</a><br>
+To start a computer emulation press 'Start' as shown in screenshot below (yellow ellipse)
+</p>
+<p>
+<IMG SRC="images/main_start.png" BORDER="0">
+</p>
+<p>
+After startup the 'Start' button will change to 'Reset' and the 'Stop' button will be enabled. To stop a running computer either press 'Stop' or close the main emulation window.
+</p>
+<h2>Debugger</h2>
+<p>
+The debugger will (among other things) allow you to trace code, set break points or check specific register values. Two debugger tabs are available one for the <a href="DebuggerTrace.htm">1802</a> and one for <a href="DebuggerChip8.htm">pseudo</a> code. See also the <a href="DebuggerMain.htm">Debugger</a> chapter.
+</p>
+<h2>Direct Assembler</h2>
+<p>
+A powerfull assembler and disassembler is availbe in Emma 02, for details see <a href="DirectMain.htm">Direct Assembler</a>. Depending on the running computer the assembler handles any 180x related code (SYSTEM00, 1801, 1802, 1804 and 1805/1806) as well as multiple pseudo code varians (Chip-8, Super-chip, ST2, ST4 etc.). See also the <a href="SyntaxMain.htm">Code Syntax</a> chapter for specification of the accepted syntax. 
+</p>
+<p>
+The assembler can be used for writing anything from small pieces of software to larger projects. For example I designed and wrote the completer COMX Super Board FW in the Emma 02 assembler. 
+</p>
+<p>
+The assembler and disassembler are also especially powerfull for debuging and patching existing code. See also the <a href="DirectExistingCode.htm">Debugging Existing Code - Example</a> for a short 'how-to'.
+</p>
+<p>
+<h2>Profiler</h2>
+<p>
+Main purpose of the <a href="ProfilerMain.htm">Profiler</a> to find hot code spots, dead code and analyse code & test coverage as well as analyze timing for the running computer and CPU. 
+</p>
+<h2>Memory Dump</h2>
+<p>
+The <a href="DumpMain.htm">Memory Dump</a> shows an overview of one page (256 bytes) of memory, shown in hexadecimal format. Next to options to show regular and video memory it is also possible to show what type of memory (RAM, ROM, video etc) is connect or see an overview of the profile counters.
 </p>
 </body>
 </html>

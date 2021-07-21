@@ -29,7 +29,7 @@ This chapter includes:
 <a href="MainCommandLine.htm">Command Line</a><br>
 </p>
 <p>
-At exit all settings are saved (except settings in debugger windows), unless save settings is unchecked in the settings menu.
+At exit all settings are saved (except settings in tools windows), unless save settings is unchecked in the settings menu.
 </p>
 </body>
 </html>

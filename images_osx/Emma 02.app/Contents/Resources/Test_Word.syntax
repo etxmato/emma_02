@@ -1,0 +1,63 @@
+ADD
+Vx , kk det code=7xkk
+Vx , Vy det code=8xy4
+/ADD
+AND
+Vx , Vy det code=8xy2
+/AND
+CALL 
+hex=0000-0FFF code=2jjj
+/CALL
+INP
+WORD , Vx code=Bx..
+/INP
+JP
+hex=0000-0FFF code=1jjj
+/JP
+LD
+RA , hex=0000-0FFF code=Aaaa
+A , hex=0000-0FFF code=Aaaa
+Vx , kk code=6xkk
+Vx , Vy code=8xy0
+[RA] , Vx det code=Fx00
+[A] , Vx det code=Fx00
+[RA] , kk det code=Fxkk
+[A] , kk det code=Fxkk
+/LD
+OR
+Vx , Vy det code=8xy1
+/OR
+PRINT
+WORD , Vx code=Dx00
+WORDS ,  mem=0000-0FFF code=Eaaa
+kk code=D.kk
+/PRINT
+RETURN
+code=00A7
+/RETURN
+RND
+Vx , kk det code=Cxkk
+/RND
+SHR
+Vx , Vy det code=8xy6
+/SHR
+SE
+Vx , kk code=3xkk
+Vx , Vy code=5xy.
+/SE
+SNE
+Vx , kk code=4xkk
+Vx , Vy code=9xy.
+/SNE
+SUB
+Vx , Vy det code=8xy5
+/SUB
+SUBN
+Vx , Vy det code=8xy7
+/SUBN
+SYS
+hex=0000-0fff code=0jjj
+/SYS
+XOR
+Vx , Vy det code=8xy3
+/XOR

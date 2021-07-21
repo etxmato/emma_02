@@ -1,0 +1,18 @@
+<html>
+<title>Switch mnemonic</title>
+<body>
+<h1>Switch mnemonic</h1>
+<p>
+There are a few 1802 op codes with multiple mnemonics:
+<br>33: <B>BDF</B>, BPZ or BGE
+<br>38: <B>NBR</B> or SKP
+<br>3B: <B>BNF</B>, BM, BL
+<br>76: <B>SHRC</B> or RSHR
+<br>7E: <B>SHLC</B> or RSHL
+<br>C8: <B>NLBR</B> or LSKP
+</p>
+<p>
+All variants will be accepted in the assembler and the variant used will be stored as a type. This can also be changed via the procedure described in chapter 'Marking specific types' and using marking 'Switch'. If code is executed without a type specified the mnemonics in bold will be used.
+</p>
+</body>
+</html>

@@ -80,7 +80,7 @@ void GuiCidelsa::readCidelsaConfig()
 	conf[CIDELSA].romDir_[MAINROM1] = readConfigDir("/Dir/Cidelsa/Main_Rom_File", dataDir_ + "Cidelsa" + pathSeparator_);
 	conf[CIDELSA].screenDumpFileDir_ = readConfigDir("/Dir/Cidelsa/Video_Dump_File", dataDir_ + "Cidelsa" + pathSeparator_);
 
-	conf[CIDELSA].rom_[MAINROM1] = configPointer->Read("/Cidelsa/Main_Rom_File", "");
+	conf[CIDELSA].rom_[MAINROM1] = configPointer->Read("/Cidelsa/Main_Rom_File", "draco.bin");
 	conf[CIDELSA].screenDumpFile_ = configPointer->Read("/Cidelsa/Video_Dump_File", "screendump.png");
 
 	wxString defaultZoom;

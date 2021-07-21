@@ -1,0 +1,68 @@
+
+<html>
+<title>Memory</title>
+<body>
+<h1>Memory Type</h1>
+<p>
+The memory type of the main 64K CPU memory will be shown as soon as type 'Type' is selected.  One field defines one page, i.e. 256 bytes of memory, so the top left field defines address 0000 to 00FF.  To change the type of a memory page select the value and change it, for definition of types see following details:
+</p>
+<h4>Values allowed in COMX emulation</h4> 
+<p>
+space = UNDEFINED<br>
+. = RAM<br>
+R = ROM<br>
+PR = 1870 Page RAM<br>
+CR = 1870 Character RAM<br>
+M5 = MC6845 Video RAM<br>
+MR = MC6845 Register<br>
+CE = COMX Expansion ROM copy<br>
+CF = COMX Floppy disk ROM copy
+</p>
+<p>
+Note that M5 and MR are only allowed if the 80 column card is configured. Also when changing any of these values the COMX emulation might not work anymore!
+</p>
+<h4>Values allowed in Cosmac Elf, Netronics Elf II and Quest Super Elf emulation</h4> 
+<p>
+space = UNDEFINED<br>
+. = RAM<br>
+R = ROM<br>
+M5 = MC6845 Video RAM<br>
+MR = MC6845 Register<br>
+M7 = MC6847 Video RAM<br>
+</p>
+<p>
+Note that M5 and MR are only allowed if the MC6845 video mode is selected and M7 only if the MC6847 video mode is selected. Also when changing any of these values the Elf emulation might not work anymore!
+</p>
+<h4>Values allowed in Cosmac Elf 2000, Telmac 1800, Telmac 2000, Oscom Nano and ETI 660 emulation</h4> 
+<p>
+space = UNDEFINED<br>
+. = RAM<br>
+R = ROM<br>
+</p>
+<p>
+When changing any of these values the Cosmac Elf 2000, Telmac 1800, Telmac 2000, Oscom Nano and/or ETI 660 emulation might not work anymore!
+</p>
+<h4>Values allowed in RCA Studio II, RCA Studio III / Victory MPT-02 and Visicom COM-100 emulation</h4> 
+<p>
+space = UNDEFINED<br>
+. = RAM<br>
+R = ROM<br>
+M. = Mapped RAM<br>
+C. = Victory Colour RAM Access<br>
+</p>
+<p>
+When changing any of these values the RCA Studio II, RCA Studio III / Victory MPT-02 and/or Visicom COM-100 emulation might not work anymore!
+</p>
+<h4>Values allowed in Cidelsa, Telmac TMC 600 and Pecom emulation</h4> 
+<p>
+space = UNDEFINED<br>
+. = RAM<br>
+R = ROM<br>
+PR = 1870 Page RAM<br>
+CR = 1870 Character RAM<br>
+</p>
+<p>
+When changing any of these values the Cidelsa, Telmac TMC 600 and/or Pecom emulation might not work anymore!
+</p>
+</body>
+</html>

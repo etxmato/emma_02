@@ -1,0 +1,15 @@
+<html>
+<title>Interval Timer</title>
+<body>
+<h1>Interval Timer</h1>
+<p>
+The profiler can also measure a specific time between two triggers. First time the trigger happens the timer is started and the second time it is stopped. The trigger can be setting of the Q flag or execution of OUT 1 to 7. 
+</p>
+<p>
+<IMG SRC="images/profiler_timer.png" BORDER="0">
+</p>
+<p>
+The trigger type can be set with the 'Interval trigger' selector (yellow ellipse) and the interval time is shown below (orange ellipse).
+</p>
+</body>
+</html>

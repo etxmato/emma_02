@@ -1,0 +1,88 @@
+BIOSPS PS2/1861 Driver By Richard E Peters, richard11092000@cox.net
+Last Change 12/26/2004, Assembled with QELFASM V2 
+
+BIOSPS Graphics Requirements:
+
+LBR GRCRINIT (F11E) to setup GRCALL and GRRETURN in R4 and R5
+Entry:
+R6 = Return Address.
+R2 = Pointing to Stack space
+X=2
+Exit:
+R6 distroyed
+
+GRINIT (F100) Set Up Pointers
+Entry:
+    GRCRINIT has to have been run.   
+    R0 set to Display RAM address, 190H(400) bytes.
+Exit:
+    None
+
+GRINPUT (F10A)
+entry:
+    GRINIT has to have been run
+    GRCRINIT has to have been run
+    R0 has to remain unchanged
+    R1 has to remain unchanged       
+exit:
+    D=input byte
+
+GROUTPUT (F114)
+entry:
+    GRINIT has to have been run.
+    GRCRINIT has to have been run
+    D= byte to type
+    R0 has to remain unchanged
+    R1 has to remain unchanged 
+exit:
+    None
+
+GRCALL (Note 2)   Always set's X=2, Uses HIGH RF to save D
+
+GRRETURN (Note 2) Always set's X=2, Uses HIGH RF to save D
+
+Note 1:
+   Do to the Interupt Routine running at anytime during the program
+   R0 and R1 is therefore reserved for it's use.
+   R0 and R1 can be used under these conditions:
+   Your are not Inputing bytes
+   The display is OFF 
+   You have saved R0 and Restore it before Calling GRINPUT or
+   Calling GROUTPUT Outputing a <LF>, outputing other character does 
+   not turn the display on. 
+   R1 is reset to the interupt routine everytime the display is turned
+   on so, resetting this is not necessary.
+
+Note 2:
+   Call and Return routines not fixed use GRCRINIT to setup.
+
+Additional Information:
+
+BIOSPSV1 Release 0.1 occupies F000-F7FF and uses the following system memory.
+
+00B0-B2 TVXY       DISPLAY CURSOR LOC and Bit Location.
+00B3    MASK       Mask byte for pixie graphics
+00B4    TTYCC      Tempory holding     
+00B5    BAUD       BAUD RATE for Serial
+00B6-B7 DISADD     DISPLAY RAM ADDRESS 
+00B8-B9 TEMP       TEMP ADDRESS, used for computations
+00BA    CLICK      Interupt Routine Second Counter,used by pixie cursor
+00BB    PS2POS     SCAN CODE BUFFER POSITION
+00BC    GETPOS     NEXT CODE TO GET
+00BD    KEYCONTROL LOCK=7 SHIFT=6 CTRL=5 ALT=4
+
+1C00    PS2BUFF    SCAN CODE BUFFER 256 BYTES
+1F40    BSTK       BACKSPACE STACK 191 BYTES
+  
+BIOSPS also contains a ELF/OS calling interface 
+Functions: OSINIT (F600) OSINPUT (F610) OSOUTPUT (F61A)
+           OSTYPEMSG (F64A) and OSINPUT256 (F653)
+So BIOSPS along with an PSINIZ can be used to run elf/os. 
+
+Config Notes:
+
+   If you are designing new programs to run on an ELF/OS system. I recommend setting 
+   them to call O_TYPE and O_READKEY, This allowes them to run on what ever ELF/OS 
+   is running on.      
+
+  

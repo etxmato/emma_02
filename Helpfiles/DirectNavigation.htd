@@ -1,0 +1,16 @@
+<html>
+<title>Navigation</title>
+<body>
+<h1>Navigation</h1>
+<p>
+Default working address 0 is selected and shown disassembled on the left half of the Direct Assembler tab. To move to other locations use one of the following options:
+<OL>
+<LI>Fill in new address in the 'Move to:' field
+<LI>Press the left large 'up' or 'down' buttons to move one page
+<LI>Press the right small 'up' or 'down' buttons to move one location / address
+<LI>Press SHIFT 'arrow up' or 'arrow down' on the PC keyboard to move one page
+<LI>Press 'arrow up' or 'arrow down' on the PC keyboard to move one location / address
+</OL>
+</p>
+</body>
+</html>

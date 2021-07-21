@@ -12,7 +12,7 @@ When using the COMX-35, Cidelsa, TMC 600 or PECOM 64 with sound a clock frequenc
 In principle the emulation of the video frequency will stay the same independently of the chosen CPU frequency (except when using the CPD1861 or CDP1864). The video frequency might change if high CPU speeds are specified.
 </p>
 <p>
-The effective CPU clock speed and vertical video frequency can be verified on the 'Debugger/Timing &amp; Specification' tab. Note that the values shown are real values calculated from the current emulator speed and as such might deviate from the specified clock speed value.
+The effective CPU clock speed and vertical video frequency can be verified on the 'Tools/Configuration' tab. Note that the values shown are real values calculated from the current emulator speed and as such might deviate from the specified clock speed value.
 </p>
 <p>
 Default frequencies as used in Emma 02:

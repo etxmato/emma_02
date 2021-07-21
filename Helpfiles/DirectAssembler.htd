@@ -1,0 +1,28 @@
+<html>
+<title>Assembler</title>
+<body>
+<h1>Assembler</h1>
+<p>
+To use the assembler type in any 1802, 1804 or 1805 code in the command line (in the middle of the right half of the 'Direct Assembler' tab). For command syntax see chapter <a href="DebuggerSyntax180x.htm">180x Syntax</a>, this should be similar or even the same as the 180x data sheets. 
+</p>
+<p>
+To use the Pseudo code assembler a machine should be started that includes a Chip-8, ST2, ST4 or FEL interpreter. For command syntax see chapters <a href="DebuggerSyntaxChip.htm">Chip-8 Syntax</a>, <a href="DebuggerSyntaxSt.htm">ST2 Syntax</a>, <a href="DebuggerSyntaxSt4.htm">ST4 Syntax</a> and/or <a href="DebuggerSyntaxFel2.htm">FEL Syntax</a>
+</p>
+<p>
+The Current working address is indicated in <B>bold</B> and between <B>&gt; &lt;</B>. To change the working address see chapter 'Move working address'. Note that all data values should be given as hexadecimal values unless preceded by a & in which case the value should be decimal, i.e LDI &100 is the same as LDI 64.
+</p>
+<p>
+Next to 180x, Chip-8, ST2, ST4 and FEL code the following options are also available from the command line:
+<UL>
+<LI>#ww xx yy zz
+<br>Data input, where ww, xx, yy, zz are hexadecimal vales and will be stored on the current and following working address. At least one (ww) value should be specified. I.e. #10, will store value 10, #20 30, will store 20 and on the following address 30. Spaces between bytes are optional.
+<LI>'text
+<br>Store ASCII text, all text after ' will be stored in ASCII code at the current working address. When using this on the Studio IV characters are stored with Studio IV charcater numbering.
+<LI>"text
+<br>Only valuable for the COMX to store ASCII text in 'high colour', all text after " will be stored in ASCII code (range 80 to FF) at the current working address.
+<LI>:address
+<br>Store 16 bit 'Branch data', see also chapter 'Branch data'.
+</UL>
+</p>
+</body>
+</html>

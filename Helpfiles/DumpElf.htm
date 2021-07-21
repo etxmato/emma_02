@@ -1,0 +1,16 @@
+
+<html>
+<title>Elf Memory Map</title>
+<body>
+<h1>Elf Memory Map</h1>
+<p>
+To switch Elf EMS memory page from the memory dump tab use the 'EMS' field (hexadecimal values 0 to 1F). EMS pages are connected from address hex 8000-BFFF.
+</p>
+<p>
+To switch Elf memory pager from the debugger use the 'Pager' fields (first field values 0 to F, second field values 0 to FF). Memory pager pages are connected from address hex 1000 to hex FFFF in blocks of 4K. Page 0 is always connected from address 0 to hex FFF. The switchable 4K page is indicated by the fist field and the selected pager by the second field.
+</p>
+<p>
+The switchable EMS address will be shown in the same colour as the 'EMS' text and the switchable Pager pages in the same colour as the 'Pager' text. When switching the switchable 4K page the colour will move as well.
+</p>
+</body>
+</html>

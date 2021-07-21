@@ -1,0 +1,21 @@
+
+<html>
+<title>Code Coverage</title>
+<body>
+<h1>Code Coverage</h1>
+<p>
+Code that is not executed will be shown as 'data', like in the <a href="DebuggerAssembler.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> color and in bytes including ASCI characters (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/profiler_code_coverage.png" BORDER="0">
+</p>
+<p>
+The parts shown as data might of course be actual data used by the software or code that hasn't been executed as yet. The branch on 0185 checking on EF3 is currently always branching to 0191. In this case the running computer (COMX-35) uses EF3 as indication for a key press. So a test of this piece of software would indicate that to test all code a key needs to be pressed. This would result in the following:
+</p>
+<p>
+<IMG SRC="images/profiler_code_coverage_key_pressed.png" BORDER="0">
+</p>
+<p>
+The result is showing that all code on this page has now been executed. Note that blue bytes in the bottom are clearly data as are following blue bytes. The SEP R4 on 01A2 likely reads value 14 from 01A3 and the OUT 4 will use the 20 as output value. 
+</body>
+</html>

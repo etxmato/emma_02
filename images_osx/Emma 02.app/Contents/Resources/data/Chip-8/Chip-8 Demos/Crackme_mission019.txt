@@ -1,0 +1,29 @@
+MISSION 019            goo.gl/56PLi4               DIFFICULTY: ███████░░░ [7/10]
+┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅┅
+1337,
+
+What the hack is going on?! Where have you been?! HQ are really mad at you.
+By the way we have lost a contact with our last operational resource on foreign
+soil. Our SAR team is waiting for a green light to launch a MEDEVAC operation.
+But we have no clue where he is.
+
+This is your task.
+
+You have to track the place of his residence. This is CHIP-8 ROM image that the
+handler was given during last contact meeting.
+
+  goo.gl/hKgTpX
+
+Remember, failure is not an option. We don't want international scandal and SOFs
+involved.
+
+Good luck!
+
+Over and out.
+
+--
+P.S. Burn after read.
+P.S.2. I'll show/explain the solution in a video in one or two weeks.
+P.S.3. This mission was brought to you by foxtrot_charlie!
+P.S.4. In the final phase use a string, not a number. Try different offsets.
+P.S.5. The above remark is pretty cryptic... :)

@@ -3,10 +3,36 @@
 <title>COMIX-35 Emulator</title>
 <body>
 <h1>COMIX-35 Emulator</h1>
-<P>
+<p>
 This emulator will emulate the COMIX-35 computer, which is an open-source clone of the <a href="ComxMain.htm">COMX-35</a>. Additional information about the COMIX can be found on the <a href="https://github.com/schlae/comix-35">COMIX GitHub page</a>. The only difference in the Emma 02 emulation between the COMX and COMIX is the DRAM refresh which is not available (or needed) on the COMIX as the COMIX doesn't use Dynamic RAM. Due to this the COMIX will run a lot faster than the COMX.
-<P>
-This chapter includes:
-<P>
-<a href="ComixConfigurations.htm">COMIX Conifgurations</a><br>
+</p>
+<p>
+To start the COMIX-35 emulator first select the COMX-35 tab (yellow ellipse):
+</p>
+<p>
+<IMG SRC="images/comx.png" BORDER="0">
+</p>
+<p>
+Default a COMX-35 configuration will have been loaded, to change this to a COMIX-35 configuration load one of the configurations with the menu option below (blue ellipse) follwoing the grey menu:
+</p>
+<p>
+<IMG SRC="images/comix_configuration.png" BORDER="0">
+</p>
+<p>
+Now press the Start button (orange ellipse in first picture above).
+</p>
+<p>
+Summary of the COMIX-35 configurations:
+</p>
+<p><B>Bare:</B></p>
+<p>
+COMIX-35 without any expansion boards
+</p>
+<p><B>SB:</B></p>
+<p>
+COMIX-35 with <a href="ComxSb.htm">Super Board</a> support as well as floppy, printer and 80 column support 
+</p>
+<p>
+As mentioned above the only difference with the COMX-35 is the DRAM refresh so both conifigurations above the 'DRAM refresh' checkbox is not selected. Next to that when not running the Super Board the recommended COMX ROM file should be comx35.1.2.bin or comx35.1.3.bin. These versions includes a fix to handle the lack of DRAM refresh in the COMIX. The only difference with 1.1 is that the interrupt executes one extra LDA R0 which will secure that R0 is constantly incremented (be it with a slower speed compared to the COMX). The increment of R0 will secure that some games will run correctly on the COMIX as they use R0 as a random generator (one example is Space Invaders).
+</p>
 </body></html>
