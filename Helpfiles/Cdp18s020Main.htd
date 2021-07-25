@@ -6,7 +6,13 @@
 This emulator will emulate the CDP18S020 Evaluation Kit computer. Additional information about the CDP18S020 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-This chapter includes:
+To start the CDP18S020 Evaluation Kit emulator, select the RCA tab (yellow ellipse) followed by the Microboard System tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/cdp18s020.png" BORDER="0">
+</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="Cdp18s020Rom.htm">ROM Files</a><br>

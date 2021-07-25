@@ -1,7 +1,7 @@
 <HTML>
 <Title>FAQ Comx 5</Title>
 <BODY>
-<h2>Why do I see F&M BASIC and not COMX BASIC?</h2>
+<h1>Why do I see F&M BASIC and not COMX BASIC?</h1>
 <p>
 The expansion box rom version selected by default includes a screen editor designed by F&M, see also the help chapter on the <a href="ComxExpansion.htm">expansion box</a>.
 </p>

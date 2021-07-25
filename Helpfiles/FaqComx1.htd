@@ -1,7 +1,7 @@
 <HTML>
 <Title>Faq COMX 1</Title>
 <BODY>
-<h2>How do I run a game or program on the COMX emulator?</h2>
+<h1>How do I run a game or program on the COMX emulator?</h1>
 <p>
 The easiest way to run your favourite game or program on the COMX emulator is to load and run a '.comx' file by using the memory RUN feature (see steps below). All available SW is stored in the Comx directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>) at installation.
 </p>

@@ -6,13 +6,19 @@
 This emulator will emulate the FRED 1 computer. The FRED (Flexible Recreational and Educational Device) concept was used by RCA for multiple prototype computers eventually resulting in the release of computers like the VIP and Studio II. The FRED 1 emulated by Emma 02 is based on the information found in this <a href="http://www.retrotechnology.com/memship/Sarnoff_FRED_manual_W_R_H.pdf">manual</a> as well as games found on different tapes from the The Sarnoff Collection at TCNJ. 
 </p>
 <p>
+To start the FRED 1 emulator first select the RCA tab (yellow ellipse) followed by the FRED 1 tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/fred1.png" BORDER="0">
+</p>
+<p>
 This is the only emulated computer in Emma 02 which is not using a CPU from the 180x serie. Instead it is using a chip set as was used in the RCA SYSTEM 00 protoype. The SYSTEM 00 chip set uses a subset of the 1801 instruction set with some incompatible differences and is likely what the 1801 was based on. Additional information about the FRED 1 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
 The Interlace checkbox will change from the 'dot' screen to full use of all pixels. According to the FRED documentation the dotted screen was used.
 </p>
 <p>
-This chapter includes:
+This chapter also includes:
 </p>
 <p>
 <a href="Fred1Ram.htm">RAM Files and Size</a><br>

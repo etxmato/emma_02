@@ -6,7 +6,13 @@
 This emulator will emulate the RCA Video Coin Arcade computer. This emulator is based on input I received from Andy Modla and his emulator as can be found on <a href="https://github.com/ajavamind/rca-studio2">https://github.com/ajavamind/rca-studio2</a>.
 </p>
 <p>
-This chapter includes:
+To start the RCA Video Coin Arcade emulator first select the Studio tab (yellow ellipse) followed by the RCA Video Coin Arcade tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/coin.png" BORDER="0">
+</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="CoinKeys.htm">Key Definition</a><br>

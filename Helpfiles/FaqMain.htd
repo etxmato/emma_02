@@ -6,11 +6,29 @@
 This chapter includes some Frequently Asked Questions (FAQ) for the Emma 02 emulator:
 </p>
 <p>
+<a href="Faq1.htm">How do I load my SW into an emulated computer?</a><br>
+<a href="Faq2.htm">I have a tape with old SW how do I load that into Emma 02?</a>
+</p>
+<p>
+Pico/Elf
+</p>
+<p>
+<a href="FaqComputer1.htm">How do I start a Pico/Elf V2 emulator?</a>
+</p>
+<p>
+COMX-35
+</p>
+<p>
 <a href="FaqComx1.htm">How do I run a game or program on the COMX emulator?</a><br>
 <a href="FaqComx2.htm">When I select the 32K RAM card the COMX still states 30K at PR MEM</a><br>
 <a href="FaqComx3.htm">The COMX restarts when I give a DOS command</a><br>
 <a href="FaqComx4.htm">How do I start COMX BASIC, I just see a large COMX logo</a><br>
-<a href="FaqComx5.htm">Why do I see F&M BASIC and not COMX BASIC?</a><br>
-<a href="FaqCidelsa1.htm">Why do I just get a black screen when I start the Cidelsa emulator?</a><br>
+<a href="FaqComx5.htm">Why do I see F&M BASIC and not COMX BASIC?</a>
+</p>
+<p>
+Cidelsa
+</p>
+<p>
+<a href="FaqCidelsa1.htm">Why do I just get a black screen when I start the Cidelsa emulator?</a>
 </p>
 </body></html>

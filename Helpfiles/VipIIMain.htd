@@ -6,10 +6,46 @@
 This emulator will emulate the (unreleased) Cosmac VIP II computer.
 </p>
 <p>
-Two VIP II types can be emulated. The type 'ED' or 'RCA'. The 'ED' is as build by Ed Keefe and described on his <a href="http://www.cosmacvip.com/VIP2/VIP2.php">Cosmac Vip II</a> page. The 'RCA' will emulate the RCA version a bit closer based on schematics recently found at the Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials.
+To start the Cosmac VIP II emulator first select the RCA tab (yellow ellipse) followed by the Cosmac VIP tab (orange ellipse) and then press Start:
 </p>
 <p>
-This chapter includes:
+<IMG SRC="images/vipii.png" BORDER="0">
+</p>
+<p>
+The above will have started the default Cosmax VIP II emulator configuration which is as build by Ed Keefe and described on his <a href="http://www.cosmacvip.com/VIP2/VIP2.php">Cosmac Vip II</a> page. To change to other predefined conigurations load one of them with the menu option below (blue ellipse) follwoing the grey menu:
+</p>
+<p>
+<IMG SRC="images/vipii_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the Cosmac VIP II <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>Default/ED</B></p>
+<p>
+The 'ED' is as build by Ed Keefe and described on his <a href="http://www.cosmacvip.com/VIP2/VIP2.php">Cosmac Vip II</a> page.
+</p>
+<p>
+Default the Cosmac Vip II 'ED' will start up in Fixed Point Basic (FPB). To start-up in ROM Mode press the 'F12' key (run switch) while pressing 'Start', after this press the 'C' key and while keeping the 'C' pressed, press 'F12' again. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>. 
+</p>
+<p>
+In FPB mode the FPB ROM is located from 0 to hex 3FFF except for hex 400-7FF and hex C00-FFF which is RAM. Also hex 4000-7FFF is RAM. In ROM Mode RAM is located from 0 to hex 7FFF. System ROM is loaded at hex hex 8000 for both modes.
+</p>
+<p><B>RCA</B></p>
+<p>
+The 'RCA' will emulate the RCA version a bit closer based on schematics recently found at the Hagley Museum and Library: Sarnoff/RCA Collection - Joseph A. Weisbecker's archived manuscripts and materials.
+</p>
+<p>
+Default the Cosmac Vip II 'RCA' will start up in Fixed Point Basic (FPB). It is also possible to boot in RAM or VIP operating system by selecting 'Op Sys' or 'RAM' as auto boot mode inatead of 'ROM - FPB'. 
+</p>
+<p>
+In run time on Windows and Linux: 'Alt 1' will restart in FPB, 'Alt 2' in RAM, 'Alt C' in the VIP operating system and 'Alt 3' will halt the VIP II.<br>
+In run time on Mac OSX: 'Command 1' will restart in FPB, 'Command 2' in RAM, 'Command C' in the VIP operating system and 'Command 3' will halt the VIP II.
+</p>
+<p>
+FPB and VIP System ROM is located from hex 8000-BFFF. 0 to hex 7FFF is reserved for RAM depending on selected size. 
+</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="VipIIRom.htm">ROM Files</a><br>
@@ -19,25 +55,5 @@ This chapter includes:
 </p>
 <p>
 Emulation of the LEDs can take a lot of PC CPU power so default these are only updated every 100 ms. This can be changed in the Emma 02 window by changing the 'LEDs' field. When 0 ms (or nothing) is specified the LEDs will be updated in real time.
-</p>
-<h2>ED</h2>
-<p>
-Default the Cosmac Vip II 'ED' will start up in Fixed Point Basic (FPB). To start-up in ROM Mode press the 'F12' key (run switch) while pressing 'Start', after this press the 'C' key and while keeping the 'C' pressed, press 'F12' again. See also <a href="MainFunctionKeys.htm">Function and Hot Keys</a>. 
-</p>
-<p>
-In FPB mode FPB ROM is located from 0 to hex 3FFF except for hex 400-7FF and hex C00-FFF which is RAM. Also hex 4000-7FFF is RAM. In ROM Mode RAM is located from 0 to hex 7FFF. System ROM is loaded at hex hex 8000 for both modes.
-</p>
-<h2>RCA</h2>
-<p>
-Default the Cosmac Vip II 'RCA' will start up in Fixed Point Basic (FPB). It is also possible to boot in RAM or VIP operating system by steelcting 'Op Sys' or 'RAM' as auto boot mode 'ROM - FPB'. 
-</p>
-<p>
-In run time on Windows and Linux: 'Alt 1' will restart in FPB, 'Alt 2' in RAM, 'Alt C' in the VIP operating system and 'Alt 3' will halt the VIP II.
-</p>
-<p>
-In run time on Mac OSX: 'Command 1' will restart in FPB, 'Command 2' in RAM, 'Command C' in the VIP operating system and 'Command 3' will halt the VIP II.
-</p>
-<p>
-FPB and VIP System ROM is located from hex 8000-BFFF. 0 to hex 7FFF is reserved for RAM depending on selected size. 
 </p>
 </body></html>

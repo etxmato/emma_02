@@ -5363,7 +5363,8 @@ void Main::stopComputer()
 			case TMC2000:
 			case NANO:
 			case PECOM:
-			case ETI:
+            case ETI:
+            case STUDIOIV:
 				vuSet("Vu"+computerInfo[runningComputer_].gui, 0);
 			break;
 			case UC1800:
@@ -5634,6 +5635,7 @@ void Main::onStudioChoiceBook(wxChoicebookEvent&event)
 
         case STUDIOIVTAB:
             studioChoice_ = STUDIOIV;
+            selectedComputer_ = studioChoice_;
             if (guiInitialized_)
             {
                 vuSet("Vu"+computerInfo[selectedComputer_].gui, 1);
@@ -7205,7 +7207,8 @@ void Main::vuTimeout(wxTimerEvent&WXUNUSED(event))
 		case TMC2000:
 		case PECOM:
 		case ETI:
-		case NANO:
+        case NANO:
+        case STUDIOIV:
 			vuSet("Vu"+computerInfo[runningComputer_].gui, p_Computer->getGaugeValue());
 		break;
 	}

@@ -6,7 +6,34 @@
 This emulator will emulate the Spare Time Gizmos Cosmac Elf 2000 computer. Additional information about the Elf 2000 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> and the <a href="http://www.sparetimegizmos.com/">Spare Time Gizmos</a> site.
 </p>
 <p>
-This chapter includes:
+To start the Cosmac Elf 2000 emulator first select the Elf tab (yellow ellipse) followed by the Cosmac Elf 2000 tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/elf2k.png" BORDER="0">
+</p>
+<p>
+The above will have started the default Elf 2000 emulator configuration which is running on the Intel 8275 video chip also known as the VT1802 Video Board. To change to other predefined conigurations load one of them with the menu option below (blue ellipse) follwoing the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf2k_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the Elf 2000 <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>Default/Intel 8275</B></p>
+<p>
+Elf 2000 using a Intel 8275 video card.
+</p>
+<p><B>Serial</B></p>
+<p>
+Elf 2000 using a serial terminal.
+</p>
+<p><B>Uart</B></p>
+<p>
+Elf 2000 using a terminal connected via uart.
+</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="Elf2KRom.htm">ROM Files</a><br>

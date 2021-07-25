@@ -16,7 +16,7 @@ The debugger gives you an inside view of what is going on in the emulated machin
 <IMG SRC="images/debugger.png" BORDER="0">
 </p>
 <p>
-Note: none of the settings in the Debug 1802/Pseudo tabs are saved in the Emma 02 configuration, so at every start of the Emma 02 emulator these settings are set to default.
+Note: none of the settings in the 'Debug 1802' and 'Debug Pseudo' tabs are saved in the Emma 02 configuration, so every time Emma 02 is started these settings are set to default.
 </p>
 </body>
 </html>

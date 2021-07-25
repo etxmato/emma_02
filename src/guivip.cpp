@@ -151,7 +151,7 @@ void GuiVip::readVipConfig()
 	conf[VIP].wavFileDir_[0] = readConfigDir("/Dir/Vip/Wav_File", dataDir_ + "Vip" + pathSeparator_);
 	elfConfiguration[VIP].vtWavFileDir_ = readConfigDir("/Dir/Vip/Vt_Wav_File", dataDir_ + "Vip" + pathSeparator_);
 
-	conf[VIP].rom_[MAINROM1] = configPointer->Read("/Vip/Main_Rom_File", "vip.rom");
+	conf[VIP].rom_[MAINROM1] = configPointer->Read("/Vip/Main_Rom_File", "vip.32.rom");
 	conf[VIP].ram_ = configPointer->Read("/Vip/Ram_Software", "fpb_color.bin");
 	conf[VIP].chip8SW_ = configPointer->Read("/Vip/Chip_8_Software", "");
 	conf[VIP].wavFile_[0] = configPointer->Read("/Vip/Wav_File", "");

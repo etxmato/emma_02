@@ -6,7 +6,30 @@
 This emulator will emulate the RCA MicroDisk Development System MS2000. Additional information about the MS2000 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-This chapter includes:
+To start the Microtutor MS2000 emulator first select the RCA tab (yellow ellipse) followed by the MS2000 tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/ms2000.png" BORDER="0">
+</p>
+<p>
+The above will have started the default MS2000 emulator configuration using FDC image files. To change to other predefined conigurations load one of them with the menu option below (blue ellipse) follwoing the grey menu:
+</p>
+<p>
+<IMG SRC="images/ms2000_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the MS2000 <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>FDC</B></p>
+<p>
+Default confiuration using FDC image files
+</p>
+<p><B>HD</B></p>
+<p>
+Configuration using HD Directory simulation with all available MicroDos SW stored in the MS2000/Software folder.
+</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="MS2000Rom.htm">ROM Files</a><br>

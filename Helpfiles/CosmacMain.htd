@@ -6,11 +6,126 @@
 This emulator will emulate an Elf computer similar in design to the Cosmac Elf computer project published in popular electronics in 1976. The Cosmac Elf computer had 256 bytes of RAM, 8 toggle switches for input, 4 hex displays to show the current address and 2 hex displays for data output. Additional information about the Cosmac Elf can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-This chapter includes:
+To start the Cosmac Elf emulator first select the Elf tab (yellow ellipse) followed by the Cosmac Elf tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/elf.png" BORDER="0">
+</p>
+<p>
+The above will have started the default Cosmac Elf emulator configuration runnning Elf/Os with Serial I/O. To change to other predefined conigurations load one of them with the menu option below (blue ellipse) follwoing the grey menu:
+</p>
+<p>
+<IMG SRC="images/elf_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the Cosmac Elf <a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>Bare</B></p>
+<p>
+A bare Cosmac Elf using the front panel and 4K RAM.
+</p>
+<p><B>Chip 8 Mode</B></p>
+<p>
+Chip-8 configuration for the Elf, default Blinky is selected as chip 8 game. The Chip-8 interpreter will be loaded from address 0 to hex 1FF as well as hex E00-E6D. The selected chip-8 SW will load from hex 200.
+</p>
+<p><B>Elf/Os - BIOSIO</B></p>
+<p>
+These configurations are for running ElfOs on indicated video type with BIOSIO.
+</p>
+<p><B>Elf/Os Installation</B></p>
+<p>
+These configurations are for installation of ElfOs on indicated video type with or without BIOSIO.
+</p>
+<p><B>Default/Elf/Os - Serial I/O</B></p>
+<p>
+This configuration is for running ElfOs on Serial I/O.
+</p>
+<p><B>EPROM Boards</B></p>
+<p>
+Two EPROM board configurations are supported, one including a mini monitor and Quest Super BASIC REL 5.0 and one with the Super Gold Monitor and assembler. Both ROM files were created by Eric Tchong. Of course Super BASIC itself was designed by Ron Cenker. BASIC can be started from the monitor by pressing B. For documentation on these ROM see the file section of the CosmacElf yahoo group. 
+</p>
+<p><B>Fig Forth</B></p>
+<p>
+This configuration will load and run Fig Forth for the 1802. This version of Forth uses a terminal connected to an Uart CDP1854 for which very basic support is implemented in the emulator.
+</p>
+<p><B>Game Mode</B></p>
+<p>
+This configuration should run most games, default the invaders game will be selected but this can be changed to any of the other provided game files.
+</p>
+<p><B>Giant Board</B></p>
+<p>
+Basic configuration that will load and run the netronics giant board monitor (at location hex F000. See the chapter on the <a href="ElfGiant.htm">Giant Board</a>
+</p>
+<p><B>Music Machine</B></p>
+<p>
+Basic configuration to run the Music Maker and Christmas songs as all published in the Ipso Facto (Issue 5 and 8). Default the 'Music Maker.hex' and song 'O Christmas Tree.hex' will be loaded. Note that some songs will need a different speed which is indicated in the song file name (Double, 1_2 etc.), to play these also load the equivalent Music Maker file. The Ipso Facto articles can be found on <a href="http://www.cosmacelf.com">www.cosmacelf.com</a> and are also included in the Elf/Music directory.
+</p>
+<p><B>Netronics Tiny Basic</B></p>
+<p>
+These configuration will load and run Netronics Tiny Basic, either on Pixie video or a vt-100 terminal. Note that to start the basic you will need to press 'return' when using the Pixie version and press return twice on the vt-100 version.
+</p>
+<p><B>Pico/Elf</B></p>
+<p>
+<a href="PicoMain.htm">Pico/Elf V2</a> configurations.
+</p>
+<p><B>Quest Super Basic</B></p>
+<p>
+These configurations will load and run Quest Super Basic (version is indicated in the filename) on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the chapter on <a href="ElfSuperBasic.htm">Quest Super Basic</a>.
+</p>
+<p><B>Quest Tape Loader</B></p>
+<p>
+Quest Super Basic loader program.
+</p>
+<p><B>RCA Basic</B></p>
+<p>
+These configuration will load and run RCA Basic on the Cosmac Elf, Netronics Elf II or Quest Super Elf. See the chapter on <a href="ElfRcaBasic.htm">RCA Basic</a>.
+</p>
+<p><B>RCA Bug</B></p>
+<p>
+RCA Monitor program as described in IPSO facto number 10.
+</p>
+<p><B>ROM Mapper</B></p>
+<p>
+Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM chip. Selected ROM is swicthed to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. After starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+</p>
+<p><B>Tiny Basic Interpreter V2 - MC6847</B></p>
+<p>
+This configuration will load and run Tiny Basic Interpreter for the Cosmac 1802 version 2 by Robert Edwards including output routines for an MC6847 video.
+</p>
+<p><B>VDU</B></p>
+<p>
+VDU / MC6847 configurations, one with ASCII keyboard and one with a hex keypad.</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="CosmacFront.htm">Front Panel</a><br>
 <a href="CosmacWindows.htm">Control Windows</a><br>
+<a href="ElfRom.htm">ROM and RAM Files</a><br>
+<a href="ElfVideo.htm">Video Types</a><br>
+<a href="ElfKey.htm">Keyboard Mapping and Types</a><br>
+<a href="ElfDisk.htm">Disk Types</a><br>
+<a href="ElfBoot.htm">Auto Boot</a><br>
+<a href="ElfRam.htm">Memory</a><br>
+<a href="ElfPorts.htm">Device Ports</a><br>
+<a href="ElfPrinter.htm">Printer Support</a><br>
+<a href="ElfCassette.htm">Cassette Support</a><br>
+<a href="ElfXmodem.htm">XMODEM Support</a><br>
+<a href="ElfSuperBasic.htm">Quest Super Basic</a><br>
+<a href="ElfRcaBasic.htm">RCA Basic</a><br>
+<a href="ElfGiant.htm">Giant Board</a><br>
+<a href="ElfInstElfOsIo.htm">Installation Elf/Os 2.5 via Biosio</a><br>
+<a href="ElfInstElfOs.htm">Installation Elf/Os 2.8</a><br>
+<a href="ElfInstBiosio.htm">Installation Biosio</a><br>
+</p>
+<p>
+Please note the following limitations:<br>
+TMS 9918 Support does not include multi colour mode and sprites<br>
+Extended ports only supports Extended RAM pager<br>
+FDC Disk Support has not been tested<br>
+</p>
+<p>
+If you know how the above not tested features should work or have SW that support these and/or additional HW please drop me an email.
 </p>
 </body>
 </html>

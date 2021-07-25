@@ -6,7 +6,41 @@
 This emulator will emulate the RCA Studio IV computer. The Studio IV was never release by RCA. Additional information about the Studio IV can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
-This chapter includes:
+To start the RCA Studio IV emulator first select the Studio tab (yellow ellipse) followed by the RCA Studio IV tab (orange ellipse) and then press Start:
+</p>
+<p>
+<IMG SRC="images/studioiv.png" BORDER="0">
+</p>
+<p>
+The above will have started the default RCA Studio IV emulator configuration running Tiny BASIC (PAL & 2020 version). To change to other predefined conigurations load one of them with the menu option below (blue ellipse) follwoing the grey menu:
+</p>
+<p>
+<IMG SRC="images/studioiv_configuration.png" BORDER="0">
+</p>
+<p>
+Summary of the RCA Studio IV<a href="MainConfigurations.htm">configurations</a>:
+</p>
+<p><B>Demo</B></p>
+<p>
+Studio IV system ROM running the built in color demo.
+</p>
+<p><B>Super-chip</B></p>
+<p>
+My own Studio IV SuperChip interpreter! Versions for both PAL and NTSC are included.
+</p>
+<p><B>Tiny BASIC</B></p>
+<p>
+3 versions of Tiny BASIC are inlcuded:
+</p>
+<p>
+<OL>
+<li>The original 1978 version, which was recently found at the Hagley Museum and Library.
+<li>NTSC 2020 version ported by me from the VIP version. Half of this is based on the 1978 version (initially we only had half) the other half is based on the VIP code with adaptations to run on the Studio IV. 
+<li>PAL 2020 version, same as above but adapted to run on a PAL Studio IV.
+</OL> 
+</p>
+<p>
+This chapter also includes:
 </p>
 <p>
 <a href="StudioIVKeys.htm">Key Definition</a><br>
