@@ -6,7 +6,7 @@
 To run the VELF emulator in VELF Mode either use the default settings or load the VELF configuration (see also <a href="MainConfigurations.htm">Configurations</a>).
 </p>
 <p>
-The VELF will default startup in VIP mode. Execution goes directly to the VElf Bios at hex 8200 where the VElf starts the talking through RS232 (Q for TXD, EF2 for RXD) by sending it's Menu at 9600,N,8,1.
+The VELF will default startup in VIP mode. Execution goes directly to the VElf Bios at hex 8200 where the VElf starts the talking through RS232 (Q for TXD, EF2 for RXD) by sending its Menu at 9600,N,8,1.
 </p>
 <p>
 VELF MENU:
@@ -26,7 +26,7 @@ Here, you may talk to your ELF via your terminal program.
 What's not shown on this menu is the ability to upload a .hex file!  Just go ahead and do a text upload of your .hex file.  The ":" character will trigger the interpretation of the .hex line.
 </p>
 <p>
-Pressing the IN button at any time (checked during the RS232 RXCHAR routine) will cause execution to go to the VIP monitor or preload a program from ROM into RAM. If the dipswitches are all off, then the VIP monitor program is loaded. Otherwise, the program number selected by the dipswitches is loaded into RAM from the BIOS ROM. See "pgmtable" for a list of loadable programs contained within this ROM.
+Pressing the IN button at any time (checked during the RS232 RXCHAR routine) will cause execution to go to the VIP monitor or preload a program from ROM into RAM. If the dip switches are all off, then the VIP monitor program is loaded. Otherwise, the program number selected by the dip switches is loaded into RAM from the BIOS ROM. See "pgmtable" for a list of loadable programs contained within this ROM.
 </p>
 <p>
 pgmtable:<br>
@@ -36,7 +36,7 @@ pgmtable:<br>
 4 - FF are not defined in this version.
 </p>
 <p>
-If the IN button is pressed with dipswitches all off, then VIP Monitor is started. The VIP Monitor requires you to hold down the "C" key to enter the Monitor program. Hold "C" while pressing IN button. If you do not hold down the C key, execution of code at 0000 will occur. Once the monitor program is entered, it tests to see how many pages of RAM are available, starting at 4K it then clears the last 80 bytes of ram in the last page of ram (hex F00 in the VElf) for a Video Display. After you release the "C" button, you must enter a 4 digit starting address: XXXX
+If the IN button is pressed with dip switches all off, then VIP Monitor is started. The VIP Monitor requires you to hold down the "C" key to enter the Monitor program. Hold "C" while pressing IN button. If you do not hold down the C key, execution of code at 0000 will occur. Once the monitor program is entered, it tests to see how many pages of RAM are available, starting at 4K it then clears the last 80 bytes of ram in the last page of ram (hex F00 in the VElf) for a Video Display. After you release the "C" button, you must enter a 4 digit starting address: XXXX
 </p>
 <p>
 Then select what to do as follows:<br>

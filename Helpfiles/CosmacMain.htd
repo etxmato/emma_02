@@ -12,7 +12,7 @@ To start the Cosmac Elf emulator first select the Elf tab (yellow ellipse) follo
 <IMG SRC="images/elf.png" BORDER="0">
 </p>
 <p>
-The above will have started the default Cosmac Elf emulator configuration runnning Elf/Os with Serial I/O. To change to other predefined conigurations load one of them with the menu option below (blue ellipse) follwoing the grey menu:
+The above will have started the default Cosmac Elf emulator configuration running Elf/Os with Serial I/O. To change to other predefined configurations load one of them with the menu option below (blue ellipse) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/elf_configuration.png" BORDER="0">
@@ -46,7 +46,7 @@ Two EPROM board configurations are supported, one including a mini monitor and Q
 </p>
 <p><B>Fig Forth</B></p>
 <p>
-This configuration will load and run Fig Forth for the 1802. This version of Forth uses a terminal connected to an Uart CDP1854 for which very basic support is implemented in the emulator.
+This configuration will load and run Fig Forth for the 1802. This version of Forth uses a terminal connected to an UART CDP1854 for which very basic support is implemented in the emulator.
 </p>
 <p><B>Game Mode</B></p>
 <p>
@@ -54,7 +54,7 @@ This configuration should run most games, default the invaders game will be sele
 </p>
 <p><B>Giant Board</B></p>
 <p>
-Basic configuration that will load and run the netronics giant board monitor (at location hex F000. See the chapter on the <a href="ElfGiant.htm">Giant Board</a>
+Basic configuration that will load and run the Netronics giant board monitor (at location hex F000. See the chapter on the <a href="ElfGiant.htm">Giant Board</a>
 </p>
 <p><B>Music Machine</B></p>
 <p>
@@ -62,7 +62,7 @@ Basic configuration to run the Music Maker and Christmas songs as all published 
 </p>
 <p><B>Netronics Tiny Basic</B></p>
 <p>
-These configuration will load and run Netronics Tiny Basic, either on Pixie video or a vt-100 terminal. Note that to start the basic you will need to press 'return' when using the Pixie version and press return twice on the vt-100 version.
+These configuration will load and run Netronics Tiny Basic, either on Pixie video or a VT100 terminal. Note that to start the basic you will need to press 'return' when using the Pixie version and press return twice on the VT100 version.
 </p>
 <p><B>Pico/Elf</B></p>
 <p>
@@ -86,7 +86,7 @@ RCA Monitor program as described in IPSO facto number 10.
 </p>
 <p><B>ROM Mapper</B></p>
 <p>
-Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM chip. Selected ROM is swicthed to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. After starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+Richard's ROM Mapper, this uses OUT 7 to select a 32K slot from any large ROM chip. Selected ROM is switched to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. After starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
 </p>
 <p><B>Tiny Basic Interpreter V2 - MC6847</B></p>
 <p>

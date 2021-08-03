@@ -1,2 +1,0 @@
-Code correction done by Marcel van Tongeren:
-Replaced SHL V2, V0 with SHL V2 @20C, replaced SHR V3, V0 with SHR V3 @216 and SHR V4, V0 with SHR V4 @21A. As Any SHL/SHR Vx, V0 on a VIP would shift V0 and store the result in Vx. Intention of the code is actually to shift value of Vx.

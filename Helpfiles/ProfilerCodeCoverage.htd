@@ -3,7 +3,7 @@
 <body>
 <h1>Code Coverage</h1>
 <p>
-Code that is not executed will be shown as 'data', like in the <a href="DebuggerAssembler.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> color and in bytes including ASCI characters (yellow ellipse):
+Code that is not executed will be shown as 'data', like in the <a href="DebuggerAssembler.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> colour and in bytes including ASCI characters (yellow ellipse):
 </p>
 <p>
 <IMG SRC="images/profiler_code_coverage.png" BORDER="0">

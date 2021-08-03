@@ -30,7 +30,7 @@ Note that for all Elf computers the Q Sound should be set to 'Software' and no V
 </p>
 <h3>Beeper (warpy)</h3>
 <p>
-A very basic sound emulation for just one tone with a decaying frequency. The tone will be heard when the Q flag is set by 1. This variant does not generate a fixed tone, instead the tone starts at 480 Hz and decays to 240 Hz quickly causing a warpy efect.
+A very basic sound emulation for just one tone with a decaying frequency. The tone will be heard when the Q flag is set by 1. This variant does not generate a fixed tone, instead the tone starts at 480 Hz and decays to 240 Hz quickly causing a warpy effect.
 </p>
 <p>
 Supported for: RCA Studio II, Visicom COM-100.

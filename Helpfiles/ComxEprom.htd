@@ -3,13 +3,13 @@
 <BODY>
 <h2>F&M EPROM Switchboard Support</h2>
 <p>
-To run the COMX emulator with the F&M EPROM Switchboad card select f&m.eprom.board.1.1.bin  in any available slot (CARD 1 if no expansion box is used). Default slot 2 is used, this means that for all CARD Sx commands mentioned in this chapter CARD S2 should be used.
+To run the COMX emulator with the F&M EPROM Switchboard card select f&m.eprom.board.1.1.bin  in any available slot (CARD 1 if no expansion box is used). Default slot 2 is used, this means that for all CARD Sx commands mentioned in this chapter CARD S2 should be used.
 </p>
 <p>
 The EPROM Switchboard includes one 2 KB EPROM with the firmware and up to five 8 KB EPROMs with additional software. The 2 KB firmware ROM is placed at address hex F800-FFFF, this location is also used by the CDP 1870 but the CDP 1870 in the COMX architecture did not allow reading of page memory so selecting an EPROM at this location was actually possible.
 </p>
 <p>
-The 8 KB EPROMs are all mapped at address hex C000-DFFF. The first 8 KB EPROM will always be loaded with f&m.utilities.bin as additional firmware is included in this EPROM. To select what software is loaded into the additional 4 EPROMs press the F&M EPROM Switchboad 'Setup' button. A new window will open showing the default EPROM files. Note EPROM software can only be change if the COMX emulator is not running.
+The 8 KB EPROMs are all mapped at address hex C000-DFFF. The first 8 KB EPROM will always be loaded with f&m.utilities.bin as additional firmware is included in this EPROM. To select what software is loaded into the additional 4 EPROMs press the F&M EPROM Switchboard 'Setup' button. A new window will open showing the default EPROM files. Note EPROM software can only be change if the COMX emulator is not running.
 </p>
 <h3>Firmware Commands</h3>
 <h4>CARD Sx or CALL(@F800)</h4>
@@ -88,7 +88,7 @@ START WITH RUN
 </pre>
 will also be shown. Note that in some cases the "software" should be followed by a number (CHAR) or a '+' (LOAD/SAVE routines) see also software format described below.
 </p>
-<h3>EPROM 0 Software: F&M Utilitites</h3>
+<h3>EPROM 0 Software: F&M Utilities</h3>
 <h4>OLD</h4>
 <p>
 Format:
@@ -143,7 +143,7 @@ CARD Sx "T-PLOAD"+
 CARD Sx "T-DSAVE"+
 CARD Sx "T-DLOAD"+
 </pre>
-F&M Turbo tape routines work exactly like BASIC save/load commands except much faster. The '+' versions are improved versions resulting in different wav formats. The wav files created with the regular versions can be loaded with the regulad and '+' versions. Wav files created with the '+' versions are not loadable with the regular versions.
+F&M Turbo tape routines work exactly like BASIC save/load commands except much faster. The '+' versions are improved versions resulting in different wav formats. The wav files created with the regular versions can be loaded with the regular and '+' versions. Wav files created with the '+' versions are not loadable with the regular versions.
 </p>
 <h4>DOS NEW</h4>
 <p>
@@ -159,7 +159,7 @@ Format:
 <pre>
 CARD Sx "F&M INIT"
 </pre>
-Formats a disk like the INIT program however with an F&M boot sector which will attempt to load and run a program called 'STARTUP' when DOS is initialized (like with DOS NEW).
+Formats a disk like the INIT program however with an F&M boot sector which will attempt to load and run a program called 'STARTUP' when DOS is initialised (like with DOS NEW).
 <p>
 <h4>STARTUP</h4>
 <p>
@@ -177,7 +177,7 @@ DOS SAVE,"STARTUP",@4400
 Format:
 <pre>
 CARD Sx "F&M LOCK"
-</pre>
+</pre>initialised
 Locks all software on the disk.
 </p>
 <h4>F&M UNLOCK</h4>
@@ -188,14 +188,14 @@ CARD Sx "F&M UNLOCK"
 </pre>
 Unlocks all software on the disk.
 </p>
-<h3>EPROM 1 Software: Disk Utilitites</h3>
+<h3>EPROM 1 Software: Disk Utilities</h3>
 <h4>INIT</h4>
 <p>
 Format:
 <pre>
 CARD Sx "INIT"
 </pre>
-COMX Disk initialization program to create a new disk image including COMX DOS boot data. First make sure to specify a new filename as DISK 1 or 2. Start the INIT program, press any key and 'Y' for being sure, then select drive number 1 or 2. After this 3 Different type of disks can be created by selecting the options:
+COMX Disk initialisation program to create a new disk image including COMX DOS boot data. First make sure to specify a new filename as DISK 1 or 2. Start the INIT program, press any key and 'Y' for being sure, then select drive number 1 or 2. After this 3 Different type of disks can be created by selecting the options:
 </p>
 <h5>
 1. Double sided disk, 35 tracks per side with a total size of 140K:
@@ -242,7 +242,7 @@ Format:
 <pre>
 CARD Sx "DISKCOPY"
 </pre>
-COMX disk copy software to make an exact copy of a disk, including a format/initialization of the destination disk before copy begins.
+COMX disk copy software to make an exact copy of a disk, including a format (initialisation) of the destination disk before copy begins.
 </p>
 <h4>FILECOPY</h4>
 <p>

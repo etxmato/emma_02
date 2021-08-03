@@ -12,7 +12,7 @@ To start the FRED 1 emulator first select the RCA tab (yellow ellipse) followed 
 <IMG SRC="images/fred1.png" BORDER="0">
 </p>
 <p>
-This is the only emulated computer in Emma 02 which is not using a CPU from the 180x serie. Instead it is using a chip set as was used in the RCA SYSTEM 00 protoype. The SYSTEM 00 chip set uses a subset of the 1801 instruction set with some incompatible differences and is likely what the 1801 was based on. Additional information about the FRED 1 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
+This is the only emulated computer in Emma 02 which is not using a CPU from the 1802 microprocessor family. Instead it is using a chip set as was used in the RCA SYSTEM 00 prototype. The SYSTEM 00 chip set uses a subset of the 1801 instruction set with some incompatible differences and is likely what the 1801 was based on. Additional information about the FRED 1 can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a> site.
 </p>
 <p>
 The Interlace checkbox will change from the 'dot' screen to full use of all pixels. According to the FRED documentation the dotted screen was used.

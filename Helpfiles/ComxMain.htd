@@ -3,7 +3,7 @@
 <body>
 <h1>COMX-35 Emulator</h1>
 <p>
-This emulator will emulate the <a href="ComxInfo.htm">COMX-35</a> and <a href="ComxInfo.htm">PC1</a> home computer. Additional information about the COMX can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a>, <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a> and on <a href="http://en.wikipedia.org/wiki/Comx-35">Wikpedia</a>.
+This emulator will emulate the <a href="ComxInfo.htm">COMX-35</a> and <a href="ComxInfo.htm">PC1</a> home computer. Additional information about the COMX can be found on the <a href="http://www.emma02.hobby-site.com">Emma 02</a>, <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a> and on <a href="http://en.wikipedia.org/wiki/Comx-35">Wikipedia</a>.
 </p>
 <p>
 To start the COMX-35 emulator, select the COMX-35 tab (yellow ellipse) and then press Start (orange ellipse):
@@ -15,7 +15,7 @@ To start the COMX-35 emulator, select the COMX-35 tab (yellow ellipse) and then 
 The above will work in the default Emma 02 configuration however if a <a href="ComixMain.htm">COMIX</a> configuration is loaded a COMIX-35 will start instead. The only difference in the Emma 02 emulation between the COMX and COMIX is the DRAM refresh which is not available (or needed) on the COMIX as the COMIX doesn't use Dynamic RAM. Due to this the COMX will run slower than the COMIX.
 </p>
 <p>
-To load a COMX-35 configuration load one of the configurations with the menu option below (blue ellipse) follwoing the grey menu:
+To load a COMX-35 configuration load one of the configurations with the menu option below (blue ellipse) following the grey menu:
 </p>
 <p>
 <IMG SRC="images/comx_configuration.png" BORDER="0">

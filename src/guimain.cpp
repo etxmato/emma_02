@@ -1197,7 +1197,7 @@ void GuiMain::correctZoom(int computerType, wxString computerTypeString, bool se
     double zoom;
     int zoomInt;
 
-    conf[computerType].zoom_.ToDouble(&zoom);
+    p_Main->toDouble(conf[computerType].zoom_, &zoom);
     if (!fullScreenFloat_)
     {
         zoomInt = (int) (zoom + 0.5);
@@ -1260,7 +1260,7 @@ void GuiMain::onZoomValue(wxCommandEvent&event)
 
 	wxString zoomString = event.GetString();
 	double zoom;
-	if (zoomString.ToDouble(&zoom))
+	if (toDouble(zoomString, &zoom))
 	{
 		if (!fullScreenFloat_)
 			zoom = (int) (zoom);
@@ -1289,7 +1289,7 @@ void GuiMain::correctZoomVt(int computerType, wxString computerTypeString, bool 
     double zoom;
     int zoomInt;
 
-    conf[computerType].zoomVt_.ToDouble(&zoom);
+    toDouble(conf[computerType].zoomVt_, &zoom);
     if (!fullScreenFloat_)
     {
         zoomInt = (int) (zoom + 0.5);
@@ -1357,7 +1357,7 @@ void GuiMain::onZoomValueVt(wxCommandEvent&event)
 
 	wxString zoomString = event.GetString();
 	double zoomVt;
-	if (zoomString.ToDouble(&zoomVt))
+	if (toDouble(zoomString, &zoomVt))
 	{
 		if (!fullScreenFloat_)
 			zoomVt = (int) (zoomVt);
@@ -1694,11 +1694,11 @@ void GuiMain::onTurboClock(wxCommandEvent&WXUNUSED(event))
 		conf[selectedComputer_].turboClock_ = "15";
 		return;
 	}
-	if (!conf[selectedComputer_].turboClock_.ToDouble((double*)&clk))
+	if (!toDouble(conf[selectedComputer_].turboClock_, (double*)&clk))
 	{
-		(void)wxMessageBox( "Please specify frequency in MHz\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
+        (void)wxMessageBox( "Please specify frequency in MHz\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
 	}
 	if (clk == 0)
 	{
@@ -2283,14 +2283,14 @@ void GuiMain::onClock(wxCommandEvent&WXUNUSED(event))
 	double clk;
 
 	wxString clock =  clockTextCtrl[selectedComputer_]->GetValue();
-	if (!clock.ToDouble((double*)&clk))
+	if (!toDouble(clock, (double*)&clk))
 	{
-		if (clock != "")
-		{
-			(void)wxMessageBox( "Please specify frequency in MHz\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		}
-		return;
+        if (clock != "")
+        {
+            (void)wxMessageBox( "Please specify frequency in MHz\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        }
+        return;
 	}
 	if (clk == 0)
 	{
@@ -2357,6 +2357,22 @@ void GuiMain::onVtSetup(wxCommandEvent&WXUNUSED(event))
 void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))
 {
 	setBeepFrequency(selectedComputer_);
+}
+
+bool GuiMain::toDouble(wxString stringName, double* result)
+{
+    bool returnValue;
+    
+    returnValue = stringName.ToDouble(result);
+    if (!returnValue)
+    {
+        if (stringName.Find(','))
+            stringName.Replace(",",".");
+        else
+            stringName.Replace(".",",");
+        returnValue = stringName.ToDouble(result);
+    }
+    return returnValue;
 }
 
 wxString GuiMain::getKeyFile()
@@ -2517,11 +2533,11 @@ void GuiMain::setClock(int computerType)
 	double clk;
 
 	wxString clock =  conf[computerType].clock_;
-	if (!clock.ToDouble((double*)&clk))
+	if (!toDouble(clock, (double*)&clk))
 	{
-		(void)wxMessageBox( "Please specify frequency in MHz\n",
-							"Emma 02", wxICON_ERROR | wxOK );
-		return;
+        (void)wxMessageBox( "Please specify frequency in MHz\n",
+                            "Emma 02", wxICON_ERROR | wxOK );
+        return;
 	}
 	if (clk == 0)
 	{
@@ -2679,7 +2695,7 @@ void GuiMain::setScale(wxString scale)
 double GuiMain::getScale()
 {
 	double scale;
-	if (!conf[runningComputer_].xScale_.ToDouble(&scale))
+	if (!toDouble(conf[runningComputer_].xScale_, &scale))
 		scale = 3;
 
 	if (!fullScreenFloat_)
@@ -2690,7 +2706,7 @@ double GuiMain::getScale()
 double GuiMain::getZoom()
 {
 	double zoom;
-	conf[runningComputer_].zoom_.ToDouble(&zoom);
+	toDouble(conf[runningComputer_].zoom_, &zoom);
 
 	if (!fullScreenFloat_)
 		zoom = (int) zoom;
@@ -2700,7 +2716,7 @@ double GuiMain::getZoom()
 double GuiMain::getZoomVt()
 {
 	double zoomVt;
-	conf[runningComputer_].zoomVt_.ToDouble(&zoomVt);
+	toDouble(conf[runningComputer_].zoomVt_, &zoomVt);
 
 	if (!fullScreenFloat_)
 		zoomVt = (int) zoomVt;
@@ -3710,7 +3726,7 @@ void GuiMain::turboOn()
 		savedSpeed_ = conf[runningComputer_].clockSpeed_;
 
 		wxString clock =  conf[runningComputer_].turboClock_;
-		clock.ToDouble((double*)&conf[runningComputer_].clockSpeed_);
+		toDouble(clock, (double*)&conf[runningComputer_].clockSpeed_);
 
 		setClockRate();
 		turboOn_ = true;

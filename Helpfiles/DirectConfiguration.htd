@@ -58,14 +58,14 @@ Bits 0 and 5 to 7 are only used in combination with the SB FW.
 The Elf EMS Page is the page number 0 to 1F.
 </p>
 <p>
-Note that any configuration range in a COMX Slot should always be between hex C000 and hex DFFF and the ELf Page between hex 8000 and hex BFFF.
+Note that any configuration range in a COMX Slot should always be between hex C000 and hex DFFF and the Elf Page between hex 8000 and hex BFFF.
 </p>
 <h2>Program configuration Number</h2>
 <p>
 After every 'Save' of a program configuration all binary and debug files are backed up by putting a numbered extension after the file name. Starting with 1 and counting up.
 </p>
 <p>
-The Direct Assemble can load any of these configurations back by filling in a 'number' in the 'Configuration number' field (right after the file name field. So to load back the oldest back-up configuration fill in '1', to load back the latest fill inthe latest number you can find in thr folder where all configurations are saved.
+The Direct Assemble can load any of these configurations back by filling in a 'number' in the 'Configuration number' field (right after the file name field. So to load back the oldest back-up configuration fill in '1', to load back the latest fill in the latest number you can find in the folder where all configurations are saved.
 </p>
 <p>
 Note ALL files will be loaded with the same configuration extension. 

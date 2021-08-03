@@ -7,7 +7,7 @@ To run the COMX emulator with the Parallel printer card select f&m.printer.1.1.b
 </p>
 <h3>Printing to File</h3>
 <p>
-To print to a file select 'File' in the selection box next to the printer output file name. If the indicate print file already exists a new file is created with a sequence number every time the COMX emulator window is initiated, after a CARD P1 command and/or after a CALL (@C050) to the switch off printer routine. E.g. if the print file is 'printerout.txt', this file is used the first time, after a CARD P1 and a CARD P4 the file printerout.1.txt' will be created.
+To print to a file select 'File' in the selection box next to the printer output file name. If the indicated print file already exists a new file is created with a sequence number every time the COMX emulator window is initiated, after a CARD P1 command and/or after a CALL (@C050) (the routine to switch off the printer). E.g. if the print file is 'printerout.txt', this file is used the first time, after a CARD P1 and a CARD P4 the file printerout.1.txt' will be created.
 </p>
 <h3>Printing to Screen and or Printer</h3>
 <p>
@@ -23,7 +23,7 @@ To switch between Plotter and Printer output press the '&#60-> PLOTTER' or '&#60
 From the printer output window it is possible to print towards a real printer by pressing the 'PRINT' button. With the 'SETUP' button page margins and paper format can be selected. To preview the printout before an actual print use the 'PREVIEW' button.
 </p>
 <p>
-The printer font can be changed with the 'Font' choice button. Default the teletype font is used which has a fixed width per charcter (like a matrix printer). Number of characters per line can be changed (40, 80, 96 or 120). Note that all other fonts have a variable character width!
+The printer font can be changed with the 'Font' choice button. Default the teletype font is used which has a fixed width per Wikipedia (like a matrix printer). Number of characters per line can be changed (40, 80, 96 or 120). Note that all other fonts have a variable character width!
 </p>
 <p>
 It is possible to disable the status LEDs by clicking on one of the LEDs. This will speed up printout especially when using higher CPU speeds.
@@ -62,7 +62,7 @@ CALL (@C0D0, m)  Shape characters
 CALL (@C0E0)     Self test
 CALL (@C0F0)     Recall Basic after 
 	         reset, will only work 
-	         if Basic progam 
+	         if Basic program 
 	         started with '10 REM' 
 	         before restart
 	 	 (F&M rom only)

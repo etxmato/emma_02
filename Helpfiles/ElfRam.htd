@@ -14,7 +14,7 @@ When using EMS memory, the RAM or ROM Mapper the RAM fields will be disabled and
 </p>
 <h3>EMS - 512 KB</h3>
 <p>
-RAM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 16K slot from any large RAM chip. Selected RAM is swicthed to 0 to hex BFFF by using A15 from bit 0 on port 7, A16 from bit 1 up to a max of 5 bits. 
+RAM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 16K slot from any large RAM chip. Selected RAM is switched to 0 to hex BFFF by using A15 from bit 0 on port 7, A16 from bit 1 up to a max of 5 bits. 
 </p>
 <h3>RAM Mapper - 1 MB</h3>
 <p>
@@ -22,7 +22,7 @@ Mike's 1MB Memory Mapper, for more details see <a href="http://www.elf-emulation
 </p>
 <h3>ROM Mapper</h3>
 <p>
-Richard's ROM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 32K slot from any large ROM chip. Selected ROM is swicthed to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. To start Richard's ROM Mapper program, first load one of the configuration under the 'File/Configuration/Load/Rom Mapper' menu. Then after starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
+Richard's ROM Mapper, this uses OUT 7 (selectable via DevicePorts window) to select a 32K slot from any large ROM chip. Selected ROM is switched to hex 8000-FFFF by using A15 from bit 0 on port 7, A16 from bit 1 etc. To start Richard's ROM Mapper program, first load one of the configuration under the 'File/Configuration/Load/Rom Mapper' menu. Then after starting the Elf hit 'return' and type RUN. To load a program type the program number or N for next page.
 </p>
 </BODY>
 </HTML>

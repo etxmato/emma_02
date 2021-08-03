@@ -126,11 +126,11 @@ If ST4 code is used within the program configuration that code will also be corr
 </UL>
 </p>
 <p>
-Note that if a CALL will change to an addres outside hex 600-8FF or hex 1000-11FF address ranges, the command itself will change as the pseudo code will change to 65kk, 69kk, 0Fkk or 12kk. LD I instructions will change within a range of hex 0FFF, so LI I, 0aaa will not change outside 0aaa range.
+Note that if a CALL will change to an address outside hex 600-8FF or hex 1000-11FF address ranges, the command itself will change as the pseudo code will change to 65kk, 69kk, 0Fkk or 12kk. LD I instructions will change within a range of hex 0FFF, so LI I, 0aaa will not change outside 0aaa range.
 </p>
 <h2>Coin Bowling, FEL - Insert and Delete</h2>
 <p>
-If Coin Bowling, Computer Bowlinfg or FEL code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
+If Coin Bowling, Computer Bowling or FEL code is used within the program configuration that code will also be corrected by the insert and delete function. The following commands will be corrected:
 <UL>
 <LI>CALL aaa
 <LI>JP aaa

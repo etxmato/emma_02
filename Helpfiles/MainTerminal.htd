@@ -3,7 +3,7 @@
 <body>
 <h2>Video Terminal Simulation</h2>
 <p>
-Currently 2 video terminals can be simulated, the DEC VT52 and VT100. Note this is a simulation, i.e. all functionality is simulated and NOT running the original terminal software. Both terminals support all ESC sequences and full functionality (except for self test features and keyboard LEDs), however as I don't have software supporting everything and also don't have an actual terminal not all functionality has been tested. Font roms are included, but not 100% original. For the VT52 there are 2 fonts vt52.a.bin and vt52.b.bin, not sure which is more correct. Please feel free to drop me an email with comments on functionality or font roms!
+Currently 2 video terminals can be simulated, the DEC VT52 and VT100. Note this is a simulation, i.e. all functionality is simulated and NOT running the original terminal software. Both terminals support all ESC sequences and full functionality (except for self test features and keyboard LEDs), however as I don't have software supporting everything and also don't have an actual terminal not all functionality has been tested. Font ROMs are included, but not 100% original. For the VT52 there are 2 fonts vt52.a.bin and vt52.b.bin, not sure which is more correct. Please feel free to drop me an email with comments on functionality or font ROMs!
 </p>
 <p>
 Next to the terminal simulation also external terminal software can be used, for more details see: <a href="MainExternalTerminal.htm">External Terminal</a>
@@ -22,7 +22,7 @@ Following sub chapters describe terminal options, not all are available dependin
 This mode is using serial I/O via the Q line and one of the EF lines. To use this mode make sure that the checkbox Uart 16450 is NOT selected (in Terminal Setup window). 
 </p>
 <p>
-Note that in this mode the transmit and receive (choice button T/R) baudrates need to be equal and, the speed options are depending on the selected computer.
+Note that in this mode the transmit and receive (choice button T/R) baud rates need to be equal and, the speed options are depending on the selected computer.
 </p>
 <p>
 Serial mode is not available for the MS 2000.
@@ -35,7 +35,7 @@ Two different uart are available: the 16450 for the Elf 2000 and MS2000 and the 
 This uart mode can be use by selecting the Uart 16450 or Uart CDP1854 checkbox (in Terminal Setup window). Only basic usage of the 16450 and a simple mode 1 emulation for the CDP1854 is implemented.
 </p>
 <p>
-In this mode the transmit and (T) and receive (R) baudrates can be different.
+In this mode the transmit and (T) and receive (R) baud rates can be different.
 </p> 
 <h3>Stretch Dot</h3>
 <p>

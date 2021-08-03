@@ -18,7 +18,7 @@ Another bug we rediscovered, is that the '!' in the original COMX has a funny re
 I also created a comx35.1.2.bin, this version doesn't really fix a bug but is a rom file to handle the lack of DRAM refresh in the COMIX. The only difference with 1.1 is that the interrupt executes one extra LDA R0 which will secure that R0 is constantly incremented (be it with a slower speed compared to the COMX). 
 </p>
 <p>
-Recently I rediscovered the annoying bug in the ROM causing some address values to be corrupted on a reset (4FF7 to 4FFF). This is cause by the fact that the stack counter is initally loaded with 4FFF. Later in the bootup it is changed to BDFF. It was possibly designed to cather for a COMX with only 4K RAM. I fixed this in comx35.1.3.bin, the 1.3 version is now the default rom file for the emulator when used without SuperBoard
+Recently I rediscovered the annoying bug in the ROM causing some address values to be corrupted on a reset (4FF7 to 4FFF). This is cause by the fact that the stack counter is initially loaded with 4FFF. Later in the start up it is changed to BDFF. It was possibly designed to work on a COMX with only 4K RAM. I fixed this in comx35.1.3.bin, the 1.3 version is now the default rom file for the emulator when used without SuperBoard
 </p>
 <p>
 If you manage to play 'Eet een wurm' long enough it will eventually run out of places to put new 'food' and as such slow down the game almost to a stop! F&M managed to do this and also solved this bug at the time. The corrected game including some additional improvements is included in the emulator installation package as 'Eet een wurm 2'.
@@ -30,7 +30,7 @@ F&M also fixed some bugs in the 'COMX Draak' game, this version is also availabl
 The company importing the COMX in Holland, West Electronics, provided almost all their software for the COMX for free and without copyrights (or for a small fee for tape, disk and/or shipment). Some of this software is now available in the installation package of this emulator and the latest available software can always be found on the <a href="http://www.comxclub.hobby-site.com">Dutch COMX Club</a>.
 </p>
 <p>
-West Electronics also organized different competitions for home made software, some software that ended in the top 3 that I can remember: 'Bowling bal', 'Happiehap' and 'Spellenslag'
+West Electronics also organised different competitions for home made software, some software that ended in the top 3 that I can remember: 'Bowling bal', 'Happiehap' and 'Spellenslag'
 </p>
 <p>
 On the real COMX you could adjust the VIDEO and SYNC signal with a small screw under the COMX-35, some people in Holland gave this a try and managed to damage the screws completely.

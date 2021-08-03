@@ -4,7 +4,7 @@
 <h2>Disk File and HD Directory</h2>
 <h3>Disk File</h3>
 <p>
-Disk image files can be specified by using the FDC 0 to 4 buttons. Four differemt disks can be used at the same time. Default setting:
+Disk image files can be specified by using the FDC 0 to 4 buttons. Four different disks can be used at the same time. Default setting:
 <UL>
 <LI>FDC 0: microdos.img</LI>
 <LI>FDC 1: PLM 1800.img</LI>
@@ -16,7 +16,7 @@ To change the disks (also possible at run time) just select a different filename
 </p>
 <h3>HD Directory</h3>
 <p>
-Instead of using disk image files Emma 02 also supports direct access to the PC harddisk. To use this feature press the double 'arrow' button next to one of the FDC buttons. This will change that specific FDC button to HD. The actual HD directory can be specified by using the HD 0 to 4 buttons. Four differemt directories can be used at the same time. Default setting:
+Instead of using disk image files Emma 02 also supports direct access to the PC hard disk. To use this feature press the double 'arrow' button next to one of the FDC buttons. This will change that specific FDC button to HD. The actual HD directory can be specified by using the HD 0 to 4 buttons. Four different directories can be used at the same time. Default setting:
 <UL>
 <LI>HD 0: Software</LI>
 <LI>HD 1: Software</LI>
@@ -28,7 +28,7 @@ Instead of using disk image files Emma 02 also supports direct access to the PC 
 Any combination of HD or FDC usages is accepted.
 </p>
 <p>
-Using the HD feature allows for a simple import and export to the PC file system. Next to that the limit of disk size of 310KB is not applicable when using the HD feature. In theory there is no limit of the total size of the directory however the following limitations still exisit:
+Using the HD feature allows for a simple import and export to the PC file system. Next to that the limit of disk size of 310KB is not applicable when using the HD feature. In theory there is no limit of the total size of the directory however the following limitations still exist:
 <UL>
 <LI>Maximum number of files in one directory is 128</LI>
 <LI>Maximum file size is 300KB to 310KB depending on how many files are stored in the directory</LI>

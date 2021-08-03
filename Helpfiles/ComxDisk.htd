@@ -15,7 +15,7 @@ After this any DOS command or utility from the master disk can be used, for expl
 To change the disks at run time just select a different filename via the DISK x button or type a name in the text field. To eject the disk use the eject button or remove the filename in the text field.
 </p>
 <h3>
-Disk Format and boot initialization
+Disk Format and boot initialisation
 </h3>
 <p>
 To create a new disk image including COMX DOS boot data, keep 'dos.1.4+f&m.disk.tools.img' specified as DISK 1 and any filename as DISK 2. After using DOS URUN,"INIT" the format/init program will be started, press any key and 'Y' for being sure, then select drive no: 2. After this 3 Different type of disks can be created by selecting the options:
@@ -74,7 +74,7 @@ Locks all software on the disk.
 F&M ULOCK
 </h4>
 <p>
-Unocks all software on the disk.
+Unlocks all software on the disk.
 </p>
 <h4>
 F&M DISKMONITOR
@@ -86,7 +86,7 @@ Allows editing and inspecting disk data directly on the disk or in the emulator 
 F&M INIT
 </h4>
 <p>
-Formats a disk like the INIT program however with an F&M boot sector which will attempt to load and run a program called 'STARTUP' when DOS is initialized (like with DOS NEW).
+Formats a disk like the INIT program however with an F&M boot sector which will attempt to load and run a program called 'STARTUP' when DOS is initialised (like with DOS NEW).
 </p>
 <h4>
 STARTUP

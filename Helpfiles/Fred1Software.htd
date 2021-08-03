@@ -52,7 +52,7 @@ On startup press 3, 4, 5 or 6 for the number of bits. Then the computer will sho
 Two players, X & O. 5 Frames, 2 balls/frame. Enter any number to roll ball. F1, F2 etc. indicates frame number. X1, X2, O1, O2 indicates player and ball number. New game = reset/run.
 </p>
 <p>
-This game used sounds on tape when a ball is rolled, the sounds on the tape were recordings from a bowling ball hitting targets; repeated multiple times. The file used here is 'Bowling.wav' which includes the rolling ball once (if not available it will be downloaded). This file can be used in Emma 02 as Emma 02 will restart the tape after every 'play' which means it is synced better than when using the file with the repeated sounds.
+This game used sounds on tape when a ball is rolled, the sounds on the tape are recordings from a bowling ball hitting targets; repeated multiple times. The file used here is 'Bowling.wav' which includes the rolling ball once (if not available it will be downloaded). This file can be used in Emma 02 as Emma 02 will restart the tape after every 'play' which means it is synced better than when using the file with the repeated sounds.
 </p>
 <h3>Calculate</h3>
 <p>

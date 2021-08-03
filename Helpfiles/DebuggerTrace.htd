@@ -37,7 +37,7 @@ If needed the trace and emulated computer can be slowed down by sliding the 'Spe
 </p>
 <h3>SCRT</h3>
 <p>
-When activated the SCRT function will hide tracing of 'SCRT'. This means when the debugger comes acrross a SEP R4 instruction for a subroutine 'CALL' it will show 'SEP R4 CALL address' in the trace window with 'address' being the subroutine address. It will then hide the 1802 code tracing for the CALL handling, i.e. when the PC is R4. The subroutine itself will of course be shown and when ended with a SEP R5 the debugger will show 'SEP R5 RETURN' to indicate the end of the subroutine. Again the 1802 code tracing for the RETURN handling, i.e. when the PC is R5, will not be shown.
+When activated the SCRT function will hide tracing of 'SCRT'. This means when the debugger detects a SEP R4 instruction for a subroutine 'CALL' it will show 'SEP R4 CALL address' in the trace window with 'address' being the subroutine address. It will then hide the 1802 code tracing for the CALL handling, i.e. when the PC is R4. The subroutine itself will of course be shown and when ended with a SEP R5 the debugger will show 'SEP R5 RETURN' to indicate the end of the subroutine. Again the 1802 code tracing for the RETURN handling, i.e. when the PC is R5, will not be shown.
 </p>
 <p>
 Where possible the debugger will set the CALL register and address as well as the RETURN register and address on start-up of an emulated computer. This can be changed in runtime by changing the SCRT values after 'Call:' and 'Return:', the first value is the register, the second the address. For all machines the registers used will be R4 and R5.
@@ -66,7 +66,7 @@ To set a register trap first select the required register and type the required 
 To set an instruction trap first select the required instruction in the fields next to the 'Instruction trap' button and press the button. The 1802 instruction will be shown in the instruction trap list. When the emulated computer executes the specified instruction it will stop execution and go into 'pause' mode. A total of 64 instruction traps can be set.
 </p>
 <p>
-An instruction trap can be set on a range of instructions. Either by specifiying 'Rx' instead of an actual register value (by use of the choice button) or using 'X' instead of a specifi 4, 8 or 16 bit value. For example 'BZ X' will set a trap on all BZ instructions, INP X on all input instructions etc.
+An instruction trap can be set on a range of instructions. Either by specifying 'Rx' instead of an actual register value (by use of the choice button) or using 'X' instead of a specify 4, 8 or 16 bit value. For example 'BZ X' will set a trap on all BZ instructions, INP X on all input instructions etc.
 </p>
 <h4>Delete</h4>
 <p>
@@ -74,7 +74,7 @@ To delete a breakpoint, register or instruction trap select it in the list and p
 </p>
 <h4>Deactivate</h4>
 <p>
-This feature is not availlable on Linux. On Windows: to deactivate a breakpoint, register or instruction trap uncheck the applicable checkbox. To activate it again re-check the box.
+This feature is not available on Linux. On Windows: to deactivate a breakpoint, register or instruction trap uncheck the applicable checkbox. To activate it again re-check the box.
 </p>
 <h4>Edit</h4>
 <p>

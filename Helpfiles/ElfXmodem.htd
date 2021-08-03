@@ -6,7 +6,7 @@
 Default and simplest method to transfer files over the XMODEM to/from the Elf (Cosmac Elf, Netronics Elf II or Quest Super Elf) emulator is by making sure both options 'Turbo' and 'Auto' are checked. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
 </p>
 <p>
-Also make sure 'XMODEM' is enabled and shown by pressing the 'Toggle: Casette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. XMODEM support is not enabled by default! The Pico/Elf configurations which includes a working XMODEM configuration can be loaded via the 'File/Configuration/Load/Pico/Elf' menu.
+Also make sure 'XMODEM' is enabled and shown by pressing the 'Toggle: Cassette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. XMODEM support is not enabled by default! The Pico/Elf configurations which includes a working XMODEM configuration can be loaded via the 'File/Configuration/Load/Pico/Elf' menu.
 </p>
 <p>
 For details on the Pico/Elf also see the chapter on <a href="PicoMain.htm">Pico/Elf V2</a>.
@@ -26,15 +26,15 @@ If no file is specified before starting the file transfer the Pico/Elf will wait
 To use this make sure 'Auto' is NOT checked.  
 </p>
 <p>
-To transfer a file to or from the Pico/Elf select the file in the file selctor window by pressing the XMODEM button. After that start the file transfer command on the emulated Elf. Then press play for transferring to the Elf and press record for transfering from the Elf.
+To transfer a file to or from the Pico/Elf select the file in the file selector window by pressing the XMODEM button. After that start the file transfer command on the emulated Elf. Then press play for transferring to the Elf and press record for transferring from the Elf.
 </p>
 <h3>Turbo file transfer</h3>
 <p>
-When Turbo is selected the emulator will increase speed during file transfer to allow faster file transferlity in the emulator. The speed of the Turbo mode can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. 
+When Turbo is selected the emulator will increase speed during file transfer to allow faster file transfer in the emulator. The speed of the Turbo mode can be changed; default is 15 MHz, which works ok on both my desktop and laptop. Too high values will not run ok on slower PCs as all CPU power will be used by the emulator. 
 </p>
 <h3>YMODEM Receive (yr) Packet Size</h3>
 <p>
-Via the VT Setup button it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to 1024 ansd is changeable to 128 like is used in XMODEM commands like xr and xs.
+Via the VT Setup button it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to 1024 and is changeable to 128 like is used in XMODEM commands like xr and xs.
 </p>
 </BODY>
 </HTML>

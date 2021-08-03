@@ -9,7 +9,7 @@ Elf Os is a disk based operating system for Elf class computers designed by Mike
 <p>
 For Elf/Os installation:
 <ul>
-<li>Start an Elf 2000 using ROM Elf2Kv110.bin (or later) and a VT simulater (serial or UART)
+<li>Start an Elf 2000 using ROM Elf2Kv110.bin (or later) and a VT simulator (serial or UART)
 <li>Select 'HEX' mode (instead of XMODEM) via the toggle button
 <li>Select file elfos_ram.hex via the HEX button
 <li>Unselect 'Auto'
@@ -28,7 +28,7 @@ For Elf/Os installation:
 <p>
 When using Elf/Os in combination with Intel-8275 video, please note the following:
 <UL>
-<LI>I suggest to perform the installation on a serial or uart installation
+<LI>I suggest to perform the installation on a serial or UART installation
 <LI>The LOAD command will not work due to the fact that it uses the same memory location as the video memory. To solve this a LOAD command is included which is located at address hex 7400-74AE. This version is provided in file LOAD-8275.hex.
 <LI>The @ command in the MINIMON will not work correctly due to the fact that it uses R0 as program counter which is not allowed when using Intel-8275 video. To solve this a MINIMON program is provided which uses R3 as program counter. This version is provided in file MINIMON-8275.hex.
 </UL>

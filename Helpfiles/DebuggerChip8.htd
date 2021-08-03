@@ -38,7 +38,7 @@ If needed the trace and emulated computer can be slowed down by sliding the 'Spe
 There are two modes for the registers & variables, protected and unprotected mode. To switch select/deselect the 'Protected Mode' check box. In protected mode it is not possible to change any value! This as changing these values will in most cases mess up the execution of the emulated Pseudo code software. The PC register is never allowed to be changed.
 </p>
 <p>
-To change the values of any of the registers & variables type in a different value and press enter. Note in this case no value is changed until enter is pressed, again to avoid unwanted behaviour of the emulated Pseudo code sofwtare. Also be aware that changing values during run time of a computer might be difficult as the emulator might constantly change the values, in this case pause the emulator.
+To change the values of any of the registers & variables type in a different value and press enter. Note in this case no value is changed until enter is pressed, again to avoid unwanted behaviour of the emulated Pseudo code software. Also be aware that changing values during run time of a computer might be difficult as the emulator might constantly change the values, in this case pause the emulator.
 </p>
 <h3>Break Points</h3>
 <p>

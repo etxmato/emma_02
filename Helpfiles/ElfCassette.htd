@@ -6,7 +6,7 @@
 The easiest and fastest way to load or save a .wav file into the Elf (Cosmac Elf, Netronics Elf II or Quest Super Elf) emulator is by making sure both options 'Turbo' and 'Auto' are checked, this should be the default setting when the Emma 02 Emulator is started for the first time. Depending on which type you choose, i.e. automatic or manual please follow the instructions below.  
 </p>
 <p>
-Make sure 'Cassette' is enabled and shown by pressing the 'Toggle: Casette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. Cassett support is not enabled by default! The Giant Board configuration which includes a working Cassettes configuration can be loaded via the 'File/Configuration/Load/Giant Board' menu.
+Make sure 'Cassette' is enabled and shown by pressing the 'Toggle: Cassette - XMODEM - Off' button (2 arrows) to toggle between 'Cassette', XMODEM and Off. Cassett support is not enabled by default! The Giant Board configuration which includes a working Cassettes configuration can be loaded via the 'File/Configuration/Load/Giant Board' menu.
 </p>
 <p>
 For specifics on how to use the giant board and super mon also see the chapter on <a href="ElfGiant.htm">Giant Board</a>.

@@ -17,11 +17,11 @@ Pressing the 'Load L' button will search all code and data areas (defined in pro
 <p>
 Pressing the 'Load V' button will search all code and data areas (defined in program configurations) for instructions loading the location or value of the current working address. The locations will be listed in the 'message' area just below the 'Command line input'. Note that with Load V all possible load instructions will be listed as follows:
 <UL>
-<LI>LD H-L: instuction sequence LDI xx, PHI RN, LDI xx, PLO RN
-<LI>LD L-H: instuction sequence LDI xx, PLO RN, LDI xx, PHI RN
+<LI>LD H-L: instruction sequence LDI xx, PHI RN, LDI xx, PLO RN
+<LI>LD L-H: instruction sequence LDI xx, PLO RN, LDI xx, PHI RN
 <LI>RLDI: RLDI RN,xxxx
-<LI>LD H: instuction sequence LDI xx, PHI RN (only loading high byte current address)
-<LI>LD L: instuction sequence LDI xx, PLO RN (only loading low byte current address)
+<LI>LD H: instruction sequence LDI xx, PHI RN (only loading high byte current address)
+<LI>LD L: instruction sequence LDI xx, PLO RN (only loading low byte current address)
 <LI>LDV: LDV macro
 <LI>LDL: LDL macro
 <LI>RLDL: RLDL macro

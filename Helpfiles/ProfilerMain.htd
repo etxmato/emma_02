@@ -1,10 +1,9 @@
-</body>
-</html><html>
+<html>
 <title>Profiler</title>
 <body>
 <h1>Profiler</h1>
 <p>
-Main purpose of this tab is to find hot code spots, dead code and analyse code & test coverage as well as analyze timing for the running computer and CPU. 
+Main purpose of this tab is to find hot code spots, dead code and analyse code & test coverage as well as analyse timing for the running computer and CPU. 
 </p>
 <p>
 To reach the Profiler tab, first select the 'Tools' tab and then the 'Profiler' sub tab. Note that the profiler only runs and shows active data when an emulator is running.
@@ -32,7 +31,7 @@ The top part (yellow ellipse) shows the following timing details:
 <IMG SRC="images/profiler.png" BORDER="0">
 </p>
 <p>
-The bottum left part (orange ellipse) shows the profiler which can be used for the following:
+The bottom left part (orange ellipse) shows the profiler which can be used for the following:
 </p>
 <ul>
 <li>To find "<a href="ProfilerHotSpots.htm">Hot Code Spots</a>" in any running software
@@ -48,7 +47,7 @@ On the profiler tab only a small number of locations are shown at anyone time, t
 <IMG SRC="images/profiler_memory_dump.png" BORDER="0">
 </p>
 <p>
-To select the memory dump profiler, first select the Memory Dump tab and then as 'Memory' select 'Profiler' (yellow ellipse). Then 256 addresses will be shown (red ellipse) each containing one counter value between 1 and 255 in the same color as used on the profiler tab with 'redder' color instructions beinig executed more frequently. The shown counter uses the same logartihmic scale as the color definition. Formula used is 5*ln(number of executions).
+To select the memory dump profiler, first select the Memory Dump tab and then as 'Memory' select 'Profiler' (yellow ellipse). Then 256 addresses will be shown (red ellipse) each containing one counter value between 1 and 255 in the same colour as used on the profiler tab with 'redder' colour instructions being executed more frequently. The shown counter uses the same logarithmic scale as the colour definition. Formula used is 5*ln(number of executions).
 </p>
 <p>
 To change to the previous or next page use the buttons in the orange ellipse, alternatively specify a specific address in the field in the blue ellipse.

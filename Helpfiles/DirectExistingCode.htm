@@ -19,7 +19,7 @@ First set up the Studio II emulator with the Space Invaders game:
 </UL>
 </p>
 <p>
-A Studio II running Space Invaders should start. Make sure to play the game a bit so most code gets executed. So move to all directions, shoot some invaders and get killled yourself. Default the keys are mapped as follows:
+A Studio II running Space Invaders should start. Make sure to play the game a bit so most code gets executed. So move to all directions, shoot some invaders and get killed yourself. Default the keys are mapped as follows:
 </p>
 <p>
 Left: 'Q' (4 on keyboard A)<br>
@@ -79,7 +79,7 @@ LD H: 05A5<br>
 LD H: 05B4<br>
 LD L: 06DD<br>
 LD L: 071D<br>
-<LI>Let's start with the first and easiest one: LD H-L: 047A. Move to location 047A. Here you can see 0402 being loaded into RC. Looking at the code here a bit closer also reveals that a few LDA RC instructions are done and later a check if a '0' is found branching out of the routine. So this concludes that 0402 to 041D is indeed a data table, it also ends with a '0' onr 041D. Now we can sefely 'Mark' 047A as an LDL instruction (Select 'LDL' instead of '1802' and press 'Mark').
+<LI>Let's start with the first and easiest one: LD H-L: 047A. Move to location 047A. Here you can see 0402 being loaded into RC. Looking at the code here a bit closer also reveals that a few LDA RC instructions are done and later a check if a '0' is found branching out of the routine. So this concludes that 0402 to 041D is indeed a data table, it also ends with a '0' on 041D. Now we can safely 'Mark' 047A as an LDL instruction (Select 'LDL' instead of '1802' and press 'Mark').
 <LI>LD L: 047D, part of the LDL we just found on 047A.
 <LI>LD L: 04E3, on first glance nothing to do with 0402 as this load 02 in RF.0 only. To make 100% sure I set a bookmark on 04E3 to check what RF.1 is at this part of the code: RF.1 = 08.
 <LI>LD H: 04FC, here or actually starting  at 04F9, RA is loaded with location 044A. After that a SEP A is done as well. So we need to replace this with an LDL A,044A. However note that the code first loads RA.0 and the RA.1. The LDL macro requires it the other way around. To make sure no other branches are made to any address between 04FB - 04FE, press the 'Branch' button on each address. It will show 'No branches found' for every address; meaning it is safe to put an LDL A,044A on address 04F9
@@ -92,7 +92,7 @@ LD L: 071D<br>
 </UL>
 </p>
 <p>
-After this I also printed 0400 to 0800 to a dissassembly file (via 'Dis' and searched for all SEP instructions. To make sure all were covered. I didn't find anymore.
+After this I also printed 0400 to 0800 to a disassembly file (via 'Dis' and searched for all SEP instructions. To make sure all were covered. I didn't find anymore.
 </p>
 <p>
 Now there are some possible 'data' locations left:

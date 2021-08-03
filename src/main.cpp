@@ -5009,8 +5009,8 @@ void Main::onStart(int computer)
 	wxSetWorkingDirectory(workingDir_);
 #endif
 	setClock(runningComputer_);
-	conf[runningComputer_].zoom_.ToDouble(&zoom);
-	conf[runningComputer_].xScale_.ToDouble(&xScale);
+	toDouble(conf[runningComputer_].zoom_, &zoom);
+	toDouble(conf[runningComputer_].xScale_, &xScale);
 
 	if (!fullScreenFloat_)
 		zoom = (int) zoom;

@@ -21,7 +21,7 @@ The following CTRL commands are supported by the 80 Column card:
 <pre>
 CTRL B: Inverse display mode
 CTRL C: Ignore line and go to next
-CTRL F: Enable/Disble 'Function keys'
+CTRL F: Enable/Disable 'Function keys'
 CTRL H: Clear Screen
 CTRL I: Cursor up
 CTRL J: Cursor left

@@ -790,7 +790,7 @@ Only additional 1804 instructions (on top of the 1802 instruction set) are liste
 <TD>ENABLE TOGGLE Q</TD> 
 <TD>ETQ</TD>
 <TD>6809</TD>
-<TD>IF COUNTER=01 &#8226; NEXT COOUNTER CLOCK _/&macr;; !Q->Q</TD>
+<TD>IF COUNTER=01 &#8226; NEXT COUNTER CLOCK _/&macr;; !Q->Q</TD>
 </TR>
 <TR>
 <TD><B>INTERRUPT CONTROL</B></TD>

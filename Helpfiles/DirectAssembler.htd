@@ -17,7 +17,7 @@ Next to 180x, Chip-8, ST2, ST4 and FEL code the following options are also avail
 <LI>#ww xx yy zz
 <br>Data input, where ww, xx, yy, zz are hexadecimal vales and will be stored on the current and following working address. At least one (ww) value should be specified. I.e. #10, will store value 10, #20 30, will store 20 and on the following address 30. Spaces between bytes are optional.
 <LI>'text
-<br>Store ASCII text, all text after ' will be stored in ASCII code at the current working address. When using this on the Studio IV characters are stored with Studio IV charcater numbering.
+<br>Store ASCII text, all text after ' will be stored in ASCII code at the current working address. When using this on the Studio IV characters are stored with Studio IV character numbering.
 <LI>"text
 <br>Only valuable for the COMX to store ASCII text in 'high colour', all text after " will be stored in ASCII code (range 80 to FF) at the current working address.
 <LI>:address

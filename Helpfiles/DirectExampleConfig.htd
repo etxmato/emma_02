@@ -28,7 +28,7 @@ Write some code, for example a short counter going down from 10 to 0:
 0004: 8A          GLO  RA
 0005: 3A <FONT COLOR="DARK ORCHID">03</FONT>       BNZ  <FONT COLOR="DARK ORCHID">03</FONT>
 </pre>
-After writing this counter you realize you need to make the counter large, i.e. > FF, say 110.
+After writing this counter you realise you need to make the counter large, i.e. > FF, say 110.
 </p>
 <p>
 To do this go to address 0 and press 'insert' 3 times. When doing that also look at what happens to the BNZ <FONT COLOR="DARK ORCHID">03</FONT> code. It will change on every 'insert'!

@@ -3,7 +3,7 @@
 <BODY>
 <h2>Auto Boot</h2>
 <p>
-To enable auto boot select the check box 'Auto Boot:'. In auto boot mode the Elf computer will run automatically starting at the specified boot address. Note that the address should be specified in hexadecimal format.
+To enable auto boot select the check box 'Boot:'. In auto boot mode the Elf computer will run automatically starting at the specified boot address. Note that the address should be specified in hexadecimal format.
 </p>
 <p>
 When auto boot is disabled the processor will not be started, in this case the processor needs to be started manual with the 'Run' or 'G' button depending on Elf type.

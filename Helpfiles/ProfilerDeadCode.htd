@@ -3,7 +3,7 @@
 <body>
 <h1>Dead Code Spots</h1>
 <p>
-Code that is not executed will be shown as 'data', like in the <a href="DebuggerAssembler.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> color and in bytes including ASCI characters (yellow & orange ellipses):
+Code that is not executed will be shown as 'data', like in the <a href="DebuggerAssembler.htm">Direct Assembler</a> this is shown in a <FONT COLOR="BLUE">blue</FONT> colour and in bytes including ASCI characters (yellow & orange ellipses):
 </p>
 <p>
 <IMG SRC="images/profiler_dead_code.png" BORDER="0">
