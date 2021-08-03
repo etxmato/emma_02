@@ -1,2 +1,0 @@
-Like BRIX, but the brix are put vertically, and the pad also moves
-          vertically. Start by pressing 7, and move using 4 and 1.

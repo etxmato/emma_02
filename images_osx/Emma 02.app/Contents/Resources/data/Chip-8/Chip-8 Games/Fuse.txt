@@ -1,3 +1,0 @@
-Assemble lines to guide a burning fuse. Don't let it burn out!
-
-Press 5789 (WASD) to move the current line fragments and E to lay them down. You cannot lay down a line overlapping any existing lines.

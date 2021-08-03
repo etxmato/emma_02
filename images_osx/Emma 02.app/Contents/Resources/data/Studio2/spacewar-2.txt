@@ -1,9 +1,0 @@
-The Sarnoff Collection at TCNJ, S.572.33
-
-spacewar-2.st2
-==============
-Space war 2 includes Studio II Space War (press 1) but the vertical intercept is started on key press 2 instead of 3. Otherwise they look very similar. The code is similar to Space War.
-
-spacewar-3.st2
-==============
-Space war 3 includes Studio II Space War (press 1) but the vertical intercept is started on key press 2 instead of 3. Otherwise they look very similar but the code is very different from Space War or Space war 1.

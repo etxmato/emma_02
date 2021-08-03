@@ -1,5 +1,0 @@
-Each players needs to destroy the player's wall. The first player to destroy
-all the bricks of the opposite player wins. 
-
-Player 1: 1 to go UP and 4 to go DOWN.
-Player 2: 6 to go UP and 9 to go DOWN.
