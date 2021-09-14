@@ -1,0 +1,678 @@
+
+<html>
+<title>CDP1802 Syntax</title>
+<body>
+<h1>CDP1802 Syntax</h1>
+<h2>Information</h2>
+<p>
+I believe the most used 180x CPU is the CDP1802, below is the complete instruction set. The 1802 was introduced by RCA in 1976, successors of the 1802 are the <a href="DebuggerSyntax1804.htm">CDP1804</a>, <a href="DebuggerSyntax1805.htm">CDP1805</a> and CDP1806 with extended instruction sets which you can find on the linked pages. An overview of all difference between the <a href="DebuggerSyntaxSystem00.htm">SYSTEM00</a>, <a href="DebuggerSyntax1801.htm">CDP1801</a> and CDP1802 can be found on the <a href="DebuggerSyntaxDifferences.htm">differences</a> page.
+</p>
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/1802.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
+<tr>
+<TD>xx</TD>
+<TD>8 bit value</TD>
+</tr>
+<tr>
+<TD>xxxx</TD>
+<TD>16 bit value</TD>
+</tr>
+<tr>
+<TD>RN</TD>
+<TD>Register number N (N = 0 to F), RN can also be represented as N in all commands</TD>
+</tr>
+<tr>
+<TD>RX</TD>
+<TD>Stack or data pointer register</TD>
+</tr>
+<tr>
+<TD>RP</TD>
+<TD>Program counter register</TD>
+</tr>
+<tr>
+<TD>RN.0, RX.0 or RP.0</TD>
+<TD>Lower order byte or RN, RX or RP</TD>
+</tr>
+<TR>
+<TD>RN.1, RX.1 or RP.1</TD>
+<TD>Higher order byte or RN, RX or RP</TD>
+</TR>
+<TR>
+<TD>M(RN)->D; RN+1->RN</TD>
+<TD>This notation means: The memory byte pointed to by RN is loaded into D, and RN is incremented by 1.</TD>
+</TR>
+</table>
+<h2>Syntax</h2>
+<table>
+<TR>
+<TD><B>INSTRUCTION</B></TD>
+<TD><B>MNEMONIC</B></TD>
+<TD><B>OP CODE</B></TD>
+<TD><B>OPERATION</B></TD>
+</TR>
+<TR>
+<TD><B>MEMORY REFERENCE</B></TD>
+</TR>
+<TR>
+<TD>LOAD VIA N</TD>
+<TD>LDN RN</TD>
+<TD>0N</TD>
+<TD>M(RN)->D; FOR N not 0</TD>
+</TR>
+<TR>
+<TD>LOAD ADVANCE</TD>
+<TD>LDA RN</TD>
+<TD>4N</TD>
+<TD>M(RN)->D; RN+1->RN</TD>
+</TR>
+<TR>
+<TD>LOAD VIA X</TD>
+<TD>LDX</TD>
+<TD>F0</TD>
+<TD>M(RX)->D</TD>
+</TR>
+<TR>
+<TD>LOAD VIA X AND ADVANCE</TD>
+<TD>LDXA</TD>
+<TD>72</TD>
+<TD>M(RX)->D; RX+1->RX</TD>
+</TR>
+<TR>
+<TD>LOAD IMMEDIATE</TD>
+<TD>LDI xx</TD>
+<TD>F8</TD>
+<TD>M(RP)->D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>STORE VIA N</TD>
+<TD>STR</TD>
+<TD>5N</TD>
+<TD>D->M(RN)</TD>
+</TR>
+<TR>
+<TD>STORE VIA X AND DECREMENT</TD>
+<TD>STXD</TD>
+<TD>73</TD>
+<TD>D->M(RX); RX-1->RX</TD>
+</TR>
+<TR>
+<TD><B>REGISTER OPERATIONS</B></TD>
+</TR>
+<TR>
+<TD>INCREMENT REG N</TD>
+<TD>INC RN</TD>
+<TD>1N</TD>
+<TD>RN+1->RN</TD>
+</TR>
+<TR>
+<TD>DECREMENT REG N</TD>
+<TD>DEC RN</TD>
+<TD>2N</TD>
+<TD>RN-1->RN</TD>
+</TR>
+<TR>
+<TD>INCREMENT REG X</TD>
+<TD>IRX</TD>
+<TD>60</TD>
+<TD>RX+1->RX</TD>
+</TR>
+<TR>
+<TD>GET LOW REG N</TD>
+<TD>GLO RN</TD>
+<TD>8N</TD>
+<TD>RN.0->D</TD>
+</TR>
+<TR>
+<TD>PUT LOW REG N</TD>
+<TD>PLO RN</TD>
+<TD>AN</TD>
+<TD>D->RN.0</TD>
+</TR>
+<TR>
+<TD>GET HIGH REG N</TD>
+<TD>GHI RN</TD>
+<TD>9N</TD>
+<TD>RN.1->D</TD>
+</TR>
+<TR>
+<TD>PUT HIGH REG N</TD>
+<TD>PHI RN</TD>
+<TD>BN</TD>
+<TD>D->RN.1</TD>
+</TR>
+<TR>
+<TD><B>LOGIC OPERATIONS</B></TD>
+</TR>
+<TR>
+<TD>OR</TD>
+<TD>OR</TD>
+<TD>F1</TD>
+<TD>M(RX) OR D->D</TD>
+</TR>
+<TR>
+<TD>OR IMMEDIATE</TD>
+<TD>ORI xx</TD>
+<TD>F9</TD>
+<TD>M(RP) OR D->D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>EXCLUSIVE OR</TD>
+<TD>XOR</TD>
+<TD>F3</TD>
+<TD>M(RX) XOR D->D</TD>
+</TR>
+<TR>
+<TD>EXCLUSIVE OR IMMEDIATE</TD>
+<TD>XRI xx</TD>
+<TD>FB</TD>
+<TD>M(RP) XOR D->D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>AND</TD>
+<TD>AND</TD>
+<TD>F2</TD>
+<TD>M(RX) AND D->D</TD>
+</TR>
+<TR>
+<TD>AND IMMEDIATE</TD>
+<TD>ANI xx</TD>
+<TD>FA</TD>
+<TD>M(RP) AND D->D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHIFT RIGHT</TD>
+<TD>SHR</TD>
+<TD>F6</TD>
+<TD>SHIFT D RIGHT, LSB(D)->DF, 0->MSB(D)</TD>
+</TR>
+<TR>
+<TD>SHIFT RIGHT WITH CARRY</TD>
+<TD>SHRC</TD>
+<TD>76</TD>
+<TD>SHIFT D RIGHT, LSB(D)->DF, DF->MSB(D)</TD>
+</TR>
+<TR>
+<TD>RING SHIFT RIGHT</TD>
+<TD>RSHR</TD>
+<TD>76</TD>
+<TD>SHIFT D RIGHT, LSB(D)->DF, DF->MSB(D)</TD>
+</TR>
+<TR>
+<TD>SHIFT LEFT</TD>
+<TD>SHL</TD>
+<TD>FE</TD>
+<TD>SHIFT D LEFT, MSB(D)->DF, 0->LSB(D)</TD>
+</TR>
+<TR>
+<TD>SHIFT LEFT WITH CARRY</TD>
+<TD>SHLC</TD>
+<TD>7E</TD>
+<TD>SHIFT D LEFT, MSB(D)->DF, DF->LSB(D)</TD>
+</TR>
+<TR>
+<TD>RING SHIFT LEFT</TD>
+<TD>RSHL</TD>
+<TD>7E</TD>
+<TD>SHIFT D LEFT, MSB(D)->DF, DF->LSB(D)</TD>
+</TR>
+<TR>
+<TD><B>ARITHMETIC OPERATIONS</B></TD>
+</TR>
+<TR>
+<TD>ADD</TD>
+<TD>ADD</TD>
+<TD>F4</TD>
+<TD>M(RX)+D->DF, D</TD>
+</TR>
+<TR>
+<TD>ADD IMMEDIATE</TD>
+<TD>ADI xx</TD>
+<TD>FC</TD>
+<TD>M(RP)+D->DF, D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>ADD WITH CARRY</TD>
+<TD>ADC</TD>
+<TD>74</TD>
+<TD>M(RX)+D+DF->DF, D</TD>
+</TR>
+<TR>
+<TD>ADD WITH CARRY, IMMEDIATE</TD>
+<TD>ADCI xx</TD>
+<TD>7C</TD>
+<TD>M(RP)+D+DF->DF, D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SUBTRACT D</TD>
+<TD>SD</TD>
+<TD>F5</TD>
+<TD>M(RX)-D->DF, D</TD>
+</TR>
+<TR>
+<TD>SUBTRACT D IMMEDIATE</TD>
+<TD>SDI xx</TD>
+<TD>FD</TD>
+<TD>M(RP)-D->DF, D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SUBTRACT D WITH BORROW</TD>
+<TD>SDB</TD>
+<TD>75</TD>
+<TD>M(RX)-D-(NOT DF)->DF, D</TD>
+</TR>
+<TR>
+<TD>SUBTRACT D WITH BORROW, IMMEDIATE</TD>
+<TD>SDBI xx</TD>
+<TD>7D</TD>
+<TD>M(RP)-D-(Not DF)->DF, D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SUBTRACT MEMORY</TD>
+<TD>SM</TD>
+<TD>F7</TD>
+<TD>D-M(RX)->DF, D</TD>
+</TR>
+<TR>
+<TD>SUBTRACT MEMORY IMMEDIATE</TD>
+<TD>SMI xx</TD>
+<TD>FF</TD>
+<TD>D-M(RP)->DF, D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SUBTRACT MEMORY WITH BORROW</TD>
+<TD>SMB</TD>
+<TD>77</TD>
+<TD>D-M(RX)-(NOT DF)->DF, D</TD>
+</TR>
+<TR>
+<TD>SUBTRACT MEMORY WITH BORROW, IMMEDI&#172;ATE</TD>
+<TD>SMBl xx</TD>
+<TD>7F</TD>
+<TD>D-M(RP)-(NOT DF)->DF, D; RP+1->RP</TD>
+</TR>
+<TR>
+<TD><B>BRANCH INSTRUCTIONS-SHORT BRANCH</B></TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH</TD>
+<TD>BR xx</TD>
+<TD>30</TD>
+<TD>M(RP)->RP.0</TD>
+</TR>
+<TR>
+<TD>NO SHORT BRANCH (See SKP)</TD>
+<TD>NBR</TD>
+<TD>38</TD>
+<TD>RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF D=0</TD>
+<TD>BZ xx</TD>
+<TD>32</TD>
+<TD>IF D=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF D NOT 0</TD>
+<TD>BNZ xx</TD>
+<TD>3A</TD>
+<TD>IF D NOT 0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF DF=1</TD>
+<TD>BDF xx</TD>
+<TD>33</TD>
+<TD>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF POS OR ZERO</TD>
+<TD>BPZ xx</TD>
+<TD>33</TD>
+<TD>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF GREATER OR EQUAL</TD>
+<TD>BGE xx</TD>
+<TD>33</TD>
+<TD>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF DF=0</TD>
+<TD>BNF xx</TD>
+<TD>3B</TD>
+<TD>IF DF=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF MINUS</TD>
+<TD>BM xx</TD>
+<TD>3B</TD>
+<TD>IF DF=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF LESS</TD>
+<TD>BL xx</TD>
+<TD>3B</TD>
+<TD>IF DF=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF Q=1</TD>
+<TD>BQ xx</TD>
+<TD>31</TD>
+<TD>IF Q=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF Q=0</TD>
+<TD>BNQ xx</TD>
+<TD>39</TD>
+<TD>IF Q=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF1=1</TD>
+<TD>B1 xx</TD>
+<TD>34</TD>
+<TD>IF EF1=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF1=0</TD>
+<TD>BN1 xx</TD>
+<TD>3C</TD>
+<TD>IF EF1=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF2=1</TD>
+<TD>B2 xx</TD>
+<TD>35</TD>
+<TD>IF EF2=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF2=0</TD>
+<TD>BN2 xx</TD>
+<TD>3D</TD>
+<TD>IF EF2=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF3=1</TD>
+<TD>B3 xx</TD>
+<TD>36</TD>
+<TD>IF EF3=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF3=0</TD>
+<TD>BN3 xx</TD>
+<TD>3E</TD>
+<TD>IF EF3=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF4=1</TD>
+<TD>B4 xx</TD>
+<TD>37</TD>
+<TD>IF EF4=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH IF EF4=0</TD>
+<TD>BN4 xx</TD>
+<TD>3F</TD>
+<TD>IF EF4=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
+</TR>
+<TR>
+<TD><B>BRANCH INSTRUCTIONS-LONG BRANCH</B></TD>
+</TR>
+<TR>
+<TD>LONG BRANCH</TD>
+<TD>LBR xxxx</TD>
+<TD>C0</TD>
+<TD>M(RP)->RP. 1, M(RP+1)->RP.0</TD>
+</TR>
+<TR>
+<TD>NO LONG BRANCH (See LSKP)</TD>
+<TD>NLBR</TD>
+<TD>C8</TD>
+<TD>RP+2->RP</TD>
+</TR>
+<TR>
+<TD>LONG BRANCH IF D=0</TD>
+<TD>LBZ xxxx</TD>
+<TD>C2</TD>
+<TD>lF D=0, M(RP)->RP.1, M(RP+1)->RP.0, ELSE RP+2->RP</TD>
+</TR>
+<TR>
+<TD>LONG BRANCH IF D NOT 0</TD>
+<TD>LBNZ xxxx</TD>
+<TD>CA</TD>
+<TD>IF D Not 0, M(RP)->RP.1, M(RP+1)->RP.0, ELSE RP+2->RP</TD>
+</TR>
+<TR>
+<TD>LONG BRANCH IF DF=1</TD>
+<TD>LBDF xxxx</TD>
+<TD>C3</TD>
+<TD>IF DF=1, M(RP)->RP.1, M(RP+1)->RP.0, ELSE RP+2->RP</TD>
+</TR>
+<TR>
+<TD>LONG BRANCH IF DF=0</TD>
+<TD>LBNF xxxx</TD>
+<TD>CB</TD>
+<TD>IF DF=0, M(RP)->RP.1, M(RP+1)->RP.0, ELSE RP+2->RP</TD>
+</TR>
+<TR>
+<TD>LONG BRANCH IF Q=1</TD>
+<TD>LBQ xxxx</TD>
+<TD>C1</TD>
+<TD>IF Q=1, M(RP)->RP.1, M(RP+1)->RP.0, ELSE RP+2->RP</TD>
+</TR>
+<TR>
+<TD>LONG BRANCH lF Q=0</TD>
+<TD>LBNQ xxxx</TD>
+<TD>C9</TD>
+<TD>lF Q=0, M(RP)->RP.1, M(RP+1)->RP.0 ELSE RP+2->RP</TD>
+</TR>
+<TR>
+<TD><B>SKIP INSTRUCTIONS</B></TD>
+</TR>
+<TR>
+<TD>SHORT SKIP (See NBR)</TD>
+<TD>SKP</TD>
+<TD>38</TD>
+<TD>RP+1->RP</TD>
+</TR>
+<TR>
+<TD>LONG SKIP (See NLBR)</TD>
+<TD>LSKP</TD>
+<TD>C8</TD>
+<TD>RP+2->RP</TD>
+</TR>
+<TR>
+<TD>LONG SKIP IF D=0</TD>
+<TD>LSZ</TD>
+<TD>CE</TD>
+<TD>IF D=0, RP+2->RP, ELSE CONTINUE</TD>
+</TR>
+<TR>
+<TD>LONG SKIP IF D NOT 0</TD>
+<TD>LSNZ</TD>
+<TD>C6</TD>
+<TD>IF D Not 0, RP+2->RP, ELSE CONTINUE</TD>
+</TR>
+<TR>
+<TD>LONG SKIP IF DF=1</TD>
+<TD>LSDF</TD>
+<TD>CF</TD>
+<TD>IF DF=1, RP+2->RP, ELSE CONTINUE</TD>
+</TR>
+<TR>
+<TD>LONG SKIP IF DF=0</TD>
+<TD>LSNF</TD>
+<TD>C7</TD>
+<TD>IF DF=0, RP+2->RP, ELSE CONTINUE</TD>
+</TR>
+<TR>
+<TD>LONG SKIP lF Q=1</TD>
+<TD>LSQ</TD>
+<TD>CD</TD>
+<TD>IF Q=1, RP+2->RP, ELSE CONTINUE</TD>
+</TR>
+<TR>
+<TD>LONG SKIP IF Q=0</TD>
+<TD>LSNQ</TD>
+<TD>C5</TD>
+<TD>IF Q=0, RP+2->RP, ELSE CONTINUE</TD>
+</TR>
+<TR>
+<TD>LONG SKIP IF IE=1</TD>
+<TD>LSIE</TD>
+<TD>CC</TD>
+<TD>IF IE=1, RP+2->RP, ELSE CONTINUE</TD>
+</TR>
+<TR>
+<TD><B>CONTROL INSTRUCTIONS</B></TD>
+</TR>
+<TR>
+<TD>IDLE</TD>
+<TD>IDL</TD>
+<TD>00</TD>
+<TD>WAIT FOR DMA OR INTERRUPT; M(R0)->BUS</TD>
+</TR>
+<TR>
+<TD>NO OPERATION</TD>
+<TD>NOP</TD>
+<TD>C4</TD>
+<TD>CONTINUE</TD>
+</TR>
+<TR>
+<TD>SET P</TD>
+<TD>SEP RN</TD>
+<TD>DN</TD>
+<TD>N->P</TD>
+</TR>
+<TR>
+<TD>SET X</TD>
+<TD>SEX RN</TD>
+<TD>EN</TD>
+<TD>N->X</TD>
+</TR>
+<TR>
+<TD>SET Q</TD>
+<TD>SEQ</TD>
+<TD>7B</TD>
+<TD>1->Q</TD>
+</TR>
+<TR>
+<TD>RESET Q</TD>
+<TD>REQ</TD>
+<TD>7A</TD>
+<TD>0->Q</TD>
+</TR>
+<TR>
+<TD>SAVE</TD>
+<TD>SAV</TD>
+<TD>78</TD>
+<TD>T->M(RX)</TD>
+</TR>
+<TR>
+<TD>PUSH X, P TO STACK</TD>
+<TD>MARK</TD>
+<TD>79</TD>
+<TD>(X, P)->T; (X, P)->M(R2), THEN P->X; R2-1->R2</TD>
+</TR>
+<TR>
+<TD>RETURN</TD>
+<TD>RET</TD>
+<TD>70</TD>
+<TD>M(RX)->(X, P); RX+1->RX, 1->lE</TD>
+</TR>
+<TR>
+<TD>DISABLE</TD>
+<TD>DlS</TD>
+<TD>71</TD>
+<TD>M(RX)->(X, P); RX+1->RX, 0->lE</TD>
+</TR>
+<TR>
+<TD><B>INPUT-OUTPUT BYTE TRANSFER</B></TD>
+</TR>
+<TR>
+<TD>OUTPUT 1</TD>
+<TD>OUT 1</TD>
+<TD>61</TD>
+<TD>M(RX)->BUS; RX+1->RX; N LINES=1</TD>
+</TR>
+<TR>
+<TD>OUTPUT 2</TD>
+<TD>OUT 2</TD>
+<TD>62</TD>
+<TD>M(RX)->BUS; RX+1->RX; N LINES=2</TD>
+</TR>
+<TR>
+<TD>OUTPUT 3</TD>
+<TD>OUT 3</TD>
+<TD>63</TD>
+<TD>M(RX)->BUS; RX+1->RX; N LINES=3</TD>
+</TR>
+<TR>
+<TD>OUTPUT 4</TD>
+<TD>OUT 4</TD>
+<TD>64</TD>
+<TD>M(RX)->BUS; RX+1->RX; N LINES=4</TD>
+</TR>
+<TR>
+<TD>OUTPUT 5</TD>
+<TD>OUT 5</TD>
+<TD>65</TD>
+<TD>M(RX)->BUS; RX+1->RX; N LINES=5</TD>
+</TR>
+<TR>
+<TD>OUTPUT 6</TD>
+<TD>OUT 6</TD>
+<TD>66</TD>
+<TD>M(RX)->BUS; RX+1->RX; N LINES=6</TD>
+</TR>
+<TR>
+<TD>OUTPUT 7</TD>
+<TD>OUT 7</TD>
+<TD>67</TD>
+<TD>M(RX)->BUS; RX+1->RX; N LINES=7</TD>
+</TR>
+<TR>
+<TD>INPUT 1</TD>
+<TD>INP 1</TD>
+<TD>69</TD>
+<TD>BUS->M(RX); BUS->D; N LINES=1</TD>
+</TR>
+<TR>
+<TD>INPUT 2</TD>
+<TD>INP 2</TD>
+<TD>6A</TD>
+<TD>BUS->M(RX); BUS->D; N LINES=2</TD>
+</TR>
+<TR>
+<TD>INPUT 3</TD>
+<TD>INP 3</TD>
+<TD>6B</TD>
+<TD>BUS->M(RX); BUS->D; N LINES=3</TD>
+</TR>
+<TR>
+<TD>INPUT 4</TD>
+<TD>INP 4</TD>
+<TD>6C</TD>
+<TD>BUS->M(RX); BUS->D; N LINES=4</TD>
+</TR>
+<TR>
+<TD>INPUT 5</TD>
+<TD>INP 5</TD>
+<TD>6D</TD>
+<TD>BUS->M(RX); BUS->D; N LINES=5</TD>
+</TR>
+<TR>
+<TD>INPUT 6</TD>
+<TD>INP 6</TD>
+<TD>6E</TD>
+<TD>BUS->M(RX); BUS->D; N LINES=6</TD>
+</TR>
+<TR>
+<TD>INPUT 7</TD>
+<TD>INP 7</TD>
+<TD>6F</TD>
+<TD>BUS->M(RX); BUS->D; N LINES=7</TD>
+</TR>
+</body>
+</html>

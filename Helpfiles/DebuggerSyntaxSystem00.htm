@@ -2,285 +2,296 @@
 <html>
 <title>SYSTEM00 Syntax</title>
 <body>
-<h2>SYSTEM00 Syntax</h2>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
-<TR>
-<TD>xx</TD>
-<TD>8 bit value</TD>
-</TR>
-<TR>
-<TD>RN</TD>
-<TD>Register number N (N = 0 to F), RN can also be represented as N in all commands</TD>
-</TR>
-<TR>
-<TD>RX</TD>
-<TD>Stack or data pointer register</TD>
-</TR>
-<TR>
-<TD>RP</TD>
-<TD>Program counter register</TD>
-</TR>
-<TR>
-<TD>RN.0, RX.0 or RP.0</TD>
-<TD>Lower order byte or RN, RX or RP</TD>
-</TR>
-<TR>
-<TD>RN.00</TD>
-<TD>Lower order nibble or RN.0</TD>
-</TR>
-<TR>
-<TD>RN.1, RX.1 or RP.1</TD>
-<TD>Higher order byte or RN, RX or RP</TD>
-</TR>
-<TR>
-<TD>D0</TD>
-<TD>Lower order nibble or D</TD>
-</TR>
-<TR>
-<TD>M(RN)->D; RN+1->RN</TD>
-<TD>This notation means: The memory byte pointed to by RN is loaded into D, and RN is incremented by 1.</TD>
-</TR>
-</TABLE>
-<h3>SYSTEM00 Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
-<TR>
-<TD><B>INSTRUCTION</B></TD>
-<TD><B>MNEMONIC</B></TD>
-<TD><B>OP CODE</B></TD>
-<TD><B>OPERATION</B></TD>
-</TR>
-<TR>
-<TD><B>MEMORY REFERENCE</B></TD>
-</TR>
-<TR>
-<TD>LOAD ADVANCE</TD>
-<TD>LDA RN</TD>
-<TD>4N</TD>
-<TD>M(RN)->D; RN+1->RN</TD>
-</TR>
-<TR>
-<TD>LOAD VIA X</TD>
-<TD>LDX</TD>
-<TD>F0</TD>
-<TD>M(RX)->D</TD>
-</TR>
-<TR>
-<TD>STORE VIA N</TD>
-<TD>STR</TD>
-<TD>5N</TD>
-<TD>D->M(RN)</TD>
-</TR>
-<TR>
-<TD><B>REGISTER OPERATIONS</B></TD>
-</TR>
-<TR>
-<TD>INCREMENT REG N</TD>
-<TD>INC RN</TD>
-<TD>1N</TD>
-<TD>RN+1->RN</TD>
-</TR>
-<TR>
-<TD>DECREMENT REG N</TD>
-<TD>DEC RN</TD>
-<TD>2N</TD>
-<TD>RN-1->RN</TD>
-</TR>
-<TR>
-<TD>GET LOW REG N</TD>
-<TD>GLO RN</TD>
-<TD>8N</TD>
-<TD>RN.0->D</TD>
-</TR>
-<TR>
-<TD>PUT LOW REG N</TD>
-<TD>PLO RN</TD>
-<TD>AN</TD>
-<TD>D->RN.0</TD>
-</TR>
-<TR>
-<TD>GET HIGH REG N</TD>
-<TD>GHI RN</TD>
-<TD>9N</TD>
-<TD>RN.1->D</TD>
-</TR>
-<TR>
-<TD>PUT HIGH REG N</TD>
-<TD>PHI RN</TD>
-<TD>BN</TD>
-<TD>D->RN.1</TD>
-</TR>
-<TR>
-<TD>PUT NIBBLE REG N</TD>
-<TD>PNI RN</TD>
-<TD>CN</TD>
-<TD>D0->RN.00</TD>
-</TR>
-<TR>
-<TD><B>LOGIC OPERATIONS</B></TD>
-</TR>
-<TR>
-<TD>OR</TD>
-<TD>OR</TD>
-<TD>F1</TD>
-<TD>M(RX) OR D->D</TD>
-</TR>
-<TR>
-<TD>EXCLUSIVE OR</TD>
-<TD>XOR</TD>
-<TD>F3</TD>
-<TD>M(RX) XOR D->D</TD>
-</TR>
-<TR>
-<TD>AND</TD>
-<TD>AND</TD>
-<TD>F2</TD>
-<TD>M(RX) AND D->D</TD>
-</TR>
-<TR>
-<TD>SHIFT RIGHT</TD>
-<TD>SHR</TD>
-<TD>F6</TD>
-<TD>SHIFT D RIGHT, LSB(D)->DF, 0->MSB(D)</TD>
-</TR>
-<TR>
-<TD><B>ARITHMETIC OPERATIONS</B></TD>
-</TR>
-<TR>
-<TD>ADD</TD>
-<TD>ADD</TD>
-<TD>F4</TD>
-<TD>M(RX)+D->DF, D</TD>
-</TR>
-<TR>
-<TD>SUBTRACT D</TD>
-<TD>SD</TD>
-<TD>F5</TD>
-<TD>M(RX)-D->DF, D</TD>
-</TR>
-<TR>
-<TD><B>BRANCH INSTRUCTIONS-SHORT BRANCH</B></TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH</TD>
-<TD>BR xx</TD>
-<TD>30</TD>
-<TD>M(RP)->RP.0</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF D NOT 0</TD>
-<TD>BNZ xx</TD>
-<TD>31</TD>
-<TD>IF D NOT 0, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF D=0</TD>
-<TD>BZ xx</TD>
-<TD>32</TD>
-<TD>IF D=0, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF DF=1</TD>
-<TD>BDF xx</TD>
-<TD>33</TD>
-<TD>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF POS OR ZERO</TD>
-<TD>BPZ xx</TD>
-<TD>33</TD>
-<TD>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF GREATER OR EQUAL</TD>
-<TD>BGE xx</TD>
-<TD>33</TD>
-<TD>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF EF1=1</TD>
-<TD>B1 xx</TD>
-<TD>34</TD>
-<TD>IF EF1=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF EF2=1</TD>
-<TD>B2 xx</TD>
-<TD>35</TD>
-<TD>IF EF2=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF EF3=1</TD>
-<TD>B3 xx</TD>
-<TD>36</TD>
-<TD>IF EF3=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD>SHORT BRANCH IF EF4=1</TD>
-<TD>B4 xx</TD>
-<TD>37</TD>
-<TD>IF EF4=1, M(RP)->RP.0, ELSE RP+1->RP</TD>
-</TR>
-<TR>
-<TD><B>CONTROL INSTRUCTIONS</B></TD>
-</TR>
-<TR>
-<TD>IDLE RN</TD>
-<TD>IDL RN</TD>
-<TD>0N</TD>
-<TD>WAIT FOR DMA OR INTERRUPT; M(RN)->LEDs</TD>
-</TR>
-<TR>
-<TD>SET P</TD>
-<TD>SEP RN</TD>
-<TD>DN</TD>
-<TD>N->P</TD>
-</TR>
-<TR>
-<TD>SET X</TD>
-<TD>SEX RN</TD>
-<TD>EN</TD>
-<TD>N->X</TD>
-</TR>
-<TR>
-<TD>SAVE</TD>
-<TD>SAV</TD>
-<TD>78</TD>
-<TD>T->M(RX)</TD>
-</TR>
-<TR>
-<TD>RETURN</TD>
-<TD>RET</TD>
-<TD>70</TD>
-<TD>M(RX)->(X, P); RX+1->RX, 1->lE</TD>
-</TR>
-<TR>
-<TD><B>INPUT-OUTPUT BYTE TRANSFER</B></TD>
-</TR>
-<TR>
-<TD>OUTPUT 1</TD>
-<TD>OUT 1</TD>
-<TD>61</TD>
-<TD>M(RX)->BUS; RX+1->RX; N LINES=1</TD>
-</TR>
-<TR>
-<TD>OUTPUT 2</TD>
-<TD>OUT 2</TD>
-<TD>62</TD>
-<TD>M(RX)->BUS; RX+1->RX; N LINES=2, </TD>
-</TR>
-<TR>
-<TD>OUTPUT 3</TD>
-<TD>OUT 3</TD>
-<TD>63</TD>
-<TD>M(RX)->BUS; RX+1->RX; N LINES=3</TD>
-</TR>
-<TR>
-<TD>INPUT 0</TD>
-<TD>INP 0</TD>
-<TD>68</TD>
-<TD>BUS->M(RX); BUS->D; N LINES=1</TD>
-</TR>
-</TABLE>	
+<h1>SYSTEM00 Syntax</h1>
+<h2>Information</h2>
+<p>
+This is the only 'CPU' in Emma 02 which is not a CPU from the 180x serie. Instead it is using a chip set as was used in the RCA SYSTEM00 protoype. The SYSTEM00 chip set is likely constructed largely of 7400-series TTL logic, i.e. not a microprocessor. For more details on the SYSTEM00 see also Herb Johnson's page <a href="http://www.retrotechnology.com/memship/sys00_insp.html">System 00 inspection</a>. The instruction set uses a subset of the 1801 with some incompatible differences and is likely what the 1801 was based on. An overview of all difference between the SYSTEM00, <a href="DebuggerSyntax1801.htm">CDP1801</a> and <a href="DebuggerSyntax1802.htm">CDP1802</a> can be found on the <a href="DebuggerSyntaxDifferences.htm">differences</a> page.
+</p>
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/system00.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
+<tbody>
+<tr>
+<td>xx</td>
+<td>8 bit value</td>
+</tr>
+<tr>
+<td>RN</td>
+<td>Register number N (N = 0 to F), RN can also be represented as N in all commands</td>
+</tr>
+<tr>
+<td>RX</td>
+<td>Stack or data pointer register</td>
+</tr>
+<tr>
+<td>RP</td>
+<td>Program counter register</td>
+</tr>
+<tr>
+<td>RN.0, RX.0 or RP.0</td>
+<td>Lower order byte or RN, RX or RP</td>
+</tr>
+<tr>
+<td>RN.00</td>
+<td>Lower order nibble or RN.0</td>
+</tr>
+<tr>
+<td>RN.1, RX.1 or RP.1</td>
+<td>Higher order byte or RN, RX or RP</td>
+</tr>
+<tr>
+<td>D0</td>
+<td>Lower order nibble or D</td>
+</tr>
+<tr>
+<td>M(RN)->D; RN+1->RN</td>
+<td>This notation means: The memory byte pointed to by RN is loaded into D, and RN is incremented by 1.</td>
+</tr>
+</tbody>
+</table>
+<h2>Syntax</h2>
+<table>
+<tbody>
+<tr>
+<td><B>INSTRUCTION</B></td>
+<td><B>MNEMONIC</B></td>
+<td><B>OP CODE</B></td>
+<td><B>OPERATION</B></td>
+</tr>
+<tr>
+<td><B>MEMORY REFERENCE</B></td>
+</tr>
+<tr>
+<td>LOAD ADVANCE</td>
+<td>LDA RN</td>
+<td>4N</td>
+<td>M(RN)->D; RN+1->RN</td>
+</tr>
+<tr>
+<td>LOAD VIA X</td>
+<td>LDX</td>
+<td>F0</td>
+<td>M(RX)->D</td>
+</tr>
+<tr>
+<td>STORE VIA N</td>
+<td>Str</td>
+<td>5N</td>
+<td>D->M(RN)</td>
+</tr>
+<tr>
+<td><B>REGISTER OPERATIONS</B></td>
+</tr>
+<tr>
+<td>INCREMENT REG N</td>
+<td>INC RN</td>
+<td>1N</td>
+<td>RN+1->RN</td>
+</tr>
+<tr>
+<td>DECREMENT REG N</td>
+<td>DEC RN</td>
+<td>2N</td>
+<td>RN-1->RN</td>
+</tr>
+<tr>
+<td>GET LOW REG N</td>
+<td>GLO RN</td>
+<td>8N</td>
+<td>RN.0->D</td>
+</tr>
+<tr>
+<td>PUT LOW REG N</td>
+<td>PLO RN</td>
+<td>AN</td>
+<td>D->RN.0</td>
+</tr>
+<tr>
+<td>GET HIGH REG N</td>
+<td>GHI RN</td>
+<td>9N</td>
+<td>RN.1->D</td>
+</tr>
+<tr>
+<td>PUT HIGH REG N</td>
+<td>PHI RN</td>
+<td>BN</td>
+<td>D->RN.1</td>
+</tr>
+<tr>
+<td>PUT NIBBLE REG N</td>
+<td>PNI RN</td>
+<td>CN</td>
+<td>D0->RN.00</td>
+</tr>
+<tr>
+<td><B>LOGIC OPERATIONS</B></td>
+</tr>
+<tr>
+<td>OR</td>
+<td>OR</td>
+<td>F1</td>
+<td>M(RX) OR D->D</td>
+</tr>
+<tr>
+<td>EXCLUSIVE OR</td>
+<td>XOR</td>
+<td>F3</td>
+<td>M(RX) XOR D->D</td>
+</tr>
+<tr>
+<td>AND</td>
+<td>AND</td>
+<td>F2</td>
+<td>M(RX) AND D->D</td>
+</tr>
+<tr>
+<td>SHIFT RIGHT</td>
+<td>SHR</td>
+<td>F6</td>
+<td>SHIFT D RIGHT, LSB(D)->DF, 0->MSB(D)</td>
+</tr>
+<tr>
+<td><B>ARITHMETIC OPERATIONS</B></td>
+</tr>
+<tr>
+<td>ADD</td>
+<td>ADD</td>
+<td>F4</td>
+<td>M(RX)+D->DF, D</td>
+</tr>
+<tr>
+<td>SUBtrACT D</td>
+<td>SD</td>
+<td>F5</td>
+<td>M(RX)-D->DF, D</td>
+</tr>
+<tr>
+<td><B>BRANCH INSTRUCTIONS-SHORT BRANCH</B></td>
+</tr>
+<tr>
+<td>SHORT BRANCH</td>
+<td>BR xx</td>
+<td>30</td>
+<td>M(RP)->RP.0</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF D NOT 0</td>
+<td>BNZ xx</td>
+<td>31</td>
+<td>IF D NOT 0, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF D=0</td>
+<td>BZ xx</td>
+<td>32</td>
+<td>IF D=0, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF DF=1</td>
+<td>BDF xx</td>
+<td>33</td>
+<td>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF POS OR ZERO</td>
+<td>BPZ xx</td>
+<td>33</td>
+<td>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF GREATER OR EQUAL</td>
+<td>BGE xx</td>
+<td>33</td>
+<td>IF DF=1, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF EF1=1</td>
+<td>B1 xx</td>
+<td>34</td>
+<td>IF EF1=1, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF EF2=1</td>
+<td>B2 xx</td>
+<td>35</td>
+<td>IF EF2=1, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF EF3=1</td>
+<td>B3 xx</td>
+<td>36</td>
+<td>IF EF3=1, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td>SHORT BRANCH IF EF4=1</td>
+<td>B4 xx</td>
+<td>37</td>
+<td>IF EF4=1, M(RP)->RP.0, ELSE RP+1->RP</td>
+</tr>
+<tr>
+<td><B>CONTROL INSTRUCTIONS</B></td>
+</tr>
+<tr>
+<td>IDLE RN</td>
+<td>IDL RN</td>
+<td>0N</td>
+<td>WAIT FOR DMA OR INTERRUPT; M(RN)->LEDs</td>
+</tr>
+<tr>
+<td>SET P</td>
+<td>SEP RN</td>
+<td>DN</td>
+<td>N->P</td>
+</tr>
+<tr>
+<td>SET X</td>
+<td>SEX RN</td>
+<td>EN</td>
+<td>N->X</td>
+</tr>
+<tr>
+<td>SAVE</td>
+<td>SAV</td>
+<td>78</td>
+<td>T->M(RX)</td>
+</tr>
+<tr>
+<td>RETURN</td>
+<td>RET</td>
+<td>70</td>
+<td>M(RX)->(X, P); RX+1->RX, 1->lE</td>
+</tr>
+<tr>
+<td><B>INPUT-OUTPUT BYTE TRANSFER</B></td>
+</tr>
+<tr>
+<td>OUTPUT 1</td>
+<td>OUT 1</td>
+<td>61</td>
+<td>M(RX)->BUS; RX+1->RX; N LINES=1</td>
+</tr>
+<tr>
+<td>OUTPUT 2</td>
+<td>OUT 2</td>
+<td>62</td>
+<td>M(RX)->BUS; RX+1->RX; N LINES=2, </td>
+</tr>
+<tr>
+<td>OUTPUT 3</td>
+<td>OUT 3</td>
+<td>63</td>
+<td>M(RX)->BUS; RX+1->RX; N LINES=3</td>
+</tr>
+<tr>
+<td>INPUT 0</td>
+<td>INP 0</td>
+<td>68</td>
+<td>BUS->M(RX); BUS->D; N LINES=1</td>
+</tr>
+</tbody>
+</table>	
 </body>
 </html>

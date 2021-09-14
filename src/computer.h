@@ -524,6 +524,7 @@ public:
 	void readDebugFile(wxString dir, wxString name, wxString number, Word start);
 
     virtual void terminalSave(wxString fileName, int protocol);
+    virtual void terminalYsSave(wxString fileName, int protocol);
     virtual void terminalLoad(wxString filePath, wxString fileName, int protocol);
     virtual void terminalStop();
     

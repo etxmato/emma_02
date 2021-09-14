@@ -138,7 +138,7 @@ void GuiElf2K::readElf2KConfig()
     conf[ELF2K].wavFileDir_[0] = readConfigDir("/Dir/Elf2K/Wav_File", dataDir_ + "Elf2K" + pathSeparator_);
 	elfConfiguration[ELF2K].vtWavFileDir_ = readConfigDir("/Dir/Elf2K/Vt_Wav_File", dataDir_ + "Elf2K" + pathSeparator_);
  
-	conf[ELF2K].rom_[MAINROM1] = configPointer->Read("/Elf2K/Main_Rom_File", "Elf2Kv110.bin");
+	conf[ELF2K].rom_[MAINROM1] = configPointer->Read("/Elf2K/Main_Rom_File", "Elf2Kv112.bin");
 	conf[ELF2K].charRom_ = configPointer->Read("/Elf2K/I8275_Font_Rom_File", "intel8275.bin");
 	conf[ELF2K].ide_ = configPointer->Read("/Elf2K/Ide_File", "elf2k.ide");
 	conf[ELF2K].keyFile_ = configPointer->Read("/Elf2K/Key_File", "");
@@ -203,7 +203,7 @@ void GuiElf2K::readElf2KConfig()
     configPointer->Read("/Elf2K/Enable_Auto_Cassette", &conf[ELF2K].autoCassetteLoad_, true);
     configPointer->Read("/Elf2K/Enable_Xmodem", &elfConfiguration[ELF2K].useXmodem, true);
     configPointer->Read("/Elf2K/Enable_HexModem", &elfConfiguration[ELF2K].useHexModem, false);
-    configPointer->Read("/Elf2K/Enable_Ymodem", &elfConfiguration[ELF2K].usePacketSize1K, true);
+    elfConfiguration[ELF2K].packetSize = (int)configPointer->Read("/Elf2K/Ymodem_PacketSize", 0l);
     conf[ELF2K].realCassetteLoad_ =  false;
     elfConfiguration[ELF2K].useTape = true;
 
@@ -349,7 +349,7 @@ void GuiElf2K::writeElf2KConfig()
     configPointer->Write("/Elf2K/Enable_Auto_Cassette", conf[ELF2K].autoCassetteLoad_);
     configPointer->Write("/Elf2K/Enable_Xmodem", elfConfiguration[ELF2K].useXmodem);
     configPointer->Write("/Elf2K/Enable_HexModem", elfConfiguration[ELF2K].useHexModem);
-    configPointer->Write("/Elf2K/Enable_Ymodem", elfConfiguration[ELF2K].usePacketSize1K);
+    configPointer->Write("/Elf2K/Ymodem_PacketSize", elfConfiguration[ELF2K].packetSize);
 	configPointer->Write("/Elf2K/Volume", conf[ELF2K].volume_);
 
 	configPointer->Write("/Elf2K/Clock_Speed_When_Using_Pixie", elf2KPixieClock_);

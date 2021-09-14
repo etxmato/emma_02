@@ -1,0 +1,216 @@
+
+<html>
+<title>CDP1804 Syntax</title>
+<body>
+<h1>CDP1804 Syntax</h1>
+<h2>Information</h2>
+<p>
+This page describes the additional instructions of the CDP1804 which is the successor of the <a href="DebuggerSyntax1802.htm">CDP1802</a>.
+</p>
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/1804.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
+<TR>
+<TD>xx</TD>
+<TD>8 bit value</TD>
+</TR>
+<TR>
+<TD>xxxx</TD>
+<TD>16 bit value</TD>
+</TR>
+<TR>
+<TD>RN</TD>
+<TD>Register number N (N = 0 to F), RN can also be represented as N in all commands</TD>
+</TR>
+<TR>
+<TD>RX</TD>
+<TD>Stack or data pointer register</TD>
+</TR>
+<TR>
+<TD>RP</TD>
+<TD>Program counter register</TD>
+</TR>
+<TR>
+<TD>RN.0, RX.0 or RP.0</TD>
+<TD>Lower order byte or RN, RX or RP</TD>
+</TR>
+<TR>
+<TD>RN.1, RX.1 or RP.1</TD>
+<TD>Higher order byte or RN, RX or RP</TD>
+</TR>
+<TR>
+<TD>M(RN)->D; RN+1->RN</TD>
+<TD>This notation means: The memory byte pointed to by RN is loaded into D, and RN is incremented by 1.</TD>
+</TR>
+</table>
+<h2>Syntax</h2>
+<P>
+<table>
+<TR>
+<TD><B>INSTRUCTION</B></TD>
+<TD><B>MNEMONIC</B></TD>
+<TD><B>OP CODE</B></TD>
+<TD><B>OPERATION</B></TD>
+</TR>
+<TR>
+<TD><B>MEMORY REFERENCE</B></TD>
+</TR>
+<TR>
+<TD>REGISTER LOAD IMMEDIATE</TD>
+<TD>RLDI RN,xxxx</TD>
+<TD>68CN</TD>
+<TD>M(RP)->RN.1; M(RP+1)->R(N).0; RP+2-RP
+</TD>
+</TR>
+<TR>
+<TD>REGISTER LOAD VIA X AND ADVANCE</TD>
+<TD>RLXA RN</TD>
+<TD>686N</TD>
+<TD>M(RX)->RN.1; M(RX+1)->RN.0; RX+2->RX
+</TD>
+</TR>
+<TR>
+<TD>REGISTER STORE VIA X AND DECREMENT</TD>
+<TD>RSXD RN</TD>
+<TD>68AN</TD>
+<TD>RN.0->M(RX); RN.1->M(RX-1); RX-2->RX
+</TD>
+</TR>
+<TR>
+<TD><B>REGISTER OPERATIONS</B></TD>
+</TR>
+<TR>
+<TD>REGISTER N TO REGISTER X COPY</TD>
+<TD>RNX RN</TD>
+<TD>68BN</TD>
+<TD>RN->RX</TD>
+</TR>
+<TR>
+<TD><B>BRANCH INSTRUCTIONS-SHORT BRANCH</B></TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH ON COUNTER INTERRUPT</TD>
+<TD>BCI xx</TD>
+<TD>683E</TD>
+<TD>IF CI=1, M(RP)->RP.0; O->CI ELSE RP+1->RP
+</TD>
+</TR>
+<TR>
+<TD>SHORT BRANCH ON EXTERNAL INTERRUPT</TD>
+<TD>BXI xx</TD>
+<TD>683F</TD>
+<TD>IF XI=l, M(RP)->RP.0 ELSE RP+1->RP
+</TD>
+</TR>
+<TR>
+<TD><B>COUNTER INSTRUCTIONS</B></TD>
+</TR>
+<TR>
+<TD>LOAD COUNTER</TD>
+<TD>LDC</TD>
+<TD>6806</TD>
+<TD>D->COUNTER</TD>
+</TR>
+<TR>
+<TD>GET COUNTER</TD>
+<TD>GEC</TD>
+<TD>6808</TD>
+<TD>COUNTER->D</TD>
+</TR>
+<TR>
+<TD>STOP COUNTER</TD>
+<TD>STPC</TD>
+<TD>6800</TD>
+<TD>0->COUNTER CLOCK</TD>
+</TR>
+<TR>
+<TD>DECREMENT COUNTER</TD>
+<TD>DTC</TD>
+<TD>6801</TD>
+<TD>COUNTER-1->COUNTER</TD>
+</TR>
+<TR>
+<TD>SET TIMER MODE AND START</TD>
+<TD>STM</TD>
+<TD>6807</TD>
+<TD>TPA&divide;32->COUNTER CLOCK</TD>
+</TR>
+<TR>
+<TD>SET COUNTER MODE 1 AND START</TD>
+<TD>SCM1</TD>
+<TD>6805</TD>
+<TD>EF1->COUNTER CLOCK</TD>
+</TR>
+<TR>
+<TD>SET COUNTER MODE 2 AND START</TD>
+<TD>SCM2</TD>
+<TD>6803</TD>
+<TD>EF2->COUNTER CLOCK</TD>
+</TR>
+<TR>
+<TD>SET PULSE WIDTH MODE 1, START</TD>
+<TD>SPM1</TD>
+<TD>6804</TD>
+<TD>TPA*EF1->COUNTER CLOCK; EF1 _/&macr; STOPS COUNT</TD>
+</TR>
+<TR>
+<TD>SET PULSE WIDTH MODE 2, START</TD>
+<TD>SPM2</TD>
+<TD>6802</TD>
+<TD>TPA*EF2->COUNTER CLOCK; EF2 _/&macr; STOPS COUNT</TD>
+</TR>
+<TR>
+<TD>ENABLE TOGGLE Q</TD> 
+<TD>ETQ</TD>
+<TD>6809</TD>
+<TD>IF COUNTER=01 &#8226; NEXT COUNTER CLOCK _/&macr;; !Q->Q</TD>
+</TR>
+<TR>
+<TD><B>INTERRUPT CONTROL</B></TD>
+</TR>
+<TR>
+<TD>EXTERNAL INTERRUPT ENABLE</TD>
+<TD>XIE</TD>
+<TD>680A</TD>
+<TD>1->XIE</TD>
+</TR>
+<TR>
+<TD>EXTERNAL INTERRUPT DISABLE</TD>
+<TD>XID</TD>
+<TD>680B</TD>
+<TD>0->XIE</TD>
+</TR>
+<TR>
+<TD>COUNTER INTERRUPT ENABLE</TD>
+<TD>CIE</TD>
+<TD>680C</TD>
+<TD>1->CIE</TD>
+</TR>
+<TR>
+<TD>COUNTER INTERRUPT DISABLE</TD>
+<TD>CID</TD>
+<TD>680D</TD>
+<TD>0->CIE</TD>
+</TR>
+<TR>
+<TD><B>CALL AND RETURN</B></TD>
+</TR>
+<TR>
+<TD>STANDARD CALL</TD>
+<TD>SCAL R1,xxxx</TD>
+<TD>688N</TD>
+<TD>RN.0->M(RX); RN.1->M(RX-1); RX-2->RX; RP->RN; M(RN)->RP.1; M(RN+1)->RP.0; RN+2->RN
+</TD>
+</TR>
+<TR>
+<TD>STANDARD RETURN</TD>
+<TD>SRET RN</TD>
+<TD>689N</TD>
+<TD>RN->RP; M(RX+1)->RN.1; M(RX+2)->RN.0; RX+2->RX
+</TD>
+</TR>
+</table>	
+</body>
+</html>

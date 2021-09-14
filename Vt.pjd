@@ -4667,7 +4667,7 @@
                 <string name="proxy-Platform">"&lt;Any platform&gt;"</string>
                 <bool name="proxy-Separate files">0</bool>
                 <long name="proxy-Stretch factor">0</long>
-                <string name="proxy-Strings">"128|1024"</string>
+                <string name="proxy-Strings">"Auto|128|1024"</string>
                 <string name="proxy-Tooltip text">""</string>
                 <long name="proxy-Width">-1</long>
                 <bool name="proxy-wxADJUST_MINSIZE">0</bool>

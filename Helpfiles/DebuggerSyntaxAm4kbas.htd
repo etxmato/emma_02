@@ -1,13 +1,16 @@
 <html>
 <title>AM4KBAS Syntax</title>
 <body>
-<h2>AM4KBAS Syntax</h2>
-<h3>Information</h3>
+<h1>AM4KBAS Syntax</h1>
+<h2>Information</h2>
 <p>
-AM4KBAS is pseudo code used in RCA Tiny BASIC running on the Studio IV, similar syntax is used (AMVBAS) when running RCA Tiny BASIC on the VIP.
+AM4KBAS is pseudo code used in RCA Tiny BASIC running on the Studio IV, similar syntax is used (<a href="DebuggerSyntaxAm4kbas.htm">AM4KBAS</a>) when running RCA Tiny BASIC on the VIP.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_amvbas.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaaa</TD>
 <TD WIDTH="400">16 bit address</TD>
@@ -40,15 +43,15 @@ AM4KBAS is pseudo code used in RCA Tiny BASIC running on the Studio IV, similar 
 <TD WIDTH="70">[Ry],[Rz]</TD>
 <TD WIDTH="400">Memory value (8 bit) pointed to by 16 bit register (x, y or z = 0 to 7)</TD>
 </TR>
-</TABLE>
+</table>
 <p>
 Note 1: V0 to VF are located on 1C00-1C0F. R0-R7 are located on the same memory locations and as such: R0 is build up of V0 as high byte and V1 as low, R1=V2-V3 etc. Register value 'z' specified in the pseudo code is actually z*2, so R1 is indicated by cc02kk.
 </p>
 <p>
 Note 2: [aa] indicate 2 bytes in memory when using commands with R registers so memory location 1Caa as well as 1Caa+1 will be used.
 </p>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">120zkk</TD>
 <TD WIDTH="40">ARD</TD>

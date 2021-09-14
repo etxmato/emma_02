@@ -63,6 +63,7 @@ public:
 	Byte uartIn(); 
     Byte uartStatus();
     Byte uartThreStatus();
+    void uartInterrupt();
 	void getKey();
     void checkCtrlvText();
 	Byte checkCtrlvTextUart();
@@ -72,6 +73,7 @@ public:
 	void ResetIo();
 	void setForceUCVt(bool status);
     void terminalSaveVt(wxString fileName, int protocol);
+    void terminalYsSaveVt(wxString fileName, int protocol);
     void terminalSaveCdp18s020Vt(wxString fileName, int protocol);
     void terminalLoadVt(wxString fileNamee, int protocol);
     void terminalLoadCdp18s020Vt(wxString fileNamee, int protocol);
@@ -250,6 +252,7 @@ private:
     bool sendPacket_;
     bool receivePacket_;
     bool useCrc_;
+    wxString directoryName_;
     int sendingMode_;
     int xmodemPacketNumber_;
     size_t xmodemFileNumber_;
@@ -258,6 +261,7 @@ private:
     wxString terminalInputFileLine_;
 	int dataReadyFlag_;
     Byte previousByte_;
+    long fileSize_;
     
     int tab_char;
     

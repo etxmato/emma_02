@@ -2,8 +2,8 @@
 <html>
 <title>Super-chip Syntax</title>
 <body>
-<h2>Super-chip Syntax</h2>
-<h3>Information</h3>
+<h1>Super-chip Syntax</h1>
+<h2>Information</h2>
 <p>
 The Super-chip interpreter for the modified VIP (chip10 modification) and Studio IV was designed by me. It should support Super-CHIP 1.1, 00FA instruction from chip8run and also somewhat follows SCHIP/SCHPC however with some selectable options/quirks:</p>
 <p>
@@ -36,8 +36,11 @@ Some Super-chip games need the following setting:
 <p>
 Super-chip code should be located from 800-17FF. Note that address 800 is seen as 200 by the interpreter. So a command 2200 will do a call to address 800 instead of 200. Video memory is located from 1C00 to 1FFF and Vx-Vy are stored from 1BF0 to 1BFF.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_super_chip.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -78,9 +81,9 @@ Super-chip code should be located from 800-17FF. Note that address 800 is seen a
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">Fx1E</TD>
 <TD WIDTH="40">ADD</TD>

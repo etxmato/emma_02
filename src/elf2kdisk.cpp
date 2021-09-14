@@ -156,10 +156,10 @@ void Elf2KDisk::configureUart16450(ElfPortConfiguration portConf)
     wxString printBuffer;
     p_Main->message("Configuring 16450 Uart Expansion Board");
 
-    printBuffer.Printf("    Output %d: device/register select, output %d: write selected", portConf.uartControl, portConf.uartOut);
+    printBuffer.Printf("	Output %d: device/register select, output %d: write selected", portConf.uartControl, portConf.uartOut);
     p_Main->message(printBuffer);
 
-    printBuffer.Printf("    Input %d: read status, input %d: read selected\n", portConf.uartStatus, portConf.uartIn);
+    printBuffer.Printf("	Input %d: read status, input %d: read selected\n", portConf.uartStatus, portConf.uartIn);
     p_Main->message(printBuffer);
 
     initDisk();

@@ -29,6 +29,7 @@ public:
     wxString getRunningGame(){return runningGame_;};
 
     void terminalSave(wxString fileName, int protocol);
+    void terminalYsSave(wxString fileName, int protocol);
     void terminalLoad(wxString filePath, wxString fileName, int protocol);
     void terminalStop();
     void setDivider(Byte value);

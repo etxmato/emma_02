@@ -1435,6 +1435,12 @@ void Elf::writeMemDebug(Word address, Byte value, bool writeRom)
 {
     address = address | bootstrap_;
 
+    if (loadedOs_ == ELFOS)
+    {
+        if (address == 0x400 && value >= 4 && value <= 128)
+            loadedOs_ = ELFOS_4;
+    }
+        
     if (elfConfiguration.tilType == TIL311)
         elfScreenPointer->showAddress(address);
     else

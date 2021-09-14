@@ -202,8 +202,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
         XRCCTRL(*this, "XmodemLine", wxStaticLine)->Show();
         XRCCTRL(*this, "VtXmodemPacketSizeText", wxStaticText)->Show();
         XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->Show();
-        if (elfConfiguration_.usePacketSize1K)
-            XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->SetSelection(1);
+        XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->SetSelection(elfConfiguration_.packetSize);
     }
     
 	wxString box;
@@ -264,7 +263,7 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
 
     if (elfConfiguration_.useXmodem)
     {
-        elfConfiguration_.usePacketSize1K = (XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->GetSelection() == 1);
+        elfConfiguration_.packetSize = XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->GetSelection();
     }
 
     elfConfiguration_.useUart16450 = false;

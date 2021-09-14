@@ -3655,13 +3655,8 @@ void GuiMain::startTerminalSave(int protocol)
     {
         fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
                                                  conf[runningComputer_].wavFileDir_[0], fileName,
-                                                 "hex|txt",
-                                                 wxString::Format
-                                                 (
-													"Terminal File (*.hex)|*.hex|Tiny Basic File (*.txt)|*.txt|All files (%s)|%s",
-													wxFileSelectorDefaultWildcardStr,
-													wxFileSelectorDefaultWildcardStr
-                                                  ),
+                                                 "",
+                                                 "All files (*.*)|*.*",
                                                  wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW
                                                  );
         if (!fileName)
@@ -3685,13 +3680,8 @@ void GuiMain::startTerminalSave(int protocol)
         {
             fileName = p_Main->eventShowFileSelector( "Select the terminal file to save",
                                                      conf[runningComputer_].wavFileDir_[0], fileName,
-                                                     "hex|txt",
-                                                     wxString::Format
-                                                     (
-														"Terminal File (*.hex)|*.hex|Tiny Basic File (*.txt)|*.txt|All files (%s)|%s",
-														wxFileSelectorDefaultWildcardStr,
-														wxFileSelectorDefaultWildcardStr
-                                                      ),
+                                                     "",
+                                                     "All files (*.*)|*.*",
                                                      wxFD_SAVE|wxFD_CHANGE_DIR|wxFD_PREVIEW|wxFD_OVERWRITE_PROMPT
                                                      );
             if (!fileName)
@@ -3713,6 +3703,21 @@ void GuiMain::startTerminalSave(int protocol)
 
     p_Main->eventSetTapeState(TAPE_RECORD, "");
     p_Computer->terminalSave(filePath, protocol);
+}
+
+void GuiMain::startYsTerminalSave(int protocol)
+{
+    if (terminalSave_ || terminalLoad_)
+    {
+        stopTerminal();
+        p_Computer->terminalStop();
+    }
+    
+    wxString filePath = conf[runningComputer_].wavFileDir_[0];
+    terminalSave_ = true;
+
+    p_Main->eventSetTapeState(TAPE_RECORD, "");
+    p_Computer->terminalYsSave(filePath, protocol);
 }
 
 void GuiMain::turboOn()
@@ -4350,7 +4355,7 @@ bool GuiMain::showSplashScreen()
                 break;
                     
                 default:
-                    if (p_Computer->getLoadedOs() == ELFOS && elfConfiguration[computer].vtType != VTNONE)
+                    if (p_Computer->getLoadedOs() != NOOS && elfConfiguration[computer].vtType != VTNONE)
                         configPointer->Read("/"+computerStr+"/ShowSplashScreenELFOS", &showSplashScreen, true);
                 break;
             }
@@ -4411,7 +4416,7 @@ void GuiMain::hideSplashScreen()
                 break;
                     
                 default:
-                    if (p_Computer->getLoadedOs() == ELFOS && elfConfiguration[computer].vtType != VTNONE)
+                    if (p_Computer->getLoadedOs() != NOOS && elfConfiguration[computer].vtType != VTNONE)
                         configPointer->Write("/"+computerStr+"/ShowSplashScreenELFOS", false);
                 break;
             }

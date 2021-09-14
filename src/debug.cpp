@@ -56,27 +56,30 @@
 #define CARDTRAN_PC 0xf
 #if defined (__linux__)
 #define EDIT_ROW 17
-#define LINE_SPACE 13
+//#define LINE_SPACE 13
+#define EDIT_LINE 221
 #define ASS_WIDTH 268
 #define PROFILER_WIDTH 460
 #define PROFILER_OFFSET 4
-#define CHAR_WIDTH 8
+//#define CHAR_WIDTH 8
 #endif
 #if defined (__WXMSW__)
 #define EDIT_ROW 17
-#define LINE_SPACE 11
+//#define LINE_SPACE 11
+#define EDIT_LINE 187
 #define ASS_WIDTH 268
-#define PROFILER_WIDTH 460
+#define PROFILER_WIDTH 468
 #define PROFILER_OFFSET 6
-#define CHAR_WIDTH 8
+//#define CHAR_WIDTH 8
 #endif
 #if defined (__WXMAC__)
 #define EDIT_ROW 16
-#define LINE_SPACE 11
+//#define LINE_SPACE 11
+#define EDIT_LINE 176
 #define ASS_WIDTH 268
 #define PROFILER_WIDTH 460
 #define PROFILER_OFFSET 6
-#define CHAR_WIDTH 8
+//#define CHAR_WIDTH 8
 #endif
 
 enum
@@ -1084,8 +1087,23 @@ DebugWindow::DebugWindow(const wxString& title, const wxPoint& pos, const wxSize
 
     numberOfDebugLines_ = 32;
 
-    assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
-    profilerBmp = new wxBitmap(PROFILER_WIDTH, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4, 24);
+#if defined(__WXMAC__)
+    wxFont exactFont(13, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#else
+    wxFont exactFont(10, wxFONTFAMILY_TELETYPE, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL);
+#endif
+    wxSize charSize = exactFont.GetPixelSize();
+    lineSpace_ = charSize.y - 2;
+
+	wxScreenDC dc;
+	dc.SetFont(exactFont);
+    charWidth_ = dc.GetCharWidth();
+
+    assWidth_ = charWidth_ * 33 + charWidth_/2;
+    profilerWidth_ = charWidth_ * 57 + charWidth_/2;
+
+    assBmp = new wxBitmap(assWidth_, numberOfDebugLines_*lineSpace_+4, 24);
+    profilerBmp = new wxBitmap(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4, 24);
 }
 
 DebugWindow::~DebugWindow()
@@ -1111,8 +1129,6 @@ void DebugWindow::readDebugConfig()
 	dirAssConfigFileDir_ = readConfigDir("/Dir/Main/DebugConfig", dataDir_);
 	debugDir_ = readConfigDir("/Dir/Main/Debug", dataDir_);
 
-//    numberOfDebugLines_ = EDIT_ROW;
-
 	if (!mode_.gui)
 		return;
 #if defined (__WXMSW__)
@@ -1120,7 +1136,10 @@ void DebugWindow::readDebugConfig()
 	chip8BreakPointWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
 	tregWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
 	trapWindowPointer->SetImageList(imageList_, wxIMAGE_LIST_SMALL);
-#endif
+#endif    
+    XRCCTRL(*this, "ProfilerBitmap", wxStaticBitmap)->SetSize(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
+    XRCCTRL(*this, "AssBitmap", wxStaticBitmap)->SetSize(assWidth_, numberOfDebugLines_*lineSpace_+4);
+
     XRCCTRL(*this, "ProfilerType", wxChoice)->SetSelection(profilerType_);
     XRCCTRL(*this, "ProfilerCounter", wxChoice)->SetSelection(profilerCounter_);
 	XRCCTRL(*this, "DebugExpansionSlot", SlotEdit)->setRange(1, 4);
@@ -7840,7 +7859,7 @@ void DebugWindow::directAss()
 	if (!computerRunning_ || (profilerCounter_ == PROFILER_OFF && debuggerChoice_ == PROFILERTAB))
 		return;
 
-    int bitmapWidth = ASS_WIDTH;;
+    int bitmapWidth = assWidth_;
     uint64_t executed;
     
 #if defined(__WXMAC__)
@@ -7855,12 +7874,12 @@ void DebugWindow::directAss()
     switch (debuggerChoice_)
     {
         case DIRECTASSTAB:
-            bitmapWidth = ASS_WIDTH;
+            bitmapWidth = assWidth_;
             dcAss.SelectObject(*assBmp);
         break;
             
         case PROFILERTAB:
-            bitmapWidth = PROFILER_WIDTH;
+            bitmapWidth = profilerWidth_;
             dcAss.SelectObject(*profilerBmp);
             numberOfDebugLines -= PROFILER_OFFSET;
         break;
@@ -7869,7 +7888,7 @@ void DebugWindow::directAss()
     dcAss.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcAss.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcAss.SetTextBackground(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue));
-    dcAss.DrawRectangle(0, 0, bitmapWidth, numberOfDebugLines*LINE_SPACE+4);
+    dcAss.DrawRectangle(0, 0, bitmapWidth, numberOfDebugLines*lineSpace_+4);
 
     if (debuggerChoice_ == DIRECTASSTAB)
     {
@@ -7895,8 +7914,8 @@ void DebugWindow::directAss()
 			dcAss.SetFont(exactFontBold);
 			dirAssAddress_ = address;
 			dcAss.SetTextForeground(colour.Find("BLACK"));
-			dcAss.DrawText(">", 1, 1+line*LINE_SPACE);
-			dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*LINE_SPACE);
+			dcAss.DrawText(">", 1, 1+line*lineSpace_);
+			dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
 		}
 		else
 			dcAss.SetFont(exactFont);
@@ -8003,25 +8022,25 @@ void DebugWindow::directAss()
 				{
 					case 1:
 						text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-						dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+						dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                         setProfileColor(executedColor);
-						dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-						dcAss.DrawText(text.Mid(18,5), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+						dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+						dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
 						dcAss.SetTextForeground(colour.Find("DARK ORCHID"));
-						dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                        dcAss.DrawText(text.Right(text.Len()-23), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+						dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                        dcAss.DrawText(text.Right(text.Len()-23), 1+charWidth_*24, 1+line*lineSpace_);
 					break;
 										
 					case 2:
 						text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-						dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+						dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                         setProfileColor(executedColor);
-                        dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                        dcAss.DrawText(text.Mid(18,5), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+                        dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                        dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
 						dcAss.SetTextForeground(colour.Find("DARK ORCHID"));
-                        dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                        dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                        dcAss.DrawText(text.Right(text.Len()-23), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                        dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                        dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                        dcAss.DrawText(text.Right(text.Len()-23), 1+charWidth_*24, 1+line*lineSpace_);
 					break;
 				
 					case 3:
@@ -8029,129 +8048,129 @@ void DebugWindow::directAss()
 						if ((tempByte&0xf0) == 0x80 || (tempByte&0xf0) == 0x20)
 						{
 							text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-							dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+							dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                             setProfileColor(executedColor);
-                            dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                            dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                            dcAss.DrawText(text.Mid(18,5), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-                            dcAss.DrawText(text.Mid(23,3), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                            dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                            dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                            dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
+                            dcAss.DrawText(text.Mid(23,3), 1+charWidth_*24, 1+line*lineSpace_);
                             if ((tempByte&0xf0) == 0x80)
                                 dcAss.SetTextForeground(wxColour(200,51,161));
                             else
                                 dcAss.SetTextForeground(colour.Find("DARK ORCHID"));
-                            dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                            dcAss.DrawText(text.Mid(15,2), 1+CHAR_WIDTH*16, 1+line*LINE_SPACE);
-                            dcAss.DrawText(text.Right(4), 1+CHAR_WIDTH*27, 1+line*LINE_SPACE);
+                            dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                            dcAss.DrawText(text.Mid(15,2), 1+charWidth_*16, 1+line*lineSpace_);
+                            dcAss.DrawText(text.Right(4), 1+charWidth_*27, 1+line*lineSpace_);
 						}
 						else
 						{
 							if (tempByte == 0x3e || tempByte == 0x3f)
 							{
 								text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-								dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+								dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                                 setProfileColor(executedColor);
-                                dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                                dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                                dcAss.DrawText(text.Mid(15,2), 1+CHAR_WIDTH*16, 1+line*LINE_SPACE);
-                                dcAss.DrawText(text.Mid(18,5), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+                                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                                dcAss.DrawText(text.Mid(15,2), 1+charWidth_*16, 1+line*lineSpace_);
+                                dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
 								dcAss.SetTextForeground(colour.Find("DARK ORCHID"));
-								dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                                dcAss.DrawText(text.Right(5), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+								dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                                dcAss.DrawText(text.Right(5), 1+charWidth_*24, 1+line*lineSpace_);
 							}
 							else
 							{
 								text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-								dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+								dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                                 setProfileColor(executedColor);
-                                dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                                dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                                dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                                dcAss.DrawText(text.Mid(15,2), 1+CHAR_WIDTH*16, 1+line*LINE_SPACE);
+                                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                                dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                                dcAss.DrawText(text.Mid(15,2), 1+charWidth_*16, 1+line*lineSpace_);
                                 if (text.Len() >= 23)
                                 {
-                                    dcAss.DrawText(text.Mid(18,5), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-                                    dcAss.DrawText(text.Right(text.Len()-23), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                                    dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
+                                    dcAss.DrawText(text.Right(text.Len()-23), 1+charWidth_*24, 1+line*lineSpace_);
                                     
                                 }
                                 else
-                                    dcAss.DrawText(text.Right(text.Len()-18), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+                                    dcAss.DrawText(text.Right(text.Len()-18), 1+charWidth_*19, 1+line*lineSpace_);
 							}
 						}
 					break;
 
 					default:
 						text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-						dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+						dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                         setProfileColor(executedColor);
-                        dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                        dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                        dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                        dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
                         if (text.Len() >= 23)
                         {
-                            dcAss.DrawText(text.Mid(18,5), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-                            dcAss.DrawText(text.Right(text.Len()-23), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                            dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
+                            dcAss.DrawText(text.Right(text.Len()-23), 1+charWidth_*24, 1+line*lineSpace_);
                             
                         }
                         else
-                            dcAss.DrawText(text.Right(text.Len()-18), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+                            dcAss.DrawText(text.Right(text.Len()-18), 1+charWidth_*19, 1+line*lineSpace_);
 					break;
 				}
                 dcAss.SetTextForeground(colour.Find("BLACK"));
                 if (debuggerChoice_ == PROFILERTAB)
-                    dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
+                    dcAss.DrawText(executedStr, 1+charWidth_*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*lineSpace_);
 			break;
 
 			case MEM_TYPE_OPCODE_LBR_SLOT:
 				text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-				dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+				dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                 setProfileColor(executedColor);
-                dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(18,5), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-				dcAss.DrawText(text.Mid(23,4), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(18,5), 1+charWidth_*19, 1+line*lineSpace_);
+				dcAss.DrawText(text.Mid(23,4), 1+charWidth_*24, 1+line*lineSpace_);
 				dcAss.SetTextForeground(colour.Find("DARK ORCHID"));
-                dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Right(4), 1+CHAR_WIDTH*28, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                dcAss.DrawText(text.Right(4), 1+charWidth_*28, 1+line*lineSpace_);
                 dcAss.SetTextForeground(colour.Find("BLACK"));
                 if (debuggerChoice_ == PROFILERTAB)
-                    dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
+                    dcAss.DrawText(executedStr, 1+charWidth_*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*lineSpace_);
 			break;
 
 			case MEM_TYPE_OPCODE_RLDL:
 				text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-				dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+				dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                 setProfileColor(executedColor);
-                dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-				dcAss.DrawText(text.Mid(18,4), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(23,3), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+				dcAss.DrawText(text.Mid(18,4), 1+charWidth_*19, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(23,3), 1+charWidth_*24, 1+line*lineSpace_);
 				dcAss.SetTextForeground(wxColour(200,51,161));
-                dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(15,2), 1+CHAR_WIDTH*16, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Right(4), 1+CHAR_WIDTH*27, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(15,2), 1+charWidth_*16, 1+line*lineSpace_);
+                dcAss.DrawText(text.Right(4), 1+charWidth_*27, 1+line*lineSpace_);
                 dcAss.SetTextForeground(colour.Find("BLACK"));
                 if (debuggerChoice_ == PROFILERTAB)
-                    dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
+                    dcAss.DrawText(executedStr, 1+charWidth_*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*lineSpace_);
 			break;
 
 			case MEM_TYPE_OPCODE_LDV:
                 text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-                dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                 setProfileColor(executedColor);
-                dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(18,4), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(23,7), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(18,4), 1+charWidth_*19, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(23,7), 1+charWidth_*24, 1+line*lineSpace_);
                 dcAss.SetTextForeground(colour.Find("BLACK"));
                 if (debuggerChoice_ == PROFILERTAB)
-                    dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
+                    dcAss.DrawText(executedStr, 1+charWidth_*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*lineSpace_);
 				line += 1;
 				if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
 				{
 					dcAss.SetFont(exactFontBold);
 					dirAssAddress_ = address - 3;
-					dcAss.DrawText(">", 1, 1+line*LINE_SPACE);
-					dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*LINE_SPACE);
+					dcAss.DrawText(">", 1, 1+line*lineSpace_);
+					dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
 				}
 				else
 					dcAss.SetFont(exactFont);
@@ -8159,35 +8178,35 @@ void DebugWindow::directAss()
 				{
                     setProfileColor(executedColor);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-3));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*7, 1+line*lineSpace_);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-2));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*10, 1+line*lineSpace_);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-1));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*13, 1+line*lineSpace_);
 				}
 			break;
 
 			case MEM_TYPE_OPCODE_LDL:
 				text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-				dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+				dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                 setProfileColor(executedColor);
-                dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(18,4), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(23,3), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(18,4), 1+charWidth_*19, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(23,3), 1+charWidth_*24, 1+line*lineSpace_);
 				dcAss.SetTextForeground(wxColour(200,51,161));
-                dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Right(4), 1+CHAR_WIDTH*27, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
+                dcAss.DrawText(text.Right(4), 1+charWidth_*27, 1+line*lineSpace_);
                 dcAss.SetTextForeground(colour.Find("BLACK"));
                 if (debuggerChoice_ == PROFILERTAB)
-                    dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
+                    dcAss.DrawText(executedStr, 1+charWidth_*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*lineSpace_);
 				line += 1;
 				if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
 				{
 					dcAss.SetFont(exactFontBold);
 					dirAssAddress_ = address - 3;
-					dcAss.DrawText(">", 1, 1+line*LINE_SPACE);
-					dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*LINE_SPACE);
+					dcAss.DrawText(">", 1, 1+line*lineSpace_);
+					dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
 				}
 				else
 					dcAss.SetFont(exactFont);
@@ -8195,35 +8214,35 @@ void DebugWindow::directAss()
 				{
                     setProfileColor(executedColor);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-3));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*7, 1+line*lineSpace_);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-1));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*13, 1+line*lineSpace_);
 					dcAss.SetTextForeground(wxColour(200,51,161));
                     line2.Printf("%02X", p_Computer->readMemDebug(address-2));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*10, 1+line*lineSpace_);
 				}
 			break;
 
 			case MEM_TYPE_OPCODE_LDL_SLOT:
 				text = cdp1802disassemble(&address, false, true, DIRECT_ASSEMBLER, 0, 0xFFFF);
-				dcAss.DrawText(text.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+				dcAss.DrawText(text.Left(5), 1+charWidth_, 1+line*lineSpace_);
                 setProfileColor(executedColor);
-                dcAss.DrawText(text.Mid(6,2), 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(12,2), 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(18,4), 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
-                dcAss.DrawText(text.Mid(23,7), 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(6,2), 1+charWidth_*7, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(12,2), 1+charWidth_*13, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(18,4), 1+charWidth_*19, 1+line*lineSpace_);
+                dcAss.DrawText(text.Mid(23,7), 1+charWidth_*24, 1+line*lineSpace_);
 				dcAss.SetTextForeground(wxColour(200,51,161));
-                dcAss.DrawText(text.Mid(9,2), 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                dcAss.DrawText(text.Mid(9,2), 1+charWidth_*10, 1+line*lineSpace_);
                 dcAss.SetTextForeground(colour.Find("BLACK"));
                 if (debuggerChoice_ == PROFILERTAB)
-                    dcAss.DrawText(executedStr, 1+CHAR_WIDTH*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*LINE_SPACE);
+                    dcAss.DrawText(executedStr, 1+charWidth_*(32+numberOfSpaces)+locationCorrection[numberOfSpaces], 1+line*lineSpace_);
 				line += 1;
 				if (line == EDIT_ROW && debuggerChoice_ == DIRECTASSTAB)
 				{
 					dcAss.SetFont(exactFontBold);
 					dirAssAddress_ = address - 3;
-					dcAss.DrawText(">", 1, 1+line*LINE_SPACE);
-					dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*LINE_SPACE);
+					dcAss.DrawText(">", 1, 1+line*lineSpace_);
+					dcAss.DrawText("<", bitmapWidth-9, 1+EDIT_ROW*lineSpace_);
 				}
 				else
 					dcAss.SetFont(exactFont);
@@ -8231,14 +8250,14 @@ void DebugWindow::directAss()
 				{
                     setProfileColor(executedColor);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-3));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*7, 1+line*lineSpace_);
                     line2.Printf("%02X", p_Computer->readMemDebug(address-1));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*13, 1+line*lineSpace_);
                     dcAss.SetTextForeground(wxColour(200,51,161));
                     line2.Printf("%02X", p_Computer->readMemDebug(address-2));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*10, 1+line*lineSpace_);
                     line2.Printf("%02X%02X", p_Computer->readMemDebug(address-5),p_Computer->readMemDebug(address-2));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*24, 1+line*lineSpace_);
 				}
 			break;
 
@@ -8247,27 +8266,27 @@ void DebugWindow::directAss()
 				if (p_Computer->readMemDataType((address-3)&0xffff, &executed) == MEM_TYPE_OPCODE_LDL_SLOT)
 				{
 					line2.Printf("%02X%02X", p_Computer->readMemDebug((address-2)&0xffff),p_Computer->readMemDebug(address+1));
-                    dcAss.DrawText(line2, 1+CHAR_WIDTH*24, 1+line*LINE_SPACE);
+                    dcAss.DrawText(line2, 1+charWidth_*24, 1+line*lineSpace_);
 				}
                 
                 line2.Printf("%02X", p_Computer->readMemDebug(address));
-                dcAss.DrawText(line2, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                dcAss.DrawText(line2, 1+charWidth_*7, 1+line*lineSpace_);
                 line2.Printf("%02X", p_Computer->readMemDebug(address+2));
-                dcAss.DrawText(line2, 1+CHAR_WIDTH*13, 1+line*LINE_SPACE);
+                dcAss.DrawText(line2, 1+charWidth_*13, 1+line*lineSpace_);
                 line2.Printf("%02X", p_Computer->readMemDebug(address+1));
 
                 if (p_Computer->readMemDataType((address-3)&0xffff, &executed) != MEM_TYPE_OPCODE_LDV)
 					dcAss.SetTextForeground(wxColour(200,51,161));
-                dcAss.DrawText(line2, 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                dcAss.DrawText(line2, 1+charWidth_*10, 1+line*lineSpace_);
 				address+=3;
 				address&=0xffff;
 			break;
 
             case MEM_TYPE_PSEUDO_1:
                 code = pseudoDisassemble(address, false, true);
-                dcAss.DrawText(code.Left(5), 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+                dcAss.DrawText(code.Left(5), 1+charWidth_, 1+line*lineSpace_);
                 dcAss.SetTextForeground(colour.Find("STEEL BLUE"));
-                dcAss.DrawText(code.Right(code.Len()-6), 57, 1+line*LINE_SPACE);
+                dcAss.DrawText(code.Right(code.Len()-6), 57, 1+line*lineSpace_);
 
 				command = p_Computer->readMemDebug(address);
 
@@ -8287,60 +8306,60 @@ void DebugWindow::directAss()
                 
 			case MEM_TYPE_OPCODE_JUMP_SLOT:
 				printBufferAddress.Printf("%04X: ", address);
-				dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+				dcAss.DrawText(printBufferAddress, 1+charWidth_, 1+line*lineSpace_);
 
 				dcAss.SetTextForeground(colour.Find("BLACK"));
 				printBufferOpcode.Printf("S%02X,", p_Computer->readMemDataType(address+1, &executed));
-				dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+				dcAss.DrawText(printBufferOpcode, 1+charWidth_*19, 1+line*lineSpace_);
 
 				dcAss.SetTextForeground(wxColour(200,51,161));
 				printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address));
-                dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferOpcode, 1+charWidth_*7, 1+line*lineSpace_);
                 printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address+1));
-                dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferOpcode, 1+charWidth_*10, 1+line*lineSpace_);
 				printBufferOpcode.Printf("%04X", (p_Computer->readMemDebug(address)<<8) + p_Computer->readMemDebug(address+1));
-				dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*23, 1+line*LINE_SPACE);
+				dcAss.DrawText(printBufferOpcode, 1+charWidth_*23, 1+line*lineSpace_);
 				address+=2;
 				address&=0xffff;
 			break;
 
 			case MEM_TYPE_JUMP:
 				printBufferAddress.Printf("%04X: ", address);
-				dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+				dcAss.DrawText(printBufferAddress, 1+charWidth_, 1+line*lineSpace_);
 
 				dcAss.SetTextForeground(wxColour(200,51,161));
                 printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address));
-                dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferOpcode, 1+charWidth_*7, 1+line*lineSpace_);
                 printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address+1));
-                dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferOpcode, 1+charWidth_*10, 1+line*lineSpace_);
 				printBufferOpcode.Printf("%04X", (p_Computer->readMemDebug(address)<<8) + p_Computer->readMemDebug(address+1));
-				dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+				dcAss.DrawText(printBufferOpcode, 1+charWidth_*19, 1+line*lineSpace_);
 				address+=2;
 				address&=0xffff;
 			break;
 
 			case MEM_TYPE_JUMP_REV:
 				printBufferAddress.Printf("%04X: ", address);
-				dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+				dcAss.DrawText(printBufferAddress, 1+charWidth_, 1+line*lineSpace_);
 
 				dcAss.SetTextForeground(colour.Find("RED"));
                 printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address));
-                dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferOpcode, 1+charWidth_*7, 1+line*lineSpace_);
                 printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address+1));
-                dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*10, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferOpcode, 1+charWidth_*10, 1+line*lineSpace_);
 				printBufferOpcode.Printf("%04X", (p_Computer->readMemDebug(address+1)<<8) + p_Computer->readMemDebug(address));
-				dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*19, 1+line*LINE_SPACE);
+				dcAss.DrawText(printBufferOpcode, 1+charWidth_*19, 1+line*lineSpace_);
 				address+=2;
 				address&=0xffff;
 			break;
 
 /*            case MEM_TYPE_TEXT:
                 printBufferAddress.Printf("%04X: ", address);
-                dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferAddress, 1+charWidth_, 1+line*lineSpace_);
                 
                 printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address));
                 dcAss.SetTextForeground(colour.Find("SALMON"));
-                dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+                dcAss.DrawText(printBufferOpcode, 1+charWidth_*7, 1+line*lineSpace_);
                 drawAssCharacter(address, line, 0);
                 address++;
                 address&=0xffff;
@@ -8350,7 +8369,7 @@ void DebugWindow::directAss()
 				if ((dataViewDump && debuggerChoice_ == DIRECTASSTAB) || (dataViewProfiler && debuggerChoice_ == PROFILERTAB))
 				{
 					printBufferAddress.Printf("%04X: ", address);
-					dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+					dcAss.DrawText(printBufferAddress, 1+charWidth_, 1+line*lineSpace_);
 					count = 0;
 					memType = p_Computer->readMemDataType(address, &executed);
 					while (count < 4 && (memType == MEM_TYPE_UNDEFINED || memType == MEM_TYPE_DATA ||  memType == MEM_TYPE_TEXT || memType == MEM_TYPE_PSEUDO_2 || memType == MEM_TYPE_OPERAND))
@@ -8368,7 +8387,7 @@ void DebugWindow::directAss()
                                 dcAss.SetTextForeground(colour.Find("BLUE"));
                             break;
                         }
-                        dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*(7+count*3), 1+line*LINE_SPACE);
+                        dcAss.DrawText(printBufferOpcode, 1+charWidth_*(7+count*3), 1+line*lineSpace_);
 						drawAssCharacter(address, line, count);
 						address++;
 						address&=0xffff;
@@ -8379,7 +8398,7 @@ void DebugWindow::directAss()
 				else
 				{
 					printBufferAddress.Printf("%04X: ", address);
-					dcAss.DrawText(printBufferAddress, 1+CHAR_WIDTH, 1+line*LINE_SPACE);
+					dcAss.DrawText(printBufferAddress, 1+charWidth_, 1+line*lineSpace_);
 
 					printBufferOpcode.Printf("%02X", p_Computer->readMemDebug(address));
                     switch (memType)
@@ -8394,7 +8413,7 @@ void DebugWindow::directAss()
                             dcAss.SetTextForeground(colour.Find("BLUE"));
                             break;
                     }
-					dcAss.DrawText(printBufferOpcode, 1+CHAR_WIDTH*7, 1+line*LINE_SPACE);
+					dcAss.DrawText(printBufferOpcode, 1+charWidth_*7, 1+line*lineSpace_);
 					drawAssCharacter(address, line, 0);
 					address++;
 					address&=0xffff;
@@ -8489,7 +8508,7 @@ void DebugWindow::drawAssCharacter(Word address, int line, int count)
 			bits[i] |= (t & 0x20) >> 5;
 		}
 		wxBitmap character(bits, 6, 9, 1);
-		dcAss.DrawBitmap(character, 1+CHAR_WIDTH*(19+count), 5+line*LINE_SPACE, false);
+		dcAss.DrawBitmap(character, 1+charWidth_*(19+count), 5+line*lineSpace_, false);
 	}
 	else
 	{
@@ -8521,7 +8540,7 @@ void DebugWindow::drawAssCharacter(Word address, int line, int count)
 
 		character.Printf("%c", byteValue);
 		if (byteValue > 32)
-			dcAss.DrawText(character, 1+CHAR_WIDTH*(19+count), 1+line*LINE_SPACE);
+			dcAss.DrawText(character, 1+charWidth_*(19+count), 1+line*lineSpace_);
 	}
 
 }
@@ -13348,15 +13367,15 @@ void DebugWindow::paintDebugBackground()
     dcDebugBackground.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcDebugBackground.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     
-    dcDebugBackground.DrawRectangle(0, 0, ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4);
-    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, numberOfDebugLines_*LINE_SPACE+4);
+    dcDebugBackground.DrawRectangle(0, 0, assWidth_, numberOfDebugLines_*lineSpace_+4);
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, numberOfDebugLines_*lineSpace_+4);
     
     dcDebugBackground.SelectObject(*profilerBmp);
     dcDebugBackground.SetPen(wxPen(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     dcDebugBackground.SetBrush(wxBrush(wxColour(windowInfo.red, windowInfo.green, windowInfo.blue)));
     
-    dcDebugBackground.DrawRectangle(0, 0, PROFILER_WIDTH, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4);
-    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4);
+    dcDebugBackground.DrawRectangle(0, 0, profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
 
     dcDebugBackground.SelectObject(wxNullBitmap);
     if (xmlLoaded_)
@@ -13373,13 +13392,13 @@ void DebugWindow::changeNumberOfDebugLines(int height)
     delete assBmp;
     delete profilerBmp;
 
-    numberOfDebugLines_ = (int) (height / LINE_SPACE);
+    numberOfDebugLines_ = (int) (height / lineSpace_);
     
-    assBmp = new wxBitmap(ASS_WIDTH, numberOfDebugLines_*LINE_SPACE+4, 24);
-    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, numberOfDebugLines_*LINE_SPACE+4);
+    assBmp = new wxBitmap(assWidth_, numberOfDebugLines_*lineSpace_+4, 24);
+    XRCCTRL(*this,"AssScrollbar",wxScrollBar)->SetSize(-1, numberOfDebugLines_*lineSpace_+4);
 
-    profilerBmp = new wxBitmap(PROFILER_WIDTH, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4, 24);
-    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-PROFILER_OFFSET)*LINE_SPACE+4);
+    profilerBmp = new wxBitmap(profilerWidth_, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4, 24);
+    XRCCTRL(*this,"ProfilerScrollbar",wxScrollBar)->SetSize(-1, (numberOfDebugLines_-PROFILER_OFFSET)*lineSpace_+4);
 
     paintDebugBackground();
     directAss();

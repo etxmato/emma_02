@@ -1,0 +1,67 @@
+<html>
+<title>Settings</title>
+<body>
+<h1>Settings</h1>
+<p>
+<IMG SRC="images/menu_settings.png" BORDER="0">
+</p>
+<h2>Wav file and <a href="MainRealCassette.htm">Real Cassette</a> Settings</h2>
+<p>
+Open window to change settings for wav files and real cassette handling.
+</p>
+<h2>Equalization</h2>
+<p>
+<IMG SRC="images/menu_equalization.png" BORDER="0">
+</p>
+<p>
+Select one of the sub menu items to adjust sound equalization. Default 'TV Speaker' is selected. For other sound information see the <a href="MainSound.htm">Sound</a> chapter.
+</p>
+<h2><a href="MainWindow.htm">Window</a></h2>
+<p>
+Sub menu items for Emma 02 window handling.
+</p>
+<h2>CPU Type</h2>
+<p>
+<IMG SRC="images/menu_cpu.png" BORDER="0">
+</p>
+<p>
+Select one of the sub menu items (yellow ellipse) to choose the CPU type used for all emulated computers. Default CDP1805 is selected allowing a more extensive instruction set than the CDP1802. The CDP1805 is backward compatible with the CDP1802 which was used in most emulated computers. 
+</p>
+<p>
+<B>Note:</B> The <a href="Fred1Main.htm">FRED 1</a> will always be emulated using a <a href="DebuggerSyntaxSystem00.htm">SYSTEM00</a> and the <a href="MicrotutorMain.htm">Microtutor</a>, <a href="CoinMain.htm">RCA Video Coin Arcade</a> and <a href="Fred1.5Main.htm">FRED 1.5</a> will always be emulated using a <a href="DebuggerSyntax1801.htm">CDP1801</a>. This is due to the fact that these CPUs were used in the real machines and they are not fully compatible with the <a href="DebuggerSyntax1802.htm">CDP1802</a>.
+</p>
+<h2>Startup Values</h2>
+<p>
+<IMG SRC="images/menu_startup.png" BORDER="0">
+</p>
+<p>
+Select one of the sub menu items (yellow ellipse) to set the startup values for CPU registers, RAM or Video RAM. The following options can be chosen:
+</p>
+<UL>
+<LI>
+Zero: CPU registers, RAM content or Video RAM content is set to 0 on startup
+<LI>
+Random: CPU registers, RAM content or Video RAM content is set to a random value on startup 
+<LI>
+Dynamic: RAM content or Video RAM content is set similar to the COMX Dynamic RAM content on startup. This content is a repeating patern of 64 values 255 (FF) followed by 64 values of 0, one random location of these 128 values will have a random value instead of 0 or 255.
+</UL>
+<h2><a href="MainFunctionKeys.htm">Function and Hot Keys</a></h2>
+<p>
+Open function and Hot keys window.
+</p>
+<h2>Use Numeric Keypad</h2>
+<p>
+Unselect this menu item if your PC does NOT have a numeric keypad (numpad). If unselected all keymap definitions will (where possible) not use any key definitions from the PC numeric keypad.
+</p>
+<p>
+<B>Note:</B> the keypad definition 'on Character' for keypad B in the VIP emulator will always use the numeric keypad as there is no good way to handle this without using a numeric keypad.
+</p>
+<h2>Default keyboard</h2>
+<p>
+<IMG SRC="images/menu_keyboard.png" BORDER="0">
+</p>
+<p>
+Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts (Dutch, German, French, Swedish / Finnish) are provided and can be selected via this menu. See chapter <a href="MainHexKeyMap.htm">Key Mapping</a> for more details.
+</p>
+</body>
+</html>

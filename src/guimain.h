@@ -539,6 +539,7 @@ public:
     void stopTerminal();
     void startAutoTerminalSave(int protocol);
     void startTerminalSave(int protocol);
+    void startYsTerminalSave(int protocol);
 	void turboOn();
 	void turboOff();
 	void enableStartButtonGui(bool status);
@@ -603,6 +604,8 @@ public:
     wxString getUpdFloppyDir(int fdcType, int drive);
     wxString getUpdFloppyFile(int fdcType, int drive);
     void setUpdFloppyGui(int drive, int computerType);
+
+    int getMessageBoxAnswer() {return messageBoxAnswer_;};
 
 protected:
 	Mode mode_;

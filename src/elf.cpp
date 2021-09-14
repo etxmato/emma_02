@@ -40,7 +40,7 @@ MainElf::~MainElf()
     switch (loadedProgram_)
     {
         case NOPROGRAM:
-            if (loadedOs_ == ELFOS)
+            if (loadedOs_ != NOOS)
                 p_Main->saveScrtValues("ElfOs");
             else
                 p_Main->saveScrtValues("");
@@ -225,6 +225,13 @@ void MainElf::checkComputerFunction()
                 p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
             }
         }
+        if (scratchpadRegister_[programCounter_] == 0x2186) 
+        { // ys (Pico Elf)
+            if ((mainMemory_[0x380] == 0x79) && (mainMemory_[0x381] == 0x73) && (mainMemory_[0x382] == 0))
+            {
+                p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
+            }
+        }
         if (scratchpadRegister_[programCounter_] == 0x8800)
         { // Memory dump diskless ROM (Pico Elf)
             if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
@@ -233,6 +240,107 @@ void MainElf::checkComputerFunction()
             }
         }
 	}
+    if (loadedOs_ == ELFOS_4)
+    {
+        if (scratchpadRegister_[programCounter_] == 0x7c40)
+        {
+            if ((mainMemory_[0x7c00] == 0x30) && (mainMemory_[0x7c01] == 0x06) && (mainMemory_[0x7c02] == 0x0c))
+            {
+                Word saveStart = (mainMemory_[0x7cae] << 8) + mainMemory_[0x7caf];
+                Word saveEnd = saveStart + (mainMemory_[0x7cb0] << 8) + mainMemory_[0x7cb1];
+                Word saveExec = (mainMemory_[0x7cb2] << 8) + mainMemory_[0x7cb3];
+                p_Main->eventSetLocation(true, saveStart, saveEnd, saveExec);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0)
+        {
+            if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x52))
+            {
+                loadedProgram_ = RCABASIC3;
+                basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA3;
+                basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+                p_Main->eventEnableMemAccess(true);
+            }
+            if ((mainMemory_[0x2202] == 0xc0) && (mainMemory_[0x2203] == 0x28) && (mainMemory_[0x2204] == 0x65) && (mainMemory_[0x226f] == 0x55))
+            {
+                loadedProgram_ = RCABASIC4;
+                basicExecAddress_[BASICADDR_READY] = BASICADDR_READY_RCA4;
+                basicExecAddress_[BASICADDR_KEY_VT_RESTART] = BASICADDR_VT_RESTART_RCA;
+                basicExecAddress_[BASICADDR_KEY_VT_INPUT] = BASICADDR_VT_INPUT_RCA;
+                p_Main->eventEnableMemAccess(true);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2300)
+        {
+            if ((mainMemory_[0x201c] == 0xd4) && (mainMemory_[0x201d] == 0x96) && (mainMemory_[0x201e] == 0xb7) && (mainMemory_[0x206f] == 0x05))
+            {
+                chip8mainLoop_ = 0x201d;
+                activateElfOsChip8();
+            }
+            if ((mainMemory_[0x201f] == 0xd4) && (mainMemory_[0x2020] == 0x96) && (mainMemory_[0x2021] == 0xb7) && (mainMemory_[0x206f] == 0x05))
+            {
+                chip8mainLoop_ = 0x2020;
+                activateElfOsChip8();
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x20bd)
+        { // xr (Pico Elf)
+            if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x72) && (mainMemory_[0x82] == 0) && (mainMemory_[0x234b]== 0x3d))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2093)
+        { // xrb (Pico Elf)
+            if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x72) && (mainMemory_[0x82] == 'b') && (mainMemory_[0x83]== 0))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x207E)
+        { // yr (Pico Elf)
+            if ((mainMemory_[0x80] == 0x79) && (mainMemory_[0x81] == 0x72) && (mainMemory_[0x82] == 0) && (mainMemory_[0x2681]== 0x35))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        } // Memory load diskless ROM (Pico Elf)
+        if (scratchpadRegister_[programCounter_] == 0x844b)
+        {
+            if ((mainMemory_[0x8700] == 0x8c) && (mainMemory_[0x8701] == 0x73) && (mainMemory_[0x874b] == 0x3d) && (mainMemory_[0x874c]== 0x4b))
+            {
+                p_Main->startAutoTerminalLoad(TERM_XMODEM_LOAD);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x20da)
+        { // xs (Pico Elf)
+            if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x73) && (mainMemory_[0x82] == 0) && (mainMemory_[0x234d]== 0x3d))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2079)
+        { // xsb (Pico Elf)
+            if ((mainMemory_[0x80] == 0x78) && (mainMemory_[0x81] == 0x73) && (mainMemory_[0x82] == 'b') && (mainMemory_[0x83]== 0))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x2186)
+        { // ys (Pico Elf)
+            if ((mainMemory_[0x80] == 0x79) && (mainMemory_[0x81] == 0x73) && (mainMemory_[0x82] == 0))
+            {
+                p_Main->startYsTerminalSave(TERM_YMODEM_SAVE);
+            }
+        }
+        if (scratchpadRegister_[programCounter_] == 0x8800)
+        { // Memory dump diskless ROM (Pico Elf)
+            if ((mainMemory_[0x8800] == 0x8f) && (mainMemory_[0x8801] == 0x73) && (mainMemory_[0x8816] == 0x3d) && (mainMemory_[0x8817]== 0x16))
+            {
+                p_Main->startAutoTerminalSave(TERM_XMODEM_SAVE);
+            }
+        }
+    }
 
 	switch (loadedProgram_)
 	{
@@ -623,6 +731,12 @@ void MainElf::terminalSave(wxString fileName, int protocol)
 {
     if (elfConfiguration.vtType != VTNONE)
         vtPointer->terminalSaveVt(fileName, protocol);
+}
+
+void MainElf::terminalYsSave(wxString fileName, int protocol)
+{
+    if (elfConfiguration.vtType != VTNONE)
+        vtPointer->terminalYsSaveVt(fileName, protocol);
 }
 
 void MainElf::terminalLoad(wxString filePath, wxString fileName, int protocol)

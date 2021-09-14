@@ -1,8 +1,8 @@
 <html>
 <title>STK Syntax</title>
 <body>
-<h2>STK Syntax</h2>
-<h3>Information</h3>
+<h1>STK Syntax</h1>
+<h2>Information</h2>
 <p>
 At least 2 versions of STK were made, I have called them STK-1 and STK-2. Syntax of both is more or less the same except for the LD and LDW command which are switched around:
 </p>
@@ -15,8 +15,11 @@ STK can be used on a VIP with printer output and a hex keypad as input. This is 
 <p>
 V0-F are stored on memory locations 0780-079F, where V0 is stored on 0780-0781 and VF on 079E-079F.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_stk.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -53,9 +56,9 @@ V0-F are stored on memory locations 0780-079F, where V0 is stored on 0780-0781 a
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">5xkk</TD>
 <TD WIDTH="40">ADD</TD>
@@ -224,7 +227,7 @@ V0-F are stored on memory locations 0780-079F, where V0 is stored on 0780-0781 a
 <TD WIDTH="100"></TD>
 <TD WIDTH="250">Call CDP1801 at address following F... instruction, first byte needs to be 00, second is the address it will call.</TD>
 </TR>
-</TABLE>
+</table>
 </body>
 </html>
 

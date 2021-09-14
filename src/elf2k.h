@@ -117,6 +117,7 @@ public:
     void onNumberKeyDown(int i);
     void refreshPanel();
     void terminalSave(wxString fileName, int protocol);
+    void terminalYsSave(wxString fileName, int protocol);
     void terminalLoad(wxString filePath, wxString fileName, int protocol);
     void terminalStop();
     void checkComputerFunction();

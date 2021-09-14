@@ -2,16 +2,19 @@
 <html>
 <title>FPA-1 Syntax</title>
 <body>
-<h2>FPA-1 Syntax</h2>
-<h3>Information</h3>
+<h1>FPA-1 Syntax</h1>
+<h2>Information</h2>
 <p>
 The pseudo command syntax described here is the FPA-1 variant which was found in the Hagley Museum and Library: Sarnoff/RCA Collection -Joseph A. Weisbecker's archived manuscripts and materials. So far no copy of the FPA-1 source or any SW using it has been found.
 </p>
 <p>
 The FPA-1 program code should be located between address 200-2FF, 300-3FF is available for TV patterns or additional FPA-1 code. The TV pattern table is located at 00F0-00FF and can be changed as needed. 15 FPA-1 variable V0-VE are available, V0 is used for the carry flag and V1 for the keyboard input byte.
 </p>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_fpa-1.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -48,9 +51,9 @@ The FPA-1 program code should be located between address 200-2FF, 300-3FF is ava
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">5xyz</TD>
 <TD WIDTH="40">ADD</TD>
@@ -167,7 +170,7 @@ The FPA-1 program code should be located between address 200-2FF, 300-3FF is ava
 <TD WIDTH="100">ON</TD>
 <TD WIDTH="250">Video display enabled & clear display, resolution 32x32 if n=4, 16x64 if n=8</TD>
 </TR>
-</TABLE>
+</table>
 </body>
 </html>
 

@@ -87,7 +87,7 @@ SplashScreen::SplashScreen(wxWindow *parent)
                     
                 default:
                     currentElfConfig = p_Main->getElfConfiguration(computer);
-                    if (p_Computer->getLoadedOs() == ELFOS && currentElfConfig.vtType != VTNONE)
+                    if (p_Computer->getLoadedOs() != NOOS && currentElfConfig.vtType != VTNONE)
                         wxXmlResource::Get()->LoadDialog(this, parent, "ELFOS");
                     Show(true);
                 break;

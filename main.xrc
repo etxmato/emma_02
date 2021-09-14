@@ -1581,6 +1581,7 @@
                                                                                 <item>v87a.bin</item>
                                                                                 <item>v88b.bin</item>
                                                                                 <item>Elf2Kv110.bin</item>
+                                                                                <item>Elf2Kv112.bin</item>
                                                                             </content>
                                                                             <selection>3</selection>
                                                                         </object>
@@ -4592,7 +4593,7 @@
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Oscilator:</label>
+                                                                            <label>Beeper:</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -6100,7 +6101,7 @@
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Oscilator:</label>
+                                                                            <label>Beeper:</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -7614,7 +7615,7 @@
                                                                                 <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                 <size>-1</size>
                                                                             </font>
-                                                                            <label>Oscilator:</label>
+                                                                            <label>Beeper:</label>
                                                                         </object>
                                                                     </object>
                                                                     <object class="sizeritem">
@@ -15626,7 +15627,7 @@
                                                                                         <sysfont>wxSYS_DEFAULT_GUI_FONT</sysfont>
                                                                                         <size>-1</size>
                                                                                     </font>
-                                                                                    <label>Beep:</label>
+                                                                                    <label>Beeper:</label>
                                                                                 </object>
                                                                             </object>
                                                                             <object class="sizeritem">
@@ -27120,7 +27121,7 @@
                                                 <flag>wxALIGN_TOP|wxALL</flag>
                                                 <border>0</border>
                                                 <object class="wxStaticBitmap" name="AssBitmap">
-                                                    <size>153,226d</size>
+                                                    <size>-1,226d</size>
                                                     <bg>#000000</bg>
                                                 </object>
                                             </object>
@@ -28203,7 +28204,7 @@
                                                                 </object>
                                                             </object>
                                                             <object class="sizeritem">
-                                                                <flag>wxALIGN_CENTER_HORIZONTAL|wxALL</flag>
+                                                                <flag>wxALIGN_LEFT|wxALL</flag>
                                                                 <border>0</border>
                                                                 <object class="wxBoxSizer">
                                                                     <orient>wxHORIZONTAL</orient>
@@ -28211,7 +28212,7 @@
                                                                         <flag>wxALIGN_TOP|wxALL</flag>
                                                                         <border>0</border>
                                                                         <object class="wxStaticBitmap" name="ProfilerBitmap">
-                                                                            <size>263,226d</size>
+                                                                            <size>-1,226d</size>
                                                                             <bg>#000000</bg>
                                                                         </object>
                                                                     </object>

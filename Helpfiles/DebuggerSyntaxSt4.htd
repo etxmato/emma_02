@@ -1,9 +1,19 @@
 <html>
 <title>ST4 Syntax</title>
 <body>
-<h2>ST4 Syntax</h2>
-<h3>Definitions</h3>
-<TABLE BORDER="0" COLS=2 ALIGN="LEFT" VALIGN="TOP" >
+<h1>ST4 Syntax</h1>
+<h2>Information</h2>
+<p>
+The following tables show the definition of the Studio IV pseudo code.
+</p>
+<p>
+During startup the Studio IV will check if hex address 800 or 1000 contains AA. If so the interpreter will do a JP to hex address 802 or 1002 where it will expect the cartridge pseudo code.        
+</p>
+<p>
+This info is also availble online on the <a href="https://emma02.hobby-site.com/pseudo_st4.html">Emma 02 site</a>.
+</p>
+<h2>Definitions</h2>
+<table>
 <TR>
 <TD WIDTH="70">aaa</TD>
 <TD WIDTH="400">12 bit address</TD>
@@ -44,9 +54,9 @@
 <TD WIDTH="70">1..9, A..F</TD>
 <TD WIDTH="400">Hexadecimal digits</TD>
 </TR>
-</TABLE>
-<h3>Syntax</h3>
-<TABLE BORDER="0" COLS=4 ALIGN="LEFT" VALIGN="TOP" >
+</table>
+<h2>Syntax</h2>
+<table>
 <TR>
 <TD WIDTH="55">6754</TD>
 <TD WIDTH="40">ADD</TD>
@@ -620,7 +630,7 @@ Byte 2: Vx+1 value</TD>
 <TD WIDTH="100">Vx, Vy</TD>
 <TD WIDTH="250">Vx = Vx XOR Vy</TD>
 </TR>
-</TABLE>
+</table>
 </body>
 </html>
 

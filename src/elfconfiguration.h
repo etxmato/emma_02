@@ -153,7 +153,7 @@ public:
     bool useTape;
     bool useXmodem;
     bool useHexModem;
-    bool usePacketSize1K;
+    int packetSize;
     bool vtShow;
     bool autoKeyDef;
 

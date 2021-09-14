@@ -667,6 +667,10 @@ private:
     LabelInfo labelInfo_[65536];
 
 	int numberOfDebugLines_;
+    int lineSpace_;
+    int charWidth_;
+    int assWidth_;
+    int profilerWidth_;
     
 	wxTextFile inFile;
     wxTextFile outputTextFile;

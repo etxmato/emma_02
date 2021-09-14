@@ -826,6 +826,7 @@
                             </font>
                             <hidden>1</hidden>
                             <content>
+                                <item>Auto</item>
                                 <item>128</item>
                                 <item>1024</item>
                             </content>

@@ -2269,6 +2269,10 @@ void Computer::terminalSave(wxString WXUNUSED(fileName), int WXUNUSED(protocol))
 {
 }
 
+void Computer::terminalYsSave(wxString WXUNUSED(fileName), int WXUNUSED(protocol))
+{
+}
+
 void Computer::terminalLoad(wxString WXUNUSED(fileName), wxString WXUNUSED(fileName), int WXUNUSED(protocol))
 {
 }

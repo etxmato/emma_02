@@ -404,7 +404,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Read(elfTypeStr+"/ESCError", &elfConfiguration[elfType].escError, false);
     configPointer->Read(elfTypeStr+"/Uart", &elfConfiguration[elfType].useUart, false);
     configPointer->Read(elfTypeStr+"/Uart16450", &elfConfiguration[elfType].useUart16450, false);
-    elfConfiguration[elfType].clearRtc = false;
+    configPointer->Read(elfTypeStr+"/ClearRtc", &elfConfiguration[elfType].clearRtc, false);
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Boot", &elfConfiguration[elfType].autoBoot, true);
     configPointer->Read(elfTypeStr+"/Force_Uppercase", &elfConfiguration[elfType].forceUpperCase, true);
 	configPointer->Read(elfTypeStr+"/Enable_Printer", &conf[elfType].printerOn_, false);
@@ -443,7 +443,7 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Read(elfTypeStr+"/Enable_Auto_Cassette", &conf[elfType].autoCassetteLoad_, true);
     configPointer->Read(elfTypeStr+"/Enable_Cassette", &elfConfiguration[elfType].useTape, false);
     configPointer->Read(elfTypeStr+"/Enable_Xmodem", &elfConfiguration[elfType].useXmodem, false);
-    configPointer->Read(elfTypeStr+"/Enable_Ymodem", &elfConfiguration[elfType].usePacketSize1K, true);
+    elfConfiguration[elfType].packetSize = (int)configPointer->Read(elfTypeStr+"/Ymodem_PacketSize", 0l);
 	configPointer->Read(elfTypeStr+"/Enable_Real_Cassette", &conf[elfType].realCassetteLoad_, false);
 	conf[elfType].volume_ = (int)configPointer->Read(elfTypeStr+"/Volume", 25l);
 
@@ -700,6 +700,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
     configPointer->Write(elfTypeStr+"/ESCError", elfConfiguration[elfType].escError);
     configPointer->Write(elfTypeStr+"/Uart", elfConfiguration[elfType].useUart);
     configPointer->Write(elfTypeStr+"/Uart16450", elfConfiguration[elfType].useUart16450);
+    configPointer->Write(elfTypeStr+"/ClearRtc", elfConfiguration[elfType].clearRtc);
     configPointer->Write(elfTypeStr+"/Enable_Auto_Boot", elfConfiguration[elfType].autoBoot);
 	buffer.Printf("%04X", (unsigned int)conf[elfType].bootAddress_);
 	configPointer->Write(elfTypeStr+"/Boot_Address", buffer);
@@ -739,7 +740,7 @@ void GuiElf::writeElfConfig(int elfType, wxString elfTypeStr)
 	configPointer->Write(elfTypeStr+"/Enable_Real_Cassette", conf[elfType].realCassetteLoad_);
     configPointer->Write(elfTypeStr+"/Enable_Cassette", elfConfiguration[elfType].useTape);
     configPointer->Write(elfTypeStr+"/Enable_Xmodem", elfConfiguration[elfType].useXmodem);
-    configPointer->Write(elfTypeStr+"/Enable_Ymodem", elfConfiguration[elfType].usePacketSize1K);
+    configPointer->Write(elfTypeStr+"/Ymodem_PacketSize", elfConfiguration[elfType].packetSize);
 	configPointer->Write(elfTypeStr+"/Volume", conf[elfType].volume_);
 }
 

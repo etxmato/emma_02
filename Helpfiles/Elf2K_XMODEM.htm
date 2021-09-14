@@ -25,10 +25,10 @@ Also make sure 'XMODEM' is enabled and shown by pressing the 'Toggle: XMODEM - H
 </p>
 <h4>Auto file transfer</h4>
 <p>
-Default settings, to use this make sure 'Auto' is checked. The automatic mode will work with the Elf/OS xr, xrb, xs, xsb and yr commands.
+Default settings, to use this make sure 'Auto' is checked. The automatic mode will work with the Elf/OS xr, xrb, xs, xsb, yr and ys commands.
 </p>
 <p>
-To transfer a file to or from the Elf 2000 select the file in the file selector window by pressing the XMODEM button. After that give the xr, xrb, xs, xsb or yr command in Elf/OS. For the yr command it is possible to select multiple files in the file selector window, Emma 02 will also send the filenames to Elf/OS. For all other file transfers only one file will be used, if multiple files were selected only the first will be used.
+To transfer a file to or from the Elf 2000 select the file in the file selector window by pressing the XMODEM button. After that give the xr, xrb, xs, xsb, yr or ys command in Elf/OS. For the yr command it is possible to select multiple files in the file selector window, Emma 02 will also send the filenames to Elf/OS. For the ys command any filename specified is NOT used, instead the file names specified in Elf/Os will be used and resulting files will be stored in the folder selected via XMODEM. For all other file transfers only one file will be used, if multiple files were selected only the first will be used.
 </p>
 <p>
 If no file is specified before starting the file transfer the Elf 2000 will wait for the transfer to start. If this happens unselect the auto checkbox and try a manual transfer.</p>
@@ -46,7 +46,7 @@ When Turbo is selected the emulator will increase speed during file transfer to 
 </p>
 <h4>YMODEM Receive (yr) Packet Size</h4>
 <p>
-Via the VT Setup button it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to 1024 and is changeable to 128 like is used in XMODEM commands like xr and xs.
+Via the VT Setup button it is possible to change the Packet Size used for the YMODEM receive function (used in the yr command). Default this is set to auto but is changeable to 1024 or 128. When auto is used Emma 02 will send in packets of 1024 bytes if data is available to fill that, if less data is available 128 will be used.
 </p>
 </BODY>
 </HTML>

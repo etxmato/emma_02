@@ -3,7 +3,7 @@
 <body>
 <h1>Assembler</h1>
 <p>
-To use the assembler type in any 1802, 1804 or 1805 code in the command line (in the middle of the right half of the 'Direct Assembler' tab). For command syntax see chapter <a href="DebuggerSyntax180x.htm">180x Syntax</a>, this should be similar or even the same as the 180x data sheets. 
+To use the assembler type in any 1802, 1804 or 1805 code in the command line (in the middle of the right half of the 'Direct Assembler' tab). For command syntax see chapter <a href="SyntaxMachineCode.htm">Machine Code</a>, this should be similar or even the same as defined in the 180x data sheets. 
 </p>
 <p>
 To use the Pseudo code assembler a machine should be started that includes a Chip-8, ST2, ST4 or FEL interpreter. For command syntax see chapters <a href="DebuggerSyntaxChip.htm">Chip-8 Syntax</a>, <a href="DebuggerSyntaxSt.htm">ST2 Syntax</a>, <a href="DebuggerSyntaxSt4.htm">ST4 Syntax</a> and/or <a href="DebuggerSyntaxFel2.htm">FEL Syntax</a>
