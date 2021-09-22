@@ -1,12 +1,18 @@
 <HTML>
 <Title>Screen Dump</Title>
 <BODY>
-<h2>Screen Dump</h2>
+<h1>Screen Dump</h1>
 <p>
-To write the screen output to a file press F5 or the 'File Save' button (only possible when one of the emulators is running). Default the file name 'screendump.x.png' (Portable Network Graphics Image) will be used where 'x' will count up from '1' for every new screen dump.
+All emulator supporting a video output include the option to dump (or save) that output to a file, using the following controls:
 </p>
 <p>
-Type a different name in the filename field to change the output file name. To change the directory location of the output file (and/or also the file name) use the VideoDump button and select another directory and/or file.
+<IMG SRC="images/screen_dump.png" BORDER="0">
+</p>
+<p>
+To save the screen output to a file press the diskette button (yellow ellipse) alternatively PC key F5 will do the same (both are only possible if one of the emulators is running). Default the file name 'screendump.x.png' (Portable Network Graphics Image) will be used where 'x' will count up from '1' for every new screen dump.
+</p>
+<p>
+Type a different name in the filename field (orange ellipse) to change the output file name. To change the directory location of the output file (and/or also the file name) use the VideoDump button (blue ellipse) and select another directory and/or file in the file selector window that opens.
 </p>
 <p>
 Default the file will be stored in the emulator directory (located in the application data directory, see <a href="MainFile.htm">Directory and File Structure</a>).

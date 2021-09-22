@@ -2351,7 +2351,7 @@ void GuiMain::onVtSetup(wxCommandEvent&WXUNUSED(event))
 	VtSetupDialog VtSetupDialog(this);
  	VtSetupDialog.ShowModal();
     
-    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, true);
+    setVtType(computerInfo[selectedComputer_].gui, selectedComputer_, elfConfiguration[selectedComputer_].vtType, false);
 }
 
 void GuiMain::onBeepFrequency(wxCommandEvent&WXUNUSED(event))

@@ -7,15 +7,16 @@ Any of the Emma 02 computers can be started via the command line. If the option 
 </p>
 <UL>
 <LI>cdp18s020
-<LI>comx
 <LI>coinarcade
+<LI>comx
 <LI>cosmicos
 <LI>cosmac (Cosmas Elf)
 <LI>cidelsa
 <LI>elf2k
 <LI>eti or eti660 (ETI 660)
 <LI>fred1
-<LI>fred15 of fred1.5
+<LI>fred15 or fred1.5
+<LI>infinite or uc1800
 <LI>membership
 <LI>mcds
 <LI>microtutor

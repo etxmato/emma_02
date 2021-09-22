@@ -99,7 +99,9 @@ public:
 	void loadRam();
 	void saveRtc();
 	void loadRtc();
-
+    Byte readDirectRtc(Word address);
+    void writeDirectRtc(Word address, Byte value);
+    
 	void removeElf2KSwitch();
 	void removeElfHex();
 	void showModules(bool useSwitch, bool useHex);

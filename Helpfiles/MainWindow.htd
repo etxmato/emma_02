@@ -3,13 +3,19 @@
 <body>
 <h2>Window Settings</h2>
 <p>
-Via the 'Settings/Window' menu the following can be changed:
+Window settings can be change by using the menu options below (blue ellipse):
 </p>
+<p>
+<IMG SRC="images/window_settings.png" BORDER="0">
+</p>
+<p>
 <UL>
 <LI>
 Set Default Positions: All Emma 02 windows will be reset to default PC screen positions. Reset will be done for the GUI itself and all computers.
 <LI>
-Fixed Positions: When selected the GUI and computer windows will be fixed as set by default (above) or as last changed by the user (by moving the window when active). When this option is not selected random/default window position will be used as defined by Windows or Linux operating systems.
+Set Default Size: Emma 02 GUI will be reset to default size.
+<LI>
+Fixed Positions: When selected the GUI and computer windows will be fixed as set by default (above) or as last changed by the user (by moving the window when active). When this option is not selected window position will be used as defined by the operating systems.
 <LI>
 Activate Main (F2): Activate main window for the emulated computer.
 <LI>

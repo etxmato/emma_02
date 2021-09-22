@@ -3,11 +3,11 @@
 <BODY>
 <h2>Keyboard Mapping and Types</h2>
 <p>
-This chapter describes Elf keyboard mapping for details on video terminal key mappings see chapter <a href="MainTerminal.htm">Video Terminal Simulation</a>
+This chapter describes Elf keyboard mapping for details on VT100 terminal key mappings see chapter <a href="TerminalVT100.htm">VT100 Setup & Keymapping</a>
 </p>
 <h3>Keyboard Mapping</h3>
 <p>
-Default the PC key 'Ins' is mapped to the Elf 'In' button. F12 is mapped to the Elf 'Run' switch, if the CPU is stopped it will start and when running it will stop, stop mode is indicated in the emulated window title. For the super Elf, F12 simulates the 'R' and 'G' button. See also <a href="MainHexKeyMap.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
+Default the PC key 'Ins' is mapped to the Elf 'In' button. F12 is mapped to the Elf 'Run' switch, if the CPU is stopped it will start and when running it will stop, stop mode is indicated in the emulated window title. For the super Elf, F12 simulates the 'R' and 'G' button. See also <a href="KeyMappingMain.htm">Key Mapping</a> and <a href="MainFunctionKeys.htm">Function and Hot Keys</a>.
 </p>
 <h3>Keyboard Types</h3>
 <p>
@@ -44,7 +44,7 @@ Hex (+EF) Keyboard:
 Only 1 hex keypad is supported. Both the Netronics Elf II and the Quest Super Elf already have hex keyboard support on the main board however this will not set an EF (default EF3) to 0 when a key is pressed. When selecting the Hex (+EF) keyboard option an EF will be set to 0 when a key is pressed. This allows for running some games like 'space invaders'.
 </p>
 <p>
-To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="MainHexKeyMap.htm">Key Mapping</a>
+To change and view the hex keypad to PC key mapping select the 'Key Map' button, see also chapter <a href="KeyMappingMain.htm">Key Mapping</a>
 </p>
 <h4>
 Hex Keyboard: 

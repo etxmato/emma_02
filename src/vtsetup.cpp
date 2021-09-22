@@ -86,42 +86,51 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 
 	if (elfConfiguration_.vtExternal)
 	{
-            SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
-			XRCCTRL(*this, "VtSetupBit0", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit0Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit4", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit4Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit5", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit5Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit6", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit6Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit7", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit7Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit8", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit8Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit9", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit9Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit10", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit10Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit11", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit11Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit12", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit12Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit13", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit13Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit14", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit14Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit15", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit15Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupBit16", wxChoice)->Hide();
-			XRCCTRL(*this, "VtSetupBit16Text", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtBellText", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtBell", wxTextCtrl)->Hide();
-			XRCCTRL(*this, "VtHzText", wxStaticText)->Hide();
-			XRCCTRL(*this, "VtSetupWavButton", wxButton)->Hide();
-			XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->Hide();
-			XRCCTRL(*this, "VtSetupWavEject", wxBitmapButton)->Hide();
-			XRCCTRL(*this, "StaticLine1", wxStaticLine)->Hide();
+        SetUpFeature_ = elfConfiguration_.vtExternalSetUpFeature_;
+        XRCCTRL(*this, "VtSetupBit0", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit0Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit4", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit4Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit5", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit5Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit6", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit6Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit7", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit7Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit8", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit8Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit9", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit9Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit10", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit10Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit11", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit11Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit12", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit12Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit13", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit13Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit14", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit14Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit15", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit15Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupBit16", wxChoice)->Hide();
+        XRCCTRL(*this, "VtSetupBit16Text", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtBellText", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtBell", wxTextCtrl)->Hide();
+        XRCCTRL(*this, "VtHzText", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtSetupWavButton", wxButton)->Hide();
+        XRCCTRL(*this, "VtSetupWavFile", wxTextCtrl)->Hide();
+        XRCCTRL(*this, "VtSetupWavEject", wxBitmapButton)->Hide();
+        XRCCTRL(*this, "StaticLine1", wxStaticLine)->Hide();
+        XRCCTRL(*this, "XmodemLine", wxStaticLine)->Hide();
+        XRCCTRL(*this, "XmodemLine", wxStaticLine)->Hide();
+        XRCCTRL(*this, "VtXmodemPacketSizeText", wxStaticText)->Hide();
+        XRCCTRL(*this, "VtXmodemPacketSizeChoice", wxChoice)->Hide();
+        XRCCTRL(*this, "ESCError", wxCheckBox)->Hide();
+        XRCCTRL(*this, "SerialLog", wxCheckBox)->Hide();
+        XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
+        XRCCTRL(*this, "UART 16450 && RTC", wxCheckBox)->Hide();
+        XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
 	}
 
     XRCCTRL(*this, "SerialLog", wxCheckBox)->SetValue(elfConfiguration_.serialLog);
@@ -134,8 +143,13 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
             XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart16450);
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->SetValue(elfConfiguration_.clearRtc);
-			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
-			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseEf != 1);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseQ != 0);
+            if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
+            {
+                XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
+                XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
+            }
 		break;
 
         case MCDS:
@@ -158,21 +172,26 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 
 		case ELF2K:
             XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetLabel("Uart 16450");
+            XRCCTRL(*this, "Uart16450", wxCheckBox)->SetLabel("UART 16450");
             XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
-			XRCCTRL(*this, "VtEf", wxCheckBox)->Hide();
-			XRCCTRL(*this, "VtQ", wxCheckBox)->Hide();
+            XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseEf != 1);
+            XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(elfConfiguration_.elfPortConf.vt100ReverseQ != 0);
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
-		break;
+            if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
+            {
+                XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
+                XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
+            }
+        break;
 
         case VIP:
         case VIP2K:
             XRCCTRL(*this, "Uart16450", wxCheckBox)->Hide();
             XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(elfConfiguration_.useUart);
-            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetLabel("Uart");
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->SetLabel("UART");
             XRCCTRL(*this, "VtEf", wxCheckBox)->SetValue(elfConfiguration_.vtEf);
             XRCCTRL(*this, "VtQ", wxCheckBox)->SetValue(!elfConfiguration_.vtQ);
-            XRCCTRL(*this, "Uart", wxCheckBox)->Hide();
+            XRCCTRL(*this, "Uart1854", wxCheckBox)->Hide();
             XRCCTRL(*this, "VtRtcClear", wxCheckBox)->Hide();
         break;
             
@@ -197,7 +216,7 @@ VtSetupDialog::VtSetupDialog(wxWindow* parent)
 		XRCCTRL(*this, "VtBell", wxTextCtrl)->Enable(false);
 	}
 
-    if (elfConfiguration_.useXmodem)
+    if (elfConfiguration_.useXmodem && !elfConfiguration_.vtExternal)
     {
         XRCCTRL(*this, "XmodemLine", wxStaticLine)->Show();
         XRCCTRL(*this, "VtXmodemPacketSizeText", wxStaticText)->Show();
@@ -275,6 +294,15 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
             elfConfiguration_.useUart = XRCCTRL(*this, "Uart1854", wxCheckBox)->GetValue();
             elfConfiguration_.useUart16450 = XRCCTRL(*this, "Uart16450", wxCheckBox)->GetValue();
             elfConfiguration_.clearRtc = XRCCTRL(*this, "VtRtcClear", wxCheckBox)->GetValue();
+            if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
+                elfConfiguration_.elfPortConf.vt100ReverseEf = 0;
+            else
+                elfConfiguration_.elfPortConf.vt100ReverseEf = 1;
+
+            if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
+                elfConfiguration_.elfPortConf.vt100ReverseQ = 1;
+            else
+                elfConfiguration_.elfPortConf.vt100ReverseQ = 0;
         break;
 
         case CDP18S020:
@@ -297,6 +325,15 @@ void VtSetupDialog::onSaveButton( wxCommandEvent& WXUNUSED(event) )
                 uartElf2KEvent.SetEventObject(this);
                 wxPostEvent(p_Main, uartElf2KEvent);
             }
+            if (XRCCTRL(*this, "VtEf", wxCheckBox)->IsChecked())
+                elfConfiguration_.elfPortConf.vt100ReverseEf = 0;
+            else
+                elfConfiguration_.elfPortConf.vt100ReverseEf = 1;
+
+            if (XRCCTRL(*this, "VtQ", wxCheckBox)->IsChecked())
+                elfConfiguration_.elfPortConf.vt100ReverseQ = 1;
+            else
+                elfConfiguration_.elfPortConf.vt100ReverseQ = 0;
 		break;
 
         case VIP:
@@ -463,12 +500,39 @@ void VtSetupDialog::listPorts()
 
 void VtSetupDialog::onUart1854(wxCommandEvent&event)
 {
-    if (event.IsChecked())
+    elfConfiguration_.useUart = event.IsChecked();
+    if (elfConfiguration_.useUart)
         XRCCTRL(*this, "Uart16450", wxCheckBox)->SetValue(false);
+    
+    if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
+    {
+        XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
+    }
+    else
+    {
+        XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(true);
+        XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(true);
+    }
 }
 
 void VtSetupDialog::onUart16450(wxCommandEvent&event)
 {
-    if (event.IsChecked())
+    elfConfiguration_.useUart16450 = event.IsChecked();
+    if (computerType_ == ELF2K)
+        elfConfiguration_.useUart = elfConfiguration_.useUart16450;
+    
+    if (elfConfiguration_.useUart16450)
         XRCCTRL(*this, "Uart1854", wxCheckBox)->SetValue(false);
+    
+    if (elfConfiguration_.useUart16450 || elfConfiguration_.useUart)
+    {
+        XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(false);
+        XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(false);
+    }
+    else
+    {
+        XRCCTRL(*this, "VtEf", wxCheckBox)->Enable(true);
+        XRCCTRL(*this, "VtQ", wxCheckBox)->Enable(true);
+    }
 }

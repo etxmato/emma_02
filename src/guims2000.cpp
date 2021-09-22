@@ -220,7 +220,10 @@ void GuiMS2000::readMS2000Config()
         XRCCTRL(*this, "PrintModeMS2000", wxChoice)->SetSelection((int)configPointer->Read("/MS2000/Print_Mode", 1l));
         setPrintMode();
   
-        XRCCTRL(*this, "VTTypeMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].vtType);
+        if (elfConfiguration[MS2000].vtExternal)
+            XRCCTRL(*this, "VTTypeMS2000", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].vtType);
         XRCCTRL(*this, "MS2000ForceUC", wxCheckBox)->SetValue(elfConfiguration[MS2000].forceUpperCase);
         
 		XRCCTRL(*this, "VTBaudRChoiceMS2000", wxChoice)->SetSelection(elfConfiguration[MS2000].baudR);

@@ -179,7 +179,10 @@ void GuiCosmicos::readCosmicosConfig()
 		XRCCTRL(*this, "ScreenDumpFileCosmicos", wxComboBox)->SetValue(conf[COSMICOS].screenDumpFile_);
 		XRCCTRL(*this, "WavFileCosmicos", wxTextCtrl)->SetValue(conf[COSMICOS].wavFile_[0]);
 
-		XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].vtType);
+        if (elfConfiguration[COSMICOS].vtExternal)
+            XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].vtType);
 
 		XRCCTRL(*this, "VTBaudTChoiceCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceCosmicos", wxChoice)->SetSelection(elfConfiguration[COSMICOS].baudR);

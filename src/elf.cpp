@@ -804,7 +804,10 @@ void MainElf::loadRtc()
     if (currentElfConfig.clearRtc)
     {
         for (int i = 0; i<128; i++)
-            rtcRam_[i] = 0xff;
+        {
+            rtcRam_[i] = 0;
+            p_Main->updateDebugMemory(i);
+        }
         rtcRam_[0xa] = 0x20;
         rtcRam_[0xb] = 0x6;
         rtcRam_[0xc] = 0;
@@ -826,9 +829,22 @@ void MainElf::loadRtc()
         {
             length = inFile.Read(buffer, 128);
             for (size_t i=0; i<length; i++)
+            {
                 rtcRam_[i] = (Byte)buffer[i];
+                p_Main->updateDebugMemory(i);
+            }
             inFile.Close();
         }
     }
+}
+
+Byte MainElf::readDirectRtc(Word address)
+{
+    return rtcRam_[address];
+}
+
+void MainElf::writeDirectRtc(Word address, Byte value)
+{
+    rtcRam_[address] = value;
 }
 

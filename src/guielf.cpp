@@ -485,7 +485,10 @@ void GuiElf::readElfConfig(int elfType, wxString elfTypeStr)
 		XRCCTRL(*this, "WavFile"+elfTypeStr, wxTextCtrl)->SetValue(conf[elfType].wavFile_[0]);
 
 		XRCCTRL(*this, "Qsound"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].qSound_);
-		XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].vtType);
+        if (elfConfiguration[elfType].vtExternal)
+            XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTType"+elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].vtType);
         XRCCTRL(*this, "BeepFrequency"+elfTypeStr, wxTextCtrl)->Enable(elfConfiguration[elfType].qSound_ == QSOUNDEXT);
 
 		XRCCTRL(*this, "VTBaudRChoice" + elfTypeStr, wxChoice)->SetSelection(elfConfiguration[elfType].baudR);

@@ -58,6 +58,7 @@ public:
 #define I_8275 12
 #define I_8275_RAM 13
 #define VIP2KSEQUENCER 14
+#define RTCRAM 15
 
 #define TEXT_ASSEMBLER true
 #define DIRECT_ASSEMBLER false
@@ -430,7 +431,8 @@ public:
     void memoryDisplaySetGuiSize(int offset);
 	void memoryDisplay();
 	Word getAddressMask();
-	void DebugDisplayVip2kSequencer();
+    void DebugDisplayRtcRam();
+    void DebugDisplayVip2kSequencer();
     void DebugDisplay1870VideoRam();
     void DebugDisplay1870ColourRam();
 	void DebugDisplay1864ColorRam();

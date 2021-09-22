@@ -192,7 +192,10 @@ void Elf2KDisk::initDisk()
 	deviceSelect_ = 0;
 	registerSelect_ = 0;
 	for (int i = 0; i<128; i++)
+    {
 		rtcRam_[i] = 0;
+        p_Main->updateDebugMemory(i);
+    }
 	rtcRam_[0xa] = 0x20;
 	rtcRam_[0xb] = 0x6;
 	rtcRam_[0xc] = 0;
@@ -262,7 +265,10 @@ Byte Elf2KDisk::inDisk()
 			ret = rtcRam_[registerSelect_];
             
 			if (registerSelect_ == 0xc)
+            {
                 rtcRam_[registerSelect_] = 0;
+                p_Main->updateDebugMemory(registerSelect_);
+            }
             
 			return ret;
 		break;
@@ -534,6 +540,7 @@ void Elf2KDisk::writeRtc(int address, Byte value)
         rtcRam_[address] = (rtcRam_[address] & 0x80) | (value & 0x7f);
     else
         rtcRam_[address] = value;
+    p_Main->updateDebugMemory(address);
 }
 
 void Elf2KDisk::writeIdeRegister(int reg, Word value)

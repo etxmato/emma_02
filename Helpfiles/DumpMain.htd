@@ -46,6 +46,7 @@ Next to the main CPU memory other memory dump options are available by changing 
 <LI>8275 Character: Intel 8275 character RAM
 <LI>8275 Video RAM: Intel 8275 video RAM
 <LI>VIP Video Sequencer: VIP2K Membership video sequencer ROM
+<LI>RTC RAM: Elf 2000 & Pico/Elf V2 RTC RAM
 </UL>
 <p>
 In all modes except 'Type' and 'Profiler', memory values are shown and can be changed per memory page of 256 bytes, in 'Type' mode memory types (ROM, RAM, Video RAM etc) is shown and can be changed. 

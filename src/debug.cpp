@@ -1315,6 +1315,11 @@ void DebugWindow::enableDebugGui(bool status)
 		XRCCTRL(*this, "DebugPauseButton", wxBitmapButton)->SetBitmapLabel(pauseOffBitmap);
 
 	XRCCTRL(*this, "DebugDisplayPage", wxTextCtrl)->Enable(memoryDisplay_ != CPU_TYPE);
+#if defined(__WXMSW__) || defined(__WXMAC__)
+    XRCCTRL(*this, "DebugDisplayPageSpinButton", wxSpinButton)->Enable(memoryDisplay_ != CPU_TYPE);
+#endif
+    XRCCTRL(*this, "DebugSave", wxButton)->Enable(memoryDisplay_ != CPU_TYPE && memoryDisplay_ != CPU_PROFILER);
+    XRCCTRL(*this, "DebugCopy", wxButton)->Enable(memoryDisplay_ != CPU_TYPE && memoryDisplay_ != CPU_PROFILER && memoryDisplay_ != RTCRAM);
 
 	if (!status)
 	{
@@ -6776,7 +6781,12 @@ void DebugWindow::onDebugSaveDump(wxCommandEvent&WXUNUSED(event))
             memoryStr = "VIP2K Sequencer ROM";
             fileName = "vip2ksequencer";
         break;
-	}
+
+        case RTCRAM:
+            memoryStr = "RTC Ram";
+            fileName = "rtcramdump";
+        break;
+    }
 
 	fileName = wxFileSelector( "Select the " + memoryStr + " dump file to save",
                                debugDir_, fileName,
@@ -13416,7 +13426,10 @@ void DebugWindow::DebugDisplayPage()
 	if (!computerRunning_)
 	{
 		if (xmlLoaded_)
+        {
 			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("No emulation running");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
 		return;
 	}
 
@@ -13516,7 +13529,10 @@ void DebugWindow::DebugDisplayProfiler()
     if (!computerRunning_)
     {
         if (xmlLoaded_)
+        {
             XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("No emulation running");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
         return;
     }
 
@@ -13646,7 +13662,11 @@ void DebugWindow::ShowCharacters(Word address, int y)
 		else
 		{
 			wxString character;
-			Byte byteValue = debugReadMem(address+j)&0x7f;
+            Byte byteValue;
+            if (memoryDisplay_ == RTCRAM && (address+j) > 0x7f)
+                byteValue = 0x20;
+            else
+                byteValue = debugReadMem(address+j)&0x7f;
 			character.Printf("%c", byteValue);
 			dcLine.SetFont(exactFont);
 /*			int offset = 1;
@@ -13670,7 +13690,10 @@ void DebugWindow::DebugDisplayMap()
 	if (!computerRunning_)
 	{
 		if (xmlLoaded_)
+        {
 			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("No emulation running");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
 		return;
 	}
 
@@ -14010,7 +14033,10 @@ void DebugWindow::DebugDisplayVip2kSequencer()
     if (runningComputer_ != VIP2K)
     {
         if (xmlLoaded_)
+        {
             XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("VIP2K not running");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
         return;
     }
 
@@ -14061,12 +14087,97 @@ void DebugWindow::DebugDisplayVip2kSequencer()
 	}
 }
  
+void DebugWindow::DebugDisplayRtcRam()
+{
+    if (runningComputer_ != ELF2K && runningComputer_ != ELF && runningComputer_ != ELFII && runningComputer_ != SUPERELF)
+    {
+        if (xmlLoaded_)
+        {
+            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("RTC RAM not used");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
+        return;
+    }
+    
+    ElfConfiguration currentElfConfig = p_Main->getElfConfiguration(runningComputer_);
+    if (!currentElfConfig.rtc && runningComputer_ == ELF2K)
+    {
+        if (xmlLoaded_)
+        {
+            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("RTC RAM not used");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
+        return;
+    }
+    if (!currentElfConfig.useUart16450 && (runningComputer_ == ELF || runningComputer_ == ELFII || runningComputer_ == SUPERELF))
+    {
+        if (xmlLoaded_)
+        {
+            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("RTC RAM not used");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
+        return;
+    }
+
+    long start = get16BitValue("DebugDisplayPage");
+    if (start == -1)  return;
+    XRCCTRL(*this, "DebugDisplayPage", HexEdit)->saveNumber((int)start);
+
+    wxString idReference, value;
+
+    Word ramMask = getAddressMask();
+    while (start > ramMask)
+        start -=  (ramMask + 1);
+
+    memoryStart_ = (unsigned int)start;
+    p_Computer->setDebugMemoryStart(start);
+
+    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("");
+
+    for (int x=0; x<16; x++)
+    {
+        idReference.Printf("TOP_HEADER%01X", x);
+        value.Printf("  %01X", (unsigned int)(start+x)&0xf);
+        XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
+    }
+    for (int y=0; y<16; y++)
+    {
+        idReference.Printf("MEM_HEADER%01X", y);
+        XRCCTRL(*this, idReference, wxStaticText)->SetForegroundColour(*wxBLACK);
+
+        value.Printf("%04X", (unsigned int)start);
+        XRCCTRL(*this, idReference, wxStaticText)->SetLabel(value);
+
+        ShowCharacters(start, y);
+        for (int x=0; x<16; x++)
+        {
+            idReference.Printf("MEM%01X%01X", y, x);
+            if (start >0x7f)
+                value = ".";
+            else
+                value.Printf("%02X", debugReadMem(start));
+
+            XRCCTRL(*this, idReference, MemEdit)->SetForegroundColour(*wxBLACK);
+
+            XRCCTRL(*this, idReference, wxTextCtrl)->ChangeValue("");
+            XRCCTRL(*this, idReference, MemEdit)->ChangeValue(value);
+
+            start++;
+            while (start > 0xff)
+                start = 0;
+        }
+    }
+}
+ 
 void DebugWindow::DebugDisplay1870VideoRam()
 {
     if (!(runningComputer_ == COMX || runningComputer_ == CIDELSA || runningComputer_ ==  TMC600 || runningComputer_ == PECOM  || (runningComputer_ == MICROBOARD && elfConfiguration[runningComputer_].usev1870)))
     {
         if (xmlLoaded_)
+        {
             XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("CDP 1870 not running");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
         return;
     }
 
@@ -14123,7 +14234,10 @@ void DebugWindow::DebugDisplay1870ColourRam()
     if (!(runningComputer_ ==  TMC600 || runningComputer_ == CIDELSA ))
     {
         if (xmlLoaded_)
+        {
             XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Colour RAM not used");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
         return;
     }
     
@@ -14180,7 +14294,10 @@ void DebugWindow::DebugDisplay1864ColorRam()
 	if (!(runningComputer_ == TMC2000 || runningComputer_ == VIP ||  runningComputer_ == VIP2K || runningComputer_ == VIPII || runningComputer_ ==  ETI  || runningComputer_ ==  STUDIOIV))
 	{
 		if (xmlLoaded_)
+        {
 			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("1864 Color RAM not used");
+            XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+        }
 		return;
 	}
 
@@ -14237,6 +14354,16 @@ void DebugWindow::DebugDisplay6845CharRom()
 	switch (runningComputer_)
 	{
 		case COMX:
+            if (!p_Video->isMc6845running())
+            {
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6845 not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
+                return;
+            }
+
 		break;
 
 		case ELF:
@@ -14244,14 +14371,21 @@ void DebugWindow::DebugDisplay6845CharRom()
 		case SUPERELF:
 			if (!(elfConfiguration[runningComputer_].use6845 || elfConfiguration[runningComputer_].useS100))  
 			{
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6845 not running");
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6845 not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
 				return;
 			}
 		break;
 
 		default:
 			if (xmlLoaded_)
+            {
 				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6845 not running");
+                XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+            }
 			return;
 		break;
 	}
@@ -14314,13 +14448,21 @@ void DebugWindow::DebugDisplay8275CharRom()
 		case ELF2K:
 			if (!elfConfiguration[runningComputer_].use8275)  
 			{
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
 				return;
 			}
 		break;
 
 		default:
-			XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+            if (xmlLoaded_)
+            {
+                XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+                XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+            }
 			return;
 		break;
 	}
@@ -14383,15 +14525,23 @@ void DebugWindow::DebugDisplay8275VideoRam()
         case ELF2K:
             if (!elfConfiguration[runningComputer_].use8275)
             {
-                XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
                 return;
             }
-            break;
+        break;
             
         default:
-            XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+            if (xmlLoaded_)
+            {
+                XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("Intel 8275 not running");
+                XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+            }
             return;
-            break;
+        break;
     }
     
     long start = get16BitValue("DebugDisplayPage");
@@ -14451,14 +14601,21 @@ void DebugWindow::DebugDisplay6847CharRom()
 		case SUPERELF:
 			if (!elfConfiguration[runningComputer_].use6847)
 			{
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
 				return;
 			}
 		break;
 
 		default:
 			if (xmlLoaded_)
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+            {
+                XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+                XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+            }
 			return;
 		break;
 	}
@@ -14524,14 +14681,21 @@ void DebugWindow::DebugDisplay6847VideoRam()
 		case SUPERELF:
 			if (!elfConfiguration[runningComputer_].use6847)
 			{
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
 				return;
 			}
 		break;
 
 		default:
-			if (xmlLoaded_)
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+            if (xmlLoaded_)
+            {
+                XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("MC6847 not running");
+                XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+            }
 			return;
 		break;
 	}
@@ -14604,14 +14768,21 @@ void DebugWindow::DebugDisplayTmsRam()
 		case SUPERELF:
 			if (!elfConfiguration[runningComputer_].useTMS9918)
 			{
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("TMS 9918 not running");
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("TMS 9918 not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
 				return;
 			}
 		break;
 
 		default:
 			if (xmlLoaded_)
+            {
 				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("TMS 9918 not running");
+                XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+            }
 			return;
 		break;
 	}
@@ -14696,14 +14867,21 @@ void DebugWindow::DebugDisplayVtRam()
 		case SUPERELF:
 			if (elfConfiguration[runningComputer_].vtType == VTNONE)
 			{
-				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("VT not running");
+                if (xmlLoaded_)
+                {
+                    XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("VT not running");
+                    XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+                }
 				return;
 			}
 		break;
 
 		default:
 			if (xmlLoaded_)
+            {
 				XRCCTRL(*this, "MEM_Message", wxStaticText)->SetLabel("VT not running");
+                XRCCTRL(*this, "DebugMemType", wxChoice)->SetSelection(0);
+            }
 			return;
 		break;
 	}
@@ -14868,7 +15046,8 @@ void DebugWindow::onEditMemory(wxCommandEvent&event)
         case I_8275_RAM:
 		case V_6847:
 		case V_6847_RAM:
-		case VIP2KSEQUENCER:
+        case VIP2KSEQUENCER:
+        case RTCRAM:
 			address = get16BitValue("DebugDisplayPage");
 			if (address == -1)  return;
 
@@ -15244,7 +15423,7 @@ void DebugWindow::memoryDisplay()
 
         case I_8275:
             DebugDisplay8275CharRom();
-            break;
+        break;
             
         case I_8275_RAM:
             DebugDisplay8275VideoRam();
@@ -15265,7 +15444,12 @@ void DebugWindow::memoryDisplay()
 		case VIP2KSEQUENCER:
 			DebugDisplayVip2kSequencer();
 		break;
-	}
+
+        case RTCRAM:
+            DebugDisplayRtcRam();
+        break;
+
+    }
 }
 
 Word DebugWindow::getAddressMask()
@@ -15358,6 +15542,10 @@ Word DebugWindow::getAddressMask()
             return 0x7ff;
         break;
             
+        case RTCRAM:
+            return 0x7f;
+        break;
+
         case I_8275_RAM:
             return 0x13ff;
         break;
@@ -15418,8 +15606,8 @@ void DebugWindow::onDebugMemType(wxCommandEvent&event)
 #if defined(__WXMSW__) || defined(__WXMAC__)
 	XRCCTRL(*this, "DebugDisplayPageSpinButton", wxSpinButton)->Enable(memoryDisplay_ != CPU_TYPE);
 #endif
-	XRCCTRL(*this, "DebugSave", wxButton)->Enable(memoryDisplay_ != CPU_TYPE);
-	XRCCTRL(*this, "DebugCopy", wxButton)->Enable(memoryDisplay_ != CPU_TYPE);
+	XRCCTRL(*this, "DebugSave", wxButton)->Enable(memoryDisplay_ != CPU_TYPE && memoryDisplay_ != CPU_PROFILER);
+	XRCCTRL(*this, "DebugCopy", wxButton)->Enable(memoryDisplay_ != CPU_TYPE && memoryDisplay_ != CPU_PROFILER && memoryDisplay_ != RTCRAM);
 }
 
 void DebugWindow::onDebugExpansionSlot(wxCommandEvent&WXUNUSED(event))
@@ -15845,10 +16033,44 @@ Byte DebugWindow::debugReadMem(Word address)
 			}
 		break;
 
-		case VIP2KSEQUENCER:
-			return p_Vip2K->readSequencerRom(address);
-		break;
-		
+        case VIP2KSEQUENCER:
+            switch(runningComputer_)
+            {
+                case VIP2K:
+                    return p_Vip2K->readSequencerRom(address);
+                break;
+                    
+                default:
+                    return 0;
+                break;
+            }
+        break;
+            
+        case RTCRAM:
+            switch(runningComputer_)
+            {
+                case ELF2K:
+                    return p_Elf2K->readDirectRtc(address);
+                break;
+
+                case ELF:
+                    return p_Elf->readDirectRtc(address);
+                break;
+
+                case ELFII:
+                    return p_Elf2->readDirectRtc(address);
+                break;
+
+                case SUPERELF:
+                    return p_Super->readDirectRtc(address);
+                break;
+
+                default:
+                    return 0;
+                break;
+            }
+        break;
+        
 		default:
 			return 0;
 		break;
@@ -16042,9 +16264,35 @@ void DebugWindow::debugWriteMem(Word address, Byte value)
 		break;
 		
 		case VIP2KSEQUENCER:
-			return p_Vip2K->writeSequencerRom(address, value);
+            switch(runningComputer_)
+            {
+                case VIP2K:
+                    p_Vip2K->writeSequencerRom(address, value);
+                break;
+            }
 		break;
-	}
+
+        case RTCRAM:
+            switch(runningComputer_)
+            {
+                case ELF2K:
+                    p_Elf2K->writeDirectRtc(address&0x7f, value);
+                break;
+
+                case ELF:
+                    p_Elf->writeDirectRtc(address&0x7f, value);
+                break;
+
+                case ELFII:
+                    p_Elf2->writeDirectRtc(address&0x7f, value);
+                break;
+
+                case SUPERELF:
+                    p_Super->writeDirectRtc(address&0x7f, value);
+                break;
+            }
+        break;
+    }
 }
 
 void DebugWindow::setSwName(wxString swName)

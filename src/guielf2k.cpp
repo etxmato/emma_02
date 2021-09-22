@@ -224,7 +224,10 @@ void GuiElf2K::readElf2KConfig()
 		XRCCTRL(*this, "ScreenDumpFileElf2K", wxComboBox)->SetValue(conf[ELF2K].screenDumpFile_);
         XRCCTRL(*this, "WavFileElf2K", wxTextCtrl)->SetValue(conf[ELF2K].wavFile_[0]);
 
-		XRCCTRL(*this, "VTTypeElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].vtType);
+        if (elfConfiguration[ELF2K].vtExternal)
+            XRCCTRL(*this, "VTTypeElf2K", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeElf2K", wxChoice)->SetSelection(elfConfiguration[ELF2K].vtType);
 		XRCCTRL(*this, "Elf2KVideoType", wxChoice)->SetSelection(conf[ELF2K].videoMode_);
 		XRCCTRL(*this, "Elf2KForceUC", wxCheckBox)->SetValue(elfConfiguration[ELF2K].forceUpperCase);
 

@@ -203,7 +203,10 @@ void GuiCdp18s020::readCdp18s020Config()
 		XRCCTRL(*this, "ScreenDumpFileCDP18S020", wxComboBox)->SetValue(conf[CDP18S020].screenDumpFile_);
         XRCCTRL(*this, "WavFileCDP18S020", wxTextCtrl)->SetValue(conf[CDP18S020].wavFile_[0]);
 
-		XRCCTRL(*this, "VTTypeCDP18S020", wxChoice)->SetSelection(elfConfiguration[CDP18S020].vtType);
+        if (elfConfiguration[CDP18S020].vtExternal)
+            XRCCTRL(*this, "VTTypeCDP18S020", wxChoice)->SetSelection(EXTERNAL_TERMINAL);
+        else
+            XRCCTRL(*this, "VTTypeCDP18S020", wxChoice)->SetSelection(elfConfiguration[CDP18S020].vtType);
 
 		XRCCTRL(*this, "VTBaudTChoiceCDP18S020", wxChoice)->SetSelection(elfConfiguration[CDP18S020].baudT);
 		XRCCTRL(*this, "VTBaudRChoiceCDP18S020", wxChoice)->SetSelection(elfConfiguration[CDP18S020].baudT);

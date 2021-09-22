@@ -729,6 +729,7 @@ void Elf2K::cycleElf2K()
         {
             cycleValue_ = cycleSize_;
             rtcRam_[0xc] |= 0x40;
+            p_Main->updateDebugMemory(0xc);
         }
     }
     if (ledCycleValue_ > 0)
@@ -988,7 +989,10 @@ void Elf2K::resetComputer()
 	{
 		p_Main->eventSetCheckBox("Elf2KClearRtc", false);
 		for (int i = 0; i<128; i++)
-			rtcRam_[i] = 0xff;
+        {
+			rtcRam_[i] = 0;
+            p_Main->updateDebugMemory(i);
+        }
 		rtcRam_[0xa] = 0x20;
 		rtcRam_[0xb] = 0x6;
 		rtcRam_[0xc] = 0;
@@ -1126,6 +1130,8 @@ void Elf2K::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
     writeRtc(9, now.GetYear()-1972);
 
     rtcRam_[0xc] |= 0x10;
+    p_Main->updateDebugMemory(0xa);
+    p_Main->updateDebugMemory(0xc);
 }
 
 void Elf2K::saveRam()
@@ -1216,7 +1222,10 @@ void Elf2K::loadRtc()
 	{
 		p_Main->eventSetCheckBox("Elf2KClearRtc", false);
 		for (int i = 0; i<128; i++)
-			rtcRam_[i] = 0xff;
+        {
+			rtcRam_[i] = 0;
+            p_Main->updateDebugMemory(i);
+        }
 		rtcRam_[0xa] = 0x20;
 		rtcRam_[0xb] = 0x6;
 		rtcRam_[0xc] = 0;
@@ -1236,10 +1245,23 @@ void Elf2K::loadRtc()
 		{
 			length = inFile.Read(buffer, 128);
 			for (size_t i=0; i<length; i++)
+            {
 				rtcRam_[i] = (Byte)buffer[i];
+                p_Main->updateDebugMemory(i);
+            }
 			inFile.Close();
 		}
 	}
+}
+
+Byte Elf2K::readDirectRtc(Word address)
+{
+    return rtcRam_[address];
+}
+
+void Elf2K::writeDirectRtc(Word address, Byte value)
+{
+    rtcRam_[address] = value;
 }
 
 void Elf2K::removeElf2KSwitch() 

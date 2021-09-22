@@ -1,9 +1,15 @@
 <HTML>
 <Title>Clock Speed</Title>
 <BODY>
-<h2>Clock Speed</h2>
+<h1>Clock Speed</h1>
 <p>
-With the clock function it is possible to specify the clock speed of the CPU for the emulated computer in MHz. The specified default values are the actual speed of the original computer. Note that too high values will not speed up the computer as the PC processor might not be able to handle that.
+With the clock function it is possible to specify the clock speed of the CPU for the emulated computer in MHz: 
+</p>
+<p>
+<IMG SRC="images/clock_speed.png" BORDER="0">
+</p>
+<p>
+The specified default values are the actual speed of the original computer. Note that too high values will not speed up the computer as the PC processor will not be able to handle that.
 </p>
 <p>
 When using the COMX-35, Cidelsa, TMC 600 or PECOM 64 with sound a clock frequency change will also change the sound frequency. This as the original computer derived the sound frequency from the video chip and as such the 1802 processor speed. So when increasing the speed, all sound will get higher frequencies.
@@ -12,7 +18,7 @@ When using the COMX-35, Cidelsa, TMC 600 or PECOM 64 with sound a clock frequenc
 In principle the emulation of the video frequency will stay the same independently of the chosen CPU frequency (except when using the CPD1861 or CDP1864). The video frequency might change if high CPU speeds are specified.
 </p>
 <p>
-The effective CPU clock speed and vertical video frequency can be verified on the 'Tools/Configuration' tab. Note that the values shown are real values calculated from the current emulator speed and as such might deviate from the specified clock speed value.
+The effective CPU clock speed and vertical video frequency can be verified on the <a href="ProfilerMain.htm">Profiler</a> tab. Note that the values shown are real values calculated from the current emulator speed and as such might deviate from the specified clock speed value.
 </p>
 <p>
 Default frequencies as used in Emma 02:
@@ -61,6 +67,12 @@ Default frequencies as used in Emma 02:
 <TD ALIGN="LEFT" VALIGN="TOP">60</TD>
 </TR>
 <TR>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP18S661V1 Video (NTSC)</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
+</TR>
+<TR>
 <TD ALIGN="LEFT" VALIGN="TOP">CDP18S661V3 Video (PAL)</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
@@ -73,10 +85,22 @@ Default frequencies as used in Emma 02:
 <TD ALIGN="LEFT" VALIGN="TOP">50</TD>
 </TR>
 <TR>
-<TD ALIGN="LEFT" VALIGN="TOP">COMX-35</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">COMX-35 / COMIX-35</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">2.813<br>2.835</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">CDP1870<br>CDP1870<br>MC6845</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">50 (PAL)<br>60 (NTSC)<br>50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861<br>MC6845<br>MC6847<br>TMS9918</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60<br><br><br></TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Cosmac Elf 2000</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">3.5795<br>1.7898</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">Intel 8275<br>CDP1861</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">Cosmac VIP</TD>
@@ -95,18 +119,6 @@ Default frequencies as used in Emma 02:
 <TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">CDP1864</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">50</TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">Elf</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">CDP1861<br>MC6845<br>MC6847<br>TMS9918</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">60<br><br><br></TD>
-</TR>
-<TR>
-<TD ALIGN="LEFT" VALIGN="TOP">Elf 2000</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">3.5795<br>1.7898</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">Intel 8275<br>CDP1861</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">ETI-660</TD>
@@ -163,6 +175,12 @@ Default frequencies as used in Emma 02:
 <TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
 </TR>
 <TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Netronics Elf II</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861<br>MC6845<br>MC6847<br>TMS9918</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60<br><br><br></TD>
+</TR>
+<TR>
 <TD ALIGN="LEFT" VALIGN="TOP">Oscom Nano</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">1.75</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">CDP1864</TD>
@@ -170,9 +188,21 @@ Default frequencies as used in Emma 02:
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">Pecom 32 / 64</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">2.813</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">4.0</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">50</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Pico/Elf V2</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">2.813</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">NA</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Quest Super Elf</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">1.76</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1861<br>MC6845<br>MC6847<br>TMS9918</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60<br><br><br></TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">RCA Studio II</TD>
@@ -190,13 +220,19 @@ Default frequencies as used in Emma 02:
 <TD ALIGN="LEFT" VALIGN="TOP">RCA Studio IV</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">3.58</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">'Studio IV' chip, probably an improved 'CDP1864'</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">40, should probably be 60</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50 (PAL)<br>60 (NTSC)</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">RCA Video Coin Arcade</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">1.6</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">64x32 pixels, similar to the CDP1861 </TD>
-<TD ALIGN="LEFT" VALIGN="TOP">80, should probably be 60</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
+</TR>
+<TR>
+<TD ALIGN="LEFT" VALIGN="TOP">Telmac TMC-600</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">3.579</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">Telmac 1800</TD>
@@ -211,16 +247,10 @@ Default frequencies as used in Emma 02:
 <TD ALIGN="LEFT" VALIGN="TOP">50</TD>
 </TR>
 <TR>
-<TD ALIGN="LEFT" VALIGN="TOP">TMC-600</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">3.579</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">CDP1870</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">50</TD>
-</TR>
-<TR>
 <TD ALIGN="LEFT" VALIGN="TOP">VELF</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">3.579</TD>
 <TD ALIGN="LEFT" VALIGN="TOP">CDP1861</TD>
-<TD ALIGN="LEFT" VALIGN="TOP">120, should probably be 60</TD>
+<TD ALIGN="LEFT" VALIGN="TOP">60</TD>
 </TR>
 <TR>
 <TD ALIGN="LEFT" VALIGN="TOP">VIP2K Membership Card</TD>

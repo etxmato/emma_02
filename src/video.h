@@ -125,6 +125,7 @@ public:
     void setClientSize(wxSize size);
 
     virtual void reBlit(wxDC &dc);
+    virtual bool isMc6845running() {return false;};
 
 protected:
     Byte pageMemory_[4096];

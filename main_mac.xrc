@@ -36536,6 +36536,7 @@
                                                                                                         <item>8275 Character</item>
                                                                                                         <item>8275 Video RAM</item>
                                                                                                         <item>VIP2K Video Sequencer</item>
+                                                                                                        <item>RTC RAM</item>
                                                                                                     </content>
                                                                                                     <selection>0</selection>
                                                                                                 </object>

@@ -38,6 +38,8 @@ public:
     void thrStatus(bool data);
     void saveRtc();
     void loadRtc();
+    Byte readDirectRtc(Word address);
+    void writeDirectRtc(Word address, Byte value);
 
 protected:
 	Vt100 *vtPointer;

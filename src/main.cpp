@@ -7137,7 +7137,7 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
                     updateSlotinfo_ = false;
                 }
 
-                if (updateMemory_ && memoryDisplay_ != CPU_TYPE)
+                if (updateMemory_ && memoryDisplay_ != CPU_TYPE && memoryDisplay_ != CPU_PROFILER)
                 {
                     updateMemory_ = false;
                     wxString idReference, valueStr;
@@ -7172,7 +7172,12 @@ void Main::directAssTimeout(wxTimerEvent&WXUNUSED(event))
                                             if (runningComputer_ == TMC600)
                                                 XRCCTRL(*this, idReference, MemEdit)->changeNumber1X(debugReadMem(memoryStart_+y*16+x));
                                         break;
-                                                
+                                               
+                                        case RTCRAM:
+                                            if ((memoryStart_+y*16+x) < 0x7f)
+                                                XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
+                                        break;
+
                                         default:
                                             XRCCTRL(*this, idReference, MemEdit)->changeNumber2X(debugReadMem(memoryStart_+y*16+x));
                                         break;
@@ -7421,7 +7426,7 @@ void Main::vuSet(wxString item, int gaugeValue)
 	dcVu.SetPen(wxPen(wxColour(0, 0xc0, 0)));
 	dcVu.SetBrush(wxBrush(wxColour(0, 0xc0, 0)));
 
-	int gaugeGreen = gaugeValue / 100;
+	int gaugeGreen = gaugeValue / 60;
 	if (gaugeGreen > VU_RED)  gaugeGreen = VU_RED;
 	dcVu.DrawRectangle(0, 0, gaugeGreen, VU_HI);
 
@@ -7435,7 +7440,7 @@ void Main::vuSet(wxString item, int gaugeValue)
 	dcVu.SetPen(wxPen(wxColour(0xc0, 0, 0)));
 	dcVu.SetBrush(wxBrush(wxColour(0xc0, 0, 0)));
 
-	int gaugeRed = gaugeValue / 100;
+	int gaugeRed = gaugeValue / 60;
 	if (gaugeRed > VU_MAX)  gaugeRed = VU_MAX;
 	if (gaugeRed < VU_RED)  gaugeRed = VU_RED;
 	dcVu.DrawRectangle(VU_RED, 0, gaugeRed-VU_RED, VU_HI);

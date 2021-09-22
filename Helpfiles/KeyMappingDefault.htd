@@ -1,0 +1,42 @@
+<HTML>
+<Title>Default Keyboard</Title>
+<BODY>
+<h1>Default Keyboard</h1>
+<p>
+Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts are provided and can be selected via menu below:
+</p>
+<p>
+<IMG SRC="images/key_map_default.png" BORDER="0">
+</p>
+<p>
+Currently layouts for Dutch, German, French, Swedish / Finnish and US are provided as well as an option to specify a user specific definition. If you desire a specific mapping for your keyboard please drop me an email with your requirements and I'll try to add it in the next release.
+</p>
+<p>
+To create a definition for your own layout first locate one of the keyboard definition files located in the data directory (see chapter <a href="MainFile.htm">Directory and File Structure</a>), for example us.ini (for the US keyboard layout). Copy this file and rename the new file to user_defined.ini. Change any key value in the file to your desired default setting. 
+</p>
+<p>
+The following key sets can be changed / defined for computers with a HEX keypad:
+<UL>
+<LI>Keypad B, Arcade set (UP, LEFT, RIGHT, DOWN and FIRE) identified by 'B_A_' followed by the direction
+<LI>Keypad A, on Character for keys 0 to 9 identified by 'A_C_' followed by the key number (0 to 9)
+<LI>Keypad A, on Location identified by 'A_L_' followed by the key number, where 1 is top left corner and 16 bottom right of the keypad.
+<LI>Keypad B, on Location identified by 'B_L_' followed by the key number, where 1 is top left corner and 16 bottom right of the keypad.
+</UL>
+</p>
+<p>
+The following key sets can be changed / defined for Studio II clones:
+<UL>
+<LI>Keypad B, Arcade set (UP, LEFT, RIGHT, DOWN and FIRE) identified by 'B_A_' followed by the direction and _ST
+<LI>Keypad A, on Location identified by 'A_L_' followed by the key number and _ST, where 1 is top left corner and 9 bottom right of the keypad; number 10 is key 0.
+<LI>Keypad B, on Location identified by 'B_L_' followed by the key number and _ST, where 1 is top left corner and 9 bottom right of the keypad; number 10 is key 0.
+<LI>Keypad B, on Location if 'Use Numeric Keypad' is NOT selected identified by 'B_L_NNP_' followed by the key number and _ST, where 1 is top left corner and 9 bottom right of the keypad; number 10 is key 0.
+</UL>
+</p>
+<p>
+For the TMC-600 a subset of keys can be changes as listed under [TMC600], regular keys are identified by 'Key' and shift keys by 'KeyShift' both followed by a 2 digit number as defined in the table below.
+</p>
+<p>
+<IMG SRC="tmc_600_keys.png" BORDER="0">
+</p>
+</BODY>
+</HTML>

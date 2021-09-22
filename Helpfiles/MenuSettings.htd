@@ -61,7 +61,7 @@ Unselect this menu item if your PC does NOT have a numeric keypad (numpad). If u
 <IMG SRC="images/menu_keyboard.png" BORDER="0">
 </p>
 <p>
-Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts (Dutch, German, French, Swedish / Finnish) are provided and can be selected via this menu. See chapter <a href="MainHexKeyMap.htm">Key Mapping</a> for more details.
+Default keyboard mapping is defined for a US keyboard layout. However a few different other layouts (Dutch, German, French, Swedish / Finnish) are provided and can be selected via this menu. See chapter <a href="KeyMappingDefault.htm">Default Keyboard</a> for more details.
 </p>
 </body>
 </html>

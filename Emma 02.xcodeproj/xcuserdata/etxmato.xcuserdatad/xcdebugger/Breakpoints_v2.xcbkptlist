@@ -7,32 +7,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "774F709E-4DC1-43B4-B1D8-886F8E686A47"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/elf2k.cpp"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "892"
-            endingLineNumber = "892"
-            landmarkName = "Elf2K::writeMemDebug(address, value, writeRom)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E707C436-C5EB-47CF-B999-E3A7BF6175F3"
+            uuid = "6C9E3BAF-989B-4E09-A057-0EA16EBC4E0D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/guimain.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "3809"
-            endingLineNumber = "3809"
-            landmarkName = "GuiMain::enableMemAccessGui(status)"
+            startingLineNumber = "2354"
+            endingLineNumber = "2354"
+            landmarkName = "GuiMain::onVtSetup()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "22BB9BEA-80D8-45C3-A31D-FB89817E2F18"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/debug.cpp"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16037"
+            endingLineNumber = "16037"
+            landmarkName = "DebugWindow::debugReadMem(address)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

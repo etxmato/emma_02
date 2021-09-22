@@ -895,6 +895,7 @@ void Elf2::cycleLed()
         {
             cycleValue_ = cycleSize_;
             rtcRam_[0xc] |= 0x40;
+            p_Main->updateDebugMemory(0xc);
         }
     }
     if (ledCycleValue_ > 0)
@@ -1905,4 +1906,6 @@ void Elf2::OnRtcTimer(wxTimerEvent&WXUNUSED(event))
     writeRtc(9, now.GetYear()-1972);
 
     rtcRam_[0xc] |= 0x10;
+    p_Main->updateDebugMemory(0xa);
+    p_Main->updateDebugMemory(0xc);
 }

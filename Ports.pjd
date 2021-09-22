@@ -9008,7 +9008,7 @@
                   <bool name="proxy-Hidden">0</bool>
                   <string name="proxy-Id name">"wxID_ANY"</string>
                   <long name="proxy-Id value">-1</long>
-                  <string name="proxy-Label">"VT 100 with Uart"</string>
+                  <string name="proxy-Label">"VT 100 with UART"</string>
                   <string name="proxy-Member variable name">""</string>
                   <string name="proxy-Orientation">"Vertical"</string>
                   <string name="proxy-Parenting">"Use wxWidgets version"</string>
